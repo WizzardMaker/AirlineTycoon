@@ -14,7 +14,7 @@ SB_CBitmapMain::~SB_CBitmapMain()
     }
 }
 
-unsigned long SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, GfxLib* lib, __int64 name, unsigned long flags)
+unsigned int SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, GfxLib* lib, __int64 name, unsigned int flags)
 {
     Bitmaps.push_back(SB_CBitmapCore());
     SB_CBitmapCore* core = &Bitmaps.back();
@@ -44,7 +44,7 @@ unsigned long SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, GfxLib* lib, __
     return 0;
 }
 
-unsigned long SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, long w, long h, unsigned long, unsigned long flags, unsigned long)
+unsigned int SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, int w, int h, unsigned int, unsigned int flags, unsigned int)
 {
     Bitmaps.push_back(SB_CBitmapCore());
     SB_CBitmapCore* core = &Bitmaps.back();
@@ -60,7 +60,7 @@ unsigned long SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, long w, long h,
     return 0;
 }
 
-unsigned long SB_CBitmapMain::ReleaseBitmap(SB_CBitmapCore* core)
+unsigned int SB_CBitmapMain::ReleaseBitmap(SB_CBitmapCore* core)
 {
     if (core->lpDDSurface)
         SDL_FreeSurface(core->lpDDSurface);
@@ -77,12 +77,12 @@ unsigned long SB_CBitmapMain::ReleaseBitmap(SB_CBitmapCore* core)
     return 0;
 }
 
-void SB_CBitmapCore::SetColorKey(unsigned long key)
+void SB_CBitmapCore::SetColorKey(unsigned int key)
 {
     SDL_SetColorKey(lpDDSurface, SDL_TRUE, key);
 }
 
-unsigned long SB_CBitmapCore::Line(long x1, long y1, long x2, long y2, class SB_CHardwarecolorHelper* pColor)
+unsigned int SB_CBitmapCore::Line(int x1, int y1, int x2, int y2, class SB_CHardwarecolorHelper* pColor)
 {
 #if 0
     if (SDL_SetRenderTarget(lpDD, lpDDSurface) < 0)
@@ -189,14 +189,14 @@ void SB_CBitmapCore::SetClipRect(const CRect& rect)
    SDL_SetClipRect(lpDDSurface, &clip);
 }
 
-SB_Hardwarecolor SB_CBitmapCore::GetHardwarecolor(unsigned long color)
+SB_Hardwarecolor SB_CBitmapCore::GetHardwarecolor(unsigned int color)
 {
 #if 0
-    long r = GetHighestSetBit(Format.redMask) - GetHighestSetBit(0xFF0000);
-    long g = GetHighestSetBit(Format.greenMask) - GetHighestSetBit(0xFF00);
-    long b = GetHighestSetBit(Format.blueMask) - GetHighestSetBit(0xFF);
+    int r = GetHighestSetBit(Format.redMask) - GetHighestSetBit(0xFF0000);
+    int g = GetHighestSetBit(Format.greenMask) - GetHighestSetBit(0xFF00);
+    int b = GetHighestSetBit(Format.blueMask) - GetHighestSetBit(0xFF);
 
-    long result;
+    int result;
     if ( r >= 0 )
         result = Format.redMask & ((color & 0xFF0000) << r);
     else
@@ -218,9 +218,9 @@ SB_Hardwarecolor SB_CBitmapCore::GetHardwarecolor(unsigned long color)
 #endif
 }
 
-unsigned long SB_CBitmapCore::Clear(class SB_CHardwarecolorHelper* pColor, const RECT* pRect)
+unsigned int SB_CBitmapCore::Clear(class SB_CHardwarecolorHelper* pColor, const RECT* pRect)
 {
-    dword color = (dword)pColor;
+    dword color = static_cast<dword>(reinterpret_cast<uintptr_t>(pColor));
     if (pRect)
     {
         const CRect& rect = *(const CRect*)pRect;
@@ -233,9 +233,9 @@ unsigned long SB_CBitmapCore::Clear(class SB_CHardwarecolorHelper* pColor, const
     }
 }
 
-unsigned long SB_CBitmapCore::SetPixel(long x, long y, class SB_CHardwarecolorHelper* pColor)
+unsigned int SB_CBitmapCore::SetPixel(int x, int y, class SB_CHardwarecolorHelper* pColor)
 {
-    dword color = (dword)pColor;
+    dword color = static_cast<dword>(reinterpret_cast<uintptr_t>(pColor));
 #if 0
     if (SDL_SetRenderTarget(lpDD, lpDDSurface) < 0)
         return -1;
@@ -248,14 +248,14 @@ unsigned long SB_CBitmapCore::SetPixel(long x, long y, class SB_CHardwarecolorHe
 #endif
 }
 
-unsigned long SB_CBitmapCore::GetPixel(long x, long y)
+unsigned int SB_CBitmapCore::GetPixel(int x, int y)
 {
 #if 0
     if (SDL_SetRenderTarget(lpDD, lpDDSurface) < 0)
         return 0;
 
     SDL_Rect rect = { x, y, 1, 1 };
-    unsigned long pixel;
+    unsigned int pixel;
     if (SDL_RenderReadPixels(lpDD, &rect, SDL_PIXELFORMAT_RGBA8888, &pixel, sizeof(pixel)) == 0)
         return pixel;
     return 0;
@@ -271,7 +271,7 @@ unsigned long SB_CBitmapCore::GetPixel(long x, long y)
 #endif
 }
 
-unsigned long SB_CBitmapCore::Blit(class SB_CBitmapCore* core, long x, long y, const RECT* pRect, unsigned short, unsigned long)
+unsigned int SB_CBitmapCore::Blit(class SB_CBitmapCore* core, int x, int y, const RECT* pRect, unsigned short, unsigned int)
 {
     if (pRect)
     {
@@ -288,7 +288,7 @@ unsigned long SB_CBitmapCore::Blit(class SB_CBitmapCore* core, long x, long y, c
     return 0;
 }
 
-unsigned long SB_CBitmapCore::BlitFast(class SB_CBitmapCore* core, long x, long y, const RECT* pRect, unsigned short)
+unsigned int SB_CBitmapCore::BlitFast(class SB_CBitmapCore* core, int x, int y, const RECT* pRect, unsigned short)
 {
     // Ignore source color key
     Uint32 key = 0;
@@ -316,7 +316,7 @@ unsigned long SB_CBitmapCore::BlitFast(class SB_CBitmapCore* core, long x, long 
 }
 
 
-unsigned long SB_CBitmapCore::BlitChar(SDL_Surface* font, long x, long y, const RECT* pRect, unsigned short flags)
+unsigned int SB_CBitmapCore::BlitChar(SDL_Surface* font, int x, int y, const RECT* pRect, unsigned short flags)
 {
     const CRect& rect = *(const CRect*)pRect;
     SDL_Rect src = { rect.left, rect.top, rect.Width(), rect.Height() };
@@ -330,17 +330,17 @@ void SB_CBitmapCore::InitClipRect()
     SDL_SetClipRect(lpDDSurface, NULL);
 }
 
-long SB_CBitmapCore::Lock(struct _DDSURFACEDESC*) const
+int SB_CBitmapCore::Lock(struct _DDSURFACEDESC*) const
 {
     return 0;
 }
 
-long SB_CBitmapCore::Unlock(struct _DDSURFACEDESC*) const
+int SB_CBitmapCore::Unlock(struct _DDSURFACEDESC*) const
 {
     return 0;
 }
 
-unsigned long SB_CBitmapCore::Release()
+unsigned int SB_CBitmapCore::Release()
 {
     return 0;
 }
@@ -382,7 +382,7 @@ bool SB_CPrimaryBitmap::FastClip(CRect clipRect, POINT* pPoint, RECT* pRect)
    return pRect->right - pRect->left > 0 && pRect->bottom - pRect->top > 0;
 }
 
-long SB_CPrimaryBitmap::Flip()
+int SB_CPrimaryBitmap::Flip()
 {
     if (Cursor)
         Cursor->FlipBegin();
@@ -400,7 +400,7 @@ void SB_CPrimaryBitmap::SetPos(struct tagPOINT&)
 {
 }
 
-long SB_CPrimaryBitmap::Create(SDL_Renderer** out, SDL_Window* Wnd, unsigned short flags, long w, long h, unsigned char, unsigned short)
+int SB_CPrimaryBitmap::Create(SDL_Renderer** out, SDL_Window* Wnd, unsigned short flags, int w, int h, unsigned char, unsigned short)
 {
     Window = Wnd;
     //lpDD = SDL_CreateRenderer(Window, -1, SDL_RENDERER_SOFTWARE);
@@ -413,7 +413,7 @@ long SB_CPrimaryBitmap::Create(SDL_Renderer** out, SDL_Window* Wnd, unsigned sho
     return 0;
 }
 
-unsigned long SB_CPrimaryBitmap::Release()
+unsigned int SB_CPrimaryBitmap::Release()
 {
     //SDL_DestroyRenderer(lpDD);
     SDL_DestroyWindow(Window);

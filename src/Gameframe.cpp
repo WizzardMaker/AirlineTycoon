@@ -12,8 +12,8 @@
 #include "cd_prot.h"
 #include "AtNet.h"
 
-#include "sblib\include\SbLib.h"
-#include "sblib\include\network.h"
+#include "SbLib.h"
+#include "network.h"
 extern SBNetwork gNetwork;
 
 #ifdef _DEBUG
@@ -79,7 +79,7 @@ void CheatSound (void)
    gUniversalFx.ReInit ("cheat.raw");
 
    SBFX *Elements[100];
-   for (long c=0; c<2; c++)
+   for (int c=0; c<2; c++)
       Elements[c]=&gUniversalFx;
 
    fx->Fusion ((const SBFX**)Elements, 2);
@@ -506,7 +506,7 @@ void GameFrame::OnPaint()
       for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
          if (Sim.Players.Players[c].Owner==0)
          {
-            if (Sim.Players.Players[c].CursorPos==CPoint(-1,-1)) Sim.Players.Players[c].CursorPos=CPoint((Sim.Players.Players[c].WinP1+Sim.Players.Players[c].WinP2)/2l);
+            if (Sim.Players.Players[c].CursorPos==CPoint(-1,-1)) Sim.Players.Players[c].CursorPos=CPoint((Sim.Players.Players[c].WinP1+Sim.Players.Players[c].WinP2)/2);
             if (Sim.Players.Players[c].CursorPos.x<Sim.Players.Players[c].WinP1.x) Sim.Players.Players[c].CursorPos.x=Sim.Players.Players[c].WinP1.x;
             if (Sim.Players.Players[c].CursorPos.y<Sim.Players.Players[c].WinP1.y) Sim.Players.Players[c].CursorPos.y=Sim.Players.Players[c].WinP1.y;
             if (Sim.Players.Players[c].CursorPos.x>Sim.Players.Players[c].WinP2.x) Sim.Players.Players[c].CursorPos.x=Sim.Players.Players[c].WinP2.x;
@@ -586,7 +586,7 @@ void GameFrame::OnPaint()
                gToolTipBm.BlitFrom (gToolTipBms[2], SizeX-28, 0);
 
                gToolTipBm.PrintAt (str, FontBigGrey, TEC_FONT_CENTERED, 0, 2, SizeX, 28);
-               Limit (0l, ToolTipPos.x, 639-SizeX);
+               Limit (0, ToolTipPos.x, 639-SizeX);
 
                ToolTipState=TRUE;
             }
@@ -731,7 +731,7 @@ BOOL GameFrame::OnEraseBkgnd(void* pDC)
 //--------------------------------------------------------------------------------------------
 //Wird beim Taskwechsel aufgerufen:
 //--------------------------------------------------------------------------------------------
-#if _MSC_VER >= 1400
+#if !defined(_MSC_VER) || _MSC_VER >= 1400
 void GameFrame::OnActivateApp(BOOL bActive, DWORD hTask)
 #else
 void GameFrame::OnActivateApp(BOOL bActive, HTASK hTask)
@@ -866,7 +866,7 @@ BOOL GameFrame::OnHelpInfo (void*)
 void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
    static char TypeBuffer[30];   //Für Cheats
-   long nTargetRoom=0;
+   int nTargetRoom=0;
 
    if (gLanguage==LANGUAGE_D || gLanguage==LANGUAGE_N)
    {
@@ -972,7 +972,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
    //if (nChar==VK_SPACE) hprintf ("---------------------<SPACE PRESSED>---------------------");
    /*if (nChar==VK_SPACE)
    {
-      for (long c=0; c<4; c++)
+      for (int c=0; c<4; c++)
          if (c!=1)
          {
             Sim.Players.Players[1].OwnsAktien[0] += Sim.Players.Players[c].OwnsAktien[0];
@@ -1568,7 +1568,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
          {
             Sim.bCheatedSession=true;
 
-            for (long c=0; c<4; c++)
+            for (int c=0; c<4; c++)
                if (Sim.localPlayer!=c)
                {
                   Sim.Players.Players[c].History.HistoricMoney+=10000000;
@@ -1869,7 +1869,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
          PLAYER &qPlayer2 = Sim.Players.Players[2];
          PLAYER &qPlayer3 = Sim.Players.Players[3];
 
-         long x=0;
+         int x=0;
          x++;
 
          //SecurityFlags

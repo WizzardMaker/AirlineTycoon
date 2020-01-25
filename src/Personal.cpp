@@ -230,8 +230,8 @@ void CPersonal::OnPaint()
 
          DestRect.x = Pos.x-(KugelBm.Size.x/2 * Size)/100;
          DestRect.y = Pos.y-(KugelBm.Size.y/2 * Size)/100;
-         DestRect.w = long(KugelBm.Size.x*Size/100);
-         DestRect.h = long(KugelBm.Size.y*Size/100);
+         DestRect.w = int(KugelBm.Size.x*Size/100);
+         DestRect.h = int(KugelBm.Size.y*Size/100);
 
          SDL_BlitScaled(KugelBm.pBitmap->GetSurface(), &SrcRect, RoomBm.pBitmap->GetSurface(), &DestRect);
       }
@@ -353,7 +353,8 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
       Workers[Num].Gehalt      = atoi (strtok (NULL, TabSeparator));
       Workers[Num].Talent      = atoi (strtok (NULL, TabSeparator));
       Workers[Num].Alter       = atoi (strtok (NULL, TabSeparator));
-      Workers[Num].Kommentar   = KorrigiereUmlaute (CString(strtok (NULL, "")));
+      CString Kommentar(strtok(NULL, ""));
+      Workers[Num].Kommentar   = KorrigiereUmlaute (Kommentar);
       Workers[Num].Employer    = WORKER_RESERVE;
       Workers[Num].Happyness   = 100;
 

@@ -22,7 +22,7 @@
 //     geklickt wurde (wobei 0,0 die linke obere Ecke der Bitmap ist). Aber auch der Bitmap-
 //     mittelpunkt (x=bm1.Size.x/2) oder ein zufälliger Punkt sehen gut aus.
 // 4. Man überlegt sich, wie viele Animationsstufen man haben möchte:
-//     long   AnzBlendPhases = 30;
+//     int   AnzBlendPhases = 30;
 //     double PhaseCounter = 0;
 //     double PhaseStepper = 100/(AnzBlendPhases-1);
 // 5. Man ruft "UpdateTmpSurface" entsprechend oft auf:
@@ -110,7 +110,7 @@ CBlenden::~CBlenden ()
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
 //  ClickX/Y    - Mittelpunkt der Überblend-Animation; Idealerweise Mausklickposition
 //--------------------------------------------------------------------------------------------
-CCoolBlend::CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY)
+CCoolBlend::CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int ClickX, int ClickY)
    : CBlenden (pSurface1, pSurface2, pTmpSurface)
 {
    _ClickX = ClickX;
@@ -118,7 +118,7 @@ CCoolBlend::CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurf
 }
 
 //--------------------------------------------------------------------------------------------
-//UpdateTmpSurface (long Prozent)
+//UpdateTmpSurface (int Prozent)
 // Berechnet die aktuelle Version von pSurfaceTmp anhand des Prozentwertes
 //--------------------------------------------------------------------------------------------
 void CCoolBlend::UpdateTmpSurface (double Prozent)
@@ -159,7 +159,7 @@ void CCoolBlend::UpdateTmpSurface (double Prozent)
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
 //  ClickX/Y    - Mittelpunkt der Überblend-Animation; Idealerweise Mausklickposition
 //--------------------------------------------------------------------------------------------
-CFallBlend::CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY)
+CFallBlend::CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int ClickX, int ClickY)
    : CBlenden (pSurface1, pSurface2, pTmpSurface)
 {
    _ClickX = ClickX;
@@ -167,7 +167,7 @@ CFallBlend::CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurf
 }
 
 //--------------------------------------------------------------------------------------------
-//UpdateTmpSurface (long Prozent)
+//UpdateTmpSurface (int Prozent)
 //--------------------------------------------------------------------------------------------
 void CFallBlend::UpdateTmpSurface (double Prozent)
 {
@@ -198,7 +198,7 @@ void CFallBlend::UpdateTmpSurface (double Prozent)
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
 //  RandomX/Y   - Größe der Random-Blöcke
 //--------------------------------------------------------------------------------------------
-CRandomBlend::CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long RandomX, long RandomY)
+CRandomBlend::CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int RandomX, int RandomY)
    : CBlenden (pSurface1, pSurface2, pTmpSurface)
 {
    _RandomX = RandomX;
@@ -206,14 +206,14 @@ CRandomBlend::CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE p
 }
 
 //--------------------------------------------------------------------------------------------
-//UpdateTmpSurface (long Prozent)
+//UpdateTmpSurface (int Prozent)
 //--------------------------------------------------------------------------------------------
 void CRandomBlend::UpdateTmpSurface (double Prozent)
 {
    WORD   rnd;
    WORD   cutoff;
    RECT   Rect;
-   long   x, y;
+   int   x, y;
 
    rnd = WORD(Prozent*100+222);
 
@@ -250,12 +250,12 @@ CSlimeBlend::CSlimeBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSu
 }
 
 //--------------------------------------------------------------------------------------------
-//UpdateTmpSurface (long Prozent)
+//UpdateTmpSurface (int Prozent)
 //--------------------------------------------------------------------------------------------
 void CSlimeBlend::UpdateTmpSurface (double Prozent)
 {
    WORD   rnd, lrnd=5, llrnd=12, lllrnd=0;
-   long   cx, ty;
+   int   cx, ty;
    RECT   SrcRect;
    RECT   DestRect;
 
@@ -270,8 +270,8 @@ void CSlimeBlend::UpdateTmpSurface (double Prozent)
 
    for (cx=0; cx<_SizeX; cx+=2)
    {
-      ty = long((((rnd+lrnd+llrnd+lllrnd)>>12)+_SizeY)*Prozent/100);
-      //y = long(((rnd>>12)+_SizeY)*Prozent/100);
+      ty = int((((rnd+lrnd+llrnd+lllrnd)>>12)+_SizeY)*Prozent/100);
+      //y = int(((rnd>>12)+_SizeY)*Prozent/100);
 
       lllrnd=llrnd; llrnd=lrnd; lrnd=rnd; rnd = rnd*1009;
 

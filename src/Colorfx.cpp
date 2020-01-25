@@ -711,8 +711,8 @@ void SB_CColorFX::BlitOutline (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBit
    if (Key->Bitmap==NULL || Key2->Bitmap==NULL)
       return;
 
-   long sizex=Rect.right-Rect.left+1;
-   long sizey=Rect.bottom-Rect.top+1;
+   int sizex=Rect.right-Rect.left+1;
+   int sizey=Rect.bottom-Rect.top+1;
 
    if (sizex>0 && sizex<=640)
       for (cy=0; cy<sizey; cy++)

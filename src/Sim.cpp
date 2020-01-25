@@ -5,11 +5,16 @@
 #include "Checkup.h"
 #include "Sabotage.h"
 #include "AtNet.h"
+#ifdef WIN32
 #include <direct.h>
+#else
+#include <sys/types.h>
+#include <sys/stat.h>
+#endif
 
                             //Für Menschen     Für Computer
                             //Money   Credit   Money    Credit
-static long InitMoney [] = { 1500000,        0, 2000000,        0,   //DIFF_FREEGAME
+static int InitMoney [] = { 1500000,        0, 2000000,        0,   //DIFF_FREEGAME
                              5000000,        0,  200000,        0,   //DIFF_TUTORIAL
                              5000000,        0,  500000,        0,   //FIRST
                              3000000,        0, 1000000,        0,   //DIFF_EASY    
@@ -39,7 +44,7 @@ static long InitMoney [] = { 1500000,        0, 2000000,        0,   //DIFF_FREE
                              3000000,        0, 3000000,        0 }; //DIFF_ATFS10
 
 
-static long MonthLength [] = { 31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31 };
+static int MonthLength [] = { 31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31 };
 
 static const char FileId[] = "Sim.";
 
@@ -85,16 +90,16 @@ extern ULONG rChkLMA, rChkRBA, rChkAA[MAX_CITIES], rChkFrachen;
 extern SLONG rChkGeneric, CheckGeneric;
 extern SLONG rChkActionId[5*4];
 
-extern long GenericSyncIds[4];
-extern long GenericSyncIdPars[4];
-extern long GenericAsyncIds[4*100];
-extern long GenericAsyncIdPars[4*100];
+extern int GenericSyncIds[4];
+extern int GenericSyncIdPars[4];
+extern int GenericAsyncIds[4*100];
+extern int GenericAsyncIdPars[4*100];
 
-void DumpAASeedSum (long CallerId)
+void DumpAASeedSum (int CallerId)
 {
 #ifdef _DEBUG
-   long sum=0;
-   for (long c=0; c<MAX_CITIES; c++)
+   int sum=0;
+   for (int c=0; c<MAX_CITIES; c++)
       sum += AuslandsAuftraege[c].Random.GetSeed();
 
    Hdu.HercPrintf("Summe for %li is %li\n", CallerId, sum);
@@ -148,7 +153,7 @@ SIM::~SIM()
 //--------------------------------------------------------------------------------------------
 // Fügt einen Smacker im Flughafen hinzu:
 //--------------------------------------------------------------------------------------------
-void SIM::AddSmacker (CString Filename, long BrickId, XY Offset)
+void SIM::AddSmacker (CString Filename, int BrickId, XY Offset)
 {
    AirportSmacks.ReSize(AirportSmacks.AnzEntries()+1);
    AirportSmacks[AirportSmacks.AnzEntries()-1].Open (Filename);
@@ -966,7 +971,7 @@ void SIM::ChooseStartup (BOOL GameModeQuick)
    {
       SLONG NearCities[4];
       SLONG c, d, e, f, Dist, DistD;
-      long  LoopCount=0;
+      int  LoopCount=0;
 
       //Eine Route anmieten:
       for (c=0; c<4; c++)
@@ -1205,7 +1210,7 @@ void SIM::CreateMissionCities (void)
 
       if (d<0)
       {
-         long Id, Id2;
+         int Id, Id2;
 
          Id=Routen.GetUniqueId();
          Routen+=Id;
@@ -1303,7 +1308,7 @@ void SIM::DoTimeStep (void)
          Sim.TickFrachtRefill++;
          Sim.TickMuseumRefill++;
 
-         for (long c=0; c<SLONG(Cities.AnzEntries()); c++)
+         for (int c=0; c<SLONG(Cities.AnzEntries()); c++)
          {
             //NetGenericSync (1310+c, AuslandsRefill[c]);
             AuslandsRefill[c]++;
@@ -1324,7 +1329,7 @@ void SIM::DoTimeStep (void)
             rChkFrachen          = gFrachten.Random.GetSeed();
             rChkGeneric          = CheckGeneric;
 
-            for (long c=0; c<MAX_CITIES; c++)
+            for (int c=0; c<MAX_CITIES; c++)
                rChkAA[c] = AuslandsAuftraege[c].Random.GetSeed();
 
             for (c=0; c<4; c++)
@@ -1342,7 +1347,7 @@ void SIM::DoTimeStep (void)
             Message << rChkPersonRandCreate << rChkPersonRandMisc << rChkHeadlineRand;
             Message << rChkLMA << rChkRBA << rChkFrachen << rChkGeneric;
 
-            for (long c=0; c<MAX_CITIES; c++) Message << rChkAA[c];
+            for (int c=0; c<MAX_CITIES; c++) Message << rChkAA[c];
             for (c=0; c<4; c++) Message;
             for (c=0; c<4; c++)
                for (d=0; d<5; d++)
@@ -1751,7 +1756,7 @@ void SIM::DoTimeStep (void)
                            SabotageActs[SabotageActs.AnzEntries()-1].Opfer    = Sim.Players.Players[c].ArabOpfer;
 
                            Sim.Headlines.AddOverride (0, bprintf (StandardTexte.GetS (TOKEN_MISC, 2000+Sim.Players.Players[c].ArabMode), (LPCTSTR)qOpfer.AirlineX), PictureId, (Sim.Players.Players[c].ArabOpfer==Sim.localPlayer)*50+Sim.Players.Players[c].ArabMode);
-                           Limit (-1000l, qOpfer.Image, 1000l);
+                           Limit (-1000, qOpfer.Image, 1000);
 
                            //Araber meldet sich, oder Fax oder Brief sind da.
                            if (c==Sim.localPlayer && qLocalPlayer.IsOkayToCallThisPlayer ())
@@ -1832,7 +1837,7 @@ void SIM::DoTimeStep (void)
                if (!qRaum.IsDialogOpen())
                   if (!qRaum.MenuIsOpen())
                   {
-                     if ((OldHour+Minute)%42>=long(Date)%42)
+                     if ((OldHour+Minute)%42>=int(Date)%42)
                      {
                         qPlayer.WalkStop();
                         qRaum.MenuStart (MENU_ENTERPROTECT, 8, false);
@@ -1899,7 +1904,7 @@ void SIM::DoTimeStep (void)
                               qPlane.AddPanne (r);
                               qPlayer.Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2360+r), (LPCTSTR)qPlane.Name));
 
-                              Limit (-1000l, qPlayer.Image, 1000l);
+                              Limit (-1000, qPlayer.Image, 1000);
                               qPlayer.Kurse[0]*=0.7;
                               if (qPlayer.TrustedDividende>4) qPlayer.TrustedDividende-=1;
                            }
@@ -2192,7 +2197,7 @@ void SIM::DoTimeStep (void)
                      {
                         Sim.Players.Players[c].Messages.AddMessage (BERATERTYP_GIRL, bprintf(StandardTexte.GetS (TOKEN_ADVICE, 2353), (LPCTSTR)qPlane.Name, (LPCTSTR)Cities[qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight].VonCity].Name));
                         Sim.Players.Players[c].Image-=2;
-                        Limit (-1000l, Sim.Players.Players[c].Image, 1000l);
+                        Limit (-1000, Sim.Players.Players[c].Image, 1000);
                         //log: hprintf ("Player[%li].Image! now = %li", c, (LPCTSTR)Sim.Players.Players[c].Image);
                      }
                   }
@@ -2449,11 +2454,11 @@ void SIM::NewDay (void)
       if (KerosinRand.Rand(20)>2) Kerosin += Kerosin/4;
       else if (KerosinPast[8]>550 && KerosinPast[7]>550 && KerosinPast[6]>550)
          Kerosin -= Kerosin/2;
-      Limit (300l, Kerosin, 700l);
+      Limit (300, Kerosin, 700);
       for (c=0; c<20; c++) Kerosin += (KerosinRand.Rand(21))-10 + (KerosinRand.Rand(20)<3)*((KerosinRand.Rand(41))-20);
    }
 
-   Limit (300l, Kerosin, 700l);
+   Limit (300, Kerosin, 700);
    KerosinPast[9]=Kerosin;
 
    for (c=0; c<Sim.Players.AnzPlayers; c++)
@@ -2615,7 +2620,7 @@ void SIM::NewDay (void)
    //Bei ATFS-Megasabotage-Mission ggf. künstlich Sabotage einfügen:
    if (Sim.Difficulty==DIFF_ATFS06)
    {
-      TEAKRAND SaboRand (Sim.Date+long(Sim.Players.Players[Sim.localPlayer].Money));
+      TEAKRAND SaboRand (Sim.Date+int(Sim.Players.Players[Sim.localPlayer].Money));
 
       for (c=0; c<Sim.Players.AnzPlayers; c++)
          if (c!=Sim.localPlayer)
@@ -3329,7 +3334,7 @@ void SIM::SaveGame (SLONG Number, const CString &Name)
    SaveVersion=1;
    SaveVersionSub=107;  //Version 1.104
 
-   _mkdir (AppPath+SavegamePath.Left(SavegamePath.GetLength()-3));
+   mkdir (AppPath+SavegamePath.Left(SavegamePath.GetLength()-3), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
    TEAKFILE OutputFile (Filename, TEAKFILE_WRITE);
 
@@ -3787,7 +3792,7 @@ void SIM::NetSynchronizeOvertake (void)
 //--------------------------------------------------------------------------------------------
 void SIM::AddHighscore (CString Name, DWORD UniqueGameId2, __int64 Score)
 {
-   long c, d;
+   int c, d;
 
    //Pass 1: Einen existierenden Eintrag der gleichen Session überschreiben?
    for (c=0; c<6; c++)
@@ -3838,7 +3843,7 @@ void SIM::SaveHighscores (void)
    CString  str;
    TEAKFILE OutputFile (AppPath+"misc\\xmlmap.fla", TEAKFILE_WRITE);
 
-   for (long c=0; c<6; c++)
+   for (int c=0; c<6; c++)
    {
       OutputFile.Write ((UBYTE*)(LPCTSTR)Highscores[c].Name, Highscores[c].Name.GetLength());
       OutputFile.Write ((UBYTE*)";", 1);
@@ -3887,7 +3892,7 @@ void SIM::LoadHighscores (void)
          char Buffer[8192];
          TEAKFILE OutputFile (AppPath+"misc\\xmlmap.fla", TEAKFILE_READ);
 
-         for (long c=0; c<6; c++)
+         for (int c=0; c<6; c++)
          {
             OutputFile.ReadLine (Buffer, 8192);
 
@@ -3899,11 +3904,11 @@ void SIM::LoadHighscores (void)
             Highscores[c].Name = strtok (Buffer, ";");
             Highscores[c].UniqueGameId2 = atoi (strtok (NULL, ";"));
 
-            __int64 k1 = _atoi64 (strtok (NULL, ";"));
-            __int64 k2 = _atoi64 (strtok (NULL, ";"));
-            __int64 k3 = _atoi64 (strtok (NULL, ";"));
-            __int64 k4 = _atoi64 (strtok (NULL, ";"));
-            __int64 k5 = _atoi64 (strtok (NULL, ";"));
+            __int64 k1 = atoll (strtok (NULL, ";"));
+            __int64 k2 = atoll (strtok (NULL, ";"));
+            __int64 k3 = atoll (strtok (NULL, ";"));
+            __int64 k4 = atoll (strtok (NULL, ";"));
+            __int64 k5 = atoll(strtok (NULL, ";"));
 
             if ((k4^k1^k3) == (k5^k2))
                Highscores[c].Score = k5^k2;

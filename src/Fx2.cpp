@@ -13,8 +13,8 @@
 
 #define FXF 0.33
 
-typedef unsigned long ULONG;
-typedef   signed long SLONG;
+typedef unsigned int ULONG;
+typedef   signed int SLONG;
 
 typedef unsigned short UWORD;
 typedef   signed short SWORD;
@@ -93,7 +93,7 @@ void Fx2SphereBlit (LPDIRECTDRAWSURFACE lpDDTargetSurface,
 
    Mask = ddsdSrc.dwWidth-1;
 
-   vi.Init (0, (long)((ddsdSrc.dwHeight-1)/2*0.293), (ddsdSrc.dwHeight-1)/2, r);
+   vi.Init (0, (int)((ddsdSrc.dwHeight-1)/2*0.293), (ddsdSrc.dwHeight-1)/2, r);
 
    for (cy=0; cy<=r; cy++)
    {
@@ -101,25 +101,25 @@ void Fx2SphereBlit (LPDIRECTDRAWSURFACE lpDDTargetSurface,
       xs = SLONG(sqrt (double(r*r-cy*cy)));
 
       //Clipping auf beiden Seiten (oben & unten)?
-      if (midy+cy>=long(ddsdTgt.dwHeight) && midy-cy<0)
+      if (midy+cy>=int(ddsdTgt.dwHeight) && midy-cy<0)
       {
          //Ja! ==> Nichts tun!
          continue;
       }
       else
       {
-         if (midy+cy>=0 && midy+cy<long(ddsdTgt.dwHeight))
+         if (midy+cy>=0 && midy+cy<int(ddsdTgt.dwHeight))
          {
             s = stdsource + SLONG(vi)*ddsdSrc.lPitch;
             t = stdtarget + cy*ddsdTgt.lPitch;
 
             if (xs>2)
             {
-               si.Init (0, (long)(ddsdSrc.dwWidth/4*FXF), ddsdSrc.dwWidth/4, xs+1);
+               si.Init (0, (int)(ddsdSrc.dwWidth/4*FXF), ddsdSrc.dwWidth/4, xs+1);
                si++;
 
                //Schauen, ob clipping für links/rechts notwendig ist:
-               if (midx>xs && midx+xs<long(ddsdTgt.dwWidth))
+               if (midx>xs && midx+xs<int(ddsdTgt.dwWidth))
                {
                   t[0]  = s[((SourceBase+SLONG(si))&Mask)];
                   si++;
@@ -138,10 +138,10 @@ void Fx2SphereBlit (LPDIRECTDRAWSURFACE lpDDTargetSurface,
                   //Ja, leider ==> langsame clipping Version:
                   for (cx=0; cx<=xs; cx++)
                   {
-                     if (midx+cx>=0 && midx+cx < long(ddsdTgt.dwWidth))
+                     if (midx+cx>=0 && midx+cx < int(ddsdTgt.dwWidth))
                         t[cx]  = s[(SourceBase+SLONG(si))&Mask];
 
-                     if (midx-cx>=0 && midx-cx < long(ddsdTgt.dwWidth))
+                     if (midx-cx>=0 && midx-cx < int(ddsdTgt.dwWidth))
                         t[-cx] = s[(SourceBase-SLONG(si))&Mask];
 
                      si++;
@@ -150,7 +150,7 @@ void Fx2SphereBlit (LPDIRECTDRAWSURFACE lpDDTargetSurface,
             }
          }
 
-         if (midy-cy>=0 && midy-cy<long(ddsdTgt.dwHeight))
+         if (midy-cy>=0 && midy-cy<int(ddsdTgt.dwHeight))
          {
             s = stdsource - SLONG(vi)*ddsdSrc.lPitch;
             t = stdtarget - cy*ddsdTgt.lPitch;
@@ -161,7 +161,7 @@ void Fx2SphereBlit (LPDIRECTDRAWSURFACE lpDDTargetSurface,
                si++;
 
                //Schauen, ob clipping für links/rechts notwendig ist:
-               if (midx > xs && midx+xs < long(ddsdTgt.dwWidth))
+               if (midx > xs && midx+xs < int(ddsdTgt.dwWidth))
                {
                   //Nein ==> schnelle Version:
                   for (cx=0; cx<=xs; cx++)
@@ -177,10 +177,10 @@ void Fx2SphereBlit (LPDIRECTDRAWSURFACE lpDDTargetSurface,
                   //Ja, leider ==> langsame clipping Version:
                   for (cx=0; cx<=xs; cx++)
                   {
-                     if (midx+cx>=0 && midx+cx < long(ddsdTgt.dwWidth))
+                     if (midx+cx>=0 && midx+cx < int(ddsdTgt.dwWidth))
                         t[cx]  = s[(SourceBase+SLONG(si))&Mask];
 
-                     if (midx-cx>=0 && midx-cx < long(ddsdTgt.dwWidth))
+                     if (midx-cx>=0 && midx-cx < int(ddsdTgt.dwWidth))
                         t[-cx] = s[(SourceBase-SLONG(si))&Mask];
 
                      si++;
@@ -228,7 +228,7 @@ void Fx2SphereBlitNot2n (LPDIRECTDRAWSURFACE lpDDTargetSurface,
    stdsource = (UBYTE*)(ddsdSrc.lpSurface) + ddsdSrc.dwHeight/2*ddsdSrc.lPitch + ddsdSrc.dwWidth/8l + ((Alpha*ddsdSrc.dwWidth/2)>>16);
    stdtarget = (UBYTE*)(ddsdTgt.lpSurface) + midx + midy*ddsdTgt.lPitch;
 
-   vi.Init (0, (long)((ddsdSrc.dwHeight-1)/2*0.293), (ddsdSrc.dwHeight-1)/2, r);
+   vi.Init (0, (int)((ddsdSrc.dwHeight-1)/2*0.293), (ddsdSrc.dwHeight-1)/2, r);
 
    for (cy=0; cy<=r; cy++)
    {
@@ -236,14 +236,14 @@ void Fx2SphereBlitNot2n (LPDIRECTDRAWSURFACE lpDDTargetSurface,
       xs = SLONG(sqrt (double(r*r-cy*cy)));
 
       //Clipping auf beiden Seiten (oben & unten)?
-      if (midy+cy>=long(ddsdTgt.dwHeight) && midy-cy<0)
+      if (midy+cy>=int(ddsdTgt.dwHeight) && midy-cy<0)
       {
          //Ja! ==> Nichts tun!
          continue;
       }
       else
       {
-         if (midy+cy>=0 && midy+cy<long(ddsdTgt.dwHeight))
+         if (midy+cy>=0 && midy+cy<int(ddsdTgt.dwHeight))
          {
             s = stdsource + SLONG(vi)*ddsdSrc.lPitch;
             t = stdtarget + cy*ddsdTgt.lPitch;
@@ -251,11 +251,11 @@ void Fx2SphereBlitNot2n (LPDIRECTDRAWSURFACE lpDDTargetSurface,
             if (xs>2)
             {
                //Wenn nicht 2**n x-breiten Verwendet werden, dann 8 statt 4 und Bitmap verdoppeln:
-               si.Init (0, (long)(ddsdSrc.dwWidth/8*FXF), ddsdSrc.dwWidth/8, xs+1);
+               si.Init (0, (int)(ddsdSrc.dwWidth/8*FXF), ddsdSrc.dwWidth/8, xs+1);
                si++;
 
                //Schauen, ob clipping für links/rechts notwendig ist:
-               if (midx>xs && midx+xs<long(ddsdTgt.dwWidth))
+               if (midx>xs && midx+xs<int(ddsdTgt.dwWidth))
                {
                   register SLONG tmp;
 
@@ -276,10 +276,10 @@ void Fx2SphereBlitNot2n (LPDIRECTDRAWSURFACE lpDDTargetSurface,
                   //Ja, leider ==> langsame clipping Version:
                   for (cx=0; cx<=xs; cx++)
                   {
-                     if (midx+cx>=0 && midx+cx < long(ddsdTgt.dwWidth))
+                     if (midx+cx>=0 && midx+cx < int(ddsdTgt.dwWidth))
                         t[cx]  = s[SLONG(si)];
 
-                     if (midx-cx>=0 && midx-cx < long(ddsdTgt.dwWidth))
+                     if (midx-cx>=0 && midx-cx < int(ddsdTgt.dwWidth))
                         t[-cx] = s[-SLONG(si)];
 
                      si++;
@@ -288,7 +288,7 @@ void Fx2SphereBlitNot2n (LPDIRECTDRAWSURFACE lpDDTargetSurface,
             }
          }
 
-         if (midy-cy>=0 && midy-cy<long(ddsdTgt.dwHeight))
+         if (midy-cy>=0 && midy-cy<int(ddsdTgt.dwHeight))
          {
             s = stdsource - SLONG(vi)*ddsdSrc.lPitch;
             t = stdtarget - cy*ddsdTgt.lPitch;
@@ -299,7 +299,7 @@ void Fx2SphereBlitNot2n (LPDIRECTDRAWSURFACE lpDDTargetSurface,
                si++;
 
                //Schauen, ob clipping für links/rechts notwendig ist:
-               if (midx > xs && midx+xs < long(ddsdTgt.dwWidth))
+               if (midx > xs && midx+xs < int(ddsdTgt.dwWidth))
                {
                   //Nein ==> schnelle Version:
                   for (cx=0; cx<=xs; cx++)
@@ -315,10 +315,10 @@ void Fx2SphereBlitNot2n (LPDIRECTDRAWSURFACE lpDDTargetSurface,
                   //Ja, leider ==> langsame clipping Version:
                   for (cx=0; cx<=xs; cx++)
                   {
-                     if (midx+cx>=0 && midx+cx < long(ddsdTgt.dwWidth))
+                     if (midx+cx>=0 && midx+cx < int(ddsdTgt.dwWidth))
                         t[cx]  = s[SLONG(si)];
 
-                     if (midx-cx>=0 && midx-cx < long(ddsdTgt.dwWidth))
+                     if (midx-cx>=0 && midx-cx < int(ddsdTgt.dwWidth))
                         t[-cx] = s[-SLONG(si)];
 
                      si++;

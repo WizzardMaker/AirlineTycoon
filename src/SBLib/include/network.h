@@ -1,8 +1,10 @@
 #pragma once
 
+#ifdef WIN32
 #define _WINSOCK2API_   /* Prevent inclusion of winsock2.h in enet.h */
 typedef struct fd_set fd_set;
 typedef ptrdiff_t SOCKET;
+#endif
 #include <enet/enet.h>
 
 typedef DWORD DPID;
@@ -23,13 +25,13 @@ struct DPPacket
 
 struct SBNetworkPlayer
 {
-    unsigned long ID;
+    unsigned int ID;
     ENetPeer* peer;
 };
 
 struct SBNetworkPeer
 {
-    unsigned long ID;
+    unsigned int ID;
     ENetAddress address;
 };
 
@@ -45,13 +47,13 @@ enum SBSessionEnum
 struct SBNetworkCreation
 {
     SBStr sessionName;
-    long maxPlayers;
-    long flags;
+    int maxPlayers;
+    int flags;
 };
 
 struct SBSessionInfo
 {
-    unsigned long hostID;
+    unsigned int hostID;
     char sessionName[26];
     ENetAddress address;
 };
@@ -61,27 +63,27 @@ class SBNetwork
 public:
     SBNetwork(bool);
 
-    long GetMessageCount();
+    int GetMessageCount();
     bool Connect(SBStr);
     bool Connect(SBStr, char*);
     void DisConnect();
     bool CreateSession(SBStr, SBNetworkCreation*);
     void CloseSession();
-    unsigned long GetLocalPlayerID();
+    unsigned int GetLocalPlayerID();
     SBList<SBStr>* GetConnectionList();
     SBList<SBStr>* GetSessionListAsync();
     bool StartGetSessionListAsync();
     SLONG GetProviderID(char*);
     bool IsEnumSessionFinished();
     bool IsInSession();
-    bool Send(BUFFER<UBYTE>&, unsigned long, unsigned long, bool);
-    bool Receive(UBYTE**, unsigned long&);
+    bool Send(BUFFER<UBYTE>&, unsigned int, unsigned int, bool);
+    bool Receive(UBYTE**, unsigned int&);
     bool JoinSession(SBStr, SBStr);
     SBList<SBNetworkPlayer>* GetAllPlayers();
 
 private:
     SBSessionEnum mState;
-    unsigned long mLocalID;
+    unsigned int mLocalID;
     SBList<SBStr> mConnections;
     SBList<SBStr> mSessions;
     SBList<SBSessionInfo> mSessionInfo;

@@ -483,7 +483,7 @@ void AirportView::OnPaint()
    static SLONG LastViewPosX=ViewPos.x;
    SLONG  AnzElements=0;
 
-   long cnt=0;
+   int cnt=0;
    for (c=0; c<(ULONG)Sim.AirportSmacks.AnzEntries(); c++)
    {
       if (Sim.AirportSmacks[(SLONG)c].pSmack)
@@ -786,7 +786,7 @@ void AirportView::OnPaint()
 
          if (c<pBuilds->AnzEntries())
          {
-            t1 = (long(Bricks[(*pBuilds)[c].BrickId].Layer)<<16) + (*pBuilds)[c].ScreenPos.y + Bricks[(*pBuilds)[c].BrickId].GetBitmapDimension().y+Bricks[(*pBuilds)[c].BrickId].FloorOffset;
+            t1 = (int(Bricks[(*pBuilds)[c].BrickId].Layer)<<16) + (*pBuilds)[c].ScreenPos.y + Bricks[(*pBuilds)[c].BrickId].GetBitmapDimension().y+Bricks[(*pBuilds)[c].BrickId].FloorOffset;
          }
          else t1 = 0x7fffffff;
 
@@ -999,7 +999,7 @@ void AirportView::OnPaint()
                            {
                               Airport.Triggers[(SLONG)qBuild.Par].Winkel=0;
 
-                              if (Sim.DontDisplayPlayer!=-1 && qBuild.BrickId==long(Bricks((SLONG)0x10000000+BRICK_ELECTRO)))
+                              if (Sim.DontDisplayPlayer!=-1 && qBuild.BrickId==int(Bricks((SLONG)0x10000000+BRICK_ELECTRO)))
                               {
                                  PLAYER &qPlayer = Sim.Players.Players[Sim.DontDisplayPlayer];
 
@@ -1063,7 +1063,7 @@ void AirportView::OnPaint()
                      {
                         if (BrickId==AbflugIndex || BrickId==AbflugIndex2)
                         {
-                           long phase = 0;
+                           int phase = 0;
                            
                            if (Sim.Players.Players[Airport.GateMapper[(SLONG)qBuild.Par]].SecurityFlags&(1<<8))  phase=1;
                            if (Sim.Players.Players[Airport.GateMapper[(SLONG)qBuild.Par]].SecurityFlags&(1<<10)) phase=2;
@@ -1122,7 +1122,7 @@ void AirportView::OnPaint()
                         {
                            SDL_Color bg = { 0, 0, 255 };
                            SDL_Color fg = { 255, 255, 0 };
-                           SDL_Surface* Text = TTF_RenderText_Shaded(Font, bprintf ("%3li",(long)qBuild.Par), fg, bg);
+                           SDL_Surface* Text = TTF_RenderText_Shaded(Font, bprintf ("%3li",(int)qBuild.Par), fg, bg);
                            SDL_Rect Dst = { qBuild.ScreenPos.x-ViewPos.x+WinP1.x+3, qBuild.ScreenPos.y-ViewPos.y+WinP1.y+1, Text->w, Text->h };
                            SDL_BlitSurface(Text, NULL, Surf, &Dst);
                            SDL_FreeSurface(Text);
@@ -1136,7 +1136,7 @@ void AirportView::OnPaint()
 
                if (c<pBuilds->AnzEntries())
                {
-                  t1 = (long(Bricks[(*pBuilds)[c].BrickId].Layer)<<16) + (*pBuilds)[c].ScreenPos.y + Bricks[(*pBuilds)[c].BrickId].GetBitmapDimension().y+Bricks[(*pBuilds)[c].BrickId].FloorOffset;
+                  t1 = (int(Bricks[(*pBuilds)[c].BrickId].Layer)<<16) + (*pBuilds)[c].ScreenPos.y + Bricks[(*pBuilds)[c].BrickId].GetBitmapDimension().y+Bricks[(*pBuilds)[c].BrickId].FloorOffset;
                }
                else t1 = 0x7fffffff;
                //...bis hier
@@ -1914,7 +1914,7 @@ void AirportView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
       {
          if (nChar>='0' && nChar<='9' && UnderCursor!=0xffffffff && Airport.Builds.IsInAlbum(UnderCursor))
          {
-            long brickid = Airport.Builds[UnderCursor].BrickId-0x10000000;
+            int brickid = Airport.Builds[UnderCursor].BrickId-0x10000000;
 
             if ((brickid>=2030 && brickid<=2039) || brickid<=2001 || brickid<=2045 || brickid==2003 || brickid==RUNE_AREALO || brickid==RUNE_AREARU || brickid==500 || brickid==522 || brickid==520 || brickid==492 || brickid==RUNE_WAITPLANE || brickid==RUNE_DROPSUITCASE || brickid==RUNE_WAYPOINT || brickid==RUNE_WAYPOINT_WAIT || brickid==RUNE_WAYPOINT_START || brickid==RUNE_WAYPOINT_G || brickid==RUNE_CONDBLOCK || brickid==337 || brickid==338)
             {
@@ -3396,7 +3396,7 @@ void AIRPORT::UpdateStaticDoorImage (void)
 
    for (c=0; c<4; c++)
    {
-      long door;
+      int door;
       if (c==0) door=700;
       else if (c==1) door=707;
       else if (c==2) door=708;

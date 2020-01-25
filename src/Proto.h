@@ -78,15 +78,15 @@ SLONG   CalculateFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLO
 SLONG   CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG Player, CString PlaneName);
 SLONG   CalculateFlightCostRechnerisch (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum);
 void    InitEinheiten (const CString &Filename);
-CString Insert1000erDots (long Value);
+CString Insert1000erDots (int Value);
 CString Insert1000erDots64 (__int64 Value);
 CRect   PaintTextBubble (SBBM &OffscreenBm, const XY &p1, const XY &p2, const XY &Entry);
 BOOL    CheckCursorHighlight (const CRect &rect, UWORD FontColor, SLONG Look=CURSOR_HOT, SLONG TipId=0, SLONG ClickArea=0, SLONG ClickId=0, SLONG ClickPar1=0, SLONG ClickPar2=0);
 BOOL    CheckCursorHighlight (const XY &CursorPos, const CRect &rect, UWORD FontColor, SLONG Look=CURSOR_HOT, SLONG TipId=0, SLONG ClickArea=0, SLONG ClickId=0, SLONG ClickPar1=0, SLONG ClickPar2=0);
 void    CheckCString (CString *String);
 void    GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array);
-CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, long Add=1);
-long    CountMatchingFilelist (CString DirAndWildcards);
+CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, int Add=1);
+int    CountMatchingFilelist (CString DirAndWildcards);
 CString CreateNumeratedFreeFilename (CString DirAndFilename);
 CString GetFilenameFromFullFilename (CString FullFilename);
 #ifndef WIN32
@@ -160,14 +160,14 @@ BOOL    CreateSpeechSBFX (CString String, SBFX *pFx, SLONG Player, BOOL *bAnyMis
 void  PlayUniversalFx (CString Filename, SLONG Volume);
 void  PlayFanfare (void);
 SLONG Prozent2Dezibel (SLONG Prozent);
-void  SetMidiVolume(long volume);
+void  SetMidiVolume(int volume);
 BOOL  IsMidiAvailable (void);
 void  NextMidi (void);
 void  PlayMidi (const CString &Filename);
 void  PlayMidiFrom (const CString &Filename, SLONG StartPosition);
 void  StopMidi (void);
 void  SetMidiVolume (SLONG Volume);
-void  SetWaveVolume(long volume);
+void  SetWaveVolume(int volume);
 void  PauseMidi (void);
 void  ResumeMidi (void);
 

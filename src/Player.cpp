@@ -216,7 +216,7 @@ void PLAYER::ChangeMoney (__int64 Money, SLONG Reason, CString Par1, char *Par2)
 
    History.AddEntry (Money, bprintf (StandardTexte.GetS (TOKEN_MONEY, Reason), (LPCTSTR)Par1, Par2));
 
-   long AbsMoney32 = long(min(0x7fffffff, AbsMoney));
+   int AbsMoney32 = int(min(0x7fffffff, AbsMoney));
    switch (Reason)
    {
       case 2000: case 2002: Bilanz.SollZinsen += AbsMoney32;    break;
@@ -433,9 +433,9 @@ SLONG PLAYER::CalcPlanePropSum (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet was den Spieler die Sicherheit kostet:
 //--------------------------------------------------------------------------------------------
-long PLAYER::CalcSecurityCosts (bool bFixOnly, bool bPlaneOnly)
+int PLAYER::CalcSecurityCosts (bool bFixOnly, bool bPlaneOnly)
 {
-   long costfix=0, costplane=0;
+   int costfix=0, costplane=0;
 
    if (SecurityFlags & 0x0001) costfix   +=   25000; //Büro
    if (SecurityFlags & 0x0002) costfix   +=   20000; //Laptop
@@ -627,7 +627,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
             break;
 
          case DIFF_ADDON06:
-            return (long(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay (0))));
+            return (int(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay (0))));
             break;
 
          case DIFF_ADDON07:
@@ -658,7 +658,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
             break;
 
          case DIFF_ATFS01:
-            return (long(Money));
+            return (int(Money));
             break;
 
          case DIFF_ATFS02:
@@ -678,7 +678,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 
          case DIFF_ATFS03:
             {
-               long c;
+               int c;
                __int64 p = 0;
                __int64 f = 0;
 
@@ -696,7 +696,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 
          case DIFF_ATFS05:
             {
-               long n=0;
+               int n=0;
                for (SLONG d=0; d<(SLONG)Planes.AnzEntries(); d++)
                   if (Planes.IsInAlbum(d))
                      if (Planes[d].ptPassagiere>=BTARGET_PLANESIZE && Planes[d].TypeId==-1) n++;
@@ -711,12 +711,12 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 
          case DIFF_ATFS07:
             {
-               long sum=0;
+               int sum=0;
 
                if (bAnderer==0)
                {
-                  long anz=0;
-                  for (long c=1; c<=min(29, Sim.Date); c++)
+                  int anz=0;
+                  for (int c=1; c<=min(29, Sim.Date); c++)
                   {
                      sum+=SLONG(Statistiken[STAT_AKTIENKURS].GetAtPastDay(c));
                      anz++;
@@ -726,7 +726,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                }
                else
                {
-                  for (long c=0; c<=29; c++)
+                  for (int c=0; c<=29; c++)
                      if (SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c))>0)
                         if (SLONG(Statistiken[STAT_AKTIEN_SA+PlayerNum].GetAtPastDay(c))*100/SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c)) <= BTARGET_MEINANTEIL)
                            sum++;
@@ -738,17 +738,17 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 
          case DIFF_ATFS08:
             {
-               long n=0;
+               int n=0;
                for (SLONG d=0; d<(SLONG)Planes.AnzEntries(); d++)
                   if (Planes.IsInAlbum(d))
                      if (Planes[d].TypeId==-1 && Planes[d].ptPassagiere>0 && Planes[d].ptGeschwindigkeit>0)
                      {
-                        //long Verbrauch = Planes[d].ptVerbrauch/Planes[d].ptPassagiere;
+                        //int Verbrauch = Planes[d].ptVerbrauch/Planes[d].ptPassagiere;
 
                         //Neue Formel:
                         //Verbrauch = Planes[d].ptVerbrauch*100/Planes[d].ptGeschwindigkeit*100/Planes[d].ptPassagiere;
 
-                        long Verbrauch = Planes[d].ptVerbrauch*100/Planes[d].ptGeschwindigkeit;
+                        int Verbrauch = Planes[d].ptVerbrauch*100/Planes[d].ptGeschwindigkeit;
 
                         if (Verbrauch<=BTARGET_VERBRAUCH) n++;
                      }
@@ -758,11 +758,11 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
             break;
 
          case DIFF_ATFS09:
-            return (long(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay (0))));
+            return (int(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay (0))));
             break;
 
          case DIFF_ATFS10:
-            return (long(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay (0))));
+            return (int(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay (0))));
             break;
       }
 
@@ -826,7 +826,7 @@ BOOL PLAYER::HasWon (void)
    if (Sim.Difficulty==DIFF_ATFS06 && Planes.GetNumUsed()>=5 && DaysWithoutSabotage>=BTARGET_DAYSSABO) return (TRUE);
    if (Sim.Difficulty==DIFF_ATFS07 && GetMissionRating()>=BTARGET_KURS)
    {
-      for (long c=0; c<=29; c++)
+      for (int c=0; c<=29; c++)
          if (Statistiken[STAT_AKTIEN_SA+PlayerNum].GetAtPastDay(c)*100/Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c)>BTARGET_MEINANTEIL)
             return (false);
 
@@ -894,7 +894,7 @@ void PLAYER::NewDay (void)
    if (Owner==1 && RobotUse (ROBOT_USE_IMAGEBONUS))
    {
       Image+=(SLONG(Sim.Date)%3);
-      Limit (-1000l, Image, 1000l);
+      Limit (-1000, Image, 1000);
    }
 
    if (Owner==1 && Bonus==0)
@@ -1180,7 +1180,7 @@ void PLAYER::NewDay (void)
 
       if (Sim.Date==40 && Planes.GetNumUsed()>0)
       {
-         long i = Planes.GetRandomUsedIndex();
+         int i = Planes.GetRandomUsedIndex();
 
          Planes -= i;
          UpdateAuftragsUsage();
@@ -1228,7 +1228,7 @@ void PLAYER::NewDay (void)
 //--------------------------------------------------------------------------------------------
 // Nimmt dem Spieler eine Route weg (wg. Sabotage oder geringer Auslastung
 //--------------------------------------------------------------------------------------------
-void PLAYER::RouteWegnehmen (long Routenindex, long NeuerBesitzer)
+void PLAYER::RouteWegnehmen (int Routenindex, int NeuerBesitzer)
 {
    if (NeuerBesitzer==-1 || Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang!=-1)
    {
@@ -1532,13 +1532,13 @@ void PLAYER::RentGate (SLONG Nummer, SLONG Miete)
 //--------------------------------------------------------------------------------------------
 //Berechnet, wieviel Kredit der Spieler noch aufnehmen kann.
 //--------------------------------------------------------------------------------------------
-long PLAYER::CalcCreditLimit (void)
+int PLAYER::CalcCreditLimit (void)
 {
    __int64 cr=(Money-Credit)/2-Credit;
 
    if (Credit<200000) cr=max(cr, 200000-cr);
 
-   return (long(min(0x7fffffff, max(0, cr))));
+   return (int(min(0x7fffffff, max(0, cr))));
 }
 
 //--------------------------------------------------------------------------------------------
@@ -3667,15 +3667,15 @@ void PLAYER::RobotExecuteAction(void)
 
          if (RobotUse(ROBOT_USE_LUXERY) && Planes.GetNumUsed()>0 && Money>200000)
          {
-            long prob=5;
+            int prob=5;
 
             if (Money>2500000) prob=3;
             if (Money>15000000) prob=2;
             if (Money>25000000) prob=1;
             if (LocalRandom.Rand(prob)==0)
             {
-               long Anzahl=1;
-               if (Money>10000000) Anzahl+=long(Money/10000000);
+               int Anzahl=1;
+               if (Money>10000000) Anzahl+=int(Money/10000000);
                for (SLONG count=0; count<Anzahl; count++)
                {
                   for (SLONG bpass=0; bpass<3; bpass++)
@@ -3744,7 +3744,7 @@ void PLAYER::RobotExecuteAction(void)
             if (Menge>0)
             {
                Menge       = min (Menge, Tank-TankInhalt);
-               TankInhalt += long(Menge);
+               TankInhalt += int(Menge);
                ChangeMoney (-Menge*Sim.Kerosin, 2090, "");
             }
          }
@@ -3756,8 +3756,8 @@ void PLAYER::RobotExecuteAction(void)
             dislike=LocalRandom.Rand(4);
             if (RobotUse(ROBOT_USE_EXTREME_SABOTAGE) && (dislike==PlayerNum || Sim.Players.Players[dislike].IsOut))
             {
-               long r=-9999; //Besten Spieler als Sabotageziel wählen:
-               for (long c=0; c<4; c++)
+               int r=-9999; //Besten Spieler als Sabotageziel wählen:
+               for (int c=0; c<4; c++)
                   if (!Sim.Players.Players[c].IsOut && Sim.Players.Players[c].GetMissionRating()>r)
                   {
                      dislike=c;
@@ -3771,11 +3771,11 @@ void PLAYER::RobotExecuteAction(void)
          {
             if (((Sim.Date+PlayerNum)%3!=0 || RobotUse(ROBOT_USE_EXTREME_SABOTAGE) || LocalRandom.Rand(4)==0 || (PlayerNum==0 && LocalRandom.Rand(2)==0)) && dislike!=-1 && dislike!=PlayerNum && (ArabHints<80 || (ArabHints<90 && Credit<1000000 && Money>3000000 && PlayerNum==1 && (Sim.Date&3)==0)) && (Sim.Players.Players[dislike].Owner==1 || RobotUse(ROBOT_USE_MUCH_SABOTAGE)))
             {
-               long SecurityAnnoiance=0;
+               int SecurityAnnoiance=0;
 
                ArabTrust=min (4, ArabTrust+1);
 
-               for (long pass=1; pass<=2+3*RobotUse(ROBOT_USE_EXTREME_SABOTAGE); pass++)
+               for (int pass=1; pass<=2+3*RobotUse(ROBOT_USE_EXTREME_SABOTAGE); pass++)
                {
                   switch (Sim.GetHour()%3)
                   {
@@ -3888,26 +3888,26 @@ void PLAYER::RobotExecuteAction(void)
 
          if (RobotUse (ROBOT_USE_PAYBACK_CREDIT) && Money>750000 && Sim.Date>1 && !RobotUse(ROBOT_USE_MAXKREDIT))
          {
-            SLONG m=long(min(0x7fffffff, min(Credit, Money-250000)));
+            SLONG m=int(min(0x7fffffff, min(Credit, Money-250000)));
             Money-=m;
             Credit-=m;
          }
 
          if ((PlayerNum==1 || RobotUse(ROBOT_USE_MAXKREDIT)) && Credit<1000000+Sim.Date*50000 && !RobotUse (ROBOT_USE_PAYBACK_CREDIT))
          {
-            SLONG m=long(min(0x7fffffff, 1000000+Sim.Date*50000-Credit));
+            SLONG m=int(min(0x7fffffff, 1000000+Sim.Date*50000-Credit));
             Money+=m;
             Credit+=m;
          }
          else if (Money>1500000 && Credit>0 && PlayerNum!=1 && !RobotUse(ROBOT_USE_MAXKREDIT))
          {
-            SLONG m=long(min(0x7fffffff, min(Credit, Money-1500000)));
+            SLONG m=int(min(0x7fffffff, min(Credit, Money-1500000)));
             Money-=m;
             Credit-=m;
          }
          else if (Money<1000000 && PlayerNum!=1 && !RobotUse (ROBOT_USE_PAYBACK_CREDIT))
          {
-            SLONG m=long(min(0x7fffffff, 1400000-Money));
+            SLONG m=int(min(0x7fffffff, 1400000-Money));
             Money+=m;
             Credit+=m;
          }
@@ -3998,7 +3998,7 @@ void PLAYER::RobotExecuteAction(void)
          if (RobotUse(ROBOT_USE_REPAIRPLANES))
          {
             SLONG c;
-            SLONG FreeMoney=long(min(0x7fffffff, Money));
+            SLONG FreeMoney=int(min(0x7fffffff, Money));
 
             for (c=0; c<(SLONG)Planes.AnzEntries(); c++)
                if (Planes.IsInAlbum(c))
@@ -4868,7 +4868,7 @@ void PLAYER::RobotExecuteAction(void)
 
       case ACTION_VISITSECURITY:
          {
-            for (long pass=1; pass<=2; pass++)
+            for (int pass=1; pass<=2; pass++)
             {
                if (Money>1000000)
                {
@@ -4970,7 +4970,7 @@ void PLAYER::RobotExecuteAction(void)
                }
 
                Image+=gWerbePrice[n]/10000*(n+6)/55;
-               Limit (-1000l, Image, 1000l);
+               Limit (-1000, Image, 1000);
 
                if (n==0)
                   for (c=0; c<Sim.Players.AnzPlayers; c++)
@@ -5599,7 +5599,7 @@ void PLAYER::UpdateWalkSpeed (void)
          if (Workers.Workers[c].Employer==PlayerNum && Workers.Workers[c].Typ==BERATERTYP_FITNESS)
             WalkSpeed+=(Workers.Workers[c].Talent-30)/30;
 
-      Limit (1l, WalkSpeed, 5l);
+      Limit (1, WalkSpeed, 5);
    }
 }
 
@@ -5617,7 +5617,7 @@ void PLAYER::DoBodyguardRabatt (SLONG Money)
       else
          Messages.AddMessage (BERATERTYP_SICHERHEIT, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 6000), LPCTSTR(CString(Insert1000erDots(Money))), quality/10), MESSAGE_URGENT);
 
-      long delta = Money/100*(quality/10);
+      int delta = Money/100*(quality/10);
       ChangeMoney (delta, 3130, "");
       Sim.SendSimpleMessage (ATNET_BODYGUARD, NULL, Sim.localPlayer, delta);
    }
@@ -5657,7 +5657,7 @@ void PLAYER::UpdateStatistics (void)
    //STAT_PASSAGIERE_HOME: in CFlugplanEintrag::BookFlight (...
 
    //STAT_AKTIENKURS:
-   Statistiken[STAT_AKTIENKURS].SetAtPastDay (0, long(Kurse[0]));
+   Statistiken[STAT_AKTIENKURS].SetAtPastDay (0, int(Kurse[0]));
 
    //STAT_FLUEGE: in CFlugplanEintrag::BookFlight (...
    //STAT_AUFTRAEGE: in CReisebuero::OnLButtonDown (... und CLastMinute::OnLButtonDown(...
@@ -5726,7 +5726,7 @@ void PLAYER::UpdateStatistics (void)
    }
    else if (Owner==1)
    {
-      c=long(Statistiken[STAT_MITARBEITER].GetAtPastDay (0));
+      c=int(Statistiken[STAT_MITARBEITER].GetAtPastDay (0));
 
       c=c*(min(500,Image)+2500)/3000;
 
@@ -6231,7 +6231,7 @@ void HISTORY::AddNewCall (SLONG Type)
 //--------------------------------------------------------------------------------------------
 //Aktualisiert die Kosten für Gespräche
 //--------------------------------------------------------------------------------------------
-void HISTORY::AddCallCost (long Money)
+void HISTORY::AddCallCost (int Money)
 {
    for (SLONG c=99; c>=0; c--)
    {

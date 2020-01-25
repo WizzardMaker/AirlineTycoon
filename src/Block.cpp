@@ -528,7 +528,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                      Bitmap.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,27), Bitmap.Size);
                      Bitmap.PrintAt (bprintf ("%li", qRentCity.Rang), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(85,27), Bitmap.Size);
                      Bitmap.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1003), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,40), Bitmap.Size);
-                     Bitmap.PrintAt (bprintf ("%li%%", (long)qRentCity.Image), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(85,40), Bitmap.Size);
+                     Bitmap.PrintAt (bprintf ("%li%%", (int)qRentCity.Image), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(85,40), Bitmap.Size);
 
                      if (Cities.GetIdFromIndex (Cities(SelectedId))!=(ULONG)Sim.HomeAirportId)
                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1010), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,66), Bitmap.Size);
@@ -545,7 +545,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                   CRect rect (0,0, 9999,9999);
                   if (Photo.Size.x!=0) RemapColor (Photo.pBitmap, rect, 0x0000, 0x0001);
-                  Bitmap.BlitFrom (Photo, ClientArea-XY(0,3)+XY(85,85)-Photo.Size/2l);
+                  Bitmap.BlitFrom (Photo, ClientArea-XY(0,3)+XY(85,85)-Photo.Size/2);
                }
                break;
 

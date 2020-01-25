@@ -258,8 +258,8 @@ void CLastMinute::OnPaint()
 
             DestRect.x = Pos.x;
             DestRect.y = Pos.y;
-            DestRect.w = long(ZettelBms[c].Size.x*(p+400)/1400);
-            DestRect.h = long(ZettelBms[c].Size.y*(p+400)/1400);
+            DestRect.w = int(ZettelBms[c].Size.x*(p+400)/1400);
+            DestRect.h = int(ZettelBms[c].Size.y*(p+400)/1400);
 
             SDL_BlitScaled(ZettelBms[c].pBitmap->GetSurface(),&SrcRect,RoomBm.pBitmap->GetSurface(),&DestRect);
          }
@@ -352,7 +352,7 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point)
                qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay (0, 1);
                qPlayer.Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay (0, 1);
 
-               Sim.SendSimpleMessage (ATNET_SYNCNUMFLUEGE, NULL, Sim.localPlayer, (long)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (long)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
+               Sim.SendSimpleMessage (ATNET_SYNCNUMFLUEGE, NULL, Sim.localPlayer, (int)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (int)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
 
                LastMinuteAuftraege.Auftraege[c].Praemie=-1000;   
                qPlayer.NetUpdateTook (1, c);

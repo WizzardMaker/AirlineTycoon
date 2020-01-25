@@ -199,7 +199,7 @@ BOOL BRICK::IsGlasAt (SLONG x, SLONG y)
 void BRICK::UpdateBrick (void)
 {
    BOOL  ReloadNecessary = FALSE;
-   long c;
+   int c;
 
    //Falls Bitmap noch nicht vorhanden ==> laden!
    if (Bitmap.AnzEntries()==0) ReloadNecessary=TRUE;
@@ -287,8 +287,8 @@ void BRICKS::ReInit (const CString &TabFilename)
    //CStdioFile    Tab;
    BUFFER<char>  Line(300);
    char         *TimePointer [150];
-   long          Id;
-   long          AnzTimePointer;
+   int          Id;
+   int          AnzTimePointer;
 
    //Load Table header:
    BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
@@ -491,7 +491,7 @@ void BRICKS::RestoreBricks ()
 //--------------------------------------------------------------------------------------------
 //Primitiver Konstruktor:
 //--------------------------------------------------------------------------------------------
-BUILD::BUILD (long BrickId, const XY &ScreenPos, BOOL Ansatz)
+BUILD::BUILD (int BrickId, const XY &ScreenPos, BOOL Ansatz)
 {
    BUILD::BrickId    = BrickId;
    BUILD::ScreenPos  = ScreenPos;
@@ -617,7 +617,7 @@ void BUILDS::Sort (void)
 {
    SLONG c;
 
-   for (c=0; c<long(AnzEntries()-1); c++)
+   for (c=0; c<int(AnzEntries()-1); c++)
       if ((!IsInAlbum(c) && IsInAlbum(c+1)) ||
           (IsInAlbum(c) && IsInAlbum(c+1) && Bricks[(*this)[c].BrickId].Layer >Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer) ||
           (IsInAlbum(c) && IsInAlbum(c+1) && Bricks[(*this)[c].BrickId].Layer==Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer && (*this)[c].ScreenPos.y+Bricks[(*this)[c].BrickId].GetBitmapDimension().y+Bricks[(*this)[c].BrickId].FloorOffset>(*this)[(SLONG)(c+1)].ScreenPos.y+Bricks[(*this)[(SLONG)(c+1)].BrickId].GetBitmapDimension().y+Bricks[(*this)[(SLONG)(c+1)].BrickId].FloorOffset) ||

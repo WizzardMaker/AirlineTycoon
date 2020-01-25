@@ -36,7 +36,7 @@
 //	PEOPLE WHO HAVE CONTRIBUTED TO THIS CLASS:
 //
 //		Several people have helped me iron out problems and othewise improve
-//		this class.  OK, this is a long list but in my own defense, this code
+//		this class.  OK, this is a int list but in my own defense, this code
 //		has undergone two major rewrites.  Many of the improvements became
 //		necessary after I rewrote the code as a template.  Others helped me
 //		improve the CString facade.
@@ -356,7 +356,7 @@
 	#if defined(_WIN64)
 		#define SS_IS_INTRESOURCE(_r) (((unsigned __int64)(_r) >> 16) == 0)
 	#else
-		#define SS_IS_INTRESOURCE(_r) (((unsigned long)(_r) >> 16) == 0)
+		#define SS_IS_INTRESOURCE(_r) (((unsigned int)(_r) >> 16) == 0)
 	#endif
 #endif
 
@@ -709,7 +709,7 @@ inline const Type& SSMAX(const Type& arg1, const Type& arg2)
 // SGI compiler 7.3 doesnt know these  types - oh and btw, remember to use
 // -LANG:std in the CXX Flags
 #if defined(__sgi)
-    typedef unsigned long           DWORD;
+    typedef unsigned int           DWORD;
     typedef void *                  LPCVOID;
 #endif
 
@@ -1309,7 +1309,7 @@ inline void	ssasn(std::string& sDst, const std::wstring& sSrc)
 		PCSTR szCvt = StdCodeCvt(const_cast<SS_PTRTYPE>(sDst.data()), nDst,
 			sSrc.c_str(), static_cast<int>(sSrc.size()));
 
-		// In MBCS builds, we don't know how long the destination string will be.
+		// In MBCS builds, we don't know how int the destination string will be.
 
 #ifdef SS_MBCS
 		sDst.resize(sslen(szCvt));
@@ -1338,7 +1338,7 @@ inline void	ssasn(std::string& sDst, PCWSTR pW)
 		PCSTR szCvt = StdCodeCvt(const_cast<SS_PTRTYPE>(sDst.data()), nDst,
 			pW, nSrc);
 
-		// In MBCS builds, we don't know how long the destination string will be.
+		// In MBCS builds, we don't know how int the destination string will be.
 
 #ifdef SS_MBCS
 		sDst.resize(sslen(szCvt));
@@ -1888,7 +1888,7 @@ inline int ssicoll(const CT* sz1, int nLen1, const CT* sz2, int nLen2)
 //			   large enough to hold least nMaxChars+1 characters.
 //			   If the caller supplies no argument for nMax this is a signal to
 //			   the routine to copy all the characters in pSrc, regardless of
-//			   how long it is.
+//			   how int it is.
 //
 // RETURN VALUE: none
 // -----------------------------------------------------------------------------
@@ -2037,7 +2037,7 @@ struct NotSpace
 	// in DLL memory but the function is in static memory.  So the COM DLL
 	// goes away along with the function that was supposed to be called,
 	// and then later when the DLL CRT shuts down it unloads the list and
-	// tries to call the long-gone function.
+	// tries to call the int-gone function.
 	// This is DinkumWare's implementation problem.  If you encounter this
 	// problem, you may replace the calls here with good old isspace() and
 	// iswspace() from the CRT unless they specify SS_ANSI
@@ -2108,7 +2108,7 @@ class CStdStr : public std::basic_string<CT>
 	
 public:
 	// shorthand conversion from PCTSTR to string resource ID
-	#define SSRES(pctstr)  LOWORD(reinterpret_cast<unsigned long>(pctstr))	
+	#define SSRES(pctstr)  LOWORD(reinterpret_cast<unsigned int>(pctstr))	
 
 	bool TryLoad(const void* pT)
 	{
@@ -2117,7 +2117,7 @@ public:
 #if defined(SS_WIN32) && !defined(SS_ANSI)
 		if ( ( pT != NULL ) && SS_IS_INTRESOURCE(pT) )
 		{
-			UINT nId = LOWORD(reinterpret_cast<unsigned long>(pT));
+			UINT nId = LOWORD(reinterpret_cast<unsigned int>(pT));
 			if ( !LoadString(nId) )
 			{
 				TRACE(_T("Can't load string %u\n"), SSRES(pT));
@@ -3695,7 +3695,7 @@ public:
 	// Array-indexing operators.  Required because we defined an implicit cast
 	// to operator const CT* (Thanks to Julian Selman for pointing this out)
 
-	CT& operator[](int nIdx)
+	/*CT& operator[](int nIdx)
 	{
 		return static_cast<MYBASE*>(this)->operator[](static_cast<MYSIZE>(nIdx));
 	}
@@ -3713,7 +3713,7 @@ public:
 	const CT& operator[](unsigned int nIdx) const
 	{
 		return static_cast<const MYBASE*>(this)->operator[](static_cast<MYSIZE>(nIdx));
-	}
+	}*/
 
 #ifndef SS_NO_IMPLICIT_CAST
 	operator const CT*() const

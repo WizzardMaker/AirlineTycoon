@@ -15,6 +15,7 @@ if(MSVC)
     add_compile_options("/Zc:forScope-")
 else()
     add_compile_options("-fno-for-scope")
+    add_compile_options("-fpermissive")
 endif()
 
 # Add source to this project's executable.
@@ -98,7 +99,7 @@ add_executable (AT
     Res/Script2.rc
 )
 
-set_property(TARGET AT PROPERTY CXX_STANDARD 17)
+set_property(TARGET AT PROPERTY CXX_STANDARD 11)
 if(NOT ${CMAKE_VERSION} VERSION_LESS "3.16.0")
     target_precompile_headers(AT PUBLIC Stdafx.h)
 endif()
@@ -112,8 +113,4 @@ target_link_libraries(AT
     ${SDL2_TTF_LIBRARY}
     ${SDL2_IMAGE_LIBRARY}
     ${SDL2_MIXER_LIBRARY}
-    ${SDL2_LIBRARY}
-    ${ws2_32_LIBRARY}
-    ${Winmm_LIBRARY}
-    ws2_32
-    Winmm)
+    ${SDL2_LIBRARY})

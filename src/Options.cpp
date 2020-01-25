@@ -6,8 +6,8 @@
 #include "stdafx.h"
 #include "glstart.h"
 #include "atnet.h"
-#include "sblib\include\SbLib.h"
-#include "sblib\include\network.h"
+#include "SbLib.h"
+#include "network.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -349,7 +349,7 @@ void Options::OnPaint()
 
             for (x=0; x<24; x++)
                if (KlackerTafel.Haben[x+y*24])
-                  RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]+(!SavenameValid)*(73+8+3+3)], 128+x*16, py);
+                  RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]+(!SavenameValid)*(73+8+3+3)], 128+x*16, py);
          }
       }
       else
@@ -358,12 +358,12 @@ void Options::OnPaint()
          {
             for (x=0; x<24; x++)
                if (KlackerTafel.Haben[x+y*24])
-                  RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]], 128+x*16, py);
+                  RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]], 128+x*16, py);
          }
       }
 
       if (CursorY!=-1)
-         RoomBm.BlitFromT (KlackerTafel.Cursors[long(BlinkState%8)], (CursorX+4)*16+129, (CursorY+1)*22+85);
+         RoomBm.BlitFromT (KlackerTafel.Cursors[int(BlinkState%8)], (CursorX+4)*16+129, (CursorY+1)*22+85);
 
       //Cursor highlighting:
       switch (PageNum)

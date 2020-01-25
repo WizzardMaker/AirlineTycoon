@@ -43,7 +43,7 @@ public:
 	//{{AFX_MSG(GameFrame)
 	virtual void OnPaint();
 	virtual BOOL OnEraseBkgnd(void* pDC);
-#if _MSC_VER >= 1400
+#if !defined(_MSC_VER) || _MSC_VER >= 1400
 	virtual void OnActivateApp(BOOL bActive, DWORD hTask);
 #else
 	virtual void OnActivateApp(BOOL bActive, HTASK hTask);

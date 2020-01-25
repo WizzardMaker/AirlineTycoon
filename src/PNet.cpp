@@ -210,7 +210,7 @@ void PLAYER::NetSynchronizePlanes (void)
 
       Message.Announce(64);
 
-      long count=0;
+      int count=0;
       for (c=0; c<4; c++)
       {
          PLAYER &qPlayer = Sim.Players.Players[c];
@@ -247,7 +247,7 @@ void PLAYER::NetSynchronizeMeeting (void)
 
    Message.Announce(64);
 
-   long count=0;
+   int count=0;
    for (c=0; c<4; c++)
    {
       PLAYER &qPlayer = Sim.Players.Players[c];
@@ -413,8 +413,8 @@ void PLAYER::NetUpdateWorkers (void)
 
    Message << ATNET_PERSONNEL;
 
-   m = (long)Statistiken[STAT_ZUFR_PERSONAL].GetAtPastDay(0);
-   n = (long)Statistiken[STAT_MITARBEITER].GetAtPastDay(0);
+   m = (int)Statistiken[STAT_ZUFR_PERSONAL].GetAtPastDay(0);
+   n = (int)Statistiken[STAT_MITARBEITER].GetAtPastDay(0);
    
    Message << PlayerNum << m << n;
 
@@ -515,7 +515,7 @@ void PLAYER::NetUpdateKerosin (void)
 //--------------------------------------------------------------------------------------------
 // Broadcasts a xplane buy:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetBuyXPlane (long Anzahl, CXPlane &plane)
+void PLAYER::NetBuyXPlane (int Anzahl, CXPlane &plane)
 {
    TEAKFILE Message;
 

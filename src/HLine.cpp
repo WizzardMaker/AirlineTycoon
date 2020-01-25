@@ -87,7 +87,7 @@ void CHLObj::BlitAt (SB_CBitmapCore *pBitmap, XY Target)
          UWORD *target=((UWORD*)bm)+qHLGene.Offset;
          UBYTE *source=qHLGene.pPixel;
          UWORD *table=pHLPool->PaletteMapper;
-         long   anz=qHLGene.Anz;
+         int   anz=qHLGene.Anz;
 
          if (qHLGene.Anz<=4) source = (UBYTE*)&qHLGene.pPixel;
          else                source = qHLGene.pPixel;
@@ -277,7 +277,7 @@ void CHLObj::BlitLargeAt (SB_CBitmapCore *pBitmap, XY Target)
          UWORD *target=((UWORD*)bm)+qHLGene.Offset*2;
          UBYTE *source=qHLGene.pPixel;
          UWORD *table=pHLPool->PaletteMapper;
-         long   anz=qHLGene.Anz*2;
+         int   anz=qHLGene.Anz*2;
 
          if (qHLGene.Anz<=4) source = (UBYTE*)&qHLGene.pPixel;
          else                source = qHLGene.pPixel;

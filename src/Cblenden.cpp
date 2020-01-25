@@ -22,7 +22,7 @@
 //     geklickt wurde (wobei 0,0 die linke obere Ecke der Bitmap ist). Aber auch der Bitmap-
 //     mittelpunkt (x=bm1.Size.x/2) oder ein zufälliger Punkt sehen gut aus.
 // 4. Man überlegt sich, wie viele Animationsstufen man haben möchte:
-//     long   AnzBlendPhases = 30;
+//     int   AnzBlendPhases = 30;
 //     double PhaseCounter = 0;
 //     double PhaseStepper = 100/(AnzBlendPhases-1);
 // 5. Man ruft "UpdateTmpSurface" entsprechend oft auf:
@@ -118,7 +118,7 @@ CBlenden::~CBlenden ()
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
 //  ClickX/Y    - Mittelpunkt der Überblend-Animation; Idealerweise Mausklickposition
 //--------------------------------------------------------------------------------------------
-CCoolBlend::CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY, bool fTransparent)
+CCoolBlend::CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int ClickX, int ClickY, bool fTransparent)
    : CBlenden (pSurface1, pSurface2, pTmpSurface)
 {
    _ClickX = ClickX;
@@ -127,7 +127,7 @@ CCoolBlend::CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurf
 }
 
 //--------------------------------------------------------------------------------------------
-//UpdateTmpSurface (long Prozent)
+//UpdateTmpSurface (int Prozent)
 // Berechnet die aktuelle Version von pSurfaceTmp anhand des Prozentwertes
 //--------------------------------------------------------------------------------------------
 void CCoolBlend::UpdateTmpSurface (double Prozent)
@@ -172,7 +172,7 @@ void CCoolBlend::UpdateTmpSurface (double Prozent)
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
 //  ClickX/Y    - Mittelpunkt der Überblend-Animation; Idealerweise Mausklickposition
 //--------------------------------------------------------------------------------------------
-CFallBlend::CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY, bool fTransparent)
+CFallBlend::CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int ClickX, int ClickY, bool fTransparent)
    : CBlenden (pSurface1, pSurface2, pTmpSurface)
 {
    _ClickX = ClickX;
@@ -216,7 +216,7 @@ void CFallBlend::UpdateTmpSurface (double Prozent)
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
 //  RandomX/Y   - Größe der Random-Blöcke
 //--------------------------------------------------------------------------------------------
-CRandomBlend::CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long RandomX, long RandomY, bool fTransparent)
+CRandomBlend::CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int RandomX, int RandomY, bool fTransparent)
    : CBlenden (pSurface1, pSurface2, pTmpSurface)
 {
    _RandomX = RandomX;
@@ -225,14 +225,14 @@ CRandomBlend::CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE p
 }
 
 //--------------------------------------------------------------------------------------------
-//UpdateTmpSurface (long Prozent)
+//UpdateTmpSurface (int Prozent)
 //--------------------------------------------------------------------------------------------
 void CRandomBlend::UpdateTmpSurface (double Prozent)
 {
    WORD   rnd;
    WORD   cutoff;
    RECT   Rect;
-   long   x, y;
+   int   x, y;
 
    rnd = WORD(Prozent*100+222);
 
@@ -278,7 +278,7 @@ CSlimeBlend::CSlimeBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSu
 void CSlimeBlend::UpdateTmpSurface (double Prozent)
 {
    WORD   rnd, lrnd=5, llrnd=12, lllrnd=0;
-   long   cx, ty;
+   int   cx, ty;
    RECT   SrcRect;
    RECT   DestRect;
 
@@ -293,7 +293,7 @@ void CSlimeBlend::UpdateTmpSurface (double Prozent)
 
    for (cx=0; cx<_SizeX; cx+=2)
    {
-      ty = long((((rnd+lrnd+llrnd+lllrnd)>>12)+_SizeY)*Prozent/100);
+      ty = int((((rnd+lrnd+llrnd+lllrnd)>>12)+_SizeY)*Prozent/100);
 
       lllrnd=llrnd; llrnd=lrnd; lrnd=rnd; rnd = rnd*1009;
 
@@ -321,7 +321,7 @@ void CSlimeBlend::UpdateTmpSurface (double Prozent)
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
 //  AnzHLines   - Zahl der horizontalen Balken (z.B. 20)
 //--------------------------------------------------------------------------------------------
-CHLineBlend::CHLineBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long AnzHLines, bool fTransparent)
+CHLineBlend::CHLineBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int AnzHLines, bool fTransparent)
    : CBlenden (pSurface1, pSurface2, pTmpSurface)
 {
    _AnzHLines = AnzHLines;
@@ -333,7 +333,7 @@ CHLineBlend::CHLineBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSu
 //--------------------------------------------------------------------------------------------
 void CHLineBlend::UpdateTmpSurface (double Prozent)
 {
-   long   cy;
+   int   cy;
    RECT   SrcRect;
    RECT   DestRect;
 
@@ -346,14 +346,14 @@ void CHLineBlend::UpdateTmpSurface (double Prozent)
       {
          //altes Bild:
          SrcRect.left   = 0;
-         SrcRect.right  = long (_SizeX*(100-Prozent)/100);
+         SrcRect.right  = int (_SizeX*(100-Prozent)/100);
          DestRect.left  = _SizeX-SrcRect.right;
          DestRect.right = _SizeX;
 
          _pTmpSurface->Blt (&DestRect, _pSurface1, &SrcRect, _dwFlags, 0);
 
          //neues Bild
-         SrcRect.left   = long (_SizeX*(100-Prozent)/100);
+         SrcRect.left   = int (_SizeX*(100-Prozent)/100);
          SrcRect.right  = _SizeX;
          DestRect.left  = 0;
          DestRect.right = _SizeX-SrcRect.left;
@@ -363,7 +363,7 @@ void CHLineBlend::UpdateTmpSurface (double Prozent)
       else
       {
          //altes Bild:
-         SrcRect.left   = long (_SizeX*Prozent/100);
+         SrcRect.left   = int (_SizeX*Prozent/100);
          SrcRect.right  = _SizeX;
          DestRect.left  = 0;
          DestRect.right = _SizeX-SrcRect.left;
@@ -372,7 +372,7 @@ void CHLineBlend::UpdateTmpSurface (double Prozent)
 
          //neues Bild
          SrcRect.left   = 0;
-         SrcRect.right  = long (_SizeX*(Prozent)/100);
+         SrcRect.right  = int (_SizeX*(Prozent)/100);
          DestRect.left  = _SizeX-SrcRect.right;
          DestRect.right = _SizeX;
 
@@ -391,7 +391,7 @@ void CHLineBlend::UpdateTmpSurface (double Prozent)
 //  AnzHLines   - Zahl der horizontalen Balken (z.B. 20)
 //  Direction   - FALSE: von unten nach oben / TRUE: von oben nach unten (Armin's Version)
 //--------------------------------------------------------------------------------------------
-CShadesBlend::CShadesBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long AnzHLines, bool Direction, bool fTransparent)
+CShadesBlend::CShadesBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int AnzHLines, bool Direction, bool fTransparent)
    : CBlenden (pSurface1, pSurface2, pTmpSurface)
 {
    _AnzHLines = AnzHLines;
@@ -404,7 +404,7 @@ CShadesBlend::CShadesBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE p
 //--------------------------------------------------------------------------------------------
 void CShadesBlend::UpdateTmpSurface (double Prozent)
 {
-   long   cy, h;
+   int   cy, h;
    RECT   SrcRect;
    RECT   DestRect;
 
@@ -414,13 +414,13 @@ void CShadesBlend::UpdateTmpSurface (double Prozent)
    for (cy=0; cy<_AnzHLines; cy++)
    {
       //altes Bild:
-      if (_Direction) h = long(Prozent*2-100+(_AnzHLines-1-cy)*100/_AnzHLines);
-                 else h = long(Prozent*2-100+cy*100/_AnzHLines);
+      if (_Direction) h = int(Prozent*2-100+(_AnzHLines-1-cy)*100/_AnzHLines);
+                 else h = int(Prozent*2-100+cy*100/_AnzHLines);
       if (h<0) h=0;
       if (h>100) h=100;
 
       SrcRect.top     = DestRect.top    = cy*_SizeY/_AnzHLines;
-      SrcRect.bottom  = DestRect.bottom = long ((cy+(1-h/100.0))*_SizeY/_AnzHLines);
+      SrcRect.bottom  = DestRect.bottom = int ((cy+(1-h/100.0))*_SizeY/_AnzHLines);
 
       _pTmpSurface->Blt (&DestRect, _pSurface1, &SrcRect, _dwFlags, 0);
 
@@ -451,7 +451,7 @@ CTerminatorBlend::CTerminatorBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWS
 //--------------------------------------------------------------------------------------------
 void CTerminatorBlend::UpdateTmpSurface (double Prozent)
 {
-   long y;
+   int y;
    RECT   SrcRect;
    RECT   DestRect;
 

@@ -138,8 +138,8 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
 				p2.y = DefClip.bottom - 1;
 
 			char * pixelPtr=(char *)Key.Bitmap+(Key.lPitch*p1.y)+p1.x*2;
-			long points = p2.y - p1.y;
-			for (long i = 0 ; i < points ; i++, pixelPtr += Key.lPitch, cc++)
+			int points = p2.y - p1.y;
+			for (int i = 0 ; i < points ; i++, pixelPtr += Key.lPitch, cc++)
 				*((word *)pixelPtr)=(word)pColor[(cc>>2)%NumColors];
 				
 		}
@@ -162,8 +162,8 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
 				p2.x = DefClip.right - 1;
 
 			char * pixelPtr=(char *)Key.Bitmap+(Key.lPitch*p1.y)+p1.x*2;
-			long points = p2.x - p1.x;
-			for (long i = 0 ; i < points ; i++, pixelPtr += 2, cc++)
+			int points = p2.x - p1.x;
+			for (int i = 0 ; i < points ; i++, pixelPtr += 2, cc++)
 				*((word *)pixelPtr)=(word)pColor[(cc>>2)%NumColors];
 		}
 	}
@@ -172,7 +172,7 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
 	// ---------------------
 	else
 	{
-		long   error, x, y, dx, dy, dxa, dya, incr;
+		int   error, x, y, dx, dy, dxa, dya, incr;
 
 		dxa = abs(dx = p2.x - p1.x);
 		dya = abs(dy = p2.y - p1.y);
@@ -596,7 +596,7 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL ShowFPS)
 
    //TextOut (0, 20, RGB(0,0,255), RGB(255,255,0), bprintf ("%f FPS", GetFrameRate()));
    //TextOut (0, 32, RGB(0,0,255), RGB(255,255,0), bprintf ("%li Personen", Sim.Persons.GetNumUsed()));
-   PrimaryBm.SetPos (CPoint(WindowPos.x, WindowPos.y));
+   PrimaryBm.SetPos (WindowPos);
    Bench.FlipTime.Start();
    PrimaryBm.Flip();
    Bench.FlipTime.Stop(); 

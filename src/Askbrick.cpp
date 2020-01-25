@@ -89,10 +89,10 @@ void AskBrick::OnPaint()
 
                   Bricks[g].BlitAt (PrimaryBm,
                                     0,
-                                    long(124*x+10+(124-Bricks[g].GetBitmapDimension().x*f)/2),
-                                    long(115*y+10+(115-Bricks[g].GetBitmapDimension().y*f)/2),
-                                    long(124*x+10+(124-Bricks[g].GetBitmapDimension().x*f)/2+Bricks[g].GetBitmapDimension().x*f),
-                                    long(115*y+10+(115-Bricks[g].GetBitmapDimension().y*f)/2+Bricks[g].GetBitmapDimension().y*f));
+                                    int(124*x+10+(124-Bricks[g].GetBitmapDimension().x*f)/2),
+                                    int(115*y+10+(115-Bricks[g].GetBitmapDimension().y*f)/2),
+                                    int(124*x+10+(124-Bricks[g].GetBitmapDimension().x*f)/2+Bricks[g].GetBitmapDimension().x*f),
+                                    int(115*y+10+(115-Bricks[g].GetBitmapDimension().y*f)/2+Bricks[g].GetBitmapDimension().y*f));
                } */
             }
 

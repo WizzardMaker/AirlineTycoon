@@ -4,7 +4,7 @@
 #ifndef _CBLENDEN_CLASS
 #define _CBLENDEN_CLASS
 
-#define dword unsigned long
+#define dword unsigned int
 
 //--------------------------------------------------------------------------------------------
 //Abstrakte Basisklasse für Blenden; Mit virtual Pointern praktisch für Mehrfachverwendung...
@@ -15,7 +15,7 @@ class CBlenden
       LPDIRECTDRAWSURFACE _pSurface1;
       LPDIRECTDRAWSURFACE _pSurface2;
       LPDIRECTDRAWSURFACE _pTmpSurface;
-      long                _SizeX, _SizeY;
+      int                _SizeX, _SizeY;
 		dword					  _dwFlags;
 
    public:
@@ -31,11 +31,11 @@ class CBlenden
 class CCoolBlend : public CBlenden
 {
    protected:
-      long     _ClickX, _ClickY;
+      int     _ClickX, _ClickY;
 
    public:
       CCoolBlend () {}
-      CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY, bool fTransparent);
+      CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int ClickX, int ClickY, bool fTransparent);
       void UpdateTmpSurface (double Prozent);
 };
 
@@ -45,11 +45,11 @@ class CCoolBlend : public CBlenden
 class CFallBlend : public CBlenden
 {
    protected:
-      long     _ClickX, _ClickY;
+      int     _ClickX, _ClickY;
 
    public:
       CFallBlend () {}
-      CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY, bool fTransparent);
+      CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int ClickX, int ClickY, bool fTransparent);
       void UpdateTmpSurface (double Prozent);
 };
 
@@ -59,11 +59,11 @@ class CFallBlend : public CBlenden
 class CRandomBlend : public CBlenden
 {
    protected:
-      long     _RandomX, _RandomY;
+      int     _RandomX, _RandomY;
 
    public:
       CRandomBlend () {}
-      CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long RandomX, long RandomY, bool fTransparent);
+      CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int RandomX, int RandomY, bool fTransparent);
       void UpdateTmpSurface (double Prozent);
 };
 
@@ -84,11 +84,11 @@ class CSlimeBlend : public CBlenden
 class CHLineBlend : public CBlenden
 {
    private:
-      long _AnzHLines;
+      int _AnzHLines;
 
    public:
       CHLineBlend () {}
-      CHLineBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long AnzHLines, bool fTransparent);
+      CHLineBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int AnzHLines, bool fTransparent);
       void UpdateTmpSurface (double Prozent);
 };
 
@@ -98,12 +98,12 @@ class CHLineBlend : public CBlenden
 class CShadesBlend : public CBlenden
 {
    private:
-      long _AnzHLines;
+      int _AnzHLines;
       bool _Direction;
 
    public:
       CShadesBlend () {}
-      CShadesBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long AnzHLines, bool Direction, bool fTransparent);
+      CShadesBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int AnzHLines, bool Direction, bool fTransparent);
       void UpdateTmpSurface (double Prozent);
 };
 

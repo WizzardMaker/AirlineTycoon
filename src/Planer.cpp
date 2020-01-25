@@ -733,9 +733,9 @@ void CPlaner::DoPollingStuff (void)
                    }
                }
 
-               if (Sim.Date==Date) Limit (SLONG(Sim.GetHour()+2), (SLONG)Time, (SLONG)24l);
-                              else Limit (SLONG(0), (SLONG)Time, (SLONG)24l);
-               Limit ((SLONG)Sim.Date, (SLONG)Date, SLONG(Sim.Date+6));
+               if (Sim.Date==Date) Limit (SLONG(Sim.GetHour()+2), Time, (SLONG)24l);
+                              else Limit (SLONG(0), Time, (SLONG)24l);
+               Limit ((SLONG)Sim.Date, Date, SLONG(Sim.Date+6));
 
                if (Time==24)
                {
@@ -827,8 +827,8 @@ void CPlaner::DoPollingStuff (void)
                    }
                }
 
-               if (Sim.Date==Date) Limit (SLONG(Sim.GetHour()+2), (SLONG)Time, (SLONG)24l);
-                              else Limit (SLONG(0), (SLONG)Time, (SLONG)24l);
+               if (Sim.Date==Date) Limit (SLONG(Sim.GetHour()+2), Time, (SLONG)24l);
+                              else Limit (SLONG(0), Time, (SLONG)24l);
 
                if (Time==24)
                {
@@ -1657,8 +1657,8 @@ void CPlaner::HandleLButtonDown (void)
             SLONG      tmpObjectId;
 
             //An diese Stelle (links vom Cursor) kommt der Flug hin:
-            SLONG      Date=Sim.Date+((ClientPos-PostItBm.Size/2l+XY(3,9)).y-17)/19;
-            SLONG      Time=((ClientPos-PostItBm.Size/2l+XY(3,9)).x-24)/6;
+            SLONG      Date=Sim.Date+((ClientPos-PostItBm.Size/2+XY(3,9)).y-17)/19;
+            SLONG      Time=((ClientPos-PostItBm.Size/2+XY(3,9)).x-24)/6;
 
             //Da, wo wir klicken, nehmen wir den Flug raus:
             SLONG      ClickDate=Sim.Date+((ClientPos-XY(0,PostItBm.Size.y/2)+XY(3,9)).y-17)/19;
@@ -2433,8 +2433,8 @@ void CPlaner::HandleLButtonUp (void)
             SLONG      tmpObjectId;
 
             //An diese Stelle (links vom Cursor) kommt der Flug hin:
-            SLONG      Date=Sim.Date+((ClientPos-PostItBm.Size/2l+XY(3,9)).y-17)/19;
-            SLONG      Time=((ClientPos-PostItBm.Size/2l+XY(3,9)).x-24)/6;
+            SLONG      Date=Sim.Date+((ClientPos-PostItBm.Size/2+XY(3,9)).y-17)/19;
+            SLONG      Time=((ClientPos-PostItBm.Size/2+XY(3,9)).x-24)/6;
 
             //Da, wo wir klicken, nehmen wir den Flug raus:
             SLONG      ClickDate=Sim.Date+((ClientPos-XY(0,PostItBm.Size.y/2)+XY(3,9)).y-17)/19;

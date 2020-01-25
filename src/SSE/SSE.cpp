@@ -78,13 +78,13 @@ void SSE::StopMusic()
         mid.Stop();
 }
 
-HRESULT SSE::SetMusicVolume(long volume)
+HRESULT SSE::SetMusicVolume(int volume)
 {
     Mix_VolumeMusic(volume);
     return SSE_OK;
 }
 
-HRESULT SSE::GetMusicVolume(long* pVolume)
+HRESULT SSE::GetMusicVolume(int* pVolume)
 {
     if (!pVolume)
         return SSE_INVALIDPARAM;
@@ -93,13 +93,13 @@ HRESULT SSE::GetMusicVolume(long* pVolume)
     return SSE_OK;
 }
 
-HRESULT SSE::SetSoundVolume(long volume)
+HRESULT SSE::SetSoundVolume(int volume)
 {
     Mix_Volume(-1, volume);
     return SSE_OK;
 }
 
-HRESULT SSE::GetSoundVolume(long* pVolume)
+HRESULT SSE::GetSoundVolume(int* pVolume)
 {
     if (!pVolume)
         return SSE_INVALIDPARAM;
@@ -168,7 +168,7 @@ bool FX::StopPriority(dword flags)
     return false;
 }
 
-long FX::Release()
+int FX::Release()
 {
     Free();
 
@@ -182,7 +182,7 @@ long FX::Release()
     return 0;
 }
 
-HRESULT FX::Play(dword dwFlags, long pan)
+HRESULT FX::Play(dword dwFlags, int pan)
 {
     if (!_digitalData.pSSE->IsSoundEnabled())
         return SSE_SOUNDDISABLED;
@@ -256,7 +256,7 @@ HRESULT FX::Resume()
     return SSE_OK;
 }
 
-HRESULT FX::GetVolume(long* pVolume)
+HRESULT FX::GetVolume(int* pVolume)
 {
     if (!pVolume)
         return SSE_INVALIDPARAM;
@@ -268,7 +268,7 @@ HRESULT FX::GetVolume(long* pVolume)
     return SSE_OK;
 }
 
-HRESULT FX::SetVolume(long volume)
+HRESULT FX::SetVolume(int volume)
 {
     if (!_fxData.pBuffer)
         return SSE_NOSOUNDLOADED;
@@ -277,7 +277,7 @@ HRESULT FX::SetVolume(long volume)
     return SSE_OK;
 }
 
-HRESULT FX::GetPan(long* pPan)
+HRESULT FX::GetPan(int* pPan)
 {
     if (!pPan)
         return SSE_INVALIDPARAM;
@@ -285,7 +285,7 @@ HRESULT FX::GetPan(long* pPan)
     return SSE_OK;
 }
 
-HRESULT FX::SetPan(long pan)
+HRESULT FX::SetPan(int pan)
 {
     return SSE_OK;
 }
@@ -301,9 +301,9 @@ HRESULT FX::Load(const char* file)
     return SSE_OK;
 }
 
-HRESULT FX::Fusion(const FX** Fx, long NumFx)
+HRESULT FX::Fusion(const FX** Fx, int NumFx)
 {
-    for (long i = 0; i < NumFx; i++)
+    for (int i = 0; i < NumFx; i++)
     {
         if (!Fx[i] || !Fx[i]->_fxData.pBuffer)
             return SSE_INVALIDPARAM;
@@ -311,11 +311,11 @@ HRESULT FX::Fusion(const FX** Fx, long NumFx)
 
     Free();
 
-    for (long i = 0; i < NumFx; i++)
+    for (int i = 0; i < NumFx; i++)
         _fxData.bufferSize += Fx[i]->_fxData.bufferSize;
     Uint8* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
     size_t pos = 0;
-    for (long i = 0; i < NumFx; i++)
+    for (int i = 0; i < NumFx; i++)
     {
         memcpy(buf + pos, Fx[i]->_fxData.pBuffer->abuf, Fx[i]->_fxData.bufferSize);
         pos += Fx[i]->_fxData.bufferSize;
@@ -324,18 +324,18 @@ HRESULT FX::Fusion(const FX** Fx, long NumFx)
     return SSE_OK;
 }
 
-HRESULT FX::Fusion(const FX* Fx, long* Von, long* Bis, long NumFx)
+HRESULT FX::Fusion(const FX* Fx, int* Von, int* Bis, int NumFx)
 {
     if (!Fx || !Fx->_fxData.pBuffer)
         return SSE_INVALIDPARAM;
 
     Free();
 
-    for (long i = 0; i < NumFx; i++)
+    for (int i = 0; i < NumFx; i++)
         _fxData.bufferSize += Bis[i] - Von[i];
     Uint8* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
     size_t pos = 0;
-    for (long i = 0; i < NumFx; i++)
+    for (int i = 0; i < NumFx; i++)
     {
         memcpy(buf + pos, Fx->_fxData.pBuffer->abuf + Von[i], Bis[i] - Von[i]);
         pos += Bis[i] - Von[i];
@@ -344,7 +344,7 @@ HRESULT FX::Fusion(const FX* Fx, long* Von, long* Bis, long NumFx)
     return SSE_OK;
 }
 
-HRESULT FX::Tokenize(__int64 Token, long* Von, long* Bis, long& rcAnzahl)
+HRESULT FX::Tokenize(__int64 Token, int* Von, int* Bis, int& rcAnzahl)
 {
     if (!_fxData.pBuffer || _fxData.bufferSize < sizeof(__int64))
         return SSE_NOSOUNDLOADED;
@@ -365,7 +365,7 @@ HRESULT FX::Tokenize(__int64 Token, long* Von, long* Bis, long& rcAnzahl)
     return SSE_OK;
 }
 
-FX** FX::Tokenize(__int64 Token, long& rcAnzahl)
+FX** FX::Tokenize(__int64 Token, int& rcAnzahl)
 {
     if (!_fxData.pBuffer || _fxData.bufferSize < sizeof(__int64))
         return nullptr;
@@ -431,7 +431,7 @@ HRESULT FX::GetStatus(dword* pStatus)
     return SSE_OK;
 }
 
-bool FX::IsMouthOpen(long PreTime)
+bool FX::IsMouthOpen(int PreTime)
 {
     if (!_fxData.pBuffer || !_digitalData.time)
         return false;
@@ -510,7 +510,7 @@ bool MIDI::StopPriority(dword flags)
     return false;
 }
 
-long MIDI::Release()
+int MIDI::Release()
 {
     Free();
 
@@ -524,7 +524,7 @@ long MIDI::Release()
     return 0;
 }
 
-HRESULT MIDI::Play(dword dwFlags, long pan)
+HRESULT MIDI::Play(dword dwFlags, int pan)
 {
     if (!_musicData.pSSE->IsMusicEnabled())
         return SSE_MUSICDISABLED;
@@ -556,24 +556,24 @@ HRESULT MIDI::Resume()
     return SSE_OK;
 }
 
-HRESULT MIDI::GetVolume(long* pVolume)
+HRESULT MIDI::GetVolume(int* pVolume)
 {
     *pVolume = Mix_VolumeMusic(-1);
     return SSE_OK;
 }
 
-HRESULT MIDI::SetVolume(long volume)
+HRESULT MIDI::SetVolume(int volume)
 {
     Mix_VolumeMusic(volume);
     return SSE_OK;
 }
 
-HRESULT MIDI::GetPan(long* pPan)
+HRESULT MIDI::GetPan(int* pPan)
 {
     return SSE_OK;
 }
 
-HRESULT MIDI::SetPan(long pan)
+HRESULT MIDI::SetPan(int pan)
 {
     return SSE_OK;
 }

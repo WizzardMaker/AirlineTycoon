@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "..\include\sblib.h"
-#include "..\include\network.h"
+#include "sblib.h"
+#include "network.h"
 
 SBNetwork::SBNetwork(bool)
     : mState(SBNETWORK_SESSION_FINISHED)
@@ -19,7 +19,7 @@ SBNetwork::SBNetwork(bool)
     mConnections.Add("enet");
 }
 
-long SBNetwork::GetMessageCount()
+int SBNetwork::GetMessageCount()
 {
     ENetEvent event;
 
@@ -27,9 +27,9 @@ long SBNetwork::GetMessageCount()
     ENetBuffer buf;
     if (mState == SBNETWORK_SESSION_MASTER)
 	{
-		long clientID;
+		int clientID;
 		buf.data = &clientID;
-		buf.dataLength = sizeof(long);
+		buf.dataLength = sizeof(int);
 		if (enet_socket_receive(mSocket, &address, &buf, 1) > 0)
 		{
 			if (clientID != mLocalID)
@@ -235,7 +235,7 @@ void SBNetwork::CloseSession()
     mState = SBNETWORK_SESSION_FINISHED;
 }
 
-unsigned long SBNetwork::GetLocalPlayerID()
+unsigned int SBNetwork::GetLocalPlayerID()
 {
     return mLocalID;
 }
@@ -276,7 +276,7 @@ bool SBNetwork::IsInSession()
     return mState == SBNETWORK_SESSION_MASTER || mState == SBNETWORK_SESSION_CLIENT;
 }
 
-bool SBNetwork::Send(BUFFER<UBYTE>& buffer, unsigned long length, unsigned long peerID, bool compression)
+bool SBNetwork::Send(BUFFER<UBYTE>& buffer, unsigned int length, unsigned int peerID, bool compression)
 {
     ENetPacket* packet = enet_packet_create (buffer, length, ENET_PACKET_FLAG_RELIABLE);
 
@@ -297,7 +297,7 @@ bool SBNetwork::Send(BUFFER<UBYTE>& buffer, unsigned long length, unsigned long 
     return true;
 }
 
-bool SBNetwork::Receive(UBYTE** buffer, unsigned long& size)
+bool SBNetwork::Receive(UBYTE** buffer, unsigned int& size)
 {
     mPackets.GetFirst();
     if (mPackets.IsLast())

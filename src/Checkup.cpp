@@ -162,7 +162,7 @@ bool CRegistryAccess::WriteRegistryKeyEx (const BOOL *Bool, CString EntryName)
 #ifdef WIN32
    char *Temp = new char [500];
 
-   sprintf (Temp, "%li", (long)*Bool);
+   sprintf (Temp, "%li", (int)*Bool);
 
    bool rc=WriteRegistryKeyEx (Temp, EntryName);
 
@@ -172,7 +172,7 @@ bool CRegistryAccess::WriteRegistryKeyEx (const BOOL *Bool, CString EntryName)
 return false;
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx (const long *Long, CString EntryName)
+bool CRegistryAccess::WriteRegistryKeyEx (const int *Long, CString EntryName)
 {
 #ifdef WIN32
    char *Temp = new char [500];
@@ -209,7 +209,7 @@ return false;
 bool CRegistryAccess::ReadRegistryKeyEx (char *Text, CString EntryName)
 {
 #ifdef WIN32
-   unsigned long TempSize=500;
+   unsigned int TempSize=500;
 
    if (!hKey) return (0);
 
@@ -234,7 +234,7 @@ bool CRegistryAccess::ReadRegistryKeyEx (BOOL *Bool, CString EntryName)
 return false;
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx (long *Long, CString EntryName)
+bool CRegistryAccess::ReadRegistryKeyEx (int *Long, CString EntryName)
 {
 #ifdef WIN32
    if (!hKey) return (0);
@@ -272,7 +272,7 @@ bool CRegistryAccess::ReadRegistryKeyEx (double *Double, CString EntryName)
 //--------------------------------------------------------------------------------------------
 // Die Systemdaten abprüfen:
 //--------------------------------------------------------------------------------------------
-CSystemCheckup::CSystemCheckup (long Flags, CString CDFile)
+CSystemCheckup::CSystemCheckup (int Flags, CString CDFile)
 {
    memset (this, 0, sizeof(*this));
    CheckupVersion = CHECKUP_VERSION;
@@ -283,7 +283,7 @@ CSystemCheckup::CSystemCheckup (long Flags, CString CDFile)
 //--------------------------------------------------------------------------------------------
 // Die Systemdaten abprüfen:
 //--------------------------------------------------------------------------------------------
-void CSystemCheckup::Checkup (long Flags, CString CDFile)
+void CSystemCheckup::Checkup (int Flags, CString CDFile)
 {
    //Das, was wir holen wollen, als noch nicht geholt markieren:
    CheckupFlags = CheckupFlags & (~Flags);
@@ -412,7 +412,7 @@ void CSystemCheckup::CheckupCD (const CString &CDFile)
    if (!GetDiskFreeSpace (RootPath, &SectorsPerCluster, &BytesPerSector, &NumberOfFreeClusters, &TotalNumberOfClusters))
       return;
 
-   long  BufferSize = (300000/BytesPerSector+1)*BytesPerSector;
+   int  BufferSize = (300000/BytesPerSector+1)*BytesPerSector;
    char *buffer = new char[BufferSize];
    DWORD Dummy;
 
@@ -465,7 +465,7 @@ void CSystemCheckup::CheckupCPU (void)
       //------------------------------------------------------------
       //Haben wir einen MMX?
       //-------------------------------------------
-      unsigned long CpuIdResult;
+      unsigned int CpuIdResult;
 
       __asm
       {

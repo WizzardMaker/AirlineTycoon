@@ -334,10 +334,10 @@ void CKiosk::OnPaint()
             else if (c==1) p=XY(349,246);
             else if (c==2) p=XY(140,185);
 
-            DestRect.x = long(p.x-Newspapers[c].Size.x/2*NewspaperZoom[c]/100);
-            DestRect.y = long(p.y-Newspapers[c].Size.x/2*NewspaperZoom[c]/100);
-            DestRect.w = long(Newspapers[c].Size.x*NewspaperZoom[c]/100);
-            DestRect.h = long(Newspapers[c].Size.y*NewspaperZoom[c]/100);
+            DestRect.x = int(p.x-Newspapers[c].Size.x/2*NewspaperZoom[c]/100);
+            DestRect.y = int(p.y-Newspapers[c].Size.x/2*NewspaperZoom[c]/100);
+            DestRect.w = int(Newspapers[c].Size.x*NewspaperZoom[c]/100);
+            DestRect.h = int(Newspapers[c].Size.y*NewspaperZoom[c]/100);
 
             SDL_BlitScaled(Newspapers[c].pBitmap->GetSurface(), &SrcRect, RoomBm.pBitmap->GetSurface(), &DestRect);
          }

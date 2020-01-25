@@ -5,7 +5,7 @@ class CBlenden
       LPDIRECTDRAWSURFACE _pSurface1;
       LPDIRECTDRAWSURFACE _pSurface2;
       LPDIRECTDRAWSURFACE _pTmpSurface;
-      long                _SizeX, _SizeY;
+      int                _SizeX, _SizeY;
 
    public:
       CBlenden ();
@@ -17,33 +17,33 @@ class CBlenden
 class CCoolBlend : public CBlenden
 {
    protected:
-      long     _ClickX, _ClickY;
+      int     _ClickX, _ClickY;
 
    public:
       CCoolBlend () {}
-      CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY);
+      CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int ClickX, int ClickY);
       void UpdateTmpSurface (double Prozent);
 };
 
 class CFallBlend : public CBlenden
 {
    protected:
-      long     _ClickX, _ClickY;
+      int     _ClickX, _ClickY;
 
    public:
       CFallBlend () {}
-      CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY);
+      CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int ClickX, int ClickY);
       void UpdateTmpSurface (double Prozent);
 };
 
 class CRandomBlend : public CBlenden
 {
    protected:
-      long     _RandomX, _RandomY;
+      int     _RandomX, _RandomY;
 
    public:
       CRandomBlend () {}
-      CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long RandomX, long RandomY);
+      CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, int RandomX, int RandomY);
       void UpdateTmpSurface (double Prozent);
 };
 

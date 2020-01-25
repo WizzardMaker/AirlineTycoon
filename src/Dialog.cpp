@@ -627,7 +627,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
 
                      Array.ReSize (maybeArray.AnzEntries());
 
-                     for (long c=0, d=0; c<(SLONG)maybeArray.AnzEntries(); c++)
+                     for (int c=0, d=0; c<(SLONG)maybeArray.AnzEntries(); c++)
                      {
                         CXPlane plane;
 
@@ -703,7 +703,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
 
                case 102: //Will Kredit zurückzahlen:
                   MenuDialogReEntryB=-1;
-                  tmp = long(min(0x7fffffff, qPlayer.Credit/2));
+                  tmp = int(min(0x7fffffff, qPlayer.Credit/2));
                   if (qPlayer.Credit==0) MakeSayWindow (0, TOKEN_BANK, 140, pFontPartner);
                   else if (DialogMedium==MEDIUM_HANDY) MakeSayWindow (0, TOKEN_BANK, 150, pFontPartner);
                   else MenuStart (MENU_BANK, tmp, 2);
@@ -959,7 +959,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                      qPlayer.ChangeMoney (MarktAktien*DialogPar2, 3162, "");
                      qPlayer.ChangeMoney (-DialogPar1*DialogPar2/10/100*100, 3160, "");
 
-                     long preis = MarktAktien*DialogPar2-DialogPar1*DialogPar2/10/100*100;
+                     int preis = MarktAktien*DialogPar2-DialogPar1*DialogPar2/10/100*100;
                      qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, preis);
                      if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, preis, STAT_E_SONSTIGES);
 
@@ -2578,7 +2578,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                case 8601:
                   {
                      bool  bAnywon=false;
-                     long  won=-1;
+                     int  won=-1;
                      SLONG c,d=-1;
 
                      for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
@@ -2662,7 +2662,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                case 8701:
                   {
                      bool  bAnywon=false;
-                     long  won=-1;
+                     int  won=-1;
                      SLONG c,d=-1;
 
                      for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
@@ -2746,7 +2746,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                case 8801:
                   {
                      bool  bAnywon=false;
-                     long  won=-1;
+                     int  won=-1;
                      SLONG c,d=-1;
 
                      for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
@@ -2992,7 +2992,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                case 9101:
                   {
                      bool  bAnywon=false;
-                     long  won=-1;
+                     int  won=-1;
                      SLONG c,d=-1;
 
                      for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
@@ -4236,7 +4236,7 @@ _ehemals_2080:
                      Sim.UsedPlanes[0x1000000+DialogPar1].GlobeAngle   = 0;
                      qPlayer.Planes += Sim.UsedPlanes[0x1000000+DialogPar1];
 
-                     long Kosten = -Sim.UsedPlanes[0x1000000+DialogPar1].CalculatePrice();
+                     int Kosten = -Sim.UsedPlanes[0x1000000+DialogPar1].CalculatePrice();
                      qPlayer.ChangeMoney (Kosten, 2010, Sim.UsedPlanes[0x1000000+DialogPar1].Name);
                      Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, Kosten, STAT_A_SONSTIGES);
                      qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, Kosten);
@@ -4509,7 +4509,7 @@ _ehemals_2080:
                   break;
 
                case 2000: //Spieler will Image wissen:
-                  Limit (-1000l, qPlayer.Image, 1000l);
+                  Limit (-1000, qPlayer.Image, 1000);
 
                   if (qPlayer.Image==0)
                      MakeSayWindow (0, TOKEN_WERBUNG, 2520, pFontPartner, qPlayer.AirlineX);
@@ -4574,7 +4574,7 @@ _ehemals_2080:
                      if (DialogPar1==0)
                      {
                         qPlayer.Image+=gWerbePrice[DialogPar1*6+id-5000]/10000*(id-5000+6)/55;
-                        Limit (-1000l, qPlayer.Image, 1000l);
+                        Limit (-1000, qPlayer.Image, 1000);
 
                         if (id==5000)
                            for (c=0; c<Sim.Players.AnzPlayers; c++)
@@ -4613,7 +4613,7 @@ _ehemals_2080:
                      else if (DialogPar1==2)
                      {
                         qPlayer.Image+=gWerbePrice[DialogPar1*6+id-5000]/15000*(id-5000+6)/55;
-                        Limit (-1000l, qPlayer.Image, 1000l);
+                        Limit (-1000, qPlayer.Image, 1000);
 
                         for (c=0; c<qPlayer.RentRouten.RentRouten.AnzEntries(); c++)
                            if (qPlayer.RentRouten.RentRouten[c].Rang)
@@ -4633,7 +4633,7 @@ _ehemals_2080:
                                     -1);
                      }
 
-                     long preis = -gWerbePrice[DialogPar1*6+id-5000];
+                     int preis = -gWerbePrice[DialogPar1*6+id-5000];
                      qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, preis);
                      qPlayer.ChangeMoney (preis, id-5000+3120, "");
                      if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, preis, STAT_A_SONSTIGES);
@@ -4693,7 +4693,7 @@ _ehemals_2080:
                   StopDialog ();
                   if (qPlayer.HasSpaceForItem())
                   {
-                     long preis = -atoi(StandardTexte.GetS (TOKEN_ITEM, 2801));
+                     int preis = -atoi(StandardTexte.GetS (TOKEN_ITEM, 2801));
 
                      qPlayer.BuyItem(ITEM_PRALINEN_A);
 
@@ -4713,7 +4713,7 @@ _ehemals_2080:
                   StopDialog ();
                   if (qPlayer.HasSpaceForItem())
                   {
-                     long preis = -atoi(StandardTexte.GetS (TOKEN_ITEM, 2801));
+                     int preis = -atoi(StandardTexte.GetS (TOKEN_ITEM, 2801));
 
                      qPlayer.BuyItem(ITEM_PRALINEN);
 

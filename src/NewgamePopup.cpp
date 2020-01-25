@@ -10,8 +10,8 @@
 #include "cd_prot.h"
 #include "fillfile.h"
 #include "atnet.h"
-#include <io.h>
-#include <fcntl.h>
+//#include <io.h>
+//#include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -59,7 +59,7 @@ extern SLONG nPlayerWaiting[4];         //Hinkt jemand hinterher?
 #define READYTIME_JOIN   5000   //ms, till server may start after event
 #define READYTIME_CLICK  2000   //ms, till server may start after event
 
-void DumpAASeedSum (long CallerId);
+void DumpAASeedSum (int CallerId);
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // NewGamePopup
@@ -201,7 +201,7 @@ PUTSTARTMARK;
       Sim.Options.OptionLastPlayer = 1;
    #endif
 
-   Limit (0l, Sim.Options.OptionLastPlayer, 3l);
+   Limit (0, Sim.Options.OptionLastPlayer, 3);
 
    for (c=0; c<4; c++)
       UnselectedNetworkIDs[c]=NULL;
@@ -277,7 +277,7 @@ PUTSTARTMARK;
    #ifdef CD_PROTECTION_METALOCK
    if (!gSpawnOnly)
    {
-      long          ifil     = open (FullFilename (CString("g")+CString("a")+CString("m")+CString("e")+CString(".")+CString("s")+CString("m")+CString("k"), IntroPath), _O_RDONLY|_O_BINARY);
+      int          ifil     = open (FullFilename (CString("g")+CString("a")+CString("m")+CString("e")+CString(".")+CString("s")+CString("m")+CString("k"), IntroPath), _O_RDONLY|_O_BINARY);
       unsigned char readbyte = 0;
 
       if (ifil>0)
@@ -870,7 +870,7 @@ void NewGamePopup::OnPaint()
          for (x=0; x<24; x++)
             if (y>=13)
             {
-               RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]], x*16+128, py);
+               RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]], x*16+128, py);
             }
             else if (PageNum==1)
             {
@@ -880,9 +880,9 @@ void NewGamePopup::OnPaint()
 #else
                   if (y-2>1 || y-2>Sim.MaxDifficulty)
 #endif
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
                   else
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]], x*16+128, py);
             }
             else if (PageNum==12)
             {
@@ -892,9 +892,9 @@ void NewGamePopup::OnPaint()
 #else
                   if (y-2>1 || (y-2>Sim.MaxDifficulty2-11 && Sim.MaxDifficulty2!=DIFF_ADDON10))
 #endif
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
                   else
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]], x*16+128, py);
             }
             else if (PageNum==122)
             {
@@ -904,25 +904,25 @@ void NewGamePopup::OnPaint()
 #else
                   if (y-2>1 || (y-2>Sim.MaxDifficulty3-41 && Sim.MaxDifficulty3!=DIFF_ATFS10))
 #endif
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
                   else
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]], x*16+128, py);
             }
             else if (PageNum!=2 && PageNum!=14 && PageNum!=18)
             {
                if (KlackerTafel.Haben[x+y*24]>0)
                   if (KlackerTafel.LineDisabled[y])
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
                   else
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]], x*16+128, py);
             }
             else if (x>5 || y<2 || ((y-2)%2)!=0)
             {
                if (KlackerTafel.Haben[x+y*24])
                   if (y<2 || (y>=2 && (y-2)/2<=3 && !Sim.Players.Players[(y-2)/2].Owner))
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]], x*16+128, py);
                   else
-                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
+                     RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+y*24]+(73+8+3+3)], x*16+128, py);
             }
 
          if ((PageNum==2 || PageNum==14 || PageNum==18) && y==10) break;
@@ -939,7 +939,7 @@ void NewGamePopup::OnPaint()
       if (PageNum==2 || PageNum==14 || PageNum==18)
          for (x=0; x<24; x++)
             if (KlackerTafel.Haben[x+15*24])
-               RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x+15*24]], x*16+128, 63+15*22);
+               RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)KlackerTafel.Haben[x+15*24]], x*16+128, 63+15*22);
 
       if (PageNum==2 || PageNum==14 || PageNum==18)
       {
@@ -947,9 +947,9 @@ void NewGamePopup::OnPaint()
          for (y=0; y<4; y++)
          {
             if (KlackerTafel.Haben[3+(y*2+2)*24]<SmallLogoBms.AnzEntries())
-               RoomBm.BlitFrom (SmallLogoBms[(long)KlackerTafel.Haben[3+(y*2+2)*24]], 215-80+48, y*22*3+199-66-1);
+               RoomBm.BlitFrom (SmallLogoBms[(int)KlackerTafel.Haben[3+(y*2+2)*24]], 215-80+48, y*22*3+199-66-1);
 
-            //RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)(KlackerTafel.KlackerBms.AnzEntries()-2+Sim.Players.Players[y].Owner)], 160+48, y*22*3+235-18-66);
+            //RoomBm.BlitFrom (KlackerTafel.KlackerBms[(int)(KlackerTafel.KlackerBms.AnzEntries()-2+Sim.Players.Players[y].Owner)], 160+48, y*22*3+235-18-66);
             RoomBm.BlitFrom (KlackerTafel.KlackerBms[0], 160+48, y*22*3+235-18-66);
 
             SLONG o=Sim.Players.Players[y].Owner;
@@ -966,11 +966,11 @@ void NewGamePopup::OnPaint()
 
          //Text-Cursor blitten:
          if (CursorY!=-1)
-            RoomBm.BlitFromT (KlackerTafel.Cursors[long(BlinkState%8)], (CursorX+6)*16+128, (CursorY+2)*22+(CursorY/2+1)*22+63);
+            RoomBm.BlitFromT (KlackerTafel.Cursors[int(BlinkState%8)], (CursorX+6)*16+128, (CursorY+2)*22+(CursorY/2+1)*22+63);
       }
       else if (PageNum==17)
       {
-         RoomBm.BlitFromT (KlackerTafel.Cursors[long(BlinkState%8)], (CursorX)*16+128, 2*22+63);
+         RoomBm.BlitFromT (KlackerTafel.Cursors[int(BlinkState%8)], (CursorX)*16+128, 2*22+63);
       }
 
       //Cursorposition auswerten:
@@ -1626,7 +1626,7 @@ again_heimatflughafen:
       }
       else if (PageNum==13)  //Netzwerk: Provider-Medium wählen
       {
-         long c;
+         int c;
 
          for (c=0; c<4; c++)
          {

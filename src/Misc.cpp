@@ -4,8 +4,11 @@
 #include "stdafx.h"
 #include <assert.h>
 #include <chrono>
-#include <filesystem>
 #include <locale>
+#ifndef WIN32
+#include <unistd.h>
+#include <dirent.h>
+#endif
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -207,7 +210,7 @@ __int64 StringToInt64 (const CString &String)
 {
    __int64 rc=0;
 
-   for (long d=0; d<String.GetLength(); d++)
+   for (int d=0; d<String.GetLength(); d++)
       rc+=__int64(String[int(d)])<<(8*d);
 
    return (rc);
@@ -285,8 +288,8 @@ SLONG AddToNthDigit (SLONG Value, SLONG Digit, SLONG Add)
    for (c=0; c<20; c++, n=n*10)
       if (n<=betrag && betrag<n*10)
       {
-         while (long(pow(10, Digit-1))>n && Digit>0) Digit--;
-         return (Value+Add*n/long(pow(10, Digit-1)));
+         while (int(pow(10, Digit-1))>n && Digit>0) Digit--;
+         return (Value+Add*n/int(pow(10, Digit-1)));
       }
 
    return (Value);
@@ -381,19 +384,41 @@ void DoAppPath (void)
 #ifdef NDEBUG
    //Vollen Programmnamen anfordern:
    char* buffer = SDL_strdup(SDL_GetBasePath());
+#else
+   BUFFER<char> buffer(200);
+   getcwd(buffer, buffer.AnzEntries());
+#ifndef WIN32
+   strcat(buffer, "/");
+#endif
+#endif
 
+#ifdef WIN32
    //eigentlichen Programmteil löschen:
    while (strlen(buffer)>0 && buffer[(SLONG)(strlen(buffer)-1)]!='\\') buffer[(SLONG)(strlen(buffer)-1)]=0;
 
    //Verzeichnis-Namen der %§$@#"$! MS-Entwicklungsumgebung löschen:
    if (strlen(buffer) > 6 && strnicmp(buffer + strlen(buffer) - 6, "debug\\", 6) == 0) buffer[(SLONG)(strlen(buffer) - 6)] = 0;
    if (strlen(buffer) > 8 && strnicmp(buffer + strlen(buffer) - 8, "release\\", 8) == 0) buffer[(SLONG)(strlen(buffer) - 8)] = 0;
+#endif
 
    AppPath = buffer;
+#ifdef NDEBUG
    SDL_free(buffer);
-#else
-   AppPath = std::filesystem::current_path().string() + "\\";
 #endif
+}
+
+CString& MakePathUpper(CString& PathString)
+{
+   for (int i = 0; i < PathString.GetLength() && PathString[i] != '/'; i++)
+      PathString[i] = toupper(PathString[i]);
+   return PathString;
+}
+
+CString& MakePathLower(CString& PathString)
+{
+   for (int i = 0; i < PathString.GetLength() && PathString[i] != '/'; i++)
+      PathString[i] = tolower(PathString[i]);
+   return PathString;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -403,10 +428,23 @@ CString FullFilename (const CString &Filename, const CString &PathString)
 {
    CString  tmp, rc;
 
+#ifndef WIN32
+   tmp = PathString;
+   tmp.Replace('\\', '/');
+#endif
+
    if (PathString[1]==':')
       rc.Format (PathString, (const char*)Filename);
    else
-      rc.Format (AppPath + PathString, (const char*)Filename);
+   {
+      rc.Format (AppPath + tmp, (const char*)Filename);
+#ifndef WIN32
+      if (!DoesFileExist(rc))
+         rc.Format (AppPath + MakePathUpper(tmp), (const char*)Filename);
+      if (!DoesFileExist(rc))
+         rc.Format(AppPath + MakePathLower(tmp), (const char*)Filename);
+#endif
+   }
 
    return (rc);
 }
@@ -608,7 +646,7 @@ HEADLINES::HEADLINES (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 //Sucht die Schlagzeile raus:
 //--------------------------------------------------------------------------------------------
-CHeadline HEADLINES::GetHeadline (long Newspaper, SLONG Index)
+CHeadline HEADLINES::GetHeadline (int Newspaper, SLONG Index)
 {
    return (Headline[Newspaper*10+Index]);
 }
@@ -616,7 +654,7 @@ CHeadline HEADLINES::GetHeadline (long Newspaper, SLONG Index)
 //--------------------------------------------------------------------------------------------
 //Schreibt die Headline auf den Schirm:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::BlitHeadline (long Newspaper, SBBM &Offscreen, CPoint p1, CPoint p2, BYTE Color)
+void HEADLINES::BlitHeadline (int Newspaper, SBBM &Offscreen, CPoint p1, CPoint p2, BYTE Color)
 {
 }
 
@@ -847,7 +885,7 @@ void HEADLINES::InterpolateHeadline (void)
 //--------------------------------------------------------------------------------------------
 //Speichert eine neue Schlagzeile für morgen
 //--------------------------------------------------------------------------------------------
-void HEADLINES::AddOverride (long Newspaper, const CString &HeadlineText, __int64 PictureId, SLONG PicturePriority)
+void HEADLINES::AddOverride (int Newspaper, const CString &HeadlineText, __int64 PictureId, SLONG PicturePriority)
 {
    SLONG c;
 
@@ -1624,7 +1662,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CMessages &Messages)
 //------------------------------------------------------------------------------
 //Hierdurch wird aus 10000 das schönere 10.000
 //------------------------------------------------------------------------------
-CString Insert1000erDots (long Value)
+CString Insert1000erDots (int Value)
 {
 	short	c,d; // Position in neuen bzw. alten String
 	short l;   // Stringlänge
@@ -1641,7 +1679,7 @@ CString Insert1000erDots (long Value)
          Dot='.';
    }
 
-	sprintf(Tmp,"%li",(long)Value);
+	sprintf(Tmp,"%li",(int)Value);
 
 	l=short(strlen(Tmp));
 
@@ -1936,23 +1974,55 @@ TEAKFILE& operator >> (TEAKFILE &File, TEAKRAND &r)
 //--------------------------------------------------------------------------------------------
 // Zählt mit Verzeichnisundwildcard String die Dateinamen:
 //--------------------------------------------------------------------------------------------
-long CountMatchingFilelist (CString DirAndWildcards)
+int CountMatchingFilelist (CString DirAndWildcards)
 {
-   int Pos = DirAndWildcards.Find('*');
-   CString Dir = DirAndWildcards.Left(Pos);
-   CString Ext = DirAndWildcards.Right(Pos);
+#ifdef WIN32
+   CFileFind finder;
 
-   long n=0;
+   int n=0;
 
    //Liste holen:
-   for (auto& file : std::filesystem::directory_iterator((std::string)Dir))
+   BOOL bWorking = finder.FindFile(DirAndWildcards);
+   while (bWorking)
    {
-      std::filesystem::path path = file.path();
-      if (!file.is_directory() && path.extension() == (std::string)Ext)
+      bWorking = finder.FindNextFile();
+
+      if (!finder.IsDirectory())
          n++;
    }
 
    return (n);
+#else
+   int Pos = DirAndWildcards.Find('*');
+   CString Dir = DirAndWildcards.Left(Pos);
+   CString Ext = DirAndWildcards.Right(Pos);
+
+   int n=0;
+
+   //Liste holen:
+   DIR* dirFile = opendir(Dir);
+   if (dirFile)
+   {
+      struct dirent* file;
+      errno = 0;
+      while ((file = readdir(dirFile)) != NULL)
+      {
+#ifdef _DIRENT_HAVE_D_TYPE
+         if (file->d_type == DT_DIR) continue;
+#else
+         if (!strcmp(file->d_name, ".")) continue;
+         if (!strcmp(file->d_name, "..")) continue;
+#endif
+
+         char* dot = strrchr(file->d_name, '.');
+         if (dot && !strcmp(dot, Ext))
+            n++;
+      }
+      closedir(dirFile);
+   }
+
+   return (n);
+#endif
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1960,6 +2030,24 @@ long CountMatchingFilelist (CString DirAndWildcards)
 //--------------------------------------------------------------------------------------------
 void GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array)
 {
+#ifdef WIN32
+   CFileFind finder;
+
+   Array.ReSize (0);
+
+   //Liste holen:
+   BOOL bWorking = finder.FindFile(DirAndWildcards);
+   while (bWorking)
+   {
+      bWorking = finder.FindNextFile();
+
+      if (!finder.IsDirectory())
+      {
+         Array.ReSize (Array.AnzEntries()+1);
+         Array[Array.AnzEntries()-1] = finder.GetFileName();
+      }
+   }
+#else
    int Pos = DirAndWildcards.Find('*');
    CString Dir = DirAndWildcards.Left(Pos);
    CString Ext = DirAndWildcards.Right(Pos);
@@ -1967,18 +2055,33 @@ void GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array)
    Array.ReSize (0);
 
    //Liste holen:
-   for (auto& file : std::filesystem::directory_iterator((std::string)Dir))
+   DIR* dirFile = opendir(Dir);
+   if (dirFile)
    {
-      std::filesystem::path path = file.path();
-      if (!file.is_directory() && path.extension() == (std::string)Ext)
+      struct dirent* file;
+      errno = 0;
+      while ((file = readdir(dirFile)) != NULL)
       {
-         Array.ReSize(Array.AnzEntries() + 1);
-         Array[Array.AnzEntries() - 1] = path.filename();
+#ifdef _DIRENT_HAVE_D_TYPE
+         if (file->d_type == DT_DIR) continue;
+#else
+         if (!strcmp(file->d_name, ".")) continue;
+         if (!strcmp(file->d_name, "..")) continue;
+#endif
+
+         char* dot = strrchr(file->d_name, '.');
+         if (dot && !strcmp(dot, Ext))
+         {
+            Array.ReSize(Array.AnzEntries()+1);
+            Array[Array.AnzEntries()-1] = file->d_name;
+         }
       }
+      closedir(dirFile);
    }
+#endif
 
    //Liste sortieren:
-   for (long c=0; c<Array.AnzEntries()-1; c++)
+   for (int c=0; c<Array.AnzEntries()-1; c++)
       if (Array[c]>Array[c+1])
       {
          CString tmp=Array[c]; Array[c]=Array[c+1]; Array[c+1]=tmp;
@@ -1989,7 +2092,7 @@ void GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array)
 //--------------------------------------------------------------------------------------------
 // Erzeugt aus Verzeichnisundwildcard String ein Array mit Dateinamen:
 //--------------------------------------------------------------------------------------------
-CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, long Add)
+CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, int Add)
 {
    BUFFER<CString> Array;
 
@@ -1998,7 +2101,7 @@ CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, long 
    if (Array.AnzEntries()==0) return ("");
 
    //Nach aktuellem Eintrag suchen:
-   for (long c=0; c<Array.AnzEntries(); c++)
+   for (int c=0; c<Array.AnzEntries(); c++)
       if (Array[c]==CurrentFilename)
          return (Array[(c+Add+Array.AnzEntries()*100)%Array.AnzEntries()]);
 
@@ -2010,7 +2113,7 @@ CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, long 
 //--------------------------------------------------------------------------------------------
 CString CreateNumeratedFreeFilename (CString DirAndFilename)
 {
-   long c;
+   int c;
 
    for (c=0; c<100000; c++)
    {

@@ -17,8 +17,8 @@
 //#define VOICES_OPTIONAL //Voices werden verwendet, wenn sie da sind; ansonsten auch nicht schlimm
 
 //Meine (konsequenten) Variablentypen
-typedef   signed long SLONG;
-typedef unsigned long ULONG;
+typedef   signed int SLONG;
+typedef unsigned int ULONG;
 
 typedef unsigned short UWORD;
 typedef   signed short SWORD;
@@ -26,11 +26,15 @@ typedef   signed short SWORD;
 typedef unsigned char UBYTE;
 typedef   signed char SBYTE;
 
+#ifndef _MSC_VER
+typedef long long int __int64;
+#endif
+
 #ifndef WIN32
-typedef          long LONG;
-typedef          long LPARAM;
-typedef unsigned long DWORD;
-typedef unsigned long COLORREF;
+typedef          int LONG;
+typedef          int LPARAM;
+typedef unsigned int DWORD;
+typedef unsigned int COLORREF;
 
 typedef          short SHORT;
 typedef unsigned short USHORT;
@@ -38,7 +42,7 @@ typedef unsigned short WORD;
 
 typedef          float FLOAT;
 
-typedef          int BOOL;
+typedef          bool BOOL;
 typedef          int INT;
 typedef unsigned int UINT;
 typedef unsigned int WPARAM;
@@ -72,7 +76,7 @@ typedef struct tagRECT
 
 #endif
 
-class CPoint : public tagPOINT
+class CPoint : public POINT
 {
 public:
    CPoint()
@@ -99,7 +103,7 @@ public:
    }
 };
 
-class CRect : public tagRECT
+class CRect : public RECT
 {
 public:
    CRect()
@@ -997,13 +1001,17 @@ inline bool operator!=(const CPoint& lhs, const CPoint& rhs)
 #define VK_F11                      SDLK_F11
 #define VK_F12                      SDLK_F12
 
-#define max(a,b) (((a) > (b)) ? (a) : (b))
-#define min(a,b) (((a) < (b)) ? (a) : (b))
 #define RGB(r,g,b) ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16)))
 #define GetRValue(rgb) ((rgb)&0xFF)
 #define GetGValue(rgb) ((((WORD)(rgb)) >> 8)&0xFF)
 #define GetBValue(rgb) (((rgb)>>16)&0xFF)
 #define ZeroMemory(ptr,size) memset(ptr,0,size)
+
+#ifndef _MSC_VER
+#define stricmp strcasecmp
+#define strnicmp strncasecmp
+#define strupr(str) { for (char* _p = str; *str; ++_p) *_p = toupper(*_p); }
+#endif
 
 #define FALSE 0
 #define TRUE  1

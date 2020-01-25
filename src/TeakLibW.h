@@ -2,8 +2,8 @@
 
 extern void memswap(void*, void*, ULONG);
 extern char* bprintf(char const*, ...);
-extern char* bitoa(long, long = 10);
-extern void here(char*, long);
+extern char* bitoa(int, int = 10);
+extern void here(char*, int);
 
 extern const char* ExcAssert;
 extern const char* ExcGuardian;
@@ -14,13 +14,54 @@ extern const char* ExcStrangeMem;
 
 #define FNL 0, 0
 
-extern long TeakLibW_Exception(char*, long, const char*, ...);
+extern int TeakLibW_Exception(char*, int, const char*, ...);
 extern char* TeakStrRemoveCppComment(char*);
 extern char* TeakStrRemoveEndingCodes(char*, char const*);
 extern unsigned char GerToLower(unsigned char);
 extern unsigned char GerToUpper(unsigned char);
 extern unsigned char* RecapizalizeString(unsigned char*);
 extern const char* GetSuffix(const char*);
+
+template <typename T>
+inline void Limit(T min, T& value, T max)
+{
+   if (value < min) value = min;
+   if (value > max) value = max;
+}
+
+template <typename T>
+inline void Swap(T& a, T& b)
+{
+   T c(a);
+   a = b;
+   b = c;
+}
+
+inline SLONG min(SLONG a, SLONG b)
+{
+   return (b < a) ? b : a;
+}
+
+inline SLONG max(SLONG a, SLONG b)
+{
+   return (a < b) ? b : a;
+}
+
+template <typename A, typename B>
+inline const A Min(const A& a, const B& b)
+{
+   return (b < a) ? b : a;
+}
+
+template <typename A, typename B>
+inline const A Max(const A& a, const B& b)
+{
+   return (a < b) ? b : a;
+}
+
+inline void ReferTo(...) {}
+
+inline void MB() {}
 
 template <typename T>
 class BUFFER
@@ -42,12 +83,12 @@ public:
         Size = anz;
     }
 
-    BUFFER(BUFFER& rhs)
+    /*BUFFER(BUFFER& rhs)
     {
         ::Swap(MemPointer, rhs.MemPointer);
         ::Swap(DelPointer, rhs.DelPointer);
         ::Swap(Size, rhs.Size);
-    }
+    }*/
 
     BUFFER(void) : MemPointer(NULL), DelPointer(NULL), Size(0) {}
 
@@ -111,7 +152,7 @@ public:
         MemPointer = memory;
     }
 
-    long AnzEntries() const { return Size; }
+    int AnzEntries() const { return Size; }
 
     void Clear()
     {
@@ -140,34 +181,12 @@ public:
         DelPointer += rhs;
     }
 
-    void operator=(BUFFER<T>& rhs)
+    /*void operator=(BUFFER<T>& rhs)
     {
         ::Swap(MemPointer, rhs.MemPointer);
         ::Swap(DelPointer, rhs.DelPointer);
         ::Swap(Size, rhs.Size);
-    }
-
-    friend class TEAKFILE& operator << (TEAKFILE& File, const BUFFER<T>& buffer)
-    {
-        File << buffer.Size;
-        File << (buffer.DelPointer - buffer.MemPointer);
-        for (SLONG i = 0; i < buffer.Size; i++)
-            File << buffer.MemPointer[i];
-        return File;
-    }
-
-    friend class TEAKFILE& operator >> (TEAKFILE& File, BUFFER<T>& buffer)
-    {
-        SLONG size, offset;
-        File >> size;
-        buffer.ReSize(0);
-        buffer.ReSize(size);
-        File >> offset;
-        for (SLONG i = 0; i < buffer.Size; i++)
-            File >> buffer.MemPointer[i];
-        buffer.DelPointer = buffer.MemPointer + offset;
-        return File;
-    }
+    }*/
 
     T* MemPointer;
     T* DelPointer;
@@ -181,34 +200,34 @@ class TEAKFILE
 {
 public:
     TEAKFILE(void);
-    TEAKFILE(char const*, long);
+    TEAKFILE(char const*, int);
     ~TEAKFILE(void);
 
-    void ReadLine(char*, long);
+    void ReadLine(char*, int);
     int IsEof(void);
     void Close(void);
-    long GetFileLength(void);
-    long GetPosition(void);
-    void Open(char const*, long);
+    int GetFileLength(void);
+    int GetPosition(void);
+    void Open(char const*, int);
     int IsOpen(void);
-    unsigned char* Read(long);
-    void Read(unsigned char*, long);
+    unsigned char* Read(int);
+    void Read(unsigned char*, int);
     char* ReadLine(void);
-    void ReadTrap(long);
-    void WriteTrap(long);
+    void ReadTrap(int);
+    void WriteTrap(int);
     void SetPasswort(char*);
-    void SetPosition(long);
-    void Skip(long);
-    void Write(unsigned char*, long);
+    void SetPosition(int);
+    void Skip(int);
+    void Write(unsigned char*, int);
     void WriteLine(char*);
-    void Announce(long);
+    void Announce(int);
 
     SDL_RWops* Ctx;
     SLONG Unknown[3];
     char* Path;
     SLONG Unknown1[7];
     BUFFER<UBYTE> MemBuffer;
-    long MemPointer;
+    int MemPointer;
     ULONG MemBufferUsed;
 
     friend TEAKFILE& operator << (TEAKFILE& File, const BOOL& b) { File.Write((UBYTE*)& b, sizeof(b)); return File; }
@@ -250,6 +269,7 @@ public:
         File.Write((UBYTE*)(PCSTR)b, b.GetLength() + 1);
         return File;
     }
+
     friend TEAKFILE& operator >> (TEAKFILE& File, CString& b)
     {
         ULONG size;
@@ -260,8 +280,32 @@ public:
         return File;
     }
 
+    template <class T>
+    friend class TEAKFILE& operator << (class TEAKFILE& File, const BUFFER<T>& buffer)
+    {
+        File << buffer.Size;
+        File << int(buffer.DelPointer - buffer.MemPointer);
+        for (SLONG i = 0; i < buffer.Size; i++)
+            File << buffer.MemPointer[i];
+        return File;
+    }
+
+    template <class T>
+    friend class TEAKFILE& operator >> (class TEAKFILE& File, BUFFER<T>& buffer)
+    {
+        SLONG size, offset;
+        File >> size;
+        buffer.ReSize(0);
+        buffer.ReSize(size);
+        File >> offset;
+        for (SLONG i = 0; i < buffer.Size; i++)
+            File >> buffer.MemPointer[i];
+        buffer.DelPointer = buffer.MemPointer + offset;
+        return File;
+    }
+
 private:
-    void CodeBlock(unsigned char*, long, long);
+    void CodeBlock(unsigned char*, int, int);
 };
 
 //static_assert(sizeof(TEAKFILE) == 68, "TEAKFILE_size_check");
@@ -273,11 +317,11 @@ public:
     ~CRLEReader(void);
 
     bool Close(void);
-    bool Buffer(void*, long);
+    bool Buffer(void*, int);
     bool NextSeq(void);
-    bool Read(BYTE*, long, bool);
+    bool Read(BYTE*, int, bool);
 
-    long GetSize() { return Size; }
+    int GetSize() { return Size; }
 
 private:
     SDL_RWops* Ctx;
@@ -287,7 +331,7 @@ private:
     BYTE Sequence[132];
 
     bool IsRLE;
-    long Size;
+    int Size;
     int Key;
 };
 
@@ -297,7 +341,7 @@ class FBUFFER : public BUFFER<T>
 public:
     FBUFFER(void) : BUFFER<T>(0) {}
 
-    FBUFFER(FBUFFER& buffer) : BUFFER<T>(buffer) {}
+    //FBUFFER(FBUFFER& buffer) : BUFFER<T>(buffer) {}
 
     FBUFFER(SLONG anz) : BUFFER<T>(anz) {}
 };
@@ -423,11 +467,6 @@ public:
         return *this;
     }
 
-    operator POINT& ()
-    {
-        return reinterpret_cast<POINT&>(*this);
-    }
-
     operator CPoint& ()
     {
         return reinterpret_cast<CPoint&>(*this);
@@ -474,37 +513,37 @@ public:
 
     TXYZ operator+(const TXYZ& b) const
     {
-        return TXY(x + b.x, y + b.y, z + b.z);
+        return TXYZ(x + b.x, y + b.y, z + b.z);
     }
 
     TXYZ operator-(const TXYZ& b) const
     {
-        return TXY(x - b.x, y - b.y, z - b.z);
+        return TXYZ(x - b.x, y - b.y, z - b.z);
     }
 
     TXYZ operator*(const TXYZ& b) const
     {
-        return TXY(x * b.x, y * b.y, z * b.z);
+        return TXYZ(x * b.x, y * b.y, z * b.z);
     }
 
     TXYZ operator/(const TXYZ& b) const
     {
-        return TXY(x / b.x, y / b.y, z / b.z);
+        return TXYZ(x / b.x, y / b.y, z / b.z);
     }
 
     TXYZ operator*(const T& b) const
     {
-        return TXY(x * b, y * b, z * b);
+        return TXYZ(x * b, y * b, z * b);
     }
 
     TXYZ operator/(const T& b) const
     {
-        return TXY(x / b, y / b, z / b);
+        return TXYZ(x / b, y / b, z / b);
     }
 
     TXYZ operator-() const
     {
-        return TXY(-x, -y, -z);
+        return TXYZ(-x, -y, -z);
     }
 
     bool operator==(const TXYZ& b) const
@@ -597,18 +636,18 @@ class PALETTE
 public:
     PALETTE(void);
 
-    void Blend(long, long) const;
+    void Blend(int, int) const;
     void BlendIn(void) const;
     void BlendOut(void) const;
     void RefreshDD(int) const;
-    void RefreshDD(long, int) const;
+    void RefreshDD(int, int) const;
     void RefreshPalFromLbm(CString const&);
     void RefreshPalFromPcx(CString const&);
     void ConvertToBlackWhite(void);
     unsigned char FindColorClosestToRGB(unsigned char, unsigned char, unsigned char) const;
-    void RotateArea(long, long);
-    void CopyArea(long, long, long);
-    void CopyAreaFrom(PALETTE const&, long, long, long);
+    void RotateArea(int, int);
+    void CopyArea(int, int, int);
+    void CopyAreaFrom(PALETTE const&, int, int, int);
 
     BUFFER<SDL_Color> Pal;
     SLONG Unknown;
@@ -634,11 +673,11 @@ public:
     ~TEXTRES(void);
 
     void Open(char const*, void*);
-    BUFFER<char>& GetB(unsigned long, unsigned long);
-    char* GetP(unsigned long, unsigned long);
-    char* GetS(unsigned long, unsigned long);
-    //char* GetS(unsigned long, char const*);
-    char* GetS(char const* c, unsigned long i) { return GetS(*(unsigned long*)c, i); }
+    BUFFER<char>& GetB(unsigned int, unsigned int);
+    char* GetP(unsigned int, unsigned int);
+    char* GetS(unsigned int, unsigned int);
+    //char* GetS(unsigned int, char const*);
+    char* GetS(char const* c, unsigned int i) { return GetS(*(unsigned int*)c, i); }
 
 private:
     BUFFER<char> Path;
@@ -652,12 +691,12 @@ class CRegistration
 {
 public:
     CRegistration(void);
-    CRegistration(CString const&, unsigned long);
-    void ReSize(CString const&, unsigned long);
+    CRegistration(CString const&, unsigned int);
+    void ReSize(CString const&, unsigned int);
     CString GetDisplayString(void);
-    long GetMode(void);
+    int GetMode(void);
     CString GetSomeString(char*);
-    unsigned long CalcChecksum(CString);
+    unsigned int CalcChecksum(CString);
     int IsMaster(void);
     void CheckIfIsMaster(void);
 };
@@ -670,66 +709,66 @@ class TECBM
 public:
     TECBM(void);
     TECBM(CString const&, void*);
-    TECBM(CString const&, long, void*);
-    TECBM(long, long, void*);
-    TECBM(TXY<long>, void*);
+    TECBM(CString const&, int, void*);
+    TECBM(int, int, void*);
+    TECBM(TXY<int>, void*);
     ~TECBM(void);
 
     void Destroy(void);
     TECBM& operator=(TECBM&);
     virtual int Refresh(void);
-    int TextOutA(long, long, unsigned long, unsigned long, CString const&);
+    int TextOutA(int, int, unsigned int, unsigned int, CString const&);
     int IsOk(void) const;
     static int IsMemCritical(void);
     static int IsHardwareCritical(void);
     static int IsEitherCritical(void);
-    static void SetCriticalMem(long);
+    static void SetCriticalMem(int);
     void ReSize(CString const&, void*);
-    void ReSize(CString const&, long, void*);
+    void ReSize(CString const&, int, void*);
     void ReSizeLbm(CString const&, void*);
-    void ReSizeLbm(CString const&, long, void*);
-    void ReSize(TXY<long>, void*);
-    void ReSizePcx(CString const&, long, void*);
+    void ReSizeLbm(CString const&, int, void*);
+    void ReSize(TXY<int>, void*);
+    void ReSizePcx(CString const&, int, void*);
     void ReSizePcx(CString const&, void*);
     int SavePCX(CString const&, PALETTE const&) const;
-    void ShiftColors(long);
+    void ShiftColors(int);
     void RemapColor(unsigned char, unsigned char);
-    int BlitFrom(TECBM const&, TXY<long>, TXY<long>);
-    int BlitFromT(TECBM const&, TXY<long>, TXY<long>, unsigned char);
-    void InterleaveBitmaps(TECBM const&, TECBM const&, long);
-    int UniversalClip(TXY<long>*, CRect*);
-    void GetClipRegion(TXY<long>*, TXY<long>*);
+    int BlitFrom(TECBM const&, TXY<int>, TXY<int>);
+    int BlitFromT(TECBM const&, TXY<int>, TXY<int>, unsigned char);
+    void InterleaveBitmaps(TECBM const&, TECBM const&, int);
+    int UniversalClip(TXY<int>*, CRect*);
+    void GetClipRegion(TXY<int>*, TXY<int>*);
     void SetClipRegion(void);
-    void SetClipRegion(TXY<long>, TXY<long>);
+    void SetClipRegion(TXY<int>, TXY<int>);
     int IsLost(void) const;
-    int SetPixel(TXY<long>, unsigned char);
-    unsigned char GetPixel(TXY<long>) const;
+    int SetPixel(TXY<int>, unsigned char);
+    unsigned char GetPixel(TXY<int>) const;
     int FillWith(unsigned char);
     int FillWith(TECBM const&);
-    int FillWith(TECBM const&, TXY<long>);
-    int Line(TXY<long> const&, TXY<long> const&, unsigned char);
-    int HLine(long, long, long, unsigned char);
-    int VLine(long, long, long, unsigned char);
-    int DotLine(TXY<long> const&, TXY<long> const&, unsigned char);
-    int Rectangle(TXY<long> const&, TXY<long> const&, unsigned char);
-    int Box(TXY<long>, TXY<long>, unsigned char);
-    int Box(TXY<long> const&, TXY<long> const&, TECBM const&);
-    int Box(TXY<long> const&, TXY<long> const&, TECBM const&, TXY<long>);
-    int Circle(TXY<long> const&, long, unsigned char);
-    int BlitFrom(TECBM&, TXY<long>);
-    int BlitFromT(TECBM&, TXY<long>);
-    int BlitPartFrom(TECBM&, TXY<long>, TXY<long> const&, TXY<long> const&);
-    int BlitPartFromT(TECBM&, TXY<long>, TXY<long> const&, TXY<long> const&);
-    long GetAnzSubBitmaps(void) const;
+    int FillWith(TECBM const&, TXY<int>);
+    int Line(TXY<int> const&, TXY<int> const&, unsigned char);
+    int HLine(int, int, int, unsigned char);
+    int VLine(int, int, int, unsigned char);
+    int DotLine(TXY<int> const&, TXY<int> const&, unsigned char);
+    int Rectangle(TXY<int> const&, TXY<int> const&, unsigned char);
+    int Box(TXY<int>, TXY<int>, unsigned char);
+    int Box(TXY<int> const&, TXY<int> const&, TECBM const&);
+    int Box(TXY<int> const&, TXY<int> const&, TECBM const&, TXY<int>);
+    int Circle(TXY<int> const&, int, unsigned char);
+    int BlitFrom(TECBM&, TXY<int>);
+    int BlitFromT(TECBM&, TXY<int>);
+    int BlitPartFrom(TECBM&, TXY<int>, TXY<int> const&, TXY<int> const&);
+    int BlitPartFromT(TECBM&, TXY<int>, TXY<int> const&, TXY<int> const&);
+    int GetAnzSubBitmaps(void) const;
     TECBM* ParseNextVertikalSubBitmap(void);
     TECBM* ParseNextHorizontalSubBitmap(void);
     FBUFFER<TECBM>* ParseVertikalSubBitmaps(void);
     void ParseHorizontalSubBitmapsInto(FBUFFER<TECBM>&);
     FBUFFER<TECBM>* ParseHorizontalSubBitmaps(void);
-    TECBM* ParseVertikalSubBitmapNumberX(long);
-    TECBM* ParseHorizontalSubBitmapNumberX(long);
-    int ParseVertikalSubBitmapNumberXInto(long, TECBM&);
-    int ParseHorizontalSubBitmapNumberXInto(long, TECBM&);
+    TECBM* ParseVertikalSubBitmapNumberX(int);
+    TECBM* ParseHorizontalSubBitmapNumberX(int);
+    int ParseVertikalSubBitmapNumberXInto(int, TECBM&);
+    int ParseHorizontalSubBitmapNumberXInto(int, TECBM&);
 
     SDL_Surface* Surface;
     SLONG Unknown[6];
@@ -738,8 +777,8 @@ public:
 
 private:
     static bool BltSupport;
-    static long CriticalVidMem;
-    static long TotalVidMem;
+    static int CriticalVidMem;
+    static int TotalVidMem;
 };
 
 //static_assert(sizeof(TECBM) == 40, "TECBM size check");
@@ -797,25 +836,25 @@ class XID
 {
 public:
     XID(void);
-    void SetValue(unsigned long);
+    void SetValue(unsigned int);
 
     friend TEAKFILE& operator<<(TEAKFILE&, XID const&);
     friend TEAKFILE& operator>>(TEAKFILE&, XID&);
 
-    long Value;
-    long Index;
+    int Value;
+    int Index;
 };
 
-extern void TeakAlbumRemoveT(FBUFFER<unsigned long>&, unsigned long, CString const&, unsigned long);
-extern void TeakAlbumRefresh(FBUFFER<unsigned long>&, unsigned long);
-extern long TeakAlbumSearchT(FBUFFER<unsigned long>&, unsigned long, CString const&, unsigned long);
-extern long TeakAlbumXIdSearchT(FBUFFER<unsigned long>&, unsigned long, CString const&, XID&);
-extern int TeakAlbumIsInAlbum(FBUFFER<unsigned long>&, unsigned long, unsigned long);
-extern unsigned long TeakAlbumAddT(FBUFFER<unsigned long>&, unsigned long, CString const&, unsigned long);
-extern unsigned long TeakAlbumFrontAddT(FBUFFER<unsigned long>&, unsigned long, CString const&, unsigned long);
-extern unsigned long TeakAlbumGetNumFree(FBUFFER<unsigned long>&, unsigned long);
-extern unsigned long TeakAlbumGetNumUsed(FBUFFER<unsigned long>&, unsigned long);
-extern unsigned long TeakAlbumRandom(FBUFFER<unsigned long>&, unsigned long, CString const&, TEAKRAND*);
+extern void TeakAlbumRemoveT(FBUFFER<unsigned int>&, unsigned int, CString const&, unsigned int);
+extern void TeakAlbumRefresh(FBUFFER<unsigned int>&, unsigned int);
+extern int TeakAlbumSearchT(FBUFFER<unsigned int>&, unsigned int, CString const&, unsigned int);
+extern int TeakAlbumXIdSearchT(FBUFFER<unsigned int>&, unsigned int, CString const&, XID&);
+extern int TeakAlbumIsInAlbum(FBUFFER<unsigned int>&, unsigned int, unsigned int);
+extern unsigned int TeakAlbumAddT(FBUFFER<unsigned int>&, unsigned int, CString const&, unsigned int);
+extern unsigned int TeakAlbumFrontAddT(FBUFFER<unsigned int>&, unsigned int, CString const&, unsigned int);
+extern unsigned int TeakAlbumGetNumFree(FBUFFER<unsigned int>&, unsigned int);
+extern unsigned int TeakAlbumGetNumUsed(FBUFFER<unsigned int>&, unsigned int);
+extern unsigned int TeakAlbumRandom(FBUFFER<unsigned int>&, unsigned int, CString const&, TEAKRAND*);
 
 template <typename T>
 class ALBUM
@@ -833,37 +872,37 @@ public:
         Values = (FBUFFER<T>*)&buffer;
     }
 
-    int IsInAlbum(unsigned long id)
+    int IsInAlbum(unsigned int id)
     {
         return TeakAlbumIsInAlbum(Ids, Values->AnzEntries(), id);
     }
 
-    long AnzEntries()
+    int AnzEntries()
     {
         return Values->AnzEntries();
     }
 
-    long GetNumFree()
+    int GetNumFree()
     {
         return TeakAlbumGetNumFree(Ids, Values->AnzEntries());
     }
 
-    long GetNumUsed()
+    int GetNumUsed()
     {
         return TeakAlbumGetNumUsed(Ids, Values->AnzEntries());
     }
 
-    long GetRandomUsedIndex(TEAKRAND* rand = NULL)
+    int GetRandomUsedIndex(TEAKRAND* rand = NULL)
     {
         return TeakAlbumRandom(Ids, Values->AnzEntries(), Name, rand);
     }
 
-    long GetUniqueId()
+    int GetUniqueId()
     {
         return ++LastId;
     }
 
-    unsigned long GetIdFromIndex(long i)
+    unsigned int GetIdFromIndex(int i)
     {
         return Ids[i];
     }
@@ -871,11 +910,11 @@ public:
     void ClearAlbum()
     {
         TeakAlbumRefresh(Ids, Values->AnzEntries());
-        for (long i = Ids.AnzEntries() - 1; i >= 0; --i)
+        for (int i = Ids.AnzEntries() - 1; i >= 0; --i)
             Ids[i] = 0;
     }
 
-    void Swap(long a, long b)
+    void Swap(int a, int b)
     {
         TeakAlbumRefresh(Ids, Values->AnzEntries());
         if (a >= Ids.Size)
@@ -932,43 +971,57 @@ public:
             delete [] tmp;
     }
 
-    unsigned long operator*=(unsigned long id)
+    unsigned int operator*=(unsigned int id)
     {
         return TeakAlbumFrontAddT(Ids, Values->AnzEntries(), Name, id);
     }
 
-    unsigned long operator+=(unsigned long id)
+    unsigned int operator+=(unsigned int id)
     {
         return TeakAlbumAddT(Ids, Values->AnzEntries(), Name, id);
     }
 
-    void operator-=(unsigned long id)
+    void operator-=(unsigned int id)
     {
         TeakAlbumRemoveT(Ids, Values->AnzEntries(), Name, id);
     }
 
-    unsigned long operator*=(T& rhs)
+    unsigned int operator*=(T& rhs)
     {
-        unsigned long Id = TeakAlbumFrontAddT(Ids, Values->AnzEntries(), Name, GetUniqueId());
+       unsigned int Id = TeakAlbumFrontAddT(Ids, Values->AnzEntries(), Name, GetUniqueId());
+       (*this)[Id] = rhs;
+       return Id;
+    }
+
+    unsigned int operator*=(T&& rhs)
+    {
+        unsigned int Id = TeakAlbumFrontAddT(Ids, Values->AnzEntries(), Name, GetUniqueId());
         (*this)[Id] = rhs;
         return Id;
     }
 
-    unsigned long operator+=(T& rhs)
+    unsigned int operator+=(T& rhs)
     {
-        unsigned long Id = TeakAlbumAddT(Ids, Values->AnzEntries(), Name, GetUniqueId());
+       unsigned int Id = TeakAlbumAddT(Ids, Values->AnzEntries(), Name, GetUniqueId());
+       (*this)[Id] = rhs;
+       return Id;
+    }
+
+    unsigned int operator+=(T&& rhs)
+    {
+        unsigned int Id = TeakAlbumAddT(Ids, Values->AnzEntries(), Name, GetUniqueId());
         (*this)[Id] = rhs;
         return Id;
     }
 
-    long operator()(unsigned long id)
+    int operator()(unsigned int id)
     {
         return TeakAlbumSearchT(Ids, Values->AnzEntries(), Name, id);
     }
 
-    T& operator[](unsigned long id)
+    T& operator[](unsigned int id)
     {
-        unsigned long i = TeakAlbumSearchT(Ids, Values->AnzEntries(), Name, id);
+        unsigned int i = TeakAlbumSearchT(Ids, Values->AnzEntries(), Name, id);
         return (*Values)[i];
     }
 
@@ -987,8 +1040,8 @@ public:
     }
 
 private:
-    unsigned long LastId;
-    FBUFFER<unsigned long> Ids;
+    unsigned int LastId;
+    FBUFFER<unsigned int> Ids;
 
     // This self-reference could be stored as an offset to survive reallocations,
     // but instead Spellbound implemented a Repair() function.
@@ -998,37 +1051,5 @@ private:
 
 extern int DoesFileExist(char const*);
 extern BUFFER<BYTE>* LoadCompleteFile(char const*);
-extern long CalcInertiaVelocity(long, long);
-extern long Calc1nSum(long);
-
-template <class T>
-inline void Limit(T min, T& value, T max)
-{
-    if (value < min) value = min;
-    if (value > max) value = max;
-}
-
-template <class T>
-inline void Swap(T& a, T& b)
-{
-    T c(a);
-    a = b;
-    b = c;
-}
-
-template <class T>
-inline const T& Min(const T& a, const T& b)
-{
-    return (b < a) ? b : a;
-}
-
-
-template <class T>
-inline const T& Max(const T& a, const T& b)
-{
-    return (a < b) ? b : a;
-}
-
-inline void ReferTo(...) {}
-
-inline void MB() {}
+extern int CalcInertiaVelocity(int, int);
+extern int Calc1nSum(int);

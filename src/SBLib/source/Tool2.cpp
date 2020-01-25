@@ -2,9 +2,9 @@
 #include <SDL_bits.h>
 
 #ifdef ENABLE_ASM
-long GetLowestSetBit(long mask)
+int GetLowestSetBit(int mask)
 {
-    unsigned long result;
+    unsigned int result;
     //_BitScanForward(&result, mask);
     __asm
     {
@@ -17,10 +17,10 @@ long GetLowestSetBit(long mask)
 }
 #endif
 
-long GetHighestSetBit(long mask)
+int GetHighestSetBit(int mask)
 {
 #ifdef ENABLE_ASM
-    unsigned long result;
+    unsigned int result;
     //_BitScanReverse(&result, mask);
     __asm
     {

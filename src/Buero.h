@@ -23,7 +23,7 @@ public:
    SLONG       KommVarTelefon;
    SLONG       KommVarCloseLetter;
 
-   long        OfficeState;
+   int        OfficeState;
    CAnimation  UhrZeigerAnim;
 
    SBBM  LetterBm;

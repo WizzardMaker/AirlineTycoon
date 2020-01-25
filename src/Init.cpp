@@ -390,10 +390,10 @@ void InitItems (void)
 
          file >> str;
 
-         for (long c=0; c<sizeof(gPlanePartRelations)/sizeof(gPlanePartRelations[0]); c++)
+         for (int c=0; c<sizeof(gPlanePartRelations)/sizeof(gPlanePartRelations[0]); c++)
          {
             file >> str;
-            long id=atol(str);
+            int id=atol(str);
 
             if (gPlanePartRelations[c].Id!=id) hprintf (0, "Id mismatch: %li vs %li!", gPlanePartRelations[c].Id, id);
             gPlanePartRelations[c].FromString (str);
@@ -406,10 +406,10 @@ void InitItems (void)
 
          file >> str;
 
-         for (long c=0; c<sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0]); c++)
+         for (int c=0; c<sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0]); c++)
          {
             file >> str;
-            long id=atol(str);
+            int id=atol(str);
 
             if (gPlaneBuilds[c].Id!=id) hprintf (0, "Id mismatch: %li vs %li!", gPlaneBuilds[c].Id, id);
             gPlaneBuilds[c].FromString (str);

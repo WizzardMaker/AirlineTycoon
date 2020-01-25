@@ -211,8 +211,8 @@ void CRouteBox::OnPaint()
             XY von  = XY(Cities[Routen[c].VonCity].MapPosition);
             XY nach = XY(Cities[Routen[c].NachCity].MapPosition);
 
-            XY p1 = von*MapScale/1000l;
-            XY p2 = nach*MapScale/1000l;
+            XY p1 = von*MapScale/1000;
+            XY p2 = nach*MapScale/1000;
 
             p1.x=p1.x*42/60;  p1.y=p1.y*95/90;
             p2.x=p2.x*42/60;  p2.y=p2.y*95/90;
@@ -233,7 +233,7 @@ void CRouteBox::OnPaint()
             {
                if (p1.x>p2.x) Swap (p1, p2);
 
-               long mitte;
+               int mitte;
                if (p1.y>p2.y) mitte = p1.y+(p2.y-p1.y)*(p1.x-16)/(437-16-(p2.x-p1.x));
                else           mitte = p2.y+(p1.y-p2.y)*(p1.x-16)/(437-16-(p2.x-p1.x));
                XY pa (1, mitte);
@@ -500,13 +500,13 @@ void CRouteBox::RepaintMap (void)
                if (!Sim.Players.Players[d].IsOut && Sim.Players.Players[d].RentRouten.RentRouten[c].Rang && (DisplayPlayer&(1<<d)))
                   HardwareColors[NumHardwareColors++]=MapBm.pBitmap->GetHardwarecolor (AktienKursLineColor[d]);
 
-            if (NumHardwareColors==0) HardwareColors[NumHardwareColors++]=MapBm.pBitmap->GetHardwarecolor (CanHaveIt ? 0xffffff : (0x5e5e5e+0xd0a890)/2);
+            if (NumHardwareColors==0) HardwareColors[NumHardwareColors++]=MapBm.pBitmap->GetHardwarecolor (CanHaveIt ? 0xffffff : (0x5e5e5e + 0xd0a890) / 2);
 
             XY von  = XY(Cities[Routen[c].VonCity].MapPosition);
             XY nach = XY(Cities[Routen[c].NachCity].MapPosition);
 
-            XY p1 = von*MapScale/1000l;
-            XY p2 = nach*MapScale/1000l;
+            XY p1 = von*MapScale/1000;
+            XY p2 = nach*MapScale/1000;
 
             p1.x=p1.x*42/60;  p1.y=p1.y*95/90;
             p2.x=p2.x*42/60;  p2.y=p2.y*95/90;
@@ -520,7 +520,7 @@ void CRouteBox::RepaintMap (void)
             {
                if (p1.x>p2.x) Swap (p1, p2);
 
-               long mitte;
+               int mitte;
                if (p1.y>p2.y) mitte = p1.y+(p2.y-p1.y)*(p1.x-16)/(437-16-(p2.x-p1.x));
                else           mitte = p2.y+(p1.y-p2.y)*(p1.x-16)/(437-16-(p2.x-p1.x));
                XY pa (1, mitte);
@@ -537,7 +537,7 @@ void CRouteBox::RepaintMap (void)
    if (Sim.Difficulty==DIFF_NORMAL)
       for (c=0; c<=5; c++)
       {
-         XY p1 = XY(Cities[Sim.MissionCities[c]].MapPosition)*MapScale/1000l;
+         XY p1 = XY(Cities[Sim.MissionCities[c]].MapPosition)*MapScale/1000;
 
          p1.x=p1.x*42/60;  p1.y=p1.y*95/90;
 

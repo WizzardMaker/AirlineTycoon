@@ -33,7 +33,7 @@ void CalcPlayerMaximums (bool bForce)
    PlayerMinPassagiere = 2147483647;
    PlayerMinLength     = 2147483647;
 
-   for (long c=0; c<Sim.Players.AnzPlayers; c++)
+   for (int c=0; c<Sim.Players.AnzPlayers; c++)
       if (!Sim.Players.Players[c].IsOut && (Sim.Players.Players[c].Owner==0 || Sim.Players.Players[c].Owner==2))
       {
          PLAYER &qPlayer=Sim.Players.Players[c];

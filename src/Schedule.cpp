@@ -477,7 +477,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
          if (Landezeit<5 || Landezeit>22) tmp=tmp*5/6;
 
          //Luxus ist ganz wichtig für die: (Summe e [0..16])
-         long LuxusSumme = qPlane.Sitze+qPlane.Essen+qPlane.Tabletts+qPlane.Deco+qPlane.Triebwerk+qPlane.Reifen+qPlane.Elektronik+qPlane.Sicherheit;
+         int LuxusSumme = qPlane.Sitze+qPlane.Essen+qPlane.Tabletts+qPlane.Deco+qPlane.Triebwerk+qPlane.Reifen+qPlane.Elektronik+qPlane.Sicherheit;
 
          //Sicherheit ist auch wichtig: (Summe e [0..18])
          LuxusSumme += ((qPlayer.SecurityFlags&(1<<10))!=0)+((qPlayer.SecurityFlags&(1<<11))!=0);
@@ -518,7 +518,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
    else if (ObjectType==2)
    {
       //Auftrag:
-      Passagiere   = (UWORD)min(qPlane.MaxPassagiere, long(qPlayer.Auftraege[ObjectId].Personen));
+      Passagiere   = (UWORD)min(qPlane.MaxPassagiere, int(qPlayer.Auftraege[ObjectId].Personen));
 
       PassagiereFC = (UWORD)(qPlayer.Auftraege[ObjectId].Personen-Passagiere);
    }
@@ -682,7 +682,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
          Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_KEROSIN, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 3030), (LPCTSTR)Plane->Name));
 
       qPlayer.Bilanz.Kerosin+=SLONG(tmp*qPlayer.TankPreis);     //Kalkulatorische Kosten
-      qPlayer.Statistiken[STAT_A_KEROSIN].AddAtPastDay (0, -long(tmp*qPlayer.TankPreis));
+      qPlayer.Statistiken[STAT_A_KEROSIN].AddAtPastDay (0, -int(tmp*qPlayer.TankPreis));
       Plane->Salden[0]-=SLONG(tmp*qPlayer.TankPreis);
    } 
 
@@ -753,7 +753,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
    //Auswirkungen auf's Image verbuchen
    if (ObjectType==1 || ObjectType==2)
    {
-      long pn = qPlayer.PlayerNum;
+      int pn = qPlayer.PlayerNum;
       if (Sim.Players.Players[qPlayer.PlayerNum].WerbeBroschuere!=-1)
       {
          pn=Sim.Players.Players[qPlayer.PlayerNum].WerbeBroschuere;
@@ -777,7 +777,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
             if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image>0)
                qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image--;
 
-         Limit (-1000l, qPlayerX.Image, 1000l);
+         Limit (-1000, qPlayerX.Image, 1000);
       }
 
       //Zustand des Flugzeugs:
@@ -829,7 +829,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
 
          Limit ((UBYTE)0, qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image, (UBYTE)100);
       }
-      Limit (-1000l, qPlayerX.Image, 1000l);
+      Limit (-1000, qPlayerX.Image, 1000);
    }
 
    if (ObjectType==1 || ObjectType==2)

@@ -139,7 +139,7 @@ ULONG GetPhysicalCdRomBitlist (void)
                      if (ERROR_SUCCESS == (err=RegCreateKeyEx(HKEY_LOCAL_MACHINE, CString (Subkey)+"\\"+CLine+"\\"+CLine2+"\\"+CLine3, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ENUMERATE_SUB_KEYS|KEY_EXECUTE|KEY_QUERY_VALUE, NULL, &hKey4, &dwDisposition)))
                      {
                         char          Temp[500];
-                        unsigned long TempSize=500;
+                        unsigned int TempSize=500;
 
                         if (ERROR_SUCCESS == RegQueryValueEx (hKey4, strClass, NULL, NULL, (UBYTE*)Temp, &TempSize))
                         {
@@ -774,7 +774,7 @@ void GetProtectionString (const CString &TabFilename, SLONG *pPageAndWord, CStri
    TEAKRAND r;
 
    auto t    = std::chrono::system_clock::now().time_since_epoch();
-   long  days = std::chrono::duration_cast<std::chrono::duration<long, std::ratio<86400>>>(t).count();
+   int  days = std::chrono::duration_cast<std::chrono::duration<int, std::ratio<86400>>>(t).count();
    r.SRandTime();
    Count = days%(Count-(Count/8))+r.Rand(Count/8);
 

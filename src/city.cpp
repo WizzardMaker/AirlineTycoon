@@ -28,7 +28,7 @@ void CITIES::ReInit (const CString &TabFilename)
 {
    //CStdioFile    Tab;
    BUFFER<char>  Line(300);
-   long          Id;
+   int          Id;
    SLONG         Anz=0;
 
    //Load Table header:
@@ -108,7 +108,7 @@ void CITIES::UseRealKuerzel (BOOL Real)
 //--------------------------------------------------------------------------------------------
 //Berechnet die Entfernung zweier beliebiger Städte: (in Meter)
 //--------------------------------------------------------------------------------------------
-SLONG CITIES::CalcDistance (long CityId1, long CityId2)
+SLONG CITIES::CalcDistance (int CityId1, int CityId2)
 {
    if (HashTable.AnzEntries()==0)
    {
@@ -164,7 +164,7 @@ SLONG CITIES::CalcDistance (long CityId1, long CityId2)
 //--------------------------------------------------------------------------------------------
 //Berechnet die Dauer eines Fluges:
 //--------------------------------------------------------------------------------------------
-SLONG CITIES::CalcFlugdauer (long CityId1, long CityId2, long Speed)
+SLONG CITIES::CalcFlugdauer (int CityId1, int CityId2, int Speed)
 {
    SLONG d=(CalcDistance (CityId1, CityId2)/Speed+999)/1000+1+2-2;
 
@@ -240,13 +240,13 @@ ULONG CITIES::GetIdFromName (char *Name)
 
 //--------------------------------------------------------------------------------------------
 // Für jedes Argument aus einer ... Parameterreihe
-//  SMPL: foreacharg (long, Value1, 0)
+//  SMPL: foreacharg (int, Value1, 0)
 //--------------------------------------------------------------------------------------------
 #define foreacharg(type, firstargname, finalvalue) \
-   if (va_list va_marker = (va_list)true) \
-      for (long arghelper1=0, arghelper2=0, arghelper3=0; arghelper1==0; arghelper1=1) \
-         for (type q##type=firstargname; arghelper2==0; arghelper2=1) \
-            for (va_start (va_marker, firstargname); q##type!=finalvalue; q##type=va_arg(va_marker, type))
+   va_list va_marker; \
+   for (int arghelper1=0, arghelper2=0, arghelper3=0; arghelper1==0; arghelper1=1) \
+      for (type q##type=firstargname; arghelper2==0; arghelper2=1) \
+         for (va_start (va_marker, firstargname); q##type!=finalvalue; q##type=va_arg(va_marker, type))
 
 //--------------------------------------------------------------------------------------------
 //Gibt die Nummer der Stadt mit dem angegebnen Namen zurück:

@@ -33,7 +33,7 @@ ULONG  DarkColors [4] = { 0x00407f, 0x007f20, 0x7f0000, 0x7f7f00 };
 #define G_HEIGHT  (G_BOTTOM-G_TOP)
 #define G_WIDTH   (G_RIGHT-G_LEFT)
 
-long days[] = { 7, 14, 21, 30, 90, 180, 270, 360 };
+int days[] = { 7, 14, 21, 30, 90, 180, 270, 360 };
 
 const char TOKEN_STAT[]="STAT";
 
@@ -299,7 +299,7 @@ void CStatistik::OnPaint()
 	// Den Graphen in X animieren
 	if (_newDays != _days)
 	{
-		long diff = (_newDays - _days) / 3 * 2;
+		int diff = (_newDays - _days) / 3 * 2;
 		if (diff == 0)
 			_days = _newDays;
 		else
@@ -412,14 +412,14 @@ void CStatistik::OnPaint()
 	   output += StandardTexte.GetS (TOKEN_STAT, 9000);
    }
 	
-	long length = FontDialogPartner.GetWidth((LPSTR)(LPCSTR)output, output.GetLength());
-	long xPos   = 35 + ((160-35)>>1)	- (length>>1);
+	int length = FontDialogPartner.GetWidth((LPSTR)(LPCSTR)output, output.GetLength());
+	int xPos   = 35 + ((160-35)>>1)	- (length>>1);
 	RoomBm.PrintAt (output, FontDialogPartner, TEC_FONT_LEFT, xPos, 15, xPos + length + 5, 45);
 
 	// Zeichnet die Einträge einer Gruppe. Ist der Mauscursor
 	// über einem Eintrag wird dieser focusiert.
-	long xOffset[] = { 0, -18, -11, -11, -11, -11 };
-	long xOffset2[] = { -11, -18, -11, -11, -11, -11 };
+	int xOffset[] = { 0, -18, -11, -11, -11, -11 };
+	int xOffset2[] = { -11, -18, -11, -11, -11, -11 };
 	RECT rc = { 45, 56, 155, 66 };
 
 	_selectedItem = -1;
@@ -507,7 +507,7 @@ void CStatistik::CalcGraph()
 				for (int p = 0 ; p < 4 ; p++)
                if (!Sim.Players.Players[p].IsOut)
 					   if (_playerMask[p])
-						   for (long d = 0 ; d <= _days ; d++)
+						   for (int d = 0 ; d <= _days ; d++)
 						   {
                         if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                         {
@@ -531,7 +531,7 @@ void CStatistik::CalcGraph()
 				for (int p = 0 ; p < 4 ; p++)
                if (!Sim.Players.Players[p].IsOut)
 					   if (_playerMask[p])
-						   for (long d = 0 ; d <= min(11, ((_days+29)/30)) ; d++)
+						   for (int d = 0 ; d <= Min(11, ((_days+29)/30)) ; d++)
 						   {
                         if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                         {
@@ -559,8 +559,8 @@ void CStatistik::CalcGraph()
 //--------------------------------------------------------------------------------------------
 void CStatistik::RepaintGraphWindow (void)
 {
-	long	x1, y1, x2, y2 = -1;
-	long	value;
+	int	x1, y1, x2, y2 = -1;
+	int	value;
 	bool	fDrawAxis = false;
 
    SB_Hardwarecolor red = DropDownBm.pBitmap->GetHardwarecolor (0xff0000);
@@ -588,12 +588,12 @@ void CStatistik::RepaintGraphWindow (void)
 		return;
 
 	// Y-Axis
-	long yAxis = (long)(_yAxis * _yGraph);
+	int yAxis = (int)(_yAxis * _yGraph);
 
 	_xGraph = (double)G_WIDTH / (double)_days;
 
 
-	long days = _days;
+	int days = _days;
 	if (days > (Sim.Date+1))
 		days = Sim.Date+1;
 
@@ -610,26 +610,26 @@ void CStatistik::RepaintGraphWindow (void)
 					   {
                      if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                         if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0))
-                           value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(0)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0) * _yGraph);
+                           value = (int)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(0)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0) * _yGraph);
                         else
                            value = 0;
                      else
-						      value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(0)) * _yGraph);
+						      value = (int)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(0)) * _yGraph);
 
 						   x2 = G_RIGHT;
 						   y2 = G_BOTTOM - yAxis - value;
 
-						   for (long d = 1 ; d <= days ; d++)
+						   for (int d = 1 ; d <= days ; d++)
 						   {
                         if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                            if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d))
-                              value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d) * _yGraph);
+                              value = (int)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d) * _yGraph);
                            else
                               value = 0;
                         else
-						         value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)) * _yGraph);
+						         value = (int)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)) * _yGraph);
 
-							   x1 = G_RIGHT - (long)((double)d * _xGraph);
+							   x1 = G_RIGHT - (int)((double)d * _xGraph);
 							   y1 = G_BOTTOM - yAxis - value;
 
 							   if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP)
@@ -652,7 +652,7 @@ void CStatistik::RepaintGraphWindow (void)
 	}
 	else if (days / 30)
 	{
-		long month = min (11, (days+29/30));
+		int month = min (11, (days+29/30));
 	   _xGraph = (double)G_WIDTH / (((double)_days)/30);
 
 		for (short i = 0 ; i < MAX_ITEMS ; i++)
@@ -663,26 +663,26 @@ void CStatistik::RepaintGraphWindow (void)
 					   {
                      if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                         if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(0))
-                           value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(0)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(0) * _yGraph);
+                           value = (int)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(0)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(0) * _yGraph);
                         else
                            value = 0;
                      else
-						      value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(0)) * _yGraph);
+						      value = (int)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(0)) * _yGraph);
 
 						   x2 = G_RIGHT;
 						   y2 = G_BOTTOM - yAxis - value;
 
-						   for (long d = 1 ; d <= month; d++)
+						   for (int d = 1 ; d <= month; d++)
 						   {
                         if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                            if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d))
-                              value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d) * _yGraph);
+                              value = (int)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d) * _yGraph);
                            else
                               value = 0;
                         else
-						         value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)) * _yGraph);
+						         value = (int)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)) * _yGraph);
 
-							   x1 = G_RIGHT - (long)((double)d * _xGraph);
+							   x1 = G_RIGHT - (int)((double)d * _xGraph);
 							   y1 = G_BOTTOM - yAxis - value;
 
                         if (x1>G_LEFT || x2>G_LEFT)
@@ -710,7 +710,7 @@ void CStatistik::RepaintGraphWindow (void)
 	// Die Y-Achse zeichnen
 	if (fDrawAxis)
 	{
-		long yPos = G_BOTTOM - yAxis;
+		int yPos = G_BOTTOM - yAxis;
 		DropDownBm.pBitmap->Line (G_LEFT, yPos, G_RIGHT, yPos, DropDownBm.pBitmap->GetHardwarecolor(0xffffff));
 	}
 }

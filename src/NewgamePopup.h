@@ -1,7 +1,7 @@
 // NewGamePopup.h : header file
 //
-#include "sblib\include\SbLib.h"
-#include "sblib\include\network.h"
+#include "SbLib.h"
+#include "network.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // NewGamePopup window
@@ -45,8 +45,8 @@ private:
    SBStr                    NetworkConnection;
    static SBStr             NetworkSession;
 
-   long NetMediumCount;
-   long NetMediumMapper[32];
+   int NetMediumCount;
+   int NetMediumMapper[32];
 
 // Operations
 public:

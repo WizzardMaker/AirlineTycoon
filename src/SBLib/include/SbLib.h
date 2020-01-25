@@ -17,7 +17,7 @@ public:
         return mList.back();
     }
 
-    long GetNumberOfElements()
+    int GetNumberOfElements()
     {
         return mList.size();
     }

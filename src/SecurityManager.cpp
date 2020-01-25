@@ -70,11 +70,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-SecurityManager::SecurityManager( char *file, long offset, long size )
+SecurityManager::SecurityManager( char *file, int offset, int size )
 {
-    unsigned long i;
-	unsigned long j;
-    unsigned long c;
+    unsigned int i;
+	unsigned int j;
+    unsigned int c;
 
 	// reset code to zero
 	code = 0;
@@ -156,14 +156,14 @@ SecurityManager::~SecurityManager()
 }
 
 
-bool SecurityManager::LoadInitVxD( char *datafile, long offset, long size)
+bool SecurityManager::LoadInitVxD( char *datafile, int offset, int size)
 {
 	FILE	*file;
 	FILE	*out;
 	char	filename[128];
 	char	add[128];
 
-	unsigned long		pos;
+	unsigned int		pos;
 	unsigned char		*nbuf;
 
 	// Open the dummy file which contain our VxD
@@ -188,7 +188,7 @@ bool SecurityManager::LoadInitVxD( char *datafile, long offset, long size)
 	DecryptData( (unsigned char *)VxDBuffer, size );
 
 	// Decompress the data
-	nbuf = DecompressData( VxDBuffer, (unsigned long &) size );
+	nbuf = DecompressData( VxDBuffer, (unsigned int &) size );
 	delete VxDBuffer;
 	VxDBuffer = nbuf;
 
@@ -221,10 +221,10 @@ bool SecurityManager::LoadInitVxD( char *datafile, long offset, long size)
 
 // This function will calculate the checksum of the given area
 // This will mainly serves to check if the VxD was not patched
-long SecurityManager::CalculateChecksum( unsigned char *lpMem, long size )
+int SecurityManager::CalculateChecksum( unsigned char *lpMem, int size )
 {
         unsigned char *p;
-        unsigned long  crc;
+        unsigned int  crc;
 
 		// preload shift register, per CRC-32 spec
         crc = 0xffffffff;       
@@ -240,13 +240,13 @@ long SecurityManager::CalculateChecksum( unsigned char *lpMem, long size )
 // This function will perform the decryption of a function using the VXD
 bool SecurityManager::DecryptFunction( void *lpFunc )
 {
-	//VxdRet = DeviceIoControl( VxDHandle, 3, caster.ptr, (unsigned long) crc32_table,
+	//VxdRet = DeviceIoControl( VxDHandle, 3, caster.ptr, (unsigned int) crc32_table,
 	//					dKey, HARDCODED_CHECKSUM, NULL, NULL );
 	return DeviceIoControl( VxDHandle, VXD_DECRYPT, lpFunc, 0, dKey, NULL, NULL, NULL ) == 1;
 }
 
 // This function will perform the decryption of a function using the VXD
-unsigned long SecurityManager::CheckFunction( void *lpFunc )
+unsigned int SecurityManager::CheckFunction( void *lpFunc )
 {
 	return DeviceIoControl( VxDHandle, VXD_CHECK, lpFunc, 0, crc32_table, NULL, NULL, NULL );
 }
@@ -308,10 +308,10 @@ void SecurityManager::squareDecrypt(word32 text[4], word32 roundkeys[R+1][4])
 #endif /* ?DESTROY_TEMPORARIES */
 } /* squareDecrypt */
 
-bool SecurityManager::DecryptData(unsigned char *lpData, unsigned long size )
+bool SecurityManager::DecryptData(unsigned char *lpData, unsigned int size )
 {
-	unsigned long	data[4];
-	unsigned long	pos;
+	unsigned int	data[4];
+	unsigned int	pos;
 
 	// Now encrypt data
 	for( pos = 0; (pos+15) < size; pos += 16 )
@@ -348,15 +348,15 @@ bool SecurityManager::DecryptData(unsigned char *lpData, unsigned long size )
 	return true;
 }
 
-unsigned char * SecurityManager::DecompressData(unsigned char *lpData, unsigned long &size)
+unsigned char * SecurityManager::DecompressData(unsigned char *lpData, unsigned int &size)
 {
-	unsigned long originalsize;
+	unsigned int originalsize;
 
 	// We will retrieve the size of the uncompressed file from the file
-	originalsize = *((unsigned long*)lpData);
+	originalsize = *((unsigned int*)lpData);
 
 	// Skip the size
-	lpData += sizeof( unsigned long );
+	lpData += sizeof( unsigned int );
 
 	// Initialize our buffer
 	readbuffer = lpData;
@@ -408,12 +408,12 @@ void SecurityManager::Decode(void)
 // This function will evaluate the security code and then return it
 // to the application
 
-long GetCode( char *root)
+int GetCode( char *root)
 {
-	unsigned long	SectorsPerCluster;
-	unsigned long	BytesPerSector;
-	unsigned long	NumberOfFreeClusters;
-	unsigned long	TotalNumberOfClusters;
+	unsigned int	SectorsPerCluster;
+	unsigned int	BytesPerSector;
+	unsigned int	NumberOfFreeClusters;
+	unsigned int	TotalNumberOfClusters;
 
 	// Put a marker
 	PUTSTARTMARK;

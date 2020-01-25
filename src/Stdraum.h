@@ -142,7 +142,7 @@ protected:
    SBFX           CalculatorFX;
    SBFX           SpeechFx;
    BOOL           TalkingSpeechFx;
-   BOOL           ReadyToStartSpeechFx;
+   DWORD          ReadyToStartSpeechFx;
 
 public:
    SLONG          StatusCount;          //DrawCounter für den StatusBar Speedup

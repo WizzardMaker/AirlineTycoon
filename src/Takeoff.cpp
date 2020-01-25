@@ -9,7 +9,6 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <io.h>
 #include <stdio.h>
 #include <time.h>
 #include "Abend.h"
@@ -45,12 +44,19 @@
 #include "World.h"
 
 #include "glTitel.h"
-#include <process.h>
 #include "cd_prot.h"
 
 #include "AtNet.h"
-#include "sblib\include\SbLib.h"
-#include "sblib\include\network.h"
+#include "SbLib.h"
+#include "network.h"
+
+#ifdef WIN32
+#include <io.h>
+#include <process.h>
+#else
+#include <unistd.h>
+#endif
+
 extern SBNetwork gNetwork;
 
 CHLPool HLPool;
@@ -162,24 +168,24 @@ struct protectedValue
 	};
 
 	// methods
-	__forceinline			protectedValue( );
-	__forceinline void		SetValue( int iValue );
-	__forceinline void		AddValue( const int iAdd );
-	__forceinline int		GetValue( ) const;
+				protectedValue( );
+	void		SetValue( int iValue );
+	void		AddValue( const int iAdd );
+	int		GetValue( ) const;
 
 	// Operators
 	bool operator > ( const protectedValue &cmp ) const { return GetValue( ) > cmp.GetValue( ); };
 	bool operator < ( const protectedValue &cmp ) const { return GetValue( ) < cmp.GetValue( ); };
 
 	// read access
-	__forceinline int		GetValueRaw( ) const { return mcharintScore.iValue; }
-	__forceinline unsigned	GetScrambleRaw( ) const { return muScramble; }
+	int		GetValueRaw( ) const { return mcharintScore.iValue; }
+	unsigned	GetScrambleRaw( ) const { return muScramble; }
 
 public:
 
 	// Methods
-	__forceinline int	Descramble( ) const;
-	__forceinline void	SetScrambled( const int iValue );
+	int	Descramble( ) const;
+	void	SetScrambled( const int iValue );
 
 	// Members
 	charint			mcharintScore;
@@ -254,7 +260,7 @@ int main(int argc, char* argv[])
    v.mcharintScore.iValue = 792628216;
    v.muScramble           = 3556112065;
 
-   long vv = v.GetValue();
+   int vv = v.GetValue();
 
 	char* pText = "Hallo, ich bin ein Text";
 
@@ -286,21 +292,6 @@ void RunLengthDeCompression( UCHAR *in, UCHAR *out, ULONG &size );
 //--------------------------------------------------------------------------------------------
 CTakeOffApp::CTakeOffApp()
 {
-   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0)
-   {
-      printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
-   }
-
-   if (TTF_Init() < 0)
-   {
-      printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-   }
-
-   if (Mix_Init(MIX_INIT_OGG) < 0)
-   {
-       printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", TTF_GetError());
-   }
-
    //_tmain();
 
    /*srand(timeGetTime());
@@ -411,9 +402,26 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
 {
    gPhysicalCdRomBitlist.Pump();
 
+   setenv("DISPLAY", ":0", 1);
+
    if (2>6)
    {
       //MySaver.Restore ("crash.dat");
+   }
+
+   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0)
+   {
+      TeakLibW_Exception(0, 0, "SDL Error: %s\n", SDL_GetError());
+   }
+
+   if (TTF_Init() < 0)
+   {
+      TeakLibW_Exception(0, 0, "SDL_ttf Error: %s\n", TTF_GetError());
+   }
+
+   if (Mix_Init(MIX_INIT_OGG) < 0)
+   {
+      TeakLibW_Exception(0, 0, "SDL_mixer Error: %s\n", TTF_GetError());
    }
 
    SLONG mp=MAX_PATH;
@@ -468,7 +476,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
 
    DoAppPath();
    gLanguage=LANGUAGE_D;
-   SLONG ifil=open (AppPath+"misc\\sabbel.dat", _O_RDONLY|_O_BINARY);
+   SLONG ifil=open (AppPath+"misc\\sabbel.dat", O_RDONLY);
    if (ifil>0)
    {
       read (ifil, &gLanguage, sizeof (gLanguage));

@@ -126,7 +126,7 @@
          //Base Services:
          BOOL   SetPixel (XY Pos, dword Color) { pBitmap->SetPixel (Pos.x, Pos.y, Color); return (TRUE); }
          BOOL   SetPixel (SLONG x, SLONG y, dword Color) { return (SetPixel (XY(x,y), Color)); return (TRUE); }
-         dword  GetPixel(long x,long y) { return (pBitmap->GetPixel (x,y)); }
+         dword  GetPixel(int x,int y) { return (pBitmap->GetPixel (x,y)); }
          dword  Clear(dword color=0) { Bench.ClearTime.Start(); pBitmap->Clear ((SB_CHardwarecolorHelper *)color); Bench.ClearTime.Stop(); return (TRUE); }
          BOOL   FillWith (dword Color) { Bench.ClearTime.Start(); pBitmap->Clear ((SB_CHardwarecolorHelper *)Color); Bench.ClearTime.Stop(); return (TRUE); }
          BOOL   Line (const XY &From, const XY &To, dword Color) {pBitmap->Line (From.x, From.y, To.x, To.y, Color); return (TRUE); }
@@ -204,7 +204,6 @@
          void  ReSize (GfxLib* gfxLibrary, const CString &graphicIDs, SLONG Anzahl);
          SLONG AnzEntries() const { return (Bitmaps.AnzEntries()); }
 
-         SB1BM& operator [](const SLONG Index) const { return Bitmaps[Index]; }
          SB1BM& operator [](const int Index) const { return Bitmaps[Index]; }
    };
 

@@ -384,7 +384,7 @@ SLONG Prozent2Dezibel (SLONG Prozent)
 //--------------------------------------------------------------------------------------------
 //Skala von 0-8
 //--------------------------------------------------------------------------------------------
-void SetMidiVolume(long volume)
+void SetMidiVolume(int volume)
 {
    /*SLONG       midiVolume;
 
@@ -396,7 +396,7 @@ void SetMidiVolume(long volume)
 	   gpSSE->GetMixerVolume("MIDI", &midiVolume, &mbMusic);
       if (mbMusic.dwSteps<1) mbMusic.dwSteps=1;
 
-      long StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
+      int StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
       if (StepSize<1) StepSize=1;
    
 	   midiVolume=mbMusic.lMinimum+volume*(mbMusic.lMaximum-mbMusic.lMinimum)/7/StepSize*StepSize;
@@ -410,7 +410,7 @@ void SetMidiVolume(long volume)
 //--------------------------------------------------------------------------------------------
 //Skala von 0-8
 //--------------------------------------------------------------------------------------------
-void SetWaveVolume(long volume)
+void SetWaveVolume(int volume)
 {
    /*SLONG       waveVolume;
 
@@ -422,7 +422,7 @@ void SetWaveVolume(long volume)
 	   gpSSE->GetMixerVolume("WAVE", &waveVolume, &mbMusic);
       if (mbMusic.dwSteps<1) mbMusic.dwSteps=1;
 
-      long StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
+      int StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
       if (StepSize<1) StepSize=1;
    
 	   waveVolume=mbMusic.lMinimum+volume*(mbMusic.lMaximum-mbMusic.lMinimum)/7/StepSize*StepSize;
@@ -601,13 +601,13 @@ void SBFX::Destroy (void)
    }
 }
 
-void SBFX::Fusion (const SBFX **Fx, long NumFx)
+void SBFX::Fusion (const SBFX **Fx, int NumFx)
 {
    FX *Elements[100];
 
    Destroy();
 
-   for (long c=0; c<min(100,NumFx); c++)
+   for (int c=0; c<min(100,NumFx); c++)
       Elements[c]=Fx[c]->pFX;
 
    if (gpSSE)
@@ -617,20 +617,20 @@ void SBFX::Fusion (const SBFX **Fx, long NumFx)
    }
 }
 
-void SBFX::Fusion (const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumFx)
+void SBFX::Fusion (const SBFX *Fx, const SLONG *Von, const SLONG *Bis, int NumFx)
 {
    Destroy();
 
    if (gpSSE)
    {
       gpSSE->CreateFX (&pFX);
-      pFX->Fusion (Fx->pFX, (long*)Von, (long*)Bis, NumFx);
+      pFX->Fusion (Fx->pFX, (int*)Von, (int*)Bis, NumFx);
    }
 }
 
 void SBFX::Tokenize (BUFFER<SBFX> &Effects)
 {
-   long  c, Anzahl;
+   int  c, Anzahl;
    FX  **ppFx = pFX->Tokenize (0x80007FFF80007FFF, Anzahl);
 
    Effects.ReSize (0);
@@ -679,7 +679,7 @@ void SBFX::Play(dword dwFlags)
    if (pSoundLogFile) fwrite (Filename, 1, strlen(Filename), pSoundLogFile);
 }
 
-void SBFX::Play(dword dwFlags, long PercentVolume)
+void SBFX::Play(dword dwFlags, int PercentVolume)
 {
    if (pFX && Sim.Options.OptionDigiSound)
    {
@@ -696,7 +696,7 @@ void SBFX::Stop(void)
    if (pFX) pFX->Stop();
 }
 
-void SBFX::SetVolume (long volume)
+void SBFX::SetVolume (int volume)
 {
    if (pFX) pFX->SetVolume (volume);
 }

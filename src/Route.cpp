@@ -71,7 +71,7 @@ void CRouten::ReInit (const CString &TabFilename, bool bNoDoublettes)
 {
    //CStdioFile    Tab;
    BUFFER<char>  Line(300);
-   long          Id, Id2;
+   int          Id, Id2;
 
    //Load Table header:
    BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
@@ -147,8 +147,8 @@ void CRouten::ReInitExtend (const CString &TabFilename)
 {
    //CStdioFile    Tab;
    BUFFER<char>  Line(300);
-   long          Id, Id2;
-   long          linenumber=0;
+   int          Id, Id2;
+   int          linenumber=0;
 
    //Load Table header:
    BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));

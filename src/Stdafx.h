@@ -9,7 +9,9 @@
 #define _WINSOCKAPI_   /* Prevent inclusion of winsock.h in windows.h */
 #include <Windows.h>
 #endif
-#include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
@@ -27,7 +29,7 @@ typedef CStdStringA CString;
 #include "glstd.h"
 #include "glbasis.h"
 
-#include "res\Resource.h"
+#include "Res/resource.h"
 
 #include "class.h"         //Eigene Klassen
 #include "Proto.h"

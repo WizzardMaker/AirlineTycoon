@@ -47,6 +47,7 @@ template <class T> class /**/CJumpingVar
 
       void Pump (void)
       {
+#ifdef CD_PROTECTION
          T *tmp=new T;
          char *help=new char [sizeof (T)];
 
@@ -58,6 +59,7 @@ template <class T> class /**/CJumpingVar
          delete t;
 
          t=tmp;
+#endif
       }
 };
 
@@ -100,11 +102,11 @@ class /**/SBFX
       void Destroy (void);
       void ReInit (const CString &Filename, char *Path=NULL);
 		void Play(dword dwFlags = 0);
-		void Play(dword dwFlags, long PercentVolume);
+		void Play(dword dwFlags, int PercentVolume);
 		void Stop(void);
-		void SetVolume (long volume);
-      void Fusion (const SBFX **Fx, long NumFx);
-      void Fusion (const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumFx);
+		void SetVolume (int volume);
+      void Fusion (const SBFX **Fx, int NumFx);
+      void Fusion (const SBFX *Fx, const SLONG *Von, const SLONG *Bis, int NumFx);
       void Tokenize (BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis);
       void Tokenize (BUFFER<SBFX> &Effects);
 };
@@ -747,7 +749,7 @@ class /**/CPlanePart
       XY      Pos3d;             // An dieser Stelle ist das Part untergebracht
       CString Shortname;         // z.B. C1
       CString ParentShortname;   // Identifiziert das Teil wo wir drankleben z.B. B1
-      long    ParentRelationId;  // Identifiziert die Relation durch die wir verbunden sind 100
+      int    ParentRelationId;  // Identifiziert die Relation durch die wir verbunden sind 100
 
    public:
       SBBM &GetBm(SBBMS &PartBms);
@@ -780,24 +782,24 @@ class /**/CXPlane
 {
    public:
       CString     Name;        // Name des Flugzeuges
-      long        Cost;        // Soviel kostet es
+      int        Cost;        // Soviel kostet es
       CPlaneParts Parts;       // Die Einzelteile des Flugzeugs
 
    public:
       void BlitPlaneAt (SBPRIMARYBM &TargetBm, SLONG Size, XY Pos, SLONG OwningPlayer);
       void Clear (void);
-      long CalcCost (void);
-      long CalcPassagiere (void);
-      long CalcReichweite (void);
-      long CalcVerbrauch (void);
-      long CalcWeight (void);
-      long CalcPower (void);
-      long CalcNoise (void);
-      long CalcWartung (void);
-      long CalcTank (bool bFaked=false);
-      long CalcSpeed (void);
-      long CalcPiloten (void);
-      long CalcBegleiter (void);
+      int CalcCost (void);
+      int CalcPassagiere (void);
+      int CalcReichweite (void);
+      int CalcVerbrauch (void);
+      int CalcWeight (void);
+      int CalcPower (void);
+      int CalcNoise (void);
+      int CalcWartung (void);
+      int CalcTank (bool bFaked=false);
+      int CalcSpeed (void);
+      int CalcPiloten (void);
+      int CalcBegleiter (void);
       void Load (CString Filename);
       void Save (CString Filename);
       bool IsBuildable (void);
@@ -1015,7 +1017,7 @@ class /**/HEADLINES
 
       //Flexibles Zufallszeux:
       CString   FlexiCity[3];      //Zufallsstadt für einen Thread
-      long      FlexiNumber[3];    //Zufallszahl für einen Thread
+      int      FlexiNumber[3];    //Zufallszahl für einen Thread
 
    public:
       BOOL      IsInteresting;     //Ist heute etwas interessantes dabei?
@@ -1023,15 +1025,15 @@ class /**/HEADLINES
    public:
       HEADLINES ();
       HEADLINES (const CString &TabFilename);
-      CHeadline GetHeadline (long Newspaper, SLONG Index);
+      CHeadline GetHeadline (int Newspaper, SLONG Index);
       void      Init (void);
-      void      SetHeadline (long Newspaper, const CString &Headlinetext);
-      void      BlitHeadline (long Newspaper, SBBM &Offscreen, CPoint p1, CPoint p2, BYTE Color);
+      void      SetHeadline (int Newspaper, const CString &Headlinetext);
+      void      BlitHeadline (int Newspaper, SBBM &Offscreen, CPoint p1, CPoint p2, BYTE Color);
       void      ReloadHeadline (void);
       void      InterpolateHeadline (void);
       void      ComparisonHeadlines (void);
       void      ReInit (const CString &TabFilename);
-      void      AddOverride (long Newspaper, const CString &Headlinetext, __int64 Pictureid, SLONG PicturePriority);
+      void      AddOverride (int Newspaper, const CString &Headlinetext, __int64 Pictureid, SLONG PicturePriority);
       void      SortByPriority (void);
 
    friend class SIM;
@@ -1064,7 +1066,7 @@ class /**/CITY //Eine Stadt
       //Vorraussetzung für Anflug
 
    public:
-      void  Update (long Jahr);
+      void  Update (int Jahr);
       SLONG GetBuroRent (void);
 };
 
@@ -1078,9 +1080,9 @@ class /**/CITIES : public ALBUM<CITY>
       CITIES () : ALBUM<CITY> (Cities, "Cities") {}
       CITIES (const CString &TabFilename);
       void  ReInit (const CString &TabFilename);
-      void  Update (long Jahr);
-      SLONG CalcDistance (long CityId1, long CityId2);
-      SLONG CalcFlugdauer (long CityId1, long CityId2, long Speed);
+      void  Update (int Jahr);
+      SLONG CalcDistance (int CityId1, int CityId2);
+      SLONG CalcFlugdauer (int CityId1, int CityId2, int Speed);
       SLONG GetRandomUsedIndex (TEAKRAND *pRand=NULL);
       SLONG GetRandomUsedIndex (SLONG AreaCode, TEAKRAND *pRand=NULL);
       ULONG GetIdFromName (char *Name);
@@ -1310,13 +1312,13 @@ class /**/BRICKS : public ALBUM<BRICK>
 class /**/BUILD //Die Verwendung eines Bodenteils
 {
    private:
-      long   BrickId;         //Verweis in Brick-Tabelle
+      int   BrickId;         //Verweis in Brick-Tabelle
       XY     ScreenPos;       //Position im Flughafen
       UBYTE  Par;             //Parameter, z.B. für die Raumnummer
 
    public:
       BUILD () {}
-      BUILD (long BrickId, const XY &ScreenPos, BOOL Ansatz);
+      BUILD (int BrickId, const XY &ScreenPos, BOOL Ansatz);
       friend TEAKFILE &operator << (TEAKFILE &File, const BUILD &Build);
       friend TEAKFILE &operator >> (TEAKFILE &File, BUILD &Build);
 
@@ -1596,7 +1598,7 @@ class /**/HISTORY
       void ReInit ();
       void AddEntry (__int64 Money, CString Description);
       void AddNewCall (SLONG Type);                         //Bit 0: Handy, Bit 1+2: Ortgespräch, Ferngespräch, Auslandsgespräch
-      void AddCallCost (long Money);
+      void AddCallCost (int Money);
 
    friend TEAKFILE &operator << (TEAKFILE &File, const HISTORY &h);
    friend TEAKFILE &operator >> (TEAKFILE &File, HISTORY &h);
@@ -1814,8 +1816,8 @@ class CSmack16
       SDL_Palette* PaletteMapper;          //Tabelle zum Mappen von 8 auf 16 Bit
       smk          pSmack;
       char         State;
-      ULONG        Width;
-      ULONG        Height;
+      unsigned long Width;
+      unsigned long Height;
       DWORD        FrameNext;
 
    public:
@@ -1840,7 +1842,7 @@ class CAirportSmack : public CSmack16
 {
    public:
       SBBM         Bitmap;
-      long         BrickId;
+      int         BrickId;
       XY           Offset;
 
    public:
@@ -1868,7 +1870,7 @@ class PLAYER
       __int64          Bonus;      //versteckter Bonus, den der Computerspieler noch erhält
       FBUFFER<__int64> MoneyPast;  //Vergangenheitslinie des Geldes
       __int64          Credit;     //Seine Schulden
-      long           Image;      //Firmenimage generell [-1000..1000]
+      int           Image;      //Firmenimage generell [-1000..1000]
       SLONG          BadKerosin; //Soviel Liter schlechtes Kerosin wurde gekauft
       SLONG          KerosinKind;//Diese Art wird getankt
       SLONG          Tank;       //Soviel kann man auf Reserve Bunkern
@@ -1985,8 +1987,8 @@ class PLAYER
       XY             ViewPos;    //SichtPosition im Flughafen
       XY             IslandViewPos; //SichtPosition für die Inseln
       XY             CameraSpeed;   //Trägheitssteuerung. Dies ist die Geschw. der Kamera
-      CStdRaum      *LocationWin;//Pointer auf offenes Sub-Fenster (Raum)
-      CStdRaum      *DialogWin;  //Pointer auf offenes Dialog-Sub-Fenster
+      class CStdRaum *LocationWin;//Pointer auf offenes Sub-Fenster (Raum)
+      class CStdRaum *DialogWin;  //Pointer auf offenes Dialog-Sub-Fenster
       UBYTE          NewDir;     //Flag, falls die Laufrichtung geändert wurde
       XY             WinP1;      //Die Position des ViewFensters im GameFrame Fenster
       XY             WinP2;
@@ -2067,10 +2069,10 @@ class PLAYER
       void  BuyPlane (CXPlane &plane, TEAKRAND *pRnd);
       void  BuyPlane (ULONG PlaneTypeId, TEAKRAND *pRnd);
       void  BuyItem (UBYTE Item);
-      long  CalcSecurityCosts (bool bFixOnly=false, bool bPlaneOnly=false);
+      int  CalcSecurityCosts (bool bFixOnly=false, bool bPlaneOnly=false);
       void  DisplayAsTelefoning (void);
       bool  DropItem (UBYTE Item);
-      long  CalcCreditLimit (void);
+      int  CalcCreditLimit (void);
       void  CalcRoom (void);              //Speed-up für GetRoom
       SLONG CalcPlanePropSum (void);      //Berechnet, was die anstehenden Umrüstungen zusammen kosten werden
       void  ChangeMoney (__int64 Money, SLONG Reason, CString Par1, char *Par2=NULL);  //Ändert Barschaft und Profit
@@ -2106,7 +2108,7 @@ class PLAYER
       void  RobotPlan(void);
       void  RobotInit(void);
       void  RobotExecuteAction(void);
-      void  RouteWegnehmen (long Routenindex, long NeuerBesitzer=-1);
+      void  RouteWegnehmen (int Routenindex, int NeuerBesitzer=-1);
       void  SackWorkers (void);
       void  UpdateAuftragsUsage (void);
       void  UpdateFrachtauftragsUsage (void);
@@ -2143,7 +2145,7 @@ class PLAYER
       void  NetUpdateKerosin (void);
       void  NetSynchronizePlanes (void);
       void  NetSynchronizeMeeting (void);
-      void  NetBuyXPlane (long Anzahl, CXPlane &plane);
+      void  NetBuyXPlane (int Anzahl, CXPlane &plane);
       void  NetSave (DWORD UniqueGameId, SLONG CursorY, CString Name);
 
    friend TEAKFILE &operator << (TEAKFILE &File, const PLAYER &Player);
@@ -2153,7 +2155,7 @@ class PLAYER
 class PLAYERS
 {
    public:
-      long            AnzPlayers;
+      int            AnzPlayers;
       FBUFFER<PLAYER> Players;
       
    public:
@@ -2406,7 +2408,7 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
 
       FBUFFER<SLONG> MissionCities;    //Die Zielstädte für die Missionen
       SLONG          KrisenCity;       //Id der Stadt, wo das Erdbeben ist
-      long           ProtectionState;  //0: unchecked, 1=check & okay, -x Countdown till quit
+      int           ProtectionState;  //0: unchecked, 1=check & okay, -x Countdown till quit
 
    //Referenzflugzeug:
    public:
@@ -2429,8 +2431,8 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
 	   bool		   StatfGraphVisible;							// true -> Der Graph ist sichtbar, ansonsten die schnöden Zahlen
 	   bool		   StatplayerMask[4];							// Diese Spieler wurden zur Ansicht ausgewählt
 	   BYTE		   Statgroup;										// Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
-	   long		   Statdays;										// Anzahl der darzustellenden Tage
-	   long		   StatnewDays;									// Für eine Animation
+	   int		   Statdays;										// Anzahl der darzustellenden Tage
+	   int		   StatnewDays;									// Für eine Animation
 	   bool		   StatiArray[3][16];		               // Merkt sich für jede Gruppe welche Einträge selektiert sind.
       SLONG       DropDownPosY;
 
@@ -2472,7 +2474,7 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
    public:
       SIM();
       ~SIM();
-      void    AddSmacker (CString Filename, long BrickId, XY Offset);
+      void    AddSmacker (CString Filename, int BrickId, XY Offset);
       void    AddNewPassengers (void);
       void    AddNewShoppers (void);
       void    AddStenchSabotage (XY Position);

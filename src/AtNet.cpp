@@ -7,8 +7,8 @@
 #include "atnet.h"
 #include "Buero.h"
 
-#include "sblib\include\SbLib.h"
-#include "sblib\include\network.h"
+#include "SbLib.h"
+#include "network.h"
 extern SBNetwork gNetwork;
 
 #define GFX_MENU			 (0x00000000554e454d)
@@ -26,10 +26,10 @@ ULONG rChkLMA=0, rChkRBA=0, rChkAA[MAX_CITIES], rChkFrachen=0;
 SLONG rChkGeneric, CheckGeneric=0;
 SLONG rChkActionId[5*4];
 
-long GenericSyncIds[4]         = { 0,0,0,0 };
-long GenericSyncIdPars[4]      = { 0,0,0,0 };
-long GenericAsyncIds[4*100]    = { 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 };
-long GenericAsyncIdPars[4*100] = { 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 };
+int GenericSyncIds[4]         = { 0,0,0,0 };
+int GenericSyncIdPars[4]      = { 0,0,0,0 };
+int GenericAsyncIds[4*100]    = { 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 };
+int GenericAsyncIdPars[4*100] = { 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 };
 
 //--------------------------------------------------------------------------------------------
 //Sets the bitmap for the network to display: (0=none; 1=player in options, 2=player in windows; 3=waiting for player)
@@ -1722,7 +1722,7 @@ void PumpNetwork (void)
                    Message >> rPersonRandCreate >> rPersonRandMisc >> rHeadlineRand;
                    Message >> rLMA >> rRBA >> rFrachen >> rGeneric;
 
-                   for (long c=0; c<MAX_CITIES; c++) Message >> rAA[c];
+                   for (int c=0; c<MAX_CITIES; c++) Message >> rAA[c];
                    for (c=0; c<20; c++) Message >> rActionId[c];
 
 #ifdef _DEBUG
@@ -1748,7 +1748,7 @@ void PumpNetwork (void)
 
              case ATNET_GENERICSYNC:
                 {
-                   long localPlayer;
+                   int localPlayer;
 
                    Message >> localPlayer;
                    Message >> GenericSyncIds[localPlayer];
@@ -1759,7 +1759,7 @@ void PumpNetwork (void)
 
              case ATNET_GENERICSYNCX:
                 {
-                   long localPlayer;
+                   int localPlayer;
 
                    Message >> localPlayer;
                    Message >> GenericSyncIds[localPlayer] >> GenericSyncIdPars[localPlayer];
@@ -1770,7 +1770,7 @@ void PumpNetwork (void)
 
              case ATNET_GENERICASYNC:
                 {
-                   long SyncId, Par, player;
+                   int SyncId, Par, player;
 
                    Message >> player;
                    Message >> SyncId >> Par;
@@ -1786,7 +1786,7 @@ void PumpNetwork (void)
              //--------------------------------------------------------------------------------------------
              case ATNET_BODYGUARD:
                 {
-                   long localPlayer, delta;
+                   int localPlayer, delta;
 
                    Message >> localPlayer >> delta;
 
@@ -1799,7 +1799,7 @@ void PumpNetwork (void)
 
              case ATNET_CHANGEMONEY:
                 {
-                   long localPlayer, delta, statistikid;
+                   int localPlayer, delta, statistikid;
 
                    Message >> localPlayer >> delta >> statistikid;
 
@@ -1884,7 +1884,7 @@ CString GetMediumName (SLONG Medium)
 //--------------------------------------------------------------------------------------------
 // Kehrt erst zurück, wenn die anderen Spieler hier auch waren:
 //--------------------------------------------------------------------------------------------
-void NetGenericSync (long SyncId)
+void NetGenericSync (int SyncId)
 {
     if (!Sim.bNetwork) return;
     if (Sim.localPlayer<0 || Sim.localPlayer>3) return;
@@ -1895,7 +1895,7 @@ void NetGenericSync (long SyncId)
 
     while (1)
     {
-       for (long c=0; c<4; c++)
+       for (int c=0; c<4; c++)
           if (Sim.Players.Players[c].Owner!=1 && GenericSyncIds[c]!=SyncId && !Sim.Players.Players[c].IsOut)
              break;
 
@@ -1909,7 +1909,7 @@ void NetGenericSync (long SyncId)
 // Kehrt erst zurück, wenn die anderen Spieler hier auch waren:
 // Gibt Warnung aus, falls die Parameter unterschiedlich waren.
 //--------------------------------------------------------------------------------------------
-void NetGenericSync (long SyncId, long Par)
+void NetGenericSync (int SyncId, int Par)
 {
 #ifdef _DEBUG
    static bool bReentrant=false;
@@ -1929,7 +1929,7 @@ void NetGenericSync (long SyncId, long Par)
 
    while (1)
    {
-      for (long c=0; c<4; c++)
+      for (int c=0; c<4; c++)
          if (Sim.Players.Players[c].Owner!=1 && GenericSyncIds[c]!=SyncId && !Sim.Players.Players[c].IsOut)
             break;
 
@@ -1958,7 +1958,7 @@ void NetGenericSync (long SyncId, long Par)
 // Kehrt erst zurück, wenn die anderen Spieler hier auch waren:
 // Gibt Warnung aus, falls die Parameter unterschiedlich waren.
 //--------------------------------------------------------------------------------------------
-void NetGenericAsync (long SyncId, long Par, long player)
+void NetGenericAsync (int SyncId, int Par, int player)
 {
 #ifdef _DEBUG
    if (!Sim.bNetwork) return;
@@ -1972,7 +1972,7 @@ void NetGenericAsync (long SyncId, long Par, long player)
       player=Sim.localPlayer;
    }
 
-   long d;
+   int d;
 
    //Gibt es den Eintrag schon?
    for (d=0; d<400; d++)
@@ -1997,7 +1997,7 @@ void NetGenericAsync (long SyncId, long Par, long player)
    GenericAsyncIds[d+player]=SyncId;
    GenericAsyncIdPars[d+player]=Par;
 
-   for (long c=0; c<4; c++)
+   for (int c=0; c<4; c++)
       if (Sim.Players.Players[c].Owner!=1 && GenericAsyncIds[d+c]!=SyncId && !Sim.Players.Players[c].IsOut)
          break;
 

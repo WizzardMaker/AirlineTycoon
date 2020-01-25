@@ -203,8 +203,8 @@ void CLANS::ReInit (const CString &TabFilename)
                }
                else
                {
-                  unsigned __int64 id=GetIdFromString(DirPhaseLists[c]);
-                  unsigned __int64 add;
+                  unsigned long int id=GetIdFromString(DirPhaseLists[c]);
+                  unsigned long int add;
 
                        if (id>=0x01ff00ff00ff00ff) add=7;
                   else if (id>=0x01ff00ff00ff00)   add=6;
@@ -413,7 +413,7 @@ void CLAN::BlitLargeAt (SBBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos)
       {
          if (ScreenPos.x>-60 && ScreenPos.x<700)
          {
-            Size = XY(pbm->Size.x/2, pbm->Size.y-1)*2l;
+            Size = XY(pbm->Size.x/2, pbm->Size.y-1)*2;
             SDL_Rect SrcRect = { 0,0,pbm->pBitmap->GetXSize(),pbm->pBitmap->GetYSize() };
             SDL_Rect DestRect = { ScreenPos.x-Size.x, ScreenPos.y-pbm->pBitmap->GetYSize()*2, ScreenPos.x-Size.x+pbm->pBitmap->GetXSize()*2, ScreenPos.y };
             SDL_Rect ClipRect = Offscreen.pBitmap->GetSurface()->clip_rect;
@@ -1817,7 +1817,7 @@ void PERSON::DoOnePlayerStep (void)
    }
 
    if (qPlayer.PlayerStinking>0 && Position.y<4000)
-      for (long x=-2; x<=2; x++)
+      for (int x=-2; x<=2; x++)
       {
          if (ArrayPos.y>=6) Airport.iPlate[ArrayPos.y+((ArrayPos.x+x)<<4)] &= ~1;
          if (ArrayPos.y>6)  Airport.iPlate[ArrayPos.y-1+((ArrayPos.x+x)<<4)] &= ~1;
@@ -2617,7 +2617,7 @@ void PERSON::DoOnePlayerStep (void)
       qPlayer.BroadcastPosition();
 
    if (qPlayer.PlayerStinking>16 && Position.y<4000)
-      for (long x=-1; x<=1; x++)
+      for (int x=-1; x<=1; x++)
       {
          if (ArrayPos.y>=6) Airport.iPlate[ArrayPos.y+((ArrayPos.x+x)<<4)] |= 1;
          if (ArrayPos.y>6  && ArrayPos.y<14) Airport.iPlate[ArrayPos.y-1+((ArrayPos.x+x)<<4)] |= 1;

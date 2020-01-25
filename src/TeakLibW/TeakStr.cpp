@@ -10,10 +10,10 @@ char* bprintf(char const* format, ...)
     return buffer;
 }
 
-char* bitoa(long val, long radix)
+char* bitoa(int val, int radix)
 {
     static char buffer[20];
-    ltoa(val, buffer, radix);
+    SDL_ltoa(val, buffer, radix);
     return buffer;
 }
 

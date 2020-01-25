@@ -26,8 +26,8 @@
 #include "Designer.h"
 
 #include "AtNet.h"
-#include "sblib\include\SbLib.h"
-#include "sblib\include\network.h"
+#include "SbLib.h"
+#include "network.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -163,7 +163,7 @@ public:
    };
 };
 
-static BOOL IgnoreNextPostPaintPump;
+static DWORD IgnoreNextPostPaintPump;
 static bool bDestructorCalledInMeantime=false;
 
 //--------------------------------------------------------------------------------------------
@@ -339,7 +339,7 @@ CStdRaum::CStdRaum (BOOL bHandy, ULONG PlayerNum, CString GfxLibName, __int64 gr
    CurrentTextGroupId    = NULL;
    LastTextGroupId       = *(ULONG*)"none";
 
-   if (graficId==NULL) PicBitmap.ReSize (0l,0l);
+   if (graficId==NULL) PicBitmap.ReSize (0,0);
                   else PicBitmap.ReSize (pRoomLib, graficId, CREATE_SYSMEM);
 
    RoomBm.ReSize (PicBitmap.Size, CREATE_SYSMEM);
@@ -483,7 +483,7 @@ void CStdRaum::ReSize (CString GfxLibName, __int64 graficId)
    else
       pRoomLib=NULL;
 
-   if (graficId==NULL) PicBitmap.ReSize (0l,0l);
+   if (graficId==NULL) PicBitmap.ReSize (0,0);
                   else PicBitmap.ReSize (pRoomLib, graficId, CREATE_SYSMEM);
 
    RoomBm.ReSize (PicBitmap.Size, CREATE_SYSMEM);
@@ -494,7 +494,7 @@ void CStdRaum::ReSize (CString GfxLibName, __int64 graficId)
 //--------------------------------------------------------------------------------------------
 void CStdRaum::ReSize (__int64 graficId)
 {
-   if (graficId==NULL) PicBitmap.ReSize (0l,0l);
+   if (graficId==NULL) PicBitmap.ReSize (0,0);
                   else PicBitmap.ReSize (pRoomLib, graficId, CREATE_SYSMEM);
 
    RoomBm.ReSize (PicBitmap.Size, CREATE_SYSMEM);
@@ -844,9 +844,9 @@ void CStdRaum::MakeNumberWindow (const char *GroupId, ULONG SubId, ...)
 void CStdRaum::RepaintText (BOOL RefreshAll)
 {
    SLONG Rand=0;
-   static long LastCurrentHighlight=0;
+   static int LastCurrentHighlight=0;
 
-   if (LastCurrentHighlight!=long(CurrentHighlight))
+   if (LastCurrentHighlight!=int(CurrentHighlight))
    {
       LastCurrentHighlight=CurrentHighlight;
       RefreshAll=true;
@@ -2827,8 +2827,8 @@ void CStdRaum::PostPaint (void)
                {
                   DestRect.x = (p.x*(100-ZoomCounter)+MenuPos.x*ZoomCounter)/100;
                   DestRect.y = (p.y*(100-ZoomCounter)+MenuPos.y*ZoomCounter)/100;
-                  DestRect.w = long(OnscreenBitmap.Size.x*(MinimumZoom*100+((ZoomCounter*(1.0-MinimumZoom))))/100);
-                  DestRect.h = long(OnscreenBitmap.Size.y*(MinimumZoom*100+((ZoomCounter*(1.0-MinimumZoom))))/100);
+                  DestRect.w = int(OnscreenBitmap.Size.x*(MinimumZoom*100+((ZoomCounter*(1.0-MinimumZoom))))/100);
+                  DestRect.h = int(OnscreenBitmap.Size.y*(MinimumZoom*100+((ZoomCounter*(1.0-MinimumZoom))))/100);
                }
 
                SDL_BlitScaled(OnscreenBitmap.pBitmap->GetSurface(), &SrcRect, PrimaryBm.PrimaryBm.GetSurface(), &DestRect);
@@ -2876,8 +2876,8 @@ void CStdRaum::PostPaint (void)
 
             DestRect.x = (p.x*(100-ZoomCounter)+MenuPos.x*ZoomCounter)/100;
             DestRect.y = (p.y*(100-ZoomCounter)+MenuPos.y*ZoomCounter)/100;
-            DestRect.w = long(OnscreenBitmap.Size.x*(MinimumZoom*100+((ZoomCounter*(1.0-MinimumZoom))))/100);
-            DestRect.h = long(OnscreenBitmap.Size.y*(MinimumZoom*100+((ZoomCounter*(1.0-MinimumZoom))))/100);
+            DestRect.w = int(OnscreenBitmap.Size.x*(MinimumZoom*100+((ZoomCounter*(1.0-MinimumZoom))))/100);
+            DestRect.h = int(OnscreenBitmap.Size.y*(MinimumZoom*100+((ZoomCounter*(1.0-MinimumZoom))))/100);
 
             SDL_BlitScaled(OnscreenBitmap.pBitmap->GetSurface(), &SrcRect, PrimaryBm.PrimaryBm.GetSurface(), &DestRect);
          }
@@ -3585,8 +3585,8 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
             case ITEM_GLKOHLE:
                if (qPlayer.GetRoom()==ROOM_LAST_MINUTE)
                {
-                  long cnt=0;
-                  for (long c=LastMinuteAuftraege.AnzEntries()-1; c>=0; c--)
+                  int cnt=0;
+                  for (int c=LastMinuteAuftraege.AnzEntries()-1; c>=0; c--)
                   {
                      if (LastMinuteAuftraege.Auftraege[c].Praemie>0)
                      {
@@ -3605,8 +3605,8 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
                }
                else if (qPlayer.GetRoom()==ROOM_REISEBUERO)
                {
-                  long cnt=0;
-                  for (long c=ReisebueroAuftraege.AnzEntries()-1; c>=0; c--)
+                  int cnt=0;
+                  for (int c=ReisebueroAuftraege.AnzEntries()-1; c>=0; c--)
                   {
                      if (ReisebueroAuftraege.Auftraege[c].Praemie>0)
                      {
@@ -3661,7 +3661,7 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
             case ITEM_PARFUEM:
                if (qPlayer.GetRoom()==ROOM_WERKSTATT && Sim.Slimed!=-1)
                {
-                  for (long d=0; d<6; d++)
+                  for (int d=0; d<6; d++)
                      if (qPlayer.Items[d]==ITEM_PARFUEM)
                         qPlayer.Items[d]=ITEM_XPARFUEM;
                }
@@ -4007,7 +4007,7 @@ void CStdRaum::RepaintTip (void)
 BOOL CStdRaum::ConvertMousePosition (const XY &WindowsBased, XY *RoomBased)
 {
    //Koordinaten für kleine Fenster konvertieren:
-   *RoomBased = WindowsBased + CPoint(-WinP1.x, -WinP1.y);
+   *RoomBased = WindowsBased + XY(-WinP1.x, -WinP1.y);
 
    //Klick außerhalb vom Fenster?
    if (WindowsBased.x<WinP1.x || WindowsBased.y<WinP1.y || WindowsBased.x>WinP2.x || WindowsBased.y>WinP2.y)
@@ -4430,7 +4430,7 @@ void CStdRaum::MenuStart (SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG 
    }
 
    MenuRepaint ();
-   MenuPos = (XY(640, 440) - OnscreenBitmap.Size)/2l;
+   MenuPos = (XY(640, 440) - OnscreenBitmap.Size)/2;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -4847,7 +4847,7 @@ void CStdRaum::MenuRepaint (void)
             if (OnscreenBitmap.Size!=MenuBms[8].Size)
             {
                OnscreenBitmap.ReSize (MenuBms[8].Size);
-               MenuPos = (XY(640, 440) - OnscreenBitmap.Size)/2l;
+               MenuPos = (XY(640, 440) - OnscreenBitmap.Size)/2;
             }
 
             OnscreenBitmap.BlitFrom (MenuBms[8]);
@@ -5173,7 +5173,7 @@ void CStdRaum::MenuRepaint (void)
 
             //Markt:
             OnscreenBitmap.PrintAt (StandardTexte.GetS (TOKEN_AKTIE, 1000), qFontBankBlack, TEC_FONT_LEFT, 30, 40, 325, 139);
-            OnscreenBitmap.PrintAt (Einheiten[EINH_DM].bString (long(Sim.Players.Players[MenuPar1].Kurse[0])), qFontBankBlack, TEC_FONT_LEFT, 90, 40, 260, 139);
+            OnscreenBitmap.PrintAt (Einheiten[EINH_DM].bString (int(Sim.Players.Players[MenuPar1].Kurse[0])), qFontBankBlack, TEC_FONT_LEFT, 90, 40, 260, 139);
             OnscreenBitmap.PrintAt (bitoa (Max), qFontBankBlack, TEC_FONT_LEFT, 140, 40, 260, 139);
             OnscreenBitmap.PrintAt (Einheiten[EINH_P].bString (SLONG(__int64(Max)*100/Sim.Players.Players[MenuPar1].AnzAktien)), qFontBankBlack, TEC_FONT_LEFT, 200, 40, 325, 139);
             OnscreenBitmap.PrintAt (Einheiten[EINH_DM].bString64 (__int64(Max)*SLONG(Sim.Players.Players[MenuPar1].Kurse[0])), qFontBankBlack, TEC_FONT_LEFT, 240, 40, 325, 139);
@@ -6611,7 +6611,7 @@ phone_busy:
             {
                MenuPar1 = MenuDataTable.LineIndex[n];
 
-               long _MenuDialogReEntryB = MenuDialogReEntryB;
+               int _MenuDialogReEntryB = MenuDialogReEntryB;
 
                MenuStop ();
 
@@ -6650,7 +6650,7 @@ phone_busy:
             {
                MenuPar1 = MenuDataTable.LineIndex[n];
 
-               long _MenuDialogReEntryB = MenuDialogReEntryB;
+               int _MenuDialogReEntryB = MenuDialogReEntryB;
 
                MenuStop ();
 
@@ -7463,9 +7463,9 @@ phone_busy:
             for (SLONG c=strlen(Optionen[0])-1; c>=0; c--)
                if (Optionen[0].GetAt(c)<'0' || Optionen[0].GetAt(c)>'9') break;
 
-            if (c==-1 && Optionen[0].GetLength()>0 && _atoi64(Optionen[0])!=0)
+            if (c==-1 && Optionen[0].GetLength()>0 && atoll(Optionen[0])!=0)
             {
-               if (Sim.Players.Players[Sim.localPlayer].Money>=_atoi64(Optionen[0]) && _atoi64(Optionen[0])>0 && Optionen[0].GetLength()<9)
+               if (Sim.Players.Players[Sim.localPlayer].Money>=atoll(Optionen[0]) && atoll(Optionen[0])>0 && Optionen[0].GetLength()<9)
                {
                   Sim.Players.Players[MenuPar1].ChangeMoney (atoi(Optionen[0]), 3700, Sim.Players.Players[Sim.localPlayer].NameX);
                   Sim.Players.Players[Sim.localPlayer].ChangeMoney (-atoi(Optionen[0]), 3701, Sim.Players.Players[MenuPar1].NameX);
@@ -7807,12 +7807,12 @@ void CStdRaum::CalcStop (BOOL Cancel)
                if (!Sim.Players.Players[c].IsOut)
                   Max-=Sim.Players.Players[c].OwnsAktien[MenuPar1];
 
-            Limit (0l, MenuInfo, Max);
+            Limit (0, MenuInfo, Max);
             MenuRepaint ();
          }
          else if (MenuPar2==1) //verkaufen
          {
-            Limit (0l, MenuInfo, Sim.Players.Players[(SLONG)PlayerNum].OwnsAktien[MenuPar1]);
+            Limit (0, MenuInfo, Sim.Players.Players[(SLONG)PlayerNum].OwnsAktien[MenuPar1]);
             MenuRepaint ();
          }
       }
@@ -7848,7 +7848,7 @@ void CStdRaum::CalcStop (BOOL Cancel)
       {
          MenuInfo = CalculatorValue;
 
-         Limit (0l, MenuInfo, 25l);
+         Limit (0, MenuInfo, 25);
          MenuRepaint ();
       }
       else if (CurrentMenu==MENU_BANK)

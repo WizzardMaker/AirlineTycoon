@@ -43,7 +43,7 @@ void CPlaneTypes::ReInit (const CString &TabFilename)
 {
    //CStdioFile    Tab;
    BUFFER<char>  Line(800);
-   long          Id;
+   int          Id;
 
    //Load Table header:
    BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
@@ -345,7 +345,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
                   if (Flugplan.NextFlight!=-1) qPlayer.Messages.AddMessage (BERATERTYP_GIRL, bprintf(StandardTexte.GetS (TOKEN_ADVICE, 2354), Name, (LPCTSTR)Cities[Flugplan.Flug[Flugplan.NextFlight].NachCity].Name));
                   qPlayer.Image-=2;
-                  Limit (-1000l, qPlayer.Image, 1000l);
+                  Limit (-1000, qPlayer.Image, 1000);
 
                   if (pRoute && (qPlayer.Image)%10==0)
                   {
@@ -476,7 +476,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                         if (GetFlugplanEintrag()->Passagiere>0)
                            for (c=GetFlugplanEintrag()->Passagiere/CUSTOMERS_PER_PERSON; c>=0; c--)
                            {
-                              long pn = PlayerNum;
+                              int pn = PlayerNum;
                               if (Sim.Players.Players[PlayerNum].WerbeBroschuere!=-1)
                                  pn=Sim.Players.Players[PlayerNum].WerbeBroschuere;
 
@@ -514,7 +514,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                         if (GetFlugplanEintrag()->PassagiereFC>0)
                            for (c=GetFlugplanEintrag()->PassagiereFC/CUSTOMERS_PER_PERSON; c>=0; c--)
                            {
-                              long pn = PlayerNum;
+                              int pn = PlayerNum;
                               if (Sim.Players.Players[PlayerNum].WerbeBroschuere!=-1)
                                  pn=Sim.Players.Players[PlayerNum].WerbeBroschuere;
 
@@ -1258,7 +1258,7 @@ void CPlane::CalculateHappyPassengers (SLONG PlayerNum)
 
    Saldo = PersonalQuality;
 
-   long passtotal = GetFlugplanEintrag()->Passagiere+GetFlugplanEintrag()->PassagiereFC;
+   int passtotal = GetFlugplanEintrag()->Passagiere+GetFlugplanEintrag()->PassagiereFC;
    if (GetFlugplanEintrag()->ObjectType==1 || GetFlugplanEintrag()->ObjectType==2)
       for (c=passtotal/CUSTOMERS_PER_PERSON; c>=0; c--)
       {

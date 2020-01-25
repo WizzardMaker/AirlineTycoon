@@ -59,7 +59,7 @@
 #define USUAL_TYPES
 typedef unsigned char	byte;	/*  8 bit */
 typedef unsigned short	word16;	/* 16 bit */
-typedef unsigned long	word32;	/* 32 bit */
+typedef unsigned int	word32;	/* 32 bit */
 #endif /* ?USUAL_TYPES */
 
 #define	KEY00 0xcafe3fb
@@ -126,12 +126,12 @@ typedef unsigned long	word32;	/* 32 bit */
 #define		EXTENSION	"WYE"
 
 // Define the getcode function
-long	GetCode( char * );
+int	GetCode( char * );
 
 class SecurityManager  
 {
 public:
-	SecurityManager( char *, long, long );
+	SecurityManager( char *, int, int );
 	virtual ~SecurityManager();
 
 	// The Stupid CD Check to lure cracker
@@ -139,35 +139,35 @@ public:
 
 	// Function modifier
 	bool DecryptFunction( void * );
-	unsigned long CheckFunction( void * );
+	unsigned int CheckFunction( void * );
 
 protected:
-	unsigned long pId;					/* pointer for softice detection */
+	unsigned int pId;					/* pointer for softice detection */
 
 	unsigned char	*writebuffer;		/* Buffer for writing */
 	unsigned char	*readbuffer;		/* Buffer for reading */
 
-	unsigned long	writesize;			/* size of write buffer */
-	unsigned long	readsize;			/* size of read buffer */
+	unsigned int	writesize;			/* size of write buffer */
+	unsigned int	readsize;			/* size of read buffer */
 	
-	unsigned long	writepos;			/* pos in the write flow */
-	unsigned long	readpos;			/* pos in the read flow */
+	unsigned int	writepos;			/* pos in the write flow */
+	unsigned int	readpos;			/* pos in the read flow */
 
-	unsigned long	crc32_table[256];
+	unsigned int	crc32_table[256];
 	unsigned char	text_buf[N + F - 1];	/* ring buffer of size N */
 	unsigned char	*VxDBuffer;
 	void			*VxDHandle;
-	unsigned long	dKey[R+1][4];
+	unsigned int	dKey[R+1][4];
 
-	long			code;
+	int			code;
 
-	long CalculateChecksum( unsigned char *, long );
-	bool LoadInitVxD( char *,long ,long );
+	int CalculateChecksum( unsigned char *, int );
+	bool LoadInitVxD( char *,int ,int );
 
 	void			squareTransform (word32 [4], word32 [4]);
 	void			squareDecrypt(word32 [4], word32 [R+1][4]);
-	bool			DecryptData(unsigned char *, unsigned long  );
-	unsigned char *	DecompressData(unsigned char *, unsigned long &);
+	bool			DecryptData(unsigned char *, unsigned int  );
+	unsigned char *	DecompressData(unsigned char *, unsigned int &);
 	void			Decode(void);
 
 	void			mystrcat( char *, char * );

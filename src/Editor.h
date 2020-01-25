@@ -15,21 +15,21 @@
 class CPlanePartRelation
 {
    public:
-      long  Id;             // [csv] Id der Relation
-      long  FromBuildIndex; // [csv] An dieses Teil wird etwas geklebt
-      long  ToBuildIndex;   // [csv] ..und zwar dieses Teil hier
+      int  Id;             // [csv] Id der Relation
+      int  FromBuildIndex; // [csv] An dieses Teil wird etwas geklebt
+      int  ToBuildIndex;   // [csv] ..und zwar dieses Teil hier
       XY    Offset2d;       // Offset für die 2d-Ansicht am Flughafen
       XY    Offset3d;       // Offset für die 2d-Ansicht im Editor
-      long  Note1;          // [CSV] Spezielle Anmerkung, z.B. zu auf/Aberwertung
-      long  Note2;          // [CSV] dito
-      long  Note3;          // [CSV] dito
-      long  zAdd;
-      long  Noise;          // [CSV] Zusätzlicher Lärm
-      char *Slot;           // Dieser Slot wird benötigt (BCHLMR)
-      char *RulesOutSlots;  // Und diese Slots werden blockiert
+      int  Note1;          // [CSV] Spezielle Anmerkung, z.B. zu auf/Aberwertung
+      int  Note2;          // [CSV] dito
+      int  Note3;          // [CSV] dito
+      int  zAdd;
+      int  Noise;          // [CSV] Zusätzlicher Lärm
+      const char *Slot;           // Dieser Slot wird benötigt (BCHLMR)
+      const char *RulesOutSlots;  // Und diese Slots werden blockiert
 
    public:
-      CPlanePartRelation (long _Id, ULONG _FromBuildIndex, ULONG _ToBuildIndex, XY _Offset2d, XY _Offset3d, long _Note1, long _Note2, long _Note3, long _zAdd, long _Noise, char *_Slot, char *_RulesOutSlots)
+      CPlanePartRelation (int _Id, ULONG _FromBuildIndex, ULONG _ToBuildIndex, XY _Offset2d, XY _Offset3d, int _Note1, int _Note2, int _Note3, int _zAdd, int _Noise, const char *_Slot, const char *_RulesOutSlots)
       { Id=_Id; FromBuildIndex=_FromBuildIndex; ToBuildIndex=_ToBuildIndex; Offset2d=_Offset2d; Offset3d=_Offset3d; Note1=_Note1; Note2=_Note2; Note3=_Note3; zAdd=_zAdd; Noise=_Noise, Slot=_Slot; RulesOutSlots=_RulesOutSlots; }
 
       void    FromString (CString str);
@@ -40,22 +40,22 @@ class CPlanePartRelation
 class CPlaneBuild
 {
    public:
-      long  Id;          // [csv]
-      char *Shortname;   // [csv] z.B. B1
-      long  Cost;        // [CSV] Soviel kostet das hier
-      long  Weight;      // [CSV] Soviel wiegt dieses Teil (Beispiel 149pass=62t 170pass=68t 272pass=148t 440pass=135t 550pass=160t)
-      long  Power;       // [CSV] Soviel Power hat es, falls es ein Triebwerk ist
-      long  Noise;       // [CSV] Soviel Krach verursacht es
-      long  Wartung;     // [CSV] So Wartungsintensiv ist dieses Teil
-      long  Passagiere;  // [CSV] Soviele Leute passen in diesen Part
-      long  Verbrauch;   // [CSV] Verbrauch in l/h
-      long  BitmapIndex; // Index in das Array mit Bitmaps
-      long  zPos;
+      int  Id;          // [csv]
+      const char *Shortname;   // [csv] z.B. B1
+      int  Cost;        // [CSV] Soviel kostet das hier
+      int  Weight;      // [CSV] Soviel wiegt dieses Teil (Beispiel 149pass=62t 170pass=68t 272pass=148t 440pass=135t 550pass=160t)
+      int  Power;       // [CSV] Soviel Power hat es, falls es ein Triebwerk ist
+      int  Noise;       // [CSV] Soviel Krach verursacht es
+      int  Wartung;     // [CSV] So Wartungsintensiv ist dieses Teil
+      int  Passagiere;  // [CSV] Soviele Leute passen in diesen Part
+      int  Verbrauch;   // [CSV] Verbrauch in l/h
+      int  BitmapIndex; // Index in das Array mit Bitmaps
+      int  zPos;
 
    public:
       CPlaneBuild () { Shortname=NULL; }
 
-      CPlaneBuild (long _Id, char *_Shortname, long _Cost, long _Weight, long _Power, long _Noise, long _Wartung, long _Passagiere, long _Verbrauch, long _BitmapIndex, long _zPos)
+      CPlaneBuild (int _Id, const char *_Shortname, int _Cost, int _Weight, int _Power, int _Noise, int _Wartung, int _Passagiere, int _Verbrauch, int _BitmapIndex, int _zPos)
       { Id=_Id; Shortname=_Shortname; Cost=_Cost; Weight=_Weight; Power=_Power; Noise=_Noise; Wartung=_Wartung; Passagiere=_Passagiere; Verbrauch=_Verbrauch; BitmapIndex=_BitmapIndex; zPos=_zPos; }
 
       void    FromString (CString str);
@@ -113,9 +113,9 @@ public:
    XY             GripAtPosB;
    XY             GripAtPos2d;
    XY             GripAtPosB2d;
-   long           GripRelation;
-   long           GripRelationB;
-   long           GripRelationPart;
+   int           GripRelation;
+   int           GripRelationB;
+   int           GripRelationPart;
 
    SB_CFont       FontBankBlack;
    SB_CFont       FontBankRed;
@@ -129,7 +129,7 @@ public:
    BOOL           DragDropMode;
    CString        PartUnderCursor;   //Das Part was dranklebt oder Leerstring
    CString        PartUnderCursorB;  //Der andere Flügel, der ggf. mit dranklebt
-   long           RelationIdUnderCursor;  //Für das Snap-In die passende Relation
+   int           RelationIdUnderCursor;  //Für das Snap-In die passende Relation
 
    bool           bBodyOutlined;     //Ist Body markiert?
    bool           bCockpitOutlined;  //Ist Cockpit markiert?
@@ -143,11 +143,11 @@ public:
    bool           bAllowW;
    bool           bAllowM;
 
-   long           sel_b;             // Index von 0.. für die aktuelle Wahl des Bodies
-   long           sel_c;             // Index von 0.. für die aktuelle Wahl des Cockpits
-   long           sel_h;             // Index von 0.. für die aktuelle Wahl des Hecks
-   long           sel_w;             // Index von 0.. für die aktuelle Wahl des Flügels
-   long           sel_m;             // Index von 0.. für die aktuelle Wahl des Motors
+   int           sel_b;             // Index von 0.. für die aktuelle Wahl des Bodies
+   int           sel_c;             // Index von 0.. für die aktuelle Wahl des Cockpits
+   int           sel_h;             // Index von 0.. für die aktuelle Wahl des Hecks
+   int           sel_w;             // Index von 0.. für die aktuelle Wahl des Flügels
+   int           sel_m;             // Index von 0.. für die aktuelle Wahl des Motors
 
    SB_CFont       FontNormalRed;
 
@@ -158,7 +158,7 @@ public:
 
 // Implementation
 public:
-   void CheckUnusablePart(long iDirection);
+   void CheckUnusablePart(int iDirection);
    void DeleteCurrent(void);
    void UpdateButtonState(void);
    void DoLButtonWork (UINT nFlags, CPoint point);
@@ -177,6 +177,6 @@ protected:
 };
 
 CPlaneBuild &GetPlaneBuild (CString Shortname);
-long         GetPlaneBuildIndex (CString Shortname);
+int         GetPlaneBuildIndex (CString Shortname);
 
 /////////////////////////////////////////////////////////////////////////////

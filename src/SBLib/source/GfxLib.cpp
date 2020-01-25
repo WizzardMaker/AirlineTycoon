@@ -76,14 +76,14 @@ GfxMain::~GfxMain()
         it->Release();
 }
 
-long GfxMain::LoadLib(char* path, class GfxLib** out, long)
+int GfxMain::LoadLib(char* path, class GfxLib** out, int)
 {
     Libs.push_back(GfxLib(this, NULL, path, 0, 0, NULL));
     *out = &Libs.back();
     return 0;
 }
 
-long GfxMain::ReleaseLib(class GfxLib* lib)
+int GfxMain::ReleaseLib(class GfxLib* lib)
 {
     lib->Release();
 
@@ -98,7 +98,7 @@ long GfxMain::ReleaseLib(class GfxLib* lib)
     return 0;
 }
 
-GfxLib::GfxLib(void*, SDL_Renderer*, char* path, long, long, long*)
+GfxLib::GfxLib(void*, SDL_Renderer*, char* path, int, int, int*)
 {
     SDL_RWops* file = SDL_RWFromFile(path, "rb");
     if (file)
@@ -133,7 +133,7 @@ GfxLibHeader* GfxLib::LoadHeader(SDL_RWops* file)
     return header;
 }
 
-long GfxLib::Load(SDL_RWops* file, GfxLibHeader* header)
+int GfxLib::Load(SDL_RWops* file, GfxLibHeader* header)
 {
     if (!header)
         return -1;
@@ -141,7 +141,7 @@ long GfxLib::Load(SDL_RWops* file, GfxLibHeader* header)
     if (SDL_RWseek(file, header->Pos, RW_SEEK_SET) == -1)
         return -2;
 
-    for (long i = 0; i < header->Files; i++)
+    for (int i = 0; i < header->Files; i++)
     {
         __int64 pos = SDL_RWtell(file);
 
@@ -173,7 +173,7 @@ long GfxLib::Load(SDL_RWops* file, GfxLibHeader* header)
 
 void ODS() {}
 
-long GfxLib::ReadGfxChunk(SDL_RWops* file, GfxChunkHeader header, long, long)
+int GfxLib::ReadGfxChunk(SDL_RWops* file, GfxChunkHeader header, int, int)
 {
     SDL_RWseek(file, header.Offset, RW_SEEK_SET);
 
@@ -228,12 +228,12 @@ void GfxLib::Release()
     Surfaces.clear();
 }
 
-long GfxLib::Restore()
+int GfxLib::Restore()
 {
     return 0;
 }
 
-long GfxLib::AddRef(__int64)
+int GfxLib::AddRef(__int64)
 {
     return 0;
 }
