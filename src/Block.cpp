@@ -1,7 +1,7 @@
 //============================================================================================
 // Block.cpp : Routinen für den Notizblock der Spieler
 //============================================================================================
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

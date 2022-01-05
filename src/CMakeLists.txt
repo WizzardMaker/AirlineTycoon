@@ -10,12 +10,12 @@ include_directories(${PROJECT_SOURCE_DIR})
 if(MSVC)
     add_compile_options("/Zc:forScope-")
     add_compile_options("/MP")
+    add_compile_options("-m")
 else()
     add_compile_options("-fno-for-scope")
     add_compile_options("-fpermissive")
     add_compile_options("-Wno-conversion-null")
 endif()
-add_compile_options("-m")
 
 # Add source to this project's executable.
 add_executable (AT
@@ -35,7 +35,7 @@ add_executable (AT
     Block.cpp
     Brick.cpp
     Checkup.cpp
-    Colorfx.cpp
+    ColorFx.cpp
     Credits.cpp
     DeltaVid.cpp
     Designer.cpp
@@ -43,7 +43,7 @@ add_executable (AT
     DutyFree.cpp
     Editor.cpp
     Fracht.cpp
-    Gameframe.cpp
+    GameFrame.cpp
     Global.cpp
     Globe.cpp
     HalldiskMenu.cpp
@@ -60,7 +60,7 @@ add_executable (AT
     Misc.cpp
     Museum.cpp
     Nasa.cpp
-    NewgamePopup.cpp
+    NewGamePopup.cpp
     Options.cpp
     Outro.cpp
     Person.cpp
@@ -71,26 +71,26 @@ add_executable (AT
     Player.cpp
     PNet.cpp
     Protect.cpp
-    reise.cpp
+    Reise.cpp
     Ricks.cpp
     RouteBox.cpp
     Rushmore.cpp
-    sabotage.cpp
-    SBBM.cpp
+    Sabotage.cpp
+    Sbbm.cpp
     Schedule.cpp
     Security.cpp
     SecurityManager.cpp
     Sim.cpp
-    Smackprs.cpp
+    SmackPrs.cpp
     Sound.cpp
     Statistk.cpp
     StdAfx.cpp
-    Stdraum.cpp
+    StdRaum.cpp
     Synthese.cpp
     Tafel.cpp
     Takeoff.cpp
     Talker.cpp
-    Titlepopup.cpp
+    TitlePopup.cpp
     WeltAll.cpp
     Werbung.cpp
     Werkstat.cpp
@@ -116,7 +116,7 @@ if(MSVC)
 endif()
 
 if(NOT ${CMAKE_VERSION} VERSION_LESS "3.16.0")
-    target_precompile_headers(AT PUBLIC Stdafx.h)
+    target_precompile_headers(AT PUBLIC StdAfx.h)
 endif()
 
 target_link_libraries(AT

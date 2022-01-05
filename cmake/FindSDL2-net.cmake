@@ -128,7 +128,7 @@ endif()
 
 # Define options for searching SDL2_net Library in a custom path
 
-set(SDL2_NET_PATH "" CACHE STRING "Custom SDL2_net Library path")
+set(SDL2_NET_PATH "" CACHE STRING "Custom SDL2 Library path")
 
 set(_SDL2_NET_NO_DEFAULT_PATH OFF)
 if(SDL2_NET_PATH)

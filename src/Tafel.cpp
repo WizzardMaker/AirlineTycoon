@@ -3,10 +3,10 @@
 //============================================================================================
 // Link: "Tafel.h"
 //============================================================================================
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "gltafel.h"
 #include "Tafel.h"         //Die Tafel bei der Flughafenaufsicht
-#include "atnet.h"
+#include "AtNet.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

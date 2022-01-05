@@ -128,7 +128,7 @@ endif()
 
 # Define options for searching SDL2_gfx Library in a custom path
 
-set(SDL2_GFX_PATH "" CACHE STRING "Custom SDL2_gfx Library path")
+set(SDL2_GFX_PATH "" CACHE STRING "Custom SDL2 Library path")
 
 set(_SDL2_GFX_NO_DEFAULT_PATH OFF)
 if(SDL2_GFX_PATH)

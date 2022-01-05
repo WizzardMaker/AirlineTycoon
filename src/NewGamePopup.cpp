@@ -3,19 +3,23 @@
 //============================================================================================
 // Link to: "NewGamePopup.h"
 //============================================================================================
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "glstart.h"
 #include "SecurityManager.h"
 #include "NewGamePopup.h"  //Fenster zum Wahl der Gegner und der Spielstärke
 #include "cd_prot.h"
 #include "fillfile.h"
-#include "atnet.h"
+#include "AtNet.h"
 #include <stdlib.h>
 #include <stdio.h>
 
 #ifdef _DEBUG
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
+#endif
+
+#ifndef WIN32
+#define _countof(array) (sizeof(array) / sizeof(array[0]))
 #endif
 
 static const char FileId[] = "NewG";
@@ -2228,7 +2232,7 @@ void NewGamePopup::CheckNetEvents() {
                                         Sim.Players.Players[c].Owner = 3;
                                 }
 
-                            for (c = 0; c < 4; c++)
+                            for (SLONG c = 0; c < 4; c++)
                                 if (UnselectedNetworkIDs[c] == SenderID)
                                     UnselectedNetworkIDs[c] = NULL;
 

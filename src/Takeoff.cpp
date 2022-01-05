@@ -3,7 +3,7 @@
 //============================================================================================
 // Link: "Takeoff.h"
 //============================================================================================
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "HLine.h"
 #include "Checkup.h"
 #include <stdio.h>
@@ -40,7 +40,7 @@
 #include "Designer.h"
 #include "World.h"
 
-#include "glTitel.h"
+#include "gltitel.h"
 #include "cd_prot.h"
 
 #include "AtNet.h"
@@ -50,7 +50,6 @@ extern SBNetwork gNetwork;
 
 #include <fstream>
 #include <filesystem>
-#include <Dbghelp.h>
 
 CHLPool HLPool;
 
@@ -145,7 +144,7 @@ __int64 betaId[3] = { 123456789876543210, 765423432423432676, 432987774377733433
 char *UCharToReadableAnsi( const unsigned char *pData, const unsigned uLen );
 unsigned char *ReadableAnsiToUChar( const char *pData, const unsigned uLen );
 
-
+#ifdef WIN32
 LONG UnhandledExceptionCallback(
         _EXCEPTION_POINTERS* exceptionInfo) {
 
@@ -163,8 +162,7 @@ LONG UnhandledExceptionCallback(
 
     return EXCEPTION_EXECUTE_HANDLER;
 }
-
-
+#endif
 
 #define SCRAMBLE_ADD_XOR 0xa0febff4
 
@@ -271,7 +269,9 @@ int main(int argc, char* argv[])
 
     long vv = v.GetValue();
 
+#ifdef WIN32
     SetUnhandledExceptionFilter(UnhandledExceptionCallback);
+#endif
 
     const char* pText = "Hallo, ich bin ein Text";
 

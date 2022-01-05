@@ -4,7 +4,7 @@
 // v1.00:		initial release
 //////////////////////////////////////////////////////////////////////
 
-#include <stdafx.h>
+#include <StdAfx.h>
 
 #ifdef CD_PROTECTION
 

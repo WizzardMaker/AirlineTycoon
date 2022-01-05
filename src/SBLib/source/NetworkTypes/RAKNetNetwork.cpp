@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SbLib.h"
 #include "network.h"
 #include "BitStream.h"
@@ -103,7 +103,8 @@ bool RAKNetNetwork::CreateSession(SBNetworkCreation* create) {
     {
         case SBCreationFlags::SBNETWORK_CREATE_TRY_NAT:
         default: //No need for a NAT server if the user chose it
-            mMaster->Startup(4, &SocketDescriptor(SERVER_PORT, ""), 1);
+            SocketDescriptor desc(SERVER_PORT, "");
+            mMaster->Startup(4, &desc, 1);
             SDL_Log("CREATE SESSION: DIRECT. Our GUID: '%s' and our SystemAddress: '%s'", mMaster->GetMyGUID().ToString(), mMaster->GetSystemAddressFromGuid(mMaster->GetMyGUID()).ToString());
             mMaster->SetMaximumIncomingConnections(4);
             break;

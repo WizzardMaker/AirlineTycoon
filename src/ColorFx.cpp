@@ -4,7 +4,7 @@
 //Anleitung: "i:\projekt\sbl\doku\CColorFx.txt"
 //Link:      "Colorfx.h"
 //============================================================================================
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #define RDTSC __asm _emit 0x0F __asm _emit 0x31
 

@@ -1,7 +1,7 @@
 //============================================================================================
 // PNet.cpp : Routinen zum verwalten der Spieler im Netzwerk
 //============================================================================================
-#include "Stdafx.h"
+#include "StdAfx.h"
 #include "AtNet.h"
 
 extern bool bgIsLoadingSavegame;

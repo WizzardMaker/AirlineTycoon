@@ -1,8 +1,8 @@
 //============================================================================================
 // Synthese.cpp : Die Sprachsynthese!
 //============================================================================================
-#include "stdafx.h"
-#include "synthese.h"
+#include "StdAfx.h"
+#include "Synthese.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

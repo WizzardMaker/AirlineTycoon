@@ -1,7 +1,7 @@
 //============================================================================================
 // Protect.cpp : Routinen zur Kopierschutz:
 //============================================================================================
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "cd_prot.h"
 #include "SecurityManager.h"
 #include "fillfile.h"

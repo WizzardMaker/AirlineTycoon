@@ -128,7 +128,7 @@ endif()
 
 # Define options for searching SDL2_image Library in a custom path
 
-set(SDL2_IMAGE_PATH "${CMAKE_SOURCE_DIR}/cmake/sdl2-image" CACHE STRING "Custom SDL2_image Library path")
+set(SDL2_IMAGE_PATH "" CACHE STRING "Custom SDL2 Library path")
 
 set(_SDL2_IMAGE_NO_DEFAULT_PATH OFF)
 if(SDL2_IMAGE_PATH)

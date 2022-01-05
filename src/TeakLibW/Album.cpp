@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 
 const char* ExcAlbumInsert      = "Album: %s += failed!";
 const char* ExcAlbumFind        = "Album: %s [] failed!";

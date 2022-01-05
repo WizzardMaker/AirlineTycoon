@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "SbLib.h"
 #include "network.h"
 #include "BitStream.h"

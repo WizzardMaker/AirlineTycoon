@@ -1,6 +1,6 @@
 // CCredits.cpp : implementation file
 //
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Credits.h"
 #include "glcredit.h"
 

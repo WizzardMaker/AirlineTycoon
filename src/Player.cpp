@@ -1,7 +1,7 @@
 //============================================================================================
 // Player.cpp : Routinen zum verwalten der Spieler
 //============================================================================================
-#include "Stdafx.h"
+#include "StdAfx.h"
 #include "AtNet.h"
 
 #define forall(c,object) for (c=0; c<SLONG(object.AnzEntries()); c++)

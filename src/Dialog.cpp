@@ -3,10 +3,10 @@
 //============================================================================================
 // Link: "StdRaum.h"
 //============================================================================================
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Aufsicht.h"
-#include "nasa.h"
-#include "Atnet.h"
+#include "Nasa.h"
+#include "AtNet.h"
 
 static SLONG TankInfo [] = {  10000,  10000,
     30000,  20000,

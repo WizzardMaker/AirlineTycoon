@@ -1,10 +1,10 @@
 //============================================================================================
 // ArabAir.cpp : Der Schalter und das Hinterzimmer von ArabAir!
 //============================================================================================
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "ArabAir.h"
 #include "glarab.h"
-#include "atnet.h"
+#include "AtNet.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

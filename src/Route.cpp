@@ -1,7 +1,7 @@
 //============================================================================================
 // Route.cpp : Routinen zum verwalten der Flugrouten (CRoute, CRouten)
 //============================================================================================
-#include "Stdafx.h"
+#include "StdAfx.h"
 
 static const char FileId[] = "Rout";
 

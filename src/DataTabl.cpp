@@ -1,7 +1,7 @@
 //============================================================================================
 //DataTable.cpp - Die allgemeine Struktur für die Tabellendaten
 //============================================================================================
-#include "stdafx.h"
+#include "StdAfx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

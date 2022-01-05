@@ -9,10 +9,10 @@ add_library(raknet SHARED ${ALL_CPP_SRCS} ${ALL_HEADER_SRCS})
 
 target_include_directories(raknet PUBLIC ${PROJECT_SOURCE_DIR}/Include)
 
-set(RAKNET_LIBRARY_LIBS ws2_32.lib)
-target_link_libraries (raknet ${RAKNET_LIBRARY_LIBS})
-
 IF(WIN32 AND NOT UNIX)
+	set(RAKNET_LIBRARY_LIBS ws2_32.lib)
+	target_link_libraries (raknet ${RAKNET_LIBRARY_LIBS})
+
 	SET( CMAKE_CXX_FLAGS "/D WIN32 /D _RAKNET_DLL /D _CRT_NONSTDC_NO_DEPRECATE /D _CRT_SECURE_NO_DEPRECATE /GS- /GR- ")
 ENDIF(WIN32 AND NOT UNIX)
 

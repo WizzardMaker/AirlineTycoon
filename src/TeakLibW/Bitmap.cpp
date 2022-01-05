@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include <SDL_image.h>
 
 const char* ExcPrimarySurface   = "CreatePrimarySurface failed";
