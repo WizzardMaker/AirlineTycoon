@@ -717,12 +717,12 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Dialoogteksten worden opgestart...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Loading dialogue texts...");
-        DialogTexte.Open (FullFilename ("Dlg_Ger.res", MiscPath), TEXTRES_CACHED);
+        DialogTexte.Open (FullFilename ("dlg_ger.res", MiscPath), TEXTRES_CACHED);
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Verscheidene teksten worden opgestart...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Loading miscellanous texts...");
-        StandardTexte.Open (FullFilename ("Std_Ger.res", MiscPath), TEXTRES_CACHED);
+        StandardTexte.Open (FullFilename ("std_ger.res", MiscPath), TEXTRES_CACHED);
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Eenheidteksten worden opgestart...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")

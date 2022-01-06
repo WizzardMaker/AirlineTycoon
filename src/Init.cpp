@@ -172,20 +172,20 @@ skip_search_demo_cd:
     DontRunFromCD ();
 #endif
 
-    BitmapPath   = "Bitmaps\\%s";
-    BrickPath    = "Brick\\%s";
-    CityPath     = "City\\%s";
-    ClanPath     = "Clan\\%s";
-    ExcelPath    = "Data\\%s";
-    GliPath      = "GLI\\%s";
-    MiscPath     = "Misc\\%s";
-    ScanPath     = "Scans\\%s";
-    SoundPath    = "Sound\\%s";
-    RoomPath     = "Room\\%s";
-    PlanePath    = "Planes\\%s";
-    SmackerPath  = "Video\\%s";
-    IntroPath    = "Intro\\%s";
-    VoicePath    = "Voice\\%s";
+    BitmapPath   = "bitmaps\\%s";
+    BrickPath    = "brick\\%s";
+    CityPath     = "city\\%s";
+    ClanPath     = "clan\\%s";
+    ExcelPath    = "data\\%s";
+    GliPath      = "gli\\%s";
+    MiscPath     = "misc\\%s";
+    ScanPath     = "scans\\%s";
+    SoundPath    = "sound\\%s";
+    RoomPath     = "room\\%s";
+    PlanePath    = "planes\\%s";
+    SmackerPath  = "video\\%s";
+    IntroPath    = "intro\\%s";
+    VoicePath    = "voice\\%s";
     MyPlanePath  = "myplanes\\%s";
 
     if (SavegamePath.GetLength()==0) SavegamePath = "Savegame\\%s";
@@ -496,7 +496,7 @@ void InitGlobeMapper (void)
     SBBM TmpBm (10,10);
 
     PALETTE EarthPal;
-    EarthPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename ("EarthAll.lbm", GliPath));
+    EarthPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename ("earthall.lbm", GliPath));
 
     TECBM ShadeBm ((char*)(LPCTSTR)FullFilename ("shade.pcx", GliPath), SYSRAMBM);
 
