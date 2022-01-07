@@ -7,5 +7,5 @@ sudo dnf install jansson-devel.i686 SDL2*-devel.i686
 #Building on AMD64
 mkdir build
 cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=../Toolchain-i686.cmake
+cmake -DCMAKE_TOOLCHAIN_FILE=../Toolchain-i686.cmake ..
 
