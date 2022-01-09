@@ -325,7 +325,7 @@ void BRICKS::ReInit (const CString &TabFilename)
       Id=(*this)(Id);
 
       (*this)[Id].Filename = strtok (NULL, ";\x8\"");
-      
+
       (*this)[Id].RamPriority = atoi (strtok (NULL, ";\x8\""));
 
       (*this)[Id].NonTrans  = (UBYTE)atoi (strtok (NULL, TabSeparator));
@@ -362,7 +362,7 @@ void BRICKS::ReInit (const CString &TabFilename)
 
             *(strchr (TimePointer[AnzTimePointer], ':'))=0;
          }
-         else 
+         else
             (*this)[Id].WaitTimes[AnzTimePointer] = 1;
 
          (*this)[Id].WaitSum += (*this)[Id].WaitTimes[AnzTimePointer];

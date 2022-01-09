@@ -274,7 +274,7 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
 
    if (UndoWait && MouseWait==0)
    {
-      pCursor->SetImage (gCursorBm.pBitmap);                  
+      pCursor->SetImage (gCursorBm.pBitmap);
       int _x = gMousePosition.x;
       int _y = gMousePosition.y;
       FrameWnd->TranslatePointToScreenSpace(_x, _y);
@@ -407,7 +407,7 @@ void SetMidiVolume(SLONG volume)
 
       long StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
       if (StepSize<1) StepSize=1;
-   
+
 	   midiVolume=mbMusic.lMinimum+volume*(mbMusic.lMaximum-mbMusic.lMinimum)/7/StepSize*StepSize;
 	   if (midiVolume > mbMusic.lMaximum)
 		   midiVolume = mbMusic.lMaximum;
@@ -434,7 +434,7 @@ void SetWaveVolume(long volume)
 
       long StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
       if (StepSize<1) StepSize=1;
-   
+
 	   waveVolume=mbMusic.lMinimum+volume*(mbMusic.lMaximum-mbMusic.lMinimum)/7/StepSize*StepSize;
 	   if (waveVolume > mbMusic.lMaximum)
 		   waveVolume = mbMusic.lMaximum;
@@ -513,11 +513,11 @@ void PlayMidi (const CString &Filename)
 	if (IsMidiAvailable() || AudioMode == 2) {
 		if (!gpMidi)
 			return;
-		
+
 		gpMidi->Stop();
 		gpMidi->Load (FullFilename(Filename, SoundPath));
 		gpMidi->Play();
-		
+
 		gpSSE->SetMusicCallback(NextMidi);
 	}
 }

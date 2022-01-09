@@ -138,7 +138,7 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
    NoGlueBm.ReSize (pRoomLib, "NOGLUE");
    StempelBm.ReSize (pRoomLib, "STEMPEL");
    KranMaskeBm.ReSize (pRoomLib, "MASK");
-   
+
    SeileBms.ReSize (pRoomLib, "SEIL01", 3);
    KistenBms.ReSize (pRoomLib, "KISTE01" , 6);
 
@@ -389,12 +389,12 @@ void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point)
                //Für den Statistikscreen:
                qPlayer.Statistiken[STAT_FRACHTEN].AddAtPastDay (0, 1);
 
-               gFrachten.Fracht[c].Praemie=-1000;   
+               gFrachten.Fracht[c].Praemie=-1000;
                qPlayer.NetUpdateTook (3, c);
                break;
             }
          }
-      }   
+      }
    }
 
    CStdRaum::OnLButtonDown(nFlags, point);

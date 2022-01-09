@@ -12,9 +12,9 @@
 static long InitMoney [] = { 1500000,        0, 2000000,        0,   //DIFF_FREEGAME
                              5000000,        0,  200000,        0,   //DIFF_TUTORIAL
                              5000000,        0,  500000,        0,   //FIRST
-                             3000000,        0, 1000000,        0,   //DIFF_EASY    
-                             2000000,        0, 3000000,        0,   //DIFF_NORMAL  
-                             1800000,        0, 4000000,        0,   //DIFF_HARD    
+                             3000000,        0, 1000000,        0,   //DIFF_EASY
+                             2000000,        0, 3000000,        0,   //DIFF_NORMAL
+                             1800000,        0, 4000000,        0,   //DIFF_HARD
                              1500000,        0, 6000000,        0,   //DIFF_FINAL
                              0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, //Nada
                              3000000, 10000000, 1000000, 10000000,   //DIFF_ADDON01
@@ -249,7 +249,7 @@ void SIM::AddNewPassengers (void)
                               }
                               else
                                  Sim.PersonQueue.AddPerson (Clans.GetCustomerId(0, PersonRandCreate.Rand(2)),
-                                        Airport.GetRandomBirthplace(0, 0, &PersonRandCreate), 
+                                        Airport.GetRandomBirthplace(0, 0, &PersonRandCreate),
                                         REASON_FLYING,
                                         UBYTE(c),                                      //Airline
                                         Players.Players[c].Planes.GetIdFromIndex(d),   //PlaneId
@@ -506,7 +506,7 @@ void SIM::ChooseStartup (BOOL GameModeQuick)
       qPlayer.StrikeNotified      = 0;
       qPlayer.StrikeEndCountdown  = 0;
       qPlayer.StrikeEndType       = 0;
-      qPlayer.DaysWithoutStrike   = 20; 
+      qPlayer.DaysWithoutStrike   = 20;
       qPlayer.DaysWithoutSabotage = 0;
       qPlayer.StrikePlanned       = 0;
       qPlayer.TrinkerTrust        = 0;
@@ -1275,7 +1275,7 @@ void SIM::DoTimeStep (void)
    PLAYER &qLocalPlayer = Sim.Players.Players[Sim.localPlayer];
 
    OldMinute = GetMinute ();
-   Time+=GameSpeed; 
+   Time+=GameSpeed;
    PlayerDidntMove++;             //Wird ggf. bei WalkPersons resettet
 
    if (Sim.Time>=24*60000)
@@ -1586,13 +1586,13 @@ void SIM::DoTimeStep (void)
                            if (CheatTestGame==0) qLocalPlayer.GameSpeed = 0;
                         }
                         else if (!Sim.CallItADay)
-                           qPlayer.Messages.AddMessage (BERATERTYP_GIRL, 
+                           qPlayer.Messages.AddMessage (BERATERTYP_GIRL,
                               bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2309), (LPCTSTR)qPlayer.Planes[c].Name));
                      }
 
                      break;
                   }
-               } 
+               }
             }
          }
       }
@@ -1799,7 +1799,7 @@ void SIM::DoTimeStep (void)
                                     if (CheatTestGame==0) qLocalPlayer.GameSpeed = 0;
                                  }
                                  else if (!Sim.CallItADay)
-                                    qOpfer.Messages.AddMessage (BERATERTYP_GIRL, 
+                                    qOpfer.Messages.AddMessage (BERATERTYP_GIRL,
                                        bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2301+Sim.Players.Players[c].ArabMode), (LPCTSTR)qOpfer.Planes[Sim.Players.Players[c].ArabPlane].Name));
                               }
                            }
@@ -2040,7 +2040,7 @@ void SIM::DoTimeStep (void)
                       {
                          Delay = TRUE;
 
-                         if (Sim.Players.Players[c].Owner==0) 
+                         if (Sim.Players.Players[c].Owner==0)
                             if (qLocalPlayer.LocationWin && ((CStdRaum*)qLocalPlayer.LocationWin)->CurrentMenu!=MENU_SABOTAGEFAX)
                                Sim.Players.Players[c].Messages.AddMessage (BERATERTYP_GIRL, bprintf(StandardTexte.GetS (TOKEN_ADVICE, 2355), (LPCTSTR)qPlane.Name, (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                       }
@@ -2085,7 +2085,7 @@ void SIM::DoTimeStep (void)
 
                //Testen, ob sie jetzt landen müssen:
                if (qPlane.Flugplan.NextFlight!=-1 && qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight].Landezeit==GetHour() && qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight].Landedate==Date)
-               {   
+               {
                   CFlugplanEintrag &qFPE = qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight];
 
                   City=qFPE.NachCity;
@@ -2105,7 +2105,7 @@ void SIM::DoTimeStep (void)
                               {
                                  qPlane.Problem = max (1, qPlane.Problem-15);
 
-                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, 
+                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL,
                                     bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2320), (LPCTSTR)Cities[qFPE.NachCity].Name, qPlane.Problem));
                               }
                            }
@@ -2183,7 +2183,7 @@ void SIM::DoTimeStep (void)
                         count += 50 + LocalRand.Rand(30);
                      }
                   }
-                  else 
+                  else
                   {
                      qPlane.Ort = -5; //In der Luft
                      qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight].BookFlight (&qPlane, c);
@@ -2200,7 +2200,7 @@ void SIM::DoTimeStep (void)
             }
          }
       }
-   } 
+   }
 
    if (Sim.Options.OptionAutosave && (Time-GameSpeed)/60000<17 && Time/60000>=17 && !Sim.CallItADay)
    {
@@ -2428,7 +2428,7 @@ void SIM::NewDay (void)
       Sim.WaitZone++;
 
       Sim.Suitcase=Sim.WaitZone;
-   
+
       LastExpansionDate = Sim.Date;
 
       Airport.LoadAirport (Sim.LeftEnd, Sim.CheckIn, Sim.Office, Sim.Entry, Sim.Shops, Sim.Cafe, Sim.Security, Sim.Suitcase, Sim.WaitZone, Sim.RightEnd);
@@ -2462,7 +2462,7 @@ void SIM::NewDay (void)
 
    Airport.UpdateStaticDoorImage ();
 
-   //Neue Flugzeuge für's Museum: 
+   //Neue Flugzeuge für's Museum:
    CreateRandomUsedPlanes ();
 
    //Variablen ersetzen
@@ -2900,7 +2900,7 @@ TEAKFILE &operator << (TEAKFILE &File, const SIM &Sim)
 //Lädt ein Sim-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, SIM &Sim)
-{ 
+{
    SLONG c, tmp, Dummy;
    ULONG NetworkIDs[4];
    BOOL  bReadyForMornings[4];
@@ -3153,7 +3153,7 @@ BOOL SIM::LoadGame (SLONG Number)
    InputFile >> TafelData >> Routen;
    InputFile.ReadTrap (100);
 
-   InputFile >> LastMinuteAuftraege; 
+   InputFile >> LastMinuteAuftraege;
    InputFile >> ReisebueroAuftraege;
    InputFile >> UniqueGameId2;
 
@@ -3396,7 +3396,7 @@ void SIM::SaveGame (SLONG Number, const CString &Name)
    OutputFile << TafelData << Routen;
    OutputFile.WriteTrap (100);
 
-   OutputFile << LastMinuteAuftraege; 
+   OutputFile << LastMinuteAuftraege;
    OutputFile << ReisebueroAuftraege;
    OutputFile << UniqueGameId2;
 
@@ -3898,7 +3898,7 @@ void SIM::LoadHighscores (void)
             {
                sprintf (Buffer, bprintf(" %s", Buffer));
             }
-      
+
             Highscores[c].Name = strtok (Buffer, ";");
             Highscores[c].UniqueGameId2 = atoi (strtok (NULL, ";"));
 

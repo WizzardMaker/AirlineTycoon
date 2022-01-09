@@ -340,9 +340,9 @@ void PLAYER::CalcRoom (void)
       {
          SLONG l = (Locations[c]&255);
 
-         if (l==ROOM_REISEBUERO || l==ROOM_LAST_MINUTE || l==ROOM_SHOP1      || l==ROOM_BANK || 
-             l==ROOM_MUSEUM     || l==ROOM_ARAB_AIR    || l==ROOM_MAKLER     || l==ROOM_AUFSICHT || 
-             l==ROOM_ROUTEBOX   || l==ROOM_RICKS       || l==ROOM_SABOTAGE   || l==ROOM_NASA  || 
+         if (l==ROOM_REISEBUERO || l==ROOM_LAST_MINUTE || l==ROOM_SHOP1      || l==ROOM_BANK ||
+             l==ROOM_MUSEUM     || l==ROOM_ARAB_AIR    || l==ROOM_MAKLER     || l==ROOM_AUFSICHT ||
+             l==ROOM_ROUTEBOX   || l==ROOM_RICKS       || l==ROOM_SABOTAGE   || l==ROOM_NASA  ||
              l==ROOM_RUSHMORE   || l==ROOM_INSEL       || l==ROOM_WERKSTATT  || l==ROOM_KIOSK || l==ROOM_FRACHT)
          {
             Room  = Locations[c];
@@ -1198,7 +1198,7 @@ void PLAYER::NewDay (void)
          MapWorkers (false);
       }
 
-      if (Sim.Date==35) 
+      if (Sim.Date==35)
          for (d=0; d<(SLONG)Planes.AnzEntries(); d++)
             if (Planes.IsInAlbum(d))
             {
@@ -1682,7 +1682,7 @@ void PLAYER::UpdateAuftragsUsage (void)
             {
                //if ((PlaneTypes[Planes[c].TypeId].Passagiere>=SLONG(Auftraege[Plan->Flug[d].ObjectId].Personen) && Plan->Flug[d].Startdate<=Auftraege[Plan->Flug[d].ObjectId].BisDate) ||
                if ((Planes[c].ptPassagiere>=SLONG(Auftraege[Plan->Flug[d].ObjectId].Personen) && Plan->Flug[d].Startdate<=Auftraege[Plan->Flug[d].ObjectId].BisDate) ||
-                   Plan->Flug[d].Startdate>Sim.Date || (Plan->Flug[d].Startdate==Sim.Date && Plan->Flug[d].Startzeit>Sim.GetHour())) 
+                   Plan->Flug[d].Startdate>Sim.Date || (Plan->Flug[d].Startdate==Sim.Date && Plan->Flug[d].Startzeit>Sim.GetHour()))
                {
                   if (Auftraege[Plan->Flug[d].ObjectId].InPlan==0)
                   {
@@ -1753,7 +1753,7 @@ void PLAYER::UpdateFrachtauftragsUsage (void)
                   qFPE.Okay=1; //Falscher Tag!
                }
                else if (qFPE.Startdate<=Frachten[qFPE.ObjectId].BisDate ||
-                        qFPE.Startdate>Sim.Date || (qFPE.Startdate==Sim.Date && qFPE.Startzeit>Sim.GetHour())) 
+                        qFPE.Startdate>Sim.Date || (qFPE.Startdate==Sim.Date && qFPE.Startzeit>Sim.GetHour()))
                {
                   CFracht &qFracht = Frachten[qFPE.ObjectId];
 
@@ -2006,7 +2006,7 @@ BOOL PLAYER::WalkToRoom (UBYTE RoomId)
    WaitForRoom  = 0;
    DirectToRoom = RoomId;
 
-   if (PrimaryTarget.y<4000)     
+   if (PrimaryTarget.y<4000)
       PrimaryTarget.y = PrimaryTarget.y/22+5; //unten!
    else
       PrimaryTarget.y = (PrimaryTarget.y-5000+2200)/22-100; //oben!
@@ -2248,7 +2248,7 @@ void PLAYER::UpdateWaypoints (void)
             }
             else break;
       }
-   } 
+   }
 
    //Ist Spieler oben und will nach unten (oder umgekeht)?
    if (SecondaryTarget.y<5 && Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)].Position.y<5000)
@@ -2270,7 +2270,7 @@ void PLAYER::UpdateWaypoints (void)
    if (!Sim.CallItADay)
    {
       PERSON &qPerson = Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)];
-   
+
       if (qPerson.StatePar==0 && IsStuck==0)
       {
          qPerson.Target   = TertiaryTarget;
@@ -2631,8 +2631,8 @@ void PLAYER::RobotPlan()
        ACTION_SABOTAGE,
        ACTION_BUERO,
        ACTION_BUERO,
-       ACTION_VISITBANK, 
-       ACTION_VISITBANK, 
+       ACTION_VISITBANK,
+       ACTION_VISITBANK,
        ACTION_PERSONAL,
        ACTION_PERSONAL,
        ACTION_VISITKIOSK,
@@ -3310,7 +3310,7 @@ void PLAYER::RobotExecuteAction(void)
             {
                SLONG c, Anz=0;
 
-               for (c=RentRouten.RentRouten.AnzEntries()-1; c>=0; c--) 
+               for (c=RentRouten.RentRouten.AnzEntries()-1; c>=0; c--)
                   if (Routen.IsInAlbum(c) && RentRouten.RentRouten[c].Rang) Anz++;
 
                if (Image<150)
@@ -4200,7 +4200,7 @@ void PLAYER::RobotExecuteAction(void)
             for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                if (c!=PlayerNum && Sim.Players.Players[c].OwnsAktien[PlayerNum]*(AlterKurs-Kurse[0])!=0)
                   Sim.Players.Players[c].ChangeMoney (SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum]*(AlterKurs-Kurse[0])), 3161, "");
-            
+
             AnzAktien+=NeueAktien;
             OwnsAktien[PlayerNum]+=(NeueAktien-MarktAktien);
             if (Sim.Players.Players[Sim.localPlayer].HasBerater (BERATERTYP_INFO))
@@ -4746,7 +4746,7 @@ void PLAYER::RobotExecuteAction(void)
                Cheapest=99999999;
                for (c=0; c<7; c++)
                   if (TafelData.Gate[c].ZettelId &&
-                      TafelData.Gate[c].Player!=PlayerNum && 
+                      TafelData.Gate[c].Player!=PlayerNum &&
                       (TafelData.Gate[c].Preis<Cheapest || TafelData.Gate[c].Player==dislike || PlayerNum==0))
                   {
                      Cheapest=TafelData.Gate[c].Preis;
@@ -5021,7 +5021,7 @@ void PLAYER::RobotExecuteAction(void)
    //NetGenericSync (114, TimePersonal);
 
    if (PlayerNum==2 && WorkCountdown>2) WorkCountdown/=2;
-   
+
    if (RobotUse(ROBOT_USE_WORKVERYQUICK) && WorkCountdown>4) WorkCountdown/=4;
    else if (RobotUse(ROBOT_USE_WORKQUICK) && WorkCountdown>2) WorkCountdown/=2;
 
@@ -6005,15 +6005,15 @@ void PLAYERS::CheckFlighplans (void)
 
                   switch (qFPE.ObjectType)
                   {
-                     case 1: 
+                     case 1:
                         Routen[qFPE.ObjectId];
                         break;
 
-                     case 2: 
+                     case 2:
                         Players[c].Auftraege[qFPE.ObjectId];
                         break;
 
-                     case 4: 
+                     case 4:
                         Players[c].Frachten[qFPE.ObjectId];
                         break;
                   }
@@ -6602,7 +6602,7 @@ TEAKFILE &operator >> (TEAKFILE &File, PLAYER &Player)
 
    //Interne Verwaltung:
    File >> Player.ViewPos      >> Player.IslandViewPos >> Player.CameraSpeed;
-   File >> Player.NewDir;   
+   File >> Player.NewDir;
    File >> Player.WinP1        >> Player.WinP2;
    for (c=0; c<10; c++)   File >> Player.Locations[c];
    File >> Player.LocationTime >> Player.LocationForbidden >> Player.LocationForbiddenTime;
@@ -6685,8 +6685,8 @@ bool RobotUse (SLONG FeatureId)
       //"xX" : Enabled
       //"!"  : Enabled, but wasn't enabled in AT 1.0
       //"?"  : Enabled, but isn't enabled in AT First Class
-      //                                            Basisspiel       Addon        FlightSecu      
-      //                                                012345   F   0123456789   0123456789 
+      //                                            Basisspiel       Addon        FlightSecu
+      //                                                012345   F   0123456789   0123456789
       case ROBOT_USE_SABOTAGE         : pFeatureDesc = "-XXXXX" "X" "XXXXXXXXXX" "-XXXXXXXXX"; break;
       case ROBOT_USE_FRACHT           : pFeatureDesc = "------" "X" "-XXXXXXXXX" "XXXXXXXXXX"; break;
       case ROBOT_USE_WERBUNG          : pFeatureDesc = "---XXX" "!" "XXXXXXXXXX" "-XX-X-XXXX"; break;

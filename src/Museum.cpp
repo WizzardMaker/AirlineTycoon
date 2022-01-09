@@ -39,7 +39,7 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
    TriggerSkelett=-1;
    TriggerMann=-1;
    TriggerEmergency=-1;
-   
+
    SP_Mann.ReSize (14);
    SP_Mann.Clips[0].ReSize (0, "MU_PutzA.smk", "MU_PutzA.raw", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                             NULL, SMACKER_CLIP_SET, 0, NULL,
@@ -51,10 +51,10 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
                             &TriggerEmergency, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
                             "A1E1E1E1", 5, 3, 5, 6);
    SP_Mann.Clips[3].ReSize (3, "MU_RedeA.smk", "", XY (420, 250), SPM_TALKING,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-                            NULL, SMACKER_CLIP_SET, 0, NULL, 
+                            NULL, SMACKER_CLIP_SET, 0, NULL,
                             "A8A8E1E1", 3, 4, 5, 6);
    SP_Mann.Clips[4].ReSize (4, "MU_RedeB.smk", "", XY (420, 250), SPM_TALKING,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-                            NULL, SMACKER_CLIP_SET, 0, NULL,  
+                            NULL, SMACKER_CLIP_SET, 0, NULL,
                             "A8A8E1E1", 3, 4, 5, 6);
    SP_Mann.Clips[5].ReSize (5, "MU_RedeW.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(5,5),   SMACKER_CLIP_CANCANCEL,
                             &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, -1, NULL,
@@ -71,7 +71,7 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
                             &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, NULL,
                             "A1", 8);
    SP_Mann.Clips[8].ReSize (8, "MU_GuckZ.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                            &TriggerSkelett, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 3, NULL, 
+                            &TriggerSkelett, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 3, NULL,
                             "A1", 5);
    SP_Mann.Clips[10].ReSize (10, "", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
                              &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, -1, NULL,

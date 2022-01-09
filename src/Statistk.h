@@ -63,14 +63,14 @@ public:
    SBBM     DropDownBackgroundBm;      //Die Hintergrundbitmap
    SBBM     DropDownBm;                //Die Hintergrundbitmap mit Linien drauf
    SBBMS    UpDownArrows;              //Die Buttons zum runter/raufscrollen
-                                      
+
    SBBM     TextTableBm;               //Die Bitmap mit den Texten (kann von der Drop-Down Liste überdeckt werden)
-                                      
+
    SBBMS    LupeLogoBms;               //Die Lupe mit dem Firmenlogo
    SBBMS    LupeZoomBms;               //Die Lupe mit +/s
    SBBMS    ButtonGeldBms;             //Die Buttons mit dem Geld
    SBBMS    ButtonRouteBms;            //Die Buttons mit der Route
-                                      
+
    SBBMS    ExitBms;                   //Das Exit-Schild
    SBBMS    LogoBms;                   //Die Vier großen Spielerlogos in 3 varianten
 	SBBMS		PobelBms;

@@ -76,10 +76,10 @@ CMakler::CMakler(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
                               NULL, SMACKER_CLIP_SET, 0, NULL,
                               "A9A9E1E1", 5, 8, 4, 6);
    SP_Makler.Clips[8].ReSize (8, "M_ListK.smk", "", XY (470, 218), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_DONTCANCEL,
-                              NULL, SMACKER_CLIP_SET, 0, NULL, 
+                              NULL, SMACKER_CLIP_SET, 0, NULL,
                               "A9", 5);
    SP_Makler.Clips[6].ReSize (6, "M_back.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                              NULL, SMACKER_CLIP_SET, 0, NULL, 
+                              NULL, SMACKER_CLIP_SET, 0, NULL,
                               "A9", 0);
 
    //Raumanimationen
@@ -238,7 +238,7 @@ void CMakler::OnPaint()
    {
       NewTip = (gMousePosition.y-(MenuPos.y+22))/13 + MenuPage;
 
-      if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && 
+      if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() &&
           PlaneTypes.IsInAlbum (MenuDataTable.LineIndex[NewTip]))
       {
          if (NewTip != CurrentTip)

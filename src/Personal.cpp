@@ -544,7 +544,7 @@ void CWorker::Gehaltsaenderung (BOOL Art)
          Sim.Players.Players[ExEmployer].MapWorkers (FALSE);
       }
    }
-}     
+}
 
 //--------------------------------------------------------------------------------------------
 //Erzeugt einen zufälligen Namen

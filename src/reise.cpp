@@ -153,7 +153,7 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
    MapPlaneBms[2].ReSize (pMenuLib, "PL_R00", 1+8);
    MapPlaneBms[3].ReSize (pMenuLib, "PL_J00", 1+8);
    MapPlaneBms[4].ReSize (pMenuLib, "PL_SW00", 1+8);
-   
+
    pZettelLib=NULL;
 
    //Hintergrundsounds:
@@ -417,7 +417,7 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point)
                break;
             }
          }
-      }   
+      }
    }
    CStdRaum::OnLButtonDown(nFlags, point);
 }

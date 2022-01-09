@@ -126,8 +126,8 @@ SBBM                    gCursorNoBm;
 SBBMS                   gCursorFeetBms[2]; //Schuhe nach links und nach rechts
 SLONG                   gShowCursorFeet=-1;
 
-SBBM                    gDialogBarBm; 
-SBBMS                   gToolTipBms; 
+SBBM                    gDialogBarBm;
+SBBMS                   gToolTipBms;
 
 BOOL                    gRoomJustLeft;    //TRUE, wenn Raum gerade verlassen wurde (wegen messagePump während TransBlit)
 
@@ -313,7 +313,7 @@ SBBMS                   MoodBms;              //Die Spimmungs-Sprechblasen
 SBBMS                   SmileyBms;            //Die Spimmungs-Köpfe für die Aussagen des Beraters
 
 SBBM                    gCityMarkerBm;        //Marker für eine Stadt
-SBBMS                   FlugplanBms;          
+SBBMS                   FlugplanBms;
 BUFFER<SBBMS>           FlugplanIconBms;
 SBBMS                   gInfoBms;             //Der Infobutton in der Routenliste
 

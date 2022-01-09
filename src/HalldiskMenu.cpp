@@ -63,9 +63,9 @@ HallDiskMenu::~HallDiskMenu()
 // HallDiskMenu message handlers
 
 //--------------------------------------------------------------------------------------------
-// HallDiskMenu::OnPaint() 
+// HallDiskMenu::OnPaint()
 //--------------------------------------------------------------------------------------------
-void HallDiskMenu::OnPaint() 
+void HallDiskMenu::OnPaint()
 {
    SLONG xOffset []= {79, 104, 126, 155, 187, 225, 255, 301, 350, 386, 446 };
    SLONG c, d, e;
@@ -96,9 +96,9 @@ void HallDiskMenu::OnPaint()
 }
 
 //--------------------------------------------------------------------------------------------
-// HallDiskMenu::OnClose() 
+// HallDiskMenu::OnClose()
 //--------------------------------------------------------------------------------------------
-void HallDiskMenu::OnClose() 
+void HallDiskMenu::OnClose()
 {
    TopWin = NULL;
 
@@ -107,9 +107,9 @@ void HallDiskMenu::OnClose()
 }
 
 //--------------------------------------------------------------------------------------------
-// HallDiskMenu::OnLButtonDown() 
+// HallDiskMenu::OnLButtonDown()
 //--------------------------------------------------------------------------------------------
-void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point) 
+void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
 {
    SLONG n;
 
@@ -163,7 +163,7 @@ void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
          n = (point.y-161)/9+1;
 
          memcpy (localLevel, Airport.HallLevel, sizeof (Airport.HallLevel));
-			
+
          localLevel[x]=n;
          Airport.LoadAirport (localLevel[0], localLevel[1], localLevel[2], localLevel[3], localLevel[4],
                               localLevel[5], localLevel[6], localLevel[7], localLevel[8], localLevel[9]);
@@ -204,9 +204,9 @@ void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
 }
 
 //--------------------------------------------------------------------------------------------
-// HallDiskMenu::OnRButtonDown() 
+// HallDiskMenu::OnRButtonDown()
 //--------------------------------------------------------------------------------------------
-void HallDiskMenu::OnRButtonDown(UINT nFlags, CPoint point) 
+void HallDiskMenu::OnRButtonDown(UINT nFlags, CPoint point)
 {
    ReferTo (nFlags);
    ReferTo (point);
@@ -216,7 +216,7 @@ void HallDiskMenu::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //BOOL CStdRaum::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) : AG:
 //--------------------------------------------------------------------------------------------
-BOOL HallDiskMenu::OnSetCursor(void* pWnd, UINT nHitTest, UINT message) 
+BOOL HallDiskMenu::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
 {
 	return (FrameWnd->OnSetCursor(pWnd, nHitTest, message));
 }
@@ -224,7 +224,7 @@ BOOL HallDiskMenu::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
 //--------------------------------------------------------------------------------------------
 //void CStdRaum::OnMouseMove(UINT nFlags, CPoint point): AG:
 //--------------------------------------------------------------------------------------------
-void HallDiskMenu::OnMouseMove(UINT nFlags, CPoint point) 
+void HallDiskMenu::OnMouseMove(UINT nFlags, CPoint point)
 {
 	FrameWnd->OnMouseMove(nFlags, point);
 }

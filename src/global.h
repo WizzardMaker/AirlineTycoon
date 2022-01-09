@@ -118,14 +118,14 @@ extern SBBM                    gCursorHotBm;
 extern SBBMS                   gCursorExitBms;
 extern SBBM                    gCursorMoveHBm;
 extern SBBM                    gCursorMoveVBm;
-extern SBBM                    gCursorSandBm; 
+extern SBBM                    gCursorSandBm;
 extern SBBM                    gCursorNoBm;
 
 extern SBBMS                   gCursorFeetBms[2]; //Schuhe nach links und nach rechts
 extern SLONG                   gShowCursorFeet;
 
-extern SBBM                    gDialogBarBm; 
-extern SBBMS                   gToolTipBms; 
+extern SBBM                    gDialogBarBm;
+extern SBBMS                   gToolTipBms;
 
 extern BOOL                    gRoomJustLeft;    //TRUE, wenn Raum gerade verlassen wurde (wegen messagePump während TransBlit)
 
@@ -219,7 +219,7 @@ extern BUFFER<BUFFER_UBYTE>    GlobeLight;
 extern BUFFER<SLONG>           GlobeMapperY;
 extern BUFFER<UWORD>           GlobeMixTab;
 extern BUFFER<XY>              GlobeWindows;
-       
+
 //--------------------------------------------------------------------------------------------
 //Der Klacker-Font:
 //--------------------------------------------------------------------------------------------
@@ -311,7 +311,7 @@ extern SBBMS                   MoodBms;              //Die Spimmungs-Sprechblase
 extern SBBMS                   SmileyBms;            //Die Spimmungs-Köpfe für die Aussagen des Beraters
 
 extern SBBM                    gCityMarkerBm;        //Marker für eine Stadt
-extern SBBMS                   FlugplanBms;          
+extern SBBMS                   FlugplanBms;
 extern BUFFER<SBBMS>           FlugplanIconBms;
 extern SBBMS                   gInfoBms;             //Der Infobutton in der Routenliste
 

@@ -195,13 +195,13 @@ void CSmackerClip::ReSize (SLONG          ClipId,
                            CRepeat        Repeat,                 //Min..Max
                            CPostWait      PostWait,               //Min..Max in 20/stel Sekunden
                            BOOL           CanCancelClip,          //Kann der Clip vorzeitig abgebrochen werden?
-                           
+
                            SLONG         *PostVar,                //NULL oder Variable, die am Animationsende gesetzt werden soll
                            SLONG          PostOperation,
                            SLONG          PostValue,
-                           
+
                            const SLONG   *DecisionVar,            //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
-                           
+
                            CString        SuccessorTokens,        //z.B. "A2X8"...
                            SLONG          SuccessorIds, ...)
 {
@@ -304,7 +304,7 @@ void CSmackerClip::PlaySyllable (void)
    else
       TickerNext=0;
 }
- 
+
 //--------------------------------------------------------------------------------------------
 //CSmackerPerson::
 //--------------------------------------------------------------------------------------------

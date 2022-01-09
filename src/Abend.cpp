@@ -290,7 +290,7 @@ void CAbend::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 void CAbend::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-   if (nChar == VK_ESCAPE) 
+   if (nChar == VK_ESCAPE)
    {
       Sim.bNoTime = FALSE;
       Sim.DayState=4; //Sequenz beenden

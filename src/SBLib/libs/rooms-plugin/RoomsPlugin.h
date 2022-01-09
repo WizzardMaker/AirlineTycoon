@@ -3,7 +3,7 @@
  *  All rights reserved.
  *
  *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant 
+ *  LICENSE file in the root directory of this source tree. An additional grant
  *  of patent rights can be found in the PATENTS file in the same directory.
  *
  */
@@ -78,7 +78,7 @@ struct CreateRoom_Func : public RoomsPluginFunc {
 /// \brief Joins a room if possible. If not, creates a room.
 /// \ingroup ROOMS_COMMANDS
 struct EnterRoom_Func : public RoomsPluginFunc {
-	
+
 	// Input parameters
 	NetworkedRoomCreationParameters networkedRoomCreationParameters;
 	RoomMemberMode roomMemberMode;
@@ -248,7 +248,7 @@ struct GetRoomProperties_Func : public RoomsPluginFunc {
 
 	void PrintResult(void)
 	{
-		
+
 		if (resultCode!=REC_SUCCESS)
 		{
 			printf("Result for user %s: %s\n", userName.C_String(), RoomsErrorCodeDescription::ToEnglish(resultCode));
@@ -344,7 +344,7 @@ struct SetReadyStatus_Func : public RoomsPluginFunc {
 
 				printf("\n");
 			}
-			
+
 		}
 	}
 
@@ -825,7 +825,7 @@ struct RoomsCallback
 /// </OL>
 /// \sa AllGamesRoomsContainer
 /// \sa TeamManager TeamManager performs some of the same functions as RoomsPlugin in a more flexible way
-/// \sa 
+/// \sa
 /// \ingroup ROOMS_GROUP
 class RAK_DLL_EXPORT RoomsPlugin : public PluginInterface2, public RoomsCallback
 {
@@ -927,9 +927,9 @@ public:
 	/// \brief Only used on the server. Locally perform any desired functions, such as logging off players
 	/// \note Use AllGamesRoomsContainer::AddTitle() to add titles
 	AllGamesRoomsContainer roomsContainer;
-	
+
 	void SetServer(bool isServer);
-	
+
 	// --------------------------------------------------------------------------------------------
 	// Packet handling functions
 	// --------------------------------------------------------------------------------------------
@@ -959,7 +959,7 @@ protected:
 	RakNet::TimeMS lastUpdateTime;
 
 	bool isServer;
-	
+
 	// Client data
 	SystemAddress serverAddress;
 

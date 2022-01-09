@@ -32,7 +32,7 @@ void DeserializePacket(unsigned char* data, unsigned int length, ATPacket* packe
 RAKNetNetwork::RAKNetNetwork() : mRoomCallbacks(this) {
     TEAKRAND rand;
     rand.SRandTime();
-	
+
     mLocalID = rand.Rand();
 
     isHostMigrating = false;
@@ -81,7 +81,7 @@ void RAKNetNetwork::Initialize() {
 void RAKNetNetwork::Disconnect() {
     mSessions.Clear();
     mSessionInfo.Clear();
-    
+
 	CloseSession();
 	mMaster->CloseConnection(mHost, true);
     mMaster->Shutdown(500);
@@ -95,7 +95,7 @@ bool RAKNetNetwork::CreateSession(SBNetworkCreation* create) {
     info->address = mMaster->GetMyGUID();
     mSessionInfo.Clear();
     mSessionInfo.Add(info);
-	
+
     mState = SBNETWORK_SESSION_MASTER;
     mSearchTime = SDL_GetTicks();
 
@@ -152,7 +152,7 @@ bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool
     //    {
     //        if (mPlayers.GetLastAccessed().ID == peerID){
 				//SBNetworkPlayer *player = &mPlayers.GetLastAccessed();
-    //        	
+    //
     //            int result = mMaster->Send(&data, HIGH_PRIORITY, RELIABLE_ORDERED, 0, static_cast<RAKNetworkPlayer*>(player)->peer, false);
 				//SDL_Log("SEND PRIVATE: STATUS: %x", result);
     //        }
@@ -162,7 +162,7 @@ bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool
     }
 
 	mMaster->Send(&data, HIGH_PRIORITY, RELIABLE_ORDERED, 0, NET_BROADCAST, true);
-    
+
 
     return true;
 }
@@ -207,8 +207,8 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
 
             //ATPacket packet{};
             //DeserializePacket(p->data, p->length, &packet);
-        		
-        	//Find disconnected player 
+
+        	//Find disconnected player
             SBNetworkPlayer *disconnectedPlayer = nullptr;
             for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext()) {
                 if (static_cast<RAKNetworkPlayer*>(mPlayers.GetLastAccessed())->peer == p->guid) {
@@ -225,7 +225,7 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
                 size = sizeof(DPPacket);
                 *buffer = new UBYTE[size];
                 memcpy(*buffer, &dp, size);
-            	
+
                 mPlayers.RemoveLastAccessed();
                 delete disconnectedPlayer;
             }
@@ -244,14 +244,14 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
                 SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d. IGNORED, SEND NOT TO US", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
 	            break;
             }
-        		
+
             *buffer = packet.data;
             size = packet.dataLength;
             if(packet.peerID)
                 SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
             else
 				SDL_Log("RECEIVED: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
-            
+
             mMaster->DeallocatePacket(p);
             return true;
         }
@@ -298,15 +298,15 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
                     break;
                 }
 
-            	
+
             	if(isNATMode) {
-            		
+
             	}else {
             		SystemAddress newPlayer = nPeer->address;
 
                     const char* address = newPlayer.ToString(false);
             		const unsigned short port = newPlayer.GetPort();
-            		
+
                     SDL_Log("CONNECTING: New connection being made to: %s:%u", address, port);
                     mMaster->Connect(address, port, nullptr, 0);//Connect to other client
                     AwaitConnection(mMaster, true);
@@ -354,7 +354,7 @@ bool RAKNetNetwork::AwaitConnection(RakPeerInterface* peerInterface, bool isAnot
 
         	if(isAnotherPeer == false)
 				mHost = p->guid; //Only set the host guid if we are actually connecting to the host
-        	
+
             mState = SBNETWORK_SESSION_CLIENT;
             SDL_Log("Connect(..) successful. We (%s) are now sending our ID: %d", mMaster->GetMyGUID().ToString(), mLocalID);
 
@@ -440,7 +440,7 @@ bool RAKNetNetwork::StartGetSessionListAsync() {
 
 		mRoomsPluginClient->SetServerAddress(SystemAddress(MASTER_SERVER_ADDRESS, MASTER_SERVER_PORT));
 	}
-	
+
     //if (mState != SBNETWORK_SESSION_SEARCHING) {
     //    //start searching..
     //    mServerSearch = RakPeerInterface::GetInstance();

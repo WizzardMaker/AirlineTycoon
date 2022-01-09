@@ -72,7 +72,7 @@ void BLOCK::BlitAt (SBBM &RoomBm)
       if (Destructing==1)
       {
          Phase=38-Phase;
-         if (Phase<=-7) 
+         if (Phase<=-7)
          {
             Destructing=2;
             return;
@@ -761,7 +761,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                   Bitmap.PrintAt (StandardTexte.GetS (TOKEN_PLANE, 1030), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,103+52), ClientArea+XY(172,170));
                }
                else if (Page==2) //Besatzung:
-               {      
+               {
                   SLONG       c, n;
                   CPlane     &qPlane     = qPlayer.Planes[SelectedId];
                   //CPlaneType &qPlaneType = PlaneTypes[qPlane.TypeId];
@@ -1232,7 +1232,7 @@ switch_again:
                   Bitmap.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[qAuftrag.VonCity].Kuerzel, (LPCTSTR)Cities[qAuftrag.NachCity].Kuerzel), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
 
                   //Ausführlich von A nach B
-                  Bitmap.PrintAt (bprintf ("%s - %s", 
+                  Bitmap.PrintAt (bprintf ("%s - %s",
                                   Cities[qAuftrag.VonCity].Name,
                                   Cities[qAuftrag.NachCity].Name),
                                   FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,1), ClientAreaB+XY(172,168));
@@ -1273,7 +1273,7 @@ switch_again:
                   {
                      Bitmap.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 2500), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,28), ClientAreaB+XY(172,170));
                   }
-               }   
+               }
                break;
 
             //Routen:
@@ -1294,11 +1294,11 @@ switch_again:
                   Bitmap.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[qRoute.VonCity].Kuerzel, (LPCTSTR)Cities[qRoute.NachCity].Kuerzel), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
 
                   //Ausführlich von A nach B
-                  Bitmap.PrintAt (bprintf ("%s - %s", 
+                  Bitmap.PrintAt (bprintf ("%s - %s",
                                   Cities[qRoute.VonCity].Name,
                                   Cities[qRoute.NachCity].Name),
                                   FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,1), ClientAreaB+XY(172,168));
-                       
+
                   if (PageB==0)
                   {
                      //Ticketpreis:
@@ -1397,7 +1397,7 @@ switch_again:
                   Bitmap.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[qFracht.VonCity].Kuerzel, (LPCTSTR)Cities[qFracht.NachCity].Kuerzel), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
 
                   //Ausführlich von A nach B
-                  Bitmap.PrintAt (bprintf ("%s - %s", 
+                  Bitmap.PrintAt (bprintf ("%s - %s",
                                   Cities[qFracht.VonCity].Name,
                                   Cities[qFracht.NachCity].Name),
                                   FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,1), ClientAreaB+XY(172,168));
@@ -1442,7 +1442,7 @@ switch_again:
                   {
                      Bitmap.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 2501), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,28), ClientAreaB+XY(172,170));
                   }
-               }   
+               }
                break;
          }
       }
@@ -1468,19 +1468,19 @@ switch_again:
    else if (TipInUseB == TIP_AUFTRAG)
    {
       DrawAuftragTipContents (-1,
-                              Bitmap, 
+                              Bitmap,
                               NULL,
                               &Sim.Players.Players[(SLONG)PlayerNum].Auftraege[CurrentTipId],
                               CurrentTipIdPar3, //Gate
                               CurrentTipIdPar1,
-                              CurrentTipIdPar2, 
+                              CurrentTipIdPar2,
                               TitleAreaB, ClientAreaB, XY(0,0), &TitleFont, &FontSmallBlack,
                               CurrentTipIdPar4);
    }
    else if (TipInUseB == TIP_FRACHT)
    {
       DrawFrachtTipContents (-1,
-                              Bitmap, 
+                              Bitmap,
                               NULL,
                               &Sim.Players.Players[(SLONG)PlayerNum].Frachten[CurrentTipId],
                               CurrentTipIdPar3, //t mit diesem Flug transportiert

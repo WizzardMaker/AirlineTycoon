@@ -22,7 +22,7 @@ public:
    GfxLib     *pMenuLib;
 
    SBBM        OpaqueBm;
-   SBBM        TransBm;     
+   SBBM        TransBm;
    SBBM        GeigenkastenBm;
 
    SBBMS       SchilderBms;         //Ausverkauft, in D, E, oder F

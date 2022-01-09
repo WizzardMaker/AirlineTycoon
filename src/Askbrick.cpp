@@ -59,7 +59,7 @@ AskBrick::~AskBrick()
 // AskBrick message handlers
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void AskBrick::OnPaint() 
+void AskBrick::OnPaint()
 {
    SLONG g, x, y;
 
@@ -101,7 +101,7 @@ void AskBrick::OnPaint()
    }
 }
 
-void AskBrick::OnLButtonDown(UINT nFlags, CPoint point) 
+void AskBrick::OnLButtonDown(UINT nFlags, CPoint point)
 {
    SLONG g, x, y;
 
@@ -125,13 +125,13 @@ void AskBrick::OnLButtonDown(UINT nFlags, CPoint point)
    ReferTo (point);
 }
 
-void AskBrick::OnRButtonDown(UINT nFlags, CPoint point) 
+void AskBrick::OnRButtonDown(UINT nFlags, CPoint point)
 {
    ReferTo (nFlags);
    ReferTo (point);
 }
 
-void AskBrick::OnClose() 
+void AskBrick::OnClose()
 {
    //Self-Destruct (zerstört Fenster und gibt anschließend Speicher frei):
    delete this;
@@ -170,7 +170,7 @@ void AskBrick::OnKeyDown(UINT nChar, UINT, UINT)
 //--------------------------------------------------------------------------------------------
 //BOOL CStdRaum::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) : AG:
 //--------------------------------------------------------------------------------------------
-BOOL AskBrick::OnSetCursor(void* pWnd, UINT nHitTest, UINT message) 
+BOOL AskBrick::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
 {
 	return (FrameWnd->OnSetCursor(pWnd, nHitTest, message));
 }
@@ -178,7 +178,7 @@ BOOL AskBrick::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
 //--------------------------------------------------------------------------------------------
 //void CStdRaum::OnMouseMove(UINT nFlags, CPoint point): AG:
 //--------------------------------------------------------------------------------------------
-void AskBrick::OnMouseMove(UINT nFlags, CPoint point) 
+void AskBrick::OnMouseMove(UINT nFlags, CPoint point)
 {
 	FrameWnd->OnMouseMove(nFlags, point);
 }

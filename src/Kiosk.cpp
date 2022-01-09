@@ -110,7 +110,7 @@ CKiosk::CKiosk(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "kio
    HausZBm.ReSize ("Haus.lbm");/**/
 
    /*WaterStaticBm.ReSize (pRoomLib, "WATER");
-   WaterMovingBm.ReSize (WaterStaticBm.Size); 
+   WaterMovingBm.ReSize (WaterStaticBm.Size);
 
    for (SLONG c=0; c<256; c++)
       SinTab[c] = SLONG(sin (c*3.24159/128)*6); */

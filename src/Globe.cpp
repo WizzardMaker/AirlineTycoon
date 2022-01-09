@@ -171,7 +171,7 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
       }
 
 
-      if (Sim.IsTutorial) 
+      if (Sim.IsTutorial)
          qBlock.BlockTypeB = 4;
       else
       {
@@ -720,7 +720,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
                      {
                         case 1:
                            pBlock->LoadLib (Cities[pBlock->SelectedId].PhotoName);
-                           pBlock->AnzPages = 1+Cities[pBlock->SelectedId].AnzTexts + Cities[pBlock->SelectedId].AnzPhotos; 
+                           pBlock->AnzPages = 1+Cities[pBlock->SelectedId].AnzTexts + Cities[pBlock->SelectedId].AnzPhotos;
                            break;
 
                         case 2: pBlock->AnzPages = 3;
@@ -950,11 +950,11 @@ void CGlobe::OnRButtonUp(UINT, CPoint)
 //--------------------------------------------------------------------------------------------
 //Nachrichten weiterreichen:
 //--------------------------------------------------------------------------------------------
-void CGlobe::OnChar(UINT nChar, UINT a, UINT b) 
+void CGlobe::OnChar(UINT nChar, UINT a, UINT b)
 {
 	CStdRaum::OnChar(nChar, a, b);
 }
-void CGlobe::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void CGlobe::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
 }

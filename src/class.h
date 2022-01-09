@@ -818,7 +818,7 @@ class /**/CPlane
    //Basisdaten:
    public:
       CString        Name;                //Der Name des Flugzeuges
-      SLONG          Ort;                 //-1=Landend; -2=Startend; -5 in der Luft; sonst Stadt 
+      SLONG          Ort;                 //-1=Landend; -2=Startend; -5 in der Luft; sonst Stadt
       XY             Position;            //Position am Flughafen oder in der Luft
       XY             GlobePos;            //Position auf der Kugel im Scheduler
       BOOL           BehindGlobe;         //Ist das Flugzeug auf der Rückseite der Erde
@@ -1160,10 +1160,10 @@ class /**/BLOCK
       CPlaner   *Base;              //Basisdaten fürs malen
       GfxLib    *pGLibPicture;
       XY         ScreenPos;         //Position auf dem Bildschirm
-                 
+
       BOOL       Destructing;       //Block wird gerade zerstört
       SLONG      AnimationStart;    //Startzeit für die Animation
-      SLONG      PlayerNum;         
+      SLONG      PlayerNum;
       SLONG      StyleType;         //Block oder Window
 
       SBBM       Bitmap;            //
@@ -1422,7 +1422,7 @@ class /**/CLANS : public ALBUM<CLAN>
       UBYTE GetCustomerIdByGroup (SLONG Group);
       UBYTE GetCustomerId (SLONG Browned, SLONG Koffer=99, TEAKRAND *pRand=NULL);
       UBYTE GetSuitcaseId (SLONG Koffer);
-      UBYTE GetPlayerId (ULONG PlayerType); 
+      UBYTE GetPlayerId (ULONG PlayerType);
       void  UpdateClansInGame (BOOL FirstDay);
       SLONG GetAnimationId (SLONG AnimationGroup);
 };
@@ -1532,7 +1532,7 @@ class /**/CQueuedPerson
       XY          Position;         //Die rechnerische Position (ohne Isometrie)
 
    public:
-      CQueuedPerson () {TimeSlice=-1;} 
+      CQueuedPerson () {TimeSlice=-1;}
 
    friend TEAKFILE &operator << (TEAKFILE &File, const CQueuedPerson &p);
    friend TEAKFILE &operator >> (TEAKFILE &File, CQueuedPerson &p);
@@ -1621,7 +1621,7 @@ class /**/CMessage
 {
    public:
       SLONG    BeraterTyp;    //-1 = leer
-      CString  Message;                     
+      CString  Message;
       SLONG    Urgent;
       SLONG    Mood;
       SLONG    BubbleType;
@@ -2157,7 +2157,7 @@ class PLAYERS
    public:
       SLONG           AnzPlayers;
       FBUFFER<PLAYER> Players;
-      
+
    public:
       PLAYERS ();
       SLONG GetAnzHumanPlayers (void);
@@ -2195,7 +2195,7 @@ class AIRPORT
    public:
       XY             PlateOffset;         //Verschiebt die Build-Koordinaten in Plate-Koor.
       XY             PlateDimension;      //Maße des Arrays
-      FBUFFER<UBYTE> iPlate;              //XY-Platten mit den Informationen 
+      FBUFFER<UBYTE> iPlate;              //XY-Platten mit den Informationen
       FBUFFER<UBYTE> iPlateDir;           //Kopie mit der Richtung einer Person, die dort läuft
       FBUFFER<UWORD> SeatsTaken;          //X-Array, in Y-Achse die Sitze
 
@@ -2250,7 +2250,7 @@ class AIRPORT
 	friend class HallDiskMenu;
    friend TEAKFILE &operator << (TEAKFILE &File, const AIRPORT &Airport);
    friend TEAKFILE &operator >> (TEAKFILE &File, AIRPORT &Airport);
-};          
+};
 
 //--------------------------------------------------------------------------------------------
 // Sim.Cpp :

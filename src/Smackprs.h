@@ -81,7 +81,7 @@ class CSmackerClip
 
        SLONG        LastFrame;
 
-       SBFX              SoundFx;        
+       SBFX              SoundFx;
        SLONG             NumSoundFx;     //Anzahl der Soundeffekte
        CUnrepeatedRandom SoundRandom;    //Wenn es mehrere Soundeffekte gibt
        DWORD             TickerNext;     //Zu diesem Zeitpunkt muﬂ das n‰chste Sample gestartet werden
@@ -121,13 +121,13 @@ class CSmackerClip
                     CRepeat        Repeat,                 //Min..Max
                     CPostWait      PostWait,               //Min..Max in 20/stel Sekunden
                     BOOL           CanCancelClip,          //Kann der Clip vorzeitig abgebrochen werden?
-      
+
                     SLONG         *PostVar,                //NULL oder Variable, die am Animationsende gesetzt werden soll
                     SLONG          PostOperation,
                     SLONG          PostValue,
-      
+
                     const SLONG   *DecisionVar,            //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
-                    
+
                     CString        SuccessorTokens,        //z.B. "A2X8"...
                     SLONG          SuccessorIds, ...);
 
@@ -174,4 +174,4 @@ class CSmackerPerson
       void  Pump (void);
       void  BlitAtT (SBBM &RoomBm);
       void  BlitAtT (SBBM &RoomBm, XY Offset);
-};    
+};

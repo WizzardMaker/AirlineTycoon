@@ -93,7 +93,7 @@ typedef struct _DigitalData
 	word			state;
 	bool			fNoStop;
 	dword			time;
-} DigitalData;	
+} DigitalData;
 
 typedef struct _FXData
 {
@@ -108,7 +108,7 @@ typedef struct _FXData
 	SLONG		pan;
 	SLONG		volume;
 } FXData;
-	
+
 typedef struct _MusicData
 {
 	std::string		file;
@@ -118,7 +118,7 @@ typedef struct _MusicData
 	dword			time;
 	char			alias[9];
 } MusicData;
-	
+
 /*typedef struct _DigiMusicData
 {
 	//IDirectSoundBuffer *		pBuffer;			// Der Sound-Puffer
@@ -239,7 +239,7 @@ class SSE
 
 		//IDirectSound* _pDS;			// DirectSound-Object
 		//IDSB*		_pBuffer;			// Primary buffer
-	
+
 		std::list<FX>	_soundObjList;		// Liste der FX-Objekte
 		std::list<MIDI>	_musicObjList;		// Liste der Midi-Objekte
 
@@ -413,7 +413,7 @@ class MIDI : public MUSIC
 /*class DIGIMUSIC : public DIGITAL,public MUSIC
 {
 	friend SSE;
-	friend unsigned int WINAPI HandleNotifications(void * lParam); 
+	friend unsigned int WINAPI HandleNotifications(void * lParam);
 	friend unsigned int WINAPI CompatiblePlay(LPVOID ptr);
 	friend unsigned int WINAPI CompatibilityCheck(LPVOID ptr);
 

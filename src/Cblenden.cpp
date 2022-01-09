@@ -65,7 +65,7 @@ static const char FileId[] = "Blnd";
 
 /*#include "all.h"  */
 
-      
+
 //--------------------------------------------------------------------------------------------
 //Abstrakte Basisklasse für Blenden; Mit virtual Pointern praktisch für Mehrfachverwendung...
 //--------------------------------------------------------------------------------------------

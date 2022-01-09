@@ -8,7 +8,7 @@
 #include <afxtempl.h>      // MFC extensions
 
 #include <mmsystem.h>      //Für timeGetTime()
-#include <ddraw.h>         //MS Direct Draw 
+#include <ddraw.h>         //MS Direct Draw
 #include <math.h>
 
 #define FXF 0.33

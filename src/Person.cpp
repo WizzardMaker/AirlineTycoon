@@ -76,7 +76,7 @@ void CLANS::ReInit (const CString &TabFilename)
          TeakStrRemoveEndingCodes (Line, "\xd\xa\x1a\r");
 
          //Tabellenzeile hinzufügen:
-         if (ShadowPass==0) 
+         if (ShadowPass==0)
          {
             Id=(*this).GetUniqueId();
             (*this)+=Id;
@@ -114,7 +114,7 @@ void CLANS::ReInit (const CString &TabFilename)
             //Spalte 1-7 ignorieren
             strtok (Line, TabSeparator);
             for (c=0; c<7; c++) strtok (NULL, TabSeparator);
-            
+
             (*this)[Id].GimmickOffset.x   = atoi (strtok (NULL, TabSeparator));
             (*this)[Id].GimmickOffset.y   = atoi (strtok (NULL, TabSeparator));
             (*this)[Id].ShadowOffset.x    = atoi (strtok (NULL, TabSeparator));
@@ -127,7 +127,7 @@ void CLANS::ReInit (const CString &TabFilename)
             //Spalte 1-9 ignorieren
             strtok (Line, TabSeparator);
             for (c=0; c<9; c++) strtok (NULL, TabSeparator);
-            
+
             (*this)[Id].SkelettOffset.x    = atoi (strtok (NULL, TabSeparator));
             (*this)[Id].SkelettOffset.y    = atoi (strtok (NULL, TabSeparator));
 
@@ -310,7 +310,7 @@ void CLAN::BlitAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos,
       if (Phase>=Phasen[8].AnzEntries()) Phase=0;
       pbm=&(Phasen[8])[Phase];
    }
-   
+
    if (pbm)
    {
       if (ScreenPos.x>-60 && ScreenPos.x<RightAirportClip+50)
@@ -338,7 +338,7 @@ void CLAN::BlitAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos,
                Phase%=Shadow[8].AnzEntries();
                pbm=&(Shadow[8])[Phase];
             }
-   
+
             if (pbm && pbm->Size.x && pbm->Size.y)
             {
                Size = XY(pbm->Size.x/2, pbm->Size.y-1);
@@ -364,7 +364,7 @@ void CLAN::BlitAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos,
 void CLAN::BlitSkelettAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos)
 {
    SBBM *pbm;
-   
+
    if (Dir<8)
    {
       if (Phase/Faktor>=Skelett[Dir].AnzEntries()) Phase=0;
@@ -375,7 +375,7 @@ void CLAN::BlitSkelettAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY Scr
       if (Phase>=Skelett[8].AnzEntries()) Phase=0;
       pbm=&(Skelett[8])[Phase];
    }
-   
+
    if (pbm && ScreenPos.x>-60 && ScreenPos.x<RightAirportClip+50)
    {
       //Person blitten:
@@ -395,7 +395,7 @@ void CLAN::BlitLargeAt (SBBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos)
 {
    SBBM *pbm;
    XY    Size;
-   
+
    if (Dir<8 || Dir==9)
    {
       if (Phase/Faktor>=Phasen[Dir].AnzEntries()) Phase=0;
@@ -406,7 +406,7 @@ void CLAN::BlitLargeAt (SBBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos)
       if (Phase>=Phasen[8].AnzEntries()) Phase=0;
       pbm=&(Phasen[8])[Phase];
    }
-   
+
    if (pbm)
    {
       if (pbm->pBitmap)
@@ -757,7 +757,7 @@ PERSON::PERSON (UBYTE ClanId, XY Position, UBYTE Reason, UBYTE FlightAirline, SL
 
    //Die Person ist aus einem bestimmten Grund am Flughafen. Und daraus ergibt sich ein
    switch (PERSON::Reason)  //Sekundärziel
-   {            
+   {
       case 0:
          if (Clans[(SLONG)ClanId].Type<CLAN_PLAYER1 || Clans[(SLONG)ClanId].Type>CLAN_PLAYER4)
             DebugBreak();
@@ -973,7 +973,7 @@ void PERSON::DoOneCustomerStep (void)
          if (Phase<(qClan.Phasen[(SLONG)LookDir].AnzEntries()*qClan.Faktor))
             return;
       }
-      
+
       Dir=LookDir=UBYTE(qClan.GimmickArt2);
       Phase=0;
    }
@@ -1071,7 +1071,7 @@ void PERSON::DoOneCustomerStep (void)
       //Sind wir! Und deshalb ist es Zeit sich umzuschauen und eine Entscheidung zu treffen.
       //Welche Möglichkeiten hat der Kunde dieses Feld zu verlassen?
       UBYTE NewPossibleDirs;
-      
+
       //Müssen wir erst einmal eine Tür aufstoßen?
       if (ArrayPos.y<2) Airport.TryDoor (XY(ArrayPos.x,ArrayPos.y+5), 0, 0);
 
@@ -1522,7 +1522,7 @@ void PERSON::DoOneCustomerStep (void)
                                  //Koffer erzeugen:
                                  Sim.PersonQueue.AddPerson (
                                         Clans.GetSuitcaseId(-qClan.HasSuitcase),
-                                        Airport.GetRandomTypedRune (RUNE_CREATE_SUITCASE, 0, false, &PersonalRandWalk), 
+                                        Airport.GetRandomTypedRune (RUNE_CREATE_SUITCASE, 0, false, &PersonalRandWalk),
                                         REASON_SUITCASE_EXIT,
                                         0,
                                         0,
@@ -1766,7 +1766,7 @@ void PERSON::DoOnePlayerStep (void)
 
          qPlayer.StandCount=-100;
       }
-      
+
       Dir=8;
       LookDir=UBYTE(qClan.GimmickArt2);
       Phase=0;
@@ -1777,7 +1777,7 @@ void PERSON::DoOnePlayerStep (void)
    {
       Target = qPlayer.TertiaryTarget;
       Target.x = Target.x*44+22;
-      
+
       if (Target.y<5)
          Target.y = Target.y*22+5000+11;
       else
@@ -2248,7 +2248,7 @@ void PERSON::DoOnePlayerStep (void)
                      }
                      StatePar=0; qPlayer.ExRoom=0;
                   }
-                  else 
+                  else
                   {
                      Target.x=Position.x;
                      Target.y=Position.y+22+Upfloor*5000;   //New (Network)
@@ -2491,7 +2491,7 @@ void PERSON::DoOnePlayerStep (void)
                SLONG Room = RunePar;
                if (Room) Target = Airport.GetRandomTypedRune (RUNE_2SHOP, (UBYTE)Room)+XY(0,22);
             }
-            else 
+            else
             {
                SLONG Room = RunePar;
                if (Room) Target = Airport.GetRandomTypedRune (RUNE_2SHOP, (UBYTE)Room)+XY(-44, 0);
@@ -2836,7 +2836,7 @@ void PERSON::PersonReachedTarget (void)
                      //Koffer erzeugen:
                      Sim.PersonQueue.AddPerson (
                             Clans.GetSuitcaseId(Clans[(SLONG)ClanId].HasSuitcase),
-                            Position-XY(0,22), 
+                            Position-XY(0,22),
                             REASON_SUITCASE_EXIT,
                             0,
                             0,
@@ -3453,7 +3453,7 @@ TEAKFILE &operator << (TEAKFILE &File, const PERSON &Person)
    else if (SaveVersion==1 && SaveVersionSub>=2)
    {
       File << Person.ClanId;
-      
+
       if (Person.ClanId!=255)
       {
          File << Person.Dir     << Person.Phase    << Person.Running;
@@ -3488,7 +3488,7 @@ TEAKFILE &operator >> (TEAKFILE &File, PERSON &Person)
    else if (SaveVersion==1 && SaveVersionSub>=2)
    {
       File >> Person.ClanId;
-      
+
       if (Person.ClanId!=255)
       {
          File >> Person.Dir     >> Person.Phase    >> Person.Running;

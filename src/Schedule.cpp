@@ -239,7 +239,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CFlugplan &Plan)
 {
    File >> Plan.Flug >> Plan.StartCity >> Plan.NextFlight >> Plan.NextStart;
    return (File);
-} 
+}
 
 //--------------------------------------------------------------------------------------------
 //Berechnet die Zahl der Passagiere auf dem Flug, wenn der Flug in diesem Augenblick erstellt/
@@ -282,7 +282,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
                //Ticketpreis ist Basis der Rechnung:
                if (Ticketpreis!=0)
                   Gewichte[c]=10000/Ticketpreis;
-               else 
+               else
                   Gewichte[c]=100000;
 
                SLONG Costs = CalculateFlightCost (Routen[ObjectId].VonCity, Routen[ObjectId].NachCity, 800, 800, -1)*3/180*2;
@@ -307,7 +307,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
                //25% Bonus für den Computer
                if (qPlayer.Owner==1) Gewichte[c]+=Gewichte[c]/4;
             }
-            else 
+            else
             {
                Gewichte[c]=0;
 
@@ -416,7 +416,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
                //Ticketpreis ist Basis der Rechnung:
                if (TicketpreisFC!=0)
                   Gewichte[c]=10000/ TicketpreisFC;
-               else 
+               else
                   Gewichte[c]=100000;
 
                SLONG Costs = CalculateFlightCost (Routen[ObjectId].VonCity, Routen[ObjectId].NachCity, 800, 800, -1)*3/180*2;
@@ -441,7 +441,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
                //25% Bonus für den Computer
                if (qPlayer.Owner==1) Gewichte[c]+=Gewichte[c]/4;
             }
-            else 
+            else
             {
                Gewichte[c]=0;
 
@@ -533,7 +533,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
    SLONG   Einnahmen=0, Ausgaben=0;
    CString CityString;
    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
-     
+
    //Hat angebliche Asynchronitäten berichtet, obwohl der Flugplan gleich war!
    //NetGenericAsync (90000+ObjectId+Sim.Date*100+PlayerNum*1000, Startzeit);
    //if (ObjectType==1)
@@ -673,7 +673,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
    {
       //SLONG Kerosin = CalculateFlightKerosin (VonCity, NachCity, PlaneTypes[Plane->TypeId].Verbrauch, PlaneTypes[Plane->TypeId].Geschwindigkeit);
       SLONG Kerosin = CalculateFlightKerosin (VonCity, NachCity, Plane->ptVerbrauch, Plane->ptGeschwindigkeit);
-      SLONG tmp = min (qPlayer.TankInhalt, Kerosin); 
+      SLONG tmp = min (qPlayer.TankInhalt, Kerosin);
       qPlayer.TankInhalt -= tmp;
       qPlayer.BadKerosin -= tmp;
       if (qPlayer.BadKerosin<0) qPlayer.BadKerosin=0;
@@ -684,7 +684,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
       qPlayer.Bilanz.Kerosin+=SLONG(tmp*qPlayer.TankPreis);     //Kalkulatorische Kosten
       qPlayer.Statistiken[STAT_A_KEROSIN].AddAtPastDay (0, -long(tmp*qPlayer.TankPreis));
       Plane->Salden[0]-=SLONG(tmp*qPlayer.TankPreis);
-   } 
+   }
 
    //Bei Routen den Bedarf bei den Leuten entsprechend verringern und die Bekanntheit verbessern:
    if (ObjectType==1)

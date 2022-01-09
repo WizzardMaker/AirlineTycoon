@@ -92,7 +92,7 @@ void SSE::StopMusic()
 int SSE::SetMusicVolume(SLONG volume)
 {
     volume = min(MIX_MAX_VOLUME, (MIX_MAX_VOLUME / 7.0f) * volume);
-	
+
     Mix_VolumeMusic(volume);
     return SSE_OK;
 }
@@ -109,7 +109,7 @@ int SSE::GetMusicVolume(SLONG* pVolume)
 int SSE::SetSoundVolume(SLONG volume)
 {
 	volume = min(MIX_MAX_VOLUME, (MIX_MAX_VOLUME / 7.0f) * volume);
-	
+
     Mix_Volume(-1, volume);
     return SSE_OK;
 }
@@ -655,7 +655,7 @@ int MIDI::Load(const char* file)
     } else if(_mode == 2){
         std::transform(_musicData.file.begin(), _musicData.file.end(),
             _musicData.file.begin(), ::tolower);
-    	
+
         _musicData.file.replace(_musicData.file.size() - 3, 3, "ogg");
         _music = Mix_LoadMUS(_musicData.file.c_str());
     }

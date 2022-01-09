@@ -207,7 +207,7 @@ inline bool operator!=(const CPoint& lhs, const CPoint& rhs)
 
 //Die Schwierigkeitsgrade fürs Spiel:
 #define DIFF_TUTORIAL    0             //Tutorium: 3 Aufträge
-#define DIFF_FIRST       1             //5000 Passagiere befördern; keine 
+#define DIFF_FIRST       1             //5000 Passagiere befördern; keine
 #define DIFF_EASY        2
 #define DIFF_NORMAL      3
 #define DIFF_HARD        4
@@ -519,7 +519,7 @@ inline bool operator!=(const CPoint& lhs, const CPoint& rhs)
 #define REASON_SHOPPING      50    //Will nur in Geschäfte
 #define REASON_LEAVING       51    //Ist per Flugzeug angekommen und will nur weg
 #define REASON_FLYING        52    //Will per Flugzeug verreisen
-#define REASON_SUITCASE_EXIT 53    //Koffer will nur zum Koffer-Ausgang   
+#define REASON_SUITCASE_EXIT 53    //Koffer will nur zum Koffer-Ausgang
 #define REASON_WAYPOINT      54    //Person geht auf einer Reihe von WayPoints
 
 //Die Einheiten

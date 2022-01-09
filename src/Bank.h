@@ -9,9 +9,9 @@ public:
 	Bank(BOOL bHandy, ULONG PlayerNum);
 
    SBBM           MoneyBm;
-        
+
    CSmackerPerson SP_Modem;
-   
+
    CAnimation     MonitorAnim;
    CAnimation     KameraAnim;
    SLONG          CatchFly;

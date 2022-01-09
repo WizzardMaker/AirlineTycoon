@@ -78,7 +78,7 @@ class CSystemCheckup
       //CD:
       long     KBSec;                  //noch nicht unterstützt: CD in Kilobytes pro Sekunde, z.B. 300..
       double   Faktor;                 //noch nicht unterstützt: ..oder als Faktor, z.B. 2 = Double-Speed
-         
+
       //OS:
       long     PlatformID;             //CHECK_PLATFORM_WIN31 / _WIN95 / WINNT
       long     OSMajorVersion;         //Major- und Minorversion wären z.B. 3 bzw. 51 für

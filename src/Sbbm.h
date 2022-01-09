@@ -16,7 +16,7 @@
 
       __asm
       {
-         _emit 0x0F 
+         _emit 0x0F
          _emit 0x31
          mov DWORD PTR [rc], eax
          mov DWORD PTR [rc+4], edx
@@ -65,7 +65,7 @@
          {
             GameTime.Reset(); BlitTime.Reset(); FXTime.Reset(); InitTime.Reset(); DiskTime.Reset();
             TextTime.Reset(); ClearTime.Reset(); SortTime.Reset(); WalkTime.Reset();
-            KITime.Reset(); WaitTime.Reset(); AdminTime.Reset(); MiscTime1.Reset(); MiscTime2.Reset(); 
+            KITime.Reset(); WaitTime.Reset(); AdminTime.Reset(); MiscTime1.Reset(); MiscTime2.Reset();
             GameTime.Start (); FlipTime.Reset();
          }
          void  Report (void);
@@ -74,7 +74,7 @@
    extern CBench          Bench;
    extern SDL_Renderer   *lpDD;
    extern SB_CBitmapMain *bitmapMain;
-   
+
    XYZ DetectCurrentDisplayResolution (void);
 
    //Eine Teak Bitmap:
@@ -93,7 +93,7 @@
          SBBM (XY Size) { pHLObj=NULL; bitmapMain->CreateBitmap(&pBitmap,Size.x,Size.y,0,CREATE_USECOLORKEY|CREATE_SYSMEM); SBBM::Size.x = pBitmap->GetXSize(); SBBM::Size.y = pBitmap->GetYSize(); }
          SBBM (GfxLib* gfxLibrary, __int64 graphicID)
          {
-            pHLObj=NULL; 
+            pHLObj=NULL;
             bitmapMain->CreateBitmap(&pBitmap, gfxLibrary, graphicID, CREATE_USECOLORKEY|CREATE_SYSMEM);
             SBBM::Size.x = pBitmap->GetXSize(); SBBM::Size.y = pBitmap->GetYSize();
          }

@@ -3,7 +3,7 @@
  *  All rights reserved.
  *
  *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant 
+ *  LICENSE file in the root directory of this source tree. An additional grant
  *  of patent rights can be found in the PATENTS file in the same directory.
  *
  */
@@ -198,7 +198,7 @@ struct RoomDescriptor
 	{
 		return roomProperties.GetRowByIndex(0,0)->cells[index];
 	}
-	
+
 	void Clear(void)
 	{
 		roomMemberList.Clear(false, _FILE_AND_LINE_);
@@ -345,8 +345,8 @@ class AllGamesRoomsContainer
 		ProfanityFilter *profanityFilter);
 
 	// Enters a room based on the search queries. If no rooms are available to join, will create a room instead
-	RoomsErrorCode EnterRoom(RoomCreationParameters *roomCreationParameters, 
-		RoomMemberMode roomMemberMode, 
+	RoomsErrorCode EnterRoom(RoomCreationParameters *roomCreationParameters,
+		RoomMemberMode roomMemberMode,
 		ProfanityFilter *profanityFilter,
 		RoomQuery *query,
 		JoinedRoomResult *joinRoomResult);
@@ -406,14 +406,14 @@ class AllGamesRoomsContainer
 	// From greatest minimumPlayers to least
 	// 6. If the current member created a room, find out how many subsequent members would join based on the custom filter
 	// 7. If this satisfies minimumPlayers, have that user create a room and those subsequent members join.
-	// 
+	//
 	// -- EXPIRE
 	//
 	// 5. Remove from list if timeout has expired.
 	// 6. Return results of operation (List<timeoutExpired>, List<joinedARoom>, List<RoomsThatWereJoined>
 	//
 	// Returns false if processing skipped due to optimization timer
-	RoomsErrorCode ProcessQuickJoins( 
+	RoomsErrorCode ProcessQuickJoins(
 		DataStructures::List<QuickJoinUser*> &timeoutExpired,
 		DataStructures::List<JoinedRoomResult> &joinedRoomMembers,
 		DataStructures::List<QuickJoinUser*> &dereferencedPointers,
@@ -466,11 +466,11 @@ public:
 	// Has pointer column to class Room
 	DataStructures::Table roomsTable;
 
-	// Members that are waiting to quick join	
+	// Members that are waiting to quick join
 	DataStructures::List<QuickJoinUser*> quickJoinList;
 
 	static int RoomsSortByTimeThenTotalSlots( Room* const &key, Room* const &data );
-				
+
 	protected:
 
 	RoomsErrorCode CreateRoom(RoomCreationParameters *roomCreationParameters,
@@ -502,7 +502,7 @@ public:
 	// Rooms are sorted by time created (longest is higher priority). If within one minute, then subsorted by total playable slot count (lower is higher priority).
 	// When using EnterRoom or JoinByFilter, record the last roomOutput joined, and try to avoid rejoining the same roomOutput just left
 	void RoomPrioritySort( RoomsParticipant* roomsParticipant, RoomQuery *roomQuery, DataStructures::OrderedList<Room*, Room*, RoomsSortByTimeThenTotalSlots> &roomsOutput );
-	
+
 	RoomsErrorCode SearchByFilter( RoomsParticipant* roomsParticipant, RoomQuery *roomQuery, DataStructures::OrderedList<Room*, Room*, AllGamesRoomsContainer::RoomsSortByName> &roomsOutput, bool onlyJoinable );
 
 	friend class AllGamesRoomsContainer;
@@ -535,7 +535,7 @@ class Room
 		RoomsErrorCode GetBanReason(RakNet::RakString name, RakNet::RakString *reason);
 		RoomsErrorCode LeaveRoom(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult);
 		//RoomsErrorCode GetKickReason(RoomsParticipant* roomsParticipant, RakNet::RakString *kickReason);
-		
+
 		RoomsErrorCode JoinByFilter(RoomsParticipant* roomsParticipant, RoomMemberMode roomMemberMode, JoinedRoomResult *joinRoomResult);
 		RoomsErrorCode JoinByQuickJoin(RoomsParticipant* roomsParticipant, RoomMemberMode roomMemberMode, JoinedRoomResult *joinRoomResult);
 
@@ -546,12 +546,12 @@ class Room
 		ParticipantCanJoinRoomResult ParticipantCanJoinRoom( RoomsParticipant* roomsParticipant, bool asSpectator, bool checkHasInvite );
 
 		// Returns true if there are only spectators, or nobody at all
-		bool IsRoomDead(void) const;		
+		bool IsRoomDead(void) const;
 
 		RoomsErrorCode GetInvitesToParticipant(RoomsParticipant* roomsParticipant, DataStructures::List<InvitedUser*> &invites);
 
 		RoomsParticipant* GetModerator(void) const;
-		
+
 		//  Gets the roomOutput ID
 		RoomID GetID(void) const;
 
@@ -562,7 +562,7 @@ class Room
 		const char *GetStringProperty(int index) const;
 		void SetNumericProperty(int index, double value);
 		void SetStringProperty(int index, const char *value);
-				
+
 		// Public for easy access
 		DataStructures::List<RoomMember*> roomMemberList;
 
@@ -571,16 +571,16 @@ class Room
 
 		// Don't store - slow because when removing users I have to iterate through every room
 		// DataStructures::List<KickedUser> kickedList;
-		
+
 		// Internal
 		DataStructures::List<QuickJoinUser*> quickJoinWorkingList;
-		
+
 		static void UpdateRowSlots( DataStructures::Table::Row* row, Slots *totalSlots, Slots *usedSlots);
 
 		void ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle);
 protected:
 		Room();
-		
+
 		// Updates the table row
 		RoomsErrorCode RemoveUser(RoomsParticipant* roomsParticipant,RemoveUserResult *removeUserResult);
 
@@ -603,10 +603,10 @@ protected:
 		Slots GetTotalSlots(void) const;
 		void SetTotalSlots(Slots *totalSlots);
 		Slots GetUsedSlots(void) const;
-		
+
 
 		RoomLockState roomLockState;
-		
+
 		friend struct RoomDescriptor;
 		friend class PerGameRoomsContainer;
 		friend class AllGamesRoomsContainer;

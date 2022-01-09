@@ -49,7 +49,7 @@ protected:
    void      *pTipOriginBm2;        //Die Tip-Bitmap; sie gehört einem Raum
    XY         TipPos;
 
-//Optionale & Dialog-Attribute:   
+//Optionale & Dialog-Attribute:
 protected:
    BOOL       UsingHandy;           //Verwendet er das Handy?
    BOOL       Ferngespraech;        //Ist es ein Ferngespräch?
@@ -239,7 +239,7 @@ protected:
 	//}}AFX_MSG
 
    static Uint32 TimerFunc(Uint32 interval, void* param);
-   
+
    friend void MessagePump (void);
    friend void PumpNetwork (void);
 

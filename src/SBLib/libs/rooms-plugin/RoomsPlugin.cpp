@@ -3,7 +3,7 @@
  *  All rights reserved.
  *
  *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant 
+ *  LICENSE file in the root directory of this source tree. An additional grant
  *  of patent rights can be found in the PATENTS file in the same directory.
  *
  */
@@ -1009,7 +1009,7 @@ void RoomsPlugin::Update(void)
 }
 PluginReceiveResult RoomsPlugin::OnReceive(Packet *packet)
 {
-	switch (packet->data[0]) 
+	switch (packet->data[0])
 	{
 	case ID_ROOMS_EXECUTE_FUNC:
 		OnRoomsExecuteFunc(packet);
@@ -1041,7 +1041,7 @@ void RoomsPlugin::OnLoginStatus(Packet *packet)
 			RakNetGUID guid;
 			if (loggedOn)
 			{
-				bs.Read(userAddress);	
+				bs.Read(userAddress);
 				bs.Read(guid);
 				LoginRoomsParticipant(name, userAddress, guid, packet->systemAddress);
 			}
@@ -1836,7 +1836,7 @@ void RoomsPlugin::StartSpectating_Callback( const SystemAddress &senderAddress, 
 	callResult->resultCode=roomsContainer.StartSpectating( roomsPluginParticipant );
 	if (callResult->resultCode==REC_SUCCESS)
 	{
-		RoomMemberStartedSpectating_Notification notification;	
+		RoomMemberStartedSpectating_Notification notification;
 		//notification.userName=roomsPluginParticipant->GetName();
 		notification.roomId=roomsPluginParticipant->GetRoom()->GetID();
 		ExecuteNotificationToOtherRoomMembers(roomsPluginParticipant->GetRoom(), roomsPluginParticipant, &notification);
@@ -2011,7 +2011,7 @@ void RoomsPlugin::SetReadyStatus_Callback( const SystemAddress &senderAddress, S
 
 	if (callResult->resultCode==REC_SUCCESS)
 	{
-		RoomMemberReadyStatusSet_Notification notification;	
+		RoomMemberReadyStatusSet_Notification notification;
 		notification.roomId=roomsPluginParticipant->GetRoom()->GetID();
 		notification.isReady=callResult->isReady;
 		notification.roomMember=roomsPluginParticipant->GetName();

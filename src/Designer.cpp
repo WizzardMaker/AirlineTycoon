@@ -159,7 +159,7 @@ void CDesigner::OnPaint()
          if (NewTip != CurrentTip)
          {
             MenuRepaint ();
-            DrawXPlaneTipContents (OnscreenBitmap, MenuDataTable.Values[NewTip*MenuDataTable.AnzColums+2], 
+            DrawXPlaneTipContents (OnscreenBitmap, MenuDataTable.Values[NewTip*MenuDataTable.AnzColums+2],
                                    XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack);
             CurrentTip = NewTip;
          }

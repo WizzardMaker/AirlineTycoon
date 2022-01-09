@@ -21,7 +21,7 @@ SLONG RocketPrices [] = {   200000,  400000,   600000,
                            5000000, 8000000, 10000000, 20000000, 25000000, 50000000, 85000000 };
 
 SLONG StationPrices [] = {  1000000,  2000000,  3000000,
-                            2000000, 10000000, 20000000, 35000000,  50000000, 
+                            2000000, 10000000, 20000000, 35000000,  50000000,
                            35000000, 80000000 };
 
 CString Space = " ";
@@ -76,7 +76,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
          return (TRUE);
       }
    }
-   
+
    if (MenuIsOpen())
    {
       MenuLeftClick (point);
@@ -134,7 +134,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
 
       //Bei Netzwerkdialogen wird ein Klick ignoriert, wenn der andere Spieler gerade etwas auswählt:
       if (bIsNetworkDialog && OnscreenBitmap.Size.y==0 && bJustDeletedTextWindow==false) return (TRUE);
-      
+
       //if (CurrentTextSubIdVon!=CurrentTextSubIdBis && CurrentTextSubIdBis!=0 && TextAlign==1 && (Sim.Options.OptionTalking*Sim.Options.OptionDigiSound || bIsNetworkDialog) && gLanguage==LANGUAGE_D)
       if (CurrentTextSubIdVon!=CurrentTextSubIdBis && CurrentTextSubIdBis!=0 && TextAlign==1 && (Sim.Options.OptionTalking*Sim.Options.OptionDigiSound || bIsNetworkDialog))
       {
@@ -186,7 +186,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                      MakeNumberWindow (TOKEN_ARAB, 9990301, Sim.Kerosin*2, Sim.Kerosin, Sim.Kerosin/2);
                   }
                   break;
-               case 300: 
+               case 300:
                   MakeSayWindow (1, TOKEN_ARAB, 400, 403, TRUE, &FontDialog, &FontDialogLight, Sim.Kerosin*2, Sim.Kerosin, Sim.Kerosin/2);
                   break;
 
@@ -201,11 +201,11 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
 
                case 202: //etwas über die Tanks erzählen
                   MakeSayWindow (0, TOKEN_ARAB, 800, pFontPartner);
-                  break; 
+                  break;
 
                case 403: //Bail Out
                   MakeSayWindow (1, TOKEN_ARAB, 201, 203, FALSE, &FontDialog, &FontDialogLight);
-                  break; 
+                  break;
 
                case 500: //Spieler muß Menge auswählen
                case 620:
@@ -289,7 +289,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                case 1020: case 1022:
                case 1045:
                case 1500:
-                  MakeSayWindow (1, TOKEN_SABOTAGE, 1030, 1033, TRUE, &FontDialog, &FontDialogLight, 
+                  MakeSayWindow (1, TOKEN_SABOTAGE, 1030, 1033, TRUE, &FontDialog, &FontDialogLight,
                      CString(bprintf ("%s (%s)", (LPCTSTR)Sim.Players.Players[0+(PlayerNum<=0)].AirlineX, (LPCTSTR)Sim.Players.Players[0+(PlayerNum<=0)].NameX)).c_str(),
                      CString(bprintf ("%s (%s)", (LPCTSTR)Sim.Players.Players[1+(PlayerNum<=1)].AirlineX, (LPCTSTR)Sim.Players.Players[1+(PlayerNum<=1)].NameX)).c_str(),
                      CString(bprintf ("%s (%s)", (LPCTSTR)Sim.Players.Players[2+(PlayerNum<=2)].AirlineX, (LPCTSTR)Sim.Players.Players[2+(PlayerNum<=2)].NameX)).c_str(),
@@ -635,7 +635,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                         CString fn = FullFilename (maybeArray[c], MyPlanePath);
                         if (fn!="") plane.Load (fn);
 
-                        if (plane.IsBuildable()) 
+                        if (plane.IsBuildable())
                            Array[d++]=maybeArray[c];
                      }
 
@@ -750,7 +750,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                  NumFree[c]-=Sim.Players.Players[d].OwnsAktien[c];
                         }
 
-                     MakeSayWindow (1, TOKEN_BANK, 2010, 2014, 2, &FontDialog, &FontDialogLight, 
+                     MakeSayWindow (1, TOKEN_BANK, 2010, 2014, 2, &FontDialog, &FontDialogLight,
                          (LPCTSTR)Sim.Players.Players[0].AirlineX, (LPCTSTR)Insert1000erDots (NumFree[0]),
                          (LPCTSTR)Sim.Players.Players[1].AirlineX, (LPCTSTR)Insert1000erDots (NumFree[1]),
                          (LPCTSTR)Sim.Players.Players[2].AirlineX, (LPCTSTR)Insert1000erDots (NumFree[2]),
@@ -772,7 +772,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                  NumFree[c]-=Sim.Players.Players[d].OwnsAktien[c];
                         }
 
-                     MakeSayWindow (1, TOKEN_BANK, 2020, 2024, 2, &FontDialog, &FontDialogLight, 
+                     MakeSayWindow (1, TOKEN_BANK, 2020, 2024, 2, &FontDialog, &FontDialogLight,
                          (LPCTSTR)Sim.Players.Players[0].AirlineX, (LPCTSTR)Insert1000erDots (NumFree[0]),
                          (LPCTSTR)Sim.Players.Players[1].AirlineX, (LPCTSTR)Insert1000erDots (NumFree[1]),
                          (LPCTSTR)Sim.Players.Players[2].AirlineX, (LPCTSTR)Insert1000erDots (NumFree[2]),
@@ -809,7 +809,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                   else MakeSayWindow (0, TOKEN_BANK, 2100, pFontPartner);
                   break;
                case 2100: case 2116:
-                  MakeSayWindow (1, TOKEN_BANK, 2110, 2114, 2, &FontDialog, &FontDialogLight, 
+                  MakeSayWindow (1, TOKEN_BANK, 2110, 2114, 2, &FontDialog, &FontDialogLight,
                       (LPCTSTR)Sim.Players.Players[0].AirlineX, (LPCTSTR)Insert1000erDots (qPlayer.OwnsAktien[0]),
                       (LPCTSTR)Sim.Players.Players[1].AirlineX, (LPCTSTR)Insert1000erDots (qPlayer.OwnsAktien[1]),
                       (LPCTSTR)Sim.Players.Players[2].AirlineX, (LPCTSTR)Insert1000erDots (qPlayer.OwnsAktien[2]),
@@ -817,7 +817,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                   break;
                case 2130:
                case 2131:
-                  MakeSayWindow (1, TOKEN_BANK, 2120, 2124, 2, &FontDialog, &FontDialogLight, 
+                  MakeSayWindow (1, TOKEN_BANK, 2120, 2124, 2, &FontDialog, &FontDialogLight,
                       (LPCTSTR)Sim.Players.Players[0].AirlineX, (LPCTSTR)Insert1000erDots (qPlayer.OwnsAktien[0]),
                       (LPCTSTR)Sim.Players.Players[1].AirlineX, (LPCTSTR)Insert1000erDots (qPlayer.OwnsAktien[1]),
                       (LPCTSTR)Sim.Players.Players[2].AirlineX, (LPCTSTR)Insert1000erDots (qPlayer.OwnsAktien[2]),
@@ -3287,7 +3287,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                   break;
 
                //Spieler werden jetzt besprochen:
-               case 6002: case 6102: case 6202: case 6302: case 6402: case 6502: 
+               case 6002: case 6102: case 6202: case 6302: case 6402: case 6502:
                case 7102: case 7202: case 7302: case 7402: case 7502: case 7602: case 7702: case 7802: case 7902: case 8002:
                case 8502: case 8602: case 8702: case 8802: case 8902: case 9002: case 9102: case 9202: case 9302: case 9402:
                case 2010: case 2011: case 2012: case 2013:
@@ -5242,7 +5242,7 @@ label_maindialog_players_again:
                   break;
 
                case 2002: case 2102: case 7000: //Kaufen:
-               case 5096: case 5097: case 5098: case 5099: 
+               case 5096: case 5097: case 5098: case 5099:
                case 5196: case 5197:
                   if ((qPlayer.RocketFlags & ROCKET_PART_ONE) != ROCKET_PART_ONE)
                      MakeSayWindow (1, TOKEN_NASA, 5000, 5003, FALSE, &FontDialog, &FontDialogLight);
@@ -5283,7 +5283,7 @@ label_maindialog_players_again:
                   else if (qPlayer.Money<RocketPrices[2])
                      MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                   else
-                  {                            
+                  {
                      ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                      qPlayer.AddRocketPart(ROCKET_ARM, -RocketPrices[2]);
                      MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);

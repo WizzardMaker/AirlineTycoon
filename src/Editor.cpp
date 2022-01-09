@@ -34,20 +34,20 @@ static const char FileId[] = "Edit";
 
 CPlaneParts gPlaneParts;
 
-CPlaneBuild gPlaneBuilds[37]= 
+CPlaneBuild gPlaneBuilds[37]=
 {            // Id    Shortname Cost  Weight  Power, Noise, Wartung, Passag., Verbrauch, BmIdx zPos
    CPlaneBuild (1000, "B1", 10000000, 40000,  0,     0,     -15,     140,    0,         0,    10000),
    CPlaneBuild (1001, "B2", 40000000, 90000,  0,     -5,    0,       600,    0,         1,    10000),
    CPlaneBuild (1002, "B3", 40000000, 30000,  0,     -40,   -15,     130,    0,         2,    10000),
    CPlaneBuild (1003, "B4", 25000000, 70000,  0,     -20,   -15,     320,    0,         3,    10000),
    CPlaneBuild (1004, "B5", 20000000, 60000,  0,     -10,   -15,     280,    0,         4,    10000),
-                                                                            
+
    CPlaneBuild (2000, "C1",   100000,  2000,  0,     5,     10,      0,      0,         5,    10010),
    CPlaneBuild (2001, "C2",  1100000,  2500,  0,     2,     5,       0,      0,         6,    10010),
    CPlaneBuild (2002, "C3",  1200000,  4000,  0,     0,     0,       0,      0,         7,    10010),
    CPlaneBuild (2003, "C4",   200000,   500,  0,     5,     20,      0,      0,         8,    10010),
    CPlaneBuild (2004, "C5",  4000000,  5000,  0,     -15,   0,       0,      0,         9,    10010),
-                                                                            
+
    CPlaneBuild (3000, "H1",   400000,  7000,  0,     10,    0,       0,      0,         10,    9000),
    CPlaneBuild (3001, "H2",   800000,  5000,  0,     0,     0,       0,      0,         11,    9000),
    CPlaneBuild (3002, "H3",  1200000,  3000,  0,     0,     0,       0,      0,         12,    9000),
@@ -55,14 +55,14 @@ CPlaneBuild gPlaneBuilds[37]=
    CPlaneBuild (3003, "H5",  2000000,  4000,  -4000, 20,    -20,     0,      0,         14,    9000),
    CPlaneBuild (3003, "H6",  6000000,  9000,  0,     -20,   10,      0,      0,         15,    9000),
    CPlaneBuild (3003, "H7",  5000000,  4000,  0,     -10,   0,       0,      0,         16,    9000),
-                                                                            
+
    CPlaneBuild (4000, "R1",  7000000, 21000,  0,     -10,   0,       0,      -50,       17,   12000),
    CPlaneBuild (4001, "R2",  3000000, 11000,  0,     0,     0,       0,      0,         18,   12000),
    CPlaneBuild (4002, "R3",  1700000,  7000,  0,     2,     0,       0,      0,         19,   12000),
    CPlaneBuild (4003, "R4",  1200000,  5000,  0,     5,     0,       0,      0,         20,   12000),
    CPlaneBuild (4004, "R5",   500000,  2000,  0,     0,     0,       0,      0,         21,   12000),
    CPlaneBuild (4004, "R6",  2000000, 30000,  0,     0,     0,       0,      0,         22,   12000),
-                                                                            
+
    CPlaneBuild (5000, "M1",  2300000,  1100,  6000,  3,     0,       0,      2000,      23,    7500),
    CPlaneBuild (5001, "M2",   100000,   500,  4000,  20,    10,      0,      500,       24,    7500),
    CPlaneBuild (5002, "M3",   250000,   600,  5000,  20,    10,      0,      600,       25,    7500),
@@ -71,7 +71,7 @@ CPlaneBuild gPlaneBuilds[37]=
    CPlaneBuild (5003, "M6",  5000000,  2000,  10000, 14,    5,       0,      12000,     28,    7500),
    CPlaneBuild (5003, "M7",  5500000,  2500,  18000, 20,    10,      0,      8000,      29,    7500),
    CPlaneBuild (5003, "M8",  3000000,  3400,  14000, 15,    12,      0,      10000,     30,    7500),
-                                                                            
+
    CPlaneBuild (6000, "L1",  7000000, 21000,  0,     -10,   0,       0,      -50,       31,    8000),
    CPlaneBuild (6001, "L2",  3000000, 11000,  0,     0,     0,       0,      0,         32,    8000),
    CPlaneBuild (6002, "L3",  1700000,  7000,  0,     2,     0,       0,      0,         33,    8000),
@@ -332,7 +332,7 @@ CPlanePartRelation gPlanePartRelations[307]=
    CPlanePartRelation ( 242, _B5, _C3, _2d_cbody5-_2d_cpit3, XY(208,  60), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
    CPlanePartRelation ( 243, _B5, _C4, _2d_cbody5-_2d_cpit4, XY(208,  61), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
    CPlanePartRelation ( 244, _B5, _C5, _2d_cbody5-_2d_cpit5, XY(208,  61), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
-                                                 
+
    //Bug->Heck       // Id,  From, To, Offset2d,     Offset3d,        Note1,    Note1,    Note1,         zAdd, Noise, Slot, RulesOutSlots
    CPlanePartRelation ( 300, _B1, _H1, _2d_hbody1-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
    CPlanePartRelation ( 301, _B1, _H2, _2d_hbody1-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
@@ -441,7 +441,7 @@ CPlanePartRelation gPlanePartRelations[307]=
    CPlanePartRelation ( 714, _L1, _M5, XY(64, -14),              XY(102, -27),        NOTE_STD, NOTE_STD, NOTE_STD, 1000, 0,     "ML", "ML" ),
    CPlanePartRelation ( 707, _R1, _M8, _2d_m_rwing1a-_2d_motor8, _m_rwing1a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 8,     "M1", "M1M2" ),
    CPlanePartRelation ( 717, _L1, _M8, _2d_m_lwing1a-_2d_motor8, _m_lwing1a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    8,     "M4", "M4M5" ),
-                                                         
+
    CPlanePartRelation ( 720, _R1, _M1, _2d_m_rwing1b-_2d_motor1, _m_rwing1b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
    CPlanePartRelation ( 730, _L1, _M1, _2d_m_lwing1b-_2d_motor1, _m_lwing1b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
    CPlanePartRelation ( 721, _R1, _M2, _2d_m_rwing1b-_2d_motor2, _m_rwing1b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
@@ -456,7 +456,7 @@ CPlanePartRelation gPlanePartRelations[307]=
    CPlanePartRelation ( 736, _L1, _M7, _2d_m_lwing1b-_2d_motor7, _m_lwing1b-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
    CPlanePartRelation ( 727, _R1, _M8, _2d_m_rwing1b-_2d_motor8, _m_rwing1b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
    CPlanePartRelation ( 737, _L1, _M8, _2d_m_lwing1b-_2d_motor8, _m_lwing1b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
-                                                         
+
    CPlanePartRelation ( 740, _R1, _M1, _2d_m_rwing1c-_2d_motor1, _m_rwing1c-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
    CPlanePartRelation ( 750, _L1, _M1, _2d_m_lwing1c-_2d_motor1, _m_lwing1c-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
    CPlanePartRelation ( 741, _R1, _M2, _2d_m_rwing1c-_2d_motor2, _m_rwing1c-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
@@ -479,7 +479,7 @@ CPlanePartRelation gPlanePartRelations[307]=
    CPlanePartRelation ( 811, _L2, _M2, _2d_m_lwing2a-_2d_motor2, _m_lwing2a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M4", "M4" ),
    CPlanePartRelation ( 807, _R2, _M8, _2d_m_rwing2a-_2d_motor8, _m_rwing2a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 8,     "M1", "M1M2" ),
    CPlanePartRelation ( 817, _L2, _M8, _2d_m_lwing2a-_2d_motor8, _m_lwing2a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    8,     "M4", "M4M5" ),
-                                                         
+
    CPlanePartRelation ( 820, _R2, _M1, _2d_m_rwing2b-_2d_motor1, _m_rwing2b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
    CPlanePartRelation ( 830, _L2, _M1, _2d_m_lwing2b-_2d_motor1, _m_lwing2b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
    CPlanePartRelation ( 821, _R2, _M2, _2d_m_rwing2b-_2d_motor2, _m_rwing2b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
@@ -496,7 +496,7 @@ CPlanePartRelation gPlanePartRelations[307]=
    CPlanePartRelation ( 836, _L2, _M7, _2d_m_lwing2b-_2d_motor7, _m_lwing2b-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
    CPlanePartRelation ( 827, _R2, _M8, _2d_m_rwing2b-_2d_motor8, _m_rwing2b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
    CPlanePartRelation ( 837, _L2, _M8, _2d_m_lwing2b-_2d_motor8, _m_lwing2b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
-                                                         
+
    CPlanePartRelation ( 840, _R2, _M1, _2d_m_rwing2c-_2d_motor1, _m_rwing2c-_motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
    CPlanePartRelation ( 850, _L2, _M1, _2d_m_lwing2c-_2d_motor1, _m_lwing2c-_motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
    CPlanePartRelation ( 841, _R2, _M2, _2d_m_rwing2c-_2d_motor2, _m_rwing2c-_motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
@@ -521,7 +521,7 @@ CPlanePartRelation gPlanePartRelations[307]=
    CPlanePartRelation ( 914, _L3, _M5, XY(111, -13),             XY(126, -18),        NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "ML", "ML" ),
    CPlanePartRelation ( 907, _R3, _M8, _2d_m_rwing3a-_2d_motor8, _m_rwing3a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M1", "M1M2" ),
    CPlanePartRelation ( 917, _L3, _M8, _2d_m_lwing3a-_2d_motor8, _m_lwing3a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M4", "M4M5" ),
-                                                         
+
    CPlanePartRelation ( 920, _R3, _M1, _2d_m_rwing3b-_2d_motor1, _m_rwing3b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
    CPlanePartRelation ( 930, _L3, _M1, _2d_m_lwing3b-_2d_motor1, _m_lwing3b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
    CPlanePartRelation ( 921, _R3, _M2, _2d_m_rwing3b-_2d_motor2, _m_rwing3b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
@@ -536,7 +536,7 @@ CPlanePartRelation gPlanePartRelations[307]=
    CPlanePartRelation ( 936, _L3, _M7, _2d_m_lwing3b-_2d_motor7, _m_lwing3b-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
    CPlanePartRelation ( 927, _R3, _M8, _2d_m_rwing3b-_2d_motor8, _m_rwing3b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
    CPlanePartRelation ( 937, _L3, _M8, _2d_m_lwing3b-_2d_motor8, _m_lwing3b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
-                                                         
+
    CPlanePartRelation ( 940, _R3, _M1, _2d_m_rwing3c-_2d_motor1, _m_rwing3c-_motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
    CPlanePartRelation ( 950, _L3, _M1, _2d_m_lwing3c-_2d_motor1, _m_lwing3c-_motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
    CPlanePartRelation ( 941, _R3, _M2, _2d_m_rwing3c-_2d_motor2, _m_rwing3c-_motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
@@ -569,7 +569,7 @@ CPlanePartRelation gPlanePartRelations[307]=
    CPlanePartRelation (1016, _L4, _M7, _2d_m_lwing4a-_2d_motor7, _m_lwing4a-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
    CPlanePartRelation (1007, _R4, _M8, _2d_m_rwing4a-_2d_motor8, _m_rwing4a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M3", "M3" ),
    CPlanePartRelation (1017, _L4, _M8, _2d_m_lwing4a-_2d_motor8, _m_lwing4a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M6", "M6" ),
-                                                        
+
    CPlanePartRelation (1020, _R4, _M1, _2d_m_rwing4b-_2d_motor1, _m_rwing4b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
    CPlanePartRelation (1030, _L4, _M1, _2d_m_lwing4b-_2d_motor1, _m_lwing4b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
    CPlanePartRelation (1021, _R4, _M2, _2d_m_rwing4b-_2d_motor2, _m_rwing4b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
@@ -620,7 +620,7 @@ CPlanePartRelation gPlanePartRelations[307]=
    CPlanePartRelation (1216, _L6, _M7, _2d_m_lwing6a-_2d_motor7, _m_lwing6a-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
    CPlanePartRelation (1207, _R6, _M8, _2d_m_rwing6a-_2d_motor8, _m_rwing6a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M3", "M3" ),
    CPlanePartRelation (1217, _L6, _M8, _2d_m_lwing6a-_2d_motor8, _m_lwing6a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M6", "M6" ),
-                                                         
+
    CPlanePartRelation (1220, _R6, _M1, _2d_m_rwing6b-_2d_motor1, _m_rwing6b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
    CPlanePartRelation (1230, _L6, _M1, _2d_m_lwing6b-_2d_motor1, _m_lwing6b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
    CPlanePartRelation (1221, _R6, _M2, _2d_m_rwing6b-_2d_motor2, _m_rwing6b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
@@ -744,7 +744,7 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "E
    if (DoesFileExist (PlaneFilename)) Plane.Load(PlaneFilename);
 
    UpdateButtonState ();
-   
+
    PartBms.ReSize (pRoomLib, "BODY_A01 BODY_A02 BODY_A03 BODY_A04 BODY_A05 "
                              "CPIT_A01 CPIT_A02 CPIT_A03 CPIT_A04 CPIT_A05 "
                              "HECK_A01 HECK_A02 HECK_A03 HECK_A04 HECK_A05 HECK_A06 HECK_A07 "
@@ -770,7 +770,7 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "E
    Hdu.HercPrintf (0, "stat_3.mcf");
    FontNormalRed.Load (lpDD, (char*)(LPCTSTR)FullFilename ("stat_3.mcf", MiscPath));
    FontYellow.Load (lpDD, (char*)(LPCTSTR)FullFilename ("stat_4.mcf", MiscPath));
-   
+
    //Hintergrundsounds:
    if (Sim.Options.OptionEffekte)
    {
@@ -878,7 +878,7 @@ void CEditor::OnPaint()
                   //else if (gPlaneBuilds[OtherParent].Shortname[0]=='R') OtherParent+=(5+8);
 
                   //Für alle eingebauten Planeparts:
-                  
+
                   for (d=0; d<(long)Plane.Parts.AnzEntries(); d++)
                      if (Plane.Parts.IsInAlbum(d))
                         if (gPlanePartRelations[c].FromBuildIndex==GetPlaneBuildIndex(Plane.Parts[d].Shortname))
@@ -1018,7 +1018,7 @@ void CEditor::OnPaint()
       if (Plane.Parts.IsInAlbum(d))
       {
          BOOL bShift = 0; //(GetAsyncKeyState (VK_SHIFT)/256)!=0;
-         
+
          SBBM &qBm = bShift?(gEditorPlane2dBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex]):(PartBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex]);
          XY    p   = bShift?(Plane.Parts[d].Pos2d+XY(320,200)):(Plane.Parts[d].Pos3d);
 
@@ -1073,7 +1073,7 @@ void CEditor::OnPaint()
       CString error = Plane.GetError();
       if (error!="") RoomBm.PrintAt (error, FontNormalRed, TEC_FONT_LEFT, 480, 20+125+15+15, 580, 300);
    }
-   
+
    //BROKEN:
    if (PartUnderCursor!="" && bCursorBlitted==false)   RoomBm.BlitFromT (PartBms[GetPlaneBuild(PartUnderCursor).BitmapIndex], GripAtPos);
    //if (PartUnderCursorB!="" && bCursorBlittedB==false) RoomBm.BlitFromT (PartBms[GetPlaneBuild(PartUnderCursorB).BitmapIndex], GripAtPosB);
@@ -1090,7 +1090,7 @@ void CEditor::OnPaint()
 
    //Flugzeugname:
    RoomBm.PrintAt (Plane.Name, FontNormalGreen, TEC_FONT_CENTERED, 193, 4+3, 471, 25+3);
-   
+
    //Die aktuell gewählten Parts:
    if (bAllowB) RoomBm.BlitFromT (SelPartBms[index_b],  66-SelPartBms[index_b].Size.x/2, 399-SelPartBms[index_b].Size.y/2);
    else         ColorFX.BlitTrans (SelPartBms[index_b].pBitmap, RoomBm.pBitmap, XY(66-SelPartBms[index_b].Size.x/2, 399-SelPartBms[index_b].Size.y/2), NULL, 5);
@@ -1102,7 +1102,7 @@ void CEditor::OnPaint()
    else         ColorFX.BlitTrans (SelPartBms[index_w].pBitmap, RoomBm.pBitmap, XY(447-SelPartBms[index_w].Size.x/2, 399-SelPartBms[index_w].Size.y/2), NULL, 5);
    if (bAllowM) RoomBm.BlitFromT (SelPartBms[index_m], 574-SelPartBms[index_m].Size.x/2, 399-SelPartBms[index_m].Size.y/2);
    else         ColorFX.BlitTrans (SelPartBms[index_m].pBitmap, RoomBm.pBitmap, XY(574-SelPartBms[index_m].Size.x/2, 399-SelPartBms[index_m].Size.y/2), NULL, 5);
-   
+
    if (!IsDialogOpen() && !MenuIsOpen())
    {
       //Ok, Cancel:
@@ -1128,7 +1128,7 @@ void CEditor::OnPaint()
          if (gMousePosition.IfIsWithin (  4+c*127,370, 27+c*127,426)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, c*100+100);
          if (gMousePosition.IfIsWithin (101+c*127,370,124+c*127,426)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, c*100+101);
          if (gMousePosition.IfIsWithin ( 27+c*127,363,101+c*127,436)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, c*100+105);
-         
+
          if (gMousePosition.IfIsWithin (  4+c*127,363,124+c*127,436))
          {
             CString part;
@@ -1150,7 +1150,7 @@ void CEditor::OnPaint()
          }
       }
    }
-   
+
    test:
 
    //Select Part Buttons:
@@ -1171,7 +1171,7 @@ void CEditor::OnPaint()
    //Prev, Next:
    RoomBm.BlitFromT (ButtonPlaneLRBms[0+(MouseClickId==800)+(MouseClickId==800 && gMouseLButton)], 185, 0);
    RoomBm.BlitFromT (ButtonPlaneLRBms[3+(MouseClickId==801)+(MouseClickId==801 && gMouseLButton)], 438, 0);
-   
+
    if (!IsDialogOpen() && !MenuIsOpen())
    {
       bool bHotPartFound=false;
@@ -1192,7 +1192,7 @@ void CEditor::OnPaint()
                      }
             }
    }
-   
+
    CStdRaum::PostPaint ();
    CStdRaum::PumpToolTips ();
 }
@@ -1294,7 +1294,7 @@ void CEditor::DoLButtonWork (UINT nFlags, CPoint point)
    if (MouseClickId==501) sel_m = (sel_m+1+NUM_PLANE_MOT)%NUM_PLANE_MOT;
    if (MouseClickId==505) PartUnderCursor = bprintf("M%li", 1+sel_m);
 
-   if (MouseClickId==105 || MouseClickId==205 || MouseClickId==305 || MouseClickId==405 || MouseClickId==505) 
+   if (MouseClickId==105 || MouseClickId==205 || MouseClickId==305 || MouseClickId==405 || MouseClickId==505)
       DragDropMode=true;
 
    //Delete, new:
@@ -1388,9 +1388,9 @@ void CEditor::DoLButtonWork (UINT nFlags, CPoint point)
 }
 
 //--------------------------------------------------------------------------------------------
-//OnLButtonUp(UINT nFlags, CPoint point) 
+//OnLButtonUp(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CEditor::OnLButtonUp(UINT, CPoint point) 
+void CEditor::OnLButtonUp(UINT, CPoint point)
 {
    if (!IsDialogOpen() && !MenuIsOpen())
    {
@@ -1549,7 +1549,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
             long c, MouseClickId=0;
 
             for (c=0; c<5; c++)
-               if (gMousePosition.IfIsWithin ( 27+c*127,363,101+c*127,436)) 
+               if (gMousePosition.IfIsWithin ( 27+c*127,363,101+c*127,436))
                   MouseClickId=c*100+105;
 
             if (MouseClickId==105 && Plane.Parts.GetNumUsed()>1)
@@ -1558,7 +1558,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                (*(CStdRaum*)qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE);
                return;
             }
-            
+
             while (1)
             {
                for (long c=0; c<(long)Plane.Parts.AnzEntries(); c++)
@@ -2101,7 +2101,7 @@ CString CXPlane::GetError (void)
 
    return ("");
 }
- 
+
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
@@ -2169,7 +2169,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CXPlane &p)
    File.Read ((UBYTE*)Dummy, dwSize+1);
 
    File >> p.Name;
-   
+
    File >> p.Cost >> p.Parts;
 
    return (File);

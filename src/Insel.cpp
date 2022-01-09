@@ -297,7 +297,7 @@ CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
       ShipBm.ReSize (pRoomLib, "BOAT");
       ShipReflexBm.ReSize (pRoomLib, "BOATM");
       ShipWaveBms.ReSize (pRoomLib, "BOATW01", 3);
-   
+
       TempBm.ReSize (pRoomLib, "BOATMASK");
       PrepareReflexionTable (TempBm, &ShipReflexionMask);
 
@@ -434,7 +434,7 @@ void CInsel::OnPaint()
       //Vogel...
       if (VogelSail)
          RoomBm.BlitFromT (VogelBms[SLONG(4)], (timeGetTime()-VogelOffset)/25-ViewPos.x, VogelY/1000);
-      else 
+      else
          RoomBm.BlitFromT (VogelBms[SLONG((timeGetTime()-VogelOffset)/100%VogelBms.AnzEntries())], (timeGetTime()-VogelOffset)/25-ViewPos.x, VogelY/1000);
 
       if (!VogelSail && ((timeGetTime()-VogelOffset)/100%VogelBms.AnzEntries())==4 && rand()%10==0)

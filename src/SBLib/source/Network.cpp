@@ -126,7 +126,7 @@ SLONG SBNetwork::GetMessageCount()
                 mPackets.Add(event.packet);
             }
             break;
-       
+
         case ENET_EVENT_TYPE_DISCONNECT:
             /* Delete the player and inform the multiplayer code */
             if (event.peer->data)
@@ -368,7 +368,7 @@ SBNetwork::SBNetwork(bool)
     mNetwork = nullptr;
 
     mConnections.Add(ENET_TYPE);
-	
+
     mConnections.Add(RAKNET_TYPE_DIRECT_JOIN);
     mConnections.Add(RAKNET_TYPE_DIRECT_HOST);
     mConnections.Add(RAKNET_TYPE_NAT_JOIN);
@@ -397,7 +397,7 @@ void SBNetwork::DisConnect() {
 	}
 }
 
-bool SBNetwork::CreateSession(SBStr name, SBNetworkCreation* settings) {	
+bool SBNetwork::CreateSession(SBStr name, SBNetworkCreation* settings) {
     return mNetwork->CreateSession(settings);
 }
 
@@ -409,7 +409,7 @@ ULONG SBNetwork::GetLocalPlayerID() {
 	if(mNetwork == nullptr) {
 		return 0;
 	}
-	
+
 	return mNetwork->GetLocalPlayerID();
 }
 
@@ -436,7 +436,7 @@ void SBNetwork::SetProvider(SBTypeEnum type) {
     mType = type;
     switch (type) {
 
-    case SBNETWORK_RAKNET_DIRECT_JOIN: 
+    case SBNETWORK_RAKNET_DIRECT_JOIN:
     case SBNETWORK_RAKNET_DIRECT_HOST:
     case SBNETWORK_RAKNET_NAT_HOST:
     case SBNETWORK_RAKNET_NAT_JOIN:

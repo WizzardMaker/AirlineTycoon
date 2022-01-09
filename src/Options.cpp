@@ -216,7 +216,7 @@ void Options::RefreshKlackerField(void)
 		int musicShift = usesMidi ? -1 : 0;
 
 		KlackerTafel.PrintAt(0, 2, usesMidi ? "Music: Midi" : usesOgg ? "Music: Ogg" : "Music: Off");
-		
+
 		if (Sim.Options.OptionMusicType != 0) {
 			if(!usesMidi){
 				KlackerTafel.PrintAt(1, 3, StandardTexte.GetS(TOKEN_MISC, 4121));
@@ -407,7 +407,7 @@ void Options::OnPaint()
 			const bool usesMusic = Sim.Options.OptionMusicType != 0;
 			const bool usesMidi = Sim.Options.OptionMusicType == 1;
 			const int musicShift = usesMidi ? -1 : 0;
-			
+
 			if (Column >= 15 && Column < 23 && Line >= 3 && Line <= 15)
 			{
 				if ((Line >= 8 && Line <= 13) || Line == 3 && !usesMidi && usesMusic) SetMouseLook(CURSOR_HOT, 0, -100, 0);
@@ -581,7 +581,7 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
 			const bool usesMusic = Sim.Options.OptionMusicType != 0;
 			const bool usesMidi = Sim.Options.OptionMusicType == 1;
 			const int musicShift = usesMidi ? -1 : 0;
-			
+
 			if (Column >= 15 && Column < 23 && Line >= 2 && Line <= 13)
 			{
 				if (Line == 3 && !usesMidi && usesMusic) { Sim.Options.OptionMusik = Column - 15; SetMidiVolume(Sim.Options.OptionMusik); }
@@ -601,7 +601,7 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
 				RefreshKlackerField();
 				KlackerTafel.Warp();
 			}
-			
+
 			if (Line == 4 + musicShift && usesMusic) {
 				Sim.Options.OptionLoopMusik = (Sim.Options.OptionLoopMusik + 1) % (9);
 				if (Sim.Options.OptionLoopMusik) NextMidi();

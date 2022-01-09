@@ -17,7 +17,7 @@
 #define	ANTIDEBUGGING SECURITY_ON
 #define	CRAPWARE	  SECURITY_OFF
 #define	AGRESSIVE	  SECURITY_ON
-	
+
 #define PUTSTARTMARK __asm {		\
 	__asm	nop				\
 	__asm	nop				\
@@ -44,12 +44,12 @@
 #define	HARDCODED_CHECKSUM	0x20202020
 
 // Constant for the Checksum code
-#define CRC32_POLY 0x04c11db7     
+#define CRC32_POLY 0x04c11db7
 
 // Constant for the decrunching code
 #define N		 4096	/* size of ring buffer */
 #define F		   18	/* upper limit for match_length */
-#define THRESHOLD	2 
+#define THRESHOLD	2
 #define READCHAR(x)		x = readbuffer[ readpos++ ]
 #define WRITECHAR(x)	writebuffer[ writepos++ ] = x
 #define DRIVE_CDROM 5
@@ -128,7 +128,7 @@ typedef unsigned long	word32;	/* 32 bit */
 // Define the getcode function
 long	GetCode( char * );
 
-class SecurityManager  
+class SecurityManager
 {
 public:
 	SecurityManager( char *, long, long );
@@ -149,7 +149,7 @@ protected:
 
 	unsigned long	writesize;			/* size of write buffer */
 	unsigned long	readsize;			/* size of read buffer */
-	
+
 	unsigned long	writepos;			/* pos in the write flow */
 	unsigned long	readpos;			/* pos in the read flow */
 
@@ -173,7 +173,7 @@ protected:
 	void			mystrcat( char *, char * );
 	void			mystrcpy( char *, char * );
 	unsigned short	mystrlen( char * );
-	
+
 };
 
 #endif // !defined(AFX_SECURITYMANAGER_H__D58FD8C4_164E_11D2_BA6D_00C0DF80FBBE__INCLUDED_)

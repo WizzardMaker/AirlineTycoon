@@ -205,7 +205,7 @@ static XY BottomRight[4]   = { XY(408,94), XY(427,94), XY(408,148), XY(427,142) 
 //--------------------------------------------------------------------------------------------
 //void Bank::OnPaint()
 //--------------------------------------------------------------------------------------------
-void Bank::OnPaint() 
+void Bank::OnPaint()
 {
    SLONG c;
 
@@ -304,7 +304,7 @@ void Bank::OnPaint()
 //--------------------------------------------------------------------------------------------
 //void Bank::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void Bank::OnLButtonDown(UINT nFlags, CPoint point) 
+void Bank::OnLButtonDown(UINT nFlags, CPoint point)
 {
    XY      RoomPos;
    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
@@ -338,7 +338,7 @@ void Bank::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //void Bank::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void Bank::OnRButtonDown(UINT nFlags, CPoint point) 
+void Bank::OnRButtonDown(UINT nFlags, CPoint point)
 {
    DefaultOnRButtonDown ();
 

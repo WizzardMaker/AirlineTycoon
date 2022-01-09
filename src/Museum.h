@@ -21,7 +21,7 @@ public:
    SBFX        TriebwerkFx;
 
    CAnimation  RotorAnim;
-               
+
    SLONG       TriggerSkelett;
    SLONG       TriggerMann;
    SLONG       TriggerEmergency;

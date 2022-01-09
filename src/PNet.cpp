@@ -292,7 +292,7 @@ void PLAYER::NetSynchronizeSabotage (void)
    Message.Announce(128);
 
    Message << ATNET_SABOTAGE_ARAB << PlayerNum;
-   
+
    Message << ArabOpfer  << ArabMode  << ArabActive << ArabPlane
            << ArabOpfer2 << ArabMode2 << ArabOpfer3 << ArabMode3;
 
@@ -416,7 +416,7 @@ void PLAYER::NetUpdateWorkers (void)
 
    m = (long)Statistiken[STAT_ZUFR_PERSONAL].GetAtPastDay(0);
    n = (long)Statistiken[STAT_MITARBEITER].GetAtPastDay(0);
-   
+
    Message << PlayerNum << m << n;
 
    for (c=0; c<(SLONG)Planes.AnzEntries(); c++)
@@ -473,7 +473,7 @@ void PLAYER::NetUpdatePlaneProps (SLONG PlaneId)
    if (bgIsLoadingSavegame) return;
 
    Message << ATNET_PLANEPROPS;
- 
+
    Message << PlayerNum         << PlaneId;
    Message << MechMode;
 

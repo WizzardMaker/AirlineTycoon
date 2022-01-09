@@ -71,7 +71,7 @@ CSabotage::CSabotage(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
                                "A9", 7);
 
    SP_Araber.Clips[8].ReSize (4, "s_left.smk", "", XY (155, 102), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                              NULL, SMACKER_CLIP_SET, 0, NULL, 
+                              NULL, SMACKER_CLIP_SET, 0, NULL,
                               "A9E1E1", 7, 2, 3);
    SP_Araber.Clips[9].ReSize (5, "s_rigt.smk", "", XY (155, 102), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                               NULL, SMACKER_CLIP_SET, 0, NULL,

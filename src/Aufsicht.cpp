@@ -383,7 +383,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
       #ifdef DEMO
          if (Sim.Date>=100)
             StartDialog (TALKER_BOSS, MEDIUM_AIR, 30);
-         else 
+         else
       #endif
 
       //Uhrig's Aufträge:
@@ -599,7 +599,7 @@ CAufsicht::~CAufsicht()
                case 4: //Bankkonto hacken
                   qOpfer.ChangeMoney (-1000000, 3502, "");
                   if (!bFremdsabotage) qPlayer.ChangeMoney (1000000, 3502, "");
-                  if (!bFremdsabotage) qPlayer.ArabHints+=30;                     
+                  if (!bFremdsabotage) qPlayer.ArabHints+=30;
                   break;
 
                case 5: //Flugzeug festsetzen
@@ -691,9 +691,9 @@ CAufsicht::~CAufsicht()
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------------------------------------
-//void CAufsicht::OnPaint() 
+//void CAufsicht::OnPaint()
 //--------------------------------------------------------------------------------------------
-void CAufsicht::OnPaint() 
+void CAufsicht::OnPaint()
 {
    PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
    UBYTE   Painted = 0;

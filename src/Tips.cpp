@@ -142,7 +142,7 @@ void DrawPlaneTip (SBBM &TipBm, SBBM *pTipOriginBm, CPlaneType *PlaneType, CPlan
    //Hintergrund machen:
    TipBm.ReSize (pTipOriginBm->Size);
    TipBm.BlitFrom (*pTipOriginBm);
-   
+
    DrawPlaneTipContents (TipBm, PlaneType, Plane, XY(32,3), XY(32,20), &FontSmallBlack, &FontSmallBlack);
 }
 
@@ -375,11 +375,11 @@ void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Ga
       TipBm.PrintAt (Einheiten[EINH_KM].bString(Cities.CalcDistance (Routen[RouteId].VonCity, Routen[RouteId].NachCity)/1000), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+44, Contents.x+170, Contents.y+170);
       TipBm.PrintAt ((Passagiere+PassagiereFC)>0?(CString(bitoa(Passagiere))+"/"+CString(bitoa(PassagiereFC))):"?", *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+55, Contents.x+170, Contents.y+170);
       TipBm.PrintAt (CString(bitoa (Ticketpreis))+"/"+CString(Einheiten[EINH_DM].bString (TicketpreisFC)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+66, Contents.x+170, Contents.y+170);
-      
+
       tmp=Ticketpreis*Passagiere+TicketpreisFC*PassagiereFC;
 
       //Block 2 Überschriften:
-      TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1008), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+88, Contents.x+170, Contents.y+170); 
+      TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1008), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+88, Contents.x+170, Contents.y+170);
       TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1009), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+99, Contents.x+170, Contents.y+170);
       TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1010), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+110, Contents.x+170, Contents.y+170);
       //Block 2 Inhalt:
@@ -389,21 +389,21 @@ void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Ga
 
       if (Gate==-1)
       {
-         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2002), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+132, Contents.x+170, Contents.y+170); 
+         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2002), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+132, Contents.x+170, Contents.y+170);
          TipBm.BlitFromT (FlugplanBms[18], Contents.x, Contents.y+132);
       }
-      else if (Gate>=0)  TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_SCHED, 2001), Gate+1), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+132, Contents.x+170, Contents.y+170); 
+      else if (Gate>=0)  TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_SCHED, 2001), Gate+1), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+132, Contents.x+170, Contents.y+170);
 
       if (!Unlocked)
       {
-         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170); 
+         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170);
          TipBm.BlitFromT (FlugplanBms[17], Contents.x-2, Contents.y+152);
       }
    }
    else //abstrakte Version
    {
       //Block 1 Überschriften:
-      TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1000), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+22, Contents.x+170, Contents.y+170); 
+      TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1000), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+22, Contents.x+170, Contents.y+170);
       TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1014), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+33, Contents.x+170, Contents.y+170);
       TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1001), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+44, Contents.x+170, Contents.y+170);
       //Block 1 Inhalt:
@@ -505,14 +505,14 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
 
       if (Gate==-1)
       {
-         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2002), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+132, Contents.x+170, Contents.y+170); 
+         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2002), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+132, Contents.x+170, Contents.y+170);
          TipBm.BlitFromT (FlugplanBms[18], Contents.x, Contents.y+132);
       }
-      else if (Gate>=0)  TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_SCHED, 2001), Gate+1), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+132, Contents.x+170, Contents.y+170); 
+      else if (Gate>=0)  TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_SCHED, 2001), Gate+1), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+132, Contents.x+170, Contents.y+170);
 
       if (!Unlocked)
       {
-         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170); 
+         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170);
          TipBm.BlitFromT (FlugplanBms[17], Contents.x-2, Contents.y+152);
       }
    }
@@ -695,12 +695,12 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
 
       if (!Unlocked)
       {
-         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170); 
+         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170);
          TipBm.BlitFromT (FlugplanBms[17], Contents.x-2, Contents.y+152);
       }
       else if (TonsThis==0 && !(PlayerNum!=-1 && pPlaneTips!=NULL))
       {
-         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2005), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+132+25, Contents.x+170, Contents.y+180); 
+         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2005), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+132+25, Contents.x+170, Contents.y+180);
          TipBm.BlitFromT (FlugplanBms[18], Contents.x, Contents.y+132+25);
       }
    }
@@ -807,7 +807,7 @@ void DrawAutoflugTipContents (SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLO
    //Text:
    TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1007), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+44, Contents.x+170, Contents.y+170);
    TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE,   1300), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+55, Contents.x+170, Contents.y+170);
-   TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE,   1008), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+88, Contents.x+170, Contents.y+170); 
+   TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE,   1008), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+88, Contents.x+170, Contents.y+170);
    TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE,   1009), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+99, Contents.x+170, Contents.y+170);
    TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE,   1010), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+110, Contents.x+170, Contents.y+170);
 
@@ -822,7 +822,7 @@ void DrawAutoflugTipContents (SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLO
 
    if (!Unlocked)
    {
-      TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170); 
+      TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170);
       TipBm.BlitFromT (FlugplanBms[17], Contents.x-2, Contents.y+152);
    }
 }

@@ -152,7 +152,7 @@ private:
     SBList<SBStr> mConnections;
 
     SBMultiplayerStateEnum mState;
-	
+
 	BaseNetworkType *mNetwork;
     SBTypeEnum mType;
 };

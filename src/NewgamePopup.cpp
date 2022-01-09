@@ -836,7 +836,7 @@ void NewGamePopup::RefreshKlackerField(void)
 		//Header:
 		KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 702));
 		KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); //Zurück
-		
+
 		KlackerTafel.PrintAt(0, 3, StandardTexte.GetS(TOKEN_NEWGAME, 706)); //Session laden
 		KlackerTafel.PrintAt(0, 4, StandardTexte.GetS(TOKEN_NEWGAME, 707)); //Session laden
 		KlackerTafel.PrintAt(0, 6, StandardTexte.GetS(TOKEN_NEWGAME, 702)); //Neue Session
@@ -1917,7 +1917,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point)
 			if (GridPos.IfIsWithin(0, 15, 7, 15))
 			{
 				PageNum = MULTIPLAYER_SELECT_NETWORK;
-				
+
 				RefreshKlackerField();
 			}
 			//Eigene Session erzeugen:

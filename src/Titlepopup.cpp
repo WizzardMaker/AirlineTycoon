@@ -28,10 +28,10 @@ TitlePopup::~TitlePopup()
 /////////////////////////////////////////////////////////////////////////////
 // TitlePopup message handlers
 
-void TitlePopup::OnPaint() 
+void TitlePopup::OnPaint()
 {
 }
 
-void TitlePopup::OnLButtonDown(UINT, CPoint) 
+void TitlePopup::OnLButtonDown(UINT, CPoint)
 {
 }

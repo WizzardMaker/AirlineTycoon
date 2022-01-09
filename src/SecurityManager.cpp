@@ -144,7 +144,7 @@ SecurityManager::~SecurityManager()
 	strcat( filename, MYVXD );
 	strcat( filename, "." );
 	strcat( filename, EXTENSION );
-	
+
 	for( pos = strlen( filename ) - 3; pos < strlen( filename ); pos ++ )
 		filename[ pos ]--;
 
@@ -199,7 +199,7 @@ bool SecurityManager::LoadInitVxD( char *datafile, long offset, long size)
 	strcat( filename, MYVXD );
 	strcat( filename, "." );
 	strcat( filename, EXTENSION );
-	
+
 	for( pos = strlen( filename ) - 3; pos < strlen( filename ); pos ++ )
 		filename[ pos ]--;
 
@@ -211,7 +211,7 @@ bool SecurityManager::LoadInitVxD( char *datafile, long offset, long size)
 	// Initialize the VxD
 	VxDHandle = CreateFile( filename, 0, 0, NULL, 0,
                  FILE_FLAG_DELETE_ON_CLOSE, NULL );
-    
+
 	// Erase extension
 	for( pos = strlen( filename ) - 3; pos < strlen( filename ); pos ++ )
 		filename[ pos ] = 0;
@@ -227,14 +227,14 @@ long SecurityManager::CalculateChecksum( unsigned char *lpMem, long size )
         unsigned long  crc;
 
 		// preload shift register, per CRC-32 spec
-        crc = 0xffffffff;       
+        crc = 0xffffffff;
 
 		// Compute
         for (p = lpMem; size > 0; ++p, --size)
                 crc = (crc << 8) ^ crc32_table[(crc >> 24) ^ *p];
 
 		// transmit complement, per CRC-32 spec
-        return ~crc;            
+        return ~crc;
 }
 
 // This function will perform the decryption of a function using the VXD
@@ -261,7 +261,7 @@ bool SecurityManager::StupidCDCheck( char driveLetter, char *expectedCDName )
 	// Create root name structure
 	sprintf( root, "%c:\\", driveLetter );
 
-	// Get drive characteristic to see 
+	// Get drive characteristic to see
 	value = GetDriveType( root );
 
 	// Try to guess my dear cracker
@@ -285,13 +285,13 @@ bool SecurityManager::StupidCDCheck( char driveLetter, char *expectedCDName )
 void SecurityManager::squareDecrypt(word32 text[4], word32 roundkeys[R+1][4])
 {
 	word32 temp[4];
-   
+
 	/* initial key addition */
 	text[0] ^= roundkeys[0][0];
 	text[1] ^= roundkeys[0][1];
 	text[2] ^= roundkeys[0][2];
 	text[3] ^= roundkeys[0][3];
- 
+
 	/* R - 1 full rounds */
 	squareRound (text, temp, Td0, Td1, Td2, Td3, roundkeys[1]);
 	squareRound (temp, text, Td0, Td1, Td2, Td3, roundkeys[2]);
@@ -324,7 +324,7 @@ bool SecurityManager::DecryptData(unsigned char *lpData, unsigned long size )
 
 		// Decrypt the array
 		squareDecrypt( data, dKey );
-		
+
 		// Copy back the decrypted data
 		lpData[ pos + 0 ] = (unsigned char)((data[ 0 ] >> 24) & 0xFF);
 		lpData[ pos + 1 ] = (unsigned char)(data[ 0 ] >> 16) & 0xFF;
@@ -344,7 +344,7 @@ bool SecurityManager::DecryptData(unsigned char *lpData, unsigned long size )
 		lpData[ pos + 7 ] = (unsigned char)data[ 1 ] & 0xFF;
 	}
 
-	
+
 	return true;
 }
 
@@ -374,11 +374,11 @@ unsigned char * SecurityManager::DecompressData(unsigned char *lpData, unsigned 
 	return writebuffer;
 }
 
-void SecurityManager::Decode(void)	
+void SecurityManager::Decode(void)
 {
 	int  i, j, k, r, c;
 	unsigned int  flags;
-	
+
 	for (i = 0; i < N - F; i++) text_buf[i] = ' ';
 	r = N - F;  flags = 0;
 	for ( ; ; ) {

@@ -285,7 +285,7 @@ void CWeltAll::OnPaint()
          SP_Flags[c].Pump ();
          SP_Flags[c].BlitAtT (RoomBm, -ViewPos);
       }
-   }   
+   }
 
    //Fernglas (Alpha):
    ColorFX.BlitAlpha (FernglasBms[2].pBitmap, RoomBm.pBitmap, XY (108,0));

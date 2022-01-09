@@ -625,8 +625,8 @@ void CSystemCheckup::CheckupDirectX (void)
       memset (&Caps, 0, sizeof (Caps));
       Caps.dwSize = sizeof (Caps);
 
-      lpDD->GetCaps (&Caps, NULL); 
-   
+      lpDD->GetCaps (&Caps, NULL);
+
       b3D      = (Caps.dwCaps & DDCAPS_3D)!=0;
       bAlpha   = (Caps.dwCaps & DDCAPS_ALPHA)!=0;
       bZBuffer = (Caps.dwCaps & DDCAPS_ZBLTS)!=0;
@@ -696,7 +696,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
              * We're not supposed to be able to tell which SP we're on, so check for dinput
              */
             DIHinst = LoadLibrary("DINPUT.DLL");
-            if (DIHinst == 0) 
+            if (DIHinst == 0)
             {
                 /*
                  * No DInput... must be DX2 on NT 4 pre-SP3
@@ -709,7 +709,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
                                     GetProcAddress(DIHinst, "DirectInputCreateA");
             FreeLibrary(DIHinst);
 
-            if (DirectInputCreate == 0) 
+            if (DirectInputCreate == 0)
             {
                 /*
                  * No DInput... must be pre-SP3 DX2
@@ -750,7 +750,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
      * First see if DDRAW.DLL even exists.
      */
     DDHinst = LoadLibrary("DDRAW.DLL");
-    if (DDHinst == 0) 
+    if (DDHinst == 0)
     {
 	*pdwDXVersion = 0;
 	*pdwDXPlatform = 0;
@@ -763,7 +763,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
      */
     DirectDrawCreate = (DIRECTDRAWCREATE)
                             GetProcAddress(DDHinst, "DirectDrawCreate");
-    if (DirectDrawCreate == 0) 
+    if (DirectDrawCreate == 0)
     {
 	*pdwDXVersion = 0;
 	*pdwDXPlatform = 0;
@@ -773,7 +773,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
     }
 
     hr = DirectDrawCreate(NULL, &pDDraw, NULL);
-    if (FAILED(hr)) 
+    if (FAILED(hr))
     {
 	*pdwDXVersion = 0;
 	*pdwDXPlatform = 0;
@@ -791,7 +791,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
      *  Let's see if IID_IDirectDraw2 exists.
      */
     hr = pDDraw->QueryInterface(IID_IDirectDraw2, (LPVOID *)&pDDraw2);
-    if (FAILED(hr)) 
+    if (FAILED(hr))
     {
 	/*
 	 * No IDirectDraw2 exists... must be DX1
@@ -811,7 +811,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
      *  See if we can create the DirectInput object.
      */
     DIHinst = LoadLibrary("DINPUT.DLL");
-    if (DIHinst == 0) 
+    if (DIHinst == 0)
     {
         /*
          * No DInput... must be DX2
@@ -826,7 +826,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
                             GetProcAddress(DIHinst, "DirectInputCreateA");
     FreeLibrary(DIHinst);
 
-    if (DirectInputCreate == 0) 
+    if (DirectInputCreate == 0)
     {
         /*
          * No DInput... must be DX2
@@ -858,7 +858,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
     desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
 
     hr = pDDraw->SetCooperativeLevel(NULL,DDSCL_NORMAL);
-    if (FAILED(hr)) 
+    if (FAILED(hr))
     {
 	/*
 	 * Failure. This means DDraw isn't properly installed.
@@ -871,7 +871,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform)
     }
 
     hr = pDDraw->CreateSurface(&desc, &pSurf, NULL);
-    if (FAILED(hr)) 
+    if (FAILED(hr))
     {
 	/*
 	 * Failure. This means DDraw isn't properly installed.

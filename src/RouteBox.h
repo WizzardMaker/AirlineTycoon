@@ -29,7 +29,7 @@ public:
    SBBMS      PlayerBms;
    SBBMS      EckenBms;
    SBBMS      FilterBms;
-             
+
    SLONG      RoutePage;
    SLONG      RoutePageMax;
 

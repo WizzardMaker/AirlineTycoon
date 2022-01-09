@@ -74,7 +74,7 @@ CMainFrame::CMainFrame()
                 ddsd.dwSize = sizeof( ddsd );
                 ddsd.dwFlags = DDSD_CAPS | DDSD_BACKBUFFERCOUNT;
                 ddsd.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE  |
-                                      DDSCAPS_FLIP | 
+                                      DDSCAPS_FLIP |
                                       DDSCAPS_COMPLEX;
                 ddsd.dwBackBufferCount = 1;
                 ddrval = lpDD->CreateSurface( &ddsd, &lpDDSPrimary, NULL );
@@ -82,7 +82,7 @@ CMainFrame::CMainFrame()
                 {
                     // Get a pointer to the back buffer
                     ddscaps.dwCaps = DDSCAPS_BACKBUFFER;
-                    ddrval = lpDDSPrimary->GetAttachedSurface(&ddscaps, 
+                    ddrval = lpDDSPrimary->GetAttachedSurface(&ddscaps,
                                                           &lpDDSBack);
                     if( ddrval == DD_OK )
                     {

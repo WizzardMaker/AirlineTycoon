@@ -488,7 +488,7 @@ BOOL CHLPool::Save (void)
 
    return (TRUE);
 }
- 
+
 //--------------------------------------------------------------------------------------------
 //Wirft den gesammten Pool aus dem Speicher raus:
 //--------------------------------------------------------------------------------------------
@@ -1034,7 +1034,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, __int64 graphicID, ...)
       i = va_arg(marker, __int64);
    }
    va_end (marker);
-   
+
    graphicIds.ReSize (count);
 
    //Und initialisieren:

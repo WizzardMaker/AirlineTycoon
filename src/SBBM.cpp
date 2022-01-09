@@ -38,7 +38,7 @@ BOOL SBBM::ShiftUp (SLONG y)
    //tha (maybe) caused some crashes, so now we copy and then redraw
    SDL_Surface *orig = this->pBitmap->GetSurface();
    SDL_Surface *buffer = SDL_CreateRGBSurfaceWithFormat(0, Size.x, Size.y, orig->format->BitsPerPixel, orig->format->format);
-   
+
    SDL_BlitSurface(orig, NULL, buffer, NULL); //copy content from original to buffer
 
    SDL_Rect src = { 0, 0, Size.x,Size.y };
@@ -97,15 +97,15 @@ BOOL SBBM::BlitPartFromT (SBBM &TecBitmap, XY Target, const XY &p1, const XY &p2
 
 BOOL SBBM::BlitFrom (SBBM &TecBitmap, RECT *r1, const XY &dest)
 {
-   Bench.BlitTime.Start(); 
+   Bench.BlitTime.Start();
 
    if (TecBitmap.pBitmap)
       TecBitmap.pBitmap->Blit (pBitmap, dest.x, dest.y, r1);
    if (TecBitmap.pHLObj)
       TecBitmap.pHLObj->BlitAt (pBitmap, dest.x, dest.y);
 
-   Bench.BlitTime.Stop(); 
-   return (TRUE); 
+   Bench.BlitTime.Stop();
+   return (TRUE);
 }
 
 // Eine einfarbige Linie ziehen (Farbübergabe in HardwareColor (Hardwareabhängig))
@@ -113,7 +113,7 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
 {
    RECT            DefClip;
    SLONG           cc=0;         //Count Colors
-	
+
    if (Fat)
    {
       Line (p1, p2, FALSE, pColor, NumColors);
@@ -152,7 +152,7 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
 			long points = p2.y - p1.y;
 			for (long i = 0 ; i < points ; i++, pixelPtr += Key.lPitch, cc++)
 				*((word *)pixelPtr)=(word)pColor[(cc>>2)%NumColors];
-				
+
 		}
 	}
 	// ---------------------
@@ -210,7 +210,7 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
 					char * pixelPtr= (char *)Key.Bitmap+(Key.lPitch*y)+x*2;
 					*((word *)pixelPtr)=(word)pColor[(cc>>2)%NumColors];
 				};
-         
+
 				error += dya;
 				if (error >= 0)
 				{
@@ -256,32 +256,32 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
 
 BOOL SBPRIMARYBM::BlitFrom (SBBM &TecBitmap, RECT *r1, const XY &dest)
 {
-   Bench.BlitTime.Start(); 
+   Bench.BlitTime.Start();
 
    if (TecBitmap.pBitmap)
       TecBitmap.pBitmap->Blit (&PrimaryBm, dest.x, dest.y, r1);
    if (TecBitmap.pHLObj)
       TecBitmap.pHLObj->BlitAt (&PrimaryBm, dest.x, dest.y);
 
-   Bench.BlitTime.Stop(); 
-   return (TRUE); 
+   Bench.BlitTime.Stop();
+   return (TRUE);
 }
 BOOL  SBPRIMARYBM::BlitFrom (SBBM &TecBitmap, XY Target)
 {
-   Bench.BlitTime.Start(); 
+   Bench.BlitTime.Start();
 
    if (TecBitmap.pBitmap)
       TecBitmap.pBitmap->BlitFast (&PrimaryBm, Target.x, Target.y);
    if (TecBitmap.pHLObj)
       TecBitmap.pHLObj->BlitAt (&PrimaryBm, Target.x, Target.y);
 
-   Bench.BlitTime.Stop(); 
+   Bench.BlitTime.Stop();
    return (TRUE);
 }
 
 BOOL  SBPRIMARYBM::BlitFromT (SBBM &TecBitmap, XY Target)
 {
-   Bench.BlitTime.Start(); 
+   Bench.BlitTime.Start();
 
    if(&TecBitmap == nullptr)
     return false;
@@ -296,15 +296,15 @@ BOOL  SBPRIMARYBM::BlitFromT (SBBM &TecBitmap, XY Target)
 }
 BOOL  SBPRIMARYBM::BlitFromT (SBBM &TecBitmap, RECT *r1, const XY &dest)
 {
-   Bench.BlitTime.Start(); 
+   Bench.BlitTime.Start();
 
    if (TecBitmap.pBitmap)
       TecBitmap.pBitmap->BlitT (&PrimaryBm, dest.x, dest.y, r1);
    if (TecBitmap.pHLObj)
       TecBitmap.pHLObj->BlitAt (&PrimaryBm, dest.x, dest.y);
 
-   Bench.BlitTime.Stop(); 
-   return (TRUE); 
+   Bench.BlitTime.Stop();
+   return (TRUE);
 }
 
 //============================================================================================
@@ -313,9 +313,9 @@ BOOL  SBPRIMARYBM::BlitFromT (SBBM &TecBitmap, RECT *r1, const XY &dest)
 BOOL  SBBM::BlitFrom (SBBM &TecBitmap, XY p1, XY p2)
 {
    /*Bench.BlitTime.Start();
-   
+
    TecBitmap.pBitmap->BlitFast (pBitmap, Target.x, Target.y);
-   
+
    Bench.BlitTime.Stop();
    return (TRUE);   */
    return 0;
@@ -330,12 +330,12 @@ BOOL  SBBM::BlitFromT (SBBM &TecBitmap, XY p1, XY p2)
 }
 BOOL  SBBM::BlitFromT (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2)
 {
-   return 0; 
+   return 0;
 }
 
 BOOL SBPRIMARYBM::FlipBlitFromT (SBBM &TecBitmap, XY Target)
 {
-   Bench.BlitTime.Start(); 
+   Bench.BlitTime.Start();
 
 	// Validate
 	if ((!PrimaryBm.GetSurface()) || (!(TecBitmap.pBitmap->GetSurface())) )
@@ -376,7 +376,7 @@ SLONG SBBM::PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1,
    Bench.TextTime.Start();
    if ((Flags&3)==TEC_FONT_RIGHT)
    {
-      TABS t1[] = { TAB_STYLE_RIGHT, p2.x-2 }; 
+      TABS t1[] = { TAB_STYLE_RIGHT, p2.x-2 };
       Font.SetTabulator (t1, sizeof(t1));
       Font.DrawTextWithTabs(pBitmap, p1.x, p1.y, (char*)(LPCTSTR)(CString("\t")+Str));
       Bench.TextTime.Stop();
@@ -384,7 +384,7 @@ SLONG SBBM::PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1,
    }
    else if ((Flags&3)==TEC_FONT_CENTERED)
    {
-      TABS t1[] = { TAB_STYLE_CENTER, (p2.x+p1.x)/2 }; 
+      TABS t1[] = { TAB_STYLE_CENTER, (p2.x+p1.x)/2 };
       Font.SetTabulator (t1, sizeof(t1));
       Font.DrawTextWithTabs(pBitmap, p1.x, p1.y, (char*)(LPCTSTR)(CString("\t")+Str));
       Bench.TextTime.Stop();
@@ -425,7 +425,7 @@ BOOL  SBBM::TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CStr
       TTF_CloseFont(Font);
    }
 
-   return 0; 
+   return 0;
 }
 
 void SBBM::ReSize (CHLPool *pHLPool, CString graphicID)
@@ -468,7 +468,7 @@ BOOL  SBPRIMARYBM::TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, con
                /*else Surf=Offscreen.pBitmap->GetSurface();*/
 
    Bench.TextTime.Start();
-   
+
    TTF_Font* Font = TTF_OpenFont("arial.ttf", 9);
    if (Font)
    {
@@ -482,7 +482,7 @@ BOOL  SBPRIMARYBM::TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, con
    }
    Bench.TextTime.Stop();
 
-   return 0; 
+   return 0;
 }
 
 BOOL  SBPRIMARYBM::BlitFrom (SBBM &TecBitmap, XY p1, XY p2) { return 0; }
@@ -592,7 +592,7 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL ShowFPS)
    if (gNetworkBms.AnzEntries()>0 && gNetworkBms[0].Size.y && Sim.Players.Players[Sim.localPlayer].LocationWin)
    {
       BlitFrom (gNetworkBms[0], (640-((gNetworkBms[0].Size.x+3)&0xfffc))/2, (440-gNetworkBms[0].Size.y)/2);
-      
+
       if (gNetworkBmsType && gNetworkBms.AnzEntries()>1)
       {
          for (SLONG c=0; c<4; c++)
@@ -613,7 +613,7 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL ShowFPS)
    PrimaryBm.SetPos (CPoint(WindowPos.x, WindowPos.y));
    Bench.FlipTime.Start();
    PrimaryBm.Flip();
-   Bench.FlipTime.Stop(); 
+   Bench.FlipTime.Stop();
 
    if (MakeVideoPath.GetLength()>0 && MakeVideoPath[0]!=':')
    {
@@ -712,7 +712,7 @@ void SBBMS::ReSize (GfxLib* gfxLibrary, __int64 graphicID, ...)
       i = va_arg(marker, __int64);
    }
    va_end (marker);
-   
+
    graphicIds.ReSize (count);
 
    //Und initialisieren:

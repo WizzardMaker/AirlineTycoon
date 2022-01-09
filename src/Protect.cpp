@@ -72,29 +72,29 @@ ULONG GetPhysicalCdRomBitlist (void)
 
    //Die Device Description:
    char strDeviceDesc[30];
-   strDeviceDesc[ 0]='D'; strDeviceDesc[ 1]='e'; strDeviceDesc[ 2]='v'; strDeviceDesc[ 3]='i'; 
-   strDeviceDesc[ 4]='c'; strDeviceDesc[ 5]='e'; strDeviceDesc[ 6]='D'; strDeviceDesc[ 7]='e'; 
+   strDeviceDesc[ 0]='D'; strDeviceDesc[ 1]='e'; strDeviceDesc[ 2]='v'; strDeviceDesc[ 3]='i';
+   strDeviceDesc[ 4]='c'; strDeviceDesc[ 5]='e'; strDeviceDesc[ 6]='D'; strDeviceDesc[ 7]='e';
    strDeviceDesc[ 8]='s'; strDeviceDesc[ 9]='c'; strDeviceDesc[10]=0;
 
    char strVirtual[30]; //Gefährliche Strings
-   strVirtual[ 0]='v'; strVirtual[ 1]='i'; strVirtual[ 2]='r'; strVirtual[ 3]='t'; 
-   strVirtual[ 4]='u'; strVirtual[ 5]='a'; strVirtual[ 6]='l'; strVirtual[ 7]=' '; 
-   strVirtual[ 8]=0; 
+   strVirtual[ 0]='v'; strVirtual[ 1]='i'; strVirtual[ 2]='r'; strVirtual[ 3]='t';
+   strVirtual[ 4]='u'; strVirtual[ 5]='a'; strVirtual[ 6]='l'; strVirtual[ 7]=' ';
+   strVirtual[ 8]=0;
    char strFakeCD[10];
-   strFakeCD[ 0]='f'; strFakeCD[ 1]='a'; strFakeCD[ 2]='k'; strFakeCD[ 3]='e'; 
-   strFakeCD[ 4]='c'; strFakeCD[ 5]='d'; strFakeCD[ 6]=' '; strFakeCD[ 7]=0; 
+   strFakeCD[ 0]='f'; strFakeCD[ 1]='a'; strFakeCD[ 2]='k'; strFakeCD[ 3]='e';
+   strFakeCD[ 4]='c'; strFakeCD[ 5]='d'; strFakeCD[ 6]=' '; strFakeCD[ 7]=0;
    char strFakeCD2[10];
-   strFakeCD2[ 0]='f'; strFakeCD2[ 1]='a'; strFakeCD2[ 2]='k'; strFakeCD2[ 3]='e'; 
+   strFakeCD2[ 0]='f'; strFakeCD2[ 1]='a'; strFakeCD2[ 2]='k'; strFakeCD2[ 3]='e';
    strFakeCD2[ 4]=' '; strFakeCD2[ 5]=' '; strFakeCD2[ 6]='c'; strFakeCD2[ 7]='d'; strFakeCD2[ 9]=0;
    char strFastCD[10];
-   strFastCD[ 0]='f'; strFastCD[ 1]='a'; strFastCD[ 2]='s'; strFastCD[ 3]='t'; 
-   strFastCD[ 4]='c'; strFastCD[ 5]='d'; strFastCD[ 6]=' '; strFastCD[ 7]=0; 
+   strFastCD[ 0]='f'; strFastCD[ 1]='a'; strFastCD[ 2]='s'; strFastCD[ 3]='t';
+   strFastCD[ 4]='c'; strFastCD[ 5]='d'; strFastCD[ 6]=' '; strFastCD[ 7]=0;
    char strPsuedoCD[10];
-   strPsuedoCD[ 0]='p'; strPsuedoCD[ 1]='s'; strPsuedoCD[ 2]='e'; strPsuedoCD[ 3]='u'; strPsuedoCD[ 4]='d'; 
-   strPsuedoCD[ 5]='o'; strPsuedoCD[ 6]='c'; strPsuedoCD[ 7]='d'; strPsuedoCD[ 8]=0; 
+   strPsuedoCD[ 0]='p'; strPsuedoCD[ 1]='s'; strPsuedoCD[ 2]='e'; strPsuedoCD[ 3]='u'; strPsuedoCD[ 4]='d';
+   strPsuedoCD[ 5]='o'; strPsuedoCD[ 6]='c'; strPsuedoCD[ 7]='d'; strPsuedoCD[ 8]=0;
    char strCDSubst[10];
    strCDSubst[ 0]='c'; strCDSubst[ 1]='d'; strCDSubst[ 2]='s'; strCDSubst[ 3]='u';
-   strCDSubst[ 4]='b'; strCDSubst[ 5]='s'; strCDSubst[ 6]='z'; strCDSubst[ 7]=0; 
+   strCDSubst[ 4]='b'; strCDSubst[ 5]='s'; strCDSubst[ 6]='z'; strCDSubst[ 7]=0;
 
    int always_true=1;
    always_true++;
@@ -111,7 +111,7 @@ ULONG GetPhysicalCdRomBitlist (void)
          CString CLine = Line;
          HKEY    hKey2;
 
-         //Alle Geräte (z.B. Mitsumi CD-Rom) für diesen DeviceTyp abfragen: 
+         //Alle Geräte (z.B. Mitsumi CD-Rom) für diesen DeviceTyp abfragen:
          if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_LOCAL_MACHINE, CString (Subkey)+"\\"+CLine, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ENUMERATE_SUB_KEYS|KEY_EXECUTE|KEY_QUERY_VALUE, NULL, &hKey2, &dwDisposition))
          {
             DWORD Index2=0;
@@ -600,12 +600,12 @@ PUTSTARTMARK;
 	bufferSize = 2048;
 	if (GetRegistryString (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion", "FirstInstallDateTime", buffer, &bufferSize))
 		key.FIRSTINSTALL = CRC((unsigned char*)buffer, bufferSize);
-	
+
 	// HWID
 	bufferSize = 2048;
 	if (GetRegistryString (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion", "HWID", buffer, &bufferSize))
 		key.HWID = CRC((unsigned char*)buffer, bufferSize);
-	
+
 	// ProductId
 	bufferSize = 2048;
 	if (GetRegistryString (HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion", "ProductId", buffer, &bufferSize))
@@ -711,7 +711,7 @@ bool CheckComputerLicense (void)
       0xcbd2f7d3, //Stephan Schulz
       0x3a82c936, //Norman Rummler
       0xbbf0dba5, //Andre Schulz
-      0xe9fbaec2, //Bastian Scholtysik  
+      0xe9fbaec2, //Bastian Scholtysik
       0x9bcf0c0e, //sw@niederrhein.de
       0xaa60aa4a, //Rudi.Esser@t-online.de (Neues Motherboard)
       0xb6176640, //Oliver Schill (neu)

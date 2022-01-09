@@ -233,7 +233,7 @@ void SetRoomVisited (SLONG PlayerNum, UBYTE RoomId)
       Sim.Players.Players[(SLONG)PlayerNum].WasInRoom[(SLONG)RoomId] = TRUE;
    }
 }
- 
+
 //--------------------------------------------------------------------------------------------
 //ohne Worte
 //--------------------------------------------------------------------------------------------
@@ -276,7 +276,7 @@ CStdRaum::CStdRaum (BOOL bHandy, ULONG PlayerNum, CString GfxLibName, __int64 gr
    CStdRaum::CurrentTipId     =
    CStdRaum::LastTipId        =
    CStdRaum::CurrentTipIdPar1 =
-   CStdRaum::LastTipIdPar1    = 
+   CStdRaum::LastTipIdPar1    =
    CStdRaum::CurrentTipIdPar2 =
    CStdRaum::LastTipIdPar2    = -1;
    CStdRaum::TipPos           = XY(0,0);
@@ -2548,7 +2548,7 @@ void CStdRaum::PostPaint (void)
       CStdRaum &qRoom=*(CStdRaum*)qPlayer.DialogWin;
       CRect     SrcRect (qRoom.HandyOffset, 0, qRoom.HandyOffset+340, 440);
       XY        Dest (qRoom.TempScreenScroll, 0);
-       
+
       SDL_SetColorKey(qPlayer.DialogWin->RoomBm.pBitmap->GetSurface(), 0,0);
       SDL_FillRect(qPlayer.DialogWin->RoomBm.pBitmap->GetSurface(), NULL, SDL_MapRGB(qPlayer.DialogWin->RoomBm.pBitmap->GetPixelFormat(), 1, 1, 1));
       qPlayer.DialogWin->OnPaint();
@@ -2814,7 +2814,7 @@ void CStdRaum::PostPaint (void)
                if (DisplayThisBubble)
                   ColorFX.BlitTrans (MoodBms[MoodPersonEmpty].pBitmap, &PrimaryBm.PrimaryBm, XY(640-BeraterBms[12+DialogPar1][0].Size.x, 440-BeraterSlideY[12+DialogPar1+(DialogMedium==MEDIUM_HANDY)*4])-XY(-5,MoodBms[MoodPersonEmpty].Size.y), NULL, 4);
             }
-            
+
          }
       }
 
@@ -2870,7 +2870,7 @@ void CStdRaum::PostPaint (void)
                SDL_BlitScaled(OnscreenBitmap.pBitmap->GetSurface(), &SrcRect, PrimaryBm.PrimaryBm.GetSurface(), &DestRect);
             }
 
-            if (CurrentMenu==MENU_EXTRABLATT) 
+            if (CurrentMenu==MENU_EXTRABLATT)
             {
                if (ZoomCounter<200)
                {
@@ -3200,7 +3200,7 @@ void CStdRaum::OnLButtonDblClk(UINT, CPoint point)
                            {
                               if (Workers.Workers[MenuRemapper[MenuPage-1]].Talent>=90) { n=1008; Smiley=SMILEY_GREAT; }
                               else { n=1003; Smiley=SMILEY_GOOD; }
-                        
+
                            }
                            else { n=1002; Smiley=SMILEY_NEUTRAL; }
 
@@ -3227,9 +3227,9 @@ void CStdRaum::OnLButtonDblClk(UINT, CPoint point)
 }
 
 //--------------------------------------------------------------------------------------------
-//OnLButtonDown(UINT nFlags, CPoint point) 
+//OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnLButtonDown(UINT, CPoint point) 
+void CStdRaum::OnLButtonDown(UINT, CPoint point)
 {
    if (nOptionsOpen && Sim.bNetwork && Sim.localPlayer<Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom()!=0) return;
 
@@ -3626,11 +3626,11 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
                   {
                      if (LastMinuteAuftraege.Auftraege[c].Praemie>0)
                      {
-                        LastMinuteAuftraege.Auftraege[c].Praemie=0;   
+                        LastMinuteAuftraege.Auftraege[c].Praemie=0;
                         qPlayer.NetUpdateTook (2, c);
                         cnt++;
                      }
-                  }   
+                  }
 
                   if (cnt>0)
                   {
@@ -3646,11 +3646,11 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
                   {
                      if (ReisebueroAuftraege.Auftraege[c].Praemie>0)
                      {
-                        ReisebueroAuftraege.Auftraege[c].Praemie=0;   
+                        ReisebueroAuftraege.Auftraege[c].Praemie=0;
                         qPlayer.NetUpdateTook (1, c);
                         cnt++;
                      }
-                  }   
+                  }
 
                   if (cnt>0)
                   {
@@ -3691,7 +3691,7 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
                            Sim.Players.Players[c].NetSynchronizeFlags();
                         }
                   }
-               }                                            
+               }
                break;
 
             case ITEM_PARFUEM:
@@ -3735,18 +3735,18 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
 }
 
 //--------------------------------------------------------------------------------------------
-//OnLButtonUp(UINT nFlags, CPoint point) 
+//OnLButtonUp(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnLButtonUp(UINT, CPoint point) 
+void CStdRaum::OnLButtonUp(UINT, CPoint point)
 {
    if (nOptionsOpen && Sim.bNetwork && Sim.localPlayer<Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom()!=0) return;
    DefaultOnLButtonUp();
 }
 
 //--------------------------------------------------------------------------------------------
-//OnRButtonDown(UINT nFlags, CPoint point) 
+//OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnRButtonDown(UINT nFlags, CPoint point) 
+void CStdRaum::OnRButtonDown(UINT nFlags, CPoint point)
 {
    if (nOptionsOpen && Sim.bNetwork && Sim.localPlayer<Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom()!=0) return;
 
@@ -3827,9 +3827,9 @@ void CStdRaum::OnRButtonUp(UINT, CPoint)
 }
 
 //--------------------------------------------------------------------------------------------
-//CStdRaum::OnPaint(void) 
+//CStdRaum::OnPaint(void)
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnPaint(void) 
+void CStdRaum::OnPaint(void)
 {
    OnPaint (FALSE);
 }
@@ -3966,7 +3966,7 @@ void CStdRaum::RepaintTip (void)
 
       case TIP_AUFTRAG:
          DrawAuftragTip (PlayerNum,
-                         TipBm, 
+                         TipBm,
                          (SBBMS*)pTipOriginBm2,
                          pTipOriginBm,
                          &Sim.Players.Players[(SLONG)PlayerNum].Auftraege[CurrentTipId],
@@ -3977,7 +3977,7 @@ void CStdRaum::RepaintTip (void)
 
       case TIP_BUYAUFTRAG:
          DrawAuftragTip (PlayerNum,
-                         TipBm, 
+                         TipBm,
                          (SBBMS*)pTipOriginBm2,
                          pTipOriginBm,
                          (CurrentTipId==-1)?NULL:(&LastMinuteAuftraege.Auftraege[CurrentTipId]),
@@ -3988,7 +3988,7 @@ void CStdRaum::RepaintTip (void)
 
       case TIP_BUYAUFTRAGR:
          DrawAuftragTip (PlayerNum,
-                         TipBm, 
+                         TipBm,
                          (SBBMS*)pTipOriginBm2,
                          pTipOriginBm,
                          (CurrentTipId==-1)?NULL:(&ReisebueroAuftraege.Auftraege[CurrentTipId]),
@@ -3999,7 +3999,7 @@ void CStdRaum::RepaintTip (void)
 
       case TIP_BUYFRACHT:
          DrawFrachtTip (PlayerNum,
-                        TipBm, 
+                        TipBm,
                         (SBBMS*)pTipOriginBm2,
                         pTipOriginBm,
                         (CurrentTipId==-1)?NULL:(&gFrachten.Fracht[CurrentTipId]),
@@ -4012,7 +4012,7 @@ void CStdRaum::RepaintTip (void)
 
       case TIP_FRACHT:
          DrawFrachtTip (PlayerNum,
-                         TipBm, 
+                         TipBm,
                          (SBBMS*)pTipOriginBm2,
                          pTipOriginBm,
                          &Sim.Players.Players[(SLONG)PlayerNum].Frachten[CurrentTipId],
@@ -4150,7 +4150,7 @@ void CStdRaum::MenuStart (SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG 
                MenuRemapper[MenuPageMax]=c;
                MenuPageMax++;
             }
-         
+
          if (MenuPageMax) MenuInfo/=MenuPageMax;
          MenuRemapper.ReSize (MenuPageMax);
          break;
@@ -4250,7 +4250,7 @@ void CStdRaum::MenuStart (SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG 
             PLAYER &qPlayer=Sim.Players.Players[Sim.localPlayer];
             pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("Rename.gli", GliPath), &pMenuLib1, L_LOCMEM);
             MenuBms.ReSize(pMenuLib1, "MENU");
-            if (qPlayer.GetRoom()==ROOM_EDITOR) Optionen[0]=((CEditor*)qPlayer.LocationWin)->Plane.Name; 
+            if (qPlayer.GetRoom()==ROOM_EDITOR) Optionen[0]=((CEditor*)qPlayer.LocationWin)->Plane.Name;
             OnscreenBitmap.ReSize (MenuBms[0].Size);
          }
          break;
@@ -4747,7 +4747,7 @@ void CStdRaum::MenuRepaint (void)
             for (c=MenuPage; c<MenuPage+13 && c<MenuDataTable.AnzRows; c++)
             {
                OnscreenBitmap.PrintAt (MenuDataTable.Values[0+c*MenuDataTable.AnzColums], FontSmallBlack, TEC_FONT_LEFT, XY(63, 53+(c-MenuPage)*12), XY(346,226));
-      
+
                OnscreenBitmap.PrintAt (MenuDataTable.Values[1+c*MenuDataTable.AnzColums], FontSmallBlack, TEC_FONT_LEFT, XY(185, 53+(c-MenuPage)*12), XY(346,226));
                OnscreenBitmap.PrintAt (Einheiten[EINH_P].bString (Sim.Players.Players[PlayerNum].Planes[MenuDataTable.LineIndex[c]].TargetZustand), FontSmallBlack, TEC_FONT_LEFT, XY(220, 53+(c-MenuPage)*12), XY(346,226));
 
@@ -4834,7 +4834,7 @@ void CStdRaum::MenuRepaint (void)
                for (c=MenuPage; c<MenuPage+13 && c<MenuDataTable.AnzRows; c++)
                {
                   OnscreenBitmap.PrintAt (MenuDataTable.Values[0+c*MenuDataTable.AnzColums], FontSmallBlack, TEC_FONT_LEFT, XY(63, 53+(c-MenuPage)*12), XY(346,226));
-      
+
                   OnscreenBitmap.PrintAt (MenuDataTable.Values[1+c*MenuDataTable.AnzColums], FontSmallBlack, TEC_FONT_LEFT, XY(265, 53+(c-MenuPage)*12), XY(346,226));
                }
 
@@ -4924,7 +4924,7 @@ void CStdRaum::MenuRepaint (void)
 
                p = strtok (NULL, "µ");
             }
-         
+
          }
          OnscreenBitmap.PrintAt (StandardTexte.GetS (TOKEN_MISC, 3002), FontBigGrey, TEC_FONT_CENTERED, 16, 160, 274, 190);
          break;
@@ -5102,7 +5102,7 @@ void CStdRaum::MenuRepaint (void)
 
             __int64 Rabatt=0;
             __int64 Kosten;
-            
+
             Kosten=__int64(Kerosinpreis)*__int64(MenuPar2);
 
             if (MenuPar2>=50000)      Rabatt=Kosten/10;
@@ -5193,8 +5193,8 @@ void CStdRaum::MenuRepaint (void)
             SB_CFont &qFontBankBlack = ((Bank*)this)->FontBankBlack;
             SB_CFont &qFontBankRed   = ((Bank*)this)->FontBankRed;
 
-            if (MenuPar2==0) neu=Sim.Players.Players[(SLONG)PlayerNum].OwnsAktien[MenuPar1]+MenuInfo; 
-                        else neu=Sim.Players.Players[(SLONG)PlayerNum].OwnsAktien[MenuPar1]-MenuInfo; 
+            if (MenuPar2==0) neu=Sim.Players.Players[(SLONG)PlayerNum].OwnsAktien[MenuPar1]+MenuInfo;
+                        else neu=Sim.Players.Players[(SLONG)PlayerNum].OwnsAktien[MenuPar1]-MenuInfo;
 
             OnscreenBitmap.BlitFrom (MenuBms[0]);
 
@@ -5295,7 +5295,7 @@ void CStdRaum::MenuRepaint (void)
                                  OnscreenBitmap.PrintAt (bprintf ("%2li:00", Plan->Flug[e].Landezeit), FontSmallWhiteX, TEC_FONT_LEFT, 2+55, 59+py+3, 310, 255+3);
                                  OnscreenBitmap.BlitFromT (MenuBms[3+c], 90, 60+py+3);
                                  OnscreenBitmap.PrintAt (bprintf ("%s", (LPCTSTR)Sim.Players.Players[c].Abk), FontSmallWhiteX, TEC_FONT_LEFT, 11+90, 59+py+3, 310, 255+3);
-                              
+
                                  //Rio-Rom
                                  if (OnscreenBitmap.TryPrintAt (bprintf ("%s-%s", (LPCTSTR)Cities[Plan->Flug[e].VonCity].Name, (LPCTSTR)Cities[Plan->Flug[e].NachCity].Name), FontSmallWhiteX, TEC_FONT_LEFT, 8+115, 59+py+3, 290, 255+3)<13)
                                     OnscreenBitmap.PrintAt (bprintf ("%s-%s", (LPCTSTR)Cities[Plan->Flug[e].VonCity].Name, (LPCTSTR)Cities[Plan->Flug[e].NachCity].Name), FontSmallWhiteX, TEC_FONT_LEFT, 8+115, 59+py+3, 290, 255+3);
@@ -5352,7 +5352,7 @@ void CStdRaum::MenuRepaint (void)
                               OnscreenBitmap.PrintAt (bprintf ("%2li:00", Plan->Flug[e].Startzeit+1), FontSmallWhiteX, TEC_FONT_LEFT, 2+55, 164+py+3, 310, 255+3);
                               OnscreenBitmap.BlitFromT (MenuBms[3+c], 90, 165+py+3);
                               OnscreenBitmap.PrintAt (bprintf ("%s", (LPCTSTR)Sim.Players.Players[c].Abk), FontSmallWhiteX, TEC_FONT_LEFT, 11+90, 164+py+3, 310, 255+3);
-                              
+
                               //Rio-Rom
                               if (OnscreenBitmap.TryPrintAt (bprintf ("%s-%s", (LPCTSTR)Cities[Plan->Flug[e].VonCity].Name, (LPCTSTR)Cities[Plan->Flug[e].NachCity].Name), FontSmallWhiteX, TEC_FONT_LEFT, 8+115, 164+py+3, 290, 255+3)<13)
                                  OnscreenBitmap.PrintAt (bprintf ("%s-%s", (LPCTSTR)Cities[Plan->Flug[e].VonCity].Name, (LPCTSTR)Cities[Plan->Flug[e].NachCity].Name), FontSmallWhiteX, TEC_FONT_LEFT, 8+115, 164+py+3, 290, 255+3);
@@ -6031,7 +6031,7 @@ void CStdRaum::MenuLeftClick (XY Pos)
                      if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -1, STAT_A_SONSTIGES);
                   }
                }
-               else if (Sim.Options.OptionEffekte) 
+               else if (Sim.Options.OptionEffekte)
                {
 phone_busy:
                   DialBusyFX.ReInit ("busy.raw");
@@ -6191,7 +6191,7 @@ phone_busy:
                //Telefonat mit Computerspieler:
                if (qPlayer.TelephoneDown)
                {
-                  if (Sim.Options.OptionEffekte) 
+                  if (Sim.Options.OptionEffekte)
                   {
                      DialBusyFX.ReInit ("busy.raw");
                      DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
@@ -6201,7 +6201,7 @@ phone_busy:
                }
                else if ((bHandy==0 && qOther.GetRoom()!=ROOM_BURO_A+MouseClickPar2*10) || qOther.IsStuck)
                {
-                  if (Sim.Options.OptionEffekte) 
+                  if (Sim.Options.OptionEffekte)
                   {
                      DialBusyFX.ReInit ("noanswer.raw");
                      DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
@@ -6211,7 +6211,7 @@ phone_busy:
                }
                else if (qOther.IsTalking)
                {
-                  if (Sim.Options.OptionEffekte) 
+                  if (Sim.Options.OptionEffekte)
                   {
                      DialBusyFX.ReInit ("busy.raw");
                      DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
@@ -6221,7 +6221,7 @@ phone_busy:
                }
                else if (qOther.BoredOfPlayer)
                {
-                  if (Sim.Options.OptionEffekte) 
+                  if (Sim.Options.OptionEffekte)
                   {
                      DialBusyFX.ReInit ("noanswer.raw");
                      DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
@@ -6229,7 +6229,7 @@ phone_busy:
                   if (qPlayer.GetRoom()==ROOM_BURO_A+PlayerNum*10)
                      ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
                }
-               else 
+               else
                {
                   if (Sim.Options.OptionEffekte)
                      if (rand()%2==0)
@@ -6398,7 +6398,7 @@ phone_busy:
             else if (MouseClickPar1==-7)
             {
                //Anderes Flugzeug:
-               SLONG m1 = MenuPage; 
+               SLONG m1 = MenuPage;
                SLONG m2 = MenuRemapper[MenuPage-1];
 
                MenuStart (MENU_PLANEJOB, MenuPar1, MenuPar2);
@@ -6439,7 +6439,7 @@ phone_busy:
                      {
                         if (Workers.Workers[MenuRemapper[MenuPage-1]].Talent>=90) { n=1008; Smiley=SMILEY_GREAT; }
                         else { n=1003; Smiley=SMILEY_GOOD; }
-                        
+
                      }
                      else { n=1002; Smiley=SMILEY_NEUTRAL; }
 
@@ -7284,7 +7284,7 @@ phone_busy:
          if (MouseClickArea==-101 && MouseClickId==MENU_RENAMEEDITPLANE && MouseClickPar1==1 && qPlayer.GetRoom()==ROOM_EDITOR)
          {
             MenuStop ();
-            ((CEditor*)qPlayer.LocationWin)->Plane.Name=Optionen[0]; 
+            ((CEditor*)qPlayer.LocationWin)->Plane.Name=Optionen[0];
          }
          if (MouseClickArea==-101 && MouseClickId==MENU_RENAMEEDITPLANE && MouseClickPar1==2) MenuStop ();
          break;
@@ -7442,7 +7442,7 @@ phone_busy:
                      Sim.Players.Players[(SLONG)MenuPar1].Kurse[0]=0;
                   MenuInfo-=min(1000,MenuInfo);
                }
-               if (Preis) 
+               if (Preis)
                {
                   Preis=Preis-Preis/10+100;
                   qPlayer.ChangeMoney (Preis, 3151, "");
@@ -8013,7 +8013,7 @@ void CStdRaum::MenuSetZoomStuff (const XY &MenuStartPos, double MinimumZoom, BOO
 //--------------------------------------------------------------------------------------------
 //NewGamePopup::OnChar
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnChar(UINT nChar, UINT, UINT) 
+void CStdRaum::OnChar(UINT nChar, UINT, UINT)
 {
    if (CalculatorIsOpen)
    {
@@ -8053,7 +8053,7 @@ void CStdRaum::OnChar(UINT nChar, UINT, UINT)
 //--------------------------------------------------------------------------------------------
 //Hotkeys:
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void CStdRaum::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
    if (CalculatorIsOpen && nChar==VK_DELETE)
    {
@@ -8157,7 +8157,7 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
 //BOOL CStdRaum::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) : AG:
 //--------------------------------------------------------------------------------------------
-BOOL CStdRaum::OnSetCursor(void* pWnd, UINT nHitTest, UINT message) 
+BOOL CStdRaum::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
 {
 	return (FrameWnd->OnSetCursor(pWnd, nHitTest, message));
 }
@@ -8165,7 +8165,7 @@ BOOL CStdRaum::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
 //--------------------------------------------------------------------------------------------
 //void CStdRaum::OnMouseMove(UINT nFlags, CPoint point): AG:
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnMouseMove(UINT nFlags, CPoint point) 
+void CStdRaum::OnMouseMove(UINT nFlags, CPoint point)
 {
 	FrameWnd->OnMouseMove(nFlags, point);
 }

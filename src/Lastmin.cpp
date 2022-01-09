@@ -107,7 +107,7 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
    MapPlaneBms[2].ReSize (pMenuLib, "PL_R00", 1+8);
    MapPlaneBms[3].ReSize (pMenuLib, "PL_J00", 1+8);
    MapPlaneBms[4].ReSize (pMenuLib, "PL_SW00", 1+8);
-   
+
    SetBackgroundFx (0, "Pap3.raw",     25000);    //Papierrascheln
 
    for (c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--)
@@ -354,12 +354,12 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point)
 
                Sim.SendSimpleMessage (ATNET_SYNCNUMFLUEGE, NULL, Sim.localPlayer, (long)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (long)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
 
-               LastMinuteAuftraege.Auftraege[c].Praemie=-1000;   
+               LastMinuteAuftraege.Auftraege[c].Praemie=-1000;
                qPlayer.NetUpdateTook (1, c);
                break;
             }
          }
-      }   
+      }
    }
 #else
    if (!PreLButtonDown (point))

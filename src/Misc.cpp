@@ -15,7 +15,7 @@ static char THIS_FILE[] = __FILE__;
 
 static const char FileId[] = "Misc";
 
-CRect SprechblasenSizes[] = { CRect(15,6,266,16), 
+CRect SprechblasenSizes[] = { CRect(15,6,266,16),
                               CRect(19,8,266,31),
                               CRect(32,8,308,51),
                               CRect(30,9,498,64),
@@ -156,7 +156,7 @@ BOOL CheckCursorHighlight (const XY &CursorPos, const CRect &rect, UWORD FontCol
 }
 
 //--------------------------------------------------------------------------------------------
-//Zeichnet Werte in ein Perspektivisches Raster (Trapez) ein: 
+//Zeichnet Werte in ein Perspektivisches Raster (Trapez) ein:
 //--------------------------------------------------------------------------------------------
 void DrawChart (SBBM &TipBm, ULONG Color, const FBUFFER<SLONG> &Values, SLONG MinValue, SLONG MaxValue, const XY &TopLeft, const XY &TopRight, const XY &BottomLeft, const XY &BottomRight)
 {
@@ -194,7 +194,7 @@ SLONG ReadTimeStampCounter (void)
 {
    __asm
    {
-      _emit 0x0F 
+      _emit 0x0F
       _emit 0x31
    }
 }
@@ -459,7 +459,7 @@ SLONG CalculateFlightCostRechnerisch (SLONG VonCity, SLONG NachCity, SLONG Verbr
    //Kerosin aus dem Vorrat:
    if (PlayerNum!=-1 && Sim.Players.Players[(SLONG)PlayerNum].TankOpen)
    {
-      SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin); 
+      SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin);
       Kosten  += SLONG(Sim.Players.Players[(SLONG)PlayerNum].TankPreis*tmp);
 
       Kerosin -= tmp;
@@ -492,7 +492,7 @@ SLONG CalculateFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG
    //Kerosin aus dem Vorrat:
    if (PlayerNum!=-1 && Sim.Players.Players[(SLONG)PlayerNum].TankOpen)
    {
-      SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin); 
+      SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin);
 
       Kerosin -= tmp;
    }
@@ -524,7 +524,7 @@ SLONG CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, S
    //Kerosin aus dem Vorrat:
    if (Sim.Players.Players[(SLONG)PlayerNum].TankOpen)
    {
-      SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin); 
+      SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin);
 
       Kerosin -= tmp;
    }
@@ -1021,7 +1021,7 @@ void HEADLINES::ComparisonHeadlines (void)
       if (Sim.Date==9) AddOverride (1, StandardTexte.GetS (TOKEN_MISC, 2073), 0, 5);
 
       for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-         if ((Sim.Players.Players[c].LastRocketFlags&ROCKET_PART_ONE)==ROCKET_PART_ONE) break; 
+         if ((Sim.Players.Players[c].LastRocketFlags&ROCKET_PART_ONE)==ROCKET_PART_ONE) break;
 
       if (c>=Sim.Players.Players.AnzEntries())
       {
@@ -1029,12 +1029,12 @@ void HEADLINES::ComparisonHeadlines (void)
             if ((Sim.Players.Players[c].RocketFlags&ROCKET_PART_ONE)==ROCKET_PART_ONE)
             {
                AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2060), (LPCTSTR)Sim.Players.Players[c].AirlineX), GetIdFromString("INTRVIEW"), 15+(c==Sim.localPlayer)*10);
-               break; 
+               break;
             }
       }
 
       for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-         if ((Sim.Players.Players[c].LastRocketFlags&ROCKET_PART_TWO_A)==ROCKET_PART_TWO_A) break; 
+         if ((Sim.Players.Players[c].LastRocketFlags&ROCKET_PART_TWO_A)==ROCKET_PART_TWO_A) break;
 
       if (c>=Sim.Players.Players.AnzEntries())
       {
@@ -1042,7 +1042,7 @@ void HEADLINES::ComparisonHeadlines (void)
             if ((Sim.Players.Players[c].RocketFlags&ROCKET_PART_TWO_A)==ROCKET_PART_TWO_A)
             {
                AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2061), (LPCTSTR)Sim.Players.Players[c].AirlineX), 0, 20+(c==Sim.localPlayer)*10);
-               break; 
+               break;
             }
       }
 
@@ -1396,14 +1396,14 @@ void CMessages::PaintMessage (void)
 
                SprechblaseBm.ReSize (::SprechblasenBms[c+3].Size);
                SprechblaseBm.BlitFrom (::SprechblasenBms[c+3]);
-   
+
                SprechblaseBm.PrintAt (Messages[0].Message, FontSmallBlack, TEC_FONT_LEFT, SprechblasenSizes[c+3].left, SprechblasenSizes[c+3].top, SprechblasenSizes[c+3].right, SprechblasenSizes[c+3].bottom);
             }
             else
             {
                SprechblaseBm.ReSize (::SprechblasenBms[c].Size);
                SprechblaseBm.BlitFrom (::SprechblasenBms[c]);
-   
+
                SprechblaseBm.PrintAt (Messages[0].Message, FontSmallBlack, TEC_FONT_LEFT, SprechblasenSizes[c].left, SprechblasenSizes[c].top, SprechblasenSizes[c].right, SprechblasenSizes[c].bottom);
             }
 
@@ -1528,7 +1528,7 @@ void CMessages::Pump (void)
 
                if (Messages[0].BeraterTyp!=AktuellerBeraterTyp)
                {
-                  if (IsMonolog==FALSE || Messages[0].BeraterTyp!=-1) 
+                  if (IsMonolog==FALSE || Messages[0].BeraterTyp!=-1)
                      BeraterWalkState=1;
                }
                else
@@ -1794,7 +1794,7 @@ CRect PaintTextBubble (SBBM &OffscreenBm, const XY &p1, const XY &p2, const XY &
 }
 
 SLONG iPastRandoms=0;
-SLONG PastRandoms[] = 
+SLONG PastRandoms[] =
 {
  0xdead, 0xdead, 0xdead
 };

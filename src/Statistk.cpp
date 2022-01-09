@@ -149,12 +149,12 @@ CStatistik::CStatistik (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Player
    UpDownArrows.ReSize (pRoomLib, "DOWN DOWNHIGH UPHIGH");
 
    TextTableBm.ReSize (440, 330);
-                             
+
    LupeLogoBms.ReSize (pRoomLib, bprintf("BUTA%liOFF BUTA%liHI BUTA%liON", PlayerNum+1, PlayerNum+1, PlayerNum+1));
    LupeZoomBms.ReSize (pRoomLib, "ZOOMIN ZOOMOUT");
    ButtonGeldBms.ReSize (pRoomLib, "BUTBHI BUTBON");
    ButtonRouteBms.ReSize (pRoomLib, "BUTCHI BUTCON");
-                             
+
    ExitBms.ReSize (pRoomLib, "EXIT EXITHIGH");
    LogoBms.ReSize (pRoomLib, "SWTCH1ON SWTCH1HI SWTCH1SU SWTCH2ON SWTCH2HI SWTCH2SU SWTCH3ON SWTCH3HI SWTCH3SU SWTCH4ON SWTCH4HI SWTCH4SU");
    PobelBms.ReSize (pRoomLib, "POBEL_1 POBEL_2 POBEL_3 POBEL_4");
@@ -236,12 +236,12 @@ CStatistik::~CStatistik()
    UpDownArrows.Destroy();
 
    TextTableBm.Destroy();
-                             
+
    LupeLogoBms.Destroy();
    LupeZoomBms.Destroy();
    ButtonGeldBms.Destroy();
    ButtonRouteBms.Destroy();
-                             
+
    ExitBms.Destroy();
    LogoBms.Destroy();
 
@@ -257,7 +257,7 @@ CStatistik::~CStatistik()
 //--------------------------------------------------------------------------------------------
 //void CStatistik::OnPaint()
 //--------------------------------------------------------------------------------------------
-void CStatistik::OnPaint() 
+void CStatistik::OnPaint()
 {
    SLONG  c;
    SBBM  *ExitBm=NULL;
@@ -411,7 +411,7 @@ void CStatistik::OnPaint()
 	   output += ". ";
 	   output += StandardTexte.GetS (TOKEN_STAT, 9000);
    }
-	
+
 	long length = FontDialogPartner.GetWidth((LPSTR)(LPCSTR)output, output.GetLength());
 	long xPos   = 35 + ((160-35)>>1)	- (length>>1);
 	RoomBm.PrintAt (output, FontDialogPartner, TEC_FONT_LEFT, xPos, 15, xPos + length + 5, 45);
@@ -753,14 +753,14 @@ void CStatistik::RepaintTextWindow (void)
 
 					   case TYP_CURRENCY:
 						   output = Einheiten[EINH_DM].bString64 (val);
-						   
+
 						   if (_iArray[_group][i].visible)
 							   summe += val;
 						   break;
 
                   case TYP_SINGLE_PERCENT:
 						   output = Einheiten[EINH_P].bString64 (val);
-						   
+
 						   if (_iArray[_group][i].visible)
 							   summe += val;
 						   break;
@@ -770,7 +770,7 @@ void CStatistik::RepaintTextWindow (void)
 						      output = Einheiten[EINH_P].bString64 (val*100/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0));
                      else
                         output = "0%";
-						   
+
 						   if (_iArray[_group][i].visible)
 							   summe += val;
 						   break;
@@ -961,7 +961,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
 
 			_selectedItem = -1;
 			RepaintTextWindow();
-			
+
 			CalcGraph();
 			RepaintGraphWindow();
 		}
@@ -973,7 +973,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //void CStatistik::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CStatistik::OnRButtonDown(UINT nFlags, CPoint point) 
+void CStatistik::OnRButtonDown(UINT nFlags, CPoint point)
 {
    DefaultOnRButtonDown ();
 
