@@ -89,7 +89,7 @@ CIntro::CIntro(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", N
 }
 
 //--------------------------------------------------------------------------------------------
-//CIntro-Fenster zerst�ren:
+//CIntro-Fenster zerstören:
 //--------------------------------------------------------------------------------------------
 CIntro::~CIntro()
 {
