@@ -9,9 +9,9 @@ SLONG GetLowestSetBit(SLONG mask)
     __asm
     {
         push eax
-        bsf eax, mask
-        mov result, eax
-        pop eax
+            bsf eax, mask
+            mov result, eax
+            pop eax
     }
     return result;
 }
@@ -25,9 +25,9 @@ SLONG GetHighestSetBit(SLONG mask)
     __asm
     {
         push eax
-        bsr eax, mask
-        mov result, eax
-        pop eax
+            bsr eax, mask
+            mov result, eax
+            pop eax
     }
     return result;
 #else

@@ -111,7 +111,7 @@ GfxLib::GfxLib(void*, SDL_Renderer*, char* path, SLONG, SLONG, SLONG*)
         }
         SDL_RWclose(file);
     }else {
-	    SDL_Log(SDL_GetError());
+        SDL_Log(SDL_GetError());
     }
 }
 
@@ -154,17 +154,17 @@ SLONG GfxLib::Load(SDL_RWops* file, GfxLibHeader* header)
         GfxChunkHeader chunk = { 0 };
         switch (info.Type)
         {
-        case CHUNK_GFX:
-            if (SDL_RWread(file, &chunk, sizeof(chunk), 1) != 1)
-                return -4;
-            ReadGfxChunk(file, chunk, 0, 0);
-            break;
-        case CHUNK_NAME:
-            //DebugBreak();
-            break;
-        case CHUNK_PALETTE:
-            DebugBreak();
-            break;
+            case CHUNK_GFX:
+                if (SDL_RWread(file, &chunk, sizeof(chunk), 1) != 1)
+                    return -4;
+                ReadGfxChunk(file, chunk, 0, 0);
+                break;
+            case CHUNK_NAME:
+                //DebugBreak();
+                break;
+            case CHUNK_PALETTE:
+                DebugBreak();
+                break;
         }
 
         SDL_RWseek(file, pos + info.Size, RW_SEEK_SET);
@@ -187,15 +187,15 @@ SLONG GfxLib::ReadGfxChunk(SDL_RWops* file, GfxChunkHeader header, SLONG, SLONG)
     char* pixels = new char[image.Size];
     SDL_RWread(file, pixels, 1, image.Size);
     SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
-        pixels,
-        image.Width,
-        image.Height,
-        image.BitDepth,
-        image.Size / image.Height,
-        image.Rmask,
-        image.Gmask,
-        image.Bmask,
-        0);
+            pixels,
+            image.Width,
+            image.Height,
+            image.BitDepth,
+            image.Size / image.Height,
+            image.Rmask,
+            image.Gmask,
+            image.Bmask,
+            0);
     Surfaces[header.Id] = surface;
     return 0;
 }

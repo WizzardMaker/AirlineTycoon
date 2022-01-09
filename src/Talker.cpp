@@ -10,7 +10,7 @@
 //============================================================================================
 CTalkers::CTalkers () : Talkers (TALKER_ANZ)
 {
-   Init ();
+    Init ();
 }
 
 //--------------------------------------------------------------------------------------------
@@ -18,14 +18,14 @@ CTalkers::CTalkers () : Talkers (TALKER_ANZ)
 //--------------------------------------------------------------------------------------------
 void CTalkers::Init (void)
 {
-   SLONG c;
+    SLONG c;
 
-   for (c=0; c<Talkers.AnzEntries(); c++)
-   {
-      Talkers[c].State=Talkers[c].NumRef=0;
-      Talkers[c].OwnNumber=c;
-      Talkers[c].Locking=0;
-   }
+    for (c=0; c<Talkers.AnzEntries(); c++)
+    {
+        Talkers[c].State=Talkers[c].NumRef=0;
+        Talkers[c].OwnNumber=c;
+        Talkers[c].Locking=0;
+    }
 }
 
 //--------------------------------------------------------------------------------------------
@@ -33,22 +33,22 @@ void CTalkers::Init (void)
 //--------------------------------------------------------------------------------------------
 void CTalkers::Pump (void)
 {
-   SLONG c;
+    SLONG c;
 
-   for (c=0; c<Talkers.AnzEntries(); c++)
-      if (Talkers[c].NumRef)
-      {
-         if (Talkers[c].State==1 || Talkers[c].State==3)
-         {
-            Talkers[c].Phase = (Talkers[c].Phase+1)%2;
-         }
-         else if (Talkers[c].State==2 || Talkers[c].State==4)
-         {
-            Talkers[c].Phase++;
-            if (Talkers[c].Phase==4 && Talkers[c].State==4) Talkers[c].State=0;
-            if (Talkers[c].Phase==4 && Talkers[c].State==2) Talkers[c].State=3;
-         }
-      }
+    for (c=0; c<Talkers.AnzEntries(); c++)
+        if (Talkers[c].NumRef)
+        {
+            if (Talkers[c].State==1 || Talkers[c].State==3)
+            {
+                Talkers[c].Phase = (Talkers[c].Phase+1)%2;
+            }
+            else if (Talkers[c].State==2 || Talkers[c].State==4)
+            {
+                Talkers[c].Phase++;
+                if (Talkers[c].Phase==4 && Talkers[c].State==4) Talkers[c].State=0;
+                if (Talkers[c].Phase==4 && Talkers[c].State==2) Talkers[c].State=3;
+            }
+        }
 }
 
 //============================================================================================
@@ -58,16 +58,16 @@ void CTalkers::Pump (void)
 //============================================================================================
 void CTalker::StartDialog (BOOL Medium)
 {
-   if (Medium)
-   {
-      //Telefon:
-      State=2;
-      Phase=0;
-   }
-   else
-   {
-      State=1;
-   }
+    if (Medium)
+    {
+        //Telefon:
+        State=2;
+        Phase=0;
+    }
+    else
+    {
+        State=1;
+    }
 }
 
 //--------------------------------------------------------------------------------------------
@@ -75,13 +75,13 @@ void CTalker::StartDialog (BOOL Medium)
 //--------------------------------------------------------------------------------------------
 void CTalker::StopDialog (void)
 {
-   if (State==1)
-      State=0;
-   else
-   {
-      State=4;
-      Phase=0;
-   }
+    if (State==1)
+        State=0;
+    else
+    {
+        State=4;
+        Phase=0;
+    }
 }
 
 //--------------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ void CTalker::StopDialog (void)
 //--------------------------------------------------------------------------------------------
 void CTalker::StartTalking (void)
 {
-   Talking = TRUE;
+    Talking = TRUE;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ void CTalker::StartTalking (void)
 //--------------------------------------------------------------------------------------------
 void CTalker::StopTalking (void)
 {
-   Talking = FALSE;
+    Talking = FALSE;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ void CTalker::StopTalking (void)
 //--------------------------------------------------------------------------------------------
 BOOL CTalker::IsBusy (void)
 {
-   return ((State!=0 && State!=4) || Locking);
+    return ((State!=0 && State!=4) || Locking);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ BOOL CTalker::IsBusy (void)
 //--------------------------------------------------------------------------------------------
 BOOL CTalker::IsTalking (void)
 {
-   return (State!=0);
+    return (State!=0);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ BOOL CTalker::IsTalking (void)
 //--------------------------------------------------------------------------------------------
 void CTalker::BlitAt (SBBM &/*Offscreen*/, XY /*Pos*/)
 {
-   //Offscreen.BlitFromT (TalkerBm, Pos);
+    //Offscreen.BlitFromT (TalkerBm, Pos);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -129,9 +129,9 @@ void CTalker::BlitAt (SBBM &/*Offscreen*/, XY /*Pos*/)
 //--------------------------------------------------------------------------------------------
 void CTalker::IncreaseReference (void)
 {
-   NumRef++;
+    NumRef++;
 
-   /*#if (TalkerBm.Size.x==0)
+    /*#if (TalkerBm.Size.x==0)
       TalkerBm.ReSize (FullFilename (bprintf ("Talker%i.lbm", OwnNumber), ClanPath), SYSRAMBM);*/
 }
 
@@ -140,9 +140,9 @@ void CTalker::IncreaseReference (void)
 //--------------------------------------------------------------------------------------------
 void CTalker::DecreaseReference (void)
 {
-   if (NumRef>0) NumRef--;
+    if (NumRef>0) NumRef--;
 
-   /*if (NumRef==0)
+    /*if (NumRef==0)
       TalkerBms.Destroy();*/
 }
 
@@ -151,7 +151,7 @@ void CTalker::DecreaseReference (void)
 //--------------------------------------------------------------------------------------------
 void CTalker::IncreaseLocking (void)
 {
-   Locking++;
+    Locking++;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -159,7 +159,7 @@ void CTalker::IncreaseLocking (void)
 //--------------------------------------------------------------------------------------------
 void CTalker::DecreaseLocking (void)
 {
-   if (Locking>0) Locking--;
+    if (Locking>0) Locking--;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -167,11 +167,11 @@ void CTalker::DecreaseLocking (void)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator << (TEAKFILE &File, const CTalker &Talker)
 {
-   File << Talker.OwnNumber << Talker.State  << Talker.Talking;
-   File << Talker.Phase     << Talker.NumRef << Talker.Locking;
-   File << Talker.StatePar;
+    File << Talker.OwnNumber << Talker.State  << Talker.Talking;
+    File << Talker.Phase     << Talker.NumRef << Talker.Locking;
+    File << Talker.StatePar;
 
-   return (File);
+    return (File);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -179,11 +179,11 @@ TEAKFILE &operator << (TEAKFILE &File, const CTalker &Talker)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, CTalker &Talker)
 {
-   File >> Talker.OwnNumber >> Talker.State  >> Talker.Talking;
-   File >> Talker.Phase     >> Talker.NumRef >> Talker.Locking;
-   File >> Talker.StatePar;
+    File >> Talker.OwnNumber >> Talker.State  >> Talker.Talking;
+    File >> Talker.Phase     >> Talker.NumRef >> Talker.Locking;
+    File >> Talker.StatePar;
 
-   return (File);
+    return (File);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -191,9 +191,9 @@ TEAKFILE &operator >> (TEAKFILE &File, CTalker &Talker)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator << (TEAKFILE &File, const CTalkers &Talkers)
 {
-   File << Talkers.Talkers;
+    File << Talkers.Talkers;
 
-   return (File);
+    return (File);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ TEAKFILE &operator << (TEAKFILE &File, const CTalkers &Talkers)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, CTalkers &Talkers)
 {
-   File >> Talkers.Talkers;
+    File >> Talkers.Talkers;
 
-   return (File);
+    return (File);
 }

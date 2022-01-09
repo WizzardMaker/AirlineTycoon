@@ -9,7 +9,7 @@ SSE::SSE(void* hWnd, dword samplesPerSec, word channels, word bitsPerSample, wor
     , _bitsPerSample(bitsPerSample)
     , _maxSound(maxFX)
     , _fSoundEnabled(true)
-    , _fMusicEnabled(true)
+      , _fMusicEnabled(true)
 {
 }
 
@@ -108,7 +108,7 @@ int SSE::GetMusicVolume(SLONG* pVolume)
 
 int SSE::SetSoundVolume(SLONG volume)
 {
-	volume = min(MIX_MAX_VOLUME, (MIX_MAX_VOLUME / 7.0f) * volume);
+    volume = min(MIX_MAX_VOLUME, (MIX_MAX_VOLUME / 7.0f) * volume);
 
     Mix_Volume(-1, volume);
     return SSE_OK;
@@ -210,7 +210,7 @@ int FX::Play(dword dwFlags, SLONG pan)
         SetPan(pan);
 
     if (Mix_Playing(-1) >= _digitalData.pSSE->_maxSound
-        && !StopPriority(dwFlags))
+            && !StopPriority(dwFlags))
         return SSE_MAXFXREACHED;
 
     if (_digitalData.fNoStop)
@@ -344,7 +344,7 @@ int ChangeFrequency(Mix_Chunk* chunk, int freq) {
 
     }
 
-	return -1;
+    return -1;
 }
 
 
@@ -538,7 +538,7 @@ void FX::SetFormat(dword samplesPerSec, word channels, word bitsPerSample)
     _fxData.bitsPerSample = bitsPerSample ? bitsPerSample : _digitalData.pSSE->_bitsPerSample;
 
     if (_fxData.pBuffer && (_fxData.samplesPerSec != lastSamplesPerSec ||
-        _fxData.channels != lastChannels || _fxData.bitsPerSample != lastBitsPerSample))
+                _fxData.channels != lastChannels || _fxData.bitsPerSample != lastBitsPerSample))
     {
         Free();
         if (!_digitalData.file.empty())
@@ -566,7 +566,7 @@ int MIDI::Create(SSE* pSSE, char* file)
 }
 
 void MIDI::SetMode(int mode) {
-	_mode = mode;
+    _mode = mode;
 }
 
 bool MIDI::StopPriority(dword flags)
@@ -649,12 +649,12 @@ int MIDI::Load(const char* file)
 
     _musicData.file = file;
 
-	if(_mode == 1){
-	    _music = Mix_LoadMUS(_musicData.file.c_str());
-	    // Some versions ship with ogg music as well, use it as a fall-back
+    if(_mode == 1){
+        _music = Mix_LoadMUS(_musicData.file.c_str());
+        // Some versions ship with ogg music as well, use it as a fall-back
     } else if(_mode == 2){
         std::transform(_musicData.file.begin(), _musicData.file.end(),
-            _musicData.file.begin(), ::tolower);
+                _musicData.file.begin(), ::tolower);
 
         _musicData.file.replace(_musicData.file.size() - 3, 3, "ogg");
         _music = Mix_LoadMUS(_musicData.file.c_str());

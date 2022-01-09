@@ -18,28 +18,28 @@
 
 class CRegistryAccess
 {
-   private:
+    private:
 #ifdef WIN32
-      HKEY  hKey;
+        HKEY  hKey;
 #endif
 
-   public:
-      CRegistryAccess ();
-      CRegistryAccess (CString RegistryPath);
-      ~CRegistryAccess ();
-      bool Open (CString RegistryPath);
-      void Close (void);
+    public:
+        CRegistryAccess ();
+        CRegistryAccess (CString RegistryPath);
+        ~CRegistryAccess ();
+        bool Open (CString RegistryPath);
+        void Close (void);
 
-      bool IsOpen (void);
+        bool IsOpen (void);
 
-      bool ReadRegistryKeyEx (BOOL *Text, CString EntryName);
-      bool ReadRegistryKeyEx (char *Text, CString EntryName);
-      bool ReadRegistryKeyEx (long *Long, CString EntryName);
-      bool ReadRegistryKeyEx (double *Double, CString EntryName);
-      bool WriteRegistryKeyEx (const BOOL *Text, CString EntryName);
-      bool WriteRegistryKeyEx (const char *Text, CString EntryName);
-      bool WriteRegistryKeyEx (const long *Long, CString EntryName);
-      bool WriteRegistryKeyEx (const double *Double, CString EntryName);
+        bool ReadRegistryKeyEx (BOOL *Text, CString EntryName);
+        bool ReadRegistryKeyEx (char *Text, CString EntryName);
+        bool ReadRegistryKeyEx (long *Long, CString EntryName);
+        bool ReadRegistryKeyEx (double *Double, CString EntryName);
+        bool WriteRegistryKeyEx (const BOOL *Text, CString EntryName);
+        bool WriteRegistryKeyEx (const char *Text, CString EntryName);
+        bool WriteRegistryKeyEx (const long *Long, CString EntryName);
+        bool WriteRegistryKeyEx (const double *Double, CString EntryName);
 };
 
 //Pfad in der Registry; Eintrag ist von der Versionummer abhängig
@@ -69,52 +69,52 @@ BOOL IsPentiumOrBetter (void);
 
 class CSystemCheckup
 {
-   //Das Ergebnis der Arbeit:
-   public:
-      //Generelles:
-      long     CheckupVersion;         //Versionsnummer, wichtig für die Registry
-      long     CheckupFlags;           //Dieser Informationen wurden ermittelt
+    //Das Ergebnis der Arbeit:
+    public:
+        //Generelles:
+        long     CheckupVersion;         //Versionsnummer, wichtig für die Registry
+        long     CheckupFlags;           //Dieser Informationen wurden ermittelt
 
-      //CD:
-      long     KBSec;                  //noch nicht unterstützt: CD in Kilobytes pro Sekunde, z.B. 300..
-      double   Faktor;                 //noch nicht unterstützt: ..oder als Faktor, z.B. 2 = Double-Speed
+        //CD:
+        long     KBSec;                  //noch nicht unterstützt: CD in Kilobytes pro Sekunde, z.B. 300..
+        double   Faktor;                 //noch nicht unterstützt: ..oder als Faktor, z.B. 2 = Double-Speed
 
-      //OS:
-      long     PlatformID;             //CHECK_PLATFORM_WIN31 / _WIN95 / WINNT
-      long     OSMajorVersion;         //Major- und Minorversion wären z.B. 3 bzw. 51 für
-      long     OSMinorVersion;         //Windows NT 3.51
-      long     OSBuild;                //Die Build-Version (nicht sooo wichtig)
+        //OS:
+        long     PlatformID;             //CHECK_PLATFORM_WIN31 / _WIN95 / WINNT
+        long     OSMajorVersion;         //Major- und Minorversion wären z.B. 3 bzw. 51 für
+        long     OSMinorVersion;         //Windows NT 3.51
+        long     OSBuild;                //Die Build-Version (nicht sooo wichtig)
 
-      //CPU:
-      long     bMMX;                   //Ist ein MMX vorhanden?
-      long     bCoprozessor;           //Ist eine FPU vorhanden?
-      double   Megahertz;              //Die Taktfrequenz des Prozessors in Mhz +/- 10%
+        //CPU:
+        long     bMMX;                   //Ist ein MMX vorhanden?
+        long     bCoprozessor;           //Ist eine FPU vorhanden?
+        double   Megahertz;              //Die Taktfrequenz des Prozessors in Mhz +/- 10%
 
-      //RAM:
-      long     RealMB;                 //Soviel echtes RAM (in MB) ist installiert
-      long     VirtualMB;              //Und soviel ist für virtuelles RAM eingestellt
-      long     VgaRamMB;               //Soviel RAM steckt in der Grafikkarte
+        //RAM:
+        long     RealMB;                 //Soviel echtes RAM (in MB) ist installiert
+        long     VirtualMB;              //Und soviel ist für virtuelles RAM eingestellt
+        long     VgaRamMB;               //Soviel RAM steckt in der Grafikkarte
 
-      //DirectX:
-      long     bDXInstalled;           //Boolean, ob DirectX überhaupt vorhanden ist
-      long     DXVersion;              //Sagt, in welcher Version (z.B. 5) es da ist
-      long     bMidi;                  //Boolean, ob Midi abgespielt werden kann
-      long     bWave;                  //Boolean, ob Waves abgespielt werden kann
-      long     b3D;                    //Boolean, ob 3d-Beschleuniger vorhanden ist
-      long     bAlpha;                 //Boolean, ob Alpha-Channel Blitting per Hardware möglich ist
-      long     bZBuffer;               //ungetestet: Boolean, ob Z-Buffer Blitting per Hardware möglich ist
+        //DirectX:
+        long     bDXInstalled;           //Boolean, ob DirectX überhaupt vorhanden ist
+        long     DXVersion;              //Sagt, in welcher Version (z.B. 5) es da ist
+        long     bMidi;                  //Boolean, ob Midi abgespielt werden kann
+        long     bWave;                  //Boolean, ob Waves abgespielt werden kann
+        long     b3D;                    //Boolean, ob 3d-Beschleuniger vorhanden ist
+        long     bAlpha;                 //Boolean, ob Alpha-Channel Blitting per Hardware möglich ist
+        long     bZBuffer;               //ungetestet: Boolean, ob Z-Buffer Blitting per Hardware möglich ist
 
-   //Diese Routine sollte man aufrufen (mit den Flags)
-   public:
-      CSystemCheckup () { memset (this, 0, sizeof(*this)); CheckupVersion = CHECKUP_VERSION; }
-      CSystemCheckup (long Flags, CString CDFile="");
-      void Checkup (long Flags, CString CDFile="");
+        //Diese Routine sollte man aufrufen (mit den Flags)
+    public:
+        CSystemCheckup () { memset (this, 0, sizeof(*this)); CheckupVersion = CHECKUP_VERSION; }
+        CSystemCheckup (long Flags, CString CDFile="");
+        void Checkup (long Flags, CString CDFile="");
 
-   //Und diese sind intern und machen die Drecksarbeit:
-   private:
-      void CheckupCD (const CString &CDFile);
-      void CheckupCPU (void);
-      void CheckupOS (void);
-      void CheckupRAM (void);
-      void CheckupDirectX (void);
+        //Und diese sind intern und machen die Drecksarbeit:
+    private:
+        void CheckupCD (const CString &CDFile);
+        void CheckupCPU (void);
+        void CheckupOS (void);
+        void CheckupRAM (void);
+        void CheckupDirectX (void);
 };

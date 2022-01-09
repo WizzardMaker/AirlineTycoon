@@ -98,7 +98,7 @@ ULONG SB_CBitmapCore::Line(SLONG x1, SLONG y1, SLONG x2, SLONG y2, SB_Hardwareco
         dword color = (dword)hwcolor;
         SDL_GetColorKey(lpDDSurface, &key);
         SDL_SetRenderDrawColor(lpDD, (color & 0xFF0000) >> 16, (color & 0xFF00) >> 8, color & 0xFF,
-            color == key ? SDL_ALPHA_TRANSPARENT : SDL_ALPHA_OPAQUE);
+                color == key ? SDL_ALPHA_TRANSPARENT : SDL_ALPHA_OPAQUE);
         SDL_RenderDrawLine(lpDD, x1, y1, x2, y2);
     }
 
@@ -239,7 +239,7 @@ ULONG SB_CBitmapCore::Clear(SB_Hardwarecolor hwcolor, const RECT* pRect)
         dword key;
         SDL_GetColorKey(lpDDSurface, &key);
         SDL_SetRenderDrawColor(lpDD, (color & 0xFF0000) >> 16, (color & 0xFF00) >> 8, color & 0xFF,
-            color == key ? SDL_ALPHA_TRANSPARENT : SDL_ALPHA_OPAQUE);
+                color == key ? SDL_ALPHA_TRANSPARENT : SDL_ALPHA_OPAQUE);
     }
 
     if (pRect)

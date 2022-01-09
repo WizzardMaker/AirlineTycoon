@@ -15,10 +15,10 @@
 
 struct IntervalTimer
 {
-	void SetPeriod(RakNet::TimeMS period);
-	bool UpdateInterval(RakNet::TimeMS elapsed);
+    void SetPeriod(RakNet::TimeMS period);
+    bool UpdateInterval(RakNet::TimeMS elapsed);
 
-	RakNet::TimeMS basePeriod, remaining;
+    RakNet::TimeMS basePeriod, remaining;
 };
 
 #endif

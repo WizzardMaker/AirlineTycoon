@@ -72,42 +72,42 @@ struct SBSessionInfo
 
 class SBNetwork
 {
-public:
-    SBNetwork(bool);
+    public:
+        SBNetwork(bool);
 
-    SLONG GetMessageCount();
-    bool Connect(SBStr);
-    bool Connect(SBStr, char*);
-    void DisConnect();
-    bool CreateSession(SBStr, SBNetworkCreation*);
-    void CloseSession();
-    ULONG GetLocalPlayerID();
-    SBList<SBStr>* GetConnectionList();
-    SBList<SBStr>* GetSessionListAsync();
-    bool StartGetSessionListAsync();
-    SLONG GetProviderID(char*);
-    bool IsEnumSessionFinished();
-    bool IsInSession();
-    bool Send(BUFFER<UBYTE>&, ULONG, ULONG, bool);
-    bool Receive(UBYTE**, ULONG&);
-    bool JoinSession(SBStr, SBStr);
-    SBList<SBNetworkPlayer>* GetAllPlayers();
+        SLONG GetMessageCount();
+        bool Connect(SBStr);
+        bool Connect(SBStr, char*);
+        void DisConnect();
+        bool CreateSession(SBStr, SBNetworkCreation*);
+        void CloseSession();
+        ULONG GetLocalPlayerID();
+        SBList<SBStr>* GetConnectionList();
+        SBList<SBStr>* GetSessionListAsync();
+        bool StartGetSessionListAsync();
+        SLONG GetProviderID(char*);
+        bool IsEnumSessionFinished();
+        bool IsInSession();
+        bool Send(BUFFER<UBYTE>&, ULONG, ULONG, bool);
+        bool Receive(UBYTE**, ULONG&);
+        bool JoinSession(SBStr, SBStr);
+        SBList<SBNetworkPlayer>* GetAllPlayers();
 
-private:
-    SBSessionEnum mState;
-    ULONG mLocalID;
-    SBList<SBStr> mConnections;
-    SBList<SBStr> mSessions;
-    SBList<SBSessionInfo> mSessionInfo;
-    SBList<SBNetworkPlayer> mPlayers;
+    private:
+        SBSessionEnum mState;
+        ULONG mLocalID;
+        SBList<SBStr> mConnections;
+        SBList<SBStr> mSessions;
+        SBList<SBSessionInfo> mSessionInfo;
+        SBList<SBNetworkPlayer> mPlayers;
 
-    SBTypeEnum mType;
-    unsigned int mSearchTime;
-    ENetAddress mServer;
-    ENetHost* mHost;
-    ENetPeer* mMaster;
-    ENetSocket mSocket;
-    SBList<ENetPacket*> mPackets;
+        SBTypeEnum mType;
+        unsigned int mSearchTime;
+        ENetAddress mServer;
+        ENetHost* mHost;
+        ENetPeer* mMaster;
+        ENetSocket mSocket;
+        SBList<ENetPacket*> mPackets;
 };
 
 #endif
@@ -118,43 +118,43 @@ private:
 enum SBMultiplayerStateEnum
 {
     SBNETWORK_SEARCHING,
-	SBNETWORK_PLAYING,
-	SBNETWORK_IDLE,
+    SBNETWORK_PLAYING,
+    SBNETWORK_IDLE,
 };
 
 
 class SBNetwork
 {
-public:
-    SBNetwork(bool);
+    public:
+        SBNetwork(bool);
 
-    SLONG GetMessageCount();
-    bool Connect(SBStr);
-    bool Connect(SBStr, const char*);
-    void DisConnect();
-    bool CreateSession(SBStr, SBNetworkCreation*);
-    void CloseSession();
-    ULONG GetLocalPlayerID();
-    SBList<SBStr>* GetConnectionList();
-    SBList<SBStr>* GetSessionListAsync();
-    bool StartGetSessionListAsync();
-    SLONG GetProviderID(char*);
-    void SetProvider(SBTypeEnum);
-    bool IsEnumSessionFinished() const;
-    bool IsInSession() const;
-	bool IsInitialized() const;
-    bool Send(BUFFER<UBYTE>&, ULONG, ULONG, bool);
-    bool Receive(UBYTE**, ULONG&);
-    bool JoinSession(const SBStr&, SBStr);
-    SBList<SBNetworkPlayer*>* GetAllPlayers();
+        SLONG GetMessageCount();
+        bool Connect(SBStr);
+        bool Connect(SBStr, const char*);
+        void DisConnect();
+        bool CreateSession(SBStr, SBNetworkCreation*);
+        void CloseSession();
+        ULONG GetLocalPlayerID();
+        SBList<SBStr>* GetConnectionList();
+        SBList<SBStr>* GetSessionListAsync();
+        bool StartGetSessionListAsync();
+        SLONG GetProviderID(char*);
+        void SetProvider(SBTypeEnum);
+        bool IsEnumSessionFinished() const;
+        bool IsInSession() const;
+        bool IsInitialized() const;
+        bool Send(BUFFER<UBYTE>&, ULONG, ULONG, bool);
+        bool Receive(UBYTE**, ULONG&);
+        bool JoinSession(const SBStr&, SBStr);
+        SBList<SBNetworkPlayer*>* GetAllPlayers();
 
-private:
-    SBList<SBStr> mConnections;
+    private:
+        SBList<SBStr> mConnections;
 
-    SBMultiplayerStateEnum mState;
+        SBMultiplayerStateEnum mState;
 
-	BaseNetworkType *mNetwork;
-    SBTypeEnum mType;
+        BaseNetworkType *mNetwork;
+        SBTypeEnum mType;
 };
 
 #endif

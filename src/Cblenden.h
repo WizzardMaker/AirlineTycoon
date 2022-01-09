@@ -11,18 +11,18 @@
 //--------------------------------------------------------------------------------------------
 class CBlenden
 {
-   protected:
-      LPDIRECTDRAWSURFACE _pSurface1;
-      LPDIRECTDRAWSURFACE _pSurface2;
-      LPDIRECTDRAWSURFACE _pTmpSurface;
-      long                _SizeX, _SizeY;
-		dword					  _dwFlags;
+    protected:
+        LPDIRECTDRAWSURFACE _pSurface1;
+        LPDIRECTDRAWSURFACE _pSurface2;
+        LPDIRECTDRAWSURFACE _pTmpSurface;
+        long                _SizeX, _SizeY;
+        dword					  _dwFlags;
 
-   public:
-      CBlenden ();
-      CBlenden (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface);
-      virtual ~CBlenden ();
-      void virtual UpdateTmpSurface (double Prozent) = NULL;
+    public:
+        CBlenden ();
+        CBlenden (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface);
+        virtual ~CBlenden ();
+        void virtual UpdateTmpSurface (double Prozent) = NULL;
 };
 
 //--------------------------------------------------------------------------------------------
@@ -30,13 +30,13 @@ class CBlenden
 //--------------------------------------------------------------------------------------------
 class CCoolBlend : public CBlenden
 {
-   protected:
-      long     _ClickX, _ClickY;
+    protected:
+        long     _ClickX, _ClickY;
 
-   public:
-      CCoolBlend () {}
-      CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY, bool fTransparent);
-      void UpdateTmpSurface (double Prozent);
+    public:
+        CCoolBlend () {}
+        CCoolBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY, bool fTransparent);
+        void UpdateTmpSurface (double Prozent);
 };
 
 //--------------------------------------------------------------------------------------------
@@ -44,13 +44,13 @@ class CCoolBlend : public CBlenden
 //--------------------------------------------------------------------------------------------
 class CFallBlend : public CBlenden
 {
-   protected:
-      long     _ClickX, _ClickY;
+    protected:
+        long     _ClickX, _ClickY;
 
-   public:
-      CFallBlend () {}
-      CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY, bool fTransparent);
-      void UpdateTmpSurface (double Prozent);
+    public:
+        CFallBlend () {}
+        CFallBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY, bool fTransparent);
+        void UpdateTmpSurface (double Prozent);
 };
 
 //--------------------------------------------------------------------------------------------
@@ -58,13 +58,13 @@ class CFallBlend : public CBlenden
 //--------------------------------------------------------------------------------------------
 class CRandomBlend : public CBlenden
 {
-   protected:
-      long     _RandomX, _RandomY;
+    protected:
+        long     _RandomX, _RandomY;
 
-   public:
-      CRandomBlend () {}
-      CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long RandomX, long RandomY, bool fTransparent);
-      void UpdateTmpSurface (double Prozent);
+    public:
+        CRandomBlend () {}
+        CRandomBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long RandomX, long RandomY, bool fTransparent);
+        void UpdateTmpSurface (double Prozent);
 };
 
 //--------------------------------------------------------------------------------------------
@@ -72,10 +72,10 @@ class CRandomBlend : public CBlenden
 //--------------------------------------------------------------------------------------------
 class CSlimeBlend : public CBlenden
 {
-   public:
-      CSlimeBlend () {}
-      CSlimeBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, bool fTransparent);
-      void UpdateTmpSurface (double Prozent);
+    public:
+        CSlimeBlend () {}
+        CSlimeBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, bool fTransparent);
+        void UpdateTmpSurface (double Prozent);
 };
 
 //--------------------------------------------------------------------------------------------
@@ -83,13 +83,13 @@ class CSlimeBlend : public CBlenden
 //--------------------------------------------------------------------------------------------
 class CHLineBlend : public CBlenden
 {
-   private:
-      long _AnzHLines;
+    private:
+        long _AnzHLines;
 
-   public:
-      CHLineBlend () {}
-      CHLineBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long AnzHLines, bool fTransparent);
-      void UpdateTmpSurface (double Prozent);
+    public:
+        CHLineBlend () {}
+        CHLineBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long AnzHLines, bool fTransparent);
+        void UpdateTmpSurface (double Prozent);
 };
 
 //--------------------------------------------------------------------------------------------
@@ -97,14 +97,14 @@ class CHLineBlend : public CBlenden
 //--------------------------------------------------------------------------------------------
 class CShadesBlend : public CBlenden
 {
-   private:
-      long _AnzHLines;
-      bool _Direction;
+    private:
+        long _AnzHLines;
+        bool _Direction;
 
-   public:
-      CShadesBlend () {}
-      CShadesBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long AnzHLines, bool Direction, bool fTransparent);
-      void UpdateTmpSurface (double Prozent);
+    public:
+        CShadesBlend () {}
+        CShadesBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long AnzHLines, bool Direction, bool fTransparent);
+        void UpdateTmpSurface (double Prozent);
 };
 
 //--------------------------------------------------------------------------------------------
@@ -112,10 +112,10 @@ class CShadesBlend : public CBlenden
 //--------------------------------------------------------------------------------------------
 class CTerminatorBlend : public CBlenden
 {
-   public:
-      CTerminatorBlend () {}
-      CTerminatorBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, bool fTransparent);
-      void UpdateTmpSurface (double Prozent);
+    public:
+        CTerminatorBlend () {}
+        CTerminatorBlend (LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, bool fTransparent);
+        void UpdateTmpSurface (double Prozent);
 };
 
 #endif

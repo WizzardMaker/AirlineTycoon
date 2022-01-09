@@ -38,15 +38,15 @@
 #define REQUIRED_CD_SIZE 700125100    //651*1024*1024
 
 #ifdef CD_PROTECTION_LARGE
-   #pragma message ("-------------------------------------")
-   #pragma message ("CD Protection (overlength!) aktivated")
-   #pragma message ("-------------------------------------")
+#pragma message ("-------------------------------------")
+#pragma message ("CD Protection (overlength!) aktivated")
+#pragma message ("-------------------------------------")
 #else
-   #ifdef CD_PROTECTION
-      #pragma message ("--------------------------------")
-      #pragma message ("CD Protection (plain!) aktivated")
-      #pragma message ("--------------------------------")
-   #endif
+#ifdef CD_PROTECTION
+#pragma message ("--------------------------------")
+#pragma message ("CD Protection (plain!) aktivated")
+#pragma message ("--------------------------------")
+#endif
 #endif
 
 #define FILLFILE_NAME "intro\\credits.smk"

@@ -19,22 +19,22 @@
 #define	AGRESSIVE	  SECURITY_ON
 
 #define PUTSTARTMARK __asm {		\
-	__asm	nop				\
-	__asm	nop				\
-	__asm	inc	eax			\
-	__asm	dec eax			\
-	__asm	nop				\
-	__asm	nop				\
-	__asm	nop				\
-	__asm	nop				\
-	}
+    __asm	nop				\
+    __asm	nop				\
+    __asm	inc	eax			\
+    __asm	dec eax			\
+    __asm	nop				\
+    __asm	nop				\
+    __asm	nop				\
+    __asm	nop				\
+}
 
 #define PUTENDMARK __asm {		\
-	__asm	inc	eax			\
-	__asm	dec eax			\
-	__asm	inc	eax			\
-	__asm	dec	eax			\
-	}
+    __asm	inc	eax			\
+    __asm	dec eax			\
+    __asm	inc	eax			\
+    __asm	dec	eax			\
+}
 
 // Constant for the VxD
 #define VXD_DECRYPT 1
@@ -130,49 +130,49 @@ long	GetCode( char * );
 
 class SecurityManager
 {
-public:
-	SecurityManager( char *, long, long );
-	virtual ~SecurityManager();
+    public:
+        SecurityManager( char *, long, long );
+        virtual ~SecurityManager();
 
-	// The Stupid CD Check to lure cracker
-	bool StupidCDCheck( char driveLetter, char *expectedCDName );
+        // The Stupid CD Check to lure cracker
+        bool StupidCDCheck( char driveLetter, char *expectedCDName );
 
-	// Function modifier
-	bool DecryptFunction( void * );
-	unsigned long CheckFunction( void * );
+        // Function modifier
+        bool DecryptFunction( void * );
+        unsigned long CheckFunction( void * );
 
-protected:
-	unsigned long pId;					/* pointer for softice detection */
+    protected:
+        unsigned long pId;					/* pointer for softice detection */
 
-	unsigned char	*writebuffer;		/* Buffer for writing */
-	unsigned char	*readbuffer;		/* Buffer for reading */
+        unsigned char	*writebuffer;		/* Buffer for writing */
+        unsigned char	*readbuffer;		/* Buffer for reading */
 
-	unsigned long	writesize;			/* size of write buffer */
-	unsigned long	readsize;			/* size of read buffer */
+        unsigned long	writesize;			/* size of write buffer */
+        unsigned long	readsize;			/* size of read buffer */
 
-	unsigned long	writepos;			/* pos in the write flow */
-	unsigned long	readpos;			/* pos in the read flow */
+        unsigned long	writepos;			/* pos in the write flow */
+        unsigned long	readpos;			/* pos in the read flow */
 
-	unsigned long	crc32_table[256];
-	unsigned char	text_buf[N + F - 1];	/* ring buffer of size N */
-	unsigned char	*VxDBuffer;
-	void			*VxDHandle;
-	unsigned long	dKey[R+1][4];
+        unsigned long	crc32_table[256];
+        unsigned char	text_buf[N + F - 1];	/* ring buffer of size N */
+        unsigned char	*VxDBuffer;
+        void			*VxDHandle;
+        unsigned long	dKey[R+1][4];
 
-	long			code;
+        long			code;
 
-	long CalculateChecksum( unsigned char *, long );
-	bool LoadInitVxD( char *,long ,long );
+        long CalculateChecksum( unsigned char *, long );
+        bool LoadInitVxD( char *,long ,long );
 
-	void			squareTransform (word32 [4], word32 [4]);
-	void			squareDecrypt(word32 [4], word32 [R+1][4]);
-	bool			DecryptData(unsigned char *, unsigned long  );
-	unsigned char *	DecompressData(unsigned char *, unsigned long &);
-	void			Decode(void);
+        void			squareTransform (word32 [4], word32 [4]);
+        void			squareDecrypt(word32 [4], word32 [R+1][4]);
+        bool			DecryptData(unsigned char *, unsigned long  );
+        unsigned char *	DecompressData(unsigned char *, unsigned long &);
+        void			Decode(void);
 
-	void			mystrcat( char *, char * );
-	void			mystrcpy( char *, char * );
-	unsigned short	mystrlen( char * );
+        void			mystrcat( char *, char * );
+        void			mystrcpy( char *, char * );
+        unsigned short	mystrlen( char * );
 
 };
 

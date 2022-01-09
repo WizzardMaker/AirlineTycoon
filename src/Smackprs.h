@@ -6,28 +6,28 @@
 //Eine einfache Animation mit dem Smacker:
 //--------------------------------------------------------------------------------------------
 /*class CSmackAnim
-{
-   private:
-      Smack   *pSmack;
-      BOOL     IsActive;
+  {
+  private:
+  Smack   *pSmack;
+  BOOL     IsActive;
 
-   public:
-      CSmackAnim ();
-      ~CSmackAnim ();
-      void Reset (void);
-      void ReSize (const CString &Filename,
-                   SBFX *Fx,
-                   BOOL  StartPic,
-                   SLONG Mode,
-                   SLONG Prelude,
-                   SLONG Speed,
-                   SLONG CyclycWait=0,
-                   SLONG RepeatCore=1);
+  public:
+  CSmackAnim ();
+  ~CSmackAnim ();
+  void Reset (void);
+  void ReSize (const CString &Filename,
+  SBFX *Fx,
+  BOOL  StartPic,
+  SLONG Mode,
+  SLONG Prelude,
+  SLONG Speed,
+  SLONG CyclycWait=0,
+  SLONG RepeatCore=1);
 
-      void Pump (void);
-      void BlitAt (SBBM &RoomBm, SLONG x, SLONG y);
-      void BlitAtT (SBBM &RoomBm, SLONG x, SLONG y);
-};*/
+  void Pump (void);
+  void BlitAt (SBBM &RoomBm, SLONG x, SLONG y);
+  void BlitAtT (SBBM &RoomBm, SLONG x, SLONG y);
+  };*/
 
 //--------------------------------------------------------------------------------------------
 //Eine Animation einer kompletten Figur:
@@ -67,111 +67,111 @@ void  CalculatePalettemapper (const UBYTE *pPalette, SDL_Palette *pPaletteMapper
 //Eine Teilanimation einer Figur:
 class CSmackerClip
 {
-   private: //Dateieigenschaften...
-       CString      Filename;
-       CString      SoundFilename;
-       SDL_Palette* PaletteMapper;       //Tabelle zum Mappen von 8 auf 16 Bit
+    private: //Dateieigenschaften...
+        CString      Filename;
+        CString      SoundFilename;
+        SDL_Palette* PaletteMapper;       //Tabelle zum Mappen von 8 auf 16 Bit
 
-       smk          pSmack;
-       unsigned long Width;
-       unsigned long Height;
-       unsigned long FrameNum;
-       unsigned long Frames;
-       DWORD        FrameNext;
+        smk          pSmack;
+        unsigned long Width;
+        unsigned long Height;
+        unsigned long FrameNum;
+        unsigned long Frames;
+        DWORD        FrameNext;
 
-       SLONG        LastFrame;
+        SLONG        LastFrame;
 
-       SBFX              SoundFx;
-       SLONG             NumSoundFx;     //Anzahl der Soundeffekte
-       CUnrepeatedRandom SoundRandom;    //Wenn es mehrere Soundeffekte gibt
-       DWORD             TickerNext;     //Zu diesem Zeitpunkt muß das nächste Sample gestartet werden
-       BOOL              IsFXPlaying;
+        SBFX              SoundFx;
+        SLONG             NumSoundFx;     //Anzahl der Soundeffekte
+        CUnrepeatedRandom SoundRandom;    //Wenn es mehrere Soundeffekte gibt
+        DWORD             TickerNext;     //Zu diesem Zeitpunkt muß das nächste Sample gestartet werden
+        BOOL              IsFXPlaying;
 
-   private: //Statische Eigenschaften...
-       SLONG     ClipId;
-       XY        ScreenOffset;
-       SLONG     MoodId;
-       CRepeat   Repeat;                 //Min..Max
-       CPostWait PostWait;               //Min..Max in 20/stel Sekunden
-       BOOL      CanCancelClip;          //Kann der Clip vorzeitig abgebrochen werden?
+    private: //Statische Eigenschaften...
+        SLONG     ClipId;
+        XY        ScreenOffset;
+        SLONG     MoodId;
+        CRepeat   Repeat;                 //Min..Max
+        CPostWait PostWait;               //Min..Max in 20/stel Sekunden
+        BOOL      CanCancelClip;          //Kann der Clip vorzeitig abgebrochen werden?
 
-       SLONG    *PostVar;                //NULL oder Variable, die am Animationsende gesetzt werden soll
-       SLONG     PostOperation;          //Die Art der Operation, die durchgeführt werden soll
-       SLONG     PostValue;
-       const SLONG *DecisionVar;         //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
+        SLONG    *PostVar;                //NULL oder Variable, die am Animationsende gesetzt werden soll
+        SLONG     PostOperation;          //Die Art der Operation, die durchgeführt werden soll
+        SLONG     PostValue;
+        const SLONG *DecisionVar;         //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
 
-       CString   SuccessorTokens;        //A="Always" S="only when Staying in this mood", E="Exit this mood only"
-       BUFFER<SLONG> SuccessorIds;
+        CString   SuccessorTokens;        //A="Always" S="only when Staying in this mood", E="Exit this mood only"
+        BUFFER<SLONG> SuccessorIds;
 
-   private: //Dynamische Eigenschaften...
-       SLONG     State;                  //Inaktiv, Spielt Anim, In Postwait
-       SLONG     RepeatCount;
-       SLONG     WaitCount;
+    private: //Dynamische Eigenschaften...
+        SLONG     State;                  //Inaktiv, Spielt Anim, In Postwait
+        SLONG     RepeatCount;
+        SLONG     WaitCount;
 
-   public:
-       CSmackerClip ();
-       ~CSmackerClip ();
-       void Start ();
-       void Stop ();
-       void ReSize (SLONG          ClipId,
-                    const CString &Filename,
-                    const CString &SoundFilename,
-                    XY             ScreenOffset,
-                    SLONG          MoodId,
-                    CRepeat        Repeat,                 //Min..Max
-                    CPostWait      PostWait,               //Min..Max in 20/stel Sekunden
-                    BOOL           CanCancelClip,          //Kann der Clip vorzeitig abgebrochen werden?
+    public:
+        CSmackerClip ();
+        ~CSmackerClip ();
+        void Start ();
+        void Stop ();
+        void ReSize (SLONG          ClipId,
+                const CString &Filename,
+                const CString &SoundFilename,
+                XY             ScreenOffset,
+                SLONG          MoodId,
+                CRepeat        Repeat,                 //Min..Max
+                CPostWait      PostWait,               //Min..Max in 20/stel Sekunden
+                BOOL           CanCancelClip,          //Kann der Clip vorzeitig abgebrochen werden?
 
-                    SLONG         *PostVar,                //NULL oder Variable, die am Animationsende gesetzt werden soll
-                    SLONG          PostOperation,
-                    SLONG          PostValue,
+                SLONG         *PostVar,                //NULL oder Variable, die am Animationsende gesetzt werden soll
+                SLONG          PostOperation,
+                SLONG          PostValue,
 
-                    const SLONG   *DecisionVar,            //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
+                const SLONG   *DecisionVar,            //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
 
-                    CString        SuccessorTokens,        //z.B. "A2X8"...
-                    SLONG          SuccessorIds, ...);
+                CString        SuccessorTokens,        //z.B. "A2X8"...
+                SLONG          SuccessorIds, ...);
 
-      void NextSyllable (void);
-      void PlaySyllable (void);
+        void NextSyllable (void);
+        void PlaySyllable (void);
 
-   friend class CSmackerPerson;
+        friend class CSmackerPerson;
 };
 
 //Die komplette Figur:
 class CSmackerPerson
 {
-   private:
-      SBBM    Bitmap;
-      XY      BitmapPos;
-      SLONG   ActiveClip;       //Nummer vom aktuellen Clip
-      SLONG   CurrentMood;      //Idle, Talking, Listening, ...
-      SLONG   DesiredMood;      //Diese Stimmung (z.B. "Listening") soll die Figur haben
-      SLONG   AcceptedMood1;    //Dieser Zustand ist zwar nicht erwünscht, würde aber als weg zu DesiredMood akzeptiert
-      SLONG   AcceptedMood2;    //Dieser Zustand ist zwar nicht erwünscht, würde aber als weg zu DesiredMood akzeptiert
+    private:
+        SBBM    Bitmap;
+        XY      BitmapPos;
+        SLONG   ActiveClip;       //Nummer vom aktuellen Clip
+        SLONG   CurrentMood;      //Idle, Talking, Listening, ...
+        SLONG   DesiredMood;      //Diese Stimmung (z.B. "Listening") soll die Figur haben
+        SLONG   AcceptedMood1;    //Dieser Zustand ist zwar nicht erwünscht, würde aber als weg zu DesiredMood akzeptiert
+        SLONG   AcceptedMood2;    //Dieser Zustand ist zwar nicht erwünscht, würde aber als weg zu DesiredMood akzeptiert
 
-      SBFX    SpeakFx;
+        SBFX    SpeakFx;
 
-   public:
-      BUFFER<CSmackerClip> Clips;
+    public:
+        BUFFER<CSmackerClip> Clips;
 
-   public: //State & Initialization:
-      CSmackerPerson ();
-      ~CSmackerPerson ();
-      void  ReSize (SLONG NumberOfClips);
-      void  SetSpeakFx (CString Filename);
-      void  SetDesiredMood (SLONG DesiredMood, SLONG AcceptedMood1=-1, SLONG AcceptedMood2=-1);
-      SLONG GetDesiredMood (void);
-      SLONG GetMood (void);
-      SLONG GetClip (void);
-      SLONG GetFrame (void);
+    public: //State & Initialization:
+        CSmackerPerson ();
+        ~CSmackerPerson ();
+        void  ReSize (SLONG NumberOfClips);
+        void  SetSpeakFx (CString Filename);
+        void  SetDesiredMood (SLONG DesiredMood, SLONG AcceptedMood1=-1, SLONG AcceptedMood2=-1);
+        SLONG GetDesiredMood (void);
+        SLONG GetMood (void);
+        SLONG GetClip (void);
+        SLONG GetFrame (void);
 
-      void  ForceNextClip (void);
+        void  ForceNextClip (void);
 
-   private:
-      void  NextClip (void);
+    private:
+        void  NextClip (void);
 
-   public: //Blitting:
-      void  Pump (void);
-      void  BlitAtT (SBBM &RoomBm);
-      void  BlitAtT (SBBM &RoomBm, XY Offset);
+    public: //Blitting:
+        void  Pump (void);
+        void  BlitAtT (SBBM &RoomBm);
+        void  BlitAtT (SBBM &RoomBm, XY Offset);
 };

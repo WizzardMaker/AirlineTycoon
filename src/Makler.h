@@ -7,57 +7,57 @@
 
 class CMakler : public CStdRaum
 {
-// Construction
-public:
-	CMakler(BOOL bHandy, ULONG PlayerNum);
+    // Construction
+    public:
+        CMakler(BOOL bHandy, ULONG PlayerNum);
 
-// Attributes
-public:
-   SBBM        DoorOpaqueBm;
-   SBBMS       DoorTransBms;
-   CAnimation  BubbleAnim;
-   CAnimation  FishAnim;
-   CAnimation  Lights1Anim;
-   CAnimation  Lights2Anim;
-   CAnimation  KlappenAnim;
+        // Attributes
+    public:
+        SBBM        DoorOpaqueBm;
+        SBBMS       DoorTransBms;
+        CAnimation  BubbleAnim;
+        CAnimation  FishAnim;
+        CAnimation  Lights1Anim;
+        CAnimation  Lights2Anim;
+        CAnimation  KlappenAnim;
 
-   SBBMS       WaterBms;
-   SLONG       WaterFrame;
-   SLONG       LastWaterTime;
+        SBBMS       WaterBms;
+        SLONG       WaterFrame;
+        SLONG       LastWaterTime;
 
-   SLONG       KommVarLicht;
-   SLONG       KommVarWasser;
+        SLONG       KommVarLicht;
+        SLONG       KommVarWasser;
 
-   SBFX        KlappeFx;
-   SBFX        SpringFx;
-   SBFX        NeonFx;
-   SLONG       SpringState;
+        SBFX        KlappeFx;
+        SBFX        SpringFx;
+        SBFX        NeonFx;
+        SLONG       SpringState;
 
-   SBBM        TipBm;               //Fenster für Flugzeug-Tips
-   SLONG       CurrentTip;          //Dieser Tip wird gerade angezeigt
+        SBBM        TipBm;               //Fenster für Flugzeug-Tips
+        SLONG       CurrentTip;          //Dieser Tip wird gerade angezeigt
 
-   CSmackerPerson SP_Makler;
+        CSmackerPerson SP_Makler;
 
-// Operations
-public:
+        // Operations
+    public:
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMakler)
-	//}}AFX_VIRTUAL
+        // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CMakler)
+        //}}AFX_VIRTUAL
 
-// Implementation
-public:
-	virtual ~CMakler();
+        // Implementation
+    public:
+        virtual ~CMakler();
 
-	// Generated message map functions
-protected:
-	//{{AFX_MSG(CMakler)
-	virtual void OnRButtonDown(UINT nFlags, CPoint point);
-	virtual void OnLButtonDown(UINT nFlags, CPoint point);
-	virtual void OnPaint();
-	//}}AFX_MSG
-	//DECLARE_MESSAGE_MAP()
+        // Generated message map functions
+    protected:
+        //{{AFX_MSG(CMakler)
+        virtual void OnRButtonDown(UINT nFlags, CPoint point);
+        virtual void OnLButtonDown(UINT nFlags, CPoint point);
+        virtual void OnPaint();
+        //}}AFX_MSG
+        //DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

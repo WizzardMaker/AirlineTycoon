@@ -4,50 +4,50 @@
 
 class CWerkstatt : public CStdRaum
 {
-// Construction
-public:
-	CWerkstatt(BOOL bHandy, ULONG PlayerNum);
+    // Construction
+    public:
+        CWerkstatt(BOOL bHandy, ULONG PlayerNum);
 
-// Operations
-public:
-   SBBM                    OilCanBm;
-   SBBM                    DoorBm;
+        // Operations
+    public:
+        SBBM                    OilCanBm;
+        SBBM                    DoorBm;
 
-   SBFX                    SawFx;
+        SBFX                    SawFx;
 
-   SLONG                   CurrentTip;          //Dieser Tip wird gerade angezeigt
+        SLONG                   CurrentTip;          //Dieser Tip wird gerade angezeigt
 
-   CAnimation              SoudAnim;
-   CAnimation              FlameAnim;
-   CAnimation              LightAnim;
+        CAnimation              SoudAnim;
+        CAnimation              FlameAnim;
+        CAnimation              LightAnim;
 
-   SLONG                   KommVar;
+        SLONG                   KommVar;
 
-   CSmackerPerson          SP_Mann;
-   CSmackerPerson          SP_Hund;
-   CSmackerPerson          SP_Wer;
-   CSmackerPerson          SP_Bombe;
-   CSmackerPerson          SP_Asche;
-   CSmackerPerson          SP_Schleim;
-   CSmackerPerson          SP_Blase[5];
+        CSmackerPerson          SP_Mann;
+        CSmackerPerson          SP_Hund;
+        CSmackerPerson          SP_Wer;
+        CSmackerPerson          SP_Bombe;
+        CSmackerPerson          SP_Asche;
+        CSmackerPerson          SP_Schleim;
+        CSmackerPerson          SP_Blase[5];
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CWerkstatt)
-	//}}AFX_VIRTUAL
+        // Overrides
+        // ClassWizard generated virtual function overrides
+        //{{AFX_VIRTUAL(CWerkstatt)
+        //}}AFX_VIRTUAL
 
-// Implementation
-public:
-	virtual ~CWerkstatt();
+        // Implementation
+    public:
+        virtual ~CWerkstatt();
 
-	// Generated message map functions
-protected:
-	//{{AFX_MSG(CWerkstatt)
-	virtual void OnLButtonDown(UINT nFlags, CPoint point);
-	virtual void OnPaint();
-	virtual void OnRButtonDown(UINT nFlags, CPoint point);
-	//}}AFX_MSG
-	//DECLARE_MESSAGE_MAP()
+        // Generated message map functions
+    protected:
+        //{{AFX_MSG(CWerkstatt)
+        virtual void OnLButtonDown(UINT nFlags, CPoint point);
+        virtual void OnPaint();
+        virtual void OnRButtonDown(UINT nFlags, CPoint point);
+        //}}AFX_MSG
+        //DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

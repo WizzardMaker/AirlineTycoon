@@ -22,13 +22,13 @@ XYZ DetectCurrentDisplayResolution()
 
 TECBM::TECBM()
     : Surface(NULL)
-    , Size(0,0)
+      , Size(0,0)
 {
 }
 
 TECBM::TECBM(CString const& path, void* flags)
     : Surface(NULL)
-    , Size(0,0)
+      , Size(0,0)
 {
     ReSize(path, flags);
 }
@@ -102,7 +102,7 @@ void TECBM::ReSizePcx(CString const& path, void* flags)
 TECBMKEY::TECBMKEY(TECBM& bm)
     : Surface(bm.Surface)
     , Bitmap((UBYTE*)bm.Surface->pixels)
-    , lPitch(bm.Surface->pitch)
+      , lPitch(bm.Surface->pitch)
 {
     if (SDL_LockSurface(Surface) != 0)
         TeakLibW_Exception(0, 0, ExcAttachSurface);
@@ -116,7 +116,7 @@ TECBMKEY::~TECBMKEY(void)
 TECBMKEYC::TECBMKEYC(const TECBM& bm)
     : Surface(bm.Surface)
     , Bitmap((const UBYTE*)bm.Surface->pixels)
-    , lPitch(bm.Surface->pitch)
+      , lPitch(bm.Surface->pitch)
 {
     if (SDL_LockSurface(Surface) != 0)
         TeakLibW_Exception(0, 0, ExcAttachSurface);

@@ -9,7 +9,7 @@ TEAKFILE::TEAKFILE()
     : Ctx(NULL)
     , Path(NULL)
     , MemPointer(0)
-    , MemBufferUsed(0)
+      , MemBufferUsed(0)
 
 {
 }
@@ -18,7 +18,7 @@ TEAKFILE::TEAKFILE(char const* path, SLONG mode)
     : Ctx(NULL)
     , Path(NULL)
     , MemPointer(0)
-    , MemBufferUsed(0)
+      , MemBufferUsed(0)
 {
     Open(path, mode);
 }
@@ -145,7 +145,7 @@ CRLEReader::CRLEReader(const char* path)
     , Sequence()
     , IsRLE(false)
     , Size(0)
-    , Key(0)
+      , Key(0)
 {
     Ctx = SDL_RWFromFile(path, "rb");
     if (Ctx)

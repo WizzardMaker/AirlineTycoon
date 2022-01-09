@@ -7,7 +7,7 @@ const char* ExcXIDUnrecoverable = "XID-Access for %li (%s) failed (unrecoverable
 
 XID::XID()
     : Value(0)
-    , Index(0)
+      , Index(0)
 {
 }
 

@@ -81,7 +81,7 @@ void TEXTRES::Open(char const* source, void* cached)
             SLONG AnzChars = 0;
             SLONG AnzNonSpace = 0;
             for (j = 0; j + i < FileBuffer.AnzEntries() && FileBuffer[j + i] != '\r' &&
-                FileBuffer[j + i] != '\n' && FileBuffer[j + i] != '\x1A'; ++j)
+                    FileBuffer[j + i] != '\n' && FileBuffer[j + i] != '\x1A'; ++j)
             {
                 if (FileBuffer[j + i] == '/' && FileBuffer[j + i + 1] == '/')
                     AnzChars = -1;
@@ -95,7 +95,7 @@ void TEXTRES::Open(char const* source, void* cached)
                 AnzStrings += AnzNonSpace + 1;
             }
             while (j + i < FileBuffer.AnzEntries() && (FileBuffer[j + i] == '\r'
-                || FileBuffer[j + i] == '\n' || FileBuffer[j + i] == '\x1A'))
+                        || FileBuffer[j + i] == '\n' || FileBuffer[j + i] == '\x1A'))
                 ++j;
         }
         Strings.ReSize(AnzStrings + 5);
@@ -191,15 +191,15 @@ char* TEXTRES::GetP(ULONG group, ULONG id)
 
 char* TEXTRES::GetS(ULONG group, ULONG id)
 {
-  char* str = TEXTRES::GetP(group, id);
-  LanguageSpecifyString(str);
-  if (strlen(str) > 0x3FF)
-  {
+    char* str = TEXTRES::GetP(group, id);
+    LanguageSpecifyString(str);
+    if (strlen(str) > 0x3FF)
+    {
+        delete [] str;
+        TeakLibW_Exception(0, 0, ExcTextResStaticOverflow, group, id);
+    }
+    static char buffer[0x3FF];
+    strcpy(buffer, str);
     delete [] str;
-    TeakLibW_Exception(0, 0, ExcTextResStaticOverflow, group, id);
-  }
-  static char buffer[0x3FF];
-  strcpy(buffer, str);
-  delete [] str;
-  return buffer;
+    return buffer;
 }

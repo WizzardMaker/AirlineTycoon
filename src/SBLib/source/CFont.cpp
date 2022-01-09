@@ -8,7 +8,7 @@ SB_CFont::SB_CFont(void)
     , Hidden(false)
     , Tabulator(NULL)
     , LineSpace(1.5f)
-    , Bitmap(NULL)
+      , Bitmap(NULL)
 {
 }
 
@@ -93,27 +93,27 @@ SLONG SB_CFont::DrawTextBlock(class SB_CBitmapCore* bmp, RECT* block, const char
                 }
             }
             switch (str[i]) {
-            case '\0':
-                break;
-            case '\n':
-                this->Pos.x = this->Start.x;
-                i++;
-                break;
-            case '\r':
-                this->Pos.y = this->Pos.y + this->Header.Height;
-                i++;
-                break;
-            case ' ':
-                this->Pos.x = this->Pos.x + GetWidth(' ');
-                i++;
-                break;
-            case -0x4b:
-                this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
-                this->Pos.x = this->Start.x;
-                i++;
-                break;
-            default:
-                i++;
+                case '\0':
+                    break;
+                case '\n':
+                    this->Pos.x = this->Start.x;
+                    i++;
+                    break;
+                case '\r':
+                    this->Pos.y = this->Pos.y + this->Header.Height;
+                    i++;
+                    break;
+                case ' ':
+                    this->Pos.x = this->Pos.x + GetWidth(' ');
+                    i++;
+                    break;
+                case -0x4b:
+                    this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
+                    this->Pos.x = this->Start.x;
+                    i++;
+                    break;
+                default:
+                    i++;
             }
             length = length - i;
             if (length < 1) {
@@ -142,43 +142,43 @@ void SB_CFont::DrawTextWithTabs(class SB_CBitmapCore* bmp, SLONG x, SLONG y, con
     }
     while (0 < length) {
         switch (*str) {
-        case '\t':
-            if (i < this->NumTabs && this->Tabulator) {
-                str++;
-                switch (this->Tabulator[i].Style) {
-                case 1:
-                    this->Pos.x = this->Tabulator[i].Width;
-                    break;
-                case 2:
-                    this->Pos.x = this->Tabulator[i].Width - GetWidthAt(str, length - 1, '.');
-                    break;
-                case 3:
-                    this->Pos.x = this->Tabulator[i].Width - (GetWidthAt(str, length - 1, '\t') / 2);
-                    break;
-                case 4:
-                    this->Pos.x = this->Tabulator[i].Width - GetWidthAt(str, length - 1, '\t');
-                    break;
+            case '\t':
+                if (i < this->NumTabs && this->Tabulator) {
+                    str++;
+                    switch (this->Tabulator[i].Style) {
+                        case 1:
+                            this->Pos.x = this->Tabulator[i].Width;
+                            break;
+                        case 2:
+                            this->Pos.x = this->Tabulator[i].Width - GetWidthAt(str, length - 1, '.');
+                            break;
+                        case 3:
+                            this->Pos.x = this->Tabulator[i].Width - (GetWidthAt(str, length - 1, '\t') / 2);
+                            break;
+                        case 4:
+                            this->Pos.x = this->Tabulator[i].Width - GetWidthAt(str, length - 1, '\t');
+                            break;
+                    }
+                    i++;
                 }
-                i++;
-            }
-            break;
-        case '\n':
-            this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
-            str++;
-            break;
-        case '\r':
-            i = 0;
-            this->Pos.x = this->Start.x;
-            str++;
-            break;
-        case -0x4b:
-            i = 0;
-            this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
-            this->Pos.x = this->Start.x;
-            str++;
-            break;
-        default:
-            DrawChar(*str++, true);
+                break;
+            case '\n':
+                this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
+                str++;
+                break;
+            case '\r':
+                i = 0;
+                this->Pos.x = this->Start.x;
+                str++;
+                break;
+            case -0x4b:
+                i = 0;
+                this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
+                this->Pos.x = this->Start.x;
+                str++;
+                break;
+            default:
+                DrawChar(*str++, true);
         }
         length--;
     }
@@ -224,27 +224,27 @@ SLONG SB_CFont::PreviewTextBlock(class SB_CBitmapCore* bmp, RECT* block, const c
                 this->Pos.x += width;
             }
             switch (str[i]) {
-            case '\0':
-                break;
-            case '\n':
-                this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
-                i++;
-                break;
-            case '\r':
-                this->Pos.x = this->Start.x;
-                i++;
-                break;
-            case ' ':
-                this->Pos.x = this->Pos.x + GetWidth(' ');
-                i++;
-                break;
-            case -0x4b:
-                this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
-                this->Pos.x = this->Start.x;
-                i++;
-                break;
-            default:
-                i++;
+                case '\0':
+                    break;
+                case '\n':
+                    this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
+                    i++;
+                    break;
+                case '\r':
+                    this->Pos.x = this->Start.x;
+                    i++;
+                    break;
+                case ' ':
+                    this->Pos.x = this->Pos.x + GetWidth(' ');
+                    i++;
+                    break;
+                case -0x4b:
+                    this->Pos.y = this->Pos.y + SLONG(this->Header.Height * LineSpace);
+                    this->Pos.x = this->Start.x;
+                    i++;
+                    break;
+                default:
+                    i++;
             }
             length -= i;
             if (length < 1) break;
@@ -274,12 +274,12 @@ SLONG SB_CFont::GetWidthAt(const char* str, SLONG offset, char ch)
     int i = 0;
     while (true) {
         switch (*str) {
-        case -0x4b:
-        case '\0':
-        case '\t':
-        case '\n':
-        case '\r':
-            return i;
+            case -0x4b:
+            case '\0':
+            case '\t':
+            case '\n':
+            case '\r':
+                return i;
         }
         if (*str == ch) break;
         i += GetWidth(*str++);
@@ -292,16 +292,16 @@ SLONG SB_CFont::GetWordLength(const char* str, SLONG offset)
     dword length = 0;
     while (offset != 0) {
         switch (str[length]) {
-        case -0x4b:
-        case '\0':
-        case '\t':
-        case '\n':
-        case '\r':
-        case ' ':
-            return length;
-        default:
-            length++;
-            offset--;
+            case -0x4b:
+            case '\0':
+            case '\t':
+            case '\n':
+            case '\r':
+            case ' ':
+                return length;
+            default:
+                length++;
+                offset--;
         }
     }
     return length;
@@ -326,16 +326,16 @@ SLONG SB_CFont::GetWidth(const char* str, SLONG offset)
     {
         switch (*str)
         {
-        case -0x4b:
-        case '\0':
-        case '\t':
-        case '\n':
-        case '\r':
-            offset++;
-            break;
-        default:
-            width = width + GetWidth(*str++);
-            offset--;
+            case -0x4b:
+            case '\0':
+            case '\t':
+            case '\n':
+            case '\r':
+                offset++;
+                break;
+            default:
+                width = width + GetWidth(*str++);
+                offset--;
         }
     }
     return width;

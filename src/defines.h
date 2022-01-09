@@ -61,92 +61,92 @@ typedef long long __int64;
 
 typedef struct tagPOINT
 {
-   LONG x;
-   LONG y;
+    LONG x;
+    LONG y;
 } POINT;
 
 typedef struct tagRECT
 {
-   LONG left;
-   LONG top;
-   LONG right;
-   LONG bottom;
+    LONG left;
+    LONG top;
+    LONG right;
+    LONG bottom;
 } RECT;
 #endif
 
 class CPoint : public tagPOINT
 {
-public:
-   CPoint()
-   {
-      x = y = 0;
-   }
+    public:
+        CPoint()
+        {
+            x = y = 0;
+        }
 
-   CPoint(const POINT& initPoint)
-   {
-      x = initPoint.x;
-      y = initPoint.y;
-   }
+        CPoint(const POINT& initPoint)
+        {
+            x = initPoint.x;
+            y = initPoint.y;
+        }
 
-   CPoint(LONG initX, LONG initY)
-   {
-      x = initX;
-      y = initY;
-   }
+        CPoint(LONG initX, LONG initY)
+        {
+            x = initX;
+            y = initY;
+        }
 
-   CPoint(LPARAM dwPoint)
-   {
-      x = dwPoint & 0xFFFF;
-      y = (dwPoint >> 16) & 0xFFFF;
-   }
+        CPoint(LPARAM dwPoint)
+        {
+            x = dwPoint & 0xFFFF;
+            y = (dwPoint >> 16) & 0xFFFF;
+        }
 };
 
 class CRect : public tagRECT
 {
-public:
-   CRect()
-   {
-      left = top = right = bottom = 0;
-   }
+    public:
+        CRect()
+        {
+            left = top = right = bottom = 0;
+        }
 
-   CRect(const RECT& srcRect)
-   {
-      left = srcRect.left;
-      top = srcRect.top;
-      right = srcRect.right;
-      bottom = srcRect.bottom;
-   }
+        CRect(const RECT& srcRect)
+        {
+            left = srcRect.left;
+            top = srcRect.top;
+            right = srcRect.right;
+            bottom = srcRect.bottom;
+        }
 
-   CRect(LONG l, LONG t, LONG r, LONG b)
-   {
-      left = l;
-      top = t;
-      right = r;
-      bottom = b;
-   }
+        CRect(LONG l, LONG t, LONG r, LONG b)
+        {
+            left = l;
+            top = t;
+            right = r;
+            bottom = b;
+        }
 
-   LONG Width() const { return right - left; }
-   LONG Height() const { return bottom - top; }
+        LONG Width() const { return right - left; }
+        LONG Height() const { return bottom - top; }
 };
 
 inline CRect operator+(CRect r, const CPoint& p)
 {
-   return CRect(r.left + p.x, r.top + p.y, r.right + p.x, r.bottom + p.y);
+    return CRect(r.left + p.x, r.top + p.y, r.right + p.x, r.bottom + p.y);
 }
 
 inline CRect operator-(CRect r, const CPoint& p)
 {
-   return CRect(r.left - p.x, r.top - p.y, r.right - p.x, r.bottom - p.y);
+    return CRect(r.left - p.x, r.top - p.y, r.right - p.x, r.bottom - p.y);
 }
 
 inline bool operator==(const CPoint& lhs, const CPoint& rhs)
 {
-   return lhs.x == rhs.x && lhs.y == lhs.y;
+    return lhs.x == rhs.x && lhs.y == lhs.y;
 }
 
 inline bool operator!=(const CPoint& lhs, const CPoint& rhs)
 {
-   return !(lhs == rhs);
+    return !(lhs == rhs);
 }
 
 //Was wohl:

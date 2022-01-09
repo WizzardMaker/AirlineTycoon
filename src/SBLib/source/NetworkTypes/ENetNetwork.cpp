@@ -7,17 +7,17 @@
 ENetNetwork::ENetNetwork()
     : mServer()
     , mHost(nullptr)
-    , mMaster(nullptr)
-    , mSocket() {
-    TEAKRAND rand;
-    rand.SRandTime();
-    mLocalID = rand.Rand();
+      , mMaster(nullptr)
+      , mSocket() {
+          TEAKRAND rand;
+          rand.SRandTime();
+          mLocalID = rand.Rand();
 
-    ENetNetworkPlayer *player = new ENetNetworkPlayer();
-    player->ID = mLocalID;
-    player->peer = nullptr;
-    mPlayers.Add(player);
-}
+          ENetNetworkPlayer *player = new ENetNetworkPlayer();
+          player->ID = mLocalID;
+          player->peer = nullptr;
+          mPlayers.Add(player);
+      }
 
 ENetNetwork::~ENetNetwork() = default;
 
@@ -57,7 +57,7 @@ SLONG ENetNetwork::GetMessageCount() {
                 if (mSessionInfo.GetNumberOfElements() > 0) {
                     /* Check if we already know about the session */
                     for (mSessionInfo.GetFirst(); !mSessionInfo.IsLast() &&
-                        mSessionInfo.GetLastAccessed()->hostID != info->hostID; mSessionInfo.GetNext());
+                            mSessionInfo.GetLastAccessed()->hostID != info->hostID; mSessionInfo.GetNext());
                 }
 
                 if (mSessionInfo.GetNumberOfElements() == 0 || mSessionInfo.IsLast())
@@ -82,98 +82,98 @@ SLONG ENetNetwork::GetMessageCount() {
     {
         switch (event.type)
         {
-        case ENET_EVENT_TYPE_CONNECT:
-            /* Store any relevant client information here. */
-            if (event.data != 0)
-            {
-                ENetNetworkPlayer *player = new ENetNetworkPlayer();
-                player->ID = event.data;
-                player->peer = event.peer;
-                player->peer->data = &mPlayers.Add(player);
-
-                if (mState == SBNETWORK_SESSION_MASTER)
+            case ENET_EVENT_TYPE_CONNECT:
+                /* Store any relevant client information here. */
+                if (event.data != 0)
                 {
-                    /* Broadcast the address of this peer to all other peers */
-                    ENetNetworkPeer peer;
-                    peer.ID = event.data;
-                    peer.address = event.peer->address;
-                    ENetPacket* packet = enet_packet_create(&peer, sizeof(ENetNetworkPeer), ENET_PACKET_FLAG_RELIABLE);
-                    enet_host_broadcast(mHost, 1, packet);
-                }
-            }
-            break;
-        case ENET_EVENT_TYPE_RECEIVE:
-            if (event.channelID == 1)
-            {
-                if (event.packet->dataLength != sizeof(ENetNetworkPeer))
-                    break;
+                    ENetNetworkPlayer *player = new ENetNetworkPlayer();
+                    player->ID = event.data;
+                    player->peer = event.peer;
+                    player->peer->data = &mPlayers.Add(player);
 
-                ENetNetworkPeer* peer = (ENetNetworkPeer*)event.packet->data;
-                if (peer->ID == mLocalID)
-                    break;
-
-                /* Initiate the connection, allocating the two channels 0 and 1. */
-                ENetNetworkPlayer *player = new ENetNetworkPlayer();
-                player->ID = peer->ID;
-                player->peer = enet_host_connect(mHost, &peer->address, 2, mLocalID);
-                player->peer->data = &mPlayers.Add(player);
-            }
-            else
-            {
-                mPackets.Add(event.packet);
-            }
-            break;
-
-        case ENET_EVENT_TYPE_DISCONNECT:
-            /* Delete the player and inform the multiplayer code */
-            if (event.peer->data)
-            {
-                SBNetworkPlayer* player = (SBNetworkPlayer*)event.peer->data;
-                DPPacket dp;
-                dp.messageType = DPSYS_DESTROYPLAYERORGROUP;
-                dp.playerType = DPPLAYERTYPE_PLAYER;
-                dp.dpId = player->ID;
-                ENetPacket* packet = enet_packet_create(&dp, sizeof(DPPacket), ENET_PACKET_FLAG_RELIABLE);
-                mPackets.Add(packet);
-
-                if (mPlayers.GetNumberOfElements() > 0) {
-                    for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext())
+                    if (mState == SBNETWORK_SESSION_MASTER)
                     {
-                        if (mPlayers.GetLastAccessed()->ID == player->ID)
+                        /* Broadcast the address of this peer to all other peers */
+                        ENetNetworkPeer peer;
+                        peer.ID = event.data;
+                        peer.address = event.peer->address;
+                        ENetPacket* packet = enet_packet_create(&peer, sizeof(ENetNetworkPeer), ENET_PACKET_FLAG_RELIABLE);
+                        enet_host_broadcast(mHost, 1, packet);
+                    }
+                }
+                break;
+            case ENET_EVENT_TYPE_RECEIVE:
+                if (event.channelID == 1)
+                {
+                    if (event.packet->dataLength != sizeof(ENetNetworkPeer))
+                        break;
+
+                    ENetNetworkPeer* peer = (ENetNetworkPeer*)event.packet->data;
+                    if (peer->ID == mLocalID)
+                        break;
+
+                    /* Initiate the connection, allocating the two channels 0 and 1. */
+                    ENetNetworkPlayer *player = new ENetNetworkPlayer();
+                    player->ID = peer->ID;
+                    player->peer = enet_host_connect(mHost, &peer->address, 2, mLocalID);
+                    player->peer->data = &mPlayers.Add(player);
+                }
+                else
+                {
+                    mPackets.Add(event.packet);
+                }
+                break;
+
+            case ENET_EVENT_TYPE_DISCONNECT:
+                /* Delete the player and inform the multiplayer code */
+                if (event.peer->data)
+                {
+                    SBNetworkPlayer* player = (SBNetworkPlayer*)event.peer->data;
+                    DPPacket dp;
+                    dp.messageType = DPSYS_DESTROYPLAYERORGROUP;
+                    dp.playerType = DPPLAYERTYPE_PLAYER;
+                    dp.dpId = player->ID;
+                    ENetPacket* packet = enet_packet_create(&dp, sizeof(DPPacket), ENET_PACKET_FLAG_RELIABLE);
+                    mPackets.Add(packet);
+
+                    if (mPlayers.GetNumberOfElements() > 0) {
+                        for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext())
                         {
-                            mPlayers.RemoveLastAccessed();
-                            break;
+                            if (mPlayers.GetLastAccessed()->ID == player->ID)
+                            {
+                                mPlayers.RemoveLastAccessed();
+                                break;
+                            }
                         }
                     }
                 }
-            }
 
-            /* Handle host migration and inform the multiplayer code */
-            if (event.peer == mMaster)
-            {
-                ENetNetworkPlayer* master = static_cast<ENetNetworkPlayer*>(mPlayers.GetFirst());
-                for (mPlayers.GetNext(); !mPlayers.IsLast(); mPlayers.GetNext())
+                /* Handle host migration and inform the multiplayer code */
+                if (event.peer == mMaster)
                 {
-                    if (mPlayers.GetLastAccessed()->ID < master->ID)
-                        master = static_cast<ENetNetworkPlayer*>(mPlayers.GetLastAccessed());
+                    ENetNetworkPlayer* master = static_cast<ENetNetworkPlayer*>(mPlayers.GetFirst());
+                    for (mPlayers.GetNext(); !mPlayers.IsLast(); mPlayers.GetNext())
+                    {
+                        if (mPlayers.GetLastAccessed()->ID < master->ID)
+                            master = static_cast<ENetNetworkPlayer*>(mPlayers.GetLastAccessed());
+                    }
+
+                    if (master->ID == mLocalID)
+                    {
+                        DPPacket dp;
+                        dp.messageType = DPSYS_HOST;
+                        dp.playerType = DPPLAYERTYPE_PLAYER;
+                        dp.dpId = master->ID;
+                        ENetPacket* packet = enet_packet_create(&dp, sizeof(DPPacket), ENET_PACKET_FLAG_RELIABLE);
+                        mPackets.Add(packet);
+                        mState = SBNETWORK_SESSION_MASTER;
+                    }
+
+                    mMaster = master->peer;
                 }
 
-                if (master->ID == mLocalID)
-                {
-                    DPPacket dp;
-                    dp.messageType = DPSYS_HOST;
-                    dp.playerType = DPPLAYERTYPE_PLAYER;
-                    dp.dpId = master->ID;
-                    ENetPacket* packet = enet_packet_create(&dp, sizeof(DPPacket), ENET_PACKET_FLAG_RELIABLE);
-                    mPackets.Add(packet);
-                    mState = SBNETWORK_SESSION_MASTER;
-                }
-
-                mMaster = master->peer;
-            }
-
-            /* Reset the peer's client information. */
-            event.peer->data = NULL;
+                /* Reset the peer's client information. */
+                event.peer->data = NULL;
         }
     }
 
@@ -288,11 +288,11 @@ SBList<SBNetworkPlayer*>* ENetNetwork::GetAllPlayers() {
 }
 
 bool ENetNetwork::IsServerSearchable() {
-	return true;
+    return true;
 }
 
 IServerSearchable* ENetNetwork::GetServerSearcher() {
-	return this;
+    return this;
 }
 
 SBList<SBStr>* ENetNetwork::GetSessionListAsync() {
@@ -322,7 +322,7 @@ bool ENetNetwork::JoinSession(const SBStr& session, SBStr ) {
 
     /* Initiate the connection, allocating the two channels 0 and 1. */
     ENetEvent event;
-	ENetNetworkPlayer *player = new ENetNetworkPlayer();
+    ENetNetworkPlayer *player = new ENetNetworkPlayer();
     player->ID = info->hostID;
     player->peer = enet_host_connect(mHost, &info->address, 2, mLocalID);
     player->peer->data = &mPlayers.Add(player);

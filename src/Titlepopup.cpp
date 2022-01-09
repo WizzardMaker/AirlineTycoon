@@ -18,7 +18,7 @@ static const char FileId[] = "Titl";
 
 TitlePopup::TitlePopup (BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", NULL)
 {
-   Sim.Gamestate = UBYTE((Sim.Gamestate & (~GAMESTATE_WORKING)) | GAMESTATE_DONE);
+    Sim.Gamestate = UBYTE((Sim.Gamestate & (~GAMESTATE_WORKING)) | GAMESTATE_DONE);
 }
 
 TitlePopup::~TitlePopup()
