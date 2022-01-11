@@ -243,6 +243,9 @@ int DoesFileExist(char const* path)
         SDL_RWclose(ctx);
         return true;
     }
+#ifdef _DEBUG
+    printf("MP: TeakFile.cpp: File not found: %s\n", path);
+#endif
     return false;
 }
 

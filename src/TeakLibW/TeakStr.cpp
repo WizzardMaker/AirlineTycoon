@@ -5,7 +5,7 @@ char* bprintf(char const* format, ...)
     static char buffer[8192];
     va_list args;
     va_start (args, format);
-    vsprintf (buffer, format, args);
+    vsnprintf (buffer, 8192, format, args);
     va_end (args);
     return buffer;
 }

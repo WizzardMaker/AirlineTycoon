@@ -584,7 +584,13 @@ void BUILDS::Load (SLONG Hall, SLONG Level)
         //Etwas tricky: Den geerbeten shifting-operator der ALBUM-Klasse aufrufen:
         File >> *((ALBUM<BUILD>*)this);
     }
-    else Clear ();
+    else
+    {
+        Clear ();
+#ifdef _DEBUG
+        printf("MP: File not found: %s\n", (const char*)Filename);
+#endif
+    }
 }
 
 //--------------------------------------------------------------------------------------------
