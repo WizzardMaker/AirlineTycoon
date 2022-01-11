@@ -41,7 +41,7 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
     if (!bHandy) AmbientManager.SetGlobalVolume(0);
 
     AmbientFX.ReInit("raunen.raw");
-    EffektFX.ReInit("Kaffee.raw");
+    EffektFX.ReInit("kaffee.raw");
     PlaneFX.ReInit("prop.raw");
     TalkFX.ReInit("opt_say.raw");
     DurchsagenFX.ReInit("opt_hinw.raw");
@@ -123,8 +123,8 @@ void Options::UpdateSavegameNames(void)
 
     const char* pNamebaseStr;
 
-    if (Sim.bNetwork) pNamebaseStr = "Net%li.dat";
-    else pNamebaseStr = "Game%li.dat";
+    if (Sim.bNetwork) pNamebaseStr = "net%li.dat";
+    else pNamebaseStr = "game%li.dat";
 
     for (c = 0; c < 12; c++)
     {

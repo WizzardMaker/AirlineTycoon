@@ -85,45 +85,45 @@ CBuero::CBuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
     if (PlayerNum==1)
     {
         SP_Ticker.ReSize (1); //Uhrpendel:
-        SP_Ticker.Clips[0].ReSize (0, "Uhr.smk", "Uhr.raw", XY (420, 109), SPM_IDLE,  CRepeat(99,99), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+        SP_Ticker.Clips[0].ReSize (0, "uhr.smk", "uhr.raw", XY (420, 109), SPM_IDLE,  CRepeat(99,99), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,
                 "A9", 0);
     }
 
     SP_Player.ReSize (11);
-    SP_Player.Clips[0].ReSize (0, bprintf ("PL%liWait.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_IDLE,       CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
+    SP_Player.Clips[0].ReSize (0, bprintf ("pl%liwait.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_IDLE,       CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A2A1A2E1E1", 0, 1, 2, 3, 4, 7);
-    SP_Player.Clips[1].ReSize (1, bprintf ("PL%liBlat.smk", PlayerNum+1), "PLxBLAT.raw", PlOffset[PlayerNum], SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Player.Clips[1].ReSize (1, bprintf ("pl%liblat.smk", PlayerNum+1), "plxblat.raw", PlOffset[PlayerNum], SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "E1A1A1", 0, 0, 1);
-    SP_Player.Clips[2].ReSize (2, CString(bprintf ("PL%liScri1.smk", PlayerNum+1)), CString(bprintf ("PL%liScri1.raw", PlayerNum+1)), PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Player.Clips[2].ReSize (2, CString(bprintf ("pl%liscri1.smk", PlayerNum+1)), CString(bprintf ("pl%liscri1.raw", PlayerNum+1)), PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "E1A1A1", 0, 0, 1);
-    SP_Player.Clips[3].ReSize (3, CString (bprintf ("PL%liScri2.smk", PlayerNum+1)), CString(bprintf ("PL%liScri2.raw", PlayerNum+1)), PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Player.Clips[3].ReSize (3, CString (bprintf ("pl%liscri2.smk", PlayerNum+1)), CString(bprintf ("pl%liscri2.raw", PlayerNum+1)), PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "E1A1A1", 0, 0, 1);
 
-    SP_Player.Clips[4].ReSize (4, bprintf ("PL%liBrief.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_LETTER,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Player.Clips[4].ReSize (4, bprintf ("pl%librief.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_LETTER,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &KommVarLetters, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 1, NULL,
             "A1", 5);
-    SP_Player.Clips[5].ReSize (5, bprintf ("PL%liBrifW.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_LETTER,    CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
+    SP_Player.Clips[5].ReSize (5, bprintf ("pl%librifw.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_LETTER,    CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1", 5, 6);
-    SP_Player.Clips[6].ReSize (6, bprintf ("PL%liBrifZ.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Player.Clips[6].ReSize (6, bprintf ("pl%librifz.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &KommVarCloseLetter, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 1, NULL,
             "A1", 0);
 
-    SP_Player.Clips[7].ReSize (7, bprintf ("PL%liTelef.smk", PlayerNum+1), bprintf ("PL%liTelef.raw", PlayerNum+1), PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Player.Clips[7].ReSize (7, bprintf ("pl%litelef.smk", PlayerNum+1), bprintf ("pl%litelef.raw", PlayerNum+1), PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &KommVarTelefon, SMACKER_CLIP_XOR|SMACKER_CLIP_POST, 2, NULL,
             "A1A1A1", 8, 9, 10);
-    SP_Player.Clips[8].ReSize (8, bprintf ("PL%liTeleW.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_LISTENING, CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
+    SP_Player.Clips[8].ReSize (8, bprintf ("pl%litelew.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_LISTENING, CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1E1", 8, 9, 10);
-    SP_Player.Clips[9].ReSize (9, bprintf ("PL%liTeleR.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_TALKING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Player.Clips[9].ReSize (9, bprintf ("pl%liteler.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_TALKING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "E1A1E1", 8, 9, 10);
-    SP_Player.Clips[10].ReSize (10, bprintf ("PL%liTeleZ.smk", PlayerNum+1), bprintf ("PL%liTeleZ.raw", PlayerNum+1), PlOffset[PlayerNum], SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Player.Clips[10].ReSize (10, bprintf ("pl%litelez.smk", PlayerNum+1), bprintf ("pl%litelez.raw", PlayerNum+1), PlOffset[PlayerNum], SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
 

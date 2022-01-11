@@ -574,7 +574,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
 
             pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glclan.gli", GliPath),   &pGLibClan, L_LOCMEM);
             pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glstd.gli", GliPath),    &pGLibStd, L_LOCMEM);
-            Clans.ReInit ("Clan.csv");
+            Clans.ReInit ("clan.csv");
             Clans.LoadBitmaps ();
 
             UpdateHLinePool ();
@@ -814,7 +814,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Initialiseert de karakterdata...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Initializing people data...");
-        Clans.ReInit ("Clan.csv");
+        Clans.ReInit ("clan.csv");
         Clans.UpdateClansInGame (TRUE);
 
         if (pRoomLib2 && gLanguage!=LANGUAGE_N)
@@ -833,7 +833,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
             if (gLanguage==LANGUAGE_N) LOADING_TEXT("Initialiseert de röntgenfoto's...")
             else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
             else                            LOADING_TEXT("Initializing roentgens...");
-            SkelettPool.ReSize ("Skelett.pol", NULL, NULL);
+            SkelettPool.ReSize ("skelett.pol", NULL, NULL);
             SkelettPool.Load();
 
             SLONG n=0;
@@ -875,22 +875,22 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Initialiseert de steden...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Initializing cities...");
-        Cities.ReInit ("City.csv");
+        Cities.ReInit ("city.csv");
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Initialiseert de vliegtuigen...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Initializing planes...");
-        PlaneTypes.ReInit ("PlaneTyp.csv");
+        PlaneTypes.ReInit ("planetyp.csv");
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Initialiseert de namen...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Initializing names...");
-        PlaneNames.ReInit ("PNames.csv");
+        PlaneNames.ReInit ("pnames.csv");
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Initialiseert de kranten...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Initializing newspapers...");
-        Sim.Headlines.ReInit ("StdPaper.csv");
+        Sim.Headlines.ReInit ("stdpaper.csv");
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Initialiseert de tips...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")

@@ -30,7 +30,7 @@ namespace fs = std::filesystem;
 //--------------------------------------------------------------------------------------------
 //Die Schalter wird eröffnet:
 //--------------------------------------------------------------------------------------------
-CDesigner::CDesigner(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "Designer.gli", GFX_DESIGNER)
+CDesigner::CDesigner(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "designer.gli", GFX_DESIGNER)
 {
     SetRoomVisited (PlayerNum, ROOM_DESIGNER);
     HandyOffset = 320;
@@ -46,54 +46,54 @@ CDesigner::CDesigner(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     DefaultDialogPartner=TALKER_DESIGNER;
 
     SP_Stan.ReSize (6);
-    SP_Stan.Clips[0].ReSize (0, "DeManW.smk", "", XY (198, 18), SPM_IDLE,       CRepeat(1,1), CPostWait(10,10),   SMACKER_CLIP_CANCANCEL,
+    SP_Stan.Clips[0].ReSize (0, "demanw.smk", "", XY (198, 18), SPM_IDLE,       CRepeat(1,1), CPostWait(10,10),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9E1E1A1A1A1", 0, 1, 2, 3, 4, 5);
-    SP_Stan.Clips[1].ReSize (1, "DeManW.smk", "", XY (198, 18), SPM_LISTENING,  CRepeat(1,1), CPostWait(50,50), SMACKER_CLIP_CANCANCEL,
+    SP_Stan.Clips[1].ReSize (1, "demanw.smk", "", XY (198, 18), SPM_LISTENING,  CRepeat(1,1), CPostWait(50,50), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Listen
             "A9E5E5", 1, 2, 0);
-    SP_Stan.Clips[2].ReSize (2, "DeManS.smk", "", XY (198, 18), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Stan.Clips[2].ReSize (2, "demans.smk", "", XY (198, 18), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak
             "A9E1E1", 2, 1, 0);
-    SP_Stan.Clips[3].ReSize (3, "DeManSh.smk", "", XY (198, 18), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Stan.Clips[3].ReSize (3, "demansh.smk", "", XY (198, 18), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Schuppen
             "A9", 0);
-    SP_Stan.Clips[4].ReSize (4, "DeManFl.smk", "", XY (198, 18), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Stan.Clips[4].ReSize (4, "demanfl.smk", "", XY (198, 18), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Flash
             "A9", 0);
-    SP_Stan.Clips[5].ReSize (5, "DeManCo.smk", "", XY (198, 18), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Stan.Clips[5].ReSize (5, "demanco.smk", "", XY (198, 18), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Couch
             "A9", 0);
 
     SP_Bat.ReSize (2);
-    SP_Bat.Clips[0].ReSize (0, "DeBatW.smk", "", XY (0, 13), SPM_IDLE,       CRepeat(1,1), CPostWait(50,190),   SMACKER_CLIP_CANCANCEL,
+    SP_Bat.Clips[0].ReSize (0, "debatw.smk", "", XY (0, 13), SPM_IDLE,       CRepeat(1,1), CPostWait(50,190),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9A1", 0, 1);
-    SP_Bat.Clips[1].ReSize (1, "DeBat.smk", "", XY (0, 13), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Bat.Clips[1].ReSize (1, "debat.smk", "", XY (0, 13), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9", 0);
 
     SP_Schwalbe.ReSize (2);
-    SP_Schwalbe.Clips[0].ReSize (0, "DeWorker.smk", "", XY (330, 262), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Schwalbe.Clips[0].ReSize (0, "deworker.smk", "", XY (330, 262), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9A1", 0, 1);
-    SP_Schwalbe.Clips[1].ReSize (1, "DePlane.smk", "", XY (330, 262), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Schwalbe.Clips[1].ReSize (1, "deplane.smk", "", XY (330, 262), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9", 0);
 
     SP_Blender.ReSize (2);
-    SP_Blender.Clips[0].ReSize (0, "DeBatW.smk", "", XY (337, 92), SPM_IDLE,       CRepeat(1,1), CPostWait(10,90),   SMACKER_CLIP_CANCANCEL,
+    SP_Blender.Clips[0].ReSize (0, "debatw.smk", "", XY (337, 92), SPM_IDLE,       CRepeat(1,1), CPostWait(10,90),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9A1", 0, 1);
-    SP_Blender.Clips[1].ReSize (0, "DeBlnder.smk", "", XY (337, 92), SPM_IDLE,       CRepeat(1,1), CPostWait(10,90),   SMACKER_CLIP_CANCANCEL,
+    SP_Blender.Clips[1].ReSize (0, "deblnder.smk", "", XY (337, 92), SPM_IDLE,       CRepeat(1,1), CPostWait(10,90),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9", 0);
 
     SP_Bein.ReSize (2);
-    SP_Bein.Clips[0].ReSize (0, "DeLeg.smk", "", XY (435, 222), SPM_IDLE,       CRepeat(1,1), CPostWait(10,10),   SMACKER_CLIP_CANCANCEL,
+    SP_Bein.Clips[0].ReSize (0, "deleg.smk", "", XY (435, 222), SPM_IDLE,       CRepeat(1,1), CPostWait(10,10),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9", 1);
-    SP_Bein.Clips[1].ReSize (1, "DeLegW.smk", "", XY (435, 222), SPM_IDLE,      CRepeat(1,1), CPostWait(10,90),   SMACKER_CLIP_CANCANCEL,
+    SP_Bein.Clips[1].ReSize (1, "delegw.smk", "", XY (435, 222), SPM_IDLE,      CRepeat(1,1), CPostWait(10,90),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9A2", 1, 0);
 

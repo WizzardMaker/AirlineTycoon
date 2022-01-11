@@ -37,7 +37,7 @@ CDutyFree::CDutyFree(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     AirportRoomPos = Airport.GetRandomTypedRune (RUNE_2SHOP, ROOM_SHOP1)+XY(88,0);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("Tip.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tip.gli", GliPath), &pMenuLib, L_LOCMEM);
     ZettelBm.ReSize (pMenuLib, "BLOC1");
 
     OpaqueBm.ReSize (pRoomLib, GFX_OPAQUE);
@@ -48,31 +48,31 @@ CDutyFree::CDutyFree(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     SchilderBms.ReSize (pRoomLib, "SCHILDD SCHILDE SCHILDF SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE SCHILDE");
 
     SP_Frau.ReSize (9);
-    SP_Frau.Clips[0].ReSize (0, "DuKau.smk", "DuKau.raw", XY (310, 47), SPM_IDLE,        CRepeat(2,4), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Frau.Clips[0].ReSize (0, "dukau.smk", "dukau.raw", XY (310, 47), SPM_IDLE,        CRepeat(2,4), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A6A4A3E1E1", 0, 1, 2, 6, 7);
-    SP_Frau.Clips[1].ReSize (1, "DuBlase.smk", "DuBlase.raw", XY (310, 47), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[1].ReSize (1, "dublase.smk", "dublase.raw", XY (310, 47), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
-    SP_Frau.Clips[2].ReSize (2, "DuNagelH.smk", "", XY (310, 47), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[2].ReSize (2, "dunagelh.smk", "", XY (310, 47), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 3);
-    SP_Frau.Clips[3].ReSize (3, "DuNagelF.smk", "DuNagelF.raw", XY (310, 47), SPM_IDLE,     CRepeat(5,5), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Frau.Clips[3].ReSize (3, "dunagelf.smk", "dunagelf.raw", XY (310, 47), SPM_IDLE,     CRepeat(5,5), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 4);
-    SP_Frau.Clips[4].ReSize (4, "DuNagelG.smk", "", XY (310, 47), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[4].ReSize (4, "dunagelg.smk", "", XY (310, 47), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A6A1E1", 3, 5, 5);
-    SP_Frau.Clips[5].ReSize (5, "DuNagelZ.smk", "", XY (310, 47), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[5].ReSize (5, "dunagelz.smk", "", XY (310, 47), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1E1", 0, 6, 7);
-    SP_Frau.Clips[6].ReSize (6, "DuRede.smk", "", XY (310, 47), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Frau.Clips[6].ReSize (6, "durede.smk", "", XY (310, 47), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1E1", 6, 7, 0);
-    SP_Frau.Clips[7].ReSize (7, "DuRedeW.smk", "", XY (310, 47), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Frau.Clips[7].ReSize (7, "duredew.smk", "", XY (310, 47), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A1E1E1", 7, 8, 6, 0);
-    SP_Frau.Clips[8].ReSize (8, "DuRedeK.smk", "", XY (310, 47), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_CANCANCEL,
+    SP_Frau.Clips[8].ReSize (8, "duredek.smk", "", XY (310, 47), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1E1", 7, 6, 0);
 

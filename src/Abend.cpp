@@ -54,7 +54,7 @@ CAbend::CAbend(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, CStr
     else if (Sim.Options.OptionEffekte && rand()%3==0)
     {
         StartupFX.Stop();
-        StartupFX.ReInit("Hupe.raw");
+        StartupFX.ReInit("hupe.raw");
         StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
     }
 
@@ -117,7 +117,7 @@ void CAbend::DoOneStep (void)
       Room   = 2;
       Ticker = 0;
 
-    //CStdRaum::ReSize("Airport.lbm");
+    //CStdRaum::ReSize("airport.lbm");
     }
     }
     else //Flughafen
@@ -190,9 +190,9 @@ void CAbend::OnPaint()
                     {
                         switch (rand()%3)
                         {
-                            case 0: StartupFX.ReInit("Chilp.raw");  break;
-                            case 1: StartupFX.ReInit("Chilp2.raw"); break;
-                            case 2: StartupFX.ReInit("Bark.raw");   break;
+                            case 0: StartupFX.ReInit("chilp.raw");  break;
+                            case 1: StartupFX.ReInit("chilp2.raw"); break;
+                            case 2: StartupFX.ReInit("bark.raw");   break;
                         }
                         StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
                     }
@@ -200,15 +200,15 @@ void CAbend::OnPaint()
                     {
                         switch (rand()%3)
                         {
-                            case 0: StartupFX.ReInit("Eule.raw");   break;
-                            case 1: StartupFX.ReInit("Loon.raw");   break;
-                            case 2: StartupFX.ReInit("Zirpen.raw"); break;
+                            case 0: StartupFX.ReInit("eule.raw");   break;
+                            case 1: StartupFX.ReInit("loon.raw");   break;
+                            case 2: StartupFX.ReInit("zirpen.raw"); break;
                         }
                         StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
                     }
                     else if (LastHour==6)
                     {
-                        StartupFX.ReInit("Hahn.raw");
+                        StartupFX.ReInit("hahn.raw");
                         StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
                     }
                 }
@@ -220,7 +220,7 @@ void CAbend::OnPaint()
             if (StartupFX.pFX) StartupFX.pFX->GetStatus (&status);
             if ((status & DSBSTATUS_PLAYING)==0)
             {
-                StartupFX.ReInit("Hahn.raw");
+                StartupFX.ReInit("hahn.raw");
                 StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
             }
         }

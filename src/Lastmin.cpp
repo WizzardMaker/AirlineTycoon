@@ -52,25 +52,25 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     KranArrived=-1;
 
     SP_Girl.ReSize (7);
-    SP_Girl.Clips[0].ReSize (0, "LMWait.smk", "", XY (333, 225), SPM_IDLE,        CRepeat(1,1), CPostWait(25,60), SMACKER_CLIP_CANCANCEL,
+    SP_Girl.Clips[0].ReSize (0, "lmwait.smk", "", XY (333, 225), SPM_IDLE,        CRepeat(1,1), CPostWait(25,60), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A2A4A4A8", 0, 6, 1, 2, 5);
-    SP_Girl.Clips[1].ReSize (1, "LMGrins.smk", "", XY (333, 225), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Girl.Clips[1].ReSize (1, "lmgrins.smk", "", XY (333, 225), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
-    SP_Girl.Clips[2].ReSize (2, "LMKnopf.smk", "Kran1.raw", XY (333, 225), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Girl.Clips[2].ReSize (2, "lmknopf.smk", "kran1.raw", XY (333, 225), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 3);
-    SP_Girl.Clips[3].ReSize (3, "LMKnopfW.smk", "", XY (333, 225), SPM_IDLE,      CRepeat(1,1), CPostWait(9999,9999), SMACKER_CLIP_CANCANCEL,
+    SP_Girl.Clips[3].ReSize (3, "lmknopfw.smk", "", XY (333, 225), SPM_IDLE,      CRepeat(1,1), CPostWait(9999,9999), SMACKER_CLIP_CANCANCEL,
             &MoveKran, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, &KranArrived,
             "A1", 3);
-    SP_Girl.Clips[4].ReSize (4, "LMKnopfZ.smk", "", XY (333, 225), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Girl.Clips[4].ReSize (4, "lmknopfz.smk", "", XY (333, 225), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &KranArrived, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
             "A1", 0);
-    SP_Girl.Clips[5].ReSize (5, "LMTaste.smk", "", XY (333, 225), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Girl.Clips[5].ReSize (5, "lmtaste.smk", "", XY (333, 225), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+4*SMACKER_CLIP_MULT, 0, NULL,
             "A1", 0);
-    SP_Girl.Clips[6].ReSize (6, "LMWaitK.smk", "", XY (333, 225), SPM_IDLE,        CRepeat(1,1), CPostWait(1,1), SMACKER_CLIP_CANCANCEL,
+    SP_Girl.Clips[6].ReSize (6, "lmwaitk.smk", "", XY (333, 225), SPM_IDLE,        CRepeat(1,1), CPostWait(1,1), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 0);
 
@@ -79,28 +79,28 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     SP_Monitor.Clips[0].ReSize (0, "",  "",         XY (448, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A5A5", 1, 2);
-    SP_Monitor.Clips[1].ReSize (1, "Moni.smk", "",  XY (448, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
+    SP_Monitor.Clips[1].ReSize (1, "moni.smk", "",  XY (448, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
             &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommMonitor,
             "A1", 0);
-    SP_Monitor.Clips[2].ReSize (2, "MoniA.smk", "", XY (448, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
+    SP_Monitor.Clips[2].ReSize (2, "monia.smk", "", XY (448, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
             &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommMonitor,
             "A1", 0);
 
     SP_Kran.ReSize (4);
-    SP_Kran.Clips[0].ReSize (0, "KranRS.smk", "", XY (300, 129), SPM_IDLE,        CRepeat(1,1), CPostWait(9990,9990), SMACKER_CLIP_CANCANCEL,
+    SP_Kran.Clips[0].ReSize (0, "kranrs.smk", "", XY (300, 129), SPM_IDLE,        CRepeat(1,1), CPostWait(9990,9990), SMACKER_CLIP_CANCANCEL,
             &NewKranDir, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &NewKranDir,
             "A9", 0);
-    SP_Kran.Clips[1].ReSize (1, "KranL.smk", "Kran2.raw", XY (300, 129), SPM_IDLE,         CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Kran.Clips[1].ReSize (1, "kranl.smk", "kran2.raw", XY (300, 129), SPM_IDLE,         CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &KranArrived, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+21*SMACKER_CLIP_MULT, 4, NULL,
             "A1", 2);
-    SP_Kran.Clips[2].ReSize (2, "KranLS.smk", "", XY (300, 129), SPM_IDLE,        CRepeat(1,1), CPostWait(9990,9990), SMACKER_CLIP_CANCANCEL,
+    SP_Kran.Clips[2].ReSize (2, "kranls.smk", "", XY (300, 129), SPM_IDLE,        CRepeat(1,1), CPostWait(9990,9990), SMACKER_CLIP_CANCANCEL,
             &NewKranDir, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &NewKranDir,
             "A1", 2);
-    SP_Kran.Clips[3].ReSize (3, "KranR.smk", "Kran2.raw", XY (300, 129), SPM_IDLE,         CRepeat(1,1), CPostWait(1,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Kran.Clips[3].ReSize (3, "kranr.smk", "kran2.raw", XY (300, 129), SPM_IDLE,         CRepeat(1,1), CPostWait(1,0),   SMACKER_CLIP_DONTCANCEL,
             &KranArrived, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+21*SMACKER_CLIP_MULT, 4, NULL,
             "A1", 0);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("TipAu.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tipau.gli", GliPath), &pMenuLib, L_LOCMEM);
     TipBm.ReSize (pMenuLib, "BLOC1");
     MapPlaneBms[0].ReSize (pMenuLib, "PL_B00", 1+8);
     MapPlaneBms[1].ReSize (pMenuLib, "PL_V00", 1+8);
@@ -108,7 +108,7 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     MapPlaneBms[3].ReSize (pMenuLib, "PL_J00", 1+8);
     MapPlaneBms[4].ReSize (pMenuLib, "PL_SW00", 1+8);
 
-    SetBackgroundFx (0, "Pap3.raw",     25000);    //Papierrascheln
+    SetBackgroundFx (0, "pap3.raw",     25000);    //Papierrascheln
 
     for (c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--)
         if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(c))

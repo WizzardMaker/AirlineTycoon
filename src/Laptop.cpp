@@ -77,21 +77,21 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
 
     KommVarLampe=-1;
     SP_Lampe.ReSize (4);
-    SP_Lampe.Clips[0].ReSize (0, "LapLigV2.smk", "", XY(80,403), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
+    SP_Lampe.Clips[0].ReSize (0, "lapligv2.smk", "", XY(80,403), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &KommVarLampe,
             "A1", 0);
-    SP_Lampe.Clips[1].ReSize (1, "LapLigh.smk", "", XY(80,403), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Lampe.Clips[1].ReSize (1, "lapligh.smk", "", XY(80,403), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &KommVarLampe, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
             "A3A1", 0, 2);
-    SP_Lampe.Clips[2].ReSize (2, "LapLigW1.smk", "", XY(80,403), SPM_IDLE,      CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_DONTCANCEL,
+    SP_Lampe.Clips[2].ReSize (2, "lapligw1.smk", "", XY(80,403), SPM_IDLE,      CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_DONTCANCEL,
             &KommVarLampe, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
             "A1", 0);
-    SP_Lampe.Clips[3].ReSize (3, "LapLigW1.smk", "", XY(80,403), SPM_IDLE,      CRepeat(1,1), CPostWait(5,5),   SMACKER_CLIP_DONTCANCEL,
+    SP_Lampe.Clips[3].ReSize (3, "lapligw1.smk", "", XY(80,403), SPM_IDLE,      CRepeat(1,1), CPostWait(5,5),   SMACKER_CLIP_DONTCANCEL,
             &KommVarLampe, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
             "A1", 0);
 
     SP_Antivir.ReSize (1);
-    SP_Antivir.Clips[0].ReSize (1, "Antivir.smk", "", XY(522,57), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+    SP_Antivir.Clips[0].ReSize (1, "antivir.smk", "", XY(522,57), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
 
@@ -105,41 +105,41 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
             KommVarButtons[c]=-1;
         }
 
-        SP_Buttons[1].Clips[0].ReSize (0, "TDMStand.smk", "", XY(88,53), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
+        SP_Buttons[1].Clips[0].ReSize (0, "tdmstand.smk", "", XY(88,53), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[1], "A1", 0);
-        SP_Buttons[1].Clips[1].ReSize (1, "TDM.smk", "tdm.raw", XY(88,53), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Buttons[1].Clips[1].ReSize (1, "tdm.smk", "tdm.raw", XY(88,53), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 &KommVarButtons[1], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
 
-        SP_Buttons[0].Clips[0].ReSize (0, "TDMStand.smk", "", XY(67,128), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
+        SP_Buttons[0].Clips[0].ReSize (0, "tdmstand.smk", "", XY(67,128), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[0], "A1", 0);
-        SP_Buttons[0].Clips[1].ReSize (1, "TDM.smk", "tdm.raw", XY(67,128), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Buttons[0].Clips[1].ReSize (1, "tdm.smk", "tdm.raw", XY(67,128), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 &KommVarButtons[0], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
 
-        SP_Buttons[4].Clips[0].ReSize (0, "TDMStand.smk", "", XY(58,207), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
+        SP_Buttons[4].Clips[0].ReSize (0, "tdmstand.smk", "", XY(58,207), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[4], "A1", 0);
-        SP_Buttons[4].Clips[1].ReSize (1, "TDM.smk", "tdm.raw", XY(58,207), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Buttons[4].Clips[1].ReSize (1, "tdm.smk", "tdm.raw", XY(58,207), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 &KommVarButtons[4], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
 
-        SP_Buttons[3].Clips[0].ReSize (0, "VirF_GLU.smk", "", XY(68,278), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+        SP_Buttons[3].Clips[0].ReSize (0, "virf_glu.smk", "", XY(68,278), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[3], "A1", 0);
-        SP_Buttons[3].Clips[1].ReSize (1, "VirF_TOU.smk", "", XY(68,278), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Buttons[3].Clips[1].ReSize (1, "virf_tou.smk", "", XY(68,278), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 &KommVarButtons[3], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
 
-        SP_Buttons[2].Clips[0].ReSize (0, "VirR_GLU.smk", "", XY(94,349), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+        SP_Buttons[2].Clips[0].ReSize (0, "virr_glu.smk", "", XY(94,349), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[2], "A1", 0);
-        SP_Buttons[2].Clips[1].ReSize (1, "VirR_TOU.smk", "", XY(94,349), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Buttons[2].Clips[1].ReSize (1, "virr_tou.smk", "", XY(94,349), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 &KommVarButtons[2], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
 
         SP_Buttons[5].Clips[0].ReSize (0, "ok.smk", "", XY(545,359), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL, "A1", 0);
 
-        EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("EarthVir.lbm", GliPath), SYSRAMBM);
+        EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthvir.lbm", GliPath), SYSRAMBM);
 
         for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--)
             if (qPlayer.Blocks.IsInAlbum(c))
                 qPlayer.Blocks-=c;
     }
-    else EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("EarthLap.lbm", GliPath), SYSRAMBM);
+    else EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthlap.lbm", GliPath), SYSRAMBM);
 
     MessagePump();
 

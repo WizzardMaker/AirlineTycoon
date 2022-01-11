@@ -21,7 +21,7 @@ static const char FileId[] = "Spac";
 //--------------------------------------------------------------------------------------------
 CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", NULL)
 {
-    ReSize ("WeltAll.gli", NULL);
+    ReSize ("weltall.gli", NULL);
     RoomBm.ReSize (640, 440);
 
     FernglasBms.ReSize (pRoomLib, "O1 O2 ATOP ABOTTOM AL1 AL2 AL3 AR1 AR2 AR3");
@@ -66,13 +66,13 @@ CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
     for (SLONG c=0; c<4; c++)
         SP_Flags[c].ReSize (1);
 
-    SP_Flags[0].Clips[0].ReSize (0, "FlagB.smk", "", XY ( 142,  63), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
-    SP_Flags[1].Clips[0].ReSize (0, "FlagG.smk", "", XY ( 442, 163), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
-    SP_Flags[2].Clips[0].ReSize (0, "FlagR.smk", "", XY ( 782,  63), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
-    SP_Flags[3].Clips[0].ReSize (0, "FlagY.smk", "", XY (1072, 103), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
+    SP_Flags[0].Clips[0].ReSize (0, "flagb.smk", "", XY ( 142,  63), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
+    SP_Flags[1].Clips[0].ReSize (0, "flagg.smk", "", XY ( 442, 163), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
+    SP_Flags[2].Clips[0].ReSize (0, "flagr.smk", "", XY ( 782,  63), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
+    SP_Flags[3].Clips[0].ReSize (0, "flagy.smk", "", XY (1072, 103), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
 
     SP_Ufo.ReSize (1);
-    SP_Ufo.Clips[0].ReSize (0, "UFO.smk", "", XY (0, 0), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
+    SP_Ufo.Clips[0].ReSize (0, "ufo.smk", "", XY (0, 0), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
 
     UfoPosition=XY(640,800);
     UfoVelocity=XY(  0, -12);

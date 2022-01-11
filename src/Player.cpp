@@ -3240,7 +3240,7 @@ void PLAYER::RobotExecuteAction(void)
                     if (TargetPlayer==Sim.localPlayer)
                     {
                         gUniversalFx.Stop();
-                        gUniversalFx.ReInit("Phone.raw");
+                        gUniversalFx.ReInit("phone.raw");
                         gUniversalFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
 
                         CalledPlayer=2;

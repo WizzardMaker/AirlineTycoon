@@ -45,19 +45,19 @@ CTafel::CTafel (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "ta
     for (SLONG c=0; c<21; c++) RepaintZettel (c);
 
     SP_Fliege.ReSize (5);
-    SP_Fliege.Clips[0].ReSize (0, "FlyW01.smk", "", XY (554, 253), SPM_IDLE,   CRepeat(5,9), CPostWait(0,0),     SMACKER_CLIP_CANCANCEL,
+    SP_Fliege.Clips[0].ReSize (0, "flyw01.smk", "", XY (554, 253), SPM_IDLE,   CRepeat(5,9), CPostWait(0,0),     SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &KommVar,
             "A9A9", 0, 1);
-    SP_Fliege.Clips[1].ReSize (1, "FlyW02.smk", "", XY (554, 253), SPM_IDLE,   CRepeat(6,9), CPostWait(0,0),     SMACKER_CLIP_CANCANCEL,
+    SP_Fliege.Clips[1].ReSize (1, "flyw02.smk", "", XY (554, 253), SPM_IDLE,   CRepeat(6,9), CPostWait(0,0),     SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &KommVar,
             "A9A9", 0, 1);
-    SP_Fliege.Clips[2].ReSize (2, "Fly.smk", "Fly.raw", XY (554, 253), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
+    SP_Fliege.Clips[2].ReSize (2, "fly.smk", "fly.raw", XY (554, 253), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 3);
-    SP_Fliege.Clips[3].ReSize (3, "FlyOut.smk", "", XY (554, 253), SPM_IDLE,   CRepeat(9,9), CPostWait(200,600), SMACKER_CLIP_DONTCANCEL,
+    SP_Fliege.Clips[3].ReSize (3, "flyout.smk", "", XY (554, 253), SPM_IDLE,   CRepeat(9,9), CPostWait(200,600), SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 4);
-    SP_Fliege.Clips[4].ReSize (4, "FlyB.smk", "FlyB.raw", XY (554, 253), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
+    SP_Fliege.Clips[4].ReSize (4, "flyb.smk", "flyb.raw", XY (554, 253), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
             &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
             "A9", 0);
 

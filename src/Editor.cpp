@@ -648,7 +648,7 @@ CPlanePartRelation gPlanePartRelations[307]=
 //--------------------------------------------------------------------------------------------
 //Die Schalter wird eröffnet:
 //--------------------------------------------------------------------------------------------
-CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "Editor.gli", GFX_EDITOR)
+CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "editor.gli", GFX_EDITOR)
 {
     SetRoomVisited (PlayerNum, ROOM_EDITOR);
     HandyOffset = 320;

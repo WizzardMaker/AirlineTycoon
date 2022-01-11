@@ -35,26 +35,26 @@ CArabAir::CArabAir(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
     DefaultDialogPartner=TALKER_ARAB;
 
     SP_Araber.ReSize (7);
-    //SP_Araber.SetSpeakFx ("SayArab.raw");
-    SP_Araber.Clips[0].ReSize (0, "ArabW.smk", "", XY (425, 108), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    //SP_Araber.SetSpeakFx ("sayarab.raw");
+    SP_Araber.Clips[0].ReSize (0, "arabw.smk", "", XY (425, 108), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9E1", 0, 1);
-    SP_Araber.Clips[1].ReSize (1, "ArabA.smk", "", XY (425, 108), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Araber.Clips[1].ReSize (1, "araba.smk", "", XY (425, 108), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten->Speak
             "E1E1E1", 2, 4, 6);
-    SP_Araber.Clips[2].ReSize (2, "ArabL.smk", "", XY (425, 108), SPM_LISTENING,  CRepeat(1,1), CPostWait(50,50), SMACKER_CLIP_CANCANCEL,
+    SP_Araber.Clips[2].ReSize (2, "arabl.smk", "", XY (425, 108), SPM_LISTENING,  CRepeat(1,1), CPostWait(50,50), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Listen
             "A9E5E5", 2, 4, 6);
-    SP_Araber.Clips[3].ReSize (3, "ArabP.smk", "", XY (425, 108), SPM_TALKING,    CRepeat(1,1), CPostWait(20,20), SMACKER_CLIP_CANCANCEL,
+    SP_Araber.Clips[3].ReSize (3, "arabp.smk", "", XY (425, 108), SPM_TALKING,    CRepeat(1,1), CPostWait(20,20), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Psst!, danach Speaking
             "A9", 4);
-    SP_Araber.Clips[4].ReSize (4, "ArabS.smk", "", XY (425, 108), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Araber.Clips[4].ReSize (4, "arabs.smk", "", XY (425, 108), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak
             "A9E1E1", 4, 2, 6);
-    SP_Araber.Clips[5].ReSize (5, "ArabZ.smk", "ArabZ.raw", XY (425, 108), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Araber.Clips[5].ReSize (5, "arabz.smk", "arabz.raw", XY (425, 108), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak->Wait
             "A9", 0);
-    SP_Araber.Clips[6].ReSize (0, "ArabG.smk", "", XY (425, 108), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Araber.Clips[6].ReSize (0, "arabg.smk", "", XY (425, 108), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Umschauen
             "A9", 5);
 

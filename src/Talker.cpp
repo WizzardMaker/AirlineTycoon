@@ -132,7 +132,7 @@ void CTalker::IncreaseReference (void)
     NumRef++;
 
     /*#if (TalkerBm.Size.x==0)
-      TalkerBm.ReSize (FullFilename (bprintf ("Talker%i.lbm", OwnNumber), ClanPath), SYSRAMBM);*/
+      TalkerBm.ReSize (FullFilename (bprintf ("talker%i.lbm", OwnNumber), ClanPath), SYSRAMBM);*/
 }
 
 //--------------------------------------------------------------------------------------------

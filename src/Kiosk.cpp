@@ -65,19 +65,19 @@ CKiosk::CKiosk(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "kio
     if (Sim.Headlines.IsInteresting)
     {
         SP_Mann.ReSize (5);
-        SP_Mann.Clips[0].ReSize (0, "K_LeseR.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
+        SP_Mann.Clips[0].ReSize (0, "k_leser.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,
                 "A1", 1);
-        SP_Mann.Clips[1].ReSize (1, "K_Seite.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Mann.Clips[1].ReSize (1, "k_seite.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,
                 "A1", 2);
-        SP_Mann.Clips[2].ReSize (2, "K_LeseL.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
+        SP_Mann.Clips[2].ReSize (2, "k_lesel.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,
                 "A1", 3);
-        SP_Mann.Clips[3].ReSize (3, "K_Turn.smk", "K_Turn.raw", XY (120, 205), SPM_IDLE,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Mann.Clips[3].ReSize (3, "k_turn.smk", "k_turn.raw", XY (120, 205), SPM_IDLE,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,
                 "A3A1", 0, 4);
-        SP_Mann.Clips[4].ReSize (4, "K_Seite.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Mann.Clips[4].ReSize (4, "k_seite.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,
                 "A1", 3);
 
@@ -89,7 +89,7 @@ CKiosk::CKiosk(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "kio
         PicBitmap.BlitFrom(SleeperBm, 180, 170);
         SleeperBm.Destroy();
 
-        SchnarchFx.ReInit ("Schnarch.raw");
+        SchnarchFx.ReInit ("schnarch.raw");
         SchnarchFx.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
     }
 
@@ -107,7 +107,7 @@ CKiosk::CKiosk(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "kio
 
     /*HausBm.ReSize (pRoomLib, "HAUS");
       ShadowBm.ReSize (pRoomLib, "SHADOW");
-      HausZBm.ReSize ("Haus.lbm");/**/
+      HausZBm.ReSize ("haus.lbm");/**/
 
     /*WaterStaticBm.ReSize (pRoomLib, "WATER");
       WaterMovingBm.ReSize (WaterStaticBm.Size);
@@ -185,7 +185,7 @@ void CKiosk::RepaintTip (void)
 
                     GfxLib *pGLibLocal=NULL;
 
-                    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("KioskLoc.gli", GliPath), &pGLibLocal, L_LOCMEM);
+                    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("kioskloc.gli", GliPath), &pGLibLocal, L_LOCMEM);
 
                     Picture.ReSize (pRoomLib, GFX_PAPER3A);
                     Newspapers[c].BlitFrom (Picture);
@@ -217,7 +217,7 @@ void CKiosk::RepaintTip (void)
                 {
                     GfxLib *pGLibNews=NULL;
 
-                    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("KioskS.gli", GliPath), &pGLibNews, L_LOCMEM);
+                    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("kiosks.gli", GliPath), &pGLibNews, L_LOCMEM);
                     Picture.ReSize (pGLibNews, hl.PictureId);
 
                     if (c==0)
@@ -250,7 +250,7 @@ void CKiosk::RepaintTip (void)
                         {
                             GfxLib *pGLibNews=NULL;
 
-                            pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename (CString(bprintf ("KioskP%li.gli", e+1)), GliPath), &pGLibNews, L_LOCMEM);
+                            pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename (CString(bprintf ("kioskp%li.gli", e+1)), GliPath), &pGLibNews, L_LOCMEM);
                             Picture.ReSize (pGLibNews, hl.PictureId-e*100);
 
                             Newspapers[c].BlitFrom ((NewspaperDefs[1])[5], p.x-3, p.y);

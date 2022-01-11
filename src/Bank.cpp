@@ -30,7 +30,7 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
     FontBankRed.Load (lpDD, (char*)(LPCTSTR)FullFilename ("bank_ro.mcf", MiscPath));
 
     SP_Modem.ReSize (1);
-    SP_Modem.Clips[0].ReSize (1, "Modem.smk", "", XY(307,338), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+    SP_Modem.Clips[0].ReSize (1, "modem.smk", "", XY(307,338), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
 
@@ -41,7 +41,7 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
 
     MoneyBm.ReSize (pRoomLib, GFX_MONEY);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("Tip.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tip.gli", GliPath), &pMenuLib, L_LOCMEM);
     ZettelBm.ReSize (pMenuLib, "BLOC1");
 
     //Raumanimationen
@@ -53,78 +53,78 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
     FlyCaught = -1;
 
     SP_Pflanze.ReSize (4);
-    SP_Pflanze.Clips[0].ReSize (0, "BlumW.smk", "", XY (406, 122), SPM_IDLE,     CRepeat(1,1), CPostWait(30,50), SMACKER_CLIP_CANCANCEL,
+    SP_Pflanze.Clips[0].ReSize (0, "blumw.smk", "", XY (406, 122), SPM_IDLE,     CRepeat(1,1), CPostWait(30,50), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &CatchFly,
             "A9A2A2", 0, 2, 3);
-    SP_Pflanze.Clips[1].ReSize (1, "Blum.smk", "SnakEat.raw", XY (406, 122), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Pflanze.Clips[1].ReSize (1, "blum.smk", "snakeat.raw", XY (406, 122), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &FlyCaught, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+8*SMACKER_CLIP_MULT, 1, NULL,
             "A1", 2);
-    SP_Pflanze.Clips[2].ReSize (2, "BlumZug.smk", "BlumZug.raw", XY (406, 122), SPM_IDLE,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Pflanze.Clips[2].ReSize (2, "blumzug.smk", "blumzug.raw", XY (406, 122), SPM_IDLE,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &CatchFly,
             "A1", 0);
-    SP_Pflanze.Clips[3].ReSize (3, "BlumZugB.smk", "BlumZugB.raw", XY (406, 122), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Pflanze.Clips[3].ReSize (3, "blumzugb.smk", "blumzugb.raw", XY (406, 122), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &CatchFly,
             "A6", 0);
 
     SP_Mann.ReSize (9);
-    SP_Mann.Clips[0].ReSize (0, "BM_Wait.smk", "", XY (430, 160), SPM_IDLE,       CRepeat(2,4), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[0].ReSize (0, "bm_wait.smk", "", XY (430, 160), SPM_IDLE,       CRepeat(2,4), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A6A4E1", 0, 1, 2);
-    SP_Mann.Clips[1].ReSize (1, "BM_Scrib.smk", "", XY (430, 160), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[1].ReSize (1, "bm_scrib.smk", "", XY (430, 160), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
-    SP_Mann.Clips[2].ReSize (2, "BM_Turn.smk", "", XY (430, 160), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[2].ReSize (2, "bm_turn.smk", "", XY (430, 160), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1E1", 4, 3, 4);
-    SP_Mann.Clips[3].ReSize (3, "BM_RedeW.smk", "", XY (430, 160), SPM_LISTENING, CRepeat(2,5), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[3].ReSize (3, "bm_redew.smk", "", XY (430, 160), SPM_LISTENING, CRepeat(2,5), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A2E1E1", 3, 8, 4, 7);
-    SP_Mann.Clips[4].ReSize (4, "BM_Rede.smk", "", XY (430, 160), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[4].ReSize (4, "bm_rede.smk", "", XY (430, 160), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9E1E1", 5, 3, 7);
-    SP_Mann.Clips[5].ReSize (5, "BM_Taste.smk", "BM_Taste.raw", XY (430, 160), SPM_TALKING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[5].ReSize (5, "bm_taste.smk", "bm_taste.raw", XY (430, 160), SPM_TALKING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1E1", 6, 3, 7);
-    SP_Mann.Clips[6].ReSize (6, "BM_Rede.smk", "", XY (430, 160), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[6].ReSize (6, "bm_rede.smk", "", XY (430, 160), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A1E1E1", 6, 5, 3, 7);
-    SP_Mann.Clips[7].ReSize (7, "BM_TurnZ.smk", "", XY (430, 160), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[7].ReSize (7, "bm_turnz.smk", "", XY (430, 160), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
-    SP_Mann.Clips[8].ReSize (8, "BM_RedeK.smk", "", XY (430, 160), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[8].ReSize (8, "bm_redek.smk", "", XY (430, 160), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1E1", 3, 4, 7);
 
     SP_Frau.ReSize (10);
-    SP_Frau.Clips[0].ReSize (0, "BF_Wait.smk", "", XY (252, 150), SPM_IDLE,       CRepeat(2,4), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Frau.Clips[0].ReSize (0, "bf_wait.smk", "", XY (252, 150), SPM_IDLE,       CRepeat(2,4), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A6A4E1", 0, 1, 2);
-    SP_Frau.Clips[1].ReSize (1, "BF_Work.smk", "", XY (252, 150), SPM_IDLE,       CRepeat(1,3), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[1].ReSize (1, "bf_work.smk", "", XY (252, 150), SPM_IDLE,       CRepeat(1,3), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
-    SP_Frau.Clips[2].ReSize (2, "BF_Turn.smk", "", XY (252, 150), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[2].ReSize (2, "bf_turn.smk", "", XY (252, 150), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1", 3, 4);
-    SP_Frau.Clips[3].ReSize (3, "BF_RedeW.smk", "", XY (252, 150), SPM_LISTENING, CRepeat(5,5), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Frau.Clips[3].ReSize (3, "bf_redew.smk", "", XY (252, 150), SPM_LISTENING, CRepeat(5,5), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A3A2A1E1E1", 3, 7, 5, 4, 6);
-    SP_Frau.Clips[4].ReSize (4, "BF_Rede.smk", "", XY (252, 150), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Frau.Clips[4].ReSize (4, "bf_rede.smk", "", XY (252, 150), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9E1E1", 4, 3, 6);
-    SP_Frau.Clips[5].ReSize (5, "BF_Taste.smk", "", XY (252, 150), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[5].ReSize (5, "bf_taste.smk", "", XY (252, 150), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1E1E1", 3, 3, 4, 7);
-    SP_Frau.Clips[7].ReSize (7, "BF_RedeK.smk", "", XY (252, 150), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[7].ReSize (7, "bf_redek.smk", "", XY (252, 150), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1E1E1", 3, 3, 4, 7);
 
-    SP_Frau.Clips[6].ReSize (6, "BF_RedeW.smk", "", XY (252, 150), SPM_IDLE,      CRepeat(1,1), CPostWait(7,7),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[6].ReSize (6, "bf_redew.smk", "", XY (252, 150), SPM_IDLE,      CRepeat(1,1), CPostWait(7,7),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1A1A1", 3, 4, 8);
-    SP_Frau.Clips[8].ReSize (8, "BF_RedeW.smk", "", XY (252, 150), SPM_IDLE,      CRepeat(1,1), CPostWait(7,7),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[8].ReSize (8, "bf_redew.smk", "", XY (252, 150), SPM_IDLE,      CRepeat(1,1), CPostWait(7,7),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1A1A1", 3, 4, 9);
-    SP_Frau.Clips[9].ReSize (9, "BF_TurnZ.smk", "", XY (252, 150), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Frau.Clips[9].ReSize (9, "bf_turnz.smk", "", XY (252, 150), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 0);
 
@@ -151,7 +151,7 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
 
     if (Sim.Options.OptionAmbiente)
     {
-        SetBackgroundFx (0, "Tippen.raw",   12000);  //Schreibmaschine
+        SetBackgroundFx (0, "tippen.raw",   12000);  //Schreibmaschine
         SetBackgroundFx (1, "printer.raw",  30000);    //Papierrascheln
     }
 

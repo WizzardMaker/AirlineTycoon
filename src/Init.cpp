@@ -269,8 +269,8 @@ void InitSoundSystem (SDL_Window *AppWnd)
 
         gpSSE->CreateFX(&gpClickFx);
         gpClickFx->Load((char*)(LPCTSTR)FullFilename ("click.raw", SoundPath));
-        gDoorOpen.ReInit ("Tuerauf.raw");
-        gDoorClose.ReInit ("Tuerzu.raw");
+        gDoorOpen.ReInit ("tuerauf.raw");
+        gDoorClose.ReInit ("tuerzu.raw");
         gMovePaper.ReInit ("paper.raw");
         gArabDoorFx.ReInit ("sabotage.raw");
 
@@ -279,7 +279,7 @@ void InitSoundSystem (SDL_Window *AppWnd)
 
         //Die Ambiente-Sounds:
         AmbientManager.AmbientFx.ReSize (3);
-        AmbientManager.SetFx (AMBIENT_PEOPLE,      "Raunen.raw");
+        AmbientManager.SetFx (AMBIENT_PEOPLE,      "raunen.raw");
         AmbientManager.SetFx (AMBIENT_JET_OUTSIDE, "jetfield.raw");
         AmbientManager.SetFx (AMBIENT_JET_FIELD,   "jetout.raw");
 

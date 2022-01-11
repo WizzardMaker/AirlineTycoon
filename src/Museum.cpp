@@ -28,7 +28,7 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
 
     Sim.FocusPerson=-1;
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("TipPl.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tippl.gli", GliPath), &pMenuLib, L_LOCMEM);
     BlockBm.ReSize (pMenuLib, "BLOC1");
 
     if (!bHandy) AmbientManager.SetGlobalVolume (40);
@@ -41,36 +41,36 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
     TriggerEmergency=-1;
 
     SP_Mann.ReSize (14);
-    SP_Mann.Clips[0].ReSize (0, "MU_PutzA.smk", "MU_PutzA.raw", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[0].ReSize (0, "mu_putza.smk", "mu_putza.raw", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A9E1", 0, 1, 2);
-    SP_Mann.Clips[1].ReSize (1, "MU_PutzB.smk", "MU_PutzB.raw", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[1].ReSize (1, "mu_putzb.smk", "mu_putzb.raw", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A9E1", 0, 1, 2);
-    SP_Mann.Clips[2].ReSize (2, "MU_Turn.smk", "", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[2].ReSize (2, "mu_turn.smk", "", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &TriggerEmergency, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
             "A1E1E1E1", 5, 3, 5, 6);
-    SP_Mann.Clips[3].ReSize (3, "MU_RedeA.smk", "", XY (420, 250), SPM_TALKING,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[3].ReSize (3, "mu_redea.smk", "", XY (420, 250), SPM_TALKING,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A8A8E1E1", 3, 4, 5, 6);
-    SP_Mann.Clips[4].ReSize (4, "MU_RedeB.smk", "", XY (420, 250), SPM_TALKING,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[4].ReSize (4, "mu_redeb.smk", "", XY (420, 250), SPM_TALKING,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A8A8E1E1", 3, 4, 5, 6);
-    SP_Mann.Clips[5].ReSize (5, "MU_RedeW.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(5,5),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[5].ReSize (5, "mu_redew.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(5,5),   SMACKER_CLIP_CANCANCEL,
             &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, -1, NULL,
             "A9A1E1E1E1", 5, 9, 3, 5, 6);
-    SP_Mann.Clips[6].ReSize (6, "MU_TurnZ.smk", "", XY (420, 250), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[6].ReSize (6, "mu_turnz.smk", "", XY (420, 250), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &TriggerEmergency, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 0, NULL,
             "A9", 0);
 
-    SP_Mann.Clips[9].ReSize (9, "MU_RedeW.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(370,370),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[9].ReSize (9, "mu_redew.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(370,370),   SMACKER_CLIP_CANCANCEL,
             &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, 1, &TriggerMann,
             "A1E1E1E1", 5, 3, 5, 6);
 
-    SP_Mann.Clips[7].ReSize (7, "MU_Guck.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[7].ReSize (7, "mu_guck.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, NULL,
             "A1", 8);
-    SP_Mann.Clips[8].ReSize (8, "MU_GuckZ.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[8].ReSize (8, "mu_guckz.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &TriggerSkelett, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 3, NULL,
             "A1", 5);
     SP_Mann.Clips[10].ReSize (10, "", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
@@ -78,18 +78,18 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
             "A1", 11);
 
     //Er erwischt ihn:
-    SP_Mann.Clips[11].ReSize (11, "MU_Guck.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[11].ReSize (11, "mu_guck.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_DONTCANCEL,
             &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, NULL,
             "A1", 12);
-    SP_Mann.Clips[12].ReSize (12, "MU_GuckZ.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[12].ReSize (12, "mu_guckz.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 13);
-    SP_Mann.Clips[13].ReSize (11, "MU_Hit.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[13].ReSize (11, "mu_hit.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_FRAME+3*SMACKER_CLIP_MULT, 4, &TriggerMann,
             "A1", 5);
 
     SP_Skelett.ReSize (8);
-    SP_Skelett.Clips[0].ReSize (0, "FlyingMW.smk", "", XY (420, 180), SPM_IDLE,       CRepeat(1,1), CPostWait(60,60), SMACKER_CLIP_CANCANCEL,
+    SP_Skelett.Clips[0].ReSize (0, "flyingmw.smk", "", XY (420, 180), SPM_IDLE,       CRepeat(1,1), CPostWait(60,60), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &TriggerSkelett,
             "A9", 0);
     SP_Skelett.Clips[1].ReSize (1, "", "", XY (420, 180), SPM_IDLE,                   CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
@@ -97,26 +97,26 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
             "A9A9", 2, 6);
 
     //Er wird nicht erwischt:
-    SP_Skelett.Clips[2].ReSize (2, "FlyingM.smk", "FlyingM.raw", XY (420, 180), SPM_IDLE,        CRepeat(1,3), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
+    SP_Skelett.Clips[2].ReSize (2, "flyingm.smk", "flyingm.raw", XY (420, 180), SPM_IDLE,        CRepeat(1,3), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
             &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, 7, &TriggerEmergency,
             "A9", 0);
 
     //Er wird erwischt:
-    SP_Skelett.Clips[6].ReSize (6, "FlyingM.smk", "FlyingM.raw", XY (420, 180), SPM_IDLE,        CRepeat(1,2), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
+    SP_Skelett.Clips[6].ReSize (6, "flyingm.smk", "flyingm.raw", XY (420, 180), SPM_IDLE,        CRepeat(1,2), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
             &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, 10, &TriggerEmergency,
             "A9", 7);
-    SP_Skelett.Clips[7].ReSize (7, "FlyingM.smk", "FlyingM.raw", XY (420, 180), SPM_IDLE,        CRepeat(2,2), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
+    SP_Skelett.Clips[7].ReSize (7, "flyingm.smk", "flyingm.raw", XY (420, 180), SPM_IDLE,        CRepeat(2,2), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &TriggerEmergency,
             "A9", 0);
 
-    SP_Skelett.Clips[3].ReSize (3, "FlyGrinz.smk", "FlyGrinz.raw", XY (420, 180), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
+    SP_Skelett.Clips[3].ReSize (3, "flygrinz.smk", "flygrinz.raw", XY (420, 180), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
             &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, &TriggerEmergency,
             "A9", 0);
 
     SP_Skelett.Clips[4].ReSize (4, "", "", XY (420, 180), SPM_IDLE,                   CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
             &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, NULL,
             "A9", 5);
-    SP_Skelett.Clips[5].ReSize (5, "Fly_auah.smk", "", XY (420, 180), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
+    SP_Skelett.Clips[5].ReSize (5, "fly_auah.smk", "", XY (420, 180), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
             &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, &TriggerEmergency,
             "A9", 0);
 

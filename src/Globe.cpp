@@ -90,7 +90,7 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
 
     Copyprotection    = (Sim.bExeChanged==1);
 
-    EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("EarthGlo.lbm", GliPath), SYSRAMBM);
+    EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthglo.lbm", GliPath), SYSRAMBM);
 
     pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("globe.gli", RoomPath), &pGLibGlobe, L_LOCMEM);
     pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("globe_a.gli", RoomPath), &pGLibStd, L_LOCMEM);
@@ -124,7 +124,7 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
     FrameWnd->Invalidate(); MessagePump();
     FrameWnd->Invalidate(); MessagePump();
 
-    QuietschFX.ReInit("Quietsch.raw");
+    QuietschFX.ReInit("quietsch.raw");
     Quietsching=FALSE;
 
     for (c=0; c<6; c++) pGLibIcons[c]=NULL;

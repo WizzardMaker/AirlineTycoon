@@ -48,37 +48,37 @@ CMakler::CMakler(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
 
     SpringState=0;
 
-    KlappeFx.ReInit ("Klappe.raw");
-    SpringFx.ReInit ("Spring.raw");
+    KlappeFx.ReInit ("klappe.raw");
+    SpringFx.ReInit ("spring.raw");
 
     SP_Makler.ReSize (9);
-    SP_Makler.Clips[0].ReSize (0, "M_Wait.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(15,15), SMACKER_CLIP_CANCANCEL,
+    SP_Makler.Clips[0].ReSize (0, "m_wait.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(15,15), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9A2A2E1", 0, 1, 2, 3);
-    SP_Makler.Clips[1].ReSize (1, "M_Dreh.smk", "M_Dreh.raw", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
+    SP_Makler.Clips[1].ReSize (1, "m_dreh.smk", "m_dreh.raw", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
             &KommVarLicht, SMACKER_CLIP_XOR|SMACKER_CLIP_FRAME+6*SMACKER_CLIP_MULT, 1, NULL,
             "A9E1", 0, 3);
-    SP_Makler.Clips[2].ReSize (2, "M_Druc.smk", "M_Druc.raw", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
+    SP_Makler.Clips[2].ReSize (2, "m_druc.smk", "m_druc.raw", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
             &KommVarWasser, SMACKER_CLIP_XOR|SMACKER_CLIP_FRAME+4*SMACKER_CLIP_MULT, 1, NULL,
             "A9E1", 0, 3);
 
     //Zum Spieler drehen und sprechen:
-    SP_Makler.Clips[3].ReSize (3, "M_Turn.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Makler.Clips[3].ReSize (3, "m_turn.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1E1", 4, 5);
-    SP_Makler.Clips[4].ReSize (4, "M_Rede.smk", "", XY (470, 218), SPM_TALKING,   CRepeat(2,2), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Makler.Clips[4].ReSize (4, "m_rede.smk", "", XY (470, 218), SPM_TALKING,   CRepeat(2,2), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A5E1E1", 4, 7, 5, 6);
-    SP_Makler.Clips[7].ReSize (7, "M_RedeB.smk", "", XY (470, 218), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Makler.Clips[7].ReSize (7, "m_redeb.smk", "", XY (470, 218), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9E1E1", 4, 5, 6);
-    SP_Makler.Clips[5].ReSize (5, "M_List.smk", "", XY (470, 218), SPM_LISTENING, CRepeat(1,1), CPostWait(10,20), SMACKER_CLIP_CANCANCEL,
+    SP_Makler.Clips[5].ReSize (5, "m_list.smk", "", XY (470, 218), SPM_LISTENING, CRepeat(1,1), CPostWait(10,20), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A9E1E1", 5, 8, 4, 6);
-    SP_Makler.Clips[8].ReSize (8, "M_ListK.smk", "", XY (470, 218), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_DONTCANCEL,
+    SP_Makler.Clips[8].ReSize (8, "m_listk.smk", "", XY (470, 218), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 5);
-    SP_Makler.Clips[6].ReSize (6, "M_back.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Makler.Clips[6].ReSize (6, "m_back.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 0);
 

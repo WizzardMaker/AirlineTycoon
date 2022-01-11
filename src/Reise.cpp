@@ -84,16 +84,16 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 
     SP_Girl.ReSize (4);
     //--------------------------------------------------------------------------------------------
-    SP_Girl.Clips[0].ReSize (0, "RBWait.smk", "", XY (200, 227), SPM_IDLE,        CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
+    SP_Girl.Clips[0].ReSize (0, "rbwait.smk", "", XY (200, 227), SPM_IDLE,        CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A3A4A4A9", 0, 1, 2, 3);
-    SP_Girl.Clips[1].ReSize (1, "RBDrehH.smk", "", XY (200, 227), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Girl.Clips[1].ReSize (1, "rbdrehh.smk", "", XY (200, 227), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
-    SP_Girl.Clips[2].ReSize (2, "RBDrehF.smk", "", XY (200, 227), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Girl.Clips[2].ReSize (2, "rbdrehf.smk", "", XY (200, 227), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
-    SP_Girl.Clips[3].ReSize (3, "RBTaste.smk", "", XY (200, 227), SPM_IDLE,      CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
+    SP_Girl.Clips[3].ReSize (3, "rbtaste.smk", "", XY (200, 227), SPM_IDLE,      CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
             &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+4*SMACKER_CLIP_MULT, 0, NULL,
             "A1", 0);
 
@@ -102,16 +102,16 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     SP_Monitor.Clips[0].ReSize (0, "", "",          XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A5A5A5A5", 1, 2, 3, 4);
-    SP_Monitor.Clips[1].ReSize (1, "MoniR.smk", "", XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
+    SP_Monitor.Clips[1].ReSize (1, "monir.smk", "", XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
             &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommMonitor,
             "A1", 0);
-    SP_Monitor.Clips[2].ReSize (2, "MoniRE.smk", "", XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
+    SP_Monitor.Clips[2].ReSize (2, "monire.smk", "", XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
             &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommMonitor,
             "A1", 0);
-    SP_Monitor.Clips[3].ReSize (3, "MoniRC.smk", "", XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
+    SP_Monitor.Clips[3].ReSize (3, "monirc.smk", "", XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
             &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommMonitor,
             "A1", 0);
-    SP_Monitor.Clips[4].ReSize (4, "MoniRD.smk", "", XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
+    SP_Monitor.Clips[4].ReSize (4, "monird.smk", "", XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
             &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommMonitor,
             "A1", 0);
 
@@ -120,13 +120,13 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     {
         SP_Schlange.ReSize (3);
         //--------------------------------------------------------------------------------------------
-        SP_Schlange.Clips[0].ReSize (0, "SnakW.smk", "", XY (564, 213), SPM_IDLE,      CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
+        SP_Schlange.Clips[0].ReSize (0, "snakw.smk", "", XY (564, 213), SPM_IDLE,      CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
                 &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommVar,
                 "A9A2", 0, 1);
-        SP_Schlange.Clips[1].ReSize (1, "SnakZung.smk", "SnakZung.raw", XY (564, 213), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_DONTCANCEL,
+        SP_Schlange.Clips[1].ReSize (1, "snakzung.smk", "snakzung.raw", XY (564, 213), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, &KommVar,
                 "A1", 0);
-        SP_Schlange.Clips[2].ReSize (2, "SnakEat.smk", "SnakEat.raw", XY (494, 194), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_CANCANCEL,
+        SP_Schlange.Clips[2].ReSize (2, "snakeat.smk", "snakeat.raw", XY (494, 194), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_CANCANCEL,
                 &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommVar,
                 "A1", 0);
 
@@ -134,19 +134,19 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
         {
             SP_Spinne.ReSize (3);
             //--------------------------------------------------------------------------------------------
-            SP_Spinne.Clips[0].ReSize (0, "BLASEW.smk", "", XY (380,320), SPM_IDLE,      CRepeat(3,3), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
+            SP_Spinne.Clips[0].ReSize (0, "blasew.smk", "", XY (380,320), SPM_IDLE,      CRepeat(3,3), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
                     NULL, SMACKER_CLIP_SET, 0, NULL,
                     "A9A1A2", 0, 1, 2);
-            SP_Spinne.Clips[1].ReSize (1, "Spider.smk", "", XY (380,320), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+            SP_Spinne.Clips[1].ReSize (1, "spider.smk", "", XY (380,320), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
                     &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+11*SMACKER_CLIP_MULT, 2, &KommVar2,
                     "A1", 2);
-            SP_Spinne.Clips[2].ReSize (2, "BLASEW.smk", "", XY (380,320), SPM_IDLE,      CRepeat(9,9), CPostWait(99,99), SMACKER_CLIP_CANCANCEL,
+            SP_Spinne.Clips[2].ReSize (2, "blasew.smk", "", XY (380,320), SPM_IDLE,      CRepeat(9,9), CPostWait(99,99), SMACKER_CLIP_CANCANCEL,
                     &KommVar2, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
                     "A9A2A1", 0, 1, 2);
         }
     }
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("TipAu.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tipau.gli", GliPath), &pMenuLib, L_LOCMEM);
     TipBm.ReSize (pMenuLib, "BLOC1");
     MapPlaneBms[0].ReSize (pMenuLib, "PL_B00", 1+8);
     MapPlaneBms[1].ReSize (pMenuLib, "PL_V00", 1+8);
@@ -159,7 +159,7 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     //Hintergrundsounds:
     if (Sim.Options.OptionEffekte)
     {
-        SetBackgroundFx (0, "Pap3.raw",     25000);    //Papierrascheln
+        SetBackgroundFx (0, "pap3.raw",     25000);    //Papierrascheln
         SetBackgroundFx (2, "moeve.raw",    50000, 25000);
 
         WellenFx.ReInit ("wellen.raw");

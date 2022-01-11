@@ -26,7 +26,7 @@ HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, Play
 
     CRect rect (10,10,620,460);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("HallDisk.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("halldisk.gli", GliPath), &pMenuLib, L_LOCMEM);
     MenuBm.ReSize (pMenuLib, "HALLDISK");
 
     /*if (!Create(NULL, "HallDiskMenu", WS_VISIBLE|WS_CHILD, rect, ParentWnd, 42))

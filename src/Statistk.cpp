@@ -40,7 +40,7 @@ const char TOKEN_STAT[]="STAT";
 //--------------------------------------------------------------------------------------------
 //Die Screen wird eröffnet:
 //--------------------------------------------------------------------------------------------
-CStatistik::CStatistik (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "Statistk.gli", GFX_STATISTK)
+CStatistik::CStatistik (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "statistk.gli", GFX_STATISTK)
 {
     SLONG c = 0;
 

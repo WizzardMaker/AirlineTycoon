@@ -33,19 +33,19 @@ CSabotage::CSabotage(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     //Hintergrundsounds:
     if (Sim.Options.OptionEffekte)
     {
-        BackFx.ReInit("SaboBack.raw");
+        BackFx.ReInit("saboback.raw");
         BackFx.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
     }
 
     SP_Araber.ReSize (12);
-    SP_Araber.Clips[0].ReSize (0, "S_clic.smk", "", XY (413, 255), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Araber.Clips[0].ReSize (0, "s_clic.smk", "", XY (413, 255), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9A4E1", 0, 10, 1);
-    SP_Araber.Clips[10].ReSize (10, "S_clicB.smk", "", XY (413, 255), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Araber.Clips[10].ReSize (10, "s_clicb.smk", "", XY (413, 255), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9E1", 0, 1);
 
-    SP_Araber.Clips[1].ReSize (1, "s_turn.smk", "S_Turn.raw", XY (275, 101), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Araber.Clips[1].ReSize (1, "s_turn.smk", "s_turn.raw", XY (275, 101), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Dreht sich um
             "E1E1", 2, 3);
     SP_Araber.Clips[2].ReSize (2, "s_rede.smk", "", XY (155, 102), SPM_TALKING,    CRepeat(8,8), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
@@ -66,7 +66,7 @@ CSabotage::CSabotage(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     SP_Araber.Clips[7].ReSize (3, "s_wait.smk", "", XY (155, 102), SPM_IDLE,       CRepeat(1,1), CPostWait(20,20), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9A1A1A1A1E1E1", 7, 11, 6, 8, 9, 2, 3);
-    SP_Araber.Clips[11].ReSize (11, "S_WaitK.smk", "", XY (155, 102), SPM_IDLE,    CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_CANCANCEL,
+    SP_Araber.Clips[11].ReSize (11, "s_waitk.smk", "", XY (155, 102), SPM_IDLE,    CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Blinzeln
             "A9", 7);
 

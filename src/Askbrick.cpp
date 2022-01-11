@@ -37,7 +37,7 @@ AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStd
       }
       if (bFullscreen) SetWindowPos (&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOREDRAW|SWP_NOSIZE);*/
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("Askbrick.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("askbrick.gli", GliPath), &pMenuLib, L_LOCMEM);
     AskBrickBm.ReSize (pMenuLib, "ASKBRICK");
 
     SDL_ShowWindow(FrameWnd->m_hWnd);

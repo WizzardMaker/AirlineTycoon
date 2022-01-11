@@ -1135,8 +1135,8 @@ void UpdateHLinePool (void)
 
     BOOL DontSaveSkeletons=FALSE;
 
-    SkelettPool.ReSize (bprintf ("Skelett.pol", c), NULL, NULL);
-    SkelPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename ("Skel_pal.lbm", "CLAN\\LBM\\%s"));
+    SkelettPool.ReSize (bprintf ("skelett.pol", c), NULL, NULL);
+    SkelPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename ("skel_pal.lbm", "CLAN\\LBM\\%s"));
 
     for (c=Clans.AnzEntries()-1; c>=0; c--)
         if (Clans.IsInAlbum (c) && Clans[c].UpdateNow)

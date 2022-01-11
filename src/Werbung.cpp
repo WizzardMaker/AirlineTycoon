@@ -43,34 +43,34 @@ CWerbung::CWerbung(BOOL qHandy, ULONG PlayerNum) : CStdRaum (qHandy, PlayerNum, 
         DefaultDialogPartner=TALKER_WERBUNG;
 
         SP_Mann.ReSize (8);
-        SP_Mann.Clips[0].ReSize (0, "WA_copyC.smk", "WA_copyC.raw", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Mann.Clips[0].ReSize (0, "wa_copyc.smk", "wa_copyc.raw", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,  //Kopieren
                 "A9A3A2E1", 0, 1, 2, 3);
-        SP_Mann.Clips[1].ReSize (1, "WA_copy.smk", "WA_copy.raw", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Mann.Clips[1].ReSize (1, "wa_copy.smk", "wa_copy.raw", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,  //Kopieren & Schauen
                 "A9E1", 0, 3);
-        SP_Mann.Clips[2].ReSize (2, "WA_wait.smk", "", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(30,60),   SMACKER_CLIP_DONTCANCEL,
+        SP_Mann.Clips[2].ReSize (2, "wa_wait.smk", "", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(30,60),   SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
                 "A9E1", 0, 3);
-        SP_Mann.Clips[3].ReSize (3, "WA_Turn.smk", "", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Mann.Clips[3].ReSize (3, "wa_turn.smk", "", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,  //Drehen
                 "A9E1E1", 4, 4, 5);
-        SP_Mann.Clips[4].ReSize (4, "WA_RedeA.smk", "", XY (290, 240), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+        SP_Mann.Clips[4].ReSize (4, "wa_redea.smk", "", XY (290, 240), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,  //Reden
                 "A9E1E1", 4, 5, 7);
-        SP_Mann.Clips[5].ReSize (5, "WA_RedeW.smk", "", XY (290, 240), SPM_LISTENING, CRepeat(1,1), CPostWait(2,2),   SMACKER_CLIP_CANCANCEL,
+        SP_Mann.Clips[5].ReSize (5, "wa_redew.smk", "", XY (290, 240), SPM_LISTENING, CRepeat(1,1), CPostWait(2,2),   SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,  //Zuhören
                 "A9A1E1E1", 5, 6, 4, 7);
-        SP_Mann.Clips[6].ReSize (6, "WA_RedeK.smk", "", XY (290, 240), SPM_LISTENING, CRepeat(1,1), CPostWait(2,2),   SMACKER_CLIP_CANCANCEL,
+        SP_Mann.Clips[6].ReSize (6, "wa_redek.smk", "", XY (290, 240), SPM_LISTENING, CRepeat(1,1), CPostWait(2,2),   SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,  //Blinzeln
                 "A9E1E1", 5, 4, 7);
-        SP_Mann.Clips[7].ReSize (7, "WA_TurnZ.smk", "", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+        SP_Mann.Clips[7].ReSize (7, "wa_turnz.smk", "", XY (290, 240), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,  //Zurückdrehen
                 "A9", 0);
 
         //Raumanimationen
-        CoffeeFx.ReInit("Kaffee.raw");
-        SpratzelFx.ReInit("Spratzel.raw");
+        CoffeeFx.ReInit("kaffee.raw");
+        SpratzelFx.ReInit("spratzel.raw");
 
         BoyAnim.ReSize    (pRoomLib, "BOY_01",   3, NULL, TRUE,  ANIMATION_MODE_RANDOM,   0,  25);
         KaffeeAnim.ReSize (pRoomLib, "CAFE01",  15, &CoffeeFx, FALSE,  ANIMATION_MODE_REPEAT,  20*14,  3, 20*19);

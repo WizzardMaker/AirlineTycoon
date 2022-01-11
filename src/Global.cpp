@@ -172,7 +172,7 @@ CTakeOffApp             theApp;
 //--------------------------------------------------------------------------------------------
 const char             *TabSeparator = ";\x8";   //Zum Import der Excel-Tabellen
 const char             *DateSeparator = "-/;.";  //Erlaubte Datums-Separatoren
-const char             *HallFilenames[] = { "kompletter Airport (%li-%li-%li-%li-%li-%li-%li-%li-%li-%li)", "Left%03li.dat", "Check%03li.dat", "Ofice%03li.dat", "Entry%03li.dat", "Shops%03li.dat", "Cafe%03li.dat", "Secur%03li.dat", "Suit%03li.dat", "WaitZ%03li.dat", "Right%03li.dat" };
+const char             *HallFilenames[] = { "kompletter Airport (%li-%li-%li-%li-%li-%li-%li-%li-%li-%li)", "left%03li.dat", "check%03li.dat", "ofice%03li.dat", "entry%03li.dat", "shops%03li.dat", "cafe%03li.dat", "secur%03li.dat", "suit%03li.dat", "waitz%03li.dat", "right%03li.dat" };
 
 //--------------------------------------------------------------------------------------------
 //Die Pfade der einzelnen Dateigruppen:

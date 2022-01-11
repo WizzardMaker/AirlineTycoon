@@ -48,9 +48,9 @@ void SetNetworkBitmap (SLONG Number, SLONG WaitingType)
             if (pGLib) pGfxMain->ReleaseLib (pGLib);
         }
 
-        if (Number==1) pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("Network1.gli", GliPath), &pGLib, L_LOCMEM);
-        if (Number==2) pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("Network2.gli", GliPath), &pGLib, L_LOCMEM);
-        if (Number==3) pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("Network3.gli", GliPath), &pGLib, L_LOCMEM);
+        if (Number==1) pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("network1.gli", GliPath), &pGLib, L_LOCMEM);
+        if (Number==2) pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("network2.gli", GliPath), &pGLib, L_LOCMEM);
+        if (Number==3) pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("network3.gli", GliPath), &pGLib, L_LOCMEM);
 
         if (pGLib)
         {
@@ -1399,7 +1399,7 @@ void PumpNetwork (void)
                                     Sim.SendSimpleMessage (ATNET_PHONE_ACCEPT, Sim.Players.Players[OtherPlayerNum].NetworkID, Sim.localPlayer, bHandy);
 
                                     gUniversalFx.Stop();
-                                    gUniversalFx.ReInit("Phone.raw");
+                                    gUniversalFx.ReInit("phone.raw");
                                     gUniversalFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
 
                                     qPlayer.GameSpeed = 0;

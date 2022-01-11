@@ -256,50 +256,50 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerN
 
     SP_Mann.ReSize (9);
     //--------------------------------------------------------------------------------------------
-    SP_Mann.Clips[0].ReSize (0, "WK_Wait.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[0].ReSize (0, "wk_wait.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9A1E1", 0, 4, 1);
 
-    SP_Mann.Clips[4].ReSize (4, "WK_Tuch.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[4].ReSize (4, "wk_tuch.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9", 5);
-    SP_Mann.Clips[5].ReSize (5, "WK_Putz.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,3), CPostWait(0,0),  SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[5].ReSize (5, "wk_putz.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,3), CPostWait(0,0),  SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9", 6);
-    SP_Mann.Clips[6].ReSize (6, "WK_TuchZ.smk", "", XY (190, 209), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[6].ReSize (6, "wk_tuchz.smk", "", XY (190, 209), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9", 0);
 
-    SP_Mann.Clips[1].ReSize (1, "WK_Turn.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[1].ReSize (1, "wk_turn.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "E1E1", 2, 3);
 
-    SP_Mann.Clips[2].ReSize (2, "WK_Rede.smk", "", XY (190, 209), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[2].ReSize (2, "wk_rede.smk", "", XY (190, 209), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9E1E1", 2, 3, 7);
-    SP_Mann.Clips[3].ReSize (3, "WK_RedeW.smk", "", XY (190, 209), SPM_LISTENING, CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
+    SP_Mann.Clips[3].ReSize (3, "wk_redew.smk", "", XY (190, 209), SPM_LISTENING, CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9E1E1A3", 3, 2, 7, 8);
-    SP_Mann.Clips[8].ReSize (8, "WK_Rauch.smk", "", XY (173, 209), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[8].ReSize (8, "wk_rauch.smk", "", XY (173, 209), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+18*SMACKER_CLIP_MULT, 1, NULL,  //Warten
             "A9E1E1", 3, 2, 7);
 
-    SP_Mann.Clips[7].ReSize (7, "WK_TurnZ.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_DONTCANCEL,
+    SP_Mann.Clips[7].ReSize (7, "wk_turnz.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
             "A9", 0);
 
     SP_Wer.ReSize(4);
     //--------------------------------------------------------------------------------------------
-    SP_Wer.Clips[0].ReSize (0, "WerStand.smk", "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(100,210), SMACKER_CLIP_DONTCANCEL,
+    SP_Wer.Clips[0].ReSize (0, "werstand.smk", "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(100,210), SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 1);
-    SP_Wer.Clips[1].ReSize (1, "WerL.smk",     "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
+    SP_Wer.Clips[1].ReSize (1, "werl.smk",     "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 2);
-    SP_Wer.Clips[2].ReSize (2, "WerStand.smk", "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(100,210), SMACKER_CLIP_DONTCANCEL,
+    SP_Wer.Clips[2].ReSize (2, "werstand.smk", "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(100,210), SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 3);
-    SP_Wer.Clips[3].ReSize (3, "WerR.smk",     "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
+    SP_Wer.Clips[3].ReSize (3, "werr.smk",     "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 0);
 
@@ -308,53 +308,53 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerN
     if (Sim.Slimed==-1)
     {
         if (rand()%10==0 || CheatAnimNow)
-            SP_Schleim.Clips[0].ReSize (0, "SLIMEW.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(30,30),    SMACKER_CLIP_CANCANCEL,
+            SP_Schleim.Clips[0].ReSize (0, "slimew.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(30,30),    SMACKER_CLIP_CANCANCEL,
                     NULL, SMACKER_CLIP_SET, 0, &Sim.Slimed,
                     "A8A1", 0, 1);
         else
-            SP_Schleim.Clips[0].ReSize (0, "SLIMEW.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(30,30),    SMACKER_CLIP_CANCANCEL,
+            SP_Schleim.Clips[0].ReSize (0, "slimew.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(30,30),    SMACKER_CLIP_CANCANCEL,
                     NULL, SMACKER_CLIP_SET, 0, &Sim.Slimed,
                     "A4", 0);
     }
     else
     {
-        SP_Schleim.Clips[0].ReSize (0, "SLIME02.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(99,99), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
+        SP_Schleim.Clips[0].ReSize (0, "slime02.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(99,99), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,
                 "A9", 2);
     }
-    SP_Schleim.Clips[1].ReSize (1, "SLIME01.smk", "SLIME01.raw", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
+    SP_Schleim.Clips[1].ReSize (1, "slime01.smk", "slime01.raw", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
             &Sim.Slimed, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 2, NULL,
             "A9", 2);
-    SP_Schleim.Clips[2].ReSize (2, "SLIME02.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(99,99), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
+    SP_Schleim.Clips[2].ReSize (2, "slime02.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(99,99), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 2);
 
     for (SLONG c=0; c<5; c++)
     {
         SP_Blase[c].ReSize(3);
-        SP_Blase[c].Clips[0].ReSize (0, "BLASEW.smk", "", SlimePositions[c], SPM_IDLE,   CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+        SP_Blase[c].Clips[0].ReSize (0, "blasew.smk", "", SlimePositions[c], SPM_IDLE,   CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, &Sim.Slimed,
                 "A9", 0);
-        SP_Blase[c].Clips[1].ReSize (1, bprintf ("BLASE%02li.smk", c%3+1), "", SlimePositions[c], SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
+        SP_Blase[c].Clips[1].ReSize (1, bprintf ("blase%02li.smk", c%3+1), "", SlimePositions[c], SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,
                 "A9", 0);
-        SP_Blase[c].Clips[2].ReSize (2, "BLASEW.smk", "", SlimePositions[c],  SPM_IDLE,  CRepeat(1,1), CPostWait(30+rand()%80,130+rand()%80),   SMACKER_CLIP_DONTCANCEL,
+        SP_Blase[c].Clips[2].ReSize (2, "blasew.smk", "", SlimePositions[c],  SPM_IDLE,  CRepeat(1,1), CPostWait(30+rand()%80,130+rand()%80),   SMACKER_CLIP_DONTCANCEL,
                 NULL, SMACKER_CLIP_SET, 0, NULL,
                 "A9", 1);
     }
 
     SP_Bombe.ReSize(2);
     //--------------------------------------------------------------------------------------------
-    SP_Bombe.Clips[0].ReSize (0, "BombeW.smk", "", XY (180, 386), SPM_IDLE, CRepeat(1,1), CPostWait(100,210), SMACKER_CLIP_CANCANCEL,
+    SP_Bombe.Clips[0].ReSize (0, "bombew.smk", "", XY (180, 386), SPM_IDLE, CRepeat(1,1), CPostWait(100,210), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &KommVar,
             "A9", 0);
-    SP_Bombe.Clips[1].ReSize (1, "Bombe.smk", "Bombe.raw", XY (180, 386), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
+    SP_Bombe.Clips[1].ReSize (1, "bombe.smk", "bombe.raw", XY (180, 386), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
             &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
             "A9", 0);
 
     SP_Hund.ReSize(1);
     //--------------------------------------------------------------------------------------------
-    SP_Hund.Clips[0].ReSize (0, "Spike.smk", "", XY (529, 115), SPM_IDLE, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+    SP_Hund.Clips[0].ReSize (0, "spike.smk", "", XY (529, 115), SPM_IDLE, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 0);
 

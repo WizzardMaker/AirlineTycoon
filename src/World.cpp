@@ -21,7 +21,7 @@ extern SB_CColorFX ColorFX;
 //--------------------------------------------------------------------------------------------
 //Telefonat mit der Niederlassung
 //--------------------------------------------------------------------------------------------
-CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum (bHandy, PlayerNum, "World.gli", GFX_WORLD)
+CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum (bHandy, PlayerNum, "world.gli", GFX_WORLD)
 {
     CWorld::CityId=CityId;
 

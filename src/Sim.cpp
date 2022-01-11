@@ -1430,7 +1430,7 @@ void SIM::DoTimeStep (void)
                             if (qPlayer.GetRoom()!=ROOM_PERSONAL_A+c*10)
                             {
                                 gUniversalFx.Stop();
-                                gUniversalFx.ReInit("Phone.raw");
+                                gUniversalFx.ReInit("phone.raw");
                                 gUniversalFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
 
                                 if (qPlayer.DialogWin) delete qPlayer.DialogWin;
@@ -1765,7 +1765,7 @@ void SIM::DoTimeStep (void)
                                         else
                                         {
                                             gUniversalFx.Stop();
-                                            gUniversalFx.ReInit("Phone.raw");
+                                            gUniversalFx.ReInit("phone.raw");
                                             gUniversalFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
 
                                             bgWarp=FALSE;
@@ -1846,13 +1846,13 @@ void SIM::DoTimeStep (void)
     //Warnung wegen Tagesende:
     if (Sim.GetHour()==17 && Minute>=30 && OldMinute<30 && !Sim.CallItADay)
     {
-        PlayUniversalFx ("DayWarn.raw", Sim.Options.OptionEffekte);
+        PlayUniversalFx ("daywarn.raw", Sim.Options.OptionEffekte);
 
         qLocalPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2390));
     }
     else if (Sim.GetHour()==17 && Minute>=59 && OldMinute<58 && !Sim.CallItADay)
     {
-        PlayUniversalFx ("DayWarn.raw", Sim.Options.OptionEffekte);
+        PlayUniversalFx ("daywarn.raw", Sim.Options.OptionEffekte);
     }
 
     //Die Positionen der fliegenden Maschinen auf der Weltkarte aktualisieren
@@ -2277,11 +2277,11 @@ void SIM::UpdateSeason (void)
             pGfxMain->ReleaseLib (pGLibBrick);
         }
 
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glBrick%li.gli", GliPath, GetSeason()),
+        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glbrick%li.gli", GliPath, GetSeason()),
                 &pGLibBrick,
                 L_LOCMEM);
 
-        Bricks.ReInit ("Brick.csv");
+        Bricks.ReInit ("brick.csv");
         Bricks.UpdateBricks ();
 
         RuneBms.ReSize (pGLibBrick, "RUNE50", 6);
@@ -3036,8 +3036,8 @@ BOOL SIM::LoadGame (SLONG Number)
 {
     const char *pNamebaseStr;
 
-    if (Sim.bNetwork) pNamebaseStr = "Net%li.dat";
-    else pNamebaseStr = "Game%li.dat";
+    if (Sim.bNetwork) pNamebaseStr = "net%li.dat";
+    else pNamebaseStr = "game%li.dat";
 
     CString Filename = FullFilename ((LPCTSTR)bprintf(pNamebaseStr, Number), SavegamePath);
     CString Dummy;
@@ -3062,7 +3062,7 @@ BOOL SIM::LoadGame (SLONG Number)
         BOOL bReadyForMornings[4];
 
         if (Routen.AnzEntries()==0)
-            Routen.ReInit ("Routen.csv", true);
+            Routen.ReInit ("routen.csv", true);
 
         for (c=0; c<4; c++) bReadyForMornings[c]=Sim.Players.Players[c].bReadyForMorning;
         ChooseStartup (1);
@@ -3126,7 +3126,7 @@ BOOL SIM::LoadGame (SLONG Number)
         Sim.bAllowCheating = false;
     }
 
-    Routen.ReInit ("Routen.csv", !bCompatibleRoutes);
+    Routen.ReInit ("routen.csv", !bCompatibleRoutes);
 
     InputFile.ReadTrap (100);
 
@@ -3273,7 +3273,7 @@ reload_airport:
             tempRentRouten[c] = Sim.Players.Players[c].RentRouten;
 
         //Die Routen-Tabelle erweitern:
-        Routen.ReInitExtend ("Routen.csv");
+        Routen.ReInitExtend ("routen.csv");
 
         //Die RentRouten der Players auf die Größe bringen und die neue Reihenfolge mappen
         for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
@@ -3320,8 +3320,8 @@ void SIM::SaveGame (SLONG Number, const CString &Name)
 {
     const char *pNamebaseStr;
 
-    if (Sim.bNetwork) pNamebaseStr = "Net%li.dat";
-    else pNamebaseStr = "Game%li.dat";
+    if (Sim.bNetwork) pNamebaseStr = "net%li.dat";
+    else pNamebaseStr = "game%li.dat";
 
     CString Filename = FullFilename ((LPCTSTR)bprintf(pNamebaseStr, Number), SavegamePath);
     SLONG NumSaveGameCities=Cities.AnzEntries();
@@ -3437,8 +3437,8 @@ SLONG SIM::GetSavegameLocalPlayer (SLONG Index)
 
     const char *pNamebaseStr;
 
-    if (Sim.bNetwork) pNamebaseStr = "Net%li.dat";
-    else pNamebaseStr = "Game%li.dat";
+    if (Sim.bNetwork) pNamebaseStr = "net%li.dat";
+    else pNamebaseStr = "game%li.dat";
 
     Filename = FullFilename ((LPCTSTR)bprintf(pNamebaseStr, Index), SavegamePath);
 
@@ -3479,8 +3479,8 @@ DWORD SIM::GetSavegameUniqueGameId (SLONG Index, bool bForceNetwork)
 
     const char *pNamebaseStr;
 
-    if (Sim.bNetwork || bForceNetwork) pNamebaseStr = "Net%li.dat";
-    else pNamebaseStr = "Game%li.dat";
+    if (Sim.bNetwork || bForceNetwork) pNamebaseStr = "net%li.dat";
+    else pNamebaseStr = "game%li.dat";
 
     Filename = FullFilename ((LPCTSTR)bprintf(pNamebaseStr, Index), SavegamePath);
 
@@ -3518,8 +3518,8 @@ SLONG SIM::GetSavegameNumHumans (SLONG Index)
 
     const char *pNamebaseStr;
 
-    if (Sim.bNetwork) pNamebaseStr = "Net%li.dat";
-    else pNamebaseStr = "Game%li.dat";
+    if (Sim.bNetwork) pNamebaseStr = "net%li.dat";
+    else pNamebaseStr = "game%li.dat";
 
     Filename = FullFilename ((LPCTSTR)bprintf(pNamebaseStr, Index), SavegamePath);
 
@@ -3560,8 +3560,8 @@ CString SIM::GetSavegameSessionName (SLONG Index)
 
     const char *pNamebaseStr;
 
-    if (Sim.bNetwork) pNamebaseStr = "Net%li.dat";
-    else pNamebaseStr = "Game%li.dat";
+    if (Sim.bNetwork) pNamebaseStr = "net%li.dat";
+    else pNamebaseStr = "game%li.dat";
 
     Filename = FullFilename ((LPCTSTR)bprintf(pNamebaseStr, Index), SavegamePath);
 
@@ -3610,8 +3610,8 @@ void SIM::ReadSavegameOwners (SLONG Index)
 
     const char *pNamebaseStr;
 
-    if (Sim.bNetwork) pNamebaseStr = "Net%li.dat";
-    else pNamebaseStr = "Game%li.dat";
+    if (Sim.bNetwork) pNamebaseStr = "net%li.dat";
+    else pNamebaseStr = "game%li.dat";
 
     Filename = FullFilename ((LPCTSTR)bprintf(pNamebaseStr, Index), SavegamePath);
 

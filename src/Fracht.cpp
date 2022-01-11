@@ -51,7 +51,7 @@ CString ShortenLongCities (CString City);
 //--------------------------------------------------------------------------------------------
 //Die Schalter wird eröffnet:
 //--------------------------------------------------------------------------------------------
-CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "Fracht.gli", GFX_FRACHT)
+CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "fracht.gli", GFX_FRACHT)
 {
     bCanPaint = false;
 
@@ -69,65 +69,65 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     gFrachten.Refill ();
 
     SP_Fracht.ReSize (13);
-    SP_Fracht.Clips[0].ReSize (0, "FM1a.smk", "", XY (485, 50), SPM_IDLE,    CRepeat(1,1), CPostWait(0,20),   SMACKER_CLIP_DONTCANCEL,
+    SP_Fracht.Clips[0].ReSize (0, "fm1a.smk", "", XY (485, 50), SPM_IDLE,    CRepeat(1,1), CPostWait(0,20),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &KommVar,  //Warten
             "A4A4A9E1", 0, 1, 2, 4);
-    SP_Fracht.Clips[1].ReSize (1, "FM1a.smk", "", XY (485, 50), SPM_IDLE,    CRepeat(1,1), CPostWait(0,20),   SMACKER_CLIP_DONTCANCEL,
+    SP_Fracht.Clips[1].ReSize (1, "fm1a.smk", "", XY (485, 50), SPM_IDLE,    CRepeat(1,1), CPostWait(0,20),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &KommVar,  //Warten
             "A4A4A9E1", 0, 1, 2, 4);
-    SP_Fracht.Clips[2].ReSize (3, "FM3.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,20), SMACKER_CLIP_DONTCANCEL,
+    SP_Fracht.Clips[2].ReSize (3, "fm3.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,20), SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, &KommVar,  //Warten
             "A4A4A9E1", 0, 1, 2, 4);
 
     //Buzzer
-    SP_Fracht.Clips[3].ReSize (2, "FM2.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,20), SMACKER_CLIP_DONTCANCEL,
+    SP_Fracht.Clips[3].ReSize (2, "fm2.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,20), SMACKER_CLIP_DONTCANCEL,
             &DropItNow, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+5*SMACKER_CLIP_MULT, 1, NULL,  //Warten
             "A4A4A9E1", 0, 1, 2, 4);
 
     //Nach vorne drehen:
-    SP_Fracht.Clips[4].ReSize (4, "FM4.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Fracht.Clips[4].ReSize (4, "fm4.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten->Speak/Listen
             "A1E1", 5, 6);
 
     //Zuhören:
-    SP_Fracht.Clips[5].ReSize (5, "FM4SPaS1.smk", "", XY (485, 50), SPM_LISTENING, CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
+    SP_Fracht.Clips[5].ReSize (5, "fm4spas1.smk", "", XY (485, 50), SPM_LISTENING, CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Listening
             "A9A9A9E1E1", 5, 6, 7, 8, 12);
-    SP_Fracht.Clips[6].ReSize (6, "FM4SPaS2.smk", "", XY (485, 50), SPM_LISTENING, CRepeat(1,1), CPostWait(0,3),   SMACKER_CLIP_CANCANCEL,
+    SP_Fracht.Clips[6].ReSize (6, "fm4spas2.smk", "", XY (485, 50), SPM_LISTENING, CRepeat(1,1), CPostWait(0,3),   SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Listening
             "A9E1E1", 5, 8, 12);
-    SP_Fracht.Clips[7].ReSize (7, "FM4SPaS3.smk", "", XY (485, 50), SPM_LISTENING, CRepeat(1,1), CPostWait(8,20),  SMACKER_CLIP_CANCANCEL,
+    SP_Fracht.Clips[7].ReSize (7, "fm4spas3.smk", "", XY (485, 50), SPM_LISTENING, CRepeat(1,1), CPostWait(8,20),  SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Listening
             "A9E1E1", 5, 8, 12);
 
     //Babbeln:
-    SP_Fracht.Clips[8].ReSize (8, "FMSPa1.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+    SP_Fracht.Clips[8].ReSize (8, "fmspa1.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Talking
             "A9A9A9E1E1", 9, 10, 11, 5, 12);
-    SP_Fracht.Clips[9].ReSize (9, "FMSPa2.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+    SP_Fracht.Clips[9].ReSize (9, "fmspa2.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Talking
             "A9A9A9E1E1", 10, 10, 11, 5, 12);
-    SP_Fracht.Clips[10].ReSize (10, "FMSPa3.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+    SP_Fracht.Clips[10].ReSize (10, "fmspa3.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Talking
             "A9A9A9E1E1", 9, 11, 11, 5, 12);
-    SP_Fracht.Clips[11].ReSize (11, "FMSPa4.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
+    SP_Fracht.Clips[11].ReSize (11, "fmspa4.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Talking
             "A9A9A9E1E1", 9, 10, 12, 5, 12);
 
     //Zurück zur Arbeit drehen:
-    SP_Fracht.Clips[12].ReSize (12, "FM4back.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
+    SP_Fracht.Clips[12].ReSize (12, "fm4back.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak/Listen->Warten
             "A1E1", 0, 6);
 
     SP_Stapler.ReSize (2);
-    SP_Stapler.Clips[0].ReSize (0, "Fa1.smk", "",    XY (60, 240), SPM_IDLE, CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
+    SP_Stapler.Clips[0].ReSize (0, "fa1.smk", "",    XY (60, 240), SPM_IDLE, CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 1);
-    SP_Stapler.Clips[1].ReSize (2, "Fa2.smk", "",    XY (0, 190),  SPM_IDLE, CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
+    SP_Stapler.Clips[1].ReSize (2, "fa2.smk", "",    XY (0, 190),  SPM_IDLE, CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A9", 0);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("TipAu.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tipau.gli", GliPath), &pMenuLib, L_LOCMEM);
     TipBm.ReSize (pMenuLib, "BLOC1");
     MapPlaneBms[0].ReSize (pMenuLib, "PL_B00", 1+8);
     MapPlaneBms[1].ReSize (pMenuLib, "PL_V00", 1+8);
@@ -142,14 +142,14 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     SeileBms.ReSize (pRoomLib, "SEIL01", 3);
     KistenBms.ReSize (pRoomLib, "KISTE01" , 6);
 
-    KistenFx[0].ReInit("Kiste1.raw");
-    KistenFx[1].ReInit("Kiste2.raw");
-    WarningFx.ReInit("Warning.raw");
+    KistenFx[0].ReInit("kiste1.raw");
+    KistenFx[1].ReInit("kiste2.raw");
+    WarningFx.ReInit("warning.raw");
 
     for (SLONG c=0; c<(SLONG)gFrachten.AnzEntries(); c++)
         RepaintZettel (c);
 
-    SetBackgroundFx (0, "Pap3.raw",     25000);    //Papierrascheln
+    SetBackgroundFx (0, "pap3.raw",     25000);    //Papierrascheln
 
     pZettelLib=NULL;
 

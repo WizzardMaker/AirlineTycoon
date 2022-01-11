@@ -368,7 +368,7 @@ void CVoiceScheduler::Pump (void)
 //--------------------------------------------------------------------------------------------
 void PlayFanfare (void)
 {
-    PlayUniversalFx ("TAETERAE.raw", Sim.Options.OptionEffekte);
+    PlayUniversalFx ("taeterae.raw", Sim.Options.OptionEffekte);
 }
 
 //--------------------------------------------------------------------------------------------
