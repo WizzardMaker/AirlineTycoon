@@ -127,7 +127,7 @@ void CDutyFree::OnPaint()
         RoomBm.BlitFrom (HufeisenBm, 14,36);
 
     //Draw Persons:
-    RoomBm.pBitmap->SetClipRect(&CRect(432,70,559,246));
+    RoomBm.pBitmap->SetClipRect(CRect(432,70,559,246));
     for (SLONG d=SLONG(Sim.Persons.AnzEntries()-1); d>=0; d--)
     {
         //Entscheidung! Person malen:
@@ -158,7 +158,7 @@ void CDutyFree::OnPaint()
         }
     }
 
-    RoomBm.pBitmap->SetClipRect(&CRect(0,0,640,440));
+    RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
 
     //DrawTransparency:
     if (lasty>=300) ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), NULL, 4);

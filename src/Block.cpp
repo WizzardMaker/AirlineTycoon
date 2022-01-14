@@ -693,9 +693,9 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                         //Dunklen Bereich markieren:
                         if (Bitmap.Size.x>0)
                         {
-                            Bitmap.pBitmap->SetClipRect(&CRect(ClientArea.x+24, ClientArea.y+17, ClientArea.x+24+Sim.Time/10000, ClientArea.y+17+19));
+                            Bitmap.pBitmap->SetClipRect(CRect(ClientArea.x+24, ClientArea.y+17, ClientArea.x+24+Sim.Time/10000, ClientArea.y+17+19));
                             ColorFX.Apply (4, Bitmap.pBitmap);
-                            Bitmap.pBitmap->SetClipRect(&CRect(0,0,Bitmap.Size.x,Bitmap.Size.y));
+                            Bitmap.pBitmap->SetClipRect(CRect(0,0,Bitmap.Size.x,Bitmap.Size.y));
                         }
 
                         //Problem markieren:

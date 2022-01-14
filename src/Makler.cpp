@@ -142,7 +142,7 @@ void CMakler::OnPaint()
     CStdRaum::OnPaint ();
 
     //Draw Persons:
-    RoomBm.pBitmap->SetClipRect(&CRect(0,149,343,149+86));
+    RoomBm.pBitmap->SetClipRect(CRect(0,149,343,149+86));
     for (SLONG d=0; d<SLONG(Sim.Persons.AnzEntries()); d++)
     {
         //Entscheidung! Person malen:
@@ -164,7 +164,7 @@ void CMakler::OnPaint()
         }
         else break;
     }
-    RoomBm.pBitmap->SetClipRect(&CRect(0,0,640,440));
+    RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
 
     RoomBm.BlitFromT (DoorOpaqueBm, 0, 149);
     ColorFX.BlitTrans (DoorTransBms[0].pBitmap, RoomBm.pBitmap, XY(325,200), NULL, 2);

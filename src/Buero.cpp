@@ -176,7 +176,7 @@ void CBuero::OnPaint()
     SP_Ticker.BlitAtT (RoomBm);
 
     //Draw Persons:
-    RoomBm.pBitmap->SetClipRect(&CRect(539,67,639,289));
+    RoomBm.pBitmap->SetClipRect(CRect(539,67,639,289));
     for (d=0; d<(SLONG)Sim.Persons.AnzEntries(); d++)
     {
         //Entscheidung! Person malen:
@@ -200,7 +200,7 @@ void CBuero::OnPaint()
         else break;
     }
 
-    RoomBm.pBitmap->SetClipRect(&CRect(0,0,640,480));
+    RoomBm.pBitmap->SetClipRect(CRect(0,0,640,480));
 
     RoomBm.BlitFromT (DoorOpaqueBm, 521, 53);
     ColorFX.BlitTrans (DoorTransBm.pBitmap, RoomBm.pBitmap, XY(542,67), NULL, 2);

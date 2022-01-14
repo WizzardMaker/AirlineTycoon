@@ -2563,7 +2563,7 @@ void CStdRaum::PostPaint (void)
         //Handy-Screen einblenden; entweder direkt in die primary-Bitmap (wenn am Airport) oder in die Zwischenbitmap (wenn in einem Raum)
         if (RoomBm.Size.x>0)
         {
-            RoomBm.pBitmap->SetClipRect(&CRect(0,0,640,440));
+            RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
             RoomBm.BlitFrom (qRoom.RoomBm, &SrcRect, Dest);
 
             for (SLONG cy=0; cy<9; cy++)
@@ -2574,11 +2574,11 @@ void CStdRaum::PostPaint (void)
 
                 RoomBm.BlitFromT (gDialogBarBm, qRoom.TempScreenScroll+1-13-13*cy, -24+cy*52);
             }
-            RoomBm.pBitmap->SetClipRect(&CRect(0,0,640,480));
+            RoomBm.pBitmap->SetClipRect(CRect(0,0,640,480));
         }
         else
         {
-            PrimaryBm.PrimaryBm.SetClipRect(&CRect(0,0,640,440));
+            PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,440));
             PrimaryBm.BlitFrom (qRoom.RoomBm, &SrcRect, Dest);
 
             for (SLONG cy=0; cy<9; cy++)
@@ -2589,7 +2589,7 @@ void CStdRaum::PostPaint (void)
 
                 PrimaryBm.BlitFromT (gDialogBarBm, qRoom.TempScreenScroll+1-13-13*cy, -24+cy*52);
             }
-            PrimaryBm.PrimaryBm.SetClipRect(&CRect(0,0,640,480));
+            PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,480));
         }
     }
 

@@ -229,7 +229,7 @@ void CAbend::OnPaint()
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
 
-    PrimaryBm.PrimaryBm.SetClipRect(&CRect(0,0,640,440));
+    PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,440));
     if (Sim.GetHour()>7 && Sim.GetHour()<20)
         PrimaryBm.BlitFrom (AirportBm, 0, 0);
     else if (Sim.GetHour()<5 || Sim.GetHour()>22)
@@ -244,7 +244,7 @@ void CAbend::OnPaint()
         SLONG Level=((Sim.GetHour()-20)*60+Sim.GetMinute())*8/180;
         ColorFX.ApplyOn2 (8-Level, AirportBm.pBitmap, Level, NightBm.pBitmap, &PrimaryBm.PrimaryBm);
     }
-    PrimaryBm.PrimaryBm.SetClipRect(&CRect(0,0,640,480));
+    PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,480));
 
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();

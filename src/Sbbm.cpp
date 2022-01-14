@@ -507,9 +507,9 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL ShowFPS)
                     if (gBlendBm.Size.y==0) DebugBreak();
 
                     //if (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->PicBitmap.Size.y==480)
-                    PrimaryBm.SetClipRect(&CRect(0,0,640,480));
+                    PrimaryBm.SetClipRect(CRect(0,0,640,480));
                     /*else
-                      PrimaryBm.SetClipRect(&CRect(0,0,640,440)); */
+                      PrimaryBm.SetClipRect(CRect(0,0,640,440)); */
 
                     if (/*gBlendState==7 ||*/ gBlendState==8)
                     {
@@ -532,7 +532,7 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL ShowFPS)
                     {
                         ColorFX.ApplyOn2 (gBlendState, gBlendBm.pBitmap, 8-gBlendState, gBlendBm2.pBitmap, &PrimaryBm);
                     }
-                    PrimaryBm.SetClipRect(&CRect(0,0,640,480));
+                    PrimaryBm.SetClipRect(CRect(0,0,640,480));
 
                     gBlendState--;
                 }

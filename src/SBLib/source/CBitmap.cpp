@@ -188,11 +188,6 @@ ULONG SB_CBitmapCore::Line(SLONG x1, SLONG y1, SLONG x2, SLONG y2, SB_Hardwareco
     return 0;
 }
 
-void SB_CBitmapCore::SetClipRect(const RECT* pRect)
-{
-    SetClipRect(*(const CRect*)pRect);
-}
-
 void SB_CBitmapCore::SetClipRect(const CRect& rect)
 {
     SDL_Rect clip = { rect.left, rect.top, rect.Width(), rect.Height() };

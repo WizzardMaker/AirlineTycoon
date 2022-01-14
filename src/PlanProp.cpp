@@ -370,12 +370,12 @@ void CPlaneProps::OnPaint()
 
         if (ActivePage!=100)
         {
-            RoomBm.pBitmap->SetClipRect (&CRect(0,0,400+ScrollOffsetX,440));
+            RoomBm.pBitmap->SetClipRect (CRect(0,0,400+ScrollOffsetX,440));
             ColorFX.Apply ((50-(100-ActivePage))*8/50, RoomBm.pBitmap);
 
             for (SLONG c=0; c<8; c++)
             {
-                RoomBm.pBitmap->SetClipRect (&CRect(min(640,400+c*25+ScrollOffsetX),0,min(640,425+c*25+ScrollOffsetX),440));
+                RoomBm.pBitmap->SetClipRect (CRect(min(640,400+c*25+ScrollOffsetX),0,min(640,425+c*25+ScrollOffsetX),440));
 
                 if (min(640,400+c*25+ScrollOffsetX)<min(640,425+c*25+ScrollOffsetX))
                 {
@@ -391,7 +391,7 @@ void CPlaneProps::OnPaint()
                 }
             }
 
-            RoomBm.pBitmap->SetClipRect (&CRect(0,0,640,480));
+            RoomBm.pBitmap->SetClipRect (CRect(0,0,640,480));
         }
     }
     else
@@ -527,12 +527,12 @@ void CPlaneProps::OnPaint()
 
         if (ActivePage!=0)
         {
-            RoomBm.pBitmap->SetClipRect (&CRect(240+ScrollOffsetX,0,640,440));
+            RoomBm.pBitmap->SetClipRect (CRect(240+ScrollOffsetX,0,640,440));
             ColorFX.Apply ((50-ActivePage)*8/50, RoomBm.pBitmap);
 
             for (SLONG c=0; c<8; c++)
             {
-                RoomBm.pBitmap->SetClipRect (&CRect(max(0,215-c*25+ScrollOffsetX),0,max(0,240-c*25+ScrollOffsetX),440));
+                RoomBm.pBitmap->SetClipRect (CRect(max(0,215-c*25+ScrollOffsetX),0,max(0,240-c*25+ScrollOffsetX),440));
 
                 if (max(0,215-c*25+ScrollOffsetX)<max(0,240-c*25+ScrollOffsetX))
                 {
@@ -548,7 +548,7 @@ void CPlaneProps::OnPaint()
                 }
             }
 
-            RoomBm.pBitmap->SetClipRect (&CRect(0,0,640,480));
+            RoomBm.pBitmap->SetClipRect (CRect(0,0,640,480));
         }
     }
 

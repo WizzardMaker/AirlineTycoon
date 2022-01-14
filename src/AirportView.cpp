@@ -632,10 +632,10 @@ void AirportView::OnPaint()
                         switch (Airport.ClipMarkers[c-1].Type)
                         {
                             case RUNE_CLIPMIDDLE: //Büros verdecken
-                                PrimaryBm.PrimaryBm.SetClipRect(&CRect(max(RangeDrawn-ViewPos.x,0),MiddleHeight,min(Airport.ClipMarkers[c].Position-ViewPos.x,RightClip),440));
+                                PrimaryBm.PrimaryBm.SetClipRect(CRect(max(RangeDrawn-ViewPos.x,0),MiddleHeight,min(Airport.ClipMarkers[c].Position-ViewPos.x,RightClip),440));
                                 break;
                             case RUNE_CLIPNONE: //Nix verdeckt
-                                PrimaryBm.PrimaryBm.SetClipRect(&CRect(max(RangeDrawn-ViewPos.x,0),0,min(Airport.ClipMarkers[c].Position-ViewPos.x,RightClip),440));
+                                PrimaryBm.PrimaryBm.SetClipRect(CRect(max(RangeDrawn-ViewPos.x,0),0,min(Airport.ClipMarkers[c].Position-ViewPos.x,RightClip),440));
                                 break;
                             default:
                                 DebugBreak();
@@ -684,13 +684,13 @@ void AirportView::OnPaint()
                     if (RangeDrawn>=ViewPos.x+640) break;
                 }
 
-                PrimaryBm.PrimaryBm.SetClipRect(&CRect(0,0,RightClip,440));
+                PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,RightClip,440));
 
                 //Runway rechts aussen:
                 Bricks[FloorFIndex].BlitAt (PrimaryBm, 0, (Airport.RightEnd-ViewPos.x)-20-89, WinP1.y+34+44+72+70);
             }
 
-            PrimaryBm.PrimaryBm.SetClipRect(&CRect(0,0,RightClip,440));
+            PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,RightClip,440));
 
             //Flugzeuge von allen Spielern auf dem Runway zeigen:
             if (Sim.Options.OptionPlanes)
@@ -1036,9 +1036,9 @@ void AirportView::OnPaint()
                                 r2.right  = r2.left + qBrick.Bitmap[0].Size.x;
 
                                 rect = PrimaryBm.PrimaryBm.GetClipRect();
-                                PrimaryBm.PrimaryBm.SetClipRect(&r2);
+                                PrimaryBm.PrimaryBm.SetClipRect(r2);
                                 qBrick.BlitAt (PrimaryBm, 0, qBuild.ScreenPos-ViewPos+WinP1-XY(0, (qBrick.Bitmap[0].Size.y*DoorOpenTab[qBrick.BaseOffset.y])>>8));
-                                PrimaryBm.PrimaryBm.SetClipRect(&rect);
+                                PrimaryBm.PrimaryBm.SetClipRect(rect);
                             }
                             else if (BrickId>=DoorIndexMin && BrickId<=DoorIndexMax)
                                 //Tür bekommt als Parameter die Öffnungsweite
@@ -1093,7 +1093,7 @@ void AirportView::OnPaint()
                             if (Editor!=EDITOR_BUILDS && BrickId==ScannerIndex)
                             {
                                 XY p=qBuild.ScreenPos-ViewPos+WinP1;
-                                PrimaryBm.PrimaryBm.SetClipRect(&CRect(p.x+4, p.y+7, p.x+74,p.y+74));
+                                PrimaryBm.PrimaryBm.SetClipRect(CRect(p.x+4, p.y+7, p.x+74,p.y+74));
 
                                 for (SLONG d=0; d<SLONG(Sim.Persons.AnzEntries()); d++)
                                 {
@@ -1109,7 +1109,7 @@ void AirportView::OnPaint()
                                     else break;
                                 }
 
-                                PrimaryBm.PrimaryBm.SetClipRect(&CRect(0,0,640,440));
+                                PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,440));
                             }
 
                             if (Editor==EDITOR_BUILDS && ((BrickId >=0x10000000+2030 && BrickId<=0x10000000+2035) || BrickId==0x10000000+2045 || BrickId==0x10000000+2001 || BrickId==0x10000000+2003 || BrickId==0x10000000+RUNE_AREALO || BrickId==0x10000000+RUNE_AREARU || BrickId==0x10000000+500 || BrickId==0x10000000+521 || BrickId==0x10000000+522 || BrickId==0x10000000+520 || BrickId==0x10000000+492 || (BrickId>=0x10000000+760 && BrickId<=0x10000000+774) || BrickId==0x10000000+RUNE_WAITPLANE || BrickId==0x10000000+RUNE_DROPSUITCASE || BrickId==0x10000000+RUNE_WAYPOINT || BrickId==0x10000000+RUNE_WAYPOINT_WAIT || BrickId==0x10000000+RUNE_WAYPOINT_START || BrickId==0x10000000+RUNE_WAYPOINT_G || BrickId==0x10000000+RUNE_CONDBLOCK || BrickId==0x10000000+337 || BrickId==0x10000000+338))
@@ -1242,7 +1242,7 @@ void AirportView::OnPaint()
                             Bricks[EditObject].BlitAt (PrimaryBm, 0, Bricks[EditObject].GetIntelligentPosition (gMousePosition.x+ViewPos.x, gMousePosition.y+ViewPos.y)-ViewPos, 0);
                     }
 
-                    PrimaryBm.PrimaryBm.SetClipRect(&CRect(0,0,640,480));
+                    PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,480));
 
                     //Die Statuszeile mit ihren Anzeigen...
                     CStdRaum::OnPaint ();

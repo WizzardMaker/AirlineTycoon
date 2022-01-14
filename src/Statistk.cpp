@@ -314,9 +314,9 @@ void CStatistik::OnPaint()
     if (DropDownPos.y!=329) RoomBm.BlitFrom (TextTableBm, 190, 40);
     if (DropDownPos.y!=0)
     {
-        RoomBm.pBitmap->SetClipRect(&CRect(190,10,630,370));
+        RoomBm.pBitmap->SetClipRect(CRect(190,10,630,370));
         RoomBm.BlitFrom (DropDownBm, 190, 40-360+DropDownPos.y);
-        RoomBm.pBitmap->SetClipRect(&CRect(0,0,640,440));
+        RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
     }
 
     //Ggf. Onscreen-Texte einbauen:
@@ -484,7 +484,7 @@ void CStatistik::OnPaint()
     //Ein Patch: Die Exit-Bitmap nach der Statuszeile erneut zeichnen:
     if (ExitBm)
     {
-        PrimaryBm.PrimaryBm.SetClipRect(&CRect(0,0,640,480));
+        PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,480));
         PrimaryBm.BlitFrom (*ExitBm, ExitBmPos);
     }
 
@@ -597,7 +597,7 @@ void CStatistik::RepaintGraphWindow (void)
     if (days > (Sim.Date+1))
         days = Sim.Date+1;
 
-    DropDownBm.pBitmap->SetClipRect(&CRect(G_LEFT,G_TOP,G_RIGHT,G_BOTTOM+1));
+    DropDownBm.pBitmap->SetClipRect(CRect(G_LEFT,G_TOP,G_RIGHT,G_BOTTOM+1));
 
     // Max-Min Werte
     if (_days <= 30)

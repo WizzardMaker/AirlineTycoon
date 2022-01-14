@@ -5,7 +5,7 @@ char* bprintf(char const* format, ...)
     static char buffer[8192];
     va_list args;
     va_start (args, format);
-    vsnprintf (buffer, 8192, format, args);
+    vsnprintf (buffer, sizeof(buffer), format, args);
     va_end (args);
     return buffer;
 }
@@ -13,7 +13,7 @@ char* bprintf(char const* format, ...)
 char* bitoa(int val)
 {
     static char buffer[20];
-    snprintf(buffer, 20, "%d", val);
+    snprintf(buffer, sizeof(buffer), "%d", val);
     return buffer;
 }
 

@@ -750,7 +750,7 @@ do_the_painting_again:
         }
 
         //Draw Persons:
-        RoomBm.pBitmap->SetClipRect(&CRect(422,0,640,174));
+        RoomBm.pBitmap->SetClipRect(CRect(422,0,640,174));
         for (SLONG d=0; d<SLONG(Sim.Persons.AnzEntries()); d++)
         {
             //Entscheidung! Person malen:
@@ -780,7 +780,7 @@ do_the_painting_again:
             }
             else break;
         }
-        RoomBm.pBitmap->SetClipRect(&CRect(0,0,640,440));
+        RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
 
         //DrawTransparency:
         ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(422,0), NULL, 2);
