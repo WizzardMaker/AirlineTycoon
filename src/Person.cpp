@@ -1375,7 +1375,8 @@ waiting_again:
                                     else
                                     {
                                         //Prüfen, ob auf der gemeinsamen Innenspur Platz ist...
-                                        for (SLONG c=0; c<5; c++)
+                                        SLONG c=0;
+                                        for ( ; c<5; c++)
                                             if (((Airport.iPlateDir[12+((ArrayPos.x-c)<<4)]==1 || Airport.iPlateDir[12+((ArrayPos.x-c)<<4)]==254) && (Airport.iPlate[12+((ArrayPos.x-c)<<4)]&2)) || (Airport.iPlate[12+((ArrayPos.x-c)<<4)]&16)==0)
                                                 break;
 
@@ -1392,7 +1393,8 @@ waiting_again:
                                     else if (ArrayPos.y+5==12 && (Dir==3 || Dir==2))
                                     {
                                         //Prüfen, ob auf der gemeinsamen Innenspur Platz ist...
-                                        for (SLONG c=0; c<5; c++)
+                                        SLONG c=0;
+                                        for ( ; c<5; c++)
                                             if ((Airport.iPlateDir[12+((ArrayPos.x-c)<<4)]==1 && (Airport.iPlate[12+((ArrayPos.x-c)<<4)]&2)) || (Airport.iPlate[12+((ArrayPos.x-c)<<4)]&16)==0)
                                                 break;
 
