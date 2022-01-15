@@ -1155,7 +1155,8 @@ void CTakeOffApp::GameLoop(void*)
                     }
                     else if (Sim.Tutorial==1200+30 && qLocalPlayer.Messages.IsSilent ())
                     {
-                        for (SLONG c=9; c>=0; c--)
+                        SLONG c;
+                        for (c=9; c>=0; c--)
                             if (qLocalPlayer.Locations[c]==ROOM_AUFSICHT) break;
 
                         if (c>=0)
