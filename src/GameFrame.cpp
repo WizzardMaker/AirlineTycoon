@@ -864,7 +864,7 @@ void GameFrame::OnPaint()
 //--------------------------------------------------------------------------------------------
 BOOL GameFrame::OnEraseBkgnd(void* pDC)
 {
-    ReferTo (pDC);
+    //ReferTo (pDC);
     return FALSE;
 }
 
@@ -956,7 +956,7 @@ BOOL GameFrame::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
         }
     }
 
-    ReferTo (message, pWnd);
+    //ReferTo (message, pWnd);
     return TRUE;
 }
 
@@ -2300,7 +2300,7 @@ void GameFrame::OnLButtonDown(UINT nFlags, CPoint point)
     gMouseClickPosition = gMousePosition;
 
     RePostMessage (point);
-    ReferTo (nFlags, point);
+    //ReferTo (nFlags, point);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2312,7 +2312,7 @@ void GameFrame::OnLButtonDblClk(UINT nFlags, CPoint point)
     if (nOptionsOpen && Sim.bNetwork && Sim.localPlayer < Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom() != ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom() != 0) return;
 
     RePostMessage (point);
-    ReferTo (nFlags, point);
+    //ReferTo (nFlags, point);
 
 }
 void GameFrame::OnLButtonUp(UINT nFlags, CPoint point)
@@ -2321,7 +2321,7 @@ void GameFrame::OnLButtonUp(UINT nFlags, CPoint point)
     if (nOptionsOpen && Sim.bNetwork && Sim.localPlayer < Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom() != ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom() != 0) return;
 
     RePostMessage(point);
-    ReferTo (nFlags, point);
+    //ReferTo (nFlags, point);
 }
 void GameFrame::OnRButtonDown(UINT nFlags, CPoint point)
 {
@@ -2329,7 +2329,7 @@ void GameFrame::OnRButtonDown(UINT nFlags, CPoint point)
     if (nOptionsOpen && Sim.bNetwork && Sim.localPlayer < Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom() != ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom() != 0) return;
 
     RePostMessage (point);
-    ReferTo (nFlags, point);
+    //ReferTo (nFlags, point);
 }
 void GameFrame::OnRButtonUp(UINT nFlags, CPoint point)
 {
@@ -2337,7 +2337,7 @@ void GameFrame::OnRButtonUp(UINT nFlags, CPoint point)
     if (nOptionsOpen && Sim.bNetwork && Sim.localPlayer < Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom() != ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom() != 0) return;
 
     RePostMessage(point);
-    ReferTo (nFlags, point);
+    //ReferTo (nFlags, point);
 }
 
 //--------------------------------------------------------------------------------------------

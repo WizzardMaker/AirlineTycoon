@@ -62,7 +62,7 @@ inline A max(const A& a, const B& b)
     return (a < b) ? b : a;
 }
 
-inline void ReferTo(...) {}
+//inline void ReferTo(...) {}
 
 inline void MB() {}
 

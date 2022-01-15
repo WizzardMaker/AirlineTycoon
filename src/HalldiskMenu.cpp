@@ -200,7 +200,7 @@ void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
                 if (DoesFileExist (FullFilename (HallFilenames [c+1], MiscPath, 100*Sim.Difficulty+d))) bFiles[c+d*10]=1;
     }
 
-    ReferTo (nFlags);
+    //ReferTo (nFlags);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -208,8 +208,8 @@ void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 void HallDiskMenu::OnRButtonDown(UINT nFlags, CPoint point)
 {
-    ReferTo (nFlags);
-    ReferTo (point);
+    //ReferTo (nFlags);
+    //ReferTo (point);
 }
 
 
