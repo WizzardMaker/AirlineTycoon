@@ -353,7 +353,7 @@ bool SB_CFont::DrawChar(unsigned char ch, bool)
             srcRect.w = this->Header.Width;
             srcRect.h = this->Header.Height;
             if (!this->Hidden)
-                this->Bitmap->BlitChar(Surface, Pos.x, Pos.y, &srcRect, 1);
+                this->Bitmap->BlitChar(Surface, Pos.x, Pos.y, srcRect);
         }
         this->Pos.x = this->Pos.x + GetWidth(ch);
         return true;

@@ -710,7 +710,8 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                                 SBBM RedBm (min(Problem*6, 24*6-offset)-1, 19);
                                 RedBm.FillWith ((UWORD)RedBm.pBitmap->GetHardwarecolor (0xff0000));
 
-                                ColorFX.BlitTrans (RedBm.pBitmap, Bitmap.pBitmap, XY(ClientArea.x+24+offset, ClientArea.y+17+day*19), &CRect (0,0,min(Problem*6, 24*6-offset)-1, 19-1));
+                                CRect  rect(0,0,min(Problem*6, 24*6-offset)-1, 19-1);
+                                ColorFX.BlitTrans (RedBm.pBitmap, Bitmap.pBitmap, XY(ClientArea.x+24+offset, ClientArea.y+17+day*19), &rect);
 
                                 Problem-=min(Problem, 24-offset/6);
                                 offset=0;

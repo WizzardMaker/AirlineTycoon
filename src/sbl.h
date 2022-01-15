@@ -166,15 +166,18 @@ class SB_CBitmapCore
         void SetClipRect(const CRect&);
         void SetColorKey(ULONG);
         virtual ULONG Release(void);
-        ULONG BlitFast(class SB_CBitmapCore*, SLONG, SLONG, const RECT* = NULL, unsigned short = 0);
-        ULONG BlitChar(SDL_Surface*, SLONG, SLONG, const SDL_Rect* = NULL, unsigned short = 0);
-        ULONG Blit(class SB_CBitmapCore*, SLONG, SLONG, const RECT* = NULL, unsigned short = 0, ULONG = 0);
+        ULONG BlitFast(class SB_CBitmapCore*, SLONG, SLONG);
+        ULONG BlitFast(class SB_CBitmapCore*, SLONG, SLONG, const CRect&);
+        ULONG BlitChar(SDL_Surface*, SLONG, SLONG, const SDL_Rect&);
+        ULONG Blit(class SB_CBitmapCore*, SLONG, SLONG);
+        ULONG Blit(class SB_CBitmapCore*, SLONG, SLONG, const CRect&);
         SLONG BlitA(class SB_CBitmapCore*, SLONG, SLONG, const RECT*, SB_Hardwarecolor);
         SLONG BlitA(class SB_CBitmapCore*, SLONG, SLONG, const RECT*);
         SLONG BlitAT(class SB_CBitmapCore*, SLONG, SLONG, const RECT*, SB_Hardwarecolor);
         SLONG BlitAT(class SB_CBitmapCore*, SLONG, SLONG, const RECT*);
 
-        ULONG BlitT(class SB_CBitmapCore* bm, SLONG x, SLONG y, const RECT* rect = NULL, short flags = 16, ULONG unk = 0) { return Blit(bm, x, y, rect, flags, unk); }
+        ULONG BlitT(class SB_CBitmapCore* bm, SLONG x, SLONG y) { return Blit(bm, x, y); }
+        ULONG BlitT(class SB_CBitmapCore* bm, SLONG x, SLONG y, const CRect& rect) { return Blit(bm, x, y, rect); }
         ULONG SetPixel(SLONG x, SLONG y, SLONG color) { return SetPixel(x, y, GetHardwarecolor(color)); }
         ULONG Line(SLONG x1, SLONG y1, SLONG x2, SLONG y2, DWORD color) { return Line(x1, y1, x2, y2, GetHardwarecolor(color)); }
         SLONG GetXSize() { return Size.x; }

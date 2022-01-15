@@ -2564,12 +2564,12 @@ void CStdRaum::PostPaint (void)
         if (RoomBm.Size.x>0)
         {
             RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
-            RoomBm.BlitFrom (qRoom.RoomBm, &SrcRect, Dest);
+            RoomBm.BlitFrom (qRoom.RoomBm, SrcRect, Dest);
 
             for (SLONG cy=0; cy<9; cy++)
             {
                 RoomBm.BlitFrom (qRoom.RoomBm,
-                        &CRect (qRoom.HandyOffset-13*cy, -24+cy*52, qRoom.HandyOffset+13, min (440, 28+cy*52)),
+                        CRect (qRoom.HandyOffset-13*cy, -24+cy*52, qRoom.HandyOffset+13, min (440, 28+cy*52)),
                         XY(qRoom.TempScreenScroll-13*cy, -24+cy*52));
 
                 RoomBm.BlitFromT (gDialogBarBm, qRoom.TempScreenScroll+1-13-13*cy, -24+cy*52);
@@ -2579,12 +2579,12 @@ void CStdRaum::PostPaint (void)
         else
         {
             PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,440));
-            PrimaryBm.BlitFrom (qRoom.RoomBm, &SrcRect, Dest);
+            PrimaryBm.BlitFrom (qRoom.RoomBm, SrcRect, Dest);
 
             for (SLONG cy=0; cy<9; cy++)
             {
                 PrimaryBm.BlitFrom (qRoom.RoomBm,
-                        &CRect (qRoom.HandyOffset-13*cy, -24+cy*52, qRoom.HandyOffset+13, min (440, 28+cy*52)),
+                        CRect (qRoom.HandyOffset-13*cy, -24+cy*52, qRoom.HandyOffset+13, min (440, 28+cy*52)),
                         XY(qRoom.TempScreenScroll-13*cy, -24+cy*52));
 
                 PrimaryBm.BlitFromT (gDialogBarBm, qRoom.TempScreenScroll+1-13-13*cy, -24+cy*52);
