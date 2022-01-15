@@ -56,7 +56,7 @@ void TeakAlbumRemoveT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULONG
         ids[id] = 0;
         return;
     }
-    TeakLibW_Exception(0, 0, ExcAlbumDelete, name);
+    TeakLibW_Exception(0, 0, ExcAlbumDelete, name.c_str());
 }
 
 void TeakAlbumRefresh(FBUFFER<ULONG>& ids, ULONG anz)
@@ -88,7 +88,7 @@ SLONG TeakAlbumSearchT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULON
     {
         return id;
     }
-    TeakLibW_Exception(0, 0, ExcAlbumFind, name);
+    TeakLibW_Exception(0, 0, ExcAlbumFind, name.c_str());
     return 0;
 }
 
@@ -104,7 +104,7 @@ SLONG TeakAlbumXIdSearchT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, X
     }
     else if (ids[id.Index] >= 0x1000000u)
     {
-        TeakLibW_Exception(0, 0, ExcXIDUnrecoverable, name);
+        TeakLibW_Exception(0, 0, ExcXIDUnrecoverable, name.c_str());
         return 0;
     }
     else
@@ -143,7 +143,7 @@ ULONG TeakAlbumAddT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULONG i
             return id;
         }
     }
-    TeakLibW_Exception(0, 0, ExcAlbumInsert, name);
+    TeakLibW_Exception(0, 0, ExcAlbumInsert, name.c_str());
     return 0;
 }
 
@@ -158,7 +158,7 @@ ULONG TeakAlbumFrontAddT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, UL
             return id;
         }
     }
-    TeakLibW_Exception(0, 0, ExcAlbumInsert, name);
+    TeakLibW_Exception(0, 0, ExcAlbumInsert, name.c_str());
     return 0;
 }
 
@@ -191,7 +191,7 @@ ULONG TeakAlbumRandom(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, TEAKR
     TeakAlbumRefresh(ids, anz);
     ULONG used = TeakAlbumGetNumUsed(ids, anz);
     if (!used)
-        TeakLibW_Exception(0, 0, ExcAlbumFind, name);
+        TeakLibW_Exception(0, 0, ExcAlbumFind, name.c_str());
 
     SLONG target = random ? random->Rand(used) : rand() % 5;
     SLONG index = 0;
@@ -200,6 +200,6 @@ ULONG TeakAlbumRandom(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, TEAKR
         if (++index > target)
             return ids[i];
     }
-    TeakLibW_Exception(0, 0, ExcAlbumFind, name);
+    TeakLibW_Exception(0, 0, ExcAlbumFind, name.c_str());
     return 0;
 }
