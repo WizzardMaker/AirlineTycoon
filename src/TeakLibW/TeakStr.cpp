@@ -58,14 +58,14 @@ unsigned char GerToUpper(unsigned char c)
 {
     if (c >= 0x61 && c <= 0x7A)
         return c - 0x20;
-    switch (c + 0x7F)
+    switch (c) //+ 0x7F)
     {
-        case 0: return 0x9Au;
-        case 3: return 0x8Eu;
-        case 0x13: return 0x99u;
-        case 0x63: return 0xC4u;
-        case 0x75: return 0xD6u;
-        case 0x7B: return 0xDCu;
+        //case 0: return 0x9Au;
+        //case 3: return 0x8Eu;
+        //case 0x13: return 0x99u;
+        case 0xE4u: return 0xC4u; // Ä
+        case 0xF6u: return 0xD6u; // Ö
+        case 0xFCu: return 0xDCu; // Ü
     }
     return c;
 }
