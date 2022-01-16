@@ -667,7 +667,6 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubId, 
 void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVon, ULONG SubIdBis, SLONG ParameterIndiziert, SB_CFont *Normal, SB_CFont *Highlight, ...)
 {
     SLONG c;
-    SLONG Rand;
 
     CanCancelEmpty = FALSE;
     TimeAtStart = timeGetTime();
@@ -679,9 +678,6 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVo
         SpeechFx.Stop();
         TalkingSpeechFx=FALSE;
     }
-
-    //Platz für den Rand lassen?
-    Rand=0;
 
     TimeBubbleDisplayed = timeGetTime();
 
@@ -882,7 +878,6 @@ void CStdRaum::MakeNumberWindow (const char *GroupId, ULONG SubId, ...)
 //--------------------------------------------------------------------------------------------
 void CStdRaum::RepaintText (BOOL RefreshAll)
 {
-    SLONG Rand=0;
     static long LastCurrentHighlight=0;
 
     if (LastCurrentHighlight!=long(CurrentHighlight))
