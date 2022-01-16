@@ -3902,11 +3902,11 @@ void SIM::LoadHighscores (void)
                 Highscores[c].Name = strtok (Buffer, ";");
                 Highscores[c].UniqueGameId2 = atoi (strtok (NULL, ";"));
 
-                __int64 k1 = atoll (strtok (NULL, ";"));
-                __int64 k2 = atoll (strtok (NULL, ";"));
-                __int64 k3 = atoll (strtok (NULL, ";"));
-                __int64 k4 = atoll (strtok (NULL, ";"));
-                __int64 k5 = atoll (strtok (NULL, ";"));
+                int64_t k1 = atoll (strtok (nullptr, ";"));
+                int64_t k2 = atoll (strtok (nullptr, ";"));
+                int64_t k3 = atoll (strtok (nullptr, ";"));
+                int64_t k4 = atoll (strtok (nullptr, ";"));
+                int64_t k5 = atoll (strtok (nullptr, ";"));
 
                 if ((k4^k1^k3) == (k5^k2))
                     Highscores[c].Score = k5^k2;

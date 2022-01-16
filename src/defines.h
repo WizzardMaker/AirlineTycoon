@@ -82,7 +82,7 @@ class CPoint : public tagPOINT
             x = y = 0;
         }
 
-        CPoint(const POINT& initPoint)
+        CPoint(const CPoint& initPoint)
         {
             x = initPoint.x;
             y = initPoint.y;
@@ -1000,9 +1000,9 @@ inline bool operator!=(const CPoint& lhs, const CPoint& rhs)
 #define VK_F12                      SDLK_F12
 
 #define RGB(r,g,b) ((COLORREF)(((BYTE)(r)|((WORD)((BYTE)(g))<<8))|(((DWORD)(BYTE)(b))<<16)))
-#define GetRValue(rgb) ((rgb)&0xFF)
-#define GetGValue(rgb) ((((WORD)(rgb)) >> 8)&0xFF)
-#define GetBValue(rgb) (((rgb)>>16)&0xFF)
+#define GetRValue(rgb) ((unsigned char)((rgb)&0xFF))
+#define GetGValue(rgb) ((unsigned char)(((rgb) >> 8)&0xFF))
+#define GetBValue(rgb) ((unsigned char)(((rgb) >>16)&0xFF))
 #define ZeroMemory(ptr,size) memset(ptr,0,size)
 #define stricmp strcasecmp
 #define strnicmp strncasecmp

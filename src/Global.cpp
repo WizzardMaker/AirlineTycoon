@@ -6,8 +6,8 @@
 //--------------------------------------------------------------------------------------------
 //Zu erst die Ausnahmen:
 //--------------------------------------------------------------------------------------------
-const char             *ExcNever="ExcNever";
-const char             *ExcCreateWindow="CreateWindow failed!";
+const char             ExcNever[] = "ExcNever";
+const char             ExcCreateWindow[] = "CreateWindow failed!";
 
 //--------------------------------------------------------------------------------------------
 //Dinge für den Überblendeffekt:
@@ -170,9 +170,9 @@ CTakeOffApp             theApp;
 //--------------------------------------------------------------------------------------------
 //Einfache globale Variablen:
 //--------------------------------------------------------------------------------------------
-const char             *TabSeparator = ";\x8";   //Zum Import der Excel-Tabellen
-const char             *DateSeparator = "-/;.";  //Erlaubte Datums-Separatoren
-const char             *HallFilenames[] = { "kompletter Airport (%li-%li-%li-%li-%li-%li-%li-%li-%li-%li)", "left%03li.dat", "check%03li.dat", "ofice%03li.dat", "entry%03li.dat", "shops%03li.dat", "cafe%03li.dat", "secur%03li.dat", "suit%03li.dat", "waitz%03li.dat", "right%03li.dat" };
+const char             TabSeparator[] = ";\x8";   //Zum Import der Excel-Tabellen
+const char             DateSeparator[] = "-/;.";  //Erlaubte Datums-Separatoren
+const char*            HallFilenames[] = { "kompletter Airport (%li-%li-%li-%li-%li-%li-%li-%li-%li-%li)", "left%03li.dat", "check%03li.dat", "ofice%03li.dat", "entry%03li.dat", "shops%03li.dat", "cafe%03li.dat", "secur%03li.dat", "suit%03li.dat", "waitz%03li.dat", "right%03li.dat" };
 
 //--------------------------------------------------------------------------------------------
 //Die Pfade der einzelnen Dateigruppen:
