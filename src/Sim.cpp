@@ -1503,7 +1503,7 @@ void SIM::DoTimeStep (void)
 
                             qPlayer.DaysWithoutStrike = 0;
 
-                            Sim.Headlines.AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2090), qPlayer.AirlineX), GetIdFromString("STREIK"), 25+(c==Sim.localPlayer)*10);
+                            Sim.Headlines.AddOverride (1, bprintf (StandardTexte.GetS (TOKEN_MISC, 2090), qPlayer.AirlineX.c_str()), GetIdFromString("STREIK"), 25+(c==Sim.localPlayer)*10);
                         }
                     }
                     else if (qPlayer.StrikeHours)

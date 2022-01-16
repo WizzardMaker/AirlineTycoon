@@ -665,14 +665,14 @@ void CLaptop::OnPaint()
             else
             {
                 //Planes/Routen Buttons
-                if (gMousePosition.IfIsWithin (66, 277, 66+23, 277+23)       && !Sim.Players.Players[0].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 70);
-                if (gMousePosition.IfIsWithin (66, 277+23, 66+23, 277+46)    && !Sim.Players.Players[1].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 71);
-                if (gMousePosition.IfIsWithin (66+23, 277, 66+46, 277+23)    && !Sim.Players.Players[2].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 72);
-                if (gMousePosition.IfIsWithin (66+23, 277+23, 66+46, 277+46) && !Sim.Players.Players[3].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 73);
-                if (gMousePosition.IfIsWithin (91+1, 346+2, 91+1+23, 346+2+23)       && !Sim.Players.Players[0].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 80);
-                if (gMousePosition.IfIsWithin (91+1, 346+2+23, 91+1+23, 346+2+46)    && !Sim.Players.Players[1].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 81);
-                if (gMousePosition.IfIsWithin (91+1+23, 346+2, 91+1+46, 346+2+23)    && !Sim.Players.Players[2].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 82);
-                if (gMousePosition.IfIsWithin (91+1+23, 346+2+23, 91+1+46, 346+2+46) && !Sim.Players.Players[3].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 83);
+                if (gMousePosition.IfIsWithin (66, 277, 66+23, 277+23)       && !Sim.Players.Players[0].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 70);
+                if (gMousePosition.IfIsWithin (66, 277+23, 66+23, 277+46)    && !Sim.Players.Players[1].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 71);
+                if (gMousePosition.IfIsWithin (66+23, 277, 66+46, 277+23)    && !Sim.Players.Players[2].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 72);
+                if (gMousePosition.IfIsWithin (66+23, 277+23, 66+46, 277+46) && !Sim.Players.Players[3].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 73);
+                if (gMousePosition.IfIsWithin (91+1, 346+2, 91+1+23, 346+2+23)       && !Sim.Players.Players[0].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 80);
+                if (gMousePosition.IfIsWithin (91+1, 346+2+23, 91+1+23, 346+2+46)    && !Sim.Players.Players[1].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 81);
+                if (gMousePosition.IfIsWithin (91+1+23, 346+2, 91+1+46, 346+2+23)    && !Sim.Players.Players[2].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 82);
+                if (gMousePosition.IfIsWithin (91+1+23, 346+2+23, 91+1+46, 346+2+46) && !Sim.Players.Players[3].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 83);
 
                 //Kein Planes/Routes Button, wenn man den entsprechenden Informaten nicht hat:
                 if (MouseClickPar1>=70 && MouseClickPar1<=83 && MouseClickArea==ROOM_LAPTOP && MouseClickId==100 && !Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_INFO))

@@ -607,9 +607,9 @@ void CPlaneProps::OnPaint()
             SLONG Costs=Sim.Players.Players[PlayerNum].CalcPlanePropSum();
 
             if (Costs>0)
-                Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_SCHED, 1820), Insert1000erDots(Costs)), MESSAGE_COMMENT);
+                Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_SCHED, 1820), Insert1000erDots(Costs).c_str()), MESSAGE_COMMENT);
             else if (Costs<0)
-                Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_SCHED, 1821), Insert1000erDots(-Costs)), MESSAGE_COMMENT);
+                Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_SCHED, 1821), Insert1000erDots(-Costs).c_str()), MESSAGE_COMMENT);
         }
         else if (gMousePosition.IfIsWithin (226,26,253,50))
         {

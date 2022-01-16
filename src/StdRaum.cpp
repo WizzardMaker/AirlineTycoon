@@ -1789,7 +1789,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             else if (DialogPar1==1)
             {
                 if (Sim.localPlayer!=DialogPar2)
-                    MakeSayWindow (0, 100, bprintf (DialogTexte.GetS (TOKEN_DUTYFREE, 100), Sim.Players.Players[DialogPar2].AirlineX), pFontPartner);
+                    MakeSayWindow (0, 100, bprintf (DialogTexte.GetS (TOKEN_DUTYFREE, 100), (LPCTSTR)Sim.Players.Players[DialogPar2].AirlineX), pFontPartner);
                 else
                     MakeSayWindow (0, TOKEN_DUTYFREE, 99, pFontPartner);
             }
@@ -3181,7 +3181,7 @@ void CStdRaum::OnLButtonDblClk(UINT, CPoint point)
                             if (Workers.Workers[MenuRemapper[MenuPage-1]].Employer==WORKER_RESERVE)
                             {
                                 //rausgeekelt:
-                                Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 1004+Workers.Workers[MenuRemapper[MenuPage-1]].Geschlecht), Workers.Workers[MenuRemapper[MenuPage-1]].Name), MESSAGE_COMMENT);
+                                Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 1004+Workers.Workers[MenuRemapper[MenuPage-1]].Geschlecht), Workers.Workers[MenuRemapper[MenuPage-1]].Name.c_str()), MESSAGE_COMMENT);
                             }
                             else if (Workers.Workers[MenuRemapper[MenuPage-1]].Employer==WORKER_JOBLESS)
                             {
@@ -4452,7 +4452,7 @@ void CStdRaum::MenuStart (SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG 
             MenuBms.ReSize(pMenuLib1, "CHAT TEXTAREA");
             OnscreenBitmap.ReSize (MenuBms[0].Size);
             Optionen[0]="";
-            MenuBms[1].PrintAt (bprintf (StandardTexte.GetS (TOKEN_MISC, 3004), Sim.Players.Players[MenuPar1].NameX, Sim.Players.Players[MenuPar1].AirlineX), FontNormalGrey, TEC_FONT_LEFT, 6, 119, 279, 147);
+            MenuBms[1].PrintAt (bprintf (StandardTexte.GetS (TOKEN_MISC, 3004), Sim.Players.Players[MenuPar1].NameX.c_str(), Sim.Players.Players[MenuPar1].AirlineX.c_str()), FontNormalGrey, TEC_FONT_LEFT, 6, 119, 279, 147);
             MenuBms[1].ShiftUp (10);
             break;
 
@@ -4898,7 +4898,7 @@ void CStdRaum::MenuRepaint (void)
                 OnscreenBitmap.BlitFrom (MenuBms[8]);
                 OnscreenBitmap.BlitFrom (MenuBms[9+MenuPar1], 48, 59);
 
-                OnscreenBitmap.PrintAt (bprintf (StandardTexte.GetS (TOKEN_MISC, 2100), Sim.Players.Players[MenuPar1/4].AirlineX, Sim.Players.Players[MenuPar1%4].AirlineX), FontSmallBlack, TEC_FONT_LEFT, XY(6, 37), XY(192,57));
+                OnscreenBitmap.PrintAt (bprintf (StandardTexte.GetS (TOKEN_MISC, 2100), Sim.Players.Players[MenuPar1/4].AirlineX.c_str(), Sim.Players.Players[MenuPar1%4].AirlineX.c_str()), FontSmallBlack, TEC_FONT_LEFT, XY(6, 37), XY(192,57));
 
                 ZoomCounter = 100;
                 ZoomSpeed   = 0;
@@ -6421,7 +6421,7 @@ phone_busy:
                     if (Workers.Workers[MenuRemapper[MenuPage-1]].Employer==WORKER_RESERVE)
                     {
                         //rausgeekelt:
-                        qPlayer.Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 1004+Workers.Workers[MenuRemapper[MenuPage-1]].Geschlecht), Workers.Workers[MenuRemapper[MenuPage-1]].Name), MESSAGE_COMMENT);
+                        qPlayer.Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 1004+Workers.Workers[MenuRemapper[MenuPage-1]].Geschlecht), Workers.Workers[MenuRemapper[MenuPage-1]].Name.c_str()), MESSAGE_COMMENT);
                     }
                     else if (Workers.Workers[MenuRemapper[MenuPage-1]].Employer==WORKER_JOBLESS)
                     {

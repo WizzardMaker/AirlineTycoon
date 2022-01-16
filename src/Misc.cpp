@@ -2019,7 +2019,7 @@ CString CreateNumeratedFreeFilename (CString DirAndFilename)
 
     for (c=0; c<100000; c++)
     {
-        CString fn = bprintf(DirAndFilename, c==0?"":CString(bitoa(c)));
+        const char* fn = bprintf(DirAndFilename, c==0 ? "" : bitoa(c));
         if (!DoesFileExist(fn))
             return (fn);
     }

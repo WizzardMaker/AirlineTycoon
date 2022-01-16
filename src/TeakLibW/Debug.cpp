@@ -69,7 +69,7 @@ SLONG TeakLibW_Exception(char* file, SLONG line, const char* format, ...)
     char buffer[128];
     va_list args;
     va_start(args, format);
-    vsprintf(buffer, format, args);
+    vsnprintf(buffer, sizeof(buffer), format, args);
     va_end(args);
     //MessageBeep(0);
     //MessageBeep(0x30u);

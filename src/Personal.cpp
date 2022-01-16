@@ -446,7 +446,7 @@ void CWorkers::NewDay (void)
                 {
                     //Ihm reicht's! Er kündigt:
                     if (Sim.Players.Players[Workers[c].Employer].Owner==0)
-                        Sim.Players.Players[Workers[c].Employer].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2000+Workers[c].Typ+Workers[c].Geschlecht*100), Workers[c].Name));
+                        Sim.Players.Players[Workers[c].Employer].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2000+Workers[c].Typ+Workers[c].Geschlecht*100), Workers[c].Name.c_str()));
 
                     SLONG ExEmployer=Workers[c].Employer;
                     Workers[c].Employer=WORKER_RESERVE;
@@ -532,7 +532,7 @@ void CWorker::Gehaltsaenderung (BOOL Art)
         if (Happyness<-100)
         {
             if (Sim.Players.Players[Employer].Owner==0)
-                Sim.Players.Players[Employer].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2000+Typ+Geschlecht*100), Name));
+                Sim.Players.Players[Employer].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2000+Typ+Geschlecht*100), Name.c_str()));
 
             SLONG ExEmployer=Employer;
 

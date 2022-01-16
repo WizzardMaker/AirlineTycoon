@@ -5131,9 +5131,9 @@ void PLAYER::RandomBeraterMessage (void)
             {
                 Workers.Workers[d].WarnedToday=TRUE;
 
-                if (Workers.Workers[d].Typ<WORKER_PILOT)       Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2200+Workers.Workers[d].Geschlecht*10), Workers.Workers[d].Name));
-                if (Workers.Workers[d].Typ==WORKER_PILOT)      Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2201+Workers.Workers[d].Geschlecht*10), Workers.Workers[d].Name));
-                if (Workers.Workers[d].Typ==WORKER_STEWARDESS) Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2202+Workers.Workers[d].Geschlecht*10), Workers.Workers[d].Name));
+                if (Workers.Workers[d].Typ<WORKER_PILOT)       Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2200+Workers.Workers[d].Geschlecht*10), Workers.Workers[d].Name.c_str()));
+                if (Workers.Workers[d].Typ==WORKER_PILOT)      Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2201+Workers.Workers[d].Geschlecht*10), Workers.Workers[d].Name.c_str()));
+                if (Workers.Workers[d].Typ==WORKER_STEWARDESS) Messages.AddMessage (BERATERTYP_PERSONAL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2202+Workers.Workers[d].Geschlecht*10), Workers.Workers[d].Name.c_str()));
             }
         }
     }
