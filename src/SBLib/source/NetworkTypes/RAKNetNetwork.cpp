@@ -6,7 +6,7 @@
 
 using namespace RakNet;
 
-void SerializePacket(ATPacket* p, BitStream* data) {
+void SerializePacket(ATPacket *p, BitStream *data) {
     data->Write(p->messageType);
     data->Write(p->peerID);
     data->Write(p->dataLength);
@@ -16,7 +16,7 @@ void SerializePacket(ATPacket* p, BitStream* data) {
     }
 }
 
-void DeserializePacket(unsigned char* data, unsigned int length, ATPacket* packet) {
+void DeserializePacket(unsigned char *data, unsigned int length, ATPacket *packet) {
     BitStream dataStream(data, length, false);
     dataStream.Read(packet->messageType);
     dataStream.Read(packet->peerID);
@@ -51,33 +51,29 @@ SLONG RAKNetNetwork::GetMessageCount() {
     const unsigned int messageCountGame = mMaster->GetReceiveBufferSize();
 
     if (mState == SBNETWORK_SESSION_SEARCHING) {
-        //We are searching for a session on the master server!
-
+        // We are searching for a session on the master server!
     }
 
     return messageCountGame;
 }
 
-
-bool RAKNetNetwork::Connect(const char* host) {
+bool RAKNetNetwork::Connect(const char *host) {
     if (mMaster == nullptr) {
         return false;
-}
+    }
 
     RakNet::SocketDescriptor sd(0, nullptr);
     if (mMaster->Startup(5, &sd, 1) == RAKNET_STARTED) {
         mMaster->SetMaximumIncomingConnections(4);
         mMaster->Connect(host, SERVER_PORT, nullptr, 0);
 
-        return AwaitConnection(mMaster,false);
+        return AwaitConnection(mMaster, false);
     }
 
     return false;
 }
 
-void RAKNetNetwork::Initialize() {
-
-}
+void RAKNetNetwork::Initialize() {}
 
 void RAKNetNetwork::Disconnect() {
     mSessions.Clear();
@@ -89,7 +85,7 @@ void RAKNetNetwork::Disconnect() {
     delete mMaster;
 }
 
-bool RAKNetNetwork::CreateSession(SBNetworkCreation* create) {
+bool RAKNetNetwork::CreateSession(SBNetworkCreation *create) {
     auto *info = new RAKSessionInfo();
     strcpy(info->sessionName, create->sessionName.c_str());
     info->hostID = mLocalID;
@@ -100,15 +96,15 @@ bool RAKNetNetwork::CreateSession(SBNetworkCreation* create) {
     mState = SBNETWORK_SESSION_MASTER;
     mSearchTime = SDL_GetTicks();
 
-    switch (create->flags)
-    {
-        case SBCreationFlags::SBNETWORK_CREATE_TRY_NAT:
-        default: //No need for a NAT server if the user chose it
-            SocketDescriptor desc(SERVER_PORT, "");
-            mMaster->Startup(4, &desc, 1);
-            SDL_Log("CREATE SESSION: DIRECT. Our GUID: '%s' and our SystemAddress: '%s'", mMaster->GetMyGUID().ToString(), mMaster->GetSystemAddressFromGuid(mMaster->GetMyGUID()).ToString());
-            mMaster->SetMaximumIncomingConnections(4);
-            break;
+    switch (create->flags) {
+    case SBCreationFlags::SBNETWORK_CREATE_TRY_NAT:
+    default: // No need for a NAT server if the user chose it
+        SocketDescriptor desc(SERVER_PORT, "");
+        mMaster->Startup(4, &desc, 1);
+        SDL_Log("CREATE SESSION: DIRECT. Our GUID: '%s' and our SystemAddress: '%s'", mMaster->GetMyGUID().ToString(),
+                mMaster->GetSystemAddressFromGuid(mMaster->GetMyGUID()).ToString());
+        mMaster->SetMaximumIncomingConnections(4);
+        break;
     }
 
     return true;
@@ -120,24 +116,15 @@ void RAKNetNetwork::CloseSession() {
     mState = SBNETWORK_SESSION_FINISHED;
 }
 
-ULONG RAKNetNetwork::GetLocalPlayerID() {
-    return mLocalID;
-}
+ULONG RAKNetNetwork::GetLocalPlayerID() { return mLocalID; }
 
+void RAKNetNetwork::RequestHostedClients(RakNetGUID serverGuid) {}
 
-void RAKNetNetwork::RequestHostedClients(RakNetGUID serverGuid) {
+bool RAKNetNetwork::IsSessionFinished() { return mState == SBNETWORK_SESSION_FINISHED; }
 
-}
+bool RAKNetNetwork::IsInSession() { return mState == SBNETWORK_SESSION_MASTER || mState == SBNETWORK_SESSION_CLIENT; }
 
-bool RAKNetNetwork::IsSessionFinished() {
-    return mState == SBNETWORK_SESSION_FINISHED;
-}
-
-bool RAKNetNetwork::IsInSession() {
-    return mState == SBNETWORK_SESSION_MASTER || mState == SBNETWORK_SESSION_CLIENT;
-}
-
-bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool  /*compression*/) {
+bool RAKNetNetwork::Send(BUFFER<UBYTE> &buffer, ULONG length, ULONG peerID, bool /*compression*/) {
     ATPacket a{};
     a.messageType = SBNETWORK_MESSAGE;
     a.dataLength = length;
@@ -153,10 +140,10 @@ bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool
         //    for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext())
         //    {
         //        if (mPlayers.GetLastAccessed().ID == peerID){
-        //SBNetworkPlayer *player = &mPlayers.GetLastAccessed();
+        // SBNetworkPlayer *player = &mPlayers.GetLastAccessed();
         //
         //            int result = mMaster->Send(&data, HIGH_PRIORITY, RELIABLE_ORDERED, 0, static_cast<RAKNetworkPlayer*>(player)->peer, false);
-        //SDL_Log("SEND PRIVATE: STATUS: %x", result);
+        // SDL_Log("SEND PRIVATE: STATUS: %x", result);
         //        }
         //    }
     } else {
@@ -165,23 +152,20 @@ bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool
 
     mMaster->Send(&data, HIGH_PRIORITY, RELIABLE_ORDERED, 0, NET_BROADCAST, true);
 
-
     return true;
 }
 
-bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
-    if (isHostMigrating) { //Host migration:
+bool RAKNetNetwork::Receive(UBYTE **buffer, ULONG &size) {
+    if (isHostMigrating) { // Host migration:
         SDL_Log("MIGRATING HOST");
-        SBNetworkPlayer* master = mPlayers.GetFirst();
-        for (mPlayers.GetNext(); !mPlayers.IsLast(); mPlayers.GetNext())
-        {
+        SBNetworkPlayer *master = mPlayers.GetFirst();
+        for (mPlayers.GetNext(); !mPlayers.IsLast(); mPlayers.GetNext()) {
             if (mPlayers.GetLastAccessed()->ID < master->ID) {
                 master = mPlayers.GetLastAccessed();
-}
+            }
         }
 
-        if (master->ID == mLocalID)
-        {
+        if (master->ID == mLocalID) {
             DPPacket dp{};
             dp.messageType = DPSYS_HOST;
             dp.playerType = DPPLAYERTYPE_PLAYER;
@@ -195,133 +179,129 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
         return true;
     }
 
-
-    Packet* p = nullptr;
-    if ((p = mMaster->Receive()) != nullptr) { //Game loop network messages:
+    Packet *p = nullptr;
+    if ((p = mMaster->Receive()) != nullptr) { // Game loop network messages:
         if (p == nullptr) {
             return false;
-}
+        }
 
         switch (p->data[0]) {
-            case ID_DISCONNECTION_NOTIFICATION:
-            case ID_CONNECTION_LOST:
-                {
-                    SDL_Log("RECEIVED: SBNETWORK_DISCONNECT");
+        case ID_DISCONNECTION_NOTIFICATION:
+        case ID_CONNECTION_LOST: {
+            SDL_Log("RECEIVED: SBNETWORK_DISCONNECT");
 
-                    //ATPacket packet{};
-                    //DeserializePacket(p->data, p->length, &packet);
+            // ATPacket packet{};
+            // DeserializePacket(p->data, p->length, &packet);
 
-                    //Find disconnected player
-                    SBNetworkPlayer *disconnectedPlayer = nullptr;
-                    for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext()) {
-                        if (static_cast<RAKNetworkPlayer*>(mPlayers.GetLastAccessed())->peer == p->guid) {
-                            disconnectedPlayer = mPlayers.GetLastAccessed();
-                            break;
-                        }
-                    }
-
-                    if (disconnectedPlayer != nullptr) { //relay information to game
-                        DPPacket dp{};
-                        dp.messageType = DPSYS_DESTROYPLAYERORGROUP;
-                        dp.playerType = DPPLAYERTYPE_PLAYER;
-                        dp.dpId = disconnectedPlayer->ID;
-                        size = sizeof(DPPacket);
-                        *buffer = new UBYTE[size];
-                        memcpy(*buffer, &dp, size);
-
-                        mPlayers.RemoveLastAccessed();
-                        delete disconnectedPlayer;
-                    }
-                    if (mHost == p->guid) { //The server disconnected
-                        isHostMigrating = true;
-                    }
-                    return true;
-                }
-            case SBNETWORK_MESSAGE: //Normal packet
-                {
-                    ATPacket packet{};
-                    DeserializePacket(p->data, p->length, &packet);
-
-                    //Check if the package was meant for us. 0 for broadcast
-                    if((packet.peerID != 0U) && packet.peerID != mLocalID) {
-                        SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d. IGNORED, SEND NOT TO US", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
-                        break;
-                    }
-
-                    *buffer = packet.data;
-                    size = packet.dataLength;
-                    if(packet.peerID != 0U) {
-                        SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
-                    } else {
-                        SDL_Log("RECEIVED: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
-}
-
-                    mMaster->DeallocatePacket(p);
-                    return true;
-                }
-            case SBNETWORK_ESTABLISH_CONNECTION:
-                { //New Connection to master peer
-                    auto *player = new RAKNetworkPlayer();
-                    BitStream b(p->data, p->length, true);
-                    b.IgnoreBytes(1); //Net event ID
-                    b.Read(player->ID);
-                    player->peer = p->guid;//mMaster->GetGuidFromSystemAddress(p->systemAddress);
-                    mPlayers.Add(player);
-
-                    if (mState == SBNETWORK_SESSION_MASTER) {
-                        SDL_Log("RECEIVED: SBNETWORK_ESTABLISH_CONNECTION - Broadcast new ID: %x", player->ID);
-                        /* Broadcast the address of this peer to all other peers */
-                        RAKNetworkPeer peer;
-                        peer.netID = SBNETWORK_JOINED;
-                        peer.ID = player->ID;
-                        peer.guid = player->peer;
-                        peer.address = p->systemAddress;
-                        mMaster->Send(reinterpret_cast<char*>(&peer), sizeof(RAKNetworkPeer), HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, true);
-
-                        peer.netID = SBNETWORK_JOINED;
-                        peer.ID = mLocalID;
-                        peer.guid = mMaster->GetMyGUID();
-                        peer.address = mMaster->GetSystemAddressFromGuid(mMaster->GetMyGUID());
-                        mMaster->Send(reinterpret_cast<char*>(&peer), sizeof(RAKNetworkPeer), HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, false);
-                    } else {
-                        SDL_Log("RECEIVED: SBNETWORK_ESTABLISH_CONNECTION - From: '%d'", player->ID);
-                    }
+            // Find disconnected player
+            SBNetworkPlayer *disconnectedPlayer = nullptr;
+            for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext()) {
+                if (static_cast<RAKNetworkPlayer *>(mPlayers.GetLastAccessed())->peer == p->guid) {
+                    disconnectedPlayer = mPlayers.GetLastAccessed();
                     break;
                 }
-            case SBNETWORK_JOINED: //We joined the server, or someone else joined the master server
-                if (mState == SBNETWORK_SESSION_CLIENT) {
-                    auto* nPeer = reinterpret_cast<RAKNetworkPeer*>(p->data);
-                    auto *player = new RAKNetworkPlayer();
-                    player->ID = nPeer->ID;
-                    player->peer = nPeer->guid;
-                    mPlayers.Add(player);
+            }
 
+            if (disconnectedPlayer != nullptr) { // relay information to game
+                DPPacket dp{};
+                dp.messageType = DPSYS_DESTROYPLAYERORGROUP;
+                dp.playerType = DPPLAYERTYPE_PLAYER;
+                dp.dpId = disconnectedPlayer->ID;
+                size = sizeof(DPPacket);
+                *buffer = new UBYTE[size];
+                memcpy(*buffer, &dp, size);
 
-                    if (nPeer->guid == mHost) {
-                        SDL_Log("RECEIVED: SBNETWORK_JOINED - Server acknowledged us!");
-                        break;
-                    }
+                mPlayers.RemoveLastAccessed();
+                delete disconnectedPlayer;
+            }
+            if (mHost == p->guid) { // The server disconnected
+                isHostMigrating = true;
+            }
+            return true;
+        }
+        case SBNETWORK_MESSAGE: // Normal packet
+        {
+            ATPacket packet{};
+            DeserializePacket(p->data, p->length, &packet);
 
+            // Check if the package was meant for us. 0 for broadcast
+            if ((packet.peerID != 0U) && packet.peerID != mLocalID) {
+                SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d. IGNORED, SEND NOT TO US",
+                        packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
+                break;
+            }
 
-                    if(isNATMode) {
+            *buffer = packet.data;
+            size = packet.dataLength;
+            if (packet.peerID != 0U) {
+                SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
+            } else {
+                SDL_Log("RECEIVED: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
+            }
 
-                    }else {
-                        SystemAddress newPlayer = nPeer->address;
+            mMaster->DeallocatePacket(p);
+            return true;
+        }
+        case SBNETWORK_ESTABLISH_CONNECTION: { // New Connection to master peer
+            auto *player = new RAKNetworkPlayer();
+            BitStream b(p->data, p->length, true);
+            b.IgnoreBytes(1); // Net event ID
+            b.Read(player->ID);
+            player->peer = p->guid; // mMaster->GetGuidFromSystemAddress(p->systemAddress);
+            mPlayers.Add(player);
 
-                        const char* address = newPlayer.ToString(false);
-                        const unsigned short port = newPlayer.GetPort();
+            if (mState == SBNETWORK_SESSION_MASTER) {
+                SDL_Log("RECEIVED: SBNETWORK_ESTABLISH_CONNECTION - Broadcast new ID: %x", player->ID);
+                /* Broadcast the address of this peer to all other peers */
+                RAKNetworkPeer peer;
+                peer.netID = SBNETWORK_JOINED;
+                peer.ID = player->ID;
+                peer.guid = player->peer;
+                peer.address = p->systemAddress;
+                mMaster->Send(reinterpret_cast<char *>(&peer), sizeof(RAKNetworkPeer), HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, true);
 
-                        SDL_Log("CONNECTING: New connection being made to: %s:%u", address, port);
-                        mMaster->Connect(address, port, nullptr, 0);//Connect to other client
-                        AwaitConnection(mMaster, true);
-                    }
+                peer.netID = SBNETWORK_JOINED;
+                peer.ID = mLocalID;
+                peer.guid = mMaster->GetMyGUID();
+                peer.address = mMaster->GetSystemAddressFromGuid(mMaster->GetMyGUID());
+                mMaster->Send(reinterpret_cast<char *>(&peer), sizeof(RAKNetworkPeer), HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, false);
+            } else {
+                SDL_Log("RECEIVED: SBNETWORK_ESTABLISH_CONNECTION - From: '%d'", player->ID);
+            }
+            break;
+        }
+        case SBNETWORK_JOINED: // We joined the server, or someone else joined the master server
+            if (mState == SBNETWORK_SESSION_CLIENT) {
+                auto *nPeer = reinterpret_cast<RAKNetworkPeer *>(p->data);
+                auto *player = new RAKNetworkPlayer();
+                player->ID = nPeer->ID;
+                player->peer = nPeer->guid;
+                mPlayers.Add(player);
 
-                    SDL_Log("RECEIVED: SBNETWORK_JOINED - New ID: %u", nPeer->ID);
+                if (nPeer->guid == mHost) {
+                    SDL_Log("RECEIVED: SBNETWORK_JOINED - Server acknowledged us!");
+                    break;
                 }
-                break;
-            default:
-                SDL_Log("Unknown package was received! ID:%d",p->data[0]);
-                break;
+
+                if (isNATMode) {
+
+                } else {
+                    SystemAddress newPlayer = nPeer->address;
+
+                    const char *address = newPlayer.ToString(false);
+                    const unsigned short port = newPlayer.GetPort();
+
+                    SDL_Log("CONNECTING: New connection being made to: %s:%u", address, port);
+                    mMaster->Connect(address, port, nullptr, 0); // Connect to other client
+                    AwaitConnection(mMaster, true);
+                }
+
+                SDL_Log("RECEIVED: SBNETWORK_JOINED - New ID: %u", nPeer->ID);
+            }
+            break;
+        default:
+            SDL_Log("Unknown package was received! ID:%d", p->data[0]);
+            break;
         }
 
         mMaster->DeallocatePacket(p);
@@ -329,70 +309,62 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
     return false;
 }
 
-SBList<SBNetworkPlayer*>* RAKNetNetwork::GetAllPlayers() {
-    return &mPlayers;
-}
+SBList<SBNetworkPlayer *> *RAKNetNetwork::GetAllPlayers() { return &mPlayers; }
 
-bool RAKNetNetwork::IsServerSearchable() {
-    return true;
-}
+bool RAKNetNetwork::IsServerSearchable() { return true; }
 
-IServerSearchable* RAKNetNetwork::GetServerSearcher() {
-    return this;
-}
+IServerSearchable *RAKNetNetwork::GetServerSearcher() { return this; }
 
-bool RAKNetNetwork::AwaitConnection(RakPeerInterface* peerInterface, bool isAnotherPeer) {
+bool RAKNetNetwork::AwaitConnection(RakPeerInterface *peerInterface, bool isAnotherPeer) {
     while (true) {
-        Packet* p = peerInterface->Receive();
+        Packet *p = peerInterface->Receive();
         if (p == nullptr) {
             continue;
-}
-
-        switch (p->data[0]) {
-            case ID_CONNECTION_REQUEST_ACCEPTED:
-                { //Send our ID to server so that others can connect to us
-                    BitStream data;
-                    data.Write(static_cast<char>(SBNETWORK_ESTABLISH_CONNECTION));
-                    data.Write(mLocalID);
-
-                    if(!isAnotherPeer) {
-                        mHost = p->guid; //Only set the host guid if we are actually connecting to the host
-}
-
-                    mState = SBNETWORK_SESSION_CLIENT;
-                    SDL_Log("Connect(..) successful. We (%s) are now sending our ID: %d", mMaster->GetMyGUID().ToString(), mLocalID);
-
-                    peerInterface->Send(&data, HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, false);
-                    peerInterface->DeallocatePacket(p);
-                    return true;
-                }
-            case ID_CONNECTION_ATTEMPT_FAILED:
-            case ID_REMOTE_SYSTEM_REQUIRES_PUBLIC_KEY:
-            case ID_OUR_SYSTEM_REQUIRES_SECURITY:
-            case ID_PUBLIC_KEY_MISMATCH:
-            case ID_INVALID_PASSWORD:
-            case ID_CONNECTION_BANNED:
-            case ID_INCOMPATIBLE_PROTOCOL_VERSION:
-            case ID_NO_FREE_INCOMING_CONNECTIONS:
-            case ID_IP_RECENTLY_CONNECTED:
-                SDL_Log("Connect(..) failed!");
-                if(isAnotherPeer){
-                    peerInterface->Shutdown(0);
-                } // TODO(merten): Send message to server to kick(? maybe) the new player whom we can't connect to
-                peerInterface->DeallocatePacket(p);
-                return false;
-            case ID_ALREADY_CONNECTED:
-                return false;
-            default:
-                SDL_Log("Unknown packet in connection phase! ID: %d", p->data[0]);
-                peerInterface->DeallocatePacket(p);
-                break;
         }
 
+        switch (p->data[0]) {
+        case ID_CONNECTION_REQUEST_ACCEPTED: { // Send our ID to server so that others can connect to us
+            BitStream data;
+            data.Write(static_cast<char>(SBNETWORK_ESTABLISH_CONNECTION));
+            data.Write(mLocalID);
+
+            if (!isAnotherPeer) {
+                mHost = p->guid; // Only set the host guid if we are actually connecting to the host
+            }
+
+            mState = SBNETWORK_SESSION_CLIENT;
+            SDL_Log("Connect(..) successful. We (%s) are now sending our ID: %d", mMaster->GetMyGUID().ToString(), mLocalID);
+
+            peerInterface->Send(&data, HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, false);
+            peerInterface->DeallocatePacket(p);
+            return true;
+        }
+        case ID_CONNECTION_ATTEMPT_FAILED:
+        case ID_REMOTE_SYSTEM_REQUIRES_PUBLIC_KEY:
+        case ID_OUR_SYSTEM_REQUIRES_SECURITY:
+        case ID_PUBLIC_KEY_MISMATCH:
+        case ID_INVALID_PASSWORD:
+        case ID_CONNECTION_BANNED:
+        case ID_INCOMPATIBLE_PROTOCOL_VERSION:
+        case ID_NO_FREE_INCOMING_CONNECTIONS:
+        case ID_IP_RECENTLY_CONNECTED:
+            SDL_Log("Connect(..) failed!");
+            if (isAnotherPeer) {
+                peerInterface->Shutdown(0);
+            } // TODO(merten): Send message to server to kick(? maybe) the new player whom we can't connect to
+            peerInterface->DeallocatePacket(p);
+            return false;
+        case ID_ALREADY_CONNECTED:
+            return false;
+        default:
+            SDL_Log("Unknown packet in connection phase! ID: %d", p->data[0]);
+            peerInterface->DeallocatePacket(p);
+            break;
+        }
     }
 }
 
-SBList<SBStr>* RAKNetNetwork::GetSessionListAsync() {
+SBList<SBStr> *RAKNetNetwork::GetSessionListAsync() {
     return nullptr;
     /*mSessions.Clear();
       mSessionInfo.Clear();
@@ -428,14 +400,14 @@ SBList<SBStr>* RAKNetNetwork::GetSessionListAsync() {
 }
 
 bool RAKNetNetwork::StartGetSessionListAsync() {
-    if(mState != SBNETWORK_SESSION_SEARCHING) {
+    if (mState != SBNETWORK_SESSION_SEARCHING) {
         mState = SBNETWORK_SESSION_SEARCHING;
 
         mServerBrowserPeer = RakPeerInterface::GetInstance();
 
         SocketDescriptor sd(0, nullptr);
         mServerBrowserPeer->Startup(1, &sd, 1);
-        mServerBrowserPeer->SetMaximumIncomingConnections(0); //We don't want that anyone can connect to us, we connect to the server
+        mServerBrowserPeer->SetMaximumIncomingConnections(0); // We don't want that anyone can connect to us, we connect to the server
 
         delete mRoomsPluginClient;
 
@@ -445,7 +417,7 @@ bool RAKNetNetwork::StartGetSessionListAsync() {
         mRoomsPluginClient->SetServerAddress(SystemAddress(MASTER_SERVER_ADDRESS, MASTER_SERVER_PORT));
     }
 
-    //if (mState != SBNETWORK_SESSION_SEARCHING) {
+    // if (mState != SBNETWORK_SESSION_SEARCHING) {
     //    //start searching..
     //    mServerSearch = RakPeerInterface::GetInstance();
 
@@ -470,17 +442,17 @@ bool RAKNetNetwork::StartGetSessionListAsync() {
     return true;
 }
 
-bool RAKNetNetwork::JoinSession(const SBStr& session, SBStr  /*nickname*/) {
-    RAKSessionInfo* info = nullptr;
+bool RAKNetNetwork::JoinSession(const SBStr &session, SBStr /*nickname*/) {
+    RAKSessionInfo *info = nullptr;
     for (mSessionInfo.GetFirst(); !mSessionInfo.IsLast(); mSessionInfo.GetNext()) {
         if (session == mSessionInfo.GetLastAccessed()->sessionName) {
-            info = static_cast<RAKSessionInfo*>(mSessionInfo.GetLastAccessed());
-}
+            info = static_cast<RAKSessionInfo *>(mSessionInfo.GetLastAccessed());
+        }
     }
 
     if (info == nullptr) {
         return false;
-}
+    }
 
     /* Initiate the connection, allocating the two channels 0 and 1. */
     if (Connect(info->address.ToString())) {

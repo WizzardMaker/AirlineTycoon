@@ -10,7 +10,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-//Anmerkung:
+// Anmerkung:
 // Askbrick immer und nur dynamisch allokieren und nie de-allokieren. Das wird automatisch
 // erledigt. Also immer nur:
 // "new AskBrick (this, Groupm, &EditObject, &EditObjects[1]);"
@@ -18,8 +18,7 @@ static char THIS_FILE[] = __FILE__;
 //--------------------------------------------------------------------------------------------
 // AskBrick
 //--------------------------------------------------------------------------------------------
-AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStdRaum(bHandy, PlayerNum, "", 0)
-{
+AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStdRaum(bHandy, PlayerNum, "", 0) {
     RECT rect;
 
     rect.top = 10;
@@ -37,8 +36,8 @@ AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStd
       }
       if (bFullscreen) SetWindowPos (&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOREDRAW|SWP_NOSIZE);*/
 
-    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("askbrick.gli", GliPath)), &pMenuLib, L_LOCMEM);
-    AskBrickBm.ReSize (pMenuLib, "ASKBRICK");
+    pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("askbrick.gli", GliPath)), &pMenuLib, L_LOCMEM);
+    AskBrickBm.ReSize(pMenuLib, "ASKBRICK");
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -47,11 +46,11 @@ AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStd
 //--------------------------------------------------------------------------------------------
 // ~AskBrick
 //--------------------------------------------------------------------------------------------
-AskBrick::~AskBrick()
-{
+AskBrick::~AskBrick() {
     AskBrickBm.Destroy();
-    if ((pGfxMain != nullptr) && (pMenuLib != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
-}
+    if ((pGfxMain != nullptr) && (pMenuLib != nullptr)) {
+        pGfxMain->ReleaseLib(pMenuLib);
+    }
 
     TopWin = nullptr;
 }
@@ -60,32 +59,27 @@ AskBrick::~AskBrick()
 // AskBrick message handlers
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void AskBrick::OnPaint()
-{
+void AskBrick::OnPaint() {
     SLONG g = 0;
     SLONG x = 0;
     SLONG y = 0;
 
-    if (bActive != 0)
-    {
-        PrimaryBm.BlitFrom (AskBrickBm, 10, 10);
+    if (bActive != 0) {
+        PrimaryBm.BlitFrom(AskBrickBm, 10, 10);
 
         g = Group;
 
-        for (y=0; y<4; y++) {
-            for (x=0; x<5; x++)
-            {
-                while ((Bricks.IsInAlbum (g) == 0) && g-Group<100) { g++;
-}
+        for (y = 0; y < 4; y++) {
+            for (x = 0; x < 5; x++) {
+                while ((Bricks.IsInAlbum(g) == 0) && g - Group < 100) {
+                    g++;
+                }
 
-                if (Bricks.IsInAlbum (g) != 0)
-                {
+                if (Bricks.IsInAlbum(g) != 0) {
                     /*if (Bricks[g].GetBitmapDimension().x<120 && Bricks[g].GetBitmapDimension().y<110)
                       { */
-                    Bricks[g].BlitAt (PrimaryBm,
-                            0,
-                            124*x+10+(124-Bricks[g].GetBitmapDimension().x)/2,
-                            115*y+10+(115-Bricks[g].GetBitmapDimension().y)/2, 0);
+                    Bricks[g].BlitAt(PrimaryBm, 0, 124 * x + 10 + (124 - Bricks[g].GetBitmapDimension().x) / 2,
+                                     115 * y + 10 + (115 - Bricks[g].GetBitmapDimension().y) / 2, 0);
                     /*}
                       else
                       {
@@ -102,93 +96,81 @@ void AskBrick::OnPaint()
 
                 g++;
             }
-}
+        }
     }
 }
 
-void AskBrick::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
-{
+void AskBrick::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
     SLONG g = 0;
     SLONG x = 0;
     SLONG y = 0;
 
     g = Group;
 
-    for (y=0; y<5; y++) {
-        for (x=0; x<5; x++)
-        {
-            while ((Bricks.IsInAlbum (g) == 0) && g-Group<100) { g++;
-}
+    for (y = 0; y < 5; y++) {
+        for (x = 0; x < 5; x++) {
+            while ((Bricks.IsInAlbum(g) == 0) && g - Group < 100) {
+                g++;
+            }
 
-            if (Bricks.IsInAlbum (g) != 0) {
-                if (point.x>=124*x+10 && point.x<=124*(x+1)+10 && point.y>=112*y+10 && point.y<=112*(y+1)+10)
-                {
+            if (Bricks.IsInAlbum(g) != 0) {
+                if (point.x >= 124 * x + 10 && point.x <= 124 * (x + 1) + 10 && point.y >= 112 * y + 10 && point.y <= 112 * (y + 1) + 10) {
                     *rc1 = g;
                 }
-}
+            }
 
             g++;
         }
+    }
+
+    // ReferTo (nFlags);
+    // ReferTo (point);
 }
 
-    //ReferTo (nFlags);
-    //ReferTo (point);
+void AskBrick::OnRButtonDown(UINT nFlags, CPoint point) {
+    // ReferTo (nFlags);
+    // ReferTo (point);
 }
 
-void AskBrick::OnRButtonDown(UINT nFlags, CPoint point)
-{
-    //ReferTo (nFlags);
-    //ReferTo (point);
-}
-
-void AskBrick::OnClose()
-{
-    //Self-Destruct (zerstört Fenster und gibt anschließend Speicher frei):
+void AskBrick::OnClose() {
+    // Self-Destruct (zerstört Fenster und gibt anschließend Speicher frei):
     delete this;
 }
 
-void AskBrick::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/)
-{
-    switch (nChar)
-    {
-        case VK_UP:
-            Group-=5;
-            break;
+void AskBrick::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
+    switch (nChar) {
+    case VK_UP:
+        Group -= 5;
+        break;
 
-        case VK_DOWN:
-            Group+=5;
-            break;
+    case VK_DOWN:
+        Group += 5;
+        break;
 
-        case VK_LEFT:
-            Group--;
-            break;
+    case VK_LEFT:
+        Group--;
+        break;
 
-        case VK_RIGHT:
-            Group++;
-            break;
+    case VK_RIGHT:
+        Group++;
+        break;
 
-        case VK_PRIOR:
-            Group-=20;
-            break;
+    case VK_PRIOR:
+        Group -= 20;
+        break;
 
-        case VK_NEXT:
-            Group+=20;
-            break;
+    case VK_NEXT:
+        Group += 20;
+        break;
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//BOOL CStdRaum::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) : AG:
+// BOOL CStdRaum::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) : AG:
 //--------------------------------------------------------------------------------------------
-BOOL AskBrick::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
-{
-    return (FrameWnd->OnSetCursor(pWnd, nHitTest, message));
-}
+BOOL AskBrick::OnSetCursor(void *pWnd, UINT nHitTest, UINT message) { return (FrameWnd->OnSetCursor(pWnd, nHitTest, message)); }
 
 //--------------------------------------------------------------------------------------------
-//void CStdRaum::OnMouseMove(UINT nFlags, CPoint point): AG:
+// void CStdRaum::OnMouseMove(UINT nFlags, CPoint point): AG:
 //--------------------------------------------------------------------------------------------
-void AskBrick::OnMouseMove(UINT nFlags, CPoint point)
-{
-    FrameWnd->OnMouseMove(nFlags, point);
-}
+void AskBrick::OnMouseMove(UINT nFlags, CPoint point) { FrameWnd->OnMouseMove(nFlags, point); }

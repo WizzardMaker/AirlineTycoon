@@ -1,8 +1,8 @@
 //============================================================================================
-//CColorFx - Klasse für Helligkeits- und Farbeffekte mit 16Bit Bitmaps
+// CColorFx - Klasse für Helligkeits- und Farbeffekte mit 16Bit Bitmaps
 //============================================================================================
-//Anleitung: "i:\projekt\sbl\doku\CColorFx.txt"
-//Link:      "Colorfx.h"
+// Anleitung: "i:\projekt\sbl\doku\CColorFx.txt"
+// Link:      "Colorfx.h"
 //============================================================================================
 #include "StdAfx.h"
 
@@ -11,186 +11,162 @@
 //--------------------------------------------------------------------------------------------
 // Default-Konstruktor
 //--------------------------------------------------------------------------------------------
-SB_CColorFX::SB_CColorFX ()
-= default;
+SB_CColorFX::SB_CColorFX() = default;
 
 //--------------------------------------------------------------------------------------------
 // Konstruktor
 //--------------------------------------------------------------------------------------------
-SB_CColorFX::SB_CColorFX (SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *Bitmap)
-{
-    ReInit (FXType, Steps, Bitmap);
-}
+SB_CColorFX::SB_CColorFX(SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *Bitmap) { ReInit(FXType, Steps, Bitmap); }
 
 //--------------------------------------------------------------------------------------------
 // Nachträglicher Konstruktor:
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::ReInit (SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *Bitmap)
-{
+void SB_CColorFX::ReInit(SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *Bitmap) {
     SLONG c = 0;
     SLONG d = 0;
-    SLONG AnzRBits=0;
-    SLONG ShiftR=0;
+    SLONG AnzRBits = 0;
+    SLONG ShiftR = 0;
     SLONG MaskR = 0;
-    SLONG AnzGBits=0;
-    SLONG ShiftG=0;
+    SLONG AnzGBits = 0;
+    SLONG ShiftG = 0;
     SLONG MaskG = 0;
-    SLONG AnzBBits=0;
-    SLONG ShiftB=0;
+    SLONG AnzBBits = 0;
+    SLONG ShiftB = 0;
     SLONG MaskB = 0;
 
-    //Bitstruktor ermitteln:
+    // Bitstruktor ermitteln:
     MaskR = Bitmap->GetPixelFormat()->Rmask;
     MaskG = Bitmap->GetPixelFormat()->Gmask;
     MaskB = Bitmap->GetPixelFormat()->Bmask;
 
-    for (c=0; c<32; c++)
-    {
-        if ((MaskR & (1<<c)) != 0)
-        {
+    for (c = 0; c < 32; c++) {
+        if ((MaskR & (1 << c)) != 0) {
             AnzRBits++;
-            if (c>ShiftR) { ShiftR=c;
-}
+            if (c > ShiftR) {
+                ShiftR = c;
+            }
         }
-        if ((MaskG & (1<<c)) != 0)
-        {
+        if ((MaskG & (1 << c)) != 0) {
             AnzGBits++;
-            if (c>ShiftG) { ShiftG=c;
-}
+            if (c > ShiftG) {
+                ShiftG = c;
+            }
         }
-        if ((MaskB & (1<<c)) != 0)
-        {
+        if ((MaskB & (1 << c)) != 0) {
             AnzBBits++;
-            if (c>ShiftB) { ShiftB=c;
-}
-        }
-    }
-
-    AnzSteps=Steps+1;
-
-    //Speicher für Tabelle reservieren:
-    BlendTables.ReSize ((Steps+1)*256*2);
-
-    //Effekte berechnen:
-    if (FXType==SB_COLORFX_FADE)
-    {
-        for (c=0; c<=Steps; c++)
-        {
-            for (d=0; d<256; d++)
-            {
-                //Lower-Byte:
-                BlendTables[(c<<9)+d]=UWORD(
-                        (((d&MaskR)*c/Steps)&MaskR)+
-                        (((d&MaskG)*c/Steps)&MaskG)+
-                        (((d&MaskB)*c/Steps)&MaskB));
-
-                //High-Byte
-                BlendTables[(c<<9)+d+256]=UWORD(
-                        ((((d<<8)&MaskR)*c/Steps)&MaskR)+
-                        ((((d<<8)&MaskG)*c/Steps)&MaskG)+
-                        ((((d<<8)&MaskB)*c/Steps)&MaskB));
+            if (c > ShiftB) {
+                ShiftB = c;
             }
         }
     }
-    else if (FXType==SB_COLORFX_GREY)
+
+    AnzSteps = Steps + 1;
+
+    // Speicher für Tabelle reservieren:
+    BlendTables.ReSize((Steps + 1) * 256 * 2);
+
+    // Effekte berechnen:
+    if (FXType == SB_COLORFX_FADE) {
+        for (c = 0; c <= Steps; c++) {
+            for (d = 0; d < 256; d++) {
+                // Lower-Byte:
+                BlendTables[(c << 9) + d] =
+                    UWORD((((d & MaskR) * c / Steps) & MaskR) + (((d & MaskG) * c / Steps) & MaskG) + (((d & MaskB) * c / Steps) & MaskB));
+
+                // High-Byte
+                BlendTables[(c << 9) + d + 256] =
+                    UWORD(((((d << 8) & MaskR) * c / Steps) & MaskR) + ((((d << 8) & MaskG) * c / Steps) & MaskG) + ((((d << 8) & MaskB) * c / Steps) & MaskB));
+            }
+        }
+    } else if (FXType == SB_COLORFX_GREY) {
+        ShiftR -= ShiftB;
+        ShiftG -= ShiftB;
+        ShiftB -= ShiftB;
+
+        for (c = 0; c <= Steps; c++) {
+            for (d = 0; d < 256; d++) {
+                // Lower-Byte:
+                BlendTables[(c << 9) + d] = UWORD(((((((d & MaskR) >> ShiftR) + ((d & MaskG) >> ShiftG) + ((d & MaskB) >> ShiftB)) / 3) << ShiftR) & MaskR) +
+                                                  ((((((d & MaskR) >> ShiftR) + ((d & MaskG) >> ShiftG) + ((d & MaskB) >> ShiftB)) / 3) << ShiftG) & MaskG) +
+                                                  ((((((d & MaskR) >> ShiftR) + ((d & MaskG) >> ShiftG) + ((d & MaskB) >> ShiftB)) / 3) << ShiftB) & MaskB));
+
+                // High-Byte
+                BlendTables[(c << 9) + d + 256] =
+                    UWORD((((((((d << 8) & MaskR) >> ShiftR) + (((d << 8) & MaskG) >> ShiftG) + (((d << 8) & MaskB) >> ShiftB)) / 3) << ShiftR) & MaskR) +
+                          (((((((d << 8) & MaskR) >> ShiftR) + (((d << 8) & MaskG) >> ShiftG) + (((d << 8) & MaskB) >> ShiftB)) / 3) << ShiftG) & MaskG) +
+                          (((((((d << 8) & MaskR) >> ShiftR) + (((d << 8) & MaskG) >> ShiftG) + (((d << 8) & MaskB) >> ShiftB)) / 3) << ShiftB) & MaskB));
+            }
+        }
+    } else if (FXType == (SB_CColorFXType)999) // Feuer
     {
         ShiftR -= ShiftB;
         ShiftG -= ShiftB;
         ShiftB -= ShiftB;
 
-        for (c=0; c<=Steps; c++)
-        {
-            for (d=0; d<256; d++)
-            {
-                //Lower-Byte:
-                BlendTables[(c<<9)+d]=UWORD(
-                        (( ((((d&MaskR)>>ShiftR)+((d&MaskG)>>ShiftG)+((d&MaskB)>>ShiftB))/3)<<ShiftR )&MaskR)+
-                        (( ((((d&MaskR)>>ShiftR)+((d&MaskG)>>ShiftG)+((d&MaskB)>>ShiftB))/3)<<ShiftG )&MaskG)+
-                        (( ((((d&MaskR)>>ShiftR)+((d&MaskG)>>ShiftG)+((d&MaskB)>>ShiftB))/3)<<ShiftB )&MaskB));
-
-                //High-Byte
-                BlendTables[(c<<9)+d+256]=UWORD(
-                        (( (((((d<<8)&MaskR)>>ShiftR)+(((d<<8)&MaskG)>>ShiftG)+(((d<<8)&MaskB)>>ShiftB))/3)<<ShiftR )&MaskR)+
-                        (( (((((d<<8)&MaskR)>>ShiftR)+(((d<<8)&MaskG)>>ShiftG)+(((d<<8)&MaskB)>>ShiftB))/3)<<ShiftG )&MaskG)+
-                        (( (((((d<<8)&MaskR)>>ShiftR)+(((d<<8)&MaskG)>>ShiftG)+(((d<<8)&MaskB)>>ShiftB))/3)<<ShiftB )&MaskB));
-            }
-        }
-    }
-    else if (FXType==(SB_CColorFXType)999) //Feuer
-    {
-        ShiftR -= ShiftB;
-        ShiftG -= ShiftB;
-        ShiftB -= ShiftB;
-
-        for (c=0; c<=Steps; c++)
-        {
-            for (d=0; d<256; d++)
-            {
+        for (c = 0; c <= Steps; c++) {
+            for (d = 0; d < 256; d++) {
                 SLONG r = 0;
                 SLONG g = 0;
                 SLONG b = 0;
 
-                r=((d>>11)&31);
-                g=((d>>5)&63);
-                b=(d&31);
+                r = ((d >> 11) & 31);
+                g = ((d >> 5) & 63);
+                b = (d & 31);
 
-                r=min(31,r+4);
-                g=min(63, g+4);
-                b=min(31,b+1);
+                r = min(31, r + 4);
+                g = min(63, g + 4);
+                b = min(31, b + 1);
 
-                //Lower-Byte:
-                BlendTables[(c<<9)+d]=UBYTE((r<<11)+(g<<5)+b);
+                // Lower-Byte:
+                BlendTables[(c << 9) + d] = UBYTE((r << 11) + (g << 5) + b);
 
-                r=(((d<<8)>>11)&31);
-                g=(((d<<8)>>5)&63);
-                b=((d<<8)&31);
+                r = (((d << 8) >> 11) & 31);
+                g = (((d << 8) >> 5) & 63);
+                b = ((d << 8) & 31);
 
-                r=min(31,r+4);
-                g=min(63, g+4);
-                b=min(31,b+1);
+                r = min(31, r + 4);
+                g = min(63, g + 4);
+                b = min(31, b + 1);
 
-                //High-Byte
-                BlendTables[(c<<9)+d+256]=UWORD(((r<<11)+(g<<5)+b))&0xff00;
+                // High-Byte
+                BlendTables[(c << 9) + d + 256] = UWORD(((r << 11) + (g << 5) + b)) & 0xff00;
             }
         }
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//Wendet eine Effekt an:
+// Wendet eine Effekt an:
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *Bitmap)
-{
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+void SB_CColorFX::Apply(SLONG Step, SB_CBitmapCore *Bitmap) {
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
-    UWORD *Table = BlendTables+(Step<<9);
+    UWORD *Table = BlendTables + (Step << 9);
     static SLONG sizex;
 
     SB_CBitmapKey Key(*Bitmap);
-    if (Key.Bitmap==nullptr) { return;
-}
+    if (Key.Bitmap == nullptr) {
+        return;
+    }
 
     CRect ClipRect = Bitmap->GetClipRect();
 
-    //sizex=Bitmap->GetXSize();
-    sizex=ClipRect.right-ClipRect.left;
+    // sizex=Bitmap->GetXSize();
+    sizex = ClipRect.right - ClipRect.left;
 
-    for (cy=ClipRect.top; cy<ClipRect.bottom; cy++)
-        //for (cy=0; cy<Bitmap->GetYSize(); cy++)
+    for (cy = ClipRect.top; cy < ClipRect.bottom; cy++)
+    // for (cy=0; cy<Bitmap->GetYSize(); cy++)
     {
-        p = (reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + cy*Key.lPitch))+ClipRect.left;
+        p = (reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + cy * Key.lPitch)) + ClipRect.left;
 
 #ifndef ENABLE_ASM
-        for (cx=sizex; cx>0; cx--)
-        {
-            *p = Table[(reinterpret_cast<UBYTE*>(p))[0]]+
-                Table[256+(reinterpret_cast<UBYTE*>(p))[1]];
+        for (cx = sizex; cx > 0; cx--) {
+            *p = Table[(reinterpret_cast<UBYTE *>(p))[0]] + Table[256 + (reinterpret_cast<UBYTE *>(p))[1]];
             p++;
         }
 #else
-        __asm
-        {
+        __asm {
             push  ebp
                 push  esi
                 push  edi
@@ -246,37 +222,34 @@ void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *Bitmap)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap)
-{
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+void SB_CColorFX::Apply(SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap) {
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
-    UWORD *Table = BlendTables+(Step<<9);
+    UWORD *Table = BlendTables + (Step << 9);
     static SLONG sizex;
 
     SB_CBitmapKey SrcKey(*SrcBitmap);
     SB_CBitmapKey TgtKey(*TgtBitmap);
-    if (SrcKey.Bitmap==nullptr || TgtKey.Bitmap==nullptr) { return;
-}
+    if (SrcKey.Bitmap == nullptr || TgtKey.Bitmap == nullptr) {
+        return;
+    }
 
-    sizex=SrcBitmap->GetXSize();
+    sizex = SrcBitmap->GetXSize();
 
-    for (cy=0; cy<SrcBitmap->GetYSize(); cy++)
-    {
-        p  = reinterpret_cast<UWORD*>((static_cast<char*>(SrcKey.Bitmap)) + cy*SrcKey.lPitch);
-        pp = reinterpret_cast<UWORD*>((static_cast<char*>(TgtKey.Bitmap)) + cy*TgtKey.lPitch);
+    for (cy = 0; cy < SrcBitmap->GetYSize(); cy++) {
+        p = reinterpret_cast<UWORD *>((static_cast<char *>(SrcKey.Bitmap)) + cy * SrcKey.lPitch);
+        pp = reinterpret_cast<UWORD *>((static_cast<char *>(TgtKey.Bitmap)) + cy * TgtKey.lPitch);
 
 #ifndef ENABLE_ASM
-        for (cx=SrcBitmap->GetXSize(); cx>0; cx--)
-        {
-            *pp = Table[(reinterpret_cast<UBYTE*>(p))[0]]+
-                Table[256+(reinterpret_cast<UBYTE*>(p))[1]];
-            p++; pp++;
+        for (cx = SrcBitmap->GetXSize(); cx > 0; cx--) {
+            *pp = Table[(reinterpret_cast<UBYTE *>(p))[0]] + Table[256 + (reinterpret_cast<UBYTE *>(p))[1]];
+            p++;
+            pp++;
         }
 #else
-        __asm
-        {
+        __asm {
             push  ebp
                 push  esi
                 push  edi
@@ -317,38 +290,36 @@ void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2, SB_CBitmapCore *SrcBitmap2)
-{
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+void SB_CColorFX::ApplyOn2(SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2, SB_CBitmapCore *SrcBitmap2) {
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
-    UWORD *Table = BlendTables+(Step<<9);
-    UWORD *Table2 = BlendTables+(Step2<<9);
+    UWORD *Table = BlendTables + (Step << 9);
+    UWORD *Table2 = BlendTables + (Step2 << 9);
     static ULONG ESP;
     static SLONG sizex;
     BUFFER<UWORD> PixelBuffer(640);
 
     SB_CBitmapKey Key(*DestBitmap);
     SB_CBitmapKey Key2(*SrcBitmap2);
-    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) { return;
-}
+    if (Key.Bitmap == nullptr || Key2.Bitmap == nullptr) {
+        return;
+    }
 
-    sizex=DestBitmap->GetXSize();
+    sizex = DestBitmap->GetXSize();
 
     CRect ClipRect = DestBitmap->GetClipRect();
 
-    for (cy=ClipRect.top; cy<ClipRect.bottom; cy++)
-    {
-        p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + cy*Key.lPitch);
-        pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + cy*Key2.lPitch);
+    for (cy = ClipRect.top; cy < ClipRect.bottom; cy++) {
+        p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + cy * Key.lPitch);
+        pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + cy * Key2.lPitch);
 
-        memcpy (PixelBuffer, p, sizex*2);
+        memcpy(PixelBuffer, p, sizex * 2);
         p = PixelBuffer;
 
 #ifdef ENABLE_ASM
-        __asm
-        {
+        __asm {
             push  ebp
                 push  esi
                 push  edi
@@ -404,57 +375,55 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2,
                 pop   ebp
         }
 #else
-        for (cx=sizex; cx>0; cx--)
-        {
-            *p = Table[(reinterpret_cast<UBYTE*>(p))[0]]+Table[256+(reinterpret_cast<UBYTE*>(p))[1]]+
-                Table2[(reinterpret_cast<UBYTE*>(pp))[0]]+Table2[256+(reinterpret_cast<UBYTE*>(pp))[1]];
+        for (cx = sizex; cx > 0; cx--) {
+            *p = Table[(reinterpret_cast<UBYTE *>(p))[0]] + Table[256 + (reinterpret_cast<UBYTE *>(p))[1]] + Table2[(reinterpret_cast<UBYTE *>(pp))[0]] +
+                 Table2[256 + (reinterpret_cast<UBYTE *>(pp))[1]];
 
             p++;
             pp++;
         }
 #endif
 
-        memcpy (((static_cast<char*>(Key.Bitmap)) + cy*Key.lPitch), PixelBuffer, sizex*2);
+        memcpy(((static_cast<char *>(Key.Bitmap)) + cy * Key.lPitch), PixelBuffer, sizex * 2);
     }
 }
 
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, SB_CBitmapCore *SrcBitmap2, SB_CBitmapCore *TgtBitmap)
-{
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+void SB_CColorFX::ApplyOn2(SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, SB_CBitmapCore *SrcBitmap2, SB_CBitmapCore *TgtBitmap) {
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
     UWORD *ppp = nullptr;
-    UWORD *Table = BlendTables+(Step<<9);
-    UWORD *Table2 = BlendTables+(Step2<<9);
+    UWORD *Table = BlendTables + (Step << 9);
+    UWORD *Table2 = BlendTables + (Step2 << 9);
     static ULONG ESP;
     static SLONG sizex;
 
-    if (SrcBitmap==nullptr || SrcBitmap2==nullptr || TgtBitmap==nullptr) { return;
-}
+    if (SrcBitmap == nullptr || SrcBitmap2 == nullptr || TgtBitmap == nullptr) {
+        return;
+    }
 
     SB_CBitmapKey Key(*SrcBitmap);
     SB_CBitmapKey Key2(*SrcBitmap2);
     SB_CBitmapKey TgtKey(*TgtBitmap);
-    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr || TgtKey.Bitmap==nullptr) { return;
-}
+    if (Key.Bitmap == nullptr || Key2.Bitmap == nullptr || TgtKey.Bitmap == nullptr) {
+        return;
+    }
 
     CRect ClipRect = TgtBitmap->GetClipRect();
 
-    for (cy=ClipRect.top; cy<ClipRect.bottom; cy++)
-    {
-        p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + cy*Key.lPitch);
-        pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + cy*Key2.lPitch);
-        ppp = reinterpret_cast<UWORD*>((static_cast<char*>(TgtKey.Bitmap)) + cy*TgtKey.lPitch);
+    for (cy = ClipRect.top; cy < ClipRect.bottom; cy++) {
+        p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + cy * Key.lPitch);
+        pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + cy * Key2.lPitch);
+        ppp = reinterpret_cast<UWORD *>((static_cast<char *>(TgtKey.Bitmap)) + cy * TgtKey.lPitch);
 
 #ifdef ENABLE_ASM
-        sizex=SrcBitmap->GetXSize()/2;
+        sizex = SrcBitmap->GetXSize() / 2;
 
-        __asm
-        {
+        __asm {
             push  ebp
                 push  esi
                 push  edi
@@ -503,10 +472,9 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, 
 #else
         sizex = SrcBitmap->GetXSize();
 
-        for (cx = sizex; cx > 0; cx--)
-        {
-            *ppp = Table[(reinterpret_cast<UBYTE*>(p))[0]] + Table[256 + (reinterpret_cast<UBYTE*>(p))[1]] +
-                Table2[(reinterpret_cast<UBYTE*>(pp))[0]] + Table2[256 + (reinterpret_cast<UBYTE*>(pp))[1]];
+        for (cx = sizex; cx > 0; cx--) {
+            *ppp = Table[(reinterpret_cast<UBYTE *>(p))[0]] + Table[256 + (reinterpret_cast<UBYTE *>(p))[1]] + Table2[(reinterpret_cast<UBYTE *>(pp))[0]] +
+                   Table2[256 + (reinterpret_cast<UBYTE *>(pp))[1]];
 
             p++;
             pp++;
@@ -517,172 +485,153 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, 
 }
 
 //--------------------------------------------------------------------------------------------
-//Blitten mit transparenten Whitespaces:
+// Blitten mit transparenten Whitespaces:
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, const CRect *SrcRect, SLONG Grade)
-{
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, const CRect *SrcRect,
+                                 SLONG Grade) {
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
-    static UWORD *Table1 = BlendTables+(2<<9);
-    static UWORD *Table2 = BlendTables+(6<<9);
-    static SLONG  sizex;
+    static UWORD *Table1 = BlendTables + (2 << 9);
+    static UWORD *Table2 = BlendTables + (6 << 9);
+    static SLONG sizex;
     static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
 
     IsPaintingTextBubble = TRUE;
-    gRoomJustLeft        = FALSE;
+    gRoomJustLeft = FALSE;
 
-    //DDSURFACEDESC DDSurfaceDesc;
-    BOOL          bVgaRam = FALSE;
+    // DDSURFACEDESC DDSurfaceDesc;
+    BOOL bVgaRam = FALSE;
 
-    //ZeroMemory (&DDSurfaceDesc, sizeof (DDSurfaceDesc));
+    // ZeroMemory (&DDSurfaceDesc, sizeof (DDSurfaceDesc));
 
-    //DDSurfaceDesc.dwSize  = sizeof (DDSurfaceDesc);
-    //DDSurfaceDesc.dwFlags = DDSD_CAPS;
+    // DDSurfaceDesc.dwSize  = sizeof (DDSurfaceDesc);
+    // DDSurfaceDesc.dwFlags = DDSD_CAPS;
 
-    //TgtBitmap->GetSurface()->GetSurfaceDesc (&DDSurfaceDesc);
+    // TgtBitmap->GetSurface()->GetSurfaceDesc (&DDSurfaceDesc);
 
-    //bVgaRam = ((DDSurfaceDesc.ddsCaps.dwCaps & DDSCAPS_VIDEOMEMORY)!=0);
+    // bVgaRam = ((DDSurfaceDesc.ddsCaps.dwCaps & DDSCAPS_VIDEOMEMORY)!=0);
 
-    if (Grade!=-1)
-    {
-        Table1 = BlendTables+(Grade<<9);
-        Table2 = BlendTables+((AnzSteps-Grade-1)<<9);
+    if (Grade != -1) {
+        Table1 = BlendTables + (Grade << 9);
+        Table2 = BlendTables + ((AnzSteps - Grade - 1) << 9);
     }
 
-    XY t=TargetPos;
+    XY t = TargetPos;
 
     static UWORD White;
     CRect Rect;
 
     {
         SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White=*static_cast<UWORD*>(Key.Bitmap);
+        White = *static_cast<UWORD *>(Key.Bitmap);
     }
 
-    if (SrcRect != nullptr) { Rect=*SrcRect; } else { Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
-}
+    if (SrcRect != nullptr) {
+        Rect = *SrcRect;
+    } else {
+        Rect = CRect(0, 0, SrcBitmap->GetXSize() - 1, SrcBitmap->GetYSize() - 1);
+    }
 
-    if (t.x<0)
-    {
-        Rect.left-=t.x;
-        t.x=0;
+    if (t.x < 0) {
+        Rect.left -= t.x;
+        t.x = 0;
     }
-    if (t.y<0)
-    {
-        Rect.top-=t.y;
-        t.y=0;
+    if (t.y < 0) {
+        Rect.top -= t.y;
+        t.y = 0;
     }
-    if (t.x+Rect.right-Rect.left+1>=TgtBitmap->GetXSize())
-    {
-        Rect.right-=(t.x+Rect.right-Rect.left+1)-TgtBitmap->GetXSize();
+    if (t.x + Rect.right - Rect.left + 1 >= TgtBitmap->GetXSize()) {
+        Rect.right -= (t.x + Rect.right - Rect.left + 1) - TgtBitmap->GetXSize();
     }
-    if (t.y+Rect.bottom-Rect.top+1>=TgtBitmap->GetYSize())
-    {
-        Rect.bottom-=(t.y+Rect.bottom-Rect.top+1)-TgtBitmap->GetYSize();
+    if (t.y + Rect.bottom - Rect.top + 1 >= TgtBitmap->GetYSize()) {
+        Rect.bottom -= (t.y + Rect.bottom - Rect.top + 1) - TgtBitmap->GetYSize();
     }
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr)
-    {
+    if (Key.Bitmap == nullptr || Key2.Bitmap == nullptr) {
         IsPaintingTextBubble = FALSE;
         return;
     }
 
-    sizex=Rect.right-Rect.left+1;
+    sizex = Rect.right - Rect.left + 1;
 
-    if (sizex>0 && sizex<=640) {
-        for (cy=0; cy<Rect.bottom-Rect.top+1; cy++)
-        {
-            //Zwischendurch mal einen Message-Pump einlegen:
-            if ((cy&15)==15 && (DoMessagePump != 0))
-            {
-                //delete Key; delete Key2;
+    if (sizex > 0 && sizex <= 640) {
+        for (cy = 0; cy < Rect.bottom - Rect.top + 1; cy++) {
+            // Zwischendurch mal einen Message-Pump einlegen:
+            if ((cy & 15) == 15 && (DoMessagePump != 0)) {
+                // delete Key; delete Key2;
 
                 SLONG LastSize = SrcBitmap->GetXSize();
 
-                MessagePump ();
+                MessagePump();
 
-                if ((gRoomJustLeft != 0) || TgtBitmap->GetXSize()==0 || SrcBitmap->GetXSize()==0)
-                {
+                if ((gRoomJustLeft != 0) || TgtBitmap->GetXSize() == 0 || SrcBitmap->GetXSize() == 0) {
                     IsPaintingTextBubble = FALSE;
                     return;
                 }
 
-                if (LastSize != SrcBitmap->GetXSize())
-                {
+                if (LastSize != SrcBitmap->GetXSize()) {
                     IsPaintingTextBubble = FALSE;
                     return;
                 }
 
-                Key2=SB_CBitmapKey(*SrcBitmap);
+                Key2 = SB_CBitmapKey(*SrcBitmap);
 
-                //Falls der Key nicht mehr erhältlich ist, wurde die Sprechblase inzwischen geschlossen:
-                if (Key2.Bitmap==nullptr)
-                {
-                    //delete Key2;
+                // Falls der Key nicht mehr erhältlich ist, wurde die Sprechblase inzwischen geschlossen:
+                if (Key2.Bitmap == nullptr) {
+                    // delete Key2;
                     IsPaintingTextBubble = FALSE;
                     return;
                 }
 
-                Key= SB_CBitmapKey(*TgtBitmap);
+                Key = SB_CBitmapKey(*TgtBitmap);
 
-                //Falls der Key nicht mehr erhältlich ist, wurde die Sprechlblase inzwischen geschlossen:
-                if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr)
-                {
-                    //delete Key;
-                    //delete Key2;
+                // Falls der Key nicht mehr erhältlich ist, wurde die Sprechlblase inzwischen geschlossen:
+                if (Key.Bitmap == nullptr || Key2.Bitmap == nullptr) {
+                    // delete Key;
+                    // delete Key2;
                     IsPaintingTextBubble = FALSE;
                     return;
                 }
             }
 
-            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+            p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch);
+            pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + Rect.left * 2 + (cy + Rect.top) * Key2.lPitch);
 
-            if (bVgaRam != 0)
-            {
-                memcpy (PixelBuffer, p, sizex*2);
+            if (bVgaRam != 0) {
+                memcpy(PixelBuffer, p, sizex * 2);
                 p = PixelBuffer;
             }
 
-            if (Table1==Table2)
-            {
-                for (cx=sizex; cx>0; cx--)
-                {
-                    if (*pp != 0U)
-                    {
-                        if (*pp==static_cast<UWORD>(static_cast<int>(White)))
-                        {
-                            UWORD vga=*p;
+            if (Table1 == Table2) {
+                for (cx = sizex; cx > 0; cx--) {
+                    if (*pp != 0U) {
+                        if (*pp == static_cast<UWORD>(static_cast<int>(White))) {
+                            UWORD vga = *p;
 
-                            *p = UWORD(Table1[vga&255]+Table1[256+(vga>>8)]+
-                                    Table1[(reinterpret_cast<UBYTE*>(pp))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(pp))[1]]);
+                            *p = UWORD(Table1[vga & 255] + Table1[256 + (vga >> 8)] + Table1[(reinterpret_cast<UBYTE *>(pp))[0]] +
+                                       Table1[256 + (reinterpret_cast<UBYTE *>(pp))[1]]);
+                        } else {
+                            *p = *pp;
                         }
-                        else {
-                            *p=*pp;
-}
                     }
 
                     p++;
                     pp++;
                 }
-            }
-            else
-            {
-                for (cx=sizex; cx>0; cx--)
-                {
-                    if (*pp != 0U)
-                    {
-                        if (*pp==static_cast<UWORD>(static_cast<int>(White))) {
-                            *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]+
-                                    Table2[(reinterpret_cast<UBYTE*>(pp))[0]]+Table2[256+(reinterpret_cast<UBYTE*>(pp))[1]]);
+            } else {
+                for (cx = sizex; cx > 0; cx--) {
+                    if (*pp != 0U) {
+                        if (*pp == static_cast<UWORD>(static_cast<int>(White))) {
+                            *p = UWORD(Table1[(reinterpret_cast<UBYTE *>(p))[0]] + Table1[256 + (reinterpret_cast<UBYTE *>(p))[1]] +
+                                       Table2[(reinterpret_cast<UBYTE *>(pp))[0]] + Table2[256 + (reinterpret_cast<UBYTE *>(pp))[1]]);
                         } else {
-                            *p=*pp;
-}
+                            *p = *pp;
+                        }
                     }
 
                     p++;
@@ -691,168 +640,165 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
             }
 
             if (bVgaRam != 0) {
-                memcpy (((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
-}
+                memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer, sizex * 2);
+            }
         }
-}
+    }
 
-    //delete Key;
-    //delete Key2;
+    // delete Key;
+    // delete Key2;
 
     IsPaintingTextBubble = FALSE;
 }
 
 //--------------------------------------------------------------------------------------------
-//Blitten mit transparenten Whitespaces:
+// Blitten mit transparenten Whitespaces:
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::BlitOutline (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, ULONG LineColor)
-{
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+void SB_CColorFX::BlitOutline(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, ULONG LineColor) {
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
 
-    XY t=TargetPos;
-    CRect Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
+    XY t = TargetPos;
+    CRect Rect = CRect(0, 0, SrcBitmap->GetXSize() - 1, SrcBitmap->GetYSize() - 1);
 
-    WORD pen = (WORD)TgtBitmap->GetHardwarecolor (LineColor);
+    WORD pen = (WORD)TgtBitmap->GetHardwarecolor(LineColor);
 
-    if (t.x<0)
-    {
-        Rect.left-=t.x;
-        t.x=0;
+    if (t.x < 0) {
+        Rect.left -= t.x;
+        t.x = 0;
     }
-    if (t.y<0)
-    {
-        Rect.top-=t.y;
-        t.y=0;
+    if (t.y < 0) {
+        Rect.top -= t.y;
+        t.y = 0;
     }
-    if (t.x+Rect.right-Rect.left+1>=TgtBitmap->GetXSize())
-    {
-        Rect.right-=(t.x+Rect.right-Rect.left+1)-TgtBitmap->GetXSize();
+    if (t.x + Rect.right - Rect.left + 1 >= TgtBitmap->GetXSize()) {
+        Rect.right -= (t.x + Rect.right - Rect.left + 1) - TgtBitmap->GetXSize();
     }
-    if (t.y+Rect.bottom-Rect.top+1>=TgtBitmap->GetYSize())
-    {
-        Rect.bottom-=(t.y+Rect.bottom-Rect.top+1)-TgtBitmap->GetYSize();
+    if (t.y + Rect.bottom - Rect.top + 1 >= TgtBitmap->GetYSize()) {
+        Rect.bottom -= (t.y + Rect.bottom - Rect.top + 1) - TgtBitmap->GetYSize();
     }
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) {
+    if (Key.Bitmap == nullptr || Key2.Bitmap == nullptr) {
         return;
-}
+    }
 
-    long sizex=Rect.right-Rect.left+1;
-    long sizey=Rect.bottom-Rect.top+1;
+    long sizex = Rect.right - Rect.left + 1;
+    long sizey = Rect.bottom - Rect.top + 1;
 
-    if (sizex>0 && sizex<=640) {
-        for (cy=0; cy<sizey; cy++)
-        {
-            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+    if (sizex > 0 && sizex <= 640) {
+        for (cy = 0; cy < sizey; cy++) {
+            p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch);
+            pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + Rect.left * 2 + (cy + Rect.top) * Key2.lPitch);
 
-            for (cx=sizex; cx>0; cx--)
-            {
-                //Falls transparent
-                if (*pp==0)
-                {
-                    //Dann in der Umgebung nach transparenten Pixeln suchen:
-                    if (cx>1)
-                    {
-                        if (pp[1] != 0U) { goto draw;
-}
-                        if (cy>0 && (pp[1-Key2.lPitch/2] != 0U)) { goto draw;
-}
-                        if (cy<sizey-1 && (pp[1+Key2.lPitch/2] != 0U)) { goto draw;
-}
-                        if (cx>2 && (pp[2] != 0U)) { goto draw;
-}
+            for (cx = sizex; cx > 0; cx--) {
+                // Falls transparent
+                if (*pp == 0) {
+                    // Dann in der Umgebung nach transparenten Pixeln suchen:
+                    if (cx > 1) {
+                        if (pp[1] != 0U) {
+                            goto draw;
+                        }
+                        if (cy > 0 && (pp[1 - Key2.lPitch / 2] != 0U)) {
+                            goto draw;
+                        }
+                        if (cy < sizey - 1 && (pp[1 + Key2.lPitch / 2] != 0U)) {
+                            goto draw;
+                        }
+                        if (cx > 2 && (pp[2] != 0U)) {
+                            goto draw;
+                        }
                     }
-                    if (cx<sizex)
-                    {
-                        if (pp[-1] != 0U) { goto draw;
-}
-                        if (cy>0 && (pp[-1-Key2.lPitch/2] != 0U)) { goto draw;
-}
-                        if (cy<sizey-1 && (pp[-1+Key2.lPitch/2] != 0U)) { goto draw;
-}
-                        if (cx<sizex-1 && (pp[-2] != 0U)) { goto draw;
-}
+                    if (cx < sizex) {
+                        if (pp[-1] != 0U) {
+                            goto draw;
+                        }
+                        if (cy > 0 && (pp[-1 - Key2.lPitch / 2] != 0U)) {
+                            goto draw;
+                        }
+                        if (cy < sizey - 1 && (pp[-1 + Key2.lPitch / 2] != 0U)) {
+                            goto draw;
+                        }
+                        if (cx < sizex - 1 && (pp[-2] != 0U)) {
+                            goto draw;
+                        }
                     }
 
-                    if (cy>1 && (pp[-Key2.lPitch] != 0U)) {      goto draw;
-}
-                    if (cy<sizey-2 && (pp[Key2.lPitch] != 0U)) { goto draw;
-}
+                    if (cy > 1 && (pp[-Key2.lPitch] != 0U)) {
+                        goto draw;
+                    }
+                    if (cy < sizey - 2 && (pp[Key2.lPitch] != 0U)) {
+                        goto draw;
+                    }
 
                     goto next;
-draw:
-                    *p=pen;
-next:;
+                draw:
+                    *p = pen;
+                next:;
                 }
 
                 p++;
                 pp++;
             }
         }
-}
+    }
 
-    //delete Key;
-    //delete Key2;
+    // delete Key;
+    // delete Key2;
 }
 
 //--------------------------------------------------------------------------------------------
-//Blitten mit transparenz (=fester Alpha-Wert) und clipping:
+// Blitten mit transparenz (=fester Alpha-Wert) und clipping:
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, const CRect *SrcRect, SLONG Grade)
-{
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+void SB_CColorFX::BlitTrans(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, const CRect *SrcRect, SLONG Grade) {
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
-    UWORD *Table1 = BlendTables+((AnzSteps/2)<<9);
-    UWORD *Table2 = BlendTables+((AnzSteps/2)<<9);
+    UWORD *Table1 = BlendTables + ((AnzSteps / 2) << 9);
+    UWORD *Table2 = BlendTables + ((AnzSteps / 2) << 9);
     static SLONG sizex;
     BUFFER<UWORD> PixelBuffer(640);
 
     CRect ClipRect = TgtBitmap->GetClipRect();
 
-    if (Grade!=-1)
-    {
-        Table1 = BlendTables+(Grade<<9);
-        Table2 = BlendTables+((AnzSteps-Grade-1)<<9);
+    if (Grade != -1) {
+        Table1 = BlendTables + (Grade << 9);
+        Table2 = BlendTables + ((AnzSteps - Grade - 1) << 9);
     }
 
-    XY t=TargetPos;
+    XY t = TargetPos;
 
     UWORD White = 0;
     CRect Rect;
 
     {
         SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White=*static_cast<UWORD*>(Key.Bitmap);
+        White = *static_cast<UWORD *>(Key.Bitmap);
     }
 
-    if (SrcRect != nullptr) { Rect=*SrcRect; } else { Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
-}
+    if (SrcRect != nullptr) {
+        Rect = *SrcRect;
+    } else {
+        Rect = CRect(0, 0, SrcBitmap->GetXSize() - 1, SrcBitmap->GetYSize() - 1);
+    }
 
-    if (t.x<ClipRect.left)
-    {
-        Rect.left+=ClipRect.left-t.x;
-        t.x=ClipRect.left;
+    if (t.x < ClipRect.left) {
+        Rect.left += ClipRect.left - t.x;
+        t.x = ClipRect.left;
     }
-    if (t.y<ClipRect.top)
-    {
-        Rect.top+=ClipRect.top-t.y;
-        t.y=ClipRect.top;
+    if (t.y < ClipRect.top) {
+        Rect.top += ClipRect.top - t.y;
+        t.y = ClipRect.top;
     }
-    if (t.x+Rect.right-Rect.left+1>=ClipRect.right)
-    {
-        Rect.right-=(t.x+Rect.right-Rect.left+1)-ClipRect.right;
+    if (t.x + Rect.right - Rect.left + 1 >= ClipRect.right) {
+        Rect.right -= (t.x + Rect.right - Rect.left + 1) - ClipRect.right;
     }
-    if (t.y+Rect.bottom-Rect.top+1>=ClipRect.bottom)
-    {
-        Rect.bottom-=(t.y+Rect.bottom-Rect.top+1)-ClipRect.bottom;
+    if (t.y + Rect.bottom - Rect.top + 1 >= ClipRect.bottom) {
+        Rect.bottom -= (t.y + Rect.bottom - Rect.top + 1) - ClipRect.bottom;
     }
     /*if (t.x<0)
       {
@@ -875,42 +821,35 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) { return;
-}
+    if (Key.Bitmap == nullptr || Key2.Bitmap == nullptr) {
+        return;
+    }
 
-    sizex=Rect.right-Rect.left+1;
+    sizex = Rect.right - Rect.left + 1;
 
-    if (sizex>0) {
-        for (cy=0; cy<Rect.bottom-Rect.top+1; cy++)
-        {
-            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+    if (sizex > 0) {
+        for (cy = 0; cy < Rect.bottom - Rect.top + 1; cy++) {
+            p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch);
+            pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + Rect.left * 2 + (cy + Rect.top) * Key2.lPitch);
 
-            memcpy (PixelBuffer, p, sizex*2);
+            memcpy(PixelBuffer, p, sizex * 2);
             p = PixelBuffer;
 
-            if (Table1==Table2)
-            {
-                for (cx=sizex; cx>0; cx--)
-                {
-                    if (*pp != 0U)
-                    {
-                        *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]+
-                                Table1[(reinterpret_cast<UBYTE*>(pp))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(pp))[1]]);
+            if (Table1 == Table2) {
+                for (cx = sizex; cx > 0; cx--) {
+                    if (*pp != 0U) {
+                        *p = UWORD(Table1[(reinterpret_cast<UBYTE *>(p))[0]] + Table1[256 + (reinterpret_cast<UBYTE *>(p))[1]] +
+                                   Table1[(reinterpret_cast<UBYTE *>(pp))[0]] + Table1[256 + (reinterpret_cast<UBYTE *>(pp))[1]]);
                     }
 
                     p++;
                     pp++;
                 }
-            }
-            else
-            {
-                for (cx=sizex; cx>0; cx--)
-                {
-                    if (*pp != 0U)
-                    {
-                        *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]+
-                                Table2[(reinterpret_cast<UBYTE*>(pp))[0]]+Table2[256+(reinterpret_cast<UBYTE*>(pp))[1]]);
+            } else {
+                for (cx = sizex; cx > 0; cx--) {
+                    if (*pp != 0U) {
+                        *p = UWORD(Table1[(reinterpret_cast<UBYTE *>(p))[0]] + Table1[256 + (reinterpret_cast<UBYTE *>(p))[1]] +
+                                   Table2[(reinterpret_cast<UBYTE *>(pp))[0]] + Table2[256 + (reinterpret_cast<UBYTE *>(pp))[1]]);
                     }
 
                     p++;
@@ -918,177 +857,180 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
                 }
             }
 
-            memcpy (((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
+            memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer, sizex * 2);
         }
-}
+    }
 }
 
 //--------------------------------------------------------------------------------------------
-//Zeichnet einen transparenzen Highlight um einen Text:
+// Zeichnet einen transparenzen Highlight um einen Text:
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD FontColor, ULONG HighlightColor)
-{
-    SLONG  x = 0;
-    SLONG  y = 0;
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+void SB_CColorFX::HighlightText(SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD FontColor, ULONG HighlightColor) {
+    SLONG x = 0;
+    SLONG y = 0;
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
-    UWORD *Table1 = BlendTables+(7<<9);
-    UWORD *Table2 = BlendTables+(1<<9);
+    UWORD *Table1 = BlendTables + (7 << 9);
+    UWORD *Table2 = BlendTables + (1 << 9);
     static SLONG sizex;
     static SLONG sizey;
 
     SLONG max = 3;
 
-    //Calculate transparency color stuff:
-    SB_Hardwarecolor color    = pBitmap->GetHardwarecolor (HighlightColor);
-    auto            coloradd = UWORD(Table2[(reinterpret_cast<UBYTE*>(&color))[0]]+Table2[256+(reinterpret_cast<UBYTE*>(&color))[1]]);
+    // Calculate transparency color stuff:
+    SB_Hardwarecolor color = pBitmap->GetHardwarecolor(HighlightColor);
+    auto coloradd = UWORD(Table2[(reinterpret_cast<UBYTE *>(&color))[0]] + Table2[256 + (reinterpret_cast<UBYTE *>(&color))[1]]);
 
     CRect ClipRect = pBitmap->GetClipRect();
 
     ClipRect.right--;
     ClipRect.bottom--;
 
-    if (HighRect.left>ClipRect.left) {     ClipRect.left=HighRect.left;
-}
-    if (HighRect.top>ClipRect.top) {       ClipRect.top=HighRect.top;
-}
-    if (HighRect.right<ClipRect.right) {   ClipRect.right=HighRect.right;
-}
-    if (HighRect.bottom<ClipRect.bottom) { ClipRect.bottom=HighRect.bottom;
-}
+    if (HighRect.left > ClipRect.left) {
+        ClipRect.left = HighRect.left;
+    }
+    if (HighRect.top > ClipRect.top) {
+        ClipRect.top = HighRect.top;
+    }
+    if (HighRect.right < ClipRect.right) {
+        ClipRect.right = HighRect.right;
+    }
+    if (HighRect.bottom < ClipRect.bottom) {
+        ClipRect.bottom = HighRect.bottom;
+    }
 
-    sizex=ClipRect.right-ClipRect.left+1;
-    sizey=ClipRect.bottom-ClipRect.top+1;
+    sizex = ClipRect.right - ClipRect.left + 1;
+    sizey = ClipRect.bottom - ClipRect.top + 1;
 
     SB_CBitmapKey Key(*pBitmap);
-    if (Key.Bitmap==nullptr) { return;
-}
+    if (Key.Bitmap == nullptr) {
+        return;
+    }
 
-    SLONG Width = Key.lPitch/2;
+    SLONG Width = Key.lPitch / 2;
 
-    if (sizex>0) {
-        for (cy=0; cy<sizey; cy++)
-        {
-            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + ClipRect.left*2 + (cy+ClipRect.top)*Key.lPitch);
+    if (sizex > 0) {
+        for (cy = 0; cy < sizey; cy++) {
+            p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + ClipRect.left * 2 + (cy + ClipRect.top) * Key.lPitch);
 
-            for (cx=sizex; cx>0; cx--)
-            {
-                if (*p==FontColor)
-                {
-                    for (x=-max; x<=max; x++) {
-                        for (y=-max+abs(x); y<=max-abs(x); y++) {
-                            if (cx+x>=0 && cx+x<sizex && cy+y>=0 && cy+y<sizey && p[x+y*Width]!=FontColor) {
-                                p[x+y*Width] = UWORD(Table1[(reinterpret_cast<UBYTE*>(p+x+y*Width))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p+x+y*Width))[1]]+coloradd);
-}
-}
-}
+            for (cx = sizex; cx > 0; cx--) {
+                if (*p == FontColor) {
+                    for (x = -max; x <= max; x++) {
+                        for (y = -max + abs(x); y <= max - abs(x); y++) {
+                            if (cx + x >= 0 && cx + x < sizex && cy + y >= 0 && cy + y < sizey && p[x + y * Width] != FontColor) {
+                                p[x + y * Width] = UWORD(Table1[(reinterpret_cast<UBYTE *>(p + x + y * Width))[0]] +
+                                                         Table1[256 + (reinterpret_cast<UBYTE *>(p + x + y * Width))[1]] + coloradd);
+                            }
+                        }
+                    }
 
                     /*if (cx>1)
                       {
                       if (p[-1]!=FontColor)         p[-1] = UWORD(Table1[((UBYTE*)(p-1))[0]]+Table1[256+((UBYTE*)(p-1))[1]]+coloradd);
                       if (cx>2 && p[-2]!=FontColor) p[-2] = UWORD(Table1[((UBYTE*)(p-2))[0]]+Table1[256+((UBYTE*)(p-2))[1]]+coloradd);
                       if (cy>0 && p[-1-Width]!=FontColor) p[-1-Width] = UWORD(Table1[((UBYTE*)(p-1-Width))[0]]+Table1[256+((UBYTE*)(p-1-Width))[1]]+coloradd);
-                      if (cy<sizey-1 && p[-1+Width]!=FontColor) p[-1+Width] = UWORD(Table1[((UBYTE*)(p-1+Width))[0]]+Table1[256+((UBYTE*)(p-1+Width))[1]]+coloradd);
+                      if (cy<sizey-1 && p[-1+Width]!=FontColor) p[-1+Width] =
+                      UWORD(Table1[((UBYTE*)(p-1+Width))[0]]+Table1[256+((UBYTE*)(p-1+Width))[1]]+coloradd);
                       }
                       if (cx<sizex)
                       {
                       if (p[1]!=FontColor)               p[1] = UWORD(Table1[((UBYTE*)(p+1))[0]]+Table1[256+((UBYTE*)(p+1))[1]]+coloradd);
                       if (cx<sizex-1 && p[2]!=FontColor) p[2] = UWORD(Table1[((UBYTE*)(p+2))[0]]+Table1[256+((UBYTE*)(p+2))[1]]+coloradd);
                       if (cy>0 && p[1-Width]!=FontColor) p[1-Width] = UWORD(Table1[((UBYTE*)(p+1-Width))[0]]+Table1[256+((UBYTE*)(p+1-Width))[1]]+coloradd);
-                      if (cy<sizey-1 && p[1+Width]!=FontColor) p[1+Width] = UWORD(Table1[((UBYTE*)(p+1+Width))[0]]+Table1[256+((UBYTE*)(p+1+Width))[1]]+coloradd);
+                      if (cy<sizey-1 && p[1+Width]!=FontColor) p[1+Width] =
+                      UWORD(Table1[((UBYTE*)(p+1+Width))[0]]+Table1[256+((UBYTE*)(p+1+Width))[1]]+coloradd);
                       }
                       if (cy>0)
                       {
                       if (p[-Width]!=FontColor)              p[-Width] = UWORD(Table1[((UBYTE*)(p-Width))[0]]+Table1[256+((UBYTE*)(p-Width))[1]]+coloradd);
-                      if (cy>1 && p[-(Width<<1)]!=FontColor) p[-(Width<<1)] = UWORD(Table1[((UBYTE*)(p-(Width<<1)))[0]]+Table1[256+((UBYTE*)(p-(Width<<1)))[1]]+coloradd);
+                      if (cy>1 && p[-(Width<<1)]!=FontColor) p[-(Width<<1)] =
+                      UWORD(Table1[((UBYTE*)(p-(Width<<1)))[0]]+Table1[256+((UBYTE*)(p-(Width<<1)))[1]]+coloradd);
                       }
                       if (cy<sizey-1)
                       {
                       if (p[Width]!=FontColor)                  p[Width] = UWORD(Table1[((UBYTE*)(p+Width))[0]]+Table1[256+((UBYTE*)(p+Width))[1]]+coloradd);
-                      if (cy<sizey-2 && p[Width<<1]!=FontColor) p[Width<<1] = UWORD(Table1[((UBYTE*)(p+(Width<<1)))[0]]+Table1[256+((UBYTE*)(p+(Width<<1)))[1]]+coloradd);
+                      if (cy<sizey-2 && p[Width<<1]!=FontColor) p[Width<<1] =
+                      UWORD(Table1[((UBYTE*)(p+(Width<<1)))[0]]+Table1[256+((UBYTE*)(p+(Width<<1)))[1]]+coloradd);
                       } */
                 }
 
                 p++;
             }
         }
-}
+    }
 }
 
 //--------------------------------------------------------------------------------------------
-//Blitten mit Alpha-Kanal für Schatten:
+// Blitten mit Alpha-Kanal für Schatten:
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos)
-{
-    if (SrcBitmap==nullptr) { return;
-}
-    if (TargetPos.x>=640 || TargetPos.x+SrcBitmap->GetXSize()<0) { return;
-}
+void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos) {
+    if (SrcBitmap == nullptr) {
+        return;
+    }
+    if (TargetPos.x >= 640 || TargetPos.x + SrcBitmap->GetXSize() < 0) {
+        return;
+    }
 
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
     static SLONG sizex;
     static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
 
-    XY t=TargetPos;
+    XY t = TargetPos;
 
-    if (SrcBitmap->GetXSize()<=0 || SrcBitmap->GetXSize()>=640) { DebugBreak();
-}
+    if (SrcBitmap->GetXSize() <= 0 || SrcBitmap->GetXSize() >= 640) {
+        DebugBreak();
+    }
 
     UWORD White = 0;
     CRect Rect;
 
     {
         SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White=*static_cast<UWORD*>(Key.Bitmap);
+        White = *static_cast<UWORD *>(Key.Bitmap);
     }
 
-    Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
+    Rect = CRect(0, 0, SrcBitmap->GetXSize() - 1, SrcBitmap->GetYSize() - 1);
 
-    if (t.x<0)
-    {
-        Rect.left-=t.x;
-        t.x=0;
+    if (t.x < 0) {
+        Rect.left -= t.x;
+        t.x = 0;
     }
-    if (t.y<0)
-    {
-        Rect.top-=t.y;
-        t.y=0;
+    if (t.y < 0) {
+        Rect.top -= t.y;
+        t.y = 0;
     }
-    if (t.x+Rect.right-Rect.left+1>=TgtBitmap->GetXSize())
-    {
-        Rect.right-=(t.x+Rect.right-Rect.left+1)-TgtBitmap->GetXSize();
+    if (t.x + Rect.right - Rect.left + 1 >= TgtBitmap->GetXSize()) {
+        Rect.right -= (t.x + Rect.right - Rect.left + 1) - TgtBitmap->GetXSize();
     }
-    if (t.y+Rect.bottom-Rect.top+1>=min(TgtBitmap->GetYSize(), 440))
-    {
-        Rect.bottom-=(t.y+Rect.bottom-Rect.top+1)-min(TgtBitmap->GetYSize(), 440);
+    if (t.y + Rect.bottom - Rect.top + 1 >= min(TgtBitmap->GetYSize(), 440)) {
+        Rect.bottom -= (t.y + Rect.bottom - Rect.top + 1) - min(TgtBitmap->GetYSize(), 440);
     }
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) { return;
-}
+    if (Key.Bitmap == nullptr || Key2.Bitmap == nullptr) {
+        return;
+    }
 
-    sizex=Rect.right-Rect.left+1;
+    sizex = Rect.right - Rect.left + 1;
 
-    if (sizex>0) {
-        for (cy=0; cy<Rect.bottom-Rect.top+1; cy++)
-        {
-            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+    if (sizex > 0) {
+        for (cy = 0; cy < Rect.bottom - Rect.top + 1; cy++) {
+            p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch);
+            pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + Rect.left * 2 + (cy + Rect.top) * Key2.lPitch);
 
-            memcpy (PixelBuffer, p, sizex*2);
+            memcpy(PixelBuffer, p, sizex * 2);
             p = PixelBuffer;
 
             UWORD *Table = BlendTables;
 
 #ifdef ENABLE_ASM
-            __asm
-            {
+            __asm {
                 push  ebp
                     push  esi
                     push  edi
@@ -1139,123 +1081,117 @@ void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
              pp++;
              }*/
 
-            for (cx=sizex; cx>0; cx--)
-            {
-                UWORD *Table1 = BlendTables+(SLONG(*pp)<<9);
+            for (cx = sizex; cx > 0; cx--) {
+                UWORD *Table1 = BlendTables + (SLONG(*pp) << 9);
 
-                *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]);
+                *p = UWORD(Table1[(reinterpret_cast<UBYTE *>(p))[0]] + Table1[256 + (reinterpret_cast<UBYTE *>(p))[1]]);
 
                 p++;
                 pp++;
             }
 #endif
-            memcpy (((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
+            memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer, sizex * 2);
         }
-}
+    }
 }
 
 //--------------------------------------------------------------------------------------------
-//Blitten mit Glow-Effekt fürs Tutorial:
+// Blitten mit Glow-Effekt fürs Tutorial:
 //--------------------------------------------------------------------------------------------
-void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos)
-{
-    if (TargetPos.x>=640 || TargetPos.x+SrcBitmap->GetXSize()<0) { return;
-}
+void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos) {
+    if (TargetPos.x >= 640 || TargetPos.x + SrcBitmap->GetXSize() < 0) {
+        return;
+    }
 
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
     static SLONG sizex;
     static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
 
-    XY t=TargetPos;
+    XY t = TargetPos;
 
-    if (SrcBitmap->GetXSize()<=0 || SrcBitmap->GetXSize()>=640) { DebugBreak();
-}
+    if (SrcBitmap->GetXSize() <= 0 || SrcBitmap->GetXSize() >= 640) {
+        DebugBreak();
+    }
 
     UWORD White = 0;
     CRect Rect;
 
     {
         SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White=*static_cast<UWORD*>(Key.Bitmap);
+        White = *static_cast<UWORD *>(Key.Bitmap);
     }
 
-    Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
+    Rect = CRect(0, 0, SrcBitmap->GetXSize() - 1, SrcBitmap->GetYSize() - 1);
 
-    if (t.x<0)
-    {
-        Rect.left-=t.x;
-        t.x=0;
+    if (t.x < 0) {
+        Rect.left -= t.x;
+        t.x = 0;
     }
-    if (t.y<0)
-    {
-        Rect.top-=t.y;
-        t.y=0;
+    if (t.y < 0) {
+        Rect.top -= t.y;
+        t.y = 0;
     }
-    if (t.x+Rect.right-Rect.left+1>=TgtBitmap->GetXSize())
-    {
-        Rect.right-=(t.x+Rect.right-Rect.left+1)-TgtBitmap->GetXSize();
+    if (t.x + Rect.right - Rect.left + 1 >= TgtBitmap->GetXSize()) {
+        Rect.right -= (t.x + Rect.right - Rect.left + 1) - TgtBitmap->GetXSize();
     }
-    if (t.y+Rect.bottom-Rect.top+1>=min(TgtBitmap->GetYSize(), 440))
-    {
-        Rect.bottom-=(t.y+Rect.bottom-Rect.top+1)-min(TgtBitmap->GetYSize(), 440);
+    if (t.y + Rect.bottom - Rect.top + 1 >= min(TgtBitmap->GetYSize(), 440)) {
+        Rect.bottom -= (t.y + Rect.bottom - Rect.top + 1) - min(TgtBitmap->GetYSize(), 440);
     }
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) { return;
-}
-
-    sizex=Rect.right-Rect.left+1;
-
-    BUFFER<SLONG> Map1(BlendTables.AnzEntries()/512);
-    BUFFER<SLONG> Map2(BlendTables.AnzEntries()/512);
-
-    SLONG *pMap1=Map1;
-    SLONG *pMap2=Map2;
-
-    auto Strength = SLONG(sin(timeGetTime()/150.0)*4+4);
-
-    for (cy=0; cy<BlendTables.AnzEntries()/512; cy++)
-    {
-        pMap1[cy]=BlendTables.AnzEntries()/512-1-(8-cy)*(8-Strength)/16;
-        pMap2[cy]=(8-cy)*(8-Strength)/16;
+    if (Key.Bitmap == nullptr || Key2.Bitmap == nullptr) {
+        return;
     }
 
-    if (sizex>0) {
-        for (cy=0; cy<Rect.bottom-Rect.top+1; cy++)
-        {
-            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+    sizex = Rect.right - Rect.left + 1;
 
-            memcpy (PixelBuffer, p, sizex*2);
+    BUFFER<SLONG> Map1(BlendTables.AnzEntries() / 512);
+    BUFFER<SLONG> Map2(BlendTables.AnzEntries() / 512);
+
+    SLONG *pMap1 = Map1;
+    SLONG *pMap2 = Map2;
+
+    auto Strength = SLONG(sin(timeGetTime() / 150.0) * 4 + 4);
+
+    for (cy = 0; cy < BlendTables.AnzEntries() / 512; cy++) {
+        pMap1[cy] = BlendTables.AnzEntries() / 512 - 1 - (8 - cy) * (8 - Strength) / 16;
+        pMap2[cy] = (8 - cy) * (8 - Strength) / 16;
+    }
+
+    if (sizex > 0) {
+        for (cy = 0; cy < Rect.bottom - Rect.top + 1; cy++) {
+            p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch);
+            pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + Rect.left * 2 + (cy + Rect.top) * Key2.lPitch);
+
+            memcpy(PixelBuffer, p, sizex * 2);
             p = PixelBuffer;
 
             UWORD *Table = BlendTables;
 
-            for (cx=sizex; cx>0; cx--)
-            {
-                UWORD *Table1 = BlendTables+(pMap1[*pp]<<9);
-                UWORD *Table2 = BlendTables+(pMap2[*pp]<<9);
+            for (cx = sizex; cx > 0; cx--) {
+                UWORD *Table1 = BlendTables + (pMap1[*pp] << 9);
+                UWORD *Table2 = BlendTables + (pMap2[*pp] << 9);
 
-                *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]])+UWORD(Table2[255]+Table2[256+255]);
+                *p =
+                    UWORD(Table1[(reinterpret_cast<UBYTE *>(p))[0]] + Table1[256 + (reinterpret_cast<UBYTE *>(p))[1]]) + UWORD(Table2[255] + Table2[256 + 255]);
 
                 p++;
                 pp++;
             }
 
-            memcpy (((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
+            memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer, sizex * 2);
         }
-}
+    }
 }
 
-void RemapColor (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontColor, ULONG NewFontColor)
-{
-    SLONG  cx = 0;
-    SLONG  cy = 0;
+void RemapColor(SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontColor, ULONG NewFontColor) {
+    SLONG cx = 0;
+    SLONG cy = 0;
     UWORD *p = nullptr;
     static SLONG sizex;
     static SLONG sizey;
@@ -1265,36 +1201,40 @@ void RemapColor (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontCo
     ClipRect.right--;
     ClipRect.bottom--;
 
-    if (HighRect.left>ClipRect.left) {     ClipRect.left=HighRect.left;
-}
-    if (HighRect.top>ClipRect.top) {       ClipRect.top=HighRect.top;
-}
-    if (HighRect.right<ClipRect.right) {   ClipRect.right=HighRect.right;
-}
-    if (HighRect.bottom<ClipRect.bottom) { ClipRect.bottom=HighRect.bottom;
-}
+    if (HighRect.left > ClipRect.left) {
+        ClipRect.left = HighRect.left;
+    }
+    if (HighRect.top > ClipRect.top) {
+        ClipRect.top = HighRect.top;
+    }
+    if (HighRect.right < ClipRect.right) {
+        ClipRect.right = HighRect.right;
+    }
+    if (HighRect.bottom < ClipRect.bottom) {
+        ClipRect.bottom = HighRect.bottom;
+    }
 
-    sizex=ClipRect.right-ClipRect.left+1;
-    sizey=ClipRect.bottom-ClipRect.top+1;
+    sizex = ClipRect.right - ClipRect.left + 1;
+    sizey = ClipRect.bottom - ClipRect.top + 1;
 
     SB_CBitmapKey Key(*pBitmap);
-    if (Key.Bitmap==nullptr) { return;
-}
+    if (Key.Bitmap == nullptr) {
+        return;
+    }
 
-    SLONG Width = Key.lPitch/2;
+    SLONG Width = Key.lPitch / 2;
 
-    if (sizex>0) {
-        for (cy=0; cy<sizey; cy++)
-        {
-            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + ClipRect.left*2 + (cy+ClipRect.top)*Key.lPitch);
+    if (sizex > 0) {
+        for (cy = 0; cy < sizey; cy++) {
+            p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + ClipRect.left * 2 + (cy + ClipRect.top) * Key.lPitch);
 
-            for (cx=sizex; cx>0; cx--)
-            {
-                if (*p==OldFontColor) { *p=static_cast<UWORD>(NewFontColor);
-}
+            for (cx = sizex; cx > 0; cx--) {
+                if (*p == OldFontColor) {
+                    *p = static_cast<UWORD>(NewFontColor);
+                }
 
                 p++;
             }
         }
-}
+    }
 }

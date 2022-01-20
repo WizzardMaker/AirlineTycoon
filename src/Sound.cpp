@@ -9,40 +9,36 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static ULONG   LastMidiPosition=0;
+static ULONG LastMidiPosition = 0;
 static CString LastMidiFilename;
-static int     AudioMode = 0;
+static int AudioMode = 0;
 
-extern FILE   *pSoundLogFile;
-extern SLONG   SoundLogFileStartTime;
+extern FILE *pSoundLogFile;
+extern SLONG SoundLogFileStartTime;
 
-class CDebugEntryExit
-{
-    private:
-        CString Text;
+class CDebugEntryExit {
+  private:
+    CString Text;
 
-    public:
-        explicit CDebugEntryExit (CString Text)
-        {
-            Text = Text;
-            hprintf ("Entry: %s",(LPCTSTR)Text);
-        }
-        ~CDebugEntryExit ()
-        {
-            hprintf ("Exit:  %s",(LPCTSTR)Text);
-        }
+  public:
+    explicit CDebugEntryExit(CString Text) {
+        Text = Text;
+        hprintf("Entry: %s", (LPCTSTR)Text);
+    }
+    ~CDebugEntryExit() { hprintf("Exit:  %s", (LPCTSTR)Text); }
 };
 
-SLONG CUnrepeatedRandom::Rand (SLONG Min, SLONG Max)
-{
-    while (true)
-    {
-        SLONG r=Random.Rand(Min,Max);
+SLONG CUnrepeatedRandom::Rand(SLONG Min, SLONG Max) {
+    while (true) {
+        SLONG r = Random.Rand(Min, Max);
 
-        if (r==Last[0] || r==Last[1] || r==Last[2]) { continue;
-}
+        if (r == Last[0] || r == Last[1] || r == Last[2]) {
+            continue;
+        }
 
-        Last[0]=Last[1]; Last[1]=Last[2]; Last[2]=r;
+        Last[0] = Last[1];
+        Last[1] = Last[2];
+        Last[2] = r;
 
         return (r);
     }
@@ -51,309 +47,309 @@ SLONG CUnrepeatedRandom::Rand (SLONG Min, SLONG Max)
 CUnrepeatedRandom MidiRandom;
 
 //--------------------------------------------------------------------------------------------
-//Spielt einen Soundeffekt auf dem Universal Soundkanal:
+// Spielt einen Soundeffekt auf dem Universal Soundkanal:
 //--------------------------------------------------------------------------------------------
-void PlayUniversalFx (const CString& Filename, SLONG Volume)
-{
-    if (Volume != 0)
-    {
+void PlayUniversalFx(const CString &Filename, SLONG Volume) {
+    if (Volume != 0) {
         gUniversalFx.Stop();
         gUniversalFx.ReInit(Filename);
-        gUniversalFx.Play(DSBPLAY_NOSTOP, Volume*100/7);
+        gUniversalFx.Play(DSBPLAY_NOSTOP, Volume * 100 / 7);
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//Entfernt einen SubString wie "[[arab3200.wav]]" aus einem String:
+// Entfernt einen SubString wie "[[arab3200.wav]]" aus einem String:
 //--------------------------------------------------------------------------------------------
-CString RemoveSpeechFilename (CString String)
-{
-    if (String.GetLength()==0) { return(String);
-}
-
-    while (true)
-    {
-        char *pstart = const_cast<char*>((LPCTSTR)String);
-
-        char *p = strstr (pstart, "[[");
-        if (p==nullptr) { break;
-}
-
-        char *pp = strstr (p, "]]");
-        if (pp==nullptr) { break;
-}
-
-        String = String.Left (p-pstart)+String.Mid (pp-pstart+2);
-
-        if (p==pstart && String[0]==' ') { String=String.Mid(1);
-}
+CString RemoveSpeechFilename(CString String) {
+    if (String.GetLength() == 0) {
+        return (String);
     }
 
-    while (true)
-    {
-        char *pstart = const_cast<char*>((LPCTSTR)String);
+    while (true) {
+        char *pstart = const_cast<char *>((LPCTSTR)String);
 
-        char *p = strstr (pstart, "  ");
-        if (p==nullptr) { break;
-}
+        char *p = strstr(pstart, "[[");
+        if (p == nullptr) {
+            break;
+        }
 
-        String = String.Left (p-pstart)+String.Mid (p-pstart+1);
+        char *pp = strstr(p, "]]");
+        if (pp == nullptr) {
+            break;
+        }
+
+        String = String.Left(p - pstart) + String.Mid(pp - pstart + 2);
+
+        if (p == pstart && String[0] == ' ') {
+            String = String.Mid(1);
+        }
     }
 
-    while (String.GetLength()>0 && String[0]==' ') { String=String.Mid(1);
-}
+    while (true) {
+        char *pstart = const_cast<char *>((LPCTSTR)String);
+
+        char *p = strstr(pstart, "  ");
+        if (p == nullptr) {
+            break;
+        }
+
+        String = String.Left(p - pstart) + String.Mid(p - pstart + 1);
+    }
+
+    while (String.GetLength() > 0 && String[0] == ' ') {
+        String = String.Mid(1);
+    }
 
     return (String);
 }
 
 //--------------------------------------------------------------------------------------------
-//Sucht einen SubString wie "[[arab3200.wav]]" aus einem String:
+// Sucht einen SubString wie "[[arab3200.wav]]" aus einem String:
 //--------------------------------------------------------------------------------------------
-CString GetSpeechFilename (const CString& String, SLONG Index, CString *pTextFollows)
-{
-    char *pstart = const_cast<char*>((LPCTSTR)String);
+CString GetSpeechFilename(const CString &String, SLONG Index, CString *pTextFollows) {
+    char *pstart = const_cast<char *>((LPCTSTR)String);
 
-    while (Index != 0)
-    {
-        pstart = strstr (pstart+1, "[[");
-        if (pstart==nullptr) { return ("");
-}
+    while (Index != 0) {
+        pstart = strstr(pstart + 1, "[[");
+        if (pstart == nullptr) {
+            return ("");
+        }
         Index--;
     }
 
-    char *p = strstr (pstart, "[[");
-    if (p==nullptr) { return ("");
-}
+    char *p = strstr(pstart, "[[");
+    if (p == nullptr) {
+        return ("");
+    }
 
-    char *pp = strstr (p, "]]");
-    if (pp==nullptr) { return ("");
-}
+    char *pp = strstr(p, "]]");
+    if (pp == nullptr) {
+        return ("");
+    }
 
-    if (pTextFollows != nullptr) { (*pTextFollows)=String.Mid(pp-const_cast<char*>((LPCTSTR)String)+2);
-}
+    if (pTextFollows != nullptr) {
+        (*pTextFollows) = String.Mid(pp - const_cast<char *>((LPCTSTR)String) + 2);
+    }
 
-    return (String.Mid(p-const_cast<char*>((LPCTSTR)String)+2, pp-p-2));
+    return (String.Mid(p - const_cast<char *>((LPCTSTR)String) + 2, pp - p - 2));
 }
 
 //--------------------------------------------------------------------------------------------
-//Erzeugt ein (zusammengesetztes) Wave, was dem Text entspricht:
+// Erzeugt ein (zusammengesetztes) Wave, was dem Text entspricht:
 //--------------------------------------------------------------------------------------------
-BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMissing)
-{
-    CString       str;
-    CString       path;
-    CString       TextFollows;
-    BUFFER<SBFX*> Effects (50);
-    SLONG         c = 0;
-    SLONG         m = 0;
-    SLONG         n = 0;
-    BOOL          UndoWait=FALSE;
+BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMissing) {
+    CString str;
+    CString path;
+    CString TextFollows;
+    BUFFER<SBFX *> Effects(50);
+    SLONG c = 0;
+    SLONG m = 0;
+    SLONG n = 0;
+    BOOL UndoWait = FALSE;
 
-    if (gpSSE==nullptr || !gpSSE->IsSoundEnabled()) { return (0);
-}
+    if (gpSSE == nullptr || !gpSSE->IsSoundEnabled()) {
+        return (0);
+    }
 
-    for (n=0; n<50; n++) {
-        Effects[n]=NULL;
-}
+    for (n = 0; n < 50; n++) {
+        Effects[n] = NULL;
+    }
 
-    for (m=n=0; n<50; n++)
-    {
-        if (Effects[m]==NULL) { Effects[m]=new SBFX;
-}
+    for (m = n = 0; n < 50; n++) {
+        if (Effects[m] == NULL) {
+            Effects[m] = new SBFX;
+        }
 
-        str=GetSpeechFilename (String, n, &TextFollows);
-        if (str.GetLength()==0) { break;
-}
-        if ((str[0]=='p' || str[0]=='P') && str[1]=='1') { str.SetAt (1, char('1'+PlayerNum));
-}
+        str = GetSpeechFilename(String, n, &TextFollows);
+        if (str.GetLength() == 0) {
+            break;
+        }
+        if ((str[0] == 'p' || str[0] == 'P') && str[1] == '1') {
+            str.SetAt(1, char('1' + PlayerNum));
+        }
 
-        if (strcmp (str, "*")==0)
-        {
-            while (TextFollows[0]==32) { TextFollows=TextFollows.Mid (1);
-}
+        if (strcmp(str, "*") == 0) {
+            while (TextFollows[0] == 32) {
+                TextFollows = TextFollows.Mid(1);
+            }
 
-            //Check for airline:
-            for (c=0; c<4; c++) {
-                if (strnicmp (TextFollows, Sim.Players.Players[c].AirlineX, Sim.Players.Players[c].AirlineX.GetLength())==0)
-                {
-                    str=path+"/"+"name"+bitoa (c+1);
-                    Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
+            // Check for airline:
+            for (c = 0; c < 4; c++) {
+                if (strnicmp(TextFollows, Sim.Players.Players[c].AirlineX, Sim.Players.Players[c].AirlineX.GetLength()) == 0) {
+                    str = path + "/" + "name" + bitoa(c + 1);
+                    Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
 
-                    CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                    if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
-}
+                    CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                    if (pSoundLogFile != nullptr) {
+                        fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
+                    }
                 }
-}
+            }
 
-            //Check for city:
-            if (strcmp (str, "*")==0) {
-                for (c=0; c<Cities.AnzEntries(); c++) {
-                    if (strnicmp (TextFollows, Cities[c].Name, Cities[c].Name.GetLength())==0)
-                    {
-                        str=path+"/"+Cities[c].KuerzelReal;
-                        Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
+            // Check for city:
+            if (strcmp(str, "*") == 0) {
+                for (c = 0; c < Cities.AnzEntries(); c++) {
+                    if (strnicmp(TextFollows, Cities[c].Name, Cities[c].Name.GetLength()) == 0) {
+                        str = path + "/" + Cities[c].KuerzelReal;
+                        Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
 
-                        CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                        if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
-}
+                        CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                        if (pSoundLogFile != nullptr) {
+                            fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
+                        }
                     }
-}
-}
+                }
+            }
 
-            //Check for plane:
-            if (strcmp (str, "*")==0) {
-                for (c=PlaneTypes.AnzEntries()-1; c>=0; c--) {
+            // Check for plane:
+            if (strcmp(str, "*") == 0) {
+                for (c = PlaneTypes.AnzEntries() - 1; c >= 0; c--) {
                     if (PlaneTypes.IsInAlbum(c) != 0) {
-                        if (strnicmp (TextFollows, PlaneTypes[c].Name, PlaneTypes[c].Name.GetLength())==0)
-                        {
-                            str=path+"/"+bprintf ("pl%lib", PlaneTypes.GetIdFromIndex(c)-0x10000000);
-                            Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
+                        if (strnicmp(TextFollows, PlaneTypes[c].Name, PlaneTypes[c].Name.GetLength()) == 0) {
+                            str = path + "/" + bprintf("pl%lib", PlaneTypes.GetIdFromIndex(c) - 0x10000000);
+                            Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
 
-                            CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                            if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
-}
+                            CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                            if (pSoundLogFile != nullptr) {
+                                fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
+                            }
                             break;
                         }
-                        if (strnicmp (TextFollows, PlaneTypes[c].Hersteller, PlaneTypes[c].Hersteller.GetLength())==0)
-                        {
-                            str=path+"/"+bprintf ("pl%lih", PlaneTypes.GetIdFromIndex(c)-0x10000000);
-                            Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
+                        if (strnicmp(TextFollows, PlaneTypes[c].Hersteller, PlaneTypes[c].Hersteller.GetLength()) == 0) {
+                            str = path + "/" + bprintf("pl%lih", PlaneTypes.GetIdFromIndex(c) - 0x10000000);
+                            Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
 
-                            CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                            if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
-}
+                            CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                            if (pSoundLogFile != nullptr) {
+                                fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
+                            }
                             break;
                         }
-}
-}
-}
+                    }
+                }
+            }
 
-            //Check for number:
-            if (strcmp (str, "*")==0) {
-                if (TextFollows[0]=='-' || (TextFollows[0]>='0' && TextFollows[0]<='9') || strnicmp (TextFollows, "DM", 2)==0)
-                {
-                    BOOL DM=FALSE;
+            // Check for number:
+            if (strcmp(str, "*") == 0) {
+                if (TextFollows[0] == '-' || (TextFollows[0] >= '0' && TextFollows[0] <= '9') || strnicmp(TextFollows, "DM", 2) == 0) {
+                    BOOL DM = FALSE;
 
-                    if (strnicmp (TextFollows, "DM", 2)==0)
-                    {
-                        DM=TRUE;
-                        TextFollows=TextFollows.Mid(2);
-                        while (TextFollows[0]==32) { TextFollows=TextFollows.Mid (1);
-}
+                    if (strnicmp(TextFollows, "DM", 2) == 0) {
+                        DM = TRUE;
+                        TextFollows = TextFollows.Mid(2);
+                        while (TextFollows[0] == 32) {
+                            TextFollows = TextFollows.Mid(1);
+                        }
                     }
 
-                    char *p = const_cast<char*>((LPCTSTR)TextFollows);
-                    SLONG Number=0;
-                    SLONG Mult=1;
+                    char *p = const_cast<char *>((LPCTSTR)TextFollows);
+                    SLONG Number = 0;
+                    SLONG Mult = 1;
 
-                    while (p[0]=='.' || p[0]=='-' || (p[0]>='0' && p[0]<='9'))
-                    {
-                        if (p[0]>='0' && p[0]<='9') { Number=Number*10+(p[0]-'0');
-}
-                        if (p[0]=='-') { Mult=-1;
-}
+                    while (p[0] == '.' || p[0] == '-' || (p[0] >= '0' && p[0] <= '9')) {
+                        if (p[0] >= '0' && p[0] <= '9') {
+                            Number = Number * 10 + (p[0] - '0');
+                        }
+                        if (p[0] == '-') {
+                            Mult = -1;
+                        }
 
                         p++;
                     }
 
-                    while (p[0]==32) { p++;
-}
+                    while (p[0] == 32) {
+                        p++;
+                    }
 
-                    if (strnicmp (p, "DM", 2)==0) { DM=TRUE;
-}
+                    if (strnicmp(p, "DM", 2) == 0) {
+                        DM = TRUE;
+                    }
 
-                    UndoWait=TRUE;
-                    pCursor->SetImage (gCursorSandBm.pBitmap);
+                    UndoWait = TRUE;
+                    pCursor->SetImage(gCursorSandBm.pBitmap);
                     int _x = gMousePosition.x;
                     int _y = gMousePosition.y;
                     FrameWnd->TranslatePointToScreenSpace(_x, _y);
                     pCursor->MoveImage(_x - 16, _y - 16);
-                    FrameWnd->Invalidate(); MessagePump();
+                    FrameWnd->Invalidate();
+                    MessagePump();
 
-                    //SynthesizeNumber (Effects[m++], path+"\\", Number*Mult, DM);
-                }
-}
-        }
-        else
-        {
-            char *p=strchr (const_cast<char*>((LPCTSTR)str), '/');
-
-            if (p != nullptr)
-            {
-                path = str.Left (p-const_cast<char*>((LPCTSTR)str));
-
-                if (path.GetLength()!=str.GetLength()-1)
-                {
-                    Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
-
-                    CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                    if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
-}
+                    // SynthesizeNumber (Effects[m++], path+"\\", Number*Mult, DM);
                 }
             }
-            else
-            {
-                Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
+        } else {
+            char *p = strchr(const_cast<char *>((LPCTSTR)str), '/');
 
-                CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
-}
+            if (p != nullptr) {
+                path = str.Left(p - const_cast<char *>((LPCTSTR)str));
+
+                if (path.GetLength() != str.GetLength() - 1) {
+                    Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
+
+                    CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                    if (pSoundLogFile != nullptr) {
+                        fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
+                    }
+                }
+            } else {
+                Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
+
+                CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                if (pSoundLogFile != nullptr) {
+                    fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
+                }
             }
 
-            if (m>0) {
-                if (Effects[m-1]->pFX->GetByteLength()==0)
-                {
-                    if (bAnyMissing != nullptr) { *bAnyMissing=1;
-}
-                    Effects[m-1]->ReInit ("none.raw");
-                    hprintf ("No voice for: %s", LPCTSTR(String));
+            if (m > 0) {
+                if (Effects[m - 1]->pFX->GetByteLength() == 0) {
+                    if (bAnyMissing != nullptr) {
+                        *bAnyMissing = 1;
+                    }
+                    Effects[m - 1]->ReInit("none.raw");
+                    hprintf("No voice for: %s", LPCTSTR(String));
                 }
-}
+            }
         }
     }
 
-    pFx->Fusion ((const class SBFX **)&Effects[0], m);
+    pFx->Fusion((const class SBFX **)&Effects[0], m);
 
-    if ((UndoWait != 0) && MouseWait==0)
-    {
-        pCursor->SetImage (gCursorBm.pBitmap);
+    if ((UndoWait != 0) && MouseWait == 0) {
+        pCursor->SetImage(gCursorBm.pBitmap);
         int _x = gMousePosition.x;
         int _y = gMousePosition.y;
         FrameWnd->TranslatePointToScreenSpace(_x, _y);
         pCursor->MoveImage(_x, _y);
     }
 
-    for (c=0; c<50; c++) {
-        if (Effects[c] != nullptr) { delete Effects[c];
-}
-}
+    for (c = 0; c < 50; c++) {
+        if (Effects[c] != nullptr) {
+            delete Effects[c];
+        }
+    }
 
-    return static_cast<BOOL>(m>0);
+    return static_cast<BOOL>(m > 0);
 }
 
 //--------------------------------------------------------------------------------------------
-//Für eine Voice hinzu:
+// Für eine Voice hinzu:
 //--------------------------------------------------------------------------------------------
-void CVoiceScheduler::AddVoice (const CString &str)
-{
-    Voices.ReSize (Voices.AnzEntries()+1);
+void CVoiceScheduler::AddVoice(const CString &str) {
+    Voices.ReSize(Voices.AnzEntries() + 1);
 
-    Voices[Voices.AnzEntries()-1]=str;
+    Voices[Voices.AnzEntries() - 1] = str;
 
-    if (AnzEntries()==1)
-    {
-        CurrentVoice.ReInit(str+".raw");
-        CurrentVoice.Play(0, Sim.Options.OptionDurchsagen*100/7*AmbientManager.GlobalVolume/100*AmbientManager.GlobalVolume/100);
+    if (AnzEntries() == 1) {
+        CurrentVoice.ReInit(str + ".raw");
+        CurrentVoice.Play(0, Sim.Options.OptionDurchsagen * 100 / 7 * AmbientManager.GlobalVolume / 100 * AmbientManager.GlobalVolume / 100);
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//Löscht alle Voices:
+// Löscht alle Voices:
 //--------------------------------------------------------------------------------------------
-void CVoiceScheduler::Clear ()
-{
-    if (AnzEntries() != 0)
-    {
+void CVoiceScheduler::Clear() {
+    if (AnzEntries() != 0) {
         CurrentVoice.Stop();
         CurrentVoice.Destroy();
         Voices.ReSize(0);
@@ -361,26 +357,22 @@ void CVoiceScheduler::Clear ()
 }
 
 //--------------------------------------------------------------------------------------------
-//Gibt die Anzahl der Voices im Buffer zurück:
+// Gibt die Anzahl der Voices im Buffer zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CVoiceScheduler::AnzEntries()
-{
-    return (Voices.AnzEntries());
-}
+SLONG CVoiceScheduler::AnzEntries() { return (Voices.AnzEntries()); }
 
 //--------------------------------------------------------------------------------------------
-//Gibt TRUE zurück, wenn gerade eine Voice gespielt wird:
+// Gibt TRUE zurück, wenn gerade eine Voice gespielt wird:
 //--------------------------------------------------------------------------------------------
-BOOL CVoiceScheduler::IsVoicePlaying ()
-{
-    if (gpSSE==nullptr || !gpSSE->IsSoundEnabled()) { return (0);
-}
+BOOL CVoiceScheduler::IsVoicePlaying() {
+    if (gpSSE == nullptr || !gpSSE->IsSoundEnabled()) {
+        return (0);
+    }
 
-    if (AnzEntries()>0 && (CurrentVoice.pFX != nullptr))
-    {
+    if (AnzEntries() > 0 && (CurrentVoice.pFX != nullptr)) {
         dword status = 0;
-        CurrentVoice.pFX->GetStatus (&status);
-        return static_cast<BOOL>((status & DSBSTATUS_PLAYING)!=0);
+        CurrentVoice.pFX->GetStatus(&status);
+        return static_cast<BOOL>((status & DSBSTATUS_PLAYING) != 0);
     }
     return (FALSE);
 }
@@ -388,60 +380,54 @@ BOOL CVoiceScheduler::IsVoicePlaying ()
 //--------------------------------------------------------------------------------------------
 //Überwacht die Voices:
 //--------------------------------------------------------------------------------------------
-void CVoiceScheduler::Pump ()
-{
-    if (AnzEntries()>0 && (IsVoicePlaying() == 0))
-    {
+void CVoiceScheduler::Pump() {
+    if (AnzEntries() > 0 && (IsVoicePlaying() == 0)) {
         SLONG c = 0;
 
-        for (c=0; c<Voices.AnzEntries()-1; c++) {
-            Voices[c]=Voices[c+1];
-}
-
-        Voices.ReSize (Voices.AnzEntries()-1);
-
-        if (Voices.AnzEntries()>0)
-        {
-            CurrentVoice.ReInit(Voices[0]+".raw");
-            CurrentVoice.Play(0, Sim.Options.OptionDurchsagen*100/7*AmbientManager.GlobalVolume/100*AmbientManager.GlobalVolume/100);
+        for (c = 0; c < Voices.AnzEntries() - 1; c++) {
+            Voices[c] = Voices[c + 1];
         }
-        else { CurrentVoice.Destroy();
-}
+
+        Voices.ReSize(Voices.AnzEntries() - 1);
+
+        if (Voices.AnzEntries() > 0) {
+            CurrentVoice.ReInit(Voices[0] + ".raw");
+            CurrentVoice.Play(0, Sim.Options.OptionDurchsagen * 100 / 7 * AmbientManager.GlobalVolume / 100 * AmbientManager.GlobalVolume / 100);
+        } else {
+            CurrentVoice.Destroy();
+        }
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//Spielt die Fanfare ab:
+// Spielt die Fanfare ab:
 //--------------------------------------------------------------------------------------------
-void PlayFanfare ()
-{
-    PlayUniversalFx ("taeterae.raw", Sim.Options.OptionEffekte);
-}
+void PlayFanfare() { PlayUniversalFx("taeterae.raw", Sim.Options.OptionEffekte); }
 
 //--------------------------------------------------------------------------------------------
-//Konvertiert einen Prozentwert in Dezibel
+// Konvertiert einen Prozentwert in Dezibel
 //--------------------------------------------------------------------------------------------
-SLONG Prozent2Dezibel (SLONG Prozent)
-{
-    float rc=0;
+SLONG Prozent2Dezibel(SLONG Prozent) {
+    float rc = 0;
 
-    if (Prozent<0) { Prozent=0;
-}
-    if (Prozent>100) { Prozent=100;
-}
+    if (Prozent < 0) {
+        Prozent = 0;
+    }
+    if (Prozent > 100) {
+        Prozent = 100;
+    }
 
-    //Quadratische Gleichung 2. Grades:
-    //rc = float(-(Prozent-100)*(Prozent-100)*(Prozent-100)*(Prozent-100)/10000*(Prozent-100)*(Prozent-100)/10000);
+    // Quadratische Gleichung 2. Grades:
+    // rc = float(-(Prozent-100)*(Prozent-100)*(Prozent-100)*(Prozent-100)/10000*(Prozent-100)*(Prozent-100)/10000);
     rc = (Prozent * 128) / 100;
 
     return (SLONG(rc));
 }
 
 //--------------------------------------------------------------------------------------------
-//Skala von 0-8
+// Skala von 0-8
 //--------------------------------------------------------------------------------------------
-void SetMidiVolume(SLONG volume)
-{
+void SetMidiVolume(SLONG volume) {
 
     SSE::SetMusicVolume(volume);
     /*SLONG       midiVolume;
@@ -466,10 +452,9 @@ void SetMidiVolume(SLONG volume)
 }
 
 //--------------------------------------------------------------------------------------------
-//Skala von 0-8
+// Skala von 0-8
 //--------------------------------------------------------------------------------------------
-void SetWaveVolume(long volume)
-{
+void SetWaveVolume(long volume) {
     SSE::SetSoundVolume(volume);
     /*SLONG       waveVolume;
 
@@ -493,17 +478,14 @@ void SetWaveVolume(long volume)
 }
 
 //--------------------------------------------------------------------------------------------
-//Spielt das nächste Midi:
+// Spielt das nächste Midi:
 //--------------------------------------------------------------------------------------------
-void NextMidi ()
-{
-    static BOOL WasHere=0;
+void NextMidi() {
+    static BOOL WasHere = 0;
 
-    if ((Sim.Options.OptionMusik != 0) && Sim.Options.OptionMusicType != 0)
-    {
+    if ((Sim.Options.OptionMusik != 0) && Sim.Options.OptionMusicType != 0) {
         if (WasHere != 0) {
-            switch ((Sim.Options.OptionLoopMusik==0)?MidiRandom.Rand(0,8):(Sim.Options.OptionLoopMusik-1))
-            {
+            switch ((Sim.Options.OptionLoopMusik == 0) ? MidiRandom.Rand(0, 8) : (Sim.Options.OptionLoopMusik - 1)) {
                 /*case 0:  PlayMidi ("swing.mid");    break;
                   case 1:  PlayMidi ("reggae.mid");   break;
                   case 2:  PlayMidi ("dream1g.mid");  break;
@@ -511,32 +493,49 @@ void NextMidi ()
                   case 4:  PlayMidi ("funk.mid");     break;
                   case 5:  PlayMidi ("shuffle.mid");  break; */
 
-                case 0: PlayMidi ("lating.mid");   break;
-                case 1: PlayMidi ("reggaeg.mid");  break;
-                case 2: PlayMidi ("shuffleg.mid"); break;
-                case 3: PlayMidi ("at2.mid");      break;
-                case 4: PlayMidi ("funky2.mid");   break;
-                case 5: PlayMidi ("karibik.mid");  break;
-                case 6: PlayMidi ("reag1.mid");    break;
-                case 7: PlayMidi ("shuffle2.mid"); break;
-                case 8: PlayMidi ("swingin2.mid"); break;
+            case 0:
+                PlayMidi("lating.mid");
+                break;
+            case 1:
+                PlayMidi("reggaeg.mid");
+                break;
+            case 2:
+                PlayMidi("shuffleg.mid");
+                break;
+            case 3:
+                PlayMidi("at2.mid");
+                break;
+            case 4:
+                PlayMidi("funky2.mid");
+                break;
+            case 5:
+                PlayMidi("karibik.mid");
+                break;
+            case 6:
+                PlayMidi("reag1.mid");
+                break;
+            case 7:
+                PlayMidi("shuffle2.mid");
+                break;
+            case 8:
+                PlayMidi("swingin2.mid");
+                break;
 
-                default:
-                        PlayMidi ("funky2.mid");
+            default:
+                PlayMidi("funky2.mid");
             }
         } else {
-            PlayMidi ("funky2.mid");
-}
+            PlayMidi("funky2.mid");
+        }
     }
 
-    WasHere=TRUE;
+    WasHere = TRUE;
 }
 
 //--------------------------------------------------------------------------------------------
-//Gibt zurück, ob der Rechner Midi-fähig ist:
+// Gibt zurück, ob der Rechner Midi-fähig ist:
 //--------------------------------------------------------------------------------------------
-BOOL IsMidiAvailable ()
-{
+BOOL IsMidiAvailable() {
 #if 0
     BUFFER<char> str(500);
 
@@ -554,19 +553,18 @@ BOOL IsMidiAvailable ()
 }
 
 //--------------------------------------------------------------------------------------------
-//Spielt das angegebne Midi-Files:
+// Spielt das angegebne Midi-Files:
 //--------------------------------------------------------------------------------------------
-void PlayMidi (const CString &Filename)
-{
-    //CDebugEntryExit ("PlayMidi");
+void PlayMidi(const CString &Filename) {
+    // CDebugEntryExit ("PlayMidi");
 
     if ((IsMidiAvailable() != 0) || AudioMode == 2) {
         if (gpMidi == nullptr) {
             return;
-}
+        }
 
         gpMidi->Stop();
-        gpMidi->Load (FullFilename(Filename, SoundPath));
+        gpMidi->Load(FullFilename(Filename, SoundPath));
         gpMidi->Play();
 
         SSE::SetMusicCallback(NextMidi);
@@ -574,7 +572,7 @@ void PlayMidi (const CString &Filename)
 }
 
 //--------------------------------------------------------------------------------------------
-//Spielt das angegebne Midi-Files ab der Stelle x:
+// Spielt das angegebne Midi-Files ab der Stelle x:
 //--------------------------------------------------------------------------------------------
 /*void PlayMidiFrom (const CString &Filename, SLONG StartPosition)
   {
@@ -600,292 +598,277 @@ LastMidiFilename = Filename;
 }*/
 
 //--------------------------------------------------------------------------------------------
-//Bricht das Spielen des aktuellen Midi-Files ab:
+// Bricht das Spielen des aktuellen Midi-Files ab:
 //--------------------------------------------------------------------------------------------
-void StopMidi ()
-{
-    //CDebugEntryExit ("StopMidi");
+void StopMidi() {
+    // CDebugEntryExit ("StopMidi");
 
-    if (IsMidiAvailable() != 0)
-    {
+    if (IsMidiAvailable() != 0) {
         SSE::SetMusicCallback(nullptr);
-        if (gpMidi != nullptr) { gpMidi->Stop();
-}
+        if (gpMidi != nullptr) {
+            gpMidi->Stop();
+        }
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//Hält das Abspielen eines Midi-Files an; kann (muß aber nicht) fortgesetzt werden:
+// Hält das Abspielen eines Midi-Files an; kann (muß aber nicht) fortgesetzt werden:
 //--------------------------------------------------------------------------------------------
-void PauseMidi ()
-{
-    //CDebugEntryExit ("PauseMidi");
+void PauseMidi() {
+    // CDebugEntryExit ("PauseMidi");
 
-    if (IsMidiAvailable() != 0)
-    {
-        if (gpMidi != nullptr) { gpMidi->Pause();
-}
+    if (IsMidiAvailable() != 0) {
+        if (gpMidi != nullptr) {
+            gpMidi->Pause();
+        }
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//Setzt das abspielen eines angehaltenen Midifiles fort:
+// Setzt das abspielen eines angehaltenen Midifiles fort:
 //--------------------------------------------------------------------------------------------
-void ResumeMidi ()
-{
-    //CDebugEntryExit ("ResumeMidi");
+void ResumeMidi() {
+    // CDebugEntryExit ("ResumeMidi");
 
-    if ((IsMidiAvailable() != 0) && (Sim.Options.OptionMusik != 0) && Sim.Options.OptionMusicType != 0)
-    {
-        if (gpMidi != nullptr) { gpMidi->Resume();
-}
+    if ((IsMidiAvailable() != 0) && (Sim.Options.OptionMusik != 0) && Sim.Options.OptionMusicType != 0) {
+        if (gpMidi != nullptr) {
+            gpMidi->Resume();
+        }
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//Ein Soundeffekt:
+// Ein Soundeffekt:
 //--------------------------------------------------------------------------------------------
-SBFX::SBFX ()
-{
-    pFX=nullptr;
-}
+SBFX::SBFX() { pFX = nullptr; }
 
-SBFX::~SBFX ()
-{
-    if (pFX != nullptr)
-    {
+SBFX::~SBFX() {
+    if (pFX != nullptr) {
         pFX->Release();
-        pFX=nullptr;
+        pFX = nullptr;
     }
 }
 
-void SBFX::Destroy ()
-{
-    if (pFX != nullptr)
-    {
+void SBFX::Destroy() {
+    if (pFX != nullptr) {
         pFX->Release();
-        pFX=nullptr;
+        pFX = nullptr;
     }
 }
 
-void SBFX::Fusion (const SBFX **Fx, long NumFx)
-{
+void SBFX::Fusion(const SBFX **Fx, long NumFx) {
     FX *Elements[100];
 
     Destroy();
 
-    for (long c=0; c<min(100,NumFx); c++) {
-        Elements[c]=Fx[c]->pFX;
-}
+    for (long c = 0; c < min(100, NumFx); c++) {
+        Elements[c] = Fx[c]->pFX;
+    }
 
-    if (gpSSE != nullptr)
-    {
-        gpSSE->CreateFX (&pFX);
-        pFX->Fusion ((const FX**)Elements, NumFx);
+    if (gpSSE != nullptr) {
+        gpSSE->CreateFX(&pFX);
+        pFX->Fusion((const FX **)Elements, NumFx);
     }
 }
 
-void SBFX::Fusion (const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumFx)
-{
+void SBFX::Fusion(const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumFx) {
     Destroy();
 
-    if (gpSSE != nullptr)
-    {
-        gpSSE->CreateFX (&pFX);
-        pFX->Fusion (Fx->pFX, const_cast<SLONG*>(Von), const_cast<SLONG*>(Bis), NumFx);
+    if (gpSSE != nullptr) {
+        gpSSE->CreateFX(&pFX);
+        pFX->Fusion(Fx->pFX, const_cast<SLONG *>(Von), const_cast<SLONG *>(Bis), NumFx);
     }
 }
 
-void SBFX::Tokenize (BUFFER<SBFX> &Effects) const
-{
-    SLONG  c = 0;
-    SLONG  Anzahl = 0;
-    FX  **ppFx = pFX->Tokenize (0x80007FFF80007FFF, Anzahl);
+void SBFX::Tokenize(BUFFER<SBFX> &Effects) const {
+    SLONG c = 0;
+    SLONG Anzahl = 0;
+    FX **ppFx = pFX->Tokenize(0x80007FFF80007FFF, Anzahl);
 
-    Effects.ReSize (0);
-    Effects.ReSize (Anzahl);
-    for (c=0; c<Anzahl; c++) {
+    Effects.ReSize(0);
+    Effects.ReSize(Anzahl);
+    for (c = 0; c < Anzahl; c++) {
         Effects[c].pFX = ppFx[c];
-}
+    }
 
     delete ppFx;
 }
 
-void SBFX::Tokenize (BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis) const
-{
+void SBFX::Tokenize(BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis) const {
     SLONG Anzahl = 0;
 
-    Von.ReSize (100);
-    Bis.ReSize (100);
+    Von.ReSize(100);
+    Bis.ReSize(100);
 
-    pFX->Tokenize (0x80007FFF80007FFF, (SLONG*)Von, (SLONG*)Bis, Anzahl);
+    pFX->Tokenize(0x80007FFF80007FFF, (SLONG *)Von, (SLONG *)Bis, Anzahl);
 
-    Von.ReSize (Anzahl);
-    Bis.ReSize (Anzahl);
+    Von.ReSize(Anzahl);
+    Bis.ReSize(Anzahl);
 }
 
-void SBFX::ReInit (const CString &Filename, char *Path)
-{
+void SBFX::ReInit(const CString &Filename, char *Path) {
     CString localPath;
 
     Destroy();
 
-    if (Path==nullptr) { localPath=SoundPath;
-    } else { localPath=Path;
-}
+    if (Path == nullptr) {
+        localPath = SoundPath;
+    } else {
+        localPath = Path;
+    }
 
-    if (gpSSE != nullptr)
-    {
-        gpSSE->CreateFX (&pFX);
-        pFX->Load(const_cast<char*>((LPCTSTR)FullFilename (Filename, localPath)));
+    if (gpSSE != nullptr) {
+        gpSSE->CreateFX(&pFX);
+        pFX->Load(const_cast<char *>((LPCTSTR)FullFilename(Filename, localPath)));
 
-        SBFX::Filename = FullFilename (Filename, localPath);
+        SBFX::Filename = FullFilename(Filename, localPath);
     }
 }
 
-void SBFX::Play(dword dwFlags) const
-{
-    if ((pFX != nullptr) && (Sim.Options.OptionDigiSound != 0)) { pFX->Play (dwFlags);
-}
-
-    if (pSoundLogFile != nullptr) { fwrite (Filename, 1, strlen(Filename), pSoundLogFile);
-}
-}
-
-void SBFX::Play(dword dwFlags, long PercentVolume) const
-{
-    if ((pFX != nullptr) && (Sim.Options.OptionDigiSound != 0))
-    {
-        pFX->Play (dwFlags);
-        pFX->SetVolume (Prozent2Dezibel(PercentVolume));
+void SBFX::Play(dword dwFlags) const {
+    if ((pFX != nullptr) && (Sim.Options.OptionDigiSound != 0)) {
+        pFX->Play(dwFlags);
     }
 
-    CString Tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+Filename+"\xd\xa";
-    if ((pSoundLogFile != nullptr) && Filename.GetLength()>1) { fwrite (Tmp, 1, strlen(Tmp), pSoundLogFile);
-}
-}
-
-void SBFX::Stop() const
-{
-    if (pFX != nullptr) { pFX->Stop();
-}
+    if (pSoundLogFile != nullptr) {
+        fwrite(Filename, 1, strlen(Filename), pSoundLogFile);
+    }
 }
 
-void SBFX::SetVolume (long volume) const
-{
-    if (pFX != nullptr) { pFX->SetVolume (volume);
+void SBFX::Play(dword dwFlags, long PercentVolume) const {
+    if ((pFX != nullptr) && (Sim.Options.OptionDigiSound != 0)) {
+        pFX->Play(dwFlags);
+        pFX->SetVolume(Prozent2Dezibel(PercentVolume));
+    }
+
+    CString Tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + Filename + "\xd\xa";
+    if ((pSoundLogFile != nullptr) && Filename.GetLength() > 1) {
+        fwrite(Tmp, 1, strlen(Tmp), pSoundLogFile);
+    }
 }
+
+void SBFX::Stop() const {
+    if (pFX != nullptr) {
+        pFX->Stop();
+    }
+}
+
+void SBFX::SetVolume(long volume) const {
+    if (pFX != nullptr) {
+        pFX->SetVolume(volume);
+    }
 }
 
 //--------------------------------------------------------------------------------------------
-//Der Ambiente-Manager: Einen Soundeffekt initialisieren
+// Der Ambiente-Manager: Einen Soundeffekt initialisieren
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::SetFx (SLONG FxId, const CString& Soundeffekt) const
-{
-    if (FxId>=AmbientFx.AnzEntries()) { return;
-}
+void CAmbienteManager::SetFx(SLONG FxId, const CString &Soundeffekt) const {
+    if (FxId >= AmbientFx.AnzEntries()) {
+        return;
+    }
 
-    AmbientFx[FxId].Volume        = 0;
+    AmbientFx[FxId].Volume = 0;
     AmbientFx[FxId].CurrentVolume = 0;
-    AmbientFx[FxId].Soundeffekt.ReInit (Soundeffekt);
+    AmbientFx[FxId].Soundeffekt.ReInit(Soundeffekt);
 }
 
 //--------------------------------------------------------------------------------------------
-//Die globale Laufstärke setzen
+// Die globale Laufstärke setzen
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::SetGlobalVolume (SLONG Volume)
-{
+void CAmbienteManager::SetGlobalVolume(SLONG Volume) {
     GlobalVolume = Volume;
 
-    gUniversalPlaneFx.SetVolume (Prozent2Dezibel(Sim.Options.OptionPlaneVolume*100/7*AmbientManager.GlobalVolume/100));
+    gUniversalPlaneFx.SetVolume(Prozent2Dezibel(Sim.Options.OptionPlaneVolume * 100 / 7 * AmbientManager.GlobalVolume / 100));
 
-    RecalcVolumes ();
+    RecalcVolumes();
 }
 
 //--------------------------------------------------------------------------------------------
-//Die Lautstärke für einen Effekt setzen:
+// Die Lautstärke für einen Effekt setzen:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::SetVolume (SLONG FxId, SLONG Volume) const
-{
-    SLONG NewVolume = Volume*GlobalVolume/100;
+void CAmbienteManager::SetVolume(SLONG FxId, SLONG Volume) const {
+    SLONG NewVolume = Volume * GlobalVolume / 100;
 
-    if (FxId>=AmbientFx.AnzEntries()) { return;
-}
+    if (FxId >= AmbientFx.AnzEntries()) {
+        return;
+    }
 
-    if (NewVolume>100) { NewVolume = 100;
-}
-    if (NewVolume<0) {   NewVolume = 0;
-}
-    if (Volume>100) {    Volume = 100;
-}
-    if (Volume<0) {      Volume = 0;
-}
+    if (NewVolume > 100) {
+        NewVolume = 100;
+    }
+    if (NewVolume < 0) {
+        NewVolume = 0;
+    }
+    if (Volume > 100) {
+        Volume = 100;
+    }
+    if (Volume < 0) {
+        Volume = 0;
+    }
 
     AmbientFx[FxId].Volume = Volume;
 
-    if (Sim.Options.OptionAmbiente == 0) { NewVolume=0;
-    } else { NewVolume=NewVolume*Sim.Options.OptionAmbiente/8;
-}
+    if (Sim.Options.OptionAmbiente == 0) {
+        NewVolume = 0;
+    } else {
+        NewVolume = NewVolume * Sim.Options.OptionAmbiente / 8;
+    }
 
-    if (NewVolume!=AmbientFx[FxId].CurrentVolume)
-    {
-        //Nötigenfalls überhaupt erst einmal starten:
-        if (AmbientFx[FxId].CurrentVolume==0) {
-            AmbientFx[FxId].Soundeffekt.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING);
-}
+    if (NewVolume != AmbientFx[FxId].CurrentVolume) {
+        // Nötigenfalls überhaupt erst einmal starten:
+        if (AmbientFx[FxId].CurrentVolume == 0) {
+            AmbientFx[FxId].Soundeffekt.Play(DSBPLAY_NOSTOP | DSBPLAY_LOOPING);
+        }
 
         AmbientFx[FxId].CurrentVolume = NewVolume;
 
-        AmbientFx[FxId].Soundeffekt.SetVolume (Prozent2Dezibel(NewVolume));
+        AmbientFx[FxId].Soundeffekt.SetVolume(Prozent2Dezibel(NewVolume));
 
-        //Nötigenfalls ganz anhalten:
-        if (AmbientFx[FxId].CurrentVolume==0) {
-            AmbientFx[FxId].Soundeffekt.Stop ();
-}
+        // Nötigenfalls ganz anhalten:
+        if (AmbientFx[FxId].CurrentVolume == 0) {
+            AmbientFx[FxId].Soundeffekt.Stop();
+        }
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//Die Lautstärke neu berechnen:
+// Die Lautstärke neu berechnen:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::RecalcVolumes () const
-{
-    for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
-        if (c==AMBIENT_JET_OUTSIDE || c==AMBIENT_JET_FIELD) {
-            SetVolume (c, Prozent2Dezibel (Sim.Options.OptionPlaneVolume*100/7*AmbientFx[c].Volume/100));
+void CAmbienteManager::RecalcVolumes() const {
+    for (SLONG c = 0; c < AmbientFx.AnzEntries(); c++) {
+        if (c == AMBIENT_JET_OUTSIDE || c == AMBIENT_JET_FIELD) {
+            SetVolume(c, Prozent2Dezibel(Sim.Options.OptionPlaneVolume * 100 / 7 * AmbientFx[c].Volume / 100));
         } else {
-            SetVolume (c, AmbientFx[c].Volume);
-}
-}
-}
-
-//--------------------------------------------------------------------------------------------
-//Schaltet in den Pause-Modus:
-//--------------------------------------------------------------------------------------------
-void CAmbienteManager::Pause () const
-{
-    for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
-        if (AmbientFx[c].Soundeffekt.pFX != nullptr) {
-            if (AmbientFx[c].CurrentVolume==0) { AmbientFx[c].Soundeffekt.pFX->Pause();
-}
-}
-}
+            SetVolume(c, AmbientFx[c].Volume);
+        }
+    }
 }
 
 //--------------------------------------------------------------------------------------------
-//Setzt das Ambiente fort:
+// Schaltet in den Pause-Modus:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::Resume () const
-{
-    for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
+void CAmbienteManager::Pause() const {
+    for (SLONG c = 0; c < AmbientFx.AnzEntries(); c++) {
         if (AmbientFx[c].Soundeffekt.pFX != nullptr) {
-            if (AmbientFx[c].CurrentVolume>0)
-            {
-                SetVolume (c, AmbientFx[c].Volume);
+            if (AmbientFx[c].CurrentVolume == 0) {
+                AmbientFx[c].Soundeffekt.pFX->Pause();
+            }
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------
+// Setzt das Ambiente fort:
+//--------------------------------------------------------------------------------------------
+void CAmbienteManager::Resume() const {
+    for (SLONG c = 0; c < AmbientFx.AnzEntries(); c++) {
+        if (AmbientFx[c].Soundeffekt.pFX != nullptr) {
+            if (AmbientFx[c].CurrentVolume > 0) {
+                SetVolume(c, AmbientFx[c].Volume);
                 AmbientFx[c].Soundeffekt.pFX->Resume();
             }
-}
-}
+        }
+    }
 }
 #if 0
 void CloseMixer(HMIXER* phMixer)
@@ -899,196 +882,171 @@ void CloseMixer(HMIXER* phMixer)
 #endif
 #define SND_TYPE unsigned char
 
-SND_TYPE Tokens[] = { 64, 135, 192, 2 , 254, 100 };
+SND_TYPE Tokens[] = {64, 135, 192, 2, 254, 100};
 
-BOOL Near (SND_TYPE a, SND_TYPE b)
-{
-    if (abs (SLONG(a)-SLONG(b))<3) { return (TRUE);
-}
-    if (b==128) { return (FALSE);
-}
-    if ((abs (SLONG(a)-SLONG(b))-3) *256 /(abs(SLONG(a)-128)+abs(SLONG(b)-128))<40) { return (TRUE);
-}
+BOOL Near(SND_TYPE a, SND_TYPE b) {
+    if (abs(SLONG(a) - SLONG(b)) < 3) {
+        return (TRUE);
+    }
+    if (b == 128) {
+        return (FALSE);
+    }
+    if ((abs(SLONG(a) - SLONG(b)) - 3) * 256 / (abs(SLONG(a) - 128) + abs(SLONG(b) - 128)) < 40) {
+        return (TRUE);
+    }
 
     return (FALSE);
 }
 
-void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
-{
+void CompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output) {
     SLONG c = 0;
     SLONG d = 0;
     SLONG e = 0;
     SLONG o = 0;
-    SLONG t = 0;   //toleranz
+    SLONG t = 0; // toleranz
 
-    for (c=Input.AnzEntries()-1; c>=0; c--) {
-        for (d=0; d<sizeof (Tokens); d++) {
-            if (Input[c]==Tokens[d]) { Input[c]++;
-}
-}
-}
-
-    Output.ReSize (Input.AnzEntries());
-
-    o=0;
-    for (c=0; c<Input.AnzEntries(); c++)
-    {
-        if (abs (Input[c]-128)>7)
-        {
-            for (d=20; c>d && d<275+255; d++) {
-                //if (abs(SLONG(Input[c])-SLONG(Input[c-d]))<t && abs(SLONG(Input[c+1])-SLONG(Input[c-d+1]))<t && abs(SLONG(Input[c+2])-SLONG(Input[c-d+2]))<t)
-                if ((Near(Input[c],Input[c-d]) != 0) && (Near(Input[c+1],Input[c-d+1]) != 0) && (Near(Input[c+2],Input[c-d+2]) != 0))
-                {
-                    BOOL Equal = TRUE;
-
-                    for (e=1; e<d; e+=2) {
-                        if ((Near(Input[c+e],Input[c-d+e]) == 0) && (Near(Input[c+e],Input[c-d+e+1]) == 0) && (Near(Input[c+e],Input[c-d+e-1]) == 0))
-                        {
-                            Equal=FALSE;
-                            break;
-                        }
-}
-
-                    if (Equal != 0) {
-                        for (e=2; e<d; e+=2) {
-                            if ((Near(Input[c+e],Input[c-d+e]) == 0) && (Near(Input[c+e],Input[c-d+e+1]) == 0) && (Near(Input[c+e],Input[c-d+e-1]) == 0))
-                            {
-                                Equal=FALSE;
-                                break;
-                            }
-}
-}
-
-                    if (Equal != 0)
-                    {
-                        if (d-20>=256)
-                        {
-                            Output[o++]=Tokens[5];
-                            Output[o++]=static_cast<SND_TYPE>(d-20-256);
-                        }
-                        else
-                        {
-                            Output[o++]=Tokens[4];
-                            Output[o++]=static_cast<SND_TYPE>(d-20);
-                        }
-
-                        c+=(d-1);
-                        break;
-                    }
-                }
-}
-            if (d!=275+255 && c>d) { continue;
-}
-        }
-
-        if (abs(Input[c]-128)<4) { t=3; } else { t=2;
-}
-        if (abs(SLONG(Input[c])-SLONG(Input[c+1]))<t && abs(SLONG(Input[c])-SLONG(Input[c+2]))<t && abs(SLONG(Input[c])-SLONG(Input[c+3]))<t)
-        {
-            for (d=0; d<255 && c+d<Input.AnzEntries(); d++) {
-                if (!(abs(SLONG(Input[c])-SLONG(Input[c+d]))<t)) { break;
-}
-}
-
-            if (d==3)
-            {
-                Output[o++]=Tokens[2];
-                Output[o++]=Input[c];
+    for (c = Input.AnzEntries() - 1; c >= 0; c--) {
+        for (d = 0; d < sizeof(Tokens); d++) {
+            if (Input[c] == Tokens[d]) {
+                Input[c]++;
             }
-            else if (d==4)
-            {
-                Output[o++]=Tokens[1];
-                Output[o++]=Input[c];
-            }
-            else
-            {
-                if (Input[c]==127 || Input[c]==128 || Input[c]==129)
-                {
-                    Output[o++]=Tokens[3];
-                    Output[o++]=static_cast<SND_TYPE>(d);
-                }
-                else
-                {
-                    Output[o++]=Tokens[0];
-                    Output[o++]=Input[c];
-                    Output[o++]=static_cast<SND_TYPE>(d);
-                }
-            }
-
-            c+=(d-1);
-        }
-        else
-        {
-            Output[o++]=Input[c];
-            //if (Output[o-1]==Tokens[0]) DebugBreak();
         }
     }
 
-    Output.ReSize (o);
+    Output.ReSize(Input.AnzEntries());
+
+    o = 0;
+    for (c = 0; c < Input.AnzEntries(); c++) {
+        if (abs(Input[c] - 128) > 7) {
+            for (d = 20; c > d && d < 275 + 255; d++) {
+                // if (abs(SLONG(Input[c])-SLONG(Input[c-d]))<t && abs(SLONG(Input[c+1])-SLONG(Input[c-d+1]))<t && abs(SLONG(Input[c+2])-SLONG(Input[c-d+2]))<t)
+                if ((Near(Input[c], Input[c - d]) != 0) && (Near(Input[c + 1], Input[c - d + 1]) != 0) && (Near(Input[c + 2], Input[c - d + 2]) != 0)) {
+                    BOOL Equal = TRUE;
+
+                    for (e = 1; e < d; e += 2) {
+                        if ((Near(Input[c + e], Input[c - d + e]) == 0) && (Near(Input[c + e], Input[c - d + e + 1]) == 0) &&
+                            (Near(Input[c + e], Input[c - d + e - 1]) == 0)) {
+                            Equal = FALSE;
+                            break;
+                        }
+                    }
+
+                    if (Equal != 0) {
+                        for (e = 2; e < d; e += 2) {
+                            if ((Near(Input[c + e], Input[c - d + e]) == 0) && (Near(Input[c + e], Input[c - d + e + 1]) == 0) &&
+                                (Near(Input[c + e], Input[c - d + e - 1]) == 0)) {
+                                Equal = FALSE;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (Equal != 0) {
+                        if (d - 20 >= 256) {
+                            Output[o++] = Tokens[5];
+                            Output[o++] = static_cast<SND_TYPE>(d - 20 - 256);
+                        } else {
+                            Output[o++] = Tokens[4];
+                            Output[o++] = static_cast<SND_TYPE>(d - 20);
+                        }
+
+                        c += (d - 1);
+                        break;
+                    }
+                }
+            }
+            if (d != 275 + 255 && c > d) {
+                continue;
+            }
+        }
+
+        if (abs(Input[c] - 128) < 4) {
+            t = 3;
+        } else {
+            t = 2;
+        }
+        if (abs(SLONG(Input[c]) - SLONG(Input[c + 1])) < t && abs(SLONG(Input[c]) - SLONG(Input[c + 2])) < t &&
+            abs(SLONG(Input[c]) - SLONG(Input[c + 3])) < t) {
+            for (d = 0; d < 255 && c + d < Input.AnzEntries(); d++) {
+                if (!(abs(SLONG(Input[c]) - SLONG(Input[c + d])) < t)) {
+                    break;
+                }
+            }
+
+            if (d == 3) {
+                Output[o++] = Tokens[2];
+                Output[o++] = Input[c];
+            } else if (d == 4) {
+                Output[o++] = Tokens[1];
+                Output[o++] = Input[c];
+            } else {
+                if (Input[c] == 127 || Input[c] == 128 || Input[c] == 129) {
+                    Output[o++] = Tokens[3];
+                    Output[o++] = static_cast<SND_TYPE>(d);
+                } else {
+                    Output[o++] = Tokens[0];
+                    Output[o++] = Input[c];
+                    Output[o++] = static_cast<SND_TYPE>(d);
+                }
+            }
+
+            c += (d - 1);
+        } else {
+            Output[o++] = Input[c];
+            // if (Output[o-1]==Tokens[0]) DebugBreak();
+        }
+    }
+
+    Output.ReSize(o);
 }
 
-void DecompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
-{
+void DecompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output) {
     SLONG c = 0;
     SLONG d = 0;
     SLONG o = 0;
 
-    o=0;
-    for (c=0; c<Input.AnzEntries(); c++)
-    {
-        if (Input[c]==Tokens[0])
-        {
-            for (d=0; d<Input[c+2]; d++) {
-                Output[o++]=Input[c+1];
-}
+    o = 0;
+    for (c = 0; c < Input.AnzEntries(); c++) {
+        if (Input[c] == Tokens[0]) {
+            for (d = 0; d < Input[c + 2]; d++) {
+                Output[o++] = Input[c + 1];
+            }
 
-            c+=2;
-        }
-        else if (Input[c]==Tokens[1])
-        {
-            for (d=0; d<4; d++) {
-                Output[o++]=Input[c+1];
-}
+            c += 2;
+        } else if (Input[c] == Tokens[1]) {
+            for (d = 0; d < 4; d++) {
+                Output[o++] = Input[c + 1];
+            }
 
             c++;
-        }
-        else if (Input[c]==Tokens[2])
-        {
-            for (d=0; d<3; d++) {
-                Output[o++]=Input[c+1];
-}
+        } else if (Input[c] == Tokens[2]) {
+            for (d = 0; d < 3; d++) {
+                Output[o++] = Input[c + 1];
+            }
 
             c++;
-        }
-        else if (Input[c]==Tokens[3])
-        {
-            for (d=0; d<Input[c+1]; d++) {
-                Output[o++]=127+rand()%2;
-}
+        } else if (Input[c] == Tokens[3]) {
+            for (d = 0; d < Input[c + 1]; d++) {
+                Output[o++] = 127 + rand() % 2;
+            }
 
             c++;
-        }
-        else if (Input[c]==Tokens[4])
-        {
-            for (d=0; d<Input[c+1]+20; d++)
-            {
-                Output[o]=Output[o-Input[c+1]-20];
+        } else if (Input[c] == Tokens[4]) {
+            for (d = 0; d < Input[c + 1] + 20; d++) {
+                Output[o] = Output[o - Input[c + 1] - 20];
                 o++;
             }
 
             c++;
-        }
-        else if (Input[c]==Tokens[5])
-        {
-            for (d=0; d<Input[c+1]+20+256; d++)
-            {
-                Output[o]=Output[o-Input[c+1]-20];
+        } else if (Input[c] == Tokens[5]) {
+            for (d = 0; d < Input[c + 1] + 20 + 256; d++) {
+                Output[o] = Output[o - Input[c + 1] - 20];
                 o++;
             }
 
             c++;
+        } else {
+            Output[o++] = Input[c];
         }
-        else { Output[o++]=Input[c];
-}
     }
 }

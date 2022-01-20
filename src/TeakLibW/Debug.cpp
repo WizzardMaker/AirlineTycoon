@@ -3,44 +3,37 @@
 #include <cstdio>
 #include <stdexcept>
 
-const char* ExcAssert           = "Assert (called from %s:%li) failed!";
-const char* ExcGuardian         = "Con/Des guardian %lx failed!";
-const char* ExcStrangeMem       = "Strange new: %li bytes!";
-const char* ExcOutOfMem         = "Couldn't allocate %li bytes!";
-const char* ExcNotImplemented   = "Function not implemented!";
-const char* ExcImpossible       = "Impossible Event %s occured";
+const char *ExcAssert = "Assert (called from %s:%li) failed!";
+const char *ExcGuardian = "Con/Des guardian %lx failed!";
+const char *ExcStrangeMem = "Strange new: %li bytes!";
+const char *ExcOutOfMem = "Couldn't allocate %li bytes!";
+const char *ExcNotImplemented = "Function not implemented!";
+const char *ExcImpossible = "Impossible Event %s occured";
 
 HDU Hdu;
 
-HDU::HDU()
-    : Log(nullptr)
-{
-    char* base = SDL_GetBasePath();
-    const char* file = "debug.log";
+HDU::HDU() : Log(nullptr) {
+    char *base = SDL_GetBasePath();
+    const char *file = "debug.log";
     BUFFER<char> path(strlen(base) + strlen(file) + 1);
     strcpy(path, base);
     strcat(path, file);
     Log = fopen(path, "w");
 }
 
-HDU::~HDU()
-{
-    Close();
-}
+HDU::~HDU() { Close(); }
 
-void HDU::Close()
-{
+void HDU::Close() {
     if (Log != nullptr) {
-        fclose (Log);
-}
+        fclose(Log);
+    }
     Log = nullptr;
 }
 
-void HDU::HercPrintf(int /*unused*/, const char* format, ...)
-{
+void HDU::HercPrintf(int /*unused*/, const char *format, ...) {
     if (Log == nullptr) {
         return;
-}
+    }
     va_list args;
     va_start(args, format);
     vfprintf(Log, format, args);
@@ -49,11 +42,10 @@ void HDU::HercPrintf(int /*unused*/, const char* format, ...)
     fflush(Log);
 }
 
-void HDU::HercPrintf(const char* format, ...)
-{
+void HDU::HercPrintf(const char *format, ...) {
     if (Log == nullptr) {
         return;
-}
+    }
     va_list args;
     va_start(args, format);
     vfprintf(Log, format, args);
@@ -62,26 +54,22 @@ void HDU::HercPrintf(const char* format, ...)
     fflush(Log);
 }
 
-void here(char *file, SLONG line)
-{
-    Hdu.HercPrintf(0, "Here in %s, line %li", file, line);
-}
+void here(char *file, SLONG line) { Hdu.HercPrintf(0, "Here in %s, line %li", file, line); }
 
-SLONG TeakLibW_Exception(char* file, SLONG line, const char* format, ...)
-{
+SLONG TeakLibW_Exception(char *file, SLONG line, const char *format, ...) {
     char buffer[128];
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, sizeof(buffer), format, args);
     va_end(args);
-    //MessageBeep(0);
-    //MessageBeep(0x30u);
+    // MessageBeep(0);
+    // MessageBeep(0x30u);
     Hdu.HercPrintf(1, "====================================================================");
     Hdu.HercPrintf(0, "Exception in File %s, Line %li:", file, line);
     Hdu.HercPrintf(0, buffer);
     Hdu.HercPrintf(1, "====================================================================");
     Hdu.HercPrintf(0, "C++ Exception thrown. Programm will probably be terminated.");
     Hdu.Close();
-    //DebugBreak();
+    // DebugBreak();
     throw std::runtime_error(buffer);
 }

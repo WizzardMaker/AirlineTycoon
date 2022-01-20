@@ -4,8 +4,8 @@
 
 #include "StdAfx.h"
 
-//MSC ist zu blöd für tiefer Verschachtelte Dependecies. Daher werden hier die Entsprechenden
-//Includes vorgegauckelt. Tatsächlich ausgeführt werden sie aber nie.
+// MSC ist zu blöd für tiefer Verschachtelte Dependecies. Daher werden hier die Entsprechenden
+// Includes vorgegauckelt. Tatsächlich ausgeführt werden sie aber nie.
 #ifdef this_will_never_happen
 #include "e:\TeaklibW\TeakLibW.h"
 #include "e:\projekt\sbl\inc\sbl.h"
@@ -22,7 +22,7 @@
 #include "Proto.h"
 #include "res\Resource.h"
 
-//Räume
+// Räume
 #include "SmackPrs.h"
 #include "StdRaum.h"
 #include "Planer.h"
@@ -34,6 +34,6 @@
 #include "Personal.h"
 #include "TakeOff.h"
 #include "Schedule.h"
-#include "Werkstat.h"      //Die Werkstatthalle
-#include "World.h"         //Telefonieren mit den anderen Leuten
+#include "Werkstat.h" //Die Werkstatthalle
+#include "World.h"    //Telefonieren mit den anderen Leuten
 #endif

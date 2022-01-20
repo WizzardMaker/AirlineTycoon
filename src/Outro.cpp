@@ -13,10 +13,9 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //--------------------------------------------------------------------------------------------
-//ULONG PlayerNum
+// ULONG PlayerNum
 //--------------------------------------------------------------------------------------------
-COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRaum(bHandy, PlayerNum, "", 0)
-{
+COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString &SmackName) : CStdRaum(bHandy, PlayerNum, "", 0) {
     RoomBm.ReSize(640, 480);
     RoomBm.FillWith(0);
     PrimaryBm.BlitFrom(RoomBm);
@@ -34,7 +33,7 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
     smk_info_video(pSmack, &Width, &Height, &Scale);
     if (Scale != SMK_FLAG_Y_NONE) {
         Height *= 2;
-}
+    }
 
     unsigned char tracks = 0;
     unsigned char channels[7];
@@ -51,19 +50,20 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
     desired.callback = nullptr;
     desired.userdata = nullptr;
     audioDevice = SDL_OpenAudioDevice(nullptr, 0, &desired, nullptr, 0);
-    if (audioDevice == 0U) { Hdu.HercPrintf(SDL_GetError());
-}
+    if (audioDevice == 0U) {
+        Hdu.HercPrintf(SDL_GetError());
+    }
 
     State = smk_first(pSmack);
     Bitmap.ReSize(XY(Width, Height), CREATE_SYSMEM | CREATE_INDEXED);
     {
         // Copy video frame with line-doubling if needed
         SB_CBitmapKey Key(*Bitmap.pBitmap);
-        const unsigned char* pVideo = smk_get_video(pSmack);
+        const unsigned char *pVideo = smk_get_video(pSmack);
         int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
         for (unsigned long y = 0; y < Height; y++) {
-            memcpy(static_cast<BYTE*>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
-}
+            memcpy(static_cast<BYTE *>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
+        }
     }
     CalculatePalettemapper(smk_get_palette(pSmack), Bitmap.pBitmap->GetPixelFormat()->palette);
     SDL_QueueAudio(audioDevice, smk_get_audio(pSmack, 0), smk_get_audio_size(pSmack, 0));
@@ -74,25 +74,28 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
 }
 
 //--------------------------------------------------------------------------------------------
-//COutro-Fenster zerstören:
+// COutro-Fenster zerstören:
 //--------------------------------------------------------------------------------------------
-COutro::~COutro()
-{
-    if (audioDevice != 0U) { SDL_CloseAudioDevice(audioDevice);
-}
+COutro::~COutro() {
+    if (audioDevice != 0U) {
+        SDL_CloseAudioDevice(audioDevice);
+    }
     audioDevice = 0;
 
-    if (pSmack != nullptr) { smk_close(pSmack);
-}
+    if (pSmack != nullptr) {
+        smk_close(pSmack);
+    }
     pSmack = nullptr;
 
     gMouseStartup = FALSE;
     pCursor->SetImage(gCursorBm.pBitmap);
 
-    if (Sim.Options.OptionEnableDigi != 0) { gpSSE->EnableDS();
-}
-    if (Sim.Options.OptionMusicType != 0) { NextMidi();
-}
+    if (Sim.Options.OptionEnableDigi != 0) {
+        gpSSE->EnableDS();
+    }
+    if (Sim.Options.OptionMusicType != 0) {
+        NextMidi();
+    }
     SetMidiVolume(Sim.Options.OptionMusik);
 }
 
@@ -102,28 +105,27 @@ COutro::~COutro()
 //--------------------------------------------------------------------------------------------
 // void COutro::OnPaint():
 //--------------------------------------------------------------------------------------------
-void COutro::OnPaint()
-{
-    //Die Standard Paint-Sachen kann der Basisraum erledigen
+void COutro::OnPaint() {
+    // Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint();
 
     SDL_PauseAudioDevice(audioDevice, 0);
 
-    if (FrameNum++ < 2) { PrimaryBm.BlitFrom(RoomBm);
-}
+    if (FrameNum++ < 2) {
+        PrimaryBm.BlitFrom(RoomBm);
+    }
 
-    if (timeGetTime() >= FrameNext && State == SMK_MORE)
-    {
-        //Take the next frame:
+    if (timeGetTime() >= FrameNext && State == SMK_MORE) {
+        // Take the next frame:
         Bitmap.ReSize(XY(Width, Height), CREATE_SYSMEM | CREATE_INDEXED);
         {
             // Copy video frame with line-doubling if needed
             SB_CBitmapKey Key(*Bitmap.pBitmap);
-            const unsigned char* pVideo = smk_get_video(pSmack);
+            const unsigned char *pVideo = smk_get_video(pSmack);
             int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
             for (unsigned long y = 0; y < Height; y++) {
-                memcpy(static_cast<BYTE*>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
-}
+                memcpy(static_cast<BYTE *>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
+            }
         }
         CalculatePalettemapper(smk_get_palette(pSmack), Bitmap.pBitmap->GetPixelFormat()->palette);
         SDL_QueueAudio(audioDevice, smk_get_audio(pSmack, 0), smk_get_audio_size(pSmack, 0));
@@ -138,49 +140,37 @@ void COutro::OnPaint()
 
     if (State != SMK_MORE) {
         Sim.Gamestate = GAMESTATE_BOOT;
-}
+    }
 }
 
 //--------------------------------------------------------------------------------------------
-//void COutro::OnLButtonDown(UINT nFlags, CPoint point)
+// void COutro::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void COutro::OnLButtonDown(UINT /*nFlags*/, CPoint /*point*/)
-{
-    Sim.Gamestate = GAMESTATE_BOOT;
-}
+void COutro::OnLButtonDown(UINT /*nFlags*/, CPoint /*point*/) { Sim.Gamestate = GAMESTATE_BOOT; }
 
 //--------------------------------------------------------------------------------------------
 // void COutro::OnRButtonDown(UINT nFlags, CPoint point):
 //--------------------------------------------------------------------------------------------
-void COutro::OnRButtonDown(UINT /*nFlags*/, CPoint /*point*/)
-{
+void COutro::OnRButtonDown(UINT /*nFlags*/, CPoint /*point*/) {
     DefaultOnRButtonDown();
     Sim.Gamestate = GAMESTATE_BOOT;
 }
 
 //--------------------------------------------------------------------------------------------
-//BOOL CStdRaum::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) : AG:
+// BOOL CStdRaum::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) : AG:
 //--------------------------------------------------------------------------------------------
-BOOL COutro::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
-{
-    return (FrameWnd->OnSetCursor(pWnd, nHitTest, message));
-}
+BOOL COutro::OnSetCursor(void *pWnd, UINT nHitTest, UINT message) { return (FrameWnd->OnSetCursor(pWnd, nHitTest, message)); }
 
 //--------------------------------------------------------------------------------------------
-//void CStdRaum::OnMouseMove(UINT nFlags, CPoint point): AG:
+// void CStdRaum::OnMouseMove(UINT nFlags, CPoint point): AG:
 //--------------------------------------------------------------------------------------------
-void COutro::OnMouseMove(UINT nFlags, CPoint point)
-{
-    FrameWnd->OnMouseMove(nFlags, point);
-}
+void COutro::OnMouseMove(UINT nFlags, CPoint point) { FrameWnd->OnMouseMove(nFlags, point); }
 
 //--------------------------------------------------------------------------------------------
-//void COutro::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+// void COutro::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
-void COutro::OnKeyDown(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
-{
-    if (nChar == VK_ESCAPE)
-    {
+void COutro::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
+    if (nChar == VK_ESCAPE) {
         Sim.Gamestate = GAMESTATE_BOOT;
     }
 }

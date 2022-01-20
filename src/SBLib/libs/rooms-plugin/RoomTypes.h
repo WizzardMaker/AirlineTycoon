@@ -13,8 +13,7 @@
 #ifndef __ROOM_TYPES_H
 #define __ROOM_TYPES_H
 
-enum RoomMemberMode
-{
+enum RoomMemberMode {
     /// The owner of the room, who is also a player in the room. The owner cannot be a spectator
     RMM_MODERATOR,
 
@@ -39,10 +38,8 @@ enum RoomMemberMode
 
 const char *RoomMemberModeToEnum(RoomMemberMode e);
 
-struct DefaultRoomColumns
-{
-    enum
-    {
+struct DefaultRoomColumns {
+    enum {
         TC_TITLE_NAME,
         TC_TITLE_ID,
         TC_ROOM_NAME,

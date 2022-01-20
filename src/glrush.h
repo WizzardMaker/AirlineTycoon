@@ -10,12 +10,11 @@
  *                                                  *
  ****************************************************/
 
-#define GFX_LOGO00			 (0x000030304f474f4c)
-#define GFX_RUSHMORE			 (0x45524f4d48535552)
-#define GFX_LOGO01			 (0x000031304f474f4c)
-#define GFX_LOGO02			 (0x000032304f474f4c)
-#define GFX_LOGO03			 (0x000033304f474f4c)
+#define GFX_LOGO00 (0x000030304f474f4c)
+#define GFX_RUSHMORE (0x45524f4d48535552)
+#define GFX_LOGO01 (0x000031304f474f4c)
+#define GFX_LOGO02 (0x000032304f474f4c)
+#define GFX_LOGO03 (0x000033304f474f4c)
 /****************************************************
  * CHECKSUM:04995360663308112514:00005              *
  ****************************************************/
-

@@ -7,7 +7,7 @@
 
 #ifdef WIN32
 #define NOMINMAX
-#define _WINSOCKAPI_   /* Prevent inclusion of winsock.h in windows.h */
+#define _WINSOCKAPI_ /* Prevent inclusion of winsock.h in windows.h */
 #include <Windows.h>
 #endif
 #include <math.h>
@@ -30,23 +30,23 @@ typedef CStdStringA CString;
 
 #include "Res/resource.h"
 
-#include "class.h"         //Eigene Klassen
+#include "class.h" //Eigene Klassen
 #include "Proto.h"
 #include "TakeOff.h"
-#include "GameFrame.h"     //Rahmenfenster mit PrimarySurface
+#include "GameFrame.h" //Rahmenfenster mit PrimarySurface
 
-//Räume:
+// Räume:
 #include "SmackPrs.h"
 #include "StdRaum.h"
-#include "Planer.h"        //Die Basisklasse für Laptop/Globe
-#include "AirportView.h"   //Die Isometrische Sicht auf den Flughafen
-#include "Globe.h"         //Der Nachfolger des Schedulers
-#include "Laptop.h"        //Der Schleppable
-#include "LastMin.h"       //Das LastMinute Reisebüro
-#include "Options.h"       //Das Optionsfenster
-#include "Personal.h"      //Das Personalbüro
-#include "Schedule.h"      //Der Scheduler Bildschirm
-#include "Werkstat.h"      //Die Werkstatthalle
+#include "Planer.h"      //Die Basisklasse für Laptop/Globe
+#include "AirportView.h" //Die Isometrische Sicht auf den Flughafen
+#include "Globe.h"       //Der Nachfolger des Schedulers
+#include "Laptop.h"      //Der Schleppable
+#include "LastMin.h"     //Das LastMinute Reisebüro
+#include "Options.h"     //Das Optionsfenster
+#include "Personal.h"    //Das Personalbüro
+#include "Schedule.h"    //Der Scheduler Bildschirm
+#include "Werkstat.h"    //Die Werkstatthalle
 
-#include "global.h"        //Deklarationen der globalen Variablen
+#include "global.h" //Deklarationen der globalen Variablen
 #pragma hdrstop

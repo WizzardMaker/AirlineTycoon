@@ -10,12 +10,11 @@
  *                                                  *
  ****************************************************/
 
-#define GFX_TUTMARK1			 (0x314b52414d545554)
-#define GFX_TUTMARK2			 (0x324b52414d545554)
-#define GFX_TUTMARK3			 (0x334b52414d545554)
-#define GFX_TUTMARK4			 (0x344b52414d545554)
-#define GFX_TUTMARK5			 (0x354b52414d545554)
+#define GFX_TUTMARK1 (0x314b52414d545554)
+#define GFX_TUTMARK2 (0x324b52414d545554)
+#define GFX_TUTMARK3 (0x334b52414d545554)
+#define GFX_TUTMARK4 (0x344b52414d545554)
+#define GFX_TUTMARK5 (0x354b52414d545554)
 /****************************************************
  * CHECKSUM:00033947724347189924:00005              *
  ****************************************************/
-

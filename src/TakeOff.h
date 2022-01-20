@@ -12,37 +12,35 @@
 // See TakeOff.cpp for the implementation of this class
 //
 
-class CTakeOffApp
-{
-    public:
-        CTakeOffApp();
-        ~CTakeOffApp();
+class CTakeOffApp {
+  public:
+    CTakeOffApp();
+    ~CTakeOffApp();
 
-        static void GameLoop(void*);
+    static void GameLoop(void *);
 #ifdef DEBUG
-        void CheckSystem (void);
+    void CheckSystem(void);
 #endif
 
-        // Overrides
-        // ClassWizard generated virtual function overrides
-        //{{AFX_VIRTUAL(CTakeOffApp)
-    public:
-        virtual BOOL InitInstance(int argc, char* argv[]);
-        virtual void WinHelp(DWORD dwData, UINT nCmd);
-        //}}AFX_VIRTUAL
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CTakeOffApp)
+  public:
+    virtual BOOL InitInstance(int argc, char *argv[]);
+    virtual void WinHelp(DWORD dwData, UINT nCmd);
+    //}}AFX_VIRTUAL
 
-        // Implementation
+    // Implementation
 
-        //{{AFX_MSG(CTakeOffApp)
-        // NOTE - the ClassWizard will add and remove member functions here.
-        //    DO NOT EDIT what you see in these blocks of generated code !
-        //}}AFX_MSG
-        //DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CTakeOffApp)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    // DECLARE_MESSAGE_MAP()
 
-    protected:
-        //HICON  m_hSmallIcon;
-        //HICON  m_hBigIcon;
+  protected:
+    // HICON  m_hSmallIcon;
+    // HICON  m_hBigIcon;
 };
-
 
 /////////////////////////////////////////////////////////////////////////////

@@ -13,8 +13,7 @@
 
 #include "RakNetTypes.h"
 
-struct IntervalTimer
-{
+struct IntervalTimer {
     void SetPeriod(RakNet::TimeMS period);
     bool UpdateInterval(RakNet::TimeMS elapsed);
 

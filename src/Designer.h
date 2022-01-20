@@ -2,41 +2,40 @@
 // Designer.h : Der Designer-Raum!
 //============================================================================================
 
-class CDesigner : public CStdRaum
-{
+class CDesigner : public CStdRaum {
     // Construction
-    public:
-        CDesigner(BOOL bHandy, ULONG PlayerNum);
+  public:
+    CDesigner(BOOL bHandy, ULONG PlayerNum);
 
-        // Data
-    public:
-        CSmackerPerson SP_Stan;
-        CSmackerPerson SP_Bein;
-        CSmackerPerson SP_Bat;
-        CSmackerPerson SP_Blender;
-        CSmackerPerson SP_Schwalbe;
+    // Data
+  public:
+    CSmackerPerson SP_Stan;
+    CSmackerPerson SP_Bein;
+    CSmackerPerson SP_Bat;
+    CSmackerPerson SP_Blender;
+    CSmackerPerson SP_Schwalbe;
 
-        SBFX           BackFx;
+    SBFX BackFx;
 
-        SLONG          CurrentTip{};          //Dieser Tip wird gerade angezeigt
+    SLONG CurrentTip{}; // Dieser Tip wird gerade angezeigt
 
-        // Overrides
-        // ClassWizard generated virtual function overrides
-        //{{AFX_VIRTUAL(CDesigner)
-        //}}AFX_VIRTUAL
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CDesigner)
+    //}}AFX_VIRTUAL
 
-        // Implementation
-    public:
-        virtual ~CDesigner();
+    // Implementation
+  public:
+    virtual ~CDesigner();
 
-        // Generated message map functions
-    protected:
-        //{{AFX_MSG(CDesigner)
-        virtual void OnLButtonDown(UINT nFlags, CPoint point);
-        virtual void OnPaint();
-        virtual void OnRButtonDown(UINT nFlags, CPoint point);
-        //}}AFX_MSG
-        //DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+  protected:
+    //{{AFX_MSG(CDesigner)
+    virtual void OnLButtonDown(UINT nFlags, CPoint point);
+    virtual void OnPaint();
+    virtual void OnRButtonDown(UINT nFlags, CPoint point);
+    //}}AFX_MSG
+    // DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

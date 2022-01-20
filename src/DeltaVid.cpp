@@ -5,298 +5,291 @@
 
 extern BOOL MakeUnvideoOn555;
 
-static const char  gDeltaHeader[]     = "DeltaHeader\x1a";
-static const UBYTE gDeltaTokenDelta1  = 252;
-static const UBYTE gDeltaTokenDelta2  = 253;
-static const UBYTE gDeltaTokenDelta3  = 254;
+static const char gDeltaHeader[] = "DeltaHeader\x1a";
+static const UBYTE gDeltaTokenDelta1 = 252;
+static const UBYTE gDeltaTokenDelta2 = 253;
+static const UBYTE gDeltaTokenDelta3 = 254;
 static const UBYTE gDeltaTokenNoDelta = 255;
 
 //--------------------------------------------------------------------------------------------
-//Dekomprimiert einen Frame mit einem Delta-Verfahren:
+// Dekomprimiert einen Frame mit einem Delta-Verfahren:
 //--------------------------------------------------------------------------------------------
-BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame, XY OffsetA, XY OffsetB)
-{
-    if (OldFrame.GetXSize()!=NewFrame.GetXSize()) { return (FALSE);
-}
-    if (OldFrame.GetYSize()!=NewFrame.GetYSize()) { return (FALSE);
-}
+BOOL deltaCompressFrame(FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame, XY OffsetA, XY OffsetB) {
+    if (OldFrame.GetXSize() != NewFrame.GetXSize()) {
+        return (FALSE);
+    }
+    if (OldFrame.GetYSize() != NewFrame.GetYSize()) {
+        return (FALSE);
+    }
 
-    SLONG         x = 0;
-    SLONG         y = 0;
-    SLONG         y_pitch = 0;
-    SLONG         pass = 0;
-    UBYTE         cx = 0;
+    SLONG x = 0;
+    SLONG y = 0;
+    SLONG y_pitch = 0;
+    SLONG pass = 0;
+    UBYTE cx = 0;
 
-    BUFFER<UBYTE> Buffer(OldFrame.GetXSize()*OldFrame.GetYSize()*3);
-    SLONG         BufferIndex=0;
-    UBYTE       *pBufferCounter=nullptr;
+    BUFFER<UBYTE> Buffer(OldFrame.GetXSize() * OldFrame.GetYSize() * 3);
+    SLONG BufferIndex = 0;
+    UBYTE *pBufferCounter = nullptr;
 
-    SLONG         DirectOffsets[3];
-    XY            Offsets[3];
+    SLONG DirectOffsets[3];
+    XY Offsets[3];
 
-    Offsets[0] = XY (0,0);
+    Offsets[0] = XY(0, 0);
     Offsets[1] = OffsetA;
     Offsets[2] = OffsetA;
 
-    //Direkten Zugriff auf Bitmaps beantragen:
+    // Direkten Zugriff auf Bitmaps beantragen:
     SB_CBitmapKey OldKey(OldFrame);
     SB_CBitmapKey NewKey(NewFrame);
 
-    if (OldKey.lPitch!=NewKey.lPitch) { return (FALSE);
-}
+    if (OldKey.lPitch != NewKey.lPitch) {
+        return (FALSE);
+    }
 
-    //Speed-Up für Offset-Berechnung
-    for (pass=0; pass<3; pass++) {
-        DirectOffsets[pass]=Offsets[pass].x+Offsets[pass].y*NewKey.lPitch/2;
-}
+    // Speed-Up für Offset-Berechnung
+    for (pass = 0; pass < 3; pass++) {
+        DirectOffsets[pass] = Offsets[pass].x + Offsets[pass].y * NewKey.lPitch / 2;
+    }
 
-    //Kompression:
-    for (y=y_pitch=0; y<NewFrame.GetYSize(); y++, y_pitch+=NewKey.lPitch/2)
-    {
-        for (x=0; x<NewFrame.GetXSize(); x++)
-        {
-            //Drei verschiedene Offsets probieren:
-            if (x+3<NewFrame.GetXSize())
-            {
-                for (pass=0; pass<3; pass++) {
-                    if ((-Offsets[pass].x)<=x && (-Offsets[pass].y)<=y && Offsets[pass].x<NewFrame.GetXSize()-x-3 && Offsets[pass].y<NewFrame.GetYSize()-y) {
-                        if ( (reinterpret_cast<__int64*>((static_cast<UWORD*>(NewKey.Bitmap))+x+y_pitch))[0] == (reinterpret_cast<__int64*>((static_cast<UWORD*>(OldKey.Bitmap))+x+y_pitch+DirectOffsets[pass]))[0] )
-                        {
-                            //Ein Offset hat gepasst! Für wieviele Pixel?
-                            for (cx=4; x+cx<NewFrame.GetXSize() && cx<250; cx++)
-                            {
-                                if (Offsets[pass].x<NewFrame.GetXSize()-x-cx)
-                                {
-                                    if ( (reinterpret_cast<__int64*>((static_cast<UWORD*>(NewKey.Bitmap))+x+cx+y_pitch))[0] != (reinterpret_cast<__int64*>((static_cast<UWORD*>(OldKey.Bitmap))+x+cx+y_pitch+DirectOffsets[pass]))[0] ) {
+    // Kompression:
+    for (y = y_pitch = 0; y < NewFrame.GetYSize(); y++, y_pitch += NewKey.lPitch / 2) {
+        for (x = 0; x < NewFrame.GetXSize(); x++) {
+            // Drei verschiedene Offsets probieren:
+            if (x + 3 < NewFrame.GetXSize()) {
+                for (pass = 0; pass < 3; pass++) {
+                    if ((-Offsets[pass].x) <= x && (-Offsets[pass].y) <= y && Offsets[pass].x < NewFrame.GetXSize() - x - 3 &&
+                        Offsets[pass].y < NewFrame.GetYSize() - y) {
+                        if ((reinterpret_cast<__int64 *>((static_cast<UWORD *>(NewKey.Bitmap)) + x + y_pitch))[0] ==
+                            (reinterpret_cast<__int64 *>((static_cast<UWORD *>(OldKey.Bitmap)) + x + y_pitch + DirectOffsets[pass]))[0]) {
+                            // Ein Offset hat gepasst! Für wieviele Pixel?
+                            for (cx = 4; x + cx < NewFrame.GetXSize() && cx < 250; cx++) {
+                                if (Offsets[pass].x < NewFrame.GetXSize() - x - cx) {
+                                    if ((reinterpret_cast<__int64 *>((static_cast<UWORD *>(NewKey.Bitmap)) + x + cx + y_pitch))[0] !=
+                                        (reinterpret_cast<__int64 *>((static_cast<UWORD *>(OldKey.Bitmap)) + x + cx + y_pitch + DirectOffsets[pass]))[0]) {
                                         break;
-}
-                                }
-                                else {
+                                    }
+                                } else {
                                     break;
-}
+                                }
                             }
 
-                            //Kompression speichern:
-                            Buffer[BufferIndex++]=UBYTE(gDeltaTokenDelta1+pass);
-                            Buffer[BufferIndex++]=cx;
+                            // Kompression speichern:
+                            Buffer[BufferIndex++] = UBYTE(gDeltaTokenDelta1 + pass);
+                            Buffer[BufferIndex++] = cx;
 
-                            //Und Rückweg zu den äußerer Schleifen vorbereiten:
-                            x             += cx-1;
+                            // Und Rückweg zu den äußerer Schleifen vorbereiten:
+                            x += cx - 1;
                             pBufferCounter = nullptr;
 
                             break;
                         }
-}
-}
-            }
-            else { pass=3;
-}
-
-            //Keine Kompression gefunden?
-            if (pass==3)
-            {
-                //War das gerade eben auch schon so?
-                if ((pBufferCounter != nullptr) && (*pBufferCounter)<250 && x!=0)
-                {
-                    (*pBufferCounter)++;
-                    *(reinterpret_cast<UWORD*>(Buffer+BufferIndex)) = (static_cast<UWORD*>(NewKey.Bitmap))[x+y_pitch];
-                    BufferIndex+=2;
+                    }
                 }
-                else
-                {
-                    Buffer[BufferIndex++]=gDeltaTokenNoDelta;  //Token
-                    Buffer[BufferIndex++]=1;                   //Anzahl
-                    pBufferCounter=Buffer+BufferIndex-1;
+            } else {
+                pass = 3;
+            }
 
-                    *(reinterpret_cast<UWORD*>(Buffer+BufferIndex)) = (static_cast<UWORD*>(NewKey.Bitmap))[x+y_pitch];
-                    BufferIndex+=2;
+            // Keine Kompression gefunden?
+            if (pass == 3) {
+                // War das gerade eben auch schon so?
+                if ((pBufferCounter != nullptr) && (*pBufferCounter) < 250 && x != 0) {
+                    (*pBufferCounter)++;
+                    *(reinterpret_cast<UWORD *>(Buffer + BufferIndex)) = (static_cast<UWORD *>(NewKey.Bitmap))[x + y_pitch];
+                    BufferIndex += 2;
+                } else {
+                    Buffer[BufferIndex++] = gDeltaTokenNoDelta; // Token
+                    Buffer[BufferIndex++] = 1;                  // Anzahl
+                    pBufferCounter = Buffer + BufferIndex - 1;
+
+                    *(reinterpret_cast<UWORD *>(Buffer + BufferIndex)) = (static_cast<UWORD *>(NewKey.Bitmap))[x + y_pitch];
+                    BufferIndex += 2;
                 }
             }
         }
     }
 
-    for (y=0; y<NewFrame.GetYSize(); y++) {
-        memcpy (static_cast<char*>(OldKey.Bitmap)+y*OldKey.lPitch, static_cast<char*>(NewKey.Bitmap)+y*NewKey.lPitch, NewFrame.GetXSize()*2);
-}
+    for (y = 0; y < NewFrame.GetYSize(); y++) {
+        memcpy(static_cast<char *>(OldKey.Bitmap) + y * OldKey.lPitch, static_cast<char *>(NewKey.Bitmap) + y * NewKey.lPitch, NewFrame.GetXSize() * 2);
+    }
 
-    //Datei-Frame-header schreiben:
-    fwrite (gDeltaHeader, 1, 13,             TargetFile);
-    fwrite (&OffsetA,     1, sizeof (XY),    TargetFile);
-    fwrite (&OffsetB,     1, sizeof (XY),    TargetFile);
+    // Datei-Frame-header schreiben:
+    fwrite(gDeltaHeader, 1, 13, TargetFile);
+    fwrite(&OffsetA, 1, sizeof(XY), TargetFile);
+    fwrite(&OffsetB, 1, sizeof(XY), TargetFile);
 
-    //Die Daten schreiben:
-    fwrite (&BufferIndex, 1, sizeof (SLONG), TargetFile);
-    fwrite (Buffer,       1, BufferIndex,    TargetFile);
+    // Die Daten schreiben:
+    fwrite(&BufferIndex, 1, sizeof(SLONG), TargetFile);
+    fwrite(Buffer, 1, BufferIndex, TargetFile);
 
-    //Erfolg:
+    // Erfolg:
     return (TRUE);
 }
 
 //--------------------------------------------------------------------------------------------
-//Dekomprimiert einen Frame mit einem Delta-Verfahren:
+// Dekomprimiert einen Frame mit einem Delta-Verfahren:
 //--------------------------------------------------------------------------------------------
-BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame)
-{
-    if (OldFrame.GetXSize()!=NewFrame.GetXSize()) { return (FALSE);
-}
-    if (OldFrame.GetYSize()!=NewFrame.GetYSize()) { return (FALSE);
-}
+BOOL deltaDecompressFrame(FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame) {
+    if (OldFrame.GetXSize() != NewFrame.GetXSize()) {
+        return (FALSE);
+    }
+    if (OldFrame.GetYSize() != NewFrame.GetYSize()) {
+        return (FALSE);
+    }
 
-    SLONG         Anz = 0;
-    SLONG         c = 0;
-    SLONG         x = 0;
-    SLONG         y = 0;
-    XY            OffsetA;
-    XY            OffsetB;
+    SLONG Anz = 0;
+    SLONG c = 0;
+    SLONG x = 0;
+    SLONG y = 0;
+    XY OffsetA;
+    XY OffsetB;
 
     BUFFER<UBYTE> Buffer;
-    char          Header[13];
+    char Header[13];
 
-    XY            Offsets[3];
+    XY Offsets[3];
 
-    Offsets[0] = XY (0,0);
+    Offsets[0] = XY(0, 0);
 
-    //Datei-Frame-header lesen:
-    fread (Header,      1, 13,          SourceFile);
-    fread (&Offsets[1], 1, sizeof (XY), SourceFile);
-    fread (&Offsets[2], 1, sizeof (XY), SourceFile);
+    // Datei-Frame-header lesen:
+    fread(Header, 1, 13, SourceFile);
+    fread(&Offsets[1], 1, sizeof(XY), SourceFile);
+    fread(&Offsets[2], 1, sizeof(XY), SourceFile);
 
-    //Prüfen, ob der Header stimmt:
-    if (strcmp (Header, gDeltaHeader) != 0) { return (FALSE);
-}
+    // Prüfen, ob der Header stimmt:
+    if (strcmp(Header, gDeltaHeader) != 0) {
+        return (FALSE);
+    }
 
-    //Die Daten lesen:
-    fread (&x,      1, sizeof (SLONG), SourceFile);
-    Buffer.ReSize (x);
-    fread (Buffer,  1, x,              SourceFile);
+    // Die Daten lesen:
+    fread(&x, 1, sizeof(SLONG), SourceFile);
+    Buffer.ReSize(x);
+    fread(Buffer, 1, x, SourceFile);
 
     SB_CBitmapKey OldKey(OldFrame);
     SB_CBitmapKey NewKey(NewFrame);
 
-    if (OldKey.lPitch!=NewKey.lPitch) { return (FALSE);
-}
+    if (OldKey.lPitch != NewKey.lPitch) {
+        return (FALSE);
+    }
 
-    //Den Datenstrom decodieren:
-    for (c=x=y=0; c<Buffer.AnzEntries();)
-    {
-        switch (Buffer[c])
-        {
-            case gDeltaTokenNoDelta:
-                Anz=Buffer[c+1];
-                memcpy ((static_cast<UWORD*>(NewKey.Bitmap))+x+y*NewKey.lPitch/2, Buffer+c+2, Anz*2);
-                c+=1+1+Anz*2;
-                x+=Anz;
-                break;
+    // Den Datenstrom decodieren:
+    for (c = x = y = 0; c < Buffer.AnzEntries();) {
+        switch (Buffer[c]) {
+        case gDeltaTokenNoDelta:
+            Anz = Buffer[c + 1];
+            memcpy((static_cast<UWORD *>(NewKey.Bitmap)) + x + y * NewKey.lPitch / 2, Buffer + c + 2, Anz * 2);
+            c += 1 + 1 + Anz * 2;
+            x += Anz;
+            break;
 
-            case gDeltaTokenDelta1:
-            case gDeltaTokenDelta2:
-            case gDeltaTokenDelta3:
-                Anz=Buffer[c+1];
-                memcpy ((static_cast<UWORD*>(NewKey.Bitmap))+x+y*NewKey.lPitch/2, (static_cast<UWORD*>(OldKey.Bitmap))+(x+Offsets[Buffer[c]-gDeltaTokenDelta1].x)+(y+Offsets[Buffer[c]-gDeltaTokenDelta1].y)*OldKey.lPitch/2, Anz*2);
-                c+=1+1;
-                x+=Anz;
-                break;
+        case gDeltaTokenDelta1:
+        case gDeltaTokenDelta2:
+        case gDeltaTokenDelta3:
+            Anz = Buffer[c + 1];
+            memcpy((static_cast<UWORD *>(NewKey.Bitmap)) + x + y * NewKey.lPitch / 2,
+                   (static_cast<UWORD *>(OldKey.Bitmap)) + (x + Offsets[Buffer[c] - gDeltaTokenDelta1].x) +
+                       (y + Offsets[Buffer[c] - gDeltaTokenDelta1].y) * OldKey.lPitch / 2,
+                   Anz * 2);
+            c += 1 + 1;
+            x += Anz;
+            break;
 
-            default:
-                return (FALSE);
+        default:
+            return (FALSE);
         }
 
-        if (x>=640)
-        {
-            x=0; y++;
+        if (x >= 640) {
+            x = 0;
+            y++;
         }
     }
 
-    //Erfolg:
+    // Erfolg:
     return (TRUE);
 }
 
 //--------------------------------------------------------------------------------------------
-//Dekomprimiert ein komplettes Video
+// Dekomprimiert ein komplettes Video
 //--------------------------------------------------------------------------------------------
-void Unvideo (const CString& Filename, const CString& TargetFilename)
-{
+void Unvideo(const CString &Filename, const CString &TargetFilename) {
     SLONG cy = 0;
-    FILE  *pFile = fopen (Filename, "rb");
+    FILE *pFile = fopen(Filename, "rb");
 
-    SBBM OldBm(640,480);
-    SBBM NewBm(640,480);
+    SBBM OldBm(640, 480);
+    SBBM NewBm(640, 480);
 
-    char Pre  [] = "\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x02\xE0\x01"
-        "\x10";
-    char Post [] = "\xEF\x01\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x00\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x00\x0B\x00\x03\x00\xCE\x07\x0E\x00\x05\x00"
-        "\x2A\x00\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x00\x00\x00\x00\x00\x00"
-        "\x00\x50\x61\x69\x6E\x74\x20\x53\x68\x6F\x70\x20\x50\x72\x6F\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
-        "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x00\x00\x05\x00\x00\x00\x00"
-        "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-        "\x00\x00\x00\x00\x00\x00\x12\x60\x09\x00\x00\x00\x00\x00\x54\x52"
-        "\x55\x45\x56\x49\x53\x49\x4F\x4E\x2D\x58\x46\x49\x4C\x45\x2E\x00";
+    char Pre[] = "\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x02\xE0\x01"
+                 "\x10";
+    char Post[] = "\xEF\x01\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x00\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x00\x0B\x00\x03\x00\xCE\x07\x0E\x00\x05\x00"
+                  "\x2A\x00\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x00\x00\x00\x00\x00\x00"
+                  "\x00\x50\x61\x69\x6E\x74\x20\x53\x68\x6F\x70\x20\x50\x72\x6F\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20"
+                  "\x20\x20\x20\x20\x20\x20\x20\x20\x20\x00\x00\x05\x00\x00\x00\x00"
+                  "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                  "\x00\x00\x00\x00\x00\x00\x12\x60\x09\x00\x00\x00\x00\x00\x54\x52"
+                  "\x55\x45\x56\x49\x53\x49\x4F\x4E\x2D\x58\x46\x49\x4C\x45\x2E\x00";
 
-    if (pFile != nullptr)
-    {
-        SLONG num=0;
+    if (pFile != nullptr) {
+        SLONG num = 0;
 
-        while (deltaDecompressFrame (pFile, *OldBm.pBitmap, *NewBm.pBitmap) != 0)
-        {
-            FILE *pOut = fopen (bprintf((LPCTSTR)TargetFilename, num), "wb");
+        while (deltaDecompressFrame(pFile, *OldBm.pBitmap, *NewBm.pBitmap) != 0) {
+            FILE *pOut = fopen(bprintf((LPCTSTR)TargetFilename, num), "wb");
 
-            fwrite (Pre, 1, sizeof(Pre), pOut);
+            fwrite(Pre, 1, sizeof(Pre), pOut);
 
             {
                 SB_CBitmapKey NewKey(*NewBm.pBitmap);
 
                 UWORD tmp[640];
 
-                for (cy=NewBm.Size.y-1; cy>=0; cy--)
-                {
-                    for (SLONG cx=0; cx<NewBm.Size.x; cx++)
-                    {
-                        tmp[cx] = (static_cast<UWORD*>(NewKey.Bitmap))[cy*NewKey.lPitch/2+cx];
+                for (cy = NewBm.Size.y - 1; cy >= 0; cy--) {
+                    for (SLONG cx = 0; cx < NewBm.Size.x; cx++) {
+                        tmp[cx] = (static_cast<UWORD *>(NewKey.Bitmap))[cy * NewKey.lPitch / 2 + cx];
 
                         UWORD &w = tmp[cx];
 
                         if (MakeUnvideoOn555 == 0) {
-                            w = (w&31) + ((w&(0xffff-31-32))>>1);
-}
+                            w = (w & 31) + ((w & (0xffff - 31 - 32)) >> 1);
+                        }
 
-                        //w = ((w&255)<<8)  + (w>>8);
+                        // w = ((w&255)<<8)  + (w>>8);
                     }
 
-                    fwrite (tmp, 1, NewBm.Size.x*2, pOut);
+                    fwrite(tmp, 1, NewBm.Size.x * 2, pOut);
                 }
             }
 
-            fwrite (Post, 1, sizeof(Post), pOut);
+            fwrite(Post, 1, sizeof(Post), pOut);
 
-            fclose (pOut);
+            fclose(pOut);
 
-            OldBm.BlitFrom (NewBm);
+            OldBm.BlitFrom(NewBm);
 
             num++;
         }

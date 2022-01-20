@@ -1,5 +1,5 @@
 //============================================================================================
-//TitlePopup.Cpp : Titelbild mit primitiven Auswahlmöglichkeiten
+// TitlePopup.Cpp : Titelbild mit primitiven Auswahlmöglichkeiten
 //============================================================================================
 #include "StdAfx.h"
 #include "TitlePopup.h"
@@ -16,21 +16,15 @@ static const char FileId[] = "Titl";
 /////////////////////////////////////////////////////////////////////////////
 // TitlePopup
 
-TitlePopup::TitlePopup (BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0)
-{
+TitlePopup::TitlePopup(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0) {
     Sim.Gamestate = UBYTE((Sim.Gamestate & (~GAMESTATE_WORKING)) | GAMESTATE_DONE);
 }
 
-TitlePopup::~TitlePopup()
-= default;
+TitlePopup::~TitlePopup() = default;
 
 /////////////////////////////////////////////////////////////////////////////
 // TitlePopup message handlers
 
-void TitlePopup::OnPaint()
-{
-}
+void TitlePopup::OnPaint() {}
 
-void TitlePopup::OnLButtonDown(UINT /*nFlags*/, CPoint /*point*/)
-{
-}
+void TitlePopup::OnLButtonDown(UINT /*nFlags*/, CPoint /*point*/) {}

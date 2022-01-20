@@ -3,7 +3,7 @@
  *  All rights reserved.
  *
  *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant 
+ *  LICENSE file in the root directory of this source tree. An additional grant
  *  of patent rights can be found in the PATENTS file in the same directory.
  *
  */
@@ -13,117 +13,82 @@
 #include <limits>
 #include <limits.h>
 
-namespace RakNet
-{
+namespace RakNet {
 
-RakNetRandomSync::RakNetRandomSync()
-{
-	seed = (uint32_t) -1;
-	callCount = 0;
-	usedValueBufferCount = 0;
+RakNetRandomSync::RakNetRandomSync() {
+    seed = (uint32_t)-1;
+    callCount = 0;
+    usedValueBufferCount = 0;
 }
-RakNetRandomSync::~RakNetRandomSync()
-{
+RakNetRandomSync::~RakNetRandomSync() {}
+void RakNetRandomSync::SeedMT(uint32_t _seed) {
+    seed = _seed;
+    rnr.SeedMT(seed);
+    callCount = 0;
+    usedValueBufferCount = 0;
 }
-void RakNetRandomSync::SeedMT( uint32_t _seed )
-{
-	seed = _seed;
-	rnr.SeedMT( seed );
-	callCount = 0;
-	usedValueBufferCount = 0;
+void RakNetRandomSync::SeedMT(uint32_t _seed, uint32_t skipValues) {
+    SeedMT(_seed);
+    Skip(skipValues);
 }
-void RakNetRandomSync::SeedMT( uint32_t _seed, uint32_t skipValues )
-{
-	SeedMT(_seed);
-	Skip(skipValues);
+float RakNetRandomSync::FrandomMT(void) { return (float)((double)RandomMT() / (double)UINT_MAX); }
+unsigned int RakNetRandomSync::RandomMT(void) {
+    if (usedValueBufferCount > 0) {
+        --usedValueBufferCount;
+        if (usedValueBufferCount < usedValues.Size()) {
+            // The remote system had less calls than the current system, so return values from the past
+            return usedValues[usedValues.Size() - usedValueBufferCount - 1];
+        } else {
+            // Unknown past value, too far back
+            // Return true random
+            return rnr.RandomMT();
+        }
+    } else {
+        // Get random number and store what it is
+        usedValues.Push(rnr.RandomMT(), _FILE_AND_LINE_);
+        ++callCount;
+        while (usedValues.Size() > 64)
+            usedValues.Pop();
+        return usedValues[usedValues.Size() - 1];
+    }
 }
-float RakNetRandomSync::FrandomMT( void )
-{
-	return ( float ) ( ( double ) RandomMT() / (double) UINT_MAX );
+uint32_t RakNetRandomSync::GetSeed(void) const { return seed; }
+uint32_t RakNetRandomSync::GetCallCount(void) const { return callCount; }
+void RakNetRandomSync::SetCallCount(uint32_t i) { callCount = i; }
+void RakNetRandomSync::SerializeConstruction(RakNet::BitStream *constructionBitstream) {
+    constructionBitstream->Write(seed);
+    constructionBitstream->Write(callCount);
 }
-unsigned int RakNetRandomSync::RandomMT( void )
-{
-	if (usedValueBufferCount > 0)
-	{
-		--usedValueBufferCount;
-		if (usedValueBufferCount < usedValues.Size())
-		{
-			// The remote system had less calls than the current system, so return values from the past
-			return usedValues[usedValues.Size()-usedValueBufferCount-1];
-		}
-		else
-		{
-			// Unknown past value, too far back
-			// Return true random
-			return rnr.RandomMT();
-		}
-	}
-	else
-	{
-		// Get random number and store what it is
-		usedValues.Push(rnr.RandomMT(), _FILE_AND_LINE_);
-		++callCount;
-		while (usedValues.Size()>64)
-			usedValues.Pop();		
-		return usedValues[usedValues.Size()-1];		
-	}
+bool RakNetRandomSync::DeserializeConstruction(RakNet::BitStream *constructionBitstream) {
+    uint32_t _seed;
+    uint32_t _skipValues;
+    constructionBitstream->Read(_seed);
+    bool success = constructionBitstream->Read(_skipValues);
+    if (success)
+        SeedMT(_seed, _skipValues);
+    return success;
 }
-uint32_t RakNetRandomSync::GetSeed( void ) const
-{
-	return seed;
+void RakNetRandomSync::Serialize(RakNet::BitStream *outputBitstream) { outputBitstream->Write(callCount); }
+void RakNetRandomSync::Deserialize(RakNet::BitStream *outputBitstream) {
+    uint32_t _callCount;
+    outputBitstream->Read(_callCount);
+    if (_callCount < callCount) {
+        // We locally read more values than the remote system
+        // The next n calls should come from buffered values
+        usedValueBufferCount = callCount - _callCount;
+    } else if (_callCount > callCount) {
+        // Remote system read more values than us
+        uint32_t diff = _callCount - callCount;
+        if (diff <= usedValueBufferCount)
+            usedValueBufferCount -= diff;
+        if (diff > 0)
+            Skip(diff);
+    }
 }
-uint32_t RakNetRandomSync::GetCallCount( void ) const
-{
-	return callCount;
-}
-void RakNetRandomSync::SetCallCount( uint32_t i )
-{
-	callCount = i;
-}
-void RakNetRandomSync::SerializeConstruction(RakNet::BitStream *constructionBitstream)
-{
-	constructionBitstream->Write(seed);
-	constructionBitstream->Write(callCount);
-}
-bool RakNetRandomSync::DeserializeConstruction(RakNet::BitStream *constructionBitstream)
-{
-	uint32_t _seed;
-	uint32_t _skipValues;
-	constructionBitstream->Read(_seed);
-	bool success = constructionBitstream->Read(_skipValues);
-	if (success)
-		SeedMT(_seed, _skipValues);
-	return success;
-}
-void RakNetRandomSync::Serialize(RakNet::BitStream *outputBitstream)
-{
-	outputBitstream->Write(callCount);
-}
-void RakNetRandomSync::Deserialize(RakNet::BitStream *outputBitstream)
-{
-	uint32_t _callCount;
-	outputBitstream->Read(_callCount);
-	if (_callCount < callCount )
-	{
-		// We locally read more values than the remote system
-		// The next n calls should come from buffered values
-		usedValueBufferCount = callCount - _callCount;
-	}
-	else if (_callCount > callCount )
-	{
-		// Remote system read more values than us
-		uint32_t diff = _callCount - callCount;
-		if (diff <= usedValueBufferCount)
-			usedValueBufferCount -= diff;
-		if (diff > 0)
-			Skip(diff);
-	}
-}
-void RakNetRandomSync::Skip( uint32_t count )
-{
-	for (uint32_t i = 0; i < count; i++)
-		rnr.RandomMT();
-	callCount+=count;
+void RakNetRandomSync::Skip(uint32_t count) {
+    for (uint32_t i = 0; i < count; i++)
+        rnr.RandomMT();
+    callCount += count;
 }
 
 } // namespace RakNet

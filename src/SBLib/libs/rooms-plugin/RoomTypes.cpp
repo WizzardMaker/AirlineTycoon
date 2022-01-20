@@ -10,30 +10,27 @@
 
 #include "RoomTypes.h"
 
-const char *RoomMemberModeToEnum(RoomMemberMode e)
-{
-    switch (e)
-    {
-        case RMM_MODERATOR:
-            return "RMM_MODERATOR";
-        case RMM_PUBLIC:
-            return "RMM_PUBLIC";
-        case RMM_RESERVED:
-            return "RMM_RESERVED";
-        case RMM_SPECTATOR_PUBLIC:
-            return "RMM_SPECTATOR_PUBLIC";
-        case RMM_SPECTATOR_RESERVED:
-            return "RMM_SPECTATOR_RESERVED";
-        case RMM_ANY_PLAYABLE:
-            return "RMM_ANY_PLAYABLE";
-        case RMM_ANY_SPECTATOR:
-            return "RMM_ANY_SPECTATOR";
+const char *RoomMemberModeToEnum(RoomMemberMode e) {
+    switch (e) {
+    case RMM_MODERATOR:
+        return "RMM_MODERATOR";
+    case RMM_PUBLIC:
+        return "RMM_PUBLIC";
+    case RMM_RESERVED:
+        return "RMM_RESERVED";
+    case RMM_SPECTATOR_PUBLIC:
+        return "RMM_SPECTATOR_PUBLIC";
+    case RMM_SPECTATOR_RESERVED:
+        return "RMM_SPECTATOR_RESERVED";
+    case RMM_ANY_PLAYABLE:
+        return "RMM_ANY_PLAYABLE";
+    case RMM_ANY_SPECTATOR:
+        return "RMM_ANY_SPECTATOR";
     }
     return "Error in RoomMemberModeToEnum";
 }
 
-static DefaultRoomColumns defaultRoomColumns[DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT] =
-{
+static DefaultRoomColumns defaultRoomColumns[DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT] = {
     {DefaultRoomColumns::TC_TITLE_NAME, "Title name", DataStructures::Table::STRING},
     {DefaultRoomColumns::TC_TITLE_ID, "Title id", DataStructures::Table::NUMERIC},
     {DefaultRoomColumns::TC_ROOM_NAME, "Room name", DataStructures::Table::STRING},
@@ -59,43 +56,38 @@ static DefaultRoomColumns defaultRoomColumns[DefaultRoomColumns::TC_TABLE_COLUMN
     {DefaultRoomColumns::TC_LOBBY_ROOM_PTR, "Lobby room ptr [Internal]", DataStructures::Table::POINTER},
 };
 
-const char *DefaultRoomColumns::GetColumnName(int columnId) {return defaultRoomColumns[columnId].columnName;}
-DataStructures::Table::ColumnType DefaultRoomColumns::GetColumnType(int columnId) {return defaultRoomColumns[columnId].columnType;}
-bool DefaultRoomColumns::HasColumnName(const char *columnName)
-{
+const char *DefaultRoomColumns::GetColumnName(int columnId) { return defaultRoomColumns[columnId].columnName; }
+DataStructures::Table::ColumnType DefaultRoomColumns::GetColumnType(int columnId) { return defaultRoomColumns[columnId].columnType; }
+bool DefaultRoomColumns::HasColumnName(const char *columnName) {
     unsigned i = 0;
-    for (i=0; i < TC_TABLE_COLUMNS_COUNT; i++) {
-        if (strcmp(columnName,GetColumnName(i))==0) {
+    for (i = 0; i < TC_TABLE_COLUMNS_COUNT; i++) {
+        if (strcmp(columnName, GetColumnName(i)) == 0) {
             return true;
-}
-}
+        }
+    }
     return false;
 }
-int DefaultRoomColumns::GetColumnIndex(const char *columnName)
-{
+int DefaultRoomColumns::GetColumnIndex(const char *columnName) {
     unsigned i = 0;
-    for (i=0; i < TC_TABLE_COLUMNS_COUNT; i++) {
-        if (strcmp(columnName,GetColumnName(i))==0) {
+    for (i = 0; i < TC_TABLE_COLUMNS_COUNT; i++) {
+        if (strcmp(columnName, GetColumnName(i)) == 0) {
             return i;
-}
-}
+        }
+    }
     return -1;
 }
-void DefaultRoomColumns::AddDefaultColumnsToTable(DataStructures::Table *table)
-{
+void DefaultRoomColumns::AddDefaultColumnsToTable(DataStructures::Table *table) {
     unsigned i = 0;
-    for (i=0; i < DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT; i++) {
+    for (i = 0; i < DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT; i++) {
         table->AddColumn(DefaultRoomColumns::GetColumnName(i), DefaultRoomColumns::GetColumnType(i));
+    }
 }
-}
-bool DefaultRoomColumns::HasDefaultColumns(DataStructures::Table *table)
-{
+bool DefaultRoomColumns::HasDefaultColumns(DataStructures::Table *table) {
     unsigned i = 0;
-    for (i=0; i < DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT; i++)
-    {
-        if (table->ColumnIndex(DefaultRoomColumns::GetColumnName(i))!=-1) {
+    for (i = 0; i < DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT; i++) {
+        if (table->ColumnIndex(DefaultRoomColumns::GetColumnName(i)) != -1) {
             return true;
-}
+        }
     }
     return false;
 }

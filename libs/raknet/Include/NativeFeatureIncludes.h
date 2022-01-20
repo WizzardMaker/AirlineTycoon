@@ -3,7 +3,7 @@
  *  All rights reserved.
  *
  *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant 
+ *  LICENSE file in the root directory of this source tree. An additional grant
  *  of patent rights can be found in the PATENTS file in the same directory.
  *
  */
@@ -175,32 +175,21 @@
 #endif
 
 // Take care of dependencies
-#if _RAKNET_SUPPORT_DirectoryDeltaTransfer==1
+#if _RAKNET_SUPPORT_DirectoryDeltaTransfer == 1
 #undef _RAKNET_SUPPORT_FileListTransfer
 #define _RAKNET_SUPPORT_FileListTransfer 1
 #endif
-#if _RAKNET_SUPPORT_FullyConnectedMesh2==1
+#if _RAKNET_SUPPORT_FullyConnectedMesh2 == 1
 #undef _RAKNET_SUPPORT_ConnectionGraph2
 #define _RAKNET_SUPPORT_ConnectionGraph2 1
 #endif
-#if _RAKNET_SUPPORT_TelnetTransport==1
+#if _RAKNET_SUPPORT_TelnetTransport == 1
 #undef _RAKNET_SUPPORT_PacketizedTCP
 #define _RAKNET_SUPPORT_PacketizedTCP 1
 #endif
-#if _RAKNET_SUPPORT_PacketizedTCP==1 || _RAKNET_SUPPORT_EmailSender==1 || _RAKNET_SUPPORT_HTTPConnection==1
+#if _RAKNET_SUPPORT_PacketizedTCP == 1 || _RAKNET_SUPPORT_EmailSender == 1 || _RAKNET_SUPPORT_HTTPConnection == 1
 #undef _RAKNET_SUPPORT_TCPInterface
 #define _RAKNET_SUPPORT_TCPInterface 1
 #endif
-
-
-
-
-
-
-
-
-
-
-
 
 #endif // __NATIVE_FEATURE_INCLDUES_H

@@ -3,7 +3,7 @@
  *  All rights reserved.
  *
  *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant 
+ *  LICENSE file in the root directory of this source tree. An additional grant
  *  of patent rights can be found in the PATENTS file in the same directory.
  *
  */
@@ -25,7 +25,7 @@
 
 // Define _FILE_AND_LINE_ to "",0 if you want to strip out file and line info for memory tracking from the EXE
 #ifndef _FILE_AND_LINE_
-#define _FILE_AND_LINE_ __FILE__,__LINE__
+#define _FILE_AND_LINE_ __FILE__, __LINE__
 #endif
 
 /// Define __BITSTREAM_NATIVE_END to NOT support endian swapping in the BitStream class.  This is faster and is what you should use
@@ -46,7 +46,7 @@
 #endif
 
 /// Uncomment to use RakMemoryOverride for custom memory tracking
-/// See RakMemoryOverride.h. 
+/// See RakMemoryOverride.h.
 #ifndef _USE_RAK_MEMORY_OVERRIDE
 #define _USE_RAK_MEMORY_OVERRIDE 0
 #endif
@@ -78,15 +78,13 @@
 
 #ifndef RakAssert
 
-
-
-#if   defined(__native_client__)
+#if defined(__native_client__)
 #define RakAssert(x)
 #else
 #if defined(_DEBUG)
 #define RakAssert(x) assert(x);
 #else
-#define RakAssert(x) 
+#define RakAssert(x)
 #endif
 #endif
 #endif
@@ -100,7 +98,8 @@
 
 /// This is the maximum number of reliable user messages that can be on the wire at a time
 /// If this is too low, then high ping connections with a large throughput will be underutilized
-/// This will be evident because RakNetStatistics::messagesInSend buffer will increase over time, yet at the same time the outgoing bandwidth per second is less than your connection supports
+/// This will be evident because RakNetStatistics::messagesInSend buffer will increase over time, yet at the same time the outgoing bandwidth per second is less
+/// than your connection supports
 #ifndef RESEND_BUFFER_ARRAY_LENGTH
 #define RESEND_BUFFER_ARRAY_LENGTH 512
 #define RESEND_BUFFER_ARRAY_MASK 511
@@ -132,16 +131,6 @@
 #define RAKNET_SUPPORT_IPV6 0
 #endif
 
-
-
-
-
-
-
-
-
-
-
 #ifndef RAKSTRING_TYPE
 #if defined(_UNICODE)
 #define RAKSTRING_TYPE RakWString
@@ -164,8 +153,9 @@
 #define XBOX_BYPASS_SECURITY 1
 #endif
 
-// Controls how many allocations occur at once for the memory pool of incoming datagrams waiting to be transferred between the recvfrom thread and the main update thread
-// Has large effect on memory usage, per instance of RakPeer. Approximately MAXIMUM_MTU_SIZE*BUFFERED_PACKETS_PAGE_SIZE bytes, once after calling RakPeer::Startup()
+// Controls how many allocations occur at once for the memory pool of incoming datagrams waiting to be transferred between the recvfrom thread and the main
+// update thread Has large effect on memory usage, per instance of RakPeer. Approximately MAXIMUM_MTU_SIZE*BUFFERED_PACKETS_PAGE_SIZE bytes, once after calling
+// RakPeer::Startup()
 #ifndef BUFFERED_PACKETS_PAGE_SIZE
 #define BUFFERED_PACKETS_PAGE_SIZE 8
 #endif
@@ -184,11 +174,6 @@
 #ifndef USE_ALLOCA
 #define USE_ALLOCA 1
 #endif
-
-
-
-
-
 
 //#define USE_THREADED_SEND
 

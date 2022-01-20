@@ -2,8 +2,7 @@
 #include <SDL_bits.h>
 
 #ifdef ENABLE_ASM
-SLONG GetLowestSetBit(SLONG mask)
-{
+SLONG GetLowestSetBit(SLONG mask) {
     unsigned SLONG result;
     //_BitScanForward(&result, mask);
     __asm
@@ -17,8 +16,7 @@ SLONG GetLowestSetBit(SLONG mask)
 }
 #endif
 
-SLONG GetHighestSetBit(SLONG mask)
-{
+SLONG GetHighestSetBit(SLONG mask) {
 #ifdef ENABLE_ASM
     unsigned SLONG result;
     //_BitScanReverse(&result, mask);
@@ -35,6 +33,4 @@ SLONG GetHighestSetBit(SLONG mask)
 #endif
 }
 
-void ODS(char const * /*unused*/, ...)
-{
-}
+void ODS(char const * /*unused*/, ...) {}

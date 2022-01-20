@@ -3,7 +3,7 @@
  *  All rights reserved.
  *
  *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant 
+ *  LICENSE file in the root directory of this source tree. An additional grant
  *  of patent rights can be found in the PATENTS file in the same directory.
  *
  */
@@ -19,32 +19,30 @@
 #include "SimpleMutex.h"
 #endif
 
-namespace RakNet
-{
+namespace RakNet {
 
-class RAK_DLL_EXPORT LocklessUint32_t
-{
-public:
-	LocklessUint32_t();
-	explicit LocklessUint32_t(uint32_t initial);
-	// Returns variable value after changing it
-	uint32_t Increment(void);
-	// Returns variable value after changing it
-	uint32_t Decrement(void);
-	uint32_t GetValue(void) const {return value;}
+class RAK_DLL_EXPORT LocklessUint32_t {
+  public:
+    LocklessUint32_t();
+    explicit LocklessUint32_t(uint32_t initial);
+    // Returns variable value after changing it
+    uint32_t Increment(void);
+    // Returns variable value after changing it
+    uint32_t Decrement(void);
+    uint32_t GetValue(void) const { return value; }
 
-protected:
+  protected:
 #ifdef _WIN32
-	volatile LONG value;
+    volatile LONG value;
 #elif defined(ANDROID) || defined(__S3E__) || defined(__APPLE__)
-	// __sync_fetch_and_add not supported apparently
-	SimpleMutex mutex;
-	uint32_t value;
+    // __sync_fetch_and_add not supported apparently
+    SimpleMutex mutex;
+    uint32_t value;
 #else
-	volatile uint32_t value;
+    volatile uint32_t value;
 #endif
 };
 
-}
+} // namespace RakNet
 
 #endif
