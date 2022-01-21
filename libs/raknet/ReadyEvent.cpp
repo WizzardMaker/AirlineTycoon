@@ -235,7 +235,7 @@ PluginReceiveResult ReadyEvent::OnReceive(Packet *packet) {
     case ID_READY_EVENT_ALL_SET:
         //		if (doPrint) {if (packet->systemAddress.GetPort()==60002)	RAKNET_DEBUG_PRINTF("FROM 60002: "); else if
         //(rakPeerInterface->GetInternalID(UNASSIGNED_SYSTEM_ADDRESS).port==60002)	RAKNET_DEBUG_PRINTF("TO 60002: ");
-        //RAKNET_DEBUG_PRINTF("ID_READY_EVENT_SET\n");}
+        // RAKNET_DEBUG_PRINTF("ID_READY_EVENT_SET\n");}
         OnReadyEventPacketUpdate(packet);
         return RR_CONTINUE_PROCESSING;
     case ID_READY_EVENT_FORCE_ALL_SET:
@@ -244,7 +244,7 @@ PluginReceiveResult ReadyEvent::OnReceive(Packet *packet) {
     case ID_READY_EVENT_QUERY:
         //		if (doPrint) {if (packet->systemAddress.GetPort()==60002)	RAKNET_DEBUG_PRINTF("FROM 60002: "); else if
         //(rakPeerInterface->GetInternalID(UNASSIGNED_SYSTEM_ADDRESS).port==60002)	RAKNET_DEBUG_PRINTF("TO 60002: ");
-        //RAKNET_DEBUG_PRINTF("ID_READY_EVENT_QUERY\n");}
+        // RAKNET_DEBUG_PRINTF("ID_READY_EVENT_QUERY\n");}
         OnReadyEventQuery(packet);
         return RR_STOP_PROCESSING_AND_DEALLOCATE;
     }

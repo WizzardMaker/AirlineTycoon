@@ -476,7 +476,7 @@ template <class node_type, class weight_type, bool allow_unlinkedNodes> void Wei
         else {
             for (j = 0; j < adjacencyLists[i]->Size(); j++)
                 //	RAKNET_DEBUG_PRINTF("%i (%.2f) ", adjacencyLists.GetIndexAtKey(adjacencyLists[i]->GetKeyAtIndex(j)), (float)
-                //adjacencyLists[i]->operator[](j) );
+                // adjacencyLists[i]->operator[](j) );
                 RAKNET_DEBUG_PRINTF("%s (%.2f) ", adjacencyLists[i]->GetKeyAtIndex(j).systemAddress.ToString(), (float)adjacencyLists[i]->operator[](j));
         }
 

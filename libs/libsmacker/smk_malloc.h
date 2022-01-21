@@ -62,7 +62,7 @@
         /*	if (p)                                                                                                                                              \
                 {                                                                                                                                              \
                         fprintf(stderr, "libsmacker::smk_malloc(" #p ", %lu) - Warning: freeing non-NULL pointer before calloc (file: %s, line: %lu)\n",       \
-           (unsigned long) (x), __FILE__, (unsigned long)__LINE__); free(p);                                                                                                                                                      \
+           (unsigned long) (x), __FILE__, (unsigned long)__LINE__); free(p);                                                                                   \
                 } */                                                                                                                                           \
         p = calloc(1, x);                                                                                                                                      \
         if (!p) {                                                                                                                                              \

@@ -332,8 +332,8 @@ void SystemAddress::FixForIPVersion(const SystemAddress &boundAddressToSocket) {
 
         // 		if (boundAddressToSocket.GetIPVersion()==4)
         // 		{
-        // 			// Some kind of bug with sendto: returns "The requested address is not valid in its context." if loopback doesn't have the same IP
-        // address 			address.addr4.sin_addr.s_addr=boundAddressToSocket.address.addr4.sin_addr.s_addr;
+        // 			// Some kind of bug with sendto: returns "The requested address is not valid in its context." if loopback doesn't have the same
+        // IP address 			address.addr4.sin_addr.s_addr=boundAddressToSocket.address.addr4.sin_addr.s_addr;
         // 		}
     }
 }

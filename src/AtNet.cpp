@@ -439,7 +439,7 @@ void PumpNetwork() {
                 qPlayer.OfficeState = 2;
                 qPlayer.pSmack = new CSmack16;
                 qPlayer.pSmack->Open("expl.smk");
-                qPlayer.NetSynchronizeFlags();
+                PLAYER::NetSynchronizeFlags();
 
                 gUniversalFx.Stop();
                 gUniversalFx.ReInit("explode.raw");

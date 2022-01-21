@@ -432,7 +432,7 @@ class RAK_DLL_EXPORT RakPeer : public RakPeerInterface, public RNS2EventHandler 
     void GetOfflinePingResponse(char **data, unsigned int *length);
 
     //--------------------------------------------------------------------------------------------Network Functions - Functions dealing with the network in
-    //general--------------------------------------------------------------------------------------------
+    // general--------------------------------------------------------------------------------------------
     /// \brief Returns the unique address identifier that represents you or another system on the the network
     /// \note Not supported by the XBOX
     /// \param[in] systemAddress Use UNASSIGNED_SYSTEM_ADDRESS to get your behind-LAN address. Use a connected system to get their behind-LAN address. This does

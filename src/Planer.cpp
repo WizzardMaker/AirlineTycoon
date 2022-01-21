@@ -1520,9 +1520,8 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
                     }
                 }
 
-                /*SLONG Cost = CalculateFlightCostRechnerisch(Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1) * 3 / 180 * 2;
-                CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(pBlock->SelectedIdB)];
-                switch ((ClientPosB.y-40)/13)
+                /*SLONG Cost = CalculateFlightCostRechnerisch(Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1) * 3 / 180
+                * 2; CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(pBlock->SelectedIdB)]; switch ((ClientPosB.y-40)/13)
                   {
                   case 0:
                   qRRoute.Ticketpreis+=10;
@@ -2320,7 +2319,7 @@ void CPlaner::HandleLButtonDown() {
 
                 qPlayer.UpdateTicketpreise(pBlock->SelectedIdB, qRRoute.Ticketpreis, qRRoute.TicketpreisFC);
                 qPlayer.UpdateTicketpreise(SelectedIdB2, pRRoute->Ticketpreis, pRRoute->TicketpreisFC);
-                qPlayer.NetSynchronizeRoutes();
+                PLAYER::NetSynchronizeRoutes();
                 qPlayer.NetRouteUpdateTicketpreise(pBlock->SelectedIdB, qRRoute.Ticketpreis, qRRoute.TicketpreisFC);
                 qPlayer.NetRouteUpdateTicketpreise(SelectedIdB2, pRRoute->Ticketpreis, pRRoute->TicketpreisFC);
 
@@ -2341,7 +2340,7 @@ void CPlaner::HandleLButtonDown() {
                         Sim.Players.Players[Index + static_cast<int>(PlayerNum <= Index)].RentRouten.RentRouten[Routen(pBlock->SelectedIdB)].TicketpreisFC;
 
                     qPlayer.UpdateTicketpreise(pBlock->SelectedIdB, qRRoute.Ticketpreis, qRRoute.TicketpreisFC);
-                    qPlayer.NetSynchronizeRoutes();
+                    PLAYER::NetSynchronizeRoutes();
                     qPlayer.NetRouteUpdateTicketpreise(pBlock->SelectedIdB, qRRoute.Ticketpreis, qRRoute.TicketpreisFC);
 
                     pBlock->RefreshData(PlayerNum);

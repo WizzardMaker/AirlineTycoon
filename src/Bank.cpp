@@ -296,7 +296,7 @@ void Bank::OnLButtonDown(UINT nFlags, CPoint point) {
             // Geld gefunden:
             Sim.MoneyInBankTrash = 0;
             qPlayer.ChangeMoney(100000, 2006, "");
-            qPlayer.NetSynchronizeMoney();
+            PLAYER::NetSynchronizeMoney();
             SIM::SendSimpleMessage(ATNET_TAKETHING, 0, ITEM_NONE);
 
             StartDialog(TALKER_BANKER1, MEDIUM_AIR, 20);

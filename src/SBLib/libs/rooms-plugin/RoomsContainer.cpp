@@ -38,7 +38,6 @@ QuickJoinUser::QuickJoinUser() {
     networkedQuickJoinUser.query.queries = nullptr;
     totalTimeWaiting = 0;
 }
-QuickJoinUser::~QuickJoinUser() = default;
 
 int QuickJoinUser::SortByTotalTimeWaiting(QuickJoinUser *const &key, QuickJoinUser *const &data) {
     if (key->totalTimeWaiting > data->totalTimeWaiting) {

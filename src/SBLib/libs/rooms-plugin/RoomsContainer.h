@@ -322,7 +322,7 @@ struct NetworkedQuickJoinUser {
 
 struct QuickJoinUser {
     QuickJoinUser();
-    ~QuickJoinUser();
+    ~QuickJoinUser() = default;
 
     NetworkedQuickJoinUser networkedQuickJoinUser;
 

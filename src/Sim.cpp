@@ -1410,13 +1410,13 @@ void SIM::DoTimeStep() {
         // Verschiedene Sync's für's Netzwerk:
         if ((Sim.CallItADay == 0) && (Sim.bNetwork != 0)) {
             if (Minute >= 10 && OldMinute < 10 && Sim.Time >= 9 * 60000 && Sim.Time <= 18 * 60000) {
-                qLocalPlayer.NetSynchronizeMoney();
+                PLAYER::NetSynchronizeMoney();
             }
             if (Minute >= 20 && OldMinute < 20) {
-                qLocalPlayer.NetSynchronizeImage();
+                PLAYER::NetSynchronizeImage();
             }
             if (Minute >= 30 && OldMinute < 30) {
-                qLocalPlayer.NetSynchronizeRoutes();
+                PLAYER::NetSynchronizeRoutes();
             }
         }
 

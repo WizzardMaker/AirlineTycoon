@@ -931,7 +931,7 @@ void AirportView::OnPaint() {
                                         PrimaryBm, qPerson.LookDir, qPerson.Phase,
                                         qPerson.ScreenPos - ViewPos + WinP1 - XY(8 - 1, 0 - 1) +
                                             XY(qPerson.FlightPlaneIndex & 3, (qPerson.FlightPlaneIndex >> 2) & 3),
-                                        static_cast<UBYTE>((static_cast<UBYTE>(qPerson.Running != 0U) != 0u) &&
+                                        static_cast<UBYTE>((static_cast<UBYTE>(qPerson.Running != 0U) != 0U) &&
                                                            (qPerson.Position.y / 22 + 5 != 13 ||
                                                             (Airport.iPlate[(qPerson.Position.y / 22 + 5) + ((qPerson.Position.x / 44) << 4)] & 240) != 80)));
                                 }
@@ -3791,7 +3791,7 @@ void AIRPORT::TryDoor(XY ArrayPos, BOOL Player, SLONG PlayerNum) {
                                     qPlayer.OfficeState = 2;
                                     qPlayer.pSmack = new CSmack16;
                                     qPlayer.pSmack->Open("expl.smk");
-                                    qPlayer.NetSynchronizeFlags();
+                                    PLAYER::NetSynchronizeFlags();
 
                                     gUniversalFx.Stop();
                                     gUniversalFx.ReInit("explode.raw");

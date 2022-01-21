@@ -106,7 +106,7 @@ CreateBoundSocket_PSP2( unsigned short port, bool blockingSocket, const char *fo
 //*timeRead );
 #if defined(WINDOWS_STORE_RT)
 //	static void RecvFromBlocking_WindowsStore8( RakNetSocket *s, RakPeer *rakPeer, char *dataOut, int *bytesReadOut, SystemAddress *systemAddressOut,
-//RakNet::TimeUS *timeRead );
+// RakNet::TimeUS *timeRead );
 #endif
 
     /// Given a socket and IP, retrieves the subnet mask, on linux the socket is unused
@@ -132,7 +132,7 @@ CreateBoundSocket_PSP2( unsigned short port, bool blockingSocket, const char *fo
     /// \param[in] port The port number to send to.
     /// \return 0 on success, nonzero on failure.
     //	static int SendTo( UDPSOCKET s, const char *data, int length, const char ip[ 16 ], unsigned short port, unsigned short remotePortRakNetWasStartedOn_PS3,
-    //unsigned int extraSocketOptions, const char *file, const long line );
+    // unsigned int extraSocketOptions, const char *file, const long line );
 
     /// Call sendto' (UDP obviously)
     /// It won't reach the recipient, except on a LAN

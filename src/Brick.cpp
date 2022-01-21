@@ -81,7 +81,7 @@ void BRICK::BlitAt(SBBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLONG Phas
 //--------------------------------------------------------------------------------------------
 // Einen Brick an Stelle X blitten + skalieren:
 //--------------------------------------------------------------------------------------------
-void BRICK::BlitAt(SBBM &Offscreen, BOOL Ansatz, const XY &p1, const XY &p2) {
+void BRICK::BlitAt(SBBM & /*Offscreen*/, BOOL Ansatz, const XY &p1, const XY &p2) {
     // Hier stand überall früher PrimaryBm statt Offscreen...
 
     if (Ansatz != 0) {
@@ -162,7 +162,7 @@ void BRICK::BlitAt(SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLO
 //--------------------------------------------------------------------------------------------
 // Einen Brick an Stelle X blitten + skalieren:
 //--------------------------------------------------------------------------------------------
-void BRICK::BlitAt(SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &p1, const XY &p2) {
+void BRICK::BlitAt(SBPRIMARYBM & /*Offscreen*/, BOOL Ansatz, const XY &p1, const XY &p2) {
     // Hier stand überall früher PrimaryBm statt Offscreen...
 
     if (Ansatz != 0) {

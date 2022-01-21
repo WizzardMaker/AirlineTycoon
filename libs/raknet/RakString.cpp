@@ -217,7 +217,8 @@ const RakNet::RakString operator+(const RakNet::RakString &lhs, const RakNet::Ra
     // sharedString = RakString::pool.Allocate( _FILE_AND_LINE_ );
     if (RakString::freeList.Size() == 0) {
         // RakString::sharedStringFreeList=(RakString::SharedString*)
-        // rakRealloc_Ex(RakString::sharedStringFreeList,(RakString::sharedStringFreeListAllocationCount+1024)*sizeof(RakString::SharedString), _FILE_AND_LINE_);
+        // rakRealloc_Ex(RakString::sharedStringFreeList,(RakString::sharedStringFreeListAllocationCount+1024)*sizeof(RakString::SharedString),
+        // _FILE_AND_LINE_);
         unsigned i;
         for (i = 0; i < 128; i++) {
             //	RakString::freeList.Insert(RakString::sharedStringFreeList+i+RakString::sharedStringFreeListAllocationCount);
@@ -1032,7 +1033,8 @@ void RakString::Allocate(size_t len) {
     // sharedString = RakString::pool.Allocate( _FILE_AND_LINE_ );
     if (RakString::freeList.Size() == 0) {
         // RakString::sharedStringFreeList=(RakString::SharedString*)
-        // rakRealloc_Ex(RakString::sharedStringFreeList,(RakString::sharedStringFreeListAllocationCount+1024)*sizeof(RakString::SharedString), _FILE_AND_LINE_);
+        // rakRealloc_Ex(RakString::sharedStringFreeList,(RakString::sharedStringFreeListAllocationCount+1024)*sizeof(RakString::SharedString),
+        // _FILE_AND_LINE_);
         unsigned i;
         for (i = 0; i < 128; i++) {
             //	RakString::freeList.Insert(RakString::sharedStringFreeList+i+RakString::sharedStringFreeListAllocationCount);

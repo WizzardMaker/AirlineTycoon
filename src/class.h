@@ -395,8 +395,8 @@ class /**/ CEinheit // 0 = km
   public:           // 2 = m
     CString Name;   // 3 = kN
     double Faktor;  // 4 = l
-    // 5 = l/h
-  public: // 6 = DM
+                    // 5 = l/h
+  public:           // 6 = DM
     SLONG Umrechnung(SLONG Value) const;
     __int64 Umrechnung64(__int64 Value) const;
     char *bString(SLONG Value) const;
@@ -1097,7 +1097,7 @@ class /**/ CITY // Eine Stadt
     CPoint MapPosition;    // Die Position auf der flachen Karte
     SLONG BuroRent;        // Die Monatsmiete für eine Niederlassung
     BOOL bNewInAddOn;      // Ist im Add-On neu hinzugekommen?
-    // Vorraussetzung für Anflug
+                           // Vorraussetzung für Anflug
 
   public:
     void Update(long Jahr);
@@ -2064,16 +2064,16 @@ class PLAYER {
     FBUFFER<CRobotAction> RobotActions;
     SLONG StandStillSince{}; // TimeOut
     SLONG LastActionId{};
-    SLONG WorkCountdown{}; // Computer "macht" etwas
-    SLONG WaitWorkTill{};  // Timeslice-Angabe, wann der Computerspieler seine Aktion beginnen soll; Wichtig, damit im Netzwerk die Aktionen absolut synchron
-                          // ausgeführt werden
-    ULONG WaitWorkTill2{};      // Sim.Time-Angabe, nur zweitrangig für die Synchronisierung
-    SLONG TimeBuro{};           // Wann war der Computerspieler zuletzt
-    SLONG TimePersonal{};       // im Büro, beim Reisebüro, ö.ä.
-    SLONG TimeAufsicht{};       // Zeit seit letzen Besuch
-    SLONG TimeReiseburo{};      // Zeit seit letzen Besuch
-    SLONG GefallenRatio{};      // Wer schuldet wem einen gefallen?
-    FBUFFER<SLONG> Sympathie;   // Sympatiewerte für die Spieler
+    SLONG WorkCountdown{};    // Computer "macht" etwas
+    SLONG WaitWorkTill{};     // Timeslice-Angabe, wann der Computerspieler seine Aktion beginnen soll; Wichtig, damit im Netzwerk die Aktionen absolut synchron
+                              // ausgeführt werden
+    ULONG WaitWorkTill2{};    // Sim.Time-Angabe, nur zweitrangig für die Synchronisierung
+    SLONG TimeBuro{};         // Wann war der Computerspieler zuletzt
+    SLONG TimePersonal{};     // im Büro, beim Reisebüro, ö.ä.
+    SLONG TimeAufsicht{};     // Zeit seit letzen Besuch
+    SLONG TimeReiseburo{};    // Zeit seit letzen Besuch
+    SLONG GefallenRatio{};    // Wer schuldet wem einen gefallen?
+    FBUFFER<SLONG> Sympathie; // Sympatiewerte für die Spieler
     FBUFFER<SLONG> Kooperation; // Arbeiten die Spieler zusammen und teilen die Routen?
     SLONG DoRoutes{};           // Auf Routen umsteigen?
     SLONG WantToDoRoutes{};     // Plant er umzusteigen?
@@ -2390,7 +2390,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     SLONG bExeChanged{};    // Wurde die Exe verändert?
     DWORD UniqueGameId{};   // Identifiziert eine Session eindeutig
     DWORD UniqueGameId2{};  // Identifiziert eine Session eindeutig, ist auch ohne Netzwerk verfügbar und wird im Spiel nicht verändert (ist aber im Netzwerk
-                           // nicht synchron)
+                            // nicht synchron)
 
     FBUFFER<CSabotageAct> SabotageActs;
 

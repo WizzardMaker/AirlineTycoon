@@ -43,7 +43,7 @@ extern SBNetwork gNetwork;
 
 extern SB_CColorFX ColorFX;
 
-//static SLONG NumPlayerWins = 0;
+// static SLONG NumPlayerWins = 0;
 
 static XY BigPlayerOffset[4] = {XY(210, 235), XY(220, 240), XY(220, 240), XY(220, 240)};
 
@@ -2389,8 +2389,8 @@ void CStdRaum::InitToolTips() {
 
             case MENU_REQUEST:
                 // if (MenuPar1==MENU_REQUEST_NORENTROUTE1 || MenuPar1==MENU_REQUEST_NORENTROUTE2 || MenuPar1==MENU_REQUEST_NORENTROUTE3 ||
-                // MenuPar1==MENU_REQUEST_NORENTROUTE4 || MenuPar1==MENU_REQUEST_FORBIDDEN || MenuPar1==MENU_REQUEST_DESTROYED || MenuPar1==MENU_REQUEST_ITEMS ||
-                // MenuPar1==MENU_REQUEST_NOGLUE || MenuPar1==MENU_REQUEST_NOSTENCH || (MenuPar1>=MENU_REQUEST_NO_LM && MenuPar1<=MENU_REQUEST_NO_WERBUNG))
+                // MenuPar1==MENU_REQUEST_NORENTROUTE4 || MenuPar1==MENU_REQUEST_FORBIDDEN || MenuPar1==MENU_REQUEST_DESTROYED || MenuPar1==MENU_REQUEST_ITEMS
+                // || MenuPar1==MENU_REQUEST_NOGLUE || MenuPar1==MENU_REQUEST_NOSTENCH || (MenuPar1>=MENU_REQUEST_NO_LM && MenuPar1<=MENU_REQUEST_NO_WERBUNG))
                 if (MenuIsPlain()) {
                     if (CursorPos.IfIsWithin(100, 160, 190, 200)) {
                         SetMouseLook(CURSOR_HOT, 0, -101, MENU_REQUEST, 1);

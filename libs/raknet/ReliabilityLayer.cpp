@@ -730,8 +730,8 @@ bool ReliabilityLayer::HandleSocketReceiveFromConnectedPlayer(const char *buffer
 #endif
                     while (messageNumberNode) {
                         // TESTING1
-                        // 						printf("Remove %i on ack for datagramNumber=%i.\n", messageNumberNode->messageNumber.val,
-                        // datagramNumber.val);
+                        // 						printf("Remove %i on ack for datagramNumber=%i.\n",
+                        // messageNumberNode->messageNumber.val, datagramNumber.val);
 
                         RemovePacketFromResendListAndDeleteOlderReliableSequenced(messageNumberNode->messageNumber, timeRead, messageHandlerList,
                                                                                   systemAddress);
@@ -877,8 +877,8 @@ bool ReliabilityLayer::HandleSocketReceiveFromConnectedPlayer(const char *buffer
                     const DatagramSequenceNumberType typeRange = (DatagramSequenceNumberType)(const uint32_t)-1;
 
                     // TESTING1
-                    // 					printf("waiting on reliableMessageNumber=%i holeCount=%i datagramNumber=%i\n", receivedPacketsBaseIndex.val, holeCount.val,
-                    // dhf.datagramNumber.val);
+                    // 					printf("waiting on reliableMessageNumber=%i holeCount=%i datagramNumber=%i\n", receivedPacketsBaseIndex.val,
+                    // holeCount.val, dhf.datagramNumber.val);
 
                     if (holeCount == (DatagramSequenceNumberType)0) {
                         // Got what we were expecting
@@ -1785,8 +1785,9 @@ void ReliabilityLayer::Update(RakNetSocket2 *s, SystemAddress &systemAddress, in
 
                         // Testing1
                         // 						if (internalPacket->reliability==RELIABLE_ORDERED ||
-                        // internalPacket->reliability==RELIABLE_ORDERED_WITH_ACK_RECEIPT) 							printf("RESEND reliableMessageNumber %i with datagram %i\n",
-                        // internalPacket->reliableMessageNumber.val, congestionManager.GetNextDatagramSequenceNumber().val);
+                        // internalPacket->reliability==RELIABLE_ORDERED_WITH_ACK_RECEIPT) 							printf("RESEND
+                        // reliableMessageNumber %i with datagram %i\n", internalPacket->reliableMessageNumber.val,
+                        // congestionManager.GetNextDatagramSequenceNumber().val);
 
                         PushPacket(time, internalPacket, true); // Affects GetNewTransmissionBandwidth()
                         internalPacket->timesSent++;
@@ -1954,8 +1955,8 @@ void ReliabilityLayer::Update(RakNetSocket2 *s, SystemAddress &systemAddress, in
 
                     // Testing1
                     // 					if (internalPacket->reliability==RELIABLE_ORDERED ||
-                    // internalPacket->reliability==RELIABLE_ORDERED_WITH_ACK_RECEIPT) 						printf("SEND reliableMessageNumber %i in datagram %i\n",
-                    // internalPacket->reliableMessageNumber.val, congestionManager.GetNextDatagramSequenceNumber().val);
+                    // internalPacket->reliability==RELIABLE_ORDERED_WITH_ACK_RECEIPT) 						printf("SEND reliableMessageNumber %i in datagram
+                    // %i\n", internalPacket->reliableMessageNumber.val, congestionManager.GetNextDatagramSequenceNumber().val);
 
                     PushPacket(time, internalPacket, isReliable);
                     internalPacket->timesSent++;
@@ -2858,7 +2859,7 @@ void ReliabilityLayer::InsertIntoSplitPacketList(InternalPacket *internalPacket,
         // Write data, splitPacketChannelList[index]->splitPacketList[0]->data
         InternalPacket *progressIndicator = AllocateFromInternalPacketPool();
         //		unsigned int len = sizeof(MessageID) + sizeof(unsigned int)*2 + sizeof(unsigned int) + (unsigned int)
-        //BITS_TO_BYTES(splitPacketChannelList[index]->firstPacket->dataBitLength);
+        // BITS_TO_BYTES(splitPacketChannelList[index]->firstPacket->dataBitLength);
         unsigned int l = (unsigned int)splitPacketChannelList[index]->stride;
         const unsigned int len = sizeof(MessageID) + sizeof(unsigned int) * 2 + sizeof(unsigned int) + l;
         AllocInternalPacketData(progressIndicator, len, false, __FILE__, __LINE__);

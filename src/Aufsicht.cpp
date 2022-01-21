@@ -416,9 +416,9 @@ CAufsicht::~CAufsicht() {
     if ((Sim.bNetwork != 0) && bIsMorning) {
         PLAYER &qLocalPlayer = Sim.Players.Players[Sim.localPlayer];
 
-        qLocalPlayer.NetSynchronizeMoney();
-        qLocalPlayer.NetSynchronizeImage();
-        qLocalPlayer.NetSynchronizeRoutes();
+        PLAYER::NetSynchronizeMoney();
+        PLAYER::NetSynchronizeImage();
+        PLAYER::NetSynchronizeRoutes();
         qLocalPlayer.NetUpdateWorkers();
     }
 
@@ -497,7 +497,7 @@ CAufsicht::~CAufsicht() {
                         }
                         qOpfer.Sympathie[c] -= 10;
                         qOpfer.SickTokay = TRUE;
-                        qOpfer.NetSynchronizeFlags();
+                        PLAYER::NetSynchronizeFlags();
                         break;
 
                     case 2: // Virus im Notepad
@@ -550,7 +550,7 @@ CAufsicht::~CAufsicht() {
                             qPlayer.ArabHints += 8;
                         }
                         qOpfer.WerbeBroschuere = qPlayer.PlayerNum;
-                        qOpfer.NetSynchronizeFlags();
+                        PLAYER::NetSynchronizeFlags();
                         break;
 
                     case 2: // Telefone sperren
@@ -558,7 +558,7 @@ CAufsicht::~CAufsicht() {
                             qPlayer.ArabHints += 15;
                         }
                         qOpfer.TelephoneDown = 1;
-                        qOpfer.NetSynchronizeFlags();
+                        PLAYER::NetSynchronizeFlags();
                         break;
 
                     case 3: // Presseerklärung
@@ -566,7 +566,7 @@ CAufsicht::~CAufsicht() {
                             qPlayer.ArabHints += 25;
                         }
                         qOpfer.Presseerklaerung = 1;
-                        qOpfer.NetSynchronizeFlags();
+                        PLAYER::NetSynchronizeFlags();
                         Sim.Players.Players[Sim.localPlayer].Letters.AddLetter(
                             FALSE, bprintf(StandardTexte.GetS(TOKEN_LETTER, 509), (LPCTSTR)qOpfer.AirlineX, (LPCTSTR)qOpfer.NameX, (LPCTSTR)qOpfer.AirlineX),
                             "", "", 0);

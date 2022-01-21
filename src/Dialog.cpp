@@ -368,15 +368,15 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 1053:
             case 1054:
             case 1055:
-                if (id == 1051 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 6)) != 0u)) {
+                if (id == 1051 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 6)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2096, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer].AirlineX);
-                } else if (id == 1052 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 6)) != 0u)) {
+                } else if (id == 1052 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 6)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2096, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer].AirlineX);
-                } else if (id == 1053 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 7)) != 0u)) {
+                } else if (id == 1053 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 7)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2097, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer].AirlineX);
-                } else if (id == 1054 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 7)) != 0u)) {
+                } else if (id == 1054 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 7)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2097, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer].AirlineX);
-                } else if (id == 1055 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 6)) != 0u)) {
+                } else if (id == 1055 && ((Sim.Players.Players[qPlayer.ArabOpfer].SecurityFlags & (1 << 6)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2096, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer].AirlineX);
                 } else if (qPlayer.Money - SabotagePrice[id - 1051] < DEBT_LIMIT) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 6000, pFontPartner);
@@ -406,13 +406,13 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 1252:
             case 1253:
             case 1254:
-                if (id == 1251 && ((Sim.Players.Players[qPlayer.ArabOpfer2].SecurityFlags & (1 << 0)) != 0u)) {
+                if (id == 1251 && ((Sim.Players.Players[qPlayer.ArabOpfer2].SecurityFlags & (1 << 0)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2090, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer2].AirlineX);
-                } else if (id == 1252 && ((Sim.Players.Players[qPlayer.ArabOpfer2].SecurityFlags & (1 << 1)) != 0u)) {
+                } else if (id == 1252 && ((Sim.Players.Players[qPlayer.ArabOpfer2].SecurityFlags & (1 << 1)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2091, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer2].AirlineX);
-                } else if (id == 1253 && ((Sim.Players.Players[qPlayer.ArabOpfer2].SecurityFlags & (1 << 0)) != 0u)) {
+                } else if (id == 1253 && ((Sim.Players.Players[qPlayer.ArabOpfer2].SecurityFlags & (1 << 0)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2090, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer2].AirlineX);
-                } else if (id == 1254 && ((Sim.Players.Players[qPlayer.ArabOpfer2].SecurityFlags & (1 << 2)) != 0u)) {
+                } else if (id == 1254 && ((Sim.Players.Players[qPlayer.ArabOpfer2].SecurityFlags & (1 << 2)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2092, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer2].AirlineX);
                 } else if (qPlayer.Money - SabotagePrice2[id - 1251] < DEBT_LIMIT) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 6000, pFontPartner);
@@ -450,13 +450,13 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 1082:
             case 1083:
             case 1084:
-                if (id == 1081 && ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 8)) != 0u)) {
+                if (id == 1081 && ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 8)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2098, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer3].AirlineX);
-                } else if (id == 1082 && ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 5)) != 0u)) {
+                } else if (id == 1082 && ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 5)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2095, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer3].AirlineX);
-                } else if (id == 1083 && ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 5)) != 0u)) {
+                } else if (id == 1083 && ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 5)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2095, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer3].AirlineX);
-                } else if (id == 1084 && ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 3)) != 0u)) {
+                } else if (id == 1084 && ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 3)) != 0U)) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2093, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer3].AirlineX);
                 } else if (qPlayer.Money - SabotagePrice3[id - 1081] < DEBT_LIMIT) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 6000, pFontPartner);
@@ -487,7 +487,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 }
                 break;
             case 1085:
-                if ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 8)) != 0u) {
+                if ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 8)) != 0U) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2098, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer3].AirlineX);
                 } else {
                     qPlayer.ArabTrust = max(qPlayer.ArabTrust, id - 1280 + 1);
@@ -496,7 +496,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 }
                 break;
             case 1086:
-                if ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 5)) != 0u) {
+                if ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 5)) != 0U) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2095, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer3].AirlineX);
                 } else {
                     MenuDialogReEntryB = 1091;
@@ -709,7 +709,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         }
 
                         qPlayer.NetBuyXPlane(Anzahl, plane);
-                        //SLONG Type = MenuPar1 - 0x10000000;
+                        // SLONG Type = MenuPar1 - 0x10000000;
                         // Sim.SendSimpleMessage (ATNET_BUY_NEW, NULL, PlayerNum, Anzahl, Type);
 
                         qPlayer.DoBodyguardRabatt(plane.CalcCost() * Anzahl);
@@ -1096,7 +1096,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
                 qPlayer.AnzAktien += DialogPar1;
                 qPlayer.OwnsAktien[PlayerNum] += (DialogPar1 - MarktAktien);
-                qPlayer.NetSynchronizeMoney();
+                PLAYER::NetSynchronizeMoney();
             }
                 MakeSayWindow(0, TOKEN_BANK, 3060, pFontPartner, DialogPar1);
                 break;
@@ -1424,7 +1424,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 9304:
             case 9403:
             case 9404:
-                MenuStart(MENU_GAMEOVER, static_cast<SLONG>(qPlayer.HasWon()) == 0);
+                MenuStart(MENU_GAMEOVER, static_cast<SLONG>(static_cast<SLONG>(qPlayer.HasWon()) == 0));
                 hprintf("Event: Mission abgeschlossen, Spiel wird beendet.");
                 break;
 
@@ -4718,7 +4718,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
                 qPlayer.Planes -= DialogPar2;
                 SIM::SendSimpleMessage(ATNET_SELL_USED, 0, PlayerNum, DialogPar2);
-                qPlayer.NetSynchronizeMoney();
+                PLAYER::NetSynchronizeMoney();
 
                 StopDialog();
                 qPlayer.MapWorkers(FALSE);
@@ -5047,7 +5047,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
                         if (id == 5000) {
                             for (c = 0; c < Sim.Players.AnzPlayers; c++) {
-                                if ((Sim.Players.Players[c].Owner == 0u) && (Sim.Players.Players[c].IsOut == 0)) {
+                                if ((Sim.Players.Players[c].Owner == 0U) && (Sim.Players.Players[c].IsOut == 0)) {
                                     Sim.Players.Players[c].Letters.AddLetter(
                                         TRUE, CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 9900), (LPCTSTR)qPlayer.AirlineX)),
                                         CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 9901), (LPCTSTR)qPlayer.AirlineX)),
@@ -5071,7 +5071,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
                         if (id == 5000) {
                             for (c = 0; c < Sim.Players.AnzPlayers; c++) {
-                                if ((Sim.Players.Players[c].Owner == 0u) && (Sim.Players.Players[c].IsOut == 0)) {
+                                if ((Sim.Players.Players[c].Owner == 0U) && (Sim.Players.Players[c].IsOut == 0)) {
                                     Sim.Players.Players[c].Letters.AddLetter(
                                         TRUE,
                                         CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 9910), (LPCTSTR)Cities[Routen[DialogPar2].VonCity].Name,
@@ -5087,7 +5087,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         Limit(SLONG(-1000), qPlayer.Image, SLONG(1000));
 
                         for (c = 0; c < qPlayer.RentRouten.RentRouten.AnzEntries(); c++) {
-                            if (qPlayer.RentRouten.RentRouten[c].Rang != 0u) {
+                            if (qPlayer.RentRouten.RentRouten[c].Rang != 0U) {
                                 qPlayer.RentRouten.RentRouten[c].Image += UBYTE(gWerbePrice[DialogPar1 * 6 + id - 5000] * (id - 5000 + 6) / 6 / 120000);
                                 Limit(static_cast<UBYTE>(0), qPlayer.RentRouten.RentRouten[c].Image, static_cast<UBYTE>(100));
                             }
@@ -5095,7 +5095,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
                         if (id == 5000) {
                             for (c = 0; c < Sim.Players.AnzPlayers; c++) {
-                                if ((Sim.Players.Players[c].Owner == 0u) && (Sim.Players.Players[c].IsOut == 0)) {
+                                if ((Sim.Players.Players[c].Owner == 0U) && (Sim.Players.Players[c].IsOut == 0)) {
                                     Sim.Players.Players[c].Letters.AddLetter(
                                         TRUE, CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 9920), (LPCTSTR)qPlayer.AirlineX)),
                                         CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 9921), (LPCTSTR)qPlayer.AirlineX)),
@@ -5112,7 +5112,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_A_SONSTIGES);
                     }
 
-                    qPlayer.NetSynchronizeImage();
+                    PLAYER::NetSynchronizeImage();
                     qPlayer.DoBodyguardRabatt(gWerbePrice[DialogPar1 * 6 + id - 5000]);
                     MakeSayWindow(0, TOKEN_WERBUNG, 3401, pFontPartner);
                 }
@@ -5475,9 +5475,9 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 qPlayer.Kooperation[DialogPar1] = TRUE;
 
                 qOther.NetSynchronizeKooperation();
-                qOther.NetSynchronizeImage();
+                PLAYER::NetSynchronizeImage();
                 qPlayer.NetSynchronizeKooperation();
-                qPlayer.NetSynchronizeImage();
+                PLAYER::NetSynchronizeImage();
 
                 DialogPar2 ^= 1;
                 if (DialogPar2 != 0) {
@@ -5514,9 +5514,9 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 qPlayer.Kooperation[DialogPar1] = FALSE;
 
                 qOther.NetSynchronizeKooperation();
-                qOther.NetSynchronizeImage();
+                PLAYER::NetSynchronizeImage();
                 qPlayer.NetSynchronizeKooperation();
-                qPlayer.NetSynchronizeImage();
+                PLAYER::NetSynchronizeImage();
 
                 DialogPar2 ^= 1;
                 if (DialogPar2 != 0) {
@@ -5533,9 +5533,9 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 qPlayer.Kooperation[DialogPar1] = FALSE;
 
                 qOther.NetSynchronizeKooperation();
-                qOther.NetSynchronizeImage();
+                PLAYER::NetSynchronizeImage();
                 qPlayer.NetSynchronizeKooperation();
-                qPlayer.NetSynchronizeImage();
+                PLAYER::NetSynchronizeImage();
 
                 DialogPar2 ^= 1;
                 if (DialogPar2 != 0) {
@@ -5591,18 +5591,18 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         qPlayer.Kooperation[DialogPar1] = FALSE;
 
                         qOther.NetSynchronizeKooperation();
-                        qOther.NetSynchronizeImage();
+                        PLAYER::NetSynchronizeImage();
                         qPlayer.NetSynchronizeKooperation();
-                        qPlayer.NetSynchronizeImage();
+                        PLAYER::NetSynchronizeImage();
                     }
                 } else if (bIsRobot) {
                     qOther.Kooperation[Sim.localPlayer] = FALSE;
                     qPlayer.Kooperation[DialogPar1] = FALSE;
 
                     qOther.NetSynchronizeKooperation();
-                    qOther.NetSynchronizeImage();
+                    PLAYER::NetSynchronizeImage();
                     qPlayer.NetSynchronizeKooperation();
-                    qPlayer.NetSynchronizeImage();
+                    PLAYER::NetSynchronizeImage();
                 } else if (point != CPoint(0, 0)) {
                     SIM::SendSimpleMessage(ATNET_DIALOG_NEXT, qOther.NetworkID);
                 }
@@ -5617,17 +5617,17 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     qPlayer.Kooperation[DialogPar1] = FALSE;
 
                     qOther.NetSynchronizeKooperation();
-                    qOther.NetSynchronizeImage();
+                    PLAYER::NetSynchronizeImage();
                     qPlayer.NetSynchronizeKooperation();
-                    qPlayer.NetSynchronizeImage();
+                    PLAYER::NetSynchronizeImage();
                 } else if (bIsRobot) {
                     qOther.Kooperation[Sim.localPlayer] = FALSE;
                     qPlayer.Kooperation[DialogPar1] = FALSE;
 
                     qOther.NetSynchronizeKooperation();
-                    qOther.NetSynchronizeImage();
+                    PLAYER::NetSynchronizeImage();
                     qPlayer.NetSynchronizeKooperation();
-                    qPlayer.NetSynchronizeImage();
+                    PLAYER::NetSynchronizeImage();
                 } else if (point != CPoint(0, 0)) {
                     SIM::SendSimpleMessage(ATNET_DIALOG_NEXT, qOther.NetworkID);
                 }
@@ -6041,11 +6041,12 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                                     MakeSayWindow(0, TOKEN_RICK, 2115, pFontPartner);
                                     break;
                                 }
-                                if (qPlayer.Planes.IsInAlbum(c) && SLONG(qPlayer.Planes[c].TargetZustand) < 60 && rand() % 5 == 0) {
+                                if ((qPlayer.Planes.IsInAlbum(c) != 0) && SLONG(qPlayer.Planes[c].TargetZustand) < 60 && rand() % 5 == 0) {
                                     MakeSayWindow(0, TOKEN_RICK, 2116, pFontPartner);
                                     break;
-                                } else if (qPlayer.Planes.IsInAlbum(c) && SLONG(qPlayer.Planes[c].Zustand) <= SLONG(qPlayer.Planes[c].WorstZustand + 2) &&
-                                           qPlayer.Planes[c].WorstZustand <= 80 && rand() % 5 == 0) {
+                                }
+                                if (qPlayer.Planes.IsInAlbum(c) && SLONG(qPlayer.Planes[c].Zustand) <= SLONG(qPlayer.Planes[c].WorstZustand + 2) &&
+                                    qPlayer.Planes[c].WorstZustand <= 80 && rand() % 5 == 0) {
                                     MakeSayWindow(0, TOKEN_RICK, 2121, pFontPartner);
                                     break;
                                 }

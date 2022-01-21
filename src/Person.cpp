@@ -2281,7 +2281,7 @@ void PERSON::DoOnePlayerStep() {
                                 if ((qPlayer.HasItem(ITEM_ZANGE) != 0) && Sim.Players.Players[StatePar / 10 - 1].OfficeState == 0 &&
                                     (StatePar == ROOM_BURO_A || StatePar == ROOM_BURO_B || StatePar == ROOM_BURO_C || StatePar == ROOM_BURO_D)) {
                                     qPlayer.DropItem(ITEM_ZANGE);
-                                    qPlayer.NetSynchronizeItems();
+                                    PLAYER::NetSynchronizeItems();
                                     Sim.Players.Players[StatePar / 10 - 1].OfficeState = 3;
 
                                     SIM::SendSimpleMessage(ATNET_SYNC_OFFICEFLAG, 0, StatePar / 10 - 1, 3);

@@ -12,6 +12,7 @@ if(MSVC)
     add_compile_options("-m")
 else()
     add_compile_options("-Wall")
+    add_compile_options("-Wextra")
     add_compile_options("-Wno-invalid-source-encoding")
 endif()
 

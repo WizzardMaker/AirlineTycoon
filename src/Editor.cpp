@@ -1045,7 +1045,7 @@ void CEditor::OnPaint() {
     */
     // Das Flugzeug blitten:
     bool bCursorBlitted = false;
-    //bool bCursorBlittedB = false;
+    // bool bCursorBlittedB = false;
     for (d = 0; d < static_cast<long>(Plane.Parts.AnzEntries()); d++) {
         if (Plane.Parts.IsInAlbum(d) != 0) {
             BOOL bShift = 0; //(GetAsyncKeyState (VK_SHIFT)/256)!=0;
@@ -1705,9 +1705,9 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point) {
             while (true) {
                 long c = 0;
                 for (c = 0; c < static_cast<long>(Plane.Parts.AnzEntries()); c++) {
-                    if (Plane.Parts.IsInAlbum(c)) {
-                        if ((Plane.Parts[c].ParentShortname != "" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) ||
-                            ((Plane.Parts[c].ParentShortname != "" && PartUnderCursor[0] == 'R' &&
+                    if (Plane.Parts.IsInAlbum(c) != 0) {
+                        if ((!Plane.Parts[c].ParentShortname.empty() && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) ||
+                            ((!Plane.Parts[c].ParentShortname.empty() && PartUnderCursor[0] == 'R' &&
                               (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id == rel + 200 && rel >= 400 && rel < 600)) ||
                              (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id == rel - 200 && rel >= 600 && rel < 800) ||
                              (PartUnderCursor[0] == 'M' && rel >= 700 && rel <= 1400 &&
@@ -1753,7 +1753,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point) {
                                 Plane.Parts -= c;
                                 break;
                             }
-                            if (Plane.Parts[c].ParentShortname != "" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) {
+                            if (!Plane.Parts[c].ParentShortname.empty() && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) {
                                 Plane.Parts -= c;
                                 break;
                             }

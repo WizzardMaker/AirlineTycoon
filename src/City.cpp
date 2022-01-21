@@ -262,7 +262,7 @@ ULONG CITIES::GetIdFromNames(const char *Name, ...) {
 
     va_list va_marker;
     LPCSTR tmp = Name;
-    for (va_start(va_marker, Name); tmp != (NULL); tmp = va_arg(va_marker, LPCSTR)) {
+    for (va_start(va_marker, Name); tmp != (nullptr); tmp = va_arg(va_marker, LPCSTR)) {
         for (c = 0; c < AnzEntries(); c++) {
             if ((IsInAlbum(c) != 0) && stricmp(tmp, (LPCTSTR)Cities[c].Name) == 0) {
                 return (GetIdFromIndex(c));
