@@ -40,8 +40,6 @@ static long InitMoney[] = {1500000, 0,        2000000, 0,                       
 
 static long MonthLength[] = {31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31};
 
-static const char FileId[] = "Sim.";
-
 char chRegKey[] = R"(Software\Spellbound Software\Airline Tycoon Deluxe\1.0)";
 char chRegKeyOld[] = R"(Software\Spellbound Software\Airline Tycoon Evolution\1.0)";
 // char chRegKeyOld[] = "Software\\Spellbound Software\\Airline Tycoon FirstClass\\1.0";
@@ -1391,9 +1389,6 @@ void SIM::DoTimeStep() {
                     Message << c;
                 }
                 for (c = 0; c < 4; c++) {
-                    Message;
-                }
-                for (c = 0; c < 4; c++) {
                     for (d = 0; d < 5; d++) {
                         Message << rChkActionId[c * 5 + d];
                     }
@@ -1920,11 +1915,11 @@ void SIM::DoTimeStep() {
         // Das Handling des Kopierschutzes:
         if (ProtectionState == 0 && !static_cast<bool>(Sim.bNetwork) && (Sim.CallItADay == 0)) {
             if (OldHour >= 9 && OldHour < 18 && Minute >= 2 && Date % 30 == 29) {
-                PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                CStdRaum &qRaum = *(qPlayer.LocationWin);
 
                 if (DoesFileExist(FullFilename(CString("S") + "a" + "b" + "b" + "e" + "l" + "." + "d" + "o" + "t", MiscPath)) == 0) {
-                    /*if (Sim.GetHour()==17)
+                    /*PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
+                      CStdRaum &qRaum = *(qPlayer.LocationWin);
+                      if (Sim.GetHour()==17)
                       {
                       if (qRaum.IsDialogOpen()) qRaum.StopDialog ();
                       if (qRaum.MenuIsOpen() && qRaum.CurrentMenu!=MENU_ENTERPROTECT) qRaum.MenuStop();

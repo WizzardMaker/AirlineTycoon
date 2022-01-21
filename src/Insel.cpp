@@ -27,9 +27,6 @@ static XY RocketOffsets[] = {XY(149 - 34, 126 - 44), XY(450 - 44, 126 - 43), XY(
 static XY RocketRefOffsets[] = {XY(149 - 34, 328 - 44 - 90 - 30), XY(450 - 44, 328 - 43 - 90 - 40), XY(779 - 34 - 7, 325 - 42 - 90 - 30),
                                 XY(1089 - 34 - 7, 316 - 54 - 90)};
 
-// Zum debuggen:
-static const char FileId[] = "Insl";
-
 class CWaitCursorNow {
   public:
     CWaitCursorNow() {
@@ -109,7 +106,6 @@ void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &Reflexi
     static SLONG x;
     static SLONG y;
     static SLONG MoveOffset[16];
-    static SLONG *pMoveOffset = MoveOffset;
     static UWORD *pTgtPixel;
     static UWORD *pSrcPixel;
     static UBYTE *pRefTable;
@@ -132,7 +128,8 @@ void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &Reflexi
 
             x = pTargetBm->Size.x - 1;
 
-            /*__asm
+            /*static SLONG *pMoveOffset = MoveOffset;
+            __asm
               {
               push  esi
               push  edi

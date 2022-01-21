@@ -12,6 +12,7 @@ if(MSVC)
     add_compile_options("-m")
 else()
     add_compile_options("-Wall")
+    add_compile_options("-Wno-invalid-source-encoding")
 endif()
 
 # Add source to this project's executable.

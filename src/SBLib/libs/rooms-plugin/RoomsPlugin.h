@@ -248,10 +248,10 @@ struct GetRoomProperties_Func : public RoomsPluginFunc {
                    roomDescriptor.roomMemberList.Size());
             RakAssert(roomDescriptor.GetProperty(DefaultRoomColumns::TC_USED_SLOTS)->i == roomDescriptor.roomMemberList.Size() - 1);
             roomDescriptor.roomProperties.PrintColumnHeaders(out, 8096, ',');
-            printf(out);
+            printf("%s", out);
             printf("\n");
             roomDescriptor.roomProperties.PrintRow(out, 8096, ',', false, roomDescriptor.roomProperties.GetRowByIndex(0, 0));
-            printf(out);
+            printf("%s", out);
             printf("\n");
         }
     }

@@ -60,8 +60,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static const char FileId[] = "Blnd";
-
 /*#include "all.h"  */
 
 //--------------------------------------------------------------------------------------------

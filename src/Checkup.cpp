@@ -102,8 +102,6 @@ CRegistryAccess::CRegistryAccess(const CString &RegistryPath) {
 bool CRegistryAccess::Open(const CString & /*RegistryPath*/) {
     Close(); // Alten Zugriff schlieﬂen
 
-    DWORD dwDisposition = 0;
-
 #if USE_JSON
     CString PerfPath = GetPerfPath();
     hKey = json_load_file(PerfPath + "AT.json", 0, nullptr);
@@ -112,6 +110,8 @@ bool CRegistryAccess::Open(const CString & /*RegistryPath*/) {
     }
     return IsOpen();
 #else
+    DWORD dwDisposition = 0;
+
     if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_CURRENT_USER, RegistryPath, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, &dwDisposition))
         return (1); // Erfolg
     else

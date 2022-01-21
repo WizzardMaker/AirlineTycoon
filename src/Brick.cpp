@@ -378,9 +378,7 @@ void BRICKS::ReInit(const CString &TabFilename) {
 //--------------------------------------------------------------------------------------------
 void BRICKS::UpdateBricks() {
     SLONG c = 0;
-    SLONG d = 0;
     SLONG Anz = 0;
-    SLONG VidMemFree = 0;
     SLONG Bytes = 0;
 
     // hprintf ("Updating Bricks.");
@@ -552,10 +550,6 @@ void BUILDS::Load(SLONG Hall, SLONG Level) {
     do {
         Filename = FullFilename(HallFilenames[Hall], MiscPath, 100 * Difficulty + Level);
         Difficulty--;
-
-        if (Difficulty == 10) {
-            Difficulty = Difficulty;
-        }
     } while (Difficulty >= 0 && (Editor == 0) && (DoesFileExist(Filename) == 0));
 
     if (DoesFileExist(Filename) != 0) {

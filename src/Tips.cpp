@@ -11,8 +11,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static const char FileId[] = "Tips";
-
 extern ULONG AktienKursLineColor[];
 
 extern SLONG FoodCosts[];
@@ -1012,7 +1010,6 @@ void DrawItemTipContents(SBBM &TipBm, SLONG Item, SB_CFont *pHeadFont, SB_CFont 
 void DrawMoneyTip(SBBM &TipBm, SLONG PlayerNum, SLONG Page) {
     SLONG c = 0;
     __int64 money = 0;
-    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     SB_CFont FontBankBlack;
     SB_CFont FontBankRed;

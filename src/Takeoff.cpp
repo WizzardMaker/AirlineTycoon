@@ -67,8 +67,6 @@ extern char VersionString[];
 extern SLONG bCAbendOpen;
 extern SLONG SkipPlaneCalculation;
 
-static const char FileId[] = "Take";
-
 static CString PlaneSounds[] = {"prop.raw", "flyby.raw", "flyby2.raw", "flyby3.raw", "flyby4.raw", "flyby5.raw"};
 
 BOOL gCDFound = FALSE;
@@ -244,8 +242,6 @@ extern "C"
     v.mcharintScore.iValue = 792628216;
     v.muScramble = 3556112065;
 
-    long vv = v.GetValue();
-
 #ifdef WIN32
     SetUnhandledExceptionFilter(UnhandledExceptionCallback);
 #endif
@@ -408,7 +404,6 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
         // MySaver.Restore ("crash.dat");
     }
 
-    SLONG mp = MAX_PATH;
     char localVersionString[80];
     strcpy(localVersionString, VersionString);
 
@@ -1046,13 +1041,9 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
 
     Sim.TimeSlice = 0;
 
-    int startTime = 0;
-    int lastTime = 0;
     while (bLeaveGameLoop == 0) {
         Time = SDL_GetTicks();
-        startTime = Time;
 
-        int timerFps = Time;
         if (LastTime == 0xffffffff || (bgJustDidLotsOfWork != 0) || bActive == FALSE) {
             LastTime = Time;
         }

@@ -13,8 +13,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static const char FileId[] = "Last";
-
 static const SLONG ZettelPos[10 * 2] = {66, 79, 126, 212, 145, 116, 33, 250, 128, 289, 15, 150, 346, 331, 40, 113, 449, 126, 245, 307};
 
 extern SLONG timeLastClose;

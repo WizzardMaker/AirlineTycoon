@@ -12,9 +12,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Arab";
-
 #define GFX_RICK (0x000000004b434952)
 
 //--------------------------------------------------------------------------------------------

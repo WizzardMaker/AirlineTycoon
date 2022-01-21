@@ -25,8 +25,6 @@ SLONG IconsPos[] = {
 
 static XY GlobeOffset[] = {XY(141, 16), XY(177, 29)};
 
-static const char FileId[] = "Glob";
-
 extern double a;
 
 class CWaitCursorNow {
@@ -325,8 +323,6 @@ void CGlobe::OnPaint() {
         }
     }
 
-    static SLONG LastMinute;
-
     if (Sim.GetHour() != LastHour) {
         Sim.Players.Players[Sim.localPlayer].UpdateAuftragsUsage();
         Sim.Players.Players[Sim.localPlayer].UpdateFrachtauftragsUsage();
@@ -592,7 +588,6 @@ void CGlobe::OnPaint() {
 //--------------------------------------------------------------------------------------------
 void CGlobe::OnLButtonDown(UINT nFlags, CPoint point) {
     XY Dummy;
-    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     if (gMousePosition.y >= 440) {
         PreLButtonDown(gMousePosition);

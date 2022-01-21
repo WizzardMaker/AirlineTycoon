@@ -13,9 +13,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Stat";
-
 DWORD const ClickHighlightTime = 300; // 300 ms bleibt ein Button nach einem Click ganz hell
 
 extern SB_CColorFX ColorFX;
@@ -687,7 +684,6 @@ void CStatistik::RepaintGraphWindow() {
     long value = 0;
     bool fDrawAxis = false;
 
-    SB_Hardwarecolor red = DropDownBm.pBitmap->GetHardwarecolor(0xff0000);
     DropDownBm.BlitFrom(DropDownBackgroundBm);
 
     // Ausgabe des Zoom-Faktors in Tage oder Monaten

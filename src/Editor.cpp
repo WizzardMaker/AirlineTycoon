@@ -28,9 +28,6 @@ extern SB_CColorFX ColorFX;
 #define DSBVOLUME_MIN (-10000)
 #define DSBVOLUME_MAX 0
 
-// Zum debuggen:
-static const char FileId[] = "Edit";
-
 CPlaneParts gPlaneParts;
 
 CPlaneBuild gPlaneBuilds[37] = {
@@ -1048,7 +1045,7 @@ void CEditor::OnPaint() {
     */
     // Das Flugzeug blitten:
     bool bCursorBlitted = false;
-    bool bCursorBlittedB = false;
+    //bool bCursorBlittedB = false;
     for (d = 0; d < static_cast<long>(Plane.Parts.AnzEntries()); d++) {
         if (Plane.Parts.IsInAlbum(d) != 0) {
             BOOL bShift = 0; //(GetAsyncKeyState (VK_SHIFT)/256)!=0;
@@ -1888,7 +1885,7 @@ SBBM &CPlanePart::GetBm(SBBMS &PartBms) const {
     }
 
     TeakLibW_Exception(FNL, ExcNever);
-    return (*(SBBM *)nullptr);
+    return PartBms[0];
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2509,7 +2506,7 @@ CPlaneBuild &GetPlaneBuild(const CString &Shortname) {
     }
 
     TeakLibW_Exception(FNL, ExcNever);
-    return (*(CPlaneBuild *)nullptr);
+    return gPlaneBuilds[0];
 }
 
 //--------------------------------------------------------------------------------------------

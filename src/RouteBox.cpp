@@ -16,9 +16,6 @@ static char THIS_FILE[] = __FILE__;
 
 extern ULONG AktienKursLineColor[4];
 
-// Zum debuggen:
-static const char FileId[] = "Rout";
-
 static const XY ListOffset = XY(461, 29);
 static const XY TipOffset = XY(462, 16);
 static const XY MapOffset = XY(198, 150); // Für den Zoom der Karte den Faktor
@@ -239,8 +236,6 @@ void CRouteBox::OnPaint() {
 
             for (c = Routen.AnzEntries() - 1; c >= 0; c--) {
                 if ((Routen.IsInAlbum(c) != 0) && Routen[c].VonCity < Routen[c].NachCity) {
-                    CRoute &qRoute = Routen[c];
-
                     XY von = XY(Cities[Routen[c].VonCity].MapPosition);
                     XY nach = XY(Cities[Routen[c].NachCity].MapPosition);
 
@@ -741,7 +736,6 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point) {
                 UpdateDataTable();
                 gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
             } else if (MouseClickId == 2000) {
-                CRoute &qRoute = Routen[CurrentTip];
                 CRentRoute &qRRoute = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(CurrentTip)];
 
                 if (qRRoute.Rang != 0U) {

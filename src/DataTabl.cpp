@@ -9,8 +9,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static const char FileId[] = "Data";
-
 //--------------------------------------------------------------------------------------------
 // Löscht eine Tabelle:
 //--------------------------------------------------------------------------------------------
@@ -133,7 +131,7 @@ void CDataTable::FillWithPlanes(CPlanes *Planes, BOOL Expert, SLONG FilterType, 
     }
 
     for (c = 0; c < d - 1; c++) {
-        if (ValueFlags[c * 4] == FALSE && ValueFlags[c * 4 + 4] == TRUE ||
+        if ((ValueFlags[c * 4] == FALSE && ValueFlags[c * 4 + 4] == TRUE) ||
             (ValueFlags[c * 4] == FALSE && ValueFlags[c * 4 + 4] == FALSE && Values[c * 4] > Values[c * 4 + 4])) {
             SLONG tmp0 = 0;
             tmp0 = LineIndex[c];

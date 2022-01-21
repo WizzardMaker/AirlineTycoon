@@ -11,9 +11,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "HLin";
-
 //--------------------------------------------------------------------------------------------
 // Konstruktor:
 //--------------------------------------------------------------------------------------------
@@ -40,8 +37,10 @@ void CHLObj::Destroy() {
 // Blittet ein HL-Objekt an eine Stelle, bis jetzt aber ohne Clipping
 //--------------------------------------------------------------------------------------------
 void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
+#ifdef ENABLE_ASM
     static char FirstTime;
     static ULONG JumpBuffer[8]; // Für Wiederholungen
+#endif
 
     SLONG cx = 0;
     SLONG cy = 0;
@@ -84,8 +83,10 @@ void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
 
             UWORD *target = (static_cast<UWORD *>(bm)) + qHLGene.Offset;
             UBYTE *source = qHLGene.pPixel;
-            UWORD *table = pHLPool->PaletteMapper;
             long anz = qHLGene.Anz;
+#ifdef ENABLE_ASM
+            UWORD *table = pHLPool->PaletteMapper;
+#endif
 
             if (qHLGene.Anz <= 4) {
                 source = reinterpret_cast<UBYTE *>(&qHLGene.pPixel);
@@ -239,9 +240,6 @@ void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
 // Blittet und vergrößert:
 //--------------------------------------------------------------------------------------------
 void CHLObj::BlitLargeAt(SB_CBitmapCore *pBitmap, XY Target) {
-    static char FirstTime;
-    static ULONG JumpBuffer[8]; // Für Wiederholungen
-
     SLONG cx = 0;
     SLONG cy = 0;
     SLONG count = 0;
@@ -279,7 +277,6 @@ void CHLObj::BlitLargeAt(SB_CBitmapCore *pBitmap, XY Target) {
 
             UWORD *target = (static_cast<UWORD *>(bm)) + qHLGene.Offset * 2;
             UBYTE *source = qHLGene.pPixel;
-            UWORD *table = pHLPool->PaletteMapper;
             long anz = qHLGene.Anz * 2;
 
             if (qHLGene.Anz <= 4) {

@@ -63,7 +63,6 @@ class NewGamePopup : public CStdRaum {
 
     int SessionMissionID{};
 
-    ULONG PlayerID{};
     bool bThisIsSessionMaster{};
 
     SBStr NetworkConnection;

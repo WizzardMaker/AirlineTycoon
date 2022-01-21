@@ -68,6 +68,8 @@ SLONG ENetNetwork::GetMessageCount() {
     /* We'll call this regularly so no need to block. */
     while (enet_host_service(mHost, &event, 0) > 0) {
         switch (event.type) {
+        case ENET_EVENT_TYPE_NONE:
+            break;
         case ENET_EVENT_TYPE_CONNECT:
             /* Store any relevant client information here. */
             if (event.data != 0) {

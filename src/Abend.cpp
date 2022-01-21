@@ -16,9 +16,6 @@ static char THIS_FILE[] = __FILE__;
 #define DSBVOLUME_MIN (-10000)
 #define DSBVOLUME_MAX 0
 
-// Zum debuggen:
-static const char FileId[] = "Abnd";
-
 extern SB_CColorFX ColorFX;
 
 SLONG bCAbendOpen = 0;

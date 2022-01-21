@@ -10,9 +10,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Synt";
-
 // Die letzten beiden Sprecher:
 static SBFX TalkerFx[2];
 static BUFFER<SLONG> TalkerFxVon[2];

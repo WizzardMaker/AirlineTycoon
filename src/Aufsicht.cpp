@@ -15,9 +15,6 @@ static char THIS_FILE[] = __FILE__;
 extern SB_CColorFX ColorFX;
 extern SLONG ZettelPos[14 * 3];
 
-// Zum debuggen:
-static const char FileId[] = "Aufs";
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Flugaufsicht Konstruktion, Initialisation, Destruction
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,8 +36,6 @@ CAufsicht::CAufsicht(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
     bExited = false;
 
     if (bIsMorning) {
-        PLAYER &qLocalPlayer = Sim.Players.Players[Sim.localPlayer];
-
         NetGenericSync(0x4211014);
         PLAYER::NetSynchronizeMeeting();
         NetGenericSync(0x4211015);
@@ -795,7 +790,7 @@ void CAufsicht::OnPaint() {
 
                 // if (Dir==1 || Dir==3) Dir = 4-Dir;
                 if (Dir < 4) {
-                    UBYTE(Dir = (Dir + 1) & 3);
+                    Dir = UBYTE((Dir + 1) & 3);
                 }
                 if (Dir == 8 && Phase < 4) {
                     Phase = UBYTE((Phase + 1) % 4);

@@ -15,10 +15,8 @@ class CCredits : public CStdRaum {
     SBBM Background;
     SBBM Left, Right;
     SBBM TextLines[25];
-    BOOL TimerFailure{};
     SLONG ScrollPos;
     SLONG LastTime;
-    TEXT_STYLE StyleCredits{};
 
     // Operations
   public:

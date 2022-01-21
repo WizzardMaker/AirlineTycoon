@@ -13,9 +13,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Wrld";
-
 extern SB_CColorFX ColorFX;
 
 //--------------------------------------------------------------------------------------------

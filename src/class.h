@@ -1013,8 +1013,8 @@ class /**/ KLACKER {
     SLONG NewScreen{};
     GfxLib *pGLib{};
     bool LineDisabled[16]{};
-    char Soll[24 * 16]{};  // So sollen die Plättchen zur Zeit sein
-    char Haben[24 * 16]{}; // So sind die Plättchen zur Zeit (Indices auf FontDef)
+    uint8_t Soll[24 * 16]{};  // So sollen die Plättchen zur Zeit sein
+    uint8_t Haben[24 * 16]{}; // So sind die Plättchen zur Zeit (Indices auf FontDef)
     SBFX KlackerFx[3];
 
   public:

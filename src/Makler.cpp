@@ -13,9 +13,6 @@ static char THIS_FILE[] = __FILE__;
 
 extern SB_CColorFX ColorFX;
 
-// Zum debuggen:
-static const char FileId[] = "Makl";
-
 extern SLONG timeMaklClose;
 
 //////////////////////////////////////////////////////////////////////////////////////////////

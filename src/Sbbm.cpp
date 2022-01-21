@@ -284,10 +284,6 @@ BOOL SBPRIMARYBM::BlitFrom(SBBM &TecBitmap, XY Target) {
 BOOL SBPRIMARYBM::BlitFromT(SBBM &TecBitmap, XY Target) {
     Bench.BlitTime.Start();
 
-    if (&TecBitmap == nullptr) {
-        return 0;
-    }
-
     if (TecBitmap.pBitmap != nullptr) {
         TecBitmap.pBitmap->BlitT(&PrimaryBm, Target.x, Target.y);
     }

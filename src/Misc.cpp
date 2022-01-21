@@ -15,8 +15,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static const char FileId[] = "Misc";
-
 CRect SprechblasenSizes[] = {CRect(15, 6, 266, 16), CRect(19, 8, 266, 31), CRect(32, 8, 308, 51),
                              CRect(30, 9, 498, 64), CRect(49, 8, 296, 31), CRect(62, 8, 338, 51)};
 

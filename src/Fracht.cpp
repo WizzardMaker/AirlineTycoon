@@ -12,9 +12,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Frac";
-
 // Default-Position der Kiste im Frachtraum:
 static const SLONG KistePos[6 * 2] = {
     103, 235, 286, 12, 268, 192, 30, -61, 26, 131, 181, 57,
@@ -679,7 +676,7 @@ too_large:
         Praemie = Praemie * 3 / 4;
     } else if (Type < 40 || Sim.Difficulty == DIFF_TUTORIAL) {
         Tons = 30;
-        Praemie = Praemie;
+        /* Praemie bleibt gleich */
     } else if (Type < 70) {
         Tons = 40;
         Praemie = Praemie * 5 / 4;
@@ -894,7 +891,6 @@ TEAKFILE &operator>>(TEAKFILE &File, CFrachten &Frachten) {
 //============================================================================================
 void PLAYER::CheckAuftragsBerater(const CFracht &Fracht) {
     if (HasBerater(BERATERTYP_AUFTRAG) != 0) {
-        SLONG Cost = ((CalculateFlightCost(Fracht.VonCity, Fracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
         SLONG d = 0;
         SLONG Okay = 0;
 
@@ -1032,7 +1028,7 @@ too_large:
         Praemie = Praemie * 3 / 4;
     } else if (Type < 40 || Sim.Difficulty == DIFF_TUTORIAL) {
         Tons = 30;
-        Praemie = Praemie;
+        /* Praemie bleibt gleich */
     } else if (Type < 70) {
         Tons = 40;
         Praemie = Praemie * 5 / 4;

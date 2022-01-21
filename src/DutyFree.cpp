@@ -16,9 +16,6 @@ static char THIS_FILE[] = __FILE__;
 
 extern SB_CColorFX ColorFX;
 
-// Zum debuggen:
-static const char FileId[] = "Duty";
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 // DutyFree Konstruktion, Initialisation, Destruction
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +132,7 @@ void CDutyFree::OnPaint() {
             UBYTE Dir = qPerson.LookDir;
 
             if (Dir < 4) {
-                UBYTE(Dir = (Dir + 2) & 3);
+                Dir = UBYTE((Dir + 2) & 3);
             }
 
             XY p = qPerson.ScreenPos - AirportRoomPos;

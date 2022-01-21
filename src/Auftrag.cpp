@@ -4,8 +4,6 @@
 #include "StdAfx.h"
 #include "AtNet.h"
 
-static const char FileId[] = "Auft";
-
 // Daten des aktuellen Savegames beim laden:
 extern SLONG SaveVersion;
 extern SLONG SaveVersionSub;
@@ -69,7 +67,6 @@ void CalcPlayerMaximums(bool bForce) {
 //============================================================================================
 void PLAYER::CheckAuftragsBerater(const CAuftrag &Auftrag) {
     if (HasBerater(BERATERTYP_AUFTRAG) != 0) {
-        SLONG Cost = ((CalculateFlightCost(Auftrag.VonCity, Auftrag.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
         SLONG d = 0;
         SLONG Okay = 0;
 
@@ -329,7 +326,7 @@ too_large:
         Praemie = Praemie * 3 / 4;
     } else if (Type < 40 || Sim.Difficulty == DIFF_TUTORIAL) {
         Personen = 180;
-        Praemie = Praemie;
+        /* Praemie bleibt gleich */
     } else if (Type < 70) {
         Personen = 280;
         Praemie = Praemie * 5 / 4;
@@ -415,7 +412,7 @@ too_large:
         Praemie = Praemie * 3 / 4;
     } else if (Type < 40 || Sim.Difficulty == DIFF_TUTORIAL) {
         Personen = 180;
-        Praemie = Praemie;
+        /* Praemie bleibt gleich */
     } else if (Type < 70) {
         Personen = 280;
         Praemie = Praemie * 5 / 4;
@@ -577,7 +574,7 @@ too_large:
         Praemie = Praemie * 3 / 4;
     } else if (Type < 40 || Sim.Difficulty == DIFF_TUTORIAL) {
         Personen = 180;
-        Praemie = Praemie;
+        /* Praemie bleibt gleich */
     } else if (Type < 70) {
         Personen = 280;
         Praemie = Praemie * 5 / 4;
@@ -684,7 +681,7 @@ too_large:
         Praemie = Praemie * 3 / 4;
     } else if (Type < 40 || Sim.Difficulty == DIFF_TUTORIAL) {
         Personen = 180;
-        Praemie = Praemie;
+        /* Praemie bleibt gleich */
     } else if (Type < 70) {
         Personen = 280;
         Praemie = Praemie * 5 / 4;

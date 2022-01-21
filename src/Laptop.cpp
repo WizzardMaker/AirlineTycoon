@@ -21,8 +21,6 @@ extern SLONG IconsPos[];
 
 static XY GlobeOffset[] = {XY(141, 16), XY(177, 29)};
 
-static const char FileId[] = "Lapt";
-
 extern double a;
 
 class CWaitCursorNow {

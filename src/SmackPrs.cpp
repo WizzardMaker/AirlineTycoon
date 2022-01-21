@@ -5,9 +5,6 @@
 #include <cmath>
 #include <smacker.h>
 
-// Zum debuggen:
-static const char FileId[] = "Smak";
-
 //--------------------------------------------------------------------------------------------
 // Berechnet eine Remapper-Tabelle anhand einer 256-Farben Palette
 //--------------------------------------------------------------------------------------------

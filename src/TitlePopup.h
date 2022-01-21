@@ -11,7 +11,6 @@ class TitlePopup : public CStdRaum {
 
     // Attributes
   private:
-    GfxLib *pRoomLib{}; // Library für den Raum;
     SBBM TitleBitmap;
     SBBM HeadlineBm;
     BUFFER<SBBMS> LineBms;

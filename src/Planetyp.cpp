@@ -3,8 +3,6 @@
 //============================================================================================
 #include "StdAfx.h"
 
-static const char FileId[] = "PlnT";
-
 // Preise verstehen sich pro Sitzplatz:
 extern SLONG SeatCosts[];
 extern SLONG FoodCosts[];

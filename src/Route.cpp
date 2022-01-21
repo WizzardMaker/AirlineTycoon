@@ -3,8 +3,6 @@
 //============================================================================================
 #include "StdAfx.h"
 
-static const char FileId[] = "Rout";
-
 SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 // Daten des aktuellen Savegames beim laden:

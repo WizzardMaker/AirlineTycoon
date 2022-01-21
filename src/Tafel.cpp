@@ -14,9 +14,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Tafl";
-
 SLONG ZettelPos[14 * 3] = {
     41,  15,  245, 278, 180, 32,  375, 281, 322, 12,  000, 000, 000, 000, // Route
     318, 138, 470, 61,  18,  156, 155, 170, 000, 000, 000, 000, 000, 000, // City
@@ -366,7 +363,6 @@ void CTafelData::Randomize(SLONG Day) {
     SLONG e = 0;
     SLONG f = 0;
     SLONG Anz = 0;
-    SLONG Id = 0;
     SLONG ObjId = 0;
     SLONG PlayerIndex = 0;
     SLONG PlayerUsed = 0;
@@ -374,7 +370,6 @@ void CTafelData::Randomize(SLONG Day) {
     ULONG CityIds[7];
 
     SLONG NumCities = 0;
-    SLONG NumRoutes = 0;
     SLONG NumGates = 0;
 
     for (c = 0; c < 7; c++) {

@@ -12,9 +12,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Pers";
-
 SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 //--------------------------------------------------------------------------------------------

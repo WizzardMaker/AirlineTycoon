@@ -9,8 +9,6 @@
 extern SLONG RocketPrices[];
 extern SLONG StationPrices[];
 
-static const char FileId[] = "Play";
-
 // Preise verstehen sich pro Sitzplatz:
 extern SLONG SeatCosts[];
 extern SLONG FoodCosts[];
@@ -1481,7 +1479,10 @@ void PLAYER::NewDay() {
 // Nimmt dem Spieler eine Route weg (wg. Sabotage oder geringer Auslastung
 //--------------------------------------------------------------------------------------------
 void PLAYER::RouteWegnehmen(long Routenindex, long NeuerBesitzer) {
-    if (NeuerBesitzer == -1 || Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang != -1) {
+    // MP: Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang != -1
+    // geändert zu
+    // Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang != 0
+    if (NeuerBesitzer == -1 || Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang != 0) {
         for (SLONG e = 0; e < 4; e++) {
             if ((Sim.Players.Players[e].IsOut == 0) &&
                 Sim.Players.Players[e].RentRouten.RentRouten[Routenindex].Rang > RentRouten.RentRouten[Routenindex].Rang) {
@@ -3437,7 +3438,6 @@ void PLAYER::RobotPlanRoutes() {
     for (c = 0; c < SLONG(Routen.AnzEntries()); c++) {
         if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U)) {
             CRoute &qRoute = Routen[c];
-            SLONG OldPrice = RentRouten.RentRouten[c].Ticketpreis;
 
             // Welche Konkurrenten haben die Route auch?
             for (d = e = 0; d < 4; d++) {
@@ -3488,7 +3488,7 @@ void PLAYER::RobotPlanRoutes() {
                 }
 
                 // Machen wir auf der Route Verlust?
-                if ((RentRouten.RentRouten[c].Ticketpreis < RentRouten.RentRouten[c].Ticketpreis, Cost / 10 * 10) != 0) {
+                if (RentRouten.RentRouten[c].Ticketpreis < max(RentRouten.RentRouten[c].Ticketpreis, Cost / 10 * 10)) {
                     RentRouten.RentRouten[c].TageMitVerlust++;
                 } else {
                     RentRouten.RentRouten[c].TageMitVerlust--;
@@ -7442,7 +7442,6 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYERS &Players) {
 // Lädt ein PLAYERS-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, PLAYERS &Players) {
-    auto test = File.GetPosition();
     File >> Players.AnzPlayers >> Players.Players;
 
     return (File);

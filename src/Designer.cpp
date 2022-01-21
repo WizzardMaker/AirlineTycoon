@@ -15,9 +15,6 @@ static char THIS_FILE[] = __FILE__;
 #define DSBVOLUME_MIN (-10000)
 #define DSBVOLUME_MAX 0
 
-// Zum debuggen:
-static const char FileId[] = "Secu";
-
 #if __cplusplus < 201703L // If the version of C++ is less than 17
 #include <experimental/filesystem>
 // It was still in the experimental:: namespace

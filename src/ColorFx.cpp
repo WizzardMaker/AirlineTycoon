@@ -297,7 +297,6 @@ void SB_CColorFX::ApplyOn2(SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2, 
     UWORD *pp = nullptr;
     UWORD *Table = BlendTables + (Step << 9);
     UWORD *Table2 = BlendTables + (Step2 << 9);
-    static ULONG ESP;
     static SLONG sizex;
     BUFFER<UWORD> PixelBuffer(640);
 
@@ -399,7 +398,6 @@ void SB_CColorFX::ApplyOn2(SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, S
     UWORD *ppp = nullptr;
     UWORD *Table = BlendTables + (Step << 9);
     UWORD *Table2 = BlendTables + (Step2 << 9);
-    static ULONG ESP;
     static SLONG sizex;
 
     if (SrcBitmap == nullptr || SrcBitmap2 == nullptr || TgtBitmap == nullptr) {
@@ -496,7 +494,6 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
     static UWORD *Table1 = BlendTables + (2 << 9);
     static UWORD *Table2 = BlendTables + (6 << 9);
     static SLONG sizex;
-    static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
 
     IsPaintingTextBubble = TRUE;
@@ -977,7 +974,6 @@ void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
     static SLONG sizex;
-    static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
 
     XY t = TargetPos;
@@ -1027,9 +1023,9 @@ void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
             memcpy(PixelBuffer, p, sizex * 2);
             p = PixelBuffer;
 
+#ifdef ENABLE_ASM
             UWORD *Table = BlendTables;
 
-#ifdef ENABLE_ASM
             __asm {
                 push  ebp
                     push  esi
@@ -1108,7 +1104,6 @@ void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap,
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
     static SLONG sizex;
-    static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
 
     XY t = TargetPos;
@@ -1171,8 +1166,6 @@ void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap,
             memcpy(PixelBuffer, p, sizex * 2);
             p = PixelBuffer;
 
-            UWORD *Table = BlendTables;
-
             for (cx = sizex; cx > 0; cx--) {
                 UWORD *Table1 = BlendTables + (pMap1[*pp] << 9);
                 UWORD *Table2 = BlendTables + (pMap2[*pp] << 9);
@@ -1221,8 +1214,6 @@ void RemapColor(SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontCol
     if (Key.Bitmap == nullptr) {
         return;
     }
-
-    SLONG Width = Key.lPitch / 2;
 
     if (sizex > 0) {
         for (cy = 0; cy < sizey; cy++) {

@@ -11,8 +11,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static const char FileId[] = "Muse";
-
 static XY PlanePositions[3] = {XY(140, 281), XY(206, 293), XY(291, 276)};
 
 //////////////////////////////////////////////////////////////////////////////////////////////

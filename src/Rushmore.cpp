@@ -11,9 +11,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Sabo";
-
 static SLONG LogoBmsYPositions[] = {261, 302, 346, 388};
 
 //--------------------------------------------------------------------------------------------

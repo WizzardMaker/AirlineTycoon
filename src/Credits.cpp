@@ -10,8 +10,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-const char TOKEN_NEWGAME[] = "Cred";
-
 // Anzahl aus dem Ressource-Dateien:
 SLONG MaxCredits;
 

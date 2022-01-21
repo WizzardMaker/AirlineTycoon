@@ -14,9 +14,6 @@ static char THIS_FILE[] = __FILE__;
 
 extern SB_CColorFX ColorFX;
 
-// Zum debuggen:
-static const char FileId[] = "Buro";
-
 static XY PlOffset[4] = {XY(40, 150), XY(40, 150), XY(40, 150), XY(40, 150)};
 
 static CRect MantelPos[4] = {CRect(396, 42, 533, 173), CRect(454, 102, 524, 266), CRect(454, 102, 524, 266), CRect(454, 102, 524, 266)};

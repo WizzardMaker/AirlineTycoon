@@ -579,8 +579,6 @@ void GameFrame::PrepareFade() {
 
     // Erklärung, bei der Kopie dieses Code-Fragments...
     if (bLeaveGameLoop == 0) {
-        SLONG c = 0;
-
         SB_CBitmapKey SrcKey(PrimaryBm.PrimaryBm);
         SB_CBitmapKey TgtKey(*gBlendBm.pBitmap);
 
@@ -817,8 +815,6 @@ void GameFrame::OnPaint() {
             // per memcpy, dann geht alles wunderbar. Der Bug trat übrigens nur im Fenster-
             // Modus auf. Vielleicht, weil da weniger RAM frei ist.
             {
-                SLONG c = 0;
-
                 SB_CBitmapKey SrcKey(PrimaryBm.PrimaryBm);
                 SB_CBitmapKey TgtKey(*gBlendBm.pBitmap);
 
@@ -1983,11 +1979,6 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         }
 
         if (nChar == VK_F5) {
-            PLAYER &qPlayer0 = Sim.Players.Players[0];
-            PLAYER &qPlayer1 = Sim.Players.Players[1];
-            PLAYER &qPlayer2 = Sim.Players.Players[2];
-            PLAYER &qPlayer3 = Sim.Players.Players[3];
-
             long x = 0;
             x++;
 
@@ -2117,14 +2108,14 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
               else
               Sim.Players.Players[0].Sympathie[1]=-250;
 
-            /*Sim.Players.Players[(SLONG)2].DoRoutes   = 1;
+            Sim.Players.Players[(SLONG)2].DoRoutes   = 1;
             Sim.Players.Players[(SLONG)3].DoRoutes   = 1;
             Sim.Players.Players[(SLONG)2].Image      = 150;
             Sim.Players.Players[(SLONG)3].Image      = 150;
 
             qPlayer.ArabTrust = 5;
 
-            /*Sim.Players.Players[(SLONG)2].ArabMode2  = 2;
+            Sim.Players.Players[(SLONG)2].ArabMode2  = 2;
             Sim.Players.Players[(SLONG)2].ArabOpfer2 = 0;
 
             Sim.Players.Players[(SLONG)2].ArabHints = 110;

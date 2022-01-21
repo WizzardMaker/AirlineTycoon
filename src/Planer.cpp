@@ -14,9 +14,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Plan";
-
 double a = 2.65;
 static XY GlobeOffset[] = {XY(141, 16), XY(177, 29)};
 
@@ -41,7 +38,9 @@ void PaintGlobe(const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const X
 
     static SLONG a;
     a = (EarthAlpha >> 7);
+#ifdef ENABLE_ASM
     static ULONG _esp;
+#endif
 
     for (cy = 0; cy < GlobeMapper.AnzEntries() - 1; cy++) {
         // oben:
@@ -1005,7 +1004,6 @@ void CPlaner::DoPollingStuff() {
     if ((pBlock != nullptr) && pBlock->IndexB == 1 && pBlock->BlockType == 2 && (IsInClientAreaB != 0) && CurrentPostItType == 0) // s.o.
     {
         if (ClientPosB.IfIsWithin(16, 0, 172 - 5, 155) && ClientPosB.y / 26 + pBlock->PageB < pBlock->TableB.AnzRows && (qPlayer.Buttons & 1) == 0) {
-            SLONG TipType = 0;
             SLONG TableCursor = pBlock->PageB + ClientPosB.y / 26;
             CString Dummy;
 
@@ -1509,11 +1507,8 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
         // Wiederholfunktion für Kerosinpreis erhöhen / verringern
         if ((gMouseLButton != 0) && (IsInClientAreaB != 0) && pBlock->BlockType == 2 && pBlock->IndexB == 0 && pBlock->BlockTypeB == 4 && pBlock->PageB == 0) {
             if (ClientPosB.IfIsWithin(2, 40, 169, 118) && timeGetTime() - gMouseLButtonDownTimer > 800) {
-                CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(pBlock->SelectedIdB)];
                 CRentRoute *pRRoute = nullptr;
                 SLONG SelectedIdB2 = 0;
-                SLONG Cost =
-                    CalculateFlightCostRechnerisch(Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1) * 3 / 180 * 2;
 
                 for (SLONG c = qPlayer.RentRouten.RentRouten.AnzEntries() - 1; c >= 0; c--) {
                     if (Routen.IsInAlbum(c) != 0) {
@@ -1525,7 +1520,9 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
                     }
                 }
 
-                /*switch ((ClientPosB.y-40)/13)
+                /*SLONG Cost = CalculateFlightCostRechnerisch(Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1) * 3 / 180 * 2;
+                CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(pBlock->SelectedIdB)];
+                switch ((ClientPosB.y-40)/13)
                   {
                   case 0:
                   qRRoute.Ticketpreis+=10;

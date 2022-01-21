@@ -9,7 +9,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static ULONG LastMidiPosition = 0;
+//static ULONG LastMidiPosition = 0;
 static CString LastMidiFilename;
 static int AudioMode = 0;
 
@@ -21,8 +21,8 @@ class CDebugEntryExit {
     CString Text;
 
   public:
-    explicit CDebugEntryExit(CString Text) {
-        Text = Text;
+    explicit CDebugEntryExit(CString t) {
+        Text = t;
         hprintf("Entry: %s", (LPCTSTR)Text);
     }
     ~CDebugEntryExit() { hprintf("Exit:  %s", (LPCTSTR)Text); }

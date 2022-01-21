@@ -201,7 +201,6 @@ void PumpBroadcastBitmap(bool bJustForEmergency) {
 //--------------------------------------------------------------------------------------------
 void PumpNetwork() {
     SLONG c = 0;
-    SLONG d = 0;
     SLONG e = 0; // Universell, können von jedem case verwendet werden.
 
     if (Sim.bNetwork == 0) {
@@ -225,7 +224,6 @@ void PumpNetwork() {
             ULONG MessageType = 0;
             ULONG Par1 = 0;
             ULONG Par2 = 0;
-            ULONG Par3 = 0;
 
             Message >> MessageType;
 
@@ -386,8 +384,6 @@ void PumpNetwork() {
                 PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
                 PERSON &qPerson = Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)];
 
-                XY OldPosition = qPerson.Position;
-
                 // Read the message data:
                 Message >> qPlayer.PrimaryTarget.x >> qPlayer.PrimaryTarget.y;
                 Message >> qPlayer.SecondaryTarget.x >> qPlayer.SecondaryTarget.y;
@@ -404,7 +400,9 @@ void PumpNetwork() {
 
                 qPlayer.UpdateWaypointWalkingDirection();
 
-                /* (Sim.Players.Players[PlayerNum].Owner==1 && PlayerNum==2)
+                /* XY OldPosition = qPerson.Position;
+
+                (Sim.Players.Players[PlayerNum].Owner==1 && PlayerNum==2)
                    {
                    hprintf ("Received Message ATNET_PLAYERPOS (%li) (%li,%li)->(%li,%li) [%li]", PlayerNum, qPerson.Position.x, qPerson.Position.y,
                    qPerson.Target.x, qPerson.Target.y, SLONG(qPlayer.NewDir));
@@ -923,8 +921,6 @@ void PumpNetwork() {
                 SLONG PlayerNum = 0;
 
                 Message >> PlayerNum >> Type >> Index >> City;
-
-                PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
                 switch (Type) {
                 case 1:

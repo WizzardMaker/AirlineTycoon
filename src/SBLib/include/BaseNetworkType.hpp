@@ -69,8 +69,8 @@ enum SBEventEnum {
 };
 
 enum class SBCreationFlags {
-    SBNETWORK_CREATE_NONE = 2 ^ 0,
-    SBNETWORK_CREATE_TRY_NAT = 2 ^ 1,
+    SBNETWORK_CREATE_NONE = (1 << 0),
+    SBNETWORK_CREATE_TRY_NAT = (1 << 1),
 };
 
 struct SBNetworkCreation {

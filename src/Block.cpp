@@ -9,9 +9,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Blck";
-
 extern SB_CColorFX ColorFX;
 
 // Daten des aktuellen Savegames beim laden:

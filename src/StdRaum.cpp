@@ -41,11 +41,9 @@ extern SLONG BeraterSlideY[];
 extern BOOL IgnoreNextLButtonUp;
 extern SBNetwork gNetwork;
 
-static const char FileId[] = "StdR";
-
 extern SB_CColorFX ColorFX;
 
-static SLONG NumPlayerWins = 0;
+//static SLONG NumPlayerWins = 0;
 
 static XY BigPlayerOffset[4] = {XY(210, 235), XY(220, 240), XY(220, 240), XY(220, 240)};
 
@@ -234,27 +232,25 @@ void SetRoomVisited(SLONG PlayerNum, UBYTE RoomId) {
         Sim.Players.Players[PlayerNum].WasInRoom[ROOM_PERSONAL_A] = TRUE;
     }
 
-    if (RoomId >= 0 && RoomId < 256) {
-        if (RoomId == ROOM_PERSONAL_A || RoomId == ROOM_PERSONAL_B || RoomId == ROOM_PERSONAL_C || RoomId == ROOM_PERSONAL_D) {
-            RoomId = ROOM_PERSONAL_A;
-        }
+    if (RoomId == ROOM_PERSONAL_A || RoomId == ROOM_PERSONAL_B || RoomId == ROOM_PERSONAL_C || RoomId == ROOM_PERSONAL_D) {
+        RoomId = ROOM_PERSONAL_A;
+    }
 
-        if (RoomId == ROOM_BURO_A || RoomId == ROOM_BURO_B || RoomId == ROOM_BURO_C || RoomId == ROOM_BURO_D) {
-            RoomId = ROOM_BURO_A;
-        }
+    if (RoomId == ROOM_BURO_A || RoomId == ROOM_BURO_B || RoomId == ROOM_BURO_C || RoomId == ROOM_BURO_D) {
+        RoomId = ROOM_BURO_A;
+    }
 
-        if (WasAlreadyHere == 0) {
-            if ((Sim.Players.Players[PlayerNum].WasInRoom[static_cast<SLONG>(RoomId)] == 0) && (Sim.Difficulty != DIFF_TUTORIAL || Sim.Tutorial == 9999)) {
-                if (RoomId == ROOM_WERBUNG && Sim.Difficulty < DIFF_NORMAL && Sim.Difficulty != DIFF_FREEGAME) {
-                    Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_TUTORIUM, 20000 + RoomId));
-                } else if (RoomId != ROOM_AIRPORT && RoomId != ROOM_LAPTOP && RoomId != ROOM_ABEND && RoomId != ROOM_WORLD && RoomId != 254) {
-                    Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_TUTORIUM, 10000 + RoomId));
-                }
+    if (WasAlreadyHere == 0) {
+        if ((Sim.Players.Players[PlayerNum].WasInRoom[static_cast<SLONG>(RoomId)] == 0) && (Sim.Difficulty != DIFF_TUTORIAL || Sim.Tutorial == 9999)) {
+            if (RoomId == ROOM_WERBUNG && Sim.Difficulty < DIFF_NORMAL && Sim.Difficulty != DIFF_FREEGAME) {
+                Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_TUTORIUM, 20000 + RoomId));
+            } else if (RoomId != ROOM_AIRPORT && RoomId != ROOM_LAPTOP && RoomId != ROOM_ABEND && RoomId != ROOM_WORLD && RoomId != 254) {
+                Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_TUTORIUM, 10000 + RoomId));
             }
         }
-
-        Sim.Players.Players[PlayerNum].WasInRoom[static_cast<SLONG>(RoomId)] = TRUE;
     }
+
+    Sim.Players.Players[PlayerNum].WasInRoom[static_cast<SLONG>(RoomId)] = TRUE;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -269,11 +265,7 @@ BOOL WasRoomVisited(SLONG PlayerNum, UBYTE RoomId) {
         return (Sim.Players.Players[PlayerNum].WasInRoom[ROOM_PERSONAL_A]);
     }
 
-    if (RoomId >= 0 && RoomId < 256) {
-        return (Sim.Players.Players[PlayerNum].WasInRoom[static_cast<SLONG>(RoomId)]);
-    }
-
-    return (FALSE);
+    return (Sim.Players.Players[PlayerNum].WasInRoom[static_cast<SLONG>(RoomId)]);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2574,9 +2566,6 @@ void CStdRaum::PostPaint() {
     if (bLeaveGameLoop != 0) {
         return;
     }
-    if (this == nullptr) {
-        return;
-    }
     if (PlayerNum < 0 || PlayerNum > 3) {
         return;
     }
@@ -2586,8 +2575,6 @@ void CStdRaum::PostPaint() {
     XY p;
     SLONG c = 0;
     SLONG Rand = 0;
-
-    XY CursorPos = qPlayer.CursorPos;
 
     if ((IsDialogOpen() != 0) && (qPlayer.DialogWin != nullptr) && (PayingForCall != 0)) {
         if (SLONG((Sim.Time - LetzteEinheit) / 50) > (2 - UsingHandy) * 10 + (3 - Ferngespraech) * 60) {
@@ -2712,9 +2699,6 @@ void CStdRaum::PostPaint() {
         return;
     }
     if (bLeaveGameLoop != 0) {
-        return;
-    }
-    if (this == nullptr) {
         return;
     }
     if (PlayerNum < 0 || PlayerNum > 3) {
@@ -2922,10 +2906,6 @@ void CStdRaum::PostPaint() {
                 if (ZoomCounter < 100 && MinimumZoom == 1.0) {
                     ZoomCounter = 100;
                 }
-
-                CStdRaum::MenuStartPos = MenuStartPos;
-                CStdRaum::MinimumZoom = MinimumZoom;
-                CStdRaum::ZoomCounter = ZoomCounter;
 
                 if (OnscreenBitmap.Size.y == 480) {
                     PrimaryBm.BlitFrom(OnscreenBitmap, 0, 0);
@@ -5133,8 +5113,6 @@ void CStdRaum::MenuRepaint() {
         break;
 
     case MENU_ENTERPROTECT: {
-        PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-
         OnscreenBitmap.BlitFrom(MenuBms[0]);
         OnscreenBitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_MISC, 3090), (MenuInfo / 10000) % 100, (MenuInfo / 100) % 100, MenuInfo % 100), FontBigGrey,
                                TEC_FONT_LEFT, 10, 10, 280, 190);
@@ -6932,8 +6910,6 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 (Sim.Players.Players[qPlayer.ArabOpfer].Planes.IsInAlbum(MenuDataTable.LineIndex[n]) != 0)) {
                 MenuPar1 = MenuDataTable.LineIndex[n];
 
-                long MenuDialogReEntryB = MenuDialogReEntryB;
-
                 MenuStop();
 
                 qPlayer.ArabPlane = MenuPar1;
@@ -6970,8 +6946,6 @@ void CStdRaum::MenuLeftClick(XY Pos) {
             if (n >= 0 && n - MenuPage < 13 && n < MenuDataTable.AnzRows &&
                 Sim.Players.Players[qPlayer.ArabOpfer].RentRouten.RentRouten[Routen(MenuDataTable.LineIndex[n])].Rang != 0) {
                 MenuPar1 = MenuDataTable.LineIndex[n];
-
-                long MenuDialogReEntryB = MenuDialogReEntryB;
 
                 MenuStop();
 
@@ -8413,7 +8387,6 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
 
                 if (CurrentMenu == MENU_CHAT) {
                     TEAKFILE Message;
-                    SLONG c = Sim.localPlayer;
 
                     MenuBms[1].ShiftUp(10);
                     MenuBms[1].PrintAt(Optionen[0], FontSmallBlack, TEC_FONT_LEFT, 6, 119, 279, 147);
@@ -8427,9 +8400,6 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
                 } else if (CurrentMenu == MENU_BROADCAST) {
                     for (SLONG c = 0; c < 4; c++) {
                         if (((MenuPar1 & (1 << c)) != 0) && Sim.Players.Players[c].Owner == 2 && (strlen(Optionen[0]) != 0U)) {
-                            TEAKFILE Message;
-                            SLONG d = Sim.localPlayer;
-
                             SIM::SendChatBroadcast(Optionen[0], true, Sim.Players.Players[c].NetworkID);
                         }
                     }

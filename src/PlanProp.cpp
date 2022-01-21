@@ -13,9 +13,6 @@ static char THIS_FILE[] = __FILE__;
 
 extern SB_CColorFX ColorFX;
 
-// Zum debuggen:
-static const char FileId[] = "Prop";
-
 // Top-Left
 static XY SeatOffsets[] = {XY(95, 130), XY(94, 124), XY(75, 104)};
 

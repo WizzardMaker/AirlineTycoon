@@ -628,7 +628,7 @@ void CLANS::UpdateClansInGame(BOOL FirstDay) {
     again:
         r = PersonRandCreate.Rand(anz);
 
-        for (SLONG anz = c = 0; c < AnzEntries(); c++) {
+        for (SLONG c = 0; c < AnzEntries(); c++) {
             if ((IsInAlbum(c) != 0) && (*this)[c].Type <= 11 && (*this)[c].Group <= 0 && (*this)[c].HasSuitcase >= 0) {
                 if ((r--) == 0) {
                     if ((*this)[c].Wkeit == 1 && PersonRandCreate.Rand(20) != 0) {
@@ -700,7 +700,7 @@ void CLANS::UpdateClansInGame(BOOL FirstDay) {
     }
 
     // Clear the "flipped today" flag:
-    for (anz = c = 0; c < AnzEntries(); c++) {
+    for (c = 0; c < AnzEntries(); c++) {
         if (IsInAlbum(c) != 0) {
             (*this)[c].TodayInGame &= 127;
         }
@@ -927,8 +927,6 @@ void PERSON::DoOneCustomerStep() {
     XY ArrayPos;
     XY NewArrayPos;
     XY NewPos;
-
-    UBYTE LastPhase = Phase;
 
     // Serge's Alte Sau (TM) steht nicht früh auf.
     if (qClan.Group == 70 && Sim.GetHour() < 10) {
@@ -1170,10 +1168,6 @@ void PERSON::DoOneCustomerStep() {
         }
         // Oder gibt es gar keinen Ausgang? Dann sind wir in einer Sackgasse und drehen um!
         else if (AnzPossibleDirs == 0) {
-            if (ArrayPos.y < 0 && ArrayPos.y > 9) {
-                TeakLibW_Exception(FNL, ExcNever);
-            }
-
             SLONG death = 0;
 
             NewPos = Position;
@@ -1189,10 +1183,6 @@ void PERSON::DoOneCustomerStep() {
         // Tja, wer die Wahl hat hat die Qual:
         else {
         DirtyWaypoingShortcut:
-            if (ArrayPos.y < 0 && ArrayPos.y > 9) {
-                TeakLibW_Exception(FNL, ExcNever);
-            }
-
             switch (State & (~PERSON_WAITFLAG) & (~PERSON_BROWSEFLAG)) {
             // Frisch aus der Nervenheilanstalt läuft dieser Typ nur herum wie doof:
             case PERSON_BROWSING:

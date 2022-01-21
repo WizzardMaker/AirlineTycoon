@@ -700,7 +700,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     } else {
                         TEAKRAND rnd;
                         SLONG Anzahl = "\x1\x2\x3\x5\xa"[id - 6011];
-                        SLONG Type = MenuPar1 - 0x10000000;
 
                         rnd.SRand(Sim.Date);
 
@@ -710,6 +709,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         }
 
                         qPlayer.NetBuyXPlane(Anzahl, plane);
+                        //SLONG Type = MenuPar1 - 0x10000000;
                         // Sim.SendSimpleMessage (ATNET_BUY_NEW, NULL, PlayerNum, Anzahl, Type);
 
                         qPlayer.DoBodyguardRabatt(plane.CalcCost() * Anzahl);

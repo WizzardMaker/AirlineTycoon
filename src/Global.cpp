@@ -473,11 +473,6 @@ const SLONG TARGET_IMAGE = 750;       // Spielziel Level 3
 //--------------------------------------------------------------------------------------------
 // Die Spielziele im Add-On:
 //--------------------------------------------------------------------------------------------
-const SLONG TARGET_FRACHT1 = 2500;
-const SLONG TARGET_FRACHT2 = 2500;
-const SLONG TARGET_FLUGKILOMETER = 2500;
-const SLONG TARGET_DAYSTRAVEL = 25; // Tage ohne Reisebüro
-const SLONG TARGET_AKTIENKURS = 200;
 const SLONG TARGET_FRACHT = 1000;
 const SLONG TARGET_DAYS = 21;
 const SLONG TARGET_MILESDAYS = 30;

@@ -12,9 +12,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-// Zum debuggen:
-static const char FileId[] = "Werk";
-
 static XY SlimePositions[] = {XY(93, 441), XY(111, 418), XY(137, 430), XY(54, 427), XY(14, 427)};
 
 //--------------------------------------------------------------------------------------------

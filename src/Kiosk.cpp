@@ -34,15 +34,13 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static const char FileId[] = "Kios";
-
 static XY HeadlineStart[3] = {XY(8, 55), XY(3, 34), XY(14, 68 - 24)};
 static XY HeadlineMax[3] = {XY(165, 242), XY(194, 290), XY(170, 240)};
 
 /*SLONG SinTab[256]; */
 /*SBBM  HausBm, ShadowBm;
   TECBM HausZBm;
-  SLONG Alpha=60, Beta=1*256; /**/
+  SLONG Alpha=60, Beta=1*256; */
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Kiosk Konstruktion, Initialisation, Destruction
@@ -100,7 +98,7 @@ CKiosk::CKiosk(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "kios
 
     /*HausBm.ReSize (pRoomLib, "HAUS");
       ShadowBm.ReSize (pRoomLib, "SHADOW");
-      HausZBm.ReSize ("haus.lbm");/**/
+      HausZBm.ReSize ("haus.lbm");*/
 
     /*WaterStaticBm.ReSize (pRoomLib, "WATER");
       WaterMovingBm.ReSize (WaterStaticBm.Size);
@@ -292,7 +290,6 @@ void CKiosk::RepaintTip() {
 // void CKiosk::OnPaint()
 //--------------------------------------------------------------------------------------------
 void CKiosk::OnPaint() {
-    SLONG NewTip = -1;
     SLONG c = 0;
 
     // Die Standard Paint-Sachen kann der Basisraum erledigen
@@ -426,7 +423,7 @@ void CKiosk::OnPaint() {
       }
       }
 
-      RoomBm.BlitFromT (ShadowBm, Mouse.x-6, Mouse.y-ShadowBm.Size.y+24);/**/
+      RoomBm.BlitFromT (ShadowBm, Mouse.x-6, Mouse.y-ShadowBm.Size.y+24);*/
 
     CStdRaum::PostPaint();
     CStdRaum::PumpToolTips();

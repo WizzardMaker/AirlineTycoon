@@ -11,8 +11,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static const char FileId[] = "City";
-
 SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 //--------------------------------------------------------------------------------------------
@@ -156,7 +154,7 @@ SLONG CITIES::CalcDistance(long CityId1, long CityId2) {
     Alpha = static_cast<float>(acos((Vector1.x * Vector2.x + Vector1.y * Vector2.y + Vector1.z * Vector2.z) / Vector1.abs() / Vector2.abs()) * 180.0 / 3.14159);
 
     // Berechnung der Länge des Kreissegments: (40040174 = Äquatorumfang)
-    HashTable[SLONG(CityId1 + CityId2 * AnzEntries())] = SLONG(fabs(Alpha) * 40040174 / 360.0);
+    HashTable[SLONG(CityId1 + CityId2 * AnzEntries())] = SLONG(fabs(Alpha) * 40040174.0 / 360.0);
 
     SLONG rc = HashTable[SLONG(CityId1 + CityId2 * AnzEntries())];
 
@@ -257,24 +255,16 @@ ULONG CITIES::GetIdFromName(const char *Name) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Für jedes Argument aus einer ... Parameterreihe
-//  SMPL: foreacharg (long, Value1, 0)
-//--------------------------------------------------------------------------------------------
-#define foreacharg(marker, type, firstargname, finalvalue)                                                                                                     \
-    for (long arghelper1 = 0, arghelper2 = 0, arghelper3 = 0; arghelper1 == 0; arghelper1 = 1)                                                                 \
-        for (type q##type = firstargname; arghelper2 == 0; arghelper2 = 1)                                                                                     \
-            for (va_start(marker, firstargname); q##type != (finalvalue); q##type = va_arg(va_marker, type))
-
-//--------------------------------------------------------------------------------------------
 // Gibt die Nummer der Stadt mit dem angegebnen Namen zurück:
 //--------------------------------------------------------------------------------------------
 ULONG CITIES::GetIdFromNames(const char *Name, ...) {
     SLONG c = 0;
 
     va_list va_marker;
-    foreacharg(va_marker, LPCSTR, Name, NULL) {
+    LPCSTR tmp = Name;
+    for (va_start(va_marker, Name); tmp != (NULL); tmp = va_arg(va_marker, LPCSTR)) {
         for (c = 0; c < AnzEntries(); c++) {
-            if ((IsInAlbum(c) != 0) && stricmp(qLPCSTR, (LPCTSTR)Cities[c].Name) == 0) {
+            if ((IsInAlbum(c) != 0) && stricmp(tmp, (LPCTSTR)Cities[c].Name) == 0) {
                 return (GetIdFromIndex(c));
             }
         }

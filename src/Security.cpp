@@ -15,9 +15,6 @@ static char THIS_FILE[] = __FILE__;
 #define DSBVOLUME_MIN (-10000)
 #define DSBVOLUME_MAX 0
 
-// Zum debuggen:
-static const char FileId[] = "Secu";
-
 //--------------------------------------------------------------------------------------------
 // Die Schalter wird eröffnet:
 //--------------------------------------------------------------------------------------------
