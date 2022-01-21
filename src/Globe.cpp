@@ -75,7 +75,6 @@ CGlobe::CGlobe(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
     CurrentDragId = -1;
     pBlock = nullptr;
     // CurrentIcon       = -1;
-    LastTime = 0xffffffff;
     EarthTargetAlpha = EarthAlpha;
     IsInClientArea = FALSE;
     IsInClientAreaB = FALSE;
@@ -286,8 +285,6 @@ CGlobe::~CGlobe() {
 //--------------------------------------------------------------------------------------------
 void CGlobe::OnPaint() {
     SLONG c = 0;
-    DWORD Time = timeGetTime();
-    static DWORD LastTime;
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
     XY RoomPos = qPlayer.CursorPos;
 
@@ -575,8 +572,6 @@ void CGlobe::OnPaint() {
             RoomBm.BlitFromT(PostItBm, PostItPos);
         }
     }
-
-    LastTime = Time;
 
     // Ggf. Onscreen-Texte einbauen:
     CStdRaum::PostPaint();

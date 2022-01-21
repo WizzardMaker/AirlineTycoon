@@ -114,7 +114,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
         if (MouseClickArea == -102 && MouseClickId == 1) {
             id = MouseClickPar1;
-            if (id - CurrentTextSubIdVon >= 0 && id - CurrentTextSubIdVon < 10) {
+            if ((signed)(id - CurrentTextSubIdVon) >= 0 && id - CurrentTextSubIdVon < 10) {
                 Answer = OrgOptionen[id - CurrentTextSubIdVon];
             }
             if (OnscreenBitmap.Size.y > 0) {
@@ -123,7 +123,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             CloseTextWindow();
         } else if (MouseClickArea == -102 && MouseClickId == 2) {
             id = MouseClickPar1;
-            if (id - CurrentTextSubIdVon >= 0 && id - CurrentTextSubIdVon < 10) {
+            if ((signed)(id - CurrentTextSubIdVon) >= 0 && id - CurrentTextSubIdVon < 10) {
                 Answer = OrgOptionen[id - CurrentTextSubIdVon];
             }
             if (OnscreenBitmap.Size.y > 0) {
@@ -3816,6 +3816,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     }
                 }
                 // absichtlich kein break, sondern nächster Spieler:
+                [[fallthrough]];
 
                 // Nächster Spieler:
             case 2040:
@@ -3845,6 +3846,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 5040:
             case 2004:
                 DialogPar1 = DialogPar2 = 0;
+                [[fallthrough]];
             case 2080:
             _ehemals_2080:
                 for (c = 0; c < DialogPar1; c++) {
@@ -4060,6 +4062,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     MakeSayWindow(0, TOKEN_BOSS, 4999, pFontPartner);
                     break;
                 }
+                [[fallthrough]];
             case 4999:
                 Sim.bNoTime = FALSE;
                 Sim.DayState = 2;
@@ -5327,6 +5330,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 2202:
                 DialogPar2 ^= 1;
                 // kein break;
+                [[fallthrough]];
             case 1001:
             case 1600:
             case 2500:

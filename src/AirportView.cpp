@@ -557,8 +557,6 @@ void AirportView::OnPaint() {
 
     SLONG RightClip = 640;
 
-    static SLONG LastAnzElements = -2;
-    static SLONG LastViewPosX = ViewPos.x;
     SLONG AnzElements = 0;
 
     long cnt = 0;
@@ -1454,9 +1452,6 @@ void AirportView::OnPaint() {
             Pos++;
         }
     }
-
-    LastAnzElements = AnzElements;
-    LastViewPosX = ViewPos.x;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -3242,6 +3237,8 @@ void AIRPORT::CalcPlates() {
                         iPlate[y + ((x + 1) << 4)] &= (~16);
                     }
                 }
+                // MP: Not sure if intentional or not
+                [[fallthrough]];
 
                 // Vertikale Abgrenzung: (verändert nur die Ausgänge einer Plate)
             case OBST_VERTIKAL:

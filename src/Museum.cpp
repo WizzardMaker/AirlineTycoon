@@ -71,7 +71,7 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "mu
     SP_Mann.Clips[12].ReSize(12, "mu_guckz.smk", "", XY(420, 250), SPM_LISTENING, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, nullptr,
                              SMACKER_CLIP_SET, 0, nullptr, "A1", 13);
     SP_Mann.Clips[13].ReSize(11, "mu_hit.smk", "", XY(420, 250), SPM_LISTENING, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_CANCANCEL, &TriggerSkelett,
-                             SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 3 * SMACKER_CLIP_MULT, 4, &TriggerMann, "A1", 5);
+                             SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 3 * SMACKER_CLIP_MULT), 4, &TriggerMann, "A1", 5);
 
     SP_Skelett.ReSize(8);
     SP_Skelett.Clips[0].ReSize(0, "flyingmw.smk", "", XY(420, 180), SPM_IDLE, CRepeat(1, 1), CPostWait(60, 60), SMACKER_CLIP_CANCANCEL, nullptr,

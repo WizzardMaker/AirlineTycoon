@@ -110,11 +110,9 @@ void CheatSound() {
 void MessagePump() {
 
     SDL_StartTextInput();
-    bool help = SDL_IsTextInputActive() != 0U;
     while (SDL_PollEvent(&FrameWnd->Mess) != 0) {
         FrameWnd->ProcessEvent(FrameWnd->Mess);
     }
-    help = (SDL_IsTextInputActive() != 0U);
 }
 
 // LPDIRECTDRAWSURFACE FrontSurf=NULL;

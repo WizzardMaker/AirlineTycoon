@@ -54,7 +54,7 @@ Bank::Bank(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "bank.gli
     SP_Pflanze.Clips[0].ReSize(0, "blumw.smk", "", XY(406, 122), SPM_IDLE, CRepeat(1, 1), CPostWait(30, 50), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET,
                                0, &CatchFly, "A9A2A2", 0, 2, 3);
     SP_Pflanze.Clips[1].ReSize(1, "blum.smk", "snakeat.raw", XY(406, 122), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &FlyCaught,
-                               SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 8 * SMACKER_CLIP_MULT, 1, nullptr, "A1", 2);
+                               SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 8 * SMACKER_CLIP_MULT), 1, nullptr, "A1", 2);
     SP_Pflanze.Clips[2].ReSize(2, "blumzug.smk", "blumzug.raw", XY(406, 122), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, nullptr,
                                SMACKER_CLIP_SET, 0, &CatchFly, "A1", 0);
     SP_Pflanze.Clips[3].ReSize(3, "blumzugb.smk", "blumzugb.raw", XY(406, 122), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_CANCANCEL, nullptr,
@@ -109,7 +109,7 @@ Bank::Bank(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "bank.gli
     SP_Fliege.Clips[1].ReSize(1, "fliege.smk", "", XY(504, 99), SPM_IDLE, CRepeat(3, 6), CPostWait(0, 0), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0,
                               nullptr, "A5", 2);
     SP_Fliege.Clips[2].ReSize(2, "fliege.smk", "", XY(504, 99), SPM_IDLE, CRepeat(3, 6), CPostWait(0, 0), SMACKER_CLIP_CANCANCEL, &CatchFly,
-                              SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 24 * SMACKER_CLIP_MULT, 1, nullptr, "A5E1", 2, 3);
+                              SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 24 * SMACKER_CLIP_MULT), 1, nullptr, "A5E1", 2, 3);
     SP_Fliege.Clips[3].ReSize(3, "", "", XY(504, 99), SPM_LISTENING, CRepeat(1, 1), CPostWait(99, 99), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0,
                               nullptr, "A5", 3);
     SP_Fliege.Clips[4].ReSize(4, "", "", XY(504, 99), SPM_IDLE, CRepeat(1, 1), CPostWait(99, 99), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0, nullptr,

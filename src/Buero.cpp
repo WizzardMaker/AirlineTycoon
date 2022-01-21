@@ -142,7 +142,6 @@ CBuero::~CBuero() {
 void CBuero::OnPaint() {
     SLONG d = 0;
     XY RoomPos;
-    CPoint point = Sim.Players.Players[PlayerNum].CursorPos;
 
     if (Sim.Date > 4) {
         Sim.GiveHint(HINT_RICK);

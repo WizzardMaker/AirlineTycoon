@@ -19,17 +19,17 @@ static char THIS_FILE[] = __FILE__;
 // AskBrick
 //--------------------------------------------------------------------------------------------
 AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStdRaum(bHandy, PlayerNum, "", 0) {
-    RECT rect;
+    AskBrick::rc1 = rc1;
+    AskBrick::Group = Group;
+
+    /*RECT rect;
 
     rect.top = 10;
     rect.left = 10;
     rect.right = 620;
     rect.bottom = 460;
 
-    AskBrick::rc1 = rc1;
-    AskBrick::Group = Group;
-
-    /*if (!Create(NULL, "AskBrick", WS_VISIBLE|WS_CHILD, rect, ParentWnd, 42))
+      if (!Create(NULL, "AskBrick", WS_VISIBLE|WS_CHILD, rect, ParentWnd, 42))
       {
       ::MessageBox (NULL, "Create failed", "ERROR", MB_OK );
       return;

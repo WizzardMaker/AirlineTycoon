@@ -55,7 +55,7 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
     SP_Girl.Clips[4].ReSize(4, "lmknopfz.smk", "", XY(333, 225), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &KranArrived,
                             SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, nullptr, "A1", 0);
     SP_Girl.Clips[5].ReSize(5, "lmtaste.smk", "", XY(333, 225), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_CANCANCEL, &KommMonitor,
-                            SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 4 * SMACKER_CLIP_MULT, 0, nullptr, "A1", 0);
+                            SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 4 * SMACKER_CLIP_MULT), 0, nullptr, "A1", 0);
     SP_Girl.Clips[6].ReSize(6, "lmwaitk.smk", "", XY(333, 225), SPM_IDLE, CRepeat(1, 1), CPostWait(1, 1), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0,
                             nullptr, "A9", 0);
 
@@ -72,11 +72,11 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
     SP_Kran.Clips[0].ReSize(0, "kranrs.smk", "", XY(300, 129), SPM_IDLE, CRepeat(1, 1), CPostWait(9990, 9990), SMACKER_CLIP_CANCANCEL, &NewKranDir,
                             SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, &NewKranDir, "A9", 0);
     SP_Kran.Clips[1].ReSize(1, "kranl.smk", "kran2.raw", XY(300, 129), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &KranArrived,
-                            SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 21 * SMACKER_CLIP_MULT, 4, nullptr, "A1", 2);
+                            SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 21 * SMACKER_CLIP_MULT), 4, nullptr, "A1", 2);
     SP_Kran.Clips[2].ReSize(2, "kranls.smk", "", XY(300, 129), SPM_IDLE, CRepeat(1, 1), CPostWait(9990, 9990), SMACKER_CLIP_CANCANCEL, &NewKranDir,
                             SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, &NewKranDir, "A1", 2);
     SP_Kran.Clips[3].ReSize(3, "kranr.smk", "kran2.raw", XY(300, 129), SPM_IDLE, CRepeat(1, 1), CPostWait(1, 0), SMACKER_CLIP_DONTCANCEL, &KranArrived,
-                            SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 21 * SMACKER_CLIP_MULT, 4, nullptr, "A1", 0);
+                            SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 21 * SMACKER_CLIP_MULT), 4, nullptr, "A1", 0);
 
     pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("tipau.gli", GliPath)), &pMenuLib, L_LOCMEM);
     TipBm.ReSize(pMenuLib, "BLOC1");

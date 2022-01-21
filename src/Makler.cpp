@@ -52,9 +52,9 @@ CMakler::CMakler(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ma
                               0, nullptr, // Warten
                               "A9A2A2E1", 0, 1, 2, 3);
     SP_Makler.Clips[1].ReSize(1, "m_dreh.smk", "m_dreh.raw", XY(470, 218), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &KommVarLicht,
-                              SMACKER_CLIP_XOR | SMACKER_CLIP_FRAME + 6 * SMACKER_CLIP_MULT, 1, nullptr, "A9E1", 0, 3);
+                              SMACKER_CLIP_XOR | (SMACKER_CLIP_FRAME + 6 * SMACKER_CLIP_MULT), 1, nullptr, "A9E1", 0, 3);
     SP_Makler.Clips[2].ReSize(2, "m_druc.smk", "m_druc.raw", XY(470, 218), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &KommVarWasser,
-                              SMACKER_CLIP_XOR | SMACKER_CLIP_FRAME + 4 * SMACKER_CLIP_MULT, 1, nullptr, "A9E1", 0, 3);
+                              SMACKER_CLIP_XOR | (SMACKER_CLIP_FRAME + 4 * SMACKER_CLIP_MULT), 1, nullptr, "A9E1", 0, 3);
 
     // Zum Spieler drehen und sprechen:
     SP_Makler.Clips[3].ReSize(3, "m_turn.smk", "", XY(470, 218), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, nullptr, SMACKER_CLIP_SET,

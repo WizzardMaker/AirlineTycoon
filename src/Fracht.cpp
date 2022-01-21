@@ -68,7 +68,7 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
 
     // Buzzer
     SP_Fracht.Clips[3].ReSize(2, "fm2.smk", "", XY(485, 50), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 20), SMACKER_CLIP_DONTCANCEL, &DropItNow,
-                              SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 5 * SMACKER_CLIP_MULT, 1, nullptr, // Warten
+                              SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 5 * SMACKER_CLIP_MULT), 1, nullptr, // Warten
                               "A4A4A9E1", 0, 1, 2, 4);
 
     // Nach vorne drehen:

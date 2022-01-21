@@ -74,7 +74,7 @@ CNasa::CNasa(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "nasa.g
     SP_Mann.Clips[12].ReSize(12, "le_taste.smk", "", XY(210, 140), SPM_LISTENING, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &KommVarTippNow,
                              SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, nullptr, "A9E1E1", 7, 9, 13);
     SP_Mann.Clips[15].ReSize(15, "le_taste.smk", "", XY(210, 140), SPM_LISTENING, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &KommAlien,
-                             SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 6 * SMACKER_CLIP_MULT, 1, nullptr, "A9E1E1", 7, 9, 13);
+                             SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 6 * SMACKER_CLIP_MULT), 1, nullptr, "A9E1E1", 7, 9, 13);
 
     SP_Mann.Clips[13].ReSize(13, "le_turnz.smk", "", XY(210, 140), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, nullptr, SMACKER_CLIP_SET,
                              14, nullptr, "A9", 14);

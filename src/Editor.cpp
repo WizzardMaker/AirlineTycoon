@@ -923,13 +923,13 @@ void CEditor::OnPaint() {
     long tank = Plane.CalcTank(true);
     long reichw = Plane.CalcReichweite();
 
-    // NUR TEMPORÄR:
+    /* NUR TEMPORÄR:
     long verbrauch2 = 0;
     if ((verbrauch != 0) && (speed != 0) && (passa != 0)) {
         verbrauch2 = verbrauch * 100 / speed * 100 / passa;
     } else {
         verbrauch2 = 0;
-    }
+    }*/
 
     long index_b = GetPlaneBuild(bprintf("B%li", 1 + sel_b)).BitmapIndex;
     long index_c = GetPlaneBuild(bprintf("C%li", 1 + sel_c)).BitmapIndex;

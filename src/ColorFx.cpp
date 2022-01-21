@@ -228,7 +228,6 @@ void SB_CColorFX::Apply(SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *T
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
     UWORD *Table = BlendTables + (Step << 9);
-    static SLONG sizex;
 
     SB_CBitmapKey SrcKey(*SrcBitmap);
     SB_CBitmapKey TgtKey(*TgtBitmap);
@@ -236,7 +235,10 @@ void SB_CColorFX::Apply(SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *T
         return;
     }
 
+#ifdef ENABLE_ASM
+    static SLONG sizex;
     sizex = SrcBitmap->GetXSize();
+#endif
 
     for (cy = 0; cy < SrcBitmap->GetYSize(); cy++) {
         p = reinterpret_cast<UWORD *>((static_cast<char *>(SrcKey.Bitmap)) + cy * SrcKey.lPitch);
@@ -769,14 +771,7 @@ void SB_CColorFX::BlitTrans(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
 
     XY t = TargetPos;
 
-    UWORD White = 0;
     CRect Rect;
-
-    {
-        SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White = *static_cast<UWORD *>(Key.Bitmap);
-    }
-
     if (SrcRect != nullptr) {
         Rect = *SrcRect;
     } else {
@@ -982,14 +977,7 @@ void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
         DebugBreak();
     }
 
-    UWORD White = 0;
     CRect Rect;
-
-    {
-        SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White = *static_cast<UWORD *>(Key.Bitmap);
-    }
-
     Rect = CRect(0, 0, SrcBitmap->GetXSize() - 1, SrcBitmap->GetYSize() - 1);
 
     if (t.x < 0) {
@@ -1112,14 +1100,7 @@ void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap,
         DebugBreak();
     }
 
-    UWORD White = 0;
     CRect Rect;
-
-    {
-        SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White = *static_cast<UWORD *>(Key.Bitmap);
-    }
-
     Rect = CRect(0, 0, SrcBitmap->GetXSize() - 1, SrcBitmap->GetYSize() - 1);
 
     if (t.x < 0) {
