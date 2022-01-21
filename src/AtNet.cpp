@@ -1992,8 +1992,8 @@ void NetGenericSync(long SyncId) {
 // Kehrt erst zurück, wenn die anderen Spieler hier auch waren:
 // Gibt Warnung aus, falls die Parameter unterschiedlich waren.
 //--------------------------------------------------------------------------------------------
-void NetGenericSync(long SyncId, long Par) {
 #ifdef _DEBUG
+void NetGenericSync(long SyncId, long Par) {
     static bool bReentrant = false;
 
     if (bReentrant)
@@ -2036,15 +2036,18 @@ void NetGenericSync(long SyncId, long Par) {
 
         PumpNetwork();
     }
-#endif
 }
+#else
+void NetGenericSync(long /*SyncId*/, long /*Par*/) {
+}
+#endif
 
 //--------------------------------------------------------------------------------------------
 // Kehrt erst zurück, wenn die anderen Spieler hier auch waren:
 // Gibt Warnung aus, falls die Parameter unterschiedlich waren.
 //--------------------------------------------------------------------------------------------
-void NetGenericAsync(long SyncId, long Par, long player) {
 #ifdef _DEBUG
+void NetGenericAsync(long SyncId, long Par, long player) {
     if (!Sim.bNetwork)
         return;
     if (Sim.localPlayer < 0 || Sim.localPlayer > 3)
@@ -2097,5 +2100,8 @@ void NetGenericAsync(long SyncId, long Par, long player) {
         for (c = 0; c < 4; c++)
             GenericAsyncIds[d + c] = 0;
     }
-#endif
 }
+#else
+void NetGenericAsync(long /*SyncId*/, long /*Par*/, long /*player*/) {
+}
+#endif

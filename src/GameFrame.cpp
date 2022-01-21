@@ -552,7 +552,7 @@ void GameFrame::RePostMessage(const CPoint &Pos) const {
 //--------------------------------------------------------------------------------------------
 // Die Nachricht an ein spezielles Sub-Fenster weiterleiten:
 //--------------------------------------------------------------------------------------------
-void GameFrame::RePostClick(SLONG PlayerNum, UINT message, WPARAM wParam, LPARAM lParam) {
+void GameFrame::RePostClick(SLONG  /*PlayerNum*/, UINT  /*message*/, WPARAM  /*wParam*/, LPARAM  /*lParam*/) {
     // if (Sim.Players.Players[PlayerNum].LocationWin)
     //   Sim.Players.Players[PlayerNum].LocationWin->SendMessage (message, wParam, lParam);
 }
@@ -564,12 +564,12 @@ void GameFrame::RePostClick(SLONG PlayerNum, UINT message, WPARAM wParam, LPARAM
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void GameFrame::OnSysKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {}
+void GameFrame::OnSysKeyDown(UINT  /*nChar*/, UINT  /*nRepCnt*/, UINT  /*nFlags*/) {}
 
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void GameFrame::OnSysKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) {}
+void GameFrame::OnSysKeyUp(UINT  /*nChar*/, UINT  /*nRepCnt*/, UINT  /*nFlags*/) {}
 
 //--------------------------------------------------------------------------------------------
 // Prepares the fade-Bitmap

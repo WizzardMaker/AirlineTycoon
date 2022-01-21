@@ -402,8 +402,8 @@ BOOL SBBM::TextOut(SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CStrin
 
     TTF_Font *Font = TTF_OpenFont("arial.ttf", 9);
     if (Font != nullptr) {
-        SDL_Color bg = {GetRValue(Back), GetGValue(Back), GetBValue(Back)};
-        SDL_Color fg = {GetRValue(Front), GetGValue(Front), GetBValue(Front)};
+        SDL_Color bg = {GetRValue(Back), GetGValue(Back), GetBValue(Back), 255};
+        SDL_Color fg = {GetRValue(Front), GetGValue(Front), GetBValue(Front), 255};
         SDL_Surface *Text = TTF_RenderText_Shaded(Font, String, fg, bg);
         SDL_Rect Dst = {x, y, Text->w, Text->h};
         SDL_BlitSurface(Text, nullptr, Surf, &Dst);
@@ -457,8 +457,8 @@ BOOL SBPRIMARYBM::TextOut(SLONG x, SLONG y, COLORREF Back, COLORREF Front, const
 
     TTF_Font *Font = TTF_OpenFont("arial.ttf", 9);
     if (Font != nullptr) {
-        SDL_Color bg = {GetRValue(Back), GetGValue(Back), GetBValue(Back)};
-        SDL_Color fg = {GetRValue(Front), GetGValue(Front), GetBValue(Front)};
+        SDL_Color bg = {GetRValue(Back), GetGValue(Back), GetBValue(Back), 255};
+        SDL_Color fg = {GetRValue(Front), GetGValue(Front), GetBValue(Front), 255};
         SDL_Surface *Text = TTF_RenderText_Shaded(Font, String, fg, bg);
         SDL_Rect Dst = {x, y, Text->w, Text->h};
         SDL_BlitSurface(Text, nullptr, Surf, &Dst);

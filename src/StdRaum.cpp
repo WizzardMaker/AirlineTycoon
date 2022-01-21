@@ -8433,7 +8433,7 @@ void CStdRaum::OnMouseMove(UINT nFlags, CPoint point) { FrameWnd->OnMouseMove(nF
 //--------------------------------------------------------------------------------------------
 void CStdRaum::KeepRoomLib() { pRoomLibStatic = pRoomLib; }
 
-void CStdRaum::OnTimer(UINT nIDEvent) {}
+void CStdRaum::OnTimer(UINT /*nIDEvent*/) {}
 
 Uint32 CStdRaum::TimerFunc(Uint32 interval, void *param) {
     (static_cast<CStdRaum *>(param))->OnTimer(1);

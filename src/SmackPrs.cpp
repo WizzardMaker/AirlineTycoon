@@ -23,7 +23,7 @@ void CalculatePalettemapper(const UBYTE *pPalette, SDL_Palette *pPaletteMapper) 
         }
     }
 
-    colors[0] = SDL_Color{0};
+    colors[0] = SDL_Color{0, 0, 0, 255};
     SDL_SetPaletteColors(pPaletteMapper, colors, 0, 256);
 }
 

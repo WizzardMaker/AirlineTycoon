@@ -87,15 +87,18 @@ extern long GenericSyncIdPars[4];
 extern long GenericAsyncIds[4 * 100];
 extern long GenericAsyncIdPars[4 * 100];
 
-void DumpAASeedSum(long CallerId) {
 #ifdef _DEBUG
+void DumpAASeedSum(long CallerId) {
     long sum = 0;
     for (long c = 0; c < MAX_CITIES; c++)
         sum += AuslandsAuftraege[c].Random.GetSeed();
 
     Hdu.HercPrintf("Summe for %li is %li\n", CallerId, sum);
-#endif
 }
+#else
+void DumpAASeedSum(long /*CallerId*/) {
+}
+#endif
 
 //--------------------------------------------------------------------------------------------
 // Sorgt für Screen Refresh und für Ablauf der Simulation:

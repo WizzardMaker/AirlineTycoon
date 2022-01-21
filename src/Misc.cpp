@@ -641,7 +641,7 @@ CHeadline HEADLINES::GetHeadline(long Newspaper, SLONG Index) { return (Headline
 //--------------------------------------------------------------------------------------------
 // Schreibt die Headline auf den Schirm:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::BlitHeadline(long Newspaper, SBBM &Offscreen, const CPoint &p1, const CPoint &p2, BYTE Color) {}
+void HEADLINES::BlitHeadline(long  /*Newspaper*/, SBBM & /*Offscreen*/, const CPoint & /*p1*/, const CPoint & /*p2*/, BYTE  /*Color*/) {}
 
 //--------------------------------------------------------------------------------------------
 // Initializes the data:

@@ -1246,8 +1246,8 @@ void AirportView::OnPaint() {
 
                                     TTF_Font *Font = TTF_OpenFont("arial.ttf", 9); // Arial
                                     if (Font != nullptr) {
-                                        SDL_Color bg = {0, 0, 255};
-                                        SDL_Color fg = {255, 255, 0};
+                                        SDL_Color bg = {0, 0, 255, 255};
+                                        SDL_Color fg = {255, 255, 0, 255};
                                         SDL_Surface *Text = TTF_RenderText_Shaded(Font, bprintf("%3li", static_cast<long>(qBuild.Par)), fg, bg);
                                         SDL_Rect Dst = {qBuild.ScreenPos.x - ViewPos.x + WinP1.x + 3, qBuild.ScreenPos.y - ViewPos.y + WinP1.y + 1, Text->w,
                                                         Text->h};
@@ -2223,7 +2223,7 @@ void AirportView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 //--------------------------------------------------------------------------------------------
 // AirportView::OnSysChar:
 //--------------------------------------------------------------------------------------------
-void AirportView::OnSysChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
+void AirportView::OnSysChar(UINT /*nChar*/, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     // CStdRaum::OnSysChar(nChar, nRepCnt, nFlags);
 }
 

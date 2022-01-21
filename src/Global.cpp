@@ -274,8 +274,8 @@ CRect gHighlightArea;  // Für das Text-Highlighting
 UWORD gHighlightFontColor;
 CRect gLastHighlightArea;
 
-TABS TABLeft[] = {{TAB_STYLE_LEFT}};
-TABS TABRight[] = {{TAB_STYLE_RIGHT}};
+TABS TABLeft[] = {{TAB_STYLE_LEFT, 0}};
+TABS TABRight[] = {{TAB_STYLE_RIGHT, 0}};
 
 //--------------------------------------------------------------------------------------------
 // Die Statuszeilen und Textzeilen: normal+Editoren

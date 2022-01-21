@@ -127,7 +127,7 @@ void AskBrick::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
     // ReferTo (point);
 }
 
-void AskBrick::OnRButtonDown(UINT nFlags, CPoint point) {
+void AskBrick::OnRButtonDown(UINT /*nFlags*/, CPoint /*point*/) {
     // ReferTo (nFlags);
     // ReferTo (point);
 }

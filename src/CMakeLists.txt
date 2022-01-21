@@ -14,6 +14,7 @@ else()
     add_compile_options("-Wall")
     add_compile_options("-Wextra")
     add_compile_options("-Wno-invalid-source-encoding")
+    add_compile_options("-Wno-sign-compare")
 endif()
 
 # Add source to this project's executable.
