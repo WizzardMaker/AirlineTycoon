@@ -278,7 +278,7 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
                             SMACKER_CLIP_SET, 0, nullptr, // Warten
                             "A9E1E1A3", 3, 2, 7, 8);
     SP_Mann.Clips[8].ReSize(8, "wk_rauch.smk", "", XY(173, 209), SPM_LISTENING, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &KommVar,
-                            SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 18 * SMACKER_CLIP_MULT, 1, nullptr, // Warten
+                            SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 18 * SMACKER_CLIP_MULT), 1, nullptr, // Warten
                             "A9E1E1", 3, 2, 7);
 
     SP_Mann.Clips[7].ReSize(7, "wk_turnz.smk", "", XY(190, 209), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, nullptr, SMACKER_CLIP_SET,

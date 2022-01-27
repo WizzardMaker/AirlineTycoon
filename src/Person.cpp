@@ -148,7 +148,9 @@ void CLANS::ReInit(const CString &TabFilename) {
                 }
             }
 
-            SBBMS *pPhasen = nullptr;
+#if 0
+            SBBMS *pPhasen{nullptr};
+#endif
 
             for (c = 0; c < 10 + 4; c++) {
                 SLONG d = 0; // Böser Patch, damit das Laufen erst ab Index 10 kommt, obwohl es in der Excel-Tabelle schon viel eher steht:
@@ -167,12 +169,14 @@ void CLANS::ReInit(const CString &TabFilename) {
                         (*this)[Id].Shadow[d].ReSize(pGLibStd, DirPhaseLists[c], PhaseListsNumbers[c]);
                     }
                 } else {
+#if 0
                     if (ShadowPass == 0) {
                         pPhasen = &(*this)[Id].Phasen[d];
                     }
                     if (ShadowPass == 2) {
                         pPhasen = &(*this)[Id].Skelett[d];
                     }
+#endif
 
                     BUFFER<__int64> *pIds = nullptr;
                     SLONG Anz = 0;

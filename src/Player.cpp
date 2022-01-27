@@ -6010,11 +6010,7 @@ BOOL PLAYER::HasSpaceForItem() {
 void PLAYER::MapWorkerOverflow(BOOL Advice) {
     SLONG c = 0;
     SLONG d = 0;
-    SLONG xPiloten = 0;
-    SLONG xBegleiter = 0;
     BOOL NeedAdvice = FALSE;
-
-    xPiloten = xBegleiter = 0;
 
     // Zählung in den Flugzeugen vorbereiten:
     for (c = 0; c < SLONG(Planes.AnzEntries()); c++) {

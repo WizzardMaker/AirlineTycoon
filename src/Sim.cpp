@@ -156,9 +156,6 @@ void SIM::AddSmacker(const CString &Filename, long BrickId, XY Offset) {
 void SIM::AddNewShoppers() const {
     if (((Sim.Time > 9 * 60000 && Sim.Time <= 12 * 60000) || (Sim.Time >= 14 * 60000 && Sim.Time <= 16 * 60000)) && Sim.CheckIn != -1 && Sim.Shops != -1 &&
         Editor == EDITOR_NONE) {
-        static SLONG LastTimeSlice = -1;
-        // if (LastTimeSlice==Sim.TimeSlice) OutputDebugString ("!!!!!!!!!!!\n");
-        LastTimeSlice = Sim.TimeSlice;
 
         CheckGeneric++;
 

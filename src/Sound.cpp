@@ -232,6 +232,16 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
             // Check for number:
             if (strcmp(str, "*") == 0) {
                 if (TextFollows[0] == '-' || (TextFollows[0] >= '0' && TextFollows[0] <= '9') || strnicmp(TextFollows, "DM", 2) == 0) {
+                    UndoWait = TRUE;
+                    pCursor->SetImage(gCursorSandBm.pBitmap);
+                    int _x = gMousePosition.x;
+                    int _y = gMousePosition.y;
+                    FrameWnd->TranslatePointToScreenSpace(_x, _y);
+                    pCursor->MoveImage(_x - 16, _y - 16);
+                    FrameWnd->Invalidate();
+                    MessagePump();
+
+#if 0
                     BOOL DM = FALSE;
 
                     if (strnicmp(TextFollows, "DM", 2) == 0) {
@@ -265,16 +275,8 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
                         DM = TRUE;
                     }
 
-                    UndoWait = TRUE;
-                    pCursor->SetImage(gCursorSandBm.pBitmap);
-                    int _x = gMousePosition.x;
-                    int _y = gMousePosition.y;
-                    FrameWnd->TranslatePointToScreenSpace(_x, _y);
-                    pCursor->MoveImage(_x - 16, _y - 16);
-                    FrameWnd->Invalidate();
-                    MessagePump();
-
-                    // SynthesizeNumber (Effects[m++], path+"\\", Number*Mult, DM);
+                    SynthesizeNumber (Effects[m++], path+"\\", Number*Mult, DM);
+#endif
                 }
             }
         } else {

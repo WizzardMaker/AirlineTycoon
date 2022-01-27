@@ -1010,10 +1010,12 @@ void CStdRaum::RepaintText(BOOL RefreshAll) {
 
                 Sim.Players.Players[PlayerNum].Messages.IsDialogTalking = 0;
                 for (c = CurrentTextSubIdVon; c <= CurrentTextSubIdBis; c++) {
+#if 0
                     SLONG RightBorder = 5;
                     if (DialogPartner == TALKER_COMPETITOR) { // Bei Dialog mit anderen Spielern rechts mehr Platz lassen
                         RightBorder = 80;
                     }
+#endif
 
                     if (CurrentTextSubIdVon == CurrentTextSubIdBis || Sim.Options.OptionTalking * Sim.Options.OptionMasterVolume == 0 ||
                         Sim.Options.OptionDigiSound == 0) {
@@ -1055,7 +1057,7 @@ void CStdRaum::RepaintText(BOOL RefreshAll) {
             {
                 Summe += TextAreaSizeY[0];
                 if (RefreshAll != 0) {
-                    TextRect = TextRect = PaintTextBubble(OnscreenBitmap, XY(55, Summe), XY(585, BubblePos.y), BubblePos);
+                    TextRect = PaintTextBubble(OnscreenBitmap, XY(55, Summe), XY(585, BubblePos.y), BubblePos);
                 }
                 OnscreenBitmap.PrintAt(Optionen[0], *pFontNormal, TEC_FONT_LEFT, 85, Summe, 555, 440);
 
@@ -4389,6 +4391,7 @@ void CStdRaum::MenuStart(SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG M
         } else if (MenuPar2 == 1) {
             MenuInfo = Sim.Players.Players[PlayerNum].OwnsAktien[MenuPar1] / 2;
         }
+        [[fallthrough]];
     case MENU_SETRENDITE:
         if (CurrentMenu == MENU_SETRENDITE) {
             MenuInfo = Sim.Players.Players[PlayerNum].Dividende;

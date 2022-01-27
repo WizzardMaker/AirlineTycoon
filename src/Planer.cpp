@@ -1507,6 +1507,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
         // Wiederholfunktion für Kerosinpreis erhöhen / verringern
         if ((gMouseLButton != 0) && (IsInClientAreaB != 0) && pBlock->BlockType == 2 && pBlock->IndexB == 0 && pBlock->BlockTypeB == 4 && pBlock->PageB == 0) {
             if (ClientPosB.IfIsWithin(2, 40, 169, 118) && timeGetTime() - gMouseLButtonDownTimer > 800) {
+                /*
                 CRentRoute *pRRoute = nullptr;
                 SLONG SelectedIdB2 = 0;
 
@@ -1520,7 +1521,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
                     }
                 }
 
-                /*SLONG Cost = CalculateFlightCostRechnerisch(Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1) * 3 / 180
+                  SLONG Cost = CalculateFlightCostRechnerisch(Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1) * 3 / 180
                 * 2; CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(pBlock->SelectedIdB)]; switch ((ClientPosB.y-40)/13)
                   {
                   case 0:
@@ -2797,7 +2798,7 @@ void CPlaner::ButtonIndex() {
                 if (pBlock->AnzPages <= 1) {
                     pBlock->Page = 0;
                 }
-
+#if 0
                 if (bFullscreen != 0) {
                     SLONG cy = 0;
                     if (pBlock->BlockType != 2) {
@@ -2806,9 +2807,10 @@ void CPlaner::ButtonIndex() {
                         cy = 26 * (c - pBlock->Page);
                     }
 
-                    // if (IsLaptop) SDL_WarpMouseGlobal(pBlock->ScreenPos.x+48+90-40, pBlock->ScreenPos.y+72+13-50+cy);
-                    // else          SDL_WarpMouseGlobal(pBlock->ScreenPos.x+104+90-40-21, pBlock->ScreenPos.y+195+13-50-76+cy);
+                    if (IsLaptop) SDL_WarpMouseGlobal(pBlock->ScreenPos.x+48+90-40, pBlock->ScreenPos.y+72+13-50+cy);
+                    else          SDL_WarpMouseGlobal(pBlock->ScreenPos.x+104+90-40-21, pBlock->ScreenPos.y+195+13-50-76+cy);
                 }
+#endif
 
                 pBlock->Refresh(PlayerNum, IsLaptop);
             }

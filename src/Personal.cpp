@@ -44,13 +44,13 @@ CPersonal::CPersonal(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
     SP_Frau.ReSize(11);
     //--------------------------------------------------------------------------------------------
     SP_Frau.Clips[0].ReSize(0, "pfbrief.smk", "pfbrief.raw", XY(340, 113), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &StapelBrief,
-                            SMACKER_CLIP_XOR | SMACKER_CLIP_FRAME + 1 * SMACKER_CLIP_MULT, 1, nullptr, // Warten
+                            SMACKER_CLIP_XOR | (SMACKER_CLIP_FRAME + 1 * SMACKER_CLIP_MULT), 1, nullptr, // Warten
                             "A9", 1);
     SP_Frau.Clips[1].ReSize(1, "pfleseb.smk", "", XY(340, 113), SPM_IDLE, CRepeat(1, 1), CPostWait(30, 90), SMACKER_CLIP_CANCANCEL, &PaperOnTable,
                             SMACKER_CLIP_SET | SMACKER_CLIP_PRE, 2, nullptr, // Warten
                             "A9", 2);
     SP_Frau.Clips[2].ReSize(2, "pfwerf.smk", "pfwerf.raw", XY(340, 113), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &FlugbahnType,
-                            SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 5 * SMACKER_CLIP_MULT, 0, &KommVar, // Warten
+                            SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 5 * SMACKER_CLIP_MULT), 0, &KommVar, // Warten
                             "A9A2E1", 0, 3, 6);
 
     SP_Frau.Clips[3].ReSize(3, "pfwild.smk", "pfwild.raw", XY(340, 113), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &Zeitung,
@@ -89,7 +89,7 @@ CPersonal::CPersonal(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
                             "A9", 0);
 
     SP_Mann.Clips[2].ReSize(2, "pmkorb.smk", "", XY(130, 80), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &PaperOnTable,
-                            SMACKER_CLIP_SET | SMACKER_CLIP_FRAME + 4 * SMACKER_CLIP_MULT, -1, nullptr, "A9", 7);
+                            SMACKER_CLIP_SET | (SMACKER_CLIP_FRAME + 4 * SMACKER_CLIP_MULT), -1, nullptr, "A9", 7);
     SP_Mann.Clips[7].ReSize(7, "pmkorbb.smk", "", XY(130, 80), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &PaperDropping,
                             SMACKER_CLIP_SET | SMACKER_CLIP_PRE, 1, nullptr, "A9E1", 1, 3);
 
