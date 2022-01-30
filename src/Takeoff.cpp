@@ -82,8 +82,6 @@ CTakeOffApp *pTakeOffApp;
 void CompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
 void DecompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
 
-void PumpNetwork();
-
 CString MakeVideoPath, MakeVideoPath2;
 BOOL MakeUnvideoOn555 = FALSE;
 
@@ -157,6 +155,7 @@ LONG UnhandledExceptionCallback(_EXCEPTION_POINTERS *exceptionInfo) {
 }
 #endif
 
+#ifdef CD_PROTECTION
 #define SCRAMBLE_ADD_XOR 0xa0febff4
 
 struct protectedValue {
@@ -232,19 +231,23 @@ void protectedValue::SetScrambled(const int iValue) {
     mcharintScore.acValue[3] = pcharintVar->acValue[2] ^ mcharintScore.acValue[2];
     mcharintScore.acValue[1] = pcharintVar->acValue[3] ^ mcharintScore.acValue[0];
 }
+#endif
+
 #ifdef __cplusplus
 extern "C"
 #endif
     int
     main(int argc, char *argv[]) {
-    protectedValue v;
-
-    v.mcharintScore.iValue = 792628216;
-    v.muScramble = 3556112065;
 
 #ifdef WIN32
     SetUnhandledExceptionFilter(UnhandledExceptionCallback);
 #endif
+
+#ifdef CD_PROTECTION
+    protectedValue v;
+
+    v.mcharintScore.iValue = 792628216;
+    v.muScramble = 3556112065;
 
     const char *pText = "Hallo, ich bin ein Text";
 
@@ -264,6 +267,7 @@ extern "C"
     delete[] pDecodeBack;
     delete[] pDecodeBack2;
     delete[] pDecodeBack3;
+#endif
 
     theApp.InitInstance(argc, argv);
     return 0;
@@ -939,13 +943,13 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
                     }
 
                     if (gLanguage == LANGUAGE_N)
-                        LOADING_TEXT((char *)(LPCTSTR)(CString("Karakterdata wordt opgestart...") +
+                        LOADING_TEXT((LPCTSTR)(CString("Karakterdata wordt opgestart...") +
                                                        CString("................................................................").Left(n / 4)))
                     else if (gLanguage == LANGUAGE_F)
-                        LOADING_TEXT((char *)(LPCTSTR)(CString("Initializing people data...") +
+                        LOADING_TEXT((LPCTSTR)(CString("Initializing people data...") +
                                                        CString("................................................................").Left(n / 4)))
                     else
-                        LOADING_TEXT((char *)(LPCTSTR)(CString("Initializing people data...") +
+                        LOADING_TEXT((LPCTSTR)(CString("Initializing people data...") +
                                                        CString("................................................................").Left(n / 4)));
                     n++;
                 }
@@ -1387,6 +1391,9 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                     case 5:
                         Multiplier = 600;
                         break;
+                    default:
+                        printf("Takeoff.cpp: Default case should not be reached.");
+                        DebugBreak();
                     }
                     NumSimSteps *= Multiplier;
                     Faktor *= Multiplier;
@@ -1883,6 +1890,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                     case ROOM_SECURITY:
                                                         Talkers.Talkers[TALKER_SECURITY].IncreaseLocking();
                                                         break;
+                                                    default: break;
                                                     }
 
                                                     if ((Sim.bNetwork != 0) && (Sim.bIsHost != 0)) {
@@ -1921,6 +1929,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                 case ROOM_SECURITY:
                                                     Talkers.Talkers[TALKER_SECURITY].DecreaseLocking();
                                                     break;
+                                                default: break;
                                                 }
 
                                                 SLONG RoomLeft = qPlayer.Locations[d] & 255;

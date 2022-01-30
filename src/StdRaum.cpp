@@ -271,21 +271,21 @@ BOOL WasRoomVisited(SLONG PlayerNum, UBYTE RoomId) {
 //--------------------------------------------------------------------------------------------
 // Ein Standardfenster mit optionaler Raumbildverwaltung wird erzeugt:
 //--------------------------------------------------------------------------------------------
-CStdRaum::CStdRaum(BOOL bHandy, ULONG PlayerNum, const CString &GfxLibName, __int64 graficId) {
+CStdRaum::CStdRaum(BOOL handy, ULONG playerNum, const CString &GfxLibName, __int64 graficId) {
     gFramesToDrawBeforeFirstBlend = 0;
 
     CWaitCursorNow wc; // CD-Cursor anzeigen
     UpdateStatusBar();
 
-    if (bHandy == 0) {
-        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Messages.StopDialog();
+    if (handy == 0) {
+        Sim.Players.Players[static_cast<SLONG>(playerNum)].Messages.StopDialog();
     }
 
     IsInBuro = FALSE;
 
     CStdRaum::KonstruktorFinished = 0;
-    CStdRaum::bHandy = bHandy;
-    CStdRaum::PlayerNum = PlayerNum;
+    CStdRaum::bHandy = handy;
+    CStdRaum::PlayerNum = playerNum;
     CStdRaum::HandyOffset = 160;
 
     CStdRaum::ForceRedrawTip = FALSE;
@@ -433,10 +433,13 @@ CStdRaum::~CStdRaum() {
         pRoomLib = nullptr;
     }
 }
-int UTF8Toisolat1(unsigned char *out, int outlen, unsigned char *in, int inlen) {
+
+int UTF8Toisolat1(unsigned char *out, int outlen, const unsigned char *in, int inlen);
+
+int UTF8Toisolat1(unsigned char *out, int outlen, const unsigned char *in, int inlen) {
     unsigned char *outstart = out;
     unsigned char *outend = out + outlen;
-    unsigned char *inend = in + inlen;
+    const unsigned char *inend = in + inlen;
     unsigned char c = 0;
 
     while (in < inend) {
@@ -467,7 +470,7 @@ void CStdRaum::ProcessEvent(const SDL_Event &event, const CPoint &position) {
     case SDL_TEXTINPUT:
     case SDL_TEXTEDITING: {
         unsigned char testValue = 'ä';
-        UTF8Toisolat1(&testValue, 1, (unsigned char *)&event.text.text, 2);
+        UTF8Toisolat1(&testValue, 1, (const unsigned char *)&event.text.text, 2);
         OnChar(testValue, 1, (SDL_GetModState() & KMOD_LALT) << 5);
     } break;
     case SDL_KEYDOWN: {
@@ -496,6 +499,7 @@ void CStdRaum::ProcessEvent(const SDL_Event &event, const CPoint &position) {
             OnRButtonUp(WM_RBUTTONUP, position);
         }
     } break;
+    default: break;
     }
 }
 
@@ -668,7 +672,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubId, S
 
     // Daten zuweisen:
     MakeSayWindow(TextAlign, SubId, CString((char *)TmpString), Normal);
-    CurrentTextGroupId = *((ULONG *)GroupId);
+    CurrentTextGroupId = *((const ULONG *)GroupId);
     LastTextGroupId = CurrentTextGroupId;
 }
 
@@ -693,7 +697,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubIdVon
     TimeBubbleDisplayed = timeGetTime();
 
     CurrentHighlight = 0;
-    CurrentTextGroupId = *((ULONG *)GroupId);
+    CurrentTextGroupId = *((const ULONG *)GroupId);
     LastTextGroupId = CurrentTextGroupId;
     CurrentTextSubIdVon = SubIdVon;
     CurrentTextSubIdBis = SubIdBis;
@@ -1864,6 +1868,9 @@ void CStdRaum::StartDialog(SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, S
                           &FontDialog, &FontDialogLight, (LPCSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
         }
         break;
+    default:
+        printf("StdRaum.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 }
 
@@ -1932,6 +1939,9 @@ void CStdRaum::StopDialog() {
             case TALKER_WERBUNG:
                 room = ROOM_WERBUNG;
                 break;
+            default:
+                printf("StdRaum.cpp: Default case should not be reached.");
+                DebugBreak();
             }
 
             if ((room != 0) && Sim.RoomBusy[room] > 0) {
@@ -2034,6 +2044,9 @@ void CStdRaum::InitToolTips() {
                     SetMouseLook(CURSOR_HOT, 4001, -100, 11);
                 }
                 break;
+            default:
+                printf("StdRaum.cpp: Default case should not be reached.");
+                DebugBreak();
             }
 
             CursorPos += MenuPos;
@@ -2507,6 +2520,9 @@ void CStdRaum::InitToolTips() {
                     SetMouseLook(CURSOR_HOT, 0, -101, MENU_BRIEFING, 2);
                 }
                 break;
+            default:
+                printf("StdRaum.cpp: Default case should not be reached.");
+                DebugBreak();
             }
         }
         // Oder in einem Dialog?
@@ -2905,7 +2921,7 @@ void CStdRaum::PostPaint() {
                 PlayUniversalFx("cam.raw", Sim.Options.OptionEffekte);
                 PrimaryBm.PrimaryBm.Clear(SB_Hardwarecolor(0xffff)); // Flash-Effekt
             } else {
-                if (ZoomCounter < 100 && MinimumZoom == 1.0) {
+                if (ZoomCounter < 100 && MinimumZoom >= 1.0) {
                     ZoomCounter = 100;
                 }
 
@@ -2962,7 +2978,7 @@ void CStdRaum::PostPaint() {
         }
         // Menu unzoom:
         else if (ZoomCounter > 0 && OnscreenBitmap.Size.x > 0 && (IsDialogOpen() == 0)) {
-            if (MinimumZoom == 1.0) {
+            if (MinimumZoom >= 1.0) {
                 ZoomCounter = 0;
             } else {
                 ZoomCounter -= 25;
@@ -3315,6 +3331,7 @@ void CStdRaum::OnLButtonDblClk(UINT /*unused*/, CPoint point) {
                     MenuRepaint();
                 }
                 break;
+            default: break;
             }
         } else if (IsDialogOpen() != 0) {
             PreLButtonDown(point);
@@ -4069,6 +4086,9 @@ void CStdRaum::RepaintTip() {
         break;
     case TIP_ITEM:
         break;
+    default:
+        printf("StdRaum.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     CStdRaum::LastTipType = CStdRaum::CurrentTipType;
@@ -5895,6 +5915,9 @@ void CStdRaum::MenuRepaint() {
             }
         }
         break;
+    default:
+        printf("StdRaum.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 }
 
@@ -5920,6 +5943,7 @@ bool CStdRaum::MenuIsPlain() const {
     case MENU_REQUEST_BETATEST2:
         return true;
         break;
+    default: break;
     }
 
     if (MenuPar1 >= MENU_REQUEST_NO_LM && MenuPar1 <= MENU_REQUEST_NO_WERBUNG) {
@@ -5971,6 +5995,7 @@ void CStdRaum::MenuPostPaint() {
             }
         }
         break;
+    default: break;
     }
 
     // Basic Repainting:
@@ -6016,6 +6041,7 @@ void CStdRaum::MenuPostPaint() {
             OnscreenBitmap.BlitFrom(MenuBms[13 + static_cast<int>(MouseClickPar1 == 2)], 325, 385);
         }
         break;
+    default: break;
     }
 }
 
@@ -6296,6 +6322,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                         MenuPage = 0;
                         MenuRepaint();
                         break;
+                    default:
+                        printf("StdRaum.cpp: Default case should not be reached.");
+                        DebugBreak();
                     }
 
                     if (HandyRoomRemapper[MouseClickPar2] != ROOM_WORLD && HandyRoomRemapper[MouseClickPar2] != 254) {
@@ -7849,6 +7878,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
             }
         }
         break;
+    default: break;
     }
 }
 

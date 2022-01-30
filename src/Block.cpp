@@ -525,6 +525,9 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                     Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
                 }
                 break;
+            default:
+                printf("Block.cpp: Default case should not be reached.");
+                DebugBreak();
             }
         } else if (Index == 0) {
             // Inhalt eines speziellen Entities:
@@ -1200,7 +1203,14 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                         }
                     }
                     break;
+                default:
+                    printf("Block.cpp: Default case should not be reached.");
+                    DebugBreak();
                 }
+                break;
+            default:
+                printf("Block.cpp: Default case should not be reached.");
+                DebugBreak();
             }
         }
     }
@@ -1421,6 +1431,9 @@ switch_again:
                                    ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
                 }
                 break;
+            default:
+                printf("Block.cpp: Default case should not be reached.");
+                DebugBreak();
             }
         } else if (IndexB == 0 && (DoubleBlock != 0) && BlockType == 2) {
             // Details
@@ -1684,6 +1697,9 @@ switch_again:
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2501), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
                 }
             } break;
+            default:
+                printf("Block.cpp: Default case should not be reached.");
+                DebugBreak();
             }
         }
     } else if (TipInUseB == TIP_CITY) {
@@ -1765,6 +1781,9 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
             AnzPages = max(0, (Table.AnzRows - 1) / 13) + 2;
         }
         break;
+    default:
+        printf("Block.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     switch (BlockTypeB) {
@@ -1798,6 +1817,9 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
             AnzPagesB = 2;
         }
         break;
+    default:
+        printf("Block.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 }
 
@@ -1863,9 +1885,9 @@ TEAKFILE &operator<<(TEAKFILE &File, const BLOCK &b) {
     File << b.PageB << b.AnzPagesB << b.TipB << b.TipInUseB;
     File << b.PageSize << b.PageSizeB;
 
-    File.Write((UBYTE *)b.Indexes, sizeof(b.Indexes));
-    File.Write((UBYTE *)(b.SelectedIds), sizeof(b.SelectedIds));
-    File.Write((UBYTE *)(b.Pages), sizeof(b.Pages));
+    File.Write((const UBYTE *)b.Indexes, sizeof(b.Indexes));
+    File.Write((const UBYTE *)(b.SelectedIds), sizeof(b.SelectedIds));
+    File.Write((const UBYTE *)(b.Pages), sizeof(b.Pages));
 
     if (SaveVersion == 1 && SaveVersionSub >= 11) {
         File << b.DoubleBlock;
@@ -1911,7 +1933,7 @@ TEAKFILE &operator>>(TEAKFILE &File, BLOCK &b) {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const BLOCKS &b) {
     File << b.RepaintAll << b.Blocks;
-    File << *((ALBUM<BLOCK> *)&b);
+    File << *((const ALBUM<BLOCK> *)&b);
 
     return (File);
 }

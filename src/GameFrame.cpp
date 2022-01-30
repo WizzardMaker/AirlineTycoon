@@ -72,6 +72,8 @@ extern CTakeOffApp *pTakeOffApp;
 // GameFrame
 /////////////////////////////////////////////////////////////////////////////////////////////
 
+void CheatSound();
+
 void CheatSound() {
     /*SBFX *fx=new SBFX;
 
@@ -180,6 +182,9 @@ void GameFrame::UpdateWindow() const {
         SDL_SetWindowSize(m_hWnd, screenWidth, screenHeight);
         Sim.Options.OptionKeepAspectRatio = 0;
         break;
+    default:
+        printf("GameFrame.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     UpdateFrameSize();
@@ -233,7 +238,6 @@ GameFrame::GameFrame() {
     SDL_Window *h = nullptr;
 
     switch (Sim.Options.OptionFullscreen) {
-    default:
     case (0): // Fullscreen
         h = SDL_CreateWindow("Airline Tycoon", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, rect.Width(), rect.Height(), SDL_WINDOW_FULLSCREEN);
         break;
@@ -243,6 +247,9 @@ GameFrame::GameFrame() {
     case (2): // Borderless Fullscreen
         h = SDL_CreateWindow("Airline Tycoon", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, rect.Width(), rect.Height(), SDL_WINDOW_BORDERLESS);
         break;
+    default:
+        printf("GameFrame.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     if (h == nullptr) {
@@ -502,6 +509,7 @@ void GameFrame::ProcessEvent(const SDL_Event &event) const {
             FrameWnd->OnRButtonUp(WM_RBUTTONUP, pos);
         }
     } break;
+    default: break;
     }
 }
 
@@ -1074,6 +1082,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         case 'Y':
             nTargetRoom = ROOM_SECURITY;
             break;
+        default: break;
         }
     } else if (gLanguage == LANGUAGE_O) {
         // Portugisisch
@@ -1138,6 +1147,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         case 'H':
             nTargetRoom = ROOM_FRACHT;
             break;
+        default: break;
         }
     } else {
         // Englisch, Sonstige:
@@ -1208,6 +1218,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         case 'Y':
             nTargetRoom = ROOM_SECURITY;
             break;
+        default: break;
         }
     }
 
@@ -1256,6 +1267,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                             }
                         }
                         break;
+                    default: break;
                     }
                 }
             }
@@ -1513,6 +1525,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                                                 qPlayer.EnterRoom(ROOM_OPTIONS);
                                             }
                                             break;
+                                        default: break;
                                         }
                                     }
                                 }
@@ -1599,6 +1612,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         case DIFF_ADDON10:
             Sim.Players.Players[SLONG(nChar - '1')].RocketFlags = ROCKET_ALL;
             break;
+        default: break;
         }
     }
 
@@ -1934,6 +1948,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
             case DIFF_ATFS10:
                 break;
+            default: break;
             }
             CheatSound();
         }
@@ -2274,6 +2289,7 @@ void GameFrame::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/) {
                             (Sim.Players.Players[Sim.localPlayer].LocationWin)->StatusCount = 3;
                         }
                         break;
+                    default: break;
                     }
                 }
             }

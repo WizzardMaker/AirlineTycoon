@@ -242,7 +242,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CRouten &r) {
         File << r.Routen;
     } else {
         File << r.Routen;
-        File << *((ALBUM<CRoute> *)&r);
+        File << *((const ALBUM<CRoute> *)&r);
     }
 
     return (File);

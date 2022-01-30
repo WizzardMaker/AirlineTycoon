@@ -175,6 +175,9 @@ void CPlaneTypes::BlitPlaneAt(SBPRIMARYBM &TargetBm, SLONG PlaneType, SLONG Size
         // Triebwerke:
         TargetBm.BlitFromT(gUniversalPlaneBms[7], Pos.x - gUniversalPlaneBms[4].Size.x / 2, Pos.y - 20 - 8 - 19);
     } break;
+    default:
+        printf("Planetyp.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 }
 
@@ -1528,7 +1531,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CPlane &Plane) {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CPlanes &Planes) {
     File << Planes.Planes;
-    File << *((ALBUM<CPlane> *)&Planes);
+    File << *((const ALBUM<CPlane> *)&Planes);
 
     return (File);
 }

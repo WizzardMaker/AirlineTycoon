@@ -80,7 +80,7 @@ void TEAKFILE::Read(unsigned char *buffer, SLONG size) {
     }
 }
 
-void TEAKFILE::Write(unsigned char *buffer, SLONG size) {
+void TEAKFILE::Write(const unsigned char *buffer, SLONG size) {
     if (MemBuffer.AnzEntries() > 0) {
         if (MemPointer + size > MemBuffer.AnzEntries()) {
             SLONG slack = MemBuffer.AnzEntries() / 10;

@@ -74,7 +74,7 @@ unsigned char GerToUpper(unsigned char c) {
     return c;
 }
 
-unsigned char *RecapizalizeString(unsigned char *str) {
+void RecapizalizeString(CString& str) {
     for (int i = 0; str[i] != 0U; ++i) {
         if ((i != 0) && (i <= 0 || (str[i - 1] != ' ' && str[i - 1] != '-'))) {
             str[i] = GerToLower(str[i]);
@@ -82,7 +82,6 @@ unsigned char *RecapizalizeString(unsigned char *str) {
             str[i] = GerToUpper(str[i]);
         }
     }
-    return str;
 }
 
 const char *GetSuffix(const char *str) {

@@ -239,6 +239,12 @@ void CDutyFree::OnPaint() {
         case 801:
             RoomBm.BlitFromT(TipBm, 68, 94);
             break;
+        case -1:
+            // no tip
+            break;
+        default:
+            printf("DutyFree.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     }
     CStdRaum::PostPaint();
@@ -324,6 +330,9 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point) {
                         case 4:
                             qPlayer.LaptopBattery = 1440;
                             break;
+                        default:
+                            printf("DutyFree.cpp: Default case should not be reached.");
+                            DebugBreak();
                         }
 
                         if (qPlayer.LaptopQuality < 4) {

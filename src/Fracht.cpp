@@ -473,6 +473,9 @@ void CFracht::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRand) {
             case 1:
                 NachCity = HomeCity;
                 break;
+            default:
+                printf("Fracht.cpp: Default case should not be reached.");
+                DebugBreak();
             }
             break;
 
@@ -493,8 +496,14 @@ void CFracht::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRand) {
             case 1:
                 NachCity = HomeCity;
                 break;
+            default:
+                printf("Fracht.cpp: Default case should not be reached.");
+                DebugBreak();
             }
             break;
+        default:
+            printf("Fracht.cpp: Default case should not be reached.");
+            DebugBreak();
         }
 
         TimeOut++;
@@ -869,7 +878,7 @@ SLONG CFrachten::GetNumOpen() {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CFrachten &Frachten) {
     File << Frachten.Fracht;
-    File << *((ALBUM<CFracht> *)&Frachten);
+    File << *((const ALBUM<CFracht> *)&Frachten);
     File << Frachten.Random;
 
     return (File);
@@ -975,6 +984,9 @@ too_large:
         case 1:
             NachCity = CityNum;
             break;
+        default:
+            printf("Fracht.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     } while (VonCity == NachCity || (AreaType == 4 && Cities.CalcDistance(VonCity, NachCity) > 10000000));
 

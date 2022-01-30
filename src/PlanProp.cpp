@@ -230,6 +230,9 @@ void CPlaneProps::OnPaint() {
                             Backup = qPlane.EssenTarget;
                             qPlane.EssenTarget = static_cast<UBYTE>(c);
                             break;
+                        default:
+                            printf("PlanProp.cpp: Default case should not be reached.");
+                            DebugBreak();
                         }
                     }
                 }
@@ -291,6 +294,9 @@ void CPlaneProps::OnPaint() {
                         case 3:
                             qPlane.EssenTarget = Backup;
                             break;
+                        default:
+                            printf("PlanProp.cpp: Default case should not be reached.");
+                            DebugBreak();
                         }
                     }
                 }
@@ -527,6 +533,9 @@ void CPlaneProps::OnPaint() {
                                 Backup = qPlane.ElektronikTarget;
                                 qPlane.ElektronikTarget = static_cast<UBYTE>(c);
                                 break;
+                            default:
+                                printf("PlanProp.cpp: Default case should not be reached.");
+                                DebugBreak();
                             }
                         }
                     }
@@ -610,6 +619,9 @@ void CPlaneProps::OnPaint() {
                             case 3:
                                 qPlane.ElektronikTarget = Backup;
                                 break;
+                            default:
+                                printf("PlanProp.cpp: Default case should not be reached.");
+                                DebugBreak();
                             }
                         }
                     }

@@ -537,6 +537,7 @@ void PumpNetwork() {
                     case ROOM_WERBUNG:
                         pTalker = &Talkers.Talkers[TALKER_WERBUNG];
                         break;
+                    default: break;
                     }
 
                     if ((pTalker != nullptr) && (pTalker->IsBusy() == 0)) {
@@ -615,6 +616,7 @@ void PumpNetwork() {
                     case ROOM_WERBUNG:
                         Talkers.Talkers[TALKER_WERBUNG].DecreaseLocking();
                         break;
+                    default: break;
                     }
 
                     if (Sim.RoomBusy[RoomLeft] != 0U) {
@@ -650,6 +652,7 @@ void PumpNetwork() {
                 case 2:
                     qPlayer.Image = 1000;
                     break;
+                default: break;
                 }
             } break;
 
@@ -911,6 +914,9 @@ void PumpNetwork() {
                     AuslandsFRefill[City] = Delta;
                     AuslandsFrachten[City].RefillForAusland(City);
                     break;
+                default:
+                    printf("AtNet.cpp: Default case should not be reached.");
+                    DebugBreak();
                 }
             } break;
 
@@ -938,6 +944,9 @@ void PumpNetwork() {
                 case 5:
                     AuslandsFrachten[City].Fracht[Index].Praemie = 0;
                     break;
+                default:
+                    printf("AtNet.cpp: Default case should not be reached.");
+                    DebugBreak();
                 }
             } break;
 
@@ -1106,6 +1115,9 @@ void PumpNetwork() {
                                                                              (LPCTSTR)qFromPlayer.AirlineX, Generic1));
                     }
                     break;
+                default:
+                    printf("AtNet.cpp: Default case should not be reached.");
+                    DebugBreak();
                 }
             } break;
 
@@ -1638,6 +1650,9 @@ void PumpNetwork() {
                 case ITEM_ZANGE:
                     Sim.ItemZange = 0;
                     break;
+                default:
+                    printf("AtNet.cpp: Default case should not be reached.");
+                    DebugBreak();
                 }
             } break;
 

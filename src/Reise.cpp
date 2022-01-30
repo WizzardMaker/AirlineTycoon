@@ -26,6 +26,8 @@ extern SLONG timeReisClose;
 //--------------------------------------------------------------------------------------------
 // Zählt wie oft das Zeichen vorkommt:
 //--------------------------------------------------------------------------------------------
+long strchrcount(CString Text, char chr);
+
 long strchrcount(CString Text, char chr) {
     long c = 0;
     long n = 0;
@@ -42,6 +44,8 @@ long strchrcount(CString Text, char chr) {
 //--------------------------------------------------------------------------------------------
 // Bei Cities mit zwei Leerzeichen (Palm de Mallorca und Rio de Janeiro) wird nur das erste Wort genommen:
 //--------------------------------------------------------------------------------------------
+CString ShortenLongCities(CString City);
+
 CString ShortenLongCities(CString City) {
     City.TrimLeft();
     City.TrimRight();

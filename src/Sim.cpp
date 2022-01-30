@@ -87,6 +87,7 @@ extern long GenericSyncIdPars[4];
 extern long GenericAsyncIds[4 * 100];
 extern long GenericAsyncIdPars[4 * 100];
 
+void DumpAASeedSum(long /*CallerId*/);
 #ifdef _DEBUG
 void DumpAASeedSum(long CallerId) {
     long sum = 0;
@@ -1833,6 +1834,9 @@ void SIM::DoTimeStep() {
                                         }
                                         PictureId = GetIdFromString("SUPERMAN");
                                         break;
+                                    default:
+                                        printf("Sim.cpp: Default case should not be reached.");
+                                        DebugBreak();
                                     }
                                     if (qOpfer.Kurse[0] < 0) {
                                         qOpfer.Kurse[0] = 0;
@@ -2023,6 +2027,9 @@ void SIM::DoTimeStep() {
                                             bCanHappenToThisPlane = true;
                                         }
                                         break;
+                                    default:
+                                        printf("Sim.cpp: Default case should not be reached.");
+                                        DebugBreak();
                                     }
 
                                     if (bCanHappenToThisPlane) {
@@ -2778,6 +2785,9 @@ void SIM::NewDay() {
                         case 2:
                             qPlayer.ArabMode3 = -(SaboRand.Rand(5) + 1);
                             break;
+                        default:
+                            printf("Sim.cpp: Default case should not be reached.");
+                            DebugBreak();
                         }
 
                         qPlayer.ArabActive = FALSE;
@@ -3036,10 +3046,10 @@ TEAKFILE &operator<<(TEAKFILE &File, const SIM &Sim) {
     File << Sim.RFEssen << Sim.RFTabletts << Sim.RFDeco;
 
     // Die Statistik:
-    File.Write((UBYTE *)&Sim.StatfGraphVisible, sizeof(Sim.StatfGraphVisible));
+    File.Write((const UBYTE *)&Sim.StatfGraphVisible, sizeof(Sim.StatfGraphVisible));
     File << Sim.Statgroup << Sim.Statdays << Sim.StatnewDays << Sim.DropDownPosY;
-    File.Write((UBYTE *)(Sim.StatplayerMask), sizeof(Sim.StatplayerMask));
-    File.Write((UBYTE *)(Sim.StatiArray), sizeof(Sim.StatiArray));
+    File.Write((const UBYTE *)(Sim.StatplayerMask), sizeof(Sim.StatplayerMask));
+    File.Write((const UBYTE *)(Sim.StatiArray), sizeof(Sim.StatiArray));
 
     // Der maximale Schwierigkeitsgrad;
     File.WriteTrap(100);
@@ -3051,7 +3061,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const SIM &Sim) {
     File << SimDate << Sim.Time << Sim.Month;
     File << Sim.MonthDay << Sim.QuitCountDown;
     File << Sim.TickerTime << Sim.TimeSlice << Sim.StartWeekday << Sim.Weekday;
-    File.Write((UBYTE *)&Sim.StartTime, sizeof(4)); // 64Bit Size change!
+    File.Write((const UBYTE *)&Sim.StartTime, sizeof(4)); // 64Bit Size change!
 
     // Sonstiges:
     File.WriteTrap(100);
@@ -3929,6 +3939,9 @@ void SIM::UpdateRoomUsage() {
                     case ROOM_WERBUNG:
                         Talkers.Talkers[TALKER_WERBUNG].IncreaseLocking();
                         break;
+                    default:
+                        printf("Sim.cpp: Default case should not be reached.");
+                        DebugBreak();
                     }
                 }
             }
@@ -3966,6 +3979,9 @@ void SIM::NetRefill(SLONG Type, SLONG City) {
     case 4:
         Delta = AuslandsRefill[City];
         break;
+    default:
+        printf("Sim.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     Time = Sim.Time - Delta;
@@ -4042,11 +4058,11 @@ void SIM::SaveHighscores() {
     TEAKFILE OutputFile(AppPath + "misc/xmlmap.fla", TEAKFILE_WRITE);
 
     for (auto &Highscore : Highscores) {
-        OutputFile.Write((UBYTE *)(LPCTSTR)Highscore.Name, Highscore.Name.GetLength());
-        OutputFile.Write((UBYTE *)(";"), 1);
+        OutputFile.Write((const UBYTE *)(LPCTSTR)Highscore.Name, Highscore.Name.GetLength());
+        OutputFile.Write((const UBYTE *)(";"), 1);
 
         str = bprintf("%lu;", Highscore.UniqueGameId2);
-        OutputFile.Write((UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
 
         __int64 k1 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
         __int64 k2 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
@@ -4063,19 +4079,19 @@ void SIM::SaveHighscores() {
         }
 
         str = bprintf("%I64i;", k1);
-        OutputFile.Write((UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
 
         str = bprintf("%I64i;", k2);
-        OutputFile.Write((UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
 
         str = bprintf("%I64i;", k3);
-        OutputFile.Write((UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
 
         str = bprintf("%I64i;", k4);
-        OutputFile.Write((UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
 
         str = bprintf("%I64i\xd\xa", k5);
-        OutputFile.Write((UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
     }
 }
 

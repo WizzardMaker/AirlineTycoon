@@ -229,6 +229,9 @@ void CAuftrag::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRandom) {
             case 1:
                 NachCity = HomeCity;
                 break;
+            default:
+                printf("Auftrag.cpp: Default case should not be reached.");
+                DebugBreak();
             }
             break;
 
@@ -249,8 +252,14 @@ void CAuftrag::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRandom) {
             case 1:
                 NachCity = HomeCity;
                 break;
+            default:
+                printf("Auftrag.cpp: Default case should not be reached.");
+                DebugBreak();
             }
             break;
+        default:
+            printf("Auftrag.cpp: Default case should not be reached.");
+            DebugBreak();
         }
 
         TimeOut++;
@@ -627,6 +636,9 @@ too_large:
         case 1:
             NachCity = CityNum;
             break;
+        default:
+            printf("Auftrag.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     } while (VonCity == NachCity || (AreaType == 4 && Cities.CalcDistance(VonCity, NachCity) > 10000000));
 
@@ -1033,7 +1045,7 @@ SLONG CAuftraege::GetNumOpen() {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CAuftraege &Auftraege) {
     File << Auftraege.Auftraege;
-    File << *((ALBUM<CAuftrag> *)&Auftraege);
+    File << *((const ALBUM<CAuftrag> *)&Auftraege);
 
     if (SaveVersionSub >= 100) {
         File << Auftraege.Random;

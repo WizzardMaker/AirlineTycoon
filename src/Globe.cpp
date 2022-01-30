@@ -741,6 +741,9 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point) {
                                     pBlock->AnzPages = max(0, (pBlock->Table.AnzRows - 1) / 13) + 2;
                                 }
                                 break;
+                            default:
+                                printf("Globe.cpp: Default case should not be reached.");
+                                DebugBreak();
                             }
                         }
 

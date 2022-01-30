@@ -522,6 +522,9 @@ CAufsicht::~CAufsicht() {
                         }
                         qOpfer.StrikePlanned = TRUE;
                         break;
+                    default:
+                        printf("Aufsicht.cpp: Default case should not be reached.");
+                        DebugBreak();
                     }
 
                     // Für's nächste Briefing vermerken:
@@ -626,6 +629,9 @@ CAufsicht::~CAufsicht() {
                             qOpfer.Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_ADVICE, 2021));
                         }
                         break;
+                    default:
+                        printf("Aufsicht.cpp: Default case should not be reached.");
+                        DebugBreak();
                     }
 
                     // Für's nächste Briefing vermerken:

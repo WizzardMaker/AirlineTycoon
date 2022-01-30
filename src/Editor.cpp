@@ -28,6 +28,8 @@ extern SB_CColorFX ColorFX;
 #define DSBVOLUME_MIN (-10000)
 #define DSBVOLUME_MAX 0
 
+void ParseTokens(char *String, char *tokens[], long nTokens);
+
 CPlaneParts gPlaneParts;
 
 CPlaneBuild gPlaneBuilds[37] = {
@@ -1821,7 +1823,7 @@ bool CPlaneParts::IsSlotFree(const CString &Slotname) {
             CString SlotsUsed = gPlanePartRelations[(*this)[c].ParentRelationId].RulesOutSlots;
 
             for (d = 0; d < SlotsUsed.GetLength(); d += 2) {
-                if (*(WORD *)(((LPCTSTR)SlotsUsed) + d) == *(WORD *)(LPCTSTR)Slotname) {
+                if (*(const WORD *)(((LPCTSTR)SlotsUsed) + d) == *(const WORD *)(LPCTSTR)Slotname) {
                     return (false);
                 }
             }
@@ -1857,7 +1859,7 @@ void CPlaneParts::Sort() {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CPlaneParts &pp) {
     File << pp.PlaneParts;
-    File << *((ALBUM<CPlaneParts> *)&pp);
+    File << *((const ALBUM<CPlaneParts> *)&pp);
 
     return (File);
 }
@@ -1995,6 +1997,7 @@ long CXPlane::CalcPiloten() {
                 case NOTE_PILOT4:
                     piloten += 4;
                     break;
+                default: break;
                 }
             }
         }
@@ -2037,6 +2040,7 @@ long CXPlane::CalcBegleiter() {
                 case NOTE_BEGLEITER10:
                     begleiter += 10;
                     break;
+                default: break;
                 }
             }
         }
@@ -2105,6 +2109,7 @@ long CXPlane::CalcVerbrauch() {
                 case NOTE_VERBRAUCHXL:
                     verbrauch += 5000;
                     break;
+                default: break;
                 }
             }
         }
@@ -2206,6 +2211,7 @@ long CXPlane::CalcWartung() {
                 case NOTE_KAPUTTXL:
                     wartung += 20;
                     break;
+                default: break;
                 }
             }
         }
@@ -2272,6 +2278,7 @@ long CXPlane::CalcSpeed() {
                         speed = (speed * 2 + 800) / 3;
                     }
                     break;
+                default: break;
                 }
             }
         }
@@ -2447,7 +2454,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CXPlane &p) {
     long lReichweite = pp->CalcReichweite();
 
     File << dwSize << lCost << lWeight << lConsumption << lNoise << lReliability << lSpeed << lReichweite;
-    File.Write((UBYTE *)(LPCTSTR)(p.Name), strlen(p.Name) + 1);
+    File.Write((const UBYTE *)(LPCTSTR)(p.Name), strlen(p.Name) + 1);
 
     File << p.Name << p.Cost << p.Parts;
 
@@ -2534,6 +2541,9 @@ void CXPlane::BlitPlaneAt(SBPRIMARYBM &TargetBm, SLONG Size, XY Pos, SLONG Ownin
             }
         }
     } break;
+    default:
+        printf("Editor.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 }
 

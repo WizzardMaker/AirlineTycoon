@@ -515,7 +515,7 @@ TEAKFILE &operator>>(TEAKFILE &File, BUILD &Build) {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const BUILDS &Builds) {
     File << Builds.Builds;
-    File << *((ALBUM<BUILD> *)&Builds);
+    File << *((const ALBUM<BUILD> *)&Builds);
 
     return (File);
 }
@@ -586,7 +586,7 @@ void BUILDS::Save(SLONG Hall, SLONG Level) const {
         File << Builds;
 
         // Etwas tricky: Den geerbten shifting-operator der ALBUM-Klasse aufrufen:
-        File << *((ALBUM<BUILD> *)this);
+        File << *((const ALBUM<BUILD> *)this);
     }
 }
 

@@ -886,6 +886,8 @@ void CloseMixer(HMIXER* phMixer)
 
 SND_TYPE Tokens[] = {64, 135, 192, 2, 254, 100};
 
+BOOL Near(SND_TYPE a, SND_TYPE b);
+
 BOOL Near(SND_TYPE a, SND_TYPE b) {
     if (abs(SLONG(a) - SLONG(b)) < 3) {
         return (TRUE);
@@ -899,6 +901,8 @@ BOOL Near(SND_TYPE a, SND_TYPE b) {
 
     return (FALSE);
 }
+
+void CompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
 
 void CompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output) {
     SLONG c = 0;
@@ -1001,6 +1005,8 @@ void CompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output) {
 
     Output.ReSize(o);
 }
+
+void DecompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
 
 void DecompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output) {
     SLONG c = 0;

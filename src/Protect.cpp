@@ -828,6 +828,8 @@ bool CheckComputerLicense(void) {
 //--------------------------------------------------------------------------------------------
 // Sucht aus, welchen String wir den heute mal so abfagen:
 //--------------------------------------------------------------------------------------------
+void GetProtectionString(const CString &TabFilename, SLONG *pPageAndWord, CString *pRightWord);
+
 void GetProtectionString(const CString &TabFilename, SLONG *pPageAndWord, CString *pRightWord) {
     BUFFER<char> Line(300);
     SLONG FileP = 0;

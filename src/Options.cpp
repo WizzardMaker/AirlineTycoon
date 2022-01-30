@@ -510,6 +510,9 @@ void Options::OnPaint() {
                 SetMouseLook(CURSOR_HOT, 0, -100, 0);
             }
             break;
+        default:
+            printf("Options.cpp: Default case should not be reached.");
+            DebugBreak();
         }
 
         RoomBm.PrintAt(VersionString, FontSmallRed, TEC_FONT_RIGHT, XY(0, 429), XY(519, 480));
@@ -896,6 +899,9 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
                 RefreshKlackerField();
             }
             break;
+        default:
+            printf("Options.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     }
 }

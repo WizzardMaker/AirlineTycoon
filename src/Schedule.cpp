@@ -21,6 +21,8 @@ __int64 abs64(__int64 v);
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
+__int64 min64(__int64 a, __int64 b);
+
 __int64 min64(__int64 a, __int64 b) {
     if (a < b) {
         return (a);
@@ -1045,7 +1047,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CGate &Gate) {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CGates &Gates) {
     File << Gates.Gates;
-    File.Write((unsigned char *)Gates.Auslastung, 24 * 7);
+    File.Write((const unsigned char *)Gates.Auslastung, 24 * 7);
     File << Gates.NumRented;
 
     return (File);

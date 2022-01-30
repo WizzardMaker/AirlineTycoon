@@ -40,6 +40,8 @@ extern SLONG CheckGeneric;
 //--------------------------------------------------------------------------------------------
 // abs für 64-Bit Variablen
 //--------------------------------------------------------------------------------------------
+__int64 abs64(__int64 v);
+
 __int64 abs64(__int64 v) {
     if (v < 0) {
         return (-v);
@@ -264,6 +266,9 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
     case 3141:
         Bilanz.HabenRendite += AbsMoney32;
         break;
+    default:
+        printf("Player.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     if (LocationWin != nullptr) {
@@ -854,6 +859,10 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
     case DIFF_ATFS10:
         return (long(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay(0))));
         break;
+
+    default:
+        printf("Player.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     return (0);
@@ -1127,6 +1136,9 @@ void PLAYER::NewDay() {
     case 4:
         LaptopBattery = 1440;
         break;
+    default:
+        printf("Player.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     // LastFlown-Feld bei den Routen aktualisieren:
@@ -1354,6 +1366,9 @@ void PLAYER::NewDay() {
                             Planes[c].Zustand = UBYTE(min(Planes[c].Zustand + 15, 100));
                         }
                         break;
+                    default:
+                        printf("Player.cpp: Default case should not be reached.");
+                        DebugBreak();
                     }
 
                     if (Planes[c].Zustand > Planes[c].TargetZustand) {
@@ -4226,6 +4241,9 @@ void PLAYER::RobotExecuteAction() {
                                 }
                                 qPlane.SicherheitTarget++;
                                 break;
+                            default:
+                                printf("Player.cpp: Default case should not be reached.");
+                                DebugBreak();
                             }
 
                             ChangeMoney(-170000, 2110, (LPCTSTR)qPlane.Name);
@@ -4268,6 +4286,9 @@ void PLAYER::RobotExecuteAction() {
                 case 6:
                     qPlane.SicherheitTarget = min(2, qPlane.SicherheitTarget + 1);
                     break;
+                default:
+                    printf("Player.cpp: Default case should not be reached.");
+                    DebugBreak();
                 }
             }
         }
@@ -4384,6 +4405,9 @@ void PLAYER::RobotExecuteAction() {
                             }
                         }
                         break;
+                    default:
+                        printf("Player.cpp: Default case should not be reached.");
+                        DebugBreak();
                     }
 
                     // Wegen Security-Office:
@@ -4809,10 +4833,11 @@ void PLAYER::RobotExecuteAction() {
         }
 
         // Entschädigung +/-
-        ChangeMoney(SLONG(-(AnzAktien - OwnsAktien[PlayerNum]) * (AlterKurs - Kurse[0])), 3161, "");
+        auto diff = AlterKurs - Kurse[0];
+        ChangeMoney(SLONG(-(AnzAktien - OwnsAktien[PlayerNum]) * diff), 3161, "");
         for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
-            if (c != PlayerNum && Sim.Players.Players[c].OwnsAktien[PlayerNum] * (AlterKurs - Kurse[0]) != 0) {
-                Sim.Players.Players[c].ChangeMoney(SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * (AlterKurs - Kurse[0])), 3161, "");
+            if (c != PlayerNum && Sim.Players.Players[c].OwnsAktien[PlayerNum] * diff != 0) {
+                Sim.Players.Players[c].ChangeMoney(SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * diff), 3161, "");
             }
         }
 
@@ -6599,6 +6624,9 @@ void PLAYER::UpdateStatistics() {
 
     case DIFF_ADDON10:
         break;
+    default:
+        printf("Player.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     // STAT_WARTUNG: in CPlayer::NewDay ()
@@ -6796,6 +6824,9 @@ void PLAYERS::CheckFlighplans() {
                         case 4:
                             Players[c].Frachten[qFPE.ObjectId];
                             break;
+                        default:
+                            printf("Player.cpp: Default case should not be reached.");
+                            DebugBreak();
                         }
                     }
                 }
@@ -7168,8 +7199,8 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player) {
         File << Player.DutyTrust;
     }
 
-    File.Write((UBYTE *)Player.DisplayRoutes, sizeof(Player.DisplayRoutes));
-    File.Write((UBYTE *)Player.DisplayPlanes, sizeof(Player.DisplayPlanes));
+    File.Write((const UBYTE *)Player.DisplayRoutes, sizeof(Player.DisplayRoutes));
+    File.Write((const UBYTE *)Player.DisplayPlanes, sizeof(Player.DisplayPlanes));
 
     // Größere Daten:
     File << Player.Planes << Player.Auftraege << Player.Gates;

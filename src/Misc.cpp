@@ -28,6 +28,8 @@ TEAKRAND *pSurvisedRandom2 = nullptr;
 //--------------------------------------------------------------------------------------------
 // Liest eine Zeile aus einem Buffer aus:
 //--------------------------------------------------------------------------------------------
+SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
+
 SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength) {
     SLONG c = 0;
     SLONG d = 0;
@@ -499,6 +501,9 @@ SLONG CalculateFlightCostRechnerisch(SLONG VonCity, SLONG NachCity, SLONG Verbra
         case 2:
             Kosten += Kerosin * Sim.Kerosin / 2;
             break;
+        default:
+            printf("Misc.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     } else {
         Kosten += Kerosin * Sim.Kerosin;
@@ -537,6 +542,9 @@ SLONG CalculateFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG 
         case 2:
             Kosten += Kerosin * Sim.Kerosin / 2;
             break;
+        default:
+            printf("Misc.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     } else {
         Kosten += Kerosin * Sim.Kerosin;
@@ -574,6 +582,9 @@ SLONG CalculateRealFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SL
     case 2:
         Kosten += Kerosin * Sim.Kerosin / 2;
         break;
+    default:
+        printf("Misc.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     return (Kosten);
@@ -1061,6 +1072,9 @@ void HEADLINES::ComparisonHeadlines() {
                             GetIdFromString("TRASHP0") + (__int64(best) << (8 * 6)), 10);
             }
             break;
+        default:
+            printf("Misc.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     }
 
@@ -1220,9 +1234,9 @@ TEAKFILE &operator<<(TEAKFILE &File, const HEADLINES &Headlines) {
     for (c = 0; c < 30; c++) {
         File << Headlines.Headline[c].Headline << Headlines.Override[c].Headline;
 
-        File.Write((UBYTE *)&Headlines.Headline[c].PictureId, 8);
-        File.Write((UBYTE *)&Headlines.Override[c].PictureId, 8);
-        File.Write((UBYTE *)&Headlines.Override[c].PicturePriority, 4);
+        File.Write((const UBYTE *)&Headlines.Headline[c].PictureId, 8);
+        File.Write((const UBYTE *)&Headlines.Override[c].PictureId, 8);
+        File.Write((const UBYTE *)&Headlines.Override[c].PicturePriority, 4);
     }
 
     for (c = 0; c < 3; c++) {
@@ -1828,6 +1842,8 @@ CRect PaintTextBubble(SBBM &OffscreenBm, const XY &p1, const XY &p2, const XY &E
 
 SLONG iPastRandoms = 0;
 SLONG PastRandoms[] = {0xdead, 0xdead, 0xdead};
+
+void CheckEventSync(SLONG EventId);
 
 void CheckEventSync(SLONG EventId) {
     hprintf("%li,", EventId);

@@ -450,8 +450,8 @@ NewGamePopup::~NewGamePopup() {
         }
 
         for (c = 0; c < Sim.Players.AnzPlayers; c++) {
-            RecapizalizeString((UBYTE *)(LPCTSTR)Sim.Players.Players[c].Name);
-            RecapizalizeString((UBYTE *)(LPCTSTR)Sim.Players.Players[c].Airline);
+            RecapizalizeString(Sim.Players.Players[c].Name);
+            RecapizalizeString(Sim.Players.Players[c].Airline);
         }
 
         for (c = 0; c < Sim.Players.AnzPlayers; c++) {
@@ -2491,6 +2491,9 @@ void NewGamePopup::OnTimer(UINT nIDEvent) {
             case (SBNETWORK_RAKNET_DIRECT_HOST):
 
                 break;
+            default:
+                printf("NewGamePopup.cpp: Default case should not be reached.");
+                DebugBreak();
             }
 
             // if (gNetwork.Connect (pNetworkConnections->Get(NetMediumMapper[Selection]+1), (char*)(LPCTSTR)gHostIP))

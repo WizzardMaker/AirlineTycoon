@@ -516,6 +516,7 @@ void CStatistik::OnPaint() {
         case DIFF_ADDON06:
             n = TARGET_DAYS - Sim.Date;
             break;
+        default: break;
         }
 
         output = bprintf(StandardTexte.GetS(TOKEN_STAT, 9010 + static_cast<int>(n == 1)), n);
@@ -952,6 +953,9 @@ void CStatistik::RepaintTextWindow() {
                         output = Einheiten[EINH_DM].bString64(shares);
                         break;
                     }
+                    default:
+                        printf("Statistik.cpp: Default case should not be reached.");
+                        DebugBreak();
                     }
 
                     TextTableBm.PrintAt(output, StatFonts[p], TEC_FONT_RIGHT, rc.left, rc.top, rc.right - 5, rc.bottom);
@@ -1103,6 +1107,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point) {
                     }
                 }
                 break;
+            default: break;
             }
         }
 

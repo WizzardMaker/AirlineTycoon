@@ -11,6 +11,10 @@ static const UBYTE gDeltaTokenDelta2 = 253;
 static const UBYTE gDeltaTokenDelta3 = 254;
 static const UBYTE gDeltaTokenNoDelta = 255;
 
+BOOL deltaCompressFrame(FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame, XY OffsetA, XY OffsetB);
+BOOL deltaDecompressFrame(FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame);
+void Unvideo(const CString &Filename, const CString &TargetFilename);
+
 //--------------------------------------------------------------------------------------------
 // Dekomprimiert einen Frame mit einem Delta-Verfahren:
 //--------------------------------------------------------------------------------------------

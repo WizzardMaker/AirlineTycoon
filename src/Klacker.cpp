@@ -143,7 +143,6 @@ void KLACKER::Warp() {
 //--------------------------------------------------------------------------------------------
 void KLACKER::PrintAt(SLONG x, SLONG y, const char *Text) {
     SLONG c = 0;
-    char *p = nullptr;
 
     for (c = 0; c + x < 24 && (Text[c] != 0); c++) {
         char ch = Text[c];
@@ -258,7 +257,7 @@ void KLACKER::PrintAt(SLONG x, SLONG y, const char *Text) {
             }
         }
 
-        p = (char *)memchr(KlackerFntDef, ch, strlen(KlackerFntDef));
+        auto *p = (const char*)memchr(KlackerFntDef, ch, strlen(KlackerFntDef));
 
         if (p == nullptr) {
             Soll[c + x + y * 24] = 0;

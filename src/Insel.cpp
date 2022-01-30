@@ -18,6 +18,9 @@ extern SB_CColorFX ColorFX;
 static char THIS_FILE[] = __FILE__;
 #endif
 
+void PrepareReflexionTable(SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTable);
+void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &ReflexionSourceBm, const BUFFER<UBYTE> &pReflexionTable);
+
 // Für die Zeichenreihenfolge
 static SLONG PartsRemapper[] = {0, 1, 2, 3, 9, 4, 6, 5, 8, 7};
 

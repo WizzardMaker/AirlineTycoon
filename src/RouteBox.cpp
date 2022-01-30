@@ -27,6 +27,8 @@ static const XY PlayerOffsets[] = {XY(241, 267), XY(248, 335), XY(304, 258), XY(
 //--------------------------------------------------------------------------------------------
 // Berechnet den Abstand von einem Punkt zu einer Linie:
 //--------------------------------------------------------------------------------------------
+SLONG CalcDistanceLine2Dot(XY LineP1, XY LineP2, XY p);
+
 SLONG CalcDistanceLine2Dot(XY LineP1, XY LineP2, XY p) {
     float Abschnitt = NAN;
 
@@ -688,6 +690,9 @@ void CRouteBox::UpdateDataTable() {
 
         Table.AnzRows = d;
     } break;
+    default:
+        printf("RouteBox.cpp: Default case should not be reached.");
+        DebugBreak();
     }
     RoutePageMax = (Table.AnzRows - 1) / ListSize + 1;
     RepaintList();

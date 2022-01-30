@@ -21,6 +21,8 @@ extern SLONG SaveVersionSub;
 //--------------------------------------------------------------------------------------------
 // Gibt das Vorzeichen (-1, 0 oder 1) des Parameters zurück:
 //--------------------------------------------------------------------------------------------
+SLONG sign(SLONG Value);
+
 SLONG sign(SLONG Value) {
     if (Value > 0) {
         return (1);
@@ -908,6 +910,7 @@ void PERSON::DoOneAnimationStep() {
             }
         }
     } break;
+    default: break;
     }
 
     // Obere oder untere Ebene?
@@ -1081,6 +1084,9 @@ void PERSON::DoOneCustomerStep() {
     case 3:
         NewPos.x = Position.x - StepSize.x;
         break;
+    default:
+        printf("Person.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     // Hoppla! Sind wir etwa just über die Mittelline einer Bodenplatte gelaufen?
@@ -1168,6 +1174,9 @@ void PERSON::DoOneCustomerStep() {
             case 128:
                 Dir = 0;
                 break;
+            default:
+                printf("Person.cpp: Default case should not be reached.");
+                DebugBreak();
             }
         }
         // Oder gibt es gar keinen Ausgang? Dann sind wir in einer Sackgasse und drehen um!
@@ -1663,6 +1672,9 @@ void PERSON::DoOneCustomerStep() {
         case 3:
             NewPos.x = Position.x - StepSize.x;
             break;
+        default:
+            printf("Person.cpp: Default case should not be reached.");
+            DebugBreak();
         }
 
         ArrayPos.x = (Position.x + 4400) / 44 - 100;
@@ -1898,6 +1910,9 @@ void PERSON::DoOnePlayerStep() {
         NewPos.y = Position.y - StepSize.y;
         NewPos.x = Position.x - StepSize.x;
         break;
+    default:
+        printf("Person.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     if (qPlayer.PlayerStinking > 0 && Position.y < 4000) {
@@ -2068,6 +2083,9 @@ void PERSON::DoOnePlayerStep() {
                         Dir = 5; // Süd-West
                     }
                     break;
+                default:
+                    printf("Person.cpp: Default case should not be reached.");
+                    DebugBreak();
                 }
             }
 
@@ -2443,6 +2461,9 @@ void PERSON::DoOnePlayerStep() {
             Position.y -= StepSize.y;
             Position.x -= StepSize.x;
             break;
+        default:
+            printf("Person.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     }
 
@@ -2757,6 +2778,9 @@ void PERSON::DoOnePlayerStep() {
             }
         }
         break;
+    default:
+        printf("Person.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 
     if (Dir != 8) {
@@ -2869,6 +2893,9 @@ void PERSON::PersonReachedTarget() {
         case PERSON_2EXIT:
             State = PERSON_LEAVING;
             break;
+        default:
+            printf("Person.cpp: Default case should not be reached.");
+            DebugBreak();
         }
         break;
 
@@ -2965,6 +2992,9 @@ void PERSON::PersonReachedTarget() {
         case PERSON_2EXIT:
             State = PERSON_LEAVING;
             break;
+        default:
+            printf("Person.cpp: Default case should not be reached.");
+            DebugBreak();
         }
         break;
 
@@ -3179,6 +3209,9 @@ void PERSON::PersonReachedTarget() {
             }
         }
         break;
+    default:
+        printf("Person.cpp: Default case should not be reached.");
+        DebugBreak();
     }
 }
 
@@ -3413,6 +3446,9 @@ void PERSONS::DoOneStep() {
                             qPerson.DoOneAnimationStep();
                         }
                         break;
+                    default:
+                        printf("Person.cpp: Default case should not be reached.");
+                        DebugBreak();
                     }
                 } else {
                     break;
@@ -3701,7 +3737,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PERSON &Person) {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const PERSONS &Persons) {
     File << Persons.Persons;
-    File << *((ALBUM<PERSON> *)&Persons);
+    File << *((const ALBUM<PERSON> *)&Persons);
 
     return (File);
 }
