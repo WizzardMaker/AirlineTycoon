@@ -1084,9 +1084,7 @@ void PERSON::DoOneCustomerStep() {
     case 3:
         NewPos.x = Position.x - StepSize.x;
         break;
-    default:
-        printf("Person.cpp: Default case should not be reached.");
-        DebugBreak();
+    default: break;
     }
 
     // Hoppla! Sind wir etwa just über die Mittelline einer Bodenplatte gelaufen?
@@ -1174,9 +1172,7 @@ void PERSON::DoOneCustomerStep() {
             case 128:
                 Dir = 0;
                 break;
-            default:
-                printf("Person.cpp: Default case should not be reached.");
-                DebugBreak();
+            default: break;
             }
         }
         // Oder gibt es gar keinen Ausgang? Dann sind wir in einer Sackgasse und drehen um!
@@ -1672,9 +1668,7 @@ void PERSON::DoOneCustomerStep() {
         case 3:
             NewPos.x = Position.x - StepSize.x;
             break;
-        default:
-            printf("Person.cpp: Default case should not be reached.");
-            DebugBreak();
+        default: break;
         }
 
         ArrayPos.x = (Position.x + 4400) / 44 - 100;
@@ -1910,9 +1904,7 @@ void PERSON::DoOnePlayerStep() {
         NewPos.y = Position.y - StepSize.y;
         NewPos.x = Position.x - StepSize.x;
         break;
-    default:
-        printf("Person.cpp: Default case should not be reached.");
-        DebugBreak();
+    default: break;
     }
 
     if (qPlayer.PlayerStinking > 0 && Position.y < 4000) {
@@ -2083,9 +2075,7 @@ void PERSON::DoOnePlayerStep() {
                         Dir = 5; // Süd-West
                     }
                     break;
-                default:
-                    printf("Person.cpp: Default case should not be reached.");
-                    DebugBreak();
+                default: break;
                 }
             }
 
@@ -2461,9 +2451,7 @@ void PERSON::DoOnePlayerStep() {
             Position.y -= StepSize.y;
             Position.x -= StepSize.x;
             break;
-        default:
-            printf("Person.cpp: Default case should not be reached.");
-            DebugBreak();
+        default: break;
         }
     }
 
@@ -2778,9 +2766,7 @@ void PERSON::DoOnePlayerStep() {
             }
         }
         break;
-    default:
-        printf("Person.cpp: Default case should not be reached.");
-        DebugBreak();
+    default: break;
     }
 
     if (Dir != 8) {
@@ -3189,7 +3175,8 @@ void PERSON::PersonReachedTarget() {
             break;
 
         default:
-            break;
+            printf("Person.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     } break;
 

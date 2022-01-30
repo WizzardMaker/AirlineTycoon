@@ -2044,9 +2044,7 @@ void CStdRaum::InitToolTips() {
                     SetMouseLook(CURSOR_HOT, 4001, -100, 11);
                 }
                 break;
-            default:
-                printf("StdRaum.cpp: Default case should not be reached.");
-                DebugBreak();
+            default: break;
             }
 
             CursorPos += MenuPos;
@@ -2520,9 +2518,7 @@ void CStdRaum::InitToolTips() {
                     SetMouseLook(CURSOR_HOT, 0, -101, MENU_BRIEFING, 2);
                 }
                 break;
-            default:
-                printf("StdRaum.cpp: Default case should not be reached.");
-                DebugBreak();
+            default: break;
             }
         }
         // Oder in einem Dialog?
@@ -5915,9 +5911,7 @@ void CStdRaum::MenuRepaint() {
             }
         }
         break;
-    default:
-        printf("StdRaum.cpp: Default case should not be reached.");
-        DebugBreak();
+    default: break;
     }
 }
 

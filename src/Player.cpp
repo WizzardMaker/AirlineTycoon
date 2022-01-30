@@ -234,9 +234,11 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         Bilanz.HabenZinsen += AbsMoney32;
         break;
     case 2021:
+        /* nicht benutzt?? */
         Bilanz.Kerosin += AbsMoney32;
         break;
     case 2030:
+        /* nicht benutzt?? */
         Bilanz.Tickets += AbsMoney32;
         break;
     case 2050:
@@ -249,9 +251,11 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         Bilanz.Routenmiete += AbsMoney32;
         break;
     case 2060:
+        /* Vertragsstrafe für Passagier-Aufträge */
         Bilanz.Vertragsstrafen += AbsMoney32;
         break;
     case 2061:
+        /* nicht benutzt?? */
         Bilanz.Auftraege += AbsMoney32;
         break;
     case 2070:
@@ -266,9 +270,133 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
     case 3141:
         Bilanz.HabenRendite += AbsMoney32;
         break;
+    case 2003:
+        /* Kreditaufnahme */
+        break;
+    case 2004:
+        /* Kreditrückzahlung */
+        break;
+    case 2006:
+        /* Geld im Papierkorb */
+        break;
+    case 2010:
+        /* Kauf eines Flugzeuges */
+        break;
+    case 2011:
+        /* Verkauf eines Flugzeuges */
+        break;
+    case 2040:
+        /* Ersteigerung einer Niederlassung */
+        break;
+    case 2041:
+        /* Ersteigerung einer Route */
+        break;
+    case 2042:
+        /* Ersteigerung eines Gate */
+        break;
+    case 2065:
+        /* Vertragsstrafe für Frachtaufträge */
+        break;
+    case 2080:
+        /* Sabotage */
+        break;
+    case 2090:
+        /* Kerosin kaufen */
+        break;
+    case 2091:
+        /* Kauf von Tanks */
+        break;
+    case 2100:
+        /* Erlös durch Routenflug */
+        break;
+    case 2101:
+        /* Erlös durch Auftragsflug */
+        break;
+    case 2102:
+        /* Verlust durch Leerflug */
+        break;
+    case 2103:
+        /* Erlös durch Frachtflug */
+        break;
+    case 2110:
+        /* Aufrüstung eines Flugzeuges */
+        break;
+    case 2111:
+        /* Umrüstung eines Flugzeuges für Fracht */
+        break;
+    case 2200:
+        /* gezahlte Strafe für Sabotage */
+        break;
+    case 2201:
+        /* erhaltene Entschädigung für Sabotage */
+        break;
+    case 3120:
+    case 3121:
+    case 3122:
+    case 3123:
+    case 3124:
+    case 3125:
+        /* Kosten für versch. Werbe-Kampagnen */
+        break;
+    case 3130:
+        /* Bodyguard-Rabatt */
+        break;
+    case 3150:
+        /* Aktien kaufen */
+        break;
+    case 3151:
+        /* Aktien verkaufen */
+        break;
+    case 3160:
+        /* Bankgebühr beim Ausgeben von Aktien */
+        break;
+    case 3161:
+        /* Entschädigung bei Ausgabe von Aktien (sowohl gezahlt als auch erhalten) */
+        break;
+    case 3162:
+        /* Erlös von ausgegebenen Aktien */
+        break;
+    case 3170:
+        /* Kosten Gate-Erweiterung */
+        break;
+    case 3180:
+        /* Vermögen von Airline-Übernahmen */
+        break;
+    case 3181:
+        /* Erlös von Aktien bei Airline-Liquidation */
+        break;
+    case 3300:
+        /* Münze für Fernglas */
+        break;
+    case 3400:
+        /* Kosten für Teil der Rakete */
+        break;
+    case 3500:
+        /* Kosten für Sabotage (Salz - Absturz) */
+        break;
+    case 3501:
+        /* Kosten durch Panne */
+        break;
+    case 3502:
+        /* Gewinn/Verlust durch Sabotage (Hacking eines Bankkontos) */
+        break;
+    case 3503:
+        /* Ausgaben für Security */
+        break;
+    case 3600:
+        /* Vermögenssteuer */
+        break;
+    case 3700:
+        /* Geld erhalten von anderem Spieler (Multiplayer) */
+        break;
+    case 3701:
+        /* Geld gezahlt an anderen Spieler (Multiplayer) */
+        break;
+    case 9999:
+        /* shoppen im DutyFree */
+        break;
     default:
-        printf("Player.cpp: Default case should not be reached.");
-        DebugBreak();
+        printf("ChangeMoney: Keine Kategorie für %d\n", Reason);
     }
 
     if (LocationWin != nullptr) {
@@ -1124,6 +1252,9 @@ void PLAYER::NewDay() {
     BoredOfPlayer = FALSE;
 
     switch (LaptopQuality) {
+    case 0:
+        // no Laptop
+        break;
     case 1:
         LaptopBattery = 40;
         break;
@@ -6625,8 +6756,8 @@ void PLAYER::UpdateStatistics() {
     case DIFF_ADDON10:
         break;
     default:
-        printf("Player.cpp: Default case should not be reached.");
-        DebugBreak();
+        // Freegame und ATFS-Missionen
+        break;
     }
 
     // STAT_WARTUNG: in CPlayer::NewDay ()
@@ -6813,6 +6944,9 @@ void PLAYERS::CheckFlighplans() {
                         CFlugplanEintrag &qFPE = qPlan.Flug[e];
 
                         switch (qFPE.ObjectType) {
+                        case 0:
+                            // nix
+                            break;
                         case 1:
                             Routen[qFPE.ObjectId];
                             break;
@@ -6821,9 +6955,14 @@ void PLAYERS::CheckFlighplans() {
                             Players[c].Auftraege[qFPE.ObjectId];
                             break;
 
+                        case 3:
+                            // Automatik
+                            break;
+
                         case 4:
                             Players[c].Frachten[qFPE.ObjectId];
                             break;
+
                         default:
                             printf("Player.cpp: Default case should not be reached.");
                             DebugBreak();
