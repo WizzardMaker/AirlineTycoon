@@ -1939,9 +1939,7 @@ void CStdRaum::StopDialog() {
             case TALKER_WERBUNG:
                 room = ROOM_WERBUNG;
                 break;
-            default:
-                printf("StdRaum.cpp: Default case should not be reached.");
-                DebugBreak();
+            default: break;
             }
 
             if ((room != 0) && Sim.RoomBusy[room] > 0) {
