@@ -16,7 +16,7 @@ SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineL
 //--------------------------------------------------------------------------------------------
 // Konstruktor:
 //--------------------------------------------------------------------------------------------
-CITIES::CITIES(const CString &TabFilename) : ALBUM<CITY>(Cities, "Cities") { ReInit(TabFilename); }
+CITIES::CITIES(const CString &TabFilename) : ALBUM_V<CITY>("Cities") { ReInit(TabFilename); }
 
 //--------------------------------------------------------------------------------------------
 // Initialisiert die Städte:
@@ -34,7 +34,7 @@ void CITIES::ReInit(const CString &TabFilename) {
     // Die erste Zeile einlesen
     FileP = ReadLine(FileData, FileP, Line, 300);
 
-    Cities.ReSize(MAX_CITIES);
+    ReSize(MAX_CITIES);
 
     while (true) {
         if (FileP >= FileData.AnzEntries()) {
@@ -52,39 +52,38 @@ void CITIES::ReInit(const CString &TabFilename) {
         if (IsInAlbum(Id) != 0) {
             TeakLibW_Exception(FNL, ExcNever);
         }
-        (*this) *= Id;
 
-        // SpeedUp durch direkten Zugriff:
-        Id = (*this)(Id);
+        CITY city;
+        city.Name = strtok(nullptr, TabSeparator);
+        city.Lage = strtok(nullptr, TabSeparator);
+        city.Areacode = atoi(strtok(nullptr, TabSeparator));
+        city.KuerzelGood = strtok(nullptr, TabSeparator);
+        city.KuerzelReal = strtok(nullptr, TabSeparator);
+        city.Wave = strtok(nullptr, TabSeparator);
+        city.TextRes = atoi(strtok(nullptr, TabSeparator));
+        city.AnzTexts = atoi(strtok(nullptr, TabSeparator));
+        city.PhotoName = strtok(nullptr, TabSeparator);
+        city.AnzPhotos = atoi(strtok(nullptr, TabSeparator));
+        city.Einwohner = atoi(strtok(nullptr, TabSeparator));
+        city.GlobusPosition.x = atoi(strtok(nullptr, TabSeparator));
+        city.GlobusPosition.y = atoi(strtok(nullptr, TabSeparator));
+        city.MapPosition.x = atoi(strtok(nullptr, TabSeparator));
+        city.MapPosition.y = atoi(strtok(nullptr, TabSeparator));
+        city.BuroRent = atoi(strtok(nullptr, TabSeparator));
+        city.bNewInAddOn = atoi(strtok(nullptr, TabSeparator));
 
-        (*this)[Id].Name = strtok(nullptr, TabSeparator);
-        (*this)[Id].Lage = strtok(nullptr, TabSeparator);
-        (*this)[Id].Areacode = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].KuerzelGood = strtok(nullptr, TabSeparator);
-        (*this)[Id].KuerzelReal = strtok(nullptr, TabSeparator);
-        (*this)[Id].Wave = strtok(nullptr, TabSeparator);
-        (*this)[Id].TextRes = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].AnzTexts = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].PhotoName = strtok(nullptr, TabSeparator);
-        (*this)[Id].AnzPhotos = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Einwohner = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].GlobusPosition.x = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].GlobusPosition.y = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].MapPosition.x = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].MapPosition.y = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].BuroRent = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].bNewInAddOn = atoi(strtok(nullptr, TabSeparator));
+        city.Name = KorrigiereUmlaute(city.Name);
 
-        (*this)[Id].Name = KorrigiereUmlaute((*this)[Id].Name);
+        push_front(Id, std::move(city));
 
 #ifdef DEMO
-        (*this)[Id].AnzPhotos = 0; // In der Demo keine Städtebilder
+        city.AnzPhotos = 0; // In der Demo keine Städtebilder
 #endif
 
         Anz++;
     }
 
-    Cities.ReSize(Anz);
+    ReSize(Anz);
 
     UseRealKuerzel(Sim.Options.OptionRealKuerzel);
 }
@@ -245,7 +244,7 @@ ULONG CITIES::GetIdFromName(const char *Name) {
     SLONG c = 0;
 
     for (c = 0; c < AnzEntries(); c++) {
-        if ((IsInAlbum(c) != 0) && stricmp(Name, (LPCTSTR)Cities[c].Name) == 0) {
+        if ((IsInAlbum(c) != 0) && stricmp(Name, (LPCTSTR)at(c).Name) == 0) {
             return (GetIdFromIndex(c));
         }
     }
@@ -264,7 +263,7 @@ ULONG CITIES::GetIdFromNames(const char *Name, ...) {
     LPCSTR tmp = Name;
     for (va_start(va_marker, Name); tmp != (nullptr); tmp = va_arg(va_marker, LPCSTR)) {
         for (c = 0; c < AnzEntries(); c++) {
-            if ((IsInAlbum(c) != 0) && stricmp(tmp, (LPCTSTR)Cities[c].Name) == 0) {
+            if ((IsInAlbum(c) != 0) && stricmp(tmp, (LPCTSTR)at(c).Name) == 0) {
                 return (GetIdFromIndex(c));
             }
         }

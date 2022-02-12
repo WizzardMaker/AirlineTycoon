@@ -1075,20 +1075,20 @@ class /**/ CITY // Eine Stadt
   public:
     CString Name;          // z.B. "Rio de Janeiro"
     CString Lage;          // z.B. "Südamerika"
-    SLONG Areacode;        // 1=Europa, 2=Amerika, 3=Afrika-Indien, 4=Asien&Ozeanien
+    SLONG Areacode{};      // 1=Europa, 2=Amerika, 3=Afrika-Indien, 4=Asien&Ozeanien
     CString Kuerzel;       // aktuelles kuerzel
     CString KuerzelGood;   // z.B. "MOS" f. Moskau
     CString KuerzelReal;   // z.B. "SVO" f. Moskau
     CString Wave;          // Die Wave-Datei
-    SLONG TextRes;         // Base-Ressource Id für Texte
-    SLONG AnzTexts;        // Anzahl der Seiten mit Text
+    SLONG TextRes{};       // Base-Ressource Id für Texte
+    SLONG AnzTexts{};      // Anzahl der Seiten mit Text
     CString PhotoName;     // Name des Photos auf die Stadt
-    SLONG AnzPhotos;       // Anzahl der Photos (%li muß dann im Namen vorkommen)
-    SLONG Einwohner;       // Die Zahl der Einwohner
+    SLONG AnzPhotos{};     // Anzahl der Photos (%li muß dann im Namen vorkommen)
+    SLONG Einwohner{};     // Die Zahl der Einwohner
     CPoint GlobusPosition; // Die Position auf dem Globus
     CPoint MapPosition;    // Die Position auf der flachen Karte
-    SLONG BuroRent;        // Die Monatsmiete für eine Niederlassung
-    BOOL bNewInAddOn;      // Ist im Add-On neu hinzugekommen?
+    SLONG BuroRent{};      // Die Monatsmiete für eine Niederlassung
+    BOOL bNewInAddOn{};    // Ist im Add-On neu hinzugekommen?
                            // Vorraussetzung für Anflug
 
   public:
@@ -1096,13 +1096,12 @@ class /**/ CITY // Eine Stadt
     SLONG GetBuroRent(void);
 };
 
-class /**/ CITIES : public ALBUM<CITY> {
+class /**/ CITIES : public ALBUM_V<CITY> {
   public:
-    BUFFER<CITY> Cities;
     BUFFER<SLONG> HashTable;
 
   public:
-    CITIES() : ALBUM<CITY>(Cities, "Cities") {}
+    CITIES() : ALBUM_V<CITY>("Cities") {}
     CITIES(const CString &TabFilename);
     void ReInit(const CString &TabFilename);
     void Update(long Jahr);
