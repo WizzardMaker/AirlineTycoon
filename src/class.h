@@ -1385,27 +1385,27 @@ class /**/ BUILDS : public ALBUM<BUILD> {
 //--------------------------------------------------------------------------------------------
 class /**/ CLAN {
   private:
-    UBYTE Type;          // Guest, Player, Worker, FX-Charakter
-    BOOL TodayInGame;    // Heute im Spiel?
-    SLONG Group;         // Gruppe, die dieser Clan angehört
-    UBYTE Wkeit;         // Wkeit, daß nicht neu gewürfelt wird
-    UBYTE UpdateNow;     // Ist ein Pool-Update erwünscht?
-    SLONG WalkSpeed;     // Laufgeschwindigkeit
-    SLONG Faktor;        // Animationsgeschwindigkeit
+    UBYTE Type{};        // Guest, Player, Worker, FX-Charakter
+    BOOL TodayInGame{};  // Heute im Spiel?
+    SLONG Group{};       // Gruppe, die dieser Clan angehört
+    UBYTE Wkeit{};       // Wkeit, daß nicht neu gewürfelt wird
+    UBYTE UpdateNow{};   // Ist ein Pool-Update erwünscht?
+    SLONG WalkSpeed{};   // Laufgeschwindigkeit
+    SLONG Faktor{};      // Animationsgeschwindigkeit
     XY Offset;           // Offset zum blitten
     XY ShadowOffset;     // Offset zum blitten für den Schatten
     XY SkelettOffset;    // Offset zum blitten für das Skelett
     XY GimmickOffset;    // Offset zum blitten für das Gimmick
     CString PalFilename; // Hierdrin ist die Palette zu finden
-    SLONG GimmickArt1;   // Art des Gimmicks (LookDir) wenn Person läuft
-    SLONG GimmickArt2;   // Art des Gimmicks (LookDir) wenn Person wartet
+    SLONG GimmickArt1{}; // Art des Gimmicks (LookDir) wenn Person läuft
+    SLONG GimmickArt2{}; // Art des Gimmicks (LookDir) wenn Person wartet
     SBBMS Phasen[14];    // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
     SBBMS Shadow[14];    // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
     SBBMS Skelett[14];   // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
-    SLONG HasSuitcase;   // 0=Nein, <0: Kann einen haben; >0 hat einen Koffer
+    SLONG HasSuitcase{}; // 0=Nein, <0: Kann einen haben; >0 hat einen Koffer
 
-    SLONG FloorOffset; // Z-Distanz
-    SLONG GimmickTime; // Wann wurde das Gimmick zuletzt genutzt?
+    SLONG FloorOffset{}; // Z-Distanz
+    SLONG GimmickTime{}; // Wann wurde das Gimmick zuletzt genutzt?
 
     CHLPool ClanPool;
     CHLPool ClanGimmick;
@@ -1414,7 +1414,7 @@ class /**/ CLAN {
     BUFFER<__int64> SkelettIds[14]; // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
 
   public:
-    CLAN() {}
+    CLAN() = default;
     void BlitAt(SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos, UBYTE Running);
     void BlitAt(SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, SLONG x, SLONG y, UBYTE Running) { BlitAt(Offscreen, Dir, Phase, XY(x, y), Running); }
     void BlitSkelettAt(SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos);
@@ -1537,10 +1537,7 @@ class /**/ PERSON {
     friend class AIRPORT;
 };
 
-class /**/ PERSONS : public ALBUM<PERSON> {
-  public:
-    FBUFFER<PERSON> Persons;
-
+class /**/ PERSONS : public ALBUM_V<PERSON> {
   public:
     PERSONS();
     void DepthSort(void);

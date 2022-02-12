@@ -125,9 +125,9 @@ CRouteBox::CRouteBox(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
 CRouteBox::~CRouteBox() {
     Sim.Players.Players[PlayerNum].RoutePage = RoutePage;
 
-    Sim.Persons.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))].LookDir = 2;
+    Sim.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))].LookDir = 2;
     Sim.Players.Players[PlayerNum].DirectToRoom = 0;
-    Sim.Persons.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))].StatePar = 0;
+    Sim.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))].StatePar = 0;
 
     HereBm.Destroy();
     ListBm.Destroy();

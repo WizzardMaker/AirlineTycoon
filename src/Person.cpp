@@ -910,7 +910,8 @@ void PERSON::DoOneAnimationStep() {
             }
         }
     } break;
-    default: break;
+    default:
+        break;
     }
 
     // Obere oder untere Ebene?
@@ -1084,7 +1085,8 @@ void PERSON::DoOneCustomerStep() {
     case 3:
         NewPos.x = Position.x - StepSize.x;
         break;
-    default: break;
+    default:
+        break;
     }
 
     // Hoppla! Sind wir etwa just über die Mittelline einer Bodenplatte gelaufen?
@@ -1172,7 +1174,8 @@ void PERSON::DoOneCustomerStep() {
             case 128:
                 Dir = 0;
                 break;
-            default: break;
+            default:
+                break;
             }
         }
         // Oder gibt es gar keinen Ausgang? Dann sind wir in einer Sackgasse und drehen um!
@@ -1668,7 +1671,8 @@ void PERSON::DoOneCustomerStep() {
         case 3:
             NewPos.x = Position.x - StepSize.x;
             break;
-        default: break;
+        default:
+            break;
         }
 
         ArrayPos.x = (Position.x + 4400) / 44 - 100;
@@ -1904,7 +1908,8 @@ void PERSON::DoOnePlayerStep() {
         NewPos.y = Position.y - StepSize.y;
         NewPos.x = Position.x - StepSize.x;
         break;
-    default: break;
+    default:
+        break;
     }
 
     if (qPlayer.PlayerStinking > 0 && Position.y < 4000) {
@@ -2075,7 +2080,8 @@ void PERSON::DoOnePlayerStep() {
                         Dir = 5; // Süd-West
                     }
                     break;
-                default: break;
+                default:
+                    break;
                 }
             }
 
@@ -2451,7 +2457,8 @@ void PERSON::DoOnePlayerStep() {
             Position.y -= StepSize.y;
             Position.x -= StepSize.x;
             break;
-        default: break;
+        default:
+            break;
         }
     }
 
@@ -2688,7 +2695,7 @@ void PERSON::DoOnePlayerStep() {
         }
 
         if (qPlayer.IsWalking2Player != -1) {
-            XY p = Sim.Persons.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(qPlayer.IsWalking2Player))].Position;
+            XY p = Sim.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(qPlayer.IsWalking2Player))].Position;
 
             if (Position.y + Upfloor * 5000 > p.y + 7) {
                 Phase = 0;
@@ -2766,7 +2773,8 @@ void PERSON::DoOnePlayerStep() {
             }
         }
         break;
-    default: break;
+    default:
+        break;
     }
 
     if (Dir != 8) {
@@ -3216,7 +3224,7 @@ const CFlugplanEintrag *PERSON::GetFlugplanEintrag() const {
 //--------------------------------------------------------------------------------------------
 // Konstruktor:
 //--------------------------------------------------------------------------------------------
-PERSONS::PERSONS() : ALBUM<PERSON>(Persons, "Persons") { Persons.ReSize(800); }
+PERSONS::PERSONS() : ALBUM_V<PERSON>("Persons") { ReSize(800); }
 
 //--------------------------------------------------------------------------------------------
 // Sortiert alle Personen gemäß ihrer Tiefe:
@@ -3723,8 +3731,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PERSON &Person) {
 // Speichert ein PERSONS-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const PERSONS &Persons) {
-    File << Persons.Persons;
-    File << *((const ALBUM<PERSON> *)&Persons);
+    File << *((const ALBUM_V<PERSON> *)&Persons);
 
     return (File);
 }
@@ -3733,8 +3740,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const PERSONS &Persons) {
 // Lädt ein PERSONS-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, PERSONS &Persons) {
-    File >> Persons.Persons;
-    File >> *((ALBUM<PERSON> *)&Persons);
+    File >> *((ALBUM_V<PERSON> *)&Persons);
 
     return (File);
 }
@@ -3866,7 +3872,7 @@ void CPersonQueue::Pump() {
                 Person[c].TimeSlice = -1;
 
                 if (Sim.Persons.GetNumFree() < 2) { // Ggf. Array vergrößern
-                    Sim.Persons.Persons.ReSize(Sim.Persons.Persons.AnzEntries() + 10);
+                    Sim.Persons.ReSize(Sim.Persons.AnzEntries() + 10);
                 }
 
                 // log: hprintf ("CPersonQueue::Pump (%li, %li|%li...", Person[c].ClanId, Person[c].Position.x, Person[c].Position.y);

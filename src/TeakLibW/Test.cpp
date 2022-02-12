@@ -128,19 +128,29 @@ template <typename T> bool run_test() {
     /* test sorting */
     {
         auto tmp = list;
-        expect_val(list, id, 3);
-        list.Sort();
-        expect_val(list, id, 3);
-        expect_val(list, id2, 5);
-        expect_list(list, std::vector<T>({1, 2, 3, 4, 5, T()}), 6, 1);
-
-        tmp -= id2;
         expect_val(tmp, id, 3);
         tmp.Sort();
         expect_val(tmp, id, 3);
-        expect_nonexist(tmp, id2);
-        expect_list(tmp, std::vector<T>({1, 2, 3, 4, T(), 5}), 6, 2);
+        expect_val(tmp, id2, 5);
+        expect_list(tmp, std::vector<T>({1, 2, 3, 4, 5, T()}), 6, 1);
+
+        tmp -= id;
+        expect_nonexist(tmp, id);
+        expect_val(tmp, id2, 5);
+        tmp.Sort();
+        expect_nonexist(tmp, id);
+        expect_val(tmp, id2, 5);
+        expect_list(tmp, std::vector<T>({1, 2, 4, 5, 3, T()}), 6, 2);
     }
+
+    /* test push front */
+    list.ReSize(10);
+    list *= 11;
+    auto id3 = (list *= 12);
+    expect_list(list, std::vector<T>({4, 3, 2, 1, 11, 5, 12, T(), T(), T()}), 10, 3);
+    expect_val(list, id, 3);
+    expect_val(list, id2, 5);
+    expect_val(list, id3, 12);
 
     printf("Errors: %d \n", errors);
     return (errors == 0);

@@ -462,7 +462,7 @@ void PumpNetwork() {
 
                 Message >> PlayerNum >> Mode;
 
-                PERSON &qPerson = Sim.Persons.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))];
+                PERSON &qPerson = Sim.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))];
 
                 if (Mode == 1) {
                     qPerson.State = qPerson.State & ~PERSON_WAITFLAG;
@@ -486,7 +486,7 @@ void PumpNetwork() {
 
                 Message >> PlayerNum >> Dir;
 
-                Sim.Persons.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))].LookAt(Dir);
+                Sim.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))].LookAt(Dir);
             } break;
 
             case ATNET_PLAYERSTOP: {
@@ -1256,7 +1256,7 @@ void PumpNetwork() {
                 // Ist Spieler bereit, einen Dialog zu beginnen?
                 if (qPlayer.GetRoom() == ROOM_AIRPORT && (qPlayer.IsStuck == 0) && (pRaum != nullptr) && pRaum->MenuIsOpen() == FALSE &&
                     pRaum->IsDialogOpen() == FALSE) {
-                    PERSON &qPerson = Sim.Persons.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(Sim.localPlayer))];
+                    PERSON &qPerson = Sim.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(Sim.localPlayer))];
 
                     qPlayer.WalkStopEx();
                     qPlayer.IsTalking = TRUE;
@@ -1286,7 +1286,7 @@ void PumpNetwork() {
 
                 Message >> TargetPlayer >> Phase;
 
-                Sim.Persons.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(TargetPlayer))].Phase = UBYTE(Phase);
+                Sim.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(TargetPlayer))].Phase = UBYTE(Phase);
 
                 if (!qPlayer.bDialogStartSent) {
                     qPlayer.IsWalking2Player = TargetPlayer;

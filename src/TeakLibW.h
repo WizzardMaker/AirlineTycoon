@@ -1131,25 +1131,11 @@ template <typename T> class ALBUM_V {
         TeakLibW_Exception(nullptr, 0, ExcAlbumDelete, Name.c_str());
     }
 
-    /*
-    ULONG operator*=(T &rhs) {
-        ULONG Id = TeakAlbumFrontAddT(Ids, Values->AnzEntries(), Name, GetUniqueId());
-        (*this)[Id] = rhs;
-        return Id;
-    }
-
-    ULONG operator*=(T &&rhs) {
-        ULONG Id = TeakAlbumFrontAddT(Ids, Values->AnzEntries(), Name, GetUniqueId());
-        (*this)[Id] = rhs;
-        return Id;
-    }
-    */
-
-    ULONG operator+=(const T &rhs) {
+    ULONG operator*=(T rhs) {
         auto id = GetUniqueId();
-        for (int i = AnzEntries() - 1; i >= 0; --i) {
+        for (int i = 0; i < AnzEntries(); ++i) {
             if (ListInit[i] == 0) {
-                List[i] = rhs;
+                std::swap(List[i], rhs);
                 ListInit[i] = id;
                 Hash[id] = i;
                 return id;
@@ -1159,11 +1145,11 @@ template <typename T> class ALBUM_V {
         return 0;
     }
 
-    ULONG operator+=(T &&rhs) {
+    ULONG operator+=(T rhs) {
         auto id = GetUniqueId();
         for (int i = AnzEntries() - 1; i >= 0; --i) {
             if (ListInit[i] == 0) {
-                List[i] = std::move(rhs);
+                std::swap(List[i], rhs);
                 ListInit[i] = id;
                 Hash[id] = i;
                 return id;
