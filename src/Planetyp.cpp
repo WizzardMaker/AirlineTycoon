@@ -274,7 +274,7 @@ CPlane::CPlane(const CString &Name, ULONG TypeId, UBYTE Zustand, SLONG Baujahr) 
 // wenn die CPlanes resizet wurden liegt der Buffer woanders und das Album fragt sich warum
 // es davon nichts weiß.
 //--------------------------------------------------------------------------------------------
-void CPlane::RepairReferences() { XPlane.Parts.Repair(XPlane.Parts.PlaneParts); }
+void CPlane::RepairReferences() {}
 
 //--------------------------------------------------------------------------------------------
 // Berechnet den Marktwert des Flugzeuges:

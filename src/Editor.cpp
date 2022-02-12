@@ -706,7 +706,7 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ed
     bAllowB = bAllowC = bAllowH = bAllowW = bAllowM = false;
 
     GripRelation = -1;
-    Plane.Parts.PlaneParts.ReSize(100);
+    Plane.Parts.ReSize(100);
 
     if (bHandy == 0) {
         AmbientManager.SetGlobalVolume(60);
@@ -1570,14 +1570,13 @@ void CEditor::DoLButtonWork(UINT /*nFlags*/, const CPoint & /*point*/) {
 void CEditor::OnLButtonUp(UINT /*nFlags*/, CPoint /*point*/) {
     if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0)) {
         if (GripRelation != -1 && DragDropMode != -1) {
-            ULONG Id = Plane.Parts.GetUniqueId();
-
-            Plane.Parts += Id;
-            Plane.Parts[Id].Pos2d = GripAtPos2d;
-            Plane.Parts[Id].Pos3d = GripAtPos;
-            Plane.Parts[Id].Shortname = PartUnderCursor;
-            Plane.Parts[Id].ParentShortname = (GripRelationPart == -1) ? "" : Plane.Parts[GripRelationPart].Shortname;
-            Plane.Parts[Id].ParentRelationId = GripRelation;
+            CPlanePart part;
+            part.Pos2d = GripAtPos2d;
+            part.Pos3d = GripAtPos;
+            part.Shortname = PartUnderCursor;
+            part.ParentShortname = (GripRelationPart == -1) ? "" : Plane.Parts[GripRelationPart].Shortname;
+            part.ParentRelationId = GripRelation;
+            Plane.Parts += std::move(part);
 
             if (PartUnderCursor.Left(1) == "B" || PartUnderCursor.Left(1) == "C" || PartUnderCursor.Left(1) == "H" || PartUnderCursor.Left(1) == "L" ||
                 PartUnderCursor.Left(1) == "R" || PartUnderCursor.Left(1) == "W") {
@@ -1585,14 +1584,13 @@ void CEditor::OnLButtonUp(UINT /*nFlags*/, CPoint /*point*/) {
             }
 
             if (GripRelationB != -1) {
-                ULONG Id = Plane.Parts.GetUniqueId();
-
-                Plane.Parts += Id;
-                Plane.Parts[Id].Pos2d = GripAtPosB2d;
-                Plane.Parts[Id].Pos3d = GripAtPosB;
-                Plane.Parts[Id].Shortname = PartUnderCursorB;
-                Plane.Parts[Id].ParentShortname = Plane.Parts[GripRelationPart].Shortname;
-                Plane.Parts[Id].ParentRelationId = GripRelationB;
+                CPlanePart part;
+                part.Pos2d = GripAtPosB2d;
+                part.Pos3d = GripAtPosB;
+                part.Shortname = PartUnderCursorB;
+                part.ParentShortname = Plane.Parts[GripRelationPart].Shortname;
+                part.ParentRelationId = GripRelationB;
+                Plane.Parts += std::move(part);
 
                 Plane.Parts.Sort();
 
@@ -1787,7 +1785,7 @@ ULONG CPlaneParts::IdFrom(const CString &ShortName) {
     SLONG c = 0;
 
     for (c = 0; c < AnzEntries(); c++) {
-        if ((IsInAlbum(c) != 0) && stricmp(ShortName, PlaneParts[c].Shortname) == 0) {
+        if ((IsInAlbum(c) != 0) && stricmp(ShortName, at(c).Shortname) == 0) {
             return (GetIdFromIndex(c));
         }
     }
@@ -1803,7 +1801,7 @@ bool CPlaneParts::IsShortnameInAlbum(const CString &ShortName) {
     SLONG c = 0;
 
     for (c = 0; c < AnzEntries(); c++) {
-        if ((IsInAlbum(c) != 0) && stricmp(ShortName, PlaneParts[c].Shortname) == 0) {
+        if ((IsInAlbum(c) != 0) && stricmp(ShortName, at(c).Shortname) == 0) {
             return (true);
         }
     }
@@ -1839,27 +1837,19 @@ bool CPlaneParts::IsSlotFree(const CString &Slotname) {
 void CPlaneParts::Sort() {
     SLONG c = 0;
 
-    for (c = 0; c < long(AnzEntries() - 1); c++) {
-        if (((IsInAlbum(c) == 0) && (IsInAlbum(c + 1) != 0)) ||
-            ((IsInAlbum(c) != 0) && (IsInAlbum(c + 1) != 0) &&
-             GetPlaneBuild((*this)[c].Shortname).zPos + (*this)[c].Pos3d.y + gPlanePartRelations[(*this)[c].ParentRelationId].zAdd >
-                 GetPlaneBuild((*this)[SLONG(c + 1)].Shortname).zPos + (*this)[SLONG(c + 1)].Pos3d.y +
-                     gPlanePartRelations[(*this)[SLONG(c + 1)].ParentRelationId].zAdd)) {
-            Swap(c, c + 1);
-            c -= 2;
-            if (c < -1) {
-                c = -1;
-            }
+    for (c = 0; c < AnzEntries(); c++) {
+        if (IsInAlbum(c) != 0) {
+            at(c).SortIndex = GetPlaneBuild((*this)[c].Shortname).zPos + (*this)[c].Pos3d.y + gPlanePartRelations[(*this)[c].ParentRelationId].zAdd;
         }
     }
+    ALBUM_V<CPlanePart>::Sort();
 }
 
 //--------------------------------------------------------------------------------------------
 // Speichert ein CPlaneParts-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CPlaneParts &pp) {
-    File << pp.PlaneParts;
-    File << *((const ALBUM<CPlaneParts> *)&pp);
+    File << *((const ALBUM_V<CPlanePart> *)&pp);
 
     return (File);
 }
@@ -1868,8 +1858,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CPlaneParts &pp) {
 // Lädt ein CPlaneParts-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CPlaneParts &pp) {
-    File >> pp.PlaneParts;
-    File >> *(reinterpret_cast<ALBUM<CPlaneParts> *>(&pp));
+    File >> *((ALBUM_V<CPlanePart> *)&pp);
 
     return (File);
 }
@@ -1913,12 +1902,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CPlanePart &pp) {
 //--------------------------------------------------------------------------------------------
 // Löscht ein altes Flugzeug
 //--------------------------------------------------------------------------------------------
-void CXPlane::Clear() {
-    Parts.PlaneParts.ReSize(0);
-    Parts.IsInAlbum(SLONG(0x01000000));
-    Parts.PlaneParts.ReSize(100);
-    Parts.IsInAlbum(SLONG(0x01000000));
-}
+void CXPlane::Clear() { Parts.ReSize(100); }
 
 //--------------------------------------------------------------------------------------------
 // Berechnet die Kosten für ein Flugzeug:
@@ -1997,7 +1981,8 @@ long CXPlane::CalcPiloten() {
                 case NOTE_PILOT4:
                     piloten += 4;
                     break;
-                default: break;
+                default:
+                    break;
                 }
             }
         }
@@ -2040,7 +2025,8 @@ long CXPlane::CalcBegleiter() {
                 case NOTE_BEGLEITER10:
                     begleiter += 10;
                     break;
-                default: break;
+                default:
+                    break;
                 }
             }
         }
@@ -2109,7 +2095,8 @@ long CXPlane::CalcVerbrauch() {
                 case NOTE_VERBRAUCHXL:
                     verbrauch += 5000;
                     break;
-                default: break;
+                default:
+                    break;
                 }
             }
         }
@@ -2211,7 +2198,8 @@ long CXPlane::CalcWartung() {
                 case NOTE_KAPUTTXL:
                     wartung += 20;
                     break;
-                default: break;
+                default:
+                    break;
                 }
             }
         }
@@ -2278,7 +2266,8 @@ long CXPlane::CalcSpeed() {
                         speed = (speed * 2 + 800) / 3;
                     }
                     break;
-                default: break;
+                default:
+                    break;
                 }
             }
         }
@@ -2520,7 +2509,6 @@ CPlaneBuild &GetPlaneBuild(const CString &Shortname) {
 // Blittet das Flugzeug (Footpos):
 //--------------------------------------------------------------------------------------------
 void CXPlane::BlitPlaneAt(SBPRIMARYBM &TargetBm, SLONG Size, XY Pos, SLONG OwningPlayer) {
-    Parts.Repair(Parts.PlaneParts);
 
     switch (Size) {
     // Auf Runway:
@@ -2553,7 +2541,7 @@ void CXPlane::BlitPlaneAt(SBPRIMARYBM &TargetBm, SLONG Size, XY Pos, SLONG Ownin
 void CXPlane::operator=(const CXPlane &plane) {
     TEAKFILE f;
 
-    if (plane.Parts.PlaneParts.AnzEntries() > 0) {
+    if (plane.Parts.AnzEntries() > 0) {
         f.Announce(30000);
 
         f << plane;
@@ -2561,11 +2549,9 @@ void CXPlane::operator=(const CXPlane &plane) {
 
         if (this->Cost != -1) {
             Clear();
-
-            Parts.Repair(Parts.PlaneParts);
         }
 
-        Parts.PlaneParts.ReSize(100);
+        Parts.ReSize(100);
         f >> (*this);
     }
 }

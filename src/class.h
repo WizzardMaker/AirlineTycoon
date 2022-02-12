@@ -786,20 +786,20 @@ class /**/ CPlanePart {
     CString Shortname;       // z.B. C1
     CString ParentShortname; // Identifiziert das Teil wo wir drankleben z.B. B1
     SLONG ParentRelationId;  // Identifiziert die Relation durch die wir verbunden sind 100
+    SLONG SortIndex;         // Wird zum sortieren benutzt
 
   public:
+    inline bool operator<(const CPlanePart &i) const { return SortIndex < i.SortIndex; }
+
     SBBM &GetBm(SBBMS &PartBms) const;
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CPlanePart &pp);
     friend TEAKFILE &operator>>(TEAKFILE &File, CPlanePart &pp);
 };
 
-class /**/ CPlaneParts : public ALBUM<CPlanePart> {
+class /**/ CPlaneParts : public ALBUM_V<CPlanePart> {
   public:
-    FBUFFER<CPlanePart> PlaneParts;
-
-  public:
-    CPlaneParts() : ALBUM<CPlanePart>(PlaneParts, "PlaneParts") {}
+    CPlaneParts() : ALBUM_V<CPlanePart>("PlaneParts") {}
 
     void Sort(void);
     bool IsShortnameInAlbum(const CString &ShortName);
