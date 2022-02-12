@@ -999,14 +999,7 @@ template <typename T> class ALBUM_V {
 
     ALBUM_V(CString str) : Name(str) {}
 
-    int IsInAlbum(ULONG id) const {
-        if (id >= 0x1000000) {
-            return (Hash.end() != Hash.find(id));
-        } else if (id < AnzEntries() && (ListInit[id] != 0)) {
-            return 1;
-        }
-        return 0;
-    }
+    /* query capacity and resize */
 
     SLONG AnzEntries() const {
         assert(List.size() == ListInit.size());
@@ -1024,138 +1017,21 @@ template <typename T> class ALBUM_V {
         ListInit.resize(anz);
     }
 
-    SLONG GetRandomUsedIndex(TEAKRAND *random = NULL) const {
-        SLONG used = GetNumUsed();
-        if (used == 0) {
-            TeakLibW_Exception(nullptr, 0, ExcAlbumFind, Name.c_str());
-        }
-
-        SLONG target = (random != nullptr) ? random->Rand(used) : rand() % 5;
-        SLONG index = 0;
-        for (int i = AnzEntries() - 1; i >= 0; --i) {
-            if (ListInit[i] == 0) {
-                continue;
-            }
-            if (++index > target) {
-                return ListInit[i];
-            }
-        }
-        TeakLibW_Exception(nullptr, 0, ExcAlbumFind, Name.c_str());
-        return 0;
-    }
-
-    ULONG GetIdFromIndex(SLONG i) const { return ListInit[i]; }
-
     void ClearAlbum() {
         ListInit = std::vector<int>(AnzEntries(), 0);
         Hash = {};
     }
 
-    /*
-    void Swap(SLONG a, SLONG b) {
-        TeakAlbumRefresh(Ids, Values->AnzEntries());
-        if (a >= Ids.Size)
-            a = (*this)(a);
-        if (b >= Ids.Size)
-            b = (*this)(b);
+    /* accessing elements */
 
-        ::Swap(Ids[a], Ids[b]);
-        ::Swap(Values->MemPointer[a], Values->MemPointer[b]);
-    }
-    */
+    ULONG GetIdFromIndex(SLONG i) const { return ListInit[i]; }
 
-    void ResetNextId() { LastId = 0xFFFFFF; }
-
-    void Sort() {
-        auto a = begin();
-        auto b = end() - 1;
-        while (true) {
-            while (a.IsInAlbum() && a < b) {
-                ++a;
-            }
-            while (!b.IsInAlbum() && a < b) {
-                --b;
-            }
-            if (a >= b) {
-                break;
-            }
-            swap(a, b);
-        }
-        assert(a == b);
-        qSort(begin(), a - 1);
-    }
-
-  private:
-    void qSort(Iter start, Iter end) {
-        if (start >= end)
-            return;
-        Iter pivotIter = (end - start) / 2 + start;
-        Iter i = start - 1;
-        Iter j = end + 1;
-        while (true) {
-            do {
-                ++i;
-            } while (*i < *pivotIter);
-            do {
-                --j;
-            } while (*pivotIter < *j);
-            if (i < j) {
-                swap(i, j);
-            } else {
-                break;
-            }
-        }
-        qSort(start, j);
-        qSort(j + 1, end);
-    }
-
-  public:
-    /*
-    ULONG operator*=(ULONG id) { return TeakAlbumFrontAddT(Ids, Values->AnzEntries(), Name, id); }
-    ULONG operator+=(ULONG id) { return TeakAlbumAddT(Ids, Values->AnzEntries(), Name, id); }
-    */
-
-    void operator-=(ULONG id) {
+    int IsInAlbum(ULONG id) const {
         if (id >= 0x1000000) {
-            auto it = Hash.find(id);
-            if (it != Hash.end()) {
-                ListInit[it->second] = 0;
-            }
-            Hash.erase(id);
-            return;
+            return (Hash.end() != Hash.find(id));
         } else if (id < AnzEntries() && (ListInit[id] != 0)) {
-            Hash.erase(ListInit[id]);
-            ListInit[id] = 0;
-            return;
+            return 1;
         }
-        TeakLibW_Exception(nullptr, 0, ExcAlbumDelete, Name.c_str());
-    }
-
-    ULONG operator*=(T rhs) {
-        auto id = GetUniqueId();
-        for (int i = 0; i < AnzEntries(); ++i) {
-            if (ListInit[i] == 0) {
-                std::swap(List[i], rhs);
-                ListInit[i] = id;
-                Hash[id] = i;
-                return id;
-            }
-        }
-        TeakLibW_Exception(nullptr, 0, ExcAlbumInsert, Name.c_str());
-        return 0;
-    }
-
-    ULONG operator+=(T rhs) {
-        auto id = GetUniqueId();
-        for (int i = AnzEntries() - 1; i >= 0; --i) {
-            if (ListInit[i] == 0) {
-                std::swap(List[i], rhs);
-                ListInit[i] = id;
-                Hash[id] = i;
-                return id;
-            }
-        }
-        TeakLibW_Exception(nullptr, 0, ExcAlbumInsert, Name.c_str());
         return 0;
     }
 
@@ -1176,6 +1052,8 @@ template <typename T> class ALBUM_V {
     T &operator[](ULONG id) { return List.at(find(id)); }
     T &at(ULONG id) { return List.at(find(id)); }
 
+    /* comparison */
+
     bool operator==(const ALBUM_V<T> &l) const {
         return (LastId == l.LastId) && (Name == l.Name) && (List == l.List) && (ListInit == l.ListInit) && (Hash == l.Hash);
     }
@@ -1189,13 +1067,64 @@ template <typename T> class ALBUM_V {
     }
     bool operator!=(const std::vector<T> &l) const { return !operator==(l); }
 
-    void check_consistent_index() {
-        for (int i = 0; i < AnzEntries(); i++) {
-            auto id = GetIdFromIndex(i);
-            if ((id != 0) && find(id) != i) {
-                TeakLibW_Exception(nullptr, 0, ExcAlbumNotConsistent, Name.c_str());
+    /* modifiers */
+
+    void ResetNextId() { LastId = 0xFFFFFF; }
+
+    ULONG push_front(ULONG id, T rhs) {
+        if (id >= 0x1000000 && (Hash.end() == Hash.find(id))) {
+            for (int i = 0; i < AnzEntries(); ++i) {
+                if (ListInit[i] == 0) {
+                    std::swap(List[i], rhs);
+                    ListInit[i] = id;
+                    Hash[id] = i;
+                    return id;
+                }
             }
         }
+        TeakLibW_Exception(nullptr, 0, ExcAlbumInsert, Name.c_str());
+        return 0;
+    }
+
+    ULONG push_back(ULONG id, T rhs) {
+        if (id >= 0x1000000 && (Hash.end() == Hash.find(id))) {
+            for (int i = AnzEntries() - 1; i >= 0; --i) {
+                if (ListInit[i] == 0) {
+                    std::swap(List[i], rhs);
+                    ListInit[i] = id;
+                    Hash[id] = i;
+                    return id;
+                }
+            }
+        }
+        TeakLibW_Exception(nullptr, 0, ExcAlbumInsert, Name.c_str());
+        return 0;
+    }
+
+    ULONG operator*=(T rhs) {
+        auto id = GetUniqueId();
+        return push_front(id, std::move(rhs));
+    }
+
+    ULONG operator+=(T rhs) {
+        auto id = GetUniqueId();
+        return push_back(id, std::move(rhs));
+    }
+
+    void operator-=(ULONG id) {
+        if (id >= 0x1000000) {
+            auto it = Hash.find(id);
+            if (it != Hash.end()) {
+                ListInit[it->second] = 0;
+            }
+            Hash.erase(id);
+            return;
+        } else if (id < AnzEntries() && (ListInit[id] != 0)) {
+            Hash.erase(ListInit[id]);
+            ListInit[id] = 0;
+            return;
+        }
+        TeakLibW_Exception(nullptr, 0, ExcAlbumDelete, Name.c_str());
     }
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const ALBUM_V<T> &buffer) {
@@ -1244,6 +1173,78 @@ template <typename T> class ALBUM_V {
         }
 
         return File;
+    }
+
+    SLONG GetRandomUsedIndex(TEAKRAND *random = NULL) const {
+        SLONG used = GetNumUsed();
+        if (used == 0) {
+            TeakLibW_Exception(nullptr, 0, ExcAlbumFind, Name.c_str());
+        }
+
+        SLONG target = (random != nullptr) ? random->Rand(used) : rand() % 5;
+        SLONG index = 0;
+        for (int i = AnzEntries() - 1; i >= 0; --i) {
+            if (ListInit[i] == 0) {
+                continue;
+            }
+            if (++index > target) {
+                return ListInit[i];
+            }
+        }
+        TeakLibW_Exception(nullptr, 0, ExcAlbumFind, Name.c_str());
+        return 0;
+    }
+
+    void Sort() {
+        auto a = begin();
+        auto b = end() - 1;
+        while (true) {
+            while (a.IsInAlbum() && a < b) {
+                ++a;
+            }
+            while (!b.IsInAlbum() && a < b) {
+                --b;
+            }
+            if (a >= b) {
+                break;
+            }
+            swap(a, b);
+        }
+        assert(a == b);
+        qSort(begin(), a - 1);
+    }
+
+    void check_consistent_index() {
+        for (int i = 0; i < AnzEntries(); i++) {
+            auto id = GetIdFromIndex(i);
+            if ((id != 0) && find(id) != i) {
+                TeakLibW_Exception(nullptr, 0, ExcAlbumNotConsistent, Name.c_str());
+            }
+        }
+    }
+
+  private:
+    void qSort(Iter start, Iter end) {
+        if (start >= end)
+            return;
+        Iter pivotIter = (end - start) / 2 + start;
+        Iter i = start - 1;
+        Iter j = end + 1;
+        while (true) {
+            do {
+                ++i;
+            } while (*i < *pivotIter);
+            do {
+                --j;
+            } while (*pivotIter < *j);
+            if (i < j) {
+                swap(i, j);
+            } else {
+                break;
+            }
+        }
+        qSort(start, j);
+        qSort(j + 1, end);
     }
 
   private:

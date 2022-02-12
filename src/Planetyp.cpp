@@ -29,7 +29,7 @@ SLONG SkipPlaneCalculation = 0;
 //============================================================================================
 // Konstruktor:
 //============================================================================================
-CPlaneTypes::CPlaneTypes(const CString &TabFilename) : ALBUM<CPlaneType>(PlaneTypes, "PlaneTypes") { ReInit(TabFilename); }
+CPlaneTypes::CPlaneTypes(const CString &TabFilename) : ALBUM_V<CPlaneType>("PlaneTypes") { ReInit(TabFilename); }
 
 //--------------------------------------------------------------------------------------------
 // Dateien neu laden:
@@ -64,33 +64,33 @@ void CPlaneTypes::ReInit(const CString &TabFilename) {
         if (IsInAlbum(Id) != 0) {
             TeakLibW_Exception(FNL, ExcNever);
         }
-        (*this) += Id;
 
-        // SpeedUp durch direkten Zugriff:
-        Id = (*this)(Id);
-        (*this)[Id].Hersteller = strtok(nullptr, TabSeparator);
-        (*this)[Id].Name = strtok(nullptr, TabSeparator);
-        (*this)[Id].NotizblockPhoto = StringToInt64(strtok(nullptr, TabSeparator));
-        (*this)[Id].AnzPhotos = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].FirstMissions = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].FirstDay = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Erstbaujahr = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Spannweite = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Laenge = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Hoehe = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Startgewicht = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Passagiere = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Geschwindigkeit = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Reichweite = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Triebwerke = strtok(nullptr, TabSeparator);
-        (*this)[Id].Schub = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].AnzPiloten = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].AnzBegleiter = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Tankgroesse = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Verbrauch = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Preis = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Wartungsfaktor = float(atof(strtok(nullptr, TabSeparator)));
-        (*this)[Id].Kommentar = strtok(nullptr, TabSeparator);
+        CPlaneType planeType;
+        planeType.Hersteller = strtok(nullptr, TabSeparator);
+        planeType.Name = strtok(nullptr, TabSeparator);
+        planeType.NotizblockPhoto = StringToInt64(strtok(nullptr, TabSeparator));
+        planeType.AnzPhotos = atoi(strtok(nullptr, TabSeparator));
+        planeType.FirstMissions = atoi(strtok(nullptr, TabSeparator));
+        planeType.FirstDay = atoi(strtok(nullptr, TabSeparator));
+        planeType.Erstbaujahr = atoi(strtok(nullptr, TabSeparator));
+        planeType.Spannweite = atoi(strtok(nullptr, TabSeparator));
+        planeType.Laenge = atoi(strtok(nullptr, TabSeparator));
+        planeType.Hoehe = atoi(strtok(nullptr, TabSeparator));
+        planeType.Startgewicht = atoi(strtok(nullptr, TabSeparator));
+        planeType.Passagiere = atoi(strtok(nullptr, TabSeparator));
+        planeType.Geschwindigkeit = atoi(strtok(nullptr, TabSeparator));
+        planeType.Reichweite = atoi(strtok(nullptr, TabSeparator));
+        planeType.Triebwerke = strtok(nullptr, TabSeparator);
+        planeType.Schub = atoi(strtok(nullptr, TabSeparator));
+        planeType.AnzPiloten = atoi(strtok(nullptr, TabSeparator));
+        planeType.AnzBegleiter = atoi(strtok(nullptr, TabSeparator));
+        planeType.Tankgroesse = atoi(strtok(nullptr, TabSeparator));
+        planeType.Verbrauch = atoi(strtok(nullptr, TabSeparator));
+        planeType.Preis = atoi(strtok(nullptr, TabSeparator));
+        planeType.Wartungsfaktor = float(atof(strtok(nullptr, TabSeparator)));
+        planeType.Kommentar = strtok(nullptr, TabSeparator);
+
+        push_back(Id, std::move(planeType));
     }
 }
 

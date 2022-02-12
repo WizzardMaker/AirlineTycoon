@@ -152,6 +152,18 @@ template <typename T> bool run_test() {
     expect_val(list, id2, 5);
     expect_val(list, id3, 12);
 
+    /* insert using ID */
+    list.ReSize(12);
+    list.push_back(0x2000004, 20);
+    list.push_back(0x2000003, 21);
+    list.push_front(0x2000002, 22);
+    list.push_front(0x2000001, 23);
+    expect_list(list, std::vector<T>({4, 3, 2, 1, 11, 5, 12, 22, 23, T(), 21, 20}), 12, 1);
+    expect_val(list, 0x2000004, 20);
+    expect_val(list, 0x2000003, 21);
+    expect_val(list, 0x2000002, 22);
+    expect_val(list, 0x2000001, 23);
+
     printf("Errors: %d \n", errors);
     return (errors == 0);
 }

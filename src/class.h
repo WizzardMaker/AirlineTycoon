@@ -486,42 +486,38 @@ class /**/ CGates {
 class /**/ CPlaneType {
     // Basisdaten:
   public:
-    CString Name;            // Der Name des Flugzeuges
-    __int64 NotizblockPhoto; // Photos für den Notizblock
-    SLONG AnzPhotos;         // Zahl der Photos
-    SLONG FirstMissions;     // Ist erst verfügbar ab Mission x
-    SLONG FirstDay;          //...und auch dort erst ab Tag y
+    CString Name;              // Der Name des Flugzeuges
+    __int64 NotizblockPhoto{}; // Photos für den Notizblock
+    SLONG AnzPhotos{};         // Zahl der Photos
+    SLONG FirstMissions{};     // Ist erst verfügbar ab Mission x
+    SLONG FirstDay{};          //...und auch dort erst ab Tag y
 
     // Technische Beschreibung
   public:
-    CString Hersteller;    // Textstring, z.B. "Boing"
-    SLONG Erstbaujahr;     // Zahl, z.B. 1980
-    SLONG Passagiere;      // Maximale Zahl der Passagiere (ein erste Klasse Passagier verbraucht 2 Plätze)
-    SLONG Reichweite;      // Reichweite in km
-    SLONG Geschwindigkeit; // in km/h
-    SLONG Spannweite;      // in m
-    SLONG Laenge;          // in m
-    SLONG Hoehe;           // in m
-    SLONG Startgewicht;    // maximales Startgewicht
-    CString Triebwerke;    // Als Textstring
-    SLONG Schub;           // in lb
-    SLONG AnzPiloten;      // Piloten und Co-Piloten
-    SLONG AnzBegleiter;    // Zahl der Stewardessen
-    SLONG Tankgroesse;     // Kerosin in l
-    SLONG Verbrauch;       // Kerosin in l/h
-    SLONG Preis;           // Der Neupreis in DM
-    float Wartungsfaktor;  // Faktor für die Wartungskosten
-    CString Kommentar;     // Ggf. allgemeines über diese Maschine
-
-  public:
+    CString Hersteller;      // Textstring, z.B. "Boing"
+    SLONG Erstbaujahr{};     // Zahl, z.B. 1980
+    SLONG Passagiere{};      // Maximale Zahl der Passagiere (ein erste Klasse Passagier verbraucht 2 Plätze)
+    SLONG Reichweite{};      // Reichweite in km
+    SLONG Geschwindigkeit{}; // in km/h
+    SLONG Spannweite{};      // in m
+    SLONG Laenge{};          // in m
+    SLONG Hoehe{};           // in m
+    SLONG Startgewicht{};    // maximales Startgewicht
+    CString Triebwerke;      // Als Textstring
+    SLONG Schub{};           // in lb
+    SLONG AnzPiloten{};      // Piloten und Co-Piloten
+    SLONG AnzBegleiter{};    // Zahl der Stewardessen
+    SLONG Tankgroesse{};     // Kerosin in l
+    SLONG Verbrauch{};       // Kerosin in l/h
+    SLONG Preis{};           // Der Neupreis in DM
+    float Wartungsfaktor{};  // Faktor für die Wartungskosten
+    CString Kommentar;       // Ggf. allgemeines über diese Maschine
 };
 
-class /**/ CPlaneTypes : public ALBUM<CPlaneType> {
+class /**/ CPlaneTypes : public ALBUM_V<CPlaneType> {
   public:
-    FBUFFER<CPlaneType> PlaneTypes;
-
   public:
-    CPlaneTypes() : ALBUM<CPlaneType>(PlaneTypes, "PlaneTypes") {}
+    CPlaneTypes() : ALBUM_V<CPlaneType>("PlaneTypes") {}
     CPlaneTypes(const CString &TabFilename);
     void ReInit(const CString &TabFilename);
     ULONG GetRandomExistingType(TEAKRAND *pRand);
