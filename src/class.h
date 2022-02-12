@@ -865,7 +865,7 @@ class /**/ CPlane {
     UBYTE WorstZustand;      // Der schlimmste Zustand
     UBYTE Zustand;           // Reparaturzustand: 0%-100%
     UBYTE TargetZustand;     // So soll es aussehen
-    FBUFFER<ULONG> Salden;   // Die täglichen Einnahmen-Ausgaben des Flugzeuges der letzten Woche
+    BUFFER_V<ULONG> Salden;   // Die täglichen Einnahmen-Ausgaben des Flugzeuges der letzten Woche
     SLONG Baujahr{};         // Das Baujahr dieses Flugzeuges
     SLONG AnzPiloten;        // Aktuelle Zahl: Piloten und Co-Piloten
     SLONG AnzBegleiter;      // Aktuelle Zahl: Zahl der Stewardessen
@@ -892,7 +892,7 @@ class /**/ CPlane {
     SLONG NumPannen;                          // Anzahl der Pannen insgesamt
     SLONG Problem;                            // 0 oder Anzahl der Stunden bis das Flugzeug kein Problem mehr hat
     SLONG PseudoProblem;                      // 0 oder Anzahl der Stunden wie das Flugzeug noch festgehalten wird
-    FBUFFER<CPanne> Pannen;                   // Die letzten 10 Pannen
+    BUFFER_V<CPanne> Pannen;                   // Die letzten 10 Pannen
 
     // Kopien aus CPlaneType
   public:

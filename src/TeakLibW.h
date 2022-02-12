@@ -54,6 +54,21 @@ template <typename A, typename B> inline A max(const A &a, const B &b) { return 
 
 inline void MB() {}
 
+template <typename T> class BUFFER_V : public std::vector<T> {
+  public:
+    void ReSize(SLONG anz) { std::vector<T>::resize(anz); }
+    SLONG AnzEntries() const { return std::vector<T>::size(); }
+    void Clear() { std::vector<T>::clear(); }
+    void FillWith(T value) {
+        for (int i = 0; i < std::vector<T>::size(); i++)
+            std::vector<T>::at(i) = value;
+    }
+
+    // operator T *() const { return DelPointer; }
+
+    // void operator+=(int rhs) { DelPointer += rhs; }
+};
+
 template <typename T> class BUFFER {
   public:
     BUFFER(SLONG anz) {
@@ -172,7 +187,6 @@ template <typename T> class BUFFER {
     T *DelPointer;
     SLONG Size;
 };
-
 #define TEAKFILE_READ 1
 #define TEAKFILE_WRITE 2
 
@@ -335,6 +349,24 @@ class TEAKFILE {
         BUFFER<BYTE> str(size);
         File.Read(str, size);
         b = (PCSTR)(BYTE *)str;
+        return File;
+    }
+
+    template <typename T> friend TEAKFILE &operator<<(TEAKFILE &File, const BUFFER_V<T> &buffer) {
+        File << buffer.AnzEntries();
+        for (SLONG i = 0; i < buffer.AnzEntries(); i++) {
+            File << buffer[i];
+        }
+        return File;
+    }
+
+    template <typename T> friend TEAKFILE &operator>>(TEAKFILE &File, BUFFER_V<T> &buffer) {
+        SLONG size;
+        File >> size;
+        buffer.ReSize(size);
+        for (SLONG i = 0; i < buffer.AnzEntries(); i++) {
+            File >> buffer[i];
+        }
         return File;
     }
 
