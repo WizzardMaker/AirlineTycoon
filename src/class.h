@@ -747,10 +747,10 @@ class CFlugplanEintrag {
 
 class CFlugplan {
   public:
-    SLONG StartCity{};              // Hier beginnt der Flugplan
-    FBUFFER<CFlugplanEintrag> Flug; // Eine Zeile des Flugplans
-    SLONG NextFlight;               // Aktueller; sonst nächster Flug
-    SLONG NextStart;                // Verweis auf den nächsten, startenden Flug
+    SLONG StartCity{};               // Hier beginnt der Flugplan
+    BUFFER_V<CFlugplanEintrag> Flug; // Eine Zeile des Flugplans
+    SLONG NextFlight;                // Aktueller; sonst nächster Flug
+    SLONG NextStart;                 // Verweis auf den nächsten, startenden Flug
 
   public:
     CFlugplan();
@@ -768,9 +768,9 @@ class CFlugplan {
 //--------------------------------------------------------------------------------------------
 class /**/ CPanne {
   public:
-    SLONG Date; // Sim.Date
-    SLONG Time; // Sim.Time
-    SLONG Code; // Referenziert einen Text
+    SLONG Date{}; // Sim.Date
+    SLONG Time{}; // Sim.Time
+    SLONG Code{}; // Referenziert einen Text
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CPanne &Panne);
     friend TEAKFILE &operator>>(TEAKFILE &File, CPanne &Panne);
@@ -781,12 +781,12 @@ class /**/ CPanne {
 //--------------------------------------------------------------------------------------------
 class /**/ CPlanePart {
   public:
-    XY Pos2d;                // An dieser Stelle ist das Part untergebracht
-    XY Pos3d;                // An dieser Stelle ist das Part untergebracht
-    CString Shortname;       // z.B. C1
-    CString ParentShortname; // Identifiziert das Teil wo wir drankleben z.B. B1
-    SLONG ParentRelationId;  // Identifiziert die Relation durch die wir verbunden sind 100
-    SLONG SortIndex;         // Wird zum sortieren benutzt
+    XY Pos2d;                 // An dieser Stelle ist das Part untergebracht
+    XY Pos3d;                 // An dieser Stelle ist das Part untergebracht
+    CString Shortname;        // z.B. C1
+    CString ParentShortname;  // Identifiziert das Teil wo wir drankleben z.B. B1
+    SLONG ParentRelationId{}; // Identifiziert die Relation durch die wir verbunden sind 100
+    SLONG SortIndex{};        // Wird zum sortieren benutzt
 
   public:
     inline bool operator<(const CPlanePart &i) const { return SortIndex < i.SortIndex; }
@@ -816,7 +816,7 @@ class /**/ CPlaneParts : public ALBUM_V<CPlanePart> {
 class /**/ CXPlane {
   public:
     CString Name;      // Name des Flugzeuges
-    SLONG Cost;        // Soviel kostet es
+    SLONG Cost{};      // Soviel kostet es
     CPlaneParts Parts; // Die Einzelteile des Flugzeugs
 
   public:
@@ -865,7 +865,7 @@ class /**/ CPlane {
     UBYTE WorstZustand;      // Der schlimmste Zustand
     UBYTE Zustand;           // Reparaturzustand: 0%-100%
     UBYTE TargetZustand;     // So soll es aussehen
-    BUFFER_V<ULONG> Salden;   // Die täglichen Einnahmen-Ausgaben des Flugzeuges der letzten Woche
+    BUFFER_V<ULONG> Salden;  // Die täglichen Einnahmen-Ausgaben des Flugzeuges der letzten Woche
     SLONG Baujahr{};         // Das Baujahr dieses Flugzeuges
     SLONG AnzPiloten;        // Aktuelle Zahl: Piloten und Co-Piloten
     SLONG AnzBegleiter;      // Aktuelle Zahl: Zahl der Stewardessen
@@ -892,7 +892,7 @@ class /**/ CPlane {
     SLONG NumPannen;                          // Anzahl der Pannen insgesamt
     SLONG Problem;                            // 0 oder Anzahl der Stunden bis das Flugzeug kein Problem mehr hat
     SLONG PseudoProblem;                      // 0 oder Anzahl der Stunden wie das Flugzeug noch festgehalten wird
-    BUFFER_V<CPanne> Pannen;                   // Die letzten 10 Pannen
+    BUFFER_V<CPanne> Pannen;                  // Die letzten 10 Pannen
 
     // Kopien aus CPlaneType
   public:
@@ -940,12 +940,9 @@ class /**/ CPlane {
     friend TEAKFILE &operator>>(TEAKFILE &File, CPlane &Plane);
 };
 
-class /**/ CPlanes : public ALBUM<CPlane> {
+class /**/ CPlanes : public ALBUM_V<CPlane> {
   public:
-    FBUFFER<CPlane> Planes;
-
-  public:
-    CPlanes() : ALBUM<CPlane>(Planes, "Planes") {}
+    CPlanes() : ALBUM_V<CPlane>("Planes") {}
     BOOL IsPlaneNameInUse(const CString &PlaneName);
     void DoOneStep(SLONG PlayerNum);
     void UpdateGlobePos(UWORD EarthAlpha);
@@ -2514,7 +2511,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     SLONG GetWeekday(void);
     CString GetTimeString(void) const;
     void NewDay(void);
-    void CreateRandomUsedPlane(SLONG Index);
+    CPlane CreateRandomUsedPlane(SLONG Index);
     void CreateRandomUsedPlanes(void);
     void UpdateUsedPlanes(void);
     void ReformGates(void);

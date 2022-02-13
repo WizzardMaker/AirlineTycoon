@@ -2847,31 +2847,33 @@ void SIM::NewDay() {
 //--------------------------------------------------------------------------------------------
 // Sucht ein zufälliges Flugzeug für heute aus:
 //--------------------------------------------------------------------------------------------
-void SIM::CreateRandomUsedPlane(SLONG Index) {
+CPlane SIM::CreateRandomUsedPlane(SLONG seed) {
     TEAKRAND rnd;
 
-    rnd.SRand(Sim.Date + Index);
+    rnd.SRand(Sim.Date + seed);
 
-    UsedPlanes[0x1000000 + Index] = CPlane(PlaneNames.GetUnused(&rnd), PlaneTypes.GetRandomExistingType(&rnd), UBYTE(rnd.Rand(80) + 11), 1900);
+    auto plane = CPlane(PlaneNames.GetUnused(&rnd), PlaneTypes.GetRandomExistingType(&rnd), UBYTE(rnd.Rand(80) + 11), 1900);
 
-    // if (PlaneTypes[UsedPlanes[0x1000000+Index].TypeId].Erstbaujahr<1990)
-    if (UsedPlanes[0x1000000 + Index].ptErstbaujahr < 1990) {
-        // UsedPlanes[0x1000000+Index].Baujahr = 1990-rnd.Rand (1990-PlaneTypes[UsedPlanes[0x1000000+Index].TypeId].Erstbaujahr);
-        UsedPlanes[0x1000000 + Index].Baujahr = 1990 - rnd.Rand(1990 - UsedPlanes[0x1000000 + Index].ptErstbaujahr);
+    // if (PlaneTypes[plane.TypeId].Erstbaujahr<1990)
+    if (plane.ptErstbaujahr < 1990) {
+        // plane.Baujahr = 1990-rnd.Rand (1990-PlaneTypes[plane.TypeId].Erstbaujahr);
+        plane.Baujahr = 1990 - rnd.Rand(1990 - plane.ptErstbaujahr);
     } else {
-        UsedPlanes[0x1000000 + Index].Baujahr = 1996 - rnd.Rand(1996 - UsedPlanes[0x1000000 + Index].ptErstbaujahr);
+        plane.Baujahr = 1996 - rnd.Rand(1996 - plane.ptErstbaujahr);
     }
-    // UsedPlanes[0x1000000+Index].Baujahr = 1996-rnd.Rand (1996-PlaneTypes[UsedPlanes[0x1000000+Index].TypeId].Erstbaujahr);
+    // plane.Baujahr = 1996-rnd.Rand (1996-PlaneTypes[plane.TypeId].Erstbaujahr);
 
-    UsedPlanes[0x1000000 + Index].Zustand = UBYTE((UsedPlanes[0x1000000 + Index].Baujahr - 1950) + 25 + rnd.Rand(40) - 20);
-    if (UsedPlanes[0x1000000 + Index].Zustand < 20 || UsedPlanes[0x1000000 + Index].Zustand > 200) {
-        UsedPlanes[0x1000000 + Index].Zustand = 20;
+    plane.Zustand = UBYTE((plane.Baujahr - 1950) + 25 + rnd.Rand(40) - 20);
+    if (plane.Zustand < 20 || plane.Zustand > 200) {
+        plane.Zustand = 20;
     }
-    if (UsedPlanes[0x1000000 + Index].Zustand > 100) {
-        UsedPlanes[0x1000000 + Index].Zustand = 100;
+    if (plane.Zustand > 100) {
+        plane.Zustand = 100;
     }
 
-    UsedPlanes[0x1000000 + Index].TargetZustand = UsedPlanes[0x1000000 + Index].Zustand;
+    plane.TargetZustand = plane.Zustand;
+
+    return plane;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2880,13 +2882,11 @@ void SIM::CreateRandomUsedPlane(SLONG Index) {
 void SIM::CreateRandomUsedPlanes() {
     SLONG c = 0;
 
-    UsedPlanes.Planes.ReSize(3);
+    UsedPlanes.ReSize(3);
     UsedPlanes.ClearAlbum();
-    UsedPlanes.RepairReferences();
 
     for (c = 0; c < 3; c++) {
-        UsedPlanes += 0x1000000 + c;
-        CreateRandomUsedPlane(c);
+        UsedPlanes.push_front(0x1000000 + c, CreateRandomUsedPlane(c));
     }
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 40 && Sim.Date <= 50) {
@@ -2906,7 +2906,7 @@ void SIM::UpdateUsedPlanes() {
 
     for (c = 0; c < SLONG(UsedPlanes.AnzEntries()) && Anz > 0; c++) {
         if (UsedPlanes[0x1000000 + c].Name.GetLength() == 0) {
-            CreateRandomUsedPlane(c);
+            UsedPlanes[0x1000000 + c] = CreateRandomUsedPlane(c);
             Anz--;
             Sim.TickMuseumRefill = 0;
         }

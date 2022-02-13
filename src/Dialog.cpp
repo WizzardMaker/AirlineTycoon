@@ -4151,7 +4151,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                             // Begleiter+=PlaneTypes[Overtaken.Planes[c].TypeId].AnzBegleiter;
 
                             if (Overtaker.Planes.GetNumFree() <= 0) {
-                                Overtaker.Planes.Planes.ReSize(Overtaker.Planes.AnzEntries() + 5);
+                                Overtaker.Planes.ReSize(Overtaker.Planes.AnzEntries() + 5);
                                 Overtaker.Planes.RepairReferences();
                             }
 
@@ -4159,7 +4159,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                             Overtaker.Planes[d] = Overtaken.Planes[c];
                         }
                     }
-                    Overtaken.Planes.Planes.ReSize(0);
+                    Overtaken.Planes.ReSize(0);
                     Overtaken.Planes.RepairReferences();
 
                     // Ggf. virtuelle Arbeiter erzeugen:
@@ -4271,7 +4271,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                             Overtaken.Money += Overtaken.Planes[c].CalculatePrice();
                         }
                     }
-                    Overtaken.Planes.Planes.ReSize(0);
+                    Overtaken.Planes.ReSize(0);
                     Overtaken.Planes.RepairReferences();
 
                     // Gates freigeben:
@@ -4670,7 +4670,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     MakeSayWindow(0, TOKEN_MUSEUM, 6000, pFontPartner);
                 } else {
                     if (qPlayer.Planes.GetNumFree() == 0) {
-                        qPlayer.Planes.Planes.ReSize(qPlayer.Planes.AnzEntries() + 10);
+                        qPlayer.Planes.ReSize(qPlayer.Planes.AnzEntries() + 10);
                         qPlayer.Planes.RepairReferences();
                     }
                     Sim.UsedPlanes[0x1000000 + DialogPar1].WorstZustand = UBYTE(Sim.UsedPlanes[0x1000000 + DialogPar1].Zustand - 20);

@@ -120,7 +120,7 @@ void PLAYER::BuyPlane(ULONG PlaneTypeId, TEAKRAND *pRnd) {
     ULONG Id = 0;
 
     if (Planes.GetNumFree() == 0) {
-        Planes.Planes.ReSize(Planes.AnzEntries() + 10);
+        Planes.ReSize(Planes.AnzEntries() + 10);
         Planes.RepairReferences();
     }
     Id = (Planes += CPlane(PlaneNames.GetUnused(pRnd), PlaneTypeId + 0x10000000, 100, 2002 + (Sim.Date / 365)));
@@ -150,7 +150,7 @@ void PLAYER::BuyPlane(CXPlane &plane, TEAKRAND *pRnd) {
     ULONG Id = 0;
 
     if (Planes.GetNumFree() == 0) {
-        Planes.Planes.ReSize(Planes.AnzEntries() + 10);
+        Planes.ReSize(Planes.AnzEntries() + 10);
         Planes.RepairReferences();
     }
     Id = (Planes += CPlane(PlaneNames.GetUnused(pRnd), -1, 100, 2002 + (Sim.Date / 365)));
@@ -1938,7 +1938,7 @@ SLONG PLAYER::AnzPlanesOnRoute(ULONG RouteId) {
     SLONG d = 0;
     SLONG rc = 0;
 
-    for (c = rc = 0; c < Planes.Planes.AnzEntries(); c++) {
+    for (c = rc = 0; c < Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0) {
             for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
                 if (Planes[c].Flugplan.Flug[d].ObjectType == 1 && Routen(Planes[c].Flugplan.Flug[d].ObjectId) == Routen(RouteId)) {
@@ -4898,7 +4898,7 @@ void PLAYER::RobotExecuteAction() {
                         }
 
                         if (Planes.GetNumFree() == 0) {
-                            Planes.Planes.ReSize(Planes.AnzEntries() + 10);
+                            Planes.ReSize(Planes.AnzEntries() + 10);
                             Planes.RepairReferences();
                         }
                         Sim.UsedPlanes[0x1000000 + c].WorstZustand = Sim.UsedPlanes[0x1000000 + c].Zustand - 20;
@@ -5039,8 +5039,7 @@ void PLAYER::RobotExecuteAction() {
                                     if ((LastMinuteAuftraege[e].Praemie != 0) && LastMinuteAuftraege[e].VonCity == ULONG(VonCity)) {
                                         NetGenericAsync(17003 + Sim.Date * 100, e, PlayerNum);
                                         if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                            (Cities.CalcDistance(LastMinuteAuftraege[e].VonCity, LastMinuteAuftraege[e].NachCity) >
-                                                 3000000 ||
+                                            (Cities.CalcDistance(LastMinuteAuftraege[e].VonCity, LastMinuteAuftraege[e].NachCity) > 3000000 ||
                                              LastMinuteAuftraege[e].Personen <= 90)) {
                                             continue;
                                         }
@@ -5091,14 +5090,12 @@ void PLAYER::RobotExecuteAction() {
 
                                 for (e = LastMinuteAuftraege.AnzEntries() - 1; e >= 0; e--) {
                                     if ((LastMinuteAuftraege[e].Praemie != 0) &&
-                                        VonZeit + Cities.CalcFlugdauer(VonCity, LastMinuteAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) <
-                                            23 + 24) {
+                                        VonZeit + Cities.CalcFlugdauer(VonCity, LastMinuteAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
                                         // VonZeit+Cities.CalcFlugdauer (VonCity, LastMinuteAuftraege[e].VonCity,
                                         // PlaneTypes[Planes[c].TypeId].Geschwindigkeit)<23+24)
                                         if (Cities.CalcDistance(VonCity, LastMinuteAuftraege[e].VonCity) < Min) {
                                             if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                                (Cities.CalcDistance(LastMinuteAuftraege[e].VonCity, LastMinuteAuftraege[e].NachCity) >
-                                                     3000000 ||
+                                                (Cities.CalcDistance(LastMinuteAuftraege[e].VonCity, LastMinuteAuftraege[e].NachCity) > 3000000 ||
                                                  LastMinuteAuftraege[e].Personen <= 90)) {
                                                 continue;
                                             }
@@ -5199,8 +5196,7 @@ void PLAYER::RobotExecuteAction() {
                                 for (e = ReisebueroAuftraege.AnzEntries() - 1; e >= 0; e--) {
                                     if ((ReisebueroAuftraege[e].Praemie != 0) && ReisebueroAuftraege[e].VonCity == ULONG(VonCity)) {
                                         if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                            (Cities.CalcDistance(ReisebueroAuftraege[e].VonCity, ReisebueroAuftraege[e].NachCity) >
-                                                 3000000 ||
+                                            (Cities.CalcDistance(ReisebueroAuftraege[e].VonCity, ReisebueroAuftraege[e].NachCity) > 3000000 ||
                                              ReisebueroAuftraege[e].Personen <= 90)) {
                                             continue;
                                         }
@@ -5256,14 +5252,12 @@ void PLAYER::RobotExecuteAction() {
 
                                 for (e = ReisebueroAuftraege.AnzEntries() - 1; e >= 0; e--) {
                                     if ((ReisebueroAuftraege[e].Praemie != 0) &&
-                                        VonZeit + Cities.CalcFlugdauer(VonCity, ReisebueroAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) <
-                                            23 + 24) {
+                                        VonZeit + Cities.CalcFlugdauer(VonCity, ReisebueroAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
                                         // VonZeit+Cities.CalcFlugdauer (VonCity, ReisebueroAuftraege[e].VonCity,
                                         // PlaneTypes[Planes[c].TypeId].Geschwindigkeit)<23+24)
                                         if (Cities.CalcDistance(VonCity, ReisebueroAuftraege[e].VonCity) < Min) {
                                             if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                                (Cities.CalcDistance(ReisebueroAuftraege[e].VonCity, ReisebueroAuftraege[e].NachCity) >
-                                                     3000000 ||
+                                                (Cities.CalcDistance(ReisebueroAuftraege[e].VonCity, ReisebueroAuftraege[e].NachCity) > 3000000 ||
                                                  ReisebueroAuftraege[e].Personen <= 90)) {
                                                 continue;
                                             }
@@ -5521,7 +5515,7 @@ void PLAYER::RobotExecuteAction() {
                     }
 
                     if (Planes.GetNumFree() == 0) {
-                        Planes.Planes.ReSize(Planes.AnzEntries() + 10);
+                        Planes.ReSize(Planes.AnzEntries() + 10);
                         Planes.RepairReferences();
                     }
                     Sim.UsedPlanes[0x1000000 + c].WorstZustand = Sim.UsedPlanes[0x1000000 + c].Zustand - 20;

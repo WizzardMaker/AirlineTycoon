@@ -1530,8 +1530,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CPlane &Plane) {
 // Speichert ein CPlanes Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CPlanes &Planes) {
-    File << Planes.Planes;
-    File << *((const ALBUM<CPlane> *)&Planes);
+    File << *((const ALBUM_V<CPlane> *)&Planes);
 
     return (File);
 }
@@ -1540,8 +1539,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CPlanes &Planes) {
 // Läd ein CPlanes Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CPlanes &Planes) {
-    File >> Planes.Planes;
-    File >> *((ALBUM<CPlane> *)&Planes);
+    File >> *((ALBUM_V<CPlane> *)&Planes);
 
     return (File);
 }
@@ -1555,7 +1553,7 @@ BOOL CPlanes::IsPlaneNameInUse(const CString &PlaneName) {
     SLONG c = 0;
 
     for (c = 0; c < AnzEntries(); c++) {
-        if ((IsInAlbum(c) != 0) && Planes[c].Name == PlaneName) {
+        if ((IsInAlbum(c) != 0) && at(c).Name == PlaneName) {
             return (TRUE);
         }
     }
@@ -1573,7 +1571,7 @@ void CPlanes::RepairReferences() {
 
     for (c = 0; c < AnzEntries(); c++) {
         if (IsInAlbum(c) != 0) {
-            Planes[c].RepairReferences();
+            at(c).RepairReferences();
         }
     }
 }
@@ -1586,7 +1584,7 @@ void CPlanes::DoOneStep(SLONG PlayerNum) {
 
     for (c = 0; c < AnzEntries(); c++) {
         if (IsInAlbum(c) != 0) {
-            Planes[c].DoOneStep(PlayerNum);
+            at(c).DoOneStep(PlayerNum);
         }
     }
 }
