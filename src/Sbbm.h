@@ -288,7 +288,7 @@ class SB1BM : public SBBM {
 // Diverse Bitmaps, einfach gesammelt
 class SBBMS {
   private:
-    FBUFFER<SB1BM> Bitmaps;
+    BUFFER<SB1BM> Bitmaps;
 
   public:
     SBBMS();

@@ -425,21 +425,6 @@ class CRLEReader {
     const char *Path;
 };
 
-template <typename T> class FBUFFER : public BUFFER<T> {
-  public:
-    FBUFFER(void) : BUFFER<T>(0) {}
-
-    FBUFFER(FBUFFER &buffer) : BUFFER<T>(buffer) {}
-
-    FBUFFER(FBUFFER &&buffer) : BUFFER<T>(buffer) {}
-
-    FBUFFER(SLONG anz) : BUFFER<T>(anz) {}
-
-    void operator=(FBUFFER<T> &rhs) { BUFFER<T>::operator=(rhs); }
-
-    void operator=(FBUFFER<T> &&rhs) { BUFFER<T>::operator=(rhs); }
-};
-
 class TEAKRAND {
   public:
     TEAKRAND(void);
@@ -744,9 +729,9 @@ class TECBM {
     SLONG GetAnzSubBitmaps(void) const;
     TECBM *ParseNextVertikalSubBitmap(void);
     TECBM *ParseNextHorizontalSubBitmap(void);
-    FBUFFER<TECBM> *ParseVertikalSubBitmaps(void);
-    void ParseHorizontalSubBitmapsInto(FBUFFER<TECBM> &);
-    FBUFFER<TECBM> *ParseHorizontalSubBitmaps(void);
+    BUFFER<TECBM> *ParseVertikalSubBitmaps(void);
+    void ParseHorizontalSubBitmapsInto(BUFFER<TECBM> &);
+    BUFFER<TECBM> *ParseHorizontalSubBitmaps(void);
     TECBM *ParseVertikalSubBitmapNumberX(SLONG);
     TECBM *ParseHorizontalSubBitmapNumberX(SLONG);
     int ParseVertikalSubBitmapNumberXInto(SLONG, TECBM &);
@@ -821,22 +806,22 @@ class XID {
     SLONG Index;
 };
 
-extern void TeakAlbumRemoveT(FBUFFER<ULONG> &, ULONG, CString const &, ULONG);
-extern void TeakAlbumRefresh(FBUFFER<ULONG> &, ULONG);
-extern SLONG TeakAlbumSearchT(FBUFFER<ULONG> &, ULONG, CString const &, ULONG);
-extern SLONG TeakAlbumXIdSearchT(FBUFFER<ULONG> &, ULONG, CString const &, XID &);
-extern int TeakAlbumIsInAlbum(FBUFFER<ULONG> &, ULONG, ULONG);
-extern ULONG TeakAlbumAddT(FBUFFER<ULONG> &, ULONG, CString const &, ULONG);
-extern ULONG TeakAlbumFrontAddT(FBUFFER<ULONG> &, ULONG, CString const &, ULONG);
-extern ULONG TeakAlbumGetNumFree(FBUFFER<ULONG> &, ULONG);
-extern ULONG TeakAlbumGetNumUsed(FBUFFER<ULONG> &, ULONG);
-extern ULONG TeakAlbumRandom(FBUFFER<ULONG> &, ULONG, CString const &, TEAKRAND *);
+extern void TeakAlbumRemoveT(BUFFER<ULONG> &, ULONG, CString const &, ULONG);
+extern void TeakAlbumRefresh(BUFFER<ULONG> &, ULONG);
+extern SLONG TeakAlbumSearchT(BUFFER<ULONG> &, ULONG, CString const &, ULONG);
+extern SLONG TeakAlbumXIdSearchT(BUFFER<ULONG> &, ULONG, CString const &, XID &);
+extern int TeakAlbumIsInAlbum(BUFFER<ULONG> &, ULONG, ULONG);
+extern ULONG TeakAlbumAddT(BUFFER<ULONG> &, ULONG, CString const &, ULONG);
+extern ULONG TeakAlbumFrontAddT(BUFFER<ULONG> &, ULONG, CString const &, ULONG);
+extern ULONG TeakAlbumGetNumFree(BUFFER<ULONG> &, ULONG);
+extern ULONG TeakAlbumGetNumUsed(BUFFER<ULONG> &, ULONG);
+extern ULONG TeakAlbumRandom(BUFFER<ULONG> &, ULONG, CString const &, TEAKRAND *);
 
 template <typename T> class ALBUM {
   public:
-    ALBUM(BUFFER<T> &buffer, CString str) : LastId(0xFFFFFF), Values((FBUFFER<T> *)(&buffer)), Name(str) {}
+    ALBUM(BUFFER<T> &buffer, CString str) : LastId(0xFFFFFF), Values((BUFFER<T> *)(&buffer)), Name(str) {}
 
-    void Repair(BUFFER<T> &buffer) { Values = (FBUFFER<T> *)&buffer; }
+    void Repair(BUFFER<T> &buffer) { Values = (BUFFER<T> *)&buffer; }
 
     int IsInAlbum(ULONG id) { return TeakAlbumIsInAlbum(Ids, Values->AnzEntries(), id); }
 
@@ -943,11 +928,11 @@ template <typename T> class ALBUM {
 
   private:
     ULONG LastId;
-    FBUFFER<ULONG> Ids;
+    BUFFER<ULONG> Ids;
 
     // This self-reference could be stored as an offset to survive reallocations,
     // but instead Spellbound implemented a Repair() function.
-    FBUFFER<T> *Values;
+    BUFFER<T> *Values;
     CString Name;
 };
 

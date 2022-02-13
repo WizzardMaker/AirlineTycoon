@@ -416,7 +416,7 @@ BOOL CHLPool::Load() {
 
             // Wurden diese Daten schon vorher geladen? Dann reicht einmal!
             if (HLObjects.AnzEntries() != 0) {
-                FBUFFER<CHLObj> DummyHLObjects;
+                BUFFER<CHLObj> DummyHLObjects;
 
                 File >> DummyHLObjects;
             } else {

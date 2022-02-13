@@ -189,7 +189,7 @@ void Bank::OnPaint() {
 
     for (c = 0; c < Sim.Players.AnzPlayers; c++) {
         if (Sim.Players.Players[c].IsOut == 0) {
-            FBUFFER<SLONG> Kurse(10);
+            BUFFER<SLONG> Kurse(10);
             SLONG d = 0;
             SLONG Max = 0;
 

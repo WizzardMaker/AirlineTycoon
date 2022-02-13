@@ -86,7 +86,7 @@ class CPlaneBuild {
 
 class CPlaneBuilds : public ALBUM<CPlaneBuild> {
   public:
-    FBUFFER<CPlaneBuild> PlaneBuilds;
+    BUFFER<CPlaneBuild> PlaneBuilds;
 
   public:
     CPlaneBuilds() : ALBUM<CPlaneBuild>(PlaneBuilds, "PlaneBuilds") {}

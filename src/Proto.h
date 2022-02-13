@@ -57,7 +57,7 @@ void UpdateSavegames(void);
 CString RemoveAccents(CString str);
 SLONG GetAnzBits(ULONG Flags);
 double GetAlphaFromXY(XY Delta);
-void DrawChart(SBBM &TipBm, ULONG Color, const FBUFFER<SLONG> &Values, SLONG MinValue, SLONG MaxValue, const XY &TopLeft, const XY &TopRight,
+void DrawChart(SBBM &TipBm, ULONG Color, const BUFFER<SLONG> &Values, SLONG MinValue, SLONG MaxValue, const XY &TopLeft, const XY &TopRight,
                const XY &BottomLeft, const XY &BottomRight);
 CString KorrigiereUmlaute(CString &Originaltext);
 // SLONG   ReadTimeStampCounter (void);

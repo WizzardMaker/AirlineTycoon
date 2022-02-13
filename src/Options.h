@@ -32,7 +32,7 @@ class Options : public CStdRaum {
     CString SavegameNames[12];
     BOOL SavenamesValid[12]{};
     CString SavegameInfos[12];
-    FBUFFER<SBBM> *CursorBms{}; // Die Eingabemarkierung
+    BUFFER<SBBM> *CursorBms{}; // Die Eingabemarkierung
     BOOL BlinkState;
 
     SBFX AmbientFX;

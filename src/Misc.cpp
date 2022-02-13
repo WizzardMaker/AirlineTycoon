@@ -167,7 +167,7 @@ BOOL CheckCursorHighlight(const XY &CursorPos, const CRect &rect, UWORD FontColo
 //--------------------------------------------------------------------------------------------
 // Zeichnet Werte in ein Perspektivisches Raster (Trapez) ein:
 //--------------------------------------------------------------------------------------------
-void DrawChart(SBBM &TipBm, ULONG Color, const FBUFFER<SLONG> &Values, SLONG MinValue, SLONG MaxValue, const XY &TopLeft, const XY &TopRight,
+void DrawChart(SBBM &TipBm, ULONG Color, const BUFFER<SLONG> &Values, SLONG MinValue, SLONG MaxValue, const XY &TopLeft, const XY &TopRight,
                const XY &BottomLeft, const XY &BottomRight) {
     SLONG c = 0;
     SB_Hardwarecolor hwColor = TipBm.pBitmap->GetHardwarecolor(Color);
@@ -652,7 +652,7 @@ CHeadline HEADLINES::GetHeadline(long Newspaper, SLONG Index) { return (Headline
 //--------------------------------------------------------------------------------------------
 // Schreibt die Headline auf den Schirm:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::BlitHeadline(long  /*Newspaper*/, SBBM & /*Offscreen*/, const CPoint & /*p1*/, const CPoint & /*p2*/, BYTE  /*Color*/) {}
+void HEADLINES::BlitHeadline(long /*Newspaper*/, SBBM & /*Offscreen*/, const CPoint & /*p1*/, const CPoint & /*p2*/, BYTE /*Color*/) {}
 
 //--------------------------------------------------------------------------------------------
 // Initializes the data:

@@ -50,9 +50,9 @@ class CHLObj {
   private:
     __int64 graphicID; // Identifiziert die Bitmap;
     XY Size;
-    CHLPool *pHLPool;            // Zeiger auf Parent (H-Line Pool)
-    FBUFFER<CHLGene> HLines;     // Elemente aus dem Pool
-    FBUFFER<UBYTE> HLineEntries; // Array, daß angibtm wieviele Einträge pro Zeile da sind
+    CHLPool *pHLPool;           // Zeiger auf Parent (H-Line Pool)
+    BUFFER<CHLGene> HLines;     // Elemente aus dem Pool
+    BUFFER<UBYTE> HLineEntries; // Array, daß angibtm wieviele Einträge pro Zeile da sind
 
   private: // Konstruktion/Destruktion:
     CHLObj();
@@ -99,7 +99,7 @@ class CHLPool {
     SLONG HLBasepool1Size{};   // Größe Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
     SLONG HLBasepool2Size{};   // Größe Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
 
-    FBUFFER<UWORD> PaletteMapper; // 256 Paletteneinträge zum remappen
+    BUFFER<UWORD> PaletteMapper; // 256 Paletteneinträge zum remappen
 
     SLONG Loaded; // 0=Nein, 1=Preloaded, 2=Loaded
 
@@ -110,8 +110,8 @@ class CHLPool {
     SLONG LinesInPool;         // Soviele Lines sind im Pool
     SLONG LinesRepeated;       // Soviele Lines wurde nicht in den Pool getan, sondern referenziert
 
-  private:                     // Child-Informationen
-    FBUFFER<CHLObj> HLObjects; // Bitmaps, die Pool-Informationen verwenden
+  private:                    // Child-Informationen
+    BUFFER<CHLObj> HLObjects; // Bitmaps, die Pool-Informationen verwenden
 
   public: // Konstruktion/Destruktion:
     CHLPool();
