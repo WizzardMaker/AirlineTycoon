@@ -1353,6 +1353,7 @@ class /**/ BUILD // Die Verwendung eines Bodenteils
     friend class PLAYER;
     friend class AirportView;
 };
+static_assert(sizeof(BUILD) == 16);
 
 class /**/ BUILDS : public ALBUM<BUILD> {
   public:

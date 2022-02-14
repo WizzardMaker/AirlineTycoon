@@ -35,6 +35,7 @@ class CHLGene {
         return (File);
     }
 };
+static_assert(sizeof(CHLGene) == 6);
 #pragma pack(pop, pragma_gene)
 
 //--------------------------------------------------------------------------------------------
@@ -79,6 +80,7 @@ class CHLObj {
     friend class CHLPool;
     friend class CHLBm;
 };
+static_assert(sizeof(CHLObj) == 52);
 
 //--------------------------------------------------------------------------------------------
 // Ein Pool mit HLines:

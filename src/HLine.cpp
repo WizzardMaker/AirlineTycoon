@@ -390,7 +390,7 @@ BOOL CHLPool::Load() {
             }
 
             PaletteMapper.ReSize(256);
-            File.Read(reinterpret_cast<UBYTE *>(&PaletteMapper[0]), 512);
+            File.Read(reinterpret_cast<UBYTE *>(PaletteMapper.getData()), 512);
 
             DoBaseObjects();
 
@@ -428,7 +428,7 @@ BOOL CHLPool::Save() {
             File.Write(pPool, PoolSize);
         }
 
-        File.Write(reinterpret_cast<UBYTE *>(&PaletteMapper[0]), 512);
+        File.Write(reinterpret_cast<UBYTE *>(PaletteMapper.getData()), 512);
 
         DoBaseObjects();
     }
