@@ -5,7 +5,7 @@
 //============================================================================================
 #include "HLine.h"
 
-typedef BUFFER<UBYTE> BUFFER_UBYTE;
+typedef BUFFER_V<UBYTE> BUFFER_UBYTE;
 
 class CPlane;
 class CPlaner;
@@ -190,8 +190,8 @@ class /**/ CUnrepeatedRandom {
 //--------------------------------------------------------------------------------------------
 class /**/ SValue {
   private:
-    BUFFER<__int64> Days;
-    BUFFER<__int64> Months;
+    BUFFER_V<__int64> Days;
+    BUFFER_V<__int64> Months;
 
   public:
     SValue();
@@ -318,15 +318,15 @@ class /**/ CAmbientFx {
 class /**/ CAmbienteManager {
   public:
     SLONG GlobalVolume; // Volume in % (0-100)
-    BUFFER<CAmbientFx> AmbientFx;
+    BUFFER_V<CAmbientFx> AmbientFx;
 
   public:
-    void RecalcVolumes(void) const;
+    void RecalcVolumes(void);
     void SetGlobalVolume(SLONG Volume);
-    void SetFx(SLONG FxId, const CString &Soundeffekt) const;
-    void SetVolume(SLONG FxId, SLONG Volume) const;
+    void SetFx(SLONG FxId, const CString &Soundeffekt);
+    void SetVolume(SLONG FxId, SLONG Volume);
     void Pause(void) const;
-    void Resume(void) const;
+    void Resume(void);
 };
 
 //--------------------------------------------------------------------------------------------
@@ -347,7 +347,7 @@ class /**/ CLetter {
 
 class /**/ CLetters {
   public:
-    BUFFER<CLetter> Letters;
+    BUFFER_V<CLetter> Letters;
 
   public:
     CLetters() : Letters(25) {}
@@ -472,7 +472,7 @@ class /**/ CGate {
 
 class /**/ CGates {
   public:
-    BUFFER<CGate> Gates;
+    BUFFER_V<CGate> Gates;
     UBYTE Auslastung[24 * 7]; // Für 2x alle 24 Stunden der Uhr: Wie viele sind belegt?
     SLONG NumRented;
 
@@ -694,7 +694,7 @@ class CRentRoute {
 
 class CRentRouten {
   public:
-    BUFFER<CRentRoute> RentRouten;
+    BUFFER_V<CRentRoute> RentRouten;
 
     SLONG GetNumUsed(void);
 
@@ -959,8 +959,8 @@ class /**/ CPlanes : public ALBUM_V<CPlane> {
 //--------------------------------------------------------------------------------------------
 class /**/ CPlaneNames {
   private:
-    BUFFER<CString> NameBuffer1;
-    BUFFER<CString> NameBuffer2;
+    BUFFER_V<CString> NameBuffer1;
+    BUFFER_V<CString> NameBuffer2;
 
   public:
     CPlaneNames();
@@ -984,7 +984,7 @@ class /**/ CKlackerPlane {
 
 class /**/ CKlackerPlanes {
   public:
-    BUFFER<CKlackerPlane> KlackerPlanes;
+    BUFFER_V<CKlackerPlane> KlackerPlanes;
     SLONG TimeSinceStart;
 
   public:
@@ -1095,7 +1095,7 @@ class /**/ CITY // Eine Stadt
 
 class /**/ CITIES : public ALBUM_V<CITY> {
   public:
-    BUFFER<SLONG> HashTable;
+    BUFFER_V<SLONG> HashTable;
 
   public:
     CITIES() : ALBUM_V<CITY>("Cities") {}

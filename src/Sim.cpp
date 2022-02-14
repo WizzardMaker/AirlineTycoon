@@ -4499,13 +4499,13 @@ void SValue::Init() {
 //--------------------------------------------------------------------------------------------
 // Verwaltung für den neuen Tag:
 //--------------------------------------------------------------------------------------------
-void SValue::NewDay() { memmove(Days + 1, Days, 30 * sizeof(Days[0])); }
+void SValue::NewDay() { memmove(Days.getData() + 1, Days.getData(), 30 * sizeof(Days[0])); }
 
 //--------------------------------------------------------------------------------------------
 // Verwaltung für den neuen Monat:
 //--------------------------------------------------------------------------------------------
 void SValue::NewMonth(BOOL MonthIsSumOfDays) {
-    memmove(Months + 1, Months, 11 * sizeof(Months[0]));
+    memmove(Months.getData() + 1, Months.getData(), 11 * sizeof(Months[0]));
 
     if (MonthIsSumOfDays != 0) {
         Months[0] = GetSum();

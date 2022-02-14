@@ -30,8 +30,6 @@ SLONG OptionsShortcut = -1;
 
 XY MouseCursorOffset = XY(0, 0);
 
-extern BUFFER<CBencher> BrickWait;
-
 SLONG CBench::GetMissing() {
     return (SLONG(GameTime) - SLONG(BlitTime) - SLONG(FXTime) - SLONG(InitTime) - SLONG(DiskTime) - SLONG(TextTime) - SLONG(ClearTime) - SLONG(SortTime) -
             SLONG(WalkTime) - SLONG(AdminTime) - SLONG(WaitTime) - SLONG(FlipTime) - SLONG(KITime) - SLONG(MiscTime1) - SLONG(MiscTime2));
@@ -86,7 +84,7 @@ void CheatSound() {
       fx->Fusion ((const SBFX**)Elements, 2);
       fx->Play (0, Sim.Options.OptionEffekte*100/7); */
 
-    /*BUFFER<SBFX> Fxs;
+    /*BUFFER_V<SBFX> Fxs;
 
       gUniversalFx.ReInit ("test.raw");
       gUniversalFx.Tokenize (Fxs);*/
@@ -383,7 +381,7 @@ GameFrame::~GameFrame() {
     gStenchBms.Destroy();
     gInfoBms.Destroy();
 
-    // BUFFER<...>
+    // BUFFER_V<...>
     BeraterBms.ReSize(0);
     FlugplanIconBms.ReSize(0);
 

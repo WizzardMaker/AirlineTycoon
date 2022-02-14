@@ -764,7 +764,7 @@ void SBFX::SetVolume(long volume) const {
 //--------------------------------------------------------------------------------------------
 // Der Ambiente-Manager: Einen Soundeffekt initialisieren
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::SetFx(SLONG FxId, const CString &Soundeffekt) const {
+void CAmbienteManager::SetFx(SLONG FxId, const CString &Soundeffekt) {
     if (FxId >= AmbientFx.AnzEntries()) {
         return;
     }
@@ -788,7 +788,7 @@ void CAmbienteManager::SetGlobalVolume(SLONG Volume) {
 //--------------------------------------------------------------------------------------------
 // Die Lautstärke für einen Effekt setzen:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::SetVolume(SLONG FxId, SLONG Volume) const {
+void CAmbienteManager::SetVolume(SLONG FxId, SLONG Volume) {
     SLONG NewVolume = Volume * GlobalVolume / 100;
 
     if (FxId >= AmbientFx.AnzEntries()) {
@@ -836,7 +836,7 @@ void CAmbienteManager::SetVolume(SLONG FxId, SLONG Volume) const {
 //--------------------------------------------------------------------------------------------
 // Die Lautstärke neu berechnen:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::RecalcVolumes() const {
+void CAmbienteManager::RecalcVolumes() {
     for (SLONG c = 0; c < AmbientFx.AnzEntries(); c++) {
         if (c == AMBIENT_JET_OUTSIDE || c == AMBIENT_JET_FIELD) {
             SetVolume(c, Prozent2Dezibel(Sim.Options.OptionPlaneVolume * 100 / 7 * AmbientFx[c].Volume / 100));
@@ -862,7 +862,7 @@ void CAmbienteManager::Pause() const {
 //--------------------------------------------------------------------------------------------
 // Setzt das Ambiente fort:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::Resume() const {
+void CAmbienteManager::Resume() {
     for (SLONG c = 0; c < AmbientFx.AnzEntries(); c++) {
         if (AmbientFx[c].Soundeffekt.pFX != nullptr) {
             if (AmbientFx[c].CurrentVolume > 0) {

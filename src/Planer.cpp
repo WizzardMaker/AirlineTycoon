@@ -50,7 +50,7 @@ void PaintGlobe(const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const X
         SLONG anz = GlobeMapper[cy].AnzEntries();
 
         map = GlobeMapper[cy].getData();
-        lightmap = GlobeLight[cy];
+        lightmap = GlobeLight[cy].getData();
 
 #ifndef ENABLE_ASM
         for (cx = anz - 1; cx >= 0; cx--) {
@@ -106,7 +106,7 @@ void PaintGlobe(const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const X
             anz = GlobeMapper[cy].AnzEntries();
 
             map = GlobeMapper[cy].getData();
-            lightmap = GlobeLight[368 - cy];
+            lightmap = GlobeLight[368 - cy].getData();
 
 #ifndef ENABLE_ASM
             for (cx = anz - 1; cx >= 0; cx--) {

@@ -221,12 +221,12 @@ CPlaneTypes PlaneTypes;
 CITIES Cities;
 CPlaneNames PlaneNames;
 CRouten Routen;
-BUFFER<CEinheit> Einheiten;
-BUFFER<BUFFER_UWORD> GlobeMapper;
-BUFFER<BUFFER_UBYTE> GlobeLight;
-BUFFER<SLONG> GlobeMapperY;
-BUFFER<UWORD> GlobeMixTab;
-BUFFER<XY> GlobeWindows;
+BUFFER_V<CEinheit> Einheiten;
+BUFFER_V<BUFFER_UWORD> GlobeMapper;
+BUFFER_V<BUFFER_UBYTE> GlobeLight;
+BUFFER_V<SLONG> GlobeMapperY;
+BUFFER_V<UWORD> GlobeMixTab;
+BUFFER_V<XY> GlobeWindows;
 
 //--------------------------------------------------------------------------------------------
 // Der Klacker-Font:
@@ -290,8 +290,8 @@ SBBMS gStatLineHigh;     // Statuszeile: Highlights für Geld und Zeit
 SBBMS gClockBms;
 SLONG gStatButton = 0;
 SLONG gStatButtonTimer = 0;
-BUFFER<SBBM> TextBricks;
-BUFFER<CString> TextBrickTexts;
+BUFFER_V<SBBM> TextBricks;
+BUFFER_V<CString> TextBrickTexts;
 
 SBBMS gNetworkBms;           // Network-Message: Waiting
 SLONG gNetworkBmsType = 0;   // Waiting for unknown (0) bReadyForMorning (1), bReadyForBriefing (2)
@@ -301,7 +301,7 @@ SLONG gBroadcastTimeout = 0; // Noch soviele 1/20 Sekunden sichtbar
 //--------------------------------------------------------------------------------------------
 // Bitmaps der Berater:
 //--------------------------------------------------------------------------------------------
-BUFFER<SBBMS> BeraterBms;
+BUFFER_V<SBBMS> BeraterBms;
 SBBMS SprechblasenBms;
 SBBMS XBubbleBms;
 
@@ -330,7 +330,7 @@ SBBMS SmileyBms;    // Die Spimmungs-Köpfe für die Aussagen des Beraters
 
 SBBM gCityMarkerBm; // Marker für eine Stadt
 SBBMS FlugplanBms;
-BUFFER<SBBMS> FlugplanIconBms;
+BUFFER_V<SBBMS> FlugplanIconBms;
 SBBMS gInfoBms; // Der Infobutton in der Routenliste
 
 SBBMS RuneBms;
