@@ -37,7 +37,7 @@ class CRouteBox : public CStdRaum {
 
     SLONG LastTip{};
 
-    BUFFER<BOOL> IsBuyable;
+    BUFFER_V<BOOL> IsBuyable;
 
     // Implementation
   public:

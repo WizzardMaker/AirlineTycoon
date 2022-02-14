@@ -78,9 +78,11 @@ SLONG gLoadGameNumber = -1;
 
 CTakeOffApp *pTakeOffApp;
 
+/*
 #define SND_TYPE unsigned char
-void CompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
-void DecompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
+void CompressWave(BUFFER_V<SND_TYPE> &Input, BUFFER_V<SND_TYPE> &Output);
+void DecompressWave(BUFFER_V<SND_TYPE> &Input, BUFFER_V<SND_TYPE> &Output);
+*/
 
 CString MakeVideoPath, MakeVideoPath2;
 BOOL MakeUnvideoOn555 = FALSE;
@@ -338,8 +340,8 @@ CTakeOffApp::CTakeOffApp() {
     if (Chk!=Chk2) DebugBreak();
     }   */
 
-    /*BUFFER<UBYTE> JapData (*LoadCompleteFile ("C:\\WINDOWS\\Desktop\\incub.zif\\incub.txt"));
-      BUFFER<UWORD> Bits(65536);
+    /*BUFFER_V<UBYTE> JapData (*LoadCompleteFile ("C:\\WINDOWS\\Desktop\\incub.zif\\incub.txt"));
+      BUFFER_V<UWORD> Bits(65536);
 
       SLONG c,d;
 
@@ -357,8 +359,8 @@ CTakeOffApp::CTakeOffApp() {
 
       hprintvar (d); */
 
-    /*BUFFER<UBYTE> FileData (*LoadCompleteFile ("test.raw"));
-      BUFFER<UBYTE> Compressed;
+    /*BUFFER_V<UBYTE> FileData (*LoadCompleteFile ("test.raw"));
+      BUFFER_V<UBYTE> Compressed;
 
       CompressWave (FileData, Compressed);
       DecompressWave (Compressed, FileData);
@@ -2181,7 +2183,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                         // Exe Check             10 Minuten                  2 Stunden
                         /*if (Sim.TicksSinceLoad==20*60*10 && Sim.TicksPlayed>20*60*60*2 && Sim.NumRestored>0)
                           {
-                          BUFFER<char> Filename(1002);
+                          BUFFER_V<char> Filename(1002);
 
                           GetModuleFileName (NULL, Filename, 1000);
 

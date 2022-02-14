@@ -1402,8 +1402,8 @@ class /**/ CLAN {
     CHLPool ClanPool;
     CHLPool ClanGimmick;
     CHLPool ClanWarteGimmick;
-    BUFFER<__int64> PhasenIds[14];  // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
-    BUFFER<__int64> SkelettIds[14]; // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
+    BUFFER_V<__int64> PhasenIds[14];  // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
+    BUFFER_V<__int64> SkelettIds[14]; // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
 
   public:
     CLAN() = default;

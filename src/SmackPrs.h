@@ -100,7 +100,7 @@ class CSmackerClip {
     const SLONG *DecisionVar{}; // wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
 
     CString SuccessorTokens; // A="Always" S="only when Staying in this mood", E="Exit this mood only"
-    BUFFER<SLONG> SuccessorIds;
+    BUFFER_V<SLONG> SuccessorIds;
 
   private:         // Dynamische Eigenschaften...
     SLONG State{}; // Inaktiv, Spielt Anim, In Postwait
@@ -145,7 +145,7 @@ class CSmackerPerson {
     SBFX SpeakFx;
 
   public:
-    BUFFER<CSmackerClip> Clips;
+    BUFFER_V<CSmackerClip> Clips;
 
   public: // State & Initialization:
     CSmackerPerson();

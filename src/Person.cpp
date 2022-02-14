@@ -180,7 +180,7 @@ void CLANS::ReInit(const CString &TabFilename) {
                     }
 #endif
 
-                    BUFFER<__int64> *pIds = nullptr;
+                    BUFFER_V<__int64> *pIds = nullptr;
                     SLONG Anz = 0;
 
                     if (ShadowPass == 0) {

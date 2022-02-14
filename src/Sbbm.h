@@ -279,8 +279,8 @@ class SBBMS : public BUFFER_V<SBBM> {
     void Destroy() { BUFFER_V<SBBM>::ReSize(0); }
     void ReSize(SLONG anz) { BUFFER_V<SBBM>::ReSize(anz); }
     void ReSize(GfxLib *gfxLibrary, __int64 graphicID, ...);
-    void ReSize(CHLPool *pPool, const BUFFER<__int64> &graphicIds);
-    void ReSize(GfxLib *gfxLibrary, const BUFFER<__int64> &graphicIds, SLONG flags = CREATE_SYSMEM);
+    void ReSize(CHLPool *pPool, const BUFFER_V<__int64> &graphicIds);
+    void ReSize(GfxLib *gfxLibrary, const BUFFER_V<__int64> &graphicIds, SLONG flags = CREATE_SYSMEM);
     void ReSize(GfxLib *gfxLibrary, const CString &graphicstr);
     void ReSize(GfxLib *gfxLibrary, const CString &graphicstr, SLONG Anzahl, SLONG flags = CREATE_SYSMEM);
 };

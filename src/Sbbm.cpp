@@ -435,7 +435,7 @@ void SBBM::ReSize(CHLPool *pHLPool, __int64 graphicID) {
 
 void SBBM::ReSize(GfxLib *gfxLibrary, CString graphicStr) {
     __int64 graphicId = 0;
-    BUFFER<char> Str(graphicStr.GetLength() + 1);
+    BUFFER_V<char> Str(graphicStr.GetLength() + 1);
 
     for (int d = 0; d < graphicStr.GetLength(); d++) {
         graphicId += __int64(graphicStr[d]) << (8 * d);
@@ -603,7 +603,7 @@ void SBPRIMARYBM::Flip(XY WindowPos, BOOL /*ShowFPS*/) {
 
     if (MakeVideoPath.GetLength() > 0 && MakeVideoPath[0] != ':') {
         // 1/2 * 1/2 Einzelbilder:
-        /*BUFFER<UBYTE> buf(320*240*3);
+        /*BUFFER_V<UBYTE> buf(320*240*3);
           UBYTE *p=buf;
 
           ((CFRONTDATA*)pCursor)->pBitmap->BlitFast (&PrimaryBm, gMousePosition.x, gMousePosition.y);
@@ -680,7 +680,7 @@ void SBBMS::ReSize(GfxLib *gfxLibrary, __int64 graphicID, ...) {
     SLONG count = 0;
     __int64 i = graphicID;
     va_list marker;
-    BUFFER<__int64> graphicIds;
+    BUFFER_V<__int64> graphicIds;
 
     // Anzahl ermitteln:
     va_start(marker, graphicID);
@@ -705,7 +705,7 @@ void SBBMS::ReSize(GfxLib *gfxLibrary, __int64 graphicID, ...) {
     ReSize(gfxLibrary, graphicIds);
 }
 
-void SBBMS::ReSize(GfxLib *gfxLibrary, const BUFFER<__int64> &graphicIds, SLONG flags) {
+void SBBMS::ReSize(GfxLib *gfxLibrary, const BUFFER_V<__int64> &graphicIds, SLONG flags) {
     SLONG c = 0;
 
     ReSize(graphicIds.AnzEntries());
@@ -715,7 +715,7 @@ void SBBMS::ReSize(GfxLib *gfxLibrary, const BUFFER<__int64> &graphicIds, SLONG 
     }
 }
 
-void SBBMS::ReSize(CHLPool *pPool, const BUFFER<__int64> &graphicIds) {
+void SBBMS::ReSize(CHLPool *pPool, const BUFFER_V<__int64> &graphicIds) {
     SLONG c = 0;
 
     ReSize(graphicIds.AnzEntries());
@@ -728,14 +728,14 @@ void SBBMS::ReSize(CHLPool *pPool, const BUFFER<__int64> &graphicIds) {
 void SBBMS::ReSize(GfxLib *gfxLibrary, const CString &graphicstr) {
     SLONG Anz = 0;
     char *Texts[200];
-    BUFFER<__int64> graphicIds;
-    BUFFER<char> Str(graphicstr.GetLength() + 1);
+    BUFFER_V<__int64> graphicIds;
+    BUFFER_V<char> Str(graphicstr.GetLength() + 1);
 
-    strcpy(Str, graphicstr);
+    strcpy(Str.data(), graphicstr);
 
     for (Anz = 0;; Anz++) {
         if (Anz == 0) {
-            Texts[Anz] = strtok(Str, " ");
+            Texts[Anz] = strtok(Str.data(), " ");
         } else {
             Texts[Anz] = strtok(nullptr, " ");
         }
@@ -757,23 +757,24 @@ void SBBMS::ReSize(GfxLib *gfxLibrary, const CString &graphicstr) {
 }
 
 void SBBMS::ReSize(GfxLib *gfxLibrary, const CString &graphicstr, SLONG Anzahl, SLONG flags) {
-    BUFFER<__int64> graphicIds;
-    BUFFER<char> Str(graphicstr.GetLength() + 1);
+    BUFFER_V<__int64> graphicIds;
+    BUFFER_V<char> Str(graphicstr.GetLength() + 1);
 
-    strcpy(Str, graphicstr);
+    strcpy(Str.data(), graphicstr);
 
     graphicIds.ReSize(Anzahl);
 
     for (SLONG c = 0; c < Anzahl; c++) {
         graphicIds[c] = 0;
-        for (SLONG d = 0; d < SLONG(strlen(Str)); d++) {
+        SLONG len = strlen(Str.data());
+        for (SLONG d = 0; d < len; d++) {
             graphicIds[c] += __int64(Str[d]) << (8 * d);
         }
 
-        Str[SLONG(strlen(Str) - 1)]++;
-        if (Str[SLONG(strlen(Str) - 1)] > '9') {
-            Str[SLONG(strlen(Str) - 1)] = '0';
-            Str[SLONG(strlen(Str) - 2)]++;
+        Str[len - 1]++;
+        if (Str[len - 1] > '9') {
+            Str[len - 1] = '0';
+            Str[len - 2]++;
         }
     }
 
