@@ -774,8 +774,8 @@ void CPlaner::DoPollingStuff() {
                     SLONG DeltaDate = (Date - qPlan.Flug[DragFlightPar2].Startdate);
                     SLONG DeltaTime = (Time - qPlan.Flug[DragFlightPar2].Startzeit);
 
-                    BUFFER<SLONG> DeltaDates(80);
-                    BUFFER<SLONG> DeltaTimes(80);
+                    BUFFER_V<SLONG> DeltaDates(80);
+                    BUFFER_V<SLONG> DeltaTimes(80);
 
                     if ((DeltaDate != 0) || (DeltaTime != 0)) {
                         for (c = DragFlightPar2; c < qPlan.Flug.AnzEntries(); c++) {

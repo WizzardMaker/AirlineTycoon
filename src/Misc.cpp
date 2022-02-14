@@ -167,7 +167,7 @@ BOOL CheckCursorHighlight(const XY &CursorPos, const CRect &rect, UWORD FontColo
 //--------------------------------------------------------------------------------------------
 // Zeichnet Werte in ein Perspektivisches Raster (Trapez) ein:
 //--------------------------------------------------------------------------------------------
-void DrawChart(SBBM &TipBm, ULONG Color, const BUFFER<SLONG> &Values, SLONG MinValue, SLONG MaxValue, const XY &TopLeft, const XY &TopRight,
+void DrawChart(SBBM &TipBm, ULONG Color, const BUFFER_V<SLONG> &Values, SLONG MinValue, SLONG MaxValue, const XY &TopLeft, const XY &TopRight,
                const XY &BottomLeft, const XY &BottomRight) {
     SLONG c = 0;
     SB_Hardwarecolor hwColor = TipBm.pBitmap->GetHardwarecolor(Color);

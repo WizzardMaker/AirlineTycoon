@@ -191,14 +191,14 @@ void CLANS::ReInit(const CString &TabFilename) {
                     }
 
                     if (PhaseListsNumbers[c] == -1) {
-                        BUFFER<char> Str(strlen(DirPhaseLists[c]) + 1);
+                        BUFFER_V<char> Str(strlen(DirPhaseLists[c]) + 1);
                         char *Texts[100];
 
-                        strcpy(Str, DirPhaseLists[c]);
+                        strcpy(Str.getData(), DirPhaseLists[c]);
 
                         for (Anz = 0;; Anz++) {
                             if (Anz == 0) {
-                                Texts[Anz] = strtok(Str, " ");
+                                Texts[Anz] = strtok(Str.getData(), " ");
                             } else {
                                 Texts[Anz] = strtok(nullptr, " ");
                             }

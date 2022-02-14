@@ -2365,7 +2365,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     CPlanes UsedPlanes;       // Flugzeuge, die zum Verkauf (gebraucht) anstehen
     HEADLINES Headlines;      // Die aktuellen Schlagzeilen
     SLONG Kerosin{};          // Preis pro Liter
-    BUFFER<SLONG> KerosinPast;
+    BUFFER_V<SLONG> KerosinPast;
     SLONG localPlayer;   // Welcher Spieler sitzt vorm Rechner?
     SLONG FocusPerson{}; // Ihn zeigt die Kamera; normalerweise -1
 
