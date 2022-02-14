@@ -3655,7 +3655,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
                     // Obere oder untere Ebene?
                     if (qPerson.Position.y >= 4000) {
                         // oben!
-                        if (SIM::AddGlueSabotage(qPerson.Position, qPerson.Dir, qPlayer.NewDir, qPerson.Phase)) {
+                        if (Sim.AddGlueSabotage(qPerson.Position, qPerson.Dir, qPlayer.NewDir, qPerson.Phase)) {
                             TEAKFILE Message;
 
                             Message.Announce(30);
@@ -3704,7 +3704,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
                     // Untere Ebene?
                     if (qPerson.Position.y < 4000) {
                         SIM::SendSimpleMessage(ATNET_SABOTAGE_DIRECT, 0, ITEM_STINKBOMBE, qPerson.Position.x, qPerson.Position.y);
-                        SIM::AddStenchSabotage(qPerson.Position);
+                        Sim.AddStenchSabotage(qPerson.Position);
 
                         qPlayer.DropItem(ITEM_STINKBOMBE);
                     } else {
@@ -4428,8 +4428,8 @@ void CStdRaum::MenuStart(SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG M
         break;
 
     case MENU_AUSLANDSAUFTRAG:
-        SIM::NetRefill(4, MenuPar1);
-        SIM::NetRefill(5, MenuPar1);
+        Sim.NetRefill(4, MenuPar1);
+        Sim.NetRefill(5, MenuPar1);
         AuslandsAuftraege[MenuPar1].RefillForAusland(MenuPar1);
         AuslandsFrachten[MenuPar1].RefillForAusland(MenuPar1);
         pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("listauft.gli", GliPath)), &pMenuLib1, L_LOCMEM);

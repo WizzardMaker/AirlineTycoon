@@ -2181,8 +2181,8 @@ class PLAYERS {
 
   public:
     PLAYERS();
-    SLONG GetAnzHumanPlayers(void);
-    SLONG GetAnzRobotPlayers(void);
+    SLONG GetAnzHumanPlayers(void) const;
+    SLONG GetAnzRobotPlayers(void) const;
     SLONG GetIndexOfHumanPlayerNumberX(SLONG x);
     static BOOL IsLogoInUse(SLONG Player, UBYTE Logo);
     BOOL IsPlaneNameInUse(const CString &PlaneName);
@@ -2500,9 +2500,9 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     ~SIM();
     void AddSmacker(const CString &Filename, long BrickId, XY Offset);
     void AddNewPassengers(void);
-    void AddNewShoppers(void) const;
-    static void AddStenchSabotage(XY Position);
-    static bool AddGlueSabotage(XY Position, SLONG Dir, SLONG NewDir, SLONG Phase);
+    void AddNewShoppers(void);
+    void AddStenchSabotage(XY Position);
+    bool AddGlueSabotage(XY Position, SLONG Dir, SLONG NewDir, SLONG Phase);
     void ChooseStartup(BOOL GameModeQuick);
     void DoTimeStep(void);
     SLONG GetWeek(void) const;
@@ -2515,30 +2515,30 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     void CreateRandomUsedPlanes(void);
     void UpdateUsedPlanes(void);
     void ReformGates(void);
-    static void ComputerOnToilet(SLONG ComputerPlayer);
-    static void UpdateRoomUsage(void);
+    void ComputerOnToilet(SLONG ComputerPlayer);
+    void UpdateRoomUsage(void);
 
     void CreateMissionCities(void);
     void CreateEarthquakeCity(void);
 
     BOOL LoadGame(SLONG Number);
     void SaveGame(SLONG Number, const CString &Name) const;
-    static DWORD GetSavegameUniqueGameId(SLONG Index, bool bForceNetwork = false);
-    static SLONG GetSavegameLocalPlayer(SLONG Index);
-    static SLONG GetSavegameNumHumans(SLONG Index);
-    static CString GetSavegameSessionName(SLONG Index);
-    static void ReadSavegameOwners(SLONG Index);
+    DWORD GetSavegameUniqueGameId(SLONG Index, bool bForceNetwork = false);
+    SLONG GetSavegameLocalPlayer(SLONG Index);
+    SLONG GetSavegameNumHumans(SLONG Index);
+    CString GetSavegameSessionName(SLONG Index);
+    void ReadSavegameOwners(SLONG Index);
 
     void LoadOptions(void);
     void SaveOptions(void);
 
-    static SLONG GetSeason(void);
+    SLONG GetSeason(void);
     void UpdateSeason(void);
 
     void GiveHint(SLONG Number);
     void InvalidateHint(SLONG Number);
 
-    static void NetRefill(SLONG Type, SLONG City = 0);
+    void NetRefill(SLONG Type, SLONG City = 0);
     void NetSynchronizeOvertake(void) const;
 
     // In NewgamePopup.cpp

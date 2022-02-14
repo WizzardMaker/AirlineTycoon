@@ -6915,7 +6915,7 @@ void PLAYER::BroadcastPosition(bool bForce) {
 //============================================================================================
 PLAYERS::PLAYERS() {
     AnzPlayers = 4;
-    Sim.Players.Players.ReSize(AnzPlayers);
+    Players.ReSize(AnzPlayers);
 
     for (SLONG c = 0; c < AnzPlayers; c++) {
         Players[c].PlayerNum = c;
@@ -6981,7 +6981,7 @@ void PLAYERS::UpdateStatistics() {
 //--------------------------------------------------------------------------------------------
 // Gibt die Zahl der menschlichen (Nicht-Computer) Spieler:
 //--------------------------------------------------------------------------------------------
-SLONG PLAYERS::GetAnzHumanPlayers() {
+SLONG PLAYERS::GetAnzHumanPlayers() const {
     SLONG c = 0;
     SLONG Anz = 0;
 
@@ -6997,7 +6997,7 @@ SLONG PLAYERS::GetAnzHumanPlayers() {
 //--------------------------------------------------------------------------------------------
 // Gibt die Zahl der nicht-menschlichen (Computer) Spieler:
 //--------------------------------------------------------------------------------------------
-SLONG PLAYERS::GetAnzRobotPlayers() {
+SLONG PLAYERS::GetAnzRobotPlayers() const {
     SLONG c = 0;
     SLONG Anz = 0;
 

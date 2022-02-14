@@ -158,7 +158,7 @@ void NewGamePopup::Konstruktor(BOOL /*bHandy*/, SLONG /*PlayerNum*/) {
             SBNetworkCreation cr;
 
             Sim.bNetwork = 1;
-            NetworkSession = SIM::GetSavegameSessionName(gNetworkSavegameLoading);
+            NetworkSession = Sim.GetSavegameSessionName(gNetworkSavegameLoading);
             Sim.bNetwork = 0;
 
             cr.sessionName = NetworkSession;
@@ -176,8 +176,8 @@ void NewGamePopup::Konstruktor(BOOL /*bHandy*/, SLONG /*PlayerNum*/) {
 
                 BOOL bOld = Sim.bNetwork;
                 Sim.bNetwork = 1;
-                SIM::ReadSavegameOwners(gNetworkSavegameLoading);
-                SLONG localPlayer = SIM::GetSavegameLocalPlayer(gNetworkSavegameLoading);
+                Sim.ReadSavegameOwners(gNetworkSavegameLoading);
+                SLONG localPlayer = Sim.GetSavegameLocalPlayer(gNetworkSavegameLoading);
                 Sim.bNetwork = bOld;
 
                 for (SLONG d = 0; d < 4; d++) {
@@ -1569,7 +1569,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                         if (gNetworkSavegameLoading != -1) {
                             NewgameWantsToLoad = 1;
                             Sim.bThisIsSessionMaster = bThisIsSessionMaster;
-                            nWaitingForPlayer += SIM::GetSavegameNumHumans(gNetworkSavegameLoading) - 1;
+                            nWaitingForPlayer += Sim.GetSavegameNumHumans(gNetworkSavegameLoading) - 1;
                             SetNetworkBitmap(3, 1);
                             FrameWnd->Invalidate();
                             MessagePump();
@@ -2119,7 +2119,7 @@ void NewGamePopup::CheckNetEvents() {
                             TEAKFILE Message;
 
                             Message.Announce(30);
-                            Message << ATNET_SAVGEGAMECHECK << gNetworkSavegameLoading << SIM::GetSavegameUniqueGameId(gNetworkSavegameLoading, true);
+                            Message << ATNET_SAVGEGAMECHECK << gNetworkSavegameLoading << Sim.GetSavegameUniqueGameId(gNetworkSavegameLoading, true);
 
                             gNetwork.Send(Message.MemBuffer, Message.MemBufferUsed, SenderID, false);
                         } else {
@@ -2178,10 +2178,10 @@ void NewGamePopup::CheckNetEvents() {
 
                     Message >> SavegameIndex >> UniqueGameId;
 
-                    if (SIM::GetSavegameUniqueGameId(SavegameIndex, true) == UniqueGameId) {
+                    if (Sim.GetSavegameUniqueGameId(SavegameIndex, true) == UniqueGameId) {
                         BOOL bOld = Sim.bNetwork;
                         Sim.bNetwork = 1;
-                        SIM::SendSimpleMessage(ATNET_WANNAJOIN2, 0, gNetwork.GetLocalPlayerID(), SIM::GetSavegameLocalPlayer(SavegameIndex));
+                        SIM::SendSimpleMessage(ATNET_WANNAJOIN2, 0, gNetwork.GetLocalPlayerID(), Sim.GetSavegameLocalPlayer(SavegameIndex));
                         Sim.bNetwork = bOld;
                     } else {
                         PageNum = MULTIPLAYER_SELECT_SESSION;
@@ -2323,7 +2323,7 @@ void NewGamePopup::CheckNetEvents() {
 
                     RefreshKlackerField();
                     NewgameWantsToLoad = 1;
-                    nWaitingForPlayer += SIM::GetSavegameNumHumans(Index) - 1;
+                    nWaitingForPlayer += Sim.GetSavegameNumHumans(Index) - 1;
                     SetNetworkBitmap(3, 1);
                     FrameWnd->Invalidate();
                     MessagePump();

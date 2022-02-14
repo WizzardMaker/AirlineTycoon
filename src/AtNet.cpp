@@ -561,7 +561,7 @@ void PumpNetwork() {
                 }
 
                 qPlayer.CalcRoom();
-                SIM::UpdateRoomUsage();
+                Sim.UpdateRoomUsage();
 
                 // Bei menschlichen nicht-lokalen Mitspielern eine Fehlerbehandlung:
                 if (qPlayer.Owner == 2 && Sim.Time > 9 * 60000) {
@@ -633,7 +633,7 @@ void PumpNetwork() {
                 }
 
                 qPlayer.CalcRoom();
-                SIM::UpdateRoomUsage();
+                Sim.UpdateRoomUsage();
             } break;
 
             case ATNET_CHEAT: {
@@ -1586,7 +1586,7 @@ void PumpNetwork() {
 
                 if (Type == ITEM_STINKBOMBE) // Stinkbombe
                 {
-                    SIM::AddStenchSabotage(XY(Position.x, Position.y));
+                    Sim.AddStenchSabotage(XY(Position.x, Position.y));
                 } else if (Type == ITEM_GLUE) // Klebstoff
                 {
                     UBYTE Dir = 0;
@@ -1595,7 +1595,7 @@ void PumpNetwork() {
 
                     Message >> Dir >> NewDir >> Phase;
 
-                    SIM::AddGlueSabotage(Position, Dir, NewDir, Phase);
+                    Sim.AddGlueSabotage(Position, Dir, NewDir, Phase);
                 }
             } break;
 
@@ -1729,7 +1729,7 @@ void PumpNetwork() {
 
                 Message >> FromPlayer >> Index >> UniqueGameId;
 
-                if (SIM::GetSavegameUniqueGameId(Index, true) == UniqueGameId) {
+                if (Sim.GetSavegameUniqueGameId(Index, true) == UniqueGameId) {
                     SIM::SendSimpleMessage(ATNET_IO_LOADREQUEST_OK, Sim.Players.Players[FromPlayer].NetworkID, Sim.localPlayer, Index);
                 } else {
                     SIM::SendSimpleMessage(ATNET_IO_LOADREQUEST_BAD, Sim.Players.Players[FromPlayer].NetworkID, Sim.localPlayer);

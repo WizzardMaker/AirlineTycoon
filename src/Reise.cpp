@@ -76,7 +76,7 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
 
     AmbientManager.SetGlobalVolume(60);
 
-    SIM::NetRefill(2);
+    Sim.NetRefill(2);
     ReisebueroAuftraege.RefillForReisebuero();
 
     SP_Girl.ReSize(4);
@@ -183,7 +183,7 @@ CReisebuero::~CReisebuero() {
 
     Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
 
-    SIM::NetRefill(2);
+    Sim.NetRefill(2);
     ReisebueroAuftraege.RefillForReisebuero();
 }
 

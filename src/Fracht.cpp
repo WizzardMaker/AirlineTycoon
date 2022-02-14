@@ -52,7 +52,7 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
     }
     DefaultDialogPartner = TALKER_FRACHT;
 
-    SIM::NetRefill(3);
+    Sim.NetRefill(3);
     gFrachten.Refill();
 
     SP_Fracht.ReSize(13);
@@ -173,7 +173,7 @@ CFrachtRaum::~CFrachtRaum() {
         pGfxMain->ReleaseLib(pMenuLib);
     }
 
-    SIM::NetRefill(3);
+    Sim.NetRefill(3);
     gFrachten.Refill();
 }
 

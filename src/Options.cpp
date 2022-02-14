@@ -804,7 +804,7 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
                     Sim.Gamestate = GAMESTATE_BOOT;
                 } else if (Sim.bNetwork != 0) {
                     // Laden während des Spiels: Kommt das mit der aktuellen Anzahl der Spieler hin?
-                    if (SIM::GetSavegameNumHumans(Line - 2) != Sim.Players.GetAnzHumanPlayers()) {
+                    if (Sim.GetSavegameNumHumans(Line - 2) != Sim.Players.GetAnzHumanPlayers()) {
                         if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
                             (Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuStart(MENU_REQUEST, MENU_REQUEST_NET_NUM);
                         }
@@ -816,7 +816,7 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
 
                         nOptionsOpen++;
                         SIM::SendSimpleMessage(ATNET_OPTIONS, 0, 1, Sim.localPlayer);
-                        SIM::SendSimpleMessage(ATNET_IO_LOADREQUEST, 0, Sim.localPlayer, Line - 2, SIM::GetSavegameUniqueGameId(Line - 2, true));
+                        SIM::SendSimpleMessage(ATNET_IO_LOADREQUEST, 0, Sim.localPlayer, Line - 2, Sim.GetSavegameUniqueGameId(Line - 2, true));
                     }
                 } else {
                     Sim.LoadGame(Line - 2);

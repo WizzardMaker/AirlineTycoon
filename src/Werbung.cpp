@@ -119,9 +119,9 @@ void CWerbung::OnPaint() {
 
     // Die Jahreszeit:
     if (Sim.Difficulty < ROOM_LIMIT && Sim.Difficulty != DIFF_FREEGAME) {
-        RoomBm.BlitFrom(JahreszeitBms[SIM::GetSeason()], 491, 0); // nowerbung
+        RoomBm.BlitFrom(JahreszeitBms[Sim.GetSeason()], 491, 0); // nowerbung
     } else {
-        RoomBm.BlitFrom(JahreszeitBms[SIM::GetSeason()], 495, 0); // werbung
+        RoomBm.BlitFrom(JahreszeitBms[Sim.GetSeason()], 495, 0); // werbung
     }
 
     // Ggf. Onscreen-Texte einbauen:

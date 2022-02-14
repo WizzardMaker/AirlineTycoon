@@ -1625,7 +1625,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                 qPlayer.CalcRoom();
                                                 qPlayer.BroadcastPosition();
                                                 qPlayer.BroadcastRooms(ATNET_LEAVEROOM);
-                                                SIM::UpdateRoomUsage();
+                                                Sim.UpdateRoomUsage();
                                             }
                                         }
                                         if (Sim.Players.Players.AnzEntries() == 0) {
@@ -1822,7 +1822,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                 qPlayer.CalcRoom();
                                                 qPlayer.BroadcastPosition(true);
                                                 qPlayer.BroadcastRooms(ATNET_ENTERROOM);
-                                                SIM::UpdateRoomUsage();
+                                                Sim.UpdateRoomUsage();
                                             }
                                         }
                                     } else if (Sim.Players.Players[c].Owner == 1) // Und das gleiche für Roboter:
@@ -1906,7 +1906,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                     if ((Sim.bNetwork != 0) && (Sim.bIsHost != 0)) {
                                                         qPlayer.BroadcastPosition();
                                                         qPlayer.BroadcastRooms(ATNET_ENTERROOM, qPlayer.Locations[d]);
-                                                        SIM::UpdateRoomUsage();
+                                                        Sim.UpdateRoomUsage();
                                                     }
                                                 }
                                             } else if ((qPlayer.Locations[d] & ROOM_LEAVING) != 0) {
@@ -1956,7 +1956,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                 if ((Sim.bNetwork != 0) && (Sim.bIsHost != 0)) {
                                                     qPlayer.BroadcastPosition();
                                                     qPlayer.BroadcastRooms(ATNET_LEAVEROOM, RoomLeft);
-                                                    SIM::UpdateRoomUsage();
+                                                    Sim.UpdateRoomUsage();
                                                 }
                                             }
                                         }

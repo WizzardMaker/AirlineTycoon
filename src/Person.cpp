@@ -2570,7 +2570,7 @@ void PERSON::DoOnePlayerStep() {
                             (*qPlayer.LocationWin).MenuStart(MENU_WC_F, Sim.TimeSlice, 0);
                         }
                     } else {
-                        SIM::ComputerOnToilet(State);
+                        Sim.ComputerOnToilet(State);
                     }
                 } else if (c == ROOM_WC_M) {
                     qPlayer.RunningToToilet = FALSE;
@@ -2579,7 +2579,7 @@ void PERSON::DoOnePlayerStep() {
                             (*qPlayer.LocationWin).MenuStart(MENU_WC_M, Sim.TimeSlice, 0);
                         }
                     } else {
-                        SIM::ComputerOnToilet(State);
+                        Sim.ComputerOnToilet(State);
                     }
                 } else if ((c != 0) && (c < ROOM_REISE_X1 || c > ROOM_MONITOR6) && c != ROOM_ELECTRO) {
                     // Ja, deshalb betreten wir jetzt den Raum:
