@@ -3358,8 +3358,8 @@ void PLAYER::RobotPlanRoutes() {
         return; // War Irtum, kein Computerspieler
     }
 
-    BUFFER<SLONG> LastCity(Planes.AnzEntries());
-    BUFFER<SLONG> PlanesOnRoute(Routen.AnzEntries());
+    BUFFER_V<SLONG> LastCity(Planes.AnzEntries());
+    BUFFER_V<SLONG> PlanesOnRoute(Routen.AnzEntries());
 
     LastCity.FillWith(0);
     PlanesOnRoute.FillWith(0);
@@ -5609,7 +5609,7 @@ void PLAYER::RobotExecuteAction() {
         do {
             SLONG c = 0;
             SLONG Anz = 0;
-            BUFFER<BOOL> IsBuyable;
+            BUFFER_V<BOOL> IsBuyable;
 
             // Mal schauen wie unser Routen/Flugzeug Verhältnis aussieht:
             for (c = 0; c < RentRouten.RentRouten.AnzEntries(); c++) {

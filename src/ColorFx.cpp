@@ -142,7 +142,7 @@ void SB_CColorFX::Apply(SLONG Step, SB_CBitmapCore *Bitmap) {
     SLONG cx = 0;
     SLONG cy = 0;
     UWORD *p = nullptr;
-    UWORD *Table = BlendTables + (Step << 9);
+    UWORD *Table = BlendTables.getData() + (Step << 9);
     static SLONG sizex;
 
     SB_CBitmapKey Key(*Bitmap);
@@ -227,7 +227,7 @@ void SB_CColorFX::Apply(SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *T
     SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
-    UWORD *Table = BlendTables + (Step << 9);
+    UWORD *Table = BlendTables.getData() + (Step << 9);
 
     SB_CBitmapKey SrcKey(*SrcBitmap);
     SB_CBitmapKey TgtKey(*TgtBitmap);
@@ -297,10 +297,10 @@ void SB_CColorFX::ApplyOn2(SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2, 
     SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
-    UWORD *Table = BlendTables + (Step << 9);
-    UWORD *Table2 = BlendTables + (Step2 << 9);
+    UWORD *Table = BlendTables.getData() + (Step << 9);
+    UWORD *Table2 = BlendTables.getData() + (Step2 << 9);
     static SLONG sizex;
-    BUFFER<UWORD> PixelBuffer(640);
+    BUFFER_V<UWORD> PixelBuffer(640);
 
     SB_CBitmapKey Key(*DestBitmap);
     SB_CBitmapKey Key2(*SrcBitmap2);
@@ -316,8 +316,8 @@ void SB_CColorFX::ApplyOn2(SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2, 
         p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + cy * Key.lPitch);
         pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + cy * Key2.lPitch);
 
-        memcpy(PixelBuffer, p, sizex * 2);
-        p = PixelBuffer;
+        memcpy(PixelBuffer.getData(), p, sizex * 2);
+        p = PixelBuffer.getData();
 
 #ifdef ENABLE_ASM
         __asm {
@@ -385,7 +385,7 @@ void SB_CColorFX::ApplyOn2(SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2, 
         }
 #endif
 
-        memcpy(((static_cast<char *>(Key.Bitmap)) + cy * Key.lPitch), PixelBuffer, sizex * 2);
+        memcpy(((static_cast<char *>(Key.Bitmap)) + cy * Key.lPitch), PixelBuffer.getData(), sizex * 2);
     }
 }
 
@@ -398,8 +398,8 @@ void SB_CColorFX::ApplyOn2(SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, S
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
     UWORD *ppp = nullptr;
-    UWORD *Table = BlendTables + (Step << 9);
-    UWORD *Table2 = BlendTables + (Step2 << 9);
+    UWORD *Table = BlendTables.getData() + (Step << 9);
+    UWORD *Table2 = BlendTables.getData() + (Step2 << 9);
     static SLONG sizex;
 
     if (SrcBitmap == nullptr || SrcBitmap2 == nullptr || TgtBitmap == nullptr) {
@@ -493,10 +493,10 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
     SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
-    static UWORD *Table1 = BlendTables + (2 << 9);
-    static UWORD *Table2 = BlendTables + (6 << 9);
+    static UWORD *Table1 = BlendTables.getData() + (2 << 9);
+    static UWORD *Table2 = BlendTables.getData() + (6 << 9);
     static SLONG sizex;
-    BUFFER<UWORD> PixelBuffer(640);
+    BUFFER_V<UWORD> PixelBuffer(640);
 
     IsPaintingTextBubble = TRUE;
     gRoomJustLeft = FALSE;
@@ -514,8 +514,8 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
     // bVgaRam = ((DDSurfaceDesc.ddsCaps.dwCaps & DDSCAPS_VIDEOMEMORY)!=0);
 
     if (Grade != -1) {
-        Table1 = BlendTables + (Grade << 9);
-        Table2 = BlendTables + ((AnzSteps - Grade - 1) << 9);
+        Table1 = BlendTables.getData() + (Grade << 9);
+        Table2 = BlendTables.getData() + ((AnzSteps - Grade - 1) << 9);
     }
 
     XY t = TargetPos;
@@ -602,8 +602,8 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
             pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + Rect.left * 2 + (cy + Rect.top) * Key2.lPitch);
 
             if (bVgaRam != 0) {
-                memcpy(PixelBuffer, p, sizex * 2);
-                p = PixelBuffer;
+                memcpy(PixelBuffer.getData(), p, sizex * 2);
+                p = PixelBuffer.getData();
             }
 
             if (Table1 == Table2) {
@@ -639,7 +639,7 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
             }
 
             if (bVgaRam != 0) {
-                memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer, sizex * 2);
+                memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer.getData(), sizex * 2);
             }
         }
     }
@@ -757,16 +757,16 @@ void SB_CColorFX::BlitTrans(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
     SLONG cy = 0;
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
-    UWORD *Table1 = BlendTables + ((AnzSteps / 2) << 9);
-    UWORD *Table2 = BlendTables + ((AnzSteps / 2) << 9);
+    UWORD *Table1 = BlendTables.getData() + ((AnzSteps / 2) << 9);
+    UWORD *Table2 = BlendTables.getData() + ((AnzSteps / 2) << 9);
     static SLONG sizex;
-    BUFFER<UWORD> PixelBuffer(640);
+    BUFFER_V<UWORD> PixelBuffer(640);
 
     CRect ClipRect = TgtBitmap->GetClipRect();
 
     if (Grade != -1) {
-        Table1 = BlendTables + (Grade << 9);
-        Table2 = BlendTables + ((AnzSteps - Grade - 1) << 9);
+        Table1 = BlendTables.getData() + (Grade << 9);
+        Table2 = BlendTables.getData() + ((AnzSteps - Grade - 1) << 9);
     }
 
     XY t = TargetPos;
@@ -824,8 +824,8 @@ void SB_CColorFX::BlitTrans(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
             p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch);
             pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + Rect.left * 2 + (cy + Rect.top) * Key2.lPitch);
 
-            memcpy(PixelBuffer, p, sizex * 2);
-            p = PixelBuffer;
+            memcpy(PixelBuffer.getData(), p, sizex * 2);
+            p = PixelBuffer.getData();
 
             if (Table1 == Table2) {
                 for (cx = sizex; cx > 0; cx--) {
@@ -849,7 +849,7 @@ void SB_CColorFX::BlitTrans(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
                 }
             }
 
-            memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer, sizex * 2);
+            memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer.getData(), sizex * 2);
         }
     }
 }
@@ -863,8 +863,8 @@ void SB_CColorFX::HighlightText(SB_CBitmapCore *pBitmap, const CRect &HighRect, 
     SLONG cx = 0;
     SLONG cy = 0;
     UWORD *p = nullptr;
-    UWORD *Table1 = BlendTables + (7 << 9);
-    UWORD *Table2 = BlendTables + (1 << 9);
+    UWORD *Table1 = BlendTables.getData() + (7 << 9);
+    UWORD *Table2 = BlendTables.getData() + (1 << 9);
     static SLONG sizex;
     static SLONG sizey;
 
@@ -969,7 +969,7 @@ void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
     static SLONG sizex;
-    BUFFER<UWORD> PixelBuffer(640);
+    BUFFER_V<UWORD> PixelBuffer(640);
 
     XY t = TargetPos;
 
@@ -1008,8 +1008,8 @@ void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
             p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch);
             pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + Rect.left * 2 + (cy + Rect.top) * Key2.lPitch);
 
-            memcpy(PixelBuffer, p, sizex * 2);
-            p = PixelBuffer;
+            memcpy(PixelBuffer.getData(), p, sizex * 2);
+            p = PixelBuffer.getData();
 
 #ifdef ENABLE_ASM
             UWORD *Table = BlendTables;
@@ -1066,7 +1066,7 @@ void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
              }*/
 
             for (cx = sizex; cx > 0; cx--) {
-                UWORD *Table1 = BlendTables + (SLONG(*pp) << 9);
+                UWORD *Table1 = BlendTables.getData() + (SLONG(*pp) << 9);
 
                 *p = UWORD(Table1[(reinterpret_cast<UBYTE *>(p))[0]] + Table1[256 + (reinterpret_cast<UBYTE *>(p))[1]]);
 
@@ -1074,7 +1074,7 @@ void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
                 pp++;
             }
 #endif
-            memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer, sizex * 2);
+            memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer.getData(), sizex * 2);
         }
     }
 }
@@ -1092,7 +1092,7 @@ void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap,
     UWORD *p = nullptr;
     UWORD *pp = nullptr;
     static SLONG sizex;
-    BUFFER<UWORD> PixelBuffer(640);
+    BUFFER_V<UWORD> PixelBuffer(640);
 
     XY t = TargetPos;
 
@@ -1126,11 +1126,11 @@ void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap,
 
     sizex = Rect.right - Rect.left + 1;
 
-    BUFFER<SLONG> Map1(BlendTables.AnzEntries() / 512);
-    BUFFER<SLONG> Map2(BlendTables.AnzEntries() / 512);
+    BUFFER_V<SLONG> Map1(BlendTables.AnzEntries() / 512);
+    BUFFER_V<SLONG> Map2(BlendTables.AnzEntries() / 512);
 
-    SLONG *pMap1 = Map1;
-    SLONG *pMap2 = Map2;
+    SLONG *pMap1 = Map1.getData();
+    SLONG *pMap2 = Map2.getData();
 
     auto Strength = SLONG(sin(timeGetTime() / 150.0) * 4 + 4);
 
@@ -1144,12 +1144,12 @@ void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap,
             p = reinterpret_cast<UWORD *>((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch);
             pp = reinterpret_cast<UWORD *>((static_cast<char *>(Key2.Bitmap)) + Rect.left * 2 + (cy + Rect.top) * Key2.lPitch);
 
-            memcpy(PixelBuffer, p, sizex * 2);
-            p = PixelBuffer;
+            memcpy(PixelBuffer.getData(), p, sizex * 2);
+            p = PixelBuffer.getData();
 
             for (cx = sizex; cx > 0; cx--) {
-                UWORD *Table1 = BlendTables + (pMap1[*pp] << 9);
-                UWORD *Table2 = BlendTables + (pMap2[*pp] << 9);
+                UWORD *Table1 = BlendTables.getData() + (pMap1[*pp] << 9);
+                UWORD *Table2 = BlendTables.getData() + (pMap2[*pp] << 9);
 
                 *p =
                     UWORD(Table1[(reinterpret_cast<UBYTE *>(p))[0]] + Table1[256 + (reinterpret_cast<UBYTE *>(p))[1]]) + UWORD(Table2[255] + Table2[256 + 255]);
@@ -1158,7 +1158,7 @@ void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap,
                 pp++;
             }
 
-            memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer, sizex * 2);
+            memcpy(((static_cast<char *>(Key.Bitmap)) + t.x * 2 + (cy + t.y) * Key.lPitch), PixelBuffer.getData(), sizex * 2);
         }
     }
 }

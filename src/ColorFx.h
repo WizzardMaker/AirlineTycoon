@@ -11,12 +11,12 @@ typedef SB_CColorFXTypeHelper *SB_CColorFXType;
 #define SB_COLORFX_FADE ((SB_CColorFXType)0x0001)
 #define SB_COLORFX_GREY ((SB_CColorFXType)0x0002)
 
-typedef BUFFER<UWORD> BUFFER_UWORD;
+typedef BUFFER_V<UWORD> BUFFER_UWORD;
 
 class SB_CColorFX {
   private:
     SLONG AnzSteps{};
-    BUFFER<UWORD> BlendTables;
+    BUFFER_V<UWORD> BlendTables;
 
   public:
     SB_CColorFX();
