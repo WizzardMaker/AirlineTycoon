@@ -18,8 +18,8 @@ extern SB_CColorFX ColorFX;
 static char THIS_FILE[] = __FILE__;
 #endif
 
-void PrepareReflexionTable(SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTable);
-void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &ReflexionSourceBm, const BUFFER<UBYTE> &pReflexionTable);
+void PrepareReflexionTable(SBBM &ReflexionMaskBm, BUFFER_V<UBYTE> *pReflexionTable);
+void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &ReflexionSourceBm, const BUFFER_V<UBYTE> &pReflexionTable);
 
 // Für die Zeichenreihenfolge
 static SLONG PartsRemapper[] = {0, 1, 2, 3, 9, 4, 6, 5, 8, 7};
@@ -48,9 +48,9 @@ class CWaitCursorNow {
 //--------------------------------------------------------------------------------------------
 // Bereitet eine Reflexionstabelle vor:
 //--------------------------------------------------------------------------------------------
-void PrepareReflexionTable(SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTable) {
+void PrepareReflexionTable(SBBM &ReflexionMaskBm, BUFFER_V<UBYTE> *pReflexionTable) {
 #ifndef DEMO
-    BUFFER<UBYTE> &ReflexionTable = *pReflexionTable;
+    BUFFER_V<UBYTE> &ReflexionTable = *pReflexionTable;
 
     SLONG x = 0;
     SLONG y = 0;
@@ -74,7 +74,7 @@ void PrepareReflexionTable(SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTable
     // Weniger Bewegung bei den Objekten in der Bitmap
     for (y = 0; y < ReflexionMaskBm.Size.y; y++) {
         auto *pSrcAdress = reinterpret_cast<UWORD *>((static_cast<UBYTE *>(SrcKey.Bitmap)) + y * SrcKey.lPitch);
-        UBYTE *pTable = ReflexionTable + y * ReflexionMaskBm.Size.x;
+        UBYTE *pTable = ReflexionTable.getData() + y * ReflexionMaskBm.Size.x;
 
         for (x = 0; x < ReflexionMaskBm.Size.x; x++) {
             UWORD p = pSrcAdress[x] & 31;
@@ -104,7 +104,7 @@ void PrepareReflexionTable(SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTable
 //--------------------------------------------------------------------------------------------
 // Berechnet den Wassereffekt:
 //--------------------------------------------------------------------------------------------
-void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &ReflexionSourceBm, const BUFFER<UBYTE> &pReflexionTable) {
+void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &ReflexionSourceBm, const BUFFER_V<UBYTE> &pReflexionTable) {
 #ifndef DEMO
     static SLONG x;
     static SLONG y;
@@ -127,7 +127,7 @@ void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &Reflexi
 
             pTgtPixel = reinterpret_cast<UWORD *>((static_cast<char *>(TgtKey.Bitmap)) + (y + TargetOffset.y) * TgtKey.lPitch);
             pSrcPixel = reinterpret_cast<UWORD *>((reinterpret_cast<char *>((static_cast<UWORD *>(SrcKey.Bitmap)) + TargetOffset.x)) + y * SrcKey.lPitch);
-            pRefTable = pReflexionTable + y * ReflexionSourceBm.Size.x + TargetOffset.x;
+            pRefTable = const_cast<UBYTE *>(pReflexionTable.getData() + y * ReflexionSourceBm.Size.x + TargetOffset.x);
 
             x = pTargetBm->Size.x - 1;
 

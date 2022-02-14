@@ -58,18 +58,29 @@ template <typename T> class BUFFER_V : public std::vector<T> {
   public:
     BUFFER_V() = default;
     BUFFER_V(int size) : std::vector<T>(size) { }
-    void ReSize(SLONG anz) { std::vector<T>::resize(anz); }
+    void ReSize(SLONG anz) {
+        Iter = 0;
+        std::vector<T>::resize(anz);
+    }
     SLONG AnzEntries() const { return std::vector<T>::size(); }
-    void Clear() { std::vector<T>::clear(); }
+    void Clear() {
+        Iter = 0;
+        std::vector<T>::clear();
+    }
     void FillWith(T value) {
         for (int i = 0; i < std::vector<T>::size(); i++)
             std::vector<T>::at(i) = value;
     }
 
     // operator T *() const { return std::vector<T>::data(); }
-    T* getData() const { return std::vector<T>::data(); }
+    const T* getData() const { return std::vector<T>::data() + Iter; }
+    T* getData() { return std::vector<T>::data() + Iter; }
 
     // void operator+=(int rhs) { DelPointer += rhs; }
+    void incIter(int i) { Iter += i; }
+
+    private:
+    int Iter{0};
 };
 
 template <typename T> class BUFFER {

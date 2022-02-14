@@ -17,7 +17,7 @@ class CInsel : public CStdRaum {
     SBBM ShipReflexBm;
     SBBMS ShipWaveBms;
     SLONG ShipOffset;
-    BUFFER<UBYTE> ShipReflexionMask;
+    BUFFER_V<UBYTE> ShipReflexionMask;
 
     SBBMS RocketPartBms;       // 10 Parts in 4 Farben
     SBBMS RocketPartReflexBms; // 10 Parts in 4 Farben
@@ -32,7 +32,7 @@ class CInsel : public CStdRaum {
 
     SLONG BlinkArrowsTimer;
 
-    BUFFER<UBYTE> ReflexionMask;
+    BUFFER_V<UBYTE> ReflexionMask;
 
     // Operations
   public:
