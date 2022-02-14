@@ -4,7 +4,7 @@
 class CGlobe : public CPlaner {
     // Construction:
   public:
-    CGlobe(BOOL bHandy, ULONG PlayerNum);
+    CGlobe(BOOL bHandy, SLONG PlayerNum);
 
     // Attributes:
   public:

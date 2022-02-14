@@ -1932,8 +1932,8 @@ TEAKFILE &operator>>(TEAKFILE &File, BLOCK &b) {
 // Speichert ein BLOCKS-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const BLOCKS &b) {
-    File << b.RepaintAll << b.Blocks;
-    File << *((const ALBUM<BLOCK> *)&b);
+    File << b.RepaintAll;
+    File << *((const ALBUM_V<BLOCK> *)&b);
 
     return (File);
 }
@@ -1942,8 +1942,8 @@ TEAKFILE &operator<<(TEAKFILE &File, const BLOCKS &b) {
 // Lädt ein BLOCKS-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, BLOCKS &b) {
-    File >> b.RepaintAll >> b.Blocks;
-    File >> *((ALBUM<BLOCK> *)&b);
+    File >> b.RepaintAll;
+    File >> *((ALBUM_V<BLOCK> *)&b);
 
     return (File);
 }

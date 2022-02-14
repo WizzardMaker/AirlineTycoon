@@ -19,6 +19,7 @@ extern const char *ExcAlbumFind;
 extern const char *ExcAlbumDelete;
 extern const char *ExcXIDUnrecoverable;
 extern const char *ExcAlbumNotConsistent;
+extern const char *ExcAlbumInvalidArg;
 
 extern SLONG TeakLibW_Exception(char *, SLONG, const char *, ...);
 extern char *TeakStrRemoveCppComment(char *);
@@ -1005,7 +1006,7 @@ template <typename T> class ALBUM_V {
         inline bool operator>(const Iter &i) const { return It > i.It; }
         inline bool operator>=(const Iter &i) const { return It >= i.It; }
 
-        friend void swap(Iter &a, Iter &b) {
+        static void swap(Iter &a, Iter &b) {
             if (a == b) {
                 return;
             }
@@ -1242,10 +1243,39 @@ template <typename T> class ALBUM_V {
             if (a >= b) {
                 break;
             }
-            swap(a, b);
+            Iter::swap(a, b);
         }
         assert(a == b);
         qSort(begin(), a - 1);
+    }
+
+    void Swap(int a, int b) {
+        if (a == b) {
+            return;
+        }
+        if (a >= 0x1000000 && b >= 0x1000000) {
+            auto idxA = find(a);
+            auto idxB = find(b);
+            Hash.at(a) = idxB;
+            Hash.at(b) = idxA;
+            std::swap(List[idxA], List[idxB]);
+            std::swap(ListInit[idxA], ListInit[idxB]);
+            return;
+        }
+        else if (a < 0x1000000 && b < 0x1000000) {
+            auto idA = ListInit[a];
+            auto idB = ListInit[b];
+            if (Hash.end() != Hash.find(idA)) {
+                Hash.at(idA) = b;
+            }
+            if (Hash.end() != Hash.find(idB)) {
+                Hash.at(idB) = a;
+            }
+            std::swap(List[a], List[b]);
+            std::swap(ListInit[a], ListInit[b]);
+            return;
+        }
+        TeakLibW_Exception(nullptr, 0, ExcAlbumInvalidArg, Name.c_str());
     }
 
     void check_consistent_index() {
@@ -1272,7 +1302,7 @@ template <typename T> class ALBUM_V {
                 --j;
             } while (*pivotIter < *j);
             if (i < j) {
-                swap(i, j);
+                Iter::swap(i, j);
             } else {
                 break;
             }

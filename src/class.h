@@ -1251,13 +1251,12 @@ class /**/ BLOCK {
     friend TEAKFILE &operator>>(TEAKFILE &File, BLOCK &b);
 };
 
-class BLOCKS : public ALBUM<BLOCK> {
+class BLOCKS : public ALBUM_V<BLOCK> {
   public:
     BOOL RepaintAll;
-    BUFFER<BLOCK> Blocks;
 
   public:
-    BLOCKS() : ALBUM<BLOCK>(Blocks, "Blocks") {}
+    BLOCKS() : ALBUM_V<BLOCK>("Blocks") {}
     void RefreshAuftragsBloecke(SLONG PlayerNum, SLONG Background);
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const BLOCKS &b);

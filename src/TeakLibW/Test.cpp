@@ -164,6 +164,22 @@ template <typename T> bool run_test() {
     expect_val(list, 0x2000002, 22);
     expect_val(list, 0x2000001, 23);
 
+    /* test swapping by id */
+    list.Swap(id, id2);
+    list.Swap(id2, id3);
+    expect_val(list, id, 3);
+    expect_val(list, id2, 5);
+    expect_val(list, id3, 12);
+    expect_list(list, std::vector<T>({4, 12, 2, 1, 11, 3, 5, 22, 23, T(), 21, 20}), 12, 1);
+
+    /* test swapping by index */
+    list.Swap(0, 1);
+    list.Swap(0, 4);
+    expect_val(list, id, 3);
+    expect_val(list, id2, 5);
+    expect_val(list, id3, 12);
+    expect_list(list, std::vector<T>({11, 4, 2, 1, 12, 3, 5, 22, 23, T(), 21, 20}), 12, 1);
+
     printf("Errors: %d \n", errors);
     return (errors == 0);
 }

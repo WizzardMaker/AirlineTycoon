@@ -5,6 +5,7 @@ const char *ExcAlbumFind = "Album: %s [] failed!";
 const char *ExcAlbumDelete = "Album: %s -= failed!";
 const char *ExcXIDUnrecoverable = "XID-Access for %li (%s) failed (unrecoverable)!";
 const char *ExcAlbumNotConsistent = "Album %s index is corrupted!";
+const char *ExcAlbumInvalidArg = "Album: %s swap() called with invalid arg!";
 
 XID::XID() : Value(0), Index(0) {}
 

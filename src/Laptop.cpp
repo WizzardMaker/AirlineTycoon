@@ -1080,16 +1080,10 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
     // Klick auf ein FLugzeug auf der Weltkarte:
     if (CurrentBlock == -1 && MouseClickArea == ROOM_LAPTOP && MouseClickId == 101) {
         if (Sim.Players.Players[PlayerNum].LaptopVirus == 0) {
-            ULONG Id = 0;
 
             KommVarLampe = 1; // richtig flackern
 
-            Id = Sim.Players.Players[PlayerNum].Blocks.GetUniqueId();
-
-            Sim.Players.Players[PlayerNum].Blocks += Id;
-
-            BLOCK &qBlock = Sim.Players.Players[PlayerNum].Blocks[Id];
-
+            BLOCK qBlock;
             qBlock.PlayerNum = PlayerNum;
             qBlock.ScreenPos = point;
 
@@ -1124,6 +1118,8 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
 
             qBlock.RefreshData(PlayerNum);
             qBlock.Refresh(PlayerNum, TRUE);
+
+            ULONG Id = (Sim.Players.Players[PlayerNum].Blocks += qBlock);
 
             GlobeBm.Clear(0);
             PaintGlobe();
@@ -1403,17 +1399,12 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
                 }
             } else // Nein, Block neu erzeugen:
             {
-                ULONG Id = 0;
-
                 KommVarLampe = 1; // richtig flackern
                 IconRotSpeed[CurrentIcon] += 1000;
 
-                Id = Sim.Players.Players[PlayerNum].Blocks.GetUniqueId();
-
-                Sim.Players.Players[PlayerNum].Blocks += Id;
-
+                ULONG Id;
                 {
-                    BLOCK &qBlock = Sim.Players.Players[PlayerNum].Blocks[Id];
+                    BLOCK qBlock;
 
                     qBlock.PlayerNum = PlayerNum;
                     // qBlock.ScreenPos  = XY (IconsPos[CurrentIcon*2+Background*24]+60, IconsPos[CurrentIcon*2+1+Background*24]-gNotepad2Bm.Size.y/6);
@@ -1445,15 +1436,17 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
                     qBlock.RefreshData(PlayerNum);
 
                     if (qBlock.BlockType == 2) { // Flugzeuge in einer Doppellliste:
-                        qBlock.AnzPages = max(0, (Sim.Players.Players[PlayerNum].Blocks[Id].Table.AnzRows - 1) / 6) + 1;
+                        qBlock.AnzPages = max(0, (qBlock.Table.AnzRows - 1) / 6) + 1;
                     } else {
-                        qBlock.AnzPages = max(0, (Sim.Players.Players[PlayerNum].Blocks[Id].Table.AnzRows - 1) / 13) + 1;
+                        qBlock.AnzPages = max(0, (qBlock.Table.AnzRows - 1) / 13) + 1;
                     }
 
                     qBlock.Refresh(PlayerNum, TRUE);
 
                     Limit(static_cast<SLONG>(49 - qBlock.Bitmap.Size.x / 2), qBlock.ScreenPos.x, static_cast<SLONG>(600 - qBlock.Bitmap.Size.x / 2));
                     Limit(static_cast<SLONG>(29), qBlock.ScreenPos.y, static_cast<SLONG>(380));
+
+                    Id = (Sim.Players.Players[PlayerNum].Blocks += std::move(qBlock));
                 }
 
                 // Block ggf. nach vorne bringen:

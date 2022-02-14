@@ -45,7 +45,7 @@ class CWaitCursorNow {
 //--------------------------------------------------------------------------------------------
 // Konstruktor
 //--------------------------------------------------------------------------------------------
-CGlobe::CGlobe(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Players.Players[static_cast<SLONG>(PlayerNum)].EarthAlpha, FALSE) {
+CGlobe::CGlobe(BOOL bHandy, SLONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Players.Players[PlayerNum].EarthAlpha, FALSE) {
     SLONG c = 0;
 
     CWaitCursorNow wc; // CD-Cursor anzeigen
@@ -57,7 +57,7 @@ CGlobe::CGlobe(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
         AmbientManager.SetGlobalVolume(40);
     }
 
-    OfficeState = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].OfficeState;
+    OfficeState = Sim.Players.Players[PlayerNum].OfficeState;
     if (OfficeState == 3) {
         pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("buerodrk.gli", RoomPath)), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize(pGLibDark, "BUERO");
@@ -65,7 +65,7 @@ CGlobe::CGlobe(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
         pGLibDark = nullptr;
     }
 
-    FensterVisible = (Sim.IsTutorial) != 0 ? 1 : Sim.Players.Players[static_cast<SLONG>(PlayerNum)].GlobeFileOpen;
+    FensterVisible = (Sim.IsTutorial) != 0 ? 1 : Sim.Players.Players[PlayerNum].GlobeFileOpen;
 
     KonstruktorFinished = 0;
 
@@ -132,15 +132,13 @@ CGlobe::CGlobe(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
 
     MessagePump();
 
-    Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.RepaintAll = FALSE;
+    Sim.Players.Players[PlayerNum].Blocks.RepaintAll = FALSE;
 
     // Globus-Block nötigenfalls erzeugen:
-    if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(0)) == 0) {
-        ULONG Id = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.GetUniqueId();
+    if (Sim.Players.Players[PlayerNum].Blocks.IsInAlbum(ULONG(0)) == 0) {
 
-        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks *= Id;
-
-        BLOCK &qBlock = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id];
+        ULONG Id = (Sim.Players.Players[PlayerNum].Blocks *= BLOCK());
+        BLOCK &qBlock = Sim.Players.Players[PlayerNum].Blocks[Id];
 
         qBlock.PlayerNum = PlayerNum;
         qBlock.ScreenPos = XY(80, 100);
@@ -160,7 +158,7 @@ CGlobe::CGlobe(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
         qBlock.TipB = TIP_NONE;
         qBlock.TipInUseB = TIP_NONE;
 
-        qBlock.AnzPages = max(0, 1 + (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Planes.GetNumUsed() - 1) / 6);
+        qBlock.AnzPages = max(0, 1 + (Sim.Players.Players[PlayerNum].Planes.GetNumUsed() - 1) / 6);
         qBlock.Base = this;
 
         for (c = 0; c < 6; c++) {
@@ -181,26 +179,26 @@ CGlobe::CGlobe(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
         qBlock.RefreshData(PlayerNum);
         qBlock.Refresh(PlayerNum, FALSE);
 
-        Limit(SLONG(-Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id].Bitmap.Size.x / 2),
-              Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id].ScreenPos.x,
-              static_cast<SLONG>(640 - Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id].Bitmap.Size.x / 2));
-        Limit(static_cast<SLONG>(-20), Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id].ScreenPos.y, static_cast<SLONG>(400));
+        Limit(SLONG(-Sim.Players.Players[PlayerNum].Blocks[Id].Bitmap.Size.x / 2),
+              Sim.Players.Players[PlayerNum].Blocks[Id].ScreenPos.x,
+              static_cast<SLONG>(640 - Sim.Players.Players[PlayerNum].Blocks[Id].Bitmap.Size.x / 2));
+        Limit(static_cast<SLONG>(-20), Sim.Players.Players[PlayerNum].Blocks[Id].ScreenPos.y, static_cast<SLONG>(400));
     }
 
     // Base-Pointer der Blöcke initialisieren:
-    for (c = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.AnzEntries() - 1; c >= 0; c--) {
-        if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(c)) != 0) {
-            Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[c].Base = nullptr;
+    for (c = Sim.Players.Players[PlayerNum].Blocks.AnzEntries() - 1; c >= 0; c--) {
+        if (Sim.Players.Players[PlayerNum].Blocks.IsInAlbum(ULONG(c)) != 0) {
+            Sim.Players.Players[PlayerNum].Blocks[c].Base = nullptr;
         }
     }
 
-    if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(0)) != 0) {
-        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[static_cast<ULONG>(0)].Base = this;
+    if (Sim.Players.Players[PlayerNum].Blocks.IsInAlbum(ULONG(0)) != 0) {
+        Sim.Players.Players[PlayerNum].Blocks[static_cast<ULONG>(0)].Base = this;
     }
 
     // Refreshen:
-    if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(0)) != 0) {
-        BLOCK &qBlock = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[ULONG(0)];
+    if (Sim.Players.Players[PlayerNum].Blocks.IsInAlbum(ULONG(0)) != 0) {
+        BLOCK &qBlock = Sim.Players.Players[PlayerNum].Blocks[ULONG(0)];
 
         qBlock.RefreshData(PlayerNum);
         qBlock.Page = min(qBlock.Page / 6, qBlock.AnzPages - 1) * 6;
