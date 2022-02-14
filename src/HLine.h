@@ -14,19 +14,13 @@ class CHLPool;
 //--------------------------------------------------------------------------------------------
 class CHLGene {
   private:
-    UBYTE Offset;  // X-Offset für die Bitmap
-    UBYTE Anz;     // Anzahl der Pixel im String
-    UBYTE *pPixel; // Pointer in den Pool oder wenn Anz<=2, direkt die Pixel
+    UBYTE Offset{0};  // X-Offset für die Bitmap
+    UBYTE Anz{0};     // Anzahl der Pixel im String
+    UBYTE *pPixel{nullptr}; // Pointer in den Pool oder wenn Anz<=2, direkt die Pixel
 
-  private:
-    CHLGene() {
-        Offset = 0;
-        Anz = 0;
-        pPixel = NULL;
-    }
-    ~CHLGene() {}
+  public:
+    CHLGene() = default;
 
-    friend class BUFFER<CHLGene>;
     friend class CHLObj;
     friend class CHLPool;
 
@@ -48,16 +42,20 @@ class CHLGene {
 //--------------------------------------------------------------------------------------------
 class CHLObj {
   private:
-    __int64 graphicID; // Identifiziert die Bitmap;
+    __int64 graphicID{0}; // Identifiziert die Bitmap;
     XY Size;
-    CHLPool *pHLPool;           // Zeiger auf Parent (H-Line Pool)
-    BUFFER<CHLGene> HLines;     // Elemente aus dem Pool
-    BUFFER<UBYTE> HLineEntries; // Array, daß angibtm wieviele Einträge pro Zeile da sind
+    CHLPool *pHLPool{nullptr};           // Zeiger auf Parent (H-Line Pool)
+    BUFFER_V<CHLGene> HLines;     // Elemente aus dem Pool
+    BUFFER_V<UBYTE> HLineEntries; // Array, daß angibtm wieviele Einträge pro Zeile da sind
 
-  private: // Konstruktion/Destruktion:
-    CHLObj();
-    ~CHLObj();
-    void Destroy(void);
+  public: // Konstruktion/Destruktion:
+    CHLObj() = default;
+    ~CHLObj() { Destroy(); }
+    void Destroy() {
+        graphicID = 0;
+        pHLPool = nullptr;
+        HLines.ReSize(0);
+    }
 
   public: // Blitting & Bitmap Services:
     const XY &GetSize(void) { return (Size); }
@@ -77,7 +75,7 @@ class CHLObj {
         return (File);
     }
 
-    friend class BUFFER<CHLObj>;
+    friend class BUFFER_V<CHLObj>;
     friend class CHLPool;
     friend class CHLBm;
 };
@@ -88,35 +86,36 @@ class CHLObj {
 class CHLPool {
   private: // Pool-informationen
     CString Filename;
-    UBYTE *pPool;          // Eine Folge von 2-byte Pixeln (64k Farben)
-    SLONG PoolSize;        // Aktuelle Größe in Pixeln (1 Pixel = 2 Bytes)
+    UBYTE *pPool{};          // Eine Folge von 2-byte Pixeln (64k Farben)
+    SLONG PoolSize{};        // Aktuelle Größe in Pixeln (1 Pixel = 2 Bytes)
     SLONG PoolMaxSize{};   // Maximale Größe in Pixeln
-    CHLPool *pHLBasepool1; // Eltern-Pool #1
-    CHLPool *pHLBasepool2; // Eltern-Pool #2
+    CHLPool *pHLBasepool1{}; // Eltern-Pool #1
+    CHLPool *pHLBasepool2{}; // Eltern-Pool #2
 
     UBYTE *pHLBasepool1Pool{}; // Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
     UBYTE *pHLBasepool2Pool{}; // Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
     SLONG HLBasepool1Size{};   // Größe Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
     SLONG HLBasepool2Size{};   // Größe Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
 
-    BUFFER<UWORD> PaletteMapper; // 256 Paletteneinträge zum remappen
+    BUFFER_V<UWORD> PaletteMapper; // 256 Paletteneinträge zum remappen
 
-    SLONG Loaded; // 0=Nein, 1=Preloaded, 2=Loaded
+    SLONG Loaded{}; // 0=Nein, 1=Preloaded, 2=Loaded
 
   public:                      // Pool-Statistiken:
-    SLONG BytesReal;           // So groß waren die Bitmaps einmal
-    SLONG BytesCompressed;     // So groß sind sie jetzt
-    SLONG BytesAdministration; // Und soviel ging für die Verwaltung bei drauf
-    SLONG LinesInPool;         // Soviele Lines sind im Pool
-    SLONG LinesRepeated;       // Soviele Lines wurde nicht in den Pool getan, sondern referenziert
+    SLONG BytesReal{};           // So groß waren die Bitmaps einmal
+    SLONG BytesCompressed{};     // So groß sind sie jetzt
+    SLONG BytesAdministration{}; // Und soviel ging für die Verwaltung bei drauf
+    SLONG LinesInPool{};         // Soviele Lines sind im Pool
+    SLONG LinesRepeated{};       // Soviele Lines wurde nicht in den Pool getan, sondern referenziert
 
   private:                    // Child-Informationen
-    BUFFER<CHLObj> HLObjects; // Bitmaps, die Pool-Informationen verwenden
+    BUFFER_V<CHLObj> HLObjects; // Bitmaps, die Pool-Informationen verwenden
 
   public: // Konstruktion/Destruktion:
-    CHLPool();
-    ~CHLPool();
+    CHLPool() = default;
+    ~CHLPool() { Destroy(); }
     void Destroy(void);
+
     BOOL PreLoad(void);
     BOOL Load(void);
     BOOL Save(void);
@@ -139,13 +138,14 @@ class CHLPool {
 //--------------------------------------------------------------------------------------------
 class CHLBm {
   private:
-    CHLObj *pObj{};
+    CHLObj *pObj{nullptr};
 
   public: // Konstruktion/Destruktion:
-    CHLBm();
-    ~CHLBm();
-    void Destroy(void);
-    void ReSize(CHLPool *pHLPool, __int64 graphicID);
+    CHLBm() = default;
+    ~CHLBm() { Destroy(); }
+
+    void Destroy() { pObj = nullptr; }
+    void ReSize(CHLPool *pHLPool, __int64 graphicID) { pObj = pHLPool->GetHLObj(graphicID); }
 
   public: // Blitting & Bitmap Services:
     const XY &GetSize(void) { return (pObj->GetSize()); }
@@ -164,17 +164,17 @@ class CHLBm {
 //--------------------------------------------------------------------------------------------
 class CHLBms {
   private:
-    BUFFER<CHLBm> Bitmaps;
+    BUFFER_V<CHLBm> Bitmaps;
 
   public:
     void Destroy() { Bitmaps.ReSize(0); }
     void ReSize(CHLPool *pHLPool, __int64 graphicID, ...);
-    void ReSize(CHLPool *pHLPool, const BUFFER<__int64> &graphicIds);
+    void ReSize(CHLPool *pHLPool, const BUFFER_V<__int64> &graphicIds);
     void ReSize(CHLPool *pHLPool, const CString &graphicstr);
     void ReSize(CHLPool *pHLPool, const CString &graphicstr, SLONG Anzahl);
     SLONG AnzEntries() const { return (Bitmaps.AnzEntries()); }
 
     // CHLBm& operator [](const SLONG Index) const { return Bitmaps[Index]; }
-    CHLBm &operator[](const int Index) const { return Bitmaps[Index]; }
+    CHLBm &operator[](const int Index) { return Bitmaps[Index]; }
 };
 #endif // hline_h

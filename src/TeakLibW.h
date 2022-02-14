@@ -59,12 +59,12 @@ template <typename T> class BUFFER_V : public std::vector<T> {
     BUFFER_V() = default;
     BUFFER_V(int size) : std::vector<T>(size) { }
     void ReSize(SLONG anz) {
-        Iter = 0;
+        Offset = 0;
         std::vector<T>::resize(anz);
     }
     SLONG AnzEntries() const { return std::vector<T>::size(); }
     void Clear() {
-        Iter = 0;
+        Offset = 0;
         std::vector<T>::clear();
     }
     void FillWith(T value) {
@@ -73,14 +73,15 @@ template <typename T> class BUFFER_V : public std::vector<T> {
     }
 
     // operator T *() const { return std::vector<T>::data(); }
-    const T* getData() const { return std::vector<T>::data() + Iter; }
-    T* getData() { return std::vector<T>::data() + Iter; }
+    const T* getData() const { return std::vector<T>::data() + Offset; }
+    T* getData() { return std::vector<T>::data() + Offset; }
 
     // void operator+=(int rhs) { DelPointer += rhs; }
-    void incIter(int i) { Iter += i; }
+    void incIter(int i) { Offset += i; }
+    SLONG getIter() const { return Offset; }
 
     private:
-    int Iter{0};
+    SLONG Offset{0};
 };
 
 template <typename T> class BUFFER {
@@ -330,7 +331,7 @@ class TEAKFILE {
         return File;
     }
     friend TEAKFILE &operator>>(TEAKFILE &File, double &b) {
-        File.Read((UBYTE *)&b, sizeof(b));
+            File.Read((UBYTE *)&b, sizeof(b));
         return File;
     }
 
@@ -368,6 +369,7 @@ class TEAKFILE {
 
     template <typename T> friend TEAKFILE &operator<<(TEAKFILE &File, const BUFFER_V<T> &buffer) {
         File << buffer.AnzEntries();
+        File << buffer.getIter();
         for (SLONG i = 0; i < buffer.AnzEntries(); i++) {
             File << buffer[i];
         }
@@ -375,9 +377,10 @@ class TEAKFILE {
     }
 
     template <typename T> friend TEAKFILE &operator>>(TEAKFILE &File, BUFFER_V<T> &buffer) {
-        SLONG size;
-        File >> size;
+        SLONG size, offset;
+        File >> size >> offset;
         buffer.ReSize(size);
+        buffer.incIter(offset);
         for (SLONG i = 0; i < buffer.AnzEntries(); i++) {
             File >> buffer[i];
         }

@@ -15,10 +15,10 @@ HDU Hdu;
 HDU::HDU() : Log(nullptr) {
     char *base = SDL_GetBasePath();
     const char *file = "debug.log";
-    BUFFER<char> path(strlen(base) + strlen(file) + 1);
-    strcpy(path, base);
-    strcat(path, file);
-    Log = fopen(path, "w");
+    BUFFER_V<char> path(strlen(base) + strlen(file) + 1);
+    strcpy(path.data(), base);
+    strcat(path.data(), file);
+    Log = fopen(path.data(), "w");
 }
 
 HDU::~HDU() { Close(); }

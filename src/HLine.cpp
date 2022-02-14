@@ -12,28 +12,6 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //--------------------------------------------------------------------------------------------
-// Konstruktor:
-//--------------------------------------------------------------------------------------------
-CHLObj::CHLObj() {
-    graphicID = 0;
-    pHLPool = nullptr;
-}
-
-//--------------------------------------------------------------------------------------------
-// Destruktor:
-//--------------------------------------------------------------------------------------------
-CHLObj::~CHLObj() { Destroy(); }
-
-//--------------------------------------------------------------------------------------------
-// Pseudo-Destruktor:
-//--------------------------------------------------------------------------------------------
-void CHLObj::Destroy() {
-    graphicID = 0;
-    pHLPool = nullptr;
-    HLines.ReSize(0);
-}
-
-//--------------------------------------------------------------------------------------------
 // Blittet ein HL-Objekt an eine Stelle, bis jetzt aber ohne Clipping
 //--------------------------------------------------------------------------------------------
 void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
@@ -307,28 +285,6 @@ void CHLObj::BlitLargeAt(SB_CBitmapCore *pBitmap, XY Target) {
 }
 
 //--------------------------------------------------------------------------------------------
-// CHLPool::
-//--------------------------------------------------------------------------------------------
-// Konstruktor:
-//--------------------------------------------------------------------------------------------
-CHLPool::CHLPool() {
-    pPool = nullptr;
-    PoolSize = 0;
-    pHLBasepool1 = nullptr;
-    pHLBasepool2 = nullptr;
-
-    Loaded = 0;
-
-    BytesReal = BytesCompressed = BytesAdministration = 0;
-    LinesInPool = LinesRepeated = 0;
-}
-
-//--------------------------------------------------------------------------------------------
-// Destruktor:
-//--------------------------------------------------------------------------------------------
-CHLPool::~CHLPool() { Destroy(); }
-
-//--------------------------------------------------------------------------------------------
 // Pseudo-Destruktor:
 //--------------------------------------------------------------------------------------------
 void CHLPool::Destroy() {
@@ -416,7 +372,7 @@ BOOL CHLPool::Load() {
 
             // Wurden diese Daten schon vorher geladen? Dann reicht einmal!
             if (HLObjects.AnzEntries() != 0) {
-                BUFFER<CHLObj> DummyHLObjects;
+                BUFFER_V<CHLObj> DummyHLObjects;
 
                 File >> DummyHLObjects;
             } else {
@@ -543,7 +499,7 @@ void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal
     SLONG MaxDelta = (100 - Quality) * 768 / 100;
 
     SLONG AnzObjHLines = 0;
-    BUFFER<UBYTE> Equal(65536);
+    BUFFER_V<UBYTE> Equal(65536);
 
     BytesReal += pBitmap->GetXSize() * pBitmap->GetYSize() * 2;
     BytesAdministration += pBitmap->GetYSize(); // Anz Genes für jede Scanline
@@ -985,28 +941,6 @@ CHLObj *CHLPool::GetHLObj(const CString &String) {
 }
 
 //--------------------------------------------------------------------------------------------
-// CHLBm::
-//--------------------------------------------------------------------------------------------
-// Eine HL-Bitmap ist eine Referenz auf ein HL-Objekt; Es kann mehrere HLBMs für ein HLOBJ geben
-//--------------------------------------------------------------------------------------------
-CHLBm::CHLBm() = default;
-
-//--------------------------------------------------------------------------------------------
-// Destruktor:
-//--------------------------------------------------------------------------------------------
-CHLBm::~CHLBm() { Destroy(); }
-
-//--------------------------------------------------------------------------------------------
-// Pseudo-Destruktor:
-//--------------------------------------------------------------------------------------------
-void CHLBm::Destroy() { pObj = nullptr; }
-
-//--------------------------------------------------------------------------------------------
-// Initialisiert ein Objekt:
-//--------------------------------------------------------------------------------------------
-void CHLBm::ReSize(CHLPool *pHLPool, __int64 graphicID) { pObj = pHLPool->GetHLObj(graphicID); }
-
-//--------------------------------------------------------------------------------------------
 // CHLBms::
 //--------------------------------------------------------------------------------------------
 // Eine Sequenz von HL-Bitmaps initialisieren:
@@ -1015,7 +949,7 @@ void CHLBms::ReSize(CHLPool *pHLPool, __int64 graphicID, ...) {
     SLONG count = 0;
     __int64 i = graphicID;
     va_list marker;
-    BUFFER<__int64> graphicIds;
+    BUFFER_V<__int64> graphicIds;
 
     // Anzahl ermitteln:
     va_start(marker, graphicID);
@@ -1043,7 +977,7 @@ void CHLBms::ReSize(CHLPool *pHLPool, __int64 graphicID, ...) {
 //--------------------------------------------------------------------------------------------
 // Eine Sequenz von HL-Bitmaps initialisieren:
 //--------------------------------------------------------------------------------------------
-void CHLBms::ReSize(CHLPool *pHLPool, const BUFFER<__int64> &graphicIds) {
+void CHLBms::ReSize(CHLPool *pHLPool, const BUFFER_V<__int64> &graphicIds) {
     SLONG c = 0;
 
     Bitmaps.ReSize(graphicIds.AnzEntries());
@@ -1059,14 +993,14 @@ void CHLBms::ReSize(CHLPool *pHLPool, const BUFFER<__int64> &graphicIds) {
 void CHLBms::ReSize(CHLPool *pHLPool, const CString &graphicstr) {
     SLONG Anz = 0;
     char *Texts[100];
-    BUFFER<__int64> graphicIds;
-    BUFFER<char> Str(graphicstr.GetLength() + 1);
+    BUFFER_V<__int64> graphicIds;
+    BUFFER_V<char> Str(graphicstr.GetLength() + 1);
 
-    strcpy(Str, graphicstr);
+    strcpy(Str.data(), graphicstr);
 
     for (Anz = 0;; Anz++) {
         if (Anz == 0) {
-            Texts[Anz] = strtok(Str, " ");
+            Texts[Anz] = strtok(Str.data(), " ");
         } else {
             Texts[Anz] = strtok(nullptr, " ");
         }
@@ -1091,23 +1025,24 @@ void CHLBms::ReSize(CHLPool *pHLPool, const CString &graphicstr) {
 // Eine Sequenz von HL-Bitmaps initialisieren:
 //--------------------------------------------------------------------------------------------
 void CHLBms::ReSize(CHLPool *pHLPool, const CString &graphicstr, SLONG Anzahl) {
-    BUFFER<__int64> graphicIds;
-    BUFFER<char> Str(graphicstr.GetLength() + 1);
+    BUFFER_V<__int64> graphicIds;
+    BUFFER_V<char> Str(graphicstr.GetLength() + 1);
 
-    strcpy(Str, graphicstr);
+    strcpy(Str.data(), graphicstr);
 
     graphicIds.ReSize(Anzahl);
 
     for (SLONG c = 0; c < Anzahl; c++) {
         graphicIds[c] = 0;
-        for (SLONG d = 0; d < static_cast<SLONG>(strlen(Str)); d++) {
+        SLONG len = strlen(Str.data());
+        for (SLONG d = 0; d < len; d++) {
             graphicIds[c] += __int64(Str[d]) << (8 * d);
         }
 
-        Str[SLONG(strlen(Str) - 1)]++;
-        if (Str[SLONG(strlen(Str) - 1)] > '9') {
-            Str[SLONG(strlen(Str) - 1)] = '0';
-            Str[SLONG(strlen(Str) - 2)]++;
+        Str[len - 1]++;
+        if (Str[len - 1] > '9') {
+            Str[len - 1] = '0';
+            Str[len - 2]++;
         }
     }
 
