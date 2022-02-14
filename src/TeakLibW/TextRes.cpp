@@ -98,7 +98,7 @@ void TEXTRES::Open(char const *source, void *cached) {
         Entries.ReSize(AnzEntries);
 
         for (SLONG i = 0; i < Entries.AnzEntries(); ++i) {
-            Entries.DelPointer[i].Text = nullptr;
+            Entries[i].Text = nullptr;
         }
 
         AnzStrings = 0;
@@ -143,7 +143,7 @@ void TEXTRES::Open(char const *source, void *cached) {
                     }
                     Entries[AnzEntries].Group = Group;
                     Entries[AnzEntries].Id = Identifier;
-                    Entries[AnzEntries].Text = Strings + AnzStrings;
+                    Entries[AnzEntries].Text = Strings.getData() + AnzStrings;
                     strcpy(Entries[AnzEntries].Text, String + 2);
                     if (strlen(String + 2) + AnzStrings >= Strings.AnzEntries()) {
                         TeakLibW_Exception(nullptr, 0, ExcImpossible, "");
@@ -158,7 +158,7 @@ void TEXTRES::Open(char const *source, void *cached) {
         { delete[] String; }
     } else {
         Path.ReSize(strlen(source) + 1);
-        strcpy(Path, source);
+        strcpy(Path.getData(), source);
     }
 }
 

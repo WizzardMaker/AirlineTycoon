@@ -362,9 +362,9 @@ class TEAKFILE {
     friend TEAKFILE &operator>>(TEAKFILE &File, CString &b) {
         ULONG size;
         File >> size;
-        BUFFER<BYTE> str(size);
-        File.Read(str, size);
-        b = (PCSTR)(BYTE *)str;
+        BUFFER_V<BYTE> str(size);
+        File.Read(str.getData(), size);
+        b = (PCSTR)(BYTE *)str.getData();
         return File;
     }
 
@@ -639,7 +639,7 @@ class PALETTE {
     void CopyArea(SLONG, SLONG, SLONG);
     void CopyAreaFrom(PALETTE const &, SLONG, SLONG, SLONG);
 
-    BUFFER<SDL_Color> Pal;
+    BUFFER_V<SDL_Color> Pal;
 };
 
 // static_assert(sizeof(PALETTE) == 16, "PALETTE size check");
@@ -660,16 +660,16 @@ class TEXTRES {
     ~TEXTRES(void);
 
     void Open(char const *, void *);
-    BUFFER<char> &GetB(ULONG, ULONG);
+    BUFFER_V<char> &GetB(ULONG, ULONG);
     char *GetP(ULONG, ULONG);
     char *GetS(ULONG, ULONG);
     // char* GetS(ULONG, char const*);
     char *GetS(char const *c, ULONG i) { return GetS(*(ULONG *)c, i); }
 
   private:
-    BUFFER<char> Path;
-    BUFFER<char> Strings;
-    BUFFER<TEXTRES_CACHE_ENTRY> Entries;
+    BUFFER_V<char> Path;
+    BUFFER_V<char> Strings;
+    BUFFER_V<TEXTRES_CACHE_ENTRY> Entries;
 };
 
 // static_assert(sizeof(TEXTRES) == 36, "TEXTRES size check");
@@ -747,9 +747,9 @@ class TECBM {
     SLONG GetAnzSubBitmaps(void) const;
     TECBM *ParseNextVertikalSubBitmap(void);
     TECBM *ParseNextHorizontalSubBitmap(void);
-    BUFFER<TECBM> *ParseVertikalSubBitmaps(void);
-    void ParseHorizontalSubBitmapsInto(BUFFER<TECBM> &);
-    BUFFER<TECBM> *ParseHorizontalSubBitmaps(void);
+    BUFFER_V<TECBM> *ParseVertikalSubBitmaps(void);
+    void ParseHorizontalSubBitmapsInto(BUFFER_V<TECBM> &);
+    BUFFER_V<TECBM> *ParseHorizontalSubBitmaps(void);
     TECBM *ParseVertikalSubBitmapNumberX(SLONG);
     TECBM *ParseHorizontalSubBitmapNumberX(SLONG);
     int ParseVertikalSubBitmapNumberXInto(SLONG, TECBM &);
