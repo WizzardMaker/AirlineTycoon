@@ -141,7 +141,7 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
     CString str;
     CString path;
     CString TextFollows;
-    BUFFER<SBFX *> Effects(50);
+    BUFFER_V<SBFX *> Effects(50);
     SLONG c = 0;
     SLONG m = 0;
     SLONG n = 0;
@@ -539,7 +539,7 @@ void NextMidi() {
 //--------------------------------------------------------------------------------------------
 BOOL IsMidiAvailable() {
 #if 0
-    BUFFER<char> str(500);
+    BUFFER_V<char> str(500);
 
     //CDebugEntryExit ("IsMidiAvailable");
 
@@ -581,7 +581,7 @@ void PlayMidi(const CString &Filename) {
 //CDebugEntryExit ("PlayMidiFrom");
 
 CString tmpFilename = FullFilename (Filename, SoundPath);
-BUFFER<char> ShortFilename (strlen(tmpFilename)+2);
+BUFFER_V<char> ShortFilename (strlen(tmpFilename)+2);
 
 GetShortPathName (tmpFilename, ShortFilename, strlen(tmpFilename)+1);
 
@@ -682,7 +682,7 @@ void SBFX::Fusion(const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumFx
     }
 }
 
-void SBFX::Tokenize(BUFFER<SBFX> &Effects) const {
+void SBFX::Tokenize(BUFFER_V<SBFX> &Effects) const {
     SLONG c = 0;
     SLONG Anzahl = 0;
     FX **ppFx = pFX->Tokenize(0x80007FFF80007FFF, Anzahl);
@@ -696,13 +696,13 @@ void SBFX::Tokenize(BUFFER<SBFX> &Effects) const {
     delete ppFx;
 }
 
-void SBFX::Tokenize(BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis) const {
+void SBFX::Tokenize(BUFFER_V<SLONG> &Von, BUFFER_V<SLONG> &Bis) const {
     SLONG Anzahl = 0;
 
     Von.ReSize(100);
     Bis.ReSize(100);
 
-    pFX->Tokenize(0x80007FFF80007FFF, (SLONG *)Von, (SLONG *)Bis, Anzahl);
+    pFX->Tokenize(0x80007FFF80007FFF, (SLONG *)Von.data(), (SLONG *)Bis.data(), Anzahl);
 
     Von.ReSize(Anzahl);
     Bis.ReSize(Anzahl);
@@ -902,9 +902,9 @@ BOOL Near(SND_TYPE a, SND_TYPE b) {
     return (FALSE);
 }
 
-void CompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
+void CompressWave(BUFFER_V<SND_TYPE> &Input, BUFFER_V<SND_TYPE> &Output);
 
-void CompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output) {
+void CompressWave(BUFFER_V<SND_TYPE> &Input, BUFFER_V<SND_TYPE> &Output) {
     SLONG c = 0;
     SLONG d = 0;
     SLONG e = 0;
@@ -1006,9 +1006,9 @@ void CompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output) {
     Output.ReSize(o);
 }
 
-void DecompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
+void DecompressWave(BUFFER_V<SND_TYPE> &Input, BUFFER_V<SND_TYPE> &Output);
 
-void DecompressWave(BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output) {
+void DecompressWave(BUFFER_V<SND_TYPE> &Input, BUFFER_V<SND_TYPE> &Output) {
     SLONG c = 0;
     SLONG d = 0;
     SLONG o = 0;

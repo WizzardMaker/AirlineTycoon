@@ -56,6 +56,8 @@ inline void MB() {}
 
 template <typename T> class BUFFER_V : public std::vector<T> {
   public:
+    BUFFER_V() = default;
+    BUFFER_V(int size) : std::vector<T>(size) { }
     void ReSize(SLONG anz) { std::vector<T>::resize(anz); }
     SLONG AnzEntries() const { return std::vector<T>::size(); }
     void Clear() { std::vector<T>::clear(); }
@@ -64,7 +66,8 @@ template <typename T> class BUFFER_V : public std::vector<T> {
             std::vector<T>::at(i) = value;
     }
 
-    // operator T *() const { return DelPointer; }
+    // operator T *() const { return std::vector<T>::data(); }
+    T* getData() const { return std::vector<T>::data(); }
 
     // void operator+=(int rhs) { DelPointer += rhs; }
 };

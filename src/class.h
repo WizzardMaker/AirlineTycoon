@@ -131,8 +131,8 @@ class /**/ SBFX {
     void SetVolume(long volume) const;
     void Fusion(const SBFX **Fx, long NumFx);
     void Fusion(const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumFx);
-    void Tokenize(BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis) const;
-    void Tokenize(BUFFER<SBFX> &Effects) const;
+    void Tokenize(BUFFER_V<SLONG> &Von, BUFFER_V<SLONG> &Bis) const;
+    void Tokenize(BUFFER_V<SBFX> &Effects) const;
 };
 
 //--------------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ class /**/ SBFX {
 //--------------------------------------------------------------------------------------------
 class /**/ CVoiceScheduler {
   private:
-    BUFFER<CString> Voices;
+    BUFFER_V<CString> Voices;
     SBFX CurrentVoice;
 
   public:

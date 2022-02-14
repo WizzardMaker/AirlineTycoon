@@ -12,8 +12,8 @@ static char THIS_FILE[] = __FILE__;
 
 // Die letzten beiden Sprecher:
 static SBFX TalkerFx[2];
-static BUFFER<SLONG> TalkerFxVon[2];
-static BUFFER<SLONG> TalkerFxBis[2];
+static BUFFER_V<SLONG> TalkerFxVon[2];
+static BUFFER_V<SLONG> TalkerFxBis[2];
 static CString TalkerId[2] = {"", ""};
 static SLONG TalkerLastLoaded = 0;
 
