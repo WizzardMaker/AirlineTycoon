@@ -632,7 +632,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
             case 6000: // Spieler sagt jetzt Zahl der Flugzeuge:
             {
-                // BUFFER<CString> Array;
+                // BUFFER_V<CString> Array;
                 // GetMatchingFilelist (FullFilename ("*.plane", MyPlanePath), Array);
 
                 if (!MenuPar4.empty()) {
@@ -665,8 +665,8 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 6013:
             case 6014:
             case 6015: {
-                BUFFER<CString> maybeArray;
-                BUFFER<CString> Array;
+                BUFFER_V<CString> maybeArray;
+                BUFFER_V<CString> Array;
                 GetMatchingFilelist(FullFilename("*.plane", MyPlanePath), maybeArray);
 
                 Array.ReSize(maybeArray.AnzEntries());

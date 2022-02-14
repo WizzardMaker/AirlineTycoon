@@ -1985,7 +1985,7 @@ long CountMatchingFilelist(const CString &DirAndWildcards) {
 //--------------------------------------------------------------------------------------------
 // Erzeugt aus Verzeichnisundwildcard String ein Array mit Dateinamen:
 //--------------------------------------------------------------------------------------------
-void GetMatchingFilelist(const CString &DirAndWildcards, BUFFER<CString> &Array) {
+void GetMatchingFilelist(const CString &DirAndWildcards, BUFFER_V<CString> &Array) {
     int Pos = DirAndWildcards.Find("*");
     CString Dir = DirAndWildcards.Left(Pos);
     CString Ext = DirAndWildcards.Right(DirAndWildcards.GetLength() - Pos - 1);
@@ -2019,7 +2019,7 @@ void GetMatchingFilelist(const CString &DirAndWildcards, BUFFER<CString> &Array)
 // Erzeugt aus Verzeichnisundwildcard String ein Array mit Dateinamen:
 //--------------------------------------------------------------------------------------------
 CString GetMatchingNext(const CString &DirAndWildcards, const CString &CurrentFilename, long Add) {
-    BUFFER<CString> Array;
+    BUFFER_V<CString> Array;
 
     GetMatchingFilelist(DirAndWildcards, Array);
 

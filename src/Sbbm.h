@@ -109,17 +109,14 @@ XYZ DetectCurrentDisplayResolution(void);
 // Eine Teak Bitmap:
 class SBBM {
   public:
-    SB_CBitmapCore *pBitmap;
-    CHLObj *pHLObj;
+    SB_CBitmapCore *pBitmap{nullptr};
+    CHLObj *pHLObj{nullptr};
 
   public:
     XY Size; // Größe der Bitmap
 
   public: // Konstruktor (Bitmap1.Cpp):
-    SBBM(void) {
-        pBitmap = NULL;
-        pHLObj = NULL;
-    }
+    SBBM() = default;
     SBBM(SLONG xs, SLONG ys) {
         pHLObj = NULL;
         bitmapMain->CreateBitmap(&pBitmap, xs, ys, 0, CREATE_USECOLORKEY | CREATE_SYSMEM);
@@ -179,9 +176,6 @@ class SBBM {
     }
 
     void Line(XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColors);
-
-    // private:
-    SBBM &operator=(SBBM &p) { return (*this); }
 
     // Services:
   public:
@@ -278,31 +272,17 @@ class SBBM {
     friend class SBBMKEYC;
 };
 
-class SBBMS;
-
-class SB1BM : public SBBM {
-  private:
-    SBBMS *ParentThis;
-};
-
 // Diverse Bitmaps, einfach gesammelt
-class SBBMS {
-  private:
-    BUFFER<SB1BM> Bitmaps;
-
+class SBBMS : public BUFFER_V<SBBM> {
   public:
-    SBBMS();
-    ~SBBMS();
-    void Destroy() { Bitmaps.ReSize(0); }
+    SBBMS() = default;
+    void Destroy() { BUFFER_V<SBBM>::ReSize(0); }
+    void ReSize(SLONG anz) { BUFFER_V<SBBM>::ReSize(anz); }
     void ReSize(GfxLib *gfxLibrary, __int64 graphicID, ...);
     void ReSize(CHLPool *pPool, const BUFFER<__int64> &graphicIds);
     void ReSize(GfxLib *gfxLibrary, const BUFFER<__int64> &graphicIds, SLONG flags = CREATE_SYSMEM);
     void ReSize(GfxLib *gfxLibrary, const CString &graphicstr);
     void ReSize(GfxLib *gfxLibrary, const CString &graphicstr, SLONG Anzahl, SLONG flags = CREATE_SYSMEM);
-    SLONG AnzEntries() const { return (Bitmaps.AnzEntries()); }
-
-    // SB1BM& operator [](const SLONG Index) const { return Bitmaps[Index]; }
-    SB1BM &operator[](const int Index) const { return Bitmaps[Index]; }
 };
 
 // Definition einer sichtbaren (Primary) Bitmap:

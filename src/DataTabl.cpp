@@ -228,7 +228,7 @@ void CDataTable::FillWithXPlaneTypes() {
     ColTitle[1] = " ";
     ColTitle[2] = " ";
 
-    BUFFER<CString> Array;
+    BUFFER_V<CString> Array;
     GetMatchingFilelist(FullFilename("*.plane", MyPlanePath), Array);
 
     for (c = 0, d = 0; c < Array.AnzEntries() && c < 9999; c++) {

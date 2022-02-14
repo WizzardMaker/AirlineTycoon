@@ -676,8 +676,6 @@ void SBPRIMARYBM::Flip(XY WindowPos, BOOL /*ShowFPS*/) {
     }
 }
 
-SBBMS::SBBMS() = default;
-
 void SBBMS::ReSize(GfxLib *gfxLibrary, __int64 graphicID, ...) {
     SLONG count = 0;
     __int64 i = graphicID;
@@ -710,20 +708,20 @@ void SBBMS::ReSize(GfxLib *gfxLibrary, __int64 graphicID, ...) {
 void SBBMS::ReSize(GfxLib *gfxLibrary, const BUFFER<__int64> &graphicIds, SLONG flags) {
     SLONG c = 0;
 
-    Bitmaps.ReSize(graphicIds.AnzEntries());
+    ReSize(graphicIds.AnzEntries());
 
     for (c = 0; c < graphicIds.AnzEntries(); c++) {
-        Bitmaps[c].ReSize(gfxLibrary, graphicIds[c], flags);
+        at(c).ReSize(gfxLibrary, graphicIds[c], flags);
     }
 }
 
 void SBBMS::ReSize(CHLPool *pPool, const BUFFER<__int64> &graphicIds) {
     SLONG c = 0;
 
-    Bitmaps.ReSize(graphicIds.AnzEntries());
+    ReSize(graphicIds.AnzEntries());
 
     for (c = 0; c < graphicIds.AnzEntries(); c++) {
-        Bitmaps[c].ReSize(pPool, graphicIds[c]);
+        at(c).ReSize(pPool, graphicIds[c]);
     }
 }
 
@@ -781,8 +779,6 @@ void SBBMS::ReSize(GfxLib *gfxLibrary, const CString &graphicstr, SLONG Anzahl, 
 
     ReSize(gfxLibrary, graphicIds, flags);
 }
-
-SBBMS::~SBBMS() = default;
 
 void SBPRIMARYBM::ReSize(SDL_Window *Wnd, BOOL Fullscreen, const XY &Resolution) {
     if (MakeVideoPath.GetLength() != 0) {

@@ -5667,7 +5667,7 @@ void CStdRaum::MenuRepaint() {
                 }
 
                 if (MouseClickArea == -101 && MouseClickPar2 >= 0 && MouseClickPar2 <= 5 && MouseClickPar2 == c) {
-                    DrawAuftragTipContents(PlayerNum, OnscreenBitmap, MenuBms2, &qAuftrag, -2, 0, 0, XY(6, 6), XY(6, 28), XY(-37 - 2, -8 + 5), &FontSmallBlack,
+                    DrawAuftragTipContents(PlayerNum, OnscreenBitmap, MenuBms2.getData(), &qAuftrag, -2, 0, 0, XY(6, 6), XY(6, 28), XY(-37 - 2, -8 + 5), &FontSmallBlack,
                                            &FontSmallBlack);
                 }
             }
@@ -5693,9 +5693,9 @@ void CStdRaum::MenuRepaint() {
                 }
 
                 if (MouseClickArea == -101 && MouseClickPar2 >= 0 + 7 && MouseClickPar2 <= 5 + 7 && MouseClickPar2 == c + 7) {
-                    DrawFrachtTipContents(PlayerNum, OnscreenBitmap, MenuBms2, &qFracht, 0, 0, 0, 777 * 0, XY(6, 6), XY(6, 28), XY(-37 - 2, -8 + 5),
+                    DrawFrachtTipContents(PlayerNum, OnscreenBitmap, MenuBms2.getData(), &qFracht, 0, 0, 0, 777 * 0, XY(6, 6), XY(6, 28), XY(-37 - 2, -8 + 5),
                                           &FontSmallBlack, &FontSmallBlack);
-                    // DrawFrachtTipContents (PlayerNum, OnscreenBitmap, MenuBms2, &qFracht, SLONG TonsThis, SLONG Costs, SLONG Income, SLONG Okay, XY Headline,
+                    // DrawFrachtTipContents (PlayerNum, OnscreenBitmap, MenuBms2.getData(), &qFracht, SLONG TonsThis, SLONG Costs, SLONG Income, SLONG Okay, XY Headline,
                     // XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked) DrawAuftragTipContents(         ,               , , ,
                     // SLONG Gate,     SLONG Costs,               SLONG Okay, XY Headline, XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL
                     // Unlocked)

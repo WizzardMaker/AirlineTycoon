@@ -97,8 +97,8 @@ class CStdRaum {
     SB_CFont *pFontHighlight{}; // Text im Highlight Zustand
     SB_CFont *pFontPartner{};   // Text vom Dialogpartner
 
-    BUFFER<XY> GlowEffects;
-    BUFFER<SLONG> GlowBitmapIndices;
+    BUFFER_V<XY> GlowEffects;
+    BUFFER_V<SLONG> GlowBitmapIndices;
 
     BOOL TalkedToA; // Schon mit Person A geredet? (Wichtig für Dialogeröffnung)
     BOOL TalkedToB; // Schon mit Person B geredet? (Wichtig für Dialogeröffnung)
@@ -107,7 +107,7 @@ class CStdRaum {
   protected:
     GfxLib *pMenuLib1, *pMenuLib2; // Libraries das Menü
     SBBMS MenuBms;
-    BUFFER<SBBMS> MenuBms2;
+    BUFFER_V<SBBMS> MenuBms2;
     SLONG CurrentMenu;      //-1=kein Menü
     SLONG LastMenu{};       //-1=kein Menü
     XY MenuStartPos;        // Von hier wird's gezoomt
@@ -120,7 +120,7 @@ class CStdRaum {
     SLONG MenuPar1{}, MenuPar2{}, MenuPar3{}; // Generisch
     SLONG MenuInfo{}, MenuInfo2{}, MenuInfo3{};
     SLONG MenuPage{}, MenuPageMax{}; // Wenn man blättern kann
-    BUFFER<SLONG> MenuRemapper;      // Wenn ein Subset von Daten gewählt wurde
+    BUFFER_V<SLONG> MenuRemapper;      // Wenn ein Subset von Daten gewählt wurde
     CDataTable MenuDataTable;        // Alternative Darstellung
     ULONG MenuDialogReEntryA{};      // Wiedereinsteig in den Dialog
     SLONG MenuDialogReEntryB;        // Wiedereinsteig in den Dialog

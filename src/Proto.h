@@ -86,7 +86,7 @@ BOOL CheckCursorHighlight(const CRect &rect, UWORD FontColor, SLONG Look = CURSO
 BOOL CheckCursorHighlight(const XY &CursorPos, const CRect &rect, UWORD FontColor, SLONG Look = CURSOR_HOT, SLONG TipId = 0, SLONG ClickArea = 0,
                           SLONG ClickId = 0, SLONG ClickPar1 = 0, SLONG ClickPar2 = 0);
 void CheckCString(CString *String);
-void GetMatchingFilelist(const CString &DirAndWildcards, BUFFER<CString> &Array);
+void GetMatchingFilelist(const CString &DirAndWildcards, BUFFER_V<CString> &Array);
 CString GetMatchingNext(const CString &DirAndWildcards, const CString &CurrentFilename, long Add = 1);
 long CountMatchingFilelist(const CString &DirAndWildcards);
 CString CreateNumeratedFreeFilename(const CString &DirAndFilename);
