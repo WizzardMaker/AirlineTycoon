@@ -84,12 +84,9 @@ class CPlaneBuild {
     CString ToString(void) const;
 };
 
-class CPlaneBuilds : public ALBUM<CPlaneBuild> {
+class CPlaneBuilds : public ALBUM_V<CPlaneBuild> {
   public:
-    BUFFER<CPlaneBuild> PlaneBuilds;
-
-  public:
-    CPlaneBuilds() : ALBUM<CPlaneBuild>(PlaneBuilds, "PlaneBuilds") {}
+    CPlaneBuilds() : ALBUM_V<CPlaneBuild>("PlaneBuilds") {}
 
     ULONG IdFrom(CString ShortName);
 };

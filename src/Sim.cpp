@@ -1155,7 +1155,7 @@ void SIM::CreateMissionCities() {
     SLONG c = 0;
     SLONG d = 0;
     SLONG e = 0;
-    BUFFER<SLONG> Map(Cities.AnzEntries());
+    BUFFER_V<SLONG> Map(Cities.AnzEntries());
 
     // Die Map-Tabelle ist ein Filter, der alle Städte nach ihrer Einwohnerzahl sortiert:
     for (c = Map.AnzEntries() - 1; c >= 0; c--) {

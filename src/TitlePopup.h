@@ -13,7 +13,7 @@ class TitlePopup : public CStdRaum {
   private:
     SBBM TitleBitmap;
     SBBM HeadlineBm;
-    BUFFER<SBBMS> LineBms;
+    BUFFER_V<SBBMS> LineBms;
 
     // Operations
   public:

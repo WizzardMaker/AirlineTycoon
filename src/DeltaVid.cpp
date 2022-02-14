@@ -32,7 +32,7 @@ BOOL deltaCompressFrame(FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCo
     SLONG pass = 0;
     UBYTE cx = 0;
 
-    BUFFER<UBYTE> Buffer(OldFrame.GetXSize() * OldFrame.GetYSize() * 3);
+    BUFFER_V<UBYTE> Buffer(OldFrame.GetXSize() * OldFrame.GetYSize() * 3);
     SLONG BufferIndex = 0;
     UBYTE *pBufferCounter = nullptr;
 
@@ -99,14 +99,14 @@ BOOL deltaCompressFrame(FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCo
                 // War das gerade eben auch schon so?
                 if ((pBufferCounter != nullptr) && (*pBufferCounter) < 250 && x != 0) {
                     (*pBufferCounter)++;
-                    *(reinterpret_cast<UWORD *>(Buffer + BufferIndex)) = (static_cast<UWORD *>(NewKey.Bitmap))[x + y_pitch];
+                    *(reinterpret_cast<UWORD *>(Buffer.getData() + BufferIndex)) = (static_cast<UWORD *>(NewKey.Bitmap))[x + y_pitch];
                     BufferIndex += 2;
                 } else {
                     Buffer[BufferIndex++] = gDeltaTokenNoDelta; // Token
                     Buffer[BufferIndex++] = 1;                  // Anzahl
-                    pBufferCounter = Buffer + BufferIndex - 1;
+                    pBufferCounter = Buffer.getData() + BufferIndex - 1;
 
-                    *(reinterpret_cast<UWORD *>(Buffer + BufferIndex)) = (static_cast<UWORD *>(NewKey.Bitmap))[x + y_pitch];
+                    *(reinterpret_cast<UWORD *>(Buffer.getData() + BufferIndex)) = (static_cast<UWORD *>(NewKey.Bitmap))[x + y_pitch];
                     BufferIndex += 2;
                 }
             }
@@ -124,7 +124,7 @@ BOOL deltaCompressFrame(FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCo
 
     // Die Daten schreiben:
     fwrite(&BufferIndex, 1, sizeof(SLONG), TargetFile);
-    fwrite(Buffer, 1, BufferIndex, TargetFile);
+    fwrite(Buffer.getData(), 1, BufferIndex, TargetFile);
 
     // Erfolg:
     return (TRUE);
@@ -148,7 +148,7 @@ BOOL deltaDecompressFrame(FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitmap
     XY OffsetA;
     XY OffsetB;
 
-    BUFFER<UBYTE> Buffer;
+    BUFFER_V<UBYTE> Buffer;
     char Header[13];
 
     XY Offsets[3];
@@ -168,7 +168,7 @@ BOOL deltaDecompressFrame(FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitmap
     // Die Daten lesen:
     fread(&x, 1, sizeof(SLONG), SourceFile);
     Buffer.ReSize(x);
-    fread(Buffer, 1, x, SourceFile);
+    fread(Buffer.getData(), 1, x, SourceFile);
 
     SB_CBitmapKey OldKey(OldFrame);
     SB_CBitmapKey NewKey(NewFrame);
@@ -182,7 +182,7 @@ BOOL deltaDecompressFrame(FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitmap
         switch (Buffer[c]) {
         case gDeltaTokenNoDelta:
             Anz = Buffer[c + 1];
-            memcpy((static_cast<UWORD *>(NewKey.Bitmap)) + x + y * NewKey.lPitch / 2, Buffer + c + 2, Anz * 2);
+            memcpy((static_cast<UWORD *>(NewKey.Bitmap)) + x + y * NewKey.lPitch / 2, Buffer.getData() + c + 2, Anz * 2);
             c += 1 + 1 + Anz * 2;
             x += Anz;
             break;

@@ -51,7 +51,7 @@ class CStatistik : public CStdRaum {
   public:
     CStatistik(BOOL bHandy, ULONG PlayerNum);
 
-    BUFFER<CStatButton> StatButtons; // Die Statistik Buttons
+    BUFFER_V<CStatButton> StatButtons; // Die Statistik Buttons
 
     SBBM HighlightBar; // Der helle Balken für die optische Auswahl
     SBBM TopSaver;     // Verhindert, daß der obere Rand von den Zoomicons überschrien wird

@@ -21,7 +21,7 @@ extern SB_CColorFX ColorFX;
 // extern LPDIRECTDRAWSURFACE FrontSurf;
 extern XY gScrollOffsetA, gScrollOffsetB;
 
-BUFFER<CBencher> BrickWait(MAX_BRICKS);
+BUFFER_V<CBencher> BrickWait(MAX_BRICKS);
 
 BOOL IgnoreNextLButtonUp = FALSE;
 
@@ -2430,7 +2430,7 @@ SLONG AIRPORT::IsInMarkedArea(const XY &Pos) {
     SLONG d = 0;
     SLONG BestSize = 0;
     SLONG NumFound = 0;
-    BUFFER<SLONG> Sizes(AreaMarkers.AnzEntries());
+    BUFFER_V<SLONG> Sizes(AreaMarkers.AnzEntries());
 
     // Alle durchsuchen:
     for (c = AreaMarkers.AnzEntries() - 1; c >= 0; c--) {
@@ -4255,7 +4255,7 @@ void AIRPORT::RepaintTextBricks() {
     SLONG e = 0;
     CFlugplan *Plan = nullptr;
 
-    BUFFER<SLONG> TextPrinted(TextBricks.AnzEntries());
+    BUFFER_V<SLONG> TextPrinted(TextBricks.AnzEntries());
 
     for (c = TextBricks.AnzEntries() - 1; c >= 0; c--) {
         TextPrinted[c] = 999;
