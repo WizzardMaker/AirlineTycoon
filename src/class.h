@@ -2174,7 +2174,7 @@ class PLAYER {
 class PLAYERS {
   public:
     SLONG AnzPlayers;
-    BUFFER<PLAYER> Players;
+    BUFFER_V<PLAYER> Players;
 
   public:
     PLAYERS();
@@ -2203,26 +2203,26 @@ class AIRPORT {
     // Elemente des Flughafens:
   public:
     BUILDS Builds;
-    BUFFER<BUILDS> HashBuilds;
+    BUFFER_V<BUILDS> HashBuilds;
     SLONG LeftEnd, RightEnd;
-    BUFFER<SLONG> GateMapper;
+    BUFFER_V<SLONG> GateMapper;
     SLONG NumBeltSpots; // Zahl der Stehplätze beim Gepäckband
 
     // Die Spezialinformationen (Positionsidiciert):
   public:
     XY PlateOffset;           // Verschiebt die Build-Koordinaten in Plate-Koor.
     XY PlateDimension;        // Maße des Arrays
-    BUFFER<UBYTE> iPlate;     // XY-Platten mit den Informationen
-    BUFFER<UBYTE> iPlateDir;  // Kopie mit der Richtung einer Person, die dort läuft
-    BUFFER<UWORD> SeatsTaken; // X-Array, in Y-Achse die Sitze
+    BUFFER_V<UBYTE> iPlate;     // XY-Platten mit den Informationen
+    BUFFER_V<UBYTE> iPlateDir;  // Kopie mit der Richtung einer Person, die dort läuft
+    BUFFER_V<UWORD> SeatsTaken; // X-Array, in Y-Achse die Sitze
 
     // Koordinaten von Sonderfällen (Nummerierungsindiciert):
   public:
-    BUFFER<BUILD> Runes; // Die Runen, die alles markieren
-    BUFFER<CDoor> Doors;
-    BUFFER<CDoor> Triggers;
-    BUFFER<CAreaMarker> AreaMarkers;
-    BUFFER<CClipMarker> ClipMarkers;
+    BUFFER_V<BUILD> Runes; // Die Runen, die alles markieren
+    BUFFER_V<CDoor> Doors;
+    BUFFER_V<CDoor> Triggers;
+    BUFFER_V<CAreaMarker> AreaMarkers;
+    BUFFER_V<CClipMarker> ClipMarkers;
 
   private:
     // Die Bauteile des Flughafens:
@@ -2374,7 +2374,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     DWORD UniqueGameId2{};  // Identifiziert eine Session eindeutig, ist auch ohne Netzwerk verfügbar und wird im Spiel nicht verändert (ist aber im Netzwerk
                             // nicht synchron)
 
-    BUFFER<CSabotageAct> SabotageActs;
+    BUFFER_V<CSabotageAct> SabotageActs;
 
     CHighscore Highscores[6];
 
@@ -2427,7 +2427,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     ULONG KeyHints[3]{};         // Hilfe-texte für die Tasten: [0]=einmal [1]=heute [2]=zum zweiten Mal
     bool bThisIsSessionMaster{}; // Ist dies der Server?
 
-    BUFFER<SLONG> MissionCities; // Die Zielstädte für die Missionen
+    BUFFER_V<SLONG> MissionCities; // Die Zielstädte für die Missionen
     SLONG KrisenCity{};          // Id der Stadt, wo das Erdbeben ist
     long ProtectionState{};      // 0: unchecked, 1=check & okay, -x Countdown till quit
 
@@ -2489,8 +2489,8 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
   public:
     SLONG HomeAirportId{}; // Id der Heimatstadt
     COptions Options;
-    BUFFER<UBYTE> RoomBusy;
-    BUFFER<CAirportSmack> AirportSmacks;
+    BUFFER_V<UBYTE> RoomBusy;
+    BUFFER_V<CAirportSmack> AirportSmacks;
 
   public:
     SIM();

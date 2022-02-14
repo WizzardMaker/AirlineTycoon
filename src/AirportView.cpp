@@ -3068,14 +3068,14 @@ void AIRPORT::CalcPlates() {
     iPlate.ReSize(PlateDimension.x * PlateDimension.y);
     iPlateDir.ReSize(0);
     iPlateDir.ReSize(PlateDimension.x * PlateDimension.y);
-    memset(iPlate, 0xfc, iPlate.AnzEntries());
-    memset(iPlateDir, 0xff, iPlateDir.AnzEntries());
-    iPlate += 20 * 16;
-    iPlateDir += 20 * 16;
+    iPlate.FillWith(0xfc);
+    iPlateDir.FillWith(0xff);
+    iPlate.incIter(20 * 16);
+    iPlateDir.incIter(20 * 16);
 
     SeatsTaken.ReSize(0);
     SeatsTaken.ReSize(PlateDimension.x);
-    SeatsTaken += 20;
+    SeatsTaken.incIter(20);
     CalcSeats();
 
     Doors.ReSize(0);
@@ -4388,8 +4388,8 @@ TEAKFILE &operator>>(TEAKFILE &File, AIRPORT &Airport) {
     } else {
         Airport.iPlateDir.ReSize(0);
         Airport.iPlateDir.ReSize(Airport.iPlate.AnzEntries());
-        memset(Airport.iPlateDir, 0xff, Airport.iPlateDir.AnzEntries());
-        Airport.iPlateDir += 20 * 16;
+        Airport.iPlateDir.FillWith(0xff);
+        Airport.iPlateDir.incIter(20 * 16);
     }
 
     for (int &c : Airport.HallLevel) {
