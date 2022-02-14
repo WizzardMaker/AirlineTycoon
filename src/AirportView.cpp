@@ -1020,7 +1020,7 @@ void AirportView::OnPaint() {
                                 if (qClan.Type == CLAN_ANIMATION && qClan.Group == 20 && qPerson.State != 255) {
                                     CSmoker &qSmoker = Smokers[qPerson.State];
 
-                                    if ((qSmoker.Smoking != 0) && (qSmoker.Smoke != nullptr)) {
+                                    if ((qSmoker.Smoking != 0) && (qSmoker.Smoke.AnzEntries() > 0)) {
                                         for (SLONG c = 0; c < 20; c++) {
                                             if (qSmoker.Smoke[c].TTL != 0) {
                                                 ColorFX.BlitTrans(gStenchBms[0].pBitmap, &PrimaryBm.PrimaryBm, qSmoker.Smoke[c].Position - ViewPos, nullptr,

@@ -1129,7 +1129,7 @@ class /**/ CRentCity {
 
 class /**/ CRentCities {
   public:
-    BUFFER<CRentCity> RentCities;
+    BUFFER_V<CRentCity> RentCities;
 
     SLONG GetNumUsed(void);
 
@@ -1151,10 +1151,10 @@ class /**/ CDataTable {
     CString Title;            // Die Überschrift der Tabelle
     SLONG AnzRows;            // Zahl der Zeilen
     SLONG AnzColums;          // Zahl der Spalten
-    BUFFER<CString> ColTitle; //Überschriften der Spalten
-    BUFFER<CString> Values;   // Die Werte der Tabellenfelder
-    BUFFER<UBYTE> ValueFlags; // Zusatzangaben für Tabellenfelder
-    BUFFER<SLONG> LineIndex;  // Verbindung zwischen Tabellenzeile und Tabellenquelle
+    BUFFER_V<CString> ColTitle; //Überschriften der Spalten
+    BUFFER_V<CString> Values;   // Die Werte der Tabellenfelder
+    BUFFER_V<UBYTE> ValueFlags; // Zusatzangaben für Tabellenfelder
+    BUFFER_V<SLONG> LineIndex;  // Verbindung zwischen Tabellenzeile und Tabellenquelle
 
   public:
     void Destroy(void);
@@ -1282,9 +1282,9 @@ class /**/ BRICK // Ein einzelnes Bodenteil eines bestimmten Zeitalters
     SLONG MinY{};               // Limit für iEditor
     SLONG MaxY{};               // Limit für iEditor
     UBYTE ObstacleType{};       // Art der Verkehrsbehinderung
-    BUFFER<SBBM> Bitmap;        // Bitmap(s) ggf. mit Animation
-    BUFFER<__int64> graphicIDs; // Bitmap-IDs
-    BUFFER<SLONG> WaitTimes;    // Solange bleibt der jeweilige Frame...
+    BUFFER_V<SBBM> Bitmap;        // Bitmap(s) ggf. mit Animation
+    BUFFER_V<__int64> graphicIDs; // Bitmap-IDs
+    BUFFER_V<SLONG> WaitTimes;    // Solange bleibt der jeweilige Frame...
     SLONG WaitSum{};            // Summe der Waittimes
 
   public:
@@ -1585,8 +1585,8 @@ class /**/ CQueueSpot {
 
 class /**/ CPersonQueue {
   private:
-    BUFFER<CQueuedPerson> Person;
-    BUFFER<CQueueSpot> Spots;
+    BUFFER_V<CQueuedPerson> Person;
+    BUFFER_V<CQueueSpot> Spots;
 
   public:
     void AddPerson(UBYTE ClanId, XY Position, UBYTE Reason, UBYTE FlightAirline, SLONG FlightPlaneId, UBYTE FlightPlaneIndex, UBYTE Mood = 0,
@@ -1663,7 +1663,7 @@ class /**/ CMessage {
 
 class /**/ CMessages {
   public:
-    BUFFER<CMessage> Messages;
+    BUFFER_V<CMessage> Messages;
     CMessage LastMessage;
     SBBM SprechblaseBm;
     SLONG AktuellerBeraterTyp{};   // -1 = keiner
@@ -1721,10 +1721,10 @@ class /**/ CWorker {
 
 class /**/ CWorkers {
   public:
-    BUFFER<CWorker> Workers;
-    BUFFER<CString> FNames; // Female Names
-    BUFFER<CString> MNames; // Male Names
-    BUFFER<CString> LNames; // Last Names
+    BUFFER_V<CWorker> Workers;
+    BUFFER_V<CString> FNames; // Female Names
+    BUFFER_V<CString> MNames; // Male Names
+    BUFFER_V<CString> LNames; // Last Names
 
   public:
     CWorkers() {}
@@ -1785,7 +1785,7 @@ class CTalker {
 
 class CTalkers {
   public:
-    BUFFER<CTalker> Talkers;
+    BUFFER_V<CTalker> Talkers;
 
   public:
     CTalkers();
@@ -1853,7 +1853,7 @@ class CSmack16 {
 
 class CSmoker {
   public:
-    BUFFER<CSmoke> Smoke;
+    BUFFER_V<CSmoke> Smoke;
     SLONG Smoking;
 };
 
@@ -1888,7 +1888,7 @@ class PLAYER {
     UBYTE Logo{};              // Nummer des Logos der Fluglinie
     __int64 Money{};           // Seine Barschaft
     __int64 Bonus{};           // versteckter Bonus, den der Computerspieler noch erhält
-    BUFFER<__int64> MoneyPast; // Vergangenheitslinie des Geldes
+    BUFFER_V<__int64> MoneyPast; // Vergangenheitslinie des Geldes
     __int64 Credit{};          // Seine Schulden
     SLONG Image{};             // Firmenimage generell [-1000..1000]
     SLONG BadKerosin{};        // Soviel Liter schlechtes Kerosin wurde gekauft
@@ -1923,7 +1923,7 @@ class PLAYER {
     SLONG Stunned{};          // Kann der Spieler sich bewegen?
     SLONG OfficeState{};      // 0=normal, 1=vermint, 2=explodiert, 3=dunkel
     CSmack16 *pSmack;         // Video für die Explosion
-    BUFFER<CSmoke> Smoke;
+    BUFFER_V<CSmoke> Smoke;
     SLONG LaptopVirus{};     // 0=kein Virus, 1=Virus, 2=In Reparatur, 3=abholbereit
     SLONG WerbeBroschuere{}; //-1=keine Broschüre, sonst die vom Spieler
     BOOL TelephoneDown{};    // 0=Telefone okay, 1=Telefon ausgefallen
@@ -1969,7 +1969,7 @@ class PLAYER {
     SLONG NumOrderFlightsToday{};  // Soviele von Uhrigs Aufträgen ist man heute geflogen
     SLONG NumOrderFlightsToday2{}; // Soviele von Uhrigs Aufträgen hat der Computer heute angenommen
 
-    BUFFER<SValue> Statistiken; // Die diversen Statistiken
+    BUFFER_V<SValue> Statistiken; // Die diversen Statistiken
 
     // Größere Daten:
   public:
@@ -1977,11 +1977,11 @@ class PLAYER {
     CAuftraege Auftraege; // Verträge die er für Flüge abgeschlossen hat
     CFrachten Frachten;   // Verträge die er für Flüge abgeschlossen hat
     CGates Gates;         // Die Gates (immer CheckIn + Abflug) die gemietet wurden
-    BUFFER<UBYTE> Items;  // Dinge die der Spieler besitzt
+    BUFFER_V<UBYTE> Items;  // Dinge die der Spieler besitzt
     SLONG LaptopBattery{};
     SLONG LaptopQuality{};
     CRentCities RentCities;     // Die eröffneten Niederlassungen
-    BUFFER<UBYTE> CalledCities; // TRUE=Man hat schon mit ihnen telefoniert
+    BUFFER_V<UBYTE> CalledCities; // TRUE=Man hat schon mit ihnen telefoniert
     CRentRouten RentRouten;     // Diese Routen haben wir gemietet
     CPoint CursorPos;           // Cursor im 640x480-Bereich
     HISTORY History;            // Alte Kontobewegungen
@@ -2035,7 +2035,7 @@ class PLAYER {
     XY PrimaryTarget;       // Hierhin wollen wir
     XY SecondaryTarget;     // für Raumeingänge
     XY TertiaryTarget;      // für Treppen
-    BUFFER<BOOL> WasInRoom; // War der Spieler schon im Raum?
+    BUFFER_V<BOOL> WasInRoom; // War der Spieler schon im Raum?
     SLONG WalkSpeed;        // So schnell sind wir
     UWORD WaitForRoom;      // 0=kein
     UWORD ThrownOutOfRoom;  // 0=kein
@@ -2046,7 +2046,7 @@ class PLAYER {
     // Computerspieler
   public:
     BOOL ImageGotWorse{}; // Für's Briefing
-    BUFFER<CRobotAction> RobotActions;
+    BUFFER_V<CRobotAction> RobotActions;
     SLONG StandStillSince{}; // TimeOut
     SLONG LastActionId{};
     SLONG WorkCountdown{};   // Computer "macht" etwas
@@ -2058,8 +2058,8 @@ class PLAYER {
     SLONG TimeAufsicht{};    // Zeit seit letzen Besuch
     SLONG TimeReiseburo{};   // Zeit seit letzen Besuch
     SLONG GefallenRatio{};   // Wer schuldet wem einen gefallen?
-    BUFFER<SLONG> Sympathie; // Sympatiewerte für die Spieler
-    BUFFER<SLONG> Kooperation; // Arbeiten die Spieler zusammen und teilen die Routen?
+    BUFFER_V<SLONG> Sympathie; // Sympatiewerte für die Spieler
+    BUFFER_V<SLONG> Kooperation; // Arbeiten die Spieler zusammen und teilen die Routen?
     SLONG DoRoutes{};          // Auf Routen umsteigen?
     SLONG WantToDoRoutes{};    // Plant er umzusteigen?
     SLONG OutOfGates{};        // Mußte gepatcht werden?
