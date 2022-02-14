@@ -15,7 +15,7 @@ extern SLONG ReifenCosts[];
 extern SLONG ElektronikCosts[];
 extern SLONG SicherheitCosts[];
 
-SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
+SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 // Daten des aktuellen Savegames beim laden:
 extern SLONG SaveVersion;
@@ -36,15 +36,15 @@ CPlaneTypes::CPlaneTypes(const CString &TabFilename) : ALBUM_V<CPlaneType>("Plan
 //--------------------------------------------------------------------------------------------
 void CPlaneTypes::ReInit(const CString &TabFilename) {
     // CStdioFile    Tab;
-    BUFFER<char> Line(800);
+    BUFFER_V<char> Line(800);
     long Id = 0;
 
     // Load Table header:
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
-    FileP = ReadLine(FileData, FileP, Line, 800);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 800);
 
     PlaneTypes.ReSize(MAX_PLANETYPES);
 
@@ -52,13 +52,13 @@ void CPlaneTypes::ReInit(const CString &TabFilename) {
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData, FileP, Line, 800);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 800);
 
-        // if (!Tab.ReadString (Line, 800)) break;
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        // if (!Tab.ReadString (Line.getData(), 800)) break;
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
         // Tabellenzeile hinzufügen:
-        Id = atol(strtok(Line, ";\x8\"")) + 0x10000000;
+        Id = atol(strtok(Line.getData(), ";\x8\"")) + 0x10000000;
 
         // Hinzufügen (darf noch nicht existieren):
         if (IsInAlbum(Id) != 0) {
@@ -1659,16 +1659,16 @@ CPlaneNames::~CPlaneNames() = default;
 void CPlaneNames::ReInit(const CString &TabFilename) {
     // CStdioFile    Tab;
     CString str;
-    BUFFER<char> Line(300);
+    BUFFER_V<char> Line(300);
     SLONG Anz1 = 0;
     SLONG Anz2 = 0;
 
     // Load Table header:
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
-    FileP = ReadLine(FileData, FileP, Line, 300);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     NameBuffer1.ReSize(MAX_PNAMES1);
     NameBuffer2.ReSize(MAX_PNAMES1);
@@ -1677,12 +1677,12 @@ void CPlaneNames::ReInit(const CString &TabFilename) {
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData, FileP, Line, 300);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
         // Tabellenzeile hinzufügen:
-        str = strtok(Line, ";\x8\"");
+        str = strtok(Line.getData(), ";\x8\"");
 
         if (atoi(strtok(nullptr, TabSeparator)) == 1) {
             if (Anz1 >= MAX_PNAMES1) {

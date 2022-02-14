@@ -15,7 +15,7 @@ extern BOOL gSpawnOnly;
 extern CJumpingVar<CString> gCDPath;
 
 SLONG GetTotalDiskSpace(char Driveletter);
-SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
+SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 extern FILE *CreditsSmackerFileHandle;
 
@@ -319,7 +319,7 @@ return (true);
 //--------------------------------------------------------------------------------------------
 ULONG GetFileChecksum(const CString &Filename) {
     TEAKFILE File(Filename, TEAKFILE_READ);
-    BUFFER<UBYTE> FileData(File.GetFileLength());
+    BUFFER_V<UBYTE> FileData(File.GetFileLength());
     ULONG *Buffer;
 
     SLONG c;
@@ -831,27 +831,27 @@ bool CheckComputerLicense(void) {
 void GetProtectionString(const CString &TabFilename, SLONG *pPageAndWord, CString *pRightWord);
 
 void GetProtectionString(const CString &TabFilename, SLONG *pPageAndWord, CString *pRightWord) {
-    BUFFER<char> Line(300);
+    BUFFER_V<char> Line(300);
     SLONG FileP = 0;
     SLONG Num = 0;
     SLONG Count = 0;
 
     // Load Table header:
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
 
     // Die erste Zeile einlesen
     FileP = 0;
-    FileP = ReadLine(FileData, FileP, Line, 300);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     while (true) {
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData, FileP, Line, 300);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
-        Num = atoi(strtok(Line, TabSeparator));
+        Num = atoi(strtok(Line.getData(), TabSeparator));
 
         if (Num >= 1000000) {
             Count++;
@@ -866,22 +866,22 @@ void GetProtectionString(const CString &TabFilename, SLONG *pPageAndWord, CStrin
     Count = days % (Count - (Count / 8)) + r.Rand(Count / 8);
 
     // Load Table header:
-    BUFFER<UBYTE> FileData2(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData2 = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
 
     // Die erste Zeile einlesen
     FileP = 0;
-    FileP = ReadLine(FileData2, FileP, Line, 300);
+    FileP = ReadLine(FileData2, FileP, Line.getData(), 300);
 
     bool bFirst = true;
     while (true) {
         if (FileP >= FileData2.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData2, FileP, Line, 300);
+        FileP = ReadLine(FileData2, FileP, Line.getData(), 300);
 
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
-        Num = atoi(strtok(Line, TabSeparator));
+        Num = atoi(strtok(Line.getData(), TabSeparator));
 
         if (Num >= 1000000) {
             Count--;

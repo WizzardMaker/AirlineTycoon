@@ -11,7 +11,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
+SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 //--------------------------------------------------------------------------------------------
 // Konstruktor:
@@ -23,16 +23,16 @@ CITIES::CITIES(const CString &TabFilename) : ALBUM_V<CITY>("Cities") { ReInit(Ta
 //--------------------------------------------------------------------------------------------
 void CITIES::ReInit(const CString &TabFilename) {
     // CStdioFile    Tab;
-    BUFFER<char> Line(300);
+    BUFFER_V<char> Line(300);
     long Id = 0;
     SLONG Anz = 0;
 
     // Load Table header:
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
-    FileP = ReadLine(FileData, FileP, Line, 300);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     ReSize(MAX_CITIES);
 
@@ -40,13 +40,13 @@ void CITIES::ReInit(const CString &TabFilename) {
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData, FileP, Line, 300);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
-        // if (!Tab.ReadString (Line, 300)) break;
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        // if (!Tab.ReadString (Line.getData(), 300)) break;
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
         // Tabellenzeile hinzufügen:
-        Id = atol(strtok(Line, ";\x8\"")) + 0x1000000;
+        Id = atol(strtok(Line.getData(), ";\x8\"")) + 0x1000000;
 
         // Hinzufügen (darf noch nicht existieren):
         if (IsInAlbum(Id) != 0) {

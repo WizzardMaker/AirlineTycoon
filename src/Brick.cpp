@@ -5,7 +5,7 @@
 
 extern SB_CColorFX ColorFX;
 
-SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
+SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 //--------------------------------------------------------------------------------------------
 // Als Leer initialisieren:
@@ -273,13 +273,13 @@ BRICKS::BRICKS(const CString &TabFilename) : ALBUM<BRICK>(Bricks, "Bricks") { Re
 //--------------------------------------------------------------------------------------------
 void BRICKS::ReInit(const CString &TabFilename) {
     // CStdioFile    Tab;
-    BUFFER<char> Line(300);
+    BUFFER_V<char> Line(300);
     char *TimePointer[150];
     long Id = 0;
     long AnzTimePointer = 0;
 
     // Load Table header:
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
     SLONG FileP = 0;
 
     /*if (!Tab.Open (FullFilename (TabFilename, ExcelPath), CFile::modeRead))
@@ -290,21 +290,21 @@ void BRICKS::ReInit(const CString &TabFilename) {
 
     // Die erste Zeile einlesen
     // Tab.ReadString (Line, 300);
-    FileP = ReadLine(FileData, FileP, Line, 300);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     Bricks.ReSize(MAX_BRICKS);
 
     while (true) {
-        // if (!Tab.ReadString (Line, 300)) break;
+        // if (!Tab.ReadString (Line.getData(), 300)) break;
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData, FileP, Line, 300);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
         // Tabellenzeile hinzufügen:
-        Id = atol(strtok(Line, ";\x8\"")) + 0x10000000;
+        Id = atol(strtok(Line.getData(), ";\x8\"")) + 0x10000000;
 
         // Hinzufügen (darf noch nicht existieren):
         if (IsInAlbum(Id) != 0) {

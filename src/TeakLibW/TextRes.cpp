@@ -62,7 +62,7 @@ void TEXTRES::Open(char const *source, void *cached) {
         SLONG Identifier = -1;
 
         // FIXME: Memory leak!
-        BUFFER<BYTE> FileBuffer = *LoadCompleteFile(source);
+        auto FileBuffer = *LoadCompleteFile(source);
         char *String = new char[0x400U];
         if (String == nullptr) {
             TeakLibW_Exception(nullptr, 0, ExcOutOfMem);
@@ -110,7 +110,7 @@ void TEXTRES::Open(char const *source, void *cached) {
             } else {
                 Size = 1023;
             }
-            memcpy(String, FileBuffer + i, Size);
+            memcpy(String, FileBuffer.getData() + i, Size);
             for (j = 0; i + j < FileBuffer.AnzEntries() && String[j] != '\r' && String[j] != '\n' && String[j] != '\x1A'; ++j) {
                 ;
             }

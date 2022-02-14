@@ -3,7 +3,7 @@
 //============================================================================================
 #include "StdAfx.h"
 
-SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
+SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 // Daten des aktuellen Savegames beim laden:
 extern SLONG SaveVersion;
@@ -68,14 +68,14 @@ CRouten::CRouten(const CString & /*TabFilename*/) : ALBUM_V<CRoute>("Routen") {
 //--------------------------------------------------------------------------------------------
 void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
     // CStdioFile    Tab;
-    BUFFER<char> Line(300);
+    BUFFER_V<char> Line(300);
 
     // Load Table header:
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
-    FileP = ReadLine(FileData, FileP, Line, 300);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     ReSize(0);
     ReSize(MAX_ROUTES);
@@ -84,12 +84,12 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData, FileP, Line, 300);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
         // if (!Tab.ReadString (Line, 300)) break;
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
-        SLONG HelperEbene = atoi(strtok(Line, TabSeparator));
+        SLONG HelperEbene = atoi(strtok(Line.getData(), TabSeparator));
         CString Helper1 = strtok(nullptr, TabSeparator);
         CString Helper2 = strtok(nullptr, TabSeparator);
         ULONG VonCity = Cities.GetIdFromName(const_cast<char *>((LPCTSTR)KorrigiereUmlaute(Helper1)));
@@ -131,15 +131,15 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
 //--------------------------------------------------------------------------------------------
 void CRouten::ReInitExtend(const CString &TabFilename) {
     // CStdioFile    Tab;
-    BUFFER<char> Line(300);
+    BUFFER_V<char> Line(300);
     long linenumber = 0;
 
     // Load Table header:
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
-    FileP = ReadLine(FileData, FileP, Line, 300);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     ReSize(MAX_ROUTES);
     auto NumUsed = GetNumUsed();
@@ -148,7 +148,7 @@ void CRouten::ReInitExtend(const CString &TabFilename) {
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData, FileP, Line, 300);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
         if (linenumber < NumUsed / 2) {
             linenumber++;
@@ -156,9 +156,9 @@ void CRouten::ReInitExtend(const CString &TabFilename) {
         }
         linenumber++;
 
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
-        SLONG HelperEbene = atoi(strtok(Line, TabSeparator));
+        SLONG HelperEbene = atoi(strtok(Line.getData(), TabSeparator));
         CString Helper1 = strtok(nullptr, TabSeparator);
         CString Helper2 = strtok(nullptr, TabSeparator);
         ULONG VonCity = Cities.GetIdFromName(const_cast<char *>((LPCTSTR)KorrigiereUmlaute(Helper1)));

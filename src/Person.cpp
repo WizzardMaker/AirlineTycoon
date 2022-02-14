@@ -12,7 +12,7 @@ extern SB_CColorFX ColorFX;
 static char THIS_FILE[] = __FILE__;
 #endif
 
-SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
+SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 // Daten des aktuellen Savegames beim laden:
 extern SLONG SaveVersion;
@@ -43,21 +43,21 @@ CLANS::CLANS(const CString &TabFilename) : ALBUM<CLAN>(Clans, "Clans") { ReInit(
 //--------------------------------------------------------------------------------------------
 void CLANS::ReInit(const CString &TabFilename) {
     // TEAKFILE      Tab;
-    BUFFER<char> Line(5000);
+    BUFFER_V<char> Line(5000);
     ULONG Id = 0;
     char *DirPhaseLists[10 + 4];
     SLONG PhaseListsNumbers[10 + 4];
     SLONG c = 0;
 
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
     SLONG FileP = 0;
 
     // Load Table header:
     // Tab.Open (FullFilename (TabFilename, ExcelPath), TEAKFILE_READ);
 
     // Die erste Zeile einlesen
-    // Tab.ReadLine (Line, 5000);
-    FileP = ReadLine(FileData, FileP, Line, 5000);
+    // Tab.ReadLine (Line.getData(), 5000);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 5000);
 
     Clans.ReSize(MAX_CLANS);
 
@@ -71,9 +71,9 @@ void CLANS::ReInit(const CString &TabFilename) {
                 DebugBreak();
             }
 
-            FileP = ReadLine(FileData, FileP, Line, 5000);
-            // Tab.ReadLine (Line, 5000);
-            TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+            FileP = ReadLine(FileData, FileP, Line.getData(), 5000);
+            // Tab.ReadLine (Line.getData(), 5000);
+            TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
             // Tabellenzeile hinzufügen:
             if (ShadowPass == 0) {
@@ -83,7 +83,7 @@ void CLANS::ReInit(const CString &TabFilename) {
                 // SpeedUp durch direkten Zugriff:
                 Id = (*this)(Id);
 
-                (*this)[Id].Type = static_cast<UBYTE>(atoi(strtok(Line, TabSeparator)));
+                (*this)[Id].Type = static_cast<UBYTE>(atoi(strtok(Line.getData(), TabSeparator)));
                 (*this)[Id].Group = atoi(strtok(nullptr, TabSeparator));
                 strtok(nullptr, TabSeparator); // Comment-Spalte
                 (*this)[Id].UpdateNow = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
@@ -113,7 +113,7 @@ void CLANS::ReInit(const CString &TabFilename) {
                 (*this)[Id].GimmickTime = 0;
             } else if (ShadowPass == 1) {
                 // Spalte 1-7 ignorieren
-                strtok(Line, TabSeparator);
+                strtok(Line.getData(), TabSeparator);
                 for (c = 0; c < 7; c++) {
                     strtok(nullptr, TabSeparator);
                 }
@@ -126,7 +126,7 @@ void CLANS::ReInit(const CString &TabFilename) {
                 strtok(nullptr, TabSeparator);
             } else if (ShadowPass == 2) {
                 // Spalte 1-9 ignorieren
-                strtok(Line, TabSeparator);
+                strtok(Line.getData(), TabSeparator);
                 for (c = 0; c < 9; c++) {
                     strtok(nullptr, TabSeparator);
                 }

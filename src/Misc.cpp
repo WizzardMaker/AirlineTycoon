@@ -28,9 +28,9 @@ TEAKRAND *pSurvisedRandom2 = nullptr;
 //--------------------------------------------------------------------------------------------
 // Liest eine Zeile aus einem Buffer aus:
 //--------------------------------------------------------------------------------------------
-SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
+SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
-SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength) {
+SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength) {
     SLONG c = 0;
     SLONG d = 0;
 
@@ -682,12 +682,12 @@ void HEADLINES::Init() {
 void HEADLINES::ReloadHeadline() {
     SLONG c = 0;
     SLONG NewRand[3];
-    BUFFER<char> Line(300);
+    BUFFER_V<char> Line(300);
     SLONG Zeitung = 0;
     SLONG Kette = 0;
     SLONG LastKette = 0;
 
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(HeadlineFile, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(HeadlineFile, ExcelPath)));
     SLONG FileP = 0;
 
     for (c = 0; c < 30; c++) {
@@ -705,17 +705,17 @@ void HEADLINES::ReloadHeadline() {
     }
 
     // Die erste Zeile einlesen
-    FileP = ReadLine(FileData, FileP, Line, 300);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     while (true) {
-        // Tab.ReadLine (Line, 300);
+        // Tab.ReadLine (Line.getData(), 300);
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData, FileP, Line, 300);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
         LastKette = Kette;
-        Zeitung = atoi(strtok(Line, TabSeparator));
+        Zeitung = atoi(strtok(Line.getData(), TabSeparator));
         Kette = atoi(strtok(nullptr, TabSeparator));
 
         // Default: Zufallsmeldung
@@ -1138,7 +1138,7 @@ void HEADLINES::ComparisonHeadlines() {
 //--------------------------------------------------------------------------------------------
 void HEADLINES::ReInit(const CString &TabFilename) {
     // TEAKFILE      Tab;
-    BUFFER<char> Line(300);
+    BUFFER_V<char> Line(300);
     SLONG c = 0;
     SLONG Zeitung = 0;
     SLONG Kette = 0;
@@ -1152,21 +1152,21 @@ void HEADLINES::ReInit(const CString &TabFilename) {
 
     // Load Table header:
     // Tab.Open (FullFilename (HeadlineFile, ExcelPath), TEAKFILE_READ);
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(HeadlineFile, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(HeadlineFile, ExcelPath)));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
-    // Tab.ReadLine (Line, 300);
-    FileP = ReadLine(FileData, FileP, Line, 300);
+    // Tab.ReadLine (Line.getData(), 300);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     while (true) {
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        // Tab.ReadLine (Line, 300);
-        FileP = ReadLine(FileData, FileP, Line, 300);
+        // Tab.ReadLine (Line.getData(), 300);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
-        Zeitung = atoi(strtok(Line, TabSeparator));
+        Zeitung = atoi(strtok(Line.getData(), TabSeparator));
         Kette = atoi(strtok(nullptr, TabSeparator));
 
         if ((Zeitung != 0) && (Kette == 0)) {

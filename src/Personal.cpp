@@ -12,7 +12,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
+SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 //--------------------------------------------------------------------------------------------
 // Konstruktor
@@ -315,16 +315,16 @@ CWorkers::CWorkers(const CString &TabFilename, const CString &TabFilename2) { Re
 //--------------------------------------------------------------------------------------------
 void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
     // CStdioFile    Tab;
-    BUFFER<char> Line(300);
+    BUFFER_V<char> Line(300);
     SLONG Num = 0;
     CString TmpStr;
 
     // Load Table header:
-    BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
-    FileP = ReadLine(FileData, FileP, Line, 300);
+    FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     Workers.ReSize(0);
     Workers.ReSize(MAX_WORKERS);
@@ -334,16 +334,16 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData, FileP, Line, 300);
+        FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
         if (Num >= Workers.AnzEntries()) {
             TeakLibW_Exception(FNL, ExcNever);
             return;
         }
 
-        Workers[Num].Name = strtok(Line, TabSeparator);
+        Workers[Num].Name = strtok(Line.getData(), TabSeparator);
         Workers[Num].Geschlecht = atoi(strtok(nullptr, TabSeparator));
         Workers[Num].Typ = atoi(strtok(nullptr, TabSeparator));
         Workers[Num].Gehalt = atoi(strtok(nullptr, TabSeparator));
@@ -372,7 +372,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
     Workers.ReSize(Num);
 
     // Load Table header:
-    BUFFER<UBYTE> FileData2(*LoadCompleteFile(FullFilename(TabFilename2, ExcelPath)));
+    auto FileData2 = *(LoadCompleteFile(FullFilename(TabFilename2, ExcelPath)));
 
     FNames.ReSize(0);
     MNames.ReSize(0);
@@ -383,7 +383,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
 
     // Die erste Zeile einlesen
     FileP = 0;
-    FileP = ReadLine(FileData2, FileP, Line, 300);
+    FileP = ReadLine(FileData2, FileP, Line.getData(), 300);
 
     SLONG i1 = 0;
     SLONG i2 = 0;
@@ -393,11 +393,11 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
         if (FileP >= FileData2.AnzEntries()) {
             break;
         }
-        FileP = ReadLine(FileData2, FileP, Line, 300);
+        FileP = ReadLine(FileData2, FileP, Line.getData(), 300);
 
-        TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
+        TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
-        Num = atoi(strtok(Line, TabSeparator));
+        Num = atoi(strtok(Line.getData(), TabSeparator));
 
         if (Num == 0) {
             FNames[i1++] = strtok(nullptr, TabSeparator);
