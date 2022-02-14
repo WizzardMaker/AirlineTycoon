@@ -1432,12 +1432,9 @@ class /**/ CLAN {
     friend TEAKFILE &operator>>(TEAKFILE &File, CLAN &Clan);
 };
 
-class /**/ CLANS : public ALBUM<CLAN> {
+class /**/ CLANS : public ALBUM_V<CLAN> {
   public:
-    BUFFER<CLAN> Clans;
-
-  public:
-    CLANS() : ALBUM<CLAN>(Clans, "Clans") {}
+    CLANS() : ALBUM_V<CLAN>("Clans") {}
     CLANS(const CString &TabFilename);
     void ReInit(const CString &TabFilename);
     void LoadBitmaps(void);

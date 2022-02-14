@@ -36,7 +36,7 @@ SLONG sign(SLONG Value) {
 //--------------------------------------------------------------------------------------------
 // Konstruire aus Tabelle
 //--------------------------------------------------------------------------------------------
-CLANS::CLANS(const CString &TabFilename) : ALBUM<CLAN>(Clans, "Clans") { ReInit(TabFilename); }
+CLANS::CLANS(const CString &TabFilename) : ALBUM_V<CLAN>("Clans") { ReInit(TabFilename); }
 
 //--------------------------------------------------------------------------------------------
 // Re-Konstruire aus Tabelle
@@ -44,7 +44,6 @@ CLANS::CLANS(const CString &TabFilename) : ALBUM<CLAN>(Clans, "Clans") { ReInit(
 void CLANS::ReInit(const CString &TabFilename) {
     // TEAKFILE      Tab;
     BUFFER_V<char> Line(5000);
-    ULONG Id = 0;
     char *DirPhaseLists[10 + 4];
     SLONG PhaseListsNumbers[10 + 4];
     SLONG c = 0;
@@ -62,6 +61,9 @@ void CLANS::ReInit(const CString &TabFilename) {
     Clans.ReSize(MAX_CLANS);
 
     while (true) {
+
+        CLAN clan;
+
         for (SLONG ShadowPass = 0; ShadowPass < 3; ShadowPass++) {
             // if (Tab.IsEof())
             if (FileP >= FileData.AnzEntries()) {
@@ -77,40 +79,35 @@ void CLANS::ReInit(const CString &TabFilename) {
 
             // Tabellenzeile hinzufügen:
             if (ShadowPass == 0) {
-                Id = (*this).GetUniqueId();
-                (*this) += Id;
 
-                // SpeedUp durch direkten Zugriff:
-                Id = (*this)(Id);
-
-                (*this)[Id].Type = static_cast<UBYTE>(atoi(strtok(Line.getData(), TabSeparator)));
-                (*this)[Id].Group = atoi(strtok(nullptr, TabSeparator));
+                clan.Type = static_cast<UBYTE>(atoi(strtok(Line.getData(), TabSeparator)));
+                clan.Group = atoi(strtok(nullptr, TabSeparator));
                 strtok(nullptr, TabSeparator); // Comment-Spalte
-                (*this)[Id].UpdateNow = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
-                (*this)[Id].Wkeit = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
-                (*this)[Id].WalkSpeed = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].Faktor = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].HasSuitcase = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].GimmickArt1 = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].GimmickArt2 = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].Offset.x = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].Offset.y = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].PalFilename = strtok(nullptr, TabSeparator);
+                clan.UpdateNow = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
+                clan.Wkeit = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
+                clan.WalkSpeed = atoi(strtok(nullptr, TabSeparator));
+                clan.Faktor = atoi(strtok(nullptr, TabSeparator));
+                clan.HasSuitcase = atoi(strtok(nullptr, TabSeparator));
+                clan.GimmickArt1 = atoi(strtok(nullptr, TabSeparator));
+                clan.GimmickArt2 = atoi(strtok(nullptr, TabSeparator));
+                clan.Offset.x = atoi(strtok(nullptr, TabSeparator));
+                clan.Offset.y = atoi(strtok(nullptr, TabSeparator));
+                clan.PalFilename = strtok(nullptr, TabSeparator);
 
-                if ((*this)[Id].Type > 11 || (*this)[Id].Group > 0 || (gShowAllPools != 0)) {
-                    (*this)[Id].TodayInGame = TRUE;
+                if (clan.Type > 11 || clan.Group > 0 || (gShowAllPools != 0)) {
+                    clan.TodayInGame = TRUE;
                 } else {
-                    (*this)[Id].TodayInGame = FALSE;
+                    clan.TodayInGame = FALSE;
                 }
 
                 // Alte Frau weiter nach hinten sortieren:
-                if ((*this)[Id].Group == 70) {
-                    (*this)[Id].FloorOffset = -15;
+                if (clan.Group == 70) {
+                    clan.FloorOffset = -15;
                 } else {
-                    (*this)[Id].FloorOffset = 0;
+                    clan.FloorOffset = 0;
                 }
 
-                (*this)[Id].GimmickTime = 0;
+                clan.GimmickTime = 0;
             } else if (ShadowPass == 1) {
                 // Spalte 1-7 ignorieren
                 strtok(Line.getData(), TabSeparator);
@@ -118,10 +115,10 @@ void CLANS::ReInit(const CString &TabFilename) {
                     strtok(nullptr, TabSeparator);
                 }
 
-                (*this)[Id].GimmickOffset.x = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].GimmickOffset.y = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].ShadowOffset.x = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].ShadowOffset.y = atoi(strtok(nullptr, TabSeparator));
+                clan.GimmickOffset.x = atoi(strtok(nullptr, TabSeparator));
+                clan.GimmickOffset.y = atoi(strtok(nullptr, TabSeparator));
+                clan.ShadowOffset.x = atoi(strtok(nullptr, TabSeparator));
+                clan.ShadowOffset.y = atoi(strtok(nullptr, TabSeparator));
 
                 strtok(nullptr, TabSeparator);
             } else if (ShadowPass == 2) {
@@ -131,8 +128,8 @@ void CLANS::ReInit(const CString &TabFilename) {
                     strtok(nullptr, TabSeparator);
                 }
 
-                (*this)[Id].SkelettOffset.x = atoi(strtok(nullptr, TabSeparator));
-                (*this)[Id].SkelettOffset.y = atoi(strtok(nullptr, TabSeparator));
+                clan.SkelettOffset.x = atoi(strtok(nullptr, TabSeparator));
+                clan.SkelettOffset.y = atoi(strtok(nullptr, TabSeparator));
 
                 strtok(nullptr, TabSeparator);
             }
@@ -166,17 +163,17 @@ void CLANS::ReInit(const CString &TabFilename) {
 
                 if (ShadowPass == 1) {
                     if (PhaseListsNumbers[c] == -1) {
-                        (*this)[Id].Shadow[d].ReSize(pGLibStd, DirPhaseLists[c]);
+                        clan.Shadow[d].ReSize(pGLibStd, DirPhaseLists[c]);
                     } else {
-                        (*this)[Id].Shadow[d].ReSize(pGLibStd, DirPhaseLists[c], PhaseListsNumbers[c]);
+                        clan.Shadow[d].ReSize(pGLibStd, DirPhaseLists[c], PhaseListsNumbers[c]);
                     }
                 } else {
 #if 0
                     if (ShadowPass == 0) {
-                        pPhasen = &(*this)[Id].Phasen[d];
+                        pPhasen = &clan.Phasen[d];
                     }
                     if (ShadowPass == 2) {
-                        pPhasen = &(*this)[Id].Skelett[d];
+                        pPhasen = &clan.Skelett[d];
                     }
 #endif
 
@@ -184,10 +181,10 @@ void CLANS::ReInit(const CString &TabFilename) {
                     SLONG Anz = 0;
 
                     if (ShadowPass == 0) {
-                        pIds = &(*this)[Id].PhasenIds[d];
+                        pIds = &clan.PhasenIds[d];
                     }
                     if (ShadowPass == 2) {
-                        pIds = &(*this)[Id].SkelettIds[d];
+                        pIds = &clan.SkelettIds[d];
                     }
 
                     if (PhaseListsNumbers[c] == -1) {
@@ -250,6 +247,8 @@ void CLANS::ReInit(const CString &TabFilename) {
                 }
             }
         }
+
+        (*this) += std::move(clan);
     }
 }
 
