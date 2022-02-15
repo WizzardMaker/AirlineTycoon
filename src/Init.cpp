@@ -26,25 +26,38 @@ DWORD GetKey();
 void InitPathVars() {
     gSpawnOnly = FALSE;
 
-    BitmapPath = "bitmaps\\%s";
-    BrickPath = "brick\\%s";
-    CityPath = "city\\%s";
-    ClanPath = "clan\\%s";
-    ExcelPath = "data\\%s";
-    GliPath = "gli\\%s";
-    MiscPath = "misc\\%s";
-    ScanPath = "scans\\%s";
+    CString prefix;
+#ifndef WIN32
+    if (gLanguage == LANGUAGE_D) {
+        prefix = "de\\";
+    } else if (gLanguage == LANGUAGE_E) {
+        prefix = "en\\";
+    } else if (gLanguage == LANGUAGE_F) {
+        prefix = "fr\\";
+    }
+#endif
+
+    ExcelPath = prefix+"data\\%s";
+    GliPath = prefix+"gli\\%s";
+    MiscPath = prefix+"misc\\%s";
+    VoicePath = prefix+"voice\\%s";
     SoundPath = "sound\\%s";
     RoomPath = "room\\%s";
     PlanePath = "planes\\%s";
     SmackerPath = "video\\%s";
     IntroPath = "intro\\%s";
-    VoicePath = "voice\\%s";
     MyPlanePath = "myplanes\\%s";
 
     if (SavegamePath.GetLength() == 0) {
         SavegamePath = "Savegame\\%s";
     }
+
+    // Unused:
+    BitmapPath = "bitmaps\\%s";
+    BrickPath = "brick\\%s";
+    CityPath = "city\\%s";
+    ClanPath = "clan\\%s";
+    ScanPath = "scans\\%s";
 }
 
 //--------------------------------------------------------------------------------------------
@@ -302,9 +315,13 @@ void InitGlobeMapper() {
     SBBM TmpBm(10, 10);
 
     PALETTE EarthPal;
+#ifdef WIN32
     EarthPal.RefreshPalFromLbm(const_cast<char *>((LPCTSTR)FullFilename("earthall.lbm", GliPath)));
-
     TECBM ShadeBm(const_cast<char *>((LPCTSTR)FullFilename("shade.pcx", GliPath)), SYSRAMBM);
+#else
+    EarthPal.RefreshPalFromTga(const_cast<char *>((LPCTSTR)FullFilename("earthall.tga", GliPath)));
+    TECBM ShadeBm(const_cast<char *>((LPCTSTR)FullFilename("shade.tga", GliPath)), SYSRAMBM);
+#endif
 
     GlobeMixTab.ReSize(256 * 64);
 

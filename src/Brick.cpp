@@ -538,7 +538,7 @@ void BUILDS::Load(SLONG Hall, SLONG Level) {
     } else {
         Clear();
 #ifdef _DEBUG
-        printf("MP: File not found: %s\n", (const char *)Filename);
+        printf("File not found: %s\n", (const char *)Filename);
 #endif
     }
 }

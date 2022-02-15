@@ -218,7 +218,7 @@ int DoesFileExist(char const *path) {
         return 1;
     }
 #ifdef _DEBUG
-    printf("MP: TeakFile.cpp: File not found: %s\n", path);
+    printf("TeakFile.cpp: File not found: %s\n", path);
 #endif
     return 0;
 }

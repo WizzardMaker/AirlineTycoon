@@ -26,7 +26,6 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore **out, GfxLib *lib, __int64 na
 
         SDL_SetSurfaceRLE(core->lpDDSurface, SDL_TRUE);
     } else {
-        printf("MP: Cannot create bitmap: %lld\n", name);
         core->lpDD = Renderer;
         core->lpDDSurface = nullptr;
         core->lpTexture = nullptr;

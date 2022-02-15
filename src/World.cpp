@@ -23,7 +23,11 @@ CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum(bHandy, Pl
 
     SLONG EarthAlpha = UWORD((Cities[CityId].GlobusPosition.x + 170) * (3200 / 18) - 16000 + 1300);
 
+#ifdef WIN32
     EarthBm.ReSize(const_cast<char *>((LPCTSTR)FullFilename("earthall.lbm", GliPath)), SYSRAMBM);
+#else
+    EarthBm.ReSize(const_cast<char *>((LPCTSTR)FullFilename("earthall.tga", GliPath)), SYSRAMBM);
+#endif
 
     Satellite.ReSize(pRoomLib, GFX_SAT1);
     LightAnim.ReSize(pRoomLib, "SATLICHT", 1, nullptr, FALSE, ANIMATION_MODE_REPEAT, 100, 2, 100);

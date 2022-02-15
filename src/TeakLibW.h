@@ -647,6 +647,7 @@ class PALETTE {
     void RefreshDD(SLONG, int) const;
     void RefreshPalFromLbm(CString const &);
     void RefreshPalFromPcx(CString const &);
+    void RefreshPalFromTga(CString const &);
     void ConvertToBlackWhite(void);
     unsigned char FindColorClosestToRGB(unsigned char, unsigned char, unsigned char) const;
     void RotateArea(SLONG, SLONG);
@@ -729,6 +730,7 @@ class TECBM {
     void ReSize(TXY<SLONG>, void *);
     void ReSizePcx(CString const &, SLONG, void *);
     void ReSizePcx(CString const &, void *);
+    void ReSizeTga(CString const &, void *);
     int SavePCX(CString const &, PALETTE const &) const;
     void ShiftColors(SLONG);
     void RemapColor(unsigned char, unsigned char);

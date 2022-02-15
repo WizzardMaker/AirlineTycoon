@@ -599,7 +599,7 @@ int MIDI::Load(const char *file) {
     }
 
     if (_music == nullptr) {
-        printf("MP: Could not load music: %s\n", _musicData.file.c_str());
+        printf("Could not load music: %s\n", _musicData.file.c_str());
     }
 
     _musicData.pSSE->_playingMusicObj = this;

@@ -41,6 +41,8 @@ void TECBM::ReSize(CString const &path, void *flags) {
         ReSizeLbm(path, flags);
     } else if (!stricmp(suffix, "pcx") || !stricmp(suffix, "pcc")) {
         ReSizePcx(path, flags);
+    } else if (!stricmp(suffix, "tga")) {
+        ReSizeTga(path, flags);
     } else {
         TeakLibW_Exception(nullptr, 0, ExcPicUnknown, path.c_str());
     }
@@ -78,6 +80,23 @@ void TECBM::ReSizePcx(CString const &path, void * /*flags*/) {
     }
 
     Surface = IMG_LoadPCX_RW(file);
+    SDL_RWclose(file);
+
+    if (Surface == nullptr) {
+        TeakLibW_Exception(nullptr, 0, ExcNotPcx, path.c_str());
+    }
+
+    Size.x = Surface->w;
+    Size.y = Surface->h;
+}
+
+void TECBM::ReSizeTga(CString const &path, void * /*flags*/) {
+    SDL_RWops *file = SDL_RWFromFile(path, "rb");
+    if (file == nullptr) {
+        TeakLibW_Exception(nullptr, 0, ExcPicUnknown, path.c_str());
+    }
+
+    Surface = IMG_LoadTGA_RW(file);
     SDL_RWclose(file);
 
     if (Surface == nullptr) {
@@ -142,6 +161,27 @@ void PALETTE::RefreshPalFromPcx(CString const &path) {
     }
 
     SDL_Surface *surface = IMG_LoadPCX_RW(file);
+    SDL_RWclose(file);
+
+    if (surface == nullptr) {
+        TeakLibW_Exception(nullptr, 0, ExcNotPcx, path.c_str());
+    }
+
+    SDL_Palette *palette = surface->format->palette;
+    Pal.ReSize(palette->ncolors);
+    for (int i = 0; i < palette->ncolors; ++i) {
+        Pal[i] = (palette->colors)[i];
+    }
+    SDL_FreeSurface(surface);
+}
+
+void PALETTE::RefreshPalFromTga(CString const &path) {
+    SDL_RWops *file = SDL_RWFromFile(path, "rb");
+    if (file == nullptr) {
+        TeakLibW_Exception(nullptr, 0, ExcPicUnknown, path.c_str());
+    }
+
+    SDL_Surface *surface = IMG_LoadTGA_RW(file);
     SDL_RWclose(file);
 
     if (surface == nullptr) {
