@@ -81,6 +81,9 @@ template <typename T> class BUFFER_V : public std::vector<T> {
     void incIter(int i) { Offset += i; }
     SLONG getIter() const { return Offset; }
 
+    T& operator[](size_t pos) { return std::vector<T>::at(pos); }
+    const T& operator[](size_t pos) const { return std::vector<T>::at(pos); };
+
   private:
     SLONG Offset{0};
 };

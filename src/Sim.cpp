@@ -1355,7 +1355,7 @@ void SIM::DoTimeStep() {
 
                 for (c = 0; c < 4; c++) {
                     for (d = 0; d < 5; d++) {
-                        rChkActionId[c * 5 + d] = Players.Players[c].RobotActions[5].ActionId;
+                        rChkActionId[c * 5 + d] = Players.Players[c].RobotActions[d].ActionId;
                     }
                 }
             }
