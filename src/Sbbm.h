@@ -290,7 +290,7 @@ class SBPRIMARYBM {
   public:
     SBBM Offscreen;
     SB_CPrimaryBitmap PrimaryBm;
-    BOOL Fullscreen;
+    BOOL Fullscreen{};
 
   public:
     XY Size; // Größe der Bitmap

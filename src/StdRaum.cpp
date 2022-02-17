@@ -642,7 +642,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, ULONG SubId, const CString &String,
 // Läßt ein neues Text-Fenster auf dem Schirm erscheinen:
 //--------------------------------------------------------------------------------------------
 void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubId, SB_CFont *Normal, ...) {
-    BUFFER_V<char> TmpString(4096);
+    char TmpString[4096];
 
     CanCancelEmpty = FALSE;
     TimeAtStart = timeGetTime();
@@ -664,13 +664,13 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubId, S
     va_start(Vars, Normal);
 
     // Die gesammten Parameter "reinvestieren":
-    vsprintf(TmpString.getData(), DialogTexte.GetS(GroupId, SubId), Vars);
+    vsnprintf(TmpString, sizeof(TmpString), DialogTexte.GetS(GroupId, SubId), Vars);
 
     // Daten bereinigen:
     va_end(Vars);
 
     // Daten zuweisen:
-    MakeSayWindow(TextAlign, SubId, CString(TmpString.getData()), Normal);
+    MakeSayWindow(TextAlign, SubId, CString(TmpString), Normal);
     CurrentTextGroupId = *(reinterpret_cast<const ULONG *>(GroupId));
     LastTextGroupId = CurrentTextGroupId;
 }
@@ -711,7 +711,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubIdVon
         Optionen[c].Empty();
     }
 
-    BUFFER_V<char> TmpString(4096);
+    char TmpString[4096];
 
     // Hilfskonstruktion für beliebige viele Argumente deklarieren:
     va_list Vars;
@@ -730,26 +730,26 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubIdVon
             // MP: 1 string pro Antwort
             LPCTSTR tmp = va_arg(Vars, LPCTSTR);
 
-            sprintf(TmpString.getData(), DialogTexte.GetS(CurrentTextGroupId, c), tmp);
+            snprintf(TmpString, sizeof(TmpString), DialogTexte.GetS(CurrentTextGroupId, c), tmp);
         } else if (ParameterIndiziert == 2) {
             // MP: 2 string pro Antwort
             LPCTSTR tmp1 = va_arg(Vars, LPCTSTR);
             LPCTSTR tmp2 = va_arg(Vars, LPCTSTR);
 
-            sprintf(TmpString.getData(), DialogTexte.GetS(CurrentTextGroupId, c), tmp1, tmp2);
+            snprintf(TmpString, sizeof(TmpString), DialogTexte.GetS(CurrentTextGroupId, c), tmp1, tmp2);
         } else if (ParameterIndiziert == 3) {
             // MP: 1 int pro Antwort
             SLONG tmp = va_arg(Vars, SLONG);
 
-            sprintf(TmpString.getData(), DialogTexte.GetS(CurrentTextGroupId, c), tmp);
+            snprintf(TmpString, sizeof(TmpString), DialogTexte.GetS(CurrentTextGroupId, c), tmp);
         } else {
             // Alle für alle:
-            vsprintf(TmpString.getData(), DialogTexte.GetS(CurrentTextGroupId, c), Vars);
+            vsnprintf(TmpString, sizeof(TmpString), DialogTexte.GetS(CurrentTextGroupId, c), Vars);
         }
 
         // Daten zuweisen:
-        Optionen[c - CurrentTextSubIdVon] = RemoveSpeechFilename(CString(TmpString.getData()));
-        OrgOptionen[c - CurrentTextSubIdVon] = TmpString.getData();
+        Optionen[c - CurrentTextSubIdVon] = RemoveSpeechFilename(CString(TmpString));
+        OrgOptionen[c - CurrentTextSubIdVon] = TmpString;
 
         SLONG RightBorder = 5;
         if (DialogPartner == TALKER_COMPETITOR) { // Bei Dialog mit anderen Spielern rechts mehr Platz lassen
@@ -786,7 +786,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubIdVon
         }
 
         ReadyToStartSpeechFx = 0;
-        if (CreateSpeechSBFX(CString(TmpString.getData()), &SpeechFx, pl) != 0) {
+        if (CreateSpeechSBFX(CString(TmpString), &SpeechFx, pl) != 0) {
             if ((pSmackerPartner != nullptr) && TextAlign == 0) {
                 ReadyToStartSpeechFx = 3;
             } else {
@@ -873,7 +873,7 @@ void CStdRaum::MakeNumberWindow(CString Text) {
 // Zeigt ein Fenster mit einer Info zu den (unausgesprochenen) Zahlen an:
 //--------------------------------------------------------------------------------------------
 void CStdRaum::MakeNumberWindow(const char *GroupId, ULONG SubId, ...) {
-    BUFFER_V<char> TmpString(4096);
+    char TmpString[4096];
 
     // Hilfskonstruktion für beliebige viele Argumente deklarieren:
     va_list Vars;
@@ -882,13 +882,13 @@ void CStdRaum::MakeNumberWindow(const char *GroupId, ULONG SubId, ...) {
     va_start(Vars, SubId);
 
     // Die gesammten Parameter "reinvestieren":
-    vsprintf(TmpString.getData(), DialogTexte.GetS(GroupId, SubId), Vars);
+    vsnprintf(TmpString, sizeof(TmpString), DialogTexte.GetS(GroupId, SubId), Vars);
 
     // Daten bereinigen:
     va_end(Vars);
 
     // Daten zuweisen:
-    MakeNumberWindow(CString(TmpString.getData()));
+    MakeNumberWindow(CString(TmpString));
 }
 
 //--------------------------------------------------------------------------------------------

@@ -2242,7 +2242,7 @@ void SIM::DoTimeStep() {
                             qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight].Startdate == Date &&
                             qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight].Startzeit == GetHour()) {
                             Players.Players[c].NumFlights++;
-                            Players.Players[c].NetSynchronizeFlags();
+                            PLAYER::NetSynchronizeFlags();
 
                             City = qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight].VonCity;
 
@@ -3863,7 +3863,7 @@ void SIM::UpdateRoomUsage() {
             for (d = 0; d < 10; d++) {
                 SLONG loc = (qPlayer.Locations[d] & 255);
 
-                if (loc > ROOM_PERSONAL_D && loc < ROOM_FLIGHTDISPLAY && loc != ROOM_STATISTICS && loc != ROOM_WC_F && loc != ROOM_WC_F) {
+                if (loc > ROOM_PERSONAL_D && loc < ROOM_FLIGHTDISPLAY && loc != ROOM_STATISTICS && loc != ROOM_WC_F) {
                     RoomBusy[loc]++;
 
                     switch (loc) {
@@ -4064,7 +4064,7 @@ void SIM::LoadHighscores() {
                 OutputFile.ReadLine(Buffer, 8192);
 
                 if (*Buffer == ';') {
-                    sprintf(Buffer, "%s", bprintf(" %s", Buffer));
+                    snprintf(Buffer, sizeof(Buffer), "%s", bprintf(" %s", Buffer));
                 }
 
                 Highscore.Name = strtok(Buffer, ";");

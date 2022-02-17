@@ -173,6 +173,7 @@ char *TEXTRES::GetP(ULONG group, ULONG id) {
 
     if (text == nullptr) {
         TeakLibW_Exception(nullptr, 0, ExcTextResNotFound, group, id);
+        return nullptr;
     }
 
     char *buffer = new char[strlen(text) + 1];

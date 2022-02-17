@@ -65,10 +65,9 @@ class FX;
 class MIDI;
 
 typedef struct _mixerBounds {
-    SLONG lMinimum;
-    SLONG lMaximum;
-    DWORD dwSteps;
-
+    SLONG lMinimum{};
+    SLONG lMaximum{};
+    DWORD dwSteps{};
 } MIXERBOUNDS;
 
 /******************************************************************************\
@@ -87,32 +86,32 @@ class SSE;
 
 typedef struct _DigitalData {
     std::string file;
-    SSE *pSSE;
-    word state;
-    bool fNoStop;
-    dword time;
+    SSE *pSSE{nullptr};
+    word state{};
+    bool fNoStop{};
+    dword time{};
 } DigitalData;
 
 typedef struct _FXData {
-    Mix_Chunk *pBuffer;
-    word ref;
-    size_t bufferSize; // Die aktuelle Größe des DSBuffers
+    Mix_Chunk *pBuffer{nullptr};
+    word ref{};
+    size_t bufferSize{}; // Die aktuelle Größe des DSBuffers
 
-    dword samplesPerSec; // Primary buffer frequency
-    word channels;       // Kanäle
-    word bitsPerSample;  // Bits per Sample of mono data
+    dword samplesPerSec{}; // Primary buffer frequency
+    word channels{};       // Kanäle
+    word bitsPerSample{};  // Bits per Sample of mono data
 
-    SLONG pan;
-    SLONG volume;
+    SLONG pan{};
+    SLONG volume{};
 } FXData;
 
 typedef struct _MusicData {
     std::string file;
-    SSE *pSSE;
-    word state;
-    bool fNoStop;
-    dword time;
-    char alias[9];
+    SSE *pSSE{nullptr};
+    word state{};
+    bool fNoStop{};
+    dword time{};
+    char alias[9]{};
 } MusicData;
 
 /*typedef struct _DigiMusicData
@@ -225,11 +224,11 @@ class SSE {
     // int	   DuplicateSoundBuffer (IDSB* lpDsbOriginal, IDSB** lplpDsbDuplicate);
 
   protected:
-    SDL_Window *_hWnd;
-    dword _samplesPerSec; // Primary buffer frequency
-    word _channels;       // Kanäle
-    word _bitsPerSample;  // Bits per Sample of mono data
-    word _maxSound;       // Anz. der Samples, die gleichzeitig gespielt werden dürfen
+    SDL_Window *_hWnd{nullptr};
+    dword _samplesPerSec{}; // Primary buffer frequency
+    word _channels{};       // Kanäle
+    word _bitsPerSample{};  // Bits per Sample of mono data
+    word _maxSound{};       // Anz. der Samples, die gleichzeitig gespielt werden dürfen
     bool _swapChannels{};
 
     // IDirectSound* _pDS;			// DirectSound-Object
@@ -238,8 +237,8 @@ class SSE {
     std::list<FX> _soundObjList;   // Liste der FX-Objekte
     std::list<MIDI> _musicObjList; // Liste der Midi-Objekte
 
-    bool _fSoundEnabled;
-    bool _fMusicEnabled;
+    bool _fSoundEnabled{};
+    bool _fMusicEnabled{};
 
     class MUSIC *_playingMusicObj{}; // Das aktuell gespielte Music-Objekt
 
@@ -393,7 +392,7 @@ class MIDI : public MUSIC {
     virtual word CountPlaying();
 
   protected:
-    Mix_Music *_music;
+    Mix_Music *_music{nullptr};
     int _mode{};
 };
 /******************************************************************************\

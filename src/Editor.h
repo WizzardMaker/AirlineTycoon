@@ -50,17 +50,17 @@ class CPlanePartRelation {
 // Das theoretische Teil aus dem Katalog:
 class CPlaneBuild {
   public:
-    long Id;               // [csv]
-    const char *Shortname; // [csv] z.B. B1
-    long Cost;             // [CSV] Soviel kostet das hier
-    long Weight;           // [CSV] Soviel wiegt dieses Teil (Beispiel 149pass=62t 170pass=68t 272pass=148t 440pass=135t 550pass=160t)
-    long Power;            // [CSV] Soviel Power hat es, falls es ein Triebwerk ist
-    long Noise;            // [CSV] Soviel Krach verursacht es
-    long Wartung;          // [CSV] So Wartungsintensiv ist dieses Teil
-    long Passagiere;       // [CSV] Soviele Leute passen in diesen Part
-    long Verbrauch;        // [CSV] Verbrauch in l/h
-    long BitmapIndex;      // Index in das Array mit Bitmaps
-    long zPos;
+    long Id{};               // [csv]
+    const char *Shortname{}; // [csv] z.B. B1
+    long Cost{};             // [CSV] Soviel kostet das hier
+    long Weight{};           // [CSV] Soviel wiegt dieses Teil (Beispiel 149pass=62t 170pass=68t 272pass=148t 440pass=135t 550pass=160t)
+    long Power{};            // [CSV] Soviel Power hat es, falls es ein Triebwerk ist
+    long Noise{};            // [CSV] Soviel Krach verursacht es
+    long Wartung{};          // [CSV] So Wartungsintensiv ist dieses Teil
+    long Passagiere{};       // [CSV] Soviele Leute passen in diesen Part
+    long Verbrauch{};        // [CSV] Verbrauch in l/h
+    long BitmapIndex{};      // Index in das Array mit Bitmaps
+    long zPos{};
 
   public:
     CPlaneBuild() { Shortname = NULL; }

@@ -345,7 +345,7 @@ void MyMessageBox(LPCTSTR Title, LPCTSTR String, ...) {
     va_start(Vars, String);
 
     // Die gesammten Parameter "reinvestieren":
-    vsprintf(Buffer, const_cast<char *>(String), Vars);
+    vsnprintf(Buffer, sizeof(Buffer), const_cast<char *>(String), Vars);
 
     // Daten bereinigen:
     va_end(Vars);

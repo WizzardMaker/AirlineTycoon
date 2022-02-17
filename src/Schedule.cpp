@@ -148,23 +148,23 @@ void CFlugplan::Dump(bool bHercules) {
     for (SLONG e = 0; e < Flug.AnzEntries(); e++) {
         switch (Flug[e].ObjectType) {
         case 1:
-            sprintf(Buffer, "[%02d] %02d/%02d-%02d/%02d Route   %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit, Flug[e].Landedate,
-                    (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
+            snprintf(Buffer, sizeof(Buffer), "[%02d] %02d/%02d-%02d/%02d Route   %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit,
+                     Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
             break;
 
         case 2:
-            sprintf(Buffer, "[%02d] %02d/%02d-%02d/%02d Auftrag %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit, Flug[e].Landedate,
-                    (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
+            snprintf(Buffer, sizeof(Buffer), "[%02d] %02d/%02d-%02d/%02d Auftrag %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate,
+                     Flug[e].Landezeit, Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
             break;
 
         case 3:
-            sprintf(Buffer, "[%02d] %02d/%02i-%02d/%02d Auto    %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit, Flug[e].Landedate,
-                    (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
+            snprintf(Buffer, sizeof(Buffer), "[%02d] %02d/%02i-%02d/%02d Auto    %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit,
+                     Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
             break;
 
         case 4:
-            sprintf(Buffer, "[%02d] %02d/%02i-%02d/%02d Fracht  %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit, Flug[e].Landedate,
-                    (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
+            snprintf(Buffer, sizeof(Buffer), "[%02d] %02d/%02i-%02d/%02d Fracht  %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit,
+                     Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
             break;
 
         default:
