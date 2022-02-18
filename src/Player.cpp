@@ -1924,7 +1924,7 @@ long PLAYER::CalcCreditLimit() const {
     __int64 cr = (Money - Credit) / 2 - Credit;
 
     if (Credit < 200000) {
-        cr = max(cr, 200000 - cr);
+        cr = max(cr, 200000 - Credit);
     }
 
     return (long(min(0x7fffffff, max(0, cr))));
