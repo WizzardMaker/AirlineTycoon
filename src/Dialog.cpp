@@ -1054,35 +1054,41 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 3050: // Wirklich etwas machen: (Aktien ausgeben)
             {
                 SLONG MarktAktien = 0;
+                SLONG NeueAktien = DialogPar1;
                 auto AlterKurs = SLONG(qPlayer.Kurse[0]);
+                SLONG EmissionsKurs = DialogPar2;
 
                 if (DialogPar3 == 5) {
-                    MarktAktien = DialogPar1;
+                    MarktAktien = NeueAktien;
                 } else if (DialogPar3 == 3) {
-                    MarktAktien = DialogPar1 * 8 / 10;
+                    MarktAktien = NeueAktien * 8 / 10;
                 } else {
-                    MarktAktien = DialogPar1 * 6 / 10;
+                    MarktAktien = NeueAktien * 6 / 10;
                 }
 
-                qPlayer.ChangeMoney(MarktAktien * DialogPar2, 3162, "");
-                qPlayer.ChangeMoney(-DialogPar1 * DialogPar2 / 10 / 100 * 100, 3160, "");
+                __int64 EmissionsWert = __int64(MarktAktien) * EmissionsKurs;
+                __int64 EmissionsGebuehr = __int64(NeueAktien) * EmissionsKurs / 10 / 100 * 100;
 
-                long preis = MarktAktien * DialogPar2 - DialogPar1 * DialogPar2 / 10 / 100 * 100;
+                qPlayer.ChangeMoney(EmissionsWert, 3162, "");
+                qPlayer.ChangeMoney(-EmissionsGebuehr, 3160, "");
+
+                __int64 preis = EmissionsWert - EmissionsGebuehr;
                 qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, preis);
                 if (PlayerNum == Sim.localPlayer) {
                     SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_E_SONSTIGES);
                 }
 
-                qPlayer.Kurse[0] = (qPlayer.Kurse[0] * __int64(qPlayer.AnzAktien) + __int64(DialogPar2) * MarktAktien) / (qPlayer.AnzAktien + MarktAktien);
+                qPlayer.Kurse[0] = (qPlayer.Kurse[0] * __int64(qPlayer.AnzAktien) + EmissionsWert) / (qPlayer.AnzAktien + MarktAktien);
                 if (qPlayer.Kurse[0] < 0) {
                     qPlayer.Kurse[0] = 0;
                 }
 
                 // Entschädigung +/-
-                qPlayer.ChangeMoney(-SLONG((qPlayer.AnzAktien - qPlayer.OwnsAktien[PlayerNum]) * (AlterKurs - qPlayer.Kurse[0])), 3161, "");
+                SLONG kursDiff = (AlterKurs - qPlayer.Kurse[0]);
+                qPlayer.ChangeMoney(-SLONG((qPlayer.AnzAktien - qPlayer.OwnsAktien[PlayerNum]) * kursDiff), 3161, "");
                 for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
                     if (c != PlayerNum) {
-                        auto entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * (AlterKurs - qPlayer.Kurse[0]));
+                        auto entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * kursDiff);
 
                         Sim.Players.Players[c].ChangeMoney(entschaedigung, 3161, "");
                         Sim.Players.Players[c].Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, entschaedigung);
@@ -1091,11 +1097,11 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 }
 
                 if (Sim.bNetwork != 0) {
-                    SIM::SendSimpleMessage(ATNET_ADVISOR, 0, 3, PlayerNum, DialogPar1);
+                    SIM::SendSimpleMessage(ATNET_ADVISOR, 0, 3, PlayerNum, NeueAktien);
                 }
 
-                qPlayer.AnzAktien += DialogPar1;
-                qPlayer.OwnsAktien[PlayerNum] += (DialogPar1 - MarktAktien);
+                qPlayer.AnzAktien += NeueAktien;
+                qPlayer.OwnsAktien[PlayerNum] += (NeueAktien - MarktAktien);
                 PLAYER::NetSynchronizeMoney();
             }
                 MakeSayWindow(0, TOKEN_BANK, 3060, pFontPartner, DialogPar1);
