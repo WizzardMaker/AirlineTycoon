@@ -81,8 +81,10 @@ template <typename T> class BUFFER_V : public std::vector<T> {
     void incIter(int i) { Offset += i; }
     SLONG getIter() const { return Offset; }
 
+#ifdef DEBUG_ALBUM
     T& operator[](size_t pos) { return std::vector<T>::at(pos); }
     const T& operator[](size_t pos) const { return std::vector<T>::at(pos); };
+#endif
 
   private:
     SLONG Offset{0};
@@ -1029,7 +1031,6 @@ template <typename T> class ALBUM_V {
             if (a == b) {
                 return;
             }
-            assert(a.Hash == b.Hash);
             auto *h = a.Hash;
             if (h->end() != h->find(*a.It2)) {
                 h->at(*a.It2) += (b.It2 - a.It2);
@@ -1056,7 +1057,9 @@ template <typename T> class ALBUM_V {
     /* query capacity and resize */
 
     SLONG AnzEntries() const {
+#ifdef DEBUG_ALBUM
         assert(List.size() == ListInit.size());
+#endif
         return List.size();
     }
     SLONG GetNumFree() const { return std::count(ListInit.begin(), ListInit.end(), 0); }
@@ -1103,7 +1106,11 @@ template <typename T> class ALBUM_V {
         return 0;
     }
 
+#ifdef DEBUG_ALBUM
     T &operator[](ULONG id) { return List.at(find(id)); }
+#else
+    T &operator[](ULONG id) { return List[find(id)]; }
+#endif
     T &at(ULONG id) { return List.at(find(id)); }
 
     /* comparison */
@@ -1182,8 +1189,10 @@ template <typename T> class ALBUM_V {
     }
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const ALBUM_V<T> &buffer) {
+#ifdef DEBUG_ALBUM
         assert(buffer.AnzEntries() == buffer.List.size());
         assert(buffer.AnzEntries() == buffer.ListInit.size());
+#endif
 
         SLONG filler = 0;
 
@@ -1224,7 +1233,9 @@ template <typename T> class ALBUM_V {
 
         File >> size;
         File >> filler;
+#ifdef DEBUG_ALBUM
         assert(buffer.AnzEntries() == size);
+#endif
         for (SLONG i = 0; i < size; i++) {
             File >> buffer.ListInit[i];
         }
@@ -1284,7 +1295,9 @@ template <typename T> class ALBUM_V {
             }
             Iter::swap(a, b);
         }
+#ifdef DEBUG_ALBUM
         assert(a == b);
+#endif
         qSort(begin(), a - 1);
     }
 
