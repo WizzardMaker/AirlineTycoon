@@ -4959,27 +4959,36 @@ void PLAYER::RobotExecuteAction() {
         SLONG NeueAktien = (MaxAktien - AnzAktien) / 100 * 100;
         SLONG MarktAktien = NeueAktien * 8 / 10;
         auto AlterKurs = SLONG(Kurse[0]);
-        auto EKurs = SLONG(Kurse[0] - 5);
+        auto EmissionsKurs = SLONG(Kurse[0] - 3);
 
-        ChangeMoney(-NeueAktien * EKurs / 10 / 100 * 100, 3160, "");
-        ChangeMoney(MarktAktien * EKurs, 3162, "");
+        __int64 EmissionsWert = __int64(MarktAktien) * EmissionsKurs;
+        __int64 EmissionsGebuehr = __int64(NeueAktien) * EmissionsKurs / 10 / 100 * 100;
 
-        Kurse[0] = (Kurse[0] * __int64(AnzAktien) + __int64(EKurs) * MarktAktien) / (AnzAktien + MarktAktien);
+        ChangeMoney(EmissionsWert, 3162, "");
+        ChangeMoney(-EmissionsGebuehr, 3160, "");
+
+        __int64 preis = EmissionsWert - EmissionsGebuehr;
+        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, preis);
+
+        Kurse[0] = (Kurse[0] * __int64(AnzAktien) + EmissionsWert) / (AnzAktien + MarktAktien);
         if (Kurse[0] < 0) {
             Kurse[0] = 0;
         }
 
         // Entschädigung +/-
-        auto diff = AlterKurs - Kurse[0];
-        ChangeMoney(SLONG(-(AnzAktien - OwnsAktien[PlayerNum]) * diff), 3161, "");
+        auto kursDiff = (AlterKurs - Kurse[0]);
+        ChangeMoney(-SLONG((AnzAktien - OwnsAktien[PlayerNum]) * kursDiff), 3161, "");
         for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
-            if (c != PlayerNum && Sim.Players.Players[c].OwnsAktien[PlayerNum] * diff != 0) {
-                Sim.Players.Players[c].ChangeMoney(SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * diff), 3161, "");
+            if (c != PlayerNum) {
+                SLONG entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * kursDiff);
+                Sim.Players.Players[c].ChangeMoney(entschaedigung, 3161, "");
+                Sim.Players.Players[c].Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, entschaedigung);
             }
         }
 
         AnzAktien += NeueAktien;
         OwnsAktien[PlayerNum] += (NeueAktien - MarktAktien);
+
         if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) != 0) {
             Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(
                 BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9004), (LPCSTR)NameX, (LPCSTR)AirlineX, NeueAktien));
@@ -4988,7 +4997,7 @@ void PLAYER::RobotExecuteAction() {
         if (PlayerNum != 3 || RobotUse(ROBOT_USE_REBUYSHARES)) {
             // Direkt wieder die Hälfte aufkaufen:
             OwnsAktien[PlayerNum] += NeueAktien / 2;
-            Money -= NeueAktien / 2 * EKurs;
+            Money -= NeueAktien / 2 * Kurse[0];
         }
 
         if (RobotUse(ROBOT_USE_MAX20PERCENT) && OwnsAktien[PlayerNum] * 100 / AnzAktien > BTARGET_MEINANTEIL && Kurse[0] >= BTARGET_KURS) {
