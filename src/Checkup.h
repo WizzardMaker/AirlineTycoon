@@ -31,13 +31,13 @@
 class CRegistryAccess {
   private:
 #if USE_JSON
-    struct json_t *hKey;
+    struct json_t *hKey{nullptr};
 #else
     HKEY hKey;
 #endif
 
   public:
-    CRegistryAccess();
+    CRegistryAccess() = default;
     CRegistryAccess(const CString &RegistryPath);
     ~CRegistryAccess();
     bool Open(const CString &RegistryPath);
@@ -46,13 +46,13 @@ class CRegistryAccess {
     bool IsOpen(void);
 
     bool ReadRegistryKeyEx(char *Text, const CString &EntryName);
-    bool ReadRegistryKeyEx_b(BOOL& Bool, const CString &EntryName);
-    bool ReadRegistryKeyEx_l(SLONG& Long, const CString &EntryName);
-    bool ReadRegistryKeyEx_u(ULONG& Long, const CString &EntryName);
+    bool ReadRegistryKeyEx_b(BOOL &Bool, const CString &EntryName);
+    bool ReadRegistryKeyEx_l(SLONG &Long, const CString &EntryName);
+    bool ReadRegistryKeyEx_u(ULONG &Long, const CString &EntryName);
     bool WriteRegistryKeyEx(const char *Text, const CString &EntryName);
-    bool WriteRegistryKeyEx_b(const BOOL& Bool, const CString &EntryName);
-    bool WriteRegistryKeyEx_l(const SLONG& Long, const CString &EntryName);
-    bool WriteRegistryKeyEx_u(const ULONG& Long, const CString &EntryName);
+    bool WriteRegistryKeyEx_b(const BOOL &Bool, const CString &EntryName);
+    bool WriteRegistryKeyEx_l(const SLONG &Long, const CString &EntryName);
+    bool WriteRegistryKeyEx_u(const ULONG &Long, const CString &EntryName);
 };
 
 // Pfad in der Registry; Eintrag ist von der Versionummer abhängig

@@ -82,8 +82,8 @@ template <typename T> class BUFFER_V : public std::vector<T> {
     SLONG getIter() const { return Offset; }
 
 #ifdef DEBUG_ALBUM
-    T& operator[](size_t pos) { return std::vector<T>::at(pos); }
-    const T& operator[](size_t pos) const { return std::vector<T>::at(pos); };
+    T &operator[](size_t pos) { return std::vector<T>::at(pos); }
+    const T &operator[](size_t pos) const { return std::vector<T>::at(pos); };
 #endif
 
   private:
@@ -665,8 +665,9 @@ class PALETTE {
 // static_assert(sizeof(PALETTE) == 16, "PALETTE size check");
 
 struct TEXTRES_CACHE_ENTRY {
-    SLONG Group, Id;
-    char *Text;
+    SLONG Group{};
+    SLONG Id{};
+    char *Text{nullptr};
 };
 
 // static_assert(sizeof(TEXTRES_CACHE_ENTRY) == 12, "TEXTRES_CACHE_ENTRY size check");

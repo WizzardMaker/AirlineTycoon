@@ -84,11 +84,6 @@ BOOL IsPentiumOrBetter(void) {
 //--------------------------------------------------------------------------------------------
 // CRegistryAccess::
 //--------------------------------------------------------------------------------------------
-// Konstruktor:
-//--------------------------------------------------------------------------------------------
-CRegistryAccess::CRegistryAccess() { hKey = nullptr; }
-
-//--------------------------------------------------------------------------------------------
 // Konstruktor+Open:
 //--------------------------------------------------------------------------------------------
 CRegistryAccess::CRegistryAccess(const CString &RegistryPath) {
@@ -164,7 +159,7 @@ bool CRegistryAccess::WriteRegistryKeyEx(const char *Text, const CString &EntryN
 #endif
 }
 
-bool CRegistryAccess::WriteRegistryKeyEx_b(const BOOL& Bool, const CString &EntryName) {
+bool CRegistryAccess::WriteRegistryKeyEx_b(const BOOL &Bool, const CString &EntryName) {
     if (hKey == nullptr) {
         return (0) != 0;
     }
@@ -230,7 +225,7 @@ bool CRegistryAccess::ReadRegistryKeyEx(char *Text, const CString &EntryName) {
 #endif
 }
 
-bool CRegistryAccess::ReadRegistryKeyEx_b(BOOL& Bool, const CString &EntryName) {
+bool CRegistryAccess::ReadRegistryKeyEx_b(BOOL &Bool, const CString &EntryName) {
     if (hKey == nullptr) {
         return (0) != 0;
     }

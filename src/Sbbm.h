@@ -296,8 +296,7 @@ class SBPRIMARYBM {
     XY Size; // Größe der Bitmap
 
   public:
-    SBPRIMARYBM() {}
-    ~SBPRIMARYBM() {}
+    SBPRIMARYBM() = default;
     void ReSize(SDL_Window *Wnd, BOOL Fullscreen, const XY &Resolution);
 
     void ReSizePartB(SDL_Window *Wnd, BOOL Fullscreen, const XY &Resolution) {

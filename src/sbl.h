@@ -200,10 +200,10 @@ class SB_CBitmapCore {
     friend class SB_CBitmapMain;
     friend class SB_CBitmapKey;
 
-    SDL_Renderer *lpDD;
-    SDL_Surface *lpDDSurface;
-    SDL_Surface *flippedBufferSurface;
-    SDL_Texture *lpTexture;
+    SDL_Renderer *lpDD{nullptr};
+    SDL_Surface *lpDDSurface{nullptr};
+    SDL_Surface *flippedBufferSurface{nullptr};
+    SDL_Texture *lpTexture{nullptr};
     XY Size;
 };
 
@@ -294,8 +294,8 @@ class SB_CBitmapKey {
 // static_assert(sizeof(SB_CBitmapKey) == 0x78u, "SB_CBitmapKey size check");
 
 typedef struct {
-    SB_CPrimaryBitmap *pBitmap;
-    SB_CBitmapCore *pBitmapCore;
+    SB_CPrimaryBitmap *pBitmap{nullptr};
+    SB_CBitmapCore *pBitmapCore{nullptr};
 } CFRONTDATA;
 
 #define TEC_FONT_LEFT 1
@@ -308,14 +308,14 @@ typedef struct {
 #define TAB_STYLE_RIGHT 4
 
 typedef struct tagTabs {
-    dword Style;
-    dword Width;
+    dword Style{};
+    dword Width{};
 } TABS;
 
 // static_assert(sizeof(TABS) == 8, "TABS size check");
 
 typedef struct tagTextStyle {
-    dword Unknown[3];
+    dword Unknown[3]{};
 } TEXT_STYLE;
 
 // static_assert(sizeof(TEXT_STYLE) == 12, "TEXT_STYLE size check");

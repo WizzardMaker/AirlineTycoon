@@ -13,7 +13,6 @@ class CAbend : public CStdRaum {
     BOOL Room; // 1=Uhr; 2=Flughafen
     SLONG Ticker;
     SLONG State{};
-    XY PlayerPos[4];
     DWORD LastTime;
     SBBM AirportBm;
     SBBM NightBm;

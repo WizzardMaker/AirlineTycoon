@@ -5,17 +5,17 @@
 
 class CStatButton {
   public:
-    SLONG Id;            // Frei wählbar, aber bitte immer eindeutig
-    SLONG HelpId;        // ToolTipID
-    CRect HotArea;       // MouseArea, wo der Button gehighlighted wird
-    XY BitmapOffset;     // Hierhin wird die Button-Bitmap geblittet
-    XY *BitmapOffset2;   // Referenzmöglichkeit für bewegte Buttons
-    SBBM *BitmapNormal;  // Normale Bitmap oder NULL
-    SBBM *BitmapHi;      // Bitmap fürs Highlight oder NULL
-    SBBM *BitmapClicked; // Bitmap fürs Geclickte oder NULL
-    SBBM *BitmapSuperHi; // Nur für Toggle-Buttons: Highlight, wenn geklickt
-    BOOL IsToggle;       // Ist es ein Toggle-Button?
-    DWORD LastClicked;   // Wann wurde er zum letzten Mal geklickt (intern)
+    SLONG Id{};                   // Frei wählbar, aber bitte immer eindeutig
+    SLONG HelpId{};               // ToolTipID
+    CRect HotArea{};              // MouseArea, wo der Button gehighlighted wird
+    XY BitmapOffset{};            // Hierhin wird die Button-Bitmap geblittet
+    XY *BitmapOffset2{};          // Referenzmöglichkeit für bewegte Buttons
+    SBBM *BitmapNormal{nullptr};  // Normale Bitmap oder NULL
+    SBBM *BitmapHi{nullptr};      // Bitmap fürs Highlight oder NULL
+    SBBM *BitmapClicked{nullptr}; // Bitmap fürs Geclickte oder NULL
+    SBBM *BitmapSuperHi{nullptr}; // Nur für Toggle-Buttons: Highlight, wenn geklickt
+    BOOL IsToggle{};              // Ist es ein Toggle-Button?
+    DWORD LastClicked{};          // Wann wurde er zum letzten Mal geklickt (intern)
 
   public:
     void ReSize(SLONG Id, SLONG HelpId, CRect HotArea, XY BitmapOffset, XY *BitmapOffset2, SBBM *BitmapNormal, SBBM *BitmapHi, SBBM *BitmapClicked,
@@ -39,10 +39,10 @@ class CStatButton {
 #define TYP_SINGLE_PERCENT 23 // Prozent, aber nicht in Abhängigkeit von der Vorvariable
 
 typedef struct tagItem {
-    bool visible;
-    short textId;
-    short define;
-    short typOfItem;
+    bool visible{};
+    short textId{};
+    short define{};
+    short typOfItem{};
 
 } ITEM;
 

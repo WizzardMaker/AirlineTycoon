@@ -84,7 +84,11 @@ CGlobe::CGlobe(BOOL bHandy, SLONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
 
     Copyprotection = static_cast<BOOL>(Sim.bExeChanged == 1);
 
+#ifdef WIN32
     EarthBm.ReSize(const_cast<char *>((LPCTSTR)FullFilename("earthglo.lbm", GliPath)), SYSRAMBM);
+#else
+    EarthBm.ReSize(const_cast<char *>((LPCTSTR)FullFilename("earthglo.tga", GliPath)), SYSRAMBM);
+#endif
 
     pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("globe.gli", RoomPath)), &pGLibGlobe, L_LOCMEM);
     pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("globe_a.gli", RoomPath)), &pGLibStd, L_LOCMEM);
