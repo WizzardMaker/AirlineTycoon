@@ -4684,25 +4684,32 @@ void PLAYER::RobotExecuteAction() {
             }
         }
 
-        if (RobotUse(ROBOT_USE_PAYBACK_CREDIT) && Money > 750000 && Sim.Date > 1 && !RobotUse(ROBOT_USE_MAXKREDIT)) {
-            SLONG m = long(min(0x7fffffff, min(Credit, Money - 250000)));
-            Money -= m;
-            Credit -= m;
+        // Kredite
+        {
+            long limit = CalcCreditLimit() / 1000 * 1000;
+
+            if (RobotUse(ROBOT_USE_PAYBACK_CREDIT) && Money > 750000 && Sim.Date > 1 && !RobotUse(ROBOT_USE_MAXKREDIT)) {
+                SLONG m = long(min(0x7fffffff, min(Credit, Money - 250000)));
+                Money -= m;
+                Credit -= m;
+            }
+
+            SLONG limitNPC = 1000000 + Sim.Date * 50000;
+            if ((PlayerNum == 1 || RobotUse(ROBOT_USE_MAXKREDIT)) && Credit < limitNPC && !RobotUse(ROBOT_USE_PAYBACK_CREDIT)) {
+                SLONG m = long(min(limit, limitNPC - Credit));
+                Money += m;
+                Credit += m;
+            } else if (Money > 1500000 && Credit > 0 && PlayerNum != 1 && !RobotUse(ROBOT_USE_MAXKREDIT)) {
+                SLONG m = long(min(limit, min(Credit, Money - 1500000)));
+                Money -= m;
+                Credit -= m;
+            } else if (Money < 1000000 && PlayerNum != 1 && !RobotUse(ROBOT_USE_PAYBACK_CREDIT)) {
+                SLONG m = long(min(limit, 1400000 - Money));
+                Money += m;
+                Credit += m;
+            }
         }
 
-        if ((PlayerNum == 1 || RobotUse(ROBOT_USE_MAXKREDIT)) && Credit < 1000000 + Sim.Date * 50000 && !RobotUse(ROBOT_USE_PAYBACK_CREDIT)) {
-            SLONG m = long(min(0x7fffffff, 1000000 + Sim.Date * 50000 - Credit));
-            Money += m;
-            Credit += m;
-        } else if (Money > 1500000 && Credit > 0 && PlayerNum != 1 && !RobotUse(ROBOT_USE_MAXKREDIT)) {
-            SLONG m = long(min(0x7fffffff, min(Credit, Money - 1500000)));
-            Money -= m;
-            Credit -= m;
-        } else if (Money < 1000000 && PlayerNum != 1 && !RobotUse(ROBOT_USE_PAYBACK_CREDIT)) {
-            SLONG m = long(min(0x7fffffff, 1400000 - Money));
-            Money += m;
-            Credit += m;
-        }
         if (RobotUse(ROBOT_USE_MAX20PERCENT) && OwnsAktien[PlayerNum] * 100 / AnzAktien > BTARGET_MEINANTEIL && Kurse[0] >= BTARGET_KURS) {
             SLONG Sells = OwnsAktien[PlayerNum] - AnzAktien * BTARGET_MEINANTEIL / 100;
 
