@@ -580,7 +580,7 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 // Wo befindet sich ein Worker?
 #define WORKER_RESERVE 100 // Ist in der stillen Reserve
 #define WORKER_JOBLESS 101 // Sucht einen Job
-#define WORKER_EXPIRED 102 //Hat aufgegeben
+#define WORKER_EXPIRED 102 // Hat aufgegeben
 
 // Die Leute die sprechen können:
 #define TALKER_NONE -1
@@ -773,7 +773,7 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define STATION_ALL 1023  // Die gesammte Rakete
 
 // Die Statistik-Daten:
-#define STAT_ANZ 40 // Die Anzahl der überwachten Eigenschaften
+#define STAT_ANZ 51 // Die Anzahl der überwachten Eigenschaften
 #define STAT_KONTO 0
 #define STAT_KREDIT 1
 #define STAT_FLUGZEUGE 2
@@ -807,18 +807,29 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 
 #define STAT_E_ROUTEN 30 // -- Die Einnahmen --
 #define STAT_E_AUFTRAEGE 31
-#define STAT_E_VERKAEUFE 32 // Flugzeuge, Aktien, Ausrüstung u.s.w.
-#define STAT_E_SONSTIGES 33 // Neue Aktien, Dividenden, Zinsen
+#define STAT_E_RABATT 32
+#define STAT_E_ZINS 33
+#define STAT_E_KREDIT 34
+#define STAT_E_FLUGZEUGE 35
+#define STAT_E_AKTIEN 36
+#define STAT_E_SONSTIGES 37 // Neue Aktien, Dividenden, Zinsen
 
-#define STAT_A_MIETEN 34 // -- Die Ausgaben --
+#define STAT_A_MIETEN 38 // -- Die Ausgaben --
 #define STAT_A_GEHAELTER STAT_GEHALT
-#define STAT_A_KEROSIN 35
+#define STAT_A_KEROSIN 39
 #define STAT_A_WARTUNG STAT_WARTUNG
-#define STAT_A_STRAFEN 36
-#define STAT_A_KAEUFE 37    // Flugzeuge, Aktien, Ausrüstung u.s.w.
-#define STAT_A_SONSTIGES 38 // Essen, Zinsen, Dividenden, Telefon ** +STRAFEN **
+#define STAT_A_STRAFEN 40
+#define STAT_A_FLUGZEUGE 41
+#define STAT_A_ZINS 42
+#define STAT_A_KREDIT 43
+#define STAT_A_ESSEN 44
+#define STAT_A_EXPANSION 45 // Neue Niederlassung, Gate, Route, Tank oder Expansion des Flughafens
+#define STAT_A_SABOTAGE 46
+#define STAT_A_AKTIEN 47
+#define STAT_A_AGENTUREN 48 // Werbung, Security
+#define STAT_A_SONSTIGES 49 // Essen, Zinsen, Dividenden, Telefon ** +STRAFEN **
 
-#define STAT_FRACHTEN 39 // Gesammtanzahl der angenommen (nicht geflogenen!) Frachtaufträge
+#define STAT_FRACHTEN 50 // Gesammtanzahl der angenommen (nicht geflogenen!) Frachtaufträge
 
 // Eröffnungen für die Dialoge:
 #define DIALOG_WERBUNG 1

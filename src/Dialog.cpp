@@ -1073,7 +1073,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 qPlayer.ChangeMoney(-EmissionsGebuehr, 3160, "");
 
                 __int64 preis = EmissionsWert - EmissionsGebuehr;
-                qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, preis);
                 if (PlayerNum == Sim.localPlayer) {
                     SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_E_SONSTIGES);
                 }
@@ -1091,7 +1090,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         auto entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * kursDiff);
 
                         Sim.Players.Players[c].ChangeMoney(entschaedigung, 3161, "");
-                        Sim.Players.Players[c].Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, entschaedigung);
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, c, entschaedigung, STAT_E_SONSTIGES);
                     }
                 }
@@ -3956,8 +3954,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     MakeSayWindow(0, TOKEN_BOSS, 2074, pFontPartner, (LPCTSTR)Sim.Players.Players[Sim.SabotageActs[DialogPar1].Opfer].AirlineX);
                     MakeNumberWindow(TOKEN_BOSS, 9992074, bitoa(Sim.Players.Players[Sim.SabotageActs[DialogPar1].Player].ArabHints * 10000),
                                      (LPCTSTR)Sim.Players.Players[Sim.SabotageActs[DialogPar1].Opfer].AirlineX);
-                    Sim.Players.Players[Sim.SabotageActs[DialogPar1].Player].Statistiken[STAT_A_STRAFEN].AddAtPastDay(
-                        0, -Sim.Players.Players[Sim.SabotageActs[DialogPar1].Player].ArabHints * 10000);
                     Sim.Players.Players[Sim.SabotageActs[DialogPar1].Player].ChangeMoney(
                         -Sim.Players.Players[Sim.SabotageActs[DialogPar1].Player].ArabHints * 10000, 2200, "");
                     Sim.Players.Players[Sim.SabotageActs[DialogPar1].Opfer].ChangeMoney(
@@ -4686,7 +4682,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     long Kosten = -Sim.UsedPlanes[0x1000000 + DialogPar1].CalculatePrice();
                     qPlayer.ChangeMoney(Kosten, 2010, Sim.UsedPlanes[0x1000000 + DialogPar1].Name);
                     SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, Kosten, STAT_A_SONSTIGES);
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Kosten);
 
                     qPlayer.DoBodyguardRabatt(Sim.UsedPlanes[0x1000000 + DialogPar1].CalculatePrice());
 
@@ -4725,7 +4720,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 720: {
                 SLONG preis = qPlayer.Planes[DialogPar2].CalculatePrice() * 9 / 10;
 
-                qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, preis);
                 if (PlayerNum == Sim.localPlayer) {
                     SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_E_SONSTIGES);
                 }
@@ -5124,7 +5118,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     }
 
                     long preis = -gWerbePrice[DialogPar1 * 6 + id - 5000];
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, preis);
                     qPlayer.ChangeMoney(preis, id - 5000 + 3120, "");
                     if (PlayerNum == Sim.localPlayer) {
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_A_SONSTIGES);
@@ -5192,7 +5185,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                                         9999, // Leerstring
                                         StandardTexte.GetS(TOKEN_ITEM, 1801));
 
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, preis);
                     if (PlayerNum == Sim.localPlayer) {
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_A_SONSTIGES);
                     }
@@ -5211,7 +5203,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     qPlayer.ChangeMoney(preis,
                                         9999, // Leerstring
                                         StandardTexte.GetS(TOKEN_ITEM, 1801));
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, preis);
                     if (PlayerNum == Sim.localPlayer) {
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_A_SONSTIGES);
                     }
@@ -5380,7 +5371,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 if (DialogPar2 != 0) {
                     MakeSayWindow(1, TOKEN_PLAYER, 2500, 2503, FALSE, &FontDialog, &FontDialogLight);
                 } else if (bIsRobot) {
-                    SLONG Summe = qOther.BilanzGestern.GetSumme();
+                    __int64 Summe = qOther.BilanzGestern.GetSumme();
 
                     if (Summe > 10000000) {
                         MakeSayWindow(0, TOKEN_PLAYER, 2500, pFontPartner);

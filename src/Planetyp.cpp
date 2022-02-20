@@ -635,12 +635,6 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
                 // Delta=PlaneTypes[TypeId].Passagiere*(SeatCosts[SitzeTarget]-SeatCosts[Sitze]/2);
                 Delta = ptPassagiere * (SeatCosts[SitzeTarget] - SeatCosts[Sitze] / 2);
                 Costs += Delta;
-                if (Delta < 0) {
-                    qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
-                if (Delta > 0) {
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
                 Sitze = SitzeTarget;
             }
             if (Essen != EssenTarget) {
@@ -650,69 +644,33 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
                 // Delta=PlaneTypes[TypeId].Passagiere*(TrayCosts[TablettsTarget]-TrayCosts[Tabletts]/2);
                 Delta = ptPassagiere * (TrayCosts[TablettsTarget] - TrayCosts[Tabletts] / 2);
                 Costs += Delta;
-                if (Delta < 0) {
-                    qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
-                if (Delta > 0) {
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
                 Tabletts = TablettsTarget;
             }
             if (Deco != DecoTarget) {
                 // Delta=PlaneTypes[TypeId].Passagiere*(DecoCosts[DecoTarget]-DecoCosts[Deco]/2);
                 Delta = ptPassagiere * (DecoCosts[DecoTarget] - DecoCosts[Deco] / 2);
                 Costs += Delta;
-                if (Delta < 0) {
-                    qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
-                if (Delta > 0) {
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
                 Deco = DecoTarget;
             }
 
             if (Triebwerk != TriebwerkTarget) {
                 Delta = (TriebwerkCosts[TriebwerkTarget] - TriebwerkCosts[Triebwerk] / 2);
                 Costs += Delta;
-                if (Delta < 0) {
-                    qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
-                if (Delta > 0) {
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
                 Triebwerk = TriebwerkTarget;
             }
             if (Reifen != ReifenTarget) {
                 Delta = (ReifenCosts[ReifenTarget] - ReifenCosts[Reifen] / 2);
                 Costs += Delta;
-                if (Delta < 0) {
-                    qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
-                if (Delta > 0) {
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
                 Reifen = ReifenTarget;
             }
             if (Elektronik != ElektronikTarget) {
                 Delta = (ElektronikCosts[ElektronikTarget] - ElektronikCosts[Elektronik] / 2);
                 Costs += Delta;
-                if (Delta < 0) {
-                    qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
-                if (Delta > 0) {
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
                 Elektronik = ElektronikTarget;
             }
             if (Sicherheit != SicherheitTarget) {
                 Delta = (SicherheitCosts[SicherheitTarget] - SicherheitCosts[Sicherheit] / 2);
                 Costs += Delta;
-                if (Delta < 0) {
-                    qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
-                if (Delta > 0) {
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -Delta);
-                }
                 Sicherheit = SicherheitTarget;
             }
 

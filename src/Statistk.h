@@ -23,8 +23,8 @@ class CStatButton {
 };
 
 #define MAX_GROUP 3      // Anzahl der Gruppen
-#define MAX_ITEMS 16     // Anzahl der Einträge je Gruppe
-#define LINE_DISTANCE 20 // Abstand der Zeilen
+#define MAX_ITEMS 29     // Anzahl der Einträge je Gruppe
+#define LINE_DISTANCE 10 // Abstand der Zeilen
 
 #define TYP_LINEFEED 0   // Leerzeile
 #define TYP_GROUP 1      // Gruppe

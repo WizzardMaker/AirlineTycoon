@@ -790,7 +790,6 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
             }
         }
 
-        qPlayer.History.ReInit();
         qPlayer.Auftraege.ReSize(40);
 
         CAuftrag a;
@@ -829,6 +828,10 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
 
         qPlayer.History.ReInit();
         qPlayer.History.HistoricMoney = qPlayer.Money;
+
+        for (d = 0; d < STAT_ANZ; d++) {
+            qPlayer.Statistiken[d].Init();
+        }
 
         // Aktien:
         for (d = 0; d < 4; d++) {

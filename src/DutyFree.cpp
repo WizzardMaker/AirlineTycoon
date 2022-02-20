@@ -307,7 +307,6 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point) {
 
                         long delta = -atoi(StandardTexte.GetS(TOKEN_ITEM, 2000 + qPlayer.LaptopQuality));
                         qPlayer.ChangeMoney(delta, 9999, StandardTexte.GetS(TOKEN_ITEM, 1000 + qPlayer.LaptopQuality));
-                        qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, delta);
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
 
                         qPlayer.DoBodyguardRabatt(atoi(StandardTexte.GetS(TOKEN_ITEM, 2000 + qPlayer.LaptopQuality)));
@@ -364,7 +363,6 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point) {
                     qPlayer.ChangeMoney(delta, 9999, StandardTexte.GetS(TOKEN_ITEM, 1000 + MouseClickId));
                     SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
 
-                    qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, delta);
                     qPlayer.DoBodyguardRabatt(atoi(StandardTexte.GetS(TOKEN_ITEM, 2000 + MouseClickId)));
                 }
             }

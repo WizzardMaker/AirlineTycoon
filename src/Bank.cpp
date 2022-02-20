@@ -345,17 +345,17 @@ void CBilanz::Clear() {
 //--------------------------------------------------------------------------------------------
 // Gibt den Saldo der Habens-Seite zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CBilanz::GetHaben() const { return (HabenZinsen + Tickets + Auftraege + HabenRendite); }
+__int64 CBilanz::GetHaben() const { return (HabenZinsen + Tickets + Auftraege + HabenRendite); }
 
 //--------------------------------------------------------------------------------------------
 // Gibt den Saldo der Soll-Seite zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CBilanz::GetSoll() const { return (SollZinsen + Kerosin + Personal + Vertragsstrafen + Wartung + Gatemiete + Citymiete + Routenmiete + SollRendite); }
+__int64 CBilanz::GetSoll() const { return (SollZinsen + Kerosin + Personal + Vertragsstrafen + Wartung + Gatemiete + Citymiete + Routenmiete + SollRendite); }
 
 //--------------------------------------------------------------------------------------------
 // Gibt den Saldo zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CBilanz::GetSumme() const { return (GetHaben() - GetSoll()); }
+__int64 CBilanz::GetSumme() const { return (GetHaben() - GetSoll()); }
 
 //--------------------------------------------------------------------------------------------
 // Speichert einen Bilanz-Datensatz:

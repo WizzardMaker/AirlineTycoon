@@ -15,6 +15,18 @@ char *bitoa(int val) {
     return buffer;
 }
 
+char *bitoa(long val) {
+    static char buffer[20];
+    snprintf(buffer, sizeof(buffer), "%ld", val);
+    return buffer;
+}
+
+char *bitoa(long long val) {
+    static char buffer[20];
+    snprintf(buffer, sizeof(buffer), "%lld", val);
+    return buffer;
+}
+
 char *TeakStrRemoveEndingCodes(char *str, char const *codes) {
     int i = 0;
     for (i = strlen(str) - 1; i >= 0 && (strchr(codes, str[i]) != nullptr); --i) {

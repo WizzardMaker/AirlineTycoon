@@ -195,3 +195,36 @@ char *TEXTRES::GetS(ULONG group, ULONG id) {
     delete[] str;
     return buffer;
 }
+
+void TEXTRES::AddText(const char *groupId, ULONG id, const char *text) {
+    ULONG group = (*(ULONG *)groupId);
+    auto n = Entries.AnzEntries();
+    Entries.ReSize(n + 1);
+    Entries[n].Group = group;
+    Entries[n].Id = id;
+
+    char *buffer = new char[strlen(text) + 1];
+    strcpy(buffer, text);
+    Entries[n].Text = buffer;
+}
+
+void TEXTRES::UpdateText(const char *groupId, ULONG id, const char *newText) {
+    ULONG group = (*(ULONG *)groupId);
+    SLONG i = 0;
+    bool found = false;
+    for (; i < Entries.AnzEntries(); ++i) {
+        if (Entries[i].Group == group && Entries[i].Id == id) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        TeakLibW_Exception(nullptr, 0, ExcTextResNotFound, group, id);
+        return;
+    }
+
+    char *buffer = new char[strlen(newText) + 1];
+    strcpy(buffer, newText);
+    Entries[i].Text = buffer;
+}

@@ -153,8 +153,8 @@ void CFlugplan::Dump(bool bHercules) {
             break;
 
         case 2:
-            snprintf(Buffer, sizeof(Buffer), "[%02d] %02d/%02d-%02d/%02d Auftrag %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate,
-                     Flug[e].Landezeit, Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
+            snprintf(Buffer, sizeof(Buffer), "[%02d] %02d/%02d-%02d/%02d Auftrag %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit,
+                     Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
             break;
 
         case 3:
@@ -571,7 +571,8 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
 void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     __int64 Saldo = 0;
     SLONG Einnahmen = 0;
-    SLONG Ausgaben = 0;
+    SLONG AusgabenKerosin = 0;
+    SLONG AusgabenEssen = 0;
     CString CityString;
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
@@ -624,10 +625,10 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     qPlayer.NumMiles += Cities.CalcDistance(VonCity, NachCity) / 1609;
 
     if (ObjectType == 2 && Okay != 0) {
-        Ausgaben = GetRealAusgaben(PlayerNum, *Plane, Plane->Name);
-        // Ausgaben  = GetRealAusgaben(PlayerNum, Plane->TypeId, Plane->Name);
+        AusgabenKerosin = GetRealAusgaben(PlayerNum, *Plane, Plane->Name);
+        // AusgabenKerosin  = GetRealAusgaben(PlayerNum, Plane->TypeId, Plane->Name);
     } else if (ObjectType == 4) {
-        Ausgaben = GetRealAusgaben(PlayerNum, *Plane, Plane->Name);
+        AusgabenKerosin = GetRealAusgaben(PlayerNum, *Plane, Plane->Name);
 
         if (qPlayer.Frachten[ObjectId].TonsLeft > 0) {
             qPlayer.NumFracht += min(qPlayer.Frachten[ObjectId].TonsLeft, Plane->ptPassagiere / 10);
@@ -646,12 +647,12 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     } else {
         // Einnahmen = GetEinnahmen(PlayerNum, Plane->TypeId);
         Einnahmen = GetEinnahmen(PlayerNum, *Plane);
-        Ausgaben = GetRealAusgaben(PlayerNum, *Plane, Plane->Name);
-        // Ausgaben  = GetRealAusgaben(PlayerNum, Plane->TypeId, Plane->Name);
+        AusgabenKerosin = GetRealAusgaben(PlayerNum, *Plane, Plane->Name);
+        // AusgabenKerosin  = GetRealAusgaben(PlayerNum, Plane->TypeId, Plane->Name);
     }
 
     if (ObjectType == 1 || ObjectType == 2) {
-        Ausgaben += Passagiere * FoodCosts[Plane->Essen];
+        AusgabenEssen += Passagiere * FoodCosts[Plane->Essen];
     }
 
     // Für den Statistik-Screen:
@@ -678,35 +679,30 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
         }
     }
 
-    qPlayer.Bilanz.Kerosin += Ausgaben;
-    qPlayer.Statistiken[STAT_A_KEROSIN].AddAtPastDay(0, -Ausgaben);
-    Plane->Salden[0] -= Ausgaben;
-
-    if (ObjectType == 1) {
-        qPlayer.Bilanz.Tickets += Einnahmen;
-    }
-    if (ObjectType == 2) {
-        qPlayer.Bilanz.Auftraege += Einnahmen;
-    }
-    if (ObjectType == 2) {
-        qPlayer.NumAuftraege++;
-    }
+    Plane->Salden[0] -= AusgabenKerosin;
+    Plane->Salden[0] -= AusgabenEssen;
     Plane->Salden[0] += Einnahmen;
 
-    if (ObjectType == 1) {
-        qPlayer.Statistiken[STAT_E_ROUTEN].AddAtPastDay(0, Einnahmen);
-    }
-    if (ObjectType == 2) {
-        qPlayer.Statistiken[STAT_E_AUFTRAEGE].AddAtPastDay(0, Einnahmen);
-    }
-
-    Saldo = Einnahmen - Ausgaben;
-
-    CityString = Cities[VonCity].Kuerzel + "-" + Cities[NachCity].Kuerzel;
+    Saldo = Einnahmen - AusgabenKerosin - AusgabenEssen;
 
     // Versteckter Bonus für Computerspieler:
     Saldo += min64(qPlayer.Bonus, abs64(Saldo) / 10);
     qPlayer.Bonus -= min64(qPlayer.Bonus, abs64(Saldo) / 10);
+    Einnahmen = Saldo + AusgabenKerosin + AusgabenEssen;
+
+    CityString = Cities[VonCity].Kuerzel + "-" + Cities[NachCity].Kuerzel;
+    if (ObjectType == 1) {
+        qPlayer.ChangeMoney(Einnahmen, 2030, CityString);
+    } else if (ObjectType == 2) {
+        qPlayer.ChangeMoney(Einnahmen, 2061, CityString);
+    } else if (ObjectType == 3) {
+        qPlayer.ChangeMoney(Einnahmen, 2061, CityString); /* TODO: Gewinn für Leerflug */
+    } else if (ObjectType == 4) {
+        qPlayer.ChangeMoney(Einnahmen, 2066, CityString);
+    }
+    qPlayer.ChangeMoney(-AusgabenKerosin, 2021, CityString);
+    qPlayer.ChangeMoney(-AusgabenEssen, 2022, CityString);
+    qPlayer.ChangeMoney(Saldo, 2100 - 1 + ObjectType, CityString);
 
     // Müssen wir das Flugzeug umrüsten (Sitze raus/rein wegen Fracht)?
     if (ObjectType != 3) {
@@ -715,9 +711,6 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
             qPlayer.ChangeMoney(-15000, 2111, Plane->Name);
         }
     }
-
-    qPlayer.ChangeMoney(Saldo, 2100 - 1 + ObjectType, CityString);
-    Sim.Players.Players[PlayerNum].Gewinn += Saldo;
 
     // Kerosin aus dem Vorrat verbuchen:
     if (Sim.Players.Players[PlayerNum].TankOpen != 0) {
@@ -734,9 +727,10 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
             Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_KEROSIN, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 3030), (LPCTSTR)Plane->Name));
         }
 
-        qPlayer.Bilanz.Kerosin += SLONG(tmp * qPlayer.TankPreis); // Kalkulatorische Kosten
-        qPlayer.Statistiken[STAT_A_KEROSIN].AddAtPastDay(0, -long(tmp * qPlayer.TankPreis));
-        Plane->Salden[0] -= SLONG(tmp * qPlayer.TankPreis);
+        auto kosten = SLONG(tmp * qPlayer.TankPreis);
+        // qPlayer.Bilanz.Kerosin += kosten; // Kalkulatorische Kosten
+        // qPlayer.Statistiken[STAT_A_KEROSIN].AddAtPastDay(0, -kosten);
+        Plane->Salden[0] -= kosten;
     }
 
     // Bei Routen den Bedarf bei den Leuten entsprechend verringern und die Bekanntheit verbessern:
@@ -830,14 +824,12 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
         PLAYER &qPlayerX = Sim.Players.Players[pn];
 
         if (qPlayer.Owner != 1) {
-            Saldo = Plane->PersonalQuality;
-
             // ObjectId wirkt als deterministisches Random
             // log: hprintf ("Player[%li].Image now (deter) = %li", PlayerNum, qPlayer.Image);
-            if (Saldo < 50 && (ObjectId) % 10 == 0) {
+            if (Plane->PersonalQuality < 50 && (ObjectId) % 10 == 0) {
                 qPlayerX.Image--;
             }
-            if (Saldo > 90 && (ObjectId) % 10 == 0) {
+            if (Plane->PersonalQuality > 90 && (ObjectId) % 10 == 0) {
                 qPlayerX.Image++;
             }
             // log: hprintf ("Player[%li].Image now (deter) = %li", PlayerNum, qPlayer.Image);

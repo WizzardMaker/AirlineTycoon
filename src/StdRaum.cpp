@@ -6109,7 +6109,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 qPlayer.TankPreis = (OldInhalt * qPlayer.TankPreis + MenuInfo) / (OldInhalt + MenuPar2);
                 qPlayer.NetUpdateKerosin();
 
-                qPlayer.ChangeMoney(-MenuInfo, 2090, "");
+                qPlayer.ChangeMoney(-MenuInfo, 2020, "");
                 SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -MenuInfo, -1);
 
                 qPlayer.DoBodyguardRabatt(MenuInfo);
@@ -6637,7 +6637,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 qPlayer.UpdateWalkSpeed();
             } else if (MouseClickPar1 == -4) {
                 Workers.Workers[MenuRemapper[MenuPage - 1]].Employer = WORKER_JOBLESS;
-                Workers.Workers[MenuRemapper[MenuPage-1]].TimeInPool = 0;
+                Workers.Workers[MenuRemapper[MenuPage - 1]].TimeInPool = 0;
                 qPlayer.MapWorkers(TRUE);
                 qPlayer.UpdateWalkSpeed();
             }
@@ -7285,8 +7285,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                     }
                 }
 
-                qPlayer.Statistiken[STAT_A_STRAFEN].AddAtPastDay(0, -qPlayer.Auftraege[MenuPar2].Strafe);
-                qPlayer.ChangeMoney(-qPlayer.Auftraege[MenuPar2].Strafe, 2065,
+                qPlayer.ChangeMoney(-qPlayer.Auftraege[MenuPar2].Strafe, 2060,
                                     (LPCTSTR)CString(bprintf("%s-%s", (LPCTSTR)Cities[qPlayer.Auftraege[MenuPar2].VonCity].Kuerzel,
                                                              (LPCTSTR)Cities[qPlayer.Auftraege[MenuPar2].NachCity].Kuerzel)));
 
@@ -7351,8 +7350,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                     }
                 }
 
-                qPlayer.Statistiken[STAT_A_STRAFEN].AddAtPastDay(0, -qPlayer.Frachten[MenuPar2].Strafe);
-                qPlayer.ChangeMoney(-qPlayer.Frachten[MenuPar2].Strafe, 2060,
+                qPlayer.ChangeMoney(-qPlayer.Frachten[MenuPar2].Strafe, 2065,
                                     (LPCTSTR)CString(bprintf("%s-%s", (LPCTSTR)Cities[qPlayer.Frachten[MenuPar2].VonCity].Kuerzel,
                                                              (LPCTSTR)Cities[qPlayer.Frachten[MenuPar2].NachCity].Kuerzel)));
 
@@ -7688,7 +7686,6 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                         Preis = Preis + Preis / 10 + 100;
                         qPlayer.ChangeMoney(-Preis, 3150, "");
                         qPlayer.AktienWert[MenuPar1] += SLONG(Preis);
-                        qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -Preis);
                         if (PlayerNum == Sim.localPlayer) {
                             SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SLONG(Preis), STAT_A_SONSTIGES);
                         }
@@ -7718,7 +7715,6 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 if (Preis != 0) {
                     Preis = Preis - Preis / 10 + 100;
                     qPlayer.ChangeMoney(Preis, 3151, "");
-                    qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, Preis);
                     if (PlayerNum == Sim.localPlayer) {
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, SLONG(Preis), STAT_E_SONSTIGES);
                     }

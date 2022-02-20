@@ -63,44 +63,109 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         _iArray[g][c].typOfItem = TYP_GROUP;
         _iArray[g][c].textId = 8002;
         c++;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8003;
         _iArray[g][c++].define = STAT_E_ROUTEN;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8004;
         _iArray[g][c++].define = STAT_E_AUFTRAEGE;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10000;
+        _iArray[g][c++].define = STAT_E_RABATT;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10001;
+        _iArray[g][c++].define = STAT_E_ZINS;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10002;
+        _iArray[g][c++].define = STAT_E_KREDIT;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10003;
+        _iArray[g][c++].define = STAT_E_FLUGZEUGE;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10004;
+        _iArray[g][c++].define = STAT_E_AKTIEN;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8006;
         _iArray[g][c++].define = STAT_E_SONSTIGES;
+
         _iArray[g][c].typOfItem = TYP_SUM_CURR;
         _iArray[g][c].textId = 8014;
         _iArray[g][c++].define = 0;
         c++;
+
         _iArray[g][c].typOfItem = TYP_GROUP;
         _iArray[g][c].textId = 8007;
         c++;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8008;
         _iArray[g][c++].define = STAT_A_MIETEN;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8009;
         _iArray[g][c++].define = STAT_A_GEHAELTER;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8010;
         _iArray[g][c++].define = STAT_A_KEROSIN;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8011;
         _iArray[g][c++].define = STAT_A_WARTUNG;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8012;
         _iArray[g][c++].define = STAT_A_STRAFEN;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10010;
+        _iArray[g][c++].define = STAT_A_FLUGZEUGE;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10011;
+        _iArray[g][c++].define = STAT_A_ZINS;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10012;
+        _iArray[g][c++].define = STAT_A_KREDIT;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10013;
+        _iArray[g][c++].define = STAT_A_ESSEN;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10014;
+        _iArray[g][c++].define = STAT_A_EXPANSION;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10015;
+        _iArray[g][c++].define = STAT_A_SABOTAGE;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10016;
+        _iArray[g][c++].define = STAT_A_AKTIEN;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10017;
+        _iArray[g][c++].define = STAT_A_AGENTUREN;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8006;
         _iArray[g][c++].define = STAT_A_SONSTIGES;
+
         _iArray[g][c].typOfItem = TYP_SUM_CURR;
         _iArray[g][c].textId = 8014;
         _iArray[g][c++].define = 0;
         c++;
+
         _iArray[g][c].typOfItem = TYP_SUM_DIFF;
         _iArray[g][c].textId = 8015;
         _iArray[g][c++].define = 0;
@@ -111,41 +176,52 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         _iArray[g][c].typOfItem = TYP_GROUP;
         _iArray[g][c].textId = 8100;
         c++;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8101;
         _iArray[g][c++].define = STAT_AKTIEN_ANZAHL;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8102;
         _iArray[g][c++].define = STAT_AKTIENKURS;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8103;
         _iArray[g][c++].define = STAT_AKTIEN_SA;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8104;
         _iArray[g][c++].define = STAT_AKTIEN_FL;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8105;
         _iArray[g][c++].define = STAT_AKTIEN_PT;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8106;
         _iArray[g][c++].define = STAT_AKTIEN_HA;
+
         _iArray[g][c].typOfItem = TYP_SHAREVALUE;
         _iArray[g][c].textId = 8107;
         _iArray[g][c++].define = 0;
-
         c++;
+
         _iArray[g][c].typOfItem = TYP_GROUP;
         _iArray[g][c].textId = 8110;
         c++;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8114;
         _iArray[g][c++].define = STAT_KONTO;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8116;
         _iArray[g][c++].define = STAT_KREDIT;
+
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8115;
         _iArray[g][c++].define = STAT_FIRMENWERT;
+
         _iArray[g][c].typOfItem = TYP_SINGLE_PERCENT;
         _iArray[g][c].textId = 8113;
         _iArray[g][c++].define = STAT_BEKANNTHEIT;
@@ -156,47 +232,60 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         _iArray[g][c].typOfItem = TYP_GROUP;
         _iArray[g][c].textId = 8200;
         c++;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8201;
         _iArray[g][c++].define = STAT_FLUGZEUGE;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8202;
         _iArray[g][c++].define = STAT_ROUTEN;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8221;
         _iArray[g][c++].define = STAT_NIEDERLASSUNGEN;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8203;
         _iArray[g][c++].define = STAT_FLUEGE;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8204;
         _iArray[g][c++].define = STAT_AUFTRAEGE;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8205;
         _iArray[g][c++].define = STAT_LMAUFTRAEGE;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8206;
         _iArray[g][c++].define = STAT_VERSPAETUNG;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8207;
         _iArray[g][c++].define = STAT_UNFAELLE;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8208;
         _iArray[g][c++].define = STAT_SABOTIERT;
-
         c++;
+
         _iArray[g][c].typOfItem = TYP_GROUP;
         _iArray[g][c].textId = 8210;
         c++;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8211;
         _iArray[g][c++].define = STAT_PASSAGIERE;
+
         _iArray[g][c].typOfItem = TYP_PERCENT;
         _iArray[g][c].textId = 8212;
         _iArray[g][c++].define = STAT_ZUFR_PASSAGIERE;
+
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8111;
         _iArray[g][c++].define = STAT_MITARBEITER;
+
         _iArray[g][c].typOfItem = TYP_PERCENT;
         _iArray[g][c].textId = 8112;
         _iArray[g][c++].define = STAT_ZUFR_PERSONAL;
@@ -218,7 +307,7 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         StatFonts[c - 1].Load(lpDD, const_cast<char *>((LPCTSTR)FullFilename("stat_%li.mcf", MiscPath, c)));
     }
 
-    HighlightBar.ReSize(439, 21);
+    HighlightBar.ReSize(438, 10);
     HighlightBar.FillWith(0xffffff);
 
     TopSaver.ReSize(pRoomLib, "TOPSAVER");
@@ -538,6 +627,8 @@ void CStatistik::OnPaint() {
     RECT rc = {45, 56, 155, 66};
 
     _selectedItem = -1;
+    rc.top += LINE_DISTANCE / 2;
+    rc.bottom += LINE_DISTANCE / 2;
     for (short i = 0; i < MAX_ITEMS; i++) {
         if (_iArray[_group][i].typOfItem != TYP_LINEFEED) {
             word group = _iArray[_group][i].typOfItem;
@@ -554,7 +645,7 @@ void CStatistik::OnPaint() {
 
             if (_selectedItem == -1) {
                 if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) &&
-                    (CheckCursorHighlight(gMousePosition, CRect(rc.left + xOffset2[group], rc.top - 5, rc.right, rc.bottom + 4), ColorOfFontBlack) != 0)) {
+                    (CheckCursorHighlight(gMousePosition, CRect(rc.left + xOffset2[group], rc.top, rc.right, rc.bottom), ColorOfFontBlack) != 0)) {
                     _selectedItem = i;
                     if (_oldSelectedItem != _selectedItem) {
                         _oldSelectedItem = _selectedItem;
@@ -562,7 +653,7 @@ void CStatistik::OnPaint() {
                     }
 
                     if (DropDownPos.y == 0) {
-                        ColorFX.BlitTrans(HighlightBar.pBitmap, RoomBm.pBitmap, XY(190, rc.top - 3 - 4), nullptr, 6);
+                        ColorFX.BlitTrans(HighlightBar.pBitmap, RoomBm.pBitmap, XY(190, rc.top), nullptr, 6);
                     }
                 } else {
                     if (_oldSelectedItem != _selectedItem) {
@@ -572,9 +663,16 @@ void CStatistik::OnPaint() {
                 }
             }
         }
-
         rc.top += LINE_DISTANCE;
         rc.bottom = rc.top + 10;
+        if (_iArray[_group][i].typOfItem == TYP_LINEFEED) {
+            rc.top += LINE_DISTANCE;
+            rc.bottom = rc.top + 10;
+            if (i % 2 != 0) {
+                rc.top += LINE_DISTANCE;
+                rc.bottom = rc.top + 10;
+            }
+        }
     }
 
     // Die Werte sollten gelegentlich neu gezeichnet werden
@@ -875,6 +973,8 @@ void CStatistik::RepaintTextWindow() {
             rc.right = rc.left + 109;
             rc.bottom = rc.top + 10;
 
+            rc.top += LINE_DISTANCE / 2;
+            rc.bottom += LINE_DISTANCE / 2;
             for (short i = 0; i < MAX_ITEMS; i++) {
                 if (_iArray[_group][i].typOfItem > TYP_GROUP) {
                     __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(0);
@@ -964,6 +1064,14 @@ void CStatistik::RepaintTextWindow() {
 
                 rc.top += LINE_DISTANCE;
                 rc.bottom = rc.top + 10;
+                if (_iArray[_group][i].typOfItem == TYP_LINEFEED) {
+                    rc.top += LINE_DISTANCE;
+                    rc.bottom = rc.top + 10;
+                    if (i % 2 != 0) {
+                        rc.top += LINE_DISTANCE;
+                        rc.bottom = rc.top + 10;
+                    }
+                }
             }
         }
     }

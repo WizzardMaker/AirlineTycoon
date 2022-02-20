@@ -3,6 +3,8 @@
 extern void memswap(void *, void *, ULONG);
 extern char *bprintf(char const *, ...);
 extern char *bitoa(int);
+extern char *bitoa(long);
+extern char *bitoa(long long);
 extern void here(char *, SLONG);
 
 extern const char *ExcAssert;
@@ -695,6 +697,8 @@ class TEXTRES {
     char *GetS(ULONG, ULONG);
     // char* GetS(ULONG, char const*);
     char *GetS(char const *c, ULONG i) { return GetS(*(const ULONG *)c, i); }
+    void AddText(const char *groupId, ULONG id, const char *text);
+    void UpdateText(const char *groupId, ULONG id, const char *newText);
 
   private:
     BUFFER_V<char> Path;

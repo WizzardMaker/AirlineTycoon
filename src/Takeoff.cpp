@@ -95,8 +95,8 @@ unsigned char *ReadableAnsiToUChar(const char *pData, unsigned uLen);
 
 #ifdef WIN32
 int __cdecl CrtDbgHook(int nReportType, char *szMsg, int *pnRet) {
-    return TRUE;  // Return true - Abort,Retry,Ignore dialog will *not* be displayed
-    //return FALSE; // Return false - Abort,Retry,Ignore dialog *will be displayed*
+    return TRUE; // Return true - Abort,Retry,Ignore dialog will *not* be displayed
+    // return FALSE; // Return false - Abort,Retry,Ignore dialog *will be displayed*
 }
 #endif
 
@@ -455,6 +455,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
         else
             LOADING_TEXT("Loading miscellanous texts...");
         StandardTexte.Open(FullFilename("std_ger.res", MiscPath), TEXTRES_CACHED);
+        LadeWeitereStandardTexte();
 
         if (gLanguage == LANGUAGE_N)
             LOADING_TEXT("Eenheidteksten worden opgestart...")
@@ -2142,4 +2143,31 @@ unsigned char *ReadableAnsiToUChar(const char *pData, const unsigned uLen) {
     }
 
     return pReturn;
+}
+
+void CTakeOffApp::LadeWeitereStandardTexte() {
+    const char TOKEN_STAT[] = "STAT";
+    const char TOKEN_MONEY[] = "Mony";
+
+    StandardTexte.AddText(TOKEN_STAT, 10000, "Bodyguard-Rabatt");
+    StandardTexte.AddText(TOKEN_STAT, 10001, "Zinsen");
+    StandardTexte.AddText(TOKEN_STAT, 10002, "Kredite");
+    StandardTexte.AddText(TOKEN_STAT, 10003, "Flugzeugverk\xE4ufe");
+    StandardTexte.AddText(TOKEN_STAT, 10004, "Aktiengesch\xE4\x66te");
+    StandardTexte.AddText(TOKEN_STAT, 10010, "Flugzeugk\xE4ufe");
+    StandardTexte.AddText(TOKEN_STAT, 10011, "Zinsen");
+    StandardTexte.AddText(TOKEN_STAT, 10012, "Kredite");
+    StandardTexte.AddText(TOKEN_STAT, 10013, "Essen f\xFCr Passagiere");
+    StandardTexte.AddText(TOKEN_STAT, 10014, "Expansion");
+    StandardTexte.AddText(TOKEN_STAT, 10015, "Sabotageauftr\xE4ge");
+    StandardTexte.AddText(TOKEN_STAT, 10016, "Aktiengesch\xE4\x66te");
+    StandardTexte.AddText(TOKEN_STAT, 10017, "Agenturhonorare");
+
+    StandardTexte.UpdateText(TOKEN_MONEY, 2021, "Kauf von Kerosin f\xFCr Flug %s");
+    StandardTexte.AddText(TOKEN_MONEY, 2022, "Essen f\xFCr Passagiere f\xFCr Flug %s");
+
+    StandardTexte.UpdateText(TOKEN_MONEY, 2100, "(Saldo f\xFCr Routenflug %s)");
+    StandardTexte.UpdateText(TOKEN_MONEY, 2101, "(Saldo f\xFCr Auftragsflug %s)");
+    StandardTexte.UpdateText(TOKEN_MONEY, 2102, "(Saldo f\xFCr Leerflug %s)");
+    StandardTexte.UpdateText(TOKEN_MONEY, 2103, "(Saldo f\xFCr Frachtflug %s)");
 }

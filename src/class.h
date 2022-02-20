@@ -1733,28 +1733,28 @@ class CTalkers {
 class CBilanz {
     // Die Habensseite:
   public:
-    SLONG HabenZinsen{};
-    SLONG HabenRendite{};
-    SLONG Tickets{};
-    SLONG Auftraege{};
+    __int64 HabenZinsen{};
+    __int64 HabenRendite{};
+    __int64 Tickets{};
+    __int64 Auftraege{};
 
     // Die Sollseite:
   public:
-    SLONG SollZinsen{};
-    SLONG SollRendite{};
-    SLONG Kerosin{};
-    SLONG Personal{};
-    SLONG Vertragsstrafen{};
-    SLONG Wartung{};
-    SLONG Gatemiete{};
-    SLONG Citymiete{};
-    SLONG Routenmiete{};
+    __int64 SollZinsen{};
+    __int64 SollRendite{};
+    __int64 Kerosin{};
+    __int64 Personal{};
+    __int64 Vertragsstrafen{};
+    __int64 Wartung{};
+    __int64 Gatemiete{};
+    __int64 Citymiete{};
+    __int64 Routenmiete{};
 
   public:
     void Clear(void);
-    SLONG GetHaben(void) const;
-    SLONG GetSoll(void) const;
-    SLONG GetSumme(void) const;
+    __int64 GetHaben(void) const;
+    __int64 GetSoll(void) const;
+    __int64 GetSumme(void) const;
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CBilanz &Bilanz);
     friend TEAKFILE &operator>>(TEAKFILE &File, CBilanz &Bilanz);
