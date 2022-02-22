@@ -165,7 +165,7 @@ void CRLEReader::SaveAsPlainText() {
 bool CRLEReader::Buffer(void *buffer, SLONG size) { return SDL_RWread(Ctx, buffer, size, 1) > 0; }
 
 bool CRLEReader::NextSeq() {
-    char buf;
+    char buf = 0;
     if (!Buffer(&buf, 1)) {
         return false;
     }

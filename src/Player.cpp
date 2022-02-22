@@ -5074,7 +5074,7 @@ void PLAYER::RobotExecuteAction() {
         ChangeMoney(-SLONG((AnzAktien - OwnsAktien[PlayerNum]) * kursDiff), 3161, "");
         for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
             if (c != PlayerNum) {
-                SLONG entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * kursDiff);
+                auto entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * kursDiff);
                 Sim.Players.Players[c].ChangeMoney(entschaedigung, 3161, "");
             }
         }

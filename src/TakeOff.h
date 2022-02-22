@@ -42,7 +42,7 @@ class CTakeOffApp {
     // HICON  m_hSmallIcon;
     // HICON  m_hBigIcon;
   private:
-    void LadeWeitereStandardTexte();
+    static void LadeWeitereStandardTexte();
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -432,14 +432,16 @@ void CWorkers::NewDay() {
 
     // Entferne Bewerber aus dem Pool, die zu lange nicht eingestellt wurden
     for (c = 0; c < Workers.AnzEntries(); c++) {
-        if (Workers[c].Typ != WORKER_PILOT && Workers[c].Typ != WORKER_STEWARDESS)
+        if (Workers[c].Typ != WORKER_PILOT && Workers[c].Typ != WORKER_STEWARDESS) {
             continue;
+        }
         if (Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) {
             if (Workers[c].TimeInPool >= 30) {
                 Workers[c].Employer = WORKER_EXPIRED;
                 printf("Removing %s from pool\n", (const char *)Workers[c].Name);
-            } else
+            } else {
                 Workers[c].TimeInPool++;
+            }
         }
     }
 
@@ -504,10 +506,11 @@ void CWorkers::NewDay() {
     while (AnzahlBerater > 0 || AnzahlPiloten > 0 || AnzahlStewardessen > 0) {
         m = LocalRand.Rand(Workers.AnzEntries());
 
-        SLONG d;
+        SLONG d = 0;
         for (d = 0; d < 100; d++) {
-            if (Workers[(m + d) % Workers.AnzEntries()].Employer != WORKER_RESERVE)
+            if (Workers[(m + d) % Workers.AnzEntries()].Employer != WORKER_RESERVE) {
                 continue;
+            }
 
             m = (m + d) % Workers.AnzEntries();
             if (Workers[m].Typ == WORKER_PILOT && AnzahlPiloten > 0) {
@@ -515,7 +518,8 @@ void CWorkers::NewDay() {
                 Workers[m].Employer = WORKER_JOBLESS;
                 Workers[m].Gehalt = Workers[m].OriginalGehalt;
                 break;
-            } else if (Workers[m].Typ == WORKER_STEWARDESS && AnzahlStewardessen > 0) {
+            }
+            if (Workers[m].Typ == WORKER_STEWARDESS && AnzahlStewardessen > 0) {
                 AnzahlStewardessen--;
                 Workers[m].Employer = WORKER_JOBLESS;
                 Workers[m].Gehalt = Workers[m].OriginalGehalt;
@@ -528,8 +532,9 @@ void CWorkers::NewDay() {
             }
         }
 
-        if (d >= 100)
+        if (d >= 100) {
             break;
+        }
     }
 }
 
@@ -595,12 +600,15 @@ void CWorkers::CheckShortage() {
     SLONG nExpired = 0;
     SLONG anz = 0;
     for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
-        if (Workers[c].Typ != WORKER_PILOT)
+        if (Workers[c].Typ != WORKER_PILOT) {
             continue;
-        if (Workers[c].Employer == WORKER_EXPIRED)
+        }
+        if (Workers[c].Employer == WORKER_EXPIRED) {
             nExpired++;
-        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Talent > 60)
+        }
+        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Talent > 60) {
             anz++;
+        }
     }
 
     if (anz < zielAnzahlKompetent || nExpired > 0) {
@@ -608,14 +616,16 @@ void CWorkers::CheckShortage() {
         SLONG delta = std::min(10, (zielAnzahlKompetent - anz));
         // Berechne, um wie viel wir die Liste vergr<F6><DF>ern m<FC>ssen. Ber<FC>cksichtige, dass wir Karteileichen ersetzen k<F6>nnen
         delta = std::max(0, delta - nExpired);
-        if (delta > 0)
+        if (delta > 0) {
             Workers.ReSize(Workers.AnzEntries() + delta);
+        }
 
         for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
-            BOOL isNew = (c >= Workers.AnzEntries() - delta);
-            BOOL canReplace = (Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == WORKER_PILOT);
-            if (!isNew && !canReplace)
+            BOOL isNew = static_cast<BOOL>(c >= Workers.AnzEntries() - delta);
+            BOOL canReplace = static_cast<BOOL>(Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == WORKER_PILOT);
+            if ((isNew == 0) && (canReplace == 0)) {
                 continue;
+            }
 
             Workers[c].Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
             Workers[c].Name = GetRandomName(Workers[c].Geschlecht);
@@ -631,10 +641,11 @@ void CWorkers::CheckShortage() {
 
             Workers[c].OriginalGehalt = Workers[c].Gehalt;
 
-            if (canReplace)
+            if (canReplace != 0) {
                 printf("Replacing expired worker: %s\n", (const char *)Workers[c].Name);
-            else
+            } else {
                 printf("Adding new worker: %s\n", (const char *)Workers[c].Name);
+            }
         }
     }
 
@@ -643,12 +654,15 @@ void CWorkers::CheckShortage() {
     nExpired = 0;
     anz = 0;
     for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
-        if (Workers[c].Typ != WORKER_STEWARDESS)
+        if (Workers[c].Typ != WORKER_STEWARDESS) {
             continue;
-        if (Workers[c].Employer == WORKER_EXPIRED)
+        }
+        if (Workers[c].Employer == WORKER_EXPIRED) {
             nExpired++;
-        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Talent > 60)
+        }
+        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Talent > 60) {
             anz++;
+        }
     }
 
     if (anz < zielAnzahlKompetent || nExpired > 0) {
@@ -656,14 +670,16 @@ void CWorkers::CheckShortage() {
         SLONG delta = std::min(10, (zielAnzahlKompetent - anz));
         // Berechne, um wie viel wir die Liste vergr<F6><DF>ern m<FC>ssen. Ber<FC>cksichtige, dass wir Karteileichen ersetzen k<F6>nnen
         delta = std::max(0, delta - nExpired);
-        if (delta > 0)
+        if (delta > 0) {
             Workers.ReSize(Workers.AnzEntries() + delta);
+        }
 
         for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
-            BOOL isNew = (c >= Workers.AnzEntries() - delta);
-            BOOL canReplace = (Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == WORKER_STEWARDESS);
-            if (!isNew && !canReplace)
+            BOOL isNew = static_cast<BOOL>(c >= Workers.AnzEntries() - delta);
+            BOOL canReplace = static_cast<BOOL>(Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == WORKER_STEWARDESS);
+            if ((isNew == 0) && (canReplace == 0)) {
                 continue;
+            }
 
             Workers[c].Geschlecht = static_cast<BOOL>((rand() % 100) > 80);
             Workers[c].Name = GetRandomName(Workers[c].Geschlecht);
@@ -679,10 +695,11 @@ void CWorkers::CheckShortage() {
 
             Workers[c].OriginalGehalt = Workers[c].Gehalt;
 
-            if (canReplace)
+            if (canReplace != 0) {
                 printf("Replacing expired worker: %s\n", (const char *)Workers[c].Name);
-            else
+            } else {
                 printf("Adding new worker: %s\n", (const char *)Workers[c].Name);
+            }
         }
     }
 }
