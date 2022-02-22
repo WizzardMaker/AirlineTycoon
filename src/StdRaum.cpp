@@ -8184,7 +8184,7 @@ void CStdRaum::CalcKey(SLONG Key) {
         if (CalculatorValue < 10000000) {
             CalculatorValue = CalculatorValue * 10 + Key - '0';
         }
-    } else if (Key == VK_RETURN) {
+    } else if (Key == VK_RETURN || Key == VK_RETURN2) {
         CalculatorFX.Play(0, Sim.Options.OptionEffekte * 100 / 7);
 
         CalculatorKeyTimer = timeGetTime();
@@ -8269,7 +8269,7 @@ void CStdRaum::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/) {
 // Hotkeys:
 //--------------------------------------------------------------------------------------------
 void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
-    if ((CalculatorIsOpen != 0) && nChar == VK_DELETE) {
+    if ((CalculatorIsOpen != 0) && (nChar == VK_DELETE || nChar == VK_RETURN || nChar == VK_RETURN2 || nChar == VK_BACK || nChar == VK_ESCAPE)) {
         CalcKey(nChar);
     } else if (nChar == VK_F2 && !static_cast<bool>(Editor)) {
         if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && (MouseWait == 0) && (Sim.Time > 9 * 60000)) {
@@ -8286,7 +8286,7 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
             MenuRepaint();
         }
 
-        if (nChar == VK_RETURN) {
+        if (nChar == VK_RETURN || nChar == VK_RETURN2) {
             if (CurrentMenu == MENU_ENTERTCPIP) {
                 gHostIP = Optionen[0];
                 MenuStop();

@@ -955,6 +955,7 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define VK_ALT KMOD_ALT
 #define VK_MENU KMOD_GUI
 #define VK_RETURN SDLK_RETURN
+#define VK_RETURN2 SDLK_KP_ENTER
 #define VK_ESCAPE SDLK_ESCAPE
 #define VK_BACK SDLK_BACKSPACE
 #define VK_TAB SDLK_TAB
