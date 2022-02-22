@@ -4808,9 +4808,7 @@ void PLAYER::RobotExecuteAction() {
             SLONG Sells = OwnsAktien[PlayerNum] - AnzAktien * BTARGET_MEINANTEIL / 100;
 
             if (Sells > 0) {
-                OwnsAktien[PlayerNum] -= Sells;
-                auto preis = min(SLONG(Kurse[0] * Sells), 20000);
-                ChangeMoney(preis, 3151, "");
+                TradeStock(PlayerNum, -Sells);
             }
         }
         if ((Credit > 1000000 && PlayerNum == 2 && RobotUse(ROBOT_USE_SELLSHARES)) || Credit > 3000000) {
@@ -4821,8 +4819,7 @@ void PLAYER::RobotExecuteAction() {
                             SLONG Sells = min(OwnsAktien[c], 20000);
 
                             if (c != PlayerNum || Sim.Date > 20 || OwnsAktien[c] - Sells > AnzAktien / 2) {
-                                OwnsAktien[c] -= Sells;
-                                ChangeMoney(Kurse[0] * Sells, 3151, "");
+                                TradeStock(c, -Sells);
                             }
                         }
                     }
@@ -4847,16 +4844,7 @@ void PLAYER::RobotExecuteAction() {
                 }
 
                 if (Anz != 0) {
-                    OwnsAktien[dislike] += Anz;
-                    auto preis = -SLONG(Anz * Sim.Players.Players[dislike].Kurse[0]);
-                    ChangeMoney(preis, 3150, "");
-                    Sim.Players.Players[dislike].Kurse[0] = Sim.Players.Players[dislike].Kurse[0] *
-                                                            static_cast<__int64>(Sim.Players.Players[dislike].AnzAktien) /
-                                                            (Sim.Players.Players[dislike].AnzAktien - Anz / 2);
-
-                    if (Sim.Players.Players[dislike].Kurse[0] < 0) {
-                        Sim.Players.Players[dislike].Kurse[0] = 0;
-                    }
+                    TradeStock(dislike, Anz);
 
                     if (dislike == Sim.localPlayer && (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) != 0)) {
                         Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(
@@ -4881,14 +4869,7 @@ void PLAYER::RobotExecuteAction() {
                 }
 
                 if (Anz != 0) {
-                    OwnsAktien[PlayerNum] += Anz;
-                    auto preis = -SLONG(Anz * Kurse[0]);
-                    ChangeMoney(preis, 3150, "");
-                    Kurse[0] = Kurse[0] * static_cast<__int64>(AnzAktien) / (AnzAktien - Anz / 2);
-
-                    if (Kurse[0] < 0) {
-                        Kurse[0] = 0;
-                    }
+                    TradeStock(PlayerNum, Anz);
                 }
             }
         }
@@ -5089,18 +5070,14 @@ void PLAYER::RobotExecuteAction() {
 
         if (PlayerNum != 3 || RobotUse(ROBOT_USE_REBUYSHARES)) {
             // Direkt wieder die Hälfte aufkaufen:
-            OwnsAktien[PlayerNum] += NeueAktien / 2;
-            auto preis = -SLONG(NeueAktien / 2 * Kurse[0]);
-            ChangeMoney(preis, 3150, "");
+            TradeStock(PlayerNum, NeueAktien / 2);
         }
 
         if (RobotUse(ROBOT_USE_MAX20PERCENT) && OwnsAktien[PlayerNum] * 100 / AnzAktien > BTARGET_MEINANTEIL && Kurse[0] >= BTARGET_KURS) {
             SLONG Sells = OwnsAktien[PlayerNum] - AnzAktien * BTARGET_MEINANTEIL / 100;
 
             if (Sells > 0) {
-                OwnsAktien[PlayerNum] -= Sells;
-                auto preis = SLONG(Kurse[0] * Sells);
-                ChangeMoney(preis, 3151, "");
+                TradeStock(PlayerNum, -Sells);
             }
         }
     }
@@ -6982,6 +6959,71 @@ void PLAYER::UpdateTicketpreise(SLONG RouteId, SLONG Ticketpreis, SLONG Ticketpr
 }
 
 //--------------------------------------------------------------------------------------------
+// Aktienhandel durchführen
+//--------------------------------------------------------------------------------------------
+int PLAYER::TradeStock(SLONG airlineNum, SLONG amount) {
+    if (amount == 0) {
+        return 0;
+    }
+
+    __int64 aktienWert = 0;
+    if (amount > 0) {
+        /* kaufen */
+
+        /* Handel durchführen */
+        aktienWert = __int64(Sim.Players.Players[airlineNum].Kurse[0] * amount);
+        auto gesamtPreis = aktienWert + aktienWert / 10 + 100;
+        if (Money - gesamtPreis < DEBT_LIMIT) {
+            TeakLibW_Exception(FNL, ExcNever);
+            return 0;
+        }
+        ChangeMoney(-gesamtPreis, 3150, "");
+        OwnsAktien[airlineNum] += amount;
+
+        /* aktualisiere Aktienwert */
+        AktienWert[airlineNum] += aktienWert;
+
+        /* aktualisiere Aktienkurs */
+        auto anzAktien = static_cast<double>(Sim.Players.Players[airlineNum].AnzAktien);
+        Sim.Players.Players[airlineNum].Kurse[0] *= anzAktien / (anzAktien - amount / 2);
+        if (Sim.Players.Players[airlineNum].Kurse[0] < 0) {
+            Sim.Players.Players[airlineNum].Kurse[0] = 0;
+        }
+    } else {
+        /* verkaufen */
+
+        auto _amount = std::abs(amount);
+        if (_amount > OwnsAktien[airlineNum]) {
+            TeakLibW_Exception(FNL, ExcNever);
+            return 0;
+        }
+
+        /* aktualisiere Aktienwert */
+        {
+            auto num = static_cast<double>(OwnsAktien[airlineNum]);
+            AktienWert[airlineNum] *= (num - _amount) / num;
+        }
+
+        /* Handel durchführen */
+        aktienWert = __int64(Sim.Players.Players[airlineNum].Kurse[0] * _amount);
+        auto gesamtPreis = aktienWert - aktienWert / 10 - 100;
+        ChangeMoney(gesamtPreis, 3151, "");
+        OwnsAktien[airlineNum] -= _amount;
+
+        /* aktualisiere Aktienkurs */
+        {
+            auto anzAktien = static_cast<double>(Sim.Players.Players[airlineNum].AnzAktien);
+            Sim.Players.Players[airlineNum].Kurse[0] *= (anzAktien - _amount / 2) / anzAktien;
+            if (Sim.Players.Players[airlineNum].Kurse[0] < 0) {
+                Sim.Players.Players[airlineNum].Kurse[0] = 0;
+            }
+        }
+    }
+
+    return aktienWert;
+}
+
+//--------------------------------------------------------------------------------------------
 // Sendet die aktuelle Position an alle Anderen im Netzwerk:
 //--------------------------------------------------------------------------------------------
 void PLAYER::BroadcastPosition(bool bForce) {
@@ -7244,9 +7286,6 @@ void PLAYERS::RobotInit() {
     }
 }
 
-//--------------------------------------------------------------------------------------------
-// Der Berater gibt Nachrichten für zwischendurch aus:
-//--------------------------------------------------------------------------------------------
 void PLAYERS::RandomBeraterMessage() {
     SLONG c = 0;
 

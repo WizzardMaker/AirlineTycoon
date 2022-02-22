@@ -5388,11 +5388,18 @@ void CStdRaum::MenuRepaint() {
                                    240, 86, 325, 139);
 
             // Neuer Kontostand:
+            auto aktienWert = __int64(Sim.Players.Players[MenuPar1].Kurse[0] * MenuInfo);
+            __int64 gesamtPreis = 0;
+            if (MenuPar2 == 0) {
+                gesamtPreis = aktienWert + aktienWert / 10 + 100;
+            } else {
+                gesamtPreis = aktienWert - aktienWert / 10 - 100;
+                gesamtPreis = -gesamtPreis;
+            }
+
             OnscreenBitmap.PrintAt(StandardTexte.GetS(TOKEN_AKTIE, 3030), qFontBankBlack, TEC_FONT_LEFT, 30, 111, 325, 139);
-            OnscreenBitmap.PrintAt(
-                Einheiten[EINH_DM].bString64(__int64(Sim.Players.Players[PlayerNum].Money -
-                                                     (neu - Sim.Players.Players[PlayerNum].OwnsAktien[MenuPar1]) * Sim.Players.Players[MenuPar1].Kurse[0])),
-                qFontBankBlack, TEC_FONT_LEFT, 220, 111, 325, 139);
+            OnscreenBitmap.PrintAt(Einheiten[EINH_DM].bString64(__int64(Sim.Players.Players[PlayerNum].Money - gesamtPreis)), qFontBankBlack, TEC_FONT_LEFT,
+                                   220, 111, 325, 139);
         }
         break;
 
@@ -7669,25 +7676,10 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                         SIM::SendSimpleMessage(ATNET_ADVISOR, Sim.Players.Players[MenuPar1].NetworkID, 4, PlayerNum, MenuInfo);
                     }
 
-                    Preis = 0;
-                    while (MenuInfo > 0) {
-                        qPlayer.OwnsAktien[MenuPar1] += min(1000, MenuInfo);
-                        Preis += __int64(__int64(min(1000, MenuInfo)) * Sim.Players.Players[MenuPar1].Kurse[0]);
-                        Sim.Players.Players[MenuPar1].Kurse[0] = Sim.Players.Players[MenuPar1].Kurse[0] * Sim.Players.Players[MenuPar1].AnzAktien /
-                                                                 (Sim.Players.Players[MenuPar1].AnzAktien - min(1000, MenuInfo));
-
-                        if (Sim.Players.Players[MenuPar1].Kurse[0] < 0) {
-                            Sim.Players.Players[MenuPar1].Kurse[0] = 0;
-                        }
-
-                        MenuInfo -= min(1000, MenuInfo);
-                    }
-                    if (Preis != 0) {
-                        Preis = Preis + Preis / 10 + 100;
-                        qPlayer.ChangeMoney(-Preis, 3150, "");
-                        qPlayer.AktienWert[MenuPar1] += SLONG(Preis);
+                    auto preis = qPlayer.TradeStock(MenuPar1, MenuInfo);
+                    if (preis != 0) {
                         if (PlayerNum == Sim.localPlayer) {
-                            SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SLONG(Preis), STAT_A_SONSTIGES);
+                            SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SLONG(preis), STAT_A_SONSTIGES);
                         }
                     }
 
@@ -7695,28 +7687,11 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 }
             } else if (MenuPar2 == 1) // verkaufen
             {
-                __int64 Preis = 0;
                 MenuStop();
-                if (MenuInfo > 0) {
-                    qPlayer.AktienWert[MenuPar1] =
-                        SLONG(qPlayer.AktienWert[MenuPar1] * (static_cast<__int64>(qPlayer.OwnsAktien[MenuPar1]) - MenuInfo) / qPlayer.OwnsAktien[MenuPar1]);
-                }
-                while (MenuInfo > 0) {
-                    qPlayer.OwnsAktien[MenuPar1] -= min(1000, MenuInfo);
-                    Preis += __int64(__int64(min(1000, MenuInfo)) * Sim.Players.Players[MenuPar1].Kurse[0]);
-                    Sim.Players.Players[MenuPar1].Kurse[0] = Sim.Players.Players[MenuPar1].Kurse[0] *
-                                                             (Sim.Players.Players[MenuPar1].AnzAktien - min(1000, MenuInfo)) /
-                                                             Sim.Players.Players[MenuPar1].AnzAktien;
-                    if (Sim.Players.Players[MenuPar1].Kurse[0] < 0) {
-                        Sim.Players.Players[MenuPar1].Kurse[0] = 0;
-                    }
-                    MenuInfo -= min(1000, MenuInfo);
-                }
-                if (Preis != 0) {
-                    Preis = Preis - Preis / 10 + 100;
-                    qPlayer.ChangeMoney(Preis, 3151, "");
+                auto preis = qPlayer.TradeStock(MenuPar1, -MenuInfo);
+                if (preis != 0) {
                     if (PlayerNum == Sim.localPlayer) {
-                        SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, SLONG(Preis), STAT_E_SONSTIGES);
+                        SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, SLONG(preis), STAT_E_SONSTIGES);
                     }
                 }
 

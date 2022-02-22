@@ -2073,6 +2073,7 @@ class PLAYER {
     void UpdatePersonalberater(SLONG Toleranz);
     void UpdateStatistics(void);
     void UpdateTicketpreise(SLONG RouteId, SLONG Ticketpreis, SLONG TicketpreisFC);
+    int TradeStock(SLONG airlineNum, SLONG amount);
     BOOL WalkToRoom(UBYTE RoomId);
     void WalkToMouseClick(XY AirportClickPos);
     void WalkToPlate(XY Plate);
