@@ -1164,14 +1164,6 @@ class /**/ BLOCK {
 
   public:
     BLOCK() = default;
-    ~BLOCK() {
-        // if (pGLibPicture && pGfxMain)
-        //{
-        //   Bitmap.Destroy();
-        //   pGfxMain->ReleaseLib (pGLibPicture);
-        //   pGLibPicture = NULL;
-        //}
-    }
 
     void LoadLib(const CString &LibName);
     void BlitAt(SBBM &RoomBm);

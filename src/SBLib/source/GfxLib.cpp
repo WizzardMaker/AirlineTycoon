@@ -67,6 +67,7 @@ GfxMain::~GfxMain() {
 SLONG GfxMain::LoadLib(char *path, class GfxLib **out, SLONG /*unused*/) {
     Libs.emplace_back(this, nullptr, path, 0, 0, nullptr);
     *out = &Libs.back();
+    printf("MP: GfxMain list size: %d\n", Libs.size());
     return 0;
 }
 
@@ -79,10 +80,11 @@ SLONG GfxMain::ReleaseLib(class GfxLib *lib) {
             break;
         }
     }
+    printf("MP: GfxMain list size: %d\n", Libs.size());
     return 0;
 }
 
-GfxLib::GfxLib(void * /*unused*/, SDL_Renderer * /*unused*/, char *path, SLONG /*unused*/, SLONG /*unused*/, SLONG * /*unused*/) {
+GfxLib::GfxLib(void * /*unused*/, SDL_Renderer * /*unused*/, char *path, SLONG /*unused*/, SLONG /*unused*/, SLONG * /*unused*/) : Path(path) {
     SDL_RWops *file = SDL_RWFromFile(path, "rb");
     if (file != nullptr) {
         GfxLibHeader *header = LoadHeader(file);

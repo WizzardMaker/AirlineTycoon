@@ -64,6 +64,7 @@ class GfxLib {
     void RelSurface(SLONG);
 
     std::map<__int64, SDL_Surface *> Surfaces;
+    CString Path;
 };
 
 #define L_LOCMEM 0
