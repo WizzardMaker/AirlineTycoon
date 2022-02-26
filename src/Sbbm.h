@@ -144,6 +144,36 @@ class SBBM {
         pBitmap = 0;
         Size.x = Size.y = 0;
     }
+    SBBM(const SBBM& o) {
+        pHLObj = o.pHLObj;
+        pBitmap = o.pBitmap;
+        Size = o.Size;
+        if (pBitmap) {
+            pBitmap->IncRef();
+        }
+    }
+    SBBM& operator=(const SBBM& o) {
+        Destroy();
+        pHLObj = o.pHLObj;
+        pBitmap = o.pBitmap;
+        Size = o.Size;
+        if (pBitmap) {
+            pBitmap->IncRef();
+        }
+        return *this;
+    }
+    SBBM(SBBM&& o) {
+        pHLObj = std::exchange(o.pHLObj, nullptr);
+        pBitmap = std::exchange(o.pBitmap, nullptr);
+        Size = std::move(o.Size);
+    }
+    SBBM& operator=(SBBM&& o) {
+        Destroy();
+        std::swap(pHLObj, o.pHLObj);
+        std::swap(pBitmap, o.pBitmap);
+        std::swap(Size, o.Size);
+        return *this;
+    }
 
     void ReSize(SLONG xs, SLONG ys) {
         ReSize(XY(xs, ys));
@@ -268,8 +298,6 @@ class SBBM {
       StyleStr, Flags, XY(x1,y1), XY(x2,y2), Zeilenabstand)); }*/
 
     friend class SBPRIMARYBM;
-    friend class SBBMKEY;
-    friend class SBBMKEYC;
 };
 
 // Diverse Bitmaps, einfach gesammelt
@@ -322,34 +350,6 @@ class SBPRIMARYBM {
     static BOOL BlitFromT(SBBM &TecBitmap, XY p1, XY p2);
     static BOOL BlitFromT(SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2);
     BOOL TextOut(SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CString &String);
-};
-
-// Automatisches Lock/Unlock für SBBM's
-class SBBMKEY {
-  protected:
-    // LPDIRECTDRAWSURFACE  lpDDSurface;
-
-  public:
-    UWORD *Bitmap;
-    SLONG lPitch;
-
-  public:
-    SBBMKEY(SBBM &Bitmap);
-    ~SBBMKEY();
-};
-
-// Version für Konstante:
-class SBBMKEYC {
-  protected:
-    // LPDIRECTDRAWSURFACE  lpDDSurface;
-
-  public:
-    const UWORD *Bitmap;
-    SLONG lPitch;
-
-  public:
-    SBBMKEYC(const SBBM &Bitmap);
-    ~SBBMKEYC();
 };
 
 #endif

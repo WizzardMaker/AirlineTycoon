@@ -8,13 +8,20 @@ SB_CBitmapMain::SB_CBitmapMain(SDL_Renderer *render) : Renderer(render) {}
 
 SB_CBitmapMain::~SB_CBitmapMain() {
     for (auto &Bitmap : Bitmaps) {
-        Bitmap.Release();
+        Bitmap.second.Release();
     }
 }
 
 ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore **out, GfxLib *lib, __int64 name, ULONG flags) {
-    Bitmaps.emplace_back();
-    SB_CBitmapCore *core = &Bitmaps.back();
+    auto id = UniqueId++;
+    auto res = Bitmaps.emplace(std::make_pair(id, id));
+    if (!res.second) {
+        assert(false);
+        return 1;
+    }
+    auto it = res.first;
+    SB_CBitmapCore *core = &(it->second);
+    core->IncRef();
     SDL_Surface *surface = lib->GetSurface(name);
     if (surface != nullptr) {
         core->lpDD = Renderer;
@@ -41,8 +48,15 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore **out, GfxLib *lib, __int64 na
 }
 
 ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore **out, SLONG w, SLONG h, ULONG /*unused*/, ULONG flags, ULONG /*unused*/) {
-    Bitmaps.emplace_back();
-    SB_CBitmapCore *core = &Bitmaps.back();
+    auto id = UniqueId++;
+    auto res = Bitmaps.emplace(std::make_pair(id, id));
+    if (!res.second) {
+        assert(false);
+        return 1;
+    }
+    auto it = res.first;
+    SB_CBitmapCore *core = &(it->second);
+    core->IncRef();
     core->lpDD = Renderer;
     if ((flags & CREATE_INDEXED) != 0U) {
         core->lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 8, SDL_PIXELFORMAT_INDEX8);
@@ -69,12 +83,15 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore **out, SLONG w, SLONG h, ULONG
 }
 
 ULONG SB_CBitmapMain::ReleaseBitmap(SB_CBitmapCore *core) {
-    core->Release();
-    for (auto it = Bitmaps.begin(); it != Bitmaps.end(); ++it) {
-        if (&*it == core) {
-            Bitmaps.erase(it);
-            break;
-        }
+    auto it = Bitmaps.find(core->getId());
+    if (it == Bitmaps.end()) {
+        assert(false);
+        return 1;
+    }
+    assert(core == &(it->second));
+    if (core->DecRef()) {
+        core->Release();
+        Bitmaps.erase(it);
     }
     return 0;
 }
@@ -373,8 +390,6 @@ ULONG SB_CBitmapCore::Release() {
     }
     return 0;
 }
-
-SB_CPrimaryBitmap::SB_CPrimaryBitmap() = default;
 
 bool SB_CPrimaryBitmap::FastClip(CRect clipRect, POINT *pPoint, RECT *pRect) {
     POINT offset;

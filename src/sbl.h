@@ -27,6 +27,7 @@ extern SLONG GetHighestSetBit(SLONG mask);
 class GfxLib {
   public:
     GfxLib(void *, SDL_Renderer *, char *, SLONG, SLONG, SLONG *);
+
     struct _GfxStruct *ReloadSurface(__int64);
     static SLONG Restore(void);
     void Release(void);
@@ -73,6 +74,9 @@ class GfxMain {
   public:
     GfxMain(SDL_Renderer *);
     ~GfxMain(void);
+    GfxMain(const GfxMain&) = delete;
+    GfxMain& operator=(const GfxMain&) = delete;
+
     SLONG Restore(void);
     SLONG LoadLib(char *, class GfxLib **, SLONG);
     SLONG ReleaseLib(class GfxLib *);
@@ -88,68 +92,6 @@ class GfxMain {
     std::list<GfxLib> Libs;
 };
 
-class SB_CString {
-  public:
-    SB_CString(void);
-    SB_CString(class SB_CString const &);
-    SB_CString(int, int);
-    SB_CString(char *);
-    ~SB_CString(void);
-    int operator==(class SB_CString const &);
-    operator char *() { return Buffer; }
-    class SB_CString const &operator=(class SB_CString const &);
-    class SB_CString const &operator=(char const *);
-    class SB_CString const &operator=(int b) {
-        Empty();
-        *this += b;
-        return *this;
-    }
-    class SB_CString const &operator=(char b) {
-        Empty();
-        *this += b;
-        return *this;
-    }
-    class SB_CString const &operator+=(char const *);
-    class SB_CString const &operator+=(char);
-    class SB_CString const &operator+=(class SB_CString const &);
-    class SB_CString const &operator+=(int);
-    class SB_CString &AttachChar(char);
-    class SB_CString &DetachChar(char);
-    class SB_CString &AddSlash(void);
-    class SB_CString &RemoveSlash(void);
-    void SplitPath(class SB_CString *, class SB_CString *, class SB_CString *, class SB_CString *);
-    class SB_CString &MakePath(char *, char *, char *, char *);
-    class SB_CString Mid(ULONG) const;
-    class SB_CString Mid(ULONG, ULONG) const;
-    class SB_CString Right(ULONG) const;
-    class SB_CString Left(ULONG) const;
-    ULONG ReverseFind(char) const;
-    ULONG Find(char const *) const;
-    bool LoadStringA(unsigned int, struct HINSTANCE__ *);
-    bool LoadStringA(ULONG, class SB_CDatabase *);
-    void MakeUpper(void);
-    void MakeLower(void);
-    void Show(void) const;
-    ULONG Length() { return Anz; }
-
-    static SB_CString &Format(char const *, ...);
-
-  protected:
-    void AllocCopy(class SB_CString &, unsigned int, unsigned int, unsigned int) const;
-    void AllocBuffer(unsigned int);
-    void ConcatCopy(unsigned int, char const *, unsigned int, char const *);
-    void ConcatInPlace(int, char const *);
-    void AssignCopy(unsigned int, char const *);
-    void Init(void);
-    void Empty(void);
-    void SafeDelete(char *);
-
-  private:
-    ULONG Anz;
-    ULONG Size;
-    char *Buffer;
-};
-
 struct SB_Hardwarecolor {
     word Color;
 
@@ -159,6 +101,9 @@ struct SB_Hardwarecolor {
 
 class SB_CBitmapCore {
   public:
+    SB_CBitmapCore() = default;
+    SB_CBitmapCore(SLONG id) : Id(id) { }
+
     ULONG AddAlphaMsk(void);
     ULONG AddZBuffer(ULONG, ULONG);
     SB_Hardwarecolor GetHardwarecolor(ULONG);
@@ -197,15 +142,23 @@ class SB_CBitmapCore {
     SDL_PixelFormat *GetPixelFormat(void) { return lpDDSurface->format; }
     SDL_Texture *GetTexture() { return lpTexture; }
 
-  protected:
+    void IncRef() { ++RefCounter; }
+    bool DecRef() { assert(RefCounter > 0); return (0 == --RefCounter); }
+    SLONG getId() const { return Id; }
+
     friend class SB_CBitmapMain;
     friend class SB_CBitmapKey;
 
+  protected:
     SDL_Renderer *lpDD{nullptr};
     SDL_Surface *lpDDSurface{nullptr};
     SDL_Surface *flippedBufferSurface{nullptr};
     SDL_Texture *lpTexture{nullptr};
     XY Size;
+
+  private:
+    SLONG Id{-1};
+    SLONG RefCounter{0};
 };
 
 // static_assert(sizeof(SB_CBitmapCore) == 0x5Cu, "SB_CBitmapCore size check");
@@ -214,6 +167,9 @@ class SB_CCursor {
   public:
     SB_CCursor(class SB_CPrimaryBitmap *, class SB_CBitmapCore * = NULL);
     ~SB_CCursor(void);
+    SB_CCursor(const SB_CCursor&) = delete;
+    SB_CCursor& operator=(const SB_CCursor&) = delete;
+
     SLONG Create(class SB_CBitmapCore *);
     SLONG SetImage(class SB_CBitmapCore *);
     SLONG MoveImage(SLONG, SLONG);
@@ -240,8 +196,7 @@ class SB_CCursor {
 
 class SB_CPrimaryBitmap : public SB_CBitmapCore {
   public:
-    SB_CPrimaryBitmap(void);
-    ~SB_CPrimaryBitmap(void) = default;
+    SB_CPrimaryBitmap() = default;
 
     SLONG Create(SDL_Renderer **, SDL_Window *, unsigned short, SLONG, SLONG, unsigned char, unsigned short);
     virtual ULONG Release(void);
@@ -267,6 +222,9 @@ class SB_CBitmapMain {
   public:
     SB_CBitmapMain(SDL_Renderer *);
     ~SB_CBitmapMain(void);
+    SB_CBitmapMain(const SB_CBitmapMain&) = delete;
+    SB_CBitmapMain& operator=(const SB_CBitmapMain&) = delete;
+
     ULONG Release(void);
     ULONG CreateBitmap(SB_CBitmapCore **, GfxLib *, __int64, ULONG);
     ULONG CreateBitmap(SB_CBitmapCore **, SLONG, SLONG, ULONG, ULONG = 16, ULONG = 0);
@@ -275,16 +233,30 @@ class SB_CBitmapMain {
 
   private:
     SDL_Renderer *Renderer;
-    std::list<SB_CBitmapCore> Bitmaps;
+    std::unordered_map<SLONG, SB_CBitmapCore> Bitmaps;
+    SLONG UniqueId{0};
     dword Unknown[3]{};
 };
 
-////static_assert(sizeof(SB_CBitmapMain) == 0x1Cu, "SB_CBitmapMain size check");
+// static_assert(sizeof(SB_CBitmapMain) == 0x1Cu, "SB_CBitmapMain size check");
 
 class SB_CBitmapKey {
   public:
     SB_CBitmapKey(class SB_CBitmapCore &);
     ~SB_CBitmapKey(void);
+    SB_CBitmapKey(const SB_CBitmapKey&) = delete;
+    SB_CBitmapKey& operator=(const SB_CBitmapKey&) = delete;
+    SB_CBitmapKey(SB_CBitmapKey&& o) {
+        Surface = std::exchange(o.Surface, nullptr);
+        Bitmap = std::exchange(o.Bitmap, nullptr);
+        lPitch = std::exchange(o.lPitch, 0);
+    }
+    SB_CBitmapKey& operator=(SB_CBitmapKey&& o) {
+        std::swap(Surface, o.Surface);
+        std::swap(Bitmap, o.Bitmap);
+        std::swap(lPitch, o.lPitch);
+        return *this;
+    }
 
     SDL_Surface *Surface;
     dword Unknown[27]{};
@@ -347,6 +319,9 @@ class SB_CFont {
 
     SB_CFont(void);
     ~SB_CFont(void);
+    SB_CFont(const SB_CFont&) = delete;
+    SB_CFont& operator=(const SB_CFont&) = delete;
+
     void DrawTextA(class SB_CBitmapCore *, SLONG, SLONG, const char *, SLONG = 0, bool = false);
     void DrawTextWithTabs(class SB_CBitmapCore *, SLONG, SLONG, const char *, SLONG = 0, bool = false);
     SLONG DrawTextBlock(class SB_CBitmapCore *, struct tagRECT *, const char *, SLONG = 0, SLONG = 0, bool = false);
@@ -392,31 +367,3 @@ class SB_CFont {
 
 // static_assert(sizeof(SB_CFont) == 0x70u, "SB_CFont size check");
 
-class SB_CXList {
-  public:
-    SB_CXList(void);
-    ~SB_CXList(void);
-    unsigned short AddRef(void);
-    unsigned short Release(void);
-    unsigned short AddElementAtTop(void *);
-    unsigned short AddElementAtBottom(void *);
-    unsigned short AddElement(void *, unsigned short);
-    bool DeleteElementAtTop(void);
-    bool DeleteElementAtBottom(void);
-    bool DeleteElement(unsigned short);
-    void DeleteAllElements(void);
-    bool DeleteElementAtValue(void *);
-    bool Swap(unsigned short, unsigned short);
-    bool SetElementOneBack(unsigned short);
-    bool SetElementBack(unsigned short);
-    bool SetElementOneAhead(unsigned short);
-    bool SetElementAhead(unsigned short);
-
-  private:
-    void Init(void);
-    void Delete(void);
-
-    dword Unknown[4];
-};
-
-// static_assert(sizeof(SB_CXList) == 0x10u, "SB_CXList size check");
