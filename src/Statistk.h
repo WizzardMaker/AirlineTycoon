@@ -81,7 +81,7 @@ class CStatistik : public CStdRaum {
     // Diese Werte am besten in der Registry
     // speichern.
     bool _fGraphVisible;                  // true -> Der Graph ist sichtbar, ansonsten die schnöden Zahlen
-    std::array<bool, 4> _playerMask{};                // Diese Spieler wurden zur Ansicht ausgewählt
+    std::array<bool, 4> _playerMask{};    // Diese Spieler wurden zur Ansicht ausgewählt
     BYTE _group;                          // Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
     long _days;                           // Anzahl der darzustellenden Tage
     long _newDays;                        // Für eine Animation

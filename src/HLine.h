@@ -14,8 +14,8 @@ class CHLPool;
 //--------------------------------------------------------------------------------------------
 class CHLGene {
   private:
-    UBYTE Offset{0};  // X-Offset für die Bitmap
-    UBYTE Anz{0};     // Anzahl der Pixel im String
+    UBYTE Offset{0};        // X-Offset für die Bitmap
+    UBYTE Anz{0};           // Anzahl der Pixel im String
     UBYTE *pPixel{nullptr}; // Pointer in den Pool oder wenn Anz<=2, direkt die Pixel
 
   public:
@@ -45,7 +45,7 @@ class CHLObj {
   private:
     __int64 graphicID{0}; // Identifiziert die Bitmap;
     XY Size;
-    CHLPool *pHLPool{nullptr};           // Zeiger auf Parent (H-Line Pool)
+    CHLPool *pHLPool{nullptr};    // Zeiger auf Parent (H-Line Pool)
     BUFFER_V<CHLGene> HLines;     // Elemente aus dem Pool
     BUFFER_V<UBYTE> HLineEntries; // Array, daß angibtm wieviele Einträge pro Zeile da sind
 
@@ -90,7 +90,7 @@ class CHLPool {
     CString Filename;
     UBYTE *pPool{};          // Eine Folge von 2-byte Pixeln (64k Farben)
     SLONG PoolSize{};        // Aktuelle Größe in Pixeln (1 Pixel = 2 Bytes)
-    SLONG PoolMaxSize{};   // Maximale Größe in Pixeln
+    SLONG PoolMaxSize{};     // Maximale Größe in Pixeln
     CHLPool *pHLBasepool1{}; // Eltern-Pool #1
     CHLPool *pHLBasepool2{}; // Eltern-Pool #2
 
@@ -103,14 +103,14 @@ class CHLPool {
 
     SLONG Loaded{}; // 0=Nein, 1=Preloaded, 2=Loaded
 
-  public:                      // Pool-Statistiken:
+  public:                        // Pool-Statistiken:
     SLONG BytesReal{};           // So groß waren die Bitmaps einmal
     SLONG BytesCompressed{};     // So groß sind sie jetzt
     SLONG BytesAdministration{}; // Und soviel ging für die Verwaltung bei drauf
     SLONG LinesInPool{};         // Soviele Lines sind im Pool
     SLONG LinesRepeated{};       // Soviele Lines wurde nicht in den Pool getan, sondern referenziert
 
-  private:                    // Child-Informationen
+  private:                      // Child-Informationen
     BUFFER_V<CHLObj> HLObjects; // Bitmaps, die Pool-Informationen verwenden
 
   public: // Konstruktion/Destruktion:

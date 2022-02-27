@@ -479,7 +479,8 @@ void CSmackerPerson::Pump() {
                     case SMACKER_CLIP_XOR:
                         Clips[ActiveClip].PostVar[0] ^= Clips[ActiveClip].PostValue;
                         break;
-                    default: break;
+                    default:
+                        break;
                     }
                 }
             }
@@ -565,7 +566,8 @@ void CSmackerPerson::NextClip() {
         case SMACKER_CLIP_XOR:
             Clips[ActiveClip].PostVar[0] ^= Clips[ActiveClip].PostValue;
             break;
-        default: break;
+        default:
+            break;
         }
     }
 
@@ -775,7 +777,8 @@ found_next_clip:
         case SMACKER_CLIP_XOR:
             Clips[ActiveClip].PostVar[0] ^= Clips[ActiveClip].PostValue;
             break;
-        default: break;
+        default:
+            break;
         }
     }
 

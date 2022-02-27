@@ -162,7 +162,8 @@ void AskBrick::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     case VK_NEXT:
         Group += 20;
         break;
-    default: break;
+    default:
+        break;
     }
 }
 

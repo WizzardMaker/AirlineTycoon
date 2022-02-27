@@ -37,10 +37,10 @@ void InitPathVars() {
     }
 #endif
 
-    ExcelPath = prefix+"data\\%s";
-    GliPath = prefix+"gli\\%s";
-    MiscPath = prefix+"misc\\%s";
-    VoicePath = prefix+"voice\\%s";
+    ExcelPath = prefix + "data\\%s";
+    GliPath = prefix + "gli\\%s";
+    MiscPath = prefix + "misc\\%s";
+    VoicePath = prefix + "voice\\%s";
     SoundPath = "sound\\%s";
     RoomPath = "room\\%s";
     PlanePath = "planes\\%s";

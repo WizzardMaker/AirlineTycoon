@@ -567,6 +567,4 @@ void BUILDS::Save(SLONG Hall, SLONG Level) const {
 //--------------------------------------------------------------------------------------------
 // Sortiert alle Elemente des Flughafens gemäß ihrer Z-Position:
 //--------------------------------------------------------------------------------------------
-void BUILDS::Sort() {
-    ALBUM_V<BUILD>::Sort();
-}
+void BUILDS::Sort() { ALBUM_V<BUILD>::Sort(); }

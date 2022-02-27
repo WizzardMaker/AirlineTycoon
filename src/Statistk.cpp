@@ -516,7 +516,8 @@ void CStatistik::OnPaint() {
         case DIFF_ADDON06:
             n = TARGET_DAYS - Sim.Date;
             break;
-        default: break;
+        default:
+            break;
         }
 
         output = bprintf(StandardTexte.GetS(TOKEN_STAT, 9010 + static_cast<int>(n == 1)), n);
@@ -1107,7 +1108,8 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point) {
                     }
                 }
                 break;
-            default: break;
+            default:
+                break;
             }
         }
 

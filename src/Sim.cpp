@@ -154,8 +154,7 @@ void SIM::AddSmacker(const CString &Filename, long BrickId, XY Offset) {
 // Einige Leute gehen am Flughafen einkaufen
 //--------------------------------------------------------------------------------------------
 void SIM::AddNewShoppers() {
-    if (((Time > 9 * 60000 && Time <= 12 * 60000) || (Time >= 14 * 60000 && Time <= 16 * 60000)) && CheckIn != -1 && Shops != -1 &&
-        Editor == EDITOR_NONE) {
+    if (((Time > 9 * 60000 && Time <= 12 * 60000) || (Time >= 14 * 60000 && Time <= 16 * 60000)) && CheckIn != -1 && Shops != -1 && Editor == EDITOR_NONE) {
 
         CheckGeneric++;
 
@@ -217,15 +216,14 @@ void SIM::AddNewPassengers() {
                                                 }
 
                                                 PersonQueue.AddPerson(Clans.GetCustomerId(0, PersonRandCreate.Rand(2)), p, REASON_FLYING,
-                                                                          UBYTE(c),                                    // Airline
-                                                                          Players.Players[c].Planes.GetIdFromIndex(d), // PlaneId
-                                                                          UBYTE(e),                                    // FlightIndex
-                                                                          UBYTE(MoodPersonTicket));                    // Mood(neu)
+                                                                      UBYTE(c),                                    // Airline
+                                                                      Players.Players[c].Planes.GetIdFromIndex(d), // PlaneId
+                                                                      UBYTE(e),                                    // FlightIndex
+                                                                      UBYTE(MoodPersonTicket));                    // Mood(neu)
 
                                                 Tutorial = 1602;
                                                 Players.Players[localPlayer].Messages.NextMessage();
-                                                Players.Players[localPlayer].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                                                         StandardTexte.GetS(TOKEN_TUTORIUM, 1602));
+                                                Players.Players[localPlayer].Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_TUTORIUM, 1602));
                                             } else {
                                                 PersonQueue.AddPerson(
                                                     Clans.GetCustomerId(0, PersonRandCreate.Rand(2)), Airport.GetRandomBirthplace(0, 0, &PersonRandCreate),
@@ -1434,8 +1432,7 @@ void SIM::DoTimeStep() {
                 }
 
                 // Notify wegen Streikanfang:
-                if ((qPlayer.StrikeHours != 0) && (qPlayer.StrikeNotified == 0) && GetHour() >= 9 && GetHour() < 18 &&
-                    (GetMinute() > 10 || GetHour() > 9)) {
+                if ((qPlayer.StrikeHours != 0) && (qPlayer.StrikeNotified == 0) && GetHour() >= 9 && GetHour() < 18 && (GetMinute() > 10 || GetHour() > 9)) {
                     if ((qPlayer.LocationWin != nullptr) && ((qPlayer.LocationWin)->IsDialogOpen() == 0) && ((qPlayer.LocationWin)->MenuIsOpen() == 0) &&
                         (CallItADay == 0)) {
                         qPlayer.StrikeNotified = TRUE;
@@ -1551,7 +1548,7 @@ void SIM::DoTimeStep() {
                             qPlayer.DaysWithoutStrike = 0;
 
                             Headlines.AddOverride(1, bprintf(StandardTexte.GetS(TOKEN_MISC, 2090), qPlayer.AirlineX.c_str()), GetIdFromString("STREIK"),
-                                                      25 + static_cast<int>(c == localPlayer) * 10);
+                                                  25 + static_cast<int>(c == localPlayer) * 10);
                         }
                     } else if (qPlayer.StrikeHours != 0) {
                         qPlayer.StrikeHours--;
@@ -1650,8 +1647,8 @@ void SIM::DoTimeStep() {
         if (Minute < OldMinute || (Date == 0 && GetHour() == 9 && GetMinute() == 0)) {
             if (CallItADay == 0 && Time < 18 * 60000 && Time > 8 * 60000) {
                 // Conditional Block: DutyFree, ArabAir, LastMinute, Museum, Reisebüro:
-                Airport.SetConditionBlock(
-                    0, static_cast<BOOL>(SLONG(Time) < timeDutyOpen || (((Weekday == 5 || Weekday == 6) && SLONG(Time) > timeDutyClose))));
+                Airport.SetConditionBlock(0,
+                                          static_cast<BOOL>(SLONG(Time) < timeDutyOpen || (((Weekday == 5 || Weekday == 6) && SLONG(Time) > timeDutyClose))));
                 Airport.SetConditionBlock(1, static_cast<BOOL>(SLONG(Time) < timeArabOpen || Weekday == 6));
                 Airport.SetConditionBlock(2, static_cast<BOOL>(SLONG(Time) >= timeLastClose || Weekday == 5));
                 Airport.SetConditionBlock(3, static_cast<BOOL>(SLONG(Time) < timeMuseOpen || Weekday == 5 || Weekday == 6));
@@ -2099,16 +2096,16 @@ void SIM::DoTimeStep() {
                                 Delay = TRUE;
                                 if (Players.Players[c].Owner == 0) {
                                     Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                               bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2358), (LPCTSTR)qPlane.Name,
-                                                                                       (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
+                                                                           bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2358), (LPCTSTR)qPlane.Name,
+                                                                                   (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                 }
                             }
                             if (Players.Players[c].StrikeHours != 0) {
                                 Delay = TRUE;
                                 if (Players.Players[c].Owner == 0) {
                                     Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                               bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2356), (LPCTSTR)qPlane.Name,
-                                                                                       (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
+                                                                           bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2356), (LPCTSTR)qPlane.Name,
+                                                                                   (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                 }
                             }
                             // else if (qPlane.AnzPiloten<PlaneTypes[qPlane.TypeId].AnzPiloten || qPlane.AnzBegleiter<PlaneTypes[qPlane.TypeId].AnzBegleiter)
@@ -2116,22 +2113,22 @@ void SIM::DoTimeStep() {
                                 Delay = TRUE;
                                 if (Players.Players[c].Owner == 0) {
                                     Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                               bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2350), (LPCTSTR)qPlane.Name,
-                                                                                       (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
+                                                                           bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2350), (LPCTSTR)qPlane.Name,
+                                                                                   (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                 }
                             } else if (qPlane.Zustand < 15) {
                                 Delay = TRUE;
                                 if (Players.Players[c].Owner == 0) {
                                     Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                               bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2351), (LPCTSTR)qPlane.Name,
-                                                                                       (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
+                                                                           bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2351), (LPCTSTR)qPlane.Name,
+                                                                                   (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                 }
                             } else if (qPlane.Flugplan.Flug[e].ObjectType == 2 && qPlane.Flugplan.Flug[e].Okay == 1) {
                                 Delay = TRUE;
                                 if (Players.Players[c].Owner == 0) {
                                     Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                               bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2352), (LPCTSTR)qPlane.Name,
-                                                                                       (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
+                                                                           bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2352), (LPCTSTR)qPlane.Name,
+                                                                                   (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                 }
                             } else if (qPlane.Problem != 0) {
                                 Delay = TRUE;
@@ -2139,8 +2136,8 @@ void SIM::DoTimeStep() {
                                 if (Players.Players[c].Owner == 0) {
                                     if ((qLocalPlayer.LocationWin != nullptr) && (qLocalPlayer.LocationWin)->CurrentMenu != MENU_SABOTAGEFAX) {
                                         Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                                   bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2355), (LPCTSTR)qPlane.Name,
-                                                                                           (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
+                                                                               bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2355), (LPCTSTR)qPlane.Name,
+                                                                                       (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                     }
                                 }
                             }
@@ -2602,8 +2599,8 @@ void SIM::NewDay() {
                 // (LPCTSTR)Cities[TafelData.City[c].ZettelId].Name);
 
                 Players.Players[TafelData.City[c].Player].ChangeMoney(-TafelData.City[c].Preis * 3,
-                                                                          2040, // Ersteigerung eines Schalters
-                                                                          Cities[TafelData.City[c].ZettelId].Name);
+                                                                      2040, // Ersteigerung eines Schalters
+                                                                      Cities[TafelData.City[c].ZettelId].Name);
 
                 TafelData.City[c].ZettelId = -1;
                 TafelData.City[c].Player = -1;

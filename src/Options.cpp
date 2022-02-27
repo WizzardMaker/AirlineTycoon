@@ -992,8 +992,8 @@ void Options::OnChar(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
         if (nChar == '\xFC') {
             nChar = static_cast<UINT>('\xDC');
         }
-        if (nChar == ' ' || nChar == '-' || nChar == '+' || nChar == '.' || (nChar >= 'A' && nChar <= 'Z') || nChar == '\xC4' || nChar == '\xD6' || nChar == '\xDC' ||
-            (nChar >= '0' && nChar <= '9')) {
+        if (nChar == ' ' || nChar == '-' || nChar == '+' || nChar == '.' || (nChar >= 'A' && nChar <= 'Z') || nChar == '\xC4' || nChar == '\xD6' ||
+            nChar == '\xDC' || (nChar >= '0' && nChar <= '9')) {
             if ((SavenamesValid[CursorY] == 0) && strncmp(SavegameNames[CursorY], StandardTexte.GetS(TOKEN_MISC, 4073), 6) == 0) {
                 SavegameNames[CursorY] = "      ";
             }

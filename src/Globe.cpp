@@ -179,8 +179,7 @@ CGlobe::CGlobe(BOOL bHandy, SLONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
         qBlock.RefreshData(PlayerNum);
         qBlock.Refresh(PlayerNum, FALSE);
 
-        Limit(SLONG(-Sim.Players.Players[PlayerNum].Blocks[Id].Bitmap.Size.x / 2),
-              Sim.Players.Players[PlayerNum].Blocks[Id].ScreenPos.x,
+        Limit(SLONG(-Sim.Players.Players[PlayerNum].Blocks[Id].Bitmap.Size.x / 2), Sim.Players.Players[PlayerNum].Blocks[Id].ScreenPos.x,
               static_cast<SLONG>(640 - Sim.Players.Players[PlayerNum].Blocks[Id].Bitmap.Size.x / 2));
         Limit(static_cast<SLONG>(-20), Sim.Players.Players[PlayerNum].Blocks[Id].ScreenPos.y, static_cast<SLONG>(400));
     }

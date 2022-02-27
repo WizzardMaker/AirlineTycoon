@@ -1883,9 +1883,9 @@ TEAKFILE &operator>>(TEAKFILE &File, BLOCK &b) {
 
         b.Indexes[5] = 1U;
     } else {*/
-        File >> b.Indexes;
-        File >> b.SelectedIds;
-        File >> b.Pages;
+    File >> b.Indexes;
+    File >> b.SelectedIds;
+    File >> b.Pages;
     //}
 
     if (SaveVersion == 1 && SaveVersionSub >= 11) {

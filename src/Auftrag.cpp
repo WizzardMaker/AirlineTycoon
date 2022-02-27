@@ -794,12 +794,12 @@ void CAuftraege::FillForLastMinute() {
 
     ReSize(6); // ex:10
 
-    for (auto& a : *this) {
+    for (auto &a : *this) {
         a.RefillForLastMinute(c / 2, &Random);
     }
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 20 && Sim.Date <= 30) {
-        for (auto& a : *this) {
+        for (auto &a : *this) {
             a.Praemie = 0;
         }
     }
@@ -820,8 +820,8 @@ void CAuftraege::RefillForLastMinute(SLONG Minimum) {
 
     ReSize(6); // ex:10
 
-    for (auto& a : *this) {
-        if(Anz <= 0) {
+    for (auto &a : *this) {
+        if (Anz <= 0) {
             break;
         }
         if (a.Praemie == 0) {
@@ -830,8 +830,8 @@ void CAuftraege::RefillForLastMinute(SLONG Minimum) {
         }
     }
 
-    for (auto& a : *this) {
-        if(Anz <= 0) {
+    for (auto &a : *this) {
+        if (Anz <= 0) {
             break;
         }
         if (a.Praemie != 0) {
@@ -839,8 +839,8 @@ void CAuftraege::RefillForLastMinute(SLONG Minimum) {
         }
     }
 
-    for (auto& a : *this) {
-        if(Anz <= 0) {
+    for (auto &a : *this) {
+        if (Anz <= 0) {
             break;
         }
         if (a.Praemie == 0 && Minimum > 0) {
@@ -852,7 +852,7 @@ void CAuftraege::RefillForLastMinute(SLONG Minimum) {
     Sim.TickLastMinuteRefill = 0;
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 20 && Sim.Date <= 30) {
-        for (auto& a : *this) {
+        for (auto &a : *this) {
             a.Praemie = 0;
         }
     }
@@ -868,7 +868,7 @@ void CAuftraege::FillForReisebuero() {
 
     ReSize(6);
 
-    for (auto& a : *this) {
+    for (auto &a : *this) {
         if (Sim.Date < 5 && c < 5) {
             a.RefillForAusland(4, Sim.HomeAirportId, &Random);
         } else if (Sim.Date < 10 && c < 3) {
@@ -879,7 +879,7 @@ void CAuftraege::FillForReisebuero() {
     }
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 20 && Sim.Date <= 30) {
-        for (auto& a : *this) {
+        for (auto &a : *this) {
             a.Praemie = 0;
         }
     }
@@ -899,8 +899,8 @@ void CAuftraege::RefillForReisebuero(SLONG Minimum) {
 
     ReSize(6);
 
-    for (auto& a : *this) {
-        if(Anz <= 0) {
+    for (auto &a : *this) {
+        if (Anz <= 0) {
             break;
         }
         if (a.Praemie == 0) {
@@ -916,8 +916,8 @@ void CAuftraege::RefillForReisebuero(SLONG Minimum) {
         }
     }
 
-    for (auto& a : *this) {
-        if(Anz <= 0) {
+    for (auto &a : *this) {
+        if (Anz <= 0) {
             break;
         }
         if (a.Praemie != 0) {
@@ -925,8 +925,8 @@ void CAuftraege::RefillForReisebuero(SLONG Minimum) {
         }
     }
 
-    for (auto& a : *this) {
-        if(Anz <= 0) {
+    for (auto &a : *this) {
+        if (Anz <= 0) {
             break;
         }
         if (a.Praemie == 0 && Minimum > 0) {
@@ -945,7 +945,7 @@ void CAuftraege::RefillForReisebuero(SLONG Minimum) {
     Sim.TickReisebueroRefill = 0;
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 20 && Sim.Date <= 30) {
-        for (auto& a : *this) {
+        for (auto &a : *this) {
             a.Praemie = 0;
         }
     }
@@ -959,9 +959,9 @@ void CAuftraege::FillForAusland(SLONG CityNum) {
 
     CalcPlayerMaximums();
 
-    ReSize(6);   // ex:10
+    ReSize(6); // ex:10
 
-    for (auto& a : *this) {
+    for (auto &a : *this) {
         if (Sim.Date < 5 && c < 5) {
             a.RefillForAusland(4, CityNum, &Random);
         } else if (Sim.Date < 10 && c < 3) {
@@ -983,8 +983,8 @@ void CAuftraege::RefillForAusland(SLONG CityNum, SLONG Minimum) {
 
     ReSize(6);
 
-    for (auto& a : *this) {
-        if(Anz <= 0) {
+    for (auto &a : *this) {
+        if (Anz <= 0) {
             break;
         }
         if (a.Praemie == 0) {
@@ -1000,8 +1000,8 @@ void CAuftraege::RefillForAusland(SLONG CityNum, SLONG Minimum) {
         }
     }
 
-    for (auto& a : *this) {
-        if(Anz <= 0) {
+    for (auto &a : *this) {
+        if (Anz <= 0) {
             break;
         }
         if (a.Praemie != 0) {
@@ -1009,8 +1009,8 @@ void CAuftraege::RefillForAusland(SLONG CityNum, SLONG Minimum) {
         }
     }
 
-    for (auto& a : *this) {
-        if(Anz <= 0) {
+    for (auto &a : *this) {
+        if (Anz <= 0) {
             break;
         }
         if (a.Praemie == 0 && Minimum > 0) {

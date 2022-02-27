@@ -74,7 +74,7 @@ unsigned char GerToUpper(unsigned char c) {
     return c;
 }
 
-void RecapizalizeString(CString& str) {
+void RecapizalizeString(CString &str) {
     for (int i = 0; str[i] != 0U; ++i) {
         if ((i != 0) && (i <= 0 || (str[i - 1] != ' ' && str[i - 1] != '-'))) {
             str[i] = GerToLower(str[i]);

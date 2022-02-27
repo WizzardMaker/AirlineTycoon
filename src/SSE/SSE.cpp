@@ -334,7 +334,7 @@ int FX::Load(const char *file) {
     _digitalData.file = file;
     isRaw = true;
     auto len = strlen(file);
-    if (len > 3 && 0 == strcmp(file+(len-4), ".ogg")) {
+    if (len > 3 && 0 == strcmp(file + (len - 4), ".ogg")) {
         isRaw = false;
     }
 

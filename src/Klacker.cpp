@@ -432,4 +432,4 @@ void CKlackerPlanes::PostPaint(SBBM &PrimaryBm) const {
 //--------------------------------------------------------------------------------------------
 // Blittet die Flugzeuge auf den Screen
 //--------------------------------------------------------------------------------------------
-void CKlackerPlanes::PostPaint(SBPRIMARYBM &/*PrimaryBm*/) {}
+void CKlackerPlanes::PostPaint(SBPRIMARYBM & /*PrimaryBm*/) {}

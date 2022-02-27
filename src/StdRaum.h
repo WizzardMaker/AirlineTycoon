@@ -120,7 +120,7 @@ class CStdRaum {
     SLONG MenuPar1{}, MenuPar2{}, MenuPar3{}; // Generisch
     SLONG MenuInfo{}, MenuInfo2{}, MenuInfo3{};
     SLONG MenuPage{}, MenuPageMax{}; // Wenn man blättern kann
-    BUFFER_V<SLONG> MenuRemapper;      // Wenn ein Subset von Daten gewählt wurde
+    BUFFER_V<SLONG> MenuRemapper;    // Wenn ein Subset von Daten gewählt wurde
     CDataTable MenuDataTable;        // Alternative Darstellung
     ULONG MenuDialogReEntryA{};      // Wiedereinsteig in den Dialog
     SLONG MenuDialogReEntryB;        // Wiedereinsteig in den Dialog
