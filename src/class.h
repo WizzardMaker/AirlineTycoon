@@ -1312,11 +1312,6 @@ class /**/ BRICK // Ein einzelnes Bodenteil eines bestimmten Zeitalters
 
   public:
     BRICK() = default;
-    BRICK(const BRICK &Brick) { Filename = Brick.Filename; }
-    BRICK &operator=(const BRICK &Brick) {
-        Filename = Brick.Filename;
-        return *this;
-    }
 
     XY GetBitmapDimension(void) const;
     void BlitAt(SBBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLONG Phase = -1);
@@ -1338,16 +1333,13 @@ class /**/ BRICK // Ein einzelnes Bodenteil eines bestimmten Zeitalters
     friend class AirportView;
 };
 
-class /**/ BRICKS : public ALBUM<BRICK> {
-  public:
-    BUFFER<BRICK> Bricks;
-
+class /**/ BRICKS : public ALBUM_V<BRICK> {
   private:
     short CurrentDate{};
 
   public:
-    BRICKS() : ALBUM<BRICK>(Bricks, "Bricks") {}
-    BRICKS(const CString &TabFilename);
+    BRICKS() : ALBUM_V<BRICK>("Bricks") {}
+    BRICKS(const CString &TabFilename) : ALBUM_V<BRICK>("Bricks") { ReInit(TabFilename); }
     void ReInit(const CString &TabFilename);
     void Destroy(void);
     void UpdateBricks(void);

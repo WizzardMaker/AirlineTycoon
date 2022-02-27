@@ -1177,48 +1177,68 @@ template <typename T> class ALBUM_V {
     }
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const ALBUM_V<T> &buffer) {
-        File << buffer.LastId;
-
         assert(buffer.AnzEntries() == buffer.List.size());
-        File << buffer.AnzEntries();
+        assert(buffer.AnzEntries() == buffer.ListInit.size());
 
+        SLONG filler = 0;
+
+        File << buffer.List.size();
+        File << filler;
         for (auto &i : buffer.List) {
             File << i;
         }
+
+        File << buffer.LastId;
+
+        File << buffer.ListInit.size();
+        File << filler;
         for (auto &i : buffer.ListInit) {
             File << i;
         }
 
+        /*
         File << buffer.Hash.size();
         for (auto &i : buffer.Hash) {
             File << i.first << i.second;
         }
+        */
 
         return File;
     }
 
     friend TEAKFILE &operator>>(TEAKFILE &File, ALBUM_V<T> &buffer) {
-        File >> buffer.LastId;
-
-        SLONG size;
+        SLONG size, filler;
         File >> size;
+        File >> filler;
         buffer.ReSize(size);
-
         for (SLONG i = 0; i < size; i++) {
             File >> buffer.List[i];
         }
+
+        File >> buffer.LastId;
+
+        File >> size;
+        File >> filler;
+        assert(buffer.AnzEntries() == size);
         for (SLONG i = 0; i < size; i++) {
             File >> buffer.ListInit[i];
         }
 
-        File >> size;
         buffer.Hash.clear();
+        /*
         for (SLONG i = 0; i < size; i++) {
             ULONG key;
             int value;
             File >> key;
             File >> value;
             buffer.Hash[key] = value;
+        }
+        */
+        for (SLONG i = 0; i < size; i++) {
+            auto id = buffer.ListInit[i];
+            if (id >= 0x1000000) {
+                buffer.Hash[id] = i;
+            }
         }
 
         return File;

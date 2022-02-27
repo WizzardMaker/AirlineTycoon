@@ -254,11 +254,6 @@ XY BRICK::GetIntelligentPosition(SLONG x, SLONG y) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Initialisiert das Album mit den Bricks:
-//--------------------------------------------------------------------------------------------
-BRICKS::BRICKS(const CString &TabFilename) : ALBUM<BRICK>(Bricks, "Bricks") { ReInit(TabFilename); }
-
-//--------------------------------------------------------------------------------------------
 // Lädt nachträglich die Tabelle mit den Bricks:
 //--------------------------------------------------------------------------------------------
 void BRICKS::ReInit(const CString &TabFilename) {
@@ -300,35 +295,32 @@ void BRICKS::ReInit(const CString &TabFilename) {
         if (IsInAlbum(Id) != 0) {
             TeakLibW_Exception(FNL, ExcNever);
         }
-        (*this) += Id;
 
-        // SpeedUp durch direkten Zugriff:
-        Id = (*this)(Id);
+        BRICK brick;
+        brick.Filename = strtok(nullptr, ";\x8\"");
 
-        (*this)[Id].Filename = strtok(nullptr, ";\x8\"");
+        brick.RamPriority = atoi(strtok(nullptr, ";\x8\""));
 
-        (*this)[Id].RamPriority = atoi(strtok(nullptr, ";\x8\""));
+        brick.NonTrans = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
+        brick.Triggered = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
 
-        (*this)[Id].NonTrans = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
-        (*this)[Id].Triggered = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
+        brick.Layer = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
+        brick.AnimSpeed = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
+        brick.FloorOffset = atoi(strtok(nullptr, TabSeparator));
 
-        (*this)[Id].Layer = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
-        (*this)[Id].AnimSpeed = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
-        (*this)[Id].FloorOffset = atoi(strtok(nullptr, TabSeparator));
+        brick.BaseOffset.x = atoi(strtok(nullptr, TabSeparator));
+        brick.BaseOffset.y = atoi(strtok(nullptr, TabSeparator));
 
-        (*this)[Id].BaseOffset.x = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].BaseOffset.y = atoi(strtok(nullptr, TabSeparator));
+        brick.Grid.x = atoi(strtok(nullptr, TabSeparator));
+        brick.Grid.y = atoi(strtok(nullptr, TabSeparator));
 
-        (*this)[Id].Grid.x = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].Grid.y = atoi(strtok(nullptr, TabSeparator));
+        brick.MinY = atoi(strtok(nullptr, TabSeparator));
+        brick.MaxY = atoi(strtok(nullptr, TabSeparator));
 
-        (*this)[Id].MinY = atoi(strtok(nullptr, TabSeparator));
-        (*this)[Id].MaxY = atoi(strtok(nullptr, TabSeparator));
+        brick.ObstacleType = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
 
-        (*this)[Id].ObstacleType = static_cast<UBYTE>(atoi(strtok(nullptr, TabSeparator)));
-
-        (*this)[Id].WaitSum = 0;
-        (*this)[Id].WaitTimes.ReSize(50);
+        brick.WaitSum = 0;
+        brick.WaitTimes.ReSize(50);
 
         for (AnzTimePointer = 0;; AnzTimePointer++) {
             TimePointer[AnzTimePointer] = strtok(nullptr, " ");
@@ -338,28 +330,30 @@ void BRICKS::ReInit(const CString &TabFilename) {
             }
 
             if (strchr(TimePointer[AnzTimePointer], ':') != nullptr) {
-                (*this)[Id].Triggered = 90;
-                (*this)[Id].WaitTimes[AnzTimePointer] = atoi(strchr(TimePointer[AnzTimePointer], ':') + 1);
+                brick.Triggered = 90;
+                brick.WaitTimes[AnzTimePointer] = atoi(strchr(TimePointer[AnzTimePointer], ':') + 1);
 
                 *(strchr(TimePointer[AnzTimePointer], ':')) = 0;
             } else {
-                (*this)[Id].WaitTimes[AnzTimePointer] = 1;
+                brick.WaitTimes[AnzTimePointer] = 1;
             }
 
-            (*this)[Id].WaitSum += (*this)[Id].WaitTimes[AnzTimePointer];
+            brick.WaitSum += brick.WaitTimes[AnzTimePointer];
         }
 
-        (*this)[Id].WaitTimes.ReSize(AnzTimePointer);
+        brick.WaitTimes.ReSize(AnzTimePointer);
 
-        (*this)[Id].graphicIDs.ReSize(AnzTimePointer);
+        brick.graphicIDs.ReSize(AnzTimePointer);
 
         for (SLONG c = 0; c < AnzTimePointer; c++) {
-            (*this)[Id].graphicIDs[c] = StringToInt64(TimePointer[c]);
-            /*(*this)[Id].graphicIDs[c]=0;
+            brick.graphicIDs[c] = StringToInt64(TimePointer[c]);
+            /*brick.graphicIDs[c]=0;
 
               for (SLONG d=0; d<strlen(TimePointer[c]); d++)
-              (*this)[Id].graphicIDs[c]+=__int64((TimePointer[c])[d])<<(8*d);*/
+              brick.graphicIDs[c]+=__int64((TimePointer[c])[d])<<(8*d);*/
         }
+
+        push_back(Id, std::move(brick));
     }
 }
 
