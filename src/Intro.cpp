@@ -17,7 +17,7 @@ extern SB_CColorFX ColorFX;
 //--------------------------------------------------------------------------------------------
 //ULONG PlayerNum
 //--------------------------------------------------------------------------------------------
-CIntro::CIntro(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", NULL)
+CIntro::CIntro(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0)
 {
     RoomBm.ReSize(640, 480);
     RoomBm.FillWith(0);

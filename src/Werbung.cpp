@@ -22,7 +22,7 @@ static const char FileId[] = "Werb";
 //--------------------------------------------------------------------------------------------
 //Die Schalter wird eröffnet:
 //--------------------------------------------------------------------------------------------
-CWerbung::CWerbung(BOOL qHandy, ULONG PlayerNum) : CStdRaum (qHandy, PlayerNum, "", NULL)
+CWerbung::CWerbung(BOOL qHandy, ULONG PlayerNum) : CStdRaum (qHandy, PlayerNum, "", 0)
 {
     if (!bHandy) AmbientManager.SetGlobalVolume (40);
 

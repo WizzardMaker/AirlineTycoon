@@ -384,7 +384,7 @@ SLONG CSmackerPerson::GetFrame (void)
     if (ActiveClip!=-1 && Clips[ActiveClip].pSmack)
         return (Clips[ActiveClip].FrameNum);
     else
-        return (NULL);
+        return (0);
 }
 
 //--------------------------------------------------------------------------------------------

@@ -373,7 +373,7 @@ void CSecurity::OnLButtonDown(UINT nFlags, CPoint point)
             if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_GLOVE))
             {
                 Sim.ItemGlove=0;
-                Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_GLOVE);
+                Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLOVE);
             }
         }
         else CStdRaum::OnLButtonDown(nFlags, point);

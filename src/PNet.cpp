@@ -134,7 +134,7 @@ void PLAYER::NetSynchronizeRoutes (void)
 //--------------------------------------------------------------------------------------------
 void PLAYER::NetRouteUpdateTicketpreise (SLONG RouteId, SLONG Ticketpreis, SLONG TicketpreisFC)
 {
-    Sim.SendSimpleMessage (ATNET_SYNCROUTECHANGE, NULL, PlayerNum, RouteId, Ticketpreis, TicketpreisFC);
+    Sim.SendSimpleMessage (ATNET_SYNCROUTECHANGE, 0, PlayerNum, RouteId, Ticketpreis, TicketpreisFC);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -441,7 +441,7 @@ void PLAYER::NetUpdateWorkers (void)
             if (Workers.Workers[c].Employer==PlayerNum) d+=Workers.Workers[c].Gehalt;
         Statistiken[STAT_GEHALT].SetAtPastDay (0, -d);
 
-        Sim.SendSimpleMessage (ATNET_SYNCGEHALT, NULL, Sim.localPlayer, d);
+        Sim.SendSimpleMessage (ATNET_SYNCGEHALT, 0, Sim.localPlayer, d);
     }
 }
 

@@ -1980,7 +1980,7 @@ BOOL PLAYER::WalkToRoom (UBYTE RoomId)
                     if (HasItem (ITEM_GLKOHLE))
                     {
                         Sim.ItemKohle=false;
-                        Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_KOHLE);
+                        Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_KOHLE);
                     }
                 }
 
@@ -2361,7 +2361,7 @@ void PLAYER::RobotPump()
             NewDir           = 8;
             pPerson->Target  = pPerson->Position;
 
-            Sim.SendSimpleMessage (ATNET_GIMMICK, NULL, PlayerNum, 1);
+            Sim.SendSimpleMessage (ATNET_GIMMICK, 0, PlayerNum, 1);
             StandCount=0;
         }
     }
@@ -3181,7 +3181,7 @@ void PLAYER::RobotExecuteAction(void)
             else
             {
                 //Okay, habe den Computerspieler durchgeführt:
-                Sim.SendSimpleMessage (ATNET_READYFORMORNING, NULL, Sim.localPlayer);
+                Sim.SendSimpleMessage (ATNET_READYFORMORNING, 0, Sim.localPlayer);
             }
         }
     }
@@ -3248,7 +3248,7 @@ void PLAYER::RobotExecuteAction(void)
                         if (CheatTestGame==0)
                         {
                             Sim.Players.Players[TargetPlayer].GameSpeed = 0;
-                            if (Sim.bNetwork) Sim.SendSimpleMessage (ATNET_SETSPEED, NULL, Sim.localPlayer, Sim.Players.Players[TargetPlayer].GameSpeed);
+                            if (Sim.bNetwork) Sim.SendSimpleMessage (ATNET_SETSPEED, 0, Sim.localPlayer, Sim.Players.Players[TargetPlayer].GameSpeed);
                         }
 
                         ((CStdRaum*)Sim.Players.Players[TargetPlayer].LocationWin)->StartDialog (TALKER_COMPETITOR, MEDIUM_HANDY, PlayerNum, 1);
@@ -3256,16 +3256,16 @@ void PLAYER::RobotExecuteAction(void)
 
                         if (Sim.bNetwork)
                         {
-                            Sim.SendSimpleMessage (ATNET_DIALOG_LOCK, NULL, PlayerNum);
-                            Sim.SendSimpleMessage (ATNET_DIALOG_LOCK, NULL, Sim.Players.Players[TargetPlayer].PlayerNum);
+                            Sim.SendSimpleMessage (ATNET_DIALOG_LOCK, 0, PlayerNum);
+                            Sim.SendSimpleMessage (ATNET_DIALOG_LOCK, 0, Sim.Players.Players[TargetPlayer].PlayerNum);
 
                             PERSON &qRobotPlayer = Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)];
                             PERSON &qHumanPlayer = Sim.Persons[Sim.Persons.GetPlayerIndex(TargetPlayer)];
 
                             BroadcastPosition ();
                             Sim.Players.Players[TargetPlayer].BroadcastPosition ();
-                            Sim.SendSimpleMessage (ATNET_PLAYERLOOK, NULL, qRobotPlayer.State, qRobotPlayer.Phase);
-                            Sim.SendSimpleMessage (ATNET_PLAYERLOOK, NULL, qHumanPlayer.State, qHumanPlayer.Phase);
+                            Sim.SendSimpleMessage (ATNET_PLAYERLOOK, 0, qRobotPlayer.State, qRobotPlayer.Phase);
+                            Sim.SendSimpleMessage (ATNET_PLAYERLOOK, 0, qHumanPlayer.State, qHumanPlayer.Phase);
                         }
                     }
                 }
@@ -3885,7 +3885,7 @@ okay_we_have_that_city:
                         if (HasItem (ITEM_ZANGE))
                         {
                             Sim.ItemZange=false;
-                            Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_ZANGE);
+                            Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_ZANGE);
                             RobotActions[1].ActionId=ACTION_VISITSECURITY2;
                         }
                     }
@@ -4913,7 +4913,7 @@ okay_we_have_that_city:
                 DropItem(ITEM_ZANGE);
 
                 Sim.nSecOutDays=3;
-                Sim.SendSimpleMessage (ATNET_SYNC_OFFICEFLAG, NULL, 55, 3);
+                Sim.SendSimpleMessage (ATNET_SYNC_OFFICEFLAG, 0, 55, 3);
 
                 for (SLONG c=0; c<4; c++)
                     if (!Sim.Players.Players[c].IsOut)
@@ -5642,7 +5642,7 @@ void PLAYER::DoBodyguardRabatt (SLONG Money)
 
         long delta = Money/100*(quality/10);
         ChangeMoney (delta, 3130, "");
-        Sim.SendSimpleMessage (ATNET_BODYGUARD, NULL, Sim.localPlayer, delta);
+        Sim.SendSimpleMessage (ATNET_BODYGUARD, 0, Sim.localPlayer, delta);
     }
 }
 
@@ -6073,7 +6073,7 @@ SLONG PLAYERS::GetIndexOfHumanPlayerNumberX (SLONG x)
         }
 
     TeakLibW_Exception (FNL, ExcNever);
-    return (NULL);
+    return (0);
 }
 
 //--------------------------------------------------------------------------------------------

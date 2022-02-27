@@ -36,7 +36,7 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
 
     //Das Optionen-Fenster ist offen! Alles anhalten!
     nOptionsOpen++;
-    if (Sim.bNetwork) Sim.SendSimpleMessage(ATNET_OPTIONS, NULL, 1, Sim.localPlayer);
+    if (Sim.bNetwork) Sim.SendSimpleMessage(ATNET_OPTIONS, 0, 1, Sim.localPlayer);
 
     if (!bHandy) AmbientManager.SetGlobalVolume(0);
 
@@ -90,7 +90,7 @@ Options::~Options()
 
     nLocalOptionsOption--;
 
-    if (Sim.bNetwork) Sim.SendSimpleMessage(ATNET_OPTIONS, NULL, -1, Sim.localPlayer);
+    if (Sim.bNetwork) Sim.SendSimpleMessage(ATNET_OPTIONS, 0, -1, Sim.localPlayer);
 
     Sim.Options.WriteOptions();
 
@@ -665,8 +665,8 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
                                 Sim.Players.Players[c].bReadyForBriefing = false;
 
                             nOptionsOpen++;
-                            Sim.SendSimpleMessage(ATNET_OPTIONS, NULL, 1, Sim.localPlayer);
-                            Sim.SendSimpleMessage(ATNET_IO_LOADREQUEST, NULL, Sim.localPlayer, Line - 2, Sim.GetSavegameUniqueGameId(Line - 2, true));
+                            Sim.SendSimpleMessage(ATNET_OPTIONS, 0, 1, Sim.localPlayer);
+                            Sim.SendSimpleMessage(ATNET_IO_LOADREQUEST, 0, Sim.localPlayer, Line - 2, Sim.GetSavegameUniqueGameId(Line - 2, true));
                         }
                     }
                     else

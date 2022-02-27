@@ -410,7 +410,7 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point)
                     //Für den Statistikscreen:
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay (0, 1);
 
-                    Sim.SendSimpleMessage (ATNET_SYNCNUMFLUEGE, NULL, Sim.localPlayer, (long)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (long)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
+                    Sim.SendSimpleMessage (ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, (long)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (long)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
 
                     ReisebueroAuftraege.Auftraege[c].Praemie=-1000;
                     qPlayer.NetUpdateTook (2, c);

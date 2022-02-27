@@ -254,7 +254,7 @@ void CSabotage::OnLButtonDown(UINT nFlags, CPoint point)
                 if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_ZANGE))
                 {
                     Sim.ItemZange=false;
-                    Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_ZANGE);
+                    Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_ZANGE);
                 }
             }
         }

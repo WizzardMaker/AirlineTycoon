@@ -20,7 +20,7 @@ static const char FileId[] = "Hall";
 //--------------------------------------------------------------------------------------------
 // HallDiskMenu
 //--------------------------------------------------------------------------------------------
-HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", NULL)
+HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0)
 {
     SLONG c, d;
 

@@ -57,7 +57,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
     if (!bOkayToAct) SetNetworkBitmap (3, 2); //Waitung for Players
 
     Sim.Players.Players[Sim.localPlayer].bReadyForBriefing=true;
-    Sim.SendSimpleMessage (ATNET_READYFORBRIEFING, NULL, Sim.localPlayer);
+    Sim.SendSimpleMessage (ATNET_READYFORBRIEFING, 0, Sim.localPlayer);
 
     //DaysWithoutSabotage aktualisieren:
     for (c=0; c<Sim.SabotageActs.AnzEntries(); c++)
@@ -1010,7 +1010,7 @@ void CAufsicht::TryLeaveAufsicht (void)
     {
         bExitASAP = true;
         Sim.bWatchForReady=TRUE;
-        Sim.SendSimpleMessage (ATNET_READYFORMORNING, NULL, Sim.localPlayer);
+        Sim.SendSimpleMessage (ATNET_READYFORMORNING, 0, Sim.localPlayer);
         Sim.Players.Players[Sim.localPlayer].bReadyForMorning=true;
         SetNetworkBitmap (3, 1);
         FrameWnd->Invalidate(); MessagePump();

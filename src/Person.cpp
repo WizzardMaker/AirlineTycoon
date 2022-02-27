@@ -1772,7 +1772,7 @@ void PERSON::DoOnePlayerStep (void)
         Dir=8;
         LookDir=UBYTE(qClan.GimmickArt2);
         Phase=0;
-        Sim.SendSimpleMessage (ATNET_GIMMICK, NULL, qPlayer.PlayerNum, 0);
+        Sim.SendSimpleMessage (ATNET_GIMMICK, 0, qPlayer.PlayerNum, 0);
     }
 
     if (!StatePar)
@@ -2183,7 +2183,7 @@ void PERSON::DoOnePlayerStep (void)
                                     qPlayer.NetSynchronizeItems ();
                                     Sim.Players.Players[StatePar/10-1].OfficeState=3;
 
-                                    Sim.SendSimpleMessage (ATNET_SYNC_OFFICEFLAG, NULL, StatePar/10-1, 3);
+                                    Sim.SendSimpleMessage (ATNET_SYNC_OFFICEFLAG, 0, StatePar/10-1, 3);
                                 }
                             }
 

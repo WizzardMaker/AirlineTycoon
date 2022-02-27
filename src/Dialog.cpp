@@ -267,7 +267,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                 qPlayer.NetUpdateKerosin();
 
                                 qPlayer.ChangeMoney (-TankInfo[(DialogPar1-900)*2+1]*Anzahl, 2091, (CString)bitoa(TankInfo[(DialogPar1-900)*2]), (char*)(LPCTSTR)(CString)bitoa(Anzahl));
-                                Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -TankInfo[(DialogPar1-900)*2+1]*Anzahl, -1);
+                                Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -TankInfo[(DialogPar1-900)*2+1]*Anzahl, -1);
 
                                 qPlayer.DoBodyguardRabatt (TankInfo[(DialogPar1-900)*2+1]*Anzahl);
                                 MakeSayWindow (0, TOKEN_ARAB, 700, pFontPartner);
@@ -412,7 +412,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                 qPlayer.ArabTrust=max(qPlayer.ArabTrust, id-1250+1);
 
                                 qPlayer.ChangeMoney (-SabotagePrice2[id-1251], 2080, "");
-                                Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -SabotagePrice2[id-1251], -1);
+                                Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SabotagePrice2[id-1251], -1);
 
                                 qPlayer.DoBodyguardRabatt (SabotagePrice2[id-1251]);
                                 qPlayer.NetSynchronizeSabotage ();
@@ -446,7 +446,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                             qPlayer.ArabTrust=max(qPlayer.ArabTrust, id-1080+1);
 
                             qPlayer.ChangeMoney (-SabotagePrice3[id-1081], 2080, "");
-                            Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -SabotagePrice2[id-1081], -1);
+                            Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SabotagePrice2[id-1081], -1);
 
                             qPlayer.DoBodyguardRabatt (SabotagePrice3[id-1081]);
                             qPlayer.NetSynchronizeSabotage ();
@@ -488,7 +488,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                         qPlayer.NetSynchronizeSabotage ();
                         StopDialog ();
 
-                        Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -SabotagePrice[qPlayer.ArabMode-1], -1);
+                        Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SabotagePrice[qPlayer.ArabMode-1], -1);
                         break;
 
                     case 1090:
@@ -496,7 +496,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                         qPlayer.ArabTrust=max(qPlayer.ArabTrust, id-1280+1);
 
                         qPlayer.ChangeMoney (-SabotagePrice3[4], 2080, "");
-                        Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -SabotagePrice3[4], -1);
+                        Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SabotagePrice3[4], -1);
 
                         qPlayer.DoBodyguardRabatt (SabotagePrice3[4]);
                         qPlayer.NetSynchronizeSabotage ();
@@ -509,7 +509,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                         qPlayer.ArabTrust=max(qPlayer.ArabTrust, id-1280+1);
 
                         qPlayer.ChangeMoney (-SabotagePrice3[5], 2080, "");
-                        Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -SabotagePrice3[5], -1);
+                        Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SabotagePrice3[5], -1);
 
                         qPlayer.DoBodyguardRabatt (SabotagePrice3[5]);
                         qPlayer.NetSynchronizeSabotage ();
@@ -982,7 +982,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
 
                                    long preis = MarktAktien*DialogPar2-DialogPar1*DialogPar2/10/100*100;
                                    qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, preis);
-                                   if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, preis, STAT_E_SONSTIGES);
+                                   if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_E_SONSTIGES);
 
                                    qPlayer.Kurse[0] = (qPlayer.Kurse[0]*__int64(qPlayer.AnzAktien)+__int64(DialogPar2)*MarktAktien) / (qPlayer.AnzAktien+MarktAktien);
                                    if (qPlayer.Kurse[0]<0) qPlayer.Kurse[0]=0;
@@ -996,11 +996,11 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
 
                                            Sim.Players.Players[c].ChangeMoney (entschaedigung, 3161, "");
                                            Sim.Players.Players[c].Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, entschaedigung);
-                                           Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, c, entschaedigung, STAT_E_SONSTIGES);
+                                           Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, c, entschaedigung, STAT_E_SONSTIGES);
                                        }
 
                                    if (Sim.bNetwork)
-                                       Sim.SendSimpleMessage (ATNET_ADVISOR, NULL, 3, PlayerNum, DialogPar1);
+                                       Sim.SendSimpleMessage (ATNET_ADVISOR, 0, 3, PlayerNum, DialogPar1);
 
                                    qPlayer.AnzAktien+=DialogPar1;
                                    qPlayer.OwnsAktien[PlayerNum]+=(DialogPar1-MarktAktien);
@@ -4185,7 +4185,7 @@ _ehemals_2080:
                             for (c=0; c<Anzahl; c++)
                                 qPlayer.BuyPlane (Type, &rnd);
 
-                            Sim.SendSimpleMessage (ATNET_BUY_NEW, NULL, PlayerNum, Anzahl, Type);
+                            Sim.SendSimpleMessage (ATNET_BUY_NEW, 0, PlayerNum, Anzahl, Type);
 
                             qPlayer.DoBodyguardRabatt (PlaneTypes [DialogPar2].Preis*("\x1\x2\x3\x5\xa"[id-141]));
                             qPlayer.MapWorkers (FALSE);
@@ -4260,15 +4260,15 @@ _ehemals_2080:
 
                             long Kosten = -Sim.UsedPlanes[0x1000000+DialogPar1].CalculatePrice();
                             qPlayer.ChangeMoney (Kosten, 2010, Sim.UsedPlanes[0x1000000+DialogPar1].Name);
-                            Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, Kosten, STAT_A_SONSTIGES);
+                            Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, Kosten, STAT_A_SONSTIGES);
                             qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, Kosten);
 
                             qPlayer.DoBodyguardRabatt (Sim.UsedPlanes[0x1000000+DialogPar1].CalculatePrice());
 
                             if (Sim.bNetwork)
                             {
-                                Sim.SendSimpleMessage (ATNET_ADVISOR, NULL, 1, PlayerNum, DialogPar1);
-                                Sim.SendSimpleMessage (ATNET_BUY_USED, NULL, PlayerNum, DialogPar1, Sim.Time);
+                                Sim.SendSimpleMessage (ATNET_ADVISOR, 0, 1, PlayerNum, DialogPar1);
+                                Sim.SendSimpleMessage (ATNET_BUY_USED, 0, PlayerNum, DialogPar1, Sim.Time);
                             }
 
                             Sim.UsedPlanes[0x1000000+DialogPar1].Name.Empty();
@@ -4301,7 +4301,7 @@ _ehemals_2080:
                             SLONG preis = qPlayer.Planes[DialogPar2].CalculatePrice()*9/10;
 
                             qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, preis);
-                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, preis, STAT_E_SONSTIGES);
+                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_E_SONSTIGES);
 
                             qPlayer.ChangeMoney (
                                     preis,
@@ -4309,7 +4309,7 @@ _ehemals_2080:
                                     qPlayer.Planes[DialogPar2].Name);
 
                             qPlayer.Planes -= DialogPar2;
-                            Sim.SendSimpleMessage (ATNET_SELL_USED, NULL, PlayerNum, DialogPar2);
+                            Sim.SendSimpleMessage (ATNET_SELL_USED, 0, PlayerNum, DialogPar2);
                             qPlayer.NetSynchronizeMoney ();
 
                             StopDialog ();
@@ -4661,7 +4661,7 @@ _ehemals_2080:
                             long preis = -gWerbePrice[DialogPar1*6+id-5000];
                             qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, preis);
                             qPlayer.ChangeMoney (preis, id-5000+3120, "");
-                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, preis, STAT_A_SONSTIGES);
+                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_A_SONSTIGES);
 
                             qPlayer.NetSynchronizeImage();
                             qPlayer.DoBodyguardRabatt (gWerbePrice[DialogPar1*6+id-5000]);
@@ -4728,7 +4728,7 @@ _ehemals_2080:
                                     StandardTexte.GetS (TOKEN_ITEM, 1801));
 
                             qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, preis);
-                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, preis, STAT_A_SONSTIGES);
+                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_A_SONSTIGES);
 
                             qPlayer.DoBodyguardRabatt (-preis);
                         }
@@ -4747,7 +4747,7 @@ _ehemals_2080:
                                     9999,                //Leerstring
                                     StandardTexte.GetS (TOKEN_ITEM, 1801));
                             qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, preis);
-                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, preis, STAT_A_SONSTIGES);
+                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_A_SONSTIGES);
 
                             qPlayer.DoBodyguardRabatt (-preis);
                         }

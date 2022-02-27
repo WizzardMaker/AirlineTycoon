@@ -307,7 +307,7 @@ void CTafel::OnLButtonDown(UINT nFlags, CPoint point)
                 if (qPlayer.HasItem (ITEM_POSTKARTE))
                 {
                     Sim.ItemPostcard=false;
-                    Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_POSTKARTE);
+                    Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_POSTKARTE);
                 }
             }
         }

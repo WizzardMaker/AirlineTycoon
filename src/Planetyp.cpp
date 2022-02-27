@@ -121,7 +121,7 @@ ULONG CPlaneTypes::GetRandomExistingType (TEAKRAND *pRand)
             }
 
     TeakLibW_Exception (FNL, ExcNever);
-    return (NULL);
+    return (0);
 }
 
 //--------------------------------------------------------------------------------------------

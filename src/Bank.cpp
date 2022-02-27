@@ -327,7 +327,7 @@ void Bank::OnLButtonDown(UINT nFlags, CPoint point)
             Sim.MoneyInBankTrash=0;
             qPlayer.ChangeMoney (100000, 2006, "");
             qPlayer.NetSynchronizeMoney ();
-            Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_NONE);
+            Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_NONE);
 
             StartDialog (TALKER_BANKER1, MEDIUM_AIR, 20);
         }

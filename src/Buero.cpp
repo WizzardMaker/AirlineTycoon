@@ -40,7 +40,7 @@ class CWaitCursorNow
 //--------------------------------------------------------------------------------------------
 //Büro-Konstruktor:
 //--------------------------------------------------------------------------------------------
-CBuero::CBuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", NULL)
+CBuero::CBuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 0)
 {
     CWaitCursorNow wc; //CD-Cursor anzeigen
 

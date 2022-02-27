@@ -125,7 +125,7 @@ static DWORD RoomTipTable [] =
     ROOM_EDITOR,         25,
     ROOM_SECURITY,       26,
     ROOM_DESIGNER,       27,
-    NULL,                0
+    0,                   0
 };
 
 //Bei Dialogen sind zwei Fenster offen und es ist zufall, wer den Klick bekommt...
@@ -336,7 +336,7 @@ CStdRaum::CStdRaum (BOOL bHandy, ULONG PlayerNum, CString GfxLibName, __int64 gr
     }
 
     //Kein Text aktiv:
-    CurrentTextGroupId    = NULL;
+    CurrentTextGroupId    = 0;
     LastTextGroupId       = *(ULONG*)"none";
 
     if (graficId==0) PicBitmap.ReSize (SLONG(0),SLONG(0));
@@ -560,10 +560,10 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, ULONG SubId, const CString &String
     CanCancelEmpty = FALSE;
     TimeAtStart = timeGetTime();
 
-    CurrentHighlight    = NULL;
+    CurrentHighlight    = 0;
     if (CurrentTextGroupId==0) CurrentTextGroupId = LastTextGroupId;
     CurrentTextSubIdVon = SubId;
-    CurrentTextSubIdBis = NULL;
+    CurrentTextSubIdBis = 0;
     CStdRaum::TextAlign = TextAlign;
 
     TimeBubbleDisplayed = timeGetTime();
@@ -681,7 +681,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVo
 
     TimeBubbleDisplayed = timeGetTime();
 
-    CurrentHighlight    = NULL;
+    CurrentHighlight    = 0;
     CurrentTextGroupId  = *((ULONG*)GroupId);
     LastTextGroupId     = CurrentTextGroupId;
     CurrentTextSubIdVon = SubIdVon;
@@ -1050,7 +1050,7 @@ void CStdRaum::CloseTextWindow (void)
     Sim.Players.Players[(SLONG)PlayerNum].Messages.TalkCountdown   = 0;
 
     MenuDialogReEntryA = CurrentTextGroupId;
-    CurrentTextGroupId = NULL;
+    CurrentTextGroupId = 0;
 
     //Alles löschen:
     for (SLONG c=0; c<10; c++)
@@ -1982,8 +1982,8 @@ void CStdRaum::StopDialog (void)
         if (DialogPartner==TALKER_COMPETITOR)
         {
             Sim.Players.Players[DialogPar1].IsTalking=FALSE;
-            Sim.SendSimpleMessage (ATNET_DIALOG_UNLOCK, NULL, Sim.localPlayer);
-            Sim.SendSimpleMessage (ATNET_DIALOG_UNLOCK, NULL, DialogPar1);
+            Sim.SendSimpleMessage (ATNET_DIALOG_UNLOCK, 0, Sim.localPlayer);
+            Sim.SendSimpleMessage (ATNET_DIALOG_UNLOCK, 0, DialogPar1);
             //Sim.Players.Players[(SLONG)PlayerNum].BroadcastPosition();
         }
 
@@ -2541,7 +2541,7 @@ void CStdRaum::PostPaint (void)
             qPlayer.Money -= 1;
 
             qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -1);
-            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -1, STAT_A_SONSTIGES);
+            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -1, STAT_A_SONSTIGES);
 
             StatusCount = max (StatusCount, 3);
         }
@@ -3091,7 +3091,7 @@ void CStdRaum::CheckHighlight (CPoint point)
     {
         if (CurrentHighlight)
         {
-            CurrentHighlight = NULL;
+            CurrentHighlight = 0;
             RepaintText (FALSE);
         }
         return;
@@ -3137,7 +3137,7 @@ void CStdRaum::CheckHighlight (CPoint point)
         //Kein Text unter dem Cursor! War das schon vorher so?
         if (CurrentHighlight)
         {
-            CurrentHighlight = NULL;
+            CurrentHighlight = 0;
             RepaintText (FALSE);
         }
     }
@@ -3246,7 +3246,7 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
         if (Sim.Date>2) Sim.GiveHint (HINT_GAMESPEED);
         qPlayer.GameSpeed = (qPlayer.GameSpeed+1)%4;
 
-        Sim.SendSimpleMessage (ATNET_SETSPEED, NULL, Sim.localPlayer, Sim.Players.Players[Sim.localPlayer].GameSpeed);
+        Sim.SendSimpleMessage (ATNET_SETSPEED, 0, Sim.localPlayer, Sim.Players.Players[Sim.localPlayer].GameSpeed);
 
         StatusCount = max (StatusCount, 3);
     }
@@ -3554,7 +3554,7 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
                                 Message.Announce(30);
                                 Message << ATNET_SABOTAGE_DIRECT << SLONG(ITEM_GLUE) << qPerson.Position
                                     << qPerson.Dir           << qPlayer.NewDir   << qPerson.Phase;
-                                Sim.SendMemFile (Message, NULL);
+                                Sim.SendMemFile (Message, 0);
 
                                 qPlayer.DropItem(ITEM_GLUE);
                             }
@@ -3591,7 +3591,7 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
                         qPlayer.ReformIcons();
                         qPlayer.Koffein+=20*120;
                         qPlayer.NetSynchronizeFlags();
-                        Sim.SendSimpleMessage (ATNET_CAFFEINE, NULL, PlayerNum, qPlayer.Koffein);
+                        Sim.SendSimpleMessage (ATNET_CAFFEINE, 0, PlayerNum, qPlayer.Koffein);
                     }
                     break;
 
@@ -3603,7 +3603,7 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
                         //Untere Ebene?
                         if (qPerson.Position.y<4000)
                         {
-                            Sim.SendSimpleMessage (ATNET_SABOTAGE_DIRECT, NULL, ITEM_STINKBOMBE, qPerson.Position.x, qPerson.Position.y);
+                            Sim.SendSimpleMessage (ATNET_SABOTAGE_DIRECT, 0, ITEM_STINKBOMBE, qPerson.Position.x, qPerson.Position.y);
                             Sim.AddStenchSabotage (qPerson.Position);
 
                             qPlayer.DropItem (ITEM_STINKBOMBE);
@@ -3685,7 +3685,7 @@ void CStdRaum::OnLButtonDown(UINT, CPoint point)
                             qPlayer.WalkStopEx ();
                             Sim.nSecOutDays=3;
 
-                            Sim.SendSimpleMessage (ATNET_SYNC_OFFICEFLAG, NULL, 55, 3);
+                            Sim.SendSimpleMessage (ATNET_SYNC_OFFICEFLAG, 0, 55, 3);
 
                             for (SLONG c=0; c<4; c++)
                                 if (!Sim.Players.Players[c].IsOut)
@@ -3773,7 +3773,7 @@ void CStdRaum::OnRButtonDown(UINT nFlags, CPoint point)
         if (Sim.Date>2) Sim.GiveHint (HINT_GAMESPEED);
         Sim.Players.Players[PlayerNum].GameSpeed = (Sim.Players.Players[PlayerNum].GameSpeed+3)%4;
 
-        Sim.SendSimpleMessage (ATNET_SETSPEED, NULL, Sim.localPlayer, Sim.Players.Players[PlayerNum].GameSpeed);
+        Sim.SendSimpleMessage (ATNET_SETSPEED, 0, Sim.localPlayer, Sim.Players.Players[PlayerNum].GameSpeed);
 
         StatusCount = max (StatusCount, 3);
     }
@@ -5475,7 +5475,7 @@ void CStdRaum::MenuRepaint (void)
                         if (Sim.Players.Players[PlayerNum].HasItem (ITEM_PARFUEM))
                         {
                             Sim.ItemParfuem=false;
-                            Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_PARFUEM);
+                            Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_PARFUEM);
                         }
                     }
                 }
@@ -5861,7 +5861,7 @@ void CStdRaum::MenuLeftClick (XY Pos)
                     qPlayer.NetUpdateKerosin();
 
                     qPlayer.ChangeMoney (-MenuInfo, 2090, "");
-                    Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -MenuInfo, -1);
+                    Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -MenuInfo, -1);
 
                     qPlayer.DoBodyguardRabatt (MenuInfo);
 
@@ -6032,7 +6032,7 @@ void CStdRaum::MenuLeftClick (XY Pos)
                             qPlayer.Money -= 1;
 
                             qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -1);
-                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -1, STAT_A_SONSTIGES);
+                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -1, STAT_A_SONSTIGES);
                         }
                     }
                     else if (Sim.Options.OptionEffekte)
@@ -6135,7 +6135,7 @@ phone_busy:
                 qPlayer.Money -= 1;
 
                 qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -1);
-                if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -1, STAT_A_SONSTIGES);
+                if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -1, STAT_A_SONSTIGES);
 
                 LastMenu = -1;
                 StartDialog (TALKER_WORLD, MEDIUM_HANDY, c, MouseClickPar2);
@@ -6251,7 +6251,7 @@ phone_busy:
                             qPlayer.Money -= 1;
 
                             qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -1);
-                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -1, STAT_A_SONSTIGES);
+                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -1, STAT_A_SONSTIGES);
 
                             StartDialog (TALKER_COMPETITOR, MEDIUM_HANDY, MouseClickPar2, 0);
 
@@ -6846,7 +6846,7 @@ phone_busy:
                         {
                             MenuStart (MENU_CALLITADAY);
                             Sim.Players.Players[Sim.localPlayer].WalkStopEx ();
-                            Sim.SendSimpleMessage (ATNET_DAYFINISH, NULL, PlayerNum);
+                            Sim.SendSimpleMessage (ATNET_DAYFINISH, 0, PlayerNum);
                             //Sim.SendSimpleMessage (ATNET_DAYFINISH, qPlayer.NetworkID, PlayerNum);
                             Sim.SendChatBroadcast (bprintf (StandardTexte.GetS (TOKEN_MISC, 7020), Sim.Players.Players[Sim.localPlayer].NameX.c_str()));
                         }
@@ -7421,7 +7421,7 @@ phone_busy:
                             qPlayer.ChangeMoney (-Preis, 3150, "");
                             qPlayer.AktienWert[(SLONG)MenuPar1]+=SLONG(Preis);
                             qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Preis);
-                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, -SLONG(Preis), STAT_A_SONSTIGES);
+                            if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SLONG(Preis), STAT_A_SONSTIGES);
                         }
 
                         qPlayer.NetSynchronizeMoney();
@@ -7451,7 +7451,7 @@ phone_busy:
                         Preis=Preis-Preis/10+100;
                         qPlayer.ChangeMoney (Preis, 3151, "");
                         qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, Preis);
-                        if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, SLONG(Preis), STAT_E_SONSTIGES);
+                        if (PlayerNum==Sim.localPlayer) Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, SLONG(Preis), STAT_E_SONSTIGES);
                     }
 
                     qPlayer.NetSynchronizeMoney();
@@ -7687,7 +7687,7 @@ void CStdRaum::MenuStop (void)
     {
         if (Sim.CallItADayAt==0)
         {
-            Sim.SendSimpleMessage (ATNET_DAYBACK, NULL, PlayerNum);
+            Sim.SendSimpleMessage (ATNET_DAYBACK, 0, PlayerNum);
             Sim.SendChatBroadcast (bprintf (StandardTexte.GetS (TOKEN_MISC, 7021), (LPCSTR)Sim.Players.Players[Sim.localPlayer].NameX));
             qPlayer.CallItADay = FALSE;
         }

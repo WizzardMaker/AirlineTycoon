@@ -548,7 +548,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
     else
     {
         pHLBasepool1Pool = NULL;
-        HLBasepool1Size  = NULL;
+        HLBasepool1Size  = 0;
     }
 
     if (pHLBasepool2)
@@ -559,7 +559,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
     else
     {
         pHLBasepool2Pool = NULL;
-        HLBasepool2Size  = NULL;
+        HLBasepool2Size  = 0;
     }
 
     SLONG MaxDelta = (100-Quality)*768/100;

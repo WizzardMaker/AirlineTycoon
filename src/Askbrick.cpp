@@ -18,7 +18,7 @@ static char THIS_FILE[] = __FILE__;
 //--------------------------------------------------------------------------------------------
 // AskBrick
 //--------------------------------------------------------------------------------------------
-AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStdRaum(bHandy, PlayerNum, "", NULL)
+AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStdRaum(bHandy, PlayerNum, "", 0)
 {
     RECT rect;
 

@@ -226,7 +226,7 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
     Limit(SLONG(0), Sim.Options.OptionLastPlayer, SLONG(3));
 
     for (c = 0; c < 4; c++)
-        UnselectedNetworkIDs[c] = NULL;
+        UnselectedNetworkIDs[c] = 0;
 
     if (NewgameWantsToLoad != 2)
     {
@@ -1483,9 +1483,9 @@ again_heimatflughafen:
                         Sim.Difficulty = MissionValues[SessionMissionID];
 
                         if (gNetworkSavegameLoading == -1)
-                            Sim.SendSimpleMessage(ATNET_BEGINGAME, NULL, Sim.bAllowCheating, Sim.StartTime, Sim.HomeAirportId, Sim.Difficulty);
+                            Sim.SendSimpleMessage(ATNET_BEGINGAME, 0, Sim.bAllowCheating, Sim.StartTime, Sim.HomeAirportId, Sim.Difficulty);
                         else
-                            Sim.SendSimpleMessage(ATNET_BEGINGAMELOADING, NULL, Sim.bAllowCheating, Sim.StartTime, Sim.HomeAirportId, gNetworkSavegameLoading, Sim.Difficulty);
+                            Sim.SendSimpleMessage(ATNET_BEGINGAMELOADING, 0, Sim.bAllowCheating, Sim.StartTime, Sim.HomeAirportId, gNetworkSavegameLoading, Sim.Difficulty);
 
                         //Sim.Difficulty     = DIFF_ATFS07;
                         Sim.bWatchForReady = TRUE;
@@ -1501,7 +1501,7 @@ again_heimatflughafen:
                             nWaitingForPlayer += Sim.GetSavegameNumHumans(gNetworkSavegameLoading) - 1;
                             SetNetworkBitmap(3, 1); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
                             Sim.LoadGame(gNetworkSavegameLoading);
-                            Sim.SendSimpleMessage(ATNET_WAITFORPLAYER, NULL, -1, Sim.localPlayer);
+                            Sim.SendSimpleMessage(ATNET_WAITFORPLAYER, 0, -1, Sim.localPlayer);
                             gNetworkSavegameLoading = -1;
                             NewgameWantsToLoad = FALSE;
                             return;
@@ -1593,7 +1593,7 @@ again_heimatflughafen:
                                 RefreshKlackerField();
                             }
 
-                            Sim.SendSimpleMessage(ATNET_UNSELECTPLAYER, NULL, c, gNetwork.GetLocalPlayerID());
+                            Sim.SendSimpleMessage(ATNET_UNSELECTPLAYER, 0, c, gNetwork.GetLocalPlayerID());
                         }
                     }
                     else if (Sim.Players.Players[c].NetworkID == 0 || Sim.Players.Players[c].NetworkID == gNetwork.GetLocalPlayerID() || PageNum != 18)
@@ -1624,7 +1624,7 @@ again_heimatflughafen:
                             {
                                 if (Sim.Players.Players[d].Owner == 0 && PageNum == 18)
                                 {
-                                    Sim.SendSimpleMessage(ATNET_SELECTPLAYER, NULL, d, c, gNetwork.GetLocalPlayerID());
+                                    Sim.SendSimpleMessage(ATNET_SELECTPLAYER, 0, d, c, gNetwork.GetLocalPlayerID());
                                     memswap(&Sim.Players.Players[d].NetworkID, &Sim.Players.Players[c].NetworkID, sizeof(ULONG));
                                     bFound = false;
                                 }
@@ -1634,12 +1634,12 @@ again_heimatflughafen:
 
                             Sim.Players.Players[c].Owner = 0;
                             Sim.Players.Players[c].NetworkID = gNetwork.GetLocalPlayerID();
-                            if (!bFound) Sim.SendSimpleMessage(ATNET_SELECTPLAYER, NULL, -1, c, gNetwork.GetLocalPlayerID());
+                            if (!bFound) Sim.SendSimpleMessage(ATNET_SELECTPLAYER, 0, -1, c, gNetwork.GetLocalPlayerID());
 
 
                             for (SLONG e = 0; e < 4; e++)
                                 if (UnselectedNetworkIDs[e] == gNetwork.GetLocalPlayerID())
-                                    UnselectedNetworkIDs[e] = NULL;
+                                    UnselectedNetworkIDs[e] = 0;
 
                             Sim.Options.OptionLastPlayer = c;
 
@@ -1948,7 +1948,7 @@ again_heimatflughafen:
             //Back to session creation / selektion:
             if (GridPos.IfIsWithin(1, 15, 7, 15))
             {
-                Sim.SendSimpleMessage(ATNET_WANNALEAVE, NULL, gNetwork.GetLocalPlayerID());
+                Sim.SendSimpleMessage(ATNET_WANNALEAVE, 0, gNetwork.GetLocalPlayerID());
                 gNetwork.CloseSession();
                 if (bThisIsSessionMaster)
                 {
@@ -2153,7 +2153,7 @@ void NewGamePopup::CheckNetEvents() {
                             {
                                 BOOL bOld = Sim.bNetwork;
                                 Sim.bNetwork = true;
-                                Sim.SendSimpleMessage(ATNET_WANNAJOIN2, NULL, gNetwork.GetLocalPlayerID(), Sim.GetSavegameLocalPlayer(SavegameIndex));
+                                Sim.SendSimpleMessage(ATNET_WANNAJOIN2, 0, gNetwork.GetLocalPlayerID(), Sim.GetSavegameLocalPlayer(SavegameIndex));
                                 Sim.bNetwork = bOld;
                             }
                             else
@@ -2184,7 +2184,7 @@ void NewGamePopup::CheckNetEvents() {
 
                             for (SLONG c = 0; c < 4; c++)
                                 if (UnselectedNetworkIDs[c] == PlayerNetworkID)
-                                    UnselectedNetworkIDs[c] = NULL;
+                                    UnselectedNetworkIDs[c] = 0;
 
                             if (OldIndex != -1)
                                 memswap(&Sim.Players.Players[OldIndex].NetworkID, &Sim.Players.Players[NewIndex].NetworkID, sizeof(ULONG));
@@ -2233,7 +2233,7 @@ void NewGamePopup::CheckNetEvents() {
 
                             for (SLONG c = 0; c < 4; c++)
                                 if (UnselectedNetworkIDs[c] == SenderID)
-                                    UnselectedNetworkIDs[c] = NULL;
+                                    UnselectedNetworkIDs[c] = 0;
 
                             PushNames();
                         }
@@ -2293,7 +2293,7 @@ void NewGamePopup::CheckNetEvents() {
                             nWaitingForPlayer += Sim.GetSavegameNumHumans(Index) - 1;
                             SetNetworkBitmap(3, 1); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
                             Sim.LoadGame(Index);
-                            Sim.SendSimpleMessage(ATNET_WAITFORPLAYER, NULL, -1, Sim.localPlayer);
+                            Sim.SendSimpleMessage(ATNET_WAITFORPLAYER, 0, -1, Sim.localPlayer);
                             gNetworkSavegameLoading = -1;
                             NewgameWantsToLoad = FALSE;
                         }

@@ -42,7 +42,7 @@ SLONG SicherheitCosts[] = {       0, 2000000, 6000000 };
 //--------------------------------------------------------------------------------------------
 //Die Schalter wird eröffnet:
 //--------------------------------------------------------------------------------------------
-CPlaneProps::CPlaneProps(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "planprop.gli", NULL)
+CPlaneProps::CPlaneProps(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "planprop.gli", 0)
 {
     SetRoomVisited (PlayerNum, ROOM_PLANEPROPS);
     HandyOffset = 320;

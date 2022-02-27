@@ -363,7 +363,7 @@ void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point)
                 if (qPlayer.HasItem (ITEM_GLUE))
                 {
                     Sim.ItemGlue=2;
-                    Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_GLUE);
+                    Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLUE);
                 }
             }
         }

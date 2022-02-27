@@ -255,7 +255,7 @@ add   edx, ecx
 //--------------------------------------------------------------------------------------------
 //Die Raketen Inseln
 //--------------------------------------------------------------------------------------------
-CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", NULL)
+CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 0)
 {
     CWaitCursorNow wc; //CD-Cursor anzeigen
 
@@ -270,7 +270,7 @@ CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
     }
     else
     {
-        ReSize ("insel.gli", NULL);
+        ReSize ("insel.gli", 0);
 
         SetRoomVisited (PlayerNum, ROOM_INSEL);
         HandyOffset = 320;

@@ -309,12 +309,12 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point)
                             qPlayer.BuyItem(ITEM_LAPTOP);
                         }
 
-                        Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_LAPTOP, PlayerNum);
+                        Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_LAPTOP, PlayerNum);
 
                         long delta = -atoi(StandardTexte.GetS (TOKEN_ITEM, 2000+qPlayer.LaptopQuality));
                         qPlayer.ChangeMoney (delta, 9999, StandardTexte.GetS (TOKEN_ITEM, 1000+qPlayer.LaptopQuality));
                         qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, delta);
-                        Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, delta, STAT_A_SONSTIGES);
+                        Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
 
                         qPlayer.DoBodyguardRabatt (atoi(StandardTexte.GetS (TOKEN_ITEM, 2000+qPlayer.LaptopQuality)));
 
@@ -350,7 +350,7 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point)
 
                     long delta = -atoi(StandardTexte.GetS (TOKEN_ITEM, 2000+MouseClickId));
                     qPlayer.ChangeMoney (delta, 9999, StandardTexte.GetS (TOKEN_ITEM, 1000+MouseClickId));
-                    Sim.SendSimpleMessage (ATNET_CHANGEMONEY, NULL, Sim.localPlayer, delta, STAT_A_SONSTIGES);
+                    Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
 
                     qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, delta);
                     qPlayer.DoBodyguardRabatt (atoi(StandardTexte.GetS (TOKEN_ITEM, 2000+MouseClickId)));

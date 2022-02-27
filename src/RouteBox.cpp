@@ -645,7 +645,7 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point)
                 if (qPlayer.HasItem (ITEM_PAPERCLIP))
                 {
                     Sim.ItemClips=0;
-                    Sim.SendSimpleMessage (ATNET_TAKETHING, NULL, ITEM_PAPERCLIP);
+                    Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_PAPERCLIP);
                 }
             }
             else if (MouseClickId==10) { RoutePage--; RepaintList(); gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7); }

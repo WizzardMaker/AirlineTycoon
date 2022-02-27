@@ -1098,7 +1098,7 @@ void CTakeOffApp::GameLoop(void*)
                                 Sim.SaveGame (11, StandardTexte.GetS (TOKEN_MISC, 5000));
 
                             Sim.CallItADayAt=Sim.TimeSlice+30;
-                            Sim.SendSimpleMessage (ATNET_DAYFINISHALL, NULL, Sim.CallItADayAt);
+                            Sim.SendSimpleMessage (ATNET_DAYFINISHALL, 0, Sim.CallItADayAt);
                             Sim.CallItADay=false;
                         }
                     }
@@ -1299,7 +1299,7 @@ void CTakeOffApp::GameLoop(void*)
                     {
                         if (Sim.Players.Players[Sim.localPlayer].bReadyForMorning==false && (Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_AUFSICHT || Sim.GetHour()>9 || Sim.GetMinute()>0))
                         {
-                            Sim.SendSimpleMessage (ATNET_READYFORMORNING, NULL, Sim.localPlayer);
+                            Sim.SendSimpleMessage (ATNET_READYFORMORNING, 0, Sim.localPlayer);
                             Sim.Players.Players[Sim.localPlayer].bReadyForMorning=true;
                         }
 

@@ -3335,7 +3335,7 @@ void SIM::SaveGame (SLONG Number, const CString &Name)
 
     if (!OutputFile.IsOpen()) return;
 
-    Sim.SendSimpleMessage (ATNET_WAITFORPLAYER, NULL, 1, Sim.localPlayer);
+    Sim.SendSimpleMessage (ATNET_WAITFORPLAYER, 0, 1, Sim.localPlayer);
 
     //Names des Spielstandes:
     OutputFile << Name;
@@ -3420,7 +3420,7 @@ void SIM::SaveGame (SLONG Number, const CString &Name)
 
     if (Sim.bNetwork)
     {
-        Sim.SendSimpleMessage (ATNET_WAITFORPLAYER, NULL, -1, Sim.localPlayer);
+        Sim.SendSimpleMessage (ATNET_WAITFORPLAYER, 0, -1, Sim.localPlayer);
 
         DisplayBroadcastMessage (StandardTexte.GetS (TOKEN_MISC, 7003));
     }
@@ -3779,7 +3779,7 @@ void SIM::NetRefill (SLONG Type, SLONG City)
 //--------------------------------------------------------------------------------------------
 void SIM::NetSynchronizeOvertake (void)
 {
-    Sim.SendSimpleMessage (ATNET_OVERTAKE, NULL, OvertakenAirline, OvertakerAirline, Overtake);
+    Sim.SendSimpleMessage (ATNET_OVERTAKE, 0, OvertakenAirline, OvertakerAirline, Overtake);
 }
 
 //--------------------------------------------------------------------------------------------

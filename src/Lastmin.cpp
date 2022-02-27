@@ -352,7 +352,7 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point)
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay (0, 1);
                     qPlayer.Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay (0, 1);
 
-                    Sim.SendSimpleMessage (ATNET_SYNCNUMFLUEGE, NULL, Sim.localPlayer, (long)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (long)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
+                    Sim.SendSimpleMessage (ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, (long)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (long)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
 
                     LastMinuteAuftraege.Auftraege[c].Praemie=-1000;
                     qPlayer.NetUpdateTook (1, c);

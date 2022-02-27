@@ -19,9 +19,9 @@ static const char FileId[] = "Spac";
 //--------------------------------------------------------------------------------------------
 //Die Schalter wird eröffnet:
 //--------------------------------------------------------------------------------------------
-CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", NULL)
+CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 0)
 {
-    ReSize ("weltall.gli", NULL);
+    ReSize ("weltall.gli", 0);
     RoomBm.ReSize (640, 440);
 
     FernglasBms.ReSize (pRoomLib, "O1 O2 ATOP ABOTTOM AL1 AL2 AL3 AR1 AR2 AR3");

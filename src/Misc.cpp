@@ -697,7 +697,7 @@ void HEADLINES::ReloadHeadline (void)
             if (NewRand[Zeitung-1]==-1)
             {
                 Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
-                Headline[(Zeitung-1)*10].PictureId = NULL;
+                Headline[(Zeitung-1)*10].PictureId = 0;
                 Headline[(Zeitung-1)*10].PicturePriority = 0;
             }
         }
@@ -708,7 +708,7 @@ void HEADLINES::ReloadHeadline (void)
             CurrentChain[Zeitung-1]  = Kette;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
             Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
-            Headline[(Zeitung-1)*10].PictureId = NULL;
+            Headline[(Zeitung-1)*10].PictureId = 0;
             Headline[(Zeitung-1)*10].PicturePriority = 0;
         }
 
@@ -718,7 +718,7 @@ void HEADLINES::ReloadHeadline (void)
             CurrentChain[Zeitung-1]++;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
             Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
-            Headline[(Zeitung-1)*10].PictureId = NULL;
+            Headline[(Zeitung-1)*10].PictureId = 0;
             Headline[(Zeitung-1)*10].PicturePriority = 0;
         }
 
@@ -728,7 +728,7 @@ void HEADLINES::ReloadHeadline (void)
             CurrentChain[Zeitung-1]++;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
             Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
-            Headline[(Zeitung-1)*10].PictureId = NULL;
+            Headline[(Zeitung-1)*10].PictureId = 0;
             Headline[(Zeitung-1)*10].PicturePriority = 0;
         }
         else if (Zeitung && CurrentChain[(Zeitung-1+2)%3]+1==Kette)
@@ -736,7 +736,7 @@ void HEADLINES::ReloadHeadline (void)
             CurrentChain[Zeitung-1]++;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
             Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
-            Headline[(Zeitung-1)*10].PictureId = NULL;
+            Headline[(Zeitung-1)*10].PictureId = 0;
             Headline[(Zeitung-1)*10].PicturePriority = 0;
         }
     }

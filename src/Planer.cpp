@@ -162,7 +162,7 @@ void PaintGlobe (const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const 
 //Konstruktor:
 //--------------------------------------------------------------------------------------------
 CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop) :
-    CStdRaum (bHandy, PlayerNum, "", NULL),
+    CStdRaum (bHandy, PlayerNum, "", 0),
     EarthAlpha (EarthAlpha)
 {
     SLONG c;
