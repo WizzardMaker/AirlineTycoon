@@ -679,7 +679,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
         qPlayer.CalledCities.ReSize(Cities.AnzEntries());
         qPlayer.CalledCities.FillWith(0);
 
-        memset(qPlayer.Locations, 0, 10 * sizeof(UWORD));
+        qPlayer.Locations.fill(0);
         qPlayer.TopLocation = ROOM_AIRPORT;
 
         qPlayer.RentRouten.RentRouten.ReSize(0);
@@ -3033,8 +3033,8 @@ TEAKFILE &operator<<(TEAKFILE &File, const SIM &Sim) {
     // Die Statistik:
     File.Write((const UBYTE *)&Sim.StatfGraphVisible, sizeof(Sim.StatfGraphVisible));
     File << Sim.Statgroup << Sim.Statdays << Sim.StatnewDays << Sim.DropDownPosY;
-    File.Write((const UBYTE *)(Sim.StatplayerMask), sizeof(Sim.StatplayerMask));
-    File.Write((const UBYTE *)(Sim.StatiArray), sizeof(Sim.StatiArray));
+    File << Sim.StatplayerMask;
+    File << Sim.StatiArray;
 
     // Der maximale Schwierigkeitsgrad;
     File.WriteTrap(100);
@@ -3145,8 +3145,8 @@ TEAKFILE &operator>>(TEAKFILE &File, SIM &Sim) {
     // Die Statistik:
     File.Read(reinterpret_cast<UBYTE *>(&Sim.StatfGraphVisible), sizeof(Sim.StatfGraphVisible));
     File >> Sim.Statgroup >> Sim.Statdays >> Sim.StatnewDays >> Sim.DropDownPosY;
-    File.Read(reinterpret_cast<UBYTE *>(Sim.StatplayerMask), sizeof(Sim.StatplayerMask));
-    File.Read(reinterpret_cast<UBYTE *>(Sim.StatiArray), sizeof(Sim.StatiArray));
+    File >> Sim.StatplayerMask;
+    File >> Sim.StatiArray;
 
     // Der maximale Schwierigkeitsgrad;
     File.ReadTrap(100);

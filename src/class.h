@@ -1476,7 +1476,7 @@ class /**/ CLANS : public ALBUM_V<CLAN> {
 //--------------------------------------------------------------------------------------------
 class /**/ PERSON {
   private:
-    UBYTE ClanId;             // Referenziert das Clan-Array
+    UBYTE ClanId{255};             // Referenziert das Clan-Array
     UBYTE Dir{};              // In welche Richtung 0-3 bzw. 0-7 geht die Person
     UBYTE LookDir{};          // Hierhin schauen wir
     UBYTE Phase{};            // Die aktuelle Animationsphase
@@ -1552,8 +1552,8 @@ class /**/ PERSON {
 
 class /**/ PERSONS : public ALBUM_V<PERSON> {
   public:
-    PERSONS();
-    void DepthSort(void);
+    PERSONS() : ALBUM_V<PERSON>("Persons") { ReSize(800); }
+    void DepthSort(void) { Sort(); }
     void DoOneStep(void);
     ULONG GetPlayerIndex(SLONG Number);
     SLONG GetNumShoppers(void);
@@ -1569,20 +1569,20 @@ class /**/ PERSONS : public ALBUM_V<PERSON> {
 //--------------------------------------------------------------------------------------------
 class /**/ CQueuedPerson {
   private:
-    SLONG TimeSlice; // Dann soll sie erscheinen, (-1=leer)
-    SLONG Priority;  // Zufällige Priorität, falls mehrere Personen erscheinen sollen (durch Netzwerk-Konflikte)
+    SLONG TimeSlice{-1}; // Dann soll sie erscheinen, (-1=leer)
+    SLONG Priority{};  // Zufällige Priorität, falls mehrere Personen erscheinen sollen (durch Netzwerk-Konflikte)
 
-    UBYTE ClanId;           // Referenziert das Clan-Array
-    UBYTE Reason;           // Der Grund, warum sie am Flughafen ist (z.B. Abflug)
-    UBYTE FlightAirline;    // Die Fluglinie (0-3) der Person..
-    ULONG FlightPlaneId;    //..mit diesem Flugzeug der Linie wird geflogen..
-    UBYTE FlightPlaneIndex; //..und mit diesem Flug (0-6)
-    UBYTE Mood;             // Stimmung
-    UBYTE FirstClass;       // ErsteKlasse Passagier?
+    UBYTE ClanId{};           // Referenziert das Clan-Array
+    UBYTE Reason{};           // Der Grund, warum sie am Flughafen ist (z.B. Abflug)
+    UBYTE FlightAirline{};    // Die Fluglinie (0-3) der Person..
+    ULONG FlightPlaneId{};    //..mit diesem Flugzeug der Linie wird geflogen..
+    UBYTE FlightPlaneIndex{}; //..und mit diesem Flug (0-6)
+    UBYTE Mood{};             // Stimmung
+    UBYTE FirstClass{};       // ErsteKlasse Passagier?
     XY Position;            // Die rechnerische Position (ohne Isometrie)
 
   public:
-    CQueuedPerson() { TimeSlice = -1; }
+    CQueuedPerson() = default;
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CQueuedPerson &p);
     friend TEAKFILE &operator>>(TEAKFILE &File, CQueuedPerson &p);
@@ -1593,10 +1593,10 @@ class /**/ CQueuedPerson {
 class /**/ CQueueSpot {
   private:
     XY Position;     // Hier wurde etwas erzeugt
-    SLONG TimeSlice; // Jetzt zum letzten mal, (-1=nie)
+    SLONG TimeSlice{-1}; // Jetzt zum letzten mal, (-1=nie)
 
   public:
-    CQueueSpot() { TimeSlice = -1; }
+    CQueueSpot() = default;
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CQueueSpot &s);
     friend TEAKFILE &operator>>(TEAKFILE &File, CQueueSpot &s);
@@ -1627,8 +1627,8 @@ class /**/ CPersonQueue {
 class /**/ HISTORYLINE // Nein, nicht das von Blue Byte
 {
   public:
-    BOOL ByPhone;
-    __int64 Money;
+    BOOL ByPhone{};
+    __int64 Money{};
     CString Description;
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const HISTORYLINE &h);
@@ -1637,11 +1637,11 @@ class /**/ HISTORYLINE // Nein, nicht das von Blue Byte
 
 class /**/ HISTORY {
   public:
-    HISTORYLINE HistoryLine[100];
+    std::array<HISTORYLINE, 100> HistoryLine;
     __int64 HistoricMoney{};
 
   public:
-    HISTORY();
+    HISTORY() { ReInit(); }
     void ReInit();
     void AddEntry(__int64 Money, const CString &Description);
     void AddNewCall(SLONG Type); // Bit 0: Handy, Bit 1+2: Ortgespräch, Ferngespräch, Auslandsgespräch
@@ -1653,9 +1653,9 @@ class /**/ HISTORY {
 
 class /**/ CRobotAction {
   public:
-    SLONG ActionId;
-    UBYTE TargetRoom;
-    SLONG Par1, Par2;
+    SLONG ActionId{};
+    UBYTE TargetRoom{};
+    SLONG Par1{}, Par2{};
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CRobotAction &r) {
         File << r.ActionId << r.TargetRoom << r.Par1 << r.Par2;
@@ -1722,16 +1722,16 @@ class /**/ CMessages {
 class /**/ CWorker {
   public:
     CString Name;
-    BOOL Geschlecht;
-    SLONG Typ;
-    SLONG Gehalt, OriginalGehalt;
-    SLONG Talent;
-    SLONG Alter;
+    BOOL Geschlecht{};
+    SLONG Typ{};
+    SLONG Gehalt{}, OriginalGehalt{};
+    SLONG Talent{};
+    SLONG Alter{};
     CString Kommentar;
-    SLONG Employer;   // 0-3 oder WORKER_RESERVE, WORKER_JOBLESS
-    SLONG PlaneId;    // Auf diesem Flugzeug wird die Prs ggf. eingesetzt
-    SLONG Happyness;  //-100 bis 100
-    BOOL WarnedToday; // Heute schon gemeckert?
+    SLONG Employer{};   // 0-3 oder WORKER_RESERVE, WORKER_JOBLESS
+    SLONG PlaneId{};    // Auf diesem Flugzeug wird die Prs ggf. eingesetzt
+    SLONG Happyness{};  //-100 bis 100
+    BOOL WarnedToday{}; // Heute schon gemeckert?
 
   public:
     void Gehaltsaenderung(BOOL Art);
@@ -1748,7 +1748,7 @@ class /**/ CWorkers {
     BUFFER_V<CString> LNames; // Last Names
 
   public:
-    CWorkers() {}
+    CWorkers() = default;
     CWorkers(const CString &TabFilename, const CString &TabFilename2);
 
     CString GetRandomName(BOOL Geschlecht) const;
@@ -1776,16 +1776,16 @@ class /**/ CWorkers {
 //--------------------------------------------------------------------------------------------
 class CTalker {
   public:
-    SLONG OwnNumber;
-    SLONG State;    // 0=nix, 1=Gespräch, 2=Telefonat annehmen, 3=Telefonieren, 4=Auflegen
-    SLONG StatePar; // Fortschritt der Animation
-    BOOL Talking;
-    SLONG Phase;
-    SLONG Locking; // Computer LOCKen die Figur, wenn sie im Raum sind
-    SLONG NumRef;  // Von wie vielen wird das benutzt
+    SLONG OwnNumber{};
+    SLONG State{};    // 0=nix, 1=Gespräch, 2=Telefonat annehmen, 3=Telefonieren, 4=Auflegen
+    SLONG StatePar{}; // Fortschritt der Animation
+    BOOL Talking{};
+    SLONG Phase{};
+    SLONG Locking{}; // Computer LOCKen die Figur, wenn sie im Raum sind
+    SLONG NumRef{};  // Von wie vielen wird das benutzt
 
     // Bitmap(s) des Sprechers: Nix tun, zu schauen, sprechen, zu nix tun
-    SBBMS TalkerBms[4];
+    std::array<SBBMS, 4> TalkerBms;
 
   public:
     void StartDialog(BOOL Medium);
@@ -1857,16 +1857,17 @@ typedef struct smk_t *smk;
 //--------------------------------------------------------------------------------------------
 class CSmack16 {
   public:
-    SDL_Palette *PaletteMapper{}; // Tabelle zum Mappen von 8 auf 16 Bit
-    smk pSmack;
+    SDL_Palette *PaletteMapper{nullptr}; // Tabelle zum Mappen von 8 auf 16 Bit
+    smk pSmack{nullptr};
     char State{};
     unsigned long Width{};
     unsigned long Height{};
     DWORD FrameNext{};
 
   public:
-    CSmack16();
+    CSmack16() = default;
     ~CSmack16();
+
     void Open(const CString &Filename);
     BOOL Next(SBBM *pTargetBm);
     void Close(void);
@@ -1875,7 +1876,7 @@ class CSmack16 {
 class CSmoker {
   public:
     BUFFER_V<CSmoke> Smoke;
-    SLONG Smoking;
+    SLONG Smoking{};
 };
 
 //--------------------------------------------------------------------------------------------
@@ -1884,7 +1885,7 @@ class CSmoker {
 class CAirportSmack : public CSmack16 {
   public:
     SBBM Bitmap;
-    SLONG BrickId;
+    SLONG BrickId{};
     XY Offset;
 
   public:
@@ -1934,8 +1935,8 @@ class PLAYER {
     SLONG MechTrust{};         // 0=kein, 1=offen, 2=genehmigt
     SLONG MechAngry{};         // 0=nein, 1=wütend
     UWORD EarthAlpha{};
-    UBYTE DisplayRoutes[4]{}; // Routen bei der Flugplanung anzeigen?
-    UBYTE DisplayPlanes[4]{}; // Flugzeuge bei der Flugplanung anzeigen?
+    std::array<UBYTE, 4> DisplayRoutes{}; // Routen bei der Flugplanung anzeigen?
+    std::array<UBYTE, 4> DisplayPlanes{}; // Flugzeuge bei der Flugplanung anzeigen?
     SLONG ReferencePlane{};   // Hier wurde zuletzt daran gearbeitet
     BOOL SickTokay{};         // Ist der Spieler heute krank?
     BOOL RunningToToilet{};   // Muß er ganz dringend zur Toilette?
@@ -2017,9 +2018,9 @@ class PLAYER {
     CBilanz Bilanz{}, BilanzGestern{};
     SLONG AnzAktien{};        // Zahl der emmitierten Aktien
     SLONG MaxAktien{};        // Zahl der emmitierbaren Aktien
-    SLONG OwnsAktien[4]{};    // Soviele Aktien besitzt der Spieler jeweils von der Sorte
-    __int64 AktienWert[4]{};  // Soviele waren die Aktien beim Kauf jeweils Wert
-    double Kurse[10]{};       // Die letzten 10 Kurse
+    std::array<SLONG, 4> OwnsAktien{};    // Soviele Aktien besitzt der Spieler jeweils von der Sorte
+    std::array<__int64, 4> AktienWert{};  // Soviele waren die Aktien beim Kauf jeweils Wert
+    std::array<double, 10> Kurse{};       // Die letzten 10 Kurse
     SLONG Dividende{};        // Die zuletzt ausgezahlte Dividende
     SLONG TrustedDividende{}; // Das Vertrauen der Anleger
 
@@ -2033,7 +2034,7 @@ class PLAYER {
     UBYTE NewDir;          // Flag, falls die Laufrichtung geändert wurde
     XY WinP1;              // Die Position des ViewFensters im GameFrame Fenster
     XY WinP2;
-    UWORD Locations[10]{};         // 0=kein, 1=Flughafen; 2-? = Raum
+    std::array<UWORD, 10> Locations{};         // 0=kein, 1=Flughafen; 2-? = Raum
     SLONG LocationTime{};          // Seit diesem Sim.Time sind wir in dieser Location (oder -1 für Flughafen)
     SLONG LocationForbidden{};     // Diese Location ist verboten, weil man zu lange dort war
     SLONG LocationForbiddenTime{}; // Und zwar um diese Uhrzeit
@@ -2300,47 +2301,47 @@ class AIRPORT {
 class COptions {
     // Die Optionen:
   public:
-    SLONG OptionFullscreen;
-    BOOL OptionKeepAspectRatio;
-    BOOL OptionPlanes;
-    BOOL OptionPassengers;
-    SLONG OptionMusicType;
-    BOOL OptionEnableDigi;
-    SLONG OptionMusik;
-    SLONG OptionMasterVolume;
-    SLONG OptionLoopMusik;
-    SLONG OptionEffekte;
-    SLONG OptionAmbiente;
-    SLONG OptionDurchsagen;
-    SLONG OptionTalking;
-    SLONG OptionPlaneVolume;
-    BOOL OptionGirl;
-    BOOL OptionBerater;
-    BOOL OptionBriefBriefing;
-    BOOL OptionRealKuerzel;
-    SLONG OptionAirport;
-    BOOL OptionBlenden;
-    BOOL OptionTransparenz;
-    BOOL OptionSchatten;
-    BOOL OptionThinkBubbles;
-    BOOL OptionFlipping;
-    BOOL OptionDigiSound;
-    BOOL OptionAutosave;
-    BOOL OptionFax;
-    BOOL OptionRoundNumber;
-    BOOL OptionSpeechBubble;
-    BOOL OptionRandomStartday;
-    CString OptionPlayerNames[4];
-    CString OptionAirlineNames[4];
-    CString OptionAirlineAbk[4];
+    SLONG OptionFullscreen{};
+    BOOL OptionKeepAspectRatio{};
+    BOOL OptionPlanes{};
+    BOOL OptionPassengers{};
+    SLONG OptionMusicType{};
+    BOOL OptionEnableDigi{};
+    SLONG OptionMusik{};
+    SLONG OptionMasterVolume{};
+    SLONG OptionLoopMusik{};
+    SLONG OptionEffekte{};
+    SLONG OptionAmbiente{};
+    SLONG OptionDurchsagen{};
+    SLONG OptionTalking{};
+    SLONG OptionPlaneVolume{};
+    BOOL OptionGirl{};
+    BOOL OptionBerater{};
+    BOOL OptionBriefBriefing{};
+    BOOL OptionRealKuerzel{};
+    SLONG OptionAirport{};
+    BOOL OptionBlenden{};
+    BOOL OptionTransparenz{};
+    BOOL OptionSchatten{};
+    BOOL OptionThinkBubbles{};
+    BOOL OptionFlipping{};
+    BOOL OptionDigiSound{};
+    BOOL OptionAutosave{};
+    BOOL OptionFax{};
+    BOOL OptionRoundNumber{};
+    BOOL OptionSpeechBubble{};
+    BOOL OptionRandomStartday{};
+    std::array<CString, 4> OptionPlayerNames{};
+    std::array<CString, 4> OptionAirlineNames{};
+    std::array<CString, 4> OptionAirlineAbk{};
 
-    BOOL OptionViewedIntro;
-    SLONG OptionRoomDescription;
-    SLONG OptionLastPlayer;
-    SLONG OptionLastMission;
-    SLONG OptionLastMission2;
-    SLONG OptionLastMission3;
-    SLONG OptionLastProvider;
+    BOOL OptionViewedIntro{};
+    SLONG OptionRoomDescription{};
+    SLONG OptionLastPlayer{};
+    SLONG OptionLastMission{};
+    SLONG OptionLastMission2{};
+    SLONG OptionLastMission3{};
+    SLONG OptionLastProvider{};
 
   public:
     void ReadOptions(void);
@@ -2349,9 +2350,9 @@ class COptions {
 
 class CSabotageAct {
   public:
-    SLONG Player;
-    SLONG ArabMode;
-    SLONG Opfer;
+    SLONG Player{};
+    SLONG ArabMode{};
+    SLONG Opfer{};
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CSabotageAct &SabotageAct);
     friend TEAKFILE &operator>>(TEAKFILE &File, CSabotageAct &SabotageAct);
@@ -2362,15 +2363,9 @@ class CSabotageAct {
 //--------------------------------------------------------------------------------------------
 class CHighscore {
   public:
-    CHighscore() {
-        Name = "---";
-        Score = 0;
-    }
-
-  public:
-    CString Name;
-    DWORD UniqueGameId2;
-    __int64 Score;
+    CString Name{"---"};
+    DWORD UniqueGameId2{};
+    __int64 Score{0};
 };
 
 //--------------------------------------------------------------------------------------------
@@ -2400,7 +2395,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
 
     BUFFER_V<CSabotageAct> SabotageActs;
 
-    CHighscore Highscores[6];
+    std::array<CHighscore, 6> Highscores{};
 
     // Flags & Co.:
   public:
@@ -2448,7 +2443,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     BOOL b18Uhr{};            // ab 18 Uhr wird im Netzwerk nicht mehr synchronisiert
     BOOL bCompatibleRoutes{}; // True if this game uses (old) compatible Routes (some may be double)
 
-    ULONG KeyHints[3]{};         // Hilfe-texte für die Tasten: [0]=einmal [1]=heute [2]=zum zweiten Mal
+    std::array<ULONG, 3> KeyHints{};         // Hilfe-texte für die Tasten: [0]=einmal [1]=heute [2]=zum zweiten Mal
     bool bThisIsSessionMaster{}; // Ist dies der Server?
 
     BUFFER_V<SLONG> MissionCities; // Die Zielstädte für die Missionen
@@ -2474,11 +2469,11 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     // Statistik:
   public:
     bool StatfGraphVisible{}; // true -> Der Graph ist sichtbar, ansonsten die schnöden Zahlen
-    bool StatplayerMask[4]{}; // Diese Spieler wurden zur Ansicht ausgewählt
+    std::array<bool, 4> StatplayerMask{}; // Diese Spieler wurden zur Ansicht ausgewählt
     BYTE Statgroup{};         // Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
     SLONG Statdays{};         // Anzahl der darzustellenden Tage
     SLONG StatnewDays{};      // Für eine Animation
-    bool StatiArray[3][16]{}; // Merkt sich für jede Gruppe welche Einträge selektiert sind.
+    std::array< std::array<bool, 16>, 3> StatiArray{}; // Merkt sich für jede Gruppe welche Einträge selektiert sind.
     SLONG DropDownPosY{};
 
     // Datum und Zeit:

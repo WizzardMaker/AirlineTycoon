@@ -43,7 +43,7 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
     DropDownPos = XY(0, 0);
     DropDownSpeed = 0;
 
-    memcpy(_playerMask, Sim.StatplayerMask, sizeof(_playerMask));
+    _playerMask = Sim.StatplayerMask;
     _group = Sim.Statgroup;
     _fGraphVisible = Sim.StatfGraphVisible;
     DropDownPos.y = Sim.DropDownPosY;
@@ -301,7 +301,7 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
 // Die Welt geht unter:
 //--------------------------------------------------------------------------------------------
 CStatistik::~CStatistik() {
-    memcpy(Sim.StatplayerMask, _playerMask, sizeof(Sim.StatplayerMask));
+    Sim.StatplayerMask = _playerMask;
     Sim.Statgroup = _group;
     Sim.StatfGraphVisible = _fGraphVisible;
     Sim.Statdays = _days;

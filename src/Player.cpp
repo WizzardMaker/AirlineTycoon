@@ -7144,10 +7144,6 @@ void PLAYERS::RandomBeraterMessage() {
 //============================================================================================
 // HISTORY::
 //============================================================================================
-// Konstruktor:
-//============================================================================================
-HISTORY::HISTORY() { ReInit(); }
-
 //--------------------------------------------------------------------------------------------
 // Alles löschen:
 //--------------------------------------------------------------------------------------------
@@ -7331,8 +7327,8 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player) {
         File << Player.DutyTrust;
     }
 
-    File.Write((const UBYTE *)Player.DisplayRoutes, sizeof(Player.DisplayRoutes));
-    File.Write((const UBYTE *)Player.DisplayPlanes, sizeof(Player.DisplayPlanes));
+    File << Player.DisplayRoutes;
+    File << Player.DisplayPlanes;
 
     // Größere Daten:
     File << Player.Planes << Player.Auftraege << Player.Gates;
@@ -7494,8 +7490,8 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
         File >> Player.DutyTrust;
     }
 
-    File.Read((UBYTE *)Player.DisplayRoutes, sizeof(Player.DisplayRoutes));
-    File.Read((UBYTE *)Player.DisplayPlanes, sizeof(Player.DisplayPlanes));
+    File >> Player.DisplayRoutes;
+    File >> Player.DisplayPlanes;
 
     // Größere Daten:
     File >> Player.Planes >> Player.Auftraege >> Player.Gates;
