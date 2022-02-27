@@ -642,15 +642,6 @@ void ResumeMidi() {
 //--------------------------------------------------------------------------------------------
 // Ein Soundeffekt:
 //--------------------------------------------------------------------------------------------
-SBFX::SBFX() { pFX = nullptr; }
-
-SBFX::~SBFX() {
-    if (pFX != nullptr) {
-        pFX->Release();
-        pFX = nullptr;
-    }
-}
-
 void SBFX::Destroy() {
     if (pFX != nullptr) {
         pFX->Release();

@@ -17,11 +17,11 @@ extern SLONG MouseWait;
 class /**/ CSmoke {
   public:
     XY Position;
-    SLONG vx;
-    SLONG TTL; // TimeToLive;
+    SLONG vx {};
+    SLONG TTL {}; // TimeToLive;
 
   public:
-    CSmoke() { TTL = 0; }
+    CSmoke() = default;
 };
 
 //--------------------------------------------------------------------------------------------
@@ -117,12 +117,17 @@ template <class T, T code1, T code2> class /**/ CCodedVar {
 //--------------------------------------------------------------------------------------------
 class /**/ SBFX {
   public:
-    FX *pFX;
+    FX *pFX{nullptr};
     CString Filename;
 
   public:
-    SBFX();
-    ~SBFX();
+    SBFX() = default;
+    ~SBFX() {
+        if (pFX != nullptr) {
+            pFX->Release();
+            pFX = nullptr;
+        }
+    }
     void Destroy(void);
     void ReInit(const CString &Filename, char *Path = NULL);
     void Play(dword dwFlags = 0) const;
@@ -156,7 +161,7 @@ class /**/ CVoiceScheduler {
 //--------------------------------------------------------------------------------------------
 class /**/ CUnrepeatedRandom {
   private:
-    SLONG Last[3];
+    std::array<SLONG, 3> Last{};
     TEAKRAND Random;
 
   public:
@@ -260,12 +265,16 @@ class /**/ CAnimation {
     SLONG Speed{};
     SLONG CyclycWait{};
     SLONG RepeatCore{};
-    SBFX *pSoundFx;
+    SBFX *pSoundFx{nullptr};
     BOOL JustPlayed{};
 
   public:
-    CAnimation();
-    ~CAnimation();
+    CAnimation() = default;
+    ~CAnimation() {
+        if (pSoundFx != nullptr) {
+            pSoundFx->Stop();
+        }
+    }
     void Reset(void);
     void Remove(void);
     void ReSize(GfxLib *gfxLib, const CString &graphicIDs, SLONG Anzahl, SBFX *Fx, BOOL StartPic, SLONG Mode, SLONG Prelude, SLONG Speed, SLONG CyclycWait = 0,
@@ -281,8 +290,8 @@ class /**/ CAnimation {
 //--------------------------------------------------------------------------------------------
 class /**/ CClipMarker {
   public:
-    SLONG Type;     // 0-3=links oben, links, rechts oben, rechts unten
-    SLONG Position; // X-Position
+    SLONG Type{};     // 0-3=links oben, links, rechts oben, rechts unten
+    SLONG Position{}; // X-Position
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CClipMarker &Marker);
     friend TEAKFILE &operator>>(TEAKFILE &File, CClipMarker &Marker);
@@ -293,7 +302,7 @@ class /**/ CClipMarker {
 //--------------------------------------------------------------------------------------------
 class /**/ CAreaMarker {
   public:
-    UBYTE Par; // Brick-Parameter
+    UBYTE Par{}; // Brick-Parameter
     XY p1, p2; // X-Position
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CAreaMarker &Marker);
@@ -306,8 +315,8 @@ class /**/ CAreaMarker {
 class /**/ CAmbientFx {
   private:
     SBFX Soundeffekt;
-    SLONG Volume;        // Volume in % (0-100)
-    SLONG CurrentVolume; //=Volume*GlobalVolume
+    SLONG Volume{};        // Volume in % (0-100)
+    SLONG CurrentVolume{}; //=Volume*GlobalVolume
 
     friend class CAmbienteManager;
 };
@@ -317,7 +326,7 @@ class /**/ CAmbientFx {
 //--------------------------------------------------------------------------------------------
 class /**/ CAmbienteManager {
   public:
-    SLONG GlobalVolume; // Volume in % (0-100)
+    SLONG GlobalVolume{}; // Volume in % (0-100)
     BUFFER_V<CAmbientFx> AmbientFx;
 
   public:
