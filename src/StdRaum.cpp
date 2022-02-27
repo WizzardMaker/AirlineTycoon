@@ -6535,8 +6535,8 @@ void CStdRaum::MenuLeftClick(XY Pos) {
     case MENU_AUSLANDSAUFTRAG:
         if (MouseClickArea == -101 && MouseClickPar2 == 7 + 7) {
             if (qPlayer.CalledCities[MenuPar1] == 0) {
-                MenuDialogReEntryB = 5000;
                 MenuStop();
+                MenuDialogReEntryB = 5000;
             } else {
                 if (IsDialogOpen() != 0) {
                     StopDialog();
@@ -6897,7 +6897,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 (Sim.Players.Players[qPlayer.ArabOpfer].Planes.IsInAlbum(MenuDataTable.LineIndex[n]) != 0)) {
                 MenuPar1 = MenuDataTable.LineIndex[n];
 
+                auto tmp = MenuDialogReEntryB;
                 MenuStop();
+                MenuDialogReEntryB = tmp;
 
                 qPlayer.ArabPlane = MenuPar1;
 
@@ -6934,7 +6936,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 Sim.Players.Players[qPlayer.ArabOpfer].RentRouten.RentRouten[Routen(MenuDataTable.LineIndex[n])].Rang != 0) {
                 MenuPar1 = MenuDataTable.LineIndex[n];
 
+                auto tmp = MenuDialogReEntryB;
                 MenuStop();
+                MenuDialogReEntryB = tmp;
 
                 qPlayer.ArabPlane = MenuPar1;
 
@@ -7948,13 +7952,6 @@ void CStdRaum::MenuStop() {
 
     if (CurrentMenu == MENU_LETTERS || (CurrentMenu == MENU_FILOFAX && MenuPar1 != 1 && qPlayer.GetRoom() == ROOM_BURO_A + PlayerNum * 10)) {
         (dynamic_cast<CBuero *>(this))->SP_Player.SetDesiredMood(SPM_IDLE);
-    }
-
-    if (CurrentMenu == MENU_AUSLANDSAUFTRAG && qPlayer.CalledCities[MenuPar1] == 0) {
-        MenuDialogReEntryB = 5000;
-    }
-    if (CurrentMenu == MENU_AUSLANDSAUFTRAG && (qPlayer.CalledCities[MenuPar1] != 0U)) {
-        StopDialog();
     }
 
     CurrentMenu = MENU_NONE;
