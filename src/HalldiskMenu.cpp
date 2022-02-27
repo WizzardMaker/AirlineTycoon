@@ -27,7 +27,7 @@ HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, Play
 
     CRect rect (10,10,620,460);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("halldisk.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("halldisk.gli", GliPath)), &pMenuLib, L_LOCMEM);
     MenuBm.ReSize (pMenuLib, "HALLDISK");
 
     /*if (!Create(NULL, "HallDiskMenu", WS_VISIBLE|WS_CHILD, rect, ParentWnd, 42))
@@ -87,7 +87,7 @@ void HallDiskMenu::OnPaint()
                 if (d==9 || (bFiles[c+d*10] == 0))
                 {
                     for (e=0; e<7; e++) {
-                        PrimaryBm.PrimaryBm.Line (xOffset[c]+10, d*9+53+1+e, xOffset[c+1]+10-1, d*9+1+53+e, (DWORD)0xd0d0d0);
+                        PrimaryBm.PrimaryBm.Line (xOffset[c]+10, d*9+53+1+e, xOffset[c+1]+10-1, d*9+1+53+e, static_cast<DWORD>(0xd0d0d0));
 }
                 }
 }
@@ -100,10 +100,10 @@ void HallDiskMenu::OnPaint()
         SLONG xOffset = static_cast<int>(difflevel>10)*75;
         difflevel%=11;
 
-        PrimaryBm.PrimaryBm.Line (10+459+xOffset, 10+162+difflevel*9, 10+459+xOffset, 10+166+difflevel*9, (DWORD)0);
-        PrimaryBm.PrimaryBm.Line (10+491+xOffset, 10+162+difflevel*9, 10+491+xOffset, 10+166+difflevel*9, (DWORD)0);
-        PrimaryBm.PrimaryBm.Line (10+459+xOffset, 10+162+difflevel*9, 10+491+xOffset, 10+162+difflevel*9, (DWORD)0);
-        PrimaryBm.PrimaryBm.Line (10+459+xOffset, 10+166+difflevel*9, 10+491+xOffset, 10+166+difflevel*9, (DWORD)0);
+        PrimaryBm.PrimaryBm.Line (10+459+xOffset, 10+162+difflevel*9, 10+459+xOffset, 10+166+difflevel*9, static_cast<DWORD>(0));
+        PrimaryBm.PrimaryBm.Line (10+491+xOffset, 10+162+difflevel*9, 10+491+xOffset, 10+166+difflevel*9, static_cast<DWORD>(0));
+        PrimaryBm.PrimaryBm.Line (10+459+xOffset, 10+162+difflevel*9, 10+491+xOffset, 10+162+difflevel*9, static_cast<DWORD>(0));
+        PrimaryBm.PrimaryBm.Line (10+459+xOffset, 10+166+difflevel*9, 10+491+xOffset, 10+166+difflevel*9, static_cast<DWORD>(0));
     }
 }
 

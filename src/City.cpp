@@ -140,25 +140,25 @@ SLONG CITIES::CalcDistance (long CityId1, long CityId2)
         float Alpha = NAN;      //Winkel in Grad zwischen den Vektoren (für Kreissegment)
 
         //Berechnung des ersten Vektors:
-        Vector1.x = (float)cos ((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0);
-        Vector1.z = (float)sin ((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0);
+        Vector1.x = static_cast<float>(cos ((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0));
+        Vector1.z = static_cast<float>(sin ((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0));
 
-        Vector1.y = (float)sin ((*this)[CityId1].GlobusPosition.y * 3.14159 / 180.0);
+        Vector1.y = static_cast<float>(sin ((*this)[CityId1].GlobusPosition.y * 3.14159 / 180.0));
 
-        Vector1.x *= (float)sqrt (1-Vector1.y*Vector1.y);
-        Vector1.z *= (float)sqrt (1-Vector1.y*Vector1.y);
+        Vector1.x *= sqrt (1-Vector1.y*Vector1.y);
+        Vector1.z *= sqrt (1-Vector1.y*Vector1.y);
 
         //Berechnung des zweiten Vektors:
-        Vector2.x = (float)cos ((*this)[CityId2].GlobusPosition.x * 3.14159 / 180.0);
-        Vector2.z = (float)sin ((*this)[CityId2].GlobusPosition.x * 3.14159 / 180.0);
+        Vector2.x = static_cast<float>(cos ((*this)[CityId2].GlobusPosition.x * 3.14159 / 180.0));
+        Vector2.z = static_cast<float>(sin ((*this)[CityId2].GlobusPosition.x * 3.14159 / 180.0));
 
-        Vector2.y = (float)sin ((*this)[CityId2].GlobusPosition.y * 3.14159 / 180.0);
+        Vector2.y = static_cast<float>(sin ((*this)[CityId2].GlobusPosition.y * 3.14159 / 180.0));
 
-        Vector2.x *= (float)sqrt (1-Vector2.y*Vector2.y);
-        Vector2.z *= (float)sqrt (1-Vector2.y*Vector2.y);
+        Vector2.x *= sqrt (1-Vector2.y*Vector2.y);
+        Vector2.z *= sqrt (1-Vector2.y*Vector2.y);
 
         //Berechnung des Winkels zwischen den Vektoren:
-        Alpha = (float)(acos ((Vector1.x*Vector2.x+Vector1.y*Vector2.y+Vector1.z*Vector2.z)/Vector1.abs()/Vector2.abs()) * 180.0 / 3.14159);
+        Alpha = static_cast<float>(acos ((Vector1.x*Vector2.x+Vector1.y*Vector2.y+Vector1.z*Vector2.z)/Vector1.abs()/Vector2.abs()) * 180.0 / 3.14159);
 
         //Berechnung der Länge des Kreissegments: (40040174 = Äquatorumfang)
         HashTable[SLONG(CityId1+CityId2*AnzEntries())] = SLONG(fabs(Alpha) * 40040174 / 360.0);
@@ -251,7 +251,7 @@ ULONG CITIES::GetIdFromName (const char *Name)
 {
     SLONG c = 0;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++) {
+    for (c=0; c<AnzEntries(); c++) {
         if ((IsInAlbum(c) != 0) && stricmp (Name, (LPCTSTR)Cities[c].Name)==0) {
             return (GetIdFromIndex(c));
 }
@@ -280,7 +280,7 @@ ULONG CITIES::GetIdFromNames (const char *Name, ...)
     va_list va_marker = nullptr;
     foreacharg (va_marker, LPCSTR, Name, NULL)
     {
-        for (c=0; c<(SLONG)AnzEntries(); c++) {
+        for (c=0; c<AnzEntries(); c++) {
             if ((IsInAlbum(c) != 0) && stricmp (qLPCSTR, (LPCTSTR)Cities[c].Name)==0) {
                 return (GetIdFromIndex(c));
 }
@@ -309,7 +309,7 @@ SLONG CRentCities::GetNumUsed()
     SLONG c = 0;
     SLONG Anz=0;
 
-    for (c=0; c<(SLONG)Cities.AnzEntries(); c++) {
+    for (c=0; c<Cities.AnzEntries(); c++) {
         if ((Cities.IsInAlbum(c) != 0) && RentCities[c].Rang!=0)
         {
             Anz++;

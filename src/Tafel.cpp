@@ -73,7 +73,7 @@ CTafel::~CTafel()
 {
     LeereZettelBms.Destroy();
     PostcardBm.Destroy();
-    Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_ROUTE, "", MESSAGE_COMMENT);
+    Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_ROUTE, "", MESSAGE_COMMENT);
 
     TEAKFILE Message;
 
@@ -108,7 +108,7 @@ void CTafel::OnPaint()
 {
     SLONG   c = 0;
     BOOL    OnTip=FALSE;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
 }
@@ -220,7 +220,7 @@ void CTafel::RepaintZettel (SLONG n)
             //Bisheriger Höchstbieter & Gebot:
             if (TafelData.Route[n].Player!=-1)
             {
-                ZettelBms[n].PrintAt (Sim.Players.Players[(SLONG)TafelData.Route[n].Player].Airline,
+                ZettelBms[n].PrintAt (Sim.Players.Players[TafelData.Route[n].Player].Airline,
                         FontSmallBlack, TEC_FONT_CENTERED,
                         XY(3, 72+30), XY(ZettelBms[n].Size.x-3, 202));
             }
@@ -250,7 +250,7 @@ void CTafel::RepaintZettel (SLONG n)
             //Bisheriger Höchstbieter & Gebot:
             if (TafelData.City[n-7].Player!=-1)
             {
-                ZettelBms[n].PrintAt (Sim.Players.Players[(SLONG)TafelData.City[n-7].Player].Airline,
+                ZettelBms[n].PrintAt (Sim.Players.Players[TafelData.City[n-7].Player].Airline,
                         FontSmallBlack, TEC_FONT_LEFT,
                         XY(13, 55+30), XY(ZettelBms[n].Size.x-3, 132));
             }
@@ -277,7 +277,7 @@ void CTafel::RepaintZettel (SLONG n)
             //Bisheriger Höchstbieter & Gebot:
             if (TafelData.Gate[n-14].Player!=-1)
             {
-                ZettelBms[n].PrintAt (Sim.Players.Players[(SLONG)TafelData.Gate[n-14].Player].Airline,
+                ZettelBms[n].PrintAt (Sim.Players.Players[TafelData.Gate[n-14].Player].Airline,
                         FontSmallBlack, TEC_FONT_LEFT,
                         XY(13, 45+30), XY(ZettelBms[n].Size.x-3, 202));
             }
@@ -295,7 +295,7 @@ void CTafel::OnLButtonDown(UINT nFlags, CPoint point)
 {
     SLONG   c = 0;
     XY      RoomPos;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     DefaultOnLButtonDown ();
 
@@ -392,7 +392,7 @@ void CTafel::OnRButtonDown(UINT nFlags, CPoint point)
     {
         if ((IsDialogOpen() == 0) && point.y<440)
         {
-            Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            Sim.Players.Players[PlayerNum].LeaveRoom();
         }
         CStdRaum::OnRButtonDown(nFlags, point);
     }
@@ -539,7 +539,7 @@ void CTafelData::Randomize (SLONG Day)
 }
 
                     for (f=1; f<7; f++) {
-                        if (Cities(CityIds[f])==(ULONG)ObjId) { break;
+                        if (Cities(CityIds[f])==static_cast<ULONG>(ObjId)) { break;
 }
 }
                     if (f<7) { continue;

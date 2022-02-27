@@ -276,13 +276,13 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
                         peer.ID = player->ID;
                         peer.guid = player->peer;
                         peer.address = p->systemAddress;
-                        mMaster->Send((char*)&peer, sizeof(RAKNetworkPeer), HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, true);
+                        mMaster->Send(reinterpret_cast<char*>(&peer), sizeof(RAKNetworkPeer), HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, true);
 
                         peer.netID = SBNETWORK_JOINED;
                         peer.ID = mLocalID;
                         peer.guid = mMaster->GetMyGUID();
                         peer.address = mMaster->GetSystemAddressFromGuid(mMaster->GetMyGUID());
-                        mMaster->Send((char*)&peer, sizeof(RAKNetworkPeer), HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, false);
+                        mMaster->Send(reinterpret_cast<char*>(&peer), sizeof(RAKNetworkPeer), HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, false);
                     } else {
                         SDL_Log("RECEIVED: SBNETWORK_ESTABLISH_CONNECTION - From: '%d'", player->ID);
                     }
@@ -352,7 +352,7 @@ bool RAKNetNetwork::AwaitConnection(RakPeerInterface* peerInterface, bool isAnot
             case ID_CONNECTION_REQUEST_ACCEPTED:
                 { //Send our ID to server so that others can connect to us
                     BitStream data;
-                    data.Write((char)SBNETWORK_ESTABLISH_CONNECTION);
+                    data.Write(static_cast<char>(SBNETWORK_ESTABLISH_CONNECTION));
                     data.Write(mLocalID);
 
                     if(!isAnotherPeer) {
@@ -378,7 +378,7 @@ bool RAKNetNetwork::AwaitConnection(RakPeerInterface* peerInterface, bool isAnot
                 SDL_Log("Connect(..) failed!");
                 if(isAnotherPeer){
                     peerInterface->Shutdown(0);
-                } //TODO: Send message to server to kick(? maybe) the new player whom we can't connect to
+                } // TODO(merten): Send message to server to kick(? maybe) the new player whom we can't connect to
                 peerInterface->DeallocatePacket(p);
                 return false;
             case ID_ALREADY_CONNECTED:

@@ -200,7 +200,7 @@ void SB_CFont::SetTabulator(TABS* pTabs, ULONG szTabs)
         delete[] this->Tabulator;
         this->Tabulator = nullptr;
     }
-    this->NumTabs = (word)(szTabs / sizeof(TABS));
+    this->NumTabs = static_cast<word>(szTabs / sizeof(TABS));
     this->Tabulator = new TABS[this->NumTabs];
     memcpy(this->Tabulator, pTabs, szTabs);
 }

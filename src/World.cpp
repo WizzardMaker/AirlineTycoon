@@ -27,7 +27,7 @@ CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum (bHandy, P
 
     SLONG EarthAlpha = UWORD((Cities[CityId].GlobusPosition.x+170)*(3200/18)-16000+1300);
 
-    EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthall.lbm", GliPath), SYSRAMBM);
+    EarthBm.ReSize (const_cast<char*>((LPCTSTR)FullFilename ("earthall.lbm", GliPath)), SYSRAMBM);
 
     Satellite.ReSize   (pRoomLib, GFX_SAT1);
     LightAnim.ReSize   (pRoomLib, "SATLICHT",  1, nullptr, FALSE, ANIMATION_MODE_REPEAT, 100, 2, 100);
@@ -36,7 +36,7 @@ CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum (bHandy, P
     HandyOffset = 170;
 
     XY tmp = Cities[CityId].GlobusPosition;
-    EarthProjectize (tmp, (UWORD)EarthAlpha, &BubblePos);
+    EarthProjectize (tmp, static_cast<UWORD>(EarthAlpha), &BubblePos);
 
     BubblePos+=XY(100+HandyOffset,20);
 
@@ -51,11 +51,11 @@ CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum (bHandy, P
         BubblePos   += XY(35,0);
     }
 
-    ::PaintGlobe (EarthBm, &PicBitmap, (UWORD)EarthAlpha, XY(100, 20));
+    ::PaintGlobe (EarthBm, &PicBitmap, static_cast<UWORD>(EarthAlpha), XY(100, 20));
 
-    for (SLONG c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--) {
-        if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(c) != 0) {
-            Sim.Players.Players[(SLONG)PlayerNum].Planes[c].UpdateGlobePos (0);
+    for (SLONG c=Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Planes.AnzEntries()-1; c>=0; c--) {
+        if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Planes.IsInAlbum(c) != 0) {
+            Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Planes[c].UpdateGlobePos (0);
 }
 }
 
@@ -68,7 +68,7 @@ CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum (bHandy, P
 //--------------------------------------------------------------------------------------------
 CWorld::~CWorld()
 {
-    Sim.Players.Players[(SLONG)Sim.localPlayer].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
+    Sim.Players.Players[Sim.localPlayer].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ void CWorld::OnRButtonDown(UINT nFlags, CPoint point)
         {
             if (!IsDialogOpen() && point.y<440)
             {
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                Sim.Players.Players[PlayerNum].LeaveRoom();
             }
             CStdRaum::OnRButtonDown(nFlags, point);
         }

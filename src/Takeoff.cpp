@@ -201,7 +201,7 @@ struct protectedValue
 
 
 protectedValue::protectedValue( ) :
-    muScramble( GetTickCount( ) + ( unsigned ) rand( ) )
+    muScramble( GetTickCount( ) + static_cast< unsigned>(rand( )) )
 {
     SetValue( 0 );
 };
@@ -237,8 +237,8 @@ int	protectedValue::Descramble( ) const
     charint iScore{};
 
     // descramble
-    iScore.acValue[0] = mcharintScore.acValue[2] ^ ( unsigned char ) muScramble;
-    iScore.acValue[1] = mcharintScore.acValue[0] ^ ( unsigned char ) muScramble;
+    iScore.acValue[0] = mcharintScore.acValue[2] ^ static_cast< unsigned char>(muScramble);
+    iScore.acValue[1] = mcharintScore.acValue[0] ^ static_cast< unsigned char>(muScramble);
     iScore.acValue[2] = mcharintScore.acValue[3] ^ mcharintScore.acValue[2];
     iScore.acValue[3] = mcharintScore.acValue[1] ^ mcharintScore.acValue[0];
 
@@ -252,8 +252,8 @@ void protectedValue::SetScrambled( const int iValue )
     auto* pcharintVar = ( charint* ) &iValue;
 
     // scramble
-    mcharintScore.acValue[2] = pcharintVar->acValue[0] ^ ( unsigned char ) muScramble;
-    mcharintScore.acValue[0] = pcharintVar->acValue[1] ^ ( unsigned char ) muScramble;
+    mcharintScore.acValue[2] = pcharintVar->acValue[0] ^ static_cast< unsigned char>(muScramble);
+    mcharintScore.acValue[0] = pcharintVar->acValue[1] ^ static_cast< unsigned char>(muScramble);
     mcharintScore.acValue[3] = pcharintVar->acValue[2] ^ mcharintScore.acValue[2];
     mcharintScore.acValue[1] = pcharintVar->acValue[3] ^ mcharintScore.acValue[0];
 }
@@ -279,8 +279,8 @@ int main(int argc, char* argv[])
     char* pEncoded = UCharToReadableAnsi( ( unsigned char * )pText, strlen( pText ) + 1 );
     char* pEncoded2 = UCharToReadableAnsi( ( unsigned char * )pEncoded, strlen( pEncoded ) + 1 );
 
-    char* pDecodeBack = ( char * ) ReadableAnsiToUChar( ( char * ) pEncoded2, strlen( pEncoded2 ) + 1 );
-    char* pDecodeBack2 = ( char * ) ReadableAnsiToUChar( ( char * ) pDecodeBack , strlen( pDecodeBack  ) + 1 );
+    char* pDecodeBack = ( char * ) ReadableAnsiToUChar( pEncoded2, strlen( pEncoded2 ) + 1 );
+    char* pDecodeBack2 = ( char * ) ReadableAnsiToUChar( pDecodeBack , strlen( pDecodeBack  ) + 1 );
 
     const char* pText2 = "DMCPRCZ5F5Y3D4XV1OHFY4B3HLIQJBP4LIS6STCBSQUUOKL3KSONUPTOGF2BZLXGAZGXEYLSORUW3CIHIR1W3Z3SMVXW3IGOHMAAAAIJL6STTMVMQFBKDYBGC5VP5MMWV5QJQ";
     char* pDecodeBack3 = ( char * ) ReadableAnsiToUChar( ( char * ) pText2, strlen( pText2 ) );
@@ -490,7 +490,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
     std::ifstream ifil = std::ifstream(AppPath + "misc/sabbel.dat");
     if (ifil.is_open())
     {
-        ifil.read((char*)&gLanguage, sizeof(gLanguage));
+        ifil.read(reinterpret_cast<char*>(&gLanguage), sizeof(gLanguage));
         ifil.close();
     }
 
@@ -592,8 +592,8 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
 
             gUpdatingPools = TRUE;
 
-            pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glclan.gli", GliPath),   &pGLibClan, L_LOCMEM);
-            pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glstd.gli", GliPath),    &pGLibStd, L_LOCMEM);
+            pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("glclan.gli", GliPath)),   &pGLibClan, L_LOCMEM);
+            pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("glstd.gli", GliPath)),    &pGLibStd, L_LOCMEM);
             Clans.ReInit ("clan.csv");
             Clans.LoadBitmaps ();
 
@@ -680,8 +680,8 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
         GfxLib  *pRoomLib2 = nullptr;
         SBBM     TitleBitmap;
 
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("titel.gli", RoomPath),  &pRoomLib, L_LOCMEM);
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("titel2.gli", RoomPath),  &pRoomLib2, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("titel.gli", RoomPath)),  &pRoomLib, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("titel2.gli", RoomPath)),  &pRoomLib2, L_LOCMEM);
 
         if (Sim.Options.OptionDigiSound==TRUE) {
             InitSoundSystem (FrameWnd->m_hWnd);
@@ -719,24 +719,24 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
         else                            LOADING_TEXT("Loading People...");
 
         if (gUpdatingPools != 0) {
-            pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glclan.gli", GliPath),   &pGLibClan, L_LOCMEM);
+            pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("glclan.gli", GliPath)),   &pGLibClan, L_LOCMEM);
 }
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Adviseurs worden opgestart...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Loading Advisors...");
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glberatr.gli", GliPath),   &pGLibBerater, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("glberatr.gli", GliPath)),   &pGLibBerater, L_LOCMEM);
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Verscheidene afbeeldingen worden opgestart...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Loading miscellanous grafix...");
 
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glstd.gli", GliPath),    &pGLibStd, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("glstd.gli", GliPath)),    &pGLibStd, L_LOCMEM);
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Vliegtuigen worden opgestart...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
         else                            LOADING_TEXT("Loading planes...");
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glplanes.gli", GliPath), &pGLibPlanes, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("glplanes.gli", GliPath)), &pGLibPlanes, L_LOCMEM);
 
         if (gLanguage==LANGUAGE_N) LOADING_TEXT("Dialoogteksten worden opgestart...")
         else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
@@ -1207,8 +1207,8 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                         if (c>=0)
                         {
                             Sim.Tutorial=1200+40;
-                            (*(CStdRaum*)qLocalPlayer.LocationWin).StartDialog (TALKER_BOSS, MEDIUM_AIR, 1);
-                            (*(CStdRaum*)qLocalPlayer.LocationWin).DontDisplayPlayer=Sim.localPlayer;
+                            (*qLocalPlayer.LocationWin).StartDialog (TALKER_BOSS, MEDIUM_AIR, 1);
+                            (*qLocalPlayer.LocationWin).DontDisplayPlayer=Sim.localPlayer;
                         }
                     }
                     else if (Sim.Tutorial==1200+40 && qLocalPlayer.GetRoom()==ROOM_AIRPORT)
@@ -1233,7 +1233,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                     {
                         if (qLocalPlayer.LocationWin != nullptr)
                         {
-                            CStdRaum &qRaum = *((CStdRaum*)qLocalPlayer.LocationWin);
+                            CStdRaum &qRaum = *(qLocalPlayer.LocationWin);
 
                             qRaum.GlowEffects.ReSize(1);
                             qRaum.GlowBitmapIndices.ReSize(1);
@@ -1247,7 +1247,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                     else if (Sim.Tutorial==1401 && qLocalPlayer.GetRoom()==ROOM_GLOBE)
                     {
                         if (qLocalPlayer.LocationWin != nullptr) {
-                            ((CStdRaum*)qLocalPlayer.LocationWin)->GlowEffects.ReSize(0);
+                            (qLocalPlayer.LocationWin)->GlowEffects.ReSize(0);
 }
 
                         Sim.Tutorial=1500;
@@ -1263,7 +1263,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                     {
                         if (qLocalPlayer.LocationWin != nullptr)
                         {
-                            CStdRaum &qRaum = *((CStdRaum*)qLocalPlayer.LocationWin);
+                            CStdRaum &qRaum = *(qLocalPlayer.LocationWin);
 
                             qRaum.GlowEffects.ReSize(1);
                             qRaum.GlowBitmapIndices.ReSize(1);
@@ -1439,7 +1439,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                 }
                 else
                 {
-                    NumSimSteps=min((SLONG)NumSimSteps, Faktor);
+                    NumSimSteps=min(static_cast<SLONG>(NumSimSteps), Faktor);
                 }
 
                 if (Sim.Time>8*60000 && CheatTestGame==2 && (Sim.Players.Players[Sim.localPlayer].CallItADay == 0))
@@ -1944,9 +1944,9 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                 {
                                     BOOL now=TRUE;
 
-                                    if ((Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) && (((CStdRaum *)Sim.Players.Players[Sim.localPlayer].LocationWin)->IsDialogOpen() != 0))
+                                    if ((Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) && ((Sim.Players.Players[Sim.localPlayer].LocationWin)->IsDialogOpen() != 0))
                                     {
-                                        ((CStdRaum *)Sim.Players.Players[Sim.localPlayer].LocationWin)->StopDialog ();
+                                        (Sim.Players.Players[Sim.localPlayer].LocationWin)->StopDialog ();
                                     }
 
                                     for (c=0; c<Sim.Players.AnzPlayers; c++)
@@ -2206,7 +2206,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
         {
             if (Sim.Players.Players[c].LocationWin != nullptr)
             {
-                auto *TmpWin = (CStdRaum *)Sim.Players.Players[c].LocationWin;
+                auto *TmpWin = Sim.Players.Players[c].LocationWin;
                 Sim.Players.Players[c].LocationWin = nullptr;
                 delete TmpWin;
             }
@@ -2350,7 +2350,7 @@ char *UCharToReadableAnsi( const unsigned char *pData, const unsigned uLen )
             wData += 'A';
         }
 
-        pReturn[i / 5] = ( char ) wData;
+        pReturn[i / 5] = static_cast< char>(wData);
     }
     return pReturn;
 }

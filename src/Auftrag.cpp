@@ -39,7 +39,7 @@ void CalcPlayerMaximums (bool bForce)
         {
             PLAYER &qPlayer=Sim.Players.Players[c];
 
-            for (SLONG d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++) {
+            for (SLONG d=0; d<qPlayer.Planes.AnzEntries(); d++) {
                 if (qPlayer.Planes.IsInAlbum(d) != 0)
                 {
                     if (qPlayer.Planes[d].MaxPassagiere+qPlayer.Planes[d].MaxPassagiereFC>PlayerMaxPassagiere) {
@@ -77,7 +77,7 @@ void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
         SLONG d = 0;
         SLONG Okay = 0;
 
-        for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++) {
+        for (d=0, Okay=FALSE; d<Planes.AnzEntries(); d++) {
             if (Planes.IsInAlbum(d) != 0)
             {
                 Okay|=Auftrag.FitsInPlane (Planes[d]);
@@ -85,7 +85,7 @@ void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
             }
 }
 
-        for (d=0; d<(SLONG)Planes.AnzEntries(); d++) {
+        for (d=0; d<Planes.AnzEntries(); d++) {
             if (Planes.IsInAlbum(d) != 0)
             {
                 CPlane &qPlane = Planes[d];
@@ -117,7 +117,7 @@ void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
         }
         else
         {
-            for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++) {
+            for (d=0, Okay=FALSE; d<Planes.AnzEntries(); d++) {
                 if (Planes.IsInAlbum(d) != 0)
                 {
                     Okay|=static_cast<int>(SLONG(Auftrag.Personen)<=Planes[d].MaxPassagiere+Planes[d].MaxPassagiereFC);
@@ -131,7 +131,7 @@ void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
             }
             else
             {
-                for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++) {
+                for (d=0, Okay=FALSE; d<Planes.AnzEntries(); d++) {
                     if (Planes.IsInAlbum(d) != 0)
                     {
                         Okay|=static_cast<int>( (SLONG(Auftrag.Personen)<=Planes[d].MaxPassagiere+Planes[d].MaxPassagiereFC) &&
@@ -409,7 +409,7 @@ too_large:
     Praemie      = ((CalculateFlightCost (VonCity, NachCity, 8000, 700, -1))+99)/100*105;
     Strafe       = Praemie/2*100/100;
 
-    if (pRandom->Rand (5)==4) { BisDate+=((UWORD)(pRandom->Rand(5)));
+    if (pRandom->Rand (5)==4) { BisDate+=((pRandom->Rand(5)));
 }
 
     SLONG Type = pRandom->Rand (100);
@@ -591,7 +591,7 @@ too_large:
     Praemie      = ((CalculateFlightCost (VonCity, NachCity, 8000, 700, -1))+99)/100*115;
     Strafe       = Praemie/2*100/100*2;
 
-    if (pRandom->Rand (5)==4) { BisDate+=((UWORD)(pRandom->Rand(5)));
+    if (pRandom->Rand (5)==4) { BisDate+=((pRandom->Rand(5)));
 }
 
     SLONG Type = pRandom->Rand (100);
@@ -710,7 +710,7 @@ too_large:
     Praemie      = ((CalculateFlightCost (VonCity, NachCity, 8000, 700, -1))+99)/100*120;
     Strafe       = Praemie/2*100/100;
 
-    if (localRand.Rand (5)==4) { BisDate+=((UWORD)(localRand.Rand(5)));
+    if (localRand.Rand (5)==4) { BisDate+=((localRand.Rand(5)));
 }
 
     SLONG Type = localRand.Rand (100);
@@ -821,8 +821,9 @@ BOOL CAuftrag::FitsInPlane (const CPlane &Plane) const
     } 
             //if ((Cities.CalcDistance (VonCity, NachCity)/PlaneType.Geschwindigkeit+999)/1000+1+2>=24)
         //if (Cities.CalcFlugdauer (VonCity, NachCity, PlaneType.Geschwindigkeit)>=24)
-        if (Cities.CalcFlugdauer (VonCity, NachCity, Plane.ptGeschwindigkeit)>=24)
+        if (Cities.CalcFlugdauer (VonCity, NachCity, Plane.ptGeschwindigkeit)>=24) {
             return (FALSE);
+}
    
 
     return (TRUE);

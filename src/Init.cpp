@@ -275,7 +275,7 @@ void InitSoundSystem (SDL_Window *AppWnd)
 }
 
         gpSSE->CreateFX(&gpClickFx);
-        gpClickFx->Load((char*)(LPCTSTR)FullFilename ("click.raw", SoundPath));
+        gpClickFx->Load(const_cast<char*>((LPCTSTR)FullFilename ("click.raw", SoundPath)));
         gDoorOpen.ReInit ("tuerauf.raw");
         gDoorClose.ReInit ("tuerzu.raw");
         gMovePaper.ReInit ("paper.raw");
@@ -303,27 +303,27 @@ void InitSoundSystem (SDL_Window *AppWnd)
 //--------------------------------------------------------------------------------------------
 void InitFonts ()
 {
-    FontCash.Load (lpDD, (char*)(LPCTSTR)FullFilename ("status.mcf", MiscPath));
-    FontSmallBlack.Load (lpDD, (char*)(LPCTSTR)FullFilename ("norm_bl.mcf", MiscPath));
-    FontSmallGrey.Load (lpDD, (char*)(LPCTSTR)FullFilename ("norm_gr.mcf", MiscPath));
-    FontSmallRed.Load (lpDD, (char*)(LPCTSTR)FullFilename ("norm_rt.mcf", MiscPath));
-    FontSmallWhite.Load (lpDD, (char*)(LPCTSTR)FullFilename ("norm_wh.mcf", MiscPath));
-    FontSmallWhiteX.Load (lpDD, (char*)(LPCTSTR)FullFilename ("norm_x.mcf", MiscPath));
-    FontSmallPlastic.Load (lpDD, (char*)(LPCTSTR)FullFilename ("norm_pl.mcf", MiscPath));
+    FontCash.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("status.mcf", MiscPath)));
+    FontSmallBlack.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("norm_bl.mcf", MiscPath)));
+    FontSmallGrey.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("norm_gr.mcf", MiscPath)));
+    FontSmallRed.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("norm_rt.mcf", MiscPath)));
+    FontSmallWhite.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("norm_wh.mcf", MiscPath)));
+    FontSmallWhiteX.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("norm_x.mcf", MiscPath)));
+    FontSmallPlastic.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("norm_pl.mcf", MiscPath)));
 
-    FontVerySmall.Load (lpDD, (char*)(LPCTSTR)FullFilename ("small_bl.mcf", MiscPath));
+    FontVerySmall.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("small_bl.mcf", MiscPath)));
 
-    FontCondensedBlack.Load (lpDD, (char*)(LPCTSTR)FullFilename ("cond_bl.mcf", MiscPath));
+    FontCondensedBlack.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("cond_bl.mcf", MiscPath)));
 
-    FontDialog.Load (lpDD, (char*)(LPCTSTR)FullFilename ("dlgfont1.mcf", MiscPath));
-    FontDialogLight.Load (lpDD, (char*)(LPCTSTR)FullFilename ("dlgfont2.mcf", MiscPath));
-    FontDialogPartner.Load (lpDD, (char*)(LPCTSTR)FullFilename ("dlgfont1.mcf", MiscPath));
-    FontDialogInk.Load (lpDD, (char*)(LPCTSTR)FullFilename ("inkfont.mcf", MiscPath));
-    FontBigGrey.Load (lpDD, (char*)(LPCTSTR)FullFilename ("dlgfont3.mcf", MiscPath));
-    FontBigWhite.Load (lpDD, (char*)(LPCTSTR)FullFilename ("dlgfont3.mcf", MiscPath)); //ex:4
+    FontDialog.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("dlgfont1.mcf", MiscPath)));
+    FontDialogLight.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("dlgfont2.mcf", MiscPath)));
+    FontDialogPartner.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("dlgfont1.mcf", MiscPath)));
+    FontDialogInk.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("inkfont.mcf", MiscPath)));
+    FontBigGrey.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("dlgfont3.mcf", MiscPath)));
+    FontBigWhite.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("dlgfont3.mcf", MiscPath))); //ex:4
 
-    FontNormalGreen.Load (lpDD, (char*)(LPCTSTR)FullFilename ("norm_ve.mcf", MiscPath));
-    FontNormalGrey.Load (lpDD, (char*)(LPCTSTR)FullFilename ("norm_drk.mcf", MiscPath));
+    FontNormalGreen.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("norm_ve.mcf", MiscPath)));
+    FontNormalGrey.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("norm_drk.mcf", MiscPath)));
 
     FontCash.SetLineSpace (1);
     FontSmallBlack.SetLineSpace (1);
@@ -346,7 +346,7 @@ void InitFonts ()
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallBlack, TEC_FONT_LEFT, 0, 0, 20, 20);
     for (x=0; x<20; x++) {
-        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontBlack=(UWORD)TestBm.GetPixel(x,y);
+        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontBlack=static_cast<UWORD>(TestBm.GetPixel(x,y));
 }
 }
 }
@@ -354,7 +354,7 @@ void InitFonts ()
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallGrey, TEC_FONT_LEFT, 0, 0, 20, 20);
     for (x=0; x<20; x++) {
-        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontGrey=(UWORD)TestBm.GetPixel(x,y);
+        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontGrey=static_cast<UWORD>(TestBm.GetPixel(x,y));
 }
 }
 }
@@ -362,7 +362,7 @@ void InitFonts ()
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallRed, TEC_FONT_LEFT, 0, 0, 20, 20);
     for (x=0; x<20; x++) {
-        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontRed=(UWORD)TestBm.GetPixel(x,y);
+        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontRed=static_cast<UWORD>(TestBm.GetPixel(x,y));
 }
 }
 }
@@ -520,9 +520,9 @@ void InitGlobeMapper ()
     SBBM TmpBm (10,10);
 
     PALETTE EarthPal;
-    EarthPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename ("earthall.lbm", GliPath));
+    EarthPal.RefreshPalFromLbm(const_cast<char*>((LPCTSTR)FullFilename ("earthall.lbm", GliPath)));
 
-    TECBM ShadeBm ((char*)(LPCTSTR)FullFilename ("shade.pcx", GliPath), SYSRAMBM);
+    TECBM ShadeBm (const_cast<char*>((LPCTSTR)FullFilename ("shade.pcx", GliPath)), SYSRAMBM);
 
     GlobeMixTab.ReSize (256*64);
 
@@ -549,7 +549,7 @@ void InitGlobeMapper ()
 
     for (y=0; y<369; y++)
     {
-        xs = (SLONG)(sqrt (184*184-(y-184)*(y-184)));
+        xs = static_cast<SLONG>(sqrt (184*184-(y-184)*(y-184)));
 
         GlobeLight[y].ReSize (xs*2+1);
         if (y<=184) { GlobeMapper[y].ReSize (xs*2+1);

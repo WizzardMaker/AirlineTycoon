@@ -65,9 +65,9 @@ void TEAKFILE::Close()
     Path = nullptr;
 }
 
-SLONG TEAKFILE::GetFileLength() const { return (SLONG)SDL_RWsize(Ctx); }
+SLONG TEAKFILE::GetFileLength() const { return static_cast<SLONG>(SDL_RWsize(Ctx)); }
 
-SLONG TEAKFILE::GetPosition() const { return (SLONG)SDL_RWtell(Ctx); }
+SLONG TEAKFILE::GetPosition() const { return static_cast<SLONG>(SDL_RWtell(Ctx)); }
 
 void TEAKFILE::Open(char const* path, SLONG mode)
 {
@@ -177,7 +177,7 @@ CRLEReader::CRLEReader(const char* path)
         }
         else
         {
-            Size = (SLONG)SDL_RWsize(Ctx);
+            Size = static_cast<SLONG>(SDL_RWsize(Ctx));
             SDL_RWseek(Ctx, 0, RW_SEEK_SET);
         }
     }

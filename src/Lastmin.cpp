@@ -101,7 +101,7 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
             &KranArrived, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+21*SMACKER_CLIP_MULT, 4, nullptr,
             "A1", 0);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tipau.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("tipau.gli", GliPath)), &pMenuLib, L_LOCMEM);
     TipBm.ReSize (pMenuLib, "BLOC1");
     MapPlaneBms[0].ReSize (pMenuLib, "PL_B00", 1+8);
     MapPlaneBms[1].ReSize (pMenuLib, "PL_V00", 1+8);
@@ -111,13 +111,13 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 
     SetBackgroundFx (0, "pap3.raw",     25000);    //Papierrascheln
 
-    for (c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--) {
-        if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(c) != 0) {
-            Sim.Players.Players[(SLONG)PlayerNum].Planes[c].UpdateGlobePos (0);
+    for (c=Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Planes.AnzEntries()-1; c>=0; c--) {
+        if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Planes.IsInAlbum(c) != 0) {
+            Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Planes[c].UpdateGlobePos (0);
 }
 }
 
-    for (c=0; c<(SLONG)LastMinuteAuftraege.AnzEntries(); c++) {
+    for (c=0; c<LastMinuteAuftraege.AnzEntries(); c++) {
         RepaintZettel (c);
 }
 
@@ -146,13 +146,13 @@ CLastMinute::~CLastMinute()
     if ((pMenuLib != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
 }
 
-    for (c=0; c<(SLONG)LastMinuteAuftraege.AnzEntries(); c++) {
+    for (c=0; c<LastMinuteAuftraege.AnzEntries(); c++) {
         if (LastMinuteAuftraege.Auftraege[c].Praemie<0) {
             LastMinuteAuftraege.Auftraege[c].Praemie=0;
 }
 }
 
-    Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
+    Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
 
     SIM::NetRefill (1);
     LastMinuteAuftraege.RefillForLastMinute ();
@@ -168,7 +168,7 @@ CLastMinute::~CLastMinute()
 void CLastMinute::OnPaint()
 {
     SLONG  c = 0;
-    CPoint point = Sim.Players.Players[(SLONG)PlayerNum].CursorPos;
+    CPoint point = Sim.Players.Players[PlayerNum].CursorPos;
     XY     RoomPos;
     BOOL   RemoveTip=TRUE;
     BOOL   IsOverPaper=FALSE;
@@ -182,7 +182,7 @@ void CLastMinute::OnPaint()
     //Koordinaten für kleine Fenster konvertieren:
     ConvertMousePosition (point, &RoomPos);
 
-    if (SLONG(Sim.Time)>=timeLastClose) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+    if (SLONG(Sim.Time)>=timeLastClose) { Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 
     if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_LAST_MINUTE, 0);
@@ -221,7 +221,7 @@ void CLastMinute::OnPaint()
     }
 
     RoomBm.pBitmap->SetClipRect (CRect (0,0,640,440));
-    for (c=0; c<(SLONG)LastMinuteAuftraege.AnzEntries(); c++)
+    for (c=0; c<LastMinuteAuftraege.AnzEntries(); c++)
     {
         if (LastMinuteAuftraege.Auftraege[c].Praemie>0)
         {
@@ -245,7 +245,7 @@ void CLastMinute::OnPaint()
                     {
                         LastTip=c;
 
-                        Sim.Players.Players[(SLONG)PlayerNum].CheckAuftragsBerater (LastMinuteAuftraege.Auftraege[c]);
+                        Sim.Players.Players[PlayerNum].CheckAuftragsBerater (LastMinuteAuftraege.Auftraege[c]);
                     }
                 }
 }
@@ -254,7 +254,7 @@ void CLastMinute::OnPaint()
     if (IsOverPaper == 0) { LastTip=-1;
 }
 
-    for (c=0; c<(SLONG)LastMinuteAuftraege.AnzEntries(); c++)
+    for (c=0; c<LastMinuteAuftraege.AnzEntries(); c++)
     {
         if (LastMinuteAuftraege.Auftraege[c].Praemie<0)
         {
@@ -287,7 +287,7 @@ void CLastMinute::OnPaint()
     //if (Sim.Players.Players[(SLONG)PlayerNum].Messages.IsSilent()) LastTip=-1;
 
     if ((RemoveTip != 0) && !gMousePosition.IfIsWithin (8,69, 242,347) && LastMouse.IfIsWithin (8,69, 242,347)) {
-        Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
+        Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
 }
 
     LastMouse=gMousePosition;
@@ -335,7 +335,7 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point)
     SLONG c = 0;
     XY RoomPos;
 
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     DefaultOnLButtonDown ();
 
@@ -372,7 +372,7 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point)
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay (0, 1);
                     qPlayer.Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay (0, 1);
 
-                    SIM::SendSimpleMessage (ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, (long)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (long)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
+                    SIM::SendSimpleMessage (ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, static_cast<long>(qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0)), static_cast<long>(qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0)));
 
                     LastMinuteAuftraege.Auftraege[c].Praemie=-1000;
                     qPlayer.NetUpdateTook (1, c);
@@ -408,8 +408,9 @@ void CLastMinute::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

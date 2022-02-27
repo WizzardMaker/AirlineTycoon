@@ -47,10 +47,10 @@ CBuero::CBuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
 
     SetRoomVisited (PlayerNum, ROOM_BURO_A);
 
-    OfficeState=Sim.Players.Players[(SLONG)PlayerNum].OfficeState;
+    OfficeState=Sim.Players.Players[static_cast<SLONG>(PlayerNum)].OfficeState;
     if (OfficeState==3)
     {
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("buerodrk.gli", RoomPath)), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
     else { pGLibDark=nullptr;
@@ -161,15 +161,15 @@ void CBuero::OnPaint()
 {
     SLONG  d = 0;
     XY     RoomPos;
-    CPoint point = Sim.Players.Players[(SLONG)PlayerNum].CursorPos;
+    CPoint point = Sim.Players.Players[PlayerNum].CursorPos;
 
     if (Sim.Date>4) { Sim.GiveHint (HINT_RICK);
 }
 
-    if (OfficeState!=3 && Sim.Players.Players[(SLONG)PlayerNum].OfficeState==3)
+    if (OfficeState!=3 && Sim.Players.Players[PlayerNum].OfficeState==3)
     {
         OfficeState=3;
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("buerodrk.gli", RoomPath)), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
     else { pGLibDark=nullptr;
@@ -183,15 +183,15 @@ void CBuero::OnPaint()
 
     //Draw Persons:
     RoomBm.pBitmap->SetClipRect(CRect(539,67,639,289));
-    for (d=0; d<(SLONG)Sim.Persons.AnzEntries(); d++)
+    for (d=0; d<Sim.Persons.AnzEntries(); d++)
     {
         //Entscheidung! Person malen:
         if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum (Sim.Persons[d].ClanId) != 0))
         {
-            if (Clans[(SLONG)Sim.Persons[d].ClanId].Type>=CLAN_PLAYER1 && Clans[(SLONG)Sim.Persons[d].ClanId].Type<=CLAN_PLAYER4)
+            if (Clans[static_cast<SLONG>(Sim.Persons[d].ClanId)].Type>=CLAN_PLAYER1 && Clans[static_cast<SLONG>(Sim.Persons[d].ClanId)].Type<=CLAN_PLAYER4)
             {
                 PERSON &qPerson=Sim.Persons[d];
-                CLAN   &qClan=Clans[(SLONG)qPerson.ClanId];
+                CLAN   &qClan=Clans[static_cast<SLONG>(qPerson.ClanId)];
                 UBYTE   Dir   = qPerson.LookDir;
                 UBYTE   Phase = qPerson.Phase;
 
@@ -216,17 +216,17 @@ void CBuero::OnPaint()
     RoomBm.BlitFromT (DoorOpaqueBm, 521, 53);
     ColorFX.BlitTrans (DoorTransBm.pBitmap, RoomBm.pBitmap, XY(542,67), nullptr, 2);
 
-    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&32) != 0u) { RoomBm.BlitFrom (NoSaboBm, 390, 309);
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&32) != 0u) { RoomBm.BlitFrom (NoSaboBm, 390, 309);
 }
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].Letters.AnzLetters() != 0) {
+    if (Sim.Players.Players[PlayerNum].Letters.AnzLetters() != 0) {
         RoomBm.BlitFromT (LetterBm, 351, 390);
 }
 
     SP_Player.Pump ();
     SP_Player.BlitAtT (RoomBm);
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].OfficeState==3)
+    if (Sim.Players.Players[PlayerNum].OfficeState==3)
     {
         RoomBm.BlitFromT (DarkBm, 0, 0);
     }
@@ -264,7 +264,7 @@ void CBuero::OnPaint()
         } else if (gMousePosition.IfIsWithin (275,162,386,236)) { SetMouseLook (CURSOR_HOT, 4400, ROOM_BURO_A, 10);
         } else if (gMousePosition.IfIsWithin (301,66,416,160)) { SetMouseLook (CURSOR_HOT, 4401, ROOM_BURO_A, 20);
         } else if (gMousePosition.IfIsWithin (MantelPos[Sim.localPlayer].left, MantelPos[Sim.localPlayer].top, MantelPos[Sim.localPlayer].right, MantelPos[Sim.localPlayer].bottom)) { SetMouseLook (CURSOR_HOT, 4403, ROOM_BURO_A, 12);
-        } else if ((Sim.Players.Players[(SLONG)PlayerNum].Letters.AnzLetters() != 0) && gMousePosition.IfIsWithin (318,368,450,431)) { SetMouseLook (CURSOR_HOT, 4404, ROOM_BURO_A, 13);
+        } else if ((Sim.Players.Players[PlayerNum].Letters.AnzLetters() != 0) && gMousePosition.IfIsWithin (318,368,450,431)) { SetMouseLook (CURSOR_HOT, 4404, ROOM_BURO_A, 13);
         } else if (gMousePosition.IfIsWithin (322,302,432,368)) { SetMouseLook (CURSOR_HOT, 4405, ROOM_BURO_A, 14);
         } else if (gMousePosition.IfIsWithin (396,279,490,359)) { SetMouseLook (CURSOR_HOT, 4402, ROOM_BURO_A, 15);
 }
@@ -308,8 +308,8 @@ void CBuero::OnLButtonDown(UINT nFlags, CPoint point)
             return;
         }
 
-        if (MouseClickArea==ROOM_BURO_A && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        } else if (MouseClickArea==ROOM_BURO_A && MouseClickId==10) { Sim.Players.Players[(SLONG)PlayerNum].EnterRoom(ROOM_GLOBE);
+        if (MouseClickArea==ROOM_BURO_A && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_BURO_A && MouseClickId==10) { Sim.Players.Players[PlayerNum].EnterRoom(ROOM_GLOBE);
         } else if (MouseClickArea==ROOM_BURO_A && MouseClickId==12)
         {
             if (Sim.Date>1) { Sim.GiveHint (HINT_FEIERABEND);
@@ -335,8 +335,8 @@ void CBuero::OnLButtonDown(UINT nFlags, CPoint point)
         }
         else if (MouseClickArea==ROOM_BURO_A && MouseClickId==15)
         {
-            if (Sim.Players.Players[(SLONG)PlayerNum].Planes.GetNumUsed()>0) {
-                Sim.Players.Players[(SLONG)PlayerNum].EnterRoom(ROOM_PLANEPROPS);
+            if (Sim.Players.Players[PlayerNum].Planes.GetNumUsed()>0) {
+                Sim.Players.Players[PlayerNum].EnterRoom(ROOM_PLANEPROPS);
 }
         }
         else { CStdRaum::OnLButtonDown(nFlags, point);
@@ -372,7 +372,7 @@ void CBuero::OnRButtonDown(UINT nFlags, CPoint point)
         {
             if (!IsDialogOpen() && point.y<440)
             {
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                Sim.Players.Players[PlayerNum].LeaveRoom();
             }
 
             CStdRaum::OnRButtonDown(nFlags, point);

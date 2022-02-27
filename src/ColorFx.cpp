@@ -179,13 +179,13 @@ void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *Bitmap)
     for (cy=ClipRect.top; cy<ClipRect.bottom; cy++)
         //for (cy=0; cy<Bitmap->GetYSize(); cy++)
     {
-        p = ((UWORD*) (((char*)Key.Bitmap) + cy*Key.lPitch))+ClipRect.left;
+        p = (reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + cy*Key.lPitch))+ClipRect.left;
 
 #ifndef ENABLE_ASM
         for (cx=sizex; cx>0; cx--)
         {
-            *p = Table[((UBYTE*)p)[0]]+
-                Table[256+((UBYTE*)p)[1]];
+            *p = Table[(reinterpret_cast<UBYTE*>(p))[0]]+
+                Table[256+(reinterpret_cast<UBYTE*>(p))[1]];
             p++;
         }
 #else
@@ -264,14 +264,14 @@ void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *
 
     for (cy=0; cy<SrcBitmap->GetYSize(); cy++)
     {
-        p  = (UWORD*) (((char*)SrcKey.Bitmap) + cy*SrcKey.lPitch);
-        pp = (UWORD*) (((char*)TgtKey.Bitmap) + cy*TgtKey.lPitch);
+        p  = reinterpret_cast<UWORD*>((static_cast<char*>(SrcKey.Bitmap)) + cy*SrcKey.lPitch);
+        pp = reinterpret_cast<UWORD*>((static_cast<char*>(TgtKey.Bitmap)) + cy*TgtKey.lPitch);
 
 #ifndef ENABLE_ASM
         for (cx=SrcBitmap->GetXSize(); cx>0; cx--)
         {
-            *pp = Table[((UBYTE*)p)[0]]+
-                Table[256+((UBYTE*)p)[1]];
+            *pp = Table[(reinterpret_cast<UBYTE*>(p))[0]]+
+                Table[256+(reinterpret_cast<UBYTE*>(p))[1]];
             p++; pp++;
         }
 #else
@@ -340,8 +340,8 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2,
 
     for (cy=ClipRect.top; cy<ClipRect.bottom; cy++)
     {
-        p = (UWORD*) (((char*)Key.Bitmap) + cy*Key.lPitch);
-        pp = (UWORD*) (((char*)Key2.Bitmap) + cy*Key2.lPitch);
+        p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + cy*Key.lPitch);
+        pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + cy*Key2.lPitch);
 
         memcpy (PixelBuffer, p, sizex*2);
         p = PixelBuffer;
@@ -406,15 +406,15 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2,
 #else
         for (cx=sizex; cx>0; cx--)
         {
-            *p = Table[((UBYTE*)p)[0]]+Table[256+((UBYTE*)p)[1]]+
-                Table2[((UBYTE*)pp)[0]]+Table2[256+((UBYTE*)pp)[1]];
+            *p = Table[(reinterpret_cast<UBYTE*>(p))[0]]+Table[256+(reinterpret_cast<UBYTE*>(p))[1]]+
+                Table2[(reinterpret_cast<UBYTE*>(pp))[0]]+Table2[256+(reinterpret_cast<UBYTE*>(pp))[1]];
 
             p++;
             pp++;
         }
 #endif
 
-        memcpy ((((char*)Key.Bitmap) + cy*Key.lPitch), PixelBuffer, sizex*2);
+        memcpy (((static_cast<char*>(Key.Bitmap)) + cy*Key.lPitch), PixelBuffer, sizex*2);
     }
 }
 
@@ -446,9 +446,9 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, 
 
     for (cy=ClipRect.top; cy<ClipRect.bottom; cy++)
     {
-        p = (UWORD*) (((char*)Key.Bitmap) + cy*Key.lPitch);
-        pp = (UWORD*) (((char*)Key2.Bitmap) + cy*Key2.lPitch);
-        ppp = (UWORD*) (((char*)TgtKey.Bitmap) + cy*TgtKey.lPitch);
+        p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + cy*Key.lPitch);
+        pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + cy*Key2.lPitch);
+        ppp = reinterpret_cast<UWORD*>((static_cast<char*>(TgtKey.Bitmap)) + cy*TgtKey.lPitch);
 
 #ifdef ENABLE_ASM
         sizex=SrcBitmap->GetXSize()/2;
@@ -505,8 +505,8 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, 
 
         for (cx = sizex; cx > 0; cx--)
         {
-            *ppp = Table[((UBYTE*)p)[0]] + Table[256 + ((UBYTE*)p)[1]] +
-                Table2[((UBYTE*)pp)[0]] + Table2[256 + ((UBYTE*)pp)[1]];
+            *ppp = Table[(reinterpret_cast<UBYTE*>(p))[0]] + Table[256 + (reinterpret_cast<UBYTE*>(p))[1]] +
+                Table2[(reinterpret_cast<UBYTE*>(pp))[0]] + Table2[256 + (reinterpret_cast<UBYTE*>(pp))[1]];
 
             p++;
             pp++;
@@ -559,7 +559,7 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
 
     {
         SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White=*(UWORD*)Key.Bitmap;
+        White=*static_cast<UWORD*>(Key.Bitmap);
     }
 
     if (SrcRect != nullptr) { Rect=*SrcRect; } else { Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
@@ -640,8 +640,8 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
                 }
             }
 
-            p = (UWORD*) (((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = (UWORD*) (((char*)Key2.Bitmap) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
+            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
 
             if (bVgaRam != 0)
             {
@@ -655,12 +655,12 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
                 {
                     if (*pp != 0u)
                     {
-                        if (*pp==(UWORD)(int)White)
+                        if (*pp==static_cast<UWORD>(static_cast<int>(White)))
                         {
                             UWORD vga=*p;
 
                             *p = UWORD(Table1[vga&255]+Table1[256+(vga>>8)]+
-                                    Table1[((UBYTE*)pp)[0]]+Table1[256+((UBYTE*)pp)[1]]);
+                                    Table1[(reinterpret_cast<UBYTE*>(pp))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(pp))[1]]);
                         }
                         else {
                             *p=*pp;
@@ -677,9 +677,9 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
                 {
                     if (*pp != 0u)
                     {
-                        if (*pp==(UWORD)(int)White) {
-                            *p = UWORD(Table1[((UBYTE*)p)[0]]+Table1[256+((UBYTE*)p)[1]]+
-                                    Table2[((UBYTE*)pp)[0]]+Table2[256+((UBYTE*)pp)[1]]);
+                        if (*pp==static_cast<UWORD>(static_cast<int>(White))) {
+                            *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]+
+                                    Table2[(reinterpret_cast<UBYTE*>(pp))[0]]+Table2[256+(reinterpret_cast<UBYTE*>(pp))[1]]);
                         } else {
                             *p=*pp;
 }
@@ -691,7 +691,7 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
             }
 
             if (bVgaRam != 0) {
-                memcpy ((((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
+                memcpy (((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
 }
         }
 }
@@ -748,8 +748,8 @@ void SB_CColorFX::BlitOutline (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBit
     if (sizex>0 && sizex<=640) {
         for (cy=0; cy<sizey; cy++)
         {
-            p = (UWORD*) (((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = (UWORD*) (((char*)Key2.Bitmap) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
+            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
 
             for (cx=sizex; cx>0; cx--)
             {
@@ -830,7 +830,7 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
 
     {
         SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White=*(UWORD*)Key.Bitmap;
+        White=*static_cast<UWORD*>(Key.Bitmap);
     }
 
     if (SrcRect != nullptr) { Rect=*SrcRect; } else { Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
@@ -883,8 +883,8 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
     if (sizex>0) {
         for (cy=0; cy<Rect.bottom-Rect.top+1; cy++)
         {
-            p = (UWORD*) (((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = (UWORD*) (((char*)Key2.Bitmap) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
+            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
 
             memcpy (PixelBuffer, p, sizex*2);
             p = PixelBuffer;
@@ -895,8 +895,8 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
                 {
                     if (*pp != 0u)
                     {
-                        *p = UWORD(Table1[((UBYTE*)p)[0]]+Table1[256+((UBYTE*)p)[1]]+
-                                Table1[((UBYTE*)pp)[0]]+Table1[256+((UBYTE*)pp)[1]]);
+                        *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]+
+                                Table1[(reinterpret_cast<UBYTE*>(pp))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(pp))[1]]);
                     }
 
                     p++;
@@ -909,8 +909,8 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
                 {
                     if (*pp != 0u)
                     {
-                        *p = UWORD(Table1[((UBYTE*)p)[0]]+Table1[256+((UBYTE*)p)[1]]+
-                                Table2[((UBYTE*)pp)[0]]+Table2[256+((UBYTE*)pp)[1]]);
+                        *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]+
+                                Table2[(reinterpret_cast<UBYTE*>(pp))[0]]+Table2[256+(reinterpret_cast<UBYTE*>(pp))[1]]);
                     }
 
                     p++;
@@ -918,7 +918,7 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
                 }
             }
 
-            memcpy ((((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
+            memcpy (((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
         }
 }
 }
@@ -942,7 +942,7 @@ void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect,
 
     //Calculate transparency color stuff:
     SB_Hardwarecolor color    = pBitmap->GetHardwarecolor (HighlightColor);
-    auto            coloradd = UWORD(Table2[((UBYTE*)&color)[0]]+Table2[256+((UBYTE*)&color)[1]]);
+    auto            coloradd = UWORD(Table2[(reinterpret_cast<UBYTE*>(&color))[0]]+Table2[256+(reinterpret_cast<UBYTE*>(&color))[1]]);
 
     CRect ClipRect = pBitmap->GetClipRect();
 
@@ -970,7 +970,7 @@ void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect,
     if (sizex>0) {
         for (cy=0; cy<sizey; cy++)
         {
-            p = (UWORD*) (((char*)Key.Bitmap) + ClipRect.left*2 + (cy+ClipRect.top)*Key.lPitch);
+            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + ClipRect.left*2 + (cy+ClipRect.top)*Key.lPitch);
 
             for (cx=sizex; cx>0; cx--)
             {
@@ -979,7 +979,7 @@ void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect,
                     for (x=-max; x<=max; x++) {
                         for (y=-max+abs(x); y<=max-abs(x); y++) {
                             if (cx+x>=0 && cx+x<sizex && cy+y>=0 && cy+y<sizey && p[x+y*Width]!=FontColor) {
-                                p[x+y*Width] = UWORD(Table1[((UBYTE*)(p+x+y*Width))[0]]+Table1[256+((UBYTE*)(p+x+y*Width))[1]]+coloradd);
+                                p[x+y*Width] = UWORD(Table1[(reinterpret_cast<UBYTE*>(p+x+y*Width))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p+x+y*Width))[1]]+coloradd);
 }
 }
 }
@@ -1044,7 +1044,7 @@ void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
 
     {
         SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White=*(UWORD*)Key.Bitmap;
+        White=*static_cast<UWORD*>(Key.Bitmap);
     }
 
     Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
@@ -1078,8 +1078,8 @@ void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
     if (sizex>0) {
         for (cy=0; cy<Rect.bottom-Rect.top+1; cy++)
         {
-            p = (UWORD*) (((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = (UWORD*) (((char*)Key2.Bitmap) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
+            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
 
             memcpy (PixelBuffer, p, sizex*2);
             p = PixelBuffer;
@@ -1143,13 +1143,13 @@ void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
             {
                 UWORD *Table1 = BlendTables+(SLONG(*pp)<<9);
 
-                *p = UWORD(Table1[((UBYTE*)p)[0]]+Table1[256+((UBYTE*)p)[1]]);
+                *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]);
 
                 p++;
                 pp++;
             }
 #endif
-            memcpy ((((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
+            memcpy (((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
         }
 }
 }
@@ -1180,7 +1180,7 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
 
     {
         SB_CBitmapKey Key(*XBubbleBms[9].pBitmap);
-        White=*(UWORD*)Key.Bitmap;
+        White=*static_cast<UWORD*>(Key.Bitmap);
     }
 
     Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
@@ -1228,8 +1228,8 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
     if (sizex>0) {
         for (cy=0; cy<Rect.bottom-Rect.top+1; cy++)
         {
-            p = (UWORD*) (((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch);
-            pp = (UWORD*) (((char*)Key2.Bitmap) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
+            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch);
+            pp = reinterpret_cast<UWORD*>((static_cast<char*>(Key2.Bitmap)) + Rect.left*2 + (cy+Rect.top)*Key2.lPitch);
 
             memcpy (PixelBuffer, p, sizex*2);
             p = PixelBuffer;
@@ -1241,13 +1241,13 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
                 UWORD *Table1 = BlendTables+(pMap1[*pp]<<9);
                 UWORD *Table2 = BlendTables+(pMap2[*pp]<<9);
 
-                *p = UWORD(Table1[((UBYTE*)p)[0]]+Table1[256+((UBYTE*)p)[1]])+UWORD(Table2[255]+Table2[256+255]);
+                *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]])+UWORD(Table2[255]+Table2[256+255]);
 
                 p++;
                 pp++;
             }
 
-            memcpy ((((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
+            memcpy (((static_cast<char*>(Key.Bitmap)) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
         }
 }
 }
@@ -1286,11 +1286,11 @@ void RemapColor (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontCo
     if (sizex>0) {
         for (cy=0; cy<sizey; cy++)
         {
-            p = (UWORD*) (((char*)Key.Bitmap) + ClipRect.left*2 + (cy+ClipRect.top)*Key.lPitch);
+            p = reinterpret_cast<UWORD*>((static_cast<char*>(Key.Bitmap)) + ClipRect.left*2 + (cy+ClipRect.top)*Key.lPitch);
 
             for (cx=sizex; cx>0; cx--)
             {
-                if (*p==OldFontColor) { *p=(UWORD)NewFontColor;
+                if (*p==OldFontColor) { *p=static_cast<UWORD>(NewFontColor);
 }
 
                 p++;

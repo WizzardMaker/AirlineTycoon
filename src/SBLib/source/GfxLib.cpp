@@ -225,7 +225,7 @@ class GfxLib* GfxLib::ReleaseSurface(__int64 name)
     auto it = Surfaces.find(name);
     if (it != Surfaces.end())
     {
-        delete[](char*)it->second->pixels;
+        delete[]static_cast<char*>(it->second->pixels);
         SDL_FreeSurface(it->second);
         Surfaces.erase(it);
     }
@@ -240,7 +240,7 @@ void GfxLib::Release()
 
     for (auto & Surface : Surfaces)
     {
-        delete[](char*)Surface.second->pixels;
+        delete[]static_cast<char*>(Surface.second->pixels);
         SDL_FreeSurface(Surface.second);
     }
     Surfaces.clear();

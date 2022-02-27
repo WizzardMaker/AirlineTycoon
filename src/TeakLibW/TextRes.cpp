@@ -134,7 +134,7 @@ void TEXTRES::Open(char const* source, void* cached)
             if (String[0] == '>' && String[1] != '>')
             {
                 if (strlen(String + 1) == 4) {
-                    Group = *(SLONG*)(String + 1);
+                    Group = *reinterpret_cast<SLONG*>(String + 1);
                 } else {
                     Group = atoi(String + 1);
 }
@@ -142,7 +142,7 @@ void TEXTRES::Open(char const* source, void* cached)
             if (String[0] == '>' && String[1] == '>')
             {
                 if (strlen(String + 2) == 4) {
-                    Identifier = *(SLONG*)(String + 2);
+                    Identifier = *reinterpret_cast<SLONG*>(String + 2);
                 } else {
                     Identifier = atoi(String + 2);
 }

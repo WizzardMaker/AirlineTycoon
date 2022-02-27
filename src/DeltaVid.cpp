@@ -60,14 +60,14 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
             {
                 for (pass=0; pass<3; pass++) {
                     if ((-Offsets[pass].x)<=x && (-Offsets[pass].y)<=y && Offsets[pass].x<NewFrame.GetXSize()-x-3 && Offsets[pass].y<NewFrame.GetYSize()-y) {
-                        if ( ((__int64*)(((UWORD*)NewKey.Bitmap)+x+y_pitch))[0] == ((__int64*)(((UWORD*)OldKey.Bitmap)+x+y_pitch+DirectOffsets[pass]))[0] )
+                        if ( (reinterpret_cast<__int64*>((static_cast<UWORD*>(NewKey.Bitmap))+x+y_pitch))[0] == (reinterpret_cast<__int64*>((static_cast<UWORD*>(OldKey.Bitmap))+x+y_pitch+DirectOffsets[pass]))[0] )
                         {
                             //Ein Offset hat gepasst! Für wieviele Pixel?
                             for (cx=4; x+cx<NewFrame.GetXSize() && cx<250; cx++)
                             {
                                 if (Offsets[pass].x<NewFrame.GetXSize()-x-cx)
                                 {
-                                    if ( ((__int64*)(((UWORD*)NewKey.Bitmap)+x+cx+y_pitch))[0] != ((__int64*)(((UWORD*)OldKey.Bitmap)+x+cx+y_pitch+DirectOffsets[pass]))[0] ) {
+                                    if ( (reinterpret_cast<__int64*>((static_cast<UWORD*>(NewKey.Bitmap))+x+cx+y_pitch))[0] != (reinterpret_cast<__int64*>((static_cast<UWORD*>(OldKey.Bitmap))+x+cx+y_pitch+DirectOffsets[pass]))[0] ) {
                                         break;
 }
                                 }
@@ -99,7 +99,7 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
                 if ((pBufferCounter != nullptr) && (*pBufferCounter)<250 && x!=0)
                 {
                     (*pBufferCounter)++;
-                    *((UWORD*)(Buffer+BufferIndex)) = ((UWORD*)NewKey.Bitmap)[x+y_pitch];
+                    *(reinterpret_cast<UWORD*>(Buffer+BufferIndex)) = (static_cast<UWORD*>(NewKey.Bitmap))[x+y_pitch];
                     BufferIndex+=2;
                 }
                 else
@@ -108,7 +108,7 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
                     Buffer[BufferIndex++]=1;                   //Anzahl
                     pBufferCounter=Buffer+BufferIndex-1;
 
-                    *((UWORD*)(Buffer+BufferIndex)) = ((UWORD*)NewKey.Bitmap)[x+y_pitch];
+                    *(reinterpret_cast<UWORD*>(Buffer+BufferIndex)) = (static_cast<UWORD*>(NewKey.Bitmap))[x+y_pitch];
                     BufferIndex+=2;
                 }
             }
@@ -116,7 +116,7 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
     }
 
     for (y=0; y<NewFrame.GetYSize(); y++) {
-        memcpy ((char*)OldKey.Bitmap+y*OldKey.lPitch, (char*)NewKey.Bitmap+y*NewKey.lPitch, NewFrame.GetXSize()*2);
+        memcpy (static_cast<char*>(OldKey.Bitmap)+y*OldKey.lPitch, static_cast<char*>(NewKey.Bitmap)+y*NewKey.lPitch, NewFrame.GetXSize()*2);
 }
 
     //Datei-Frame-header schreiben:
@@ -183,7 +183,7 @@ BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitma
         {
             case gDeltaTokenNoDelta:
                 Anz=Buffer[c+1];
-                memcpy (((UWORD*)NewKey.Bitmap)+x+y*NewKey.lPitch/2, Buffer+c+2, Anz*2);
+                memcpy ((static_cast<UWORD*>(NewKey.Bitmap))+x+y*NewKey.lPitch/2, Buffer+c+2, Anz*2);
                 c+=1+1+Anz*2;
                 x+=Anz;
                 break;
@@ -192,7 +192,7 @@ BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitma
             case gDeltaTokenDelta2:
             case gDeltaTokenDelta3:
                 Anz=Buffer[c+1];
-                memcpy (((UWORD*)NewKey.Bitmap)+x+y*NewKey.lPitch/2, ((UWORD*)OldKey.Bitmap)+(x+Offsets[Buffer[c]-gDeltaTokenDelta1].x)+(y+Offsets[Buffer[c]-gDeltaTokenDelta1].y)*OldKey.lPitch/2, Anz*2);
+                memcpy ((static_cast<UWORD*>(NewKey.Bitmap))+x+y*NewKey.lPitch/2, (static_cast<UWORD*>(OldKey.Bitmap))+(x+Offsets[Buffer[c]-gDeltaTokenDelta1].x)+(y+Offsets[Buffer[c]-gDeltaTokenDelta1].y)*OldKey.lPitch/2, Anz*2);
                 c+=1+1;
                 x+=Anz;
                 break;
@@ -277,7 +277,7 @@ void Unvideo (const CString& Filename, const CString& TargetFilename)
                 {
                     for (SLONG cx=0; cx<NewBm.Size.x; cx++)
                     {
-                        tmp[cx] = ((UWORD*)NewKey.Bitmap)[cy*NewKey.lPitch/2+cx];
+                        tmp[cx] = (static_cast<UWORD*>(NewKey.Bitmap))[cy*NewKey.lPitch/2+cx];
 
                         UWORD &w = tmp[cx];
 

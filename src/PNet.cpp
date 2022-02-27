@@ -427,12 +427,12 @@ void PLAYER::NetUpdateWorkers ()
 
     Message << ATNET_PERSONNEL;
 
-    m = (long)Statistiken[STAT_ZUFR_PERSONAL].GetAtPastDay(0);
-    n = (long)Statistiken[STAT_MITARBEITER].GetAtPastDay(0);
+    m = static_cast<long>(Statistiken[STAT_ZUFR_PERSONAL].GetAtPastDay(0));
+    n = static_cast<long>(Statistiken[STAT_MITARBEITER].GetAtPastDay(0));
 
     Message << PlayerNum << m << n;
 
-    for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+    for (c=0; c<Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0)
         {
             Message << c;

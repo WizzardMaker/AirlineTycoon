@@ -196,11 +196,11 @@ void CDesigner::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_DESIGNER && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_DESIGNER && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_DESIGNER && MouseClickId==10) { StartDialog (TALKER_DESIGNER, MEDIUM_AIR, 1000); }
         else if (MouseClickArea==ROOM_DESIGNER && MouseClickId==12)
         {
-            Sim.Players.Players[(SLONG)PlayerNum].EnterRoom(ROOM_EDITOR);
+            Sim.Players.Players[PlayerNum].EnterRoom(ROOM_EDITOR);
         }
         else { CStdRaum::OnLButtonDown(nFlags, point);
 }
@@ -226,8 +226,9 @@ void CDesigner::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

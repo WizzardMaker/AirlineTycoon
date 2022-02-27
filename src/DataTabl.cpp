@@ -56,7 +56,7 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
 
     if (Expert==2)  //Experte: Flugzeugkosten
     {
-        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++) {
+        for (c=0, d=0; c<Planes->AnzEntries(); c++) {
             if (Planes->IsInAlbum(c) != 0)
             {
                 CPlane &qPlane = (*Planes)[c];
@@ -72,7 +72,7 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
     }
     else if (Expert==1)  //Experte: Flugzeugsaldo
     {
-        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++) {
+        for (c=0, d=0; c<Planes->AnzEntries(); c++) {
             if (Planes->IsInAlbum(c) != 0)
             {
                 LineIndex[d]  = Planes->GetIdFromIndex(c);
@@ -90,7 +90,7 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
     }
     else if (Expert==99)  //Werkstatt: Flugzeugkosten
     {
-        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++) {
+        for (c=0, d=0; c<Planes->AnzEntries(); c++) {
             if (Planes->IsInAlbum(c) != 0)
             {
                 LineIndex[d]  = Planes->GetIdFromIndex(c);
@@ -105,7 +105,7 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
     }
     else
     {
-        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++) {
+        for (c=0, d=0; c<Planes->AnzEntries(); c++) {
             if (Planes->IsInAlbum(c) != 0)
             {
                 CPlane &qPlane = (*Planes)[c];
@@ -119,8 +119,8 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
 
                 LineIndex[d]  = Planes->GetIdFromIndex(c);
                 Values[d*4+0] = qPlane.Name;
-                Values[d*4+1] = bprintf ("%li%%", (SLONG)qPlane.Zustand);
-                Values[d*4+2] = Einheiten[EINH_DM].bString ((SLONG)qPlane.Wartungskosten);
+                Values[d*4+1] = bprintf ("%li%%", static_cast<SLONG>(qPlane.Zustand));
+                Values[d*4+2] = Einheiten[EINH_DM].bString (qPlane.Wartungskosten);
 
                 if (qPlane.Ort>=0) {
                     Values[d*4+3] = bprintf ("%s %s", StandardTexte.GetS (TOKEN_SCHED, 1105), (LPCTSTR)Cities[qPlane.Ort].Name);
@@ -191,7 +191,7 @@ void CDataTable::FillWithPlaneTypes ()
     ColTitle[0]=StandardTexte.GetS (TOKEN_SCHED, 1600+1);
     ColTitle[1]=" ";
 
-    for (c=0, d=0; c<(SLONG)PlaneTypes.AnzEntries(); c++) {
+    for (c=0, d=0; c<PlaneTypes.AnzEntries(); c++) {
         if (PlaneTypes.IsInAlbum(c) != 0) {
             if (PlaneTypes[c].FirstMissions<Sim.Difficulty || (PlaneTypes[c].FirstMissions==Sim.Difficulty && PlaneTypes[c].FirstDay<=Sim.Date) || (DIFF_FREEGAME==Sim.Difficulty && PlaneTypes[c].FirstDay<=Sim.Date))
             {
@@ -234,7 +234,7 @@ void CDataTable::FillWithXPlaneTypes ()
     BUFFER<CString> Array;
     GetMatchingFilelist (FullFilename ("*.plane", MyPlanePath), Array);
 
-    for (c=0, d=0; c<(SLONG)Array.AnzEntries() && c<9999; c++)
+    for (c=0, d=0; c<Array.AnzEntries() && c<9999; c++)
     {
         CXPlane plane;
 
@@ -289,7 +289,7 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
     /*for (c=0; c<AnzColums; c++)
       ColTitle[c]=StandardTexte.GetS (TOKEN_SCHED, 1100+c+1); */
 
-    for (c=d=0; c<(SLONG)Routen->AnzEntries(); c++) {
+    for (c=d=0; c<Routen->AnzEntries(); c++) {
         if ((Routen->IsInAlbum(c) != 0) && (RentRouten->RentRouten[c].Rang != 0u) && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity))
         {
             LineIndex[d]          = Routen->GetIdFromIndex(c);
@@ -298,7 +298,7 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
             Values[d*AnzColums+2] = Cities[(*Routen)[c].VonCity].Kuerzel;
             Values[d*AnzColums+3] = Cities[(*Routen)[c].NachCity].Kuerzel;
 
-            Values[d*AnzColums+4] = CString (bitoa (Sim.Players.Players[(SLONG)Sim.localPlayer].AnzPlanesOnRoute(c))) + StandardTexte.GetS (TOKEN_ROUTE, 1015);
+            Values[d*AnzColums+4] = CString (bitoa (Sim.Players.Players[Sim.localPlayer].AnzPlanesOnRoute(c))) + StandardTexte.GetS (TOKEN_ROUTE, 1015);
 
             ValueFlags[d*AnzColums+0] = FALSE;
 
@@ -353,7 +353,7 @@ void CDataTable::FillWithAllRouten (CRouten *Routen, CRentRouten *RentRouten, BO
     ColTitle.ReSize (AnzColums);
     LineIndex.ReSize (AnzRows);
 
-    for (c=d=0; c<(SLONG)Routen->AnzEntries(); c++) {
+    for (c=d=0; c<Routen->AnzEntries(); c++) {
         if ((Routen->IsInAlbum(c) != 0) && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity))
         {
             LineIndex[d]          = Routen->GetIdFromIndex(c);
@@ -572,7 +572,7 @@ void CDataTable::FillWithCities (CRentCities *RentCities)
         ColTitle[c]=StandardTexte.GetS (TOKEN_SCHED, 1400+c+1);
 }
 
-    for (c=d=0; c<(SLONG)Cities.AnzEntries(); c++) {
+    for (c=d=0; c<Cities.AnzEntries(); c++) {
         if (Cities.IsInAlbum(c) != 0)
         {
             if ((RentCities != nullptr) && (RentCities->RentCities[c].Rang != 0u)) {

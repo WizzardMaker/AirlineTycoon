@@ -12,7 +12,7 @@ KLACKER::KLACKER ()
     Clear ();
     memset (Haben, 0, 24*16);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("klacker.gli", RoomPath), &pGLib, L_LOCMEM);
+    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("klacker.gli", RoomPath)), &pGLib, L_LOCMEM);
     Cursors.ReSize (pGLib, "KL_K1", 8);                                                                                                                                                                                                                                                                                                                                                                                                                                           //8 neue Chars für die Polen........................... //3 neue Chars füt SL //3 Neue für ES
     KlackerBms.ReSize (pGLib, "KL_SP KL_A KL_B KL_C KL_D KL_E KL_F KL_G KL_H KL_I KL_J KL_K KL_L KL_M KL_N KL_O KL_P KL_Q KL_R KL_S KL_T KL_U KL_V KL_W KL_X KL_Y KL_Z KL_AE KL_OE KL_UE KL_0 KL_1 KL_2 KL_3 KL_4 KL_5 KL_6 KL_7 KL_8 KL_9 KL_PKT KL_AUSR KL_DPKT KL_SEMI KL_KOMMA KL_FRAGE KL_KLA KL_KLZ KL_MINUS KL_BULL KL_GLCH KL_MAL KL_KREUZ KL_MORE KL_LESS KL_PL KL_193 KL_200 KL_207 KL_201 KL_204 KL_205 KL_210 KL_211 KL_216 KL_138 KL_141 KL_218 KL_217 KL_221 KL_142 KL_165 KL_198 KL_202 KL_163 KL_209 KL_140 KL_143 KL_175 KL_188 KL_192 KL_197 KL_165B KL_195 KL_128 KL_HUMAN KL_COMPI "
             "KD_SP KD_A KD_B KD_C KD_D KD_E KD_F KD_G KD_H KD_I KD_J KD_K KD_L KD_M KD_N KD_O KD_P KD_Q KD_R KD_S KD_T KD_U KD_V KD_W KD_X KD_Y KD_Z KD_AE KD_OE KD_UE KD_0 KD_1 KD_2 KD_3 KD_4 KD_5 KD_6 KD_7 KD_8 KD_9 KD_PKT KD_AUSR KD_DPKT KD_SEMI KD_KOMMA KD_FRAGE KD_KLA KD_KLZ KD_MINUS KD_BULL KD_GLCH KD_MAL KD_KREUZ KD_MORE KD_LESS KL_PL KD_193 KD_200 KD_207 KD_201 KD_204 KD_205 KD_210 KD_211 KD_216 KD_138 KD_141 KD_218 KD_217 KD_221 KD_142 KD_165 KD_198 KD_202 KD_163 KD_209 KD_140 KD_143 KD_175 KD_188 KD_192 KD_197 KD_165B KD_195 KD_128");
@@ -162,65 +162,65 @@ void KLACKER::PrintAt (SLONG x, SLONG y, const char *Text)
         }
         if (gLanguage==LANGUAGE_1)
         {
-            if (ch==(char)225) { ch=(char)193;
+            if (ch==static_cast<char>(225)) { ch=static_cast<char>(193);
 }
-            if (ch==(char)232) { ch=(char)200;
+            if (ch==static_cast<char>(232)) { ch=static_cast<char>(200);
 }
-            if (ch==(char)239) { ch=(char)207;
+            if (ch==static_cast<char>(239)) { ch=static_cast<char>(207);
 }
-            if (ch==(char)233) { ch=(char)201;
+            if (ch==static_cast<char>(233)) { ch=static_cast<char>(201);
 }
-            if (ch==(char)236) { ch=(char)204;
+            if (ch==static_cast<char>(236)) { ch=static_cast<char>(204);
 }
-            if (ch==(char)237) { ch=(char)205;
+            if (ch==static_cast<char>(237)) { ch=static_cast<char>(205);
 }
-            if (ch==(char)242) { ch=(char)210;
+            if (ch==static_cast<char>(242)) { ch=static_cast<char>(210);
 }
-            if (ch==(char)243) { ch=(char)211;
+            if (ch==static_cast<char>(243)) { ch=static_cast<char>(211);
 }
-            if (ch==(char)248) { ch=(char)216;
+            if (ch==static_cast<char>(248)) { ch=static_cast<char>(216);
 }
-            if (ch==(char)154) { ch=(char)138;
+            if (ch==static_cast<char>(154)) { ch=static_cast<char>(138);
 }
-            if (ch==(char)157) { ch=(char)141;
+            if (ch==static_cast<char>(157)) { ch=static_cast<char>(141);
 }
-            if (ch==(char)250) { ch=(char)218;
+            if (ch==static_cast<char>(250)) { ch=static_cast<char>(218);
 }
-            if (ch==(char)249) { ch=(char)217;
+            if (ch==static_cast<char>(249)) { ch=static_cast<char>(217);
 }
-            if (ch==(char)253) { ch=(char)221;
+            if (ch==static_cast<char>(253)) { ch=static_cast<char>(221);
 }
-            if (ch==(char)158) { ch=(char)142;
+            if (ch==static_cast<char>(158)) { ch=static_cast<char>(142);
 }
         }
         if (gLanguage==LANGUAGE_E)  //E=Polnisch! Krank!
         {
-            if (ch==(char)185) { ch=(char)165;
+            if (ch==static_cast<char>(185)) { ch=static_cast<char>(165);
 }
-            if (ch==(char)230) { ch=(char)198;
+            if (ch==static_cast<char>(230)) { ch=static_cast<char>(198);
 }
-            if (ch==(char)234) { ch=(char)202;
+            if (ch==static_cast<char>(234)) { ch=static_cast<char>(202);
 }
-            if (ch==(char)179) { ch=(char)163;
+            if (ch==static_cast<char>(179)) { ch=static_cast<char>(163);
 }
-            if (ch==(char)241) { ch=(char)209;
+            if (ch==static_cast<char>(241)) { ch=static_cast<char>(209);
 }
-            if (ch==(char)243) { ch=(char)211;
+            if (ch==static_cast<char>(243)) { ch=static_cast<char>(211);
 }
-            if (ch==(char)156) { ch=(char)140;
+            if (ch==static_cast<char>(156)) { ch=static_cast<char>(140);
 }
-            if (ch==(char)159) { ch=(char)143;
+            if (ch==static_cast<char>(159)) { ch=static_cast<char>(143);
 }
-            if (ch==(char)191) { ch=(char)175;
+            if (ch==static_cast<char>(191)) { ch=static_cast<char>(175);
 }
         }
         if (gLanguage==LANGUAGE_S || gLanguage==LANGUAGE_O)
         {
-            if (ch==(char)164) { ch=(char)165;
+            if (ch==static_cast<char>(164)) { ch=static_cast<char>(165);
 }
-            if (ch==(char)227) { ch=(char)195;
+            if (ch==static_cast<char>(227)) { ch=static_cast<char>(195);
 }
-            if (ch==(char)165) { ch=(char)166; //Fix, weil 165 schon von Tschechen o. Polen belegt ist
+            if (ch==static_cast<char>(165)) { ch=static_cast<char>(166); //Fix, weil 165 schon von Tschechen o. Polen belegt ist
 }
         }
 

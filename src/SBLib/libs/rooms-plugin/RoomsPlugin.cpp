@@ -829,14 +829,14 @@ void RoomsPlugin::SetRoomsCallback(RoomsCallback *_roomsCallback)
 }
 void RoomsPlugin::AddRoomsCallback(RoomsCallback *_roomsCallback)
 {
-    if (roomsCallback.GetIndexOf(_roomsCallback)==(unsigned int) -1) {
+    if (roomsCallback.GetIndexOf(_roomsCallback)==static_cast<unsigned int>(-1)) {
         roomsCallback.Push(_roomsCallback,_FILE_AND_LINE_);
 }
 }
 void RoomsPlugin::RemoveRoomsCallback(RoomsCallback *_roomsCallback)
 {
     unsigned int idx = roomsCallback.GetIndexOf(_roomsCallback);
-    if (idx!=(unsigned int) -1) {
+    if (idx!=static_cast<unsigned int>(-1)) {
         roomsCallback.RemoveAtIndex(idx);
 }
 }
@@ -847,7 +847,7 @@ void RoomsPlugin::ExecuteFunc(RoomsPluginFunc *func)
 void RoomsPlugin::ExecuteFunc(RoomsPluginFunc *func, SystemAddress remoteAddress)
 {
     RakNet::BitStream bs;
-    bs.Write((MessageID)ID_ROOMS_EXECUTE_FUNC);
+    bs.Write(static_cast<MessageID>(ID_ROOMS_EXECUTE_FUNC));
     if (IsServer()) {
         func->SerializeOut(true, &bs);
     } else {
@@ -859,7 +859,7 @@ void RoomsPlugin::ExecuteFunc(RoomsPluginFunc *func, SystemAddress remoteAddress
 void RoomsPlugin::ExecuteNotification(RoomsPluginNotification *func, RoomsPluginParticipant *recipient)
 {
     RakNet::BitStream bs;
-    bs.Write((MessageID)ID_ROOMS_EXECUTE_FUNC);
+    bs.Write(static_cast<MessageID>(ID_ROOMS_EXECUTE_FUNC));
     func->recipient=recipient->GetName();
     func->Serialize(true, &bs);
     SendUnified(&bs, packetPriority, RELIABLE_ORDERED, orderingChannel, recipient->GetSystemAddress(), false);
@@ -874,7 +874,7 @@ void RoomsPlugin::SetServerAddress( SystemAddress systemAddress )
 }
 bool RoomsPlugin::LoginRoomsParticipant(const RakNet::RakString& userName, SystemAddress roomsParticipantAddress, RakNetGUID guid, SystemAddress loginServerAddress)
 {
-    if (loginServerAddress!=RakNet::UNASSIGNED_SYSTEM_ADDRESS && loginServers.GetIndexOf(loginServerAddress)==(unsigned int) -1) {
+    if (loginServerAddress!=RakNet::UNASSIGNED_SYSTEM_ADDRESS && loginServers.GetIndexOf(loginServerAddress)==static_cast<unsigned int>(-1)) {
         return false;
 }
     bool objectExists = 0;
@@ -893,7 +893,7 @@ bool RoomsPlugin::LoginRoomsParticipant(const RakNet::RakString& userName, Syste
 }
 bool RoomsPlugin::LogoffRoomsParticipant(const RakNet::RakString& userName, SystemAddress loginServerAddress)
 {
-    if (loginServerAddress!=RakNet::UNASSIGNED_SYSTEM_ADDRESS && loginServers.GetIndexOf(loginServerAddress)==(unsigned int) -1) {
+    if (loginServerAddress!=RakNet::UNASSIGNED_SYSTEM_ADDRESS && loginServers.GetIndexOf(loginServerAddress)==static_cast<unsigned int>(-1)) {
         return false;
 }
     bool objectExists = 0;
@@ -920,7 +920,7 @@ void RoomsPlugin::ClearRoomMembers()
 }
 void RoomsPlugin::SerializeLogin(const RakNet::RakString& userName, SystemAddress userAddress, RakNetGUID guid, RakNet::BitStream *bs)
 {
-    bs->Write((MessageID)ID_ROOMS_LOGON_STATUS);
+    bs->Write(static_cast<MessageID>(ID_ROOMS_LOGON_STATUS));
     bs->Write(userName);
     bs->Write(true);
     bs->Write(userAddress);
@@ -928,13 +928,13 @@ void RoomsPlugin::SerializeLogin(const RakNet::RakString& userName, SystemAddres
 }
 void RoomsPlugin::SerializeLogoff(const RakNet::RakString& userName, RakNet::BitStream *bs)
 {
-    bs->Write((MessageID)ID_ROOMS_LOGON_STATUS);
+    bs->Write(static_cast<MessageID>(ID_ROOMS_LOGON_STATUS));
     bs->Write(userName);
     bs->Write(false);
 }
 void RoomsPlugin::SerializeChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakString& newHandle, RakNet::BitStream *bs)
 {
-    bs->Write((MessageID)ID_ROOMS_HANDLE_CHANGE);
+    bs->Write(static_cast<MessageID>(ID_ROOMS_HANDLE_CHANGE));
     bs->Write(oldHandle);
     bs->Write(newHandle);
 }
@@ -954,14 +954,14 @@ void RoomsPlugin::ChangeHandle(const RakNet::RakString& oldHandle, const RakNet:
 void RoomsPlugin::AddLoginServerAddress(SystemAddress systemAddress)
 {
     unsigned int index = loginServers.GetIndexOf(systemAddress);
-    if (index==(unsigned int) -1) {
+    if (index==static_cast<unsigned int>(-1)) {
         loginServers.Push(systemAddress, _FILE_AND_LINE_ );
 }
 }
 void RoomsPlugin::RemoveLoginServerAddress(SystemAddress systemAddress)
 {
     unsigned int index = loginServers.GetIndexOf(systemAddress);
-    if (index!=(unsigned int) -1) {
+    if (index!=static_cast<unsigned int>(-1)) {
         loginServers.RemoveAtIndexFast(index);
 }
 }
@@ -1762,7 +1762,7 @@ bool RoomsPlugin::IsServer() const
 {
     return isServer;
     auto *rc=(RoomsCallback *) this;
-    return roomsCallback.GetIndexOf(rc)!=(unsigned int) -1;
+    return roomsCallback.GetIndexOf(rc)!=static_cast<unsigned int>(-1);
 }
 RoomsPlugin::RoomsPluginParticipant* RoomsPlugin::GetParticipantByHandle(const RakNet::RakString& handle, const SystemAddress &senderAddress)
 {

@@ -34,7 +34,7 @@ SLONG CalcDistanceLine2Dot (XY LineP1, XY LineP2, XY p)
 {
     float Abschnitt = NAN;
 
-    Abschnitt = ((LineP1-p)*(LineP1-LineP2)) / (float)(LineP2-LineP1).abs() / (float)(LineP2-LineP1).abs();
+    Abschnitt = ((LineP1-p)*(LineP1-LineP2)) / static_cast<float>((LineP2-LineP1).abs()) / static_cast<float>((LineP2-LineP1).abs());
 
     //if ((LineP1.x<LineP2.x && p.x<=LineP1.x) || (LineP1.x>LineP2.x && p.x>=LineP1.x) || (LineP1.y<LineP2.y && p.y<=LineP1.y) || (LineP1.y>LineP2.y && p.y>=LineP1.y))
     if (Abschnitt<0.0)
@@ -68,7 +68,7 @@ CRouteBox::CRouteBox(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 }
 
     Filter       = 0;
-    RoutePage    = Sim.Players.Players[(SLONG)PlayerNum].RoutePage;
+    RoutePage    = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].RoutePage;
     RoutePageMax = (Routen.GetNumUsed()-1)/ListSize+1;
 
     DisplayPlayer   = 1<<PlayerNum;
@@ -84,11 +84,11 @@ CRouteBox::CRouteBox(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     IsBuyable.ReSize (Routen.AnzEntries());
     IsBuyable.FillWith(0);
 
-    CRentRouten &qRRouten = Sim.Players.Players[(SLONG)PlayerNum].RentRouten;
+    CRentRouten &qRRouten = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].RentRouten;
 
     for (SLONG d=Routen.AnzEntries()-1; d>=0; d--) {
         if ((Routen.IsInAlbum(d) != 0) && qRRouten.RentRouten[d].Rang==0) {
-            if (Routen[d].VonCity==(ULONG)Sim.HomeAirportId || Routen[d].NachCity==(ULONG)Sim.HomeAirportId) {
+            if (Routen[d].VonCity==static_cast<ULONG>(Sim.HomeAirportId) || Routen[d].NachCity==static_cast<ULONG>(Sim.HomeAirportId)) {
                 IsBuyable[d]=TRUE;
 }
 }
@@ -126,11 +126,11 @@ CRouteBox::CRouteBox(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 //--------------------------------------------------------------------------------------------
 CRouteBox::~CRouteBox()
 {
-    Sim.Players.Players[(SLONG)PlayerNum].RoutePage = RoutePage;
+    Sim.Players.Players[PlayerNum].RoutePage = RoutePage;
 
-    Sim.Persons.Persons[(SLONG)Sim.Persons.GetPlayerIndex(PlayerNum)].LookDir=2;
-    Sim.Players.Players[(SLONG)PlayerNum].DirectToRoom=0;
-    Sim.Persons.Persons[(SLONG)Sim.Persons.GetPlayerIndex(PlayerNum)].StatePar = 0;
+    Sim.Persons.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))].LookDir=2;
+    Sim.Players.Players[PlayerNum].DirectToRoom=0;
+    Sim.Persons.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))].StatePar = 0;
 
     HereBm.Destroy();
     ListBm.Destroy();
@@ -206,7 +206,7 @@ void CRouteBox::OnPaint()
             {
                 HighlightColor=ColorOfFontBlack;
 
-                if ((IsBuyable[(SLONG)Routen(Table.LineIndex[i+RoutePage*ListSize])] != 0) || (Sim.Players.Players[(SLONG)PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Table.LineIndex[i+RoutePage*ListSize])].Rang != 0u)) {
+                if ((IsBuyable[Routen(Table.LineIndex[i+RoutePage*ListSize])] != 0) || (Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(Table.LineIndex[i+RoutePage*ListSize])].Rang != 0u)) {
                     CheckCursorHighlight (gMousePosition, CRect (458, 11+15+3+i*13, 461+174, 14+15+12+3+i*13), HighlightColor);
 }
 
@@ -289,7 +289,7 @@ void CRouteBox::OnPaint()
 
             if (mindist!=-1 && mindist<10)
             {
-                for (SLONG d=0; d<(SLONG)Table.LineIndex.AnzEntries(); d++) {
+                for (SLONG d=0; d<Table.LineIndex.AnzEntries(); d++) {
                     if (Routen(Table.LineIndex[d])==ULONG(minc))
                     {
                         SetMouseLook (CURSOR_HOT, 0, ROOM_ROUTEBOX, 2000);
@@ -324,7 +324,7 @@ void CRouteBox::OnPaint()
                 {
                     RoomBm.BlitFromT (PlayerBms[c*3+static_cast<int>((DisplayPlayer&(1<<c))!=0)*2], PlayerOffsets[c]);
 
-                    if (c==PlayerNum || (Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_INFO) != 0)) {
+                    if (c==PlayerNum || (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0)) {
                         if (gMousePosition.IfIsWithin (PlayerOffsets[c].x, PlayerOffsets[c].y, PlayerOffsets[c].x+PlayerBms[c*3].Size.x, PlayerOffsets[c].y+PlayerBms[c*3].Size.y))
                         {
                             RoomBm.BlitFromT (PlayerBms[c*3+1], PlayerOffsets[c]);
@@ -342,13 +342,13 @@ void CRouteBox::OnPaint()
             if (CurrentTip!=LastTip)
             {
                 CString Tip;
-                PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+                PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
                 LastTip=CurrentTip;
 
                 if (qPlayer.HasBerater(BERATERTYP_ROUTE) != 0)
                 {
-                    if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang==0 && qPlayer.RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].TageMitGering<7)
+                    if (qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang==0 && qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].TageMitGering<7)
                     {
                         Tip = StandardTexte.GetS (TOKEN_ADVICE, 8020);
                     }
@@ -388,7 +388,7 @@ void CRouteBox::OnPaint()
                 {
                     RoomBm.BlitFromT (PlayerBms[c*3+static_cast<int>((DisplayPlayer&(1<<c))!=0)*2], PlayerOffsets[c]);
 
-                    if (c==PlayerNum || (Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_INFO) != 0)) {
+                    if (c==PlayerNum || (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0)) {
                         if (gMousePosition.IfIsWithin (PlayerOffsets[c].x, PlayerOffsets[c].y, PlayerOffsets[c].x+PlayerBms[c*3].Size.x, PlayerOffsets[c].y+PlayerBms[c*3].Size.y)) {
                             RoomBm.BlitFromT (PlayerBms[c*3+1], PlayerOffsets[c]);
 }
@@ -424,7 +424,7 @@ void CRouteBox::RepaintList()
         s=&FontSmallGrey;
 
         if (Table.ValueFlags[0+c*Table.AnzColums] != 0u) { s=&FontSmallBlack; Haken=TRUE; }
-        if (IsBuyable[(SLONG)Routen(Table.LineIndex[c])] != 0) { s=&FontSmallBlack;
+        if (IsBuyable[Routen(Table.LineIndex[c])] != 0) { s=&FontSmallBlack;
 }
 
         if (Haken != 0) { ListBm.BlitFromT (HakenBm, 4, 1+i*13+2);
@@ -455,7 +455,7 @@ void CRouteBox::RepaintTip ()
     if (CurrentTipIndex!=-1)
     {
         CRoute     &qRoute = Routen[CurrentTip];
-        CRentRoute &qRRoute = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)];
+        CRentRoute &qRRoute = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(CurrentTip)];
 
         //Von/Nach
         if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Table.Values[0+CurrentTipIndex*Table.AnzColums], (LPCTSTR)Table.Values[1+CurrentTipIndex*Table.AnzColums]), FontSmallBlack, TEC_FONT_LEFT, 27+4, 3, 125, 3+14)<3+12) {
@@ -468,41 +468,41 @@ void CRouteBox::RepaintTip ()
 
         //Entfernung, Potentielle Nachfrage, Nachfrage
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, XY(4,27), XY(177, 157));
-        TipBm.PrintAt ((CString)Einheiten[EINH_KM].bString (Cities.CalcDistance (qRoute.VonCity, qRoute.NachCity)/1000), FontSmallBlack, TEC_FONT_LEFT, XY(100,27), XY(177, 157));
+        TipBm.PrintAt (CString(Einheiten[EINH_KM].bString (Cities.CalcDistance (qRoute.VonCity, qRoute.NachCity)/1000)), FontSmallBlack, TEC_FONT_LEFT, XY(100,27), XY(177, 157));
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 998), FontSmallBlack, TEC_FONT_LEFT, XY(4,40), XY(177, 157));
-        TipBm.PrintAt ((CString)Insert1000erDots (qRoute.AnzPassagiere()), FontSmallBlack, TEC_FONT_LEFT, XY(100,40), XY(177, 157));
+        TipBm.PrintAt (Insert1000erDots (qRoute.AnzPassagiere()), FontSmallBlack, TEC_FONT_LEFT, XY(100,40), XY(177, 157));
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 999), FontSmallBlack, TEC_FONT_LEFT, XY(4,53), XY(177, 157));
-        TipBm.PrintAt ((CString)Insert1000erDots (qRoute.Bedarf), FontSmallBlack, TEC_FONT_LEFT, XY(100,53), XY(177, 157));
+        TipBm.PrintAt (Insert1000erDots (qRoute.Bedarf), FontSmallBlack, TEC_FONT_LEFT, XY(100,53), XY(177, 157));
 
         //Auslastung, Miete
         if (qRRoute.Rang != 0u)
         {
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1006), FontSmallBlack, TEC_FONT_LEFT, XY(4,77), XY(177, 157));
-            TipBm.PrintAt ((CString)Einheiten[EINH_DM].bString (qRRoute.Miete), FontSmallBlack, TEC_FONT_LEFT, XY(100,77), XY(177, 157));
+            TipBm.PrintAt (CString(Einheiten[EINH_DM].bString (qRRoute.Miete)), FontSmallBlack, TEC_FONT_LEFT, XY(100,77), XY(177, 157));
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1003), FontSmallBlack, TEC_FONT_LEFT, XY(4,90), XY(177, 157));
-            TipBm.PrintAt ((CString)Einheiten[EINH_P].bString (qRRoute.RoutenAuslastung), FontSmallBlack, TEC_FONT_LEFT, XY(100,90), XY(177, 157));
+            TipBm.PrintAt (CString(Einheiten[EINH_P].bString (qRRoute.RoutenAuslastung)), FontSmallBlack, TEC_FONT_LEFT, XY(100,90), XY(177, 157));
         }
         else
         {
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1006), FontSmallBlack, TEC_FONT_LEFT, XY(4,77), XY(177, 157));
-            TipBm.PrintAt ((CString)Einheiten[EINH_DM].bString (qRoute.Miete), FontSmallBlack, TEC_FONT_LEFT, XY(100,77), XY(177, 157));
+            TipBm.PrintAt (CString(Einheiten[EINH_DM].bString (qRoute.Miete)), FontSmallBlack, TEC_FONT_LEFT, XY(100,77), XY(177, 157));
         }
 
         //Mieter
         for (c=0; c<4; c++) {
-            if ((Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang != 0u) && (c==PlayerNum || (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_INFO) != 0)))
+            if ((Sim.Players.Players[c].RentRouten.RentRouten[Routen(CurrentTip)].Rang != 0u) && (c==PlayerNum || (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_INFO) != 0)))
             {
                 TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1016), FontSmallBlack, TEC_FONT_LEFT, XY(4,114), XY(177, 157));
 
                 for (c=0; c<4; c++) {
-                    if (Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang != 0u) {
-                        if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_INFO) != 0) {
-                            TipBm.PrintAt ((CString)bprintf ("%li. %s (%li%%)", Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang, (LPCTSTR)Sim.Players.Players[c].AirlineX, Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].RoutenAuslastung), FontSmallBlack, TEC_FONT_LEFT, XY(4,114+Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang*12), XY(172,166));
+                    if (Sim.Players.Players[c].RentRouten.RentRouten[Routen(CurrentTip)].Rang != 0u) {
+                        if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0) {
+                            TipBm.PrintAt (CString(bprintf ("%li. %s (%li%%)", Sim.Players.Players[c].RentRouten.RentRouten[Routen(CurrentTip)].Rang, (LPCTSTR)Sim.Players.Players[c].AirlineX, Sim.Players.Players[c].RentRouten.RentRouten[Routen(CurrentTip)].RoutenAuslastung)), FontSmallBlack, TEC_FONT_LEFT, XY(4,114+Sim.Players.Players[c].RentRouten.RentRouten[Routen(CurrentTip)].Rang*12), XY(172,166));
                         } else
                             if (c==PlayerNum) {
-                                TipBm.PrintAt ((CString)bprintf ("%li. %s", Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang, (LPCTSTR)Sim.Players.Players[c].AirlineX), FontSmallBlack, TEC_FONT_LEFT, XY(4,114+Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang*12), XY(172,166));
+                                TipBm.PrintAt (CString(bprintf ("%li. %s", Sim.Players.Players[c].RentRouten.RentRouten[Routen(CurrentTip)].Rang, (LPCTSTR)Sim.Players.Players[c].AirlineX)), FontSmallBlack, TEC_FONT_LEFT, XY(4,114+Sim.Players.Players[c].RentRouten.RentRouten[Routen(CurrentTip)].Rang*12), XY(172,166));
                             } else {
-                                TipBm.PrintAt ((CString)bprintf ("%li. %s", Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang, StandardTexte.GetS (TOKEN_ROUTE, 997)), FontSmallBlack, TEC_FONT_LEFT, XY(4,114+Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang*12), XY(172,166));
+                                TipBm.PrintAt (CString(bprintf ("%li. %s", Sim.Players.Players[c].RentRouten.RentRouten[Routen(CurrentTip)].Rang, StandardTexte.GetS (TOKEN_ROUTE, 997))), FontSmallBlack, TEC_FONT_LEFT, XY(4,114+Sim.Players.Players[c].RentRouten.RentRouten[Routen(CurrentTip)].Rang*12), XY(172,166));
 }
 }
 }
@@ -622,7 +622,7 @@ void CRouteBox::UpdateDataTable ()
     switch (Filter)
     {
         case 0:
-            Table.FillWithAllRouten (&Routen, &Sim.Players.Players[(SLONG)PlayerNum].RentRouten, TRUE);
+            Table.FillWithAllRouten (&Routen, &Sim.Players.Players[PlayerNum].RentRouten, TRUE);
             break;
 
         case 1:
@@ -631,10 +631,10 @@ void CRouteBox::UpdateDataTable ()
                 SLONG d = 0;
                 SLONG e = 0;
 
-                Table.FillWithAllRouten (&Routen, &Sim.Players.Players[(SLONG)PlayerNum].RentRouten, TRUE);
+                Table.FillWithAllRouten (&Routen, &Sim.Players.Players[PlayerNum].RentRouten, TRUE);
 
                 for (c=d=0; c<Table.AnzRows; c++) {
-                    if ((IsBuyable[(SLONG)Routen(Table.LineIndex[c])] != 0) && Sim.Players.Players[(SLONG)PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Table.LineIndex[c])].Rang==0)
+                    if ((IsBuyable[Routen(Table.LineIndex[c])] != 0) && Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(Table.LineIndex[c])].Rang==0)
                     {
                         if (c!=d)
                         {
@@ -661,10 +661,10 @@ void CRouteBox::UpdateDataTable ()
                 SLONG d = 0;
                 SLONG e = 0;
 
-                Table.FillWithAllRouten (&Routen, &Sim.Players.Players[(SLONG)PlayerNum].RentRouten, TRUE);
+                Table.FillWithAllRouten (&Routen, &Sim.Players.Players[PlayerNum].RentRouten, TRUE);
 
                 for (c=d=0; c<Table.AnzRows; c++) {
-                    if (Sim.Players.Players[(SLONG)PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Table.LineIndex[c])].Rang != 0u)
+                    if (Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(Table.LineIndex[c])].Rang != 0u)
                     {
                         if (c!=d)
                         {
@@ -695,7 +695,7 @@ void CRouteBox::UpdateDataTable ()
 void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY      RoomPos;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     DefaultOnLButtonDown ();
 
@@ -732,7 +732,7 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point)
             else if (MouseClickId==2000)
             {
                 CRoute     &qRoute  = Routen[CurrentTip];
-                CRentRoute &qRRoute = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)];
+                CRentRoute &qRRoute = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(CurrentTip)];
 
                 if (qRRoute.Rang != 0u)
                 {
@@ -770,9 +770,9 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point)
                     SLONG Rang=1;
                     SLONG RouteB=-1;
 
-                    if (IsBuyable[(SLONG)Routen(CurrentTip)] == 0)
+                    if (IsBuyable[Routen(CurrentTip)] == 0)
                     {
-                        if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang==0 && qPlayer.RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].TageMitGering<7) {
+                        if (qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang==0 && qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].TageMitGering<7) {
                             MenuStart (MENU_REQUEST, MENU_REQUEST_NORENTROUTE4);
                         } else {
                             MenuStart (MENU_REQUEST, MENU_REQUEST_NORENTROUTE2);
@@ -781,8 +781,8 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point)
                     }
 
                     for (d=0; d<4; d++) {
-                        if ((Sim.Players.Players[d].IsOut == 0) && Sim.Players.Players[d].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang>=Rang) {
-                            Rang = Sim.Players.Players[d].RentRouten.RentRouten[(SLONG)Routen(CurrentTip)].Rang+1;
+                        if ((Sim.Players.Players[d].IsOut == 0) && Sim.Players.Players[d].RentRouten.RentRouten[Routen(CurrentTip)].Rang>=Rang) {
+                            Rang = Sim.Players.Players[d].RentRouten.RentRouten[Routen(CurrentTip)].Rang+1;
 }
 }
 
@@ -841,8 +841,9 @@ void CRouteBox::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

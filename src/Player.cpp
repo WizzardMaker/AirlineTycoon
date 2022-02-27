@@ -206,7 +206,7 @@ void PLAYER::ChangeMoney (__int64 Money, SLONG Reason, const CString& Par1, char
 {
     __int64 AbsMoney = abs64(Money);
 
-    if (LocationWin != nullptr) { ((CStdRaum*)LocationWin)->StatusCount = 3;
+    if (LocationWin != nullptr) { (LocationWin)->StatusCount = 3;
 }
 
     if (PLAYER::Money>DEBT_WARNLIMIT1 && PLAYER::Money+Money<DEBT_WARNLIMIT1) {
@@ -247,7 +247,7 @@ void PLAYER::ChangeMoney (__int64 Money, SLONG Reason, const CString& Par1, char
     }
 
     if (LocationWin != nullptr) {
-        ((CStdRaum*)LocationWin)->AnnouceTipDataUpdate (TIP_MONEY);
+        (LocationWin)->AnnouceTipDataUpdate (TIP_MONEY);
 }
 }
 
@@ -527,7 +527,7 @@ void PLAYER::BookBuroRent ()
     SLONG Gebuehr = 0;
 
     //Erst einmal die gate-Mieten:
-    for (c=Gebuehr=0; c<(SLONG)Gates.Gates.AnzEntries(); c++) {
+    for (c=Gebuehr=0; c<Gates.Gates.AnzEntries(); c++) {
         if (Gates.Gates[c].Miete!=-1) {
             Gebuehr-=Gates.Gates[c].Miete/30;
 }
@@ -536,7 +536,7 @@ void PLAYER::BookBuroRent ()
     Statistiken[STAT_A_MIETEN].AddAtPastDay (0, Gebuehr);
 
     //Dann die Niederlassungs Mieten
-    for (c=Gebuehr=0; c<(SLONG)Cities.AnzEntries(); c++) {
+    for (c=Gebuehr=0; c<Cities.AnzEntries(); c++) {
         if ((Cities.IsInAlbum(c) != 0) && (RentCities.RentCities[c].Rang != 0u)) {
             Gebuehr-=RentCities.RentCities[c].Miete/30;
 }
@@ -546,7 +546,7 @@ void PLAYER::BookBuroRent ()
     Statistiken[STAT_A_MIETEN].AddAtPastDay (0, Gebuehr);
 
     //Und zuletzt die Routen Mieten
-    for (c=Gebuehr=0; c<(SLONG)Routen.AnzEntries(); c++) {
+    for (c=Gebuehr=0; c<Routen.AnzEntries(); c++) {
         if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u)) {
             Gebuehr-=RentRouten.RentRouten[c].Miete/30;
 }
@@ -623,8 +623,9 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                 {
                     __int64 rc = 0;
 
-                    if (Money>0) rc=Credit;         //Nur Kredit
-                    else rc=Credit-Money;   //Kredit + Überziehungskredit
+                    if (Money>0) { rc=Credit;         //Nur Kredit
+                    } else { rc=Credit-Money;   //Kredit + Überziehungskredit
+}
 
                     return (SLONG(min(0x7fffffff, rc)));
                 }
@@ -646,7 +647,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                 {
                     NumServicePoints=0;
 
-                    for (SLONG c=Planes.AnzEntries()-1; c>=0; c--)
+                    for (SLONG c=Planes.AnzEntries()-1; c>=0; c--) {
                         if (Planes.IsInAlbum (c))
                         {
                             CPlane &qPlane=Planes[c];
@@ -659,11 +660,12 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                             NumServicePoints+=qPlane.Elektronik;
                             NumServicePoints+=qPlane.Sicherheit;
                         }
+}
 
                     if (Owner==1)
                     {
                         //Computerspieler simuliert Personal:
-                        for (SLONG c=Planes.AnzEntries()-1; c>=0; c--)
+                        for (SLONG c=Planes.AnzEntries()-1; c>=0; c--) {
                             if (Planes.IsInAlbum (c))
                             {
                                 CPlane &qPlane=Planes[c];
@@ -679,6 +681,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                                 //Durchschnittlich 80%
                                 NumServicePoints+=(80-50)/15;
                             }
+}
                     }
                     else
                     {
@@ -689,8 +692,9 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 
                             if (qWorker.Employer==PlayerNum && qWorker.PlaneId!=-1)
                             {
-                                if (qWorker.Talent>50)
+                                if (qWorker.Talent>50) {
                                     NumServicePoints+=(qWorker.Talent-60)/15;
+}
                             }
                         }
                     }
@@ -707,12 +711,13 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                 {
                     //Äußerung zu den Flugzeugen:
                     SLONG d = 0, tmp = 0, anz = 0;
-                    for (d=tmp=anz=0; d<(SLONG)Planes.AnzEntries(); d++)
+                    for (d=tmp=anz=0; d<Planes.AnzEntries(); d++) {
                         if (Planes.IsInAlbum(d))
                         {
                             tmp+=Planes[d].Zustand;
                             anz++;
                         }
+}
 
                     if (anz) return (tmp/anz); return (0);
                 }
@@ -738,12 +743,14 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                 {
                     //Äußerung zu den Flugzeugen:
                     SLONG d = 0, anz = 0;
-                    for (d=anz=0; d<(SLONG)Planes.AnzEntries(); d++)
+                    for (d=anz=0; d<Planes.AnzEntries(); d++) {
                         if (Planes.IsInAlbum(d))
                         {
-                            if (Planes[d].Zustand>=BTARGET_ZUSTAND && Planes[d].Reifen==2 && Planes[d].Triebwerk==2 && Planes[d].Sicherheit==2 && Planes[d].Elektronik==2)
+                            if (Planes[d].Zustand>=BTARGET_ZUSTAND && Planes[d].Reifen==2 && Planes[d].Triebwerk==2 && Planes[d].Sicherheit==2 && Planes[d].Elektronik==2) {
                                 anz++;
+}
                         }
+}
 
                     return (anz);
                 }
@@ -756,8 +763,9 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                     __int64 f = 0;
 
                     p = Statistiken[STAT_PASSAGIERE].GetAtPastDay(1)-Statistiken[STAT_PASSAGIERE].GetAtPastDay(6);
-                    for (c=0; c<min((SLONG)Sim.Date, 5); c++)
+                    for (c=0; c<min((SLONG)Sim.Date, 5); c++) {
                         f += Statistiken[STAT_FLUGZEUGE].GetAtPastDay(c+1);
+}
 
                     if (f) return (SLONG(p/f)); return (0);
                 }
@@ -770,9 +778,11 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
             case DIFF_ATFS05:
                 {
                     long n=0;
-                    for (SLONG d=0; d<(SLONG)Planes.AnzEntries(); d++)
-                        if (Planes.IsInAlbum(d))
+                    for (SLONG d=0; d<Planes.AnzEntries(); d++) {
+                        if (Planes.IsInAlbum(d)) {
                             if (Planes[d].ptPassagiere>=BTARGET_PLANESIZE && Planes[d].TypeId==-1) n++;
+}
+}
 
                     return (n);
                 }
@@ -799,10 +809,13 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                     }
                     else
                     {
-                        for (long c=0; c<=29; c++)
-                            if (SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c))>0)
-                                if (SLONG(Statistiken[STAT_AKTIEN_SA+PlayerNum].GetAtPastDay(c))*100/SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c)) <= BTARGET_MEINANTEIL)
+                        for (long c=0; c<=29; c++) {
+                            if (SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c))>0) {
+                                if (SLONG(Statistiken[STAT_AKTIEN_SA+PlayerNum].GetAtPastDay(c))*100/SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c)) <= BTARGET_MEINANTEIL) {
                                     sum++;
+}
+}
+}
 
                         return (sum);
                     }
@@ -812,8 +825,8 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
             case DIFF_ATFS08:
                 {
                     long n=0;
-                    for (SLONG d=0; d<(SLONG)Planes.AnzEntries(); d++)
-                        if (Planes.IsInAlbum(d))
+                    for (SLONG d=0; d<Planes.AnzEntries(); d++) {
+                        if (Planes.IsInAlbum(d)) {
                             if (Planes[d].TypeId==-1 && Planes[d].ptPassagiere>0 && Planes[d].ptGeschwindigkeit>0)
                             {
                                 //long Verbrauch = Planes[d].ptVerbrauch/Planes[d].ptPassagiere;
@@ -825,6 +838,8 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 
                                 if (Verbrauch<=BTARGET_VERBRAUCH) n++;
                             }
+}
+}
 
                     return (n);
                 }
@@ -897,7 +912,7 @@ BOOL PLAYER::HasWon ()
         if (Planes.GetNumUsed()<2) { return (FALSE);
 }
 
-        for (SLONG d=0; d<(SLONG)Planes.AnzEntries(); d++) {
+        for (SLONG d=0; d<Planes.AnzEntries(); d++) {
             if (Planes.IsInAlbum(d) != 0) {
                 if (Planes[d].Zustand<90) { return (FALSE);
 }
@@ -915,9 +930,9 @@ BOOL PLAYER::HasWon ()
 
     if (Sim.Difficulty==DIFF_ATFS01 && Money>=BTARGET_KONTO) { return (TRUE);
 }
-    if (Sim.Difficulty==DIFF_ATFS02 && Planes.GetNumUsed()>=5 && GetMissionRating()>=(SLONG)Planes.GetNumUsed()) { return (TRUE);
+    if (Sim.Difficulty==DIFF_ATFS02 && Planes.GetNumUsed()>=5 && GetMissionRating()>=Planes.GetNumUsed()) { return (TRUE);
 }
-    if (Sim.Difficulty==DIFF_ATFS03 && Planes.GetNumUsed()>=4 && GetMissionRating()>=(SLONG)BTARGET_PASSAVG) { return (TRUE);
+    if (Sim.Difficulty==DIFF_ATFS03 && Planes.GetNumUsed()>=4 && GetMissionRating()>=BTARGET_PASSAVG) { return (TRUE);
 }
     if (Sim.Difficulty==DIFF_ATFS04 && Planes.GetNumUsed()>=5 && DaysWithoutSabotage>=BTARGET_DAYSSABO) { return (TRUE);
 }
@@ -1087,7 +1102,7 @@ void PLAYER::NewDay ()
     }
 
     //LastFlown-Feld bei den Routen aktualisieren:
-    for (c=0; c<(SLONG)Routen.AnzEntries(); c++) {
+    for (c=0; c<Routen.AnzEntries(); c++) {
         if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u))
         {
             if (RentRouten.RentRouten[c].LastFlown<99) {
@@ -1351,7 +1366,7 @@ void PLAYER::NewDay ()
         }
 
         if (Sim.Date==35) {
-            for (d=0; d<(SLONG)Planes.AnzEntries(); d++) {
+            for (d=0; d<Planes.AnzEntries(); d++) {
                 if (Planes.IsInAlbum(d) != 0)
                 {
                     Planes[d].Zustand = max(0, Planes[d].Zustand-40);
@@ -1441,7 +1456,7 @@ void PLAYER::RouteWegnehmen (long Routenindex, long NeuerBesitzer)
     RentRouten.RentRouten[Routenindex].TageMitGering=0;
 
     //Aus Flugplan entfernen:
-    for (SLONG d=0; d<(SLONG)Planes.AnzEntries(); d++)
+    for (SLONG d=0; d<Planes.AnzEntries(); d++)
     {
         if (Planes.IsInAlbum(d) != 0)
         {
@@ -1477,7 +1492,7 @@ void PLAYER::UpdateAuftraege ()
     SLONG c = 0;
 
     //Aufträge anschauen
-    for (c=0; c<(SLONG)Auftraege.AnzEntries(); c++)
+    for (c=0; c<Auftraege.AnzEntries(); c++)
     {
         if (Auftraege.IsInAlbum(c) != 0)
         {
@@ -1490,7 +1505,7 @@ void PLAYER::UpdateAuftraege ()
                         {
                             Statistiken[STAT_A_STRAFEN].AddAtPastDay (0, -Auftraege[c].Strafe);
 
-                            ChangeMoney (-Auftraege[c].Strafe, 2060, (LPCTSTR)(CString)bprintf("%s-%s", (LPCTSTR)Cities[Auftraege[c].VonCity].Kuerzel, (LPCTSTR)Cities[Auftraege[c].NachCity].Kuerzel));
+                            ChangeMoney (-Auftraege[c].Strafe, 2060, (LPCTSTR)CString(bprintf("%s-%s", (LPCTSTR)Cities[Auftraege[c].VonCity].Kuerzel, (LPCTSTR)Cities[Auftraege[c].NachCity].Kuerzel)));
 
                             //Für die Gewinn-Mission:
                             Gewinn-=Auftraege[c].Strafe;
@@ -1498,7 +1513,7 @@ void PLAYER::UpdateAuftraege ()
                             if (Owner==0 && (IsOut == 0)) {
                                 Letters.AddLetter (TRUE,
                                         StandardTexte.GetS (TOKEN_LETTER, 1000),
-                                        (LPCTSTR)(CString)bprintf(StandardTexte.GetS (TOKEN_LETTER, 1001), (LPCTSTR)Cities[Auftraege[c].VonCity].Name, (LPCTSTR)Cities[Auftraege[c].NachCity].Name, Auftraege[c].Strafe),
+                                        (LPCTSTR)CString(bprintf(StandardTexte.GetS (TOKEN_LETTER, 1001), (LPCTSTR)Cities[Auftraege[c].VonCity].Name, (LPCTSTR)Cities[Auftraege[c].NachCity].Name, Auftraege[c].Strafe)),
                                         StandardTexte.GetS (TOKEN_LETTER, 1002),
                                         -1);
 }
@@ -1508,7 +1523,7 @@ void PLAYER::UpdateAuftraege ()
                             if (Owner==0 && (IsOut == 0)) {
                                 Letters.AddLetter (TRUE,
                                         StandardTexte.GetS (TOKEN_LETTER, 1010),
-                                        (LPCTSTR)(CString)bprintf(StandardTexte.GetS (TOKEN_LETTER, 1011), (LPCTSTR)Cities[Auftraege[c].VonCity].Name, (LPCTSTR)Cities[Auftraege[c].NachCity].Name),
+                                        (LPCTSTR)CString(bprintf(StandardTexte.GetS (TOKEN_LETTER, 1011), (LPCTSTR)Cities[Auftraege[c].VonCity].Name, (LPCTSTR)Cities[Auftraege[c].NachCity].Name)),
                                         StandardTexte.GetS (TOKEN_LETTER, 1012),
                                         -1);
 }
@@ -1523,7 +1538,7 @@ void PLAYER::UpdateAuftraege ()
                 BOOL  CantDelete=FALSE;
 
                 //Veralteten Auftrag aus Flugplan entfernen:
-                for (d=0; d<(SLONG)Planes.AnzEntries(); d++)
+                for (d=0; d<Planes.AnzEntries(); d++)
                 {
                     if (Planes.IsInAlbum(d) != 0)
                     {
@@ -1561,7 +1576,7 @@ void PLAYER::UpdateAuftraege ()
     }
 
     //Das gleiche für Frachtaufträge:
-    for (c=0; c<(SLONG)Frachten.AnzEntries(); c++)
+    for (c=0; c<Frachten.AnzEntries(); c++)
     {
         if (Frachten.IsInAlbum(c) != 0)
         {
@@ -1574,7 +1589,7 @@ void PLAYER::UpdateAuftraege ()
                         {
                             Statistiken[STAT_A_STRAFEN].AddAtPastDay (0, -Frachten[c].Strafe);
 
-                            ChangeMoney (-Frachten[c].Strafe, 2065, (LPCTSTR)(CString)bprintf("%s-%s", (LPCTSTR)Cities[Frachten[c].VonCity].Kuerzel, (LPCTSTR)Cities[Frachten[c].NachCity].Kuerzel));
+                            ChangeMoney (-Frachten[c].Strafe, 2065, (LPCTSTR)CString(bprintf("%s-%s", (LPCTSTR)Cities[Frachten[c].VonCity].Kuerzel, (LPCTSTR)Cities[Frachten[c].NachCity].Kuerzel)));
 
                             //Für die Gewinn-Mission:
                             Sim.Players.Players[PlayerNum].Gewinn-=Frachten[c].Strafe;
@@ -1582,7 +1597,7 @@ void PLAYER::UpdateAuftraege ()
                             if (Owner==0 && (IsOut == 0)) {
                                 Letters.AddLetter (TRUE,
                                         StandardTexte.GetS (TOKEN_LETTER, 1005),
-                                        (LPCTSTR)(CString)bprintf(StandardTexte.GetS (TOKEN_LETTER, 1006), (LPCTSTR)Cities[Frachten[c].VonCity].Name, (LPCTSTR)Cities[Frachten[c].NachCity].Name, Frachten[c].Strafe),
+                                        (LPCTSTR)CString(bprintf(StandardTexte.GetS (TOKEN_LETTER, 1006), (LPCTSTR)Cities[Frachten[c].VonCity].Name, (LPCTSTR)Cities[Frachten[c].NachCity].Name, Frachten[c].Strafe)),
                                         StandardTexte.GetS (TOKEN_LETTER, 1007),
                                         -1);
 }
@@ -1592,7 +1607,7 @@ void PLAYER::UpdateAuftraege ()
                             if (Owner==0 && (IsOut == 0)) {
                                 Letters.AddLetter (TRUE,
                                         StandardTexte.GetS (TOKEN_LETTER, 1015),
-                                        (LPCTSTR)(CString)bprintf(StandardTexte.GetS (TOKEN_LETTER, 1016), (LPCTSTR)Cities[Frachten[c].VonCity].Name, (LPCTSTR)Cities[Frachten[c].NachCity].Name),
+                                        (LPCTSTR)CString(bprintf(StandardTexte.GetS (TOKEN_LETTER, 1016), (LPCTSTR)Cities[Frachten[c].VonCity].Name, (LPCTSTR)Cities[Frachten[c].NachCity].Name)),
                                         StandardTexte.GetS (TOKEN_LETTER, 1017),
                                         -1);
 }
@@ -1607,7 +1622,7 @@ void PLAYER::UpdateAuftraege ()
                 BOOL  CantDelete=FALSE;
 
                 //Veralteten Frachtauftrag aus Flugplan entfernen:
-                for (d=0; d<(SLONG)Planes.AnzEntries(); d++)
+                for (d=0; d<Planes.AnzEntries(); d++)
                 {
                     if (Planes.IsInAlbum(d) != 0)
                     {
@@ -1655,7 +1670,7 @@ BOOL PLAYER::IsAuftragInUse (SLONG AuftragsId, CString *PlaneName)
     SLONG c = 0;
     SLONG d = 0;
 
-    for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+    for (c=0; c<Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0)
         {
             for (d=Planes[c].Flugplan.Flug.AnzEntries()-1; d>=0; d--)
@@ -1683,10 +1698,10 @@ void PLAYER::RentRoute (SLONG City1, SLONG City2, SLONG Miete)
     SLONG d = 0;
     SLONG n = 0;
 
-    for (c=0; c<(SLONG)Routen.AnzEntries(); c++) {
+    for (c=0; c<Routen.AnzEntries(); c++) {
         if (Routen.IsInAlbum(c) != 0)
         {
-            if ((Routen[c].VonCity==(ULONG)City1 && Routen[c].NachCity==(ULONG)City2) || (Routen[c].VonCity==(ULONG)City2 && Routen[c].NachCity==(ULONG)City1))
+            if ((Routen[c].VonCity==static_cast<ULONG>(City1) && Routen[c].NachCity==static_cast<ULONG>(City2)) || (Routen[c].VonCity==static_cast<ULONG>(City2) && Routen[c].NachCity==static_cast<ULONG>(City1)))
             {
                 n=1;
 
@@ -1695,7 +1710,7 @@ void PLAYER::RentRoute (SLONG City1, SLONG City2, SLONG Miete)
 }
 }
 
-                RentRouten.RentRouten[c].Rang=(UBYTE)n;
+                RentRouten.RentRouten[c].Rang=static_cast<UBYTE>(n);
                 RentRouten.RentRouten[c].Miete=Miete;
                 RentRouten.RentRouten[c].Image=0;
 
@@ -1883,7 +1898,7 @@ void PLAYER::UpdateAuftragsUsage ()
         }
 }
 
-    for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+    for (c=0; c<Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0)
         {
             CFlugplan *Plan = &Planes[c].Flugplan;
@@ -1953,7 +1968,7 @@ void PLAYER::UpdateFrachtauftragsUsage ()
 }
 
     //TonsOpen bei allen Frachtaufträge neu berechnen:
-    for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+    for (c=0; c<Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0)
         {
             CFlugplan *Plan = &Planes[c].Flugplan;
@@ -2037,7 +2052,7 @@ void PLAYER::PlanGates ()
 }
 
     //Alle Flugzeuge durchgehen:
-    for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+    for (c=0; c<Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0)
         {
             Plan = &Planes[c].Flugplan;
@@ -2049,7 +2064,7 @@ void PLAYER::PlanGates ()
 }
 
     //Alle Flugzeuge durchgehen:
-    for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+    for (c=0; c<Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0)
         {
             Plan = &Planes[c].Flugplan;
@@ -2059,14 +2074,14 @@ void PLAYER::PlanGates ()
                 if (Plan->Flug[d].ObjectType==1 || Plan->Flug[d].ObjectType==2)
                 {
                     //Ggf. Gate nehmen:
-                    if (Plan->Flug[d].VonCity==(ULONG)Sim.HomeAirportId || Plan->Flug[d].NachCity==(ULONG)Sim.HomeAirportId)
+                    if (Plan->Flug[d].VonCity==static_cast<ULONG>(Sim.HomeAirportId) || Plan->Flug[d].NachCity==static_cast<ULONG>(Sim.HomeAirportId))
                     {
                         //Erst einmal mit Default-Wert initialisieren:
                         if (Plan->Flug[d].Startdate>Sim.Date || (Plan->Flug[d].Startdate==Sim.Date && Plan->Flug[d].Startzeit>Sim.GetHour()+1)) {
                             Plan->Flug[d].Gate = -1;  //Kein Gate frei
 }
 
-                        if (Plan->Flug[d].VonCity==(ULONG)Sim.HomeAirportId) {
+                        if (Plan->Flug[d].VonCity==static_cast<ULONG>(Sim.HomeAirportId)) {
                             tmp = Plan->Flug[d].Startzeit + (Plan->Flug[d].Startdate-Sim.Date)*24;
                         } else {
                             tmp = Plan->Flug[d].Landezeit-1 + (Plan->Flug[d].Landedate-Sim.Date)*24;
@@ -2082,12 +2097,12 @@ void PLAYER::PlanGates ()
                                 {
                                     //Gate wird für Flug veranschlagt:
                                     if (Plan->Flug[d].Startdate>Sim.Date || (Plan->Flug[d].Startdate==Sim.Date && Plan->Flug[d].Startzeit>Sim.GetHour()+1)) {
-                                        Plan->Flug[d].Gate = Gates.Gates[(SLONG)max (Gates.Auslastung[tmp], Gates.Auslastung[tmp-1])].Nummer;
+                                        Plan->Flug[d].Gate = Gates.Gates[static_cast<SLONG>(max (Gates.Auslastung[tmp], Gates.Auslastung[tmp-1]))].Nummer;
 }
 
                                     //Dieses Modell verplant die Gates etwas verschwenderisch. Aber
                                     //es verhindert auch Konflikte
-                                    Gates.Auslastung[tmp-1] = Gates.Auslastung[tmp] = (UBYTE)(max (Gates.Auslastung[tmp], Gates.Auslastung[tmp-1])+1);
+                                    Gates.Auslastung[tmp-1] = Gates.Auslastung[tmp] = static_cast<UBYTE>(max (Gates.Auslastung[tmp], Gates.Auslastung[tmp-1])+1);
                                 }
                                 else
                                 {
@@ -2096,13 +2111,13 @@ void PLAYER::PlanGates ()
                                         Plan->Flug[d].Gate = -1;
 }
 
-                                    Gates.Auslastung[tmp] = (UBYTE)(Gates.NumRented+1);
-                                    Gates.Auslastung[tmp-1] = (UBYTE)(Gates.NumRented+1);
+                                    Gates.Auslastung[tmp] = static_cast<UBYTE>(Gates.NumRented+1);
+                                    Gates.Auslastung[tmp-1] = static_cast<UBYTE>(Gates.NumRented+1);
 
                                     //Andere Flüge warnen:
                                     if (Owner==0)
                                     {
-                                        for (SLONG e=0; e<(SLONG)Planes.AnzEntries(); e++) {
+                                        for (SLONG e=0; e<Planes.AnzEntries(); e++) {
                                             if (Planes.IsInAlbum(e) != 0)
                                             {
                                                 CFlugplan &qPlan = Planes[e].Flugplan;
@@ -2129,7 +2144,7 @@ void PLAYER::PlanGates ()
                                 {
                                     //Gate wird für Flug veranschlagt:
                                     if (Plan->Flug[d].Startdate>Sim.Date || (Plan->Flug[d].Startdate==Sim.Date && Plan->Flug[d].Startzeit>Sim.GetHour()+1)) {
-                                        Plan->Flug[d].Gate = Gates.Gates[(SLONG)Gates.Auslastung[tmp]].Nummer;
+                                        Plan->Flug[d].Gate = Gates.Gates[static_cast<SLONG>(Gates.Auslastung[tmp])].Nummer;
 }
 
                                     Gates.Auslastung[tmp]++;
@@ -2141,12 +2156,12 @@ void PLAYER::PlanGates ()
                                         Plan->Flug[d].Gate = -1; //kein Platz!
 }
 
-                                    Gates.Auslastung[tmp] = (UBYTE)(Gates.NumRented+1);
+                                    Gates.Auslastung[tmp] = static_cast<UBYTE>(Gates.NumRented+1);
 
                                     //Andere Flüge warnen:
                                     if (Owner==0)
                                     {
-                                        for (SLONG e=0; e<(SLONG)Planes.AnzEntries(); e++) {
+                                        for (SLONG e=0; e<Planes.AnzEntries(); e++) {
                                             if (Planes.IsInAlbum(e) != 0)
                                             {
                                                 CFlugplan &qPlan = Planes[e].Flugplan;
@@ -2204,10 +2219,10 @@ BOOL PLAYER::WalkToRoom (UBYTE RoomId)
 }
     if (MenuClosed!=-1)
     {
-        if (Owner==0 && (LocationWin != nullptr) && ((*(CStdRaum*)LocationWin).MenuIsOpen() == 0) && ((*(CStdRaum*)LocationWin).IsDialogOpen() == 0))
+        if (Owner==0 && (LocationWin != nullptr) && ((*LocationWin).MenuIsOpen() == 0) && ((*LocationWin).IsDialogOpen() == 0))
         {
-            ((CStdRaum*)LocationWin)->MenuStart (MENU_CLOSED, MenuClosed);
-            ((CStdRaum*)LocationWin)->MenuSetZoomStuff (XY(320, 220), 0, FALSE);
+            (LocationWin)->MenuStart (MENU_CLOSED, MenuClosed);
+            (LocationWin)->MenuSetZoomStuff (XY(320, 220), 0, FALSE);
         }
 
         return (FALSE);
@@ -2216,7 +2231,7 @@ BOOL PLAYER::WalkToRoom (UBYTE RoomId)
     if (RoomId==ROOM_BURO_A || RoomId==ROOM_BURO_B || RoomId==ROOM_BURO_C || RoomId==ROOM_BURO_D)
     {
         if (Sim.Players.Players[(RoomId-ROOM_BURO_A)/10].OfficeState==2) {
-            if (Owner==0 && (LocationWin != nullptr) && ((*(CStdRaum*)LocationWin).MenuIsOpen() == 0) && ((*(CStdRaum*)LocationWin).IsDialogOpen() == 0))
+            if (Owner==0 && (LocationWin != nullptr) && ((*LocationWin).MenuIsOpen() == 0) && ((*LocationWin).IsDialogOpen() == 0))
             {
                 if (Sim.ItemKohle != 0)
                 {
@@ -2228,8 +2243,8 @@ BOOL PLAYER::WalkToRoom (UBYTE RoomId)
                     }
                 }
 
-                ((CStdRaum*)LocationWin)->MenuStart (MENU_REQUEST, MENU_REQUEST_DESTROYED);
-                ((CStdRaum*)LocationWin)->MenuSetZoomStuff (XY(320, 220), 0, FALSE);
+                (LocationWin)->MenuStart (MENU_REQUEST, MENU_REQUEST_DESTROYED);
+                (LocationWin)->MenuSetZoomStuff (XY(320, 220), 0, FALSE);
             }
 }
     }
@@ -2640,7 +2655,7 @@ void PLAYER::RobotPump()
 }
     }
 
-    if (Owner==0 && GetRoom()==ROOM_AIRPORT && (LocationWin != nullptr) && (((CStdRaum*)LocationWin)->IsDialogOpen() == 0)&& (((CStdRaum*)LocationWin)->MenuIsOpen() == 0) && Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)].LookDir==8)
+    if (Owner==0 && GetRoom()==ROOM_AIRPORT && (LocationWin != nullptr) && ((LocationWin)->IsDialogOpen() == 0)&& ((LocationWin)->MenuIsOpen() == 0) && Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)].LookDir==8)
     {
         StandCount++;
 
@@ -2681,12 +2696,12 @@ void PLAYER::RobotPump()
                 if (Airport.Runes[c].BrickId==0x10000000+RUNE_2SHOP && Airport.Runes[c].Par==ROOM_BURO_A+PlayerNum*10)
                 {
                     for (SLONG d=Sim.Persons.AnzEntries()-1; d>=0; d--) {
-                        if ((Sim.Persons.IsInAlbum (d) != 0) && Clans[(SLONG)Sim.Persons[d].ClanId].Type>=CLAN_PLAYER1 && Clans[(SLONG)Sim.Persons[d].ClanId].Type<=CLAN_PLAYER4) {
+                        if ((Sim.Persons.IsInAlbum (d) != 0) && Clans[static_cast<SLONG>(Sim.Persons[d].ClanId)].Type>=CLAN_PLAYER1 && Clans[static_cast<SLONG>(Sim.Persons[d].ClanId)].Type<=CLAN_PLAYER4) {
                             if ((Airport.Runes[c].ScreenPos-XY(-100,4900)-Sim.Persons[d].ScreenPos).abs()<100)
                             {
                                 if (Sim.Persons[d].LookDir==4)
                                 {
-                                    PLAYER &qOpfer = Sim.Players.Players[(SLONG)Sim.Persons[d].State];
+                                    PLAYER &qOpfer = Sim.Players.Players[static_cast<SLONG>(Sim.Persons[d].State)];
 
                                     if (qOpfer.Owner!=2)
                                     {
@@ -2709,7 +2724,7 @@ void PLAYER::RobotPump()
     if ((SickTokay != 0) && (RunningToToilet == 0) && (IsStuck == 0))
     {
         if ((Sim.TimeSlice%127)==0 && Sim.GetMinute()>0 && (Sim.CallItADay == 0) && Sim.GetHour()>=9 && Sim.GetHour()<18) {
-            if (LocationWin==nullptr || (((CStdRaum*)LocationWin)->MenuIsOpen() == 0))
+            if (LocationWin==nullptr || ((LocationWin)->MenuIsOpen() == 0))
             {
                 PlayerExtraRandom.SRand(Sim.TimeSlice);
                 if (PlayerExtraRandom.Rand(4)==0)
@@ -2729,7 +2744,7 @@ void PLAYER::RobotPump()
                         RunningToToilet  = TRUE;
                         Stunned = 20;
 
-                        pPerson->Mood = (UBYTE)MoodPersonToilet;
+                        pPerson->Mood = static_cast<UBYTE>(MoodPersonToilet);
                         pPerson->MoodCountdown=max (MOODCOUNT_START-16, pPerson->MoodCountdown);
                     }
                 }
@@ -3662,8 +3677,8 @@ void PLAYER::RobotExecuteAction()
 }
                         }
 
-                        ((CStdRaum*)Sim.Players.Players[TargetPlayer].LocationWin)->StartDialog (TALKER_COMPETITOR, MEDIUM_HANDY, PlayerNum, 1);
-                        ((CStdRaum*)Sim.Players.Players[TargetPlayer].LocationWin)->PayingForCall=FALSE;
+                        (Sim.Players.Players[TargetPlayer].LocationWin)->StartDialog (TALKER_COMPETITOR, MEDIUM_HANDY, PlayerNum, 1);
+                        (Sim.Players.Players[TargetPlayer].LocationWin)->PayingForCall=FALSE;
 
                         if (Sim.bNetwork != 0)
                         {
@@ -3781,7 +3796,7 @@ void PLAYER::RobotExecuteAction()
                 {
                     SLONG c = 0;
 
-                    if ((Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) && ((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->CurrentMenu==MENU_AUSLANDSAUFTRAG && Cities.GetIdFromIndex(((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuPar1)==Cities.GetIdFromIndex(n)) {
+                    if ((Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) && (Sim.Players.Players[Sim.localPlayer].LocationWin)->CurrentMenu==MENU_AUSLANDSAUFTRAG && Cities.GetIdFromIndex((Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuPar1)==Cities.GetIdFromIndex(n)) {
                         continue; //Skip it, because Player is just phoning it.
 }
 
@@ -4491,7 +4506,7 @@ okay_we_have_that_city:
                         OwnsAktien[dislike]+=Anz;
                         Money-=SLONG(Anz*Sim.Players.Players[dislike].Kurse[0]);
                         Sim.Players.Players[dislike].Kurse[0]=
-                            Sim.Players.Players[dislike].Kurse[0]* (__int64)Sim.Players.Players[dislike].AnzAktien/(Sim.Players.Players[dislike].AnzAktien-Anz/2);
+                            Sim.Players.Players[dislike].Kurse[0]* static_cast<__int64>(Sim.Players.Players[dislike].AnzAktien)/(Sim.Players.Players[dislike].AnzAktien-Anz/2);
 
                         if (Sim.Players.Players[dislike].Kurse[0]<0) { Sim.Players.Players[dislike].Kurse[0]=0;
 }
@@ -4522,7 +4537,7 @@ okay_we_have_that_city:
                     {
                         OwnsAktien[PlayerNum]+=Anz;
                         Money-=SLONG(Anz*Kurse[0]);
-                        Kurse[0]= Kurse[0]*(__int64)AnzAktien/(AnzAktien-Anz/2);
+                        Kurse[0]= Kurse[0]*static_cast<__int64>(AnzAktien)/(AnzAktien-Anz/2);
 
                         if (Kurse[0]<0) { Kurse[0]=0;
 }
@@ -4538,7 +4553,7 @@ okay_we_have_that_city:
                 SLONG c = 0;
                 SLONG FreeMoney=long(min(0x7fffffff, Money));
 
-                for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+                for (c=0; c<Planes.AnzEntries(); c++) {
                     if (Planes.IsInAlbum(c) != 0)
                     {
                         Planes[c].TargetZustand = min (Planes[c].WorstZustand+19, 100);
@@ -4566,7 +4581,7 @@ okay_we_have_that_city:
             {
                 SLONG c = 0;
 
-                for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+                for (c=0; c<Planes.AnzEntries(); c++) {
                     if (Planes.IsInAlbum(c) != 0) {
                         Planes[c].TargetZustand = min (Planes[c].TargetZustand+3, 100);
 }
@@ -4579,7 +4594,7 @@ okay_we_have_that_city:
             {
                 SLONG c = 0;
 
-                for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+                for (c=0; c<Planes.AnzEntries(); c++) {
                     if (Planes.IsInAlbum(c) != 0) {
                         if (PlayerNum==3) {
                             Planes[c].TargetZustand = min (Planes[c].TargetZustand+2, 70);
@@ -5350,7 +5365,7 @@ okay_we_have_that_city:
             if (((SavesForPlane == 0) && (SavesForRocket == 0)) || Sim.Date<5 || LocalRandom.Rand(25)==0 || (PlayerNum==0 && LocalRandom.Rand(3)==0)) {
                 for (c=0; c<7; c++) {
                     if (TafelData.City[c].Player!=PlayerNum && TafelData.City[c].ZettelId!=-1 &&
-                            RentCities.RentCities[(SLONG)Cities(TafelData.City[c].ZettelId)].Rang==0)
+                            RentCities.RentCities[Cities(TafelData.City[c].ZettelId)].Rang==0)
                     {
                         if (((TafelData.City[c].Player!=-1 && (Sympathie[TafelData.City[c].Player]<40 || PlayerNum==0 || LocalRandom.Rand(10)==0 || (Sim.Date>10 && LocalRandom.Rand(5)==0))) || (TafelData.City[c].Player==-1 && LocalRandom.Rand(3)==0)) &&
                                 BilanzGestern.GetSumme()>TafelData.City[c].Preis*10 && Credit*2<Money*3 && Money>0 &&
@@ -5402,7 +5417,7 @@ okay_we_have_that_city:
                     //Mal sehen, was wir kaufen können:
                     for (SLONG d=Routen.AnzEntries()-1; d>=0; d--) {
                         if ((Routen.IsInAlbum(d) != 0) && RentRouten.RentRouten[d].Rang==0) {
-                            if (Routen[d].VonCity==(ULONG)Sim.HomeAirportId || Routen[d].NachCity==(ULONG)Sim.HomeAirportId) {
+                            if (Routen[d].VonCity==static_cast<ULONG>(Sim.HomeAirportId) || Routen[d].NachCity==static_cast<ULONG>(Sim.HomeAirportId)) {
                                 IsBuyable[d]=TRUE;
 }
 }
@@ -5442,7 +5457,7 @@ okay_we_have_that_city:
 
                                 for (d=0; d<6; d++)
                                 {
-                                    if ((Routen[c].VonCity==(ULONG)Sim.HomeAirportId && Routen[c].NachCity==(ULONG)Sim.MissionCities[d]) || (Routen[c].NachCity==(ULONG)Sim.HomeAirportId && Routen[c].VonCity==(ULONG)Sim.MissionCities[d]))
+                                    if ((Routen[c].VonCity==static_cast<ULONG>(Sim.HomeAirportId) && Routen[c].NachCity==static_cast<ULONG>(Sim.MissionCities[d])) || (Routen[c].NachCity==static_cast<ULONG>(Sim.HomeAirportId) && Routen[c].VonCity==static_cast<ULONG>(Sim.MissionCities[d])))
                                     {
                                         BestC=c;
                                         if (LocalRandom.Rand(2)==0) { break;
@@ -5567,7 +5582,7 @@ okay_we_have_that_city:
                             if (RentRouten.RentRouten[c].Image<70 || (RentRouten.RentRouten[c].Image<80 && (SavesForPlane == 0) && (SavesForRocket == 0)) || (Money>2000000 && RentRouten.RentRouten[c].Image<100 && (SavesForPlane == 0) && (SavesForRocket == 0)))
                             {
                                 RentRouten.RentRouten[c].Image+=UBYTE(gWerbePrice[6+3]/2000);
-                                Limit ((UBYTE)0, RentRouten.RentRouten[c].Image, (UBYTE)100);
+                                Limit (static_cast<UBYTE>(0), RentRouten.RentRouten[c].Image, static_cast<UBYTE>(100));
 
                                 ChangeMoney (-gWerbePrice[6+3], 3+3120, "");
                                 break;
@@ -5611,9 +5626,9 @@ okay_we_have_that_city:
                             if (Sim.Players.Players[c].Owner==0 && (Sim.Players.Players[c].IsOut == 0)) {
                                 Sim.Players.Players[c].Letters.AddLetter (
                                         TRUE,
-                                        (CString)bprintf (StandardTexte.GetS (TOKEN_LETTER, 9900), (LPCTSTR)AirlineX),
-                                        (CString)bprintf (StandardTexte.GetS (TOKEN_LETTER, 9901), (LPCTSTR)AirlineX),
-                                        (CString)bprintf (StandardTexte.GetS (TOKEN_LETTER, 9902), (LPCTSTR)NameX, (LPCTSTR)AirlineX),
+                                        CString(bprintf (StandardTexte.GetS (TOKEN_LETTER, 9900), (LPCTSTR)AirlineX)),
+                                        CString(bprintf (StandardTexte.GetS (TOKEN_LETTER, 9901), (LPCTSTR)AirlineX)),
+                                        CString(bprintf (StandardTexte.GetS (TOKEN_LETTER, 9902), (LPCTSTR)NameX, (LPCTSTR)AirlineX)),
                                         -1);
 }
 }
@@ -5669,7 +5684,7 @@ BOOL PLAYER::IsOkayToCallThisPlayer ()
     if (TelephoneDown != 0) { return (FALSE);
 }
 
-    if ((((CStdRaum*)LocationWin)->IsDialogOpen() != 0) || (((CStdRaum*)LocationWin)->MenuIsOpen() != 0)) { return (FALSE);
+    if (((LocationWin)->IsDialogOpen() != 0) || ((LocationWin)->MenuIsOpen() != 0)) { return (FALSE);
 }
 
     if (Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)].StatePar != 0) { return (FALSE);
@@ -5701,7 +5716,7 @@ Again:
             for (d=0; d<qPlan.Flug.AnzEntries(); d++)
             {
                 if ((qPlan.Flug[d].ObjectType==1 || qPlan.Flug[d].ObjectType==2) &&
-                        (qPlan.Flug[d].VonCity==(ULONG)Sim.HomeAirportId || qPlan.Flug[d].NachCity==(ULONG)Sim.HomeAirportId) &&
+                        (qPlan.Flug[d].VonCity==static_cast<ULONG>(Sim.HomeAirportId) || qPlan.Flug[d].NachCity==static_cast<ULONG>(Sim.HomeAirportId)) &&
                         qPlan.Flug[d].Gate==-1 && NumDelays<6)
                 {
                     qPlan.Flug[d].Startzeit++;
@@ -5878,7 +5893,7 @@ void PLAYER::BuyItem (UBYTE Item)
 //--------------------------------------------------------------------------------------------
 void PLAYER::DisplayAsTelefoning () const
 {
-    PERSON &qPerson = Sim.Persons[(SLONG)Sim.Persons.GetPlayerIndex(PlayerNum)];
+    PERSON &qPerson = Sim.Persons[static_cast<SLONG>(Sim.Persons.GetPlayerIndex(PlayerNum))];
 
     qPerson.Phase = qPerson.LookDir+4;
     qPerson.LookDir = 8;
@@ -5924,10 +5939,10 @@ BOOL PLAYER::HasSpaceForItem ()
 }
 }
 
-    if (Owner==0 && (LocationWin != nullptr) && ((*(CStdRaum*)LocationWin).MenuIsOpen() == 0) && ((*(CStdRaum*)LocationWin).IsDialogOpen() == 0))
+    if (Owner==0 && (LocationWin != nullptr) && ((*LocationWin).MenuIsOpen() == 0) && ((*LocationWin).IsDialogOpen() == 0))
     {
-        ((CStdRaum*)LocationWin)->MenuStart (MENU_REQUEST, MENU_REQUEST_ITEMS);
-        ((CStdRaum*)LocationWin)->MenuSetZoomStuff (gMousePosition, 0, FALSE);
+        (LocationWin)->MenuStart (MENU_REQUEST, MENU_REQUEST_ITEMS);
+        (LocationWin)->MenuSetZoomStuff (gMousePosition, 0, FALSE);
     }
 
     return (FALSE);
@@ -5979,7 +5994,7 @@ void PLAYER::MapWorkerOverflow (BOOL Advice)
                 for (c=0; c<Workers.Workers.AnzEntries(); c++) {
                     if (Workers.Workers[c].Employer==PlayerNum && Workers.Workers[c].Typ==WORKER_PILOT && Workers.Workers[c].PlaneId!=-1)
                     {
-                        if (Workers.Workers[c].PlaneId!=-1 && Planes(Workers.Workers[c].PlaneId)==(ULONG)d)
+                        if (Workers.Workers[c].PlaneId!=-1 && Planes(Workers.Workers[c].PlaneId)==static_cast<ULONG>(d))
                         {
                             Workers.Workers[c].PlaneId=-1;
                             Planes [d].AnzPiloten--;
@@ -5996,7 +6011,7 @@ void PLAYER::MapWorkerOverflow (BOOL Advice)
                 for (c=0; c<Workers.Workers.AnzEntries(); c++) {
                     if (Workers.Workers[c].Employer==PlayerNum && Workers.Workers[c].Typ==WORKER_STEWARDESS && Workers.Workers[c].PlaneId!=-1)
                     {
-                        if (Workers.Workers[c].PlaneId!=-1 && Planes(Workers.Workers[c].PlaneId)==(ULONG)d)
+                        if (Workers.Workers[c].PlaneId!=-1 && Planes(Workers.Workers[c].PlaneId)==static_cast<ULONG>(d))
                         {
                             Workers.Workers[c].PlaneId=-1;
                             Planes [d].AnzBegleiter--;
@@ -6010,7 +6025,7 @@ void PLAYER::MapWorkerOverflow (BOOL Advice)
         }
 }
 
-    for (d=0; d<(SLONG)Planes.AnzEntries(); d++) {
+    for (d=0; d<Planes.AnzEntries(); d++) {
         if (Planes.IsInAlbum (d) != 0) {
             Planes[d].UpdatePersonalQuality(PlayerNum);
 }
@@ -6234,7 +6249,7 @@ again: //Zweiter Pass, wenn Stewardessen aus Luxusstellen umgebucht werden, dami
         }
     }
 
-    for (d=0; d<(SLONG)Planes.AnzEntries(); d++) {
+    for (d=0; d<Planes.AnzEntries(); d++) {
         if (Planes.IsInAlbum (d) != 0)
         {
             Planes[d].UpdatePersonalQuality(PlayerNum);
@@ -6289,7 +6304,7 @@ void PLAYER::ReformIcons ()
     SLONG c = 0;
     SLONG d = 0;
 
-    if (LocationWin != nullptr) { ((CStdRaum*)LocationWin)->StatusCount = 3;
+    if (LocationWin != nullptr) { (LocationWin)->StatusCount = 3;
 }
 
     for (d=0; d<6; d++) {
@@ -6409,7 +6424,7 @@ void PLAYER::UpdateStatistics ()
 
     //STAT_FIRMENWERT:
     value=0;
-    for (c=0; c<(SLONG)Planes.AnzEntries(); c++) { //Flugzeuge
+    for (c=0; c<Planes.AnzEntries(); c++) { //Flugzeuge
         if (Planes.IsInAlbum(c) != 0) { value+=Planes[c].CalculatePrice();
 }
 }
@@ -6444,7 +6459,7 @@ void PLAYER::UpdateStatistics ()
     }
     else if (Owner==1)
     {
-        for (c=d=0; c<(SLONG)Planes.AnzEntries(); c++) {
+        for (c=d=0; c<Planes.AnzEntries(); c++) {
             if (Planes.IsInAlbum(c) != 0)
             {
                 //d+=PlaneTypes[Planes[c].TypeId].AnzPiloten;
@@ -6586,7 +6601,7 @@ void PLAYER::UpdateStatistics ()
         e=0;
         SLONG NumIgnore=PlayerNum*2;
 
-        for (c=d=0; c<(SLONG)Planes.AnzEntries(); c++) {
+        for (c=d=0; c<Planes.AnzEntries(); c++) {
             if (Planes.IsInAlbum(c) != 0) {
                 //d+=PlaneTypes[Planes[c].TypeId].AnzPiloten;
                 d+=Planes[c].ptAnzPiloten;
@@ -6607,7 +6622,7 @@ void PLAYER::UpdateStatistics ()
 }
 
         NumIgnore=PlayerNum*2;
-        for (c=d=0; c<(SLONG)Planes.AnzEntries(); c++) {
+        for (c=d=0; c<Planes.AnzEntries(); c++) {
             if (Planes.IsInAlbum(c) != 0) {
                 //d+=PlaneTypes[Planes[c].TypeId].AnzBegleiter;
                 d+=Planes[c].ptAnzBegleiter;
@@ -6740,7 +6755,7 @@ void PLAYERS::CheckFlighplans ()
     for (SLONG c=0; c<AnzPlayers; c++) {
         if (Players[c].IsOut == 0)
         {
-            for (SLONG d=0; d<(SLONG)Players[c].Planes.AnzEntries(); d++) {
+            for (SLONG d=0; d<Players[c].Planes.AnzEntries(); d++) {
                 if (Players[c].Planes.IsInAlbum(d) != 0)
                 {
                     CPlane &qPlane = Players[c].Planes[d];
@@ -7314,7 +7329,7 @@ TEAKFILE &operator >> (TEAKFILE &File, PLAYER &Player)
                     Player.Koffein    = 0;
                     Player.IsStuck    = 0;
                     Player.Frachten.Fracht.ReSize(0);
-                    Player.Frachten.IsInAlbum((SLONG)0);
+                    Player.Frachten.IsInAlbum(static_cast<SLONG>(0));
                     Player.IsDrunk           = 0;
                     Player.KioskTrust        = 0;
                     Player.NumFracht         = 0;
@@ -7351,7 +7366,7 @@ TEAKFILE &operator >> (TEAKFILE &File, PLAYER &Player)
     File >> Player.LaptopBattery >> Player.LaptopQuality;
 
     //Mehr Strecken im AddOn ==> RentCities ggf. ergänzen
-    if (Player.RentCities.RentCities.AnzEntries()!=(SLONG)Cities.AnzEntries()) {
+    if (Player.RentCities.RentCities.AnzEntries()!=Cities.AnzEntries()) {
         Player.RentCities.RentCities.ReSize (Cities.AnzEntries());
 }
 

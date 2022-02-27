@@ -137,7 +137,7 @@ CStatistik::CStatistik (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Player
     for (c=1; c<5; c++)
     {
         Hdu.HercPrintf (0, "stat_%li.mcf", c);
-        StatFonts[c-1].Load (lpDD, (char*)(LPCTSTR)FullFilename ("stat_%li.mcf", MiscPath, c));
+        StatFonts[c-1].Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("stat_%li.mcf", MiscPath, c)));
     }
 
     HighlightBar.ReSize(439,21);
@@ -435,7 +435,7 @@ void CStatistik::OnPaint()
         output += StandardTexte.GetS (TOKEN_STAT, 9000);
     }
 
-    long length = FontDialogPartner.GetWidth((LPSTR)(LPCSTR)output, output.GetLength());
+    long length = FontDialogPartner.GetWidth(const_cast<LPSTR>((LPCSTR)output), output.GetLength());
     long xPos   = 35 + ((160-35)>>1)	- (length>>1);
     RoomBm.PrintAt (output, FontDialogPartner, TEC_FONT_LEFT, xPos, 15, xPos + length + 5, 45);
 
@@ -539,16 +539,16 @@ void CStatistik::CalcGraph()
                             {
                                 if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                                 {
-                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d) != 0)
+                                    if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastDay(d) != 0)
                                     {
-                                        min = Min (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d)), min);
-                                        max = Max (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d)), max);
+                                        min = Min (__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastDay(d)), min);
+                                        max = Max (__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastDay(d)), max);
                                     }
                                 }
                                 else
                                 {
-                                    min = Min (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)), min);
-                                    max = Max (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)), max);
+                                    min = Min (__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d)), min);
+                                    max = Max (__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d)), max);
                                 }
                             }
 }
@@ -568,16 +568,16 @@ void CStatistik::CalcGraph()
                             {
                                 if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                                 {
-                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d) != 0)
+                                    if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastMonth(d) != 0)
                                     {
-                                        min = Min (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d)), min);
-                                        max = Max (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d)), max);
+                                        min = Min (__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastMonth(d)), min);
+                                        max = Max (__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastMonth(d)), max);
                                     }
                                 }
                                 else
                                 {
-                                    min = Min (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)), min);
-                                    max = Max (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)), max);
+                                    min = Min (__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d)), min);
+                                    max = Max (__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d)), max);
                                 }
                             }
 }
@@ -588,8 +588,8 @@ void CStatistik::CalcGraph()
     }
 
     double summe = double(max) + double(-min);
-    _yGraph = (double)G_HEIGHT / summe;
-    _yAxis  = (double)-min;
+    _yGraph = static_cast<double>G_HEIGHT / summe;
+    _yAxis  = static_cast<double>(-min);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -630,9 +630,9 @@ void CStatistik::RepaintGraphWindow ()
 }
 
     // Y-Axis
-    long yAxis = (long)(_yAxis * _yGraph);
+    long yAxis = static_cast<long>(_yAxis * _yGraph);
 
-    _xGraph = (double)G_WIDTH / (double)_days;
+    _xGraph = static_cast<double>G_WIDTH / static_cast<double>(_days);
 
 
     long days = _days;
@@ -652,13 +652,13 @@ void CStatistik::RepaintGraphWindow ()
                         if (_playerMask[p])
                         {
                             if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0) != 0) {
-                                    value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(0)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0) * _yGraph);
+                                if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastDay(0) != 0) {
+                                    value = static_cast<long>(static_cast<double>(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(0))*__int64(100)/Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastDay(0) * _yGraph);
                                 } else {
                                     value = 0;
 }
                             } else {
-                                value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(0)) * _yGraph);
+                                value = static_cast<long>(double(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(0)) * _yGraph);
 }
 
                             x2 = G_RIGHT;
@@ -667,16 +667,16 @@ void CStatistik::RepaintGraphWindow ()
                             for (long d = 1 ; d <= days ; d++)
                             {
                                 if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d) != 0) {
-                                        value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d) * _yGraph);
+                                    if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastDay(d) != 0) {
+                                        value = static_cast<long>(static_cast<double>(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d))*__int64(100)/Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastDay(d) * _yGraph);
                                     } else {
                                         value = 0;
 }
                                 } else {
-                                    value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)) * _yGraph);
+                                    value = static_cast<long>(double(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d)) * _yGraph);
 }
 
-                                x1 = G_RIGHT - (long)((double)d * _xGraph);
+                                x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
                                 y1 = G_BOTTOM - yAxis - value;
 
                                 if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP)
@@ -704,7 +704,7 @@ void CStatistik::RepaintGraphWindow ()
     else if ((days / 30) != 0)
     {
         long month = min (11, (days+29/30));
-        _xGraph = (double)G_WIDTH / (((double)_days)/30);
+        _xGraph = static_cast<double>G_WIDTH / ((static_cast<double>(_days))/30);
 
         for (short i = 0 ; i < MAX_ITEMS ; i++) {
             if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible) {
@@ -713,13 +713,13 @@ void CStatistik::RepaintGraphWindow ()
                         if (_playerMask[p])
                         {
                             if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(0) != 0) {
-                                    value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(0)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(0) * _yGraph);
+                                if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastMonth(0) != 0) {
+                                    value = static_cast<long>(static_cast<double>(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(0))*__int64(100)/Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastMonth(0) * _yGraph);
                                 } else {
                                     value = 0;
 }
                             } else {
-                                value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(0)) * _yGraph);
+                                value = static_cast<long>(double(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(0)) * _yGraph);
 }
 
                             x2 = G_RIGHT;
@@ -728,16 +728,16 @@ void CStatistik::RepaintGraphWindow ()
                             for (long d = 1 ; d <= month; d++)
                             {
                                 if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d) != 0) {
-                                        value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d) * _yGraph);
+                                    if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastMonth(d) != 0) {
+                                        value = static_cast<long>(static_cast<double>(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d))*__int64(100)/Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastMonth(d) * _yGraph);
                                     } else {
                                         value = 0;
 }
                                 } else {
-                                    value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)) * _yGraph);
+                                    value = static_cast<long>(double(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d)) * _yGraph);
 }
 
-                                x1 = G_RIGHT - (long)((double)d * _xGraph);
+                                x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
                                 y1 = G_BOTTOM - yAxis - value;
 
                                 if (x1>G_LEFT || x2>G_LEFT) {
@@ -801,7 +801,7 @@ void CStatistik::RepaintTextWindow ()
             {
                 if (_iArray[_group][i].typOfItem > TYP_GROUP)
                 {
-                    __int64 val = Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(0);
+                    __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(0);
                     switch (_iArray[_group][i].typOfItem)
                     {
                         case TYP_VALUE:
@@ -829,8 +829,8 @@ void CStatistik::RepaintTextWindow ()
                             break;
 
                         case TYP_PERCENT:
-                            if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0) != 0) {
-                                output = Einheiten[EINH_P].bString64 (val*100/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0));
+                            if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastDay(0) != 0) {
+                                output = Einheiten[EINH_P].bString64 (val*100/Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i-1].define)].GetAtPastDay(0));
                             } else {
                                 output = "0%";
 }
@@ -858,13 +858,13 @@ void CStatistik::RepaintTextWindow ()
 
                                 if (_iArray[_group][2].visible)
                                 {
-                                    if (_iArray[_group][3].visible) { shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_SA].GetAtPastDay(0) * Sim.Players.Players[(int)0].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
+                                    if (_iArray[_group][3].visible) { shares += Sim.Players.Players[p].Statistiken[STAT_AKTIEN_SA].GetAtPastDay(0) * Sim.Players.Players[0].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
 }
-                                    if (_iArray[_group][4].visible) { shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_FL].GetAtPastDay(0) * Sim.Players.Players[(int)1].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
+                                    if (_iArray[_group][4].visible) { shares += Sim.Players.Players[p].Statistiken[STAT_AKTIEN_FL].GetAtPastDay(0) * Sim.Players.Players[1].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
 }
-                                    if (_iArray[_group][5].visible) { shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_PT].GetAtPastDay(0) * Sim.Players.Players[(int)2].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
+                                    if (_iArray[_group][5].visible) { shares += Sim.Players.Players[p].Statistiken[STAT_AKTIEN_PT].GetAtPastDay(0) * Sim.Players.Players[2].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
 }
-                                    if (_iArray[_group][6].visible) { shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_HA].GetAtPastDay(0) * Sim.Players.Players[(int)3].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
+                                    if (_iArray[_group][6].visible) { shares += Sim.Players.Players[p].Statistiken[STAT_AKTIEN_HA].GetAtPastDay(0) * Sim.Players.Players[3].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
 }
                                 }
 
@@ -892,7 +892,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY      RoomPos;
     SLONG   c = 0;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     DefaultOnLButtonDown ();
 
@@ -1077,8 +1077,9 @@ void CStatistik::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

@@ -133,7 +133,7 @@ CSabotage::~CSabotage()
 void CSabotage::OnPaint()
 {
     SLONG   NewTip = 0;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_SABOTAGE, 0);
 }
@@ -196,13 +196,13 @@ void CSabotage::OnPaint()
         {
             NewTip = (gMousePosition.y-(MenuPos.y+25))/13 + MenuPage;
 
-            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && (Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]) != 0))
+            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && (Sim.Players.Players[qPlayer.ArabOpfer].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]) != 0))
             {
                 if (NewTip != CurrentTip)
                 {
                     MenuRepaint ();
                     //DrawPlaneTipContents (OnscreenBitmap, &PlaneTypes[Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes[MenuDataTable.LineIndex[NewTip]].TypeId], &Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes[MenuDataTable.LineIndex[NewTip]],
-                    DrawPlaneTipContents (OnscreenBitmap, nullptr, &Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes[MenuDataTable.LineIndex[NewTip]],
+                    DrawPlaneTipContents (OnscreenBitmap, nullptr, &Sim.Players.Players[qPlayer.ArabOpfer].Planes[MenuDataTable.LineIndex[NewTip]],
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack, FALSE, TRUE);
                 }
 
@@ -252,7 +252,7 @@ void CSabotage::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==800)
         {
             StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, 800);
@@ -263,8 +263,8 @@ void CSabotage::OnLButtonDown(UINT nFlags, CPoint point)
         {
             if (Sim.ItemZange != 0)
             {
-                Sim.Players.Players[(SLONG)PlayerNum].BuyItem (ITEM_ZANGE);
-                if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_ZANGE) != 0)
+                Sim.Players.Players[PlayerNum].BuyItem (ITEM_ZANGE);
+                if (Sim.Players.Players[PlayerNum].HasItem (ITEM_ZANGE) != 0)
                 {
                     Sim.ItemZange=0;
                     SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_ZANGE);
@@ -297,7 +297,7 @@ void CSabotage::OnRButtonDown(UINT nFlags, CPoint point)
         {
             if (!IsDialogOpen() && point.y<440)
             {
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                Sim.Players.Players[PlayerNum].LeaveRoom();
             }
             CStdRaum::OnRButtonDown(nFlags, point);
         }

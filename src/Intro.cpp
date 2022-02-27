@@ -33,7 +33,7 @@ CIntro::CIntro(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0
 
     gMouseStartup = TRUE;
 
-    pGfxMain->LoadLib((char*)(LPCTSTR)FullFilename("titel.gli", RoomPath), &pRoomLib, L_LOCMEM);
+    pGfxMain->LoadLib(const_cast<char*>((LPCTSTR)FullFilename("titel.gli", RoomPath)), &pRoomLib, L_LOCMEM);
     FadeFrom.ReSize(640, 480);
     FadeFrom.FillWith(0);
     FadeTo.ReSize(pRoomLib, GFX_TITEL);
@@ -77,7 +77,7 @@ CIntro::CIntro(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0
             const unsigned char* pVideo = smk_get_video(pSmack);
             int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
             for (unsigned long y = 0; y < Height; y++) {
-                memcpy((BYTE*)Key.Bitmap + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
+                memcpy(static_cast<BYTE*>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
 }
         }
         CalculatePalettemapper(smk_get_palette(pSmack), Bitmap.pBitmap->GetPixelFormat()->palette);
@@ -158,7 +158,7 @@ void CIntro::OnPaint()
                 const unsigned char* pVideo = smk_get_video(pSmack);
                 int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
                 for (unsigned long y = 0; y < Height; y++) {
-                    memcpy((BYTE*)Key.Bitmap + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
+                    memcpy(static_cast<BYTE*>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
 }
             }
             CalculatePalettemapper(smk_get_palette(pSmack), Bitmap.pBitmap->GetPixelFormat()->palette);

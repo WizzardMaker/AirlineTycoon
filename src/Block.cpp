@@ -249,9 +249,9 @@ void BLOCK::LoadLib (const CString &LibName)
     if (LibName.GetLength()>0)
     {
         if (StyleType==0) { //Globus/Filofax
-            pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename (LibName+".gli", GliPath), &pGLibPicture, L_LOCMEM);
+            pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename (LibName+".gli", GliPath)), &pGLibPicture, L_LOCMEM);
         } else { //Laptop
-            pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename (LibName+".glj", GliPath), &pGLibPicture, L_LOCMEM);
+            pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename (LibName+".glj", GliPath)), &pGLibPicture, L_LOCMEM);
 }
     }
 }
@@ -330,13 +330,13 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
             if (SelectedId==0)
             { AnzPages=1; Page=0; }
 
-            if (SelectedId==1 && (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_GELD) == 0))
+            if (SelectedId==1 && (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_GELD) == 0))
             { AnzPages=1; Page=0; }
 
-            if (SelectedId==2 && (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_GELD) == 0))
+            if (SelectedId==2 && (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_GELD) == 0))
             { AnzPages=1; Page=0; }
 
-            if (SelectedId==3 && (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_INFO) == 0))
+            if (SelectedId==3 && (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_INFO) == 0))
             { AnzPages=1; Page=0; }
         }
     }
@@ -551,7 +551,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                     if (Page==0)
                     {
-                        CRentCity &qRentCity=qPlayer.RentCities.RentCities[(SLONG)Cities(SelectedId)];
+                        CRentCity &qRentCity=qPlayer.RentCities.RentCities[Cities(SelectedId)];
 
                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1000), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,1), Bitmap.Size);
                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,14), Bitmap.Size);
@@ -567,9 +567,9 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,27), Bitmap.Size);
                             Bitmap.PrintAt (bprintf ("%li", qRentCity.Rang), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(85,27), Bitmap.Size);
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1003), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,40), Bitmap.Size);
-                            Bitmap.PrintAt (bprintf ("%li%%", (long)qRentCity.Image), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(85,40), Bitmap.Size);
+                            Bitmap.PrintAt (bprintf ("%li%%", static_cast<long>(qRentCity.Image)), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(85,40), Bitmap.Size);
 
-                            if (Cities.GetIdFromIndex (Cities(SelectedId))!=(ULONG)Sim.HomeAirportId) {
+                            if (Cities.GetIdFromIndex (Cities(SelectedId))!=static_cast<ULONG>(Sim.HomeAirportId)) {
                                 Bitmap.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1010), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,66), Bitmap.Size);
 }
                         }
@@ -687,13 +687,13 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                                             if (d>0 && d==(Plan.Flug[c].Startzeit+1)%24 && !(Plan.Flug[c].Startdate>Sim.Date || Plan.Flug[c].Startzeit>Sim.GetHour()+1)) {
                                                 Bitmap.BlitFromT (FlugplanBms[17], ClientArea+XY(24-8+px,py+4));
 }
-                                            if (Plan.Flug[c].VonCity==(ULONG)Sim.HomeAirportId && d==Plan.Flug[c].Startzeit && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0u)) {
+                                            if (Plan.Flug[c].VonCity==static_cast<ULONG>(Sim.HomeAirportId) && d==Plan.Flug[c].Startzeit && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0u)) {
                                                 Bitmap.BlitFromT (FlugplanBms[18], ClientArea+XY(24+px,py+4));
 }
-                                            if (Plan.Flug[c].VonCity==(ULONG)Sim.HomeAirportId && d>0 && d==(Plan.Flug[c].Startzeit+1)%24 && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0u)) {
+                                            if (Plan.Flug[c].VonCity==static_cast<ULONG>(Sim.HomeAirportId) && d>0 && d==(Plan.Flug[c].Startzeit+1)%24 && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0u)) {
                                                 Bitmap.BlitFromT (FlugplanBms[18], ClientArea+XY(24-6+px,py+4));
 }
-                                            if (d==Plan.Flug[c].Landezeit && Plan.Flug[c].NachCity==(ULONG)Sim.HomeAirportId && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0u)) {
+                                            if (d==Plan.Flug[c].Landezeit && Plan.Flug[c].NachCity==static_cast<ULONG>(Sim.HomeAirportId) && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0u)) {
                                                 Bitmap.BlitFromT (FlugplanBms[18], ClientArea+XY(24+px,py+4));
 }
                                             if (d==Plan.Flug[c].Landezeit && Plan.Flug[c].ObjectType==4 && (Plan.Flug[c].GateWarning != 0u)) {
@@ -957,11 +957,11 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                             //Tagesbilanz:
                         case 1:
-                            if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_GELD) == 0) {
+                            if (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_GELD) == 0) {
                                 Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3000), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,27), ClientArea+XY(172,170));
                             } else
                             {
-                                if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_GELD)<80) {
+                                if (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_GELD)<80) {
                                     Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3001), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,27), ClientArea+XY(172,170));
                                 } else
                                 {
@@ -973,11 +973,11 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3403), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,4*13), ClientArea+XY(172,170));
                                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3404), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,5*13), ClientArea+XY(172,170));
                                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3604), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,7*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.HabenZinsen/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,2*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.HabenRendite/1000),FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,3*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.Tickets/1000),     FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,4*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.Auftraege/1000),   FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,5*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.GetHaben()/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,7*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.HabenZinsen/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,2*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.HabenRendite/1000),FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,3*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.Tickets/1000),     FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,4*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.Auftraege/1000),   FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,5*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.GetHaben()/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,7*13), ClientArea+XY(172,170));
                                     }
                                     else if (Page==1)
                                     {
@@ -992,16 +992,16 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3508), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,9*13), ClientArea+XY(172,170));
                                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3509), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,10*13), ClientArea+XY(172,170));
                                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3604), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,12*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.SollZinsen/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,2*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.SollRendite/1000),FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,3*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.Kerosin/1000),    FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,4*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.Personal/1000),   FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,5*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.Vertragsstrafen/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,6*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.Wartung/1000),    FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,7*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.Gatemiete/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,8*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.Citymiete/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,9*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.Routenmiete/1000),FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,10*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.GetSoll()/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,12*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.SollZinsen/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,2*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.SollRendite/1000),FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,3*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.Kerosin/1000),    FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,4*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.Personal/1000),   FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,5*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.Vertragsstrafen/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,6*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.Wartung/1000),    FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,7*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.Gatemiete/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,8*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.Citymiete/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,9*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.Routenmiete/1000),FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,10*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.GetSoll()/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,12*13), ClientArea+XY(172,170));
                                     }
                                     else if (Page==2)
                                     {
@@ -1009,9 +1009,9 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3601), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,2*13), ClientArea+XY(172,170));
                                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3602), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,3*13), ClientArea+XY(172,170));
                                         Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3604), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,5*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.GetHaben()/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,2*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.GetSoll()/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,3*13), ClientArea+XY(172,170));
-                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[(SLONG)PlayerNum].BilanzGestern.GetSumme()/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,5*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.GetHaben()/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,2*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.GetSoll()/1000),  FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,3*13), ClientArea+XY(172,170));
+                                        Bitmap.PrintAt (bitoa(Sim.Players.Players[PlayerNum].BilanzGestern.GetSumme()/1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea+XY(2,5*13), ClientArea+XY(172,170));
                                     }
                                 }
                             }
@@ -1019,7 +1019,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                             //Wocheneinnamen der Flugzeuge:
                         case 2:
-                            if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_GELD) == 0) {
+                            if (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_GELD) == 0) {
                                 Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3000), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,27), ClientArea+XY(172,170));
                             } else
                             {
@@ -1073,7 +1073,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                             //Konkurrenz:
                         case 3:
-                            if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_INFO) == 0) {
+                            if (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_INFO) == 0) {
                                 Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3002), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2,27), ClientArea+XY(172,170));
                             } else
                             {
@@ -1166,12 +1166,12 @@ switch_again:
                         if (Index!=1 && TableB.ValueFlags[0+c*TableB.AnzColums]==0 && (qPlayer.Auftraege.IsInAlbum(TableB.LineIndex[c]) != 0))
                         {
                             //if (!qPlayer.Auftraege[TableB.LineIndex[c]].FitsInPlane (PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId]))
-                            if (qPlayer.Auftraege[TableB.LineIndex[c]].FitsInPlane (Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId]) == 0) {
+                            if (qPlayer.Auftraege[TableB.LineIndex[c]].FitsInPlane (Sim.Players.Players[PlayerNum].Planes[SelectedId]) == 0) {
                                 TableB.ValueFlags[0+c*TableB.AnzColums]=2;
 }
 
                             //if (SLONG(qPlayer.Auftraege[TableB.LineIndex[c]].Personen)>PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId].Passagiere)
-                            if (SLONG(qPlayer.Auftraege[TableB.LineIndex[c]].Personen)>Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].ptPassagiere) {
+                            if (SLONG(qPlayer.Auftraege[TableB.LineIndex[c]].Personen)>Sim.Players.Players[PlayerNum].Planes[SelectedId].ptPassagiere) {
                                 TableB.ValueFlags[0+c*TableB.AnzColums]=4;
 }
                         }
@@ -1227,12 +1227,12 @@ switch_again:
                             SLONG NachCityId = Routen[TableB.LineIndex[c]].NachCity;
 
                             //if (Cities.CalcDistance (VonCityId, NachCityId)>PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId].Reichweite*1000)
-                            if (Cities.CalcDistance (VonCityId, NachCityId)>Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].ptReichweite*1000) {
+                            if (Cities.CalcDistance (VonCityId, NachCityId)>Sim.Players.Players[PlayerNum].Planes[SelectedId].ptReichweite*1000) {
                                 TableB.ValueFlags[0+c*TableB.AnzColums]=2;
                             } else
                             {
                                 //SLONG Speed = PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId].Geschwindigkeit;
-                                SLONG Speed = Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].ptGeschwindigkeit;
+                                SLONG Speed = Sim.Players.Players[PlayerNum].Planes[SelectedId].ptGeschwindigkeit;
                                 SLONG Dauer = Cities.CalcFlugdauer (VonCityId, NachCityId, Speed);
                                 //SLONG Dauer = (Cities.CalcDistance (VonCityId, NachCityId)/Speed+999)/1000+1+2;
 
@@ -1273,7 +1273,7 @@ switch_again:
                         if (Index!=1 && TableB.ValueFlags[0+c*TableB.AnzColums]==0 && (qPlayer.Frachten.IsInAlbum(TableB.LineIndex[c]) != 0))
                         {
                             //if (!qPlayer.Frachten[TableB.LineIndex[c]].FitsInPlane (PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId]))
-                            if (qPlayer.Frachten[TableB.LineIndex[c]].FitsInPlane (Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId]) == 0) {
+                            if (qPlayer.Frachten[TableB.LineIndex[c]].FitsInPlane (Sim.Players.Players[PlayerNum].Planes[SelectedId]) == 0) {
                                 TableB.ValueFlags[0+c*TableB.AnzColums]=2;
 }
                         }
@@ -1350,12 +1350,12 @@ switch_again:
                             //Prämie und Strafe
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,66), ClientAreaB+XY(172,170));
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,53), ClientAreaB+XY(172,170));
-                            Bitmap.PrintAt (bprintf ("%s", (LPCTSTR)(CString)Einheiten[EINH_DM].bString (qAuftrag.Strafe)), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,66), ClientAreaB+XY(172,170));
-                            Bitmap.PrintAt (bprintf ("%s", (LPCTSTR)(CString)Einheiten[EINH_DM].bString (qAuftrag.Praemie)), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,53), ClientAreaB+XY(172,170));
+                            Bitmap.PrintAt (bprintf ("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString (qAuftrag.Strafe))), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,66), ClientAreaB+XY(172,170));
+                            Bitmap.PrintAt (bprintf ("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString (qAuftrag.Praemie))), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,53), ClientAreaB+XY(172,170));
 
                             //Entfernung:
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,92), ClientAreaB+XY(172,170));
-                            Bitmap.PrintAt ((CString)Einheiten[EINH_KM].bString (Cities.CalcDistance (qAuftrag.VonCity, qAuftrag.NachCity)/1000), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,92), ClientAreaB+XY(172,170));
+                            Bitmap.PrintAt (CString(Einheiten[EINH_KM].bString (Cities.CalcDistance (qAuftrag.VonCity, qAuftrag.NachCity)/1000)), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,92), ClientAreaB+XY(172,170));
 
                             //Wegwerfen:
                             if (qAuftrag.InPlan==0)
@@ -1385,7 +1385,7 @@ switch_again:
                         }
 
                         CRoute     &qRoute = Routen[SelectedIdB];
-                        CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(SelectedIdB)];
+                        CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(SelectedIdB)];
 
                         //Headline: LAX - DUS
                         Bitmap.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[qRoute.VonCity].Kuerzel, (LPCTSTR)Cities[qRoute.NachCity].Kuerzel), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
@@ -1424,7 +1424,7 @@ switch_again:
                             Bitmap.PrintAt (Einheiten[EINH_DM].bString (Cost*2/10*10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(80,92), ClientAreaB+XY(172,170));
                             Bitmap.PrintAt (Einheiten[EINH_DM].bString (Cost*4/10*10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(80,105), ClientAreaB+XY(172,170));
 
-                            if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_INFO) != 0)
+                            if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0)
                             {
                                 for (SLONG c=0; c<3; c++)
                                 {
@@ -1432,8 +1432,8 @@ switch_again:
                                     {
                                         Bitmap.PrintAt (Sim.Players.Players[c+static_cast<int>(PlayerNum<=c)].AirlineX, FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,128+c*13), ClientAreaB+XY(172,170));
 
-                                        if (Sim.Players.Players[c+static_cast<int>(PlayerNum<=c)].RentRouten.RentRouten[(SLONG)Routen(SelectedIdB)].Rang != 0u) {
-                                            Bitmap.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[c+static_cast<int>(PlayerNum<=c)].RentRouten.RentRouten[(SLONG)Routen(SelectedIdB)].Ticketpreis), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(100,128+c*13), ClientAreaB+XY(172,170));
+                                        if (Sim.Players.Players[c+static_cast<int>(PlayerNum<=c)].RentRouten.RentRouten[Routen(SelectedIdB)].Rang != 0u) {
+                                            Bitmap.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[c+static_cast<int>(PlayerNum<=c)].RentRouten.RentRouten[Routen(SelectedIdB)].Ticketpreis), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(100,128+c*13), ClientAreaB+XY(172,170));
                                         } else {
                                             Bitmap.PrintAt ("-", FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(100,128+c*13), ClientAreaB+XY(172,170));
 }
@@ -1445,7 +1445,7 @@ switch_again:
                         {
                             //Entfernung:
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,23), ClientAreaB+XY(172,170));
-                            Bitmap.PrintAt ((CString)Einheiten[EINH_KM].bString (Cities.CalcDistance (qRoute.VonCity, qRoute.NachCity)/1000), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(100,23), ClientAreaB+XY(172,170));
+                            Bitmap.PrintAt (CString(Einheiten[EINH_KM].bString (Cities.CalcDistance (qRoute.VonCity, qRoute.NachCity)/1000)), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(100,23), ClientAreaB+XY(172,170));
 
                             //Image:
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1004), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,43), ClientAreaB+XY(172,170));
@@ -1522,12 +1522,12 @@ switch_again:
                             //Prämie und Strafe
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,66+19), ClientAreaB+XY(172,170));
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,53+21), ClientAreaB+XY(172,170));
-                            Bitmap.PrintAt (bprintf ("%s", (LPCTSTR)(CString)Einheiten[EINH_DM].bString (qFracht.Strafe)), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,66+19), ClientAreaB+XY(172,170));
-                            Bitmap.PrintAt (bprintf ("%s", (LPCTSTR)(CString)((qFracht.Praemie==0)?StandardTexte.GetS (TOKEN_AUFTRAG, 1011):Einheiten[EINH_DM].bString (qFracht.Praemie))), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,53+21), ClientAreaB+XY(172,170));
+                            Bitmap.PrintAt (bprintf ("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString (qFracht.Strafe))), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,66+19), ClientAreaB+XY(172,170));
+                            Bitmap.PrintAt (bprintf ("%s", (LPCTSTR)CString((qFracht.Praemie==0)?StandardTexte.GetS (TOKEN_AUFTRAG, 1011):Einheiten[EINH_DM].bString (qFracht.Praemie))), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,53+21), ClientAreaB+XY(172,170));
 
                             //Entfernung:
                             Bitmap.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(0,92+17), ClientAreaB+XY(172,170));
-                            Bitmap.PrintAt ((CString)Einheiten[EINH_KM].bString (Cities.CalcDistance (qFracht.VonCity, qFracht.NachCity)/1000), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,92+17), ClientAreaB+XY(172,170));
+                            Bitmap.PrintAt (CString(Einheiten[EINH_KM].bString (Cities.CalcDistance (qFracht.VonCity, qFracht.NachCity)/1000)), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(75,92+17), ClientAreaB+XY(172,170));
 
                             //Wegwerfen:
                             if (qPlayer.Frachten[SelectedIdB].InPlan==0 && qPlayer.Frachten[SelectedIdB].TonsLeft==qPlayer.Frachten[SelectedIdB].TonsOpen)
@@ -1572,7 +1572,7 @@ switch_again:
         DrawAuftragTipContents (-1,
                 Bitmap,
                 nullptr,
-                &Sim.Players.Players[(SLONG)PlayerNum].Auftraege[CurrentTipId],
+                &Sim.Players.Players[PlayerNum].Auftraege[CurrentTipId],
                 CurrentTipIdPar3, //Gate
                 CurrentTipIdPar1,
                 CurrentTipIdPar2,
@@ -1584,7 +1584,7 @@ switch_again:
         DrawFrachtTipContents (-1,
                 Bitmap,
                 nullptr,
-                &Sim.Players.Players[(SLONG)PlayerNum].Frachten[CurrentTipId],
+                &Sim.Players.Players[PlayerNum].Frachten[CurrentTipId],
                 CurrentTipIdPar3, //t mit diesem Flug transportiert
                 CurrentTipIdPar1, //Costs
                 CurrentTipIdPar5, //Income
@@ -1615,30 +1615,30 @@ void BLOCK::RefreshData (SLONG PlayerNum)
     {
         //Städte:
         case 1:
-            Table.FillWithCities (&Sim.Players.Players[(SLONG)PlayerNum].RentCities);
+            Table.FillWithCities (&Sim.Players.Players[PlayerNum].RentCities);
             break;
 
             //Flugzeuge:
         case 2:
             //Filter?
             if (BlockTypeB==3 && IndexB==FALSE && PageB==1) {
-                Table.FillWithPlanes (&Sim.Players.Players[(SLONG)PlayerNum].Planes, FALSE, 2, SelectedIdB);
+                Table.FillWithPlanes (&Sim.Players.Players[PlayerNum].Planes, FALSE, 2, SelectedIdB);
             } else if (BlockTypeB==4 && IndexB==FALSE && PageB==2)
             {
                 //Find vice-versa Route:
-                for (SLONG c=0; c<(SLONG)Routen.AnzEntries(); c++) {
+                for (SLONG c=0; c<Routen.AnzEntries(); c++) {
                     if ((Routen.IsInAlbum(c) != 0) && Routen[c].VonCity==Routen[SelectedIdB].NachCity && Routen[c].NachCity==Routen[SelectedIdB].VonCity)
                     {
-                        Table.FillWithPlanes (&Sim.Players.Players[(SLONG)PlayerNum].Planes, FALSE, 1, SelectedIdB, Routen.GetIdFromIndex(c));
+                        Table.FillWithPlanes (&Sim.Players.Players[PlayerNum].Planes, FALSE, 1, SelectedIdB, Routen.GetIdFromIndex(c));
                         break;
                     }
 }
             }
             else if (BlockTypeB==6 && IndexB==FALSE && PageB==1) {
-                Table.FillWithPlanes (&Sim.Players.Players[(SLONG)PlayerNum].Planes, FALSE, 4, SelectedIdB);
+                Table.FillWithPlanes (&Sim.Players.Players[PlayerNum].Planes, FALSE, 4, SelectedIdB);
             } else {
                 //Kein Filter:
-                Table.FillWithPlanes (&Sim.Players.Players[(SLONG)PlayerNum].Planes);
+                Table.FillWithPlanes (&Sim.Players.Players[PlayerNum].Planes);
 }
             break;
 
@@ -1647,7 +1647,7 @@ void BLOCK::RefreshData (SLONG PlayerNum)
             Table.FillWithExperts (PlayerNum);
             if (Index==0 && SelectedId==2)
             {
-                Table.FillWithPlanes (&Sim.Players.Players[(SLONG)PlayerNum].Planes, TRUE);
+                Table.FillWithPlanes (&Sim.Players.Players[PlayerNum].Planes, TRUE);
                 AnzPages = max (0, (Table.AnzRows-1)/13)+2;
             }
             break;
@@ -1657,7 +1657,7 @@ void BLOCK::RefreshData (SLONG PlayerNum)
     {
         //Aufträge:
         case 3:
-            TableB.FillWithAuftraege (&Sim.Players.Players[(SLONG)PlayerNum].Auftraege);
+            TableB.FillWithAuftraege (&Sim.Players.Players[PlayerNum].Auftraege);
             if (IndexB != 0u) {
                 AnzPagesB = max (0, (TableB.AnzRows-1)/6)+1;
             } else {
@@ -1667,7 +1667,7 @@ void BLOCK::RefreshData (SLONG PlayerNum)
 
             //Routen:
         case 4:
-            TableB.FillWithRouten (&::Routen, &Sim.Players.Players[(SLONG)PlayerNum].RentRouten/*, &Sim.Players.Players[(SLONG)PlayerNum].RentCities*/);
+            TableB.FillWithRouten (&::Routen, &Sim.Players.Players[PlayerNum].RentRouten/*, &Sim.Players.Players[(SLONG)PlayerNum].RentCities*/);
 
             if (IndexB != 0u) {
                 AnzPagesB = max (0, (TableB.AnzRows-1)/6)+1;
@@ -1678,7 +1678,7 @@ void BLOCK::RefreshData (SLONG PlayerNum)
 
             //Frachtaufträge:
         case 6:
-            TableB.FillWithFracht (&Sim.Players.Players[(SLONG)PlayerNum].Frachten);
+            TableB.FillWithFracht (&Sim.Players.Players[PlayerNum].Frachten);
             if (IndexB != 0u) {
                 AnzPagesB = max (0, (TableB.AnzRows-1)/6)+1;
             } else {
@@ -1733,7 +1733,7 @@ void BLOCK::UpdatePageSize ()
 //--------------------------------------------------------------------------------------------
 void BLOCKS::RefreshAuftragsBloecke (SLONG PlayerNum, SLONG Background)
 {
-    for (SLONG c=0; c<(SLONG)AnzEntries(); c++)
+    for (SLONG c=0; c<AnzEntries(); c++)
     {
         if ((IsInAlbum(c) != 0) && (*this)[c].Index==1 && (*this)[c].BlockType==3)
         {
@@ -1758,8 +1758,8 @@ TEAKFILE &operator << (TEAKFILE &File, const BLOCK &b)
     File << b.PageSize   << b.PageSizeB;
 
     File.Write ((UBYTE*)b.Indexes, sizeof (b.Indexes));
-    File.Write ((UBYTE*)b.SelectedIds, sizeof (b.SelectedIds));
-    File.Write ((UBYTE*)b.Pages, sizeof (b.Pages));
+    File.Write ((UBYTE*)(b.SelectedIds), sizeof (b.SelectedIds));
+    File.Write ((UBYTE*)(b.Pages), sizeof (b.Pages));
 
     if (SaveVersion==1 && SaveVersionSub>=11) {
         File << b.DoubleBlock;
@@ -1785,16 +1785,16 @@ TEAKFILE &operator >> (TEAKFILE &File, BLOCK &b)
     if (SaveVersion==1 && SaveVersionSub<100)
     {
         File.Read ((UBYTE*)b.Indexes, sizeof (b.Indexes[0])*5);
-        File.Read ((UBYTE*)b.SelectedIds, sizeof (b.SelectedIds[0])*5);
-        File.Read ((UBYTE*)b.Pages, sizeof (b.Pages[0])*5);
+        File.Read (reinterpret_cast<UBYTE*>(b.SelectedIds), sizeof (b.SelectedIds[0])*5);
+        File.Read (reinterpret_cast<UBYTE*>(b.Pages), sizeof (b.Pages[0])*5);
 
         b.Indexes[5]=1u;
     }
     else
     {
         File.Read ((UBYTE*)b.Indexes, sizeof (b.Indexes));
-        File.Read ((UBYTE*)b.SelectedIds, sizeof (b.SelectedIds));
-        File.Read ((UBYTE*)b.Pages, sizeof (b.Pages));
+        File.Read (reinterpret_cast<UBYTE*>(b.SelectedIds), sizeof (b.SelectedIds));
+        File.Read (reinterpret_cast<UBYTE*>(b.Pages), sizeof (b.Pages));
     }
 
     if (SaveVersion==1 && SaveVersionSub>=11) {

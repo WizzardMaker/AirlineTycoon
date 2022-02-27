@@ -65,7 +65,7 @@ void CHLObj::BlitAt (SB_CBitmapCore *pBitmap, XY Target)
     SB_CBitmapKey Key(*pBitmap);
     if (Key.Bitmap == nullptr) { return;
 }
-    auto *bm=(UWORD *)(((UWORD*)Key.Bitmap)+Target.x+Target.y*(Key.lPitch>>1));
+    auto *bm=((static_cast<UWORD*>(Key.Bitmap))+Target.x+Target.y*(Key.lPitch>>1));
 
     SLONG Min = 0;
     SLONG Max = 0; //Vertikales Clipping
@@ -88,12 +88,12 @@ void CHLObj::BlitAt (SB_CBitmapCore *pBitmap, XY Target)
         {
             CHLGene &qHLGene = HLines[count];
 
-            UWORD *target=((UWORD*)bm)+qHLGene.Offset;
+            UWORD *target=(static_cast<UWORD*>(bm))+qHLGene.Offset;
             UBYTE *source=qHLGene.pPixel;
             UWORD *table=pHLPool->PaletteMapper;
             long   anz=qHLGene.Anz;
 
-            if (qHLGene.Anz<=4) { source = (UBYTE*)&qHLGene.pPixel;
+            if (qHLGene.Anz<=4) { source = reinterpret_cast<UBYTE*>(&qHLGene.pPixel);
             } else {                source = qHLGene.pPixel;
 }
 
@@ -111,7 +111,7 @@ void CHLObj::BlitAt (SB_CBitmapCore *pBitmap, XY Target)
 #ifndef ENABLE_ASM
             if (anz>0) {
                 for (SLONG c=anz-1; c>=0; c--) {
-                    target[c]=pHLPool->PaletteMapper[(SLONG)source[c]];
+                    target[c]=pHLPool->PaletteMapper[static_cast<SLONG>(source[c])];
 }
 }
 #else
@@ -266,7 +266,7 @@ void CHLObj::BlitLargeAt (SB_CBitmapCore *pBitmap, XY Target)
     SB_CBitmapKey Key(*pBitmap);
     if (Key.Bitmap == nullptr) { return;
 }
-    auto *bm=(UWORD *)(((UWORD*)Key.Bitmap)+Target.x+Target.y*(Key.lPitch>>1));
+    auto *bm=((static_cast<UWORD*>(Key.Bitmap))+Target.x+Target.y*(Key.lPitch>>1));
 
     SLONG Min = 0;
     SLONG Max = 0; //Vertikales Clipping
@@ -285,12 +285,12 @@ void CHLObj::BlitLargeAt (SB_CBitmapCore *pBitmap, XY Target)
         {
             CHLGene &qHLGene = HLines[count];
 
-            UWORD *target=((UWORD*)bm)+qHLGene.Offset*2;
+            UWORD *target=(static_cast<UWORD*>(bm))+qHLGene.Offset*2;
             UBYTE *source=qHLGene.pPixel;
             UWORD *table=pHLPool->PaletteMapper;
             long   anz=qHLGene.Anz*2;
 
-            if (qHLGene.Anz<=4) { source = (UBYTE*)&qHLGene.pPixel;
+            if (qHLGene.Anz<=4) { source = reinterpret_cast<UBYTE*>(&qHLGene.pPixel);
             } else {                source = qHLGene.pPixel;
 }
 
@@ -307,7 +307,7 @@ void CHLObj::BlitLargeAt (SB_CBitmapCore *pBitmap, XY Target)
 
             if (anz>0) {
                 for (SLONG c=anz-1; c>=0; c--) {
-                    target[c+Key.lPitch/2]=target[c]=pHLPool->PaletteMapper[(ptrdiff_t)source[c/2]];
+                    target[c+Key.lPitch/2]=target[c]=pHLPool->PaletteMapper[static_cast<ptrdiff_t>(source[c/2])];
 }
 }
 
@@ -455,13 +455,13 @@ BOOL CHLPool::Load ()
             if (PoolMaxSize>0)
             {
                 pPool = new UBYTE[PoolMaxSize];
-                File.Read ((UBYTE*)pPool, PoolSize);
+                File.Read (pPool, PoolSize);
             }
             else { pPool = new UBYTE[1];
 }
 
             PaletteMapper.ReSize (256);
-            File.Read ((UBYTE*)&PaletteMapper[0], 512);
+            File.Read (reinterpret_cast<UBYTE*>(&PaletteMapper[0]), 512);
 
             DoBaseObjects ();
 
@@ -498,10 +498,10 @@ BOOL CHLPool::Save ()
 
         File << HLObjects;
 
-        if (PoolSize != 0) { File.Write ((UBYTE*)pPool, PoolSize);
+        if (PoolSize != 0) { File.Write (pPool, PoolSize);
 }
 
-        File.Write ((UBYTE*)&PaletteMapper[0], 512);
+        File.Write (reinterpret_cast<UBYTE*>(&PaletteMapper[0]), 512);
 
         DoBaseObjects ();
     }
@@ -606,7 +606,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
     }
 
     //Bitmaps runterrechnen:
-    if ( ((__int64*)(((UWORD*)Key.Bitmap)+pBitmap->GetYSize()*Key.lPitch/2))[-1]!=*(__int64*)"CONVERTD")
+    if ( (reinterpret_cast<__int64*>((static_cast<UWORD*>(Key.Bitmap))+pBitmap->GetYSize()*Key.lPitch/2))[-1]!=*reinterpret_cast<const __int64*>("CONVERTD"))
     {
         SLONG  x = 0;
         SLONG  y = 0;
@@ -623,7 +623,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                 SLONG r = 0;
                 SLONG g = 0;
                 SLONG b = 0;
-                UWORD p=*(((UWORD *)Key.Bitmap)+n);
+                UWORD p=*((static_cast<UWORD *>(Key.Bitmap))+n);
 
                 if (p!=0)
                 {
@@ -641,15 +641,15 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                         }
 }
 
-                    *(((UBYTE *)Key.Bitmap)+n)=(UBYTE)dc;
+                    *((static_cast<UBYTE *>(Key.Bitmap))+n)=static_cast<UBYTE>(dc);
                 }
-                else { *(((UBYTE *)Key.Bitmap)+n)=0;
+                else { *((static_cast<UBYTE *>(Key.Bitmap))+n)=0;
 }
             }
 }
 
         //Bitmap als bekehrt markieren:
-        ((__int64*)(((UWORD*)Key.Bitmap)+pBitmap->GetYSize()*Key.lPitch/2))[-1]=*(__int64*)"CONVERTD";
+        (reinterpret_cast<__int64*>((static_cast<UWORD*>(Key.Bitmap))+pBitmap->GetYSize()*Key.lPitch/2))[-1]=*reinterpret_cast<const __int64*>("CONVERTD");
     }
 
     //Ähnlichkeitstabelle berechnen:
@@ -661,7 +661,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
             for (x=0; x<=y; x++)
             {
                 if (abs(Pal->Pal[x].b-Pal->Pal[y].b)+abs(Pal->Pal[x].g-Pal->Pal[y].g)+abs(Pal->Pal[x].r-Pal->Pal[y].r)<=MaxDelta) {
-                    Equal[x+(y<<8)]=Equal[y+(x<<8)]=(UBYTE)min (255,abs(Pal->Pal[x].b-Pal->Pal[y].b)+abs(Pal->Pal[x].g-Pal->Pal[y].g)+abs(Pal->Pal[x].r-Pal->Pal[y].r));
+                    Equal[x+(y<<8)]=Equal[y+(x<<8)]=static_cast<UBYTE>(min (255,abs(Pal->Pal[x].b-Pal->Pal[y].b)+abs(Pal->Pal[x].g-Pal->Pal[y].g)+abs(Pal->Pal[x].r-Pal->Pal[y].r)));
                 } else {
                     Equal[x+(y<<8)]=Equal[y+(x<<8)]=255;
 }
@@ -675,7 +675,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
     SLONG cx = 0;
     SLONG Pass = 0;
 
-    auto *bm=(UBYTE *)Key.Bitmap;
+    auto *bm=static_cast<UBYTE *>(Key.Bitmap);
 
     //Alle Pixel der Bitmap zeilenweise durchgehen:
     for (y=0; y<pBitmap->GetYSize(); y++)
@@ -695,10 +695,10 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                 if (cx<=4)
                 {
                     //Für HLines mit einer Länge <=2 gilt eine Sonderregelung:
-                    qObj.HLines[AnzObjHLines].Offset = (UBYTE)x;
-                    qObj.HLines[AnzObjHLines].Anz    = (UBYTE)cx;
+                    qObj.HLines[AnzObjHLines].Offset = static_cast<UBYTE>(x);
+                    qObj.HLines[AnzObjHLines].Anz    = static_cast<UBYTE>(cx);
 
-                    qObj.HLines[AnzObjHLines].pPixel = (UBYTE*)(*((ptrdiff_t*)(bm+x)));
+                    qObj.HLines[AnzObjHLines].pPixel = (UBYTE*)(*(reinterpret_cast<ptrdiff_t*>(bm+x)));
 
                     AnzObjHLines++;
 
@@ -924,12 +924,12 @@ void CHLPool::DoBaseObjects ()
             //Falls die HLine aus dem aktuellen Pool stammt...
             if (qObj.HLines[d].Anz>4) {
                 if (qObj.HLines[d].pPixel>=(UBYTE*)nullptr && qObj.HLines[d].pPixel<=(UBYTE*)nullptr+PoolSize) {
-                    qObj.HLines[d].pPixel = (UBYTE*) (((UBYTE*)qObj.HLines[d].pPixel)-(ptrdiff_t)0x00000000+(ptrdiff_t)pPool);
+                    qObj.HLines[d].pPixel = ((qObj.HLines[d].pPixel)-static_cast<ptrdiff_t>(0x00000000)+(ptrdiff_t)pPool);
                 } else if ((pHLBasepool1 != nullptr) && qObj.HLines[d].pPixel>=(UBYTE*)0x10000000 && qObj.HLines[d].pPixel<=(UBYTE*)0x10000000+pHLBasepool1->PoolSize) {
-                    qObj.HLines[d].pPixel = (UBYTE*) (((UBYTE*)qObj.HLines[d].pPixel)-(ptrdiff_t)0x10000000+(ptrdiff_t)pHLBasepool1->pPool);
+                    qObj.HLines[d].pPixel = ((qObj.HLines[d].pPixel)-static_cast<ptrdiff_t>(0x10000000)+(ptrdiff_t)pHLBasepool1->pPool);
 
                 } else if ((pHLBasepool2 != nullptr) && qObj.HLines[d].pPixel>=(UBYTE*)0x20000000 && qObj.HLines[d].pPixel<=(UBYTE*)0x20000000+pHLBasepool2->PoolSize) {
-                    qObj.HLines[d].pPixel = (UBYTE*) (((UBYTE*)qObj.HLines[d].pPixel)-(ptrdiff_t)0x20000000+(ptrdiff_t)pHLBasepool2->pPool);
+                    qObj.HLines[d].pPixel = ((qObj.HLines[d].pPixel)-static_cast<ptrdiff_t>(0x20000000)+(ptrdiff_t)pHLBasepool2->pPool);
 
                 } else { DebugBreak();
 }
@@ -957,13 +957,13 @@ void CHLPool::UnBaseObjects ()
             //Falls die HLine aus dem aktuellen Pool stammt...
             if (qObj.HLines[d].Anz>4) {
                 if (qObj.HLines[d].pPixel>=pPool && qObj.HLines[d].pPixel<=pPool+PoolSize) {
-                    qObj.HLines[d].pPixel = (UBYTE*) (((UBYTE*)qObj.HLines[d].pPixel)-(ptrdiff_t)pPool+(ptrdiff_t)0x00000000);
+                    qObj.HLines[d].pPixel = ((qObj.HLines[d].pPixel)-(ptrdiff_t)pPool+static_cast<ptrdiff_t>(0x00000000));
 
                 } else if ((pHLBasepool1 != nullptr) && qObj.HLines[d].pPixel>=pHLBasepool1Pool && qObj.HLines[d].pPixel<=pHLBasepool1Pool+HLBasepool1Size) {
-                    qObj.HLines[d].pPixel = (UBYTE*) (((UBYTE*)qObj.HLines[d].pPixel)-(ptrdiff_t)pHLBasepool1Pool+(ptrdiff_t)0x10000000);
+                    qObj.HLines[d].pPixel = ((qObj.HLines[d].pPixel)-(ptrdiff_t)pHLBasepool1Pool+static_cast<ptrdiff_t>(0x10000000));
 
                 } else if ((pHLBasepool2 != nullptr) && qObj.HLines[d].pPixel>=pHLBasepool2Pool && qObj.HLines[d].pPixel<=pHLBasepool2Pool+HLBasepool2Size) {
-                    qObj.HLines[d].pPixel = (UBYTE*) (((UBYTE*)qObj.HLines[d].pPixel)-(ptrdiff_t)pHLBasepool2Pool+(ptrdiff_t)0x20000000);
+                    qObj.HLines[d].pPixel = ((qObj.HLines[d].pPixel)-(ptrdiff_t)pHLBasepool2Pool+static_cast<ptrdiff_t>(0x20000000));
 
                 } else { DebugBreak();
 }
@@ -994,7 +994,7 @@ void CHLPool::ReBaseObjects (UBYTE *pOldPool, UBYTE *pNewPool)
             //Falls die HLine aus dem aktuellen Pool stammt...
             if (qObj.HLines[d].Anz>4) {
                 if (qObj.HLines[d].pPixel>=pOldPool && qObj.HLines[d].pPixel<=pOldPool+PoolSize) {
-                    qObj.HLines[d].pPixel = (UBYTE*) (((UBYTE*)qObj.HLines[d].pPixel)-(ptrdiff_t)pOldPool+(ptrdiff_t)pNewPool);
+                    qObj.HLines[d].pPixel = ((qObj.HLines[d].pPixel)-(ptrdiff_t)pOldPool+(ptrdiff_t)pNewPool);
 }
 }
         }
@@ -1025,8 +1025,8 @@ CHLObj *CHLPool::GetHLObj (const CString &String)
     __int64 graphicId = 0;
 
     graphicId=0;
-    for (c=0; c<(SLONG)strlen(String); c++) {
-        graphicId+=__int64(String[(int)c])<<(8*c);
+    for (c=0; c<static_cast<SLONG>(strlen(String)); c++) {
+        graphicId+=__int64(String[static_cast<int>(c)])<<(8*c);
 }
 
     for (c=HLObjects.AnzEntries()-1; c>=0; c--) {
@@ -1146,7 +1146,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, const CString &graphicstr)
     for (SLONG c=0; c<Anz; c++)
     {
         graphicIds[c]=0;
-        for (SLONG d=0; d<(SLONG)strlen(Texts[c]); d++) {
+        for (SLONG d=0; d<static_cast<SLONG>(strlen(Texts[c])); d++) {
             graphicIds[c]+=__int64((Texts[c])[d])<<(8*d);
 }
     }
@@ -1169,7 +1169,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, const CString &graphicstr, SLONG Anzahl)
     for (SLONG c=0; c<Anzahl; c++)
     {
         graphicIds[c]=0;
-        for (SLONG d=0; d<(SLONG)strlen(Str); d++) {
+        for (SLONG d=0; d<static_cast<SLONG>(strlen(Str)); d++) {
             graphicIds[c]+=__int64(Str[d])<<(8*d);
 }
 
@@ -1198,14 +1198,14 @@ void UpdateHLinePool ()
     BOOL DontSaveSkeletons=FALSE;
 
     SkelettPool.ReSize (bprintf ("skelett.pol", c), nullptr, nullptr);
-    SkelPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename ("skel_pal.lbm", "clan\\lbm\\%s"));
+    SkelPal.RefreshPalFromLbm(const_cast<char*>((LPCTSTR)FullFilename ("skel_pal.lbm", "clan\\lbm\\%s")));
 
     for (c=Clans.AnzEntries()-1; c>=0; c--) {
         if ((Clans.IsInAlbum (c) != 0) && (Clans[c].UpdateNow != 0u))
         {
             hprintf ("Compressing %li", c);
 
-            AnimPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename (Clans[c].PalFilename, "clan\\lbm\\%s"));
+            AnimPal.RefreshPalFromLbm(const_cast<char*>((LPCTSTR)FullFilename (Clans[c].PalFilename, "clan\\lbm\\%s")));
 
             if (c<SLONG(Clans.AnzEntries()-1) && (Clans.IsInAlbum(c+1) != 0) && Clans[c].PalFilename==Clans[SLONG(c+1)].PalFilename && Clans[c].Type!=30)
             {

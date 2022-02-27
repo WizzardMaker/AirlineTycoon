@@ -27,7 +27,7 @@ __int64 GetIdFromString (CString Text)
 
     id=0;
     for (SLONG d=0; d<SLONG(Text.GetLength()); d++) {
-        id+=__int64(Text[(int)d])<<(8*d);
+        id+=__int64(Text[static_cast<int>(d)])<<(8*d);
 }
 
     return (id);
@@ -161,10 +161,10 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
                 p2.y = DefClip.bottom - 1;
 }
 
-            char * pixelPtr=(char *)Key.Bitmap+(Key.lPitch*p1.y)+p1.x*2;
+            char * pixelPtr=static_cast<char *>(Key.Bitmap)+(Key.lPitch*p1.y)+p1.x*2;
             long points = p2.y - p1.y;
             for (long i = 0 ; i < points ; i++, pixelPtr += Key.lPitch, cc++) {
-                *((word *)pixelPtr)=(word)pColor[(cc>>2)%NumColors];
+                *(reinterpret_cast<word *>(pixelPtr))=(word)pColor[(cc>>2)%NumColors];
 }
 
         }
@@ -189,10 +189,10 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
                 p2.x = DefClip.right - 1;
 }
 
-            char * pixelPtr=(char *)Key.Bitmap+(Key.lPitch*p1.y)+p1.x*2;
+            char * pixelPtr=static_cast<char *>(Key.Bitmap)+(Key.lPitch*p1.y)+p1.x*2;
             long points = p2.x - p1.x;
             for (long i = 0 ; i < points ; i++, pixelPtr += 2, cc++) {
-                *((word *)pixelPtr)=(word)pColor[(cc>>2)%NumColors];
+                *(reinterpret_cast<word *>(pixelPtr))=(word)pColor[(cc>>2)%NumColors];
 }
         }
     }
@@ -233,8 +233,8 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
             {
                 if ((x >= DefClip.left) && (x < DefClip.right) && (y >= DefClip.top) && (y < DefClip.bottom))
                 {
-                    char * pixelPtr= (char *)Key.Bitmap+(Key.lPitch*y)+x*2;
-                    *((word *)pixelPtr)=(word)pColor[(cc>>2)%NumColors];
+                    char * pixelPtr= static_cast<char *>(Key.Bitmap)+(Key.lPitch*y)+x*2;
+                    *(reinterpret_cast<word *>(pixelPtr))=(word)pColor[(cc>>2)%NumColors];
                 };
 
                 error += dya;
@@ -265,8 +265,8 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
             {
                 if ((x >= DefClip.left) && (x < DefClip.right) && (y >= DefClip.top) && (y < DefClip.bottom))
                 {
-                    char * pixelPtr= (char *)Key.Bitmap+(Key.lPitch*y)+x*2;
-                    *((word *)pixelPtr)=(word)pColor[(cc>>2)%NumColors];
+                    char * pixelPtr= static_cast<char *>(Key.Bitmap)+(Key.lPitch*y)+x*2;
+                    *(reinterpret_cast<word *>(pixelPtr))=(word)pColor[(cc>>2)%NumColors];
                 };
 
 
@@ -396,7 +396,7 @@ BOOL SBPRIMARYBM::FlipBlitFromT (SBBM &TecBitmap, XY Target)
 
     SDL_Rect destRect = { pt.x, pt.y, srcRect.w, srcRect.h };
 
-    // TODO: Mirror the blit
+    // TODO(merten): Mirror the blit
     SDL_BlitSurface(TecBitmap.pBitmap->GetFlippedSurface(), &srcRect, PrimaryBm.GetSurface(), &destRect);
     // Clippen
     /*if (PrimaryBm.FastClip(PrimaryBm.GetClipRect(), &pt, &srcRect))
@@ -413,25 +413,25 @@ SLONG SBBM::PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1,
     Bench.TextTime.Start();
     if ((Flags&3)==TEC_FONT_RIGHT)
     {
-        auto x = (dword)p2.x;
+        auto x = static_cast<dword>(p2.x);
         TABS t1[] = { {TAB_STYLE_RIGHT, x-2} };
         Font.SetTabulator (t1, sizeof(t1));
-        Font.DrawTextWithTabs(pBitmap, p1.x, p1.y, (char*)(LPCTSTR)(CString("\t")+Str));
+        Font.DrawTextWithTabs(pBitmap, p1.x, p1.y, const_cast<char*>((LPCTSTR)(CString("\t")+Str)));
         Bench.TextTime.Stop();
         return (0);
     }
     if ((Flags&3)==TEC_FONT_CENTERED)
     {
-        auto x1 = (dword)p1.x;
-        auto x2 = (dword)p2.x;
+        auto x1 = static_cast<dword>(p1.x);
+        auto x2 = static_cast<dword>(p2.x);
         TABS t1[] = { {TAB_STYLE_CENTER, (x2+x1)/2} };
         Font.SetTabulator (t1, sizeof(t1));
-        Font.DrawTextWithTabs(pBitmap, p1.x, p1.y, (char*)(LPCTSTR)(CString("\t")+Str));
+        Font.DrawTextWithTabs(pBitmap, p1.x, p1.y, const_cast<char*>((LPCTSTR)(CString("\t")+Str)));
         Bench.TextTime.Stop();
         return (0);
     }
     
-            SLONG rc=Font.DrawTextBlock(pBitmap, p1.x, p1.y, p2.x, p2.y, (char*)Str);
+            SLONG rc=Font.DrawTextBlock(pBitmap, p1.x, p1.y, p2.x, p2.y, const_cast<char*>(Str));
         Bench.TextTime.Stop();
         return (rc);
    
@@ -440,7 +440,7 @@ SLONG SBBM::PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1,
 SLONG SBBM::TryPrintAt (const char *Str, SB_CFont &Font, SLONG  /*Flags*/, const XY &p1, const XY &p2) const
 {
     Bench.TextTime.Start();
-    SLONG rc=Font.PreviewTextBlock(pBitmap, p1.x, p1.y, p2.x, p2.y, (char*)Str);
+    SLONG rc=Font.PreviewTextBlock(pBitmap, p1.x, p1.y, p2.x, p2.y, const_cast<char*>(Str));
     Bench.TextTime.Stop();
     return (rc);
 }
@@ -565,7 +565,7 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL  /*ShowFPS*/)
 
                                 if (SrcKey.Bitmap != nullptr) {
                                     for (SLONG y=0; y<480; y++) {
-                                        memcpy ((char*)TgtKey.Bitmap+y*TgtKey.lPitch, (char*)SrcKey.Bitmap+y*SrcKey.lPitch, 640*2);
+                                        memcpy (static_cast<char*>(TgtKey.Bitmap)+y*TgtKey.lPitch, static_cast<char*>(SrcKey.Bitmap)+y*SrcKey.lPitch, 640*2);
 }
 }
                             }
@@ -720,7 +720,7 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL  /*ShowFPS*/)
                 OldFrame.FillWith (0);
             }
 
-            ((CFRONTDATA*)pCursor)->pBitmap->BlitT (&PrimaryBm, gMousePosition.x-MouseCursorOffset.x, gMousePosition.y-MouseCursorOffset.y);
+            (reinterpret_cast<CFRONTDATA*>(pCursor))->pBitmap->BlitT (&PrimaryBm, gMousePosition.x-MouseCursorOffset.x, gMousePosition.y-MouseCursorOffset.y);
 
             deltaCompressFrame (pFile, *OldFrame.pBitmap, PrimaryBm, gScrollOffsetA, gScrollOffsetB);
 

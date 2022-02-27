@@ -108,7 +108,7 @@ void TECBM::ReSizePcx(CString const& path, void*  /*flags*/)
 
 TECBMKEY::TECBMKEY(TECBM& bm)
     : Surface(bm.Surface)
-    , Bitmap((UBYTE*)bm.Surface->pixels)
+    , Bitmap(static_cast<UBYTE*>(bm.Surface->pixels))
       , lPitch(bm.Surface->pitch)
 {
     if (SDL_LockSurface(Surface) != 0) {
@@ -123,7 +123,7 @@ TECBMKEY::~TECBMKEY()
 
 TECBMKEYC::TECBMKEYC(const TECBM& bm)
     : Surface(bm.Surface)
-    , Bitmap((const UBYTE*)bm.Surface->pixels)
+    , Bitmap(static_cast<const UBYTE*>(bm.Surface->pixels))
       , lPitch(bm.Surface->pitch)
 {
     if (SDL_LockSurface(Surface) != 0) {

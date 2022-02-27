@@ -187,7 +187,7 @@ void CNasa::OnLButtonDown(UINT nFlags, CPoint point)
                 StartDialog (TALKER_NASA, MEDIUM_AIR, 2);
                 DontDisplayPlayer=Sim.localPlayer;
             }
-            else { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            else { Sim.Players.Players[PlayerNum].LeaveRoom();
 }
         }
         else if (MouseClickArea==ROOM_NASA && MouseClickId==10) { StartDialog (TALKER_NASA, MEDIUM_AIR, 1);
@@ -227,7 +227,7 @@ void CNasa::OnRButtonDown(UINT nFlags, CPoint point)
                 }
                 else
                 {
-                    Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                    Sim.Players.Players[PlayerNum].LeaveRoom();
                     CStdRaum::OnRButtonDown(nFlags, point);
                 }
             }

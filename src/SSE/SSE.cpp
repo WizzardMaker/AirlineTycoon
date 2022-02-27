@@ -3,7 +3,7 @@
 #include <vector>
 
 SSE::SSE(void* hWnd, dword samplesPerSec, word channels, word bitsPerSample, word maxFX)
-    : _hWnd((SDL_Window*)hWnd)
+    : _hWnd(static_cast<SDL_Window*>(hWnd))
     , _samplesPerSec(samplesPerSec)
     , _channels(channels)
     , _bitsPerSample(bitsPerSample)
@@ -220,7 +220,7 @@ int FX::Play(dword dwFlags, SLONG pan)
         return SSE_NOSOUNDLOADED;
 }
 
-    // TODO: Panning
+    // TODO(merten): Panning
     if ((dwFlags & DSBPLAY_SETPAN) != 0u) {
         SetPan(pan);
 }
@@ -358,7 +358,7 @@ int ChangeFrequency(Mix_Chunk* chunk, int freq) {
 
         //Set converter lenght and buffer
         cvt.len = chunk->alen;
-        cvt.buf = (Uint8*)SDL_malloc(cvt.len * cvt.len_mult);
+        cvt.buf = static_cast<Uint8*>(SDL_malloc(cvt.len * cvt.len_mult));
         if (cvt.buf == nullptr) { return -1;
 }
 
@@ -388,7 +388,7 @@ int FX::Load(const char* file)
 }
 
     _digitalData.file = file;
-    auto* buf = (Uint8*)SDL_LoadFile(file, &_fxData.bufferSize);
+    auto* buf = static_cast<Uint8*>(SDL_LoadFile(file, &_fxData.bufferSize));
     _fxData.pBuffer = Mix_QuickLoad_RAW(buf, _fxData.bufferSize);
     ChangeFrequency(_fxData.pBuffer, 22050);
     _fxData.bufferSize = _fxData.pBuffer->alen;
@@ -409,7 +409,7 @@ int FX::Fusion(const FX** Fx, SLONG NumFx)
     for (SLONG i = 0; i < NumFx; i++) {
         _fxData.bufferSize += Fx[i]->_fxData.bufferSize;
 }
-    auto* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
+    auto* buf = static_cast<Uint8*>(SDL_malloc(_fxData.bufferSize));
     size_t pos = 0;
     for (SLONG i = 0; i < NumFx; i++)
     {
@@ -431,7 +431,7 @@ int FX::Fusion(const FX* Fx, SLONG* Von, SLONG* Bis, SLONG NumFx)
     for (SLONG i = 0; i < NumFx; i++) {
         _fxData.bufferSize += Bis[i] - Von[i];
 }
-    auto* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
+    auto* buf = static_cast<Uint8*>(SDL_malloc(_fxData.bufferSize));
     size_t pos = 0;
     for (SLONG i = 0; i < NumFx; i++)
     {
@@ -454,7 +454,7 @@ int FX::Tokenize(__int64 Token, SLONG* Von, SLONG* Bis, SLONG& rcAnzahl)
     Uint8* ptr = _fxData.pBuffer->abuf;
     for (i = 0; i < _fxData.bufferSize - 7; i++)
     {
-        if (*(__int64*)ptr == Token)
+        if (*reinterpret_cast<__int64*>(ptr) == Token)
         {
             Bis[count - 1] = ((i - 1) & 0xFFFFFE) + 2;
             Von[count++] = (i + 8) & 0xFFFFFE;
@@ -475,7 +475,7 @@ FX** FX::Tokenize(__int64 Token, SLONG& rcAnzahl)
     Uint8* ptr = _fxData.pBuffer->abuf;
     for (size_t i = 0; i < _fxData.bufferSize - 7; i++)
     {
-        if (*(__int64*)ptr == Token) {
+        if (*reinterpret_cast<__int64*>(ptr) == Token) {
             slices.push_back(i);
 }
     }
@@ -488,7 +488,7 @@ FX** FX::Tokenize(__int64 Token, SLONG& rcAnzahl)
         _digitalData.pSSE->CreateFX(&pFX[i]);
 
         size_t size = slices[i] - pos;
-        auto* buf = (Uint8*)SDL_malloc(size);
+        auto* buf = static_cast<Uint8*>(SDL_malloc(size));
         memcpy(buf, _fxData.pBuffer->abuf + pos, size);
         pFX[i]->_fxData.bufferSize = size;
         pFX[i]->_fxData.pBuffer = Mix_QuickLoad_RAW(buf, size);
@@ -547,7 +547,7 @@ bool FX::IsMouthOpen(SLONG PreTime)
         return false;
 }
 
-    Uint16* sampleBuf = ((Uint16*)_fxData.pBuffer->abuf) + pos;
+    Uint16* sampleBuf = (reinterpret_cast<Uint16*>(_fxData.pBuffer->abuf)) + pos;
     return (*sampleBuf) > 512
         || (sampleBuf[100]) > 512
         || (sampleBuf[200]) > 512
@@ -648,7 +648,7 @@ int MIDI::Play(dword dwFlags, SLONG pan)
         return SSE_NOMUSICLOADED;
 }
 
-    // TODO: Panning
+    // TODO(merten): Panning
     if ((dwFlags & DSBPLAY_SETPAN) != 0u) {
         SetPan(pan);
 }

@@ -132,7 +132,7 @@ CPersonal::CPersonal(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     DefaultDialogPartner=TALKER_PERSONAL1a+PlayerNum*2;
 
-    Sim.Players.Players[(SLONG)PlayerNum].UpdatePersonalberater (3);
+    Sim.Players.Players[static_cast<SLONG>(PlayerNum)].UpdatePersonalberater (3);
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -186,7 +186,7 @@ void CPersonal::OnPaint()
         FlugbahnCounter=timeGetTime();
     }
 
-    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&4) != 0u) { RoomBm.BlitFrom (NoSaboBm, 276, 0);
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&4) != 0u) { RoomBm.BlitFrom (NoSaboBm, 276, 0);
 }
 
     SP_Frau.Pump ();
@@ -254,7 +254,7 @@ void CPersonal::OnPaint()
         if (gMousePosition.IfIsWithin (640-620, 0, 640-457, 293)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_PERSONAL_A, 999);
         } else if (gMousePosition.IfIsWithin (640-255, 145, 640-74, 352)) { SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 10);
         } else if (gMousePosition.IfIsWithin (640-463, 94, 640-311, 248)) { SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 11);
-        } else if (gMousePosition.IfIsWithin (394, 378, 446, 425) && (Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_TABLETTEN) == 0)) { SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 20);
+        } else if (gMousePosition.IfIsWithin (394, 378, 446, 425) && (Sim.Players.Players[PlayerNum].HasItem(ITEM_TABLETTEN) == 0)) { SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 20);
 }
     }
 
@@ -277,7 +277,7 @@ void CPersonal::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==10) { StartDialog (TALKER_PERSONAL1a+PlayerNum*2, MEDIUM_AIR);
         } else if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==11) { StartDialog (TALKER_PERSONAL1b+PlayerNum*2, MEDIUM_AIR);
         } else if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==20) {
@@ -306,8 +306,9 @@ void CPersonal::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

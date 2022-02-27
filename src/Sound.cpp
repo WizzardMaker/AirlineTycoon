@@ -22,7 +22,7 @@ class CDebugEntryExit
         CString Text;
 
     public:
-        CDebugEntryExit (CString Text)
+        explicit CDebugEntryExit (CString Text)
         {
             Text = Text;
             hprintf ("Entry: %s",(LPCTSTR)Text);
@@ -73,7 +73,7 @@ CString RemoveSpeechFilename (CString String)
 
     while (true)
     {
-        char *pstart = (char*)(LPCTSTR)String;
+        char *pstart = const_cast<char*>((LPCTSTR)String);
 
         char *p = strstr (pstart, "[[");
         if (p==nullptr) { break;
@@ -91,7 +91,7 @@ CString RemoveSpeechFilename (CString String)
 
     while (true)
     {
-        char *pstart = (char*)(LPCTSTR)String;
+        char *pstart = const_cast<char*>((LPCTSTR)String);
 
         char *p = strstr (pstart, "  ");
         if (p==nullptr) { break;
@@ -111,7 +111,7 @@ CString RemoveSpeechFilename (CString String)
 //--------------------------------------------------------------------------------------------
 CString GetSpeechFilename (const CString& String, SLONG Index, CString *pTextFollows)
 {
-    char *pstart = (char*)(LPCTSTR)String;
+    char *pstart = const_cast<char*>((LPCTSTR)String);
 
     while (Index != 0)
     {
@@ -129,10 +129,10 @@ CString GetSpeechFilename (const CString& String, SLONG Index, CString *pTextFol
     if (pp==nullptr) { return ("");
 }
 
-    if (pTextFollows != nullptr) { (*pTextFollows)=String.Mid(pp-(char*)(LPCTSTR)String+2);
+    if (pTextFollows != nullptr) { (*pTextFollows)=String.Mid(pp-const_cast<char*>((LPCTSTR)String)+2);
 }
 
-    return (String.Mid(p-(char*)(LPCTSTR)String+2, pp-p-2));
+    return (String.Mid(p-const_cast<char*>((LPCTSTR)String)+2, pp-p-2));
 }
 
 //--------------------------------------------------------------------------------------------
@@ -177,7 +177,7 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
                 if (strnicmp (TextFollows, Sim.Players.Players[c].AirlineX, Sim.Players.Players[c].AirlineX.GetLength())==0)
                 {
                     str=path+"/"+"name"+bitoa (c+1);
-                    Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
+                    Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
 
                     CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
                     if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
@@ -187,11 +187,11 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
 
             //Check for city:
             if (strcmp (str, "*")==0) {
-                for (c=0; c<(SLONG)Cities.AnzEntries(); c++) {
+                for (c=0; c<Cities.AnzEntries(); c++) {
                     if (strnicmp (TextFollows, Cities[c].Name, Cities[c].Name.GetLength())==0)
                     {
                         str=path+"/"+Cities[c].KuerzelReal;
-                        Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
+                        Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
 
                         CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
                         if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
@@ -202,12 +202,12 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
 
             //Check for plane:
             if (strcmp (str, "*")==0) {
-                for (c=(SLONG)PlaneTypes.AnzEntries()-1; c>=0; c--) {
+                for (c=PlaneTypes.AnzEntries()-1; c>=0; c--) {
                     if (PlaneTypes.IsInAlbum(c) != 0) {
                         if (strnicmp (TextFollows, PlaneTypes[c].Name, PlaneTypes[c].Name.GetLength())==0)
                         {
                             str=path+"/"+bprintf ("pl%lib", PlaneTypes.GetIdFromIndex(c)-0x10000000);
-                            Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
+                            Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
 
                             CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
                             if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
@@ -217,7 +217,7 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
                         if (strnicmp (TextFollows, PlaneTypes[c].Hersteller, PlaneTypes[c].Hersteller.GetLength())==0)
                         {
                             str=path+"/"+bprintf ("pl%lih", PlaneTypes.GetIdFromIndex(c)-0x10000000);
-                            Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
+                            Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
 
                             CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
                             if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
@@ -242,7 +242,7 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
 }
                     }
 
-                    char *p = (char*)(LPCTSTR)TextFollows;
+                    char *p = const_cast<char*>((LPCTSTR)TextFollows);
                     SLONG Number=0;
                     SLONG Mult=1;
 
@@ -276,15 +276,15 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
         }
         else
         {
-            char *p=strchr ((char*)(LPCTSTR)str, '/');
+            char *p=strchr (const_cast<char*>((LPCTSTR)str), '/');
 
             if (p != nullptr)
             {
-                path = str.Left (p-(char*)(LPCTSTR)str);
+                path = str.Left (p-const_cast<char*>((LPCTSTR)str));
 
                 if (path.GetLength()!=str.GetLength()-1)
                 {
-                    Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
+                    Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
 
                     CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
                     if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
@@ -293,7 +293,7 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
             }
             else
             {
-                Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
+                Effects[m++]->ReInit (str+".raw", const_cast<char*>((LPCTSTR)VoicePath));
 
                 CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
                 if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
@@ -692,7 +692,7 @@ void SBFX::Fusion (const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumF
     if (gpSSE != nullptr)
     {
         gpSSE->CreateFX (&pFX);
-        pFX->Fusion (Fx->pFX, (SLONG*)Von, (SLONG*)Bis, NumFx);
+        pFX->Fusion (Fx->pFX, const_cast<SLONG*>(Von), const_cast<SLONG*>(Bis), NumFx);
     }
 }
 
@@ -737,7 +737,7 @@ void SBFX::ReInit (const CString &Filename, char *Path)
     if (gpSSE != nullptr)
     {
         gpSSE->CreateFX (&pFX);
-        pFX->Load((char*)(LPCTSTR)FullFilename (Filename, localPath));
+        pFX->Load(const_cast<char*>((LPCTSTR)FullFilename (Filename, localPath)));
 
         SBFX::Filename = FullFilename (Filename, localPath);
     }
@@ -964,12 +964,12 @@ void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
                         if (d-20>=256)
                         {
                             Output[o++]=Tokens[5];
-                            Output[o++]=(SND_TYPE)(d-20-256);
+                            Output[o++]=static_cast<SND_TYPE>(d-20-256);
                         }
                         else
                         {
                             Output[o++]=Tokens[4];
-                            Output[o++]=(SND_TYPE)(d-20);
+                            Output[o++]=static_cast<SND_TYPE>(d-20);
                         }
 
                         c+=(d-1);
@@ -1005,13 +1005,13 @@ void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
                 if (Input[c]==127 || Input[c]==128 || Input[c]==129)
                 {
                     Output[o++]=Tokens[3];
-                    Output[o++]=(SND_TYPE)d;
+                    Output[o++]=static_cast<SND_TYPE>(d);
                 }
                 else
                 {
                     Output[o++]=Tokens[0];
                     Output[o++]=Input[c];
-                    Output[o++]=(SND_TYPE)d;
+                    Output[o++]=static_cast<SND_TYPE>(d);
                 }
             }
 

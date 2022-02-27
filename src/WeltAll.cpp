@@ -43,7 +43,7 @@ CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
     SetRoomVisited (PlayerNum, ROOM_WELTALL);
     HandyOffset = 320;
 
-    Sim.Players.Players[(SLONG)PlayerNum].ChangeMoney (-1, 3300, "");
+    Sim.Players.Players[static_cast<SLONG>(PlayerNum)].ChangeMoney (-1, 3300, "");
     Sim.FocusPerson=-1;
 
     LastTime = timeGetTime();
@@ -126,7 +126,7 @@ void CWeltAll::OnPaint()
 }
 
     static SLONG gMouseScrollSpeed=0;
-    XY   &ViewPos = Sim.Players.Players[(SLONG)PlayerNum].IslandViewPos;
+    XY   &ViewPos = Sim.Players.Players[PlayerNum].IslandViewPos;
 
     SBBM TempBm;
 
@@ -411,7 +411,7 @@ void CWeltAll::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_WELTALL && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_WELTALL && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else { CStdRaum::OnLButtonDown(nFlags, point);
 }
     }
@@ -436,8 +436,9 @@ void CWeltAll::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

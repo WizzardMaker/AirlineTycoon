@@ -197,7 +197,7 @@ void SIM::AddNewPassengers ()
     {
         //Für alle Flugzeuge des Spielers:
         if (Players.Players[c].IsOut == 0) {
-            for (d=0; d<(SLONG)Players.Players[c].Planes.AnzEntries(); d++)
+            for (d=0; d<Players.Players[c].Planes.AnzEntries(); d++)
             {
                 if (Players.Players[c].Planes.IsInAlbum(d) != 0)
                 {
@@ -218,7 +218,7 @@ void SIM::AddNewPassengers ()
                                     qFPE.Startdate==Sim.Date &&
                                     qFPE.PArrived<qFPE.Passagiere+qFPE.PassagiereFC &&
                                     qFPE.Gate!=-1 &&
-                                    qFPE.VonCity==(ULONG)Sim.HomeAirportId)
+                                    qFPE.VonCity==static_cast<ULONG>(Sim.HomeAirportId))
                             {
                                 for (n=0; n<2; n++)
                                 {
@@ -698,8 +698,8 @@ void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
         qPlayer.ImageGotWorse=FALSE;
         qPlayer.RentCities.RentCities.ReSize (0);
         qPlayer.RentCities.RentCities.ReSize (Cities.AnzEntries());
-        qPlayer.RentCities.RentCities[(SLONG)Cities(HomeAirportId)].Rang=1;
-        qPlayer.RentCities.RentCities[(SLONG)Cities(HomeAirportId)].Miete=Cities[HomeAirportId].BuroRent;
+        qPlayer.RentCities.RentCities[Cities(HomeAirportId)].Rang=1;
+        qPlayer.RentCities.RentCities[Cities(HomeAirportId)].Miete=Cities[HomeAirportId].BuroRent;
 
         qPlayer.CalledCities.ReSize (Cities.AnzEntries());
         qPlayer.CalledCities.FillWith (0);
@@ -937,7 +937,7 @@ void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
             TEAKRAND LocalRand (Sim.StartTime+c);
 
             //Piloten:
-            for (Anzahl=d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++) {
+            for (Anzahl=d=0; d<qPlayer.Planes.AnzEntries(); d++) {
                 if (qPlayer.Planes.IsInAlbum (d) != 0) {
                     Anzahl+=qPlayer.Planes[d].ptAnzPiloten;
 }
@@ -957,7 +957,7 @@ void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
             }
 
             //Flugbegleiter:
-            for (Anzahl=d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++) {
+            for (Anzahl=d=0; d<qPlayer.Planes.AnzEntries(); d++) {
                 if (qPlayer.Planes.IsInAlbum (d) != 0) {
                     Anzahl+=qPlayer.Planes[d].ptAnzBegleiter;
 }
@@ -1039,7 +1039,7 @@ void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
                 for (d=Routen.AnzEntries()-1; d>=0; d--) {
                     if (Routen.IsInAlbum(d) != 0)
                     {
-                        if ((Routen[d].Ebene==1 || LoopCount>0) && (Routen[d].VonCity==(ULONG)Sim.HomeAirportId || Routen[d].NachCity==(ULONG)Sim.HomeAirportId))
+                        if ((Routen[d].Ebene==1 || LoopCount>0) && (Routen[d].VonCity==static_cast<ULONG>(Sim.HomeAirportId) || Routen[d].NachCity==static_cast<ULONG>(Sim.HomeAirportId)))
                         {
                             e--;
                             if (e<=0)
@@ -1054,11 +1054,11 @@ void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
 
                                     if (Routen[d].VonCity!=ULONG(Sim.HomeAirportId))
                                     {
-                                        pRentCity = &Players.Players[c].RentCities.RentCities[(SLONG)Cities(Routen[d].VonCity)];
+                                        pRentCity = &Players.Players[c].RentCities.RentCities[Cities(Routen[d].VonCity)];
 
                                         SLONG Anz=1;
                                         for (f=0; f<4; f++) {
-                                            if (f!=c && (Players.Players[f].RentCities.RentCities[(SLONG)Cities(Routen[d].VonCity)].Rang != 0u)) { Anz++;
+                                            if (f!=c && (Players.Players[f].RentCities.RentCities[Cities(Routen[d].VonCity)].Rang != 0u)) { Anz++;
 }
 }
 
@@ -1068,11 +1068,11 @@ void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
                                     }
                                     if (Routen[d].NachCity!=ULONG(Sim.HomeAirportId))
                                     {
-                                        pRentCity = &Players.Players[c].RentCities.RentCities[(SLONG)Cities(Routen[d].NachCity)];
+                                        pRentCity = &Players.Players[c].RentCities.RentCities[Cities(Routen[d].NachCity)];
 
                                         SLONG Anz=1;
                                         for (f=0; f<4; f++) {
-                                            if (f!=c && (Players.Players[f].RentCities.RentCities[(SLONG)Cities(Routen[d].NachCity)].Rang != 0u)) { Anz++;
+                                            if (f!=c && (Players.Players[f].RentCities.RentCities[Cities(Routen[d].NachCity)].Rang != 0u)) { Anz++;
 }
 }
 
@@ -1148,7 +1148,7 @@ leave_loop: ;
         Players.Players[c].MapWorkers (FALSE);
         Players.Players[c].PlanGates ();
 
-        for (d=0; d<(SLONG)Players.Players[c].Planes.AnzEntries(); d++) {
+        for (d=0; d<Players.Players[c].Planes.AnzEntries(); d++) {
             if (Players.Players[c].Planes.IsInAlbum (d) != 0) {
                 Players.Players[c].Planes[d].UpdatePersonalQuality(c);
 }
@@ -1484,9 +1484,9 @@ void SIM::DoTimeStep ()
         //}
 
         if (qLocalPlayer.LocationWin != nullptr) {
-            ((CStdRaum*)qLocalPlayer.LocationWin)->StatusCount = 3;
+            (qLocalPlayer.LocationWin)->StatusCount = 3;
         } else if (TopWin != nullptr) {
-            ((CStdRaum*)TopWin)->StatusCount = 3;
+            (TopWin)->StatusCount = 3;
 }
 
         for (c=0; c<4; c++) {
@@ -1513,13 +1513,13 @@ void SIM::DoTimeStep ()
                 //Notify wegen Streikanfang:
                 if ((qPlayer.StrikeHours != 0) && (qPlayer.StrikeNotified == 0) && Sim.GetHour()>=9 && Sim.GetHour()<18 && (Sim.GetMinute()>10 || Sim.GetHour()>9))
                 {
-                    if ((qPlayer.LocationWin != nullptr) && (((CStdRaum*)qPlayer.LocationWin)->IsDialogOpen() == 0) && (((CStdRaum*)qPlayer.LocationWin)->MenuIsOpen() == 0) && (Sim.CallItADay == 0))
+                    if ((qPlayer.LocationWin != nullptr) && ((qPlayer.LocationWin)->IsDialogOpen() == 0) && ((qPlayer.LocationWin)->MenuIsOpen() == 0) && (Sim.CallItADay == 0))
                     {
                         qPlayer.StrikeNotified = TRUE;
                         qPlayer.WalkStop();
 
-                        ((CStdRaum*)qPlayer.LocationWin)->MenuStart (MENU_SABOTAGEFAX, 8, qPlayer.StrikeHours);
-                        ((CStdRaum*)qPlayer.LocationWin)->MenuSetZoomStuff (XY(320,220), 0.17, FALSE);
+                        (qPlayer.LocationWin)->MenuStart (MENU_SABOTAGEFAX, 8, qPlayer.StrikeHours);
+                        (qPlayer.LocationWin)->MenuSetZoomStuff (XY(320,220), 0.17, FALSE);
 
                         if (qPlayer.Owner==0 && (qPlayer.IsOut == 0)) {
                             qPlayer.Letters.AddLetter (FALSE,
@@ -1548,12 +1548,12 @@ void SIM::DoTimeStep ()
 
                                 delete qPlayer.DialogWin;
                                 qPlayer.DialogWin = new CPersonal (TRUE, Sim.localPlayer);
-                                ((CStdRaum*)qPlayer.LocationWin)->StartDialog (TALKER_PERSONAL1b+c*2, MEDIUM_HANDY, 1000+qPlayer.StrikeEndType);
-                                ((CStdRaum*)qPlayer.DialogWin)->HandyOffset = 120;
+                                (qPlayer.LocationWin)->StartDialog (TALKER_PERSONAL1b+c*2, MEDIUM_HANDY, 1000+qPlayer.StrikeEndType);
+                                (qPlayer.DialogWin)->HandyOffset = 120;
                             }
                             else
                             {
-                                ((CStdRaum*)qPlayer.LocationWin)->StartDialog (TALKER_PERSONAL1b+c*2, MEDIUM_AIR, 1000+qPlayer.StrikeEndType);
+                                (qPlayer.LocationWin)->StartDialog (TALKER_PERSONAL1b+c*2, MEDIUM_AIR, 1000+qPlayer.StrikeEndType);
                             }
 
                             bgWarp=FALSE;
@@ -1665,7 +1665,7 @@ void SIM::DoTimeStep ()
 
                                         qPlayer.Planes[c].Problem = 4+(LocalRand.Rand(101-qPlayer.Planes[c].Zustand))/3+static_cast<int>((LocalRand.Rand(4))==0)*15;
 
-                                        if (qPlayer.Planes[c].GetFlugplanEintrag()->NachCity==(ULONG)Sim.HomeAirportId) {
+                                        if (qPlayer.Planes[c].GetFlugplanEintrag()->NachCity==static_cast<ULONG>(Sim.HomeAirportId)) {
                                             qPlayer.Planes[c].Problem = max (4, qPlayer.Planes[c].Problem-15);
                                         } else if (qPlayer.Planes[c].Problem>20)
                                         {
@@ -1702,10 +1702,10 @@ void SIM::DoTimeStep ()
 
                                         if (qPlayer.LocationWin != nullptr)
                                         {
-                                            if ((((CStdRaum*)qPlayer.LocationWin)->IsDialogOpen() == 0) && (((CStdRaum*)qPlayer.LocationWin)->MenuIsOpen() == 0) && (Sim.Options.OptionFax != 0) && (Sim.CallItADay == 0))
+                                            if (((qPlayer.LocationWin)->IsDialogOpen() == 0) && ((qPlayer.LocationWin)->MenuIsOpen() == 0) && (Sim.Options.OptionFax != 0) && (Sim.CallItADay == 0))
                                             {
-                                                ((CStdRaum*)qPlayer.LocationWin)->MenuStart (MENU_SABOTAGEFAX, 6+Extra, c, qPlayer.Planes[c].Problem);
-                                                ((CStdRaum*)qPlayer.LocationWin)->MenuSetZoomStuff (XY(320,220), 0.17, FALSE);
+                                                (qPlayer.LocationWin)->MenuStart (MENU_SABOTAGEFAX, 6+Extra, c, qPlayer.Planes[c].Problem);
+                                                (qPlayer.LocationWin)->MenuSetZoomStuff (XY(320,220), 0.17, FALSE);
 
                                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2308));
 
@@ -1811,7 +1811,7 @@ void SIM::DoTimeStep ()
                                             qOpfer.TrustedDividende-=1;
                                             qOpfer.Sympathie[c]-=5;
                                             if (qFPE.ObjectType==1) {
-                                                qOpfer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image=qOpfer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image*99/100;
+                                                qOpfer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image=qOpfer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image*99/100;
 }
                                             if (qOpfer.TrustedDividende<0) { qOpfer.TrustedDividende=0;
 }
@@ -1829,7 +1829,7 @@ void SIM::DoTimeStep ()
 }
                                             qOpfer.Image-=2;
                                             if (qFPE.ObjectType==1) {
-                                                qOpfer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image=qOpfer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image*95/100;
+                                                qOpfer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image=qOpfer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image*95/100;
 }
                                             PictureId=GetIdFromString ("SKELETT");
                                             break;
@@ -1846,7 +1846,7 @@ void SIM::DoTimeStep ()
 }
                                                 qOpfer.Image-=3;
                                                 if (qFPE.ObjectType==1) {
-                                                    qOpfer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image=qOpfer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image*90/100;
+                                                    qOpfer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image=qOpfer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image*90/100;
 }
 
                                                 SLONG   e      = qPlane.Flugplan.NextStart;
@@ -1876,7 +1876,7 @@ void SIM::DoTimeStep ()
 }
                                             qOpfer.Image-=8;
                                             if (qFPE.ObjectType==1) {
-                                                qOpfer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image=qOpfer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image*50/100;
+                                                qOpfer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image=qOpfer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image*50/100;
 }
                                             PictureId=GetIdFromString ("FEUER");
                                             break;
@@ -1910,7 +1910,7 @@ void SIM::DoTimeStep ()
                                     {
                                         if (qLocalPlayer.GetRoom()==ROOM_SABOTAGE)
                                         {
-                                            ((CStdRaum*)qLocalPlayer.LocationWin)->StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, 2000);
+                                            (qLocalPlayer.LocationWin)->StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, 2000);
                                             bgWarp=FALSE;
                                             if (CheatTestGame==0) { qLocalPlayer.GameSpeed = 0;
 }
@@ -1927,8 +1927,8 @@ void SIM::DoTimeStep ()
 
                                             delete qLocalPlayer.DialogWin;
                                             qLocalPlayer.DialogWin = new CSabotage (TRUE, Sim.localPlayer);
-                                            ((CStdRaum*)qLocalPlayer.LocationWin)->StartDialog (TALKER_SABOTAGE, MEDIUM_HANDY, 2000);
-                                            ((CStdRaum*)qLocalPlayer.LocationWin)->PayingForCall=FALSE;
+                                            (qLocalPlayer.LocationWin)->StartDialog (TALKER_SABOTAGE, MEDIUM_HANDY, 2000);
+                                            (qLocalPlayer.LocationWin)->PayingForCall=FALSE;
                                         }
                                     }
                                     else if (Sim.Players.Players[c].ArabOpfer==Sim.localPlayer)
@@ -1943,10 +1943,10 @@ void SIM::DoTimeStep ()
 
                                         if (qLocalPlayer.LocationWin != nullptr)
                                         {
-                                            if ((((CStdRaum*)qLocalPlayer.LocationWin)->IsDialogOpen() == 0) && (((CStdRaum*)qLocalPlayer.LocationWin)->MenuIsOpen() == 0) && (Sim.Options.OptionFax != 0) && (Sim.CallItADay == 0))
+                                            if (((qLocalPlayer.LocationWin)->IsDialogOpen() == 0) && ((qLocalPlayer.LocationWin)->MenuIsOpen() == 0) && (Sim.Options.OptionFax != 0) && (Sim.CallItADay == 0))
                                             {
-                                                ((CStdRaum*)qOpfer.LocationWin)->MenuStart (MENU_SABOTAGEFAX, Sim.Players.Players[c].ArabMode, Sim.Players.Players[c].ArabOpfer, Sim.Players.Players[c].ArabPlane);
-                                                ((CStdRaum*)qOpfer.LocationWin)->MenuSetZoomStuff (XY(320,220), 0.17, FALSE);
+                                                (qOpfer.LocationWin)->MenuStart (MENU_SABOTAGEFAX, Sim.Players.Players[c].ArabMode, Sim.Players.Players[c].ArabOpfer, Sim.Players.Players[c].ArabPlane);
+                                                (qOpfer.LocationWin)->MenuSetZoomStuff (XY(320,220), 0.17, FALSE);
 
                                                 qOpfer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2308));
 
@@ -1976,7 +1976,7 @@ void SIM::DoTimeStep ()
             if (OldHour>=9 && OldHour<18 && Minute>=2 && Date%30==29)
             {
                 PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                CStdRaum &qRaum = *((CStdRaum*)qPlayer.LocationWin);
+                CStdRaum &qRaum = *(qPlayer.LocationWin);
 
                 if (DoesFileExist(FullFilename (CString("S")+"a"+"b"+"b"+"e"+"l"+"."+"d"+"o"+"t", MiscPath)) == 0)
                 {
@@ -2027,7 +2027,7 @@ void SIM::DoTimeStep ()
                 PLAYER &qPlayer = Sim.Players.Players[c];
 
                 //Für alle Flugzeuge die er besitzt
-                for (d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++)
+                for (d=0; d<qPlayer.Planes.AnzEntries(); d++)
                 {
                     if (qPlayer.Planes.IsInAlbum (d) != 0)
                     {
@@ -2051,7 +2051,7 @@ void SIM::DoTimeStep ()
                                         //log: hprintf ("Player[%li].Image! now = %li", c, qPlayer.Image);
 
                                         if (qFPE.ObjectType==1) {
-                                            qPlayer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image=qPlayer.RentRouten.RentRouten[(SLONG)Routen(qFPE.ObjectId)].Image*8/10;
+                                            qPlayer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image=qPlayer.RentRouten.RentRouten[Routen(qFPE.ObjectId)].Image*8/10;
 }
 
                                         SLONG r=LocalRand.Rand(9);
@@ -2104,7 +2104,7 @@ void SIM::DoTimeStep ()
                                     if (Advance==0) { Advance=60000;
 }
 
-                                    if (qFPE.Startzeit*60000<=(SLONG)Sim.Time) { Advance=(Sim.Time-(qFPE.Startzeit+1)*60000)*256/Advance;
+                                    if (qFPE.Startzeit*60000<=static_cast<SLONG>(Sim.Time)) { Advance=(Sim.Time-(qFPE.Startzeit+1)*60000)*256/Advance;
                                     } else { Advance=(24*60000-((qFPE.Startzeit+1)*60000-Sim.Time))*256/Advance;
 }
 
@@ -2156,7 +2156,7 @@ void SIM::DoTimeStep ()
         for (c=0; c<Sim.Players.AnzPlayers; c++)
         {
             //Für alle Flugzeuge die er besitzt
-            for (d=0; d<(SLONG)Sim.Players.Players[c].Planes.AnzEntries(); d++)
+            for (d=0; d<Sim.Players.Players[c].Planes.AnzEntries(); d++)
             {
                 if (Sim.Players.Players[c].Planes.IsInAlbum (d) != 0)
                 {
@@ -2221,7 +2221,7 @@ void SIM::DoTimeStep ()
                                 Delay = TRUE;
 
                                 if (Sim.Players.Players[c].Owner==0) {
-                                    if ((qLocalPlayer.LocationWin != nullptr) && ((CStdRaum*)qLocalPlayer.LocationWin)->CurrentMenu!=MENU_SABOTAGEFAX) {
+                                    if ((qLocalPlayer.LocationWin != nullptr) && (qLocalPlayer.LocationWin)->CurrentMenu!=MENU_SABOTAGEFAX) {
                                         Sim.Players.Players[c].Messages.AddMessage (BERATERTYP_GIRL, bprintf(StandardTexte.GetS (TOKEN_ADVICE, 2355), (LPCTSTR)qPlane.Name, (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
 }
 }
@@ -2259,7 +2259,7 @@ void SIM::DoTimeStep ()
             PLAYER &qPlayer = Sim.Players.Players[c];
 
             //Für alle Flugzeuge die er besitzt
-            for (d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++)
+            for (d=0; d<qPlayer.Planes.AnzEntries(); d++)
             {
                 if (qPlayer.Planes.IsInAlbum (d) != 0)
                 {
@@ -2277,9 +2277,9 @@ void SIM::DoTimeStep ()
                         {
                             SLONG d = 0;
 
-                            for (d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++) {
+                            for (d=0; d<qPlayer.Planes.AnzEntries(); d++) {
                                 if (qPlayer.Planes.IsInAlbum (d) != 0) {
-                                    if (qPlayer.Planes[d].Ort==(SLONG)qFPE.NachCity && (qPlayer.Planes[d].Problem != 0))
+                                    if (qPlayer.Planes[d].Ort==static_cast<SLONG>(qFPE.NachCity) && (qPlayer.Planes[d].Problem != 0))
                                     {
                                         CPlane &qPlane=qPlayer.Planes[d];
 
@@ -2327,7 +2327,7 @@ void SIM::DoTimeStep ()
         for (c=0; c<Sim.Players.AnzPlayers; c++)
         {
             //Für alle Flugzeuge die er besitzt
-            for (d=0; d<(SLONG)Sim.Players.Players[c].Planes.AnzEntries(); d++)
+            for (d=0; d<Sim.Players.Players[c].Planes.AnzEntries(); d++)
             {
                 if (Sim.Players.Players[c].Planes.IsInAlbum (d) != 0)
                 {
@@ -2467,7 +2467,7 @@ void SIM::UpdateSeason ()
             pGfxMain->ReleaseLib (pGLibBrick);
         }
 
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("glbrick%li.gli", GliPath, GetSeason()),
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("glbrick%li.gli", GliPath, GetSeason())),
                 &pGLibBrick,
                 L_LOCMEM);
 
@@ -2732,7 +2732,7 @@ void SIM::NewDay ()
                 qPlayer.ChangeMoney (
                         -TafelData.Route[c].Preis*3,
                         2041,                //Ersteigerung einer Route
-                        (CString)bprintf ("%s-%s", (LPCTSTR)Cities[Routen[TafelData.Route[c].ZettelId].VonCity].Kuerzel, (LPCTSTR)Cities[Routen[TafelData.Route[c].ZettelId].NachCity].Kuerzel));
+                        CString(bprintf ("%s-%s", (LPCTSTR)Cities[Routen[TafelData.Route[c].ZettelId].VonCity].Kuerzel, (LPCTSTR)Cities[Routen[TafelData.Route[c].ZettelId].NachCity].Kuerzel)));
 
                 TafelData.Route[c].ZettelId=0;
                 TafelData.Route[c].Player=-1;
@@ -2844,7 +2844,7 @@ void SIM::NewDay ()
 
                 if ((qPlayer.IsOut == 0) && qPlayer.ArabHints<90 && qPlayer.ArabMode==0 && qPlayer.ArabMode2==0 && qPlayer.ArabMode3==0)
                 {
-                    PLAYER &qOpfer = Sim.Players.Players[(SLONG)SaboRand.Rand(4)];
+                    PLAYER &qOpfer = Sim.Players.Players[static_cast<SLONG>(SaboRand.Rand(4))];
 
                     if ((qOpfer.IsOut == 0) && qPlayer.PlayerNum!=qOpfer.PlayerNum && qOpfer.Planes.GetNumUsed()>0)
                     {
@@ -3026,7 +3026,7 @@ void SIM::ComputerOnToilet (SLONG ComputerPlayer)
         }
 }
 
-    Sim.Players.Players[(SLONG)ComputerPlayer].Stunned=70;
+    Sim.Players.Players[ComputerPlayer].Stunned=70;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -3037,7 +3037,7 @@ void SIM::GiveHint (SLONG Number)
     PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
     if (qPlayer.LocationWin != nullptr) {
-        if (((CStdRaum*)qPlayer.LocationWin)->MenuIsOpen()==0 && ((CStdRaum*)qPlayer.LocationWin)->IsDialogOpen()==0) {
+        if ((qPlayer.LocationWin)->MenuIsOpen()==0 && (qPlayer.LocationWin)->IsDialogOpen()==0) {
             if ((KeyHints[0]&(1<<Number))==0 || ((KeyHints[1]&(1<<Number))==0 && (KeyHints[2]&(1<<Number))==0))
             {
                 if ((KeyHints[0]&(1<<Number))==0) { KeyHints[0]|=(1<<Number);
@@ -3111,8 +3111,8 @@ TEAKFILE &operator << (TEAKFILE &File, const SIM &Sim)
     //Die Statistik:
     File.Write ((UBYTE*)&Sim.StatfGraphVisible, sizeof(Sim.StatfGraphVisible));
     File << Sim.Statgroup << Sim.Statdays << Sim.StatnewDays << Sim.DropDownPosY;
-    File.Write ((UBYTE*)Sim.StatplayerMask, sizeof(Sim.StatplayerMask));
-    File.Write ((UBYTE*)Sim.StatiArray, sizeof(Sim.StatiArray));
+    File.Write ((UBYTE*)(Sim.StatplayerMask), sizeof(Sim.StatplayerMask));
+    File.Write ((UBYTE*)(Sim.StatiArray), sizeof(Sim.StatiArray));
 
     //Der maximale Schwierigkeitsgrad;
     File.WriteTrap (100);
@@ -3227,10 +3227,10 @@ TEAKFILE &operator >> (TEAKFILE &File, SIM &Sim)
     File >> Sim.RFEssen       >> Sim.RFTabletts        >> Sim.RFDeco;
 
     //Die Statistik:
-    File.Read ((UBYTE*)&Sim.StatfGraphVisible, sizeof(Sim.StatfGraphVisible));
+    File.Read (reinterpret_cast<UBYTE*>(&Sim.StatfGraphVisible), sizeof(Sim.StatfGraphVisible));
     File >> Sim.Statgroup >> Sim.Statdays >> Sim.StatnewDays >> Sim.DropDownPosY;
-    File.Read ((UBYTE*)Sim.StatplayerMask, sizeof(Sim.StatplayerMask));
-    File.Read ((UBYTE*)Sim.StatiArray, sizeof(Sim.StatiArray));
+    File.Read (reinterpret_cast<UBYTE*>(Sim.StatplayerMask), sizeof(Sim.StatplayerMask));
+    File.Read (reinterpret_cast<UBYTE*>(Sim.StatiArray), sizeof(Sim.StatiArray));
 
     //Der maximale Schwierigkeitsgrad;
     File.ReadTrap (100);
@@ -3243,7 +3243,7 @@ TEAKFILE &operator >> (TEAKFILE &File, SIM &Sim)
     File >> SimDate           >> Sim.Time       >> Sim.Month;
     File >> Sim.MonthDay      >> Sim.QuitCountDown;
     File >> Sim.TickerTime    >> Sim.TimeSlice  >> Sim.StartWeekday >> Sim.Weekday;
-    File.Read ((UBYTE*)&Sim.StartTime, 4); //sizeof (Sim.StartTime)
+    File.Read (reinterpret_cast<UBYTE*>(&Sim.StartTime), 4); //sizeof (Sim.StartTime)
     Sim.Date=SimDate;
 
     //Sonstiges:
@@ -3467,7 +3467,7 @@ BOOL SIM::LoadGame (SLONG Number)
     {
         //Update Quality of all local planes:
         if ((Sim.Players.Players[c].IsOut == 0) && Sim.Players.Players[c].Owner!=2) {
-            for (d=0; d<(SLONG)Players.Players[c].Planes.AnzEntries(); d++) {
+            for (d=0; d<Players.Players[c].Planes.AnzEntries(); d++) {
                 if (Players.Players[c].Planes.IsInAlbum(d) != 0) {
                     Players.Players[c].Planes[d].UpdatePersonalQuality(c);
 }
@@ -3525,7 +3525,7 @@ reload_airport:
     bgIsLoadingSavegame = false;
 
     //Postfix zum Laden von alten Spielständen in die Deluxe-Version:
-    if (NumSaveGameCities!=(SLONG)Cities.AnzEntries())
+    if (NumSaveGameCities!=Cities.AnzEntries())
     {
         //------------------------
         // Routen + RentRouten:
@@ -3558,7 +3558,7 @@ reload_airport:
 
             for (d=0; d<tempRentRouten[c].RentRouten.AnzEntries(); d++) {
                 if (RoutenIds[d]!=-1) {
-                    Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(RoutenIds[d])] = tempRentRouten[c].RentRouten[d];
+                    Sim.Players.Players[c].RentRouten.RentRouten[Routen(RoutenIds[d])] = tempRentRouten[c].RentRouten[d];
 }
 }
         }
@@ -3568,7 +3568,7 @@ reload_airport:
         //------------------------
 
         //Die RentCities der Players auf die Größe bringen und die neue Reihenfolge mappen
-        for (d=0; d<(SLONG)Cities.AnzEntries(); d++) {
+        for (d=0; d<Cities.AnzEntries(); d++) {
             if (Cities[d].bNewInAddOn==2)
             {
                 for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
@@ -3633,11 +3633,11 @@ void SIM::SaveGame (SLONG Number, const CString &Name) const
         CString DateString;
 
         if (Sim.Difficulty>=DIFF_ATFS) {
-            DateString=bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 1150), Sim.Difficulty+1-DIFF_ATFS+20, (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 3010+(pTimeStruct->tm_wday+6)%7), (SLONG)pTimeStruct->tm_mday, (SLONG)pTimeStruct->tm_mon+1, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
+            DateString=bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 1150)), Sim.Difficulty+1-DIFF_ATFS+20, (LPCTSTR)CString(StandardTexte.GetS (TOKEN_SCHED, 3010+(pTimeStruct->tm_wday+6)%7)), static_cast<SLONG>(pTimeStruct->tm_mday), static_cast<SLONG>(pTimeStruct->tm_mon)+1, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
         } else if (Sim.Difficulty!=DIFF_FREEGAME) {
-            DateString=bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 1150), Sim.Difficulty+1, (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 3010+(pTimeStruct->tm_wday+6)%7), (SLONG)pTimeStruct->tm_mday, (SLONG)pTimeStruct->tm_mon+1, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
+            DateString=bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 1150)), Sim.Difficulty+1, (LPCTSTR)CString(StandardTexte.GetS (TOKEN_SCHED, 3010+(pTimeStruct->tm_wday+6)%7)), static_cast<SLONG>(pTimeStruct->tm_mday), static_cast<SLONG>(pTimeStruct->tm_mon)+1, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
         } else {
-            DateString=bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 1151), (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 3010+(pTimeStruct->tm_wday+6)%7), (SLONG)pTimeStruct->tm_mday, (SLONG)pTimeStruct->tm_mon+1, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
+            DateString=bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 1151)), (LPCTSTR)CString(StandardTexte.GetS (TOKEN_SCHED, 3010+(pTimeStruct->tm_wday+6)%7)), static_cast<SLONG>(pTimeStruct->tm_mday), static_cast<SLONG>(pTimeStruct->tm_mon)+1, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
 }
 
         OutputFile << DateString;
@@ -4144,7 +4144,7 @@ void SIM::SaveHighscores ()
     for (auto & Highscore : Highscores)
     {
         OutputFile.Write ((UBYTE*)(LPCTSTR)Highscore.Name, Highscore.Name.GetLength());
-        OutputFile.Write ((UBYTE*)";", 1);
+        OutputFile.Write ((UBYTE*)(";"), 1);
 
         str = bprintf ("%lu;", Highscore.UniqueGameId2);
         OutputFile.Write ((UBYTE*)(LPCTSTR)str, str.GetLength());
@@ -4355,9 +4355,9 @@ void COptions::ReadOptions ()
     if (!reg.ReadRegistryKey_l (&OptionLastProvider)) {    OptionLastProvider    = 0;
 }
 
-    if (!reg.ReadRegistryKeyEx_l ((int*)&Sim.KeyHints[0], "&KeyHints1")) {       Sim.KeyHints[0]           = 0;
+    if (!reg.ReadRegistryKeyEx_l (reinterpret_cast<int*>(&Sim.KeyHints[0]), "&KeyHints1")) {       Sim.KeyHints[0]           = 0;
 }
-    if (!reg.ReadRegistryKeyEx_l ((int*)&Sim.KeyHints[2], "&KeyHints2")) {       Sim.KeyHints[2]           = 0;
+    if (!reg.ReadRegistryKeyEx_l (reinterpret_cast<int*>(&Sim.KeyHints[2]), "&KeyHints2")) {       Sim.KeyHints[2]           = 0;
 }
     Sim.KeyHints[1] = 0;
 
@@ -4522,11 +4522,11 @@ dont_save_talking:
 #endif
 
     reg.WriteRegistryKey_l (&OptionRoomDescription);
-    reg.WriteRegistryKeyEx ((char*)(LPCTSTR)AppPath, "&AppPath");
+    reg.WriteRegistryKeyEx (const_cast<char*>((LPCTSTR)AppPath), "&AppPath");
     reg.WriteRegistryKey_l (&OptionLastPlayer);
 
-    reg.WriteRegistryKeyEx_l ((int*)&Sim.KeyHints[0], "&KeyHints1");
-    reg.WriteRegistryKeyEx_l ((int*)&Sim.KeyHints[2], "&KeyHints2");
+    reg.WriteRegistryKeyEx_l (reinterpret_cast<int*>(&Sim.KeyHints[0]), "&KeyHints1");
+    reg.WriteRegistryKeyEx_l (reinterpret_cast<int*>(&Sim.KeyHints[2]), "&KeyHints2");
 
     if (OptionLastMission!=DIFF_FREEGAME) {
         reg.WriteRegistryKey_l (&OptionLastMission);

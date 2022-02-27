@@ -112,7 +112,7 @@ CWerbung::~CWerbung()
 void CWerbung::OnPaint()
 {
     SLONG   NewTip = 0;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     if (Sim.Date>4) { Sim.GiveHint (HINT_WERBUNG);
 }
@@ -236,7 +236,7 @@ void CWerbung::OnLButtonDown(UINT nFlags, CPoint point)
 }
         }
 
-        if (MouseClickArea==ROOM_WERBUNG && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_WERBUNG && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_WERBUNG && MouseClickId==800) { StartDialog (TALKER_WERBUNG, MEDIUM_AIR, 800);
         } else if (MouseClickArea==ROOM_WERBUNG && MouseClickId==10) { StartDialog (TALKER_WERBUNG, MEDIUM_AIR, 1);
         } else { CStdRaum::OnLButtonDown(nFlags, point);
@@ -267,8 +267,9 @@ void CWerbung::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

@@ -3,7 +3,7 @@
 void memswap(void* dst, void* src, ULONG size)
 {
     for (unsigned int i = size; i > 0; --i) {
-        Swap(((BYTE*)dst)[i - 1], ((BYTE*)src)[i - 1]);
+        Swap((static_cast<BYTE*>(dst))[i - 1], (static_cast<BYTE*>(src))[i - 1]);
 }
 }
 
@@ -13,10 +13,10 @@ SLONG CalcInertiaVelocity(SLONG a, SLONG b)
     {
         if ( a >= b ) {
             return 0;
-        }             return -(SLONG)sqrt((double)(b - a + 1) / 2.0 + 0.5);
+        }             return -static_cast<SLONG>(sqrt(static_cast<double>(b - a + 1) / 2.0 + 0.5));
     }
     
-            return (SLONG)sqrt((double)(a - b + 1) / 2.0 + 0.5);
+            return static_cast<SLONG>(sqrt(static_cast<double>(a - b + 1) / 2.0 + 0.5));
    
 }
 

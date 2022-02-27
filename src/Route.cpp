@@ -26,7 +26,7 @@ SLONG CRoute::AnzPassagiere() const
     } else {                  DayFaktor=650;
 }
 
-    return ((SLONG)(sqrt (Cities[VonCity].Einwohner * double(Cities[NachCity].Einwohner))*Faktor/DayFaktor/2*3/4));
+    return (static_cast<SLONG>(sqrt (Cities[VonCity].Einwohner * double(Cities[NachCity].Einwohner))*Faktor/DayFaktor/2*3/4));
 }
 
 BOOL CRoute::operator > (const CRoute &p) const { return static_cast<BOOL>(Cities[VonCity].Name>Cities[p.VonCity].Name); }
@@ -98,13 +98,13 @@ void CRouten::ReInit (const CString &TabFilename, bool bNoDoublettes)
         SLONG   HelperEbene = atoi (strtok (Line, TabSeparator));
         CString Helper1     = strtok (nullptr, TabSeparator);
         CString Helper2     = strtok (nullptr, TabSeparator);
-        ULONG   VonCity     = Cities.GetIdFromName ((char*)(LPCTSTR)KorrigiereUmlaute (Helper1));
-        ULONG   NachCity    = Cities.GetIdFromName ((char*)(LPCTSTR)KorrigiereUmlaute (Helper2));
+        ULONG   VonCity     = Cities.GetIdFromName (const_cast<char*>((LPCTSTR)KorrigiereUmlaute (Helper1)));
+        ULONG   NachCity    = Cities.GetIdFromName (const_cast<char*>((LPCTSTR)KorrigiereUmlaute (Helper2)));
 
         //Looking for doubles (may be turned off for compatibility)
         if (bNoDoublettes)
         {
-            for (SLONG c=0; c<(SLONG)AnzEntries(); c++) {
+            for (SLONG c=0; c<AnzEntries(); c++) {
                 if ((IsInAlbum(c) != 0) && (*this)[c].VonCity==VonCity && (*this)[c].NachCity==NachCity) {
                     goto skip_this_city_because_it_exists_twice;
 }
@@ -164,7 +164,7 @@ void CRouten::ReInitExtend (const CString &TabFilename)
     FileP=ReadLine (FileData, FileP, Line, 300);
 
     Routen.ReSize (MAX_ROUTES);
-    auto NumUsed = (SLONG)GetNumUsed();
+    auto NumUsed = GetNumUsed();
 
     while (true)
     {
@@ -180,8 +180,8 @@ void CRouten::ReInitExtend (const CString &TabFilename)
         SLONG   HelperEbene = atoi (strtok (Line, TabSeparator));
         CString Helper1     = strtok (nullptr, TabSeparator);
         CString Helper2     = strtok (nullptr, TabSeparator);
-        ULONG   VonCity     = Cities.GetIdFromName ((char*)(LPCTSTR)KorrigiereUmlaute (Helper1));
-        ULONG   NachCity    = Cities.GetIdFromName ((char*)(LPCTSTR)KorrigiereUmlaute (Helper2));
+        ULONG   VonCity     = Cities.GetIdFromName (const_cast<char*>((LPCTSTR)KorrigiereUmlaute (Helper1)));
+        ULONG   NachCity    = Cities.GetIdFromName (const_cast<char*>((LPCTSTR)KorrigiereUmlaute (Helper2)));
 
         //Tabellenzeile hinzufügen:
         Id=GetUniqueId();

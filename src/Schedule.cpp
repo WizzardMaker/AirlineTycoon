@@ -283,7 +283,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
             for (c=0; c<4; c++)
             {
                 PLAYER     &qPlayer=Sim.Players.Players[c];
-                CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)];
+                CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[Routen(ObjectId)];
 
                 if (qRentRoute.Rang!=0)
                 {
@@ -389,7 +389,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
             SLONG   ImageTotal = 0;
 
             {
-                CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)];
+                CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[Routen(ObjectId)];
 
                 //log: hprintf ("qRentRoute.Image=%li, qPlayer.Image=%li",qRentRoute.Image, qPlayer.Image);
                 ImageTotal  = qRentRoute.Image*4;
@@ -422,7 +422,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
 }
             tmp = min (tmp, qPlane.MaxPassagiere);
 
-            Passagiere = (UWORD)tmp;
+            Passagiere = static_cast<UWORD>(tmp);
 
             if (qPlayer.Presseerklaerung != 0) {
                 Passagiere = 1+(Passagiere%3);
@@ -443,7 +443,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
             for (c=0; c<4; c++)
             {
                 PLAYER     &qPlayer=Sim.Players.Players[c];
-                CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)];
+                CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[Routen(ObjectId)];
 
                 if (qRentRoute.Rang!=0)
                 {
@@ -541,7 +541,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
             SLONG   ImageTotal = 0;
 
             {
-                CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)];
+                CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[Routen(ObjectId)];
 
                 ImageTotal  = qRentRoute.Image*4;
                 ImageTotal += qPlayer.Image;
@@ -568,7 +568,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
 }
             tmp = min (tmp, qPlane.MaxPassagiereFC);
 
-            PassagiereFC = (UWORD)tmp;
+            PassagiereFC = static_cast<UWORD>(tmp);
 
             if (qPlayer.Presseerklaerung != 0) {
                 PassagiereFC = 1+(PassagiereFC%3);
@@ -578,9 +578,9 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
     else if (ObjectType==2)
     {
         //Auftrag:
-        Passagiere   = (UWORD)min(qPlane.MaxPassagiere, long(qPlayer.Auftraege[ObjectId].Personen));
+        Passagiere   = static_cast<UWORD>(min(qPlane.MaxPassagiere, long(qPlayer.Auftraege[ObjectId].Personen)));
 
-        PassagiereFC = (UWORD)(qPlayer.Auftraege[ObjectId].Personen-Passagiere);
+        PassagiereFC = static_cast<UWORD>(qPlayer.Auftraege[ObjectId].Personen-Passagiere);
     }
 }
 
@@ -593,7 +593,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
     SLONG   Einnahmen=0;
     SLONG   Ausgaben=0;
     CString CityString;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     //Hat angebliche Asynchronitäten berichtet, obwohl der Flugplan gleich war!
     //NetGenericAsync (90000+ObjectId+Sim.Date*100+PlayerNum*1000, Startzeit);
@@ -694,7 +694,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
     if (ObjectType==1)
     {
         //In beide Richtungen vermerken:
-        qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].HeuteBefoerdert+=Passagiere;
+        qPlayer.RentRouten.RentRouten[Routen(ObjectId)].HeuteBefoerdert+=Passagiere;
 
         for (SLONG c=Routen.AnzEntries()-1; c>=0; c--) {
             if ((Routen.IsInAlbum(c) != 0) && Routen[c].VonCity==Routen[ObjectId].NachCity && Routen[c].NachCity==Routen[ObjectId].VonCity)
@@ -744,7 +744,7 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
     Sim.Players.Players[PlayerNum].Gewinn+=Saldo;
 
     //Kerosin aus dem Vorrat verbuchen:
-    if (Sim.Players.Players[(SLONG)PlayerNum].TankOpen != 0)
+    if (Sim.Players.Players[PlayerNum].TankOpen != 0)
     {
         //SLONG Kerosin = CalculateFlightKerosin (VonCity, NachCity, PlaneTypes[Plane->TypeId].Verbrauch, PlaneTypes[Plane->TypeId].Geschwindigkeit);
         SLONG Kerosin = CalculateFlightKerosin (VonCity, NachCity, Plane->ptVerbrauch, Plane->ptGeschwindigkeit);
@@ -754,8 +754,8 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
         if (qPlayer.BadKerosin<0) { qPlayer.BadKerosin=0;
 }
 
-        if (qPlayer.TankInhalt==0 && tmp>0 && (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_KEROSIN) != 0)) {
-            Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_KEROSIN, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 3030), (LPCTSTR)Plane->Name));
+        if (qPlayer.TankInhalt==0 && tmp>0 && (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_KEROSIN) != 0)) {
+            Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_KEROSIN, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 3030), (LPCTSTR)Plane->Name));
 }
 
         qPlayer.Bilanz.Kerosin+=SLONG(tmp*qPlayer.TankPreis);     //Kalkulatorische Kosten
@@ -766,11 +766,11 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
     //Bei Routen den Bedarf bei den Leuten entsprechend verringern und die Bekanntheit verbessern:
     if (ObjectType==1)
     {
-        CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)];
+        CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(ObjectId)];
 
         qRRoute.LastFlown=0;
 
-        if (Sim.Players.Players[(SLONG)PlayerNum].HasFlownRoutes == 0)
+        if (Sim.Players.Players[PlayerNum].HasFlownRoutes == 0)
         {
             SLONG c = 0;
             SLONG Anz = 0;
@@ -780,9 +780,9 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
 }
 }
 
-            Sim.Headlines.AddOverride (1, bprintf (StandardTexte.GetS (TOKEN_MISC, 2010+Anz), (LPCTSTR)Sim.Players.Players[(SLONG)PlayerNum].AirlineX, (LPCTSTR)Sim.Players.Players[(SLONG)PlayerNum].NameX), GetIdFromString ("1")+Anz+PlayerNum*100, 60);
+            Sim.Headlines.AddOverride (1, bprintf (StandardTexte.GetS (TOKEN_MISC, 2010+Anz), (LPCTSTR)Sim.Players.Players[PlayerNum].AirlineX, (LPCTSTR)Sim.Players.Players[PlayerNum].NameX), GetIdFromString ("1")+Anz+PlayerNum*100, 60);
 
-            Sim.Players.Players[(SLONG)PlayerNum].HasFlownRoutes = TRUE;
+            Sim.Players.Players[PlayerNum].HasFlownRoutes = TRUE;
         }
 
         //Auslastung der Route aktualisieren:
@@ -863,8 +863,8 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
             //log: hprintf ("Player[%li].Image now (deter) = %li", PlayerNum, qPlayer.Image);
 
             if (ObjectType==1) { //Auswirkung auf Routenimage
-                if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image>0) {
-                    qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image--;
+                if (qPlayer.RentRouten.RentRouten[Routen(ObjectId)].Image>0) {
+                    qPlayer.RentRouten.RentRouten[Routen(ObjectId)].Image--;
 }
 }
 
@@ -932,11 +932,11 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
         //NetGenericAsync (10000+ObjectId+Sim.Date*100, Add);
 
         qPlayerX.Image+=Add/10;
-        if (ObjectType==1 && SLONG(qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image)+Add/10>0)
+        if (ObjectType==1 && SLONG(qPlayer.RentRouten.RentRouten[Routen(ObjectId)].Image)+Add/10>0)
         {
-            qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image+=Add/10;
+            qPlayer.RentRouten.RentRouten[Routen(ObjectId)].Image+=Add/10;
 
-            Limit ((UBYTE)0, qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image, (UBYTE)100);
+            Limit (static_cast<UBYTE>(0), qPlayer.RentRouten.RentRouten[Routen(ObjectId)].Image, static_cast<UBYTE>(100));
         }
         Limit (SLONG(-1000), qPlayerX.Image, SLONG(1000));
     }
@@ -974,7 +974,7 @@ SLONG CFlugplanEintrag::GetEinnahmen (SLONG PlayerNum, const CPlane &qPlane) con
 
             //Auftrag:
         case 2:
-            return (Sim.Players.Players[(SLONG)PlayerNum].Auftraege[ObjectId].Praemie);
+            return (Sim.Players.Players[PlayerNum].Auftraege[ObjectId].Praemie);
             break;
 
             //Leerflug:
@@ -984,7 +984,7 @@ SLONG CFlugplanEintrag::GetEinnahmen (SLONG PlayerNum, const CPlane &qPlane) con
 
             //Frachtauftrag:
         case 4:
-            return (Sim.Players.Players[(SLONG)PlayerNum].Frachten[ObjectId].Praemie);
+            return (Sim.Players.Players[PlayerNum].Frachten[ObjectId].Praemie);
             break;
 
         default: //Eigentlich unmöglich:

@@ -98,8 +98,8 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
                         for (e=qPlan.Flug.AnzEntries()-1; e>=0; e--)
                         {
                             if (qPlan.Flug[e].ObjectType==1) {
-                                if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(qPlan.Flug[e].ObjectId)].Rang != 0u) {
-                                    if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(qPlan.Flug[e].ObjectId)].Auslastung>20)
+                                if (qPlayer.RentRouten.RentRouten[Routen(qPlan.Flug[e].ObjectId)].Rang != 0u) {
+                                    if (qPlayer.RentRouten.RentRouten[Routen(qPlan.Flug[e].ObjectId)].Auslastung>20)
                                     {
                                         ULONG a=Routen[qPlan.Flug[e].ObjectId].VonCity;
                                         ULONG b=Routen[qPlan.Flug[e].ObjectId].NachCity;
@@ -495,9 +495,9 @@ CAufsicht::~CAufsicht()
                 PERSON &qPerson = Sim.Persons[Sim.Persons.GetPlayerIndex(c)];
 
                 if (Sim.Date!=0) {
-                    qPerson.Position=Airport.GetRandomTypedRune (RUNE_PCREATION2, (UBYTE)((c+1)*10));
+                    qPerson.Position=Airport.GetRandomTypedRune (RUNE_PCREATION2, static_cast<UBYTE>((c+1)*10));
                 } else {
-                    qPerson.Position=Airport.GetRandomTypedRune (RUNE_PCREATION2, (UBYTE)((c+1+4)*10));
+                    qPerson.Position=Airport.GetRandomTypedRune (RUNE_PCREATION2, static_cast<UBYTE>((c+1+4)*10));
 }
 
                 qPerson.MoodCountdown = 0;
@@ -630,7 +630,7 @@ CAufsicht::~CAufsicht()
 
                             {
                                 //Für alle Flugzeuge die er besitzt, die Passagierzahl aktualisieren:
-                                for (long d=0; d<(SLONG)qOpfer.Planes.AnzEntries(); d++) {
+                                for (long d=0; d<qOpfer.Planes.AnzEntries(); d++) {
                                     if (qOpfer.Planes.IsInAlbum (d) != 0)
                                     {
                                         CPlane &qPlane=qOpfer.Planes[d];
@@ -718,7 +718,7 @@ CAufsicht::~CAufsicht()
             PLAYER &qPlayer = Sim.Players.Players[c];
 
             //Für alle Flugzeuge die er besitzt
-            for (SLONG d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++)
+            for (SLONG d=0; d<qPlayer.Planes.AnzEntries(); d++)
             {
                 if (qPlayer.Planes.IsInAlbum (d) != 0)
                 {
@@ -773,7 +773,7 @@ void CAufsicht::OnPaint()
     {
         if (!bExited)
         {
-            Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            Sim.Players.Players[PlayerNum].LeaveRoom();
             bExited = true;
         }
     }
@@ -839,7 +839,7 @@ do_the_painting_again:
             if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum (Sim.Persons[d].ClanId) != 0))
             {
                 PERSON &qPerson=Sim.Persons[d];
-                CLAN   &qClan=Clans[(SLONG)qPerson.ClanId];
+                CLAN   &qClan=Clans[static_cast<SLONG>(qPerson.ClanId)];
                 UBYTE   Dir=qPerson.LookDir;
                 UBYTE   Phase=qPerson.Phase;
 
@@ -996,7 +996,7 @@ void CAufsicht::OnLButtonDown(UINT nFlags, CPoint point)
             TryLeaveAufsicht ();
         }
         else if (MouseClickArea==ROOM_AUFSICHT && MouseClickId==10) {
-            Sim.Players.Players[(SLONG)PlayerNum].EnterRoom (ROOM_TAFEL);
+            Sim.Players.Players[PlayerNum].EnterRoom (ROOM_TAFEL);
         } else if (MouseClickArea==ROOM_AUFSICHT && MouseClickId==11) {
             StartDialog (TALKER_BOSS, MEDIUM_AIR, 2);
         } else { CStdRaum::OnLButtonDown(nFlags, point);
@@ -1099,8 +1099,9 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
                 }
             }
 
-            if (!(IsDialogOpen() && Sim.IsTutorial) && CanCancel)
+            if (!(IsDialogOpen() && Sim.IsTutorial) && CanCancel) {
                 CStdRaum::OnRButtonDown(nFlags, point);
+}
         }
    
 }

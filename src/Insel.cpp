@@ -70,15 +70,15 @@ void PrepareReflexionTable (SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTabl
     for (y=0; y<ReflexionMaskBm.Size.y; y++) {
         for (x=0; x<16; x++)
         {
-            ReflexionTable[y*ReflexionMaskBm.Size.x+x]=(UBYTE)x;
-            ReflexionTable[y*ReflexionMaskBm.Size.x+ReflexionMaskBm.Size.x-1-x]=(UBYTE)x;
+            ReflexionTable[y*ReflexionMaskBm.Size.x+x]=static_cast<UBYTE>(x);
+            ReflexionTable[y*ReflexionMaskBm.Size.x+ReflexionMaskBm.Size.x-1-x]=static_cast<UBYTE>(x);
         }
 }
 
     //Weniger Bewegung bei den Objekten in der Bitmap
     for (y=0; y<ReflexionMaskBm.Size.y; y++)
     {
-        auto *pSrcAdress=(UWORD*)(((UBYTE*)SrcKey.Bitmap)+y*SrcKey.lPitch);
+        auto *pSrcAdress=reinterpret_cast<UWORD*>((static_cast<UBYTE*>(SrcKey.Bitmap))+y*SrcKey.lPitch);
         UBYTE *pTable=ReflexionTable+y*ReflexionMaskBm.Size.x;
 
         for (x=0; x<ReflexionMaskBm.Size.x; x++)
@@ -93,7 +93,7 @@ void PrepareReflexionTable (SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTabl
                     if (y+yy<ReflexionMaskBm.Size.y) {
                         for (xx=-yy; xx<=yy; xx++) {
                             if (x+xx>=0 && x+xx<ReflexionMaskBm.Size.x) {
-                                pTable[yy*ReflexionMaskBm.Size.x+x+xx]=(UBYTE)min (yy, pTable[yy*ReflexionMaskBm.Size.x+x+xx]);
+                                pTable[yy*ReflexionMaskBm.Size.x+x+xx]=static_cast<UBYTE>(min (yy, pTable[yy*ReflexionMaskBm.Size.x+x+xx]));
 }
 }
 }
@@ -135,8 +135,8 @@ void WaterBlur (SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &Reflex
                 MoveOffset[x]=tx*x/15;
 }
 
-            pTgtPixel = (UWORD*) (((char*)(TgtKey.Bitmap))+(y+TargetOffset.y)*TgtKey.lPitch);
-            pSrcPixel = (UWORD*) (((char*)(((UWORD*)SrcKey.Bitmap)+TargetOffset.x))+y*SrcKey.lPitch);
+            pTgtPixel = reinterpret_cast<UWORD*>((static_cast<char*>(TgtKey.Bitmap))+(y+TargetOffset.y)*TgtKey.lPitch);
+            pSrcPixel = reinterpret_cast<UWORD*>((reinterpret_cast<char*>((static_cast<UWORD*>(SrcKey.Bitmap))+TargetOffset.x))+y*SrcKey.lPitch);
             pRefTable = pReflexionTable+y*ReflexionSourceBm.Size.x+TargetOffset.x;
 
             x=pTargetBm->Size.x-1;
@@ -276,7 +276,7 @@ CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
 
     if (Sim.Difficulty<ROOM_LIMIT)
     {
-        Sim.Players.Players[(SLONG)PlayerNum].ChangeMoney (-1, 3300, "");
+        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].ChangeMoney (-1, 3300, "");
 
         ReSize ("noinsel.gli", GFX_NOINSEL);
     }
@@ -287,7 +287,7 @@ CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
         SetRoomVisited (PlayerNum, ROOM_INSEL);
         HandyOffset = 320;
 
-        Sim.Players.Players[(SLONG)PlayerNum].ChangeMoney (-1, 3300, "");
+        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].ChangeMoney (-1, 3300, "");
 
         SBBM TempBm;
 
@@ -387,7 +387,7 @@ void CInsel::OnPaint()
 }
 
     static SLONG gMouseScrollSpeed=0;
-    XY   &ViewPos = Sim.Players.Players[(SLONG)PlayerNum].IslandViewPos;
+    XY   &ViewPos = Sim.Players.Players[PlayerNum].IslandViewPos;
 
     XY   BoatPos = XY(1300-((timeGetTime()-ShipOffset)/80)-ViewPos.x, 264);
     SBBM TempBm;
@@ -599,7 +599,7 @@ void CInsel::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_INSEL && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_INSEL && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         //else if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==10) StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, 0);
         } else { CStdRaum::OnLButtonDown(nFlags, point);
 }
@@ -627,8 +627,9 @@ void CInsel::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

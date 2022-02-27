@@ -38,7 +38,7 @@ CDutyFree::CDutyFree(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     AirportRoomPos = Airport.GetRandomTypedRune (RUNE_2SHOP, ROOM_SHOP1)+XY(88,0);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tip.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("tip.gli", GliPath)), &pMenuLib, L_LOCMEM);
     ZettelBm.ReSize (pMenuLib, "BLOC1");
 
     OpaqueBm.ReSize (pRoomLib, GFX_OPAQUE);
@@ -112,7 +112,7 @@ CDutyFree::~CDutyFree()
 void CDutyFree::OnPaint()
 {
     SLONG    NewTip = 0;
-    PLAYER  &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER  &qPlayer = Sim.Players.Players[PlayerNum];
     SLONG    lasty=600;
 
     if (Sim.Date>4) { Sim.GiveHint (HINT_DUTYFREE);
@@ -140,7 +140,7 @@ void CDutyFree::OnPaint()
         if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum (Sim.Persons[d].ClanId) != 0))
         {
             PERSON &qPerson=Sim.Persons[d];
-            CLAN   &qClan=Clans[(SLONG)qPerson.ClanId];
+            CLAN   &qClan=Clans[static_cast<SLONG>(qPerson.ClanId)];
             UBYTE   Dir=qPerson.LookDir;
 
             if (Dir<4) { UBYTE(Dir = (Dir+2)&3);
@@ -269,7 +269,7 @@ void CDutyFree::OnPaint()
 void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY      RoomPos;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     DefaultOnLButtonDown ();
 
@@ -401,8 +401,9 @@ void CDutyFree::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

@@ -49,7 +49,7 @@ int ProfanityFilter::FilterProfanity(const char *input, char *output, bool filte
 }
 
     int count = 0;
-    char* b = (char *) alloca(strlen(input) + 1);
+    char* b = static_cast<char *>(alloca(strlen(input) + 1));
     strcpy(b, input);
     _strlwr(b);
     char *start = b;

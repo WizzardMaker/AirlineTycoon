@@ -192,7 +192,7 @@ void CKiosk::RepaintTip ()
 
                     GfxLib *pGLibLocal=nullptr;
 
-                    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("kioskloc.gli", GliPath), &pGLibLocal, L_LOCMEM);
+                    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("kioskloc.gli", GliPath)), &pGLibLocal, L_LOCMEM);
 
                     Picture.ReSize (pRoomLib, GFX_PAPER3A);
                     Newspapers[c].BlitFrom (Picture);
@@ -224,7 +224,7 @@ void CKiosk::RepaintTip ()
                 {
                     GfxLib *pGLibNews=nullptr;
 
-                    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("kiosks.gli", GliPath), &pGLibNews, L_LOCMEM);
+                    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("kiosks.gli", GliPath)), &pGLibNews, L_LOCMEM);
                     Picture.ReSize (pGLibNews, hl.PictureId);
 
                     if (c==0)
@@ -258,7 +258,7 @@ void CKiosk::RepaintTip ()
                         {
                             GfxLib *pGLibNews=nullptr;
 
-                            pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename (CString(bprintf ("kioskp%li.gli", e+1)), GliPath), &pGLibNews, L_LOCMEM);
+                            pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename (CString(bprintf ("kioskp%li.gli", e+1)), GliPath)), &pGLibNews, L_LOCMEM);
                             Picture.ReSize (pGLibNews, hl.PictureId-e*100);
 
                             Newspapers[c].BlitFrom ((NewspaperDefs[1])[5], p.x-3, p.y);
@@ -469,7 +469,7 @@ void CKiosk::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_KIOSK && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_KIOSK && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_KIOSK && MouseClickId==10) { StartDialog (TALKER_KIOSK, MEDIUM_AIR); }
         else if (MouseClickArea==ROOM_KIOSK && MouseClickId==20 && (Sim.Players.Players[PlayerNum].HasItem(ITEM_STINKBOMBE) == 0)) { StartDialog (TALKER_KIOSK, MEDIUM_AIR, 1000); }
         else { CStdRaum::OnLButtonDown(nFlags, point);
@@ -496,8 +496,9 @@ void CKiosk::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

@@ -26,9 +26,9 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
     Sim.FocusPerson=-1;
 
     Hdu.HercPrintf (0, "bank_bl.mcf");
-    FontBankBlack.Load (lpDD, (char*)(LPCTSTR)FullFilename ("bank_bl.mcf", MiscPath));
+    FontBankBlack.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("bank_bl.mcf", MiscPath)));
     Hdu.HercPrintf (0, "bank_ro.mcf");
-    FontBankRed.Load (lpDD, (char*)(LPCTSTR)FullFilename ("bank_ro.mcf", MiscPath));
+    FontBankRed.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("bank_ro.mcf", MiscPath)));
 
     SP_Modem.ReSize (1);
     SP_Modem.Clips[0].ReSize (1, "modem.smk", "", XY(307,338), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
@@ -42,7 +42,7 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
 
     MoneyBm.ReSize (pRoomLib, GFX_MONEY);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tip.gli", GliPath), &pMenuLib, L_LOCMEM);
+    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("tip.gli", GliPath)), &pMenuLib, L_LOCMEM);
     ZettelBm.ReSize (pMenuLib, "BLOC1");
 
     //Raumanimationen
@@ -159,15 +159,15 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
 
     ReloadBitmaps();
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_GELD)>75)
+    if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].HasBerater (BERATERTYP_GELD)>75)
     {
-        if ((Sim.Difficulty==DIFF_NORMAL && Sim.Players.Players[(SLONG)PlayerNum].SollZins==6) ||
-                (Sim.Difficulty==DIFF_HARD   && Sim.Players.Players[(SLONG)PlayerNum].SollZins==10) ||
-                (Sim.Difficulty==DIFF_FINAL  && Sim.Players.Players[(SLONG)PlayerNum].SollZins==15))
+        if ((Sim.Difficulty==DIFF_NORMAL && Sim.Players.Players[static_cast<SLONG>(PlayerNum)].SollZins==6) ||
+                (Sim.Difficulty==DIFF_HARD   && Sim.Players.Players[static_cast<SLONG>(PlayerNum)].SollZins==10) ||
+                (Sim.Difficulty==DIFF_FINAL  && Sim.Players.Players[static_cast<SLONG>(PlayerNum)].SollZins==15))
         {
-            OldZins = Sim.Players.Players[(SLONG)PlayerNum].SollZins;
-            NewZins = Sim.Players.Players[(SLONG)PlayerNum].SollZins = UBYTE((OldZins+Sim.Players.Players[(SLONG)PlayerNum].HabenZins)/2);
-            Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_GELD, bprintf(StandardTexte.GetS (TOKEN_ADVICE, 5000), OldZins, NewZins));
+            OldZins = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].SollZins;
+            NewZins = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].SollZins = UBYTE((OldZins+Sim.Players.Players[static_cast<SLONG>(PlayerNum)].HabenZins)/2);
+            Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Messages.AddMessage (BERATERTYP_GELD, bprintf(StandardTexte.GetS (TOKEN_ADVICE, 5000), OldZins, NewZins));
         }
     }
 
@@ -264,7 +264,7 @@ void Bank::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<3)) != 0u)
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<3)) != 0u)
     {
         SP_Modem.Pump ();
         SP_Modem.BlitAtT (RoomBm);
@@ -317,7 +317,7 @@ void Bank::OnPaint()
 void Bank::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY      RoomPos;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     DefaultOnLButtonDown ();
 
@@ -365,8 +365,9 @@ void Bank::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

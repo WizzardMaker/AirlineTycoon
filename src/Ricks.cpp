@@ -171,7 +171,7 @@ void CRicks::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_RICKS && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_RICKS && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_RICKS && MouseClickId==10) { StartDialog (TALKER_RICK, MEDIUM_AIR, 0); }
         else if (MouseClickArea==ROOM_RICKS && MouseClickId==11) { StartDialog (TALKER_TRINKER, MEDIUM_AIR, 0); }
         else { CStdRaum::OnLButtonDown(nFlags, point);
@@ -198,8 +198,9 @@ void CRicks::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

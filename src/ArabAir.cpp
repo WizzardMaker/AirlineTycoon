@@ -72,17 +72,17 @@ CArabAir::CArabAir(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
         StartupFX.Play(0, Sim.Options.OptionEffekte*100/7);
     }
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_KEROSIN) != 0)
+    if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].HasBerater(BERATERTYP_KEROSIN) != 0)
     {
-        if (Sim.Kerosin<400 && Sim.Players.Players[(SLONG)PlayerNum].TankInhalt*2<Sim.Players.Players[(SLONG)PlayerNum].Tank*4 && Sim.Players.Players[(SLONG)PlayerNum].Money>20000)
+        if (Sim.Kerosin<400 && Sim.Players.Players[static_cast<SLONG>(PlayerNum)].TankInhalt*2<Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Tank*4 && Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Money>20000)
         {
             //Kerosin kaufen:
-            Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_KEROSIN, StandardTexte.GetS (TOKEN_ADVICE, 3000));
+            Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Messages.AddMessage (BERATERTYP_KEROSIN, StandardTexte.GetS (TOKEN_ADVICE, 3000));
         }
         else if (Sim.Kerosin>600)
         {
             //Kerosin nicht kaufen:
-            Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_KEROSIN, StandardTexte.GetS (TOKEN_ADVICE, 3001));
+            Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Messages.AddMessage (BERATERTYP_KEROSIN, StandardTexte.GetS (TOKEN_ADVICE, 3001));
         }
     }
 }
@@ -168,13 +168,13 @@ void CArabAir::OnLButtonDown(UINT nFlags, CPoint point)
         if (gMousePosition.IfIsWithin (179,215,242,261)) { RadioFX.Play (0, Sim.Options.OptionEffekte*100/7);
 }
 
-        if (MouseClickArea==ROOM_ARAB_AIR && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_ARAB_AIR && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_ARAB_AIR && MouseClickId==10) { StartDialog (TALKER_ARAB, MEDIUM_AIR, 0); }
         else if (MouseClickArea==ROOM_ARAB_AIR && MouseClickId==12)
         {
-            Sim.Players.Players[(SLONG)PlayerNum].BuyItem (ITEM_GLOVE);
+            Sim.Players.Players[PlayerNum].BuyItem (ITEM_GLOVE);
 
-            if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_GLOVE) != 0)
+            if (Sim.Players.Players[PlayerNum].HasItem (ITEM_GLOVE) != 0)
             {
                 Sim.ItemGlove=0;
                 SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLOVE);
@@ -204,8 +204,9 @@ void CArabAir::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

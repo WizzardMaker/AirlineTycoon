@@ -155,7 +155,7 @@ void CSmackerClip::Start ()
         {
             if (strchr (SoundFilename, '|') != nullptr)
             {
-                char  *p=(char*)(LPCTSTR)SoundFilename;
+                char  *p=const_cast<char*>((LPCTSTR)SoundFilename);
 
                 NumSoundFx = 1;
                 while (true)
@@ -171,7 +171,7 @@ void CSmackerClip::Start ()
             else
             {
                 NumSoundFx = 1;
-                SoundFx.ReInit (SoundFilename, (char*)(LPCTSTR)SmackerPath);
+                SoundFx.ReInit (SoundFilename, const_cast<char*>((LPCTSTR)SmackerPath));
             }
         }
         else { NumSoundFx = 0;
@@ -280,7 +280,7 @@ void CSmackerClip::NextSyllable ()
 {
     if (SoundFilename.GetLength()>0)
     {
-        char *p=(char*)(LPCTSTR)SoundFilename;
+        char *p=const_cast<char*>((LPCTSTR)SoundFilename);
 
         if (NumSoundFx<3)
         {
@@ -303,7 +303,7 @@ void CSmackerClip::NextSyllable ()
         if (pp != nullptr) { *pp=0;
 }
 
-        SoundFx.ReInit (buffer, (char*)(LPCTSTR)SmackerPath);
+        SoundFx.ReInit (buffer, const_cast<char*>((LPCTSTR)SmackerPath));
     }
 }
 
@@ -356,7 +356,7 @@ void CSmackerPerson::ReSize (SLONG NumberOfClips)
 //--------------------------------------------------------------------------------------------
 void CSmackerPerson::SetSpeakFx (const CString& Filename)
 {
-    SpeakFx.ReInit (Filename, (char*)(LPCTSTR)SmackerPath);
+    SpeakFx.ReInit (Filename, const_cast<char*>((LPCTSTR)SmackerPath));
 }
 
 //--------------------------------------------------------------------------------------------

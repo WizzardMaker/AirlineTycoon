@@ -50,7 +50,7 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
     ClickFx.ReInit("change.raw");
 
     Hdu.HercPrintf(0, "stat_1.mcf");
-    VersionFont.Load(lpDD, (char*)(LPCTSTR)FullFilename("stat_1.mcf", MiscPath));
+    VersionFont.Load(lpDD, const_cast<char*>((LPCTSTR)FullFilename("stat_1.mcf", MiscPath)));
 
     Options::PageNum = 1;
     Options::PlayerNum = PlayerNum;
@@ -66,7 +66,7 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
     if (OptionsShortcut != -1)
     {
         UpdateSavegameNames();
-        Options::PageNum = (UBYTE)OptionsShortcut;
+        Options::PageNum = static_cast<UBYTE>(OptionsShortcut);
     }
 
     if ((Sim.Gamestate & 31) != GAMESTATE_INIT) { gKlackerPlanes.Reset();
@@ -388,7 +388,7 @@ void Options::OnPaint()
 
                 for (x = 0; x < 24; x++) {
                     if (KlackerTafel.Haben[x + y * 24] != 0) {
-                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24] + static_cast<int>(SavenameValid == 0) * (73 + 8 + 3 + 3)], 128 + x * 16, py);
+                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24]) + static_cast<int>(SavenameValid == 0) * (73 + 8 + 3 + 3)], 128 + x * 16, py);
 }
 }
             }
@@ -399,7 +399,7 @@ void Options::OnPaint()
             {
                 for (x = 0; x < 24; x++) {
                     if (KlackerTafel.Haben[x + y * 24] != 0) {
-                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24]], 128 + x * 16, py);
+                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24])], 128 + x * 16, py);
 }
 }
             }
@@ -562,7 +562,7 @@ void Options::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
                     if (Line == 11)
                     {
                         KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
-                        Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].LeaveRoom();
                     }
                 }
 
@@ -707,7 +707,7 @@ void Options::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
                     else if (OptionsShortcut != 0)
                     {
                         KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
-                        Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].LeaveRoom();
                     }
                     else { PageNum = 1;
 }
@@ -727,7 +727,7 @@ void Options::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
                         if (SIM::GetSavegameNumHumans(Line - 2) != Sim.Players.GetAnzHumanPlayers())
                         {
                             if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
-                                ((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuStart(MENU_REQUEST, MENU_REQUEST_NET_NUM);
+                                (Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuStart(MENU_REQUEST, MENU_REQUEST_NET_NUM);
 }
                         }
                         else
@@ -757,7 +757,7 @@ void Options::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
                     if (OptionsShortcut != 0)
                     {
                         KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
-                        Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].LeaveRoom();
                     }
                     else
                     {
@@ -773,7 +773,7 @@ void Options::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
                     if (Sim.bNetwork != 0)
                     {
                         Sim.UniqueGameId = ((timeGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
-                        Sim.Players.Players[(SLONG)PlayerNum].NetSave(Sim.UniqueGameId, CursorY, (LPCTSTR)SavegameNames[CursorY]);
+                        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].NetSave(Sim.UniqueGameId, CursorY, (LPCTSTR)SavegameNames[CursorY]);
                     }
                     Sim.SaveGame(CursorY, (LPCTSTR)SavegameNames[CursorY]);
 
@@ -790,7 +790,7 @@ void Options::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
                         }
                         else
                         {
-                            Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                            Sim.Players.Players[static_cast<SLONG>(PlayerNum)].LeaveRoom();
                         }
                     }
                 }
@@ -860,7 +860,7 @@ void Options::OnRButtonDown(UINT /*nFlags*/, CPoint point)
             else
             {
                 KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                Sim.Players.Players[static_cast<SLONG>(PlayerNum)].LeaveRoom();
             }
         }
         else
@@ -873,7 +873,7 @@ void Options::OnRButtonDown(UINT /*nFlags*/, CPoint point)
             else if (OptionsShortcut && (PageNum == 5 || PageNum == 6))
             {
                 KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                Sim.Players.Players[static_cast<SLONG>(PlayerNum)].LeaveRoom();
             }
             else
             {
@@ -905,11 +905,11 @@ void Options::OnChar(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
     {
         if (nChar >= 'a' && nChar <= 'z') { nChar = toupper(nChar);
 }
-        if (nChar == 196 || nChar == 228) { nChar = (UINT)'Ä';
+        if (nChar == 196 || nChar == 228) { nChar = static_cast<UINT>('Ä');
 }
-        if (nChar == 214 || nChar == 246) { nChar = (UINT)'Ö';
+        if (nChar == 214 || nChar == 246) { nChar = static_cast<UINT>('Ö');
 }
-        if (nChar == 220 || nChar == 252) { nChar = (UINT)'Ü';
+        if (nChar == 220 || nChar == 252) { nChar = static_cast<UINT>('Ü');
 }
         if (nChar == ' ' || nChar == '-' || nChar == '+' || nChar == '.' || (nChar >= 'A' && nChar <= 'Z') || nChar == 'Ä' || nChar == 'Ö' || nChar == 'Ü' || (nChar >= '0' && nChar <= '9'))
         {
@@ -934,7 +934,7 @@ void Options::OnChar(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
             if (Sim.bNetwork != 0)
             {
                 Sim.UniqueGameId = ((timeGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
-                Sim.Players.Players[(SLONG)PlayerNum].NetSave(Sim.UniqueGameId, CursorY, (LPCTSTR)SavegameNames[CursorY]);
+                Sim.Players.Players[static_cast<SLONG>(PlayerNum)].NetSave(Sim.UniqueGameId, CursorY, (LPCTSTR)SavegameNames[CursorY]);
             }
             Sim.SaveGame(CursorY, (LPCTSTR)SavegameNames[CursorY]);
 
@@ -950,7 +950,7 @@ void Options::OnChar(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
                 }
                 else
                 {
-                    Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                    Sim.Players.Players[static_cast<SLONG>(PlayerNum)].LeaveRoom();
                 }
             }
         }

@@ -45,10 +45,10 @@ class CWaitCursorNow
 //--------------------------------------------------------------------------------------------
 //Konstruktor
 //--------------------------------------------------------------------------------------------
-CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.Players.Players[(SLONG)PlayerNum].EarthAlpha, TRUE)
+CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.Players.Players[static_cast<SLONG>(PlayerNum)].EarthAlpha, TRUE)
 {
     SLONG   c = 0;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[static_cast<SLONG>(PlayerNum)];
 
     CWaitCursorNow wc; //CD-Cursor anzeigen
 
@@ -134,7 +134,7 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
         SP_Buttons[5].Clips[0].ReSize (0, "ok.smk", "", XY(545,359), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
                 nullptr, SMACKER_CLIP_SET, 0, nullptr, "A1", 0);
 
-        EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthvir.lbm", GliPath), SYSRAMBM);
+        EarthBm.ReSize (const_cast<char*>((LPCTSTR)FullFilename ("earthvir.lbm", GliPath)), SYSRAMBM);
 
         for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--) {
             if (qPlayer.Blocks.IsInAlbum(c) != 0) {
@@ -142,12 +142,12 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
 }
 }
     }
-    else { EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthlap.lbm", GliPath), SYSRAMBM);
+    else { EarthBm.ReSize (const_cast<char*>((LPCTSTR)FullFilename ("earthlap.lbm", GliPath)), SYSRAMBM);
 }
 
     MessagePump();
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("globe.gli", RoomPath), &pGLibGlobe, L_LOCMEM);
+    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("globe.gli", RoomPath)), &pGLibGlobe, L_LOCMEM);
 
     WarningLightModes[0]=WarningLightModes[1]=WarningLightModes[2]=0;
 
@@ -272,8 +272,8 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
                 if (qPlayer.LaptopBattery>0) { qBlock.Refresh (PlayerNum, TRUE);
 }
 
-                Limit ((SLONG)(49-qBlock.Bitmap.Size.x/2), qBlock.ScreenPos.x, (SLONG)(600-qBlock.Bitmap.Size.x/2));
-                Limit ((SLONG)29, qBlock.ScreenPos.y, (SLONG)380);
+                Limit (static_cast<SLONG>(49-qBlock.Bitmap.Size.x/2), qBlock.ScreenPos.x, static_cast<SLONG>(600-qBlock.Bitmap.Size.x/2));
+                Limit (static_cast<SLONG>(29), qBlock.ScreenPos.y, static_cast<SLONG>(380));
             }
         }
         if (qPlayer.Blocks.IsInAlbum(c) != 0)
@@ -290,7 +290,7 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
     {
         MessagePump();
 
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ((CString)bprintf ("icon%li.gli", c+1), RoomPath), &pGLibIcons[c], L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename (CString(bprintf ("icon%li.gli", c+1)), RoomPath)), &pGLibIcons[c], L_LOCMEM);
 
         switch (c)
         {
@@ -377,7 +377,7 @@ void CLaptop::OnPaint()
     SLONG   c = 0;
     DWORD   Time=timeGetTime();
     static  DWORD LastTime;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
     XY      RoomPos = qPlayer.CursorPos;
 
     static SLONG LastHour;
@@ -480,13 +480,13 @@ void CLaptop::OnPaint()
     CStdRaum::OnPaint ();
     CStdRaum::InitToolTips ();
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].LaptopBattery>0)
+    if (Sim.Players.Players[PlayerNum].LaptopBattery>0)
     {
         SP_Lampe.Pump ();
         SP_Lampe.BlitAtT (RoomBm);
     }
 
-    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<1)) != 0u)
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<1)) != 0u)
     {
         SP_Antivir.Pump ();
         SP_Antivir.BlitAtT (RoomBm);
@@ -510,7 +510,7 @@ void CLaptop::OnPaint()
             //Alle 10 Minuten ein Repaint erzwingen:
             if (LastPaintedMinute!=Sim.GetMinute() && Sim.GetMinute()%10==0)
             {
-                for (c=0; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++) {
+                for (c=0; c<qPlayer.Blocks.AnzEntries(); c++) {
                     if (qPlayer.Blocks.IsInAlbum(c) != 0) {
                         qPlayer.Blocks[c].Refresh (PlayerNum, TRUE);
 }
@@ -566,7 +566,7 @@ void CLaptop::OnPaint()
 }
 
             //Top-Fenster markieren
-            for (c=1; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++) {
+            for (c=1; c<qPlayer.Blocks.AnzEntries(); c++) {
                 if ((FensterVisible != 0) && (qPlayer.Blocks.IsInAlbum(c) != 0) && qPlayer.Blocks[c].Destructing==0)
                 {
                     qPlayer.Blocks[c].IsTopWindow  = TRUE;
@@ -722,7 +722,7 @@ void CLaptop::OnPaint()
 }
 
                 //Kein Planes/Routes Button, wenn man den entsprechenden Informaten nicht hat:
-                if (MouseClickPar1>=70 && MouseClickPar1<=83 && MouseClickArea==ROOM_LAPTOP && MouseClickId==100 && (Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_INFO) == 0))
+                if (MouseClickPar1>=70 && MouseClickPar1<=83 && MouseClickArea==ROOM_LAPTOP && MouseClickId==100 && (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) == 0))
                 {
                     if (MouseClickPar1>=70 && MouseClickPar1<=73 && PlayerNum!=MouseClickPar1-70) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_LAPTOP, 0, 0);
 }
@@ -761,8 +761,8 @@ void CLaptop::OnPaint()
             if (CurrentDragId!=-1 && ((qPlayer.Buttons&1) != 0))
             {
                 qPlayer.Blocks[CurrentDragId].ScreenPos = gMousePosition-DragOffset;
-                Limit ((SLONG)(49-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2), qPlayer.Blocks[CurrentDragId].ScreenPos.x, (SLONG)(600-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2));
-                Limit ((SLONG)29, qPlayer.Blocks[CurrentDragId].ScreenPos.y, (SLONG)380);
+                Limit (static_cast<SLONG>(49-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2), qPlayer.Blocks[CurrentDragId].ScreenPos.x, static_cast<SLONG>(600-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2));
+                Limit (static_cast<SLONG>(29), qPlayer.Blocks[CurrentDragId].ScreenPos.y, static_cast<SLONG>(380));
             }
 
             //Ggf. Icons beschleunigen lassen:
@@ -803,7 +803,7 @@ void CLaptop::OnPaint()
         {
             PaintGlobeInScreen (GlobeOffset[1]);
 
-            if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus != 0)
+            if (Sim.Players.Players[PlayerNum].LaptopVirus != 0)
             {
                 for (c=0; c<6; c++)
                 {
@@ -822,7 +822,7 @@ void CLaptop::OnPaint()
                     {
                         if ((IconRot[c] != 0) && pGLibIcons[c]==nullptr)
                         {
-                            pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ((CString)bprintf ("icon%li.gli", c+1), RoomPath), &pGLibIcons[c], L_LOCMEM);
+                            pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename (CString(bprintf ("icon%li.gli", c+1)), RoomPath)), &pGLibIcons[c], L_LOCMEM);
 
                             switch (c)
                             {
@@ -1025,7 +1025,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
     SLONG c = 0;
     XY    RoomPos;       //Position im Raum
     XY    ClientPos;     //Position in der Client-Area des Blocks
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     if (gMousePosition.y>=440)
     {
@@ -1050,7 +1050,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
     if (MouseClickArea==ROOM_LAPTOP && MouseClickId==999)
     {
         PlayUniversalFx ("laptop1.raw", Sim.Options.OptionEffekte);
-        Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        Sim.Players.Players[PlayerNum].LeaveRoom();
     }
     else if (gMousePosition.IfIsWithin (74, 398, 111, 439))
     {
@@ -1074,7 +1074,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
 
     //Klick auf ein FLugzeug auf der Weltkarte:
     if (CurrentBlock==-1 && MouseClickArea==ROOM_LAPTOP && MouseClickId==101) {
-        if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0)
+        if (Sim.Players.Players[PlayerNum].LaptopVirus==0)
         {
             ULONG Id = 0;
 
@@ -1084,7 +1084,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
 
             Sim.Players.Players[PlayerNum].Blocks += Id;
 
-            BLOCK &qBlock = Sim.Players.Players[(SLONG)PlayerNum].Blocks[Id];
+            BLOCK &qBlock = Sim.Players.Players[PlayerNum].Blocks[Id];
 
             qBlock.PlayerNum  = PlayerNum;
             qBlock.ScreenPos  = point;
@@ -1115,7 +1115,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
             qBlock.DoubleBlock = static_cast<BOOL>(qBlock.BlockType!=5);
 
             qBlock.AnzPages = 3;
-            if (Sim.Players.Players[(SLONG)PlayerNum].Planes[qBlock.SelectedId].TypeId!=-1) { qBlock.AnzPages += PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[qBlock.SelectedId].TypeId].AnzPhotos;
+            if (Sim.Players.Players[PlayerNum].Planes[qBlock.SelectedId].TypeId!=-1) { qBlock.AnzPages += PlaneTypes[Sim.Players.Players[PlayerNum].Planes[qBlock.SelectedId].TypeId].AnzPhotos;
 }
 
             qBlock.RefreshData (PlayerNum);
@@ -1125,8 +1125,8 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
             PaintGlobe ();
             PaintGlobeRoutes();
 
-            Limit ((SLONG)39, Sim.Players.Players[PlayerNum].Blocks[Id].ScreenPos.x, 600-Sim.Players.Players[PlayerNum].Blocks[Id].Bitmap.Size.x);
-            Limit ((SLONG)29, Sim.Players.Players[PlayerNum].Blocks[Id].ScreenPos.y, 409-Sim.Players.Players[PlayerNum].Blocks[Id].Bitmap.Size.y);
+            Limit (static_cast<SLONG>(39), Sim.Players.Players[PlayerNum].Blocks[Id].ScreenPos.x, 600-Sim.Players.Players[PlayerNum].Blocks[Id].Bitmap.Size.x);
+            Limit (static_cast<SLONG>(29), Sim.Players.Players[PlayerNum].Blocks[Id].ScreenPos.y, 409-Sim.Players.Players[PlayerNum].Blocks[Id].Bitmap.Size.y);
 
             //Block ggf. nach vorne bringen:
             Id = Sim.Players.Players[PlayerNum].Blocks (Id);
@@ -1147,7 +1147,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
             CurrentBlock--;
             pBlock = &Sim.Players.Players[PlayerNum].Blocks[CurrentBlock];
         }
-        BLOCK &qBlock = Sim.Players.Players[(SLONG)PlayerNum].Blocks[CurrentBlock];
+        BLOCK &qBlock = Sim.Players.Players[PlayerNum].Blocks[CurrentBlock];
 
         if (MouseClickArea==ROOM_LAPTOP && MouseClickId==100)
         {
@@ -1191,7 +1191,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
                             if (pBlock->Index==0)
                             {
                                 pBlock->AnzPages = 3;
-                                if (Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].TypeId!=-1) { pBlock->AnzPages += PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].TypeId].AnzPhotos;
+                                if (Sim.Players.Players[PlayerNum].Planes[pBlock->SelectedId].TypeId!=-1) { pBlock->AnzPages += PlaneTypes[Sim.Players.Players[PlayerNum].Planes[pBlock->SelectedId].TypeId].AnzPhotos;
 }
                             }
                             if (pBlock->Index==2) { pBlock->AnzPages = 7;
@@ -1330,7 +1330,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
     }//Ende: Test, ob Klick auf Block
     else if (MouseClickArea==ROOM_LAPTOP && MouseClickId==100)
     {
-        if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0)
+        if (Sim.Players.Players[PlayerNum].LaptopVirus==0)
         {
             if (MouseClickPar1==90) { FensterVisible^=1;
             } else if (MouseClickPar1==70) { qPlayer.DisplayPlanes[0]^=1;
@@ -1366,10 +1366,10 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
     }
 
     //Klick auf Ikone behandeln:
-    if (CurrentIcon==0) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+    if (CurrentIcon==0) { Sim.Players.Players[PlayerNum].LeaveRoom();
     } else if (CurrentIcon>=1 && CurrentIcon<=5 && (Sim.Players.Players[PlayerNum].Blocks.GetNumFree() != 0))
     {
-        if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus != 0)
+        if (Sim.Players.Players[PlayerNum].LaptopVirus != 0)
         {
             KommVarButtons[CurrentIcon-1]=1;
         }
@@ -1378,9 +1378,9 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
             FensterVisible=TRUE;
 
             //Neuen Block oder Block nach vorne bringen?
-            for (c=Sim.Players.Players[(SLONG)PlayerNum].Blocks.AnzEntries(); c>0; c--) {
-                if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(c) != 0) {
-                    if (Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].BlockType==CurrentIcon && Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].Index==1) {
+            for (c=Sim.Players.Players[PlayerNum].Blocks.AnzEntries(); c>0; c--) {
+                if (Sim.Players.Players[PlayerNum].Blocks.IsInAlbum(c) != 0) {
+                    if (Sim.Players.Players[PlayerNum].Blocks[c].BlockType==CurrentIcon && Sim.Players.Players[PlayerNum].Blocks[c].Index==1) {
                         break;
 }
 }
@@ -1447,8 +1447,8 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
 
                     qBlock.Refresh (PlayerNum, TRUE);
 
-                    Limit ((SLONG)(49-qBlock.Bitmap.Size.x/2), qBlock.ScreenPos.x, (SLONG)(600-qBlock.Bitmap.Size.x/2));
-                    Limit ((SLONG)29, qBlock.ScreenPos.y, (SLONG)380);
+                    Limit (static_cast<SLONG>(49-qBlock.Bitmap.Size.x/2), qBlock.ScreenPos.x, static_cast<SLONG>(600-qBlock.Bitmap.Size.x/2));
+                    Limit (static_cast<SLONG>(29), qBlock.ScreenPos.y, static_cast<SLONG>(380));
                 }
 
                 //Block ggf. nach vorne bringen:

@@ -347,11 +347,11 @@ void BRICKS::ReInit (const CString &TabFilename)
 
         (*this)[Id].RamPriority = atoi (strtok (nullptr, ";\x8\""));
 
-        (*this)[Id].NonTrans  = (UBYTE)atoi (strtok (nullptr, TabSeparator));
-        (*this)[Id].Triggered = (UBYTE)atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].NonTrans  = static_cast<UBYTE>(atoi (strtok (nullptr, TabSeparator)));
+        (*this)[Id].Triggered = static_cast<UBYTE>(atoi (strtok (nullptr, TabSeparator)));
 
-        (*this)[Id].Layer = (UBYTE)atoi (strtok (nullptr, TabSeparator));
-        (*this)[Id].AnimSpeed   = (UBYTE)atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Layer = static_cast<UBYTE>(atoi (strtok (nullptr, TabSeparator)));
+        (*this)[Id].AnimSpeed   = static_cast<UBYTE>(atoi (strtok (nullptr, TabSeparator)));
         (*this)[Id].FloorOffset = atoi (strtok (nullptr, TabSeparator));
 
         (*this)[Id].BaseOffset.x = atoi (strtok (nullptr, TabSeparator));
@@ -363,7 +363,7 @@ void BRICKS::ReInit (const CString &TabFilename)
         (*this)[Id].MinY = atoi (strtok (nullptr, TabSeparator));
         (*this)[Id].MaxY = atoi (strtok (nullptr, TabSeparator));
 
-        (*this)[Id].ObstacleType = (UBYTE) atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].ObstacleType = static_cast<UBYTE>(atoi (strtok (nullptr, TabSeparator)));
 
         (*this)[Id].WaitSum = 0;
         (*this)[Id].WaitTimes.ReSize (50);
@@ -654,9 +654,9 @@ void BUILDS::Sort ()
 
     for (c=0; c<long(AnzEntries()-1); c++) {
         if (((IsInAlbum(c) == 0) && (IsInAlbum(c+1) != 0)) ||
-                ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && Bricks[(*this)[c].BrickId].Layer >Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer) ||
-                ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && Bricks[(*this)[c].BrickId].Layer==Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer && (*this)[c].ScreenPos.y+Bricks[(*this)[c].BrickId].GetBitmapDimension().y+Bricks[(*this)[c].BrickId].FloorOffset>(*this)[(SLONG)(c+1)].ScreenPos.y+Bricks[(*this)[(SLONG)(c+1)].BrickId].GetBitmapDimension().y+Bricks[(*this)[(SLONG)(c+1)].BrickId].FloorOffset) ||
-                ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && Bricks[(*this)[c].BrickId].Layer==Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer && (*this)[c].ScreenPos.y+Bricks[(*this)[c].BrickId].GetBitmapDimension().y+Bricks[(*this)[c].BrickId].FloorOffset==(*this)[(SLONG)(c+1)].ScreenPos.y+Bricks[(*this)[(SLONG)(c+1)].BrickId].GetBitmapDimension().y+Bricks[(*this)[(SLONG)(c+1)].BrickId].FloorOffset && (*this)[c].ScreenPos.x>(*this)[(SLONG)(c+1)].ScreenPos.x))
+                ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && Bricks[(*this)[c].BrickId].Layer >Bricks[(*this)[static_cast<SLONG>(c+1)].BrickId].Layer) ||
+                ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && Bricks[(*this)[c].BrickId].Layer==Bricks[(*this)[static_cast<SLONG>(c+1)].BrickId].Layer && (*this)[c].ScreenPos.y+Bricks[(*this)[c].BrickId].GetBitmapDimension().y+Bricks[(*this)[c].BrickId].FloorOffset>(*this)[static_cast<SLONG>(c+1)].ScreenPos.y+Bricks[(*this)[static_cast<SLONG>(c+1)].BrickId].GetBitmapDimension().y+Bricks[(*this)[static_cast<SLONG>(c+1)].BrickId].FloorOffset) ||
+                ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && Bricks[(*this)[c].BrickId].Layer==Bricks[(*this)[static_cast<SLONG>(c+1)].BrickId].Layer && (*this)[c].ScreenPos.y+Bricks[(*this)[c].BrickId].GetBitmapDimension().y+Bricks[(*this)[c].BrickId].FloorOffset==(*this)[static_cast<SLONG>(c+1)].ScreenPos.y+Bricks[(*this)[static_cast<SLONG>(c+1)].BrickId].GetBitmapDimension().y+Bricks[(*this)[static_cast<SLONG>(c+1)].BrickId].FloorOffset && (*this)[c].ScreenPos.x>(*this)[static_cast<SLONG>(c+1)].ScreenPos.x))
         {
             Swap (c, c+1);
             c-=2; if (c<-1) { c=-1;

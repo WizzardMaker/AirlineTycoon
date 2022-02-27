@@ -52,7 +52,7 @@ class CWaitCursorNow
 //--------------------------------------------------------------------------------------------
 //Konstruktor
 //--------------------------------------------------------------------------------------------
-CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.Players.Players[(SLONG)PlayerNum].EarthAlpha, FALSE)
+CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.Players.Players[static_cast<SLONG>(PlayerNum)].EarthAlpha, FALSE)
 {
     SLONG c = 0;
 
@@ -64,16 +64,16 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
     if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
 }
 
-    OfficeState=Sim.Players.Players[(SLONG)PlayerNum].OfficeState;
+    OfficeState=Sim.Players.Players[static_cast<SLONG>(PlayerNum)].OfficeState;
     if (OfficeState==3)
     {
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("buerodrk.gli", RoomPath)), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
     else { pGLibDark=nullptr;
 }
 
-    FensterVisible = (Sim.IsTutorial) != 0?1:Sim.Players.Players[(SLONG)PlayerNum].GlobeFileOpen;
+    FensterVisible = (Sim.IsTutorial) != 0?1:Sim.Players.Players[static_cast<SLONG>(PlayerNum)].GlobeFileOpen;
 
     KonstruktorFinished = 0;
 
@@ -93,10 +93,10 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
 
     Copyprotection    = static_cast<BOOL>(Sim.bExeChanged==1);
 
-    EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthglo.lbm", GliPath), SYSRAMBM);
+    EarthBm.ReSize (const_cast<char*>((LPCTSTR)FullFilename ("earthglo.lbm", GliPath)), SYSRAMBM);
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("globe.gli", RoomPath), &pGLibGlobe, L_LOCMEM);
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("globe_a.gli", RoomPath), &pGLibStd, L_LOCMEM);
+    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("globe.gli", RoomPath)), &pGLibGlobe, L_LOCMEM);
+    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("globe_a.gli", RoomPath)), &pGLibStd, L_LOCMEM);
 
     ReSize (bprintf ("globe_a%c.gli", 'a'+PlayerNum), GFX_GLOBE);
     GlasLeer.ReSize (pRoomLib, GFX_GLASS);
@@ -136,16 +136,16 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
 
     MessagePump();
 
-    Sim.Players.Players[(SLONG)PlayerNum].Blocks.RepaintAll=FALSE;
+    Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.RepaintAll=FALSE;
 
     //Globus-Block nötigenfalls erzeugen:
-    if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(ULONG(0)) == 0)
+    if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(0)) == 0)
     {
-        ULONG Id = Sim.Players.Players[(SLONG)PlayerNum].Blocks.GetUniqueId();
+        ULONG Id = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.GetUniqueId();
 
-        Sim.Players.Players[(SLONG)PlayerNum].Blocks *= Id;
+        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks *= Id;
 
-        BLOCK &qBlock = Sim.Players.Players[(SLONG)PlayerNum].Blocks[Id];
+        BLOCK &qBlock = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id];
 
         qBlock.PlayerNum  = PlayerNum;
         qBlock.ScreenPos  = XY(80, 100);
@@ -165,7 +165,7 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
         qBlock.TipB        = TIP_NONE;
         qBlock.TipInUseB   = TIP_NONE;
 
-        qBlock.AnzPages   = max (0, 1+(Sim.Players.Players[(SLONG)PlayerNum].Planes.GetNumUsed()-1)/6);
+        qBlock.AnzPages   = max (0, 1+(Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Planes.GetNumUsed()-1)/6);
         qBlock.Base       = this;
 
         for (c=0; c<6; c++)
@@ -189,33 +189,33 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
         qBlock.RefreshData (PlayerNum);
         qBlock.Refresh (PlayerNum, FALSE);
 
-        Limit (SLONG(-Sim.Players.Players[(SLONG)PlayerNum].Blocks[Id].Bitmap.Size.x/2), Sim.Players.Players[(SLONG)PlayerNum].Blocks[Id].ScreenPos.x, (SLONG)(640-Sim.Players.Players[(SLONG)PlayerNum].Blocks[Id].Bitmap.Size.x/2));
-        Limit ((SLONG)-20, Sim.Players.Players[(SLONG)PlayerNum].Blocks[Id].ScreenPos.y, (SLONG)400);
+        Limit (SLONG(-Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id].Bitmap.Size.x/2), Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id].ScreenPos.x, static_cast<SLONG>(640-Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id].Bitmap.Size.x/2));
+        Limit (static_cast<SLONG>(-20), Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id].ScreenPos.y, static_cast<SLONG>(400));
     }
 
     //Base-Pointer der Blöcke initialisieren:
-    for (c=Sim.Players.Players[(SLONG)PlayerNum].Blocks.AnzEntries()-1; c>=0; c--) {
-        if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(ULONG(c)) != 0) {
-            Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].Base=nullptr;
+    for (c=Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.AnzEntries()-1; c>=0; c--) {
+        if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(c)) != 0) {
+            Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[c].Base=nullptr;
 }
 }
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(ULONG(0)) != 0) {
-        Sim.Players.Players[(SLONG)PlayerNum].Blocks[(ULONG)0].Base=this;
+    if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(0)) != 0) {
+        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[static_cast<ULONG>(0)].Base=this;
 }
 
     //Refreshen:
-    if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(ULONG(0)) != 0)
+    if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(0)) != 0)
     {
-        BLOCK &qBlock = Sim.Players.Players[(SLONG)PlayerNum].Blocks[ULONG(0)];
+        BLOCK &qBlock = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[ULONG(0)];
 
         qBlock.RefreshData (PlayerNum);
         qBlock.Page  = min (qBlock.Page/6, qBlock.AnzPages-1)*6;
         qBlock.PageB = min (qBlock.PageB/6, qBlock.AnzPagesB-1)*6;
         qBlock.Refresh (PlayerNum, FALSE);
 
-        Limit (SLONG(-qBlock.Bitmap.Size.x/2), qBlock.ScreenPos.x, (SLONG)(640-qBlock.Bitmap.Size.x/2));
-        Limit ((SLONG)-20, qBlock.ScreenPos.y, (SLONG)400);
+        Limit (SLONG(-qBlock.Bitmap.Size.x/2), qBlock.ScreenPos.x, static_cast<SLONG>(640-qBlock.Bitmap.Size.x/2));
+        Limit (static_cast<SLONG>(-20), qBlock.ScreenPos.y, static_cast<SLONG>(400));
     }
 
     Sim.Players.Players[Sim.localPlayer].UpdateAuftragsUsage();
@@ -235,7 +235,7 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
 //--------------------------------------------------------------------------------------------
 CGlobe::~CGlobe()
 {
-    Sim.Players.Players[(SLONG)PlayerNum].GlobeFileOpen = FensterVisible;
+    Sim.Players.Players[PlayerNum].GlobeFileOpen = FensterVisible;
 
     QuietschFX.Stop();
 
@@ -295,16 +295,16 @@ void CGlobe::OnPaint()
     SLONG   c = 0;
     DWORD   Time=timeGetTime();
     static  DWORD LastTime;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
     XY      RoomPos = qPlayer.CursorPos;
 
     static SLONG LastHour;
     static ULONG RefreshTicker=0;
 
-    if (OfficeState!=3 && Sim.Players.Players[(SLONG)PlayerNum].OfficeState==3)
+    if (OfficeState!=3 && Sim.Players.Players[PlayerNum].OfficeState==3)
     {
         OfficeState=3;
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("buerodrk.gli", RoomPath)), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
     else { pGLibDark=nullptr;
@@ -362,7 +362,7 @@ void CGlobe::OnPaint()
         //Alle 10 Minuten ein Repaint erzwingen:
         if (LastPaintedMinute!=Sim.GetMinute() && Sim.GetMinute()%10==0)
         {
-            for (c=0; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++) {
+            for (c=0; c<qPlayer.Blocks.AnzEntries(); c++) {
                 if (qPlayer.Blocks.IsInAlbum(c) != 0) {
                     qPlayer.Blocks[c].Refresh (PlayerNum, FALSE);
 }
@@ -507,8 +507,8 @@ void CGlobe::OnPaint()
         if (CurrentDragId!=-1 && ((qPlayer.Buttons&1) != 0))
         {
             qPlayer.Blocks[CurrentDragId].ScreenPos = RoomPos-DragOffset;
-            Limit (SLONG(-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2), qPlayer.Blocks[CurrentDragId].ScreenPos.x, (SLONG)(640-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2));
-            Limit ((SLONG)-20, qPlayer.Blocks[CurrentDragId].ScreenPos.y, (SLONG)400);
+            Limit (SLONG(-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2), qPlayer.Blocks[CurrentDragId].ScreenPos.x, static_cast<SLONG>(640-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2));
+            Limit (static_cast<SLONG>(-20), qPlayer.Blocks[CurrentDragId].ScreenPos.y, static_cast<SLONG>(400));
         }
 
         //Ggf. Erde rotieren lassen:
@@ -559,7 +559,7 @@ void CGlobe::OnPaint()
     {
         PaintGlobeInScreen (GlobeOffset[0]);
 
-        if (Sim.Players.Players[(SLONG)PlayerNum].OfficeState==3)
+        if (Sim.Players.Players[PlayerNum].OfficeState==3)
         {
             RoomBm.BlitFromT (DarkBm, 0, 0);
             RoomBm.BlitFromT (DarkBm, 500, 0);
@@ -583,7 +583,7 @@ void CGlobe::OnPaint()
 
             CPlaner::DoPostPaintPollingStuff(XY(48,73)+XY(21,-2)+XY(2,18));
         }
-        else if (Sim.Players.Players[(SLONG)PlayerNum].OfficeState!=3) { RoomBm.BlitFromT (FiloEdge, 0, 440-FiloEdge.Size.y);
+        else if (Sim.Players.Players[PlayerNum].OfficeState!=3) { RoomBm.BlitFromT (FiloEdge, 0, 440-FiloEdge.Size.y);
 }
     }
 
@@ -626,7 +626,7 @@ void CGlobe::OnPaint()
 void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY      Dummy;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     if (gMousePosition.y>=440)
     {
@@ -656,7 +656,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
     {
         if ((Sim.IsTutorial != 0) && Sim.Tutorial<=1506) { return;
 }
-        Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        Sim.Players.Players[PlayerNum].LeaveRoom();
     }
 
     //Block erscheinen oder verschwinden lassen
@@ -688,7 +688,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
     //Klick auf ein FLugzeug auf der Weltkarte:
     if (CurrentBlock==-1 && MouseClickArea==ROOM_GLOBE && MouseClickId==101)
     {
-        BLOCK &qBlock = Sim.Players.Players[(SLONG)PlayerNum].Blocks[ULONG(0)];
+        BLOCK &qBlock = Sim.Players.Players[PlayerNum].Blocks[ULONG(0)];
 
         if (FensterVisible == 0)
         {
@@ -702,7 +702,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
         qBlock.Page       = 0;
 
         qBlock.AnzPages = 3;
-        if (Sim.Players.Players[(SLONG)PlayerNum].Planes[qBlock.SelectedId].TypeId!=-1) { qBlock.AnzPages += PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[qBlock.SelectedId].TypeId].AnzPhotos;
+        if (Sim.Players.Players[PlayerNum].Planes[qBlock.SelectedId].TypeId!=-1) { qBlock.AnzPages += PlaneTypes[Sim.Players.Players[PlayerNum].Planes[qBlock.SelectedId].TypeId].AnzPhotos;
 }
 
         qBlock.RefreshData (PlayerNum);
@@ -774,7 +774,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
                                     break;
 
                                 case 2: pBlock->AnzPages = 3;
-                                        if (Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].TypeId!=-1) { pBlock->AnzPages += PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].TypeId].AnzPhotos; 
+                                        if (Sim.Players.Players[PlayerNum].Planes[pBlock->SelectedId].TypeId!=-1) { pBlock->AnzPages += PlaneTypes[Sim.Players.Players[PlayerNum].Planes[pBlock->SelectedId].TypeId].AnzPhotos; 
 }break;
                                 case 5: if (pBlock->SelectedId==3 || pBlock->SelectedId==1) {
                                             pBlock->AnzPages=3;
@@ -788,7 +788,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
 
                                         if (pBlock->SelectedId==2)
                                         {
-                                            pBlock->Table.FillWithPlanes (&Sim.Players.Players[(SLONG)PlayerNum].Planes, TRUE);
+                                            pBlock->Table.FillWithPlanes (&Sim.Players.Players[PlayerNum].Planes, TRUE);
                                             pBlock->AnzPages = max (0, (pBlock->Table.AnzRows-1)/13)+2;
                                         }
                                         break;
@@ -873,7 +873,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
                 if (CurrentDragId==-1) { DragStart=gMousePosition;
 }
                 CurrentDragId = CurrentBlock;
-                DragOffset    = gMousePosition - Sim.Players.Players[(SLONG)PlayerNum].Blocks[CurrentBlock].ScreenPos;
+                DragOffset    = gMousePosition - Sim.Players.Players[PlayerNum].Blocks[CurrentBlock].ScreenPos;
             }
         }//Ende: Test, ob Klick auf Block
 

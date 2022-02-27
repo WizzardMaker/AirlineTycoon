@@ -26,7 +26,7 @@ CCredits::CCredits(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "
     gMouseStartup = TRUE;
     LastTime      = timeGetTime();
 
-    pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("credits.gli", RoomPath), &pGLibCredits, L_LOCMEM);
+    pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename ("credits.gli", RoomPath)), &pGLibCredits, L_LOCMEM);
     Background.ReSize (pGLibCredits, GFX_BACK);
     Left.ReSize (pGLibCredits, GFX_LEFT);
     Right.ReSize (pGLibCredits, GFX_RIGHT);

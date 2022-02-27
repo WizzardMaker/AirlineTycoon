@@ -771,8 +771,8 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 
     Hdu.HercPrintf (0, "stat_3.mcf");
-    FontNormalRed.Load (lpDD, (char*)(LPCTSTR)FullFilename ("stat_3.mcf", MiscPath));
-    FontYellow.Load (lpDD, (char*)(LPCTSTR)FullFilename ("stat_4.mcf", MiscPath));
+    FontNormalRed.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("stat_3.mcf", MiscPath)));
+    FontYellow.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("stat_4.mcf", MiscPath)));
 
     //Hintergrundsounds:
     if (Sim.Options.OptionEffekte != 0)
@@ -801,7 +801,7 @@ void CEditor::UpdateButtonState()
     bAllowB=true;
     bAllowC=bAllowH=bAllowW=bAllowM=false;
 
-    for (d=0; d<(long)Plane.Parts.AnzEntries(); d++) {
+    for (d=0; d<static_cast<long>(Plane.Parts.AnzEntries()); d++) {
         if (Plane.Parts.IsInAlbum(d) != 0)
         {
             if (Plane.Parts[d].Shortname[0]=='B') { bAllowC=bAllowH=bAllowW=true;
@@ -811,7 +811,7 @@ void CEditor::UpdateButtonState()
         }
 }
 
-    for (d=0; d<(long)Plane.Parts.AnzEntries(); d++) {
+    for (d=0; d<static_cast<long>(Plane.Parts.AnzEntries()); d++) {
         if (Plane.Parts.IsInAlbum(d) != 0)
         {
             if (Plane.Parts[d].Shortname[0]=='B') { bAllowB=false;
@@ -893,7 +893,7 @@ void CEditor::OnPaint()
 
                         //Für alle eingebauten Planeparts:
 
-                        for (d=0; d<(long)Plane.Parts.AnzEntries(); d++) {
+                        for (d=0; d<static_cast<long>(Plane.Parts.AnzEntries()); d++) {
                             if (Plane.Parts.IsInAlbum(d) != 0) {
                                 if (gPlanePartRelations[c].FromBuildIndex==GetPlaneBuildIndex(Plane.Parts[d].Shortname))
                                 {
@@ -913,7 +913,7 @@ void CEditor::OnPaint()
                                             long e=d;
                                             if (Plane.Parts[e].Shortname[0]=='L' || Plane.Parts[e].Shortname[0]=='R')
                                             {
-                                                for (e=0; e<(long)Plane.Parts.AnzEntries(); e++) {
+                                                for (e=0; e<static_cast<long>(Plane.Parts.AnzEntries()); e++) {
                                                     if (Plane.Parts.IsInAlbum(e) != 0) {
                                                         if (d!=e && (Plane.Parts[e].Shortname[0]=='L' || Plane.Parts[e].Shortname[0]=='R')) {
                                                             break;
@@ -1057,7 +1057,7 @@ void CEditor::OnPaint()
     //Das Flugzeug blitten:
     bool bCursorBlitted=false;
     bool bCursorBlittedB=false;
-    for (d=0; d<(long)Plane.Parts.AnzEntries(); d++) {
+    for (d=0; d<static_cast<long>(Plane.Parts.AnzEntries()); d++) {
         if (Plane.Parts.IsInAlbum(d) != 0)
         {
             BOOL bShift = 0; //(GetAsyncKeyState (VK_SHIFT)/256)!=0;
@@ -1257,7 +1257,7 @@ void CEditor::OnPaint()
     {
         bool bHotPartFound=false;
         for (long pass=1; pass<=2; pass++) {
-            for (d=(long)Plane.Parts.AnzEntries()-1; d>=0; d--) {
+            for (d=static_cast<long>(Plane.Parts.AnzEntries())-1; d>=0; d--) {
                 if ((Plane.Parts.IsInAlbum(d) != 0) && (Plane.Parts[d].Shortname[0]=='M')==(pass==1))
                 {
                     SBBM &qBm = PartBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex];
@@ -1353,14 +1353,14 @@ void CEditor::OnLButtonDblClk(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 void CEditor::DoLButtonWork (UINT  /*nFlags*/, const CPoint&  /*point*/)
 {
-    if (MouseClickId==998) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+    if (MouseClickId==998) { Sim.Players.Players[PlayerNum].LeaveRoom();
 }
     if (MouseClickId==999)
     {
         //Plane.Save (FullFilename (Plane.Name+".plane", MyPlanePath));
         Plane.Save (PlaneFilename);
 
-        Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        Sim.Players.Players[PlayerNum].LeaveRoom();
     }
     if (MouseClickId==10) {  MenuStart (MENU_RENAMEEDITPLANE);
 }
@@ -1409,8 +1409,8 @@ void CEditor::DoLButtonWork (UINT  /*nFlags*/, const CPoint&  /*point*/)
     {
         if (Plane.Parts.GetNumUsed()>1)
         {
-            PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
-            (*(CStdRaum*)qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE, 77);
+            PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+            (*qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE, 77);
             MouseClickId=0;
         }
         else { DeleteCurrent();
@@ -1461,8 +1461,8 @@ void CEditor::DoLButtonWork (UINT  /*nFlags*/, const CPoint&  /*point*/)
 
         if (PartUnderCursor[0]=='B' && Plane.Parts.GetNumUsed()>1)
         {
-            PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
-            (*(CStdRaum*)qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE);
+            PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+            (*qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE);
             PartUnderCursor="";
         }
         else
@@ -1472,7 +1472,7 @@ void CEditor::DoLButtonWork (UINT  /*nFlags*/, const CPoint&  /*point*/)
             while (true)
             {
                 long c = 0;
-                for (c=0; c<(long)Plane.Parts.AnzEntries(); c++) {
+                for (c=0; c<static_cast<long>(Plane.Parts.AnzEntries()); c++) {
                     if (Plane.Parts.IsInAlbum(c) != 0) {
                         //if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || (Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && ((gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800))))
                         if ((!Plane.Parts[c].ParentShortname.empty() && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || ((!Plane.Parts[c].ParentShortname.empty() && PartUnderCursor[0]=='R' && (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600)) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800) || (PartUnderCursor[0]=='M' && rel>=700 && rel<=1400 && abs(gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id-rel)==10 && abs(relnr-Plane.Parts[c].ParentRelationId)==1)))
@@ -1483,7 +1483,7 @@ void CEditor::DoLButtonWork (UINT  /*nFlags*/, const CPoint&  /*point*/)
 }
 }
 
-                if (c>=(long)Plane.Parts.AnzEntries()) {
+                if (c>=static_cast<long>(Plane.Parts.AnzEntries())) {
                     break;
 }
             }
@@ -1641,8 +1641,8 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
 
                 if (PartUnderCursor[0]=='B' && Plane.Parts.GetNumUsed()>1)
                 {
-                    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
-                    (*(CStdRaum*)qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE);
+                    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+                    (*qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE);
                     PartUnderCursor="";
                     return;
                 }
@@ -1653,16 +1653,19 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                     while (true)
                     {
                         long c = 0;
-                        for (c=0; c<(long)Plane.Parts.AnzEntries(); c++)
-                            if (Plane.Parts.IsInAlbum(c))
+                        for (c=0; c<static_cast<long>(Plane.Parts.AnzEntries()); c++) {
+                            if (Plane.Parts.IsInAlbum(c)) {
                                 if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || ((Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600)) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800) || (PartUnderCursor[0]=='M' && rel>=700 && rel<=1400 && abs(gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id-rel)==10 && abs(relnr-Plane.Parts[c].ParentRelationId)==1)))
                                 {
                                     Plane.Parts-=c;
                                     break;
                                 }
+}
+}
 
-                        if (c>=(long)Plane.Parts.AnzEntries())
+                        if (c>=static_cast<long>(Plane.Parts.AnzEntries())) {
                             break;
+}
                     }
                 }
 
@@ -1673,22 +1676,24 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
             {
                 long c = 0, MouseClickId=0;
 
-                for (c=0; c<5; c++)
-                    if (gMousePosition.IfIsWithin ( 27+c*127,363,101+c*127,436))
+                for (c=0; c<5; c++) {
+                    if (gMousePosition.IfIsWithin ( 27+c*127,363,101+c*127,436)) {
                         MouseClickId=c*100+105;
+}
+}
 
                 if (MouseClickId==105 && Plane.Parts.GetNumUsed()>1)
                 {
-                    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
-                    (*(CStdRaum*)qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE);
+                    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+                    (*qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE);
                     return;
                 }
 
                 while (true)
                 {
                     long c = 0;
-                    for (c=0; c<(long)Plane.Parts.AnzEntries(); c++)
-                        if (Plane.Parts.IsInAlbum(c))
+                    for (c=0; c<static_cast<long>(Plane.Parts.AnzEntries()); c++) {
+                        if (Plane.Parts.IsInAlbum(c)) {
                             if (Plane.Parts[c].Shortname!="")
                             {
                                 char typ=Plane.Parts[c].Shortname[0];
@@ -1704,9 +1709,12 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                                     break;
                                 }
                             }
+}
+}
 
-                    if (c>=(long)Plane.Parts.AnzEntries())
+                    if (c>=static_cast<long>(Plane.Parts.AnzEntries())) {
                         break;
+}
                 }
 
                 UpdateButtonState();
@@ -1730,7 +1738,7 @@ ULONG CPlaneParts::IdFrom (const CString& ShortName)
 {
     SLONG c = 0;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++) {
+    for (c=0; c<AnzEntries(); c++) {
         if ((IsInAlbum(c) != 0) && stricmp (ShortName, PlaneParts[c].Shortname)==0) {
             return (GetIdFromIndex(c));
 }
@@ -1747,7 +1755,7 @@ bool CPlaneParts::IsShortnameInAlbum (const CString& ShortName)
 {
     SLONG c = 0;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++) {
+    for (c=0; c<AnzEntries(); c++) {
         if ((IsInAlbum(c) != 0) && stricmp (ShortName, PlaneParts[c].Shortname)==0) {
             return (true);
 }
@@ -1764,7 +1772,7 @@ bool CPlaneParts::IsSlotFree (const CString& Slotname)
     SLONG c = 0;
     SLONG d = 0;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++) {
+    for (c=0; c<AnzEntries(); c++) {
         if (IsInAlbum(c) != 0)
         {
             CString SlotsUsed = gPlanePartRelations[(*this)[c].ParentRelationId].RulesOutSlots;
@@ -1814,7 +1822,7 @@ TEAKFILE &operator << (TEAKFILE &File, const CPlaneParts &pp)
 TEAKFILE &operator >> (TEAKFILE &File, CPlaneParts &pp)
 {
     File >> pp.PlaneParts;
-    File >> *((ALBUM<CPlaneParts>*)&pp);
+    File >> *(reinterpret_cast<ALBUM<CPlaneParts>*>(&pp));
 
     return (File);
 }
@@ -1876,7 +1884,7 @@ long CXPlane::CalcCost ()
 {
     long cost=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (long c=0; c<Parts.AnzEntries(); c++) {
         if ((Parts.IsInAlbum(c) != 0) && !Parts[c].Shortname.empty()) {
             cost+=GetPlaneBuild(Parts[c].Shortname).Cost;
 }
@@ -1892,7 +1900,7 @@ long CXPlane::CalcPassagiere ()
 {
     long passagiere=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (long c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             passagiere+=GetPlaneBuild(Parts[c].Shortname).Passagiere;
 }
@@ -1992,7 +2000,7 @@ long CXPlane::CalcTank (bool bFaked)
 {
     long tank=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (long c=0; c<Parts.AnzEntries(); c++) {
         if ((Parts.IsInAlbum(c) != 0) && (Parts[c].Shortname[0]=='L' || Parts[c].Shortname[0]=='R')) {
             tank+=GetPlaneBuild(Parts[c].Shortname).Weight;
 }
@@ -2019,13 +2027,13 @@ long CXPlane::CalcVerbrauch ()
     long c = 0;
     long verbrauch=0;
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             verbrauch+=GetPlaneBuild(Parts[c].Shortname).Verbrauch;
 }
 }
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0)
         {
             for (long pass=1; pass<=3; pass++)
@@ -2064,7 +2072,7 @@ long CXPlane::CalcWeight ()
 {
     long weight=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (long c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             weight+=GetPlaneBuild(Parts[c].Shortname).Weight;
 }
@@ -2080,7 +2088,7 @@ long CXPlane::CalcPower ()
 {
     long power=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (long c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             power+=GetPlaneBuild(Parts[c].Shortname).Power;
 }
@@ -2097,13 +2105,13 @@ long CXPlane::CalcNoise ()
     long c = 0;
     long noise=0;
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             noise+=GetPlaneBuild(Parts[c].Shortname).Noise;
 }
 }
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             noise+=gPlanePartRelations[Parts[c].ParentRelationId].Noise;
 }
@@ -2120,13 +2128,13 @@ long CXPlane::CalcWartung ()
     long c = 0;
     long wartung=0;
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             wartung+=GetPlaneBuild(Parts[c].Shortname).Wartung;
 }
 }
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0)
         {
             for (long pass=1; pass<=3; pass++)
@@ -2164,7 +2172,7 @@ long CXPlane::CalcSpeed ()
     if (CalcPower()==0) { speed=0;
 }
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (c=0; c<Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0)
         {
             for (long pass=1; pass<=3; pass++)
@@ -2208,7 +2216,7 @@ bool CXPlane::IstPartVorhanden (CString Shortname, bool bOnlyThisType)
 
     if (!bOnlyThisType)
     {
-        for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        for (c=0; c<Parts.AnzEntries(); c++) {
             if ((Parts.IsInAlbum(c) != 0) && (Parts[c].Shortname==Shortname || (Parts[c].Shortname[0]==Shortname[0] && Shortname[1]=='*'))) {
                 return (true);
 }
@@ -2217,9 +2225,11 @@ bool CXPlane::IstPartVorhanden (CString Shortname, bool bOnlyThisType)
         return (false);
     }
     
-            for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-            if (Parts.IsInAlbum(c) && Parts[c].Shortname!=Shortname && Parts[c].Shortname[0]==Shortname[0])
+            for (c=0; c<Parts.AnzEntries(); c++) {
+            if (Parts.IsInAlbum(c) && Parts[c].Shortname!=Shortname && Parts[c].Shortname[0]==Shortname[0]) {
                 return (false);
+}
+}
 
         return (IstPartVorhanden (Shortname));
    
@@ -2267,10 +2277,10 @@ CString CXPlane::GetError ()
 }
 
     //Symetrisch 1/2?
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (c=0; c<Parts.AnzEntries(); c++) {
         if ((Parts.IsInAlbum(c) != 0) && Parts[c].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[c].ParentRelationId].FromBuildIndex].Shortname[0]=='R')
         {
-            for (d=0; d<(SLONG)Parts.AnzEntries(); d++) {
+            for (d=0; d<Parts.AnzEntries(); d++) {
                 if ((Parts.IsInAlbum(d) != 0) && Parts[d].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[d].ParentRelationId].FromBuildIndex].Shortname[0]=='L') {
                     if (gPlanePartRelations[Parts[c].ParentRelationId].Id+10 == gPlanePartRelations[Parts[d].ParentRelationId].Id) {
                         break;
@@ -2278,17 +2288,17 @@ CString CXPlane::GetError ()
 }
 }
 
-            if (d==(SLONG)Parts.AnzEntries()) {
+            if (d==Parts.AnzEntries()) {
                 return (StandardTexte.GetS (TOKEN_MISC, 8300));
 }
         }
 }
 
     //Symetrisch 2/2?
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+    for (c=0; c<Parts.AnzEntries(); c++) {
         if ((Parts.IsInAlbum(c) != 0) && Parts[c].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[c].ParentRelationId].FromBuildIndex].Shortname[0]=='L')
         {
-            for (d=0; d<(SLONG)Parts.AnzEntries(); d++) {
+            for (d=0; d<Parts.AnzEntries(); d++) {
                 if ((Parts.IsInAlbum(d) != 0) && Parts[d].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[d].ParentRelationId].FromBuildIndex].Shortname[0]=='R') {
                     if (gPlanePartRelations[Parts[c].ParentRelationId].Id-10 == gPlanePartRelations[Parts[d].ParentRelationId].Id) {
                         break;
@@ -2296,7 +2306,7 @@ CString CXPlane::GetError ()
 }
 }
 
-            if (d==(SLONG)Parts.AnzEntries()) {
+            if (d==Parts.AnzEntries()) {
                 return (StandardTexte.GetS (TOKEN_MISC, 8300));
 }
         }
@@ -2347,7 +2357,7 @@ void CXPlane::Save (const CString& Filename)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator << (TEAKFILE &File, const CXPlane &p)
 {
-    auto *pp = (CXPlane *)&p;
+    auto *pp = const_cast<CXPlane *>(&p);
 
     DWORD   dwSize = sizeof(DWORD)+sizeof(long)*6 + strlen(p.Name);
     long    lCost        = pp->CalcCost();
@@ -2383,7 +2393,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CXPlane &p)
 
     File >> dwSize >> lCost >> lWeight >> lConsumption >> lNoise >> lReliability >> lSpeed;
     dwSize -= sizeof(DWORD)+sizeof(long)*5;
-    File.Read ((UBYTE*)Dummy, dwSize+1);
+    File.Read (reinterpret_cast<UBYTE*>(Dummy), dwSize+1);
 
     File >> p.Name;
 
@@ -2442,7 +2452,7 @@ void CXPlane::BlitPlaneAt (SBPRIMARYBM &TargetBm, SLONG Size, XY Pos, SLONG Owni
         case 2:
             {
                 Parts.IsInAlbum(SLONG(0x01000000));
-                for (long d=0; d<(long)Parts.AnzEntries(); d++) {
+                for (long d=0; d<static_cast<long>(Parts.AnzEntries()); d++) {
                     if (Parts.IsInAlbum(d) != 0)
                     {
                         SBBM &qBm = gEditorPlane2dBms[GetPlaneBuild(Parts[d].Shortname).BitmapIndex];
@@ -2514,7 +2524,7 @@ void CPlaneBuild::FromString (const CString& str)
 {
     char *tokens[9];
 
-    ParseTokens ((char*)(LPCTSTR)str, tokens, 9);
+    ParseTokens (const_cast<char*>((LPCTSTR)str), tokens, 9);
 
     Cost       = atol(tokens[2]);
     Weight     = atol(tokens[3]);
@@ -2540,7 +2550,7 @@ void CPlanePartRelation::FromString (const CString& str)
 {
     char *tokens[11];
 
-    ParseTokens ((char*)(LPCTSTR)str, tokens, 11);
+    ParseTokens (const_cast<char*>((LPCTSTR)str), tokens, 11);
 
     Offset2d.x = atol(tokens[3]);
     Offset2d.y = atol(tokens[4]);

@@ -147,7 +147,7 @@ BOOL CheckCursorHighlight (const CRect &rect, UWORD FontColor, SLONG Look, SLONG
 //--------------------------------------------------------------------------------------------
 BOOL CheckCursorHighlight (const XY &CursorPos, const CRect &rect, UWORD FontColor, SLONG Look, SLONG TipId, SLONG ClickArea, SLONG ClickId, SLONG ClickPar1, SLONG ClickPar2)
 {
-    if (Sim.Players.Players[Sim.localPlayer].LocationWin==nullptr || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->IsDialogOpen() == 0) || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuIsOpen() != 0)) {
+    if (Sim.Players.Players[Sim.localPlayer].LocationWin==nullptr || ((Sim.Players.Players[Sim.localPlayer].LocationWin)->IsDialogOpen() == 0) || ((Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuIsOpen() != 0)) {
         if (CursorPos.x>=rect.left && CursorPos.x<=rect.right &&
                 CursorPos.y>=rect.top  && CursorPos.y<=rect.bottom)
         {
@@ -337,7 +337,7 @@ void MyMessageBox (LPCTSTR Title, LPCTSTR String, ...)
     va_start (Vars, String);
 
     //Die gesammten Parameter "reinvestieren":
-    vsprintf (Buffer, (char*)String, Vars);
+    vsprintf (Buffer, const_cast<char*>(String), Vars);
 
     //Daten bereinigen:
     va_end (Vars);
@@ -386,16 +386,16 @@ UWORD ConvertString2Date (char *String)
     strcpy (Back, String);
 
     p=strtok (Back, DateSeparator);  //Woche
-    Date = (UWORD)(atoi (p)-1);
+    Date = static_cast<UWORD>(atoi (p)-1);
 
     p=strtok (nullptr, DateSeparator);  //Monat
-    Date += (UWORD)((atoi (p)-1)*30);
+    Date += static_cast<UWORD>((atoi (p)-1)*30);
 
     p=strtok (nullptr, DateSeparator);  //Jahr
-    Year = (SLONG)(atoi (p)-1950);
+    Year = static_cast<SLONG>(atoi (p)-1950);
 
     //Umrechnen:
-    Date = (UWORD)(Date * 13*30 / (12*30));
+    Date = static_cast<UWORD>(Date * 13*30 / (12*30));
 
     for (c=0; c<Year; c++) {
         Date += 365;
@@ -496,17 +496,17 @@ SLONG CalculateFlightCostRechnerisch (SLONG VonCity, SLONG NachCity, SLONG Verbr
     SLONG Kosten=0;
 
     //Kerosin aus dem Vorrat:
-    if (PlayerNum!=-1 && (Sim.Players.Players[(SLONG)PlayerNum].TankOpen != 0))
+    if (PlayerNum!=-1 && (Sim.Players.Players[PlayerNum].TankOpen != 0))
     {
-        SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin);
-        Kosten  += SLONG(Sim.Players.Players[(SLONG)PlayerNum].TankPreis*tmp);
+        SLONG tmp = std::min (Sim.Players.Players[PlayerNum].TankInhalt, Kerosin);
+        Kosten  += SLONG(Sim.Players.Players[PlayerNum].TankPreis*tmp);
 
         Kerosin -= tmp;
     }
 
     //Restliches Kerosin kaufen:
     if (PlayerNum!=-1) {
-        switch (Sim.Players.Players[(SLONG)PlayerNum].KerosinKind)
+        switch (Sim.Players.Players[PlayerNum].KerosinKind)
         {
             case 0: Kosten += Kerosin * Sim.Kerosin * 2; break;
             case 1: Kosten += Kerosin * Sim.Kerosin;     break;
@@ -531,16 +531,16 @@ SLONG CalculateFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG
     SLONG Kosten=0;
 
     //Kerosin aus dem Vorrat:
-    if (PlayerNum!=-1 && (Sim.Players.Players[(SLONG)PlayerNum].TankOpen != 0))
+    if (PlayerNum!=-1 && (Sim.Players.Players[PlayerNum].TankOpen != 0))
     {
-        SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin);
+        SLONG tmp = std::min (Sim.Players.Players[PlayerNum].TankInhalt, Kerosin);
 
         Kerosin -= tmp;
     }
 
     //Restliches Kerosin kaufen:
     if (PlayerNum!=-1) {
-        switch (Sim.Players.Players[(SLONG)PlayerNum].KerosinKind)
+        switch (Sim.Players.Players[PlayerNum].KerosinKind)
         {
             case 0: Kosten += Kerosin * Sim.Kerosin * 2; break;
             case 1: Kosten += Kerosin * Sim.Kerosin;     break;
@@ -565,15 +565,15 @@ SLONG CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, S
     SLONG Kosten=0;
 
     //Kerosin aus dem Vorrat:
-    if (Sim.Players.Players[(SLONG)PlayerNum].TankOpen != 0)
+    if (Sim.Players.Players[PlayerNum].TankOpen != 0)
     {
-        SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin);
+        SLONG tmp = std::min (Sim.Players.Players[PlayerNum].TankInhalt, Kerosin);
 
         Kerosin -= tmp;
     }
 
     //Restliches Kerosin kaufen:
-    switch (Sim.Players.Players[(SLONG)PlayerNum].KerosinKind)
+    switch (Sim.Players.Players[PlayerNum].KerosinKind)
     {
         case 0: Kosten += Kerosin * Sim.Kerosin * 2; break;
         case 1: Kosten += Kerosin * Sim.Kerosin;     break;
@@ -606,7 +606,7 @@ void InitEinheiten (const CString &Filename)
 //--------------------------------------------------------------------------------------------
 SLONG CEinheit::Umrechnung (SLONG Value) const
 {
-    return ((SLONG)(Value*Faktor));
+    return (static_cast<SLONG>(Value*Faktor));
 }
 
 //--------------------------------------------------------------------------------------------
@@ -614,7 +614,7 @@ SLONG CEinheit::Umrechnung (SLONG Value) const
 //--------------------------------------------------------------------------------------------
 __int64 CEinheit::Umrechnung64 (__int64 Value) const
 {
-    return ((__int64)(Value*Faktor));
+    return (static_cast<__int64>(Value*Faktor));
 }
 
 //--------------------------------------------------------------------------------------------
@@ -822,14 +822,14 @@ void HEADLINES::InterpolateHeadline ()
             //Extract info string, match "{" and "}":
             for (d=Headline[c*10].Headline.GetLength()-1; d>=0; d--)
             {
-                if (Headline[c*10].Headline[(int)d]=='}')
+                if (Headline[c*10].Headline[static_cast<int>(d)]=='}')
                 {
                     if (count==0) { bis=d;
 }
                     count++;
                 }
 
-                if (Headline[c*10].Headline[(int)d]=='{')
+                if (Headline[c*10].Headline[static_cast<int>(d)]=='{')
                 {
                     count--;
                     if (count==0)
@@ -954,7 +954,7 @@ void HEADLINES::ComparisonHeadlines ()
 }
 
                 if (Sim.Players.Players[best].Planes.GetNumUsed()>10) {
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2050), (LPCTSTR)Sim.Players.Players[best].AirlineX), GetIdFromString ("PLANES")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
+                    AddOverride (1, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2050)), (LPCTSTR)Sim.Players.Players[best].AirlineX), GetIdFromString ("PLANES")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
 }
                 break;
 
@@ -980,7 +980,7 @@ void HEADLINES::ComparisonHeadlines ()
 }
 
                 if (best2!=-1 && Sim.Players.Players[best].Image>100) {
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2051), (LPCTSTR)Sim.Players.Players[best].AirlineX, (LPCTSTR)Sim.Players.Players[best2].AirlineX), GetIdFromString ("LIEBSTE")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
+                    AddOverride (1, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2051)), (LPCTSTR)Sim.Players.Players[best].AirlineX, (LPCTSTR)Sim.Players.Players[best2].AirlineX), GetIdFromString ("LIEBSTE")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
 }
                 break;
 
@@ -997,7 +997,7 @@ void HEADLINES::ComparisonHeadlines ()
 }
 
                 if (Sim.Players.Players[best].RentRouten.GetNumUsed()>30) {
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2052), (LPCTSTR)Sim.Players.Players[best].AirlineX, Sim.Players.Players[best].RentRouten.GetNumUsed()), GetIdFromString ("ROUTEN")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
+                    AddOverride (1, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2052)), (LPCTSTR)Sim.Players.Players[best].AirlineX, Sim.Players.Players[best].RentRouten.GetNumUsed()), GetIdFromString ("ROUTEN")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
 }
                 break;
 
@@ -1014,7 +1014,7 @@ void HEADLINES::ComparisonHeadlines ()
 }
 
                 if (Sim.Players.Players[best].Money>25000000) {
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2053), (LPCTSTR)Sim.Players.Players[best].AirlineX), GetIdFromString ("GELD")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
+                    AddOverride (1, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2053)), (LPCTSTR)Sim.Players.Players[best].AirlineX), GetIdFromString ("GELD")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
 }
                 break;
 
@@ -1029,14 +1029,14 @@ void HEADLINES::ComparisonHeadlines ()
 
                 if (best!=-1 && Workers.Workers[best].Talent>90)
                 {
-                    AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2080), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX, (LPCTSTR)Workers.Workers[best].Name), GetIdFromString ("PILOT"), 20);
+                    AddOverride (2, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2080)), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX, (LPCTSTR)Workers.Workers[best].Name), GetIdFromString ("PILOT"), 20);
                 }
                 else
                 {
                     c = LocalRand.Rand(4);
 
                     if ((Sim.Players.Players[c].IsOut == 0) && c!=Sim.localPlayer) {
-                        AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2080), (LPCTSTR)Sim.Players.Players[c].AirlineX, (LPCTSTR)Sim.Players.Players[c].NameX, (LPCTSTR)Workers.GetRandomName(TRUE)), GetIdFromString ("PILOT"), 20);
+                        AddOverride (2, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2080)), (LPCTSTR)Sim.Players.Players[c].AirlineX, (LPCTSTR)Sim.Players.Players[c].NameX, (LPCTSTR)Workers.GetRandomName(TRUE)), GetIdFromString ("PILOT"), 20);
 }
                 }
                 break;
@@ -1052,14 +1052,14 @@ void HEADLINES::ComparisonHeadlines ()
 
                 if (best!=-1 && Workers.Workers[best].Talent>90)
                 {
-                    AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2081), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX, (LPCTSTR)Workers.Workers[best].Name), GetIdFromString ("STEWARD"), 20);
+                    AddOverride (2, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2081)), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX, (LPCTSTR)Workers.Workers[best].Name), GetIdFromString ("STEWARD"), 20);
                 }
                 else
                 {
                     c = LocalRand.Rand(4);
 
                     if ((Sim.Players.Players[c].IsOut == 0) && c!=Sim.localPlayer) {
-                        AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2081), (LPCTSTR)Sim.Players.Players[c].AirlineX, (LPCTSTR)Sim.Players.Players[c].NameX, (LPCTSTR)Workers.GetRandomName(FALSE)), GetIdFromString ("STEWARD"), 20);
+                        AddOverride (2, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2081)), (LPCTSTR)Sim.Players.Players[c].AirlineX, (LPCTSTR)Sim.Players.Players[c].NameX, (LPCTSTR)Workers.GetRandomName(FALSE)), GetIdFromString ("STEWARD"), 20);
 }
                 }
                 break;
@@ -1074,7 +1074,7 @@ void HEADLINES::ComparisonHeadlines ()
                     }
 }
 
-                AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2082), (LPCTSTR)Sim.Players.Players[best].AirlineX, Sim.Players.Players[best].NumPassengers), GetIdFromString ("PASSAG"), 10);
+                AddOverride (2, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2082)), (LPCTSTR)Sim.Players.Players[best].AirlineX, Sim.Players.Players[best].NumPassengers), GetIdFromString ("PASSAG"), 10);
                 break;
 
             case 7: //Das schlechteste Flugzeug:
@@ -1094,7 +1094,7 @@ void HEADLINES::ComparisonHeadlines ()
 }
 
                 if (best!=-1 && Sim.Players.Players[best].Planes[best2].Zustand<50) {
-                    AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2083), (LPCTSTR)Sim.Players.Players[best].AirlineX, (LPCTSTR)Sim.Players.Players[best].Planes[best2].Name), GetIdFromString ("TRASHP0")+(__int64(best)<<(8*6)), 10);
+                    AddOverride (2, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2083)), (LPCTSTR)Sim.Players.Players[best].AirlineX, (LPCTSTR)Sim.Players.Players[best].Planes[best2].Name), GetIdFromString ("TRASHP0")+(__int64(best)<<(8*6)), 10);
 }
                 break;
         }
@@ -1124,7 +1124,7 @@ void HEADLINES::ComparisonHeadlines ()
             for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
                 if ((Sim.Players.Players[c].RocketFlags&ROCKET_PART_ONE)==ROCKET_PART_ONE)
                 {
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2060), (LPCTSTR)Sim.Players.Players[c].AirlineX), GetIdFromString("INTRVIEW"), 15+static_cast<int>(c==Sim.localPlayer)*10);
+                    AddOverride (1, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2060)), (LPCTSTR)Sim.Players.Players[c].AirlineX), GetIdFromString("INTRVIEW"), 15+static_cast<int>(c==Sim.localPlayer)*10);
                     break;
                 }
 }
@@ -1140,7 +1140,7 @@ void HEADLINES::ComparisonHeadlines ()
             for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
                 if ((Sim.Players.Players[c].RocketFlags&ROCKET_PART_TWO_A)==ROCKET_PART_TWO_A)
                 {
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2061), (LPCTSTR)Sim.Players.Players[c].AirlineX), 0, 20+static_cast<int>(c==Sim.localPlayer)*10);
+                    AddOverride (1, bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MISC, 2061)), (LPCTSTR)Sim.Players.Players[c].AirlineX), 0, 20+static_cast<int>(c==Sim.localPlayer)*10);
                     break;
                 }
 }
@@ -1282,9 +1282,9 @@ TEAKFILE &operator >> (TEAKFILE &File, HEADLINES &Headlines)
     {
         File >> Headlines.Headline[c].Headline >> Headlines.Override[c].Headline;
 
-        File.Read ((UBYTE*)&Headlines.Headline[c].PictureId, 8);
-        File.Read ((UBYTE*)&Headlines.Override[c].PictureId, 8);
-        File.Read ((UBYTE*)&Headlines.Override[c].PicturePriority, 4);
+        File.Read (reinterpret_cast<UBYTE*>(&Headlines.Headline[c].PictureId), 8);
+        File.Read (reinterpret_cast<UBYTE*>(&Headlines.Override[c].PictureId), 8);
+        File.Read (reinterpret_cast<UBYTE*>(&Headlines.Override[c].PicturePriority), 4);
     }
 
     for (c=0; c<3; c++)
@@ -1560,9 +1560,9 @@ void CMessages::Pump ()
     SLONG HandyOffset=0;
 
     if (Sim.Players.Players[PlayerNum].LocationWin != nullptr) {
-        if ((((CStdRaum*)Sim.Players.Players[PlayerNum].LocationWin)->DialogMedium != 0) &&
-                (((CStdRaum*)Sim.Players.Players[PlayerNum].LocationWin)->MenuIsOpen() == 0) &&
-                (((CStdRaum*)Sim.Players.Players[PlayerNum].LocationWin)->IsDialogOpen() != 0)) { HandyOffset=4;
+        if (((Sim.Players.Players[PlayerNum].LocationWin)->DialogMedium != 0) &&
+                ((Sim.Players.Players[PlayerNum].LocationWin)->MenuIsOpen() == 0) &&
+                ((Sim.Players.Players[PlayerNum].LocationWin)->IsDialogOpen() != 0)) { HandyOffset=4;
 }
 }
 
@@ -1793,7 +1793,7 @@ CString Insert1000erDots (long Value)
 }
     }
 
-    sprintf(Tmp,"%li",(long)Value);
+    sprintf(Tmp,"%li",Value);
 
     l=short(strlen(Tmp));
 
@@ -2102,10 +2102,10 @@ long CountMatchingFilelist (const CString& DirAndWildcards)
     long n=0;
 
     //Liste holen:
-    for (const auto& file : std::filesystem::directory_iterator((std::string)Dir))
+    for (const auto& file : std::filesystem::directory_iterator(std::string(Dir)))
     {
         const std::filesystem::path& path = file.path();
-        if (!file.is_directory() && path.extension() == (std::string)Ext) {
+        if (!file.is_directory() && path.extension() == std::string(Ext)) {
             n++;
 }
     }
@@ -2125,10 +2125,10 @@ void GetMatchingFilelist (const CString& DirAndWildcards, BUFFER<CString> &Array
     Array.ReSize (0);
 
     //Liste holen:
-    for (const auto& file : std::filesystem::directory_iterator((std::string)Dir))
+    for (const auto& file : std::filesystem::directory_iterator(std::string(Dir)))
     {
         const std::filesystem::path& path = file.path();
-        if (!file.is_directory() && path.extension() == (std::string)Ext)
+        if (!file.is_directory() && path.extension() == std::string(Ext))
         {
             Array.ReSize(Array.AnzEntries() + 1);
             Array[Array.AnzEntries() - 1] = path.filename();

@@ -84,7 +84,7 @@ CMakler::CMakler(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
 
     //Raumanimationen
     {
-        PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+        PLAYER &qPlayer = Sim.Players.Players[static_cast<SLONG>(PlayerNum)];
 
         NeonFx.ReInit ("neon.raw");
 
@@ -135,12 +135,12 @@ CMakler::~CMakler()
 void CMakler::OnPaint()
 {
     SLONG   NewTip = 0;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     if (Sim.Date>5) { Sim.GiveHint (HINT_FLUGZEUGMAKLER);
 }
 
-    if (SLONG(Sim.Time)>=timeMaklClose) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+    if (SLONG(Sim.Time)>=timeMaklClose) { Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
@@ -154,7 +154,7 @@ void CMakler::OnPaint()
         if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum (Sim.Persons[d].ClanId) != 0) && Sim.Persons[d].State!=Sim.localPlayer)
         {
             PERSON &qPerson=Sim.Persons[d];
-            CLAN   &qClan=Clans[(SLONG)qPerson.ClanId];
+            CLAN   &qClan=Clans[static_cast<SLONG>(qPerson.ClanId)];
             UBYTE   Dir   = qPerson.LookDir;
             UBYTE   Phase = qPerson.Phase;
 
@@ -294,7 +294,7 @@ void CMakler::OnPaint()
 void CMakler::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY      RoomPos;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     DefaultOnLButtonDown ();
 
@@ -307,16 +307,16 @@ void CMakler::OnLButtonDown(UINT nFlags, CPoint point)
     if (PreLButtonDown (point) == 0)
     {
         //Raum verlassen:
-        if (MouseClickArea==ROOM_MAKLER && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_MAKLER && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_MAKLER && MouseClickId==10)
         {
             StartDialog (TALKER_MAKLER, MEDIUM_AIR);
         }
         else if (MouseClickArea==ROOM_MAKLER && MouseClickId==20)
         {
-            if ((qPlayer.HasSpaceForItem() != 0) && (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_BH) == 0))
+            if ((qPlayer.HasSpaceForItem() != 0) && (Sim.Players.Players[PlayerNum].HasItem (ITEM_BH) == 0))
             {
-                Sim.Players.Players[(SLONG)PlayerNum].BuyItem (ITEM_BH);
+                Sim.Players.Players[PlayerNum].BuyItem (ITEM_BH);
 
                 SLONG cs = KlappenAnim.CounterStart;
                 KlappenAnim.ReSize (pRoomLib, "KLAPOH00", 4, &KlappeFx, FALSE, ANIMATION_MODE_ONCE, 500,  5);
@@ -347,8 +347,9 @@ void CMakler::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

@@ -28,7 +28,7 @@ CRushmore::CRushmore(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     LogoBms.ReSize (pRoomLib, "LOGO00", 4);
 
-    Sim.Players.Players[(SLONG)PlayerNum].ChangeMoney (-1, 3300, "");
+    Sim.Players.Players[static_cast<SLONG>(PlayerNum)].ChangeMoney (-1, 3300, "");
 
     if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
 }
@@ -145,7 +145,7 @@ void CRushmore::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_RUSHMORE && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_RUSHMORE && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else { CStdRaum::OnLButtonDown(nFlags, point);
 }
     }
@@ -172,7 +172,7 @@ void CRushmore::OnRButtonDown(UINT nFlags, CPoint point)
         {
             if (!IsDialogOpen() && point.y<440)
             {
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+                Sim.Players.Players[PlayerNum].LeaveRoom();
             }
 
             CStdRaum::OnRButtonDown(nFlags, point);

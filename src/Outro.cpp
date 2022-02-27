@@ -62,7 +62,7 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
         const unsigned char* pVideo = smk_get_video(pSmack);
         int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
         for (unsigned long y = 0; y < Height; y++) {
-            memcpy((BYTE*)Key.Bitmap + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
+            memcpy(static_cast<BYTE*>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
 }
     }
     CalculatePalettemapper(smk_get_palette(pSmack), Bitmap.pBitmap->GetPixelFormat()->palette);
@@ -122,7 +122,7 @@ void COutro::OnPaint()
             const unsigned char* pVideo = smk_get_video(pSmack);
             int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
             for (unsigned long y = 0; y < Height; y++) {
-                memcpy((BYTE*)Key.Bitmap + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
+                memcpy(static_cast<BYTE*>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
 }
         }
         CalculatePalettemapper(smk_get_palette(pSmack), Bitmap.pBitmap->GetPixelFormat()->palette);

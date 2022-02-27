@@ -80,16 +80,16 @@ void DrawCityTip (SBBM &TipBm, ULONG CityId)
     TipBm.PrintAt (":", FontSmallGrey, TEC_FONT_LEFT, CityPos.x+84, CityPos.y+11, 278, 181);
     TipBm.PrintAt (bitoa (Cities[CityId].Einwohner), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y, 278, 181);
 
-    if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Rang==0) { TipBm.PrintAt (Einheiten[EINH_DM].bString (Cities[CityId].BuroRent), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y+11, 278, 181);
-    } else {                                                                                           TipBm.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Miete), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y+11, 278, 181);
+    if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[Cities(CityId)].Rang==0) { TipBm.PrintAt (Einheiten[EINH_DM].bString (Cities[CityId].BuroRent), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y+11, 278, 181);
+    } else {                                                                                           TipBm.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[Cities(CityId)].Miete), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y+11, 278, 181);
 }
 
     //Hit-Liste der Leute in der Stadt
     for (c=0; c<Sim.Players.AnzPlayers; c++) {
-        if (Cities.GetIdFromIndex(CityId)!=(ULONG)Sim.HomeAirportId)
+        if (Cities.GetIdFromIndex(CityId)!=static_cast<ULONG>(Sim.HomeAirportId))
         {
-            if (Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang!=0) {
-                TipBm.PrintAt (bprintf ("%li.%s", Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang, (LPCTSTR)Sim.Players.Players[c].Airline), FontSmallGrey, TEC_FONT_LEFT, CityPos.x, CityPos.y+11*(Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang+1), 278, 181);
+            if (Sim.Players.Players[c].RentCities.RentCities[Cities(CityId)].Rang!=0) {
+                TipBm.PrintAt (bprintf ("%li.%s", Sim.Players.Players[c].RentCities.RentCities[Cities(CityId)].Rang, (LPCTSTR)Sim.Players.Players[c].Airline), FontSmallGrey, TEC_FONT_LEFT, CityPos.x, CityPos.y+11*(Sim.Players.Players[c].RentCities.RentCities[Cities(CityId)].Rang+1), 278, 181);
 }
         }
         else {
@@ -123,16 +123,16 @@ void DrawCityTipContents (SBBM &TipBm, ULONG CityId, XY Headline, XY Contents, X
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1001), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
     TipBm.PrintAt (bitoa (Cities[CityId].Einwohner), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+120, TipBm.Size.x, TipBm.Size.y);
 
-    if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Rang==0) { TipBm.PrintAt (Einheiten[EINH_DM].bString (Cities[CityId].BuroRent), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
-    } else {                                                                                           TipBm.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Miete), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
+    if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[Cities(CityId)].Rang==0) { TipBm.PrintAt (Einheiten[EINH_DM].bString (Cities[CityId].BuroRent), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
+    } else {                                                                                           TipBm.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[Cities(CityId)].Miete), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
 }
 
     //Hit-Liste der Leute in der Stadt
     for (c=0; c<Sim.Players.AnzPlayers; c++) {
-        if (Cities.GetIdFromIndex(Cities(CityId))!=(ULONG)Sim.HomeAirportId)
+        if (Cities.GetIdFromIndex(Cities(CityId))!=static_cast<ULONG>(Sim.HomeAirportId))
         {
-            if (Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang!=0) {
-                TipBm.PrintAt (bprintf ("%li.%s", Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang, (LPCTSTR)Sim.Players.Players[c].Airline), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+122+11*(Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang+1), TipBm.Size.x, TipBm.Size.y);
+            if (Sim.Players.Players[c].RentCities.RentCities[Cities(CityId)].Rang!=0) {
+                TipBm.PrintAt (bprintf ("%li.%s", Sim.Players.Players[c].RentCities.RentCities[Cities(CityId)].Rang, (LPCTSTR)Sim.Players.Players[c].Airline), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+122+11*(Sim.Players.Players[c].RentCities.RentCities[Cities(CityId)].Rang+1), TipBm.Size.x, TipBm.Size.y);
 }
         }
         else {
@@ -427,13 +427,13 @@ void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Ga
         TipBm.PrintAt (CString(bitoa (Ticketpreis))+"/"+CString(Einheiten[EINH_DM].bString (TicketpreisFC)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+44, Contents.x+170, Contents.y+170);
 
         //Block 2 Überschriften:
-        CRentRoute &qRRoute = Sim.Players.Players[(SLONG)PlayerNum].RentRouten.RentRouten[(SLONG)Routen(RouteId)];
+        CRentRoute &qRRoute = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(RouteId)];
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1002), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+66, Contents.x+170, Contents.y+170);
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1003), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+77, Contents.x+170, Contents.y+170);
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1004), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+88, Contents.x+170, Contents.y+170);
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1006), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+99, Contents.x+170, Contents.y+170);
         //Block 2 Inhalt:
-        TipBm.PrintAt (bitoa (Sim.Players.Players[(SLONG)PlayerNum].AnzPlanesOnRoute(RouteId)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+66, Contents.x+170, Contents.y+170);
+        TipBm.PrintAt (bitoa (Sim.Players.Players[PlayerNum].AnzPlanesOnRoute(RouteId)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+66, Contents.x+170, Contents.y+170);
         TipBm.PrintAt (CString(Einheiten[EINH_P].bString (qRRoute.Auslastung)) + " / " + CString(Einheiten[EINH_P].bString (qRRoute.AuslastungFC)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+77, Contents.x+170, Contents.y+170);
         TipBm.PrintAt (Einheiten[EINH_P].bString (qRRoute.Image),      *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+88, Contents.x+170, Contents.y+170);
         TipBm.PrintAt (Einheiten[EINH_DM].bString (qRRoute.Miete),     *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+99, Contents.x+170, Contents.y+170);
@@ -443,8 +443,8 @@ void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Ga
 
         //Hit-Liste der Leute auf der Route:
         for (c=0; c<Sim.Players.AnzPlayers; c++) {
-            if (Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(RouteId)].Rang!=0) {
-                TipBm.PrintAt (Sim.Players.Players[c].Airline, *pFont, TEC_FONT_LEFT, Contents.x+11, Contents.y+121+11*(Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(RouteId)].Rang), Contents.x+170, Contents.y+170);
+            if (Sim.Players.Players[c].RentRouten.RentRouten[Routen(RouteId)].Rang!=0) {
+                TipBm.PrintAt (Sim.Players.Players[c].Airline, *pFont, TEC_FONT_LEFT, Contents.x+11, Contents.y+121+11*(Sim.Players.Players[c].RentRouten.RentRouten[Routen(RouteId)].Rang), Contents.x+170, Contents.y+170);
 }
 }
     }
@@ -502,7 +502,7 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
         TipBm.PrintAt (CString(StandardTexte.GetS (TOKEN_SCHED, 3009))+" "+CString(StandardTexte.GetS (TOKEN_SCHED, 3010+(Auftrag->BisDate+Sim.StartWeekday)%7)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+22, Contents.x+170, Contents.y+170);
 }
 
-    TipBm.PrintAt ((CString)Einheiten[EINH_KM].bString (Cities.CalcDistance (Auftrag->VonCity, Auftrag->NachCity)/1000), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+44, Contents.x+170, Contents.y+170);
+    TipBm.PrintAt (CString(Einheiten[EINH_KM].bString (Cities.CalcDistance (Auftrag->VonCity, Auftrag->NachCity)/1000)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+44, Contents.x+170, Contents.y+170);
     TipBm.PrintAt (bprintf("%li", Auftrag->Personen), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+55, Contents.x+170, Contents.y+170);
     TipBm.PrintAt (Einheiten[EINH_DM].bString (Auftrag->Strafe), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+66, Contents.x+170, Contents.y+170);
 
@@ -686,7 +686,7 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
         TipBm.PrintAt (CString(StandardTexte.GetS (TOKEN_SCHED, 3009))+" "+CString(StandardTexte.GetS (TOKEN_SCHED, 3010+(Fracht->BisDate+Sim.StartWeekday)%7)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+22, Contents.x+170, Contents.y+170);
 }
 
-    TipBm.PrintAt ((CString)Einheiten[EINH_KM].bString (Cities.CalcDistance (Fracht->VonCity, Fracht->NachCity)/1000), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+44, Contents.x+170, Contents.y+170);
+    TipBm.PrintAt (CString(Einheiten[EINH_KM].bString (Cities.CalcDistance (Fracht->VonCity, Fracht->NachCity)/1000)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+44, Contents.x+170, Contents.y+170);
 
     if (TonsThis != 0) {
         TipBm.PrintAt (CString (Einheiten[EINH_T].bString (TonsThis))+" / "+Einheiten[EINH_T].bString (Fracht->Tons), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+55, Contents.x+170, Contents.y+170);
@@ -864,10 +864,10 @@ void DrawAutoflugTipContents (SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLO
     SLONG Einnahmen=NotPassengers*Cities.CalcDistance (VonCity, NachCity)/1000/40;
 
     TipBm.PrintAt (Einheiten[EINH_KM].bString (Cities.CalcDistance (VonCity, NachCity)/1000), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+44, Contents.x+170, Contents.y+170);
-    TipBm.PrintAt ((CString)Einheiten[EINH_KG].bString (NotPassengers*30), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+55, Contents.x+170, Contents.y+170);
-    TipBm.PrintAt ((CString)Einheiten[EINH_DM].bString (Einnahmen), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+88, Contents.x+170, Contents.y+170);
-    TipBm.PrintAt ((CString)Einheiten[EINH_DM].bString (Costs), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+99, Contents.x+170, Contents.y+170);
-    TipBm.PrintAt ((CString)Einheiten[EINH_DM].bString (Einnahmen-Costs), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+110, Contents.x+170, Contents.y+170);
+    TipBm.PrintAt (CString(Einheiten[EINH_KG].bString (NotPassengers*30)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+55, Contents.x+170, Contents.y+170);
+    TipBm.PrintAt (CString(Einheiten[EINH_DM].bString (Einnahmen)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+88, Contents.x+170, Contents.y+170);
+    TipBm.PrintAt (CString(Einheiten[EINH_DM].bString (Costs)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+99, Contents.x+170, Contents.y+170);
+    TipBm.PrintAt (CString(Einheiten[EINH_DM].bString (Einnahmen-Costs)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+110, Contents.x+170, Contents.y+170);
 
     if (Unlocked == 0)
     {
@@ -895,9 +895,9 @@ void DrawKursTipContents (SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, SB_C
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AKTIE, 1001), *pFont, TEC_FONT_LEFT, 42, 31, 170, 160);
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AKTIE, 1002), *pFont, TEC_FONT_LEFT, 42, 42, 170, 160);
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AKTIE, 1003), *pFont, TEC_FONT_LEFT, 42, 53, 170, 160);
-    TipBm.PrintAt (Einheiten[EINH_DM].bString((SLONG)Sim.Players.Players[PlayerAktie].Kurse[0]), *pFont, TEC_FONT_LEFT, 98, 32, 170, 160);
+    TipBm.PrintAt (Einheiten[EINH_DM].bString(static_cast<SLONG>(Sim.Players.Players[PlayerAktie].Kurse[0])), *pFont, TEC_FONT_LEFT, 98, 32, 170, 160);
     TipBm.PrintAt (bitoa(Sim.Players.Players[PlayerAktie].Dividende), *pFont, TEC_FONT_LEFT, 98, 42, 170, 160);
-    TipBm.PrintAt (Einheiten[EINH_P].bString((SLONG)(__int64(Sim.Players.Players[PlayerAktie].Dividende)*100/Sim.Players.Players[PlayerAktie].Kurse[0])), *pFont, TEC_FONT_LEFT, 98, 53, 170, 160);
+    TipBm.PrintAt (Einheiten[EINH_P].bString(static_cast<SLONG>(__int64(Sim.Players.Players[PlayerAktie].Dividende)*100/Sim.Players.Players[PlayerAktie].Kurse[0])), *pFont, TEC_FONT_LEFT, 98, 53, 170, 160);
 
     //Block 2 - Aktie im Protefeuille:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AKTIE, 1004), *pFont, TEC_FONT_LEFT, 32, 75, 200, 160);
@@ -967,16 +967,16 @@ void DrawMoneyTip (SBBM &TipBm, SLONG PlayerNum, SLONG Page)
     SB_CFont       FontBankRed;
 
     Hdu.HercPrintf (0, "bank_bl.mcf");
-    FontBankBlack.Load (lpDD, (char*)(LPCTSTR)FullFilename ("bank_bl.mcf", MiscPath));
+    FontBankBlack.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("bank_bl.mcf", MiscPath)));
     Hdu.HercPrintf (0, "bank_ro.mcf");
-    FontBankRed.Load (lpDD, (char*)(LPCTSTR)FullFilename ("bank_ro.mcf", MiscPath));
+    FontBankRed.Load (lpDD, const_cast<char*>((LPCTSTR)FullFilename ("bank_ro.mcf", MiscPath)));
 
     //Fenster-Überschrift:
     {
         time_t     Time = Sim.StartTime + Sim.Date*60*60*24;
         struct tm *pTimeStruct = localtime (&Time);
 
-        TipBm.PrintAt (bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MONEY, 1000), (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 3010+(pTimeStruct->tm_wday+6)%7), pTimeStruct->tm_mday, pTimeStruct->tm_mon+1), FontBankRed, TEC_FONT_LEFT, 28, 11, 400, 214);
+        TipBm.PrintAt (bprintf ((LPCTSTR)CString(StandardTexte.GetS (TOKEN_MONEY, 1000)), (LPCTSTR)CString(StandardTexte.GetS (TOKEN_SCHED, 3010+(pTimeStruct->tm_wday+6)%7)), pTimeStruct->tm_mday, pTimeStruct->tm_mon+1), FontBankRed, TEC_FONT_LEFT, 28, 11, 400, 214);
     }
 
     for (c=0; c<Page*10; c++) {

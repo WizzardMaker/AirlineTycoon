@@ -235,7 +235,7 @@ SB_Hardwarecolor SB_CBitmapCore::GetHardwarecolor(ULONG color)
     char r = (color & 0xFF0000) >> 16;
     char g = (color & 0xFF00) >> 8;
     char b = (color & 0xFF);
-    return (SB_Hardwarecolor)SDL_MapRGB(lpDDSurface->format, r, g, b);
+    return SB_Hardwarecolor(SDL_MapRGB(lpDDSurface->format, r, g, b));
 #endif
 }
 
@@ -265,8 +265,9 @@ ULONG SB_CBitmapCore::Clear(SB_Hardwarecolor hwcolor, const RECT* pRect)
         return SDL_FillRect(lpDDSurface, &dst, color);
     }
     
-            if (lpTexture)
+            if (lpTexture) {
             SDL_RenderFillRect(lpDD, nullptr);
+}
         return SDL_FillRect(lpDDSurface, nullptr, color);
    
 }
@@ -277,8 +278,8 @@ ULONG SB_CBitmapCore::SetPixel(SLONG x, SLONG y, SB_Hardwarecolor hwcolor)
         return 1;
 }
     Uint8 bpp = lpDDSurface->format->BytesPerPixel;
-    Uint8* p = (Uint8*)lpDDSurface->pixels + y * lpDDSurface->pitch + x * bpp;
-    *(Uint32*)p = (dword)hwcolor;
+    Uint8* p = static_cast<Uint8*>(lpDDSurface->pixels) + y * lpDDSurface->pitch + x * bpp;
+    *reinterpret_cast<Uint32*>(p) = (dword)hwcolor;
     if (SDL_MUSTLOCK(lpDDSurface)) {
         SDL_UnlockSurface(lpDDSurface);
 }
@@ -292,8 +293,8 @@ ULONG SB_CBitmapCore::GetPixel(SLONG x, SLONG y)
 }
     Uint8 bpp = lpDDSurface->format->BytesPerPixel;
     Uint8 bits = lpDDSurface->format->BitsPerPixel;
-    Uint8* p = (Uint8*)lpDDSurface->pixels + y * lpDDSurface->pitch + x * bpp;
-    dword result = *(Uint32*)p;
+    Uint8* p = static_cast<Uint8*>(lpDDSurface->pixels) + y * lpDDSurface->pitch + x * bpp;
+    dword result = *reinterpret_cast<Uint32*>(p);
     if (SDL_MUSTLOCK(lpDDSurface)) {
         SDL_UnlockSurface(lpDDSurface);
 }
@@ -303,7 +304,7 @@ ULONG SB_CBitmapCore::GetPixel(SLONG x, SLONG y)
 Uint16 get_pixel16(SDL_Surface* surface, int x, int y)
 {
     //Convert the pixels to 32 bit
-    auto* pixels = (Uint16*)surface->pixels;
+    auto* pixels = static_cast<Uint16*>(surface->pixels);
 
     //Get the requested pixel
     return pixels[(y * surface->pitch / 2) + x];
@@ -312,7 +313,7 @@ Uint16 get_pixel16(SDL_Surface* surface, int x, int y)
 void put_pixel16(SDL_Surface* surface, int x, int y, Uint16 pixel)
 {
     //Convert the pixels to 32 bit
-    auto* pixels = (Uint16*)surface->pixels;
+    auto* pixels = static_cast<Uint16*>(surface->pixels);
 
     //Set the pixel
     pixels[(y * surface->pitch / 2) + x] = pixel;

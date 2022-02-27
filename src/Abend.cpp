@@ -42,7 +42,7 @@ CAbend::CAbend(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, CStr
 
     Sim.Players.UpdateStatistics ();
 
-    Sim.Players.Players[(SLONG)PlayerNum].WalkStop ();
+    Sim.Players.Players[static_cast<SLONG>(PlayerNum)].WalkStop ();
 
     if (bHandy == 0) { AmbientManager.SetGlobalVolume (0);
 }
@@ -65,7 +65,7 @@ CAbend::CAbend(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, CStr
 
     //if (Sim.Players.Players[(SLONG)PlayerNum].CallItADay)
     {
-        Sim.Players.Players[(SLONG)PlayerNum].Messages.NewDay();
+        Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Messages.NewDay();
         Room=2;
     }
     //else Sim.bNoTime = TRUE;
@@ -162,7 +162,7 @@ void CAbend::OnPaint()
 
         pGfxMain->ReleaseLib (pRoomLib);
 
-        pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename (CString(bprintf("abend%li.gli", Sim.GetSeason())), RoomPath), &pRoomLib, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename (CString(bprintf("abend%li.gli", Sim.GetSeason())), RoomPath)), &pRoomLib, L_LOCMEM);
         AirportBm.ReSize (pRoomLib, GFX_AIRPORT);
     }
 

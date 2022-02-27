@@ -433,7 +433,7 @@ void CWerkstatt::OnPaint()
     CStdRaum::InitToolTips ();
 
     //Der Mann im Flugzeug:
-    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<7)) != 0u)
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<7)) != 0u)
     {
         SP_Hund.Pump ();
         SP_Hund.BlitAtT (RoomBm);
@@ -455,11 +455,11 @@ void CWerkstatt::OnPaint()
         }
 }
 
-    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<7)) == 0u) {
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<7)) == 0u) {
         RoomBm.BlitFromT (DoorBm, 534, 73);
 }
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_OEL) == 0) {
+    if (Sim.Players.Players[PlayerNum].HasItem(ITEM_OEL) == 0) {
         RoomBm.BlitFrom (OilCanBm, 72,294);
 }
 
@@ -467,7 +467,7 @@ void CWerkstatt::OnPaint()
     {
         if (gMousePosition.IfIsWithin (0, 0, 50, 439)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_WERKSTATT, 999);
         } else if (gMousePosition.IfIsWithin (195,212,263,437)) { SetMouseLook (CURSOR_HOT, 0, ROOM_WERKSTATT, 10);
-        } else if ((Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_OEL) == 0) && gMousePosition.IfIsWithin (72,294,101,315)) { SetMouseLook (CURSOR_HOT, 0, ROOM_WERKSTATT, 20);
+        } else if ((Sim.Players.Players[PlayerNum].HasItem(ITEM_OEL) == 0) && gMousePosition.IfIsWithin (72,294,101,315)) { SetMouseLook (CURSOR_HOT, 0, ROOM_WERKSTATT, 20);
 }
     }
 
@@ -490,13 +490,13 @@ void CWerkstatt::OnPaint()
         {
             NewTip = (gMousePosition.y-(MenuPos.y+25))/13 + MenuPage;
 
-            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]) != 0))
+            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && (Sim.Players.Players[PlayerNum].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]) != 0))
             {
                 if (NewTip != CurrentTip)
                 {
                     MenuRepaint ();
                     //DrawPlaneTipContents (OnscreenBitmap, &PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]].TypeId], &Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]],
-                    DrawPlaneTipContents (OnscreenBitmap, nullptr, &Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]],
+                    DrawPlaneTipContents (OnscreenBitmap, nullptr, &Sim.Players.Players[PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]],
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack, TRUE);
                 }
 
@@ -535,7 +535,7 @@ void CWerkstatt::OnPaint()
 void CWerkstatt::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY      RoomPos;
-    PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     DefaultOnLButtonDown ();
 
@@ -547,7 +547,7 @@ void CWerkstatt::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==10) { StartDialog (TALKER_MECHANIKER, MEDIUM_AIR, 1);
         } else if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==20)
         {
@@ -584,8 +584,9 @@ void CWerkstatt::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }

@@ -108,7 +108,7 @@ ULONG CPlaneTypes::GetRandomExistingType (TEAKRAND *pRand)
     SLONG Anz = 0;
     SLONG rnd = 0;
 
-    for (c=Anz=0; c<(SLONG)AnzEntries(); c++) {
+    for (c=Anz=0; c<AnzEntries(); c++) {
         if (IsInAlbum (c) != 0) {
             if ((*this)[c].FirstMissions<Sim.Difficulty || (((*this)[c].FirstMissions==Sim.Difficulty || Sim.Difficulty==-1) && (*this)[c].FirstDay<=Sim.Date)) {
                 Anz++;
@@ -120,7 +120,7 @@ ULONG CPlaneTypes::GetRandomExistingType (TEAKRAND *pRand)
     } else { rnd = rand() % Anz + 1;
 }
 
-    for (c=0; c<(SLONG)AnzEntries(); c++) {
+    for (c=0; c<AnzEntries(); c++) {
         if (IsInAlbum (c) != 0) {
             if ((*this)[c].FirstMissions<Sim.Difficulty || (((*this)[c].FirstMissions==Sim.Difficulty || Sim.Difficulty==-1) && (*this)[c].FirstDay<=Sim.Date))
             {
@@ -322,7 +322,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
                     if (PlayerNum!=Sim.localPlayer)
                     {
-                        for (SLONG d=0; d<(SLONG)Sim.Players.Players[Sim.localPlayer].Planes.AnzEntries(); d++) {
+                        for (SLONG d=0; d<Sim.Players.Players[Sim.localPlayer].Planes.AnzEntries(); d++) {
                             if (Sim.Players.Players[Sim.localPlayer].Planes.IsInAlbum (d) != 0) {
                                 if (Sim.Players.Players[Sim.localPlayer].Planes[d].Ort==-1) {
                                     Ignore=TRUE;
@@ -333,7 +333,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
                     if ((Ignore == 0) && Cities[GetFlugplanEintrag()->VonCity].Wave!="-" && !Cities[GetFlugplanEintrag()->VonCity].Wave.empty())
                     {
-                        VoiceScheduler.AddVoice ((CString)bprintf ("der%liflug", PlayerNum));
+                        VoiceScheduler.AddVoice (CString(bprintf ("der%liflug", PlayerNum)));
                         VoiceScheduler.AddVoice (Cities[GetFlugplanEintrag()->VonCity].Wave);
 
                         VoiceScheduler.AddVoice ("gelande2");
@@ -353,7 +353,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                         PLAYER     &qPlayer = Sim.Players.Players[PlayerNum];
 
                         if (GetFlugplanEintrag()->ObjectType==1) {
-                            pRoute = &qPlayer.RentRouten.RentRouten[(SLONG)Routen(GetFlugplanEintrag()->ObjectId)];
+                            pRoute = &qPlayer.RentRouten.RentRouten[Routen(GetFlugplanEintrag()->ObjectId)];
 }
 
                         for (SLONG c=GetFlugplanEintrag()->Passagiere/CUSTOMERS_PER_PERSON; c>=0; c--) {
@@ -460,7 +460,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
                             CRentRoute *pRoute = nullptr;
                             if (GetFlugplanEintrag()->ObjectType==1) {
-                                pRoute = &Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(GetFlugplanEintrag()->ObjectId)];
+                                pRoute = &Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(GetFlugplanEintrag()->ObjectId)];
 }
 
                             Saldo = PersonalQuality;
@@ -519,31 +519,31 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                                         if (localRand.Rand(70)>Zustand-30*static_cast<int>(PlayerNum==3 && Sim.Players.Players[Sim.localPlayer].Owner==1))
                                         {
                                             //Reparatur notwendig:
-                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonRepair);
+                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonRepair));
                                         }
                                         else if (QualitySum>4 && localRand.Rand(100)<40)
                                         {
                                             //recht gut:
-                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPerson2Stars);
+                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson2Stars));
                                         }
                                         else if (QualitySum>8 && localRand.Rand(100)<55)
                                         {
                                             //sehr gut:
-                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPerson3Stars);
+                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson3Stars));
                                         }
                                         else if (localRand.Rand(65)>Saldo)
                                         {
                                             //schlechte Crew:
-                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSick);
+                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSick));
                                         }
                                         else if ((TooExpensive != 0) && localRand.Rand(130)<TooExpensive)
                                         {
                                             //zu teuer:
-                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonExpensive);
+                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonExpensive));
                                         }
                                         else //okay:
                                         {
-                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSmile);
+                                            Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSmile));
                                         }
 
                                         if (GetFlugplanEintrag()->PassagiereFC>0) {
@@ -558,31 +558,31 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                                                 if (localRand.Rand(90)>Zustand-30*static_cast<int>(PlayerNum==3 && Sim.Players.Players[Sim.localPlayer].Owner==1))
                                                 {
                                                     //Reparatur notwendig:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonRepairFC, 1u);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonRepairFC), 1u);
                                                 }
                                                 else if (QualitySum>8 && localRand.Rand(100)<40)
                                                 {
                                                     //recht gut:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPerson2StarsFC, 1u);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson2StarsFC), 1u);
                                                 }
                                                 else if (QualitySum>10 && localRand.Rand(100)<55)
                                                 {
                                                     //sehr gut:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPerson3StarsFC, 1u);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson3StarsFC), 1u);
                                                 }
                                                 else if (localRand.Rand(100)>Saldo)
                                                 {
                                                     //schlechte Crew:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSickFC, 1u);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSickFC), 1u);
                                                 }
                                                 else if ((TooExpensiveFC != 0) && localRand.Rand(130)<TooExpensiveFC)
                                                 {
                                                     //zu teuer:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonExpensiveFC, 1u);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonExpensiveFC), 1u);
                                                 }
                                                 else //okay:
                                                 {
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSmileFC, 1u);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSmileFC), 1u);
                                                 }
                                             }
 }
@@ -627,12 +627,12 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                                     if (bFirstClass != 0)
                                     {
                                         Sim.Persons[c].State  = PERSON_BOARDING;
-                                        Sim.Persons[c].Target = Airport.GetRandomTypedRune (RUNE_WAIT, (UBYTE)Gate);
+                                        Sim.Persons[c].Target = Airport.GetRandomTypedRune (RUNE_WAIT, static_cast<UBYTE>(Gate));
                                     }
                                     else
                                     {
                                         Sim.Persons[c].State  = PERSON_2DURCHLEUCHTER;
-                                        Sim.Persons[c].Target = Airport.GetRandomTypedRune (RUNE_DURCHLEUCHTER, (UBYTE)Gate);
+                                        Sim.Persons[c].Target = Airport.GetRandomTypedRune (RUNE_DURCHLEUCHTER, static_cast<UBYTE>(Gate));
                                     }
                                 }
                             }
@@ -876,7 +876,7 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
 }
 
     //Nötigenfalls am Anfang automatische Flüge einbauen:
-    if (Flugplan.Flug[0].ObjectType!=0 && Cities(Flugplan.Flug[0].VonCity)!=(ULONG)Cities(Flugplan.StartCity))
+    if (Flugplan.Flug[0].ObjectType!=0 && Cities(Flugplan.Flug[0].VonCity)!=static_cast<ULONG>(Cities(Flugplan.StartCity)))
     {
         //Automatik-Flug einfügen:
         for (d=Flugplan.Flug.AnzEntries()-1; d>0; d--) {
@@ -1061,7 +1061,7 @@ void CPlane::ExtendFlugplaene (SLONG PlayerNum)
             {
                 for (c=0; c<AnzSource; c++)
                 {
-                    if (Flugplan.Flug[AnzOkay+c-AnzSource].ObjectType==1 && (Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Flugplan.Flug[AnzOkay+c-AnzSource].ObjectId)].Rang != 0u))
+                    if (Flugplan.Flug[AnzOkay+c-AnzSource].ObjectType==1 && (Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(Flugplan.Flug[AnzOkay+c-AnzSource].ObjectId)].Rang != 0u))
                     {
                         Flugplan.Flug[AnzOkay+c]=Flugplan.Flug[AnzOkay+c-AnzSource];
                         Flugplan.Flug[AnzOkay+c].Startzeit+=RapportL;
@@ -1120,14 +1120,14 @@ void CPlane::FlugplaeneFortfuehren (SLONG PlayerNum)
             }
 
             //Routen in die Zukunft verschieben:
-            if (Flugplan.Flug[c].ObjectType==1 && (Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Flugplan.Flug[c].ObjectId)].Rang != 0u))
+            if (Flugplan.Flug[c].ObjectType==1 && (Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(Flugplan.Flug[c].ObjectId)].Rang != 0u))
             {
                 Flugplan.StartCity=Flugplan.Flug[c].NachCity;
                 Flugplan.Flug[c].Startdate+=7;
                 Flugplan.Flug[c].Landedate+=7;
                 Flugplan.Flug[c].PArrived  =0;
                 Flugplan.Flug[c].HoursBefore=48;
-                Flugplan.Flug[c].Ticketpreis=Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Flugplan.Flug[c].ObjectId)].Ticketpreis; //new
+                Flugplan.Flug[c].Ticketpreis=Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(Flugplan.Flug[c].ObjectId)].Ticketpreis; //new
 
                 //Zeiten ggf. anpassen (Feintuning)
                 if (Flugplan.Flug[c].Startdate<LastDate || (Flugplan.Flug[c].Startdate==LastDate && Flugplan.Flug[c].Startzeit<LastTime))
@@ -1345,7 +1345,7 @@ void CPlane::CalculateHappyPassengers (SLONG PlayerNum)
 
     if (GetFlugplanEintrag()->ObjectType==1)
     {
-        CRentRoute *pRoute = &Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(GetFlugplanEintrag()->ObjectId)];
+        CRentRoute *pRoute = &Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(GetFlugplanEintrag()->ObjectId)];
 
         SLONG Costs1 = pRoute->Ticketpreis;
         SLONG Costs2 = CalculateFlightCost (GetFlugplanEintrag()->VonCity, GetFlugplanEintrag()->NachCity, 800, 800, -1)*3/180*2*3;
@@ -1620,7 +1620,7 @@ BOOL CPlanes::IsPlaneNameInUse (const CString &PlaneName)
 {
     SLONG c = 0;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++) {
+    for (c=0; c<AnzEntries(); c++) {
         if ((IsInAlbum(c) != 0) && Planes[c].Name==PlaneName) { return (TRUE);
 }
 }
@@ -1637,7 +1637,7 @@ void CPlanes::RepairReferences ()
 {
     SLONG c = 0;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++) {
+    for (c=0; c<AnzEntries(); c++) {
         if (IsInAlbum(c) != 0) {
             Planes[c].RepairReferences();
 }
@@ -1651,7 +1651,7 @@ void CPlanes::DoOneStep (SLONG PlayerNum)
 {
     SLONG c = 0;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++) {
+    for (c=0; c<AnzEntries(); c++) {
         if (IsInAlbum(c) != 0) {
             Planes[c].DoOneStep (PlayerNum);
 }

@@ -367,13 +367,13 @@ void CSecurity::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_SECURITY && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_SECURITY && MouseClickId==999) { Sim.Players.Players[PlayerNum].LeaveRoom();
         } else if (MouseClickArea==ROOM_SECURITY && MouseClickId==10) { StartDialog (TALKER_SECURITY, MEDIUM_AIR, 1000); }
         else if (MouseClickArea==ROOM_SECURITY && MouseClickId==12)
         {
-            Sim.Players.Players[(SLONG)PlayerNum].BuyItem (ITEM_GLOVE);
+            Sim.Players.Players[PlayerNum].BuyItem (ITEM_GLOVE);
 
-            if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_GLOVE) != 0)
+            if (Sim.Players.Players[PlayerNum].HasItem (ITEM_GLOVE) != 0)
             {
                 Sim.ItemGlove=0;
                 SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLOVE);
@@ -403,8 +403,9 @@ void CSecurity::OnRButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
-                Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            if (!IsDialogOpen() && point.y<440) {
+                Sim.Players.Players[PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
