@@ -38,7 +38,7 @@ void CalculatePalettemapper (const UBYTE *pPalette, SDL_Palette *pPaletteMapper)
 //--------------------------------------------------------------------------------------------
 CSmack16::CSmack16 ()
 {
-    pSmack = NULL;
+    pSmack = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ CSmack16::~CSmack16 ()
     SDL_FreePalette(PaletteMapper);
     if (pSmack != nullptr) { smk_close (pSmack);
 }
-    pSmack = NULL;
+    pSmack = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ void CSmack16::Open (const CString& Filename)
 {
     pSmack = smk_open_file(FullFilename (Filename, SmackerPath), SMK_MODE_MEMORY);
     smk_enable_video(pSmack, 1u);
-    smk_info_video(pSmack, &Width, &Height, NULL);
+    smk_info_video(pSmack, &Width, &Height, nullptr);
     FrameNext = 0;
     State = smk_first(pSmack);
     PaletteMapper = SDL_AllocPalette(256);
@@ -77,7 +77,7 @@ BOOL CSmack16::Next (SBBM *pTargetBm)
         State = smk_next(pSmack);
 
         double usf;
-        smk_info_all(pSmack, NULL, NULL, &usf);
+        smk_info_all(pSmack, nullptr, nullptr, &usf);
         FrameNext = timeGetTime() + (usf / 1000.0);
 
         if (pTargetBm != nullptr)
@@ -97,11 +97,11 @@ BOOL CSmack16::Next (SBBM *pTargetBm)
 //--------------------------------------------------------------------------------------------
 //Und Feierabend:
 //--------------------------------------------------------------------------------------------
-void CSmack16::Close (void)
+void CSmack16::Close ()
 {
     if (pSmack != nullptr) { smk_close (pSmack);
 }
-    pSmack = NULL;
+    pSmack = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ void CSmack16::Close (void)
 //--------------------------------------------------------------------------------------------
 CSmackerClip::CSmackerClip ()
 {
-    pSmack = NULL;
+    pSmack = nullptr;
     FrameNext = 0;
     LastFrame = 0;
     PaletteMapper = SDL_AllocPalette(256);
@@ -126,24 +126,24 @@ CSmackerClip::~CSmackerClip ()
 }
     if (pSmack != nullptr) { smk_close (pSmack);
 }
-    pSmack = NULL;
+    pSmack = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
 //Startet die Animation
 //--------------------------------------------------------------------------------------------
-void CSmackerClip::Start (void)
+void CSmackerClip::Start ()
 {
     if (pSmack != nullptr) { smk_close (pSmack);
 }
-    pSmack = NULL;
+    pSmack = nullptr;
 
     if (Filename.GetLength()>0)
     {
         pSmack = smk_open_file(FullFilename (Filename, SmackerPath), SMK_MODE_MEMORY);
         smk_enable_video(pSmack, 1u);
-        smk_info_all(pSmack, &FrameNum, &Frames, NULL);
-        smk_info_video(pSmack, &Width, &Height, NULL);
+        smk_info_all(pSmack, &FrameNum, &Frames, nullptr);
+        smk_info_video(pSmack, &Width, &Height, nullptr);
         smk_first(pSmack);
         CalculatePalettemapper(smk_get_palette(pSmack), PaletteMapper);
     }
@@ -183,11 +183,11 @@ void CSmackerClip::Start (void)
 //--------------------------------------------------------------------------------------------
 //Beendet sie:
 //--------------------------------------------------------------------------------------------
-void CSmackerClip::Stop (void)
+void CSmackerClip::Stop ()
 {
     if (pSmack != nullptr) { smk_close (pSmack);
 }
-    pSmack = NULL;
+    pSmack = nullptr;
     FrameNext = 0;
     LastFrame = 0;
 
@@ -223,7 +223,7 @@ void CSmackerClip::ReSize (SLONG          ClipId,
 
     CSmackerClip::Filename      = Filename;
     CSmackerClip::SoundFilename = SoundFilename;
-    CSmackerClip::pSmack        = NULL;
+    CSmackerClip::pSmack        = nullptr;
     CSmackerClip::LastFrame     = 0;
     CSmackerClip::Width         = 0;
     CSmackerClip::Height        = 0;
@@ -275,7 +275,7 @@ void CSmackerClip::ReSize (SLONG          ClipId,
 //--------------------------------------------------------------------------------------------
 //Lässt die Person die nächste Silbe raussuchen:
 //--------------------------------------------------------------------------------------------
-void CSmackerClip::NextSyllable (void)
+void CSmackerClip::NextSyllable ()
 {
     if (SoundFilename.GetLength()>0)
     {
@@ -309,7 +309,7 @@ void CSmackerClip::NextSyllable (void)
 //--------------------------------------------------------------------------------------------
 //Lässt die Person die nächste Silbe sprechen:
 //--------------------------------------------------------------------------------------------
-void CSmackerClip::PlaySyllable (void)
+void CSmackerClip::PlaySyllable ()
 {
     if (SoundFx.pFX != nullptr)
     {
@@ -340,8 +340,7 @@ CSmackerPerson::CSmackerPerson ()
 //Destruktor:
 //--------------------------------------------------------------------------------------------
 CSmackerPerson::~CSmackerPerson ()
-{
-}
+= default;
 
 //--------------------------------------------------------------------------------------------
 //
@@ -372,7 +371,7 @@ void CSmackerPerson::SetDesiredMood (SLONG DesiredMood, SLONG AcceptedMood1, SLO
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-SLONG CSmackerPerson::GetMood (void)
+SLONG CSmackerPerson::GetMood ()
 {
     return (CurrentMood);
 }
@@ -380,7 +379,7 @@ SLONG CSmackerPerson::GetMood (void)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-SLONG CSmackerPerson::GetDesiredMood (void)
+SLONG CSmackerPerson::GetDesiredMood ()
 {
     return (DesiredMood);
 }
@@ -388,7 +387,7 @@ SLONG CSmackerPerson::GetDesiredMood (void)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-SLONG CSmackerPerson::GetClip (void)
+SLONG CSmackerPerson::GetClip ()
 {
     return (ActiveClip);
 }
@@ -396,7 +395,7 @@ SLONG CSmackerPerson::GetClip (void)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-SLONG CSmackerPerson::GetFrame (void) const
+SLONG CSmackerPerson::GetFrame () const
 {
     if (ActiveClip!=-1 && (Clips[ActiveClip].pSmack != nullptr)) {
         return (Clips[ActiveClip].FrameNum);
@@ -406,7 +405,7 @@ SLONG CSmackerPerson::GetFrame (void) const
 //--------------------------------------------------------------------------------------------
 //Beginnt den nächsten Clip, selbst wenn es verboten ist:
 //--------------------------------------------------------------------------------------------
-void CSmackerPerson::ForceNextClip (void)
+void CSmackerPerson::ForceNextClip ()
 {
     Clips[ActiveClip].Stop();
     Clips[ActiveClip].State=SMACKER_CLIP_INACTIVE;
@@ -416,7 +415,7 @@ void CSmackerPerson::ForceNextClip (void)
 //--------------------------------------------------------------------------------------------
 //Aktualisiert eine Animation
 //--------------------------------------------------------------------------------------------
-void CSmackerPerson::Pump (void)
+void CSmackerPerson::Pump ()
 {
     if (Clips.AnzEntries()==0) { return;
 }
@@ -428,13 +427,13 @@ void CSmackerPerson::Pump (void)
     }
 
     //Wenn gerade ein Leerclip abgespielt wird:
-    if (ActiveClip!=-1 && Clips[ActiveClip].pSmack==NULL)
+    if (ActiveClip!=-1 && Clips[ActiveClip].pSmack==nullptr)
     {
         Clips[ActiveClip].Stop();
         Clips[ActiveClip].State=SMACKER_CLIP_INACTIVE;
         NextClip();
 
-        if (Clips[ActiveClip].pSmack!=NULL && ActiveClip!=-1)
+        if (Clips[ActiveClip].pSmack!=nullptr && ActiveClip!=-1)
         {
             CalculatePalettemapper(smk_get_palette(Clips[ActiveClip].pSmack), Clips[ActiveClip].PaletteMapper);
             Bitmap.ReSize(XY(Clips[ActiveClip].Width, Clips[ActiveClip].Height), CREATE_INDEXED);
@@ -469,7 +468,7 @@ void CSmackerPerson::Pump (void)
         Clips[ActiveClip].State   = SMACKER_CLIP_PLAYING;
         Clips[ActiveClip].Start ();
 
-        if (Clips[ActiveClip].pSmack==NULL) {
+        if (Clips[ActiveClip].pSmack==nullptr) {
             return;
 }
 
@@ -597,7 +596,7 @@ void CSmackerPerson::Pump (void)
 //--------------------------------------------------------------------------------------------
 //Sucht den Folgeclip heraus:
 //--------------------------------------------------------------------------------------------
-void CSmackerPerson::NextClip (void)
+void CSmackerPerson::NextClip ()
 {
     SLONG c;
     SLONG PropSum;
@@ -847,7 +846,7 @@ found_next_clip:
         }
     }
 
-    if (Clips[ActiveClip].pSmack==NULL && Clips[ActiveClip].PostWait.x==0 && Clips[ActiveClip].PostWait.y==0) { NextClip ();
+    if (Clips[ActiveClip].pSmack==nullptr && Clips[ActiveClip].PostWait.x==0 && Clips[ActiveClip].PostWait.y==0) { NextClip ();
 }
 }
 

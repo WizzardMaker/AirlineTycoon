@@ -32,7 +32,7 @@ XY MouseCursorOffset=XY(0,0);
 
 extern BUFFER<CBencher> BrickWait;
 
-SLONG CBench::GetMissing (void)
+SLONG CBench::GetMissing ()
 {
     return ( SLONG(GameTime)-SLONG(BlitTime)-SLONG(FXTime)
             -SLONG(InitTime)-SLONG(DiskTime)-SLONG(TextTime)
@@ -41,7 +41,7 @@ SLONG CBench::GetMissing (void)
             -SLONG(KITime)-SLONG(MiscTime1)-SLONG(MiscTime2));
 }
 
-void CBench::Report (void)
+void CBench::Report ()
 {
     GameTime.Stop();
     hprintf ("CBench - Report");
@@ -72,7 +72,7 @@ extern CTakeOffApp *pTakeOffApp;
 // GameFrame
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void CheatSound (void)
+void CheatSound ()
 {
     /*SBFX *fx=new SBFX;
 
@@ -108,7 +108,7 @@ void CheatSound (void)
     gUniversalFx.Play (0, Sim.Options.OptionEffekte*100/7);
 }
 
-void MessagePump (void)
+void MessagePump ()
 {
 
     SDL_StartTextInput();
@@ -208,10 +208,10 @@ void GameFrame::UpdateFrameSize() const
 //--------------------------------------------------------------------------------------------
 GameFrame::GameFrame()
 {
-    pGLibPause = NULL;
+    pGLibPause = nullptr;
     PauseFade  = 0;
 
-    if (lpDD==NULL) { MB(); SDL_Delay(100); MB(); SDL_Delay(100); MB(); }
+    if (lpDD==nullptr) { MB(); SDL_Delay(100); MB(); SDL_Delay(100); MB(); }
 
     if (DetectCurrentDisplayResolution().x<=640 || DetectCurrentDisplayResolution().y<=480) {
         bFullscreen=TRUE;
@@ -320,13 +320,13 @@ GameFrame::GameFrame()
 //--------------------------------------------------------------------------------------------
 GameFrame::~GameFrame()
 {
-    SSE::SetMusicCallback(NULL);
+    SSE::SetMusicCallback(nullptr);
     //ClipCursor (NULL);
 
     if (pCursor != nullptr)
     {
         delete pCursor;
-        pCursor=NULL;
+        pCursor=nullptr;
     }
 
     TextBricks.ReSize (0);
@@ -389,19 +389,19 @@ GameFrame::~GameFrame()
     if (bitmapMain != nullptr)
     {
         delete bitmapMain;
-        bitmapMain=NULL;
+        bitmapMain=nullptr;
     }
 
     if (pGfxMain != nullptr)
     {
         delete pGfxMain;
-        pGfxMain=NULL;
+        pGfxMain=nullptr;
     }
 
     if (m_hWnd != nullptr)
     {
         SDL_DestroyWindow(m_hWnd);
-        m_hWnd = NULL;
+        m_hWnd = nullptr;
     }
 
     bLeaveGameLoop=TRUE;
@@ -468,7 +468,7 @@ void GameFrame::ProcessEvent(const SDL_Event& event)
                     }else if (event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
                     {
                         FrameWnd->OnActivateApp(TRUE, 0);
-                        FrameWnd->OnSetCursor(NULL, HTCLIENT, 0);
+                        FrameWnd->OnSetCursor(nullptr, HTCLIENT, 0);
                     }
                     else if (event.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
                     {
@@ -476,9 +476,9 @@ void GameFrame::ProcessEvent(const SDL_Event& event)
                         //FrameWnd->OnSetCursor(NULL, HTNOWHERE, 0);
                     }
                     else if (event.window.event == SDL_WINDOWEVENT_ENTER) {
-                        FrameWnd->OnSetCursor(NULL, HTCLIENT, 0);
+                        FrameWnd->OnSetCursor(nullptr, HTCLIENT, 0);
                     } else if (event.window.event == SDL_WINDOWEVENT_LEAVE) {
-                        FrameWnd->OnSetCursor(NULL, HTNOWHERE, 0);
+                        FrameWnd->OnSetCursor(nullptr, HTNOWHERE, 0);
 }
                 }
             }
@@ -538,7 +538,7 @@ void GameFrame::ProcessEvent(const SDL_Event& event)
     }
 }
 
-void GameFrame::Invalidate(void)
+void GameFrame::Invalidate()
 {
     CStdRaum* w;
     SLONG     c;
@@ -622,7 +622,7 @@ void GameFrame::OnSysKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
 //Prepares the fade-Bitmap
 //--------------------------------------------------------------------------------------------
-void GameFrame::PrepareFade(void)
+void GameFrame::PrepareFade()
 {
     gBlendBm.ReSize (PrimaryBm.Size);
 
@@ -847,7 +847,7 @@ void GameFrame::OnPaint()
     {
         TXY<int> rcWindow;
 
-        if (pGLibPause == NULL)
+        if (pGLibPause == nullptr)
         {
             pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("pause.gli", RoomPath), &pGLibPause, L_LOCMEM);
             PauseBm.ReSize (pGLibPause, GFX_PAUSE);
@@ -1199,7 +1199,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     if (Sim.localPlayer!=-1) {
         if (Sim.Players.Players.AnzEntries()>Sim.localPlayer) {
             if (qPlayer.GetRoom()!=ROOM_OPTIONS) {
-                if (qPlayer.LocationWin==NULL || (((CStdRaum*)qPlayer.LocationWin)->CurrentMenu!=MENU_RENAMEPLANE && ((CStdRaum*)qPlayer.LocationWin)->CurrentMenu!=MENU_BROADCAST))
+                if (qPlayer.LocationWin==nullptr || (((CStdRaum*)qPlayer.LocationWin)->CurrentMenu!=MENU_RENAMEPLANE && ((CStdRaum*)qPlayer.LocationWin)->CurrentMenu!=MENU_BROADCAST))
                 {
                     switch (nTargetRoom)
                     {
@@ -1636,7 +1636,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
             UpdateStatusBar ();
         }
-        else if (TopWin==NULL)
+        else if (TopWin==nullptr)
         {
             if (Sim.localPlayer>=0 && Sim.localPlayer<=3)
             {
@@ -2441,7 +2441,7 @@ void GameFrame::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/)
     if (Sim.localPlayer!=-1) {
         if (Sim.Players.Players.AnzEntries()>Sim.localPlayer) {
             if (Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_OPTIONS) {
-                if (Sim.Players.Players[Sim.localPlayer].LocationWin==NULL || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->CurrentMenu!=MENU_RENAMEPLANE))
+                if (Sim.Players.Players[Sim.localPlayer].LocationWin==nullptr || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->CurrentMenu!=MENU_RENAMEPLANE))
                 {
                     switch (nChar)
                     {
@@ -2565,7 +2565,7 @@ bool GameFrame::Pause (bool fPause)
 //--------------------------------------------------------------------------------------------
 //void GameFrame::OnLButtonDown(UINT nFlags, CPoint point):
 //--------------------------------------------------------------------------------------------
-void DefaultOnLButtonDown(void)
+void DefaultOnLButtonDown()
 {
     if (Sim.bPause != 0) {
         FrameWnd->Pause(Sim.bPause == 0);
@@ -2592,7 +2592,7 @@ void DefaultOnLButtonDown(void)
 }
 }
 
-void DefaultOnLButtonUp(void)
+void DefaultOnLButtonUp()
 {
     gMouseLButton = FALSE;
 
@@ -2602,7 +2602,7 @@ void DefaultOnLButtonUp(void)
 }
 }
 }
-void DefaultOnRButtonDown(void)
+void DefaultOnRButtonDown()
 {
     gMouseRButton = TRUE;
     PlayerDidntMove = 0;
@@ -2613,7 +2613,7 @@ void DefaultOnRButtonDown(void)
 }
 }
 }
-void DefaultOnRButtonUp(void)
+void DefaultOnRButtonUp()
 {
     gMouseRButton = FALSE;
 

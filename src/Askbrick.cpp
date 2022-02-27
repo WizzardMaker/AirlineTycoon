@@ -53,7 +53,7 @@ AskBrick::~AskBrick()
     if ((pGfxMain != nullptr) && (pMenuLib != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
 }
 
-    TopWin = NULL;
+    TopWin = nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////

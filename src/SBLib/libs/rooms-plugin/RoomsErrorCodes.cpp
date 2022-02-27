@@ -179,7 +179,7 @@ const char *RoomsErrorCodeDescription::ToEnum(RoomsErrorCode result)
     RakAssert(errorCodeDescriptions[result].errorCode==result);
     return errorCodeDescriptions[result].enumDesc;
 }
-void RoomsErrorCodeDescription::Validate(void)
+void RoomsErrorCodeDescription::Validate()
 {
     int i;
     for (i=0; i < ROOMS_ERROR_CODES_COUNT; i++)

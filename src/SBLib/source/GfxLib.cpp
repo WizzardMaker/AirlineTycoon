@@ -2,7 +2,7 @@
 
 #pragma pack(push)
 #pragma pack(1)
-typedef struct _GfxLibHeader
+using GfxLibHeader = struct _GfxLibHeader
 {
     dword Length; // 50 bytes
     dword Unknown0;
@@ -17,9 +17,9 @@ typedef struct _GfxLibHeader
     dword Unknown6;
     dword Unknown7;
     dword Unknown8;
-} GfxLibHeader;
+};
 
-typedef struct _GfxChunkHeader
+using GfxChunkHeader = struct _GfxChunkHeader
 {
     union
     {
@@ -27,15 +27,15 @@ typedef struct _GfxChunkHeader
         __int64 Id;
     };
     dword Offset;
-} GfxChunkHeader;
+};
 
-typedef struct _GfxChunkInfo
+using GfxChunkInfo = struct _GfxChunkInfo
 {
     dword Size;
     char Type;
-} GfxChunkInfo;
+};
 
-typedef struct GfxChunkImage
+using GfxChunkImage = struct GfxChunkImage
 {
     dword Length; // 76 bytes
     dword Size;
@@ -56,7 +56,7 @@ typedef struct GfxChunkImage
     dword Unknown3;
     dword Unknown4;
     dword Unknown5;
-} GfxChunkImage;
+};
 #pragma pack(pop)
 
 enum
@@ -72,14 +72,14 @@ GfxMain::GfxMain(SDL_Renderer* /*unused*/)
 
 GfxMain::~GfxMain()
 {
-    for (std::list<GfxLib>::iterator it = Libs.begin(); it != Libs.end(); ++it) {
-        it->Release();
+    for (auto & Lib : Libs) {
+        Lib.Release();
 }
 }
 
 SLONG GfxMain::LoadLib(char* path, class GfxLib** out, SLONG /*unused*/)
 {
-    Libs.push_back(GfxLib(this, NULL, path, 0, 0, NULL));
+    Libs.emplace_back(this, nullptr, path, 0, 0, nullptr);
     *out = &Libs.back();
     return 0;
 }
@@ -88,7 +88,7 @@ SLONG GfxMain::ReleaseLib(class GfxLib* lib)
 {
     lib->Release();
 
-    for (std::list<GfxLib>::iterator it = Libs.begin(); it != Libs.end(); ++it)
+    for (auto it = Libs.begin(); it != Libs.end(); ++it)
     {
         if (&*it == lib)
         {
@@ -104,7 +104,7 @@ GfxLib::GfxLib(void* /*unused*/, SDL_Renderer* /*unused*/, char* path, SLONG /*u
     SDL_RWops* file = SDL_RWFromFile(path, "rb");
     if (file != nullptr)
     {
-        struct _GfxLibHeader* header = LoadHeader(file);
+        GfxLibHeader* header = LoadHeader(file);
         if (header != nullptr)
         {
             Load(file, header);
@@ -119,21 +119,21 @@ GfxLib::GfxLib(void* /*unused*/, SDL_Renderer* /*unused*/, char* path, SLONG /*u
 GfxLibHeader* GfxLib::LoadHeader(SDL_RWops* file)
 {
     if (file == nullptr) {
-        return NULL;
+        return nullptr;
 }
 
     char magic[5] = { '\0' };
     SDL_RWread(file, magic, 1, 4);
     if (strcmp(magic, "GLIB") != 0) {
-        return NULL;
+        return nullptr;
 }
 
-    GfxLibHeader* header = new GfxLibHeader;
+    auto* header = new GfxLibHeader;
     header->Length = SDL_ReadLE32(file);
     if (SDL_RWread(file, &header->Unknown0, 1, header->Length - 4) != header->Length - 4)
     {
         delete header;
-        return NULL;
+        return nullptr;
     }
     return header;
 }
@@ -213,16 +213,16 @@ SLONG GfxLib::ReadGfxChunk(SDL_RWops* file, GfxChunkHeader header, SLONG /*unuse
 
 SDL_Surface* GfxLib::GetSurface(__int64 name)
 {
-    std::map<__int64, SDL_Surface*>::iterator it = Surfaces.find(name);
+    auto it = Surfaces.find(name);
     if (it != Surfaces.end()) {
         return it->second;
 }
-    return NULL;
+    return nullptr;
 }
 
 class GfxLib* GfxLib::ReleaseSurface(__int64 name)
 {
-    std::map<__int64, SDL_Surface*>::iterator it = Surfaces.find(name);
+    auto it = Surfaces.find(name);
     if (it != Surfaces.end())
     {
         delete[](char*)it->second->pixels;
@@ -238,10 +238,10 @@ void GfxLib::Release()
         return;
 }
 
-    for (std::map<__int64, SDL_Surface*>::iterator it = Surfaces.begin(); it != Surfaces.end(); ++it)
+    for (auto & Surface : Surfaces)
     {
-        delete[](char*)it->second->pixels;
-        SDL_FreeSurface(it->second);
+        delete[](char*)Surface.second->pixels;
+        SDL_FreeSurface(Surface.second);
     }
     Surfaces.clear();
 }

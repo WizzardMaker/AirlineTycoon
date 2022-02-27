@@ -51,7 +51,7 @@ void DontRunFromCD (void)
 //--------------------------------------------------------------------------------------------
 //Copy the savegame from the basic version?
 //--------------------------------------------------------------------------------------------
-void UpdateSavegames (void)
+void UpdateSavegames ()
 {
     /*if (Sim.Options.OptionViewedIntro==FALSE)
       {
@@ -85,7 +85,7 @@ void UpdateSavegames (void)
 //--------------------------------------------------------------------------------------------
 //Initialisierung der Pfade:
 //--------------------------------------------------------------------------------------------
-void InitPathVars (void)
+void InitPathVars ()
 {
     CString str;
 
@@ -196,8 +196,8 @@ skip_search_demo_cd:
     if (DoesFileExist (FullFilename ("dir.txt", GliPath)) == 0)
     {
 #ifndef CD_PROTECTION_ANY_TYPE
-        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe") != 0) {
-            GliPath="Y:\\Projekte\\Airlin~1\\betaver\\data\\gli\\%s";
+        if (DoesFileExist (R"(Y:\Projekte\Airlin~1\betaver\data\at.exe)") != 0) {
+            GliPath=R"(Y:\Projekte\Airlin~1\betaver\data\gli\%s)";
         } else
 #endif
         {
@@ -210,8 +210,8 @@ skip_search_demo_cd:
     if (DoesFileExist (FullFilename ("dir.txt", RoomPath)) == 0)
     {
 #ifndef CD_PROTECTION_ANY_TYPE
-        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe") != 0) {
-            RoomPath="Y:\\Projekte\\Airlin~1\\betaver\\data\\room\\%s";
+        if (DoesFileExist (R"(Y:\Projekte\Airlin~1\betaver\data\at.exe)") != 0) {
+            RoomPath=R"(Y:\Projekte\Airlin~1\betaver\data\room\%s)";
         } else
 #endif
         {
@@ -225,8 +225,8 @@ skip_search_demo_cd:
     if (DoesFileExist (FullFilename ("dir.txt", IntroPath)) == 0)
     {
 #ifndef CD_PROTECTION_ANY_TYPE
-        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe") != 0) {
-            IntroPath="Y:\\Projekte\\Airlin~1\\betaver\\data\\intro\\%s";
+        if (DoesFileExist (R"(Y:\Projekte\Airlin~1\betaver\data\at.exe)") != 0) {
+            IntroPath=R"(Y:\Projekte\Airlin~1\betaver\data\intro\%s)";
         } else
 #endif
         {
@@ -243,8 +243,8 @@ skip_search_demo_cd:
     if (DoesFileExist (FullFilename ("dir.txt", VoicePath)) == 0)
     {
 #ifndef CD_PROTECTION_ANY_TYPE
-        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe") != 0) {
-            VoicePath="Y:\\Projekte\\Airlin~1\\betaver\\data\\voice\\%s";
+        if (DoesFileExist (R"(Y:\Projekte\Airlin~1\betaver\data\at.exe)") != 0) {
+            VoicePath=R"(Y:\Projekte\Airlin~1\betaver\data\voice\%s)";
         } else
 #endif
         {
@@ -293,7 +293,7 @@ void InitSoundSystem (SDL_Window *AppWnd)
         SetWaveVolume(Sim.Options.OptionMasterVolume);
     }
 
-    if (gpSSE==NULL || !gpSSE->IsSoundEnabled()) {
+    if (gpSSE==nullptr || !gpSSE->IsSoundEnabled()) {
         Sim.Options.OptionMasterVolume=0;
 }
 }
@@ -301,7 +301,7 @@ void InitSoundSystem (SDL_Window *AppWnd)
 //--------------------------------------------------------------------------------------------
 //Sorgt für Screen Refresh und für Ablauf der Simulation:
 //--------------------------------------------------------------------------------------------
-void InitFonts (void)
+void InitFonts ()
 {
     FontCash.Load (lpDD, (char*)(LPCTSTR)FullFilename ("status.mcf", MiscPath));
     FontSmallBlack.Load (lpDD, (char*)(LPCTSTR)FullFilename ("norm_bl.mcf", MiscPath));
@@ -371,7 +371,7 @@ void InitFonts (void)
 //--------------------------------------------------------------------------------------------
 //Erzeugt die Statuszeilen:
 //--------------------------------------------------------------------------------------------
-void InitStatusLines (void)
+void InitStatusLines ()
 {
     StatusLineBms.ReSize (pGLibStd, GFX_STATLIN0, GFX_STATLIN1, GFX_STATLIN2,
             GFX_STATLIN3, GFX_STATLIN4, GFX_STATLIN5,
@@ -385,7 +385,7 @@ void InitStatusLines (void)
 //--------------------------------------------------------------------------------------------
 //Lädt die Inventar-Bilder:
 //--------------------------------------------------------------------------------------------
-void InitItems (void)
+void InitItems ()
 {
     gItemBms.ReSize (pGLibStd, "ITEM00", 26);
     LogoBms.ReSize (pGLibStd, "LOGO0", 7);
@@ -410,14 +410,14 @@ void InitItems (void)
 
             file >> str;
 
-            for (long c=0; c<sizeof(gPlanePartRelations)/sizeof(gPlanePartRelations[0]); c++)
+            for (auto & gPlanePartRelation : gPlanePartRelations)
             {
                 file >> str;
                 long id=atol(str);
 
-                if (gPlanePartRelations[c].Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlanePartRelations[c].Id, id);
+                if (gPlanePartRelation.Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlanePartRelation.Id, id);
 }
-                gPlanePartRelations[c].FromString (str);
+                gPlanePartRelation.FromString (str);
             }
         }
 
@@ -427,14 +427,14 @@ void InitItems (void)
 
             file >> str;
 
-            for (long c=0; c<sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0]); c++)
+            for (auto & gPlaneBuild : gPlaneBuilds)
             {
                 file >> str;
                 long id=atol(str);
 
-                if (gPlaneBuilds[c].Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlaneBuilds[c].Id, id);
+                if (gPlaneBuild.Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlaneBuild.Id, id);
 }
-                gPlaneBuilds[c].FromString (str);
+                gPlaneBuild.FromString (str);
             }
         }
     }
@@ -443,7 +443,7 @@ void InitItems (void)
 //--------------------------------------------------------------------------------------------
 //Lädt die Tip-Bitmaps:
 //--------------------------------------------------------------------------------------------
-void InitTipBms (void)
+void InitTipBms ()
 {
     SLONG c;
 
@@ -503,7 +503,7 @@ void InitTipBms (void)
 //--------------------------------------------------------------------------------------------
 //Initialisiert die Erdkugel:
 //--------------------------------------------------------------------------------------------
-void InitGlobeMapper (void)
+void InitGlobeMapper ()
 {
     int x;
     int y;

@@ -112,7 +112,7 @@ void HallDiskMenu::OnPaint()
 //--------------------------------------------------------------------------------------------
 void HallDiskMenu::OnClose()
 {
-    TopWin = NULL;
+    TopWin = nullptr;
 
     //Self-Destruct (zerstört Fenster und gibt anschließend Speicher frei):
     delete this;

@@ -29,7 +29,7 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
 
     BUFFER<UBYTE> Buffer(OldFrame.GetXSize()*OldFrame.GetYSize()*3);
     SLONG         BufferIndex=0;
-    UBYTE       *pBufferCounter=NULL;
+    UBYTE       *pBufferCounter=nullptr;
 
     SLONG         DirectOffsets[3];
     XY            Offsets[3];
@@ -82,7 +82,7 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
 
                             //Und Rückweg zu den äußerer Schleifen vorbereiten:
                             x             += cx-1;
-                            pBufferCounter = NULL;
+                            pBufferCounter = nullptr;
 
                             break;
                         }

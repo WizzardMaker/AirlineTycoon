@@ -12,8 +12,7 @@
 // Default-Konstruktor
 //--------------------------------------------------------------------------------------------
 SB_CColorFX::SB_CColorFX ()
-{
-}
+= default;
 
 //--------------------------------------------------------------------------------------------
 // Konstruktor
@@ -169,7 +168,7 @@ void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *Bitmap)
     static SLONG sizex;
 
     SB_CBitmapKey Key(*Bitmap);
-    if (Key.Bitmap==NULL) { return;
+    if (Key.Bitmap==nullptr) { return;
 }
 
     CRect ClipRect = Bitmap->GetClipRect();
@@ -258,7 +257,7 @@ void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *
 
     SB_CBitmapKey SrcKey(*SrcBitmap);
     SB_CBitmapKey TgtKey(*TgtBitmap);
-    if (SrcKey.Bitmap==NULL || TgtKey.Bitmap==NULL) { return;
+    if (SrcKey.Bitmap==nullptr || TgtKey.Bitmap==nullptr) { return;
 }
 
     sizex=SrcBitmap->GetXSize();
@@ -332,7 +331,7 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2,
 
     SB_CBitmapKey Key(*DestBitmap);
     SB_CBitmapKey Key2(*SrcBitmap2);
-    if (Key.Bitmap==NULL || Key2.Bitmap==NULL) { return;
+    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) { return;
 }
 
     sizex=DestBitmap->GetXSize();
@@ -434,13 +433,13 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, 
     static ULONG ESP;
     static SLONG sizex;
 
-    if (SrcBitmap==NULL || SrcBitmap2==NULL || TgtBitmap==NULL) { return;
+    if (SrcBitmap==nullptr || SrcBitmap2==nullptr || TgtBitmap==nullptr) { return;
 }
 
     SB_CBitmapKey Key(*SrcBitmap);
     SB_CBitmapKey Key2(*SrcBitmap2);
     SB_CBitmapKey TgtKey(*TgtBitmap);
-    if (Key.Bitmap==NULL || Key2.Bitmap==NULL || TgtKey.Bitmap==NULL) { return;
+    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr || TgtKey.Bitmap==nullptr) { return;
 }
 
     CRect ClipRect = TgtBitmap->GetClipRect();
@@ -587,7 +586,7 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==NULL || Key2.Bitmap==NULL)
+    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr)
     {
         IsPaintingTextBubble = FALSE;
         return;
@@ -622,7 +621,7 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
                 Key2=SB_CBitmapKey(*SrcBitmap);
 
                 //Falls der Key nicht mehr erhältlich ist, wurde die Sprechblase inzwischen geschlossen:
-                if (Key2.Bitmap==0)
+                if (Key2.Bitmap==nullptr)
                 {
                     //delete Key2;
                     IsPaintingTextBubble = FALSE;
@@ -632,7 +631,7 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
                 Key= SB_CBitmapKey(*TgtBitmap);
 
                 //Falls der Key nicht mehr erhältlich ist, wurde die Sprechlblase inzwischen geschlossen:
-                if (Key.Bitmap==0 || Key2.Bitmap==0)
+                if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr)
                 {
                     //delete Key;
                     //delete Key2;
@@ -739,7 +738,7 @@ void SB_CColorFX::BlitOutline (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBit
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==NULL || Key2.Bitmap==NULL) {
+    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) {
         return;
 }
 
@@ -876,7 +875,7 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==NULL || Key2.Bitmap==NULL) { return;
+    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) { return;
 }
 
     sizex=Rect.right-Rect.left+1;
@@ -943,7 +942,7 @@ void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect,
 
     //Calculate transparency color stuff:
     SB_Hardwarecolor color    = pBitmap->GetHardwarecolor (HighlightColor);
-    UWORD            coloradd = UWORD(Table2[((UBYTE*)&color)[0]]+Table2[256+((UBYTE*)&color)[1]]);
+    auto            coloradd = UWORD(Table2[((UBYTE*)&color)[0]]+Table2[256+((UBYTE*)&color)[1]]);
 
     CRect ClipRect = pBitmap->GetClipRect();
 
@@ -963,7 +962,7 @@ void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect,
     sizey=ClipRect.bottom-ClipRect.top+1;
 
     SB_CBitmapKey Key(*pBitmap);
-    if (Key.Bitmap==NULL) { return;
+    if (Key.Bitmap==nullptr) { return;
 }
 
     SLONG Width = Key.lPitch/2;
@@ -1022,7 +1021,7 @@ void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect,
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos)
 {
-    if (SrcBitmap==NULL) { return;
+    if (SrcBitmap==nullptr) { return;
 }
     if (TargetPos.x>=640 || TargetPos.x+SrcBitmap->GetXSize()<0) { return;
 }
@@ -1071,7 +1070,7 @@ void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==NULL || Key2.Bitmap==NULL) { return;
+    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) { return;
 }
 
     sizex=Rect.right-Rect.left+1;
@@ -1207,7 +1206,7 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
 
     SB_CBitmapKey Key(*TgtBitmap);
     SB_CBitmapKey Key2(*SrcBitmap);
-    if (Key.Bitmap==NULL || Key2.Bitmap==NULL) { return;
+    if (Key.Bitmap==nullptr || Key2.Bitmap==nullptr) { return;
 }
 
     sizex=Rect.right-Rect.left+1;
@@ -1218,7 +1217,7 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
     SLONG *pMap1=Map1;
     SLONG *pMap2=Map2;
 
-    SLONG Strength = SLONG(sin(timeGetTime()/150.0)*4+4);
+    auto Strength = SLONG(sin(timeGetTime()/150.0)*4+4);
 
     for (cy=0; cy<BlendTables.AnzEntries()/512; cy++)
     {
@@ -1279,7 +1278,7 @@ void RemapColor (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontCo
     sizey=ClipRect.bottom-ClipRect.top+1;
 
     SB_CBitmapKey Key(*pBitmap);
-    if (Key.Bitmap==NULL) { return;
+    if (Key.Bitmap==nullptr) { return;
 }
 
     SLONG Width = Key.lPitch/2;

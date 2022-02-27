@@ -30,8 +30,8 @@ CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum (bHandy, P
     EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthall.lbm", GliPath), SYSRAMBM);
 
     Satellite.ReSize   (pRoomLib, GFX_SAT1);
-    LightAnim.ReSize   (pRoomLib, "SATLICHT",  1, NULL, FALSE, ANIMATION_MODE_REPEAT, 100, 2, 100);
-    SendingAnim.ReSize (pRoomLib, "SENDER1",   3, NULL, FALSE, ANIMATION_MODE_REPEAT,   0, 5);
+    LightAnim.ReSize   (pRoomLib, "SATLICHT",  1, nullptr, FALSE, ANIMATION_MODE_REPEAT, 100, 2, 100);
+    SendingAnim.ReSize (pRoomLib, "SENDER1",   3, nullptr, FALSE, ANIMATION_MODE_REPEAT,   0, 5);
 
     HandyOffset = 170;
 

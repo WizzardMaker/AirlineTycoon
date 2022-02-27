@@ -78,7 +78,7 @@ void PrepareReflexionTable (SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTabl
     //Weniger Bewegung bei den Objekten in der Bitmap
     for (y=0; y<ReflexionMaskBm.Size.y; y++)
     {
-        UWORD *pSrcAdress=(UWORD*)(((UBYTE*)SrcKey.Bitmap)+y*SrcKey.lPitch);
+        auto *pSrcAdress=(UWORD*)(((UBYTE*)SrcKey.Bitmap)+y*SrcKey.lPitch);
         UBYTE *pTable=ReflexionTable+y*ReflexionMaskBm.Size.x;
 
         for (x=0; x<ReflexionMaskBm.Size.x; x++)
@@ -450,7 +450,7 @@ void CInsel::OnPaint()
 
         //Ship+Gischt:
         RoomBm.BlitFromT (ShipBm, BoatPos);
-        ColorFX.BlitTrans (ShipWaveBms[SLONG(timeGetTime()/100%ShipWaveBms.AnzEntries())].pBitmap, RoomBm.pBitmap, BoatPos +XY (0,57), NULL, 4);
+        ColorFX.BlitTrans (ShipWaveBms[SLONG(timeGetTime()/100%ShipWaveBms.AnzEntries())].pBitmap, RoomBm.pBitmap, BoatPos +XY (0,57), nullptr, 4);
 
         //Front-Layer (Berge)
         RoomBm.BlitFromT (FrontBm, -ViewPos.x, 440-FrontBm.Size.y);

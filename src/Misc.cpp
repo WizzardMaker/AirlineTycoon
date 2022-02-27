@@ -2,7 +2,7 @@
 // Misc.cpp : Diverse Sachen
 //============================================================================================
 #include "StdAfx.h"
-#include <assert.h>
+#include <cassert>
 #include <chrono>
 #include <filesystem>
 #include <locale>
@@ -27,8 +27,8 @@ SLONG BeraterSlideY [] = { 126, 142, -1, -1, -1, -1, -1, -1, 120, 120, -1, -1,
 
 extern SB_CColorFX ColorFX;
 
-TEAKRAND *pSurvisedRandom1=NULL;
-TEAKRAND *pSurvisedRandom2=NULL;
+TEAKRAND *pSurvisedRandom1=nullptr;
+TEAKRAND *pSurvisedRandom2=nullptr;
 
 //--------------------------------------------------------------------------------------------
 //Liest eine Zeile aus einem Buffer aus:
@@ -146,7 +146,7 @@ BOOL CheckCursorHighlight (const CRect &rect, UWORD FontColor, SLONG Look, SLONG
 //--------------------------------------------------------------------------------------------
 BOOL CheckCursorHighlight (const XY &CursorPos, const CRect &rect, UWORD FontColor, SLONG Look, SLONG TipId, SLONG ClickArea, SLONG ClickId, SLONG ClickPar1, SLONG ClickPar2)
 {
-    if (Sim.Players.Players[Sim.localPlayer].LocationWin==0 || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->IsDialogOpen() == 0) || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuIsOpen() != 0)) {
+    if (Sim.Players.Players[Sim.localPlayer].LocationWin==nullptr || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->IsDialogOpen() == 0) || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuIsOpen() != 0)) {
         if (CursorPos.x>=rect.left && CursorPos.x<=rect.right &&
                 CursorPos.y>=rect.top  && CursorPos.y<=rect.bottom)
         {
@@ -266,10 +266,10 @@ BOOL IsRoomBusy(UWORD RoomId, SLONG ExceptPlayer)
 BOOL EarthProjectize (const XY &NaturalPos, UWORD EarthAlpha, XY *PixelPos)
 {
     double _a=2.65;
-    UWORD  xx=UWORD(UWORD((NaturalPos.x+180)*65536/360)-EarthAlpha+16384-1250);
+    auto  xx=UWORD(UWORD((NaturalPos.x+180)*65536/360)-EarthAlpha+16384-1250);
 
-    SLONG py = SLONG(sin((NaturalPos.y*_a)/240.0*(3.14159/2))*185+190);
-    SLONG px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
+    auto py = SLONG(sin((NaturalPos.y*_a)/240.0*(3.14159/2))*185+190);
+    auto px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
 
     (*PixelPos) = XY(px,py) /*+XY(190,190)-XY(0, 40)*/;
 
@@ -283,10 +283,10 @@ BOOL EarthProjectize (const XY &NaturalPos, UWORD EarthAlpha, XY *PixelPos)
 BOOL EarthProjectize (const FXY &NaturalPos, UWORD EarthAlpha, XY *PixelPos)
 {
     double _a=2.65;
-    UWORD  xx=UWORD(UWORD((NaturalPos.x+180)*65536/360)-EarthAlpha+16384-1250);
+    auto  xx=UWORD(UWORD((NaturalPos.x+180)*65536/360)-EarthAlpha+16384-1250);
 
-    SLONG py = SLONG(sin((NaturalPos.y*_a)/240.0*(3.14159/2))*185+190);
-    SLONG px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
+    auto py = SLONG(sin((NaturalPos.y*_a)/240.0*(3.14159/2))*185+190);
+    auto px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
 
     (*PixelPos) = XY(px,py) /*+XY(190,190)-XY(0, 40)*/;
 
@@ -360,14 +360,14 @@ void MyMessageBox (LPCTSTR Title, LPCTSTR String, ...)
     };
     const SDL_MessageBoxData Data = {
         SDL_MESSAGEBOX_INFORMATION,
-        NULL,
+        nullptr,
         Title,
         Buffer,
         SDL_arraysize(Buttons),
         Buttons,
         &ColorScheme
     };
-    SDL_ShowMessageBox(&Data, NULL);
+    SDL_ShowMessageBox(&Data, nullptr);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -387,10 +387,10 @@ UWORD ConvertString2Date (char *String)
     p=strtok (Back, DateSeparator);  //Woche
     Date = (UWORD)(atoi (p)-1);
 
-    p=strtok (NULL, DateSeparator);  //Monat
+    p=strtok (nullptr, DateSeparator);  //Monat
     Date += (UWORD)((atoi (p)-1)*30);
 
-    p=strtok (NULL, DateSeparator);  //Jahr
+    p=strtok (nullptr, DateSeparator);  //Jahr
     Year = (SLONG)(atoi (p)-1950);
 
     //Umrechnen:
@@ -408,7 +408,7 @@ UWORD ConvertString2Date (char *String)
 //--------------------------------------------------------------------------------------------
 //Bestimmt den Pfad der Applikation:
 //--------------------------------------------------------------------------------------------
-void DoAppPath (void)
+void DoAppPath ()
 {
     //Vollen Programmnamen anfordern:
     char* buffer = SDL_strdup(SDL_GetBasePath());
@@ -642,8 +642,7 @@ char *CEinheit::bString64 (__int64 Value)
 //Konstruktor:
 //============================================================================================
 HEADLINES::HEADLINES ()
-{
-}
+= default;
 
 //--------------------------------------------------------------------------------------------
 //Konstruktor:
@@ -671,7 +670,7 @@ void HEADLINES::BlitHeadline (long Newspaper, SBBM &Offscreen, const CPoint& p1,
 //--------------------------------------------------------------------------------------------
 // Initializes the data:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::Init (void)
+void HEADLINES::Init ()
 {
     SLONG c;
 
@@ -696,7 +695,7 @@ void HEADLINES::Init (void)
 //--------------------------------------------------------------------------------------------
 //Lädt die aktuellen Schlagzeilen:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::ReloadHeadline (void)
+void HEADLINES::ReloadHeadline ()
 {
     SLONG         c;
     SLONG         NewRand [3];
@@ -735,7 +734,7 @@ void HEADLINES::ReloadHeadline (void)
 
         LastKette = Kette;
         Zeitung = atoi (strtok (Line, TabSeparator));
-        Kette   = atoi (strtok (NULL, TabSeparator));
+        Kette   = atoi (strtok (nullptr, TabSeparator));
 
         //Default: Zufallsmeldung
         if ((Zeitung != 0) && (Kette == 0) && NewRand[Zeitung-1]>=0)
@@ -743,7 +742,7 @@ void HEADLINES::ReloadHeadline (void)
             NewRand[Zeitung-1]--;
             if (NewRand[Zeitung-1]==-1)
             {
-                Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
+                Headline[(Zeitung-1)*10].Headline = strtok (nullptr, TabSeparator);
                 Headline[(Zeitung-1)*10].PictureId = 0;
                 Headline[(Zeitung-1)*10].PicturePriority = 0;
             }
@@ -754,7 +753,7 @@ void HEADLINES::ReloadHeadline (void)
         {
             CurrentChain[Zeitung-1]  = Kette;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
-            Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
+            Headline[(Zeitung-1)*10].Headline = strtok (nullptr, TabSeparator);
             Headline[(Zeitung-1)*10].PictureId = 0;
             Headline[(Zeitung-1)*10].PicturePriority = 0;
         }
@@ -764,7 +763,7 @@ void HEADLINES::ReloadHeadline (void)
         {
             CurrentChain[Zeitung-1]++;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
-            Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
+            Headline[(Zeitung-1)*10].Headline = strtok (nullptr, TabSeparator);
             Headline[(Zeitung-1)*10].PictureId = 0;
             Headline[(Zeitung-1)*10].PicturePriority = 0;
         }
@@ -774,7 +773,7 @@ void HEADLINES::ReloadHeadline (void)
         {
             CurrentChain[Zeitung-1]++;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
-            Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
+            Headline[(Zeitung-1)*10].Headline = strtok (nullptr, TabSeparator);
             Headline[(Zeitung-1)*10].PictureId = 0;
             Headline[(Zeitung-1)*10].PicturePriority = 0;
         }
@@ -782,7 +781,7 @@ void HEADLINES::ReloadHeadline (void)
         {
             CurrentChain[Zeitung-1]++;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
-            Headline[(Zeitung-1)*10].Headline = strtok (NULL, TabSeparator);
+            Headline[(Zeitung-1)*10].Headline = strtok (nullptr, TabSeparator);
             Headline[(Zeitung-1)*10].PictureId = 0;
             Headline[(Zeitung-1)*10].PicturePriority = 0;
         }
@@ -799,7 +798,7 @@ void HEADLINES::ReloadHeadline (void)
 //--------------------------------------------------------------------------------------------
 //Ersetzt bestimmte Tokens durch zufällige Inhalte:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::InterpolateHeadline (void)
+void HEADLINES::InterpolateHeadline ()
 {
     SLONG   c;
     SLONG   d;
@@ -869,7 +868,7 @@ void HEADLINES::InterpolateHeadline (void)
 
                 strcpy (Buffer, Extrakt);
                 a = atoi (strtok (Buffer+5, "),"));
-                b = atoi (strtok (NULL, "),"));
+                b = atoi (strtok (nullptr, "),"));
 
                 FlexiNumber[c] = LocalRand.Rand((b-a+1)+a);
                 Headline[c*10].Headline = Headline[c*10].Headline.Mid(0, von) + bprintf ("%li", FlexiNumber[c]) + Headline[c*10].Headline.Mid(bis+1, Headline[c*10].Headline.GetLength()-bis-1);
@@ -928,7 +927,7 @@ void HEADLINES::AddOverride (long Newspaper, const CString &HeadlineText, __int6
 //--------------------------------------------------------------------------------------------
 //Erzeugt ab und zu Vergleichsmeldungen:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::ComparisonHeadlines (void)
+void HEADLINES::ComparisonHeadlines ()
 {
     if (Sim.Date>8 && (Sim.Date&3)==2)
     {
@@ -1188,7 +1187,7 @@ void HEADLINES::ReInit (const CString &TabFilename)
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         Zeitung = atoi (strtok (Line, TabSeparator));
-        Kette   = atoi (strtok (NULL, TabSeparator));
+        Kette   = atoi (strtok (nullptr, TabSeparator));
 
         if ((Zeitung != 0) && (Kette == 0)) { NumRand[Zeitung-1]++;
 }
@@ -1198,7 +1197,7 @@ void HEADLINES::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 //Sortiert die aktuellen Schlagzeilen nach Priorität:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::SortByPriority (void)
+void HEADLINES::SortByPriority ()
 {
     SLONG c;
 
@@ -1317,7 +1316,7 @@ CMessages::CMessages () : Messages (15)
 //--------------------------------------------------------------------------------------------
 //Redet ein Berater?
 //--------------------------------------------------------------------------------------------
-BOOL CMessages::IsSilent (void)
+BOOL CMessages::IsSilent ()
 {
     return static_cast<BOOL>(Messages[0].BeraterTyp==-1 && Messages[1].BeraterTyp==-1);
 }
@@ -1325,7 +1324,7 @@ BOOL CMessages::IsSilent (void)
 //--------------------------------------------------------------------------------------------
 //Für einen neuen Tag initialisieren:
 //--------------------------------------------------------------------------------------------
-void CMessages::NewDay (void)
+void CMessages::NewDay ()
 {
     SLONG c;
 
@@ -1341,7 +1340,7 @@ void CMessages::NewDay (void)
 //--------------------------------------------------------------------------------------------
 //Berater entfernen:
 //--------------------------------------------------------------------------------------------
-void CMessages::NoComments (void)
+void CMessages::NoComments ()
 {
     if (Messages[0].Urgent==MESSAGE_COMMENT && TalkCountdown>0) {
 
@@ -1468,7 +1467,7 @@ void CMessages::AddMessage (SLONG BeraterTyp, const CString& Message, SLONG Urge
 //--------------------------------------------------------------------------------------------
 //Läßt die aktuelle Nachricht verschwinden:
 //--------------------------------------------------------------------------------------------
-void CMessages::NextMessage (void)
+void CMessages::NextMessage ()
 {
     if (TalkCountdown>0) { TalkCountdown=1;
 }
@@ -1477,7 +1476,7 @@ void CMessages::NextMessage (void)
 //--------------------------------------------------------------------------------------------
 //Malt die Sprechblase neu und initialisiert den Sprecher:
 //--------------------------------------------------------------------------------------------
-void CMessages::PaintMessage (void)
+void CMessages::PaintMessage ()
 {
     SLONG c;
 
@@ -1553,7 +1552,7 @@ void CMessages::PaintMessage (void)
 //--------------------------------------------------------------------------------------------
 //Ticker-Routine:
 //--------------------------------------------------------------------------------------------
-void CMessages::Pump (void)
+void CMessages::Pump ()
 {
     SLONG c;
 
@@ -1686,7 +1685,7 @@ void CMessages::Pump (void)
 //------------------------------------------------------------------------------
 //Läßt einen Berater sofort (ohne sanftes runtersliden) verschwinden:
 //------------------------------------------------------------------------------
-void CMessages::KillBerater (void)
+void CMessages::KillBerater ()
 {
     BeraterPosY=440;
 }
@@ -1710,7 +1709,7 @@ void CMessages::StartDialog (SLONG PlayerNum)
 //------------------------------------------------------------------------------
 //Beendet der Spieler einen Dialog
 //------------------------------------------------------------------------------
-void CMessages::StopDialog (void)
+void CMessages::StopDialog ()
 {
     IsDialog = FALSE;
 }
@@ -1988,7 +1987,7 @@ void TEAKRAND::SRand (ULONG Seed)
 //--------------------------------------------------------------------------------------------
 //nachträglicher Kondtruktor mit Seed aus Uhrzeit
 //--------------------------------------------------------------------------------------------
-void TEAKRAND::SRandTime (void)
+void TEAKRAND::SRandTime ()
 {
     Seed = Value = timeGetTime();
 }
@@ -2065,7 +2064,7 @@ UWORD TEAKRAND::Rand (SLONG Min, SLONG Max)
 //--------------------------------------------------------------------------------------------
 // Gibt den aktuellen "Seed" zus Generators zurück:
 //--------------------------------------------------------------------------------------------
-ULONG TEAKRAND::GetSeed (void)
+ULONG TEAKRAND::GetSeed ()
 {
     return (Value);
 }
@@ -2237,13 +2236,13 @@ CString RemoveAccents (CString str)
 //--------------------------------------------------------------------------------------------
 // Win32 replacement:
 //--------------------------------------------------------------------------------------------
-DWORD timeGetTime(void)
+DWORD timeGetTime()
 {
     std::chrono::nanoseconds now = std::chrono::steady_clock::now().time_since_epoch();
     return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
 }
 
-DWORD GetTickCount(void)
+DWORD GetTickCount()
 {
     return SDL_GetTicks();
 }
@@ -2257,7 +2256,7 @@ BOOL OffsetRect(RECT* pRect, int dx, int dy)
     return TRUE;
 }
 
-void DebugBreak(void)
+void DebugBreak()
 {
     assert(0);
 }

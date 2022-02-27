@@ -39,7 +39,7 @@ RAKNetNetwork::RAKNetNetwork() : mRoomCallbacks(this) {
 
     mMaster = RakPeerInterface::GetInstance();
 
-    RAKNetworkPlayer *player = new RAKNetworkPlayer();
+    auto *player = new RAKNetworkPlayer();
     player->ID = mLocalID;
     player->peer = mMaster->GetMyGUID();
     mPlayers.Add(player);
@@ -90,7 +90,7 @@ void RAKNetNetwork::Disconnect() {
 }
 
 bool RAKNetNetwork::CreateSession(SBNetworkCreation* create) {
-    RAKSessionInfo *info = new RAKSessionInfo();
+    auto *info = new RAKSessionInfo();
     strcpy(info->sessionName, create->sessionName.c_str());
     info->hostID = mLocalID;
     info->address = mMaster->GetMyGUID();
@@ -261,7 +261,7 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
                 }
             case SBNETWORK_ESTABLISH_CONNECTION:
                 { //New Connection to master peer
-                    RAKNetworkPlayer *player = new RAKNetworkPlayer();
+                    auto *player = new RAKNetworkPlayer();
                     BitStream b(p->data, p->length, true);
                     b.IgnoreBytes(1); //Net event ID
                     b.Read(player->ID);
@@ -291,7 +291,7 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
             case SBNETWORK_JOINED: //We joined the server, or someone else joined the master server
                 if (mState == SBNETWORK_SESSION_CLIENT) {
                     auto* nPeer = reinterpret_cast<RAKNetworkPeer*>(p->data);
-                    RAKNetworkPlayer *player = new RAKNetworkPlayer();
+                    auto *player = new RAKNetworkPlayer();
                     player->ID = nPeer->ID;
                     player->peer = nPeer->guid;
                     mPlayers.Add(player);
@@ -471,7 +471,7 @@ bool RAKNetNetwork::StartGetSessionListAsync() {
 }
 
 bool RAKNetNetwork::JoinSession(const SBStr& session, SBStr nickname) {
-    RAKSessionInfo* info = NULL;
+    RAKSessionInfo* info = nullptr;
     for (mSessionInfo.GetFirst(); !mSessionInfo.IsLast(); mSessionInfo.GetNext()) {
         if (session == mSessionInfo.GetLastAccessed()->sessionName) {
             info = static_cast<RAKSessionInfo*>(mSessionInfo.GetLastAccessed());

@@ -81,7 +81,7 @@ BOOL IsPentiumOrBetter (void)
 //--------------------------------------------------------------------------------------------
 CRegistryAccess::CRegistryAccess ()
 {
-    hKey = NULL;
+    hKey = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ CRegistryAccess::CRegistryAccess ()
 //--------------------------------------------------------------------------------------------
 CRegistryAccess::CRegistryAccess (const CString& RegistryPath)
 {
-    hKey = NULL;
+    hKey = nullptr;
     Open (RegistryPath);
 }
 
@@ -104,7 +104,7 @@ bool CRegistryAccess::Open (const CString& RegistryPath)
 
 #if USE_JSON
     CString PerfPath = GetPerfPath();
-    hKey = json_load_file(PerfPath + "AT.json", 0, NULL);
+    hKey = json_load_file(PerfPath + "AT.json", 0, nullptr);
     if (hKey == nullptr) {
         hKey = json_object();
 }
@@ -128,7 +128,7 @@ CRegistryAccess::~CRegistryAccess ()
 //--------------------------------------------------------------------------------------------
 // Alten Zugriff schließen:
 //--------------------------------------------------------------------------------------------
-void CRegistryAccess::Close (void)
+void CRegistryAccess::Close ()
 {
     if (hKey != nullptr)
     {
@@ -139,16 +139,16 @@ void CRegistryAccess::Close (void)
 #else
         RegCloseKey(hKey);
 #endif
-        hKey=NULL;
+        hKey=nullptr;
     }
 }
 
 //--------------------------------------------------------------------------------------------
 // Gibt TRUE zurück, wenn z.Zt ein Registry-Zugriff offen ist:
 //--------------------------------------------------------------------------------------------
-bool CRegistryAccess::IsOpen (void)
+bool CRegistryAccess::IsOpen ()
 {
-    return (hKey!=NULL);
+    return (hKey!=nullptr);
 }
 
 //--------------------------------------------------------------------------------------------

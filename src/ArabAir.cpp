@@ -38,25 +38,25 @@ CArabAir::CArabAir(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
     SP_Araber.ReSize (7);
     //SP_Araber.SetSpeakFx ("sayarab.raw");
     SP_Araber.Clips[0].ReSize (0, "arabw.smk", "", XY (425, 108), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9E1", 0, 1);
     SP_Araber.Clips[1].ReSize (1, "araba.smk", "", XY (425, 108), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten->Speak
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten->Speak
             "E1E1E1", 2, 4, 6);
     SP_Araber.Clips[2].ReSize (2, "arabl.smk", "", XY (425, 108), SPM_LISTENING,  CRepeat(1,1), CPostWait(50,50), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Listen
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Listen
             "A9E5E5", 2, 4, 6);
     SP_Araber.Clips[3].ReSize (3, "arabp.smk", "", XY (425, 108), SPM_TALKING,    CRepeat(1,1), CPostWait(20,20), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Psst!, danach Speaking
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Psst!, danach Speaking
             "A9", 4);
     SP_Araber.Clips[4].ReSize (4, "arabs.smk", "", XY (425, 108), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Speak
             "A9E1E1", 4, 2, 6);
     SP_Araber.Clips[5].ReSize (5, "arabz.smk", "arabz.raw", XY (425, 108), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak->Wait
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Speak->Wait
             "A9", 0);
     SP_Araber.Clips[6].ReSize (0, "arabg.smk", "", XY (425, 108), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Umschauen
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Umschauen
             "A9", 5);
 
     GloveBm.ReSize (pRoomLib, "GLOVE");

@@ -666,9 +666,9 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
             str="Id;From;To;Offset2dX;Offset2dY;Offset3dX;Offset3dY;Note1;Note2;Note3;Noise";
             file << str << std::endl;
 
-            for (long c=0; c<sizeof(gPlanePartRelations)/sizeof(gPlanePartRelations[0]); c++)
+            for (const auto & gPlanePartRelation : gPlanePartRelations)
             {
-                str = gPlanePartRelations[c].ToString ();
+                str = gPlanePartRelation.ToString ();
                 file << str << std::endl;
             }
         }
@@ -680,9 +680,9 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
             str="Id;ShortName;Cost;Weight;Power;Noise;Wartung;Passagiere;Verbrauch";
             file << str << std::endl;
 
-            for (long c=0; c<sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0]); c++)
+            for (const auto & gPlaneBuild : gPlaneBuilds)
             {
-                str = gPlaneBuilds[c].ToString ();
+                str = gPlaneBuild.ToString ();
                 file << str << std::endl;
             }
         }
@@ -699,14 +699,14 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
 
             file >> str;
 
-            for (long c=0; c<sizeof(gPlanePartRelations)/sizeof(gPlanePartRelations[0]); c++)
+            for (auto & gPlanePartRelation : gPlanePartRelations)
             {
                 file >> str;
                 long id=atol(str.c_str());
 
-                if (gPlanePartRelations[c].Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlanePartRelations[c].Id, id);
+                if (gPlanePartRelation.Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlanePartRelation.Id, id);
 }
-                gPlanePartRelations[c].FromString (str);
+                gPlanePartRelation.FromString (str);
             }
         }
 
@@ -716,14 +716,14 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
 
             file >> str;
 
-            for (long c=0; c<sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0]); c++)
+            for (auto & gPlaneBuild : gPlaneBuilds)
             {
                 file >> str;
                 long id = atol(str.c_str());
 
-                if (gPlaneBuilds[c].Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlaneBuilds[c].Id, id);
+                if (gPlaneBuild.Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlaneBuild.Id, id);
 }
-                gPlaneBuilds[c].FromString (str);
+                gPlaneBuild.FromString (str);
             }
         }
     }
@@ -795,7 +795,7 @@ CEditor::~CEditor()
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void CEditor::UpdateButtonState(void)
+void CEditor::UpdateButtonState()
 {
     long d;
 
@@ -1154,19 +1154,19 @@ void CEditor::OnPaint()
 
     //Die aktuell gewählten Parts:
     if (bAllowB) { RoomBm.BlitFromT (SelPartBms[index_b],  66-SelPartBms[index_b].Size.x/2, 399-SelPartBms[index_b].Size.y/2);
-    } else {         ColorFX.BlitTrans (SelPartBms[index_b].pBitmap, RoomBm.pBitmap, XY(66-SelPartBms[index_b].Size.x/2, 399-SelPartBms[index_b].Size.y/2), NULL, 5);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_b].pBitmap, RoomBm.pBitmap, XY(66-SelPartBms[index_b].Size.x/2, 399-SelPartBms[index_b].Size.y/2), nullptr, 5);
 }
     if (bAllowC) { RoomBm.BlitFromT (SelPartBms[index_c], 193-SelPartBms[index_c].Size.x/2, 399-SelPartBms[index_c].Size.y/2);
-    } else {         ColorFX.BlitTrans (SelPartBms[index_c].pBitmap, RoomBm.pBitmap, XY(193-SelPartBms[index_c].Size.x/2, 399-SelPartBms[index_c].Size.y/2), NULL, 5);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_c].pBitmap, RoomBm.pBitmap, XY(193-SelPartBms[index_c].Size.x/2, 399-SelPartBms[index_c].Size.y/2), nullptr, 5);
 }
     if (bAllowH) { RoomBm.BlitFromT (SelPartBms[index_h], 320-SelPartBms[index_h].Size.x/2, 399-SelPartBms[index_h].Size.y/2);
-    } else {         ColorFX.BlitTrans (SelPartBms[index_h].pBitmap, RoomBm.pBitmap, XY(320-SelPartBms[index_h].Size.x/2, 399-SelPartBms[index_h].Size.y/2), NULL, 5);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_h].pBitmap, RoomBm.pBitmap, XY(320-SelPartBms[index_h].Size.x/2, 399-SelPartBms[index_h].Size.y/2), nullptr, 5);
 }
     if (bAllowW) { RoomBm.BlitFromT (SelPartBms[index_w], 447-SelPartBms[index_w].Size.x/2, 399-SelPartBms[index_w].Size.y/2);
-    } else {         ColorFX.BlitTrans (SelPartBms[index_w].pBitmap, RoomBm.pBitmap, XY(447-SelPartBms[index_w].Size.x/2, 399-SelPartBms[index_w].Size.y/2), NULL, 5);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_w].pBitmap, RoomBm.pBitmap, XY(447-SelPartBms[index_w].Size.x/2, 399-SelPartBms[index_w].Size.y/2), nullptr, 5);
 }
     if (bAllowM) { RoomBm.BlitFromT (SelPartBms[index_m], 574-SelPartBms[index_m].Size.x/2, 399-SelPartBms[index_m].Size.y/2);
-    } else {         ColorFX.BlitTrans (SelPartBms[index_m].pBitmap, RoomBm.pBitmap, XY(574-SelPartBms[index_m].Size.x/2, 399-SelPartBms[index_m].Size.y/2), NULL, 5);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_m].pBitmap, RoomBm.pBitmap, XY(574-SelPartBms[index_m].Size.x/2, 399-SelPartBms[index_m].Size.y/2), nullptr, 5);
 }
 
     if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
@@ -1590,7 +1590,7 @@ again_w:
 //--------------------------------------------------------------------------------------------
 // Löscht das aktuelle Flugzeug:
 //--------------------------------------------------------------------------------------------
-void CEditor::DeleteCurrent(void)
+void CEditor::DeleteCurrent()
 {
     //try { std::remove (FullFilename (Plane.Name+".plane", MyPlanePath)); }
     try { std::remove (PlaneFilename); }
@@ -1651,7 +1651,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                 {
                     Plane.Parts-=(MouseClickId-10000);
 
-                    while (1)
+                    while (true)
                     {
                         long c;
                         for (c=0; c<(long)Plane.Parts.AnzEntries(); c++)
@@ -1685,7 +1685,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                     return;
                 }
 
-                while (1)
+                while (true)
                 {
                     long c = 0;
                     for (c=0; c<(long)Plane.Parts.AnzEntries(); c++)
@@ -1784,7 +1784,7 @@ bool CPlaneParts::IsSlotFree (const CString& Slotname)
 //--------------------------------------------------------------------------------------------
 // Sortiert die Parts nach der Z-Position
 //--------------------------------------------------------------------------------------------
-void CPlaneParts::Sort (void)
+void CPlaneParts::Sort ()
 {
     SLONG c;
 
@@ -1827,14 +1827,14 @@ TEAKFILE &operator >> (TEAKFILE &File, CPlaneParts &pp)
 //--------------------------------------------------------------------------------------------
 SBBM &CPlanePart::GetBm (SBBMS &PartBms) const
 {
-    for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++) {
-        if (gPlaneBuilds[c].Shortname==Shortname) {
-            return (PartBms[gPlaneBuilds[c].BitmapIndex]);
+    for (auto & gPlaneBuild : gPlaneBuilds) {
+        if (gPlaneBuild.Shortname==Shortname) {
+            return (PartBms[gPlaneBuild.BitmapIndex]);
 }
 }
 
     TeakLibW_Exception (FNL, ExcNever);
-    return (*(SBBM*)NULL);
+    return (*(SBBM*)nullptr);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1862,7 +1862,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CPlanePart &pp)
 //--------------------------------------------------------------------------------------------
 // Löscht ein altes Flugzeug
 //--------------------------------------------------------------------------------------------
-void CXPlane::Clear (void)
+void CXPlane::Clear ()
 {
     Parts.PlaneParts.ReSize (0);
     Parts.IsInAlbum(SLONG(0x01000000));
@@ -1873,7 +1873,7 @@ void CXPlane::Clear (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet die Kosten für ein Flugzeug:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcCost (void)
+long CXPlane::CalcCost ()
 {
     long cost=0;
 
@@ -1889,7 +1889,7 @@ long CXPlane::CalcCost (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet die Anzahl der Passagiere die reinpassen:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcPassagiere (void)
+long CXPlane::CalcPassagiere ()
 {
     long passagiere=0;
 
@@ -1905,7 +1905,7 @@ long CXPlane::CalcPassagiere (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet die Reichweite des Flugzeuges:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcReichweite (void)
+long CXPlane::CalcReichweite ()
 {
     long Reichweite=0;
 
@@ -1919,7 +1919,7 @@ long CXPlane::CalcReichweite (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet das benötigte Flugpersonal:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcPiloten (void)
+long CXPlane::CalcPiloten ()
 {
     long c;
     long piloten=0;
@@ -1954,7 +1954,7 @@ long CXPlane::CalcPiloten (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet das benötigte Flugpersonal:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcBegleiter (void)
+long CXPlane::CalcBegleiter ()
 {
     long c;
     long begleiter=0;
@@ -2015,7 +2015,7 @@ long CXPlane::CalcTank (bool bFaked)
 //--------------------------------------------------------------------------------------------
 // Berechnet den Verbrauch des Flugzeugs:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcVerbrauch (void)
+long CXPlane::CalcVerbrauch ()
 {
     long c;
     long verbrauch=0;
@@ -2061,7 +2061,7 @@ long CXPlane::CalcVerbrauch (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet das Gewicht für ein Flugzeug:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcWeight (void)
+long CXPlane::CalcWeight ()
 {
     long weight=0;
 
@@ -2077,7 +2077,7 @@ long CXPlane::CalcWeight (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet die Kraft der Triebwerke für ein Flugzeug:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcPower (void)
+long CXPlane::CalcPower ()
 {
     long power=0;
 
@@ -2093,7 +2093,7 @@ long CXPlane::CalcPower (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet die Kraft der Triebwerke für ein Flugzeug:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcNoise (void)
+long CXPlane::CalcNoise ()
 {
     long c;
     long noise=0;
@@ -2116,7 +2116,7 @@ long CXPlane::CalcNoise (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet die Wartungsintensität:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcWartung (void)
+long CXPlane::CalcWartung ()
 {
     long c;
     long wartung=0;
@@ -2155,7 +2155,7 @@ long CXPlane::CalcWartung (void)
 //--------------------------------------------------------------------------------------------
 // Berechnet die Wartungsintensität:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcSpeed (void)
+long CXPlane::CalcSpeed ()
 {
     long c;
     long speed=0;
@@ -2229,7 +2229,7 @@ bool CXPlane::IstPartVorhanden (CString Shortname, bool bOnlyThisType)
 //--------------------------------------------------------------------------------------------
 // Kann dieses Flugzeug gebaut werden?
 //--------------------------------------------------------------------------------------------
-bool CXPlane::IsBuildable (void)
+bool CXPlane::IsBuildable ()
 {
     if (!IstPartVorhanden ("B*")) { return (false);
 }
@@ -2251,7 +2251,7 @@ bool CXPlane::IsBuildable (void)
 //--------------------------------------------------------------------------------------------
 // Gibt eine Fehlerbeschreibung zurück:
 //--------------------------------------------------------------------------------------------
-CString CXPlane::GetError (void)
+CString CXPlane::GetError ()
 {
     long c;
     long d;
@@ -2348,7 +2348,7 @@ void CXPlane::Save (const CString& Filename)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator << (TEAKFILE &File, const CXPlane &p)
 {
-    CXPlane *pp = (CXPlane *)&p;
+    auto *pp = (CXPlane *)&p;
 
     DWORD   dwSize = sizeof(DWORD)+sizeof(long)*6 + strlen(p.Name);
     long    lCost        = pp->CalcCost();
@@ -2415,14 +2415,14 @@ long GetPlaneBuildIndex (const CString& Shortname)
 //--------------------------------------------------------------------------------------------
 CPlaneBuild &GetPlaneBuild (const CString& Shortname)
 {
-    for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++) {
-        if (gPlaneBuilds[c].Shortname==Shortname) {
-            return (gPlaneBuilds[c]);
+    for (auto & gPlaneBuild : gPlaneBuilds) {
+        if (gPlaneBuild.Shortname==Shortname) {
+            return gPlaneBuild;
 }
 }
 
     TeakLibW_Exception (FNL, ExcNever);
-    return (*(CPlaneBuild*)NULL);
+    return (*(CPlaneBuild*)nullptr);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2490,7 +2490,7 @@ void ParseTokens (char *String, char *tokens[], long nTokens)
     long c;
     long n=0;
 
-    for (c=0; c<nTokens; c++) { tokens[c]=NULL;
+    for (c=0; c<nTokens; c++) { tokens[c]=nullptr;
 }
 
     tokens[n]=String;
@@ -2529,7 +2529,7 @@ void CPlaneBuild::FromString (const CString& str)
 //--------------------------------------------------------------------------------------------
 // Konvertiert die Daten in einen String
 //--------------------------------------------------------------------------------------------
-CString CPlaneBuild::ToString (void) const
+CString CPlaneBuild::ToString () const
 {
     return (bprintf ("%li;%s;%li;%li;%li;%li;%li;%li;%li", Id, Shortname, Cost, Weight, Power, Noise, Wartung, Passagiere, Verbrauch));
 }
@@ -2556,7 +2556,7 @@ void CPlanePartRelation::FromString (const CString& str)
 //--------------------------------------------------------------------------------------------
 // Konvertiert die Daten in einen String
 //--------------------------------------------------------------------------------------------
-CString CPlanePartRelation::ToString (void) const
+CString CPlanePartRelation::ToString () const
 {
     LPCTSTR n1="-";
     LPCTSTR n2="-";

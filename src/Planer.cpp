@@ -258,7 +258,7 @@ CPlaner::~CPlaner()
 //--------------------------------------------------------------------------------------------
 //Malt den Erdball (Groß oder Klein) an eine Stelle
 //--------------------------------------------------------------------------------------------
-void CPlaner::PaintGlobe (void)
+void CPlaner::PaintGlobe ()
 {
     ::PaintGlobe (EarthBm, &GlobeBm, EarthAlpha, XY(0,0));
 }
@@ -266,7 +266,7 @@ void CPlaner::PaintGlobe (void)
 //--------------------------------------------------------------------------------------------
 //malt Dinge auf den Globus drauf:
 //--------------------------------------------------------------------------------------------
-void CPlaner::PaintGlobeRoutes (void)
+void CPlaner::PaintGlobeRoutes ()
 {
     SLONG c;
     SLONG d;
@@ -614,12 +614,12 @@ void CPlaner::PaintGlobeInScreen (XY TargetPos)
                 BLOCK &qBlock = qPlayer.Blocks[c];
                 if (qBlock.Index==0 && qBlock.BlockType==1)
                 {
-                    UWORD xx=UWORD(UWORD((Cities[qBlock.SelectedId].GlobusPosition.x+180)*65536/360)-EarthAlpha+16384-1250);
+                    auto xx=UWORD(UWORD((Cities[qBlock.SelectedId].GlobusPosition.x+180)*65536/360)-EarthAlpha+16384-1250);
 
                     if (!(xx>16386 && xx<49152))
                     {
-                        SLONG py = SLONG(sin((Cities[qBlock.SelectedId].GlobusPosition.y*a)/240.0*(3.14159/2))*185+190);
-                        SLONG px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
+                        auto py = SLONG(sin((Cities[qBlock.SelectedId].GlobusPosition.y*a)/240.0*(3.14159/2))*185+190);
+                        auto px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
 
                         RoomBm.BlitFromT (gCityMarkerBm, TargetPos+XY(px-18,py-18));
                     }
@@ -675,12 +675,12 @@ void CPlaner::PaintGlobeInScreen (XY TargetPos)
                 BLOCK &qBlock = qPlayer.Blocks[c];
                 if (qBlock.Index==0 && qBlock.BlockType==1)
                 {
-                    UWORD xx=UWORD(UWORD((Cities[qBlock.SelectedId].GlobusPosition.x+180)*65536/360)-EarthAlpha+16384-1250);
+                    auto xx=UWORD(UWORD((Cities[qBlock.SelectedId].GlobusPosition.x+180)*65536/360)-EarthAlpha+16384-1250);
 
                     if (xx>16386 && xx<49152)
                     {
-                        SLONG py = SLONG(sin((Cities[qBlock.SelectedId].GlobusPosition.y*a)/240.0*(3.14159/2))*185+190);
-                        SLONG px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
+                        auto py = SLONG(sin((Cities[qBlock.SelectedId].GlobusPosition.y*a)/240.0*(3.14159/2))*185+190);
+                        auto px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
 
                         RoomBm.BlitFromT (gCityMarkerBm, TargetPos+XY(px-18,py-18));
                     }
@@ -693,7 +693,7 @@ void CPlaner::PaintGlobeInScreen (XY TargetPos)
 //--------------------------------------------------------------------------------------------
 //Erledigt alles, was regelmäßig abgefragt wird: Tooltips, Verschieben von Flügen...
 //--------------------------------------------------------------------------------------------
-void CPlaner::DoPollingStuff (void)
+void CPlaner::DoPollingStuff ()
 {
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
@@ -1570,7 +1570,7 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
             if (ClientPosB.IfIsWithin (2,40,169,118) && timeGetTime()-gMouseLButtonDownTimer>800)
             {
                 CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)];
-                CRentRoute *pRRoute = NULL;
+                CRentRoute *pRRoute = nullptr;
                 SLONG SelectedIdB2;
                 SLONG Cost = CalculateFlightCostRechnerisch (Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1)*3/180*2;
 
@@ -1647,7 +1647,7 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
 //--------------------------------------------------------------------------------------------
 //Erledigt den Kram, wenn in einen Block geklickt wird:
 //--------------------------------------------------------------------------------------------
-void CPlaner::HandleLButtonDown (void)
+void CPlaner::HandleLButtonDown ()
 {
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
@@ -2372,7 +2372,7 @@ void CPlaner::HandleLButtonDown (void)
             {
                 PLAYER     &qPlayer = Sim.Players.Players[PlayerNum];
                 CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)];
-                CRentRoute *pRRoute = NULL;
+                CRentRoute *pRRoute = nullptr;
                 SLONG SelectedIdB2;
                 SLONG Cost = CalculateFlightCostRechnerisch (Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1)*3/180*2;
 
@@ -2520,7 +2520,7 @@ void CPlaner::HandleLButtonDown (void)
 //--------------------------------------------------------------------------------------------
 //Erledigt den Kram, wenn in einen Block geklickt wird:
 //--------------------------------------------------------------------------------------------
-void CPlaner::HandleRButtonDown (void)
+void CPlaner::HandleRButtonDown ()
 {
     DefaultOnRButtonDown ();
 
@@ -2593,7 +2593,7 @@ void CPlaner::HandleRButtonDown (void)
 //--------------------------------------------------------------------------------------------
 //Erledigt den Kram, wenn der Cursor losgelassen wird:
 //--------------------------------------------------------------------------------------------
-void CPlaner::HandleLButtonUp (void)
+void CPlaner::HandleLButtonUp ()
 {
     //Stop dragging...
     CurrentDragId=-1;
@@ -2762,7 +2762,7 @@ void CPlaner::HandleLButtonUp (void)
 //--------------------------------------------------------------------------------------------
 //Erledigt den Kram, wenn der Cursor losgelassen wird:
 //--------------------------------------------------------------------------------------------
-void CPlaner::HandleRButtonUp (void)
+void CPlaner::HandleRButtonUp ()
 {
     DefaultOnRButtonUp();
 
@@ -2776,7 +2776,7 @@ void CPlaner::HandleRButtonUp (void)
 //--------------------------------------------------------------------------------------------
 //Nächste Seite...
 //--------------------------------------------------------------------------------------------
-void CPlaner::ButtonNext (void)
+void CPlaner::ButtonNext ()
 {
     if (pBlock != nullptr)
     {
@@ -2802,7 +2802,7 @@ void CPlaner::ButtonNext (void)
 //--------------------------------------------------------------------------------------------
 //Nächste Seite für Block B...
 //--------------------------------------------------------------------------------------------
-void CPlaner::ButtonNextB (void)
+void CPlaner::ButtonNextB ()
 {
     if (pBlock != nullptr)
     {
@@ -2826,7 +2826,7 @@ void CPlaner::ButtonNextB (void)
 //--------------------------------------------------------------------------------------------
 //Vorherige Seite...
 //--------------------------------------------------------------------------------------------
-void CPlaner::ButtonPrev (void)
+void CPlaner::ButtonPrev ()
 {
     if (pBlock != nullptr)
     {
@@ -2851,7 +2851,7 @@ void CPlaner::ButtonPrev (void)
 //--------------------------------------------------------------------------------------------
 //Vorherige Seite für Block B...
 //--------------------------------------------------------------------------------------------
-void CPlaner::ButtonPrevB (void)
+void CPlaner::ButtonPrevB ()
 {
     if (pBlock != nullptr)
     {
@@ -2879,7 +2879,7 @@ void CPlaner::ButtonPrevB (void)
 //--------------------------------------------------------------------------------------------
 //Block schließen...
 //--------------------------------------------------------------------------------------------
-void CPlaner::ButtonClose (void) const
+void CPlaner::ButtonClose () const
 {
     if (pBlock != nullptr)
     {
@@ -2891,7 +2891,7 @@ void CPlaner::ButtonClose (void) const
 //--------------------------------------------------------------------------------------------
 //Zurück zum Index...
 //--------------------------------------------------------------------------------------------
-void CPlaner::ButtonIndex (void)
+void CPlaner::ButtonIndex ()
 {
     if (pBlock != nullptr)
     {
@@ -2947,7 +2947,7 @@ void CPlaner::ButtonIndex (void)
 //--------------------------------------------------------------------------------------------
 //Zurück zum Index für den rechten Block...
 //--------------------------------------------------------------------------------------------
-void CPlaner::ButtonIndexB (void)
+void CPlaner::ButtonIndexB ()
 {
     if (pBlock != nullptr)
     {
@@ -3017,7 +3017,7 @@ void CPlaner::TurnGlobe (SLONG Angle)
 //--------------------------------------------------------------------------------------------
 //Geht mit einem Doppelklick um:
 //--------------------------------------------------------------------------------------------
-void CPlaner::HandleLButtonDouble (void)
+void CPlaner::HandleLButtonDouble ()
 {
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 

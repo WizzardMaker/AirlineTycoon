@@ -32,7 +32,7 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
 
     SP_Modem.ReSize (1);
     SP_Modem.Clips[0].ReSize (1, "modem.smk", "", XY(307,338), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
 
     SetRoomVisited (PlayerNum, ROOM_BANK);
@@ -46,7 +46,7 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
     ZettelBm.ReSize (pMenuLib, "BLOC1");
 
     //Raumanimationen
-    MonitorAnim.ReSize (pRoomLib, "MONI01",  5, NULL, FALSE, ANIMATION_MODE_REPEAT, 0, 20*10);
+    MonitorAnim.ReSize (pRoomLib, "MONI01",  5, nullptr, FALSE, ANIMATION_MODE_REPEAT, 0, 20*10);
 
     if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
 }
@@ -56,95 +56,95 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
 
     SP_Pflanze.ReSize (4);
     SP_Pflanze.Clips[0].ReSize (0, "blumw.smk", "", XY (406, 122), SPM_IDLE,     CRepeat(1,1), CPostWait(30,50), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &CatchFly,
+            nullptr, SMACKER_CLIP_SET, 0, &CatchFly,
             "A9A2A2", 0, 2, 3);
     SP_Pflanze.Clips[1].ReSize (1, "blum.smk", "snakeat.raw", XY (406, 122), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &FlyCaught, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+8*SMACKER_CLIP_MULT, 1, NULL,
+            &FlyCaught, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+8*SMACKER_CLIP_MULT, 1, nullptr,
             "A1", 2);
     SP_Pflanze.Clips[2].ReSize (2, "blumzug.smk", "blumzug.raw", XY (406, 122), SPM_IDLE,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &CatchFly,
+            nullptr, SMACKER_CLIP_SET, 0, &CatchFly,
             "A1", 0);
     SP_Pflanze.Clips[3].ReSize (3, "blumzugb.smk", "blumzugb.raw", XY (406, 122), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &CatchFly,
+            nullptr, SMACKER_CLIP_SET, 0, &CatchFly,
             "A6", 0);
 
     SP_Mann.ReSize (9);
     SP_Mann.Clips[0].ReSize (0, "bm_wait.smk", "", XY (430, 160), SPM_IDLE,       CRepeat(2,4), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A6A4E1", 0, 1, 2);
     SP_Mann.Clips[1].ReSize (1, "bm_scrib.smk", "", XY (430, 160), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
     SP_Mann.Clips[2].ReSize (2, "bm_turn.smk", "", XY (430, 160), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1E1", 4, 3, 4);
     SP_Mann.Clips[3].ReSize (3, "bm_redew.smk", "", XY (430, 160), SPM_LISTENING, CRepeat(2,5), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A2E1E1", 3, 8, 4, 7);
     SP_Mann.Clips[4].ReSize (4, "bm_rede.smk", "", XY (430, 160), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9E1E1", 5, 3, 7);
     SP_Mann.Clips[5].ReSize (5, "bm_taste.smk", "bm_taste.raw", XY (430, 160), SPM_TALKING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1E1", 6, 3, 7);
     SP_Mann.Clips[6].ReSize (6, "bm_rede.smk", "", XY (430, 160), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A1E1E1", 6, 5, 3, 7);
     SP_Mann.Clips[7].ReSize (7, "bm_turnz.smk", "", XY (430, 160), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
     SP_Mann.Clips[8].ReSize (8, "bm_redek.smk", "", XY (430, 160), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1E1", 3, 4, 7);
 
     SP_Frau.ReSize (10);
     SP_Frau.Clips[0].ReSize (0, "bf_wait.smk", "", XY (252, 150), SPM_IDLE,       CRepeat(2,4), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A6A4E1", 0, 1, 2);
     SP_Frau.Clips[1].ReSize (1, "bf_work.smk", "", XY (252, 150), SPM_IDLE,       CRepeat(1,3), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
     SP_Frau.Clips[2].ReSize (2, "bf_turn.smk", "", XY (252, 150), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1", 3, 4);
     SP_Frau.Clips[3].ReSize (3, "bf_redew.smk", "", XY (252, 150), SPM_LISTENING, CRepeat(5,5), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A3A2A1E1E1", 3, 7, 5, 4, 6);
     SP_Frau.Clips[4].ReSize (4, "bf_rede.smk", "", XY (252, 150), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9E1E1", 4, 3, 6);
     SP_Frau.Clips[5].ReSize (5, "bf_taste.smk", "", XY (252, 150), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1E1E1", 3, 3, 4, 7);
     SP_Frau.Clips[7].ReSize (7, "bf_redek.smk", "", XY (252, 150), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1E1E1", 3, 3, 4, 7);
 
     SP_Frau.Clips[6].ReSize (6, "bf_redew.smk", "", XY (252, 150), SPM_IDLE,      CRepeat(1,1), CPostWait(7,7),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1A1A1", 3, 4, 8);
     SP_Frau.Clips[8].ReSize (8, "bf_redew.smk", "", XY (252, 150), SPM_IDLE,      CRepeat(1,1), CPostWait(7,7),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1A1A1", 3, 4, 9);
     SP_Frau.Clips[9].ReSize (9, "bf_turnz.smk", "", XY (252, 150), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 0);
 
     SP_Fliege.ReSize (5);
     SP_Fliege.Clips[0].ReSize (0, "", "", XY (504, 99), SPM_IDLE,                 CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A5A5", 1, 4);
     SP_Fliege.Clips[1].ReSize (1, "fliege.smk", "", XY (504, 99), SPM_IDLE,       CRepeat(3,6), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A5", 2);
     SP_Fliege.Clips[2].ReSize (2, "fliege.smk", "", XY (504, 99), SPM_IDLE,       CRepeat(3,6), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            &CatchFly, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+24*SMACKER_CLIP_MULT, 1, NULL,
+            &CatchFly, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+24*SMACKER_CLIP_MULT, 1, nullptr,
             "A5E1", 2, 3);
     SP_Fliege.Clips[3].ReSize (3, "", "", XY (504, 99), SPM_LISTENING,            CRepeat(1,1), CPostWait(99,99), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A5", 3);
     SP_Fliege.Clips[4].ReSize (4, "", "", XY (504, 99), SPM_IDLE,                 CRepeat(1,1), CPostWait(99,99), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A5", 4);
 
     CurrentAktie = -1;
@@ -382,7 +382,7 @@ void Bank::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //Löscht die Bilanz
 //--------------------------------------------------------------------------------------------
-void  CBilanz::Clear(void)
+void  CBilanz::Clear()
 {
     HabenZinsen=Tickets=Auftraege=SollRendite=HabenRendite=0;
     SollZinsen=Kerosin=Personal=Vertragsstrafen=Wartung=Gatemiete=Citymiete=Routenmiete=0;
@@ -391,7 +391,7 @@ void  CBilanz::Clear(void)
 //--------------------------------------------------------------------------------------------
 //Gibt den Saldo der Habens-Seite zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CBilanz::GetHaben(void) const
+SLONG CBilanz::GetHaben() const
 {
     return (HabenZinsen+Tickets+Auftraege+HabenRendite);
 }
@@ -399,7 +399,7 @@ SLONG CBilanz::GetHaben(void) const
 //--------------------------------------------------------------------------------------------
 //Gibt den Saldo der Soll-Seite zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CBilanz::GetSoll(void) const
+SLONG CBilanz::GetSoll() const
 {
     return (SollZinsen+Kerosin+Personal+Vertragsstrafen+Wartung+Gatemiete+Citymiete+Routenmiete+SollRendite);
 }
@@ -407,7 +407,7 @@ SLONG CBilanz::GetSoll(void) const
 //--------------------------------------------------------------------------------------------
 //Gibt den Saldo zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CBilanz::GetSumme(void)
+SLONG CBilanz::GetSumme()
 {
     return (GetHaben()-GetSoll());
 }

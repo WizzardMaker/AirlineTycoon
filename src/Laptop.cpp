@@ -64,7 +64,7 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
     DragFlightMode    = FALSE;
 
     CurrentDragId     = -1;
-    pBlock            = NULL;
+    pBlock            = nullptr;
     CurrentIcon       = -1;
     LastTime          = 0xffffffff;
     EarthTargetAlpha  = EarthAlpha;
@@ -79,21 +79,21 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
     KommVarLampe=-1;
     SP_Lampe.ReSize (4);
     SP_Lampe.Clips[0].ReSize (0, "lapligv2.smk", "", XY(80,403), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &KommVarLampe,
+            nullptr, SMACKER_CLIP_SET, 0, &KommVarLampe,
             "A1", 0);
     SP_Lampe.Clips[1].ReSize (1, "lapligh.smk", "", XY(80,403), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &KommVarLampe, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+            &KommVarLampe, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
             "A3A1", 0, 2);
     SP_Lampe.Clips[2].ReSize (2, "lapligw1.smk", "", XY(80,403), SPM_IDLE,      CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_DONTCANCEL,
-            &KommVarLampe, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+            &KommVarLampe, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
             "A1", 0);
     SP_Lampe.Clips[3].ReSize (3, "lapligw1.smk", "", XY(80,403), SPM_IDLE,      CRepeat(1,1), CPostWait(5,5),   SMACKER_CLIP_DONTCANCEL,
-            &KommVarLampe, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+            &KommVarLampe, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
             "A1", 0);
 
     SP_Antivir.ReSize (1);
     SP_Antivir.Clips[0].ReSize (1, "antivir.smk", "", XY(522,57), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
 
     if (qPlayer.LaptopVirus != 0)
@@ -107,32 +107,32 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
         }
 
         SP_Buttons[1].Clips[0].ReSize (0, "tdmstand.smk", "", XY(88,53), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[1], "A1", 0);
+                nullptr, SMACKER_CLIP_SET, 0, &KommVarButtons[1], "A1", 0);
         SP_Buttons[1].Clips[1].ReSize (1, "tdm.smk", "tdm.raw", XY(88,53), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                &KommVarButtons[1], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
+                &KommVarButtons[1], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr, "A1", 0);
 
         SP_Buttons[0].Clips[0].ReSize (0, "tdmstand.smk", "", XY(67,128), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[0], "A1", 0);
+                nullptr, SMACKER_CLIP_SET, 0, &KommVarButtons[0], "A1", 0);
         SP_Buttons[0].Clips[1].ReSize (1, "tdm.smk", "tdm.raw", XY(67,128), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                &KommVarButtons[0], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
+                &KommVarButtons[0], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr, "A1", 0);
 
         SP_Buttons[4].Clips[0].ReSize (0, "tdmstand.smk", "", XY(58,207), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[4], "A1", 0);
+                nullptr, SMACKER_CLIP_SET, 0, &KommVarButtons[4], "A1", 0);
         SP_Buttons[4].Clips[1].ReSize (1, "tdm.smk", "tdm.raw", XY(58,207), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                &KommVarButtons[4], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
+                &KommVarButtons[4], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr, "A1", 0);
 
         SP_Buttons[3].Clips[0].ReSize (0, "virf_glu.smk", "", XY(68,278), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[3], "A1", 0);
+                nullptr, SMACKER_CLIP_SET, 0, &KommVarButtons[3], "A1", 0);
         SP_Buttons[3].Clips[1].ReSize (1, "virf_tou.smk", "", XY(68,278), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                &KommVarButtons[3], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
+                &KommVarButtons[3], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr, "A1", 0);
 
         SP_Buttons[2].Clips[0].ReSize (0, "virr_glu.smk", "", XY(94,349), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, &KommVarButtons[2], "A1", 0);
+                nullptr, SMACKER_CLIP_SET, 0, &KommVarButtons[2], "A1", 0);
         SP_Buttons[2].Clips[1].ReSize (1, "virr_tou.smk", "", XY(94,349), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                &KommVarButtons[2], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL, "A1", 0);
+                &KommVarButtons[2], SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr, "A1", 0);
 
         SP_Buttons[5].Clips[0].ReSize (0, "ok.smk", "", XY(545,359), SPM_IDLE,      CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL, "A1", 0);
+                nullptr, SMACKER_CLIP_SET, 0, nullptr, "A1", 0);
 
         EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthvir.lbm", GliPath), SYSRAMBM);
 
@@ -182,7 +182,7 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
     for (c=0; c<6; c++)
     {
         IconRotSpeed[c]=IconRot[c]=1000;
-        pGLibIcons[c]=NULL;
+        pGLibIcons[c]=nullptr;
     }
 
     MessagePump();
@@ -247,7 +247,7 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
 }
 
     if (qPlayer.Blocks.IsInAlbum(ULONG(0)) != 0) {
-        qPlayer.Blocks[ULONG(0)].Base=NULL;
+        qPlayer.Blocks[ULONG(0)].Base=nullptr;
 }
 
     for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--)
@@ -352,7 +352,7 @@ CLaptop::~CLaptop()
 
     if ((pGLibGlobe != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pGLibGlobe);
 }
-    pGLibGlobe=NULL;
+    pGLibGlobe=nullptr;
 
     for (SLONG c=0; c<6; c++)
     {
@@ -360,7 +360,7 @@ CLaptop::~CLaptop()
         {
             IconBms[c].Destroy();
             pGfxMain->ReleaseLib (pGLibIcons[c]);
-            pGLibIcons[c]=NULL;
+            pGLibIcons[c]=nullptr;
         }
     }
 }
@@ -529,7 +529,7 @@ void CLaptop::OnPaint()
             CurrentBlock    = -1;
             IsInClientArea  = FALSE;
             IsInClientAreaB = FALSE;
-            pBlock          = NULL;
+            pBlock          = nullptr;
             for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--) {
                 if ((FensterVisible != 0) && (qPlayer.Blocks.IsInAlbum(c) != 0) && qPlayer.Blocks[c].Destructing==0)
                 {
@@ -820,7 +820,7 @@ void CLaptop::OnPaint()
                 for (c=0; c<12; c++) {
                     if (c<6 && c!=3 && c!=4)
                     {
-                        if ((IconRot[c] != 0) && pGLibIcons[c]==0)
+                        if ((IconRot[c] != 0) && pGLibIcons[c]==nullptr)
                         {
                             pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ((CString)bprintf ("icon%li.gli", c+1), RoomPath), &pGLibIcons[c], L_LOCMEM);
 
@@ -1533,7 +1533,7 @@ void CLaptop::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
 //Updates the modes (off/on/blinking) of the warning lights:
 //--------------------------------------------------------------------------------------------
-void CLaptop::UpdateWarningLightModes (void)
+void CLaptop::UpdateWarningLightModes ()
 {
     PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 

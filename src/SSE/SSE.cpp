@@ -149,8 +149,7 @@ FX::FX()
 }
 
 FX::~FX()
-{
-}
+= default;
 
 int	FX::Create(SSE* pSSE, char* file, dword samplesPerSec, word channels, word bitsPerSample)
 {
@@ -339,7 +338,7 @@ int ChangeFrequency(Mix_Chunk* chunk, int freq) {
 
     Uint16 format;
     int channels;
-    Mix_QuerySpec(NULL, &format, &channels);
+    Mix_QuerySpec(nullptr, &format, &channels);
 
     int channel;
     SDL_AudioCVT cvt;
@@ -360,7 +359,7 @@ int ChangeFrequency(Mix_Chunk* chunk, int freq) {
         //Set converter lenght and buffer
         cvt.len = chunk->alen;
         cvt.buf = (Uint8*)SDL_malloc(cvt.len * cvt.len_mult);
-        if (cvt.buf == NULL) { return -1;
+        if (cvt.buf == nullptr) { return -1;
 }
 
         //Copy the Mix_Chunk data to the new chunk and make the conversion
@@ -389,7 +388,7 @@ int FX::Load(const char* file)
 }
 
     _digitalData.file = file;
-    Uint8* buf = (Uint8*)SDL_LoadFile(file, &_fxData.bufferSize);
+    auto* buf = (Uint8*)SDL_LoadFile(file, &_fxData.bufferSize);
     _fxData.pBuffer = Mix_QuickLoad_RAW(buf, _fxData.bufferSize);
     ChangeFrequency(_fxData.pBuffer, 22050);
     _fxData.bufferSize = _fxData.pBuffer->alen;
@@ -410,7 +409,7 @@ int FX::Fusion(const FX** Fx, SLONG NumFx)
     for (SLONG i = 0; i < NumFx; i++) {
         _fxData.bufferSize += Fx[i]->_fxData.bufferSize;
 }
-    Uint8* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
+    auto* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
     size_t pos = 0;
     for (SLONG i = 0; i < NumFx; i++)
     {
@@ -432,7 +431,7 @@ int FX::Fusion(const FX* Fx, SLONG* Von, SLONG* Bis, SLONG NumFx)
     for (SLONG i = 0; i < NumFx; i++) {
         _fxData.bufferSize += Bis[i] - Von[i];
 }
-    Uint8* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
+    auto* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
     size_t pos = 0;
     for (SLONG i = 0; i < NumFx; i++)
     {
@@ -489,7 +488,7 @@ FX** FX::Tokenize(__int64 Token, SLONG& rcAnzahl)
         _digitalData.pSSE->CreateFX(&pFX[i]);
 
         size_t size = slices[i] - pos;
-        Uint8* buf = (Uint8*)SDL_malloc(size);
+        auto* buf = (Uint8*)SDL_malloc(size);
         memcpy(buf, _fxData.pBuffer->abuf + pos, size);
         pFX[i]->_fxData.bufferSize = size;
         pFX[i]->_fxData.pBuffer = Mix_QuickLoad_RAW(buf, size);
@@ -602,8 +601,7 @@ MIDI::MIDI()
 }
 
 MIDI::~MIDI()
-{
-}
+= default;
 
 int MIDI::Create(SSE* pSSE, char* file)
 {

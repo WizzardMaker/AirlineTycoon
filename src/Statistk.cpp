@@ -169,26 +169,26 @@ CStatistik::CStatistik (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Player
     StatButtons.ReSize (11);
 
     //Die Buttons:         .ID HelpId  ........MouseRect......  .BlitOffset  & #2  ..NormalBm.  ...HighBm..  ..ClickBm..  ClckHi Toggle
-    StatButtons[0].ReSize (999,     0, CRect(  0,440,  79,479), XY(  0,440), NULL, &ExitBms[0], &ExitBms[1], NULL,        NULL,  FALSE);
+    StatButtons[0].ReSize (999,     0, CRect(  0,440,  79,479), XY(  0,440), nullptr, &ExitBms[0], &ExitBms[1], nullptr,        nullptr,  FALSE);
     //Hinweis: Der Exit-Button muß immer Button 0 sein!
 
     //Der Buttons für die DropDown Liste:
-    StatButtons[1].ReSize (100,     0, CRect(190, 11, 639, 38), XY(390, 10), &DropDownPos, NULL, &UpDownArrows[1], NULL,  NULL,  FALSE);
+    StatButtons[1].ReSize (100,     0, CRect(190, 11, 639, 38), XY(390, 10), &DropDownPos, nullptr, &UpDownArrows[1], nullptr,  nullptr,  FALSE);
 
     //Die vier Spielerportraits:
-    StatButtons[2].ReSize (110, -1000, CRect(190,370, 299,429), XY(190,370), NULL, NULL,        &LogoBms[1],  &LogoBms[0], &LogoBms[2],  TRUE);
-    StatButtons[3].ReSize (111, -1001, CRect(300,370, 409,429), XY(300,370), NULL, NULL,        &LogoBms[4],  &LogoBms[3], &LogoBms[5],  TRUE);
-    StatButtons[4].ReSize (112, -1002, CRect(410,370, 519,429), XY(410,370), NULL, NULL,        &LogoBms[7],  &LogoBms[6], &LogoBms[8],  TRUE);
-    StatButtons[5].ReSize (113, -1003, CRect(520,370, 629,429), XY(520,370), NULL, NULL,        &LogoBms[10], &LogoBms[9], &LogoBms[11], TRUE);
+    StatButtons[2].ReSize (110, -1000, CRect(190,370, 299,429), XY(190,370), nullptr, nullptr,        &LogoBms[1],  &LogoBms[0], &LogoBms[2],  TRUE);
+    StatButtons[3].ReSize (111, -1001, CRect(300,370, 409,429), XY(300,370), nullptr, nullptr,        &LogoBms[4],  &LogoBms[3], &LogoBms[5],  TRUE);
+    StatButtons[4].ReSize (112, -1002, CRect(410,370, 519,429), XY(410,370), nullptr, nullptr,        &LogoBms[7],  &LogoBms[6], &LogoBms[8],  TRUE);
+    StatButtons[5].ReSize (113, -1003, CRect(520,370, 629,429), XY(520,370), nullptr, nullptr,        &LogoBms[10], &LogoBms[9], &LogoBms[11], TRUE);
 
     //Die 3 Radio-Buttons links unten
-    StatButtons[6].ReSize (120,  3300, CRect( 10,370,  65,429), XY( 10,370), NULL, &LupeLogoBms[0],	&LupeLogoBms[1],    &LupeLogoBms[2],    &LupeLogoBms[2],    TRUE);
-    StatButtons[7].ReSize (121,  3301, CRect( 70,370, 125,429), XY( 70,370), NULL, NULL,				&ButtonGeldBms[0],  &ButtonGeldBms[1],  &ButtonGeldBms[1],  TRUE);
-    StatButtons[8].ReSize (122,  3302, CRect(130,370, 185,429), XY(130,370), NULL, NULL,				&ButtonRouteBms[0], &ButtonRouteBms[1], &ButtonRouteBms[1], TRUE);
+    StatButtons[6].ReSize (120,  3300, CRect( 10,370,  65,429), XY( 10,370), nullptr, &LupeLogoBms[0],	&LupeLogoBms[1],    &LupeLogoBms[2],    &LupeLogoBms[2],    TRUE);
+    StatButtons[7].ReSize (121,  3301, CRect( 70,370, 125,429), XY( 70,370), nullptr, nullptr,				&ButtonGeldBms[0],  &ButtonGeldBms[1],  &ButtonGeldBms[1],  TRUE);
+    StatButtons[8].ReSize (122,  3302, CRect(130,370, 185,429), XY(130,370), nullptr, nullptr,				&ButtonRouteBms[0], &ButtonRouteBms[1], &ButtonRouteBms[1], TRUE);
 
     //Die Zoom-Buttons für die Drop-Down Liste:
-    StatButtons[ 9].ReSize (130,     0, CRect(374, -318, 408, -293), XY(374, -318), &DropDownPos, NULL, &LupeZoomBms[1], &LupeZoomBms[1], NULL,  FALSE);
-    StatButtons[10].ReSize (131,     0, CRect(412, -318, 446, -293), XY(412, -318), &DropDownPos, NULL, &LupeZoomBms[0], &LupeZoomBms[0], NULL,  FALSE);
+    StatButtons[ 9].ReSize (130,     0, CRect(374, -318, 408, -293), XY(374, -318), &DropDownPos, nullptr, &LupeZoomBms[1], &LupeZoomBms[1], nullptr,  FALSE);
+    StatButtons[10].ReSize (131,     0, CRect(412, -318, 446, -293), XY(412, -318), &DropDownPos, nullptr, &LupeZoomBms[0], &LupeZoomBms[0], nullptr,  FALSE);
 
     // Den entsprechenden Group-Button hilighten
     for (c=StatButtons.AnzEntries()-1; c>=0; c--)
@@ -269,7 +269,7 @@ CStatistik::~CStatistik()
 void CStatistik::OnPaint()
 {
     SLONG  c;
-    SBBM  *ExitBm=NULL;
+    SBBM  *ExitBm=nullptr;
     XY     ExitBmPos;
     DWORD  CurrentTime=timeGetTime();
     static SLONG RefreshStatistics=0;
@@ -293,9 +293,9 @@ void CStatistik::OnPaint()
         {
             DropDownSpeed = 0;
             DropDownPos.y = 329;
-            StatButtons[1].BitmapNormal  = NULL;
+            StatButtons[1].BitmapNormal  = nullptr;
             StatButtons[1].BitmapHi      = &UpDownArrows[2];
-            StatButtons[1].BitmapClicked = NULL;
+            StatButtons[1].BitmapClicked = nullptr;
         }
     }
     else if (DropDownSpeed<0)
@@ -473,7 +473,7 @@ void CStatistik::OnPaint()
                     }
 
                     if (DropDownPos.y==0) {
-                        ColorFX.BlitTrans (HighlightBar.pBitmap, RoomBm.pBitmap, XY(190, rc.top-3-4), NULL, 6);
+                        ColorFX.BlitTrans (HighlightBar.pBitmap, RoomBm.pBitmap, XY(190, rc.top-3-4), nullptr, 6);
 }
                 }
                 else
@@ -595,7 +595,7 @@ void CStatistik::CalcGraph()
 //--------------------------------------------------------------------------------------------
 //Zeichnet das Menü mit dem Graphen neu:
 //--------------------------------------------------------------------------------------------
-void CStatistik::RepaintGraphWindow (void)
+void CStatistik::RepaintGraphWindow ()
 {
     long	 x1;
     long	 y1;
@@ -778,7 +778,7 @@ void CStatistik::RepaintGraphWindow (void)
 //--------------------------------------------------------------------------------------------
 //Zeichnet das Menü mit dem Text neu:
 //--------------------------------------------------------------------------------------------
-void CStatistik::RepaintTextWindow (void)
+void CStatistik::RepaintTextWindow ()
 {
     int p;
 
@@ -929,7 +929,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
                           else
                           {
                               DropDownSpeed = 25;
-                              StatButtons[1].BitmapHi      = NULL;
+                              StatButtons[1].BitmapHi      = nullptr;
                               StatButtons[1].BitmapClicked = &UpDownArrows[0];
                               StatButtons[1].BitmapNormal  = &UpDownArrows[0];
                               RepaintGraphWindow();

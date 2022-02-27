@@ -71,61 +71,61 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 
     SP_Fracht.ReSize (13);
     SP_Fracht.Clips[0].ReSize (0, "fm1a.smk", "", XY (485, 50), SPM_IDLE,    CRepeat(1,1), CPostWait(0,20),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &KommVar,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, &KommVar,  //Warten
             "A4A4A9E1", 0, 1, 2, 4);
     SP_Fracht.Clips[1].ReSize (1, "fm1a.smk", "", XY (485, 50), SPM_IDLE,    CRepeat(1,1), CPostWait(0,20),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &KommVar,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, &KommVar,  //Warten
             "A4A4A9E1", 0, 1, 2, 4);
     SP_Fracht.Clips[2].ReSize (3, "fm3.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,20), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &KommVar,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, &KommVar,  //Warten
             "A4A4A9E1", 0, 1, 2, 4);
 
     //Buzzer
     SP_Fracht.Clips[3].ReSize (2, "fm2.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,20), SMACKER_CLIP_DONTCANCEL,
-            &DropItNow, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+5*SMACKER_CLIP_MULT, 1, NULL,  //Warten
+            &DropItNow, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+5*SMACKER_CLIP_MULT, 1, nullptr,  //Warten
             "A4A4A9E1", 0, 1, 2, 4);
 
     //Nach vorne drehen:
     SP_Fracht.Clips[4].ReSize (4, "fm4.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten->Speak/Listen
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten->Speak/Listen
             "A1E1", 5, 6);
 
     //Zuhören:
     SP_Fracht.Clips[5].ReSize (5, "fm4spas1.smk", "", XY (485, 50), SPM_LISTENING, CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Listening
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Listening
             "A9A9A9E1E1", 5, 6, 7, 8, 12);
     SP_Fracht.Clips[6].ReSize (6, "fm4spas2.smk", "", XY (485, 50), SPM_LISTENING, CRepeat(1,1), CPostWait(0,3),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Listening
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Listening
             "A9E1E1", 5, 8, 12);
     SP_Fracht.Clips[7].ReSize (7, "fm4spas3.smk", "", XY (485, 50), SPM_LISTENING, CRepeat(1,1), CPostWait(8,20),  SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Listening
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Listening
             "A9E1E1", 5, 8, 12);
 
     //Babbeln:
     SP_Fracht.Clips[8].ReSize (8, "fmspa1.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Talking
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Talking
             "A9A9A9E1E1", 9, 10, 11, 5, 12);
     SP_Fracht.Clips[9].ReSize (9, "fmspa2.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Talking
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Talking
             "A9A9A9E1E1", 10, 10, 11, 5, 12);
     SP_Fracht.Clips[10].ReSize (10, "fmspa3.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Talking
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Talking
             "A9A9A9E1E1", 9, 11, 11, 5, 12);
     SP_Fracht.Clips[11].ReSize (11, "fmspa4.smk", "", XY (485, 50), SPM_TALKING, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Talking
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Talking
             "A9A9A9E1E1", 9, 10, 12, 5, 12);
 
     //Zurück zur Arbeit drehen:
     SP_Fracht.Clips[12].ReSize (12, "fm4back.smk", "", XY (485, 50), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak/Listen->Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Speak/Listen->Warten
             "A1E1", 0, 6);
 
     SP_Stapler.ReSize (2);
     SP_Stapler.Clips[0].ReSize (0, "fa1.smk", "",    XY (60, 240), SPM_IDLE, CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 1);
     SP_Stapler.Clips[1].ReSize (2, "fa2.smk", "",    XY (0, 190),  SPM_IDLE, CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 0);
 
     pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tipau.gli", GliPath), &pMenuLib, L_LOCMEM);
@@ -153,7 +153,7 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 
     SetBackgroundFx (0, "pap3.raw",     25000);    //Papierrascheln
 
-    pZettelLib=NULL;
+    pZettelLib=nullptr;
 
     bCanPaint = true;
     SDL_ShowWindow(FrameWnd->m_hWnd);
@@ -832,7 +832,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CFracht &Fracht)
 //============================================================================================
 //Fügt eine Reihe von neuen Aufträgen ein:
 //============================================================================================
-void CFrachten::Fill (void)
+void CFrachten::Fill ()
 {
     SLONG c;
 
@@ -905,7 +905,7 @@ void CFrachten::Refill (SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 //Returns the number of open Order flights which are due today:
 //--------------------------------------------------------------------------------------------
-SLONG CFrachten::GetNumDueToday (void)
+SLONG CFrachten::GetNumDueToday ()
 {
     SLONG c;
     SLONG Anz=0;
@@ -924,7 +924,7 @@ SLONG CFrachten::GetNumDueToday (void)
 //--------------------------------------------------------------------------------------------
 //Returns the number of open Order flights which still must be planned:
 //--------------------------------------------------------------------------------------------
-SLONG CFrachten::GetNumOpen (void)
+SLONG CFrachten::GetNumOpen ()
 {
     SLONG c;
     SLONG Anz=0;

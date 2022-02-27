@@ -53,7 +53,7 @@ CBuero::CBuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
         pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
-    else { pGLibDark=NULL;
+    else { pGLibDark=nullptr;
 }
 
     IsInBuro = TRUE;
@@ -89,45 +89,45 @@ CBuero::CBuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
     {
         SP_Ticker.ReSize (1); //Uhrpendel:
         SP_Ticker.Clips[0].ReSize (0, "uhr.smk", "uhr.raw", XY (420, 109), SPM_IDLE,  CRepeat(99,99), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL,
+                nullptr, SMACKER_CLIP_SET, 0, nullptr,
                 "A9", 0);
     }
 
     SP_Player.ReSize (11);
     SP_Player.Clips[0].ReSize (0, bprintf ("pl%liwait.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_IDLE,       CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A2A1A2E1E1", 0, 1, 2, 3, 4, 7);
     SP_Player.Clips[1].ReSize (1, bprintf ("pl%liblat.smk", PlayerNum+1), "plxblat.raw", PlOffset[PlayerNum], SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "E1A1A1", 0, 0, 1);
     SP_Player.Clips[2].ReSize (2, CString(bprintf ("pl%liscri1.smk", PlayerNum+1)), CString(bprintf ("pl%liscri1.raw", PlayerNum+1)), PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "E1A1A1", 0, 0, 1);
     SP_Player.Clips[3].ReSize (3, CString (bprintf ("pl%liscri2.smk", PlayerNum+1)), CString(bprintf ("pl%liscri2.raw", PlayerNum+1)), PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "E1A1A1", 0, 0, 1);
 
     SP_Player.Clips[4].ReSize (4, bprintf ("pl%librief.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_LETTER,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &KommVarLetters, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 1, NULL,
+            &KommVarLetters, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 1, nullptr,
             "A1", 5);
     SP_Player.Clips[5].ReSize (5, bprintf ("pl%librifw.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_LETTER,    CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1", 5, 6);
     SP_Player.Clips[6].ReSize (6, bprintf ("pl%librifz.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &KommVarCloseLetter, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 1, NULL,
+            &KommVarCloseLetter, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 1, nullptr,
             "A1", 0);
 
     SP_Player.Clips[7].ReSize (7, bprintf ("pl%litelef.smk", PlayerNum+1), bprintf ("pl%litelef.raw", PlayerNum+1), PlOffset[PlayerNum], SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &KommVarTelefon, SMACKER_CLIP_XOR|SMACKER_CLIP_POST, 2, NULL,
+            &KommVarTelefon, SMACKER_CLIP_XOR|SMACKER_CLIP_POST, 2, nullptr,
             "A1A1A1", 8, 9, 10);
     SP_Player.Clips[8].ReSize (8, bprintf ("pl%litelew.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_LISTENING, CRepeat(1,1), CPostWait(30,30), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1E1", 8, 9, 10);
     SP_Player.Clips[9].ReSize (9, bprintf ("pl%liteler.smk", PlayerNum+1), "", PlOffset[PlayerNum], SPM_TALKING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "E1A1E1", 8, 9, 10);
     SP_Player.Clips[10].ReSize (10, bprintf ("pl%litelez.smk", PlayerNum+1), bprintf ("pl%litelez.raw", PlayerNum+1), PlOffset[PlayerNum], SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
@@ -147,7 +147,7 @@ CBuero::~CBuero()
 
     if ((pGLibDark != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pGLibDark);
 }
-    pGLibDark=NULL;
+    pGLibDark=nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -172,7 +172,7 @@ void CBuero::OnPaint()
         pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
-    else { pGLibDark=NULL;
+    else { pGLibDark=nullptr;
 }
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
@@ -214,7 +214,7 @@ void CBuero::OnPaint()
     RoomBm.pBitmap->SetClipRect(CRect(0,0,640,480));
 
     RoomBm.BlitFromT (DoorOpaqueBm, 521, 53);
-    ColorFX.BlitTrans (DoorTransBm.pBitmap, RoomBm.pBitmap, XY(542,67), NULL, 2);
+    ColorFX.BlitTrans (DoorTransBm.pBitmap, RoomBm.pBitmap, XY(542,67), nullptr, 2);
 
     if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&32) != 0u) { RoomBm.BlitFrom (NoSaboBm, 390, 309);
 }
@@ -385,7 +385,7 @@ void CBuero::OnRButtonDown(UINT nFlags, CPoint point)
 //============================================================================================
 // Löscht alle Briefe:
 //============================================================================================
-void CLetters::Clear (void)
+void CLetters::Clear ()
 {
     SLONG c;
 
@@ -397,7 +397,7 @@ void CLetters::Clear (void)
 //--------------------------------------------------------------------------------------------
 // Fügt dem Spieler einen weiteren Brief hinzu:
 //--------------------------------------------------------------------------------------------
-void CLetters::SortLetters (void)
+void CLetters::SortLetters ()
 {
     SLONG c;
 
@@ -444,7 +444,7 @@ void CLetters::AddLetter (BOOL IsLetter, const CString &Subject, const CString &
 //--------------------------------------------------------------------------------------------
 // Wieviele Briefe hat der Spieler?:
 //--------------------------------------------------------------------------------------------
-SLONG CLetters::AnzLetters (void)
+SLONG CLetters::AnzLetters ()
 {
     SLONG c;
     SLONG Anz;

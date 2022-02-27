@@ -50,31 +50,31 @@ CDutyFree::CDutyFree(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     SP_Frau.ReSize (9);
     SP_Frau.Clips[0].ReSize (0, "dukau.smk", "dukau.raw", XY (310, 47), SPM_IDLE,        CRepeat(2,4), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A6A4A3E1E1", 0, 1, 2, 6, 7);
     SP_Frau.Clips[1].ReSize (1, "dublase.smk", "dublase.raw", XY (310, 47), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
     SP_Frau.Clips[2].ReSize (2, "dunagelh.smk", "", XY (310, 47), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 3);
     SP_Frau.Clips[3].ReSize (3, "dunagelf.smk", "dunagelf.raw", XY (310, 47), SPM_IDLE,     CRepeat(5,5), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 4);
     SP_Frau.Clips[4].ReSize (4, "dunagelg.smk", "", XY (310, 47), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A6A1E1", 3, 5, 5);
     SP_Frau.Clips[5].ReSize (5, "dunagelz.smk", "", XY (310, 47), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1E1", 0, 6, 7);
     SP_Frau.Clips[6].ReSize (6, "durede.smk", "", XY (310, 47), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1E1", 6, 7, 0);
     SP_Frau.Clips[7].ReSize (7, "duredew.smk", "", XY (310, 47), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A1E1E1", 7, 8, 6, 0);
     SP_Frau.Clips[8].ReSize (8, "duredek.smk", "", XY (310, 47), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1E1", 7, 6, 0);
 
     PayFX.ReInit("pay.raw");
@@ -134,7 +134,7 @@ void CDutyFree::OnPaint()
 
     //Draw Persons:
     RoomBm.pBitmap->SetClipRect(CRect(432,70,559,246));
-    for (SLONG d=SLONG(Sim.Persons.AnzEntries()-1); d>=0; d--)
+    for (auto d=SLONG(Sim.Persons.AnzEntries()-1); d>=0; d--)
     {
         //Entscheidung! Person malen:
         if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum (Sim.Persons[d].ClanId) != 0))
@@ -155,7 +155,7 @@ void CDutyFree::OnPaint()
                 pp.x=511-p.x*2*400/(pp.y+100)+(pp.y-300);
 
                 if (p.y<300 && lasty>=300) {
-                    ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), NULL, 4);
+                    ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), nullptr, 4);
 }
 
                 lasty=p.y;
@@ -170,9 +170,9 @@ void CDutyFree::OnPaint()
     RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
 
     //DrawTransparency:
-    if (lasty>=300) { ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), NULL, 4);
+    if (lasty>=300) { ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), nullptr, 4);
 }
-    ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), NULL, 4);
+    ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), nullptr, 4);
     RoomBm.BlitFromT (OpaqueBm, 432,70);
 
     SP_Frau.Pump ();

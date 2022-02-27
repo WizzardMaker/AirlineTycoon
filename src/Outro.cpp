@@ -47,9 +47,9 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
     desired.format = SDL_AUDIO_MASK_SIGNED | (depth[0] & SDL_AUDIO_MASK_BITSIZE);
     desired.channels = channels[0];
     desired.samples = 2048;
-    desired.callback = NULL;
-    desired.userdata = NULL;
-    audioDevice = SDL_OpenAudioDevice(NULL, 0, &desired, NULL, 0);
+    desired.callback = nullptr;
+    desired.userdata = nullptr;
+    audioDevice = SDL_OpenAudioDevice(nullptr, 0, &desired, nullptr, 0);
     if (audioDevice == 0u) { Hdu.HercPrintf(SDL_GetError());
 }
 
@@ -83,7 +83,7 @@ COutro::~COutro()
 
     if (pSmack != nullptr) { smk_close(pSmack);
 }
-    pSmack = NULL;
+    pSmack = nullptr;
 
     gMouseStartup = FALSE;
     pCursor->SetImage(gCursorBm.pBitmap);
@@ -129,7 +129,7 @@ void COutro::OnPaint()
         State = smk_next(pSmack);
 
         double usf;
-        smk_info_all(pSmack, NULL, NULL, &usf);
+        smk_info_all(pSmack, nullptr, nullptr, &usf);
         FrameNext = timeGetTime() + (usf / 1000.0);
     }
 

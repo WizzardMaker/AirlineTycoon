@@ -22,8 +22,7 @@ TitlePopup::TitlePopup (BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerN
 }
 
 TitlePopup::~TitlePopup()
-{
-}
+= default;
 
 /////////////////////////////////////////////////////////////////////////////
 // TitlePopup message handlers

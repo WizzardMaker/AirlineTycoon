@@ -14,7 +14,7 @@ static const char FileId[] = "Data";
 //--------------------------------------------------------------------------------------------
 //Löscht eine Tabelle:
 //--------------------------------------------------------------------------------------------
-void CDataTable::Destroy (void)
+void CDataTable::Destroy ()
 {
     AnzColums = 0;
     AnzRows   = 0;
@@ -27,7 +27,7 @@ void CDataTable::Destroy (void)
 //--------------------------------------------------------------------------------------------
 //Sortiert eine Tabelle:
 //--------------------------------------------------------------------------------------------
-void CDataTable::Sort (void)
+void CDataTable::Sort ()
 {
 }
 
@@ -172,7 +172,7 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
 //--------------------------------------------------------------------------------------------
 //Füllt die Tabelle mit den Angaben zu den Flugzeugen:
 //--------------------------------------------------------------------------------------------
-void CDataTable::FillWithPlaneTypes (void)
+void CDataTable::FillWithPlaneTypes ()
 {
     SLONG c;
     SLONG d;
@@ -211,7 +211,7 @@ void CDataTable::FillWithPlaneTypes (void)
 //--------------------------------------------------------------------------------------------
 //Füllt die Tabelle mit den Angaben zu den Flugzeugen:
 //--------------------------------------------------------------------------------------------
-void CDataTable::FillWithXPlaneTypes (void)
+void CDataTable::FillWithXPlaneTypes ()
 {
     SLONG c;
     SLONG d;

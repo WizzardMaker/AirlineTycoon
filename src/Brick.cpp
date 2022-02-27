@@ -11,20 +11,18 @@ SLONG ReadLine (BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG Line
 //Als Leer initialisieren:
 //--------------------------------------------------------------------------------------------
 BRICK::BRICK ()
-{
-}
+= default;
 
 //--------------------------------------------------------------------------------------------
 //Ggf. die Daten vernichten:
 //--------------------------------------------------------------------------------------------
 BRICK::~BRICK ()
-{
-}
+= default;
 
 //--------------------------------------------------------------------------------------------
 //Die Ausmaße einer Brick-Bitmap zurückgeben:
 //--------------------------------------------------------------------------------------------
-XY BRICK::GetBitmapDimension (void) const
+XY BRICK::GetBitmapDimension () const
 {
     return (Bitmap[0L].Size);
 }
@@ -166,7 +164,7 @@ void BRICK::BlitAt (SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SL
                 Offscreen.BlitFrom (Bitmap[0], ScreenPos.x, ScreenPos.y);
             }
             else if (NonTrans==2 && (Sim.Options.OptionTransparenz != 0)) {
-                ColorFX.BlitTrans (Bitmap[0].pBitmap, &Offscreen.PrimaryBm, XY (ScreenPos.x, ScreenPos.y), NULL, -1);
+                ColorFX.BlitTrans (Bitmap[0].pBitmap, &Offscreen.PrimaryBm, XY (ScreenPos.x, ScreenPos.y), nullptr, -1);
             } else
             {
                 Offscreen.BlitFromT (Bitmap[0L], ScreenPos.x, ScreenPos.y);
@@ -211,7 +209,7 @@ BOOL BRICK::IsGlasAt (SLONG x, SLONG y)
 //--------------------------------------------------------------------------------------------
 //Ggf. die Bricks an das neue Zeitalter anpassen:
 //--------------------------------------------------------------------------------------------
-void BRICK::UpdateBrick (void)
+void BRICK::UpdateBrick ()
 {
     BOOL  ReloadNecessary = FALSE;
     long c;
@@ -345,34 +343,34 @@ void BRICKS::ReInit (const CString &TabFilename)
         //SpeedUp durch direkten Zugriff:
         Id=(*this)(Id);
 
-        (*this)[Id].Filename = strtok (NULL, ";\x8\"");
+        (*this)[Id].Filename = strtok (nullptr, ";\x8\"");
 
-        (*this)[Id].RamPriority = atoi (strtok (NULL, ";\x8\""));
+        (*this)[Id].RamPriority = atoi (strtok (nullptr, ";\x8\""));
 
-        (*this)[Id].NonTrans  = (UBYTE)atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Triggered = (UBYTE)atoi (strtok (NULL, TabSeparator));
+        (*this)[Id].NonTrans  = (UBYTE)atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Triggered = (UBYTE)atoi (strtok (nullptr, TabSeparator));
 
-        (*this)[Id].Layer = (UBYTE)atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].AnimSpeed   = (UBYTE)atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].FloorOffset = atoi (strtok (NULL, TabSeparator));
+        (*this)[Id].Layer = (UBYTE)atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].AnimSpeed   = (UBYTE)atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].FloorOffset = atoi (strtok (nullptr, TabSeparator));
 
-        (*this)[Id].BaseOffset.x = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].BaseOffset.y = atoi (strtok (NULL, TabSeparator));
+        (*this)[Id].BaseOffset.x = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].BaseOffset.y = atoi (strtok (nullptr, TabSeparator));
 
-        (*this)[Id].Grid.x = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Grid.y = atoi (strtok (NULL, TabSeparator));
+        (*this)[Id].Grid.x = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Grid.y = atoi (strtok (nullptr, TabSeparator));
 
-        (*this)[Id].MinY = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].MaxY = atoi (strtok (NULL, TabSeparator));
+        (*this)[Id].MinY = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].MaxY = atoi (strtok (nullptr, TabSeparator));
 
-        (*this)[Id].ObstacleType = (UBYTE) atoi (strtok (NULL, TabSeparator));
+        (*this)[Id].ObstacleType = (UBYTE) atoi (strtok (nullptr, TabSeparator));
 
         (*this)[Id].WaitSum = 0;
         (*this)[Id].WaitTimes.ReSize (50);
 
         for (AnzTimePointer=0; ; AnzTimePointer++)
         {
-            TimePointer[AnzTimePointer]=strtok (NULL, " ");
+            TimePointer[AnzTimePointer]=strtok (nullptr, " ");
 
             if (TimePointer[AnzTimePointer] == nullptr) { break;
 }
@@ -409,7 +407,7 @@ void BRICKS::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 //Bringt alle Bricks auf den neuesten Stand:
 //--------------------------------------------------------------------------------------------
-void BRICKS::UpdateBricks (void)
+void BRICKS::UpdateBricks ()
 {
     SLONG c;
     SLONG d;
@@ -478,7 +476,7 @@ void BRICKS::UpdateBricks (void)
 //--------------------------------------------------------------------------------------------
 //Wirft alle Bricks aus dem Speicher:
 //--------------------------------------------------------------------------------------------
-void BRICKS::Destroy (void)
+void BRICKS::Destroy ()
 {
     Bricks.ReSize (0);
 
@@ -578,7 +576,7 @@ TEAKFILE &operator >> (TEAKFILE &File, BUILDS &Builds)
 //--------------------------------------------------------------------------------------------
 //Löscht alle Elemente des Flughafens:
 //--------------------------------------------------------------------------------------------
-void BUILDS::Clear (void)
+void BUILDS::Clear ()
 {
     ClearAlbum ();
 }
@@ -650,7 +648,7 @@ void BUILDS::Save (SLONG Hall, SLONG Level) const
 //--------------------------------------------------------------------------------------------
 //Sortiert alle Elemente des Flughafens gemäß ihrer Z-Position:
 //--------------------------------------------------------------------------------------------
-void BUILDS::Sort (void)
+void BUILDS::Sort ()
 {
     SLONG c;
 

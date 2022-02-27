@@ -6,8 +6,8 @@
 #include "StdAfx.h"
 #include "HLine.h"
 #include "Checkup.h"
-#include <stdio.h>
-#include <time.h>
+#include <cstdio>
+#include <ctime>
 #include "Abend.h"
 #include "ArabAir.h"
 #include "Aufsicht.h"
@@ -84,12 +84,12 @@ CTakeOffApp *pTakeOffApp;
 void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
 void DecompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output);
 
-void PumpNetwork (void);
+void PumpNetwork ();
 
 CString MakeVideoPath, MakeVideoPath2;
 BOOL    MakeUnvideoOn555=FALSE;
 
-FILE *CreditsSmackerFileHandle = NULL;
+FILE *CreditsSmackerFileHandle = nullptr;
 
 SLONG gTimerCorrection=0;                         //Is it necessary to adapt the local clock to the server clock?
 
@@ -178,20 +178,20 @@ struct protectedValue
     __forceinline			protectedValue( );
     __forceinline void		SetValue( int iValue );
     __forceinline void		AddValue( int iAdd );
-    __forceinline int		GetValue( ) const;
+    [[nodiscard]] __forceinline int		GetValue( ) const;
 
     // Operators
     bool operator > ( const protectedValue &cmp ) const { return GetValue( ) > cmp.GetValue( ); };
     bool operator < ( const protectedValue &cmp ) const { return GetValue( ) < cmp.GetValue( ); };
 
     // read access
-    __forceinline int		GetValueRaw( ) const { return mcharintScore.iValue; }
-    __forceinline unsigned	GetScrambleRaw( ) const { return muScramble; }
+    [[nodiscard]] __forceinline int		GetValueRaw( ) const { return mcharintScore.iValue; }
+    [[nodiscard]] __forceinline unsigned	GetScrambleRaw( ) const { return muScramble; }
 
     public:
 
     // Methods
-    __forceinline int	Descramble( ) const;
+    [[nodiscard]] __forceinline int	Descramble( ) const;
     __forceinline void	SetScrambled( int iValue );
 
     // Members
@@ -249,7 +249,7 @@ int	protectedValue::Descramble( ) const
 void protectedValue::SetScrambled( const int iValue )
 {
     // make pointer
-    charint* pcharintVar = ( charint* ) &iValue;
+    auto* pcharintVar = ( charint* ) &iValue;
 
     // scramble
     mcharintScore.acValue[2] = pcharintVar->acValue[0] ^ ( unsigned char ) muScramble;
@@ -404,7 +404,7 @@ CTakeOffApp::~CTakeOffApp()
     {
         gpSSE->EnableSound(false);
         delete gpSSE;
-        gpSSE=NULL;
+        gpSSE=nullptr;
     }
 
     bLeaveGameLoop=TRUE;
@@ -440,7 +440,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
     strcpy (localVersionString, VersionString);
 
     //Hdu.Disable();
-    time_t t = time(NULL);
+    time_t t = time(nullptr);
     Hdu.HercPrintf (0, "Airline Tycoon Deluxe logfile");
     Hdu.HercPrintf (0, VersionString);
     Hdu.HercPrintf (0, "===============================================================================");
@@ -458,7 +458,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
     pTakeOffApp = this;
 
     //Initialisierung:
-    TopWin = NULL;
+    TopWin = nullptr;
     bFullscreen = TRUE;
     bCursorCaptured = FALSE;
     gMouseStartup   = TRUE;
@@ -558,7 +558,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
 }
         if (stricmp (Argument, "/showallpools")==0) { gShowAllPools = TRUE;
 }
-        if (stricmp (Argument, "/load")==0) { gLoadGameNumber = atoi(strtok (NULL, " "));
+        if (stricmp (Argument, "/load")==0) { gLoadGameNumber = atoi(strtok (nullptr, " "));
 }
         if (stricmp (Argument, "/savegamelocal")==0) { SavegamePath = "d:\\Savegame\\%s";
 }
@@ -570,13 +570,13 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
 
         if (stricmp (Argument, "/video")==0)
         {
-            MakeVideoPath = strtok (NULL, " ");
+            MakeVideoPath = strtok (nullptr, " ");
             bNoVgaRam     = TRUE;
         }
         if (stricmp (Argument, "/unvideo")==0)
         {
-            MakeVideoPath  = CString (":") + strtok (NULL, " ");
-            MakeVideoPath2 = strtok (NULL, " ");
+            MakeVideoPath  = CString (":") + strtok (nullptr, " ");
+            MakeVideoPath2 = strtok (nullptr, " ");
         }
 #ifndef CD_PROTECTION
 #ifndef CD_PROTECTION_METALOCK
@@ -701,7 +701,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
             }
 
             delete TopWin;
-            TopWin=NULL;
+            TopWin=nullptr;
         }
         else {
             TitleBitmap.ReSize (pRoomLib, GFX_SPELLOGO);
@@ -858,7 +858,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
             if (gLanguage==LANGUAGE_N) LOADING_TEXT("Initialiseert de röntgenfoto's...")
             else if (gLanguage==LANGUAGE_F) LOADING_TEXT("Francais...")
             else                            LOADING_TEXT("Initializing roentgens...");
-            SkelettPool.ReSize ("skelett.pol", NULL, NULL);
+            SkelettPool.ReSize ("skelett.pol", nullptr, nullptr);
             SkelettPool.Load();
 
             SLONG n=0;
@@ -868,14 +868,14 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
                 {
                     if (c<SLONG(Clans.AnzEntries()-1) && (Clans.IsInAlbum(c+1) != 0) && Clans[c].PalFilename==Clans[SLONG(c+1)].PalFilename && Clans[c].Type!=30)
                     {
-                        Clans[c].ClanPool.ReSize (bprintf ("clan%li.pol", c), &Clans[SLONG(c+1)].ClanPool, NULL);
+                        Clans[c].ClanPool.ReSize (bprintf ("clan%li.pol", c), &Clans[SLONG(c+1)].ClanPool, nullptr);
                         Clans[c].ClanGimmick.ReSize (bprintf ("clang%li.pol", c), &Clans[SLONG(c+1)].ClanPool, &Clans[c].ClanPool);
                         Clans[c].ClanWarteGimmick.ReSize (bprintf ("clanw%li.pol", c), &Clans[SLONG(c+1)].ClanPool, &Clans[c].ClanPool);
                     }
                     else
                     {
-                        Clans[c].ClanPool.ReSize (bprintf ("clan%li.pol", c), NULL, NULL);
-                        Clans[c].ClanGimmick.ReSize (bprintf ("clang%li.pol", c), &Clans[c].ClanPool, NULL);
+                        Clans[c].ClanPool.ReSize (bprintf ("clan%li.pol", c), nullptr, nullptr);
+                        Clans[c].ClanGimmick.ReSize (bprintf ("clang%li.pol", c), &Clans[c].ClanPool, nullptr);
                         Clans[c].ClanWarteGimmick.ReSize (bprintf ("clanw%li.pol", c), &Clans[c].ClanPool, &Clans[c].ClanGimmick);
                     }
 
@@ -939,7 +939,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
     pCursor->SetImage (gCursorBm.pBitmap);
     pCursor->Show(TRUE);
 
-    GameLoop (NULL);
+    GameLoop (nullptr);
     return FALSE;
 }
 
@@ -990,19 +990,19 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
             if (Sim.Gamestate==GAMESTATE_BOOT)
             {
                 delete TopWin;
-                TopWin=NULL;
+                TopWin=nullptr;
 
                 for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                 {
                     if (Sim.Players.Players[c].LocationWin != nullptr)
                     {
                         delete Sim.Players.Players[c].LocationWin;
-                        Sim.Players.Players[c].LocationWin=NULL;
+                        Sim.Players.Players[c].LocationWin=nullptr;
                     }
                     if (Sim.Players.Players[c].DialogWin != nullptr)
                     {
                         delete Sim.Players.Players[c].DialogWin;
-                        Sim.Players.Players[c].DialogWin=NULL;
+                        Sim.Players.Players[c].DialogWin=nullptr;
                     }
                 }
 
@@ -1022,7 +1022,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
             if (Sim.Gamestate==(GAMESTATE_TITLE | GAMESTATE_DONE))
             {
                 //New Game -> Abfragen für Spielmodus:
-                CStdRaum *TmpWin = TopWin; TopWin=NULL;
+                CStdRaum *TmpWin = TopWin; TopWin=nullptr;
                 delete TmpWin;
 
                 Sim.Gamestate = GAMESTATE_INIT | GAMESTATE_WORKING;
@@ -1030,19 +1030,19 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
             }
             else if (Sim.Gamestate==(GAMESTATE_CREDITS))
             {
-                CStdRaum *TmpWin = TopWin; TopWin=NULL; delete TmpWin;
+                CStdRaum *TmpWin = TopWin; TopWin=nullptr; delete TmpWin;
                 Sim.Gamestate = GAMESTATE_INIT | GAMESTATE_WORKING;
                 TopWin = new CCredits(FALSE, 0);
             }
             else if (Sim.Gamestate==(GAMESTATE_OPTIONS))
             {
-                CStdRaum *TmpWin = TopWin; TopWin=NULL; delete TmpWin;
+                CStdRaum *TmpWin = TopWin; TopWin=nullptr; delete TmpWin;
                 Sim.Gamestate = GAMESTATE_INIT | GAMESTATE_WORKING;
                 TopWin = new Options(FALSE, 0);
             }
             else if (Sim.Gamestate==GAMESTATE_INTRO)
             {
-                CStdRaum *TmpWin = TopWin; TopWin=NULL; delete TmpWin;
+                CStdRaum *TmpWin = TopWin; TopWin=nullptr; delete TmpWin;
                 Sim.Gamestate = GAMESTATE_INTRO | GAMESTATE_WORKING;
                 TopWin = new CIntro(FALSE, 0);
             }
@@ -1053,16 +1053,16 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                     if (Sim.Players.Players[c].LocationWin != nullptr)
                     {
                         delete Sim.Players.Players[c].LocationWin;
-                        Sim.Players.Players[c].LocationWin=NULL;
+                        Sim.Players.Players[c].LocationWin=nullptr;
                     }
                     if (Sim.Players.Players[c].DialogWin != nullptr)
                     {
                         delete Sim.Players.Players[c].DialogWin;
-                        Sim.Players.Players[c].DialogWin=NULL;
+                        Sim.Players.Players[c].DialogWin=nullptr;
                     }
                 }
 
-                CStdRaum *TmpWin = TopWin; TopWin=NULL; delete TmpWin;
+                CStdRaum *TmpWin = TopWin; TopWin=nullptr; delete TmpWin;
                 Sim.Gamestate |= GAMESTATE_WORKING;
 
                 if ((Sim.Gamestate & (~GAMESTATE_WORKING))==GAMESTATE_OUTRO) {
@@ -1074,7 +1074,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
             else if (Sim.Gamestate==(GAMESTATE_INIT | GAMESTATE_DONE))
             {
                 //Das Spielfenster mit Flughafensicht
-                CStdRaum *TmpWin = TopWin; TopWin=NULL;
+                CStdRaum *TmpWin = TopWin; TopWin=nullptr;
                 delete TmpWin;
 
                 if (gLoadGameNumber>-1) {
@@ -1379,7 +1379,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                 NumSimSteps = min(1, NumSimSteps);
                             }
                         }
-                        else if (Sim.Players.Players[Sim.localPlayer].LocationWin==0)
+                        else if (Sim.Players.Players[Sim.localPlayer].LocationWin==nullptr)
                         {
                             NumSimSteps = min(1, NumSimSteps);
                         }
@@ -1561,7 +1561,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                                     bIngnoreNextDoor=TRUE;
 
                                                     delete qPlayer.LocationWin;
-                                                    qPlayer.LocationWin = NULL;
+                                                    qPlayer.LocationWin = nullptr;
                                                 }
 
                                                 qPlayer.Locations[d] = 0;
@@ -1601,7 +1601,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                                     }
 
                                                     delete qPlayer.LocationWin;
-                                                    qPlayer.LocationWin = NULL;
+                                                    qPlayer.LocationWin = nullptr;
                                                 }
 
                                                 qPlayer.Locations[d] &= ~ROOM_ENTERING;
@@ -1972,7 +1972,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                         if (TopWin != nullptr)
                                         {
                                             delete TopWin;
-                                            TopWin = NULL;
+                                            TopWin = nullptr;
                                         }
 
                                         Sim.bNoTime   = TRUE;
@@ -2198,7 +2198,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
     //Shutdown:
     if (TopWin != nullptr)
     {
-        CStdRaum *TmpWin = TopWin; TopWin=NULL; delete TmpWin;
+        CStdRaum *TmpWin = TopWin; TopWin=nullptr; delete TmpWin;
     }
 
     if (Sim.Players.Players.AnzEntries()>0) {
@@ -2206,8 +2206,8 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
         {
             if (Sim.Players.Players[c].LocationWin != nullptr)
             {
-                CStdRaum *TmpWin = (CStdRaum *)Sim.Players.Players[c].LocationWin;
-                Sim.Players.Players[c].LocationWin = NULL;
+                auto *TmpWin = (CStdRaum *)Sim.Players.Players[c].LocationWin;
+                Sim.Players.Players[c].LocationWin = nullptr;
                 delete TmpWin;
             }
         }
@@ -2253,7 +2253,7 @@ void CTakeOffApp::CheckSystem (void)
 //--------------------------------------------------------------------------------------------
 //Initilisiert alle benötigten DirectX-Schnittstellen:
 //--------------------------------------------------------------------------------------------
-BOOL InitDirectX (void)
+BOOL InitDirectX ()
 {
     //HRESULT ddrval;
 
@@ -2369,7 +2369,7 @@ char *UCharToReadableAnsi( const unsigned char *pData, const unsigned uLen )
 unsigned char *ReadableAnsiToUChar( const char *pData, const unsigned uLen )
 {
     unsigned uNewSize = uLen * 5  / 8;
-    unsigned char *pReturn = new unsigned char[uNewSize + 1]; //( unsigned char * ) malloc( uNewSize + 1 );
+    auto *pReturn = new unsigned char[uNewSize + 1]; //( unsigned char * ) malloc( uNewSize + 1 );
     memset( pReturn, 0, uNewSize + 1 );
 
     for( unsigned i = 0; i < uLen; i++ )

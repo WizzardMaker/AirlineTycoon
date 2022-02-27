@@ -7,14 +7,14 @@ SB_CBitmapMain::SB_CBitmapMain(SDL_Renderer* render)
 
 SB_CBitmapMain::~SB_CBitmapMain()
 {
-    for (std::list<SB_CBitmapCore>::iterator it = Bitmaps.begin(); it != Bitmaps.end(); ++it) {
-        it->Release();
+    for (auto & Bitmap : Bitmaps) {
+        Bitmap.Release();
 }
 }
 
 ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, GfxLib* lib, __int64 name, ULONG flags)
 {
-    Bitmaps.push_back(SB_CBitmapCore());
+    Bitmaps.emplace_back();
     SB_CBitmapCore* core = &Bitmaps.back();
     SDL_Surface* surface = lib->GetSurface(name);
     if (surface != nullptr)
@@ -26,7 +26,7 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, GfxLib* lib, __int64 na
 }
 
         core->lpTexture = (Renderer != nullptr) && ((flags & CREATE_VIDMEM) != 0u) ?
-            SDL_CreateTextureFromSurface(Renderer, core->lpDDSurface) : NULL;
+            SDL_CreateTextureFromSurface(Renderer, core->lpDDSurface) : nullptr;
         core->Size.x = core->lpDDSurface->w;
         core->Size.y = core->lpDDSurface->h;
         core->InitClipRect();
@@ -37,8 +37,8 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, GfxLib* lib, __int64 na
     {
         printf("MP: Cannot create bitmap: %lld\n", name);
         core->lpDD = Renderer;
-        core->lpDDSurface = NULL;
-        core->lpTexture = NULL;
+        core->lpDDSurface = nullptr;
+        core->lpTexture = nullptr;
         core->Size.x = 0;
         core->Size.y = 0;
     }
@@ -48,7 +48,7 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, GfxLib* lib, __int64 na
 
 ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, SLONG w, SLONG h, ULONG /*unused*/, ULONG flags, ULONG /*unused*/)
 {
-    Bitmaps.push_back(SB_CBitmapCore());
+    Bitmaps.emplace_back();
     SB_CBitmapCore* core = &Bitmaps.back();
     core->lpDD = Renderer;
     if ((flags & CREATE_INDEXED) != 0u) {
@@ -62,7 +62,7 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, SLONG w, SLONG h, ULONG
         core->SetColorKey(0);
 }
     core->lpTexture = (Renderer != nullptr) && ((flags & CREATE_VIDMEM) != 0u) ?
-        SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h) : NULL;
+        SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h) : nullptr;
     if ((core->lpTexture != nullptr) && ((flags & (CREATE_USEALPHA | CREATE_USECOLORKEY)) != 0u)) {
         SDL_SetTextureBlendMode(core->lpTexture, SDL_BLENDMODE_BLEND);
 }
@@ -77,7 +77,7 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, SLONG w, SLONG h, ULONG
 ULONG SB_CBitmapMain::ReleaseBitmap(SB_CBitmapCore* core)
 {
     core->Release();
-    for (std::list<SB_CBitmapCore>::iterator it = Bitmaps.begin(); it != Bitmaps.end(); ++it)
+    for (auto it = Bitmaps.begin(); it != Bitmaps.end(); ++it)
     {
         if (&*it == core)
         {
@@ -102,7 +102,7 @@ ULONG SB_CBitmapCore::Line(SLONG x1, SLONG y1, SLONG x2, SLONG y2, SB_Hardwareco
 }
 
         dword key;
-        dword color = (dword)hwcolor;
+        auto color = (dword)hwcolor;
         SDL_GetColorKey(lpDDSurface, &key);
         SDL_SetRenderDrawColor(lpDD, (color & 0xFF0000) >> 16, (color & 0xFF00) >> 8, color & 0xFF,
                 color == key ? SDL_ALPHA_TRANSPARENT : SDL_ALPHA_OPAQUE);
@@ -241,7 +241,7 @@ SB_Hardwarecolor SB_CBitmapCore::GetHardwarecolor(ULONG color)
 
 ULONG SB_CBitmapCore::Clear(SB_Hardwarecolor hwcolor, const RECT* pRect)
 {
-    dword color = (dword)hwcolor;
+    auto color = (dword)hwcolor;
 
     if (lpTexture != nullptr)
     {
@@ -266,8 +266,8 @@ ULONG SB_CBitmapCore::Clear(SB_Hardwarecolor hwcolor, const RECT* pRect)
     }
     
             if (lpTexture)
-            SDL_RenderFillRect(lpDD, NULL);
-        return SDL_FillRect(lpDDSurface, NULL, color);
+            SDL_RenderFillRect(lpDD, nullptr);
+        return SDL_FillRect(lpDDSurface, nullptr, color);
    
 }
 
@@ -303,7 +303,7 @@ ULONG SB_CBitmapCore::GetPixel(SLONG x, SLONG y)
 Uint16 get_pixel16(SDL_Surface* surface, int x, int y)
 {
     //Convert the pixels to 32 bit
-    Uint16* pixels = (Uint16*)surface->pixels;
+    auto* pixels = (Uint16*)surface->pixels;
 
     //Get the requested pixel
     return pixels[(y * surface->pitch / 2) + x];
@@ -312,7 +312,7 @@ Uint16 get_pixel16(SDL_Surface* surface, int x, int y)
 void put_pixel16(SDL_Surface* surface, int x, int y, Uint16 pixel)
 {
     //Convert the pixels to 32 bit
-    Uint16* pixels = (Uint16*)surface->pixels;
+    auto* pixels = (Uint16*)surface->pixels;
 
     //Set the pixel
     pixels[(y * surface->pitch / 2) + x] = pixel;
@@ -358,7 +358,7 @@ SDL_Surface* SB_CBitmapCore::GetFlippedSurface() {
 ULONG SB_CBitmapCore::Blit(class SB_CBitmapCore* core, SLONG x, SLONG y)
 {
     SDL_Rect dst = { x, y, Size.x, Size.y };
-    return SDL_BlitSurface(lpDDSurface, NULL, core->lpDDSurface, &dst);
+    return SDL_BlitSurface(lpDDSurface, nullptr, core->lpDDSurface, &dst);
 }
 
 ULONG SB_CBitmapCore::Blit(class SB_CBitmapCore* core, SLONG x, SLONG y, const CRect& rect)
@@ -378,7 +378,7 @@ ULONG SB_CBitmapCore::BlitFast(class SB_CBitmapCore* core, SLONG x, SLONG y)
 }
 
     SDL_Rect dst = { x, y, Size.x, Size.y };
-    SDL_BlitSurface(lpDDSurface, NULL, core->lpDDSurface, &dst);
+    SDL_BlitSurface(lpDDSurface, nullptr, core->lpDDSurface, &dst);
 
     // Restore color key
     if (result != -1) {
@@ -415,7 +415,7 @@ ULONG SB_CBitmapCore::BlitChar(SDL_Surface* font, SLONG x, SLONG y, const SDL_Re
 
 void SB_CBitmapCore::InitClipRect()
 {
-    SDL_SetClipRect(lpDDSurface, NULL);
+    SDL_SetClipRect(lpDDSurface, nullptr);
 }
 
 ULONG SB_CBitmapCore::Release()
@@ -433,12 +433,10 @@ ULONG SB_CBitmapCore::Release()
 }
 
 SB_CPrimaryBitmap::SB_CPrimaryBitmap()
-{
-}
+= default;
 
 SB_CPrimaryBitmap::~SB_CPrimaryBitmap()
-{
-}
+= default;
 
 bool SB_CPrimaryBitmap::FastClip(CRect clipRect, POINT* pPoint, RECT* pRect)
 {
@@ -485,7 +483,7 @@ SLONG SB_CPrimaryBitmap::Flip()
          * we simply cycle through lock/unlock to update the texture.
          */
         SDL_UnlockTexture(lpTexture);
-        if (SDL_LockTextureToSurface(lpTexture, NULL, &lpDDSurface) < 0) {
+        if (SDL_LockTextureToSurface(lpTexture, nullptr, &lpDDSurface) < 0) {
             return -1;
 }
     }
@@ -496,7 +494,7 @@ SLONG SB_CPrimaryBitmap::Flip()
 }
 
         SDL_Rect dst = { 0, 0, Size.x, Size.y };
-        if (SDL_BlitScaled(lpDDSurface, NULL, SDL_GetWindowSurface(Window), &dst) < 0) {
+        if (SDL_BlitScaled(lpDDSurface, nullptr, SDL_GetWindowSurface(Window), &dst) < 0) {
             return -2;
 }
 
@@ -515,12 +513,12 @@ SLONG SB_CPrimaryBitmap::Present()
         SDL_RenderClear(lpDD);
 
         // Set the backbuffer as the render target
-        if (SDL_SetRenderTarget(lpDD, NULL) < 0) {
+        if (SDL_SetRenderTarget(lpDD, nullptr) < 0) {
             return -1;
 }
 
         // Copy our primary texture to the backbuffer
-        if (SDL_RenderCopy(lpDD, lpTexture, NULL, NULL) < 0) {
+        if (SDL_RenderCopy(lpDD, lpTexture, nullptr, nullptr) < 0) {
             return -2;
 }
 
@@ -554,7 +552,7 @@ SLONG SB_CPrimaryBitmap::Create(SDL_Renderer** out, SDL_Window* Wnd, unsigned sh
     {
         Hdu.HercPrintf("Using hardware accelerated presentation");
         lpTexture = SDL_CreateTexture(lpDD, SDL_PIXELFORMAT_RGB565, SDL_TEXTUREACCESS_STREAMING, w, h);
-        if (SDL_LockTextureToSurface(lpTexture, NULL, &lpDDSurface) < 0)
+        if (SDL_LockTextureToSurface(lpTexture, nullptr, &lpDDSurface) < 0)
         {
             Hdu.HercPrintf("Unable to lock backbuffer to surface");
             return -1;
@@ -563,12 +561,12 @@ SLONG SB_CPrimaryBitmap::Create(SDL_Renderer** out, SDL_Window* Wnd, unsigned sh
     else
     {
         Hdu.HercPrintf("Falling back to software presentation");
-        lpTexture = NULL;
+        lpTexture = nullptr;
         lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 16, SDL_PIXELFORMAT_RGB565);
     }
     Size.x = w;
     Size.y = h;
-    Cursor = NULL;
+    Cursor = nullptr;
     InitClipRect();
     *out = lpDD;
     return 0;

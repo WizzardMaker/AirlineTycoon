@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
 
 const char* ExcAssert           = "Assert (called from %s:%li) failed!";
@@ -13,7 +13,7 @@ const char* ExcImpossible       = "Impossible Event %s occured";
 HDU Hdu;
 
 HDU::HDU()
-    : Log(NULL)
+    : Log(nullptr)
 {
     char* base = SDL_GetBasePath();
     const char* file = "debug.log";
@@ -33,7 +33,7 @@ void HDU::Close()
     if (Log != nullptr) {
         fclose (Log);
 }
-    Log = NULL;
+    Log = nullptr;
 }
 
 void HDU::HercPrintf(int /*unused*/, const char* format, ...)

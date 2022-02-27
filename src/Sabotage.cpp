@@ -40,42 +40,42 @@ CSabotage::CSabotage(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     SP_Araber.ReSize (12);
     SP_Araber.Clips[0].ReSize (0, "s_clic.smk", "", XY (413, 255), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9A4E1", 0, 10, 1);
     SP_Araber.Clips[10].ReSize (10, "s_clicb.smk", "", XY (413, 255), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9E1", 0, 1);
 
     SP_Araber.Clips[1].ReSize (1, "s_turn.smk", "s_turn.raw", XY (275, 101), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Dreht sich um
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Dreht sich um
             "E1E1", 2, 3);
     SP_Araber.Clips[2].ReSize (2, "s_rede.smk", "", XY (155, 102), SPM_TALKING,    CRepeat(8,8), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9E1E1", 2, 3, 6);
     SP_Araber.Clips[3].ReSize (3, "s_wait.smk", "", XY (155, 102), SPM_LISTENING,  CRepeat(2,2), CPostWait(20,20), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A1A1E1E1", 3, 4, 5, 2, 6);
     SP_Araber.Clips[4].ReSize (4, "s_left.smk", "", XY (155, 102), SPM_LISTENING,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9E1E1", 3, 2, 6);
     SP_Araber.Clips[5].ReSize (5, "s_rigt.smk", "", XY (155, 102), SPM_LISTENING,  CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9E1E1", 3, 2, 6);
     SP_Araber.Clips[6].ReSize (6, "s_raus.smk", "", XY (155, 102), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &PlayEyeAnim, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, NULL,
+            &PlayEyeAnim, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, nullptr,
             "A9E1E1", 7, 2, 3);
     SP_Araber.Clips[7].ReSize (3, "s_wait.smk", "", XY (155, 102), SPM_IDLE,       CRepeat(1,1), CPostWait(20,20), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A1A1A1A1E1E1", 7, 11, 6, 8, 9, 2, 3);
     SP_Araber.Clips[11].ReSize (11, "s_waitk.smk", "", XY (155, 102), SPM_IDLE,    CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Blinzeln
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Blinzeln
             "A9", 7);
 
     SP_Araber.Clips[8].ReSize (4, "s_left.smk", "", XY (155, 102), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9E1E1", 7, 2, 3);
     SP_Araber.Clips[9].ReSize (5, "s_rigt.smk", "", XY (155, 102), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9E1E1", 7, 2, 3);
 
     AraberBm.ReSize (pRoomLib, "S_BASE16");
@@ -91,8 +91,8 @@ CSabotage::CSabotage(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 }
 
     DampfAnim.ReSize   (pRoomLib, "DAMPF00",  8, &ZischFx, FALSE, ANIMATION_MODE_REPEAT, 300, 3, 300, 1);
-    KamelAnim.ReSize   (pRoomLib, "AUGE00",   7, NULL,     TRUE,  ANIMATION_MODE_NEVER,  0  , 7, 300, 1);
-    LampeAnim.ReSize   (pRoomLib, "RAUCH00", 11, NULL,     TRUE,  ANIMATION_MODE_REPEAT, 0,   5);
+    KamelAnim.ReSize   (pRoomLib, "AUGE00",   7, nullptr,     TRUE,  ANIMATION_MODE_NEVER,  0  , 7, 300, 1);
+    LampeAnim.ReSize   (pRoomLib, "RAUCH00", 11, nullptr,     TRUE,  ANIMATION_MODE_REPEAT, 0,   5);
 
     Talkers.Talkers[TALKER_SABOTAGE].IncreaseReference ();
     DefaultDialogPartner=TALKER_SABOTAGE;
@@ -202,7 +202,7 @@ void CSabotage::OnPaint()
                 {
                     MenuRepaint ();
                     //DrawPlaneTipContents (OnscreenBitmap, &PlaneTypes[Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes[MenuDataTable.LineIndex[NewTip]].TypeId], &Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes[MenuDataTable.LineIndex[NewTip]],
-                    DrawPlaneTipContents (OnscreenBitmap, NULL, &Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes[MenuDataTable.LineIndex[NewTip]],
+                    DrawPlaneTipContents (OnscreenBitmap, nullptr, &Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes[MenuDataTable.LineIndex[NewTip]],
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack, FALSE, TRUE);
                 }
 

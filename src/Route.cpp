@@ -16,7 +16,7 @@ extern SLONG SaveVersionSub;
 //============================================================================================
 //So viele fliegen (Potentiell) hier
 //============================================================================================
-SLONG CRoute::AnzPassagiere(void) const
+SLONG CRoute::AnzPassagiere() const
 {
     SLONG DayFaktor;
 
@@ -96,8 +96,8 @@ void CRouten::ReInit (const CString &TabFilename, bool bNoDoublettes)
         TeakStrRemoveEndingCodes (Line, "\xd\xa\x1a\r");
 
         SLONG   HelperEbene = atoi (strtok (Line, TabSeparator));
-        CString Helper1     = strtok (NULL, TabSeparator);
-        CString Helper2     = strtok (NULL, TabSeparator);
+        CString Helper1     = strtok (nullptr, TabSeparator);
+        CString Helper2     = strtok (nullptr, TabSeparator);
         ULONG   VonCity     = Cities.GetIdFromName ((char*)(LPCTSTR)KorrigiereUmlaute (Helper1));
         ULONG   NachCity    = Cities.GetIdFromName ((char*)(LPCTSTR)KorrigiereUmlaute (Helper2));
 
@@ -120,8 +120,8 @@ void CRouten::ReInit (const CString &TabFilename, bool bNoDoublettes)
         (*this)[Id].Ebene    = HelperEbene;
         (*this)[Id].VonCity  = VonCity;
         (*this)[Id].NachCity = NachCity;
-        (*this)[Id].Miete    = atol (strtok (NULL, TabSeparator));
-        (*this)[Id].Faktor   = atof (strtok (NULL, TabSeparator));
+        (*this)[Id].Miete    = atol (strtok (nullptr, TabSeparator));
+        (*this)[Id].Faktor   = atof (strtok (nullptr, TabSeparator));
         (*this)[Id].Bedarf   = 0;
         (*this)[Id].bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn==2 || Cities[NachCity].bNewInAddOn==2);
 
@@ -164,7 +164,7 @@ void CRouten::ReInitExtend (const CString &TabFilename)
     FileP=ReadLine (FileData, FileP, Line, 300);
 
     Routen.ReSize (MAX_ROUTES);
-    SLONG NumUsed = (SLONG)GetNumUsed();
+    auto NumUsed = (SLONG)GetNumUsed();
 
     while (true)
     {
@@ -178,8 +178,8 @@ void CRouten::ReInitExtend (const CString &TabFilename)
         TeakStrRemoveEndingCodes (Line, "\xd\xa\x1a\r");
 
         SLONG   HelperEbene = atoi (strtok (Line, TabSeparator));
-        CString Helper1     = strtok (NULL, TabSeparator);
-        CString Helper2     = strtok (NULL, TabSeparator);
+        CString Helper1     = strtok (nullptr, TabSeparator);
+        CString Helper2     = strtok (nullptr, TabSeparator);
         ULONG   VonCity     = Cities.GetIdFromName ((char*)(LPCTSTR)KorrigiereUmlaute (Helper1));
         ULONG   NachCity    = Cities.GetIdFromName ((char*)(LPCTSTR)KorrigiereUmlaute (Helper2));
 
@@ -192,8 +192,8 @@ void CRouten::ReInitExtend (const CString &TabFilename)
         (*this)[Id].Ebene    = HelperEbene;
         (*this)[Id].VonCity  = VonCity;
         (*this)[Id].NachCity = NachCity;
-        (*this)[Id].Miete    = atol (strtok (NULL, TabSeparator));
-        (*this)[Id].Faktor   = atof (strtok (NULL, TabSeparator));
+        (*this)[Id].Miete    = atol (strtok (nullptr, TabSeparator));
+        (*this)[Id].Faktor   = atof (strtok (nullptr, TabSeparator));
         (*this)[Id].Bedarf   = 0;
         (*this)[Id].bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn==2 || Cities[NachCity].bNewInAddOn==2);
 
@@ -218,7 +218,7 @@ void CRouten::ReInitExtend (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 //Wie viele Leute warten auf einen Flug?:
 //--------------------------------------------------------------------------------------------
-void CRouten::NewDay (void)
+void CRouten::NewDay ()
 {
     SLONG c;
 
@@ -297,7 +297,7 @@ CRentRoute::CRentRoute ()
 //--------------------------------------------------------------------------------------------
 //Gibt zurück, wieviele Routen der Spieler besitzt:
 //--------------------------------------------------------------------------------------------
-SLONG CRentRouten::GetNumUsed(void)
+SLONG CRentRouten::GetNumUsed()
 {
     SLONG c;
     SLONG Anz=0;

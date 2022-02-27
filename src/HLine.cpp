@@ -20,7 +20,7 @@ static const char FileId[] = "HLin";
 CHLObj::CHLObj ()
 {
     graphicID = 0;
-    pHLPool   = 0;
+    pHLPool   = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -34,10 +34,10 @@ CHLObj::~CHLObj ()
 //--------------------------------------------------------------------------------------------
 //Pseudo-Destruktor:
 //--------------------------------------------------------------------------------------------
-void CHLObj::Destroy (void)
+void CHLObj::Destroy ()
 {
     graphicID = 0;
-    pHLPool   = 0;
+    pHLPool   = nullptr;
     HLines.ReSize (0);
 }
 
@@ -65,7 +65,7 @@ void CHLObj::BlitAt (SB_CBitmapCore *pBitmap, XY Target)
     SB_CBitmapKey Key(*pBitmap);
     if (Key.Bitmap == nullptr) { return;
 }
-    UWORD *bm=(UWORD *)(((UWORD*)Key.Bitmap)+Target.x+Target.y*(Key.lPitch>>1));
+    auto *bm=(UWORD *)(((UWORD*)Key.Bitmap)+Target.x+Target.y*(Key.lPitch>>1));
 
     SLONG Min;
     SLONG Max; //Vertikales Clipping
@@ -266,7 +266,7 @@ void CHLObj::BlitLargeAt (SB_CBitmapCore *pBitmap, XY Target)
     SB_CBitmapKey Key(*pBitmap);
     if (Key.Bitmap == nullptr) { return;
 }
-    UWORD *bm=(UWORD *)(((UWORD*)Key.Bitmap)+Target.x+Target.y*(Key.lPitch>>1));
+    auto *bm=(UWORD *)(((UWORD*)Key.Bitmap)+Target.x+Target.y*(Key.lPitch>>1));
 
     SLONG Min;
     SLONG Max; //Vertikales Clipping
@@ -324,10 +324,10 @@ void CHLObj::BlitLargeAt (SB_CBitmapCore *pBitmap, XY Target)
 //--------------------------------------------------------------------------------------------
 CHLPool::CHLPool ()
 {
-    pPool        = NULL;
+    pPool        = nullptr;
     PoolSize     = 0;
-    pHLBasepool1 = NULL;
-    pHLBasepool2 = NULL;
+    pHLBasepool1 = nullptr;
+    pHLBasepool2 = nullptr;
 
     Loaded      = 0;
 
@@ -346,14 +346,14 @@ CHLPool::~CHLPool ()
 //--------------------------------------------------------------------------------------------
 //Pseudo-Destruktor:
 //--------------------------------------------------------------------------------------------
-void CHLPool::Destroy (void)
+void CHLPool::Destroy ()
 {
     HLObjects.ReSize (0);
 
     if (pPool != nullptr)
     {
         delete [] pPool;
-        pPool=NULL;
+        pPool=nullptr;
     }
 
     PoolSize     = 0;
@@ -361,8 +361,8 @@ void CHLPool::Destroy (void)
 
     Loaded       = 0;
 
-    pHLBasepool1 = NULL;
-    pHLBasepool2 = NULL;
+    pHLBasepool1 = nullptr;
+    pHLBasepool2 = nullptr;
 
     BytesReal = BytesCompressed = BytesAdministration = 0;
 
@@ -372,7 +372,7 @@ void CHLPool::Destroy (void)
 //--------------------------------------------------------------------------------------------
 //Lädt die Bitmap-Daten ohne die eigentlichen Bitmaps...
 //--------------------------------------------------------------------------------------------
-BOOL CHLPool::PreLoad (void)
+BOOL CHLPool::PreLoad ()
 {
     //Ggf. Basepool-Objekte laden
     /*if (pHLBasepool1)
@@ -411,7 +411,7 @@ BOOL CHLPool::PreLoad (void)
 //--------------------------------------------------------------------------------------------
 //Lädt den Pool in den Speicher
 //--------------------------------------------------------------------------------------------
-BOOL CHLPool::Load (void)
+BOOL CHLPool::Load ()
 {
     //Ggf. Basepool-Objekte laden
     if (pHLBasepool1 != nullptr) {
@@ -485,7 +485,7 @@ BOOL CHLPool::Load (void)
 //--------------------------------------------------------------------------------------------
 //Speichert das Objekt:
 //--------------------------------------------------------------------------------------------
-BOOL CHLPool::Save (void)
+BOOL CHLPool::Save ()
 {
     if (BytesCompressed != 0)
     {
@@ -512,7 +512,7 @@ BOOL CHLPool::Save (void)
 //--------------------------------------------------------------------------------------------
 //Wirft den gesammten Pool aus dem Speicher raus:
 //--------------------------------------------------------------------------------------------
-void CHLPool::Unload (void)
+void CHLPool::Unload ()
 {
     if (pPool != nullptr)
     {
@@ -521,7 +521,7 @@ void CHLPool::Unload (void)
         if (pPool != nullptr)
         {
             delete [] pPool;
-            pPool=NULL;
+            pPool=nullptr;
         }
 
         Loaded       = min (1, Loaded);
@@ -566,7 +566,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
     }
     else
     {
-        pHLBasepool1Pool = NULL;
+        pHLBasepool1Pool = nullptr;
         HLBasepool1Size  = 0;
     }
 
@@ -577,7 +577,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
     }
     else
     {
-        pHLBasepool2Pool = NULL;
+        pHLBasepool2Pool = nullptr;
         HLBasepool2Size  = 0;
     }
 
@@ -675,7 +675,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
     SLONG cx;
     SLONG Pass;
 
-    UBYTE *bm=(UBYTE *)Key.Bitmap;
+    auto *bm=(UBYTE *)Key.Bitmap;
 
     //Alle Pixel der Bitmap zeilenweise durchgehen:
     for (y=0; y<pBitmap->GetYSize(); y++)
@@ -707,7 +707,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                 }
                 else
                 {
-                    UBYTE *BestP=NULL;
+                    UBYTE *BestP=nullptr;
                     SLONG  BestDist=999;
 
                     //In drei verschiedenen Pools suchen:
@@ -717,7 +717,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                         CHLPool *pCHLPool;
 
                         //Die Basepools der Basepools werden bis jetzt übersehen:
-                        pCHLPool = NULL;
+                        pCHLPool = nullptr;
                         if (Pass==1) { pCHLPool = pHLBasepool1;
 }
                         if (Pass==2) { pCHLPool = pHLBasepool2;
@@ -725,7 +725,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                         if (Pass==3) { pCHLPool = this;
 }
 
-                        if (pCHLPool==NULL && Pass<3) { continue;
+                        if (pCHLPool==nullptr && Pass<3) { continue;
 }
 
                         if ((pCHLPool != nullptr) || Pass==3)
@@ -797,7 +797,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                             if (Pass==3)
                             {
                                 //Gen-String wurde nicht gefunden! Also in den Pool einfügen:
-                                if (pCHLPool->pPool==NULL)
+                                if (pCHLPool->pPool==nullptr)
                                 {
                                     //Erst einmal den Pool anlegen:
                                     pCHLPool->pPool = new UBYTE [1000];
@@ -825,7 +825,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                                     }
                                     }*/
 
-                                    UBYTE *pNew = new UBYTE [PoolMaxSize+1000];
+                                    auto *pNew = new UBYTE [PoolMaxSize+1000];
                                     ReBaseObjects (pCHLPool->pPool, pNew);
 
                                     memcpy (pNew, pCHLPool->pPool, PoolSize);
@@ -887,7 +887,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
 //--------------------------------------------------------------------------------------------
 //Gibt allen Objekten und Unterobjekten eine Basis:
 //--------------------------------------------------------------------------------------------
-void CHLPool::DoBaseObjects (void)
+void CHLPool::DoBaseObjects ()
 {
     SLONG c;
     SLONG d;
@@ -899,7 +899,7 @@ void CHLPool::DoBaseObjects (void)
     }
     else
     {
-        pHLBasepool1Pool = NULL;
+        pHLBasepool1Pool = nullptr;
         HLBasepool1Size  = 0;
     }
 
@@ -910,7 +910,7 @@ void CHLPool::DoBaseObjects (void)
     }
     else
     {
-        pHLBasepool2Pool = NULL;
+        pHLBasepool2Pool = nullptr;
         HLBasepool2Size  = 0;
     }
 
@@ -924,7 +924,7 @@ void CHLPool::DoBaseObjects (void)
         {
             //Falls die HLine aus dem aktuellen Pool stammt...
             if (qObj.HLines[d].Anz>4) {
-                if (qObj.HLines[d].pPixel>=(UBYTE*)0x00000000 && qObj.HLines[d].pPixel<=(UBYTE*)0x00000000+PoolSize) {
+                if (qObj.HLines[d].pPixel>=(UBYTE*)nullptr && qObj.HLines[d].pPixel<=(UBYTE*)nullptr+PoolSize) {
                     qObj.HLines[d].pPixel = (UBYTE*) (((UBYTE*)qObj.HLines[d].pPixel)-(ptrdiff_t)0x00000000+(ptrdiff_t)pPool);
                 } else if ((pHLBasepool1 != nullptr) && qObj.HLines[d].pPixel>=(UBYTE*)0x10000000 && qObj.HLines[d].pPixel<=(UBYTE*)0x10000000+pHLBasepool1->PoolSize) {
                     qObj.HLines[d].pPixel = (UBYTE*) (((UBYTE*)qObj.HLines[d].pPixel)-(ptrdiff_t)0x10000000+(ptrdiff_t)pHLBasepool1->pPool);
@@ -942,7 +942,7 @@ void CHLPool::DoBaseObjects (void)
 //--------------------------------------------------------------------------------------------
 //Nimm allen Objekten und Unterobjekten die Basis weg:
 //--------------------------------------------------------------------------------------------
-void CHLPool::UnBaseObjects (void)
+void CHLPool::UnBaseObjects ()
 {
     SLONG c;
     SLONG d;
@@ -972,8 +972,8 @@ void CHLPool::UnBaseObjects (void)
         }
     }
 
-    pHLBasepool1Pool = NULL;   HLBasepool1Size=0;
-    pHLBasepool2Pool = NULL;   HLBasepool2Size=0;
+    pHLBasepool1Pool = nullptr;   HLBasepool1Size=0;
+    pHLBasepool2Pool = nullptr;   HLBasepool2Size=0;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1014,7 +1014,7 @@ CHLObj *CHLPool::GetHLObj (__int64 graphicID)
 }
 }
 
-    return (NULL);
+    return (nullptr);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1035,7 +1035,7 @@ CHLObj *CHLPool::GetHLObj (const CString &String)
 }
 }
 
-    return (NULL);
+    return (nullptr);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1044,8 +1044,7 @@ CHLObj *CHLPool::GetHLObj (const CString &String)
 //Eine HL-Bitmap ist eine Referenz auf ein HL-Objekt; Es kann mehrere HLBMs für ein HLOBJ geben
 //--------------------------------------------------------------------------------------------
 CHLBm::CHLBm ()
-{
-}
+= default;
 
 //--------------------------------------------------------------------------------------------
 //Destruktor:
@@ -1058,9 +1057,9 @@ CHLBm::~CHLBm ()
 //--------------------------------------------------------------------------------------------
 //Pseudo-Destruktor:
 //--------------------------------------------------------------------------------------------
-void CHLBm::Destroy (void)
+void CHLBm::Destroy ()
 {
-    pObj = NULL;
+    pObj = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1137,7 +1136,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, const CString &graphicstr)
     for (Anz=0; ; Anz++)
     {
         if (Anz==0) { Texts[Anz]=strtok (Str, " ");
-        } else { Texts[Anz]=strtok (NULL, " ");
+        } else { Texts[Anz]=strtok (nullptr, " ");
 }
         if (Texts[Anz] == nullptr) { break;
 }
@@ -1189,7 +1188,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, const CString &graphicstr, SLONG Anzahl)
 //--------------------------------------------------------------------------------------------
 //Bringt alle HLine-Pool auf den neusten Stand:
 //--------------------------------------------------------------------------------------------
-void UpdateHLinePool (void)
+void UpdateHLinePool ()
 {
     SLONG c=0;
     SLONG d;
@@ -1199,7 +1198,7 @@ void UpdateHLinePool (void)
 
     BOOL DontSaveSkeletons=FALSE;
 
-    SkelettPool.ReSize (bprintf ("skelett.pol", c), NULL, NULL);
+    SkelettPool.ReSize (bprintf ("skelett.pol", c), nullptr, nullptr);
     SkelPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename ("skel_pal.lbm", "clan\\lbm\\%s"));
 
     for (c=Clans.AnzEntries()-1; c>=0; c--) {
@@ -1211,15 +1210,15 @@ void UpdateHLinePool (void)
 
             if (c<SLONG(Clans.AnzEntries()-1) && (Clans.IsInAlbum(c+1) != 0) && Clans[c].PalFilename==Clans[SLONG(c+1)].PalFilename && Clans[c].Type!=30)
             {
-                Clans[c].ClanPool.ReSize (bprintf ("clan%li.pol", c), &Clans[SLONG(c+1)].ClanPool, NULL);
+                Clans[c].ClanPool.ReSize (bprintf ("clan%li.pol", c), &Clans[SLONG(c+1)].ClanPool, nullptr);
                 Clans[c].ClanGimmick.ReSize (bprintf ("clang%li.pol", c), &Clans[SLONG(c+1)].ClanPool, &Clans[c].ClanPool);
                 Clans[c].ClanWarteGimmick.ReSize (bprintf ("clanw%li.pol", c), &Clans[SLONG(c+1)].ClanPool, &Clans[c].ClanPool);
             }
             else
             {
-                Clans[c].ClanPool.ReSize (bprintf ("clan%li.pol", c), NULL, NULL);
-                Clans[c].ClanGimmick.ReSize (bprintf ("clang%li.pol", c), &Clans[c].ClanPool, NULL);
-                Clans[c].ClanWarteGimmick.ReSize (bprintf ("clanw%li.pol", c), &Clans[c].ClanPool, NULL);
+                Clans[c].ClanPool.ReSize (bprintf ("clan%li.pol", c), nullptr, nullptr);
+                Clans[c].ClanGimmick.ReSize (bprintf ("clang%li.pol", c), &Clans[c].ClanPool, nullptr);
+                Clans[c].ClanWarteGimmick.ReSize (bprintf ("clanw%li.pol", c), &Clans[c].ClanPool, nullptr);
             }
 
             for (d=0; d<14; d++) {

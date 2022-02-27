@@ -232,7 +232,7 @@ void SynthesizeNumber (SBFX *TargetFx, const CString& Talker, SLONG Number, BOOL
 //--------------------------------------------------------------------------------------------
 //Wirft alle Waves wieder raus:
 //--------------------------------------------------------------------------------------------
-void FlushTalkers (void)
+void FlushTalkers ()
 {
     TalkerId[0].Empty();
     TalkerId[1].Empty();

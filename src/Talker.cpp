@@ -16,7 +16,7 @@ CTalkers::CTalkers () : Talkers (TALKER_ANZ)
 //--------------------------------------------------------------------------------------------
 //Initialisiert
 //--------------------------------------------------------------------------------------------
-void CTalkers::Init (void)
+void CTalkers::Init ()
 {
     SLONG c;
 
@@ -31,7 +31,7 @@ void CTalkers::Init (void)
 //--------------------------------------------------------------------------------------------
 //Macht die Animationen der Leute:
 //--------------------------------------------------------------------------------------------
-void CTalkers::Pump (void)
+void CTalkers::Pump ()
 {
     SLONG c;
 
@@ -76,7 +76,7 @@ void CTalker::StartDialog (BOOL Medium)
 //--------------------------------------------------------------------------------------------
 //Ein Gespräch beenden und ggf. auflegen
 //--------------------------------------------------------------------------------------------
-void CTalker::StopDialog (void)
+void CTalker::StopDialog ()
 {
     if (State==1) {
         State=0;
@@ -90,7 +90,7 @@ void CTalker::StopDialog (void)
 //--------------------------------------------------------------------------------------------
 //Anfangen zu sprechen:
 //--------------------------------------------------------------------------------------------
-void CTalker::StartTalking (void)
+void CTalker::StartTalking ()
 {
     Talking = TRUE;
 }
@@ -98,7 +98,7 @@ void CTalker::StartTalking (void)
 //--------------------------------------------------------------------------------------------
 //Auf den Gesprächsparter warten
 //--------------------------------------------------------------------------------------------
-void CTalker::StopTalking (void)
+void CTalker::StopTalking ()
 {
     Talking = FALSE;
 }
@@ -106,7 +106,7 @@ void CTalker::StopTalking (void)
 //--------------------------------------------------------------------------------------------
 //Ist ein bestimmter Charaketer in einem Dialog?
 //--------------------------------------------------------------------------------------------
-BOOL CTalker::IsBusy (void) const
+BOOL CTalker::IsBusy () const
 {
     return static_cast<BOOL>((State!=0 && State!=4) || (Locking != 0));
 }
@@ -114,7 +114,7 @@ BOOL CTalker::IsBusy (void) const
 //--------------------------------------------------------------------------------------------
 //Ist ein bestimmter Charaketer in einem Dialog?
 //--------------------------------------------------------------------------------------------
-BOOL CTalker::IsTalking (void) const
+BOOL CTalker::IsTalking () const
 {
     return static_cast<BOOL>(State!=0);
 }
@@ -130,7 +130,7 @@ void CTalker::BlitAt (SBBM &/*Offscreen*/, XY /*Pos*/)
 //--------------------------------------------------------------------------------------------
 //Besagt, das die Person verwendet wird:
 //--------------------------------------------------------------------------------------------
-void CTalker::IncreaseReference (void)
+void CTalker::IncreaseReference ()
 {
     NumRef++;
 
@@ -141,7 +141,7 @@ void CTalker::IncreaseReference (void)
 //--------------------------------------------------------------------------------------------
 //Besagt, das Person nicht mehr gebraucht wird:
 //--------------------------------------------------------------------------------------------
-void CTalker::DecreaseReference (void)
+void CTalker::DecreaseReference ()
 {
     if (NumRef>0) { NumRef--;
 }
@@ -153,7 +153,7 @@ void CTalker::DecreaseReference (void)
 //--------------------------------------------------------------------------------------------
 //Besagt, das die Person gesperrt wird:
 //--------------------------------------------------------------------------------------------
-void CTalker::IncreaseLocking (void)
+void CTalker::IncreaseLocking ()
 {
     Locking++;
 }
@@ -161,7 +161,7 @@ void CTalker::IncreaseLocking (void)
 //--------------------------------------------------------------------------------------------
 //Besagt, das Person nicht mehr gesperrt wird:
 //--------------------------------------------------------------------------------------------
-void CTalker::DecreaseLocking (void)
+void CTalker::DecreaseLocking ()
 {
     if (Locking>0) { Locking--;
 }

@@ -402,7 +402,7 @@ void CRouteBox::OnPaint()
 //--------------------------------------------------------------------------------------------
 //Malt die Liste neu:
 //--------------------------------------------------------------------------------------------
-void CRouteBox::RepaintList(void)
+void CRouteBox::RepaintList()
 {
     SLONG c;
     SLONG i;
@@ -443,7 +443,7 @@ void CRouteBox::RepaintList(void)
 //--------------------------------------------------------------------------------------------
 //Malt den Tip neu:
 //--------------------------------------------------------------------------------------------
-void CRouteBox::RepaintTip (void)
+void CRouteBox::RepaintTip ()
 {
     SLONG c;
 
@@ -513,7 +513,7 @@ void CRouteBox::RepaintTip (void)
 //--------------------------------------------------------------------------------------------
 //Malt die Karte mit den Routen neu:
 //--------------------------------------------------------------------------------------------
-void CRouteBox::RepaintMap (void)
+void CRouteBox::RepaintMap ()
 {
     SLONG c;
     SLONG d;
@@ -615,7 +615,7 @@ void CRouteBox::RepaintMap (void)
 //--------------------------------------------------------------------------------------------
 //Füllt den DataTable mit neuen Daten:
 //--------------------------------------------------------------------------------------------
-void CRouteBox::UpdateDataTable (void)
+void CRouteBox::UpdateDataTable ()
 {
     switch (Filter)
     {

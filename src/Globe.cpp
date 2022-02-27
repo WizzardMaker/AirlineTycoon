@@ -70,7 +70,7 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
         pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
-    else { pGLibDark=NULL;
+    else { pGLibDark=nullptr;
 }
 
     FensterVisible = (Sim.IsTutorial) != 0?1:Sim.Players.Players[(SLONG)PlayerNum].GlobeFileOpen;
@@ -81,7 +81,7 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
     DragFlightMode    = FALSE;
 
     CurrentDragId     = -1;
-    pBlock            = NULL;
+    pBlock            = nullptr;
     //CurrentIcon       = -1;
     LastTime          = 0xffffffff;
     EarthTargetAlpha  = EarthAlpha;
@@ -131,7 +131,7 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
     QuietschFX.ReInit("quietsch.raw");
     Quietsching=FALSE;
 
-    for (c=0; c<6; c++) { pGLibIcons[c]=NULL;
+    for (c=0; c<6; c++) { pGLibIcons[c]=nullptr;
 }
 
     MessagePump();
@@ -196,7 +196,7 @@ CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.
     //Base-Pointer der Blöcke initialisieren:
     for (c=Sim.Players.Players[(SLONG)PlayerNum].Blocks.AnzEntries()-1; c>=0; c--) {
         if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(ULONG(c)) != 0) {
-            Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].Base=NULL;
+            Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].Base=nullptr;
 }
 }
 
@@ -264,13 +264,13 @@ CGlobe::~CGlobe()
 }
     if ((pGLibStd != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pGLibStd);
 }
-    pGLibGlobe=NULL;
+    pGLibGlobe=nullptr;
 
     DarkBm.Destroy();
 
     if ((pGLibDark != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pGLibDark);
 }
-    pGLibDark=NULL;
+    pGLibDark=nullptr;
 
     for (SLONG c=0; c<6; c++)
     {
@@ -278,7 +278,7 @@ CGlobe::~CGlobe()
         {
             IconBms[c].Destroy();
             pGfxMain->ReleaseLib (pGLibIcons[c]);
-            pGLibIcons[c]=NULL;
+            pGLibIcons[c]=nullptr;
         }
     }
 }
@@ -307,7 +307,7 @@ void CGlobe::OnPaint()
         pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
-    else { pGLibDark=NULL;
+    else { pGLibDark=nullptr;
 }
 
     if (KonstruktorFinished!=2)
@@ -347,7 +347,7 @@ void CGlobe::OnPaint()
     CStdRaum::OnPaint ();
     CStdRaum::InitToolTips ();
 
-    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && pBlock==NULL)
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && pBlock==nullptr)
     {
         if (gMousePosition.IfIsWithin (495, 241, 640, 440)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_LAST_MINUTE, 999);
 }
@@ -376,10 +376,10 @@ void CGlobe::OnPaint()
 
         //Is Cursor over Block?
         CurrentBlock    = -1;
-        pBlock          = NULL;
+        pBlock          = nullptr;
         IsInClientArea  = FALSE;
         IsInClientAreaB = FALSE;
-        pBlock          = NULL;
+        pBlock          = nullptr;
         if ((FensterVisible != 0) && (qPlayer.Blocks.IsInAlbum(ULONG(0)) != 0))
         {
             if (gMousePosition.IfIsWithin (qPlayer.Blocks[ULONG(0)].ScreenPos, qPlayer.Blocks[ULONG(0)].ScreenPos+qPlayer.Blocks[ULONG(0)].Bitmap.Size-XY(1,1))) {
@@ -497,7 +497,7 @@ void CGlobe::OnPaint()
         }
 
         //Block erscheinen oder verschwinden lassen
-        if (pBlock==NULL && FensterVisible==FALSE) {
+        if (pBlock==nullptr && FensterVisible==FALSE) {
             if (gMousePosition.x<FiloEdge.Size.x && gMousePosition.y>440-FiloEdge.Size.y && gMousePosition.y<440) {
                 SetMouseLook (CURSOR_HOT, 0, 0, 0, 0);
 }
@@ -660,7 +660,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
     }
 
     //Block erscheinen oder verschwinden lassen
-    if (pBlock==NULL)
+    if (pBlock==nullptr)
     {
         if (gMousePosition.x<FiloEdge.Size.x && gMousePosition.y>440-FiloEdge.Size.y && gMousePosition.y<440)
         {

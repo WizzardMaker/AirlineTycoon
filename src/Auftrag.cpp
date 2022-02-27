@@ -871,7 +871,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CAuftrag &Auftrag)
 //============================================================================================
 //Fügt eine Reihe von neuen Aufträgen ein:
 //============================================================================================
-void CAuftraege::FillForLastMinute (void)
+void CAuftraege::FillForLastMinute ()
 {
     SLONG c;
 
@@ -939,7 +939,7 @@ void CAuftraege::RefillForLastMinute (SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 //Fügt eine Reihe von neuen Aufträgen ein:
 //--------------------------------------------------------------------------------------------
-void CAuftraege::FillForReisebuero (void)
+void CAuftraege::FillForReisebuero ()
 {
     SLONG c;
 
@@ -1084,7 +1084,7 @@ void CAuftraege::RefillForAusland (SLONG CityNum, SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 //Returns the number of open Order flights which are due today:
 //--------------------------------------------------------------------------------------------
-SLONG CAuftraege::GetNumDueToday (void)
+SLONG CAuftraege::GetNumDueToday ()
 {
     SLONG c;
     SLONG Anz=0;
@@ -1103,7 +1103,7 @@ SLONG CAuftraege::GetNumDueToday (void)
 //--------------------------------------------------------------------------------------------
 //Returns the number of open Order flights which still need to be done:
 //--------------------------------------------------------------------------------------------
-SLONG CAuftraege::GetNumOpen (void)
+SLONG CAuftraege::GetNumOpen ()
 {
     SLONG c;
     SLONG Anz=0;

@@ -36,61 +36,61 @@ CRicks::CRicks(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "ric
 
     SP_Rick.ReSize (7);
     SP_Rick.Clips[0].ReSize (0, "bar_wait.smk", "", XY (157, 130), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9A1E1", 0, 1, 2);
     SP_Rick.Clips[1].ReSize (1, "bar_aug.smk", "", XY (157, 130), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9A1E1", 0, 1, 2);
     SP_Rick.Clips[2].ReSize (2, "bar_rede.smk", "", XY (157, 130), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Speak
             "A9A2A2E1E1", 2, 3, 4, 5, 0);
     SP_Rick.Clips[3].ReSize (3, "bar_fing.smk", "", XY (157, 130), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Speak
             "A9A2E1E1", 2, 4, 5, 0);
     SP_Rick.Clips[4].ReSize (4, "bar_arm.smk", "",  XY (157, 130), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Speak
             "A9A2E1E1", 2, 3, 5, 0);
     SP_Rick.Clips[5].ReSize (5, "bar_wait.smk", "", XY (157, 130), SPM_LISTENING,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Listen
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Listen
             "A9A2E1E1", 5, 6, 0, 2);
     SP_Rick.Clips[6].ReSize (6, "bar_aug.smk", "", XY (157, 130), SPM_LISTENING,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Listen
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Listen
             "A9A2E1E1", 5, 6, 0, 2);
 
     SP_Neon.ReSize (1);
     SP_Neon.Clips[0].ReSize (0, "neon.smk", "", XY (514,0),     SPM_IDLE,       CRepeat(99,99), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9E1", 0, 1);
 
     SP_TrinkerAugen.ReSize (2);
     SP_TrinkerAugen.Clips[0].ReSize (0, "augw.smk", "", XY (479,199),  SPM_IDLE, CRepeat(1,1), CPostWait(10,90), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9A9", 0, 1);
     SP_TrinkerAugen.Clips[1].ReSize (1, "aug.smk",  "", XY (479,199),  SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9A9", 0, 1);
 
     SP_TrinkerMund.ReSize (7);
     SP_TrinkerMund.Clips[0].ReSize (0, "mund_w.smk", "", XY (483,230),  SPM_IDLE, CRepeat(1,1), CPostWait(10,90), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9E1E1", 0, 5, 6);
     SP_TrinkerMund.Clips[1].ReSize (1, "mund.smk",  "", XY (483,230),  SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9E1E1", 2, 5, 6);
     SP_TrinkerMund.Clips[2].ReSize (2, "munda.smk", "", XY (483,230),  SPM_IDLE, CRepeat(1,1), CPostWait(0,30), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 3);
     SP_TrinkerMund.Clips[3].ReSize (3, "mundaw.smk",  "", XY (483,230),  SPM_IDLE, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 4);
     SP_TrinkerMund.Clips[4].ReSize (4, "mundz.smk", "", XY (483,230),  SPM_IDLE, CRepeat(1,1), CPostWait(10,90), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 0);
     SP_TrinkerMund.Clips[5].ReSize (5, "mund.smk",  "", XY (483,230),  SPM_TALKING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Speak
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Speak
             "A9E1E1", 5,6,0);
     SP_TrinkerMund.Clips[6].ReSize (6, "mund_w.smk", "", XY (483,230),  SPM_LISTENING, CRepeat(1,1), CPostWait(10,90), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Listen
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Listen
             "A9E1E1", 6,5,0);
 
     //Raumanimationen

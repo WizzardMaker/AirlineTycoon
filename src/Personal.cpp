@@ -47,80 +47,80 @@ CPersonal::CPersonal(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     SP_Frau.ReSize (11);
     //--------------------------------------------------------------------------------------------
     SP_Frau.Clips[0].ReSize (0, "pfbrief.smk", "pfbrief.raw", XY (340, 113), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &StapelBrief, SMACKER_CLIP_XOR|SMACKER_CLIP_FRAME+1*SMACKER_CLIP_MULT, 1, NULL,  //Warten
+            &StapelBrief, SMACKER_CLIP_XOR|SMACKER_CLIP_FRAME+1*SMACKER_CLIP_MULT, 1, nullptr,  //Warten
             "A9", 1);
     SP_Frau.Clips[1].ReSize (1, "pfleseb.smk", "", XY (340, 113), SPM_IDLE,       CRepeat(1,1), CPostWait(30,90), SMACKER_CLIP_CANCANCEL,
-            &PaperOnTable, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 2, NULL,  //Warten
+            &PaperOnTable, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 2, nullptr,  //Warten
             "A9", 2);
     SP_Frau.Clips[2].ReSize (2, "pfwerf.smk", "pfwerf.raw", XY (340, 113), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
             &FlugbahnType, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+5*SMACKER_CLIP_MULT, 0, &KommVar,  //Warten
             "A9A2E1", 0, 3, 6);
 
     SP_Frau.Clips[3].ReSize (3, "pfwild.smk", "pfwild.raw", XY (340, 113), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &Zeitung, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 0,NULL,  //Warten
+            &Zeitung, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 0,nullptr,  //Warten
             "A9", 4);
     SP_Frau.Clips[4].ReSize (4, "pflesew.smk", "", XY (340, 113), SPM_IDLE,       CRepeat(1,1), CPostWait(70,130), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &KommVar2,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, &KommVar2,  //Warten
             "A9", 5);
     SP_Frau.Clips[5].ReSize (5, "pfwildz.smk", "pfwildz.raw", XY (340, 113), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &Zeitung, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, NULL,  //Warten
+            &Zeitung, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, nullptr,  //Warten
             "A9E1", 0, 6);
 
     SP_Frau.Clips[6].ReSize (6, "pfturn.smk", "", XY (340, 113), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "E1E1E1", 8, 7, 9);
     SP_Frau.Clips[7].ReSize (7, "pfrede.smk", "", XY (340, 113), SPM_TALKING,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Labern
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Labern
             "A9E1E1", 7, 8, 9);
     SP_Frau.Clips[8].ReSize (8, "pfturnw.smk", "", XY (340, 113), SPM_LISTENING,  CRepeat(1,1), CPostWait(20,20), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Zuhören
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Zuhören
             "A9A1E1E1", 8, 10, 7, 9);
     SP_Frau.Clips[9].ReSize (9, "pfturnz.smk", "", XY (340, 113), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 0);
     SP_Frau.Clips[10].ReSize (10, "pfturnk.smk", "", XY (340, 113), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 8);
 
     SP_Mann.ReSize (9);
     //--------------------------------------------------------------------------------------------
     SP_Mann.Clips[0].ReSize (0, "pmlese.smk", "", XY (130, 80), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &PaperOnTable,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, &PaperOnTable,  //Warten
             "A1A1E1", 0, 1, 3);
     SP_Mann.Clips[1].ReSize (1, "pmblat.smk", "", XY (130, 80), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &PaperOnTable,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, &PaperOnTable,  //Warten
             "A9", 0);
 
     SP_Mann.Clips[2].ReSize (2, "pmkorb.smk", "", XY (130, 80), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &PaperOnTable, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+4*SMACKER_CLIP_MULT, -1, NULL,
+            &PaperOnTable, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+4*SMACKER_CLIP_MULT, -1, nullptr,
             "A9", 7);
     SP_Mann.Clips[7].ReSize (7, "pmkorbb.smk", "", XY (130, 80), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &PaperDropping, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, NULL,
+            &PaperDropping, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, nullptr,
             "A9E1", 1, 3);
 
     SP_Mann.Clips[3].ReSize (3, "pmturn.smk", "", XY (130, 80), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "E1E1A1E1", 4, 5, 5, 6);
     SP_Mann.Clips[4].ReSize (4, "pmreden.smk", "", XY (130, 80), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9E1E1", 4, 5, 6);
     SP_Mann.Clips[5].ReSize (5, "pmwait.smk", "", XY (130, 80), SPM_LISTENING,   CRepeat(1,1), CPostWait(99,99), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9A1E1E1", 5, 8, 4, 6);
     SP_Mann.Clips[6].ReSize (6, "pmturnz.smk", "", XY (130, 80), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 0);
     SP_Mann.Clips[8].ReSize (8, "pmwaitk.smk", "", XY (130, 80), SPM_LISTENING,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 5);
 
     SP_DroppingPaper.ReSize (2);
     //--------------------------------------------------------------------------------------------
     SP_DroppingPaper.Clips[0].ReSize (0, "", "", XY (133, 260), SPM_LISTENING,   CRepeat(1,1), CPostWait(2,2), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &PaperDropping,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, &PaperDropping,  //Warten
             "A1", 0);
     SP_DroppingPaper.Clips[1].ReSize (1, "brief.smk", "", XY (133, 260), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &PaperDropping, SMACKER_CLIP_SET|SMACKER_CLIP_POST, -1, NULL,  //Warten
+            &PaperDropping, SMACKER_CLIP_SET|SMACKER_CLIP_POST, -1, nullptr,  //Warten
             "A9", 0);
 
     Talkers.Talkers[SLONG(TALKER_PERSONAL1a+PlayerNum*2)].IncreaseReference ();
@@ -360,12 +360,12 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
         }
 
         Workers[Num].Name        = strtok (Line, TabSeparator);
-        Workers[Num].Geschlecht  = atoi (strtok (NULL, TabSeparator));
-        Workers[Num].Typ         = atoi (strtok (NULL, TabSeparator));
-        Workers[Num].Gehalt      = atoi (strtok (NULL, TabSeparator));
-        Workers[Num].Talent      = atoi (strtok (NULL, TabSeparator));
-        Workers[Num].Alter       = atoi (strtok (NULL, TabSeparator));
-        CString Kommentar(strtok(NULL, ""));
+        Workers[Num].Geschlecht  = atoi (strtok (nullptr, TabSeparator));
+        Workers[Num].Typ         = atoi (strtok (nullptr, TabSeparator));
+        Workers[Num].Gehalt      = atoi (strtok (nullptr, TabSeparator));
+        Workers[Num].Talent      = atoi (strtok (nullptr, TabSeparator));
+        Workers[Num].Alter       = atoi (strtok (nullptr, TabSeparator));
+        CString Kommentar(strtok(nullptr, ""));
         Workers[Num].Kommentar   = KorrigiereUmlaute (Kommentar);
         Workers[Num].Employer    = WORKER_RESERVE;
         Workers[Num].Happyness   = 100;
@@ -414,11 +414,11 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
 
         Num = atoi (strtok (Line, TabSeparator));
 
-        if (Num==0) { FNames[i1++] = strtok (NULL, TabSeparator);
+        if (Num==0) { FNames[i1++] = strtok (nullptr, TabSeparator);
 }
-        if (Num==1) { MNames[i2++] = strtok (NULL, TabSeparator);
+        if (Num==1) { MNames[i2++] = strtok (nullptr, TabSeparator);
 }
-        if (Num==2) { LNames[i3++] = strtok (NULL, TabSeparator);
+        if (Num==2) { LNames[i3++] = strtok (nullptr, TabSeparator);
 }
 
         if (i1>=FNames.AnzEntries() || i2>=MNames.AnzEntries() || i3>=LNames.AnzEntries()) { DebugBreak();
@@ -435,7 +435,7 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
 //--------------------------------------------------------------------------------------------
 //Neuer Tag, die Leute sind etwas unglücklicher und der Arbeitsmarkt ändert sich:
 //--------------------------------------------------------------------------------------------
-void CWorkers::NewDay (void)
+void CWorkers::NewDay ()
 {
     SLONG c;
     SLONG m;
@@ -593,7 +593,7 @@ CString CWorkers::GetRandomName(BOOL Geschlecht) const
 //--------------------------------------------------------------------------------------------
 //Verhindert, daß es zu wenig Piloten oder Stewardessen gibt:
 //--------------------------------------------------------------------------------------------
-void CWorkers::CheckShortage (void)
+void CWorkers::CheckShortage ()
 {
     SLONG    anz;
     SLONG    c;
@@ -800,7 +800,7 @@ void CWorkers::AddHappiness (SLONG PlayerNum, SLONG Value)
 //--------------------------------------------------------------------------------------------
 //Berechnet die Zahl der Berater-Bewerbungen:
 //--------------------------------------------------------------------------------------------
-SLONG CWorkers::GetNumJoblessBerater (void)
+SLONG CWorkers::GetNumJoblessBerater ()
 {
     SLONG c;
     SLONG d;
@@ -819,7 +819,7 @@ SLONG CWorkers::GetNumJoblessBerater (void)
 //--------------------------------------------------------------------------------------------
 //Berechnet die Zahl der Piloten-Bewerbungen:
 //--------------------------------------------------------------------------------------------
-SLONG CWorkers::GetNumJoblessPiloten (void)
+SLONG CWorkers::GetNumJoblessPiloten ()
 {
     SLONG c;
     SLONG d;
@@ -838,7 +838,7 @@ SLONG CWorkers::GetNumJoblessPiloten (void)
 //--------------------------------------------------------------------------------------------
 //Berechnet die Zahl der Flugbegleiter-Bewerbungen
 //--------------------------------------------------------------------------------------------
-SLONG CWorkers::GetNumJoblessFlugbegleiter (void)
+SLONG CWorkers::GetNumJoblessFlugbegleiter ()
 {
     SLONG c;
     SLONG d;

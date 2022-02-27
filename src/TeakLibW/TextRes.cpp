@@ -55,12 +55,10 @@ void LanguageSpecifyString(char *Dst)
 }
 
 TEXTRES::TEXTRES()
-{
-}
+= default;
 
 TEXTRES::~TEXTRES()
-{
-}
+= default;
 
 void TEXTRES::Open(char const* source, void* cached)
 {
@@ -76,7 +74,7 @@ void TEXTRES::Open(char const* source, void* cached)
         BUFFER<BYTE> FileBuffer = *LoadCompleteFile(source);
         char* String = new char[0x400U];
         if (String == nullptr) {
-            TeakLibW_Exception(0, 0, ExcOutOfMem);
+            TeakLibW_Exception(nullptr, 0, ExcOutOfMem);
 }
 
         SLONG AnzStrings = 0;
@@ -114,7 +112,7 @@ void TEXTRES::Open(char const* source, void* cached)
         Entries.ReSize(AnzEntries);
 
         for (SLONG i = 0; i < Entries.AnzEntries(); ++i) {
-            Entries.DelPointer[i].Text = NULL;
+            Entries.DelPointer[i].Text = nullptr;
 }
 
         AnzStrings = 0;
@@ -161,14 +159,14 @@ void TEXTRES::Open(char const* source, void* cached)
                 else
                 {
                     if (AnzEntries >= Entries.AnzEntries()) {
-                        TeakLibW_Exception(0, 0, ExcImpossible, "");
+                        TeakLibW_Exception(nullptr, 0, ExcImpossible, "");
 }
                     Entries[AnzEntries].Group = Group;
                     Entries[AnzEntries].Id = Identifier;
                     Entries[AnzEntries].Text = Strings + AnzStrings;
                     strcpy(Entries[AnzEntries].Text, String + 2);
                     if (strlen(String + 2) + AnzStrings >= Strings.AnzEntries() ) {
-                        TeakLibW_Exception(0, 0, ExcImpossible, "");
+                        TeakLibW_Exception(nullptr, 0, ExcImpossible, "");
 }
                     AnzStrings += strlen(String + 2) + 1;
                 }
@@ -191,7 +189,7 @@ void TEXTRES::Open(char const* source, void* cached)
 
 char* TEXTRES::GetP(ULONG group, ULONG id)
 {
-    char* text = NULL;
+    char* text = nullptr;
     for (SLONG i = 0; i < Entries.AnzEntries(); ++i)
     {
         if (Entries[i].Group == group && Entries[i].Id == id)
@@ -202,7 +200,7 @@ char* TEXTRES::GetP(ULONG group, ULONG id)
     }
 
     if (text == nullptr) {
-        TeakLibW_Exception(0, 0, ExcTextResNotFound, group, id);
+        TeakLibW_Exception(nullptr, 0, ExcTextResNotFound, group, id);
 }
 
     char* buffer = new char[strlen(text) + 1];
@@ -218,7 +216,7 @@ char* TEXTRES::GetS(ULONG group, ULONG id)
     if (strlen(str) > 0x3FF)
     {
         delete [] str;
-        TeakLibW_Exception(0, 0, ExcTextResStaticOverflow, group, id);
+        TeakLibW_Exception(nullptr, 0, ExcTextResStaticOverflow, group, id);
     }
     static char buffer[0x3FF];
     strcpy(buffer, str);

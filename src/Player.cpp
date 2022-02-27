@@ -62,8 +62,8 @@ PLAYER::PLAYER ()
     NewDir           = 8;
     Buttons          = 0;
     CursorPos        = XY (-1, -1);
-    LocationWin      = NULL;
-    DialogWin        = NULL;
+    LocationWin      = nullptr;
+    DialogWin        = nullptr;
     TopLocation      = 0;
     WalkSpeed        = 3;
     WaitForRoom      = 0;
@@ -72,7 +72,7 @@ PLAYER::PLAYER ()
     PlayerSmoking    = 0;
     PlayerStinking   = 0;
 
-    pSmack           = NULL;
+    pSmack           = nullptr;
     NetworkID        = 0;
 
     RobotActions.ReSize (5);
@@ -97,13 +97,13 @@ PLAYER::PLAYER ()
 PLAYER::~PLAYER ()
 {
     delete pSmack;
-    pSmack = NULL;
+    pSmack = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
 //Fügt 5 Flüge vom Uhrig hinzu:
 //--------------------------------------------------------------------------------------------
-void PLAYER::Add5UhrigFlights (void)
+void PLAYER::Add5UhrigFlights ()
 {
     for (SLONG c=0; c<5; c++)
     {
@@ -305,7 +305,7 @@ void PLAYER::AddRocketPart(SLONG rocketPart, SLONG price) {
 //--------------------------------------------------------------------------------------------
 //Verläßt der Raum
 //--------------------------------------------------------------------------------------------
-void PLAYER::LeaveRoom (void)
+void PLAYER::LeaveRoom ()
 {
     SLONG c;
 
@@ -324,7 +324,7 @@ void PLAYER::LeaveRoom (void)
 //--------------------------------------------------------------------------------------------
 //Verläßt alle Räume
 //--------------------------------------------------------------------------------------------
-void PLAYER::LeaveAllRooms (void)
+void PLAYER::LeaveAllRooms ()
 {
     SLONG c;
 
@@ -340,7 +340,7 @@ void PLAYER::LeaveAllRooms (void)
 //--------------------------------------------------------------------------------------------
 //Gibt den aktuellen Raum zurück:
 //--------------------------------------------------------------------------------------------
-UWORD PLAYER::GetRoom (void)
+UWORD PLAYER::GetRoom ()
 {
     return (TopLocation);
 }
@@ -348,7 +348,7 @@ UWORD PLAYER::GetRoom (void)
 //--------------------------------------------------------------------------------------------
 //Speed-up für GetRoom()
 //--------------------------------------------------------------------------------------------
-void PLAYER::CalcRoom (void)
+void PLAYER::CalcRoom ()
 {
     SLONG c;
     SLONG Room;
@@ -433,7 +433,7 @@ void PLAYER::BroadcastRooms (SLONG Message, SLONG RoomLeft)
 //--------------------------------------------------------------------------------------------
 //Berechnet, was die anstehenden Umrüstungen zusammen kosten werden:
 //--------------------------------------------------------------------------------------------
-SLONG PLAYER::CalcPlanePropSum (void)
+SLONG PLAYER::CalcPlanePropSum ()
 {
     SLONG Costs=0;
 
@@ -521,7 +521,7 @@ long PLAYER::CalcSecurityCosts (bool bFixOnly, bool bPlaneOnly)
 //--------------------------------------------------------------------------------------------
 //Zieht Miete für Cities und Routen vom Geld ab:
 //--------------------------------------------------------------------------------------------
-void PLAYER::BookBuroRent (void)
+void PLAYER::BookBuroRent ()
 {
     SLONG c;
     SLONG Gebuehr;
@@ -559,7 +559,7 @@ void PLAYER::BookBuroRent (void)
 //------------------------------------------------------------------------------
 //Zieht Gehalt vom Geld ab
 //------------------------------------------------------------------------------
-void PLAYER::BookSalary (void)
+void PLAYER::BookSalary ()
 {
     SLONG c;
     SLONG Money=0;
@@ -845,7 +845,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 //------------------------------------------------------------------------------
 //Did this player win the mission?
 //------------------------------------------------------------------------------
-BOOL PLAYER::HasWon (void)
+BOOL PLAYER::HasWon ()
 {
     if (Sim.Difficulty==DIFF_TUTORIAL && NumAuftraege>=10) { return (TRUE);
 }
@@ -962,7 +962,7 @@ BOOL PLAYER::HasWon (void)
 //------------------------------------------------------------------------------
 //Läßt neuen Tag beginnen
 //------------------------------------------------------------------------------
-void PLAYER::NewDay (void)
+void PLAYER::NewDay ()
 {
     SLONG c;
     SLONG d;
@@ -1472,7 +1472,7 @@ void PLAYER::RouteWegnehmen (long Routenindex, long NeuerBesitzer)
 //--------------------------------------------------------------------------------------------
 //Bringt Aufträge aus neusten Stand; bucht Strafen
 //--------------------------------------------------------------------------------------------
-void PLAYER::UpdateAuftraege (void)
+void PLAYER::UpdateAuftraege ()
 {
     SLONG c;
 
@@ -1736,7 +1736,7 @@ void PLAYER::RentGate (SLONG Nummer, SLONG Miete)
 //--------------------------------------------------------------------------------------------
 //Berechnet, wieviel Kredit der Spieler noch aufnehmen kann.
 //--------------------------------------------------------------------------------------------
-long PLAYER::CalcCreditLimit (void) const
+long PLAYER::CalcCreditLimit () const
 {
     __int64 cr=(Money-Credit)/2-Credit;
 
@@ -1793,7 +1793,7 @@ BOOL PLAYER::IsLocationInQueue (UWORD Location)
 //--------------------------------------------------------------------------------------------
 //Ist ein geschlossener Raum in der Queue?
 //--------------------------------------------------------------------------------------------
-BOOL PLAYER::IsClosedLocationInQueue (void)
+BOOL PLAYER::IsClosedLocationInQueue ()
 {
     SLONG c;
 
@@ -1867,7 +1867,7 @@ void PLAYER::UpdatePersonalberater (SLONG Toleranz)
 //--------------------------------------------------------------------------------------------
 //Welche Aufträge wurden wie oft verplant?:
 //--------------------------------------------------------------------------------------------
-void PLAYER::UpdateAuftragsUsage (void)
+void PLAYER::UpdateAuftragsUsage ()
 {
     SLONG c;
     SLONG d;
@@ -1929,7 +1929,7 @@ void PLAYER::UpdateAuftragsUsage (void)
 //--------------------------------------------------------------------------------------------
 //Welche Frachtaufträge wurden wie oft verplant?:
 //--------------------------------------------------------------------------------------------
-void PLAYER::UpdateFrachtauftragsUsage (void)
+void PLAYER::UpdateFrachtauftragsUsage ()
 {
     SLONG c;
     SLONG d;
@@ -2025,7 +2025,7 @@ void PLAYER::UpdateFrachtauftragsUsage (void)
 //Flug (laut Flugplan) bis 15:00, dann kommt er so gegen 14:30 an. Das Gate ist von 14:00 bis
 //14:59 belegt
 //--------------------------------------------------------------------------------------------
-void PLAYER::PlanGates (void)
+void PLAYER::PlanGates ()
 {
     SLONG c;
     SLONG d;
@@ -2414,7 +2414,7 @@ void PLAYER::WalkToPlate (XY Plate)
 //--------------------------------------------------------------------------------------------
 //Der Spieler läuft nicht mehr automatisch:
 //--------------------------------------------------------------------------------------------
-void PLAYER::WalkStop (void)
+void PLAYER::WalkStop ()
 {
     iWalkActive = FALSE;
 }
@@ -2422,7 +2422,7 @@ void PLAYER::WalkStop (void)
 //--------------------------------------------------------------------------------------------
 // Spieler bleibt wirklich stehen
 //--------------------------------------------------------------------------------------------
-void PLAYER::WalkStopEx (void)
+void PLAYER::WalkStopEx ()
 {
     if (RunningToToilet != 0) { return;
 }
@@ -2462,7 +2462,7 @@ void PLAYER::WalkStopEx (void)
 //--------------------------------------------------------------------------------------------
 //Berechnet das Sekundärziel für den Spieler:
 //--------------------------------------------------------------------------------------------
-void PLAYER::UpdateWaypoints (void)
+void PLAYER::UpdateWaypoints ()
 {
     SLONG cx;
     SLONG cy;
@@ -2576,7 +2576,7 @@ void PLAYER::UpdateWaypoints (void)
 //--------------------------------------------------------------------------------------------
 //Läßt den Spieler in die richtige Richtung laufen:
 //--------------------------------------------------------------------------------------------
-void PLAYER::UpdateWaypointWalkingDirection (void)
+void PLAYER::UpdateWaypointWalkingDirection ()
 {
     if (IsOut != 0) { return;
 }
@@ -2630,7 +2630,7 @@ void PLAYER::UpdateWaypointWalkingDirection (void)
 void PLAYER::RobotPump()
 {
     SLONG   c;
-    PERSON *pPerson = NULL;
+    PERSON *pPerson = nullptr;
 
     if ((Sim.bNetwork != 0) && WaitWorkTill!=-1)
     {
@@ -2666,7 +2666,7 @@ void PLAYER::RobotPump()
         if (pSmack->Next (&Bricks[SLONG(0x10000000+734+PlayerNum)].Bitmap[0]) == 0)
         {
             delete pSmack;
-            pSmack=NULL;
+            pSmack=nullptr;
             AIRPORT::UpdateStaticDoorImage ();
             Sim.FocusPerson=-1;
 
@@ -2709,7 +2709,7 @@ void PLAYER::RobotPump()
     if ((SickTokay != 0) && (RunningToToilet == 0) && (IsStuck == 0))
     {
         if ((Sim.TimeSlice%127)==0 && Sim.GetMinute()>0 && (Sim.CallItADay == 0) && Sim.GetHour()>=9 && Sim.GetHour()<18) {
-            if (LocationWin==NULL || (((CStdRaum*)LocationWin)->MenuIsOpen() == 0))
+            if (LocationWin==nullptr || (((CStdRaum*)LocationWin)->MenuIsOpen() == 0))
             {
                 PlayerExtraRandom.SRand(Sim.TimeSlice);
                 if (PlayerExtraRandom.Rand(4)==0)
@@ -3136,7 +3136,7 @@ again2:
 //--------------------------------------------------------------------------------------------
 //Computerspieler plant seine Routen:
 //--------------------------------------------------------------------------------------------
-void PLAYER::RobotPlanRoutes(void)
+void PLAYER::RobotPlanRoutes()
 {
     SLONG c;
     SLONG d;
@@ -3486,7 +3486,7 @@ void PLAYER::RobotPlanRoutes(void)
 //--------------------------------------------------------------------------------------------
 //Computerspieler ist angekommen, jetzt wird Aktion ausgeführt:
 //--------------------------------------------------------------------------------------------
-void PLAYER::RobotExecuteAction(void)
+void PLAYER::RobotExecuteAction()
 {
     SLONG c;
     SLONG n;
@@ -3531,7 +3531,7 @@ void PLAYER::RobotExecuteAction(void)
 }
 
                     //Sicherheitshalber, falls zum Feierabend gewechselt wird:
-                    if (Sim.bWatchForReady==0 && Sim.Time>9*60000+500 && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_ABEND && TopWin==NULL) {
+                    if (Sim.bWatchForReady==0 && Sim.Time>9*60000+500 && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_ABEND && TopWin==nullptr) {
                         for (c=0; c<4; c++) {
                             Sim.Players.Players[c].bReadyForMorning=0;
 }
@@ -3589,7 +3589,7 @@ void PLAYER::RobotExecuteAction(void)
             }
         }
     }
-    else { LocalRandom.SRand (time(NULL));
+    else { LocalRandom.SRand (time(nullptr));
 }
 
     //Manchmal führt der Client Sachen doppelt aus. Seltsam aber wahr. Hiermit wird's verhindert:
@@ -4711,8 +4711,8 @@ okay_we_have_that_city:
             {
                 SLONG   NeueAktien  = (MaxAktien-AnzAktien)/100*100;
                 SLONG   MarktAktien = NeueAktien*8/10;
-                SLONG   AlterKurs=SLONG(Kurse[0]);
-                SLONG   EKurs = SLONG(Kurse[0]-5);
+                auto   AlterKurs=SLONG(Kurse[0]);
+                auto   EKurs = SLONG(Kurse[0]-5);
 
                 ChangeMoney (-NeueAktien*EKurs/10/100*100, 3160, "");
                 ChangeMoney (MarktAktien*EKurs, 3162, "");
@@ -5655,14 +5655,14 @@ okay_we_have_that_city:
 //--------------------------------------------------------------------------------------------
 //Ist es okay, diesen Spieler anzurufen?
 //--------------------------------------------------------------------------------------------
-BOOL PLAYER::IsOkayToCallThisPlayer (void)
+BOOL PLAYER::IsOkayToCallThisPlayer ()
 {
     if (Sim.GetHour()<9 || Sim.GetHour()>17 || (Sim.CallItADay != 0) || (CallItADay != 0)) { return (FALSE);
 }
 
     if (HasItem(ITEM_HANDY) == 0) { return (FALSE);
 }
-    if (LocationWin==NULL) { return (FALSE);
+    if (LocationWin==nullptr) { return (FALSE);
 }
     if (IsStuck != 0) { return (FALSE);
 }
@@ -5681,7 +5681,7 @@ BOOL PLAYER::IsOkayToCallThisPlayer (void)
 //--------------------------------------------------------------------------------------------
 //Verzögert Flüge um Gates auszulasten:
 //--------------------------------------------------------------------------------------------
-void PLAYER::DelayFlightsIfNecessary (void)
+void PLAYER::DelayFlightsIfNecessary ()
 {
     SLONG c;
     SLONG d;
@@ -5725,7 +5725,7 @@ Again:
 //--------------------------------------------------------------------------------------------
 //Der Berater gibt Nachrichten für zwischendurch aus:
 //--------------------------------------------------------------------------------------------
-void PLAYER::RandomBeraterMessage (void)
+void PLAYER::RandomBeraterMessage ()
 {
     SLONG Which = rand()%3;
 
@@ -5876,7 +5876,7 @@ void PLAYER::BuyItem (UBYTE Item)
 //--------------------------------------------------------------------------------------------
 //Zeigt den Spieler mit dem Telefon in der Hand:
 //--------------------------------------------------------------------------------------------
-void PLAYER::DisplayAsTelefoning (void) const
+void PLAYER::DisplayAsTelefoning () const
 {
     PERSON &qPerson = Sim.Persons[(SLONG)Sim.Persons.GetPlayerIndex(PlayerNum)];
 
@@ -5917,7 +5917,7 @@ BOOL PLAYER::HasItem (UBYTE Item)
 //--------------------------------------------------------------------------------------------
 //Hat der Spieler noch Platz für ein Item?
 //--------------------------------------------------------------------------------------------
-BOOL PLAYER::HasSpaceForItem (void)
+BOOL PLAYER::HasSpaceForItem ()
 {
     for (SLONG d=0; d<6; d++) {
         if (Items[d]==0xff) { return (TRUE);
@@ -6249,7 +6249,7 @@ again: //Zweiter Pass, wenn Stewardessen aus Luxusstellen umgebucht werden, dami
 //--------------------------------------------------------------------------------------------
 //Aktualisiert die Werte NumPiloten und NumBegleiter:
 //--------------------------------------------------------------------------------------------
-void PLAYER::UpdatePilotCount (void)
+void PLAYER::UpdatePilotCount ()
 {
     SLONG c;
 
@@ -6284,7 +6284,7 @@ void PLAYER::UpdatePilotCount (void)
 //--------------------------------------------------------------------------------------------
 //Icons ggf. nach links verschieben:
 //--------------------------------------------------------------------------------------------
-void PLAYER::ReformIcons (void)
+void PLAYER::ReformIcons ()
 {
     SLONG c;
     SLONG d;
@@ -6321,7 +6321,7 @@ void PLAYER::ReformIcons (void)
 //--------------------------------------------------------------------------------------------
 //Aktualisiert die Laufgeschwindigkeit:
 //--------------------------------------------------------------------------------------------
-void PLAYER::UpdateWalkSpeed (void)
+void PLAYER::UpdateWalkSpeed ()
 {
     SLONG c;
 
@@ -6363,7 +6363,7 @@ void PLAYER::DoBodyguardRabatt (SLONG Money)
 //--------------------------------------------------------------------------------------------
 //Wirft alle Arbeiter raus:
 //--------------------------------------------------------------------------------------------
-void PLAYER::SackWorkers (void) const
+void PLAYER::SackWorkers () const
 {
     SLONG c;
 
@@ -6377,7 +6377,7 @@ void PLAYER::SackWorkers (void) const
 //--------------------------------------------------------------------------------------------
 //bringt Statistiken auf den neusten Stand:
 //--------------------------------------------------------------------------------------------
-void PLAYER::UpdateStatistics (void)
+void PLAYER::UpdateStatistics ()
 {
     SLONG c;
     SLONG d;
@@ -6735,7 +6735,7 @@ PLAYERS::PLAYERS ()
 //--------------------------------------------------------------------------------------------
 //Überprüft alle Flugpläne auf tote Einträge: (crasht bei toten Einträgen; nur zum testen)
 //--------------------------------------------------------------------------------------------
-void PLAYERS::CheckFlighplans (void)
+void PLAYERS::CheckFlighplans ()
 {
     for (SLONG c=0; c<AnzPlayers; c++) {
         if (Players[c].IsOut == 0)
@@ -6774,7 +6774,7 @@ void PLAYERS::CheckFlighplans (void)
 //--------------------------------------------------------------------------------------------
 //Bringt die Statistiken auf den neusten Stand:
 //--------------------------------------------------------------------------------------------
-void PLAYERS::UpdateStatistics (void)
+void PLAYERS::UpdateStatistics ()
 {
     for (SLONG c=0; c<AnzPlayers; c++) {
         if (Players[c].IsOut == 0) {
@@ -6786,7 +6786,7 @@ void PLAYERS::UpdateStatistics (void)
 //--------------------------------------------------------------------------------------------
 //Gibt die Zahl der menschlichen (Nicht-Computer) Spieler:
 //--------------------------------------------------------------------------------------------
-SLONG PLAYERS::GetAnzHumanPlayers (void)
+SLONG PLAYERS::GetAnzHumanPlayers ()
 {
     SLONG c;
     SLONG Anz;
@@ -6802,7 +6802,7 @@ SLONG PLAYERS::GetAnzHumanPlayers (void)
 //--------------------------------------------------------------------------------------------
 //Gibt die Zahl der nicht-menschlichen (Computer) Spieler:
 //--------------------------------------------------------------------------------------------
-SLONG PLAYERS::GetAnzRobotPlayers (void)
+SLONG PLAYERS::GetAnzRobotPlayers ()
 {
     SLONG c;
     SLONG Anz;
@@ -6871,7 +6871,7 @@ BOOL PLAYERS::IsPlaneNameInUse (const CString &PlaneName)
 //--------------------------------------------------------------------------------------------
 //Läßt alle Spieler zum Raum der Flughafenaufsicht laufen:
 //--------------------------------------------------------------------------------------------
-void PLAYERS::WalkToStartingPoint (void)
+void PLAYERS::WalkToStartingPoint ()
 {
     SLONG c;
 
@@ -6930,7 +6930,7 @@ void PLAYERS::RobotPump()
 //--------------------------------------------------------------------------------------------
 //Aktualisiert die Sprechblase der Berater:
 //--------------------------------------------------------------------------------------------
-void PLAYERS::MessagePump(void)
+void PLAYERS::MessagePump()
 {
     Players[Sim.localPlayer].Messages.Pump ();
 }
@@ -6950,7 +6950,7 @@ void PLAYERS::RobotInit()
 //--------------------------------------------------------------------------------------------
 //Der Berater gibt Nachrichten für zwischendurch aus:
 //--------------------------------------------------------------------------------------------
-void PLAYERS::RandomBeraterMessage (void)
+void PLAYERS::RandomBeraterMessage ()
 {
     SLONG c;
 
@@ -6973,7 +6973,7 @@ HISTORY::HISTORY ()
 //--------------------------------------------------------------------------------------------
 //Alles löschen:
 //--------------------------------------------------------------------------------------------
-void HISTORY::ReInit (void)
+void HISTORY::ReInit ()
 {
     SLONG c;
 

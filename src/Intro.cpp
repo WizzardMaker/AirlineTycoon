@@ -59,9 +59,9 @@ CIntro::CIntro(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0
         desired.format = SDL_AUDIO_MASK_SIGNED | (depth[0] & SDL_AUDIO_MASK_BITSIZE);
         desired.channels = channels[0];
         desired.samples = 2048;
-        desired.callback = NULL;
-        desired.userdata = NULL;
-        audioDevice = SDL_OpenAudioDevice(NULL, 0, &desired, NULL, 0);
+        desired.callback = nullptr;
+        desired.userdata = nullptr;
+        audioDevice = SDL_OpenAudioDevice(nullptr, 0, &desired, nullptr, 0);
         if (audioDevice == 0u) { Hdu.HercPrintf(SDL_GetError());
 }
 
@@ -86,7 +86,7 @@ CIntro::CIntro(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0
     else
     {
         audioDevice = 0;
-        pSmack = NULL;
+        pSmack = nullptr;
         Sim.Gamestate = GAMESTATE_BOOT;
     }
 
@@ -108,7 +108,7 @@ CIntro::~CIntro()
     if ((pRoomLib != nullptr) && (pGfxMain != nullptr))
     {
         pGfxMain->ReleaseLib(pRoomLib);
-        pRoomLib = NULL;
+        pRoomLib = nullptr;
     }
 
     if (audioDevice != 0u) { SDL_CloseAudioDevice(audioDevice);
@@ -117,7 +117,7 @@ CIntro::~CIntro()
 
     if (pSmack != nullptr) { smk_close(pSmack);
 }
-    pSmack = NULL;
+    pSmack = nullptr;
 
     gMouseStartup = FALSE;
     pCursor->SetImage(gCursorBm.pBitmap);
@@ -165,7 +165,7 @@ void CIntro::OnPaint()
             State = smk_next(pSmack);
 
             double usf;
-            smk_info_all(pSmack, NULL, NULL, &usf);
+            smk_info_all(pSmack, nullptr, nullptr, &usf);
             FrameNext = timeGetTime() + (usf / 1000.0);
         }
 
@@ -179,7 +179,7 @@ void CIntro::OnPaint()
 
                 FadeCount = timeGetTime();
 
-                smk_close(pSmack); pSmack = 0;
+                smk_close(pSmack); pSmack = nullptr;
             }
             else {
                 Sim.Gamestate = GAMESTATE_BOOT;
@@ -215,7 +215,7 @@ void CIntro::OnLButtonDown(UINT /*nFlags*/, CPoint /*point*/)
 
         FadeCount = timeGetTime();
 
-        smk_close(pSmack); pSmack = 0;
+        smk_close(pSmack); pSmack = nullptr;
     }
     else
     {
@@ -236,7 +236,7 @@ void CIntro::OnRButtonDown(UINT /*nFlags*/, CPoint /*point*/)
 
         FadeCount = timeGetTime();
 
-        smk_close(pSmack); pSmack = 0;
+        smk_close(pSmack); pSmack = nullptr;
     }
     else
     {
@@ -273,7 +273,7 @@ void CIntro::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
             FadeCount = timeGetTime();
 
-            smk_close(pSmack); pSmack = 0;
+            smk_close(pSmack); pSmack = nullptr;
         }
         else
         {

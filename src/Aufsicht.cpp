@@ -184,17 +184,17 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
     SP_Boss.ReSize (17);
 
     //Raumanimationen
-    MonitorAnim.ReSize (pRoomLib, "MONI01",  3, NULL, FALSE, ANIMATION_MODE_RANDOM, 0, 3, 350);
+    MonitorAnim.ReSize (pRoomLib, "MONI01",  3, nullptr, FALSE, ANIMATION_MODE_RANDOM, 0, 3, 350);
 
     //Mitte:
     SP_Boss.Clips[0].ReSize (0, "bb_wait.smk", "", XY (344, 105), SPM_IDLE,  CRepeat(1,1), CPostWait(5,5), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &ExitFromMiddle,
+            nullptr, SMACKER_CLIP_SET, 0, &ExitFromMiddle,
             "A9E1E1", 0, 1, 11);
     SP_Boss.Clips[1].ReSize (1, "bb_base.smk", "", XY (344, 105), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &ExitFromMiddle,
+            nullptr, SMACKER_CLIP_SET, 0, &ExitFromMiddle,
             "A9A1E1E1", 1,  3, 0, 11);
     SP_Boss.Clips[3].ReSize (3, "bb_hand.smk", "", XY (344, 105), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 1);
 
     //Für Sabotage:
@@ -204,51 +204,51 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
 
     //Left:
     SP_Boss.Clips[4].ReSize (4, "bb_left.smk", "", XY (344, 105), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            &ExitFromMiddle, SMACKER_CLIP_SET|SMACKER_CLIP_POST, -1, NULL,
+            &ExitFromMiddle, SMACKER_CLIP_SET|SMACKER_CLIP_POST, -1, nullptr,
             "A1", 5);
     SP_Boss.Clips[5].ReSize (5, "bb_leftr.smk", "", XY (344, 105), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &ExitFromLeft,
+            nullptr, SMACKER_CLIP_SET, 0, &ExitFromLeft,
             "A1E1", 5, 6);
     SP_Boss.Clips[6].ReSize (6, "bb_leftz.smk", "", XY (344, 105), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
 
     //Right:
     SP_Boss.Clips[7].ReSize (7, "bb_righ.smk", "", XY (344, 105), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            &ExitFromMiddle, SMACKER_CLIP_SET|SMACKER_CLIP_POST, -1, NULL,
+            &ExitFromMiddle, SMACKER_CLIP_SET|SMACKER_CLIP_POST, -1, nullptr,
             "A1", 8);
     SP_Boss.Clips[8].ReSize (8, "bb_righr.smk", "", XY (344, 105), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &ExitFromRight,
+            nullptr, SMACKER_CLIP_SET, 0, &ExitFromRight,
             "A1E1", 8, 9);
     SP_Boss.Clips[9].ReSize (9, "bb_righz.smk", "", XY (344, 105), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 1);
 
     //Left-Right:
     SP_Boss.Clips[10].ReSize (10, "bb_turnr.smk", "", XY (344, 105), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 8);
 
     //Left-Right-Left (ermahnung wegen Sabotage):
     SP_Boss.Clips[12].ReSize (12, "bb_left.smk", "", XY (344, 105),  SPM_IDLE,    CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            &ExitFromMiddle, SMACKER_CLIP_SET|SMACKER_CLIP_POST, -1, NULL,
+            &ExitFromMiddle, SMACKER_CLIP_SET|SMACKER_CLIP_POST, -1, nullptr,
             "A1", 13);
     SP_Boss.Clips[13].ReSize (13, "bb_turnr.smk", "", XY (344, 105), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 14);
     SP_Boss.Clips[14].ReSize (14, "bb_turnl.smk", "", XY (344, 105), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 15);
     SP_Boss.Clips[15].ReSize (15, "bb_turnr.smk", "", XY (344, 105), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 16);
     SP_Boss.Clips[16].ReSize (16, "bb_righz.smk", "", XY (344, 105), SPM_IDLE,    CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
 
     //Listening
     SP_Boss.Clips[11].ReSize (0, "bb_wait.smk", "", XY (344, 105), SPM_LISTENING,  CRepeat(1,1), CPostWait(5,5), SMACKER_CLIP_CANCANCEL,
-            NULL, 0, -1, NULL,
+            nullptr, 0, -1, nullptr,
             "A9E1E1", 11, 1, 0);
 
     if (Sim.GetHour()==9 && Sim.GetMinute()==0)
@@ -266,41 +266,41 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
         {
             SP_Player[0].ReSize(9);
             SP_Player[0].Clips[0].ReSize (0, "pb_wait.smk", "", XY (70, 135), SPM_IDLE,  CRepeat(1,1), CPostWait(5,5), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A6A1A1E1", 0, 1, 4, 1);
             SP_Player[0].Clips[8].ReSize (8, "pb_guckw.smk", "", XY (70, 135), SPM_HOLY,  CRepeat(1,1), CPostWait(9999,9999), SMACKER_CLIP_CANCANCEL,
-                    &(HaloKomm[0]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, NULL,
+                    &(HaloKomm[0]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, nullptr,
                     "A1E1", 8, 3);
 
             SP_Player[0].Clips[1].ReSize (1, "pb_guck.smk", "", XY (70, 135), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 2);
             SP_Player[0].Clips[2].ReSize (2, "pb_guckw.smk", "", XY (70, 135), SPM_IDLE,  CRepeat(1,1), CPostWait(30,60), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A7A1E1", 3, 7, 8);
             SP_Player[0].Clips[3].ReSize (3, "pb_guckz.smk", "", XY (70, 135), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
 
             SP_Player[0].Clips[4].ReSize (4, "pb_fing.smk", "", XY (70, 135), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 5);
             SP_Player[0].Clips[5].ReSize (5, "pb_fingw.smk", "", XY (70, 135), SPM_IDLE,  CRepeat(1,1), CPostWait(20,80), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 6);
             SP_Player[0].Clips[6].ReSize (6, "pb_fingz.smk", "", XY (70, 135), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
             SP_Player[0].Clips[7].ReSize (7, "pb_guckk.smk", "", XY (70, 135), SPM_IDLE,  CRepeat(1,1), CPostWait(1,1), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0, 2);
 
             SP_Halo[0].ReSize(2);
             SP_Halo[0].Clips[0].ReSize (0, "bombew.smk", "", XY (94,119), SPM_IDLE,  CRepeat(1,1), CPostWait(50,50), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, &(HaloKomm[0]),
+                    nullptr, SMACKER_CLIP_SET, 0, &(HaloKomm[0]),
                     "A1", 0);
             SP_Halo[0].Clips[1].ReSize (1, "p1halo.smk", "", XY (94,119), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-                    &(HaloKomm[0]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+                    &(HaloKomm[0]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
                     "A1", 0);
         }
 
@@ -308,34 +308,34 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
         {
             SP_Player[1].ReSize(7);
             SP_Player[1].Clips[0].ReSize (0, "pv_wait.smk", "", XY (165, 110), SPM_IDLE,  CRepeat(1,1), CPostWait(15,45), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A8A1A2A2E1", 0, 5, 1, 2, 6);
             SP_Player[1].Clips[6].ReSize (6, "pv_wait.smk", "", XY (165, 110), SPM_HOLY,  CRepeat(1,1), CPostWait(9999,9999), SMACKER_CLIP_CANCANCEL,
-                    &(HaloKomm[1]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, NULL,
+                    &(HaloKomm[1]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, nullptr,
                     "A1E1", 6, 0);
 
             SP_Player[1].Clips[1].ReSize (1, "pv_hand.smk", "", XY (165, 110), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
             SP_Player[1].Clips[2].ReSize (2, "pv_handb.smk", "", XY (165, 110), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 3);
             SP_Player[1].Clips[3].ReSize (3, "pv_handw.smk", "", XY (165, 110), SPM_IDLE,  CRepeat(1,1), CPostWait(40,90), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 4);
             SP_Player[1].Clips[4].ReSize (4, "pv_handz.smk", "", XY (165, 110), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
             SP_Player[1].Clips[5].ReSize (5, "pv_waitk.smk", "", XY (165, 110), SPM_IDLE,  CRepeat(1,1), CPostWait(1,1), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
 
             SP_Halo[1].ReSize(2);
             SP_Halo[1].Clips[0].ReSize (0, "bombew.smk", "", XY (165,93), SPM_IDLE,  CRepeat(1,1), CPostWait(50,50), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, &(HaloKomm[1]),
+                    nullptr, SMACKER_CLIP_SET, 0, &(HaloKomm[1]),
                     "A1", 0);
             SP_Halo[1].Clips[1].ReSize (1, "p2halo.smk", "", XY (165,93), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-                    &(HaloKomm[1]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+                    &(HaloKomm[1]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
                     "A1", 0);
         }
 
@@ -343,31 +343,31 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
         {
             SP_Player[2].ReSize(6);
             SP_Player[2].Clips[0].ReSize (0, "pr_wait.smk", "", XY (422, 142), SPM_IDLE,  CRepeat(1,1), CPostWait(5,5), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A2A1A1E1", 0, 1, 4, 5);
             SP_Player[2].Clips[5].ReSize (5, "pr_wait.smk", "", XY (422, 142), SPM_HOLY,  CRepeat(1,1), CPostWait(9999,9999), SMACKER_CLIP_CANCANCEL,
-                    &(HaloKomm[2]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, NULL,
+                    &(HaloKomm[2]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, nullptr,
                     "A1E1", 5, 0);
 
             SP_Player[2].Clips[1].ReSize (1, "pr_auf.smk", "", XY (422, 142), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 2);
             SP_Player[2].Clips[2].ReSize (2, "pr_aufw.smk", "", XY (422, 142), SPM_IDLE,  CRepeat(1,1), CPostWait(40,120), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 3);
             SP_Player[2].Clips[3].ReSize (3, "pr_aufz.smk", "", XY (422, 142), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
             SP_Player[2].Clips[4].ReSize (4, "pr_uhr.smk", "", XY (422, 142), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
 
             SP_Halo[2].ReSize(2);
             SP_Halo[2].Clips[0].ReSize (0, "bombew.smk", "", XY (528, 130), SPM_IDLE,  CRepeat(1,1), CPostWait(50,50), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, &(HaloKomm[2]),
+                    nullptr, SMACKER_CLIP_SET, 0, &(HaloKomm[2]),
                     "A1", 0);
             SP_Halo[2].Clips[1].ReSize (1, "p3halo.smk", "", XY (528, 130), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-                    &(HaloKomm[2]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+                    &(HaloKomm[2]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
                     "A1", 0);
         }
 
@@ -375,31 +375,31 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
         {
             SP_Player[3].ReSize(6);
             SP_Player[3].Clips[0].ReSize (0, "pj_wait.smk", "", XY (446, 186), SPM_IDLE,  CRepeat(2,2), CPostWait(15,20), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A9A1A1A1A1E1", 0, 4, 1, 2, 3, 5);
             SP_Player[3].Clips[5].ReSize (5, "pj_wait.smk", "", XY (446, 186), SPM_HOLY,  CRepeat(2,2), CPostWait(9999,9999), SMACKER_CLIP_CANCANCEL,
-                    &(HaloKomm[3]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, NULL,
+                    &(HaloKomm[3]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 1, nullptr,
                     "A1E1", 5, 0);
 
             SP_Player[3].Clips[1].ReSize (1, "pj_arm.smk", "", XY (446, 186), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
             SP_Player[3].Clips[2].ReSize (0, "pj_fing.smk", "", XY (446, 186), SPM_IDLE,  CRepeat(1,1), CPostWait(5,5), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
             SP_Player[3].Clips[3].ReSize (1, "pj_schu.smk", "", XY (446, 186), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
             SP_Player[3].Clips[4].ReSize (1, "pj_k.smk", "", XY (446, 186), SPM_IDLE,  CRepeat(1,1), CPostWait(1,1), SMACKER_CLIP_DONTCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A1", 0);
 
             SP_Halo[3].ReSize(2);
             SP_Halo[3].Clips[0].ReSize (0, "bombew.smk", "", XY (583, 164), SPM_IDLE,  CRepeat(1,1), CPostWait(50,50), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, &(HaloKomm[3]),
+                    nullptr, SMACKER_CLIP_SET, 0, &(HaloKomm[3]),
                     "A1", 0);
             SP_Halo[3].Clips[1].ReSize (1, "p4halo.smk", "", XY (583, 164), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-                    &(HaloKomm[3]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+                    &(HaloKomm[3]), SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
                     "A1", 0);
         }
     }
@@ -870,7 +870,7 @@ do_the_painting_again:
         RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
 
         //DrawTransparency:
-        ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(422,0), NULL, 2);
+        ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(422,0), nullptr, 2);
         RoomBm.BlitFromT (OpaqueBm, 422,0);
 
         SP_Boss.Pump ();
@@ -1108,7 +1108,7 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 // Raum verlassen:
 //--------------------------------------------------------------------------------------------
-void CAufsicht::TryLeaveAufsicht (void)
+void CAufsicht::TryLeaveAufsicht ()
 {
     if ((Sim.bNetwork != 0) && bIsMorning)
     {

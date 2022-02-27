@@ -76,11 +76,11 @@ CString RemoveSpeechFilename (CString String)
         char *pstart = (char*)(LPCTSTR)String;
 
         char *p = strstr (pstart, "[[");
-        if (p==0) { break;
+        if (p==nullptr) { break;
 }
 
         char *pp = strstr (p, "]]");
-        if (pp==0) { break;
+        if (pp==nullptr) { break;
 }
 
         String = String.Left (p-pstart)+String.Mid (pp-pstart+2);
@@ -94,7 +94,7 @@ CString RemoveSpeechFilename (CString String)
         char *pstart = (char*)(LPCTSTR)String;
 
         char *p = strstr (pstart, "  ");
-        if (p==0) { break;
+        if (p==nullptr) { break;
 }
 
         String = String.Left (p-pstart)+String.Mid (p-pstart+1);
@@ -116,17 +116,17 @@ CString GetSpeechFilename (const CString& String, SLONG Index, CString *pTextFol
     while (Index != 0)
     {
         pstart = strstr (pstart+1, "[[");
-        if (pstart==0) { return ("");
+        if (pstart==nullptr) { return ("");
 }
         Index--;
     }
 
     char *p = strstr (pstart, "[[");
-    if (p==0) { return ("");
+    if (p==nullptr) { return ("");
 }
 
     char *pp = strstr (p, "]]");
-    if (pp==0) { return ("");
+    if (pp==nullptr) { return ("");
 }
 
     if (pTextFollows != nullptr) { (*pTextFollows)=String.Mid(pp-(char*)(LPCTSTR)String+2);
@@ -149,7 +149,7 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
     SLONG         n;
     BOOL          UndoWait=FALSE;
 
-    if (gpSSE==NULL || !gpSSE->IsSoundEnabled()) { return (0);
+    if (gpSSE==nullptr || !gpSSE->IsSoundEnabled()) { return (0);
 }
 
     for (n=0; n<50; n++) {
@@ -350,7 +350,7 @@ void CVoiceScheduler::AddVoice (const CString &str)
 //--------------------------------------------------------------------------------------------
 //Löscht alle Voices:
 //--------------------------------------------------------------------------------------------
-void CVoiceScheduler::Clear (void)
+void CVoiceScheduler::Clear ()
 {
     if (AnzEntries() != 0)
     {
@@ -363,7 +363,7 @@ void CVoiceScheduler::Clear (void)
 //--------------------------------------------------------------------------------------------
 //Gibt die Anzahl der Voices im Buffer zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CVoiceScheduler::AnzEntries(void)
+SLONG CVoiceScheduler::AnzEntries()
 {
     return (Voices.AnzEntries());
 }
@@ -371,9 +371,9 @@ SLONG CVoiceScheduler::AnzEntries(void)
 //--------------------------------------------------------------------------------------------
 //Gibt TRUE zurück, wenn gerade eine Voice gespielt wird:
 //--------------------------------------------------------------------------------------------
-BOOL CVoiceScheduler::IsVoicePlaying (void)
+BOOL CVoiceScheduler::IsVoicePlaying ()
 {
-    if (gpSSE==NULL || !gpSSE->IsSoundEnabled()) { return (0);
+    if (gpSSE==nullptr || !gpSSE->IsSoundEnabled()) { return (0);
 }
 
     if (AnzEntries()>0 && (CurrentVoice.pFX != nullptr))
@@ -388,7 +388,7 @@ BOOL CVoiceScheduler::IsVoicePlaying (void)
 //--------------------------------------------------------------------------------------------
 //Überwacht die Voices:
 //--------------------------------------------------------------------------------------------
-void CVoiceScheduler::Pump (void)
+void CVoiceScheduler::Pump ()
 {
     if (AnzEntries()>0 && (IsVoicePlaying() == 0))
     {
@@ -413,7 +413,7 @@ void CVoiceScheduler::Pump (void)
 //--------------------------------------------------------------------------------------------
 //Spielt die Fanfare ab:
 //--------------------------------------------------------------------------------------------
-void PlayFanfare (void)
+void PlayFanfare ()
 {
     PlayUniversalFx ("taeterae.raw", Sim.Options.OptionEffekte);
 }
@@ -495,7 +495,7 @@ void SetWaveVolume(long volume)
 //--------------------------------------------------------------------------------------------
 //Spielt das nächste Midi:
 //--------------------------------------------------------------------------------------------
-void NextMidi (void)
+void NextMidi ()
 {
     static BOOL WasHere=0;
 
@@ -535,7 +535,7 @@ void NextMidi (void)
 //--------------------------------------------------------------------------------------------
 //Gibt zurück, ob der Rechner Midi-fähig ist:
 //--------------------------------------------------------------------------------------------
-BOOL IsMidiAvailable (void)
+BOOL IsMidiAvailable ()
 {
 #if 0
     BUFFER<char> str(500);
@@ -602,13 +602,13 @@ LastMidiFilename = Filename;
 //--------------------------------------------------------------------------------------------
 //Bricht das Spielen des aktuellen Midi-Files ab:
 //--------------------------------------------------------------------------------------------
-void StopMidi (void)
+void StopMidi ()
 {
     //CDebugEntryExit ("StopMidi");
 
     if (IsMidiAvailable() != 0)
     {
-        SSE::SetMusicCallback(NULL);
+        SSE::SetMusicCallback(nullptr);
         if (gpMidi != nullptr) { gpMidi->Stop();
 }
     }
@@ -617,7 +617,7 @@ void StopMidi (void)
 //--------------------------------------------------------------------------------------------
 //Hält das Abspielen eines Midi-Files an; kann (muß aber nicht) fortgesetzt werden:
 //--------------------------------------------------------------------------------------------
-void PauseMidi (void)
+void PauseMidi ()
 {
     //CDebugEntryExit ("PauseMidi");
 
@@ -631,7 +631,7 @@ void PauseMidi (void)
 //--------------------------------------------------------------------------------------------
 //Setzt das abspielen eines angehaltenen Midifiles fort:
 //--------------------------------------------------------------------------------------------
-void ResumeMidi (void)
+void ResumeMidi ()
 {
     //CDebugEntryExit ("ResumeMidi");
 
@@ -647,7 +647,7 @@ void ResumeMidi (void)
 //--------------------------------------------------------------------------------------------
 SBFX::SBFX ()
 {
-    pFX=NULL;
+    pFX=nullptr;
 }
 
 SBFX::~SBFX ()
@@ -655,16 +655,16 @@ SBFX::~SBFX ()
     if (pFX != nullptr)
     {
         pFX->Release();
-        pFX=NULL;
+        pFX=nullptr;
     }
 }
 
-void SBFX::Destroy (void)
+void SBFX::Destroy ()
 {
     if (pFX != nullptr)
     {
         pFX->Release();
-        pFX=NULL;
+        pFX=nullptr;
     }
 }
 
@@ -730,7 +730,7 @@ void SBFX::ReInit (const CString &Filename, char *Path)
 
     Destroy();
 
-    if (Path==NULL) { localPath=SoundPath;
+    if (Path==nullptr) { localPath=SoundPath;
     } else { localPath=Path;
 }
 
@@ -765,7 +765,7 @@ void SBFX::Play(dword dwFlags, long PercentVolume) const
 }
 }
 
-void SBFX::Stop(void) const
+void SBFX::Stop() const
 {
     if (pFX != nullptr) { pFX->Stop();
 }
@@ -848,7 +848,7 @@ void CAmbienteManager::SetVolume (SLONG FxId, SLONG Volume) const
 //--------------------------------------------------------------------------------------------
 //Die Lautstärke neu berechnen:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::RecalcVolumes (void)
+void CAmbienteManager::RecalcVolumes ()
 {
     for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
         if (c==AMBIENT_JET_OUTSIDE || c==AMBIENT_JET_FIELD) {
@@ -862,7 +862,7 @@ void CAmbienteManager::RecalcVolumes (void)
 //--------------------------------------------------------------------------------------------
 //Schaltet in den Pause-Modus:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::Pause (void) const
+void CAmbienteManager::Pause () const
 {
     for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
         if (AmbientFx[c].Soundeffekt.pFX != nullptr) {
@@ -875,7 +875,7 @@ void CAmbienteManager::Pause (void) const
 //--------------------------------------------------------------------------------------------
 //Setzt das Ambiente fort:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::Resume (void)
+void CAmbienteManager::Resume ()
 {
     for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
         if (AmbientFx[c].Soundeffekt.pFX != nullptr) {

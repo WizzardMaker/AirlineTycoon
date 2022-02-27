@@ -128,7 +128,7 @@ Options::~Options()
 //--------------------------------------------------------------------------------------------
 //Welche Savegame Names haben wir auf der Pladde?
 //--------------------------------------------------------------------------------------------
-void Options::UpdateSavegameNames(void)
+void Options::UpdateSavegameNames()
 {
     SLONG   c;
     CString Filename;
@@ -171,7 +171,7 @@ void Options::UpdateSavegameNames(void)
 //--------------------------------------------------------------------------------------------
 //Aktualisiert die Text-Daten im Klacker-Feld:
 //--------------------------------------------------------------------------------------------
-void Options::RefreshKlackerField(void)
+void Options::RefreshKlackerField()
 {
     SLONG c;
 

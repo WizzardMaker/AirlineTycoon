@@ -53,33 +53,33 @@ CMakler::CMakler(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
 
     SP_Makler.ReSize (9);
     SP_Makler.Clips[0].ReSize (0, "m_wait.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(15,15), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9A2A2E1", 0, 1, 2, 3);
     SP_Makler.Clips[1].ReSize (1, "m_dreh.smk", "m_dreh.raw", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            &KommVarLicht, SMACKER_CLIP_XOR|SMACKER_CLIP_FRAME+6*SMACKER_CLIP_MULT, 1, NULL,
+            &KommVarLicht, SMACKER_CLIP_XOR|SMACKER_CLIP_FRAME+6*SMACKER_CLIP_MULT, 1, nullptr,
             "A9E1", 0, 3);
     SP_Makler.Clips[2].ReSize (2, "m_druc.smk", "m_druc.raw", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_DONTCANCEL,
-            &KommVarWasser, SMACKER_CLIP_XOR|SMACKER_CLIP_FRAME+4*SMACKER_CLIP_MULT, 1, NULL,
+            &KommVarWasser, SMACKER_CLIP_XOR|SMACKER_CLIP_FRAME+4*SMACKER_CLIP_MULT, 1, nullptr,
             "A9E1", 0, 3);
 
     //Zum Spieler drehen und sprechen:
     SP_Makler.Clips[3].ReSize (3, "m_turn.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1E1", 4, 5);
     SP_Makler.Clips[4].ReSize (4, "m_rede.smk", "", XY (470, 218), SPM_TALKING,   CRepeat(2,2), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A5E1E1", 4, 7, 5, 6);
     SP_Makler.Clips[7].ReSize (7, "m_redeb.smk", "", XY (470, 218), SPM_TALKING,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9E1E1", 4, 5, 6);
     SP_Makler.Clips[5].ReSize (5, "m_list.smk", "", XY (470, 218), SPM_LISTENING, CRepeat(1,1), CPostWait(10,20), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A9E1E1", 5, 8, 4, 6);
     SP_Makler.Clips[8].ReSize (8, "m_listk.smk", "", XY (470, 218), SPM_LISTENING, CRepeat(1,1), CPostWait(1,1),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 5);
     SP_Makler.Clips[6].ReSize (6, "m_back.smk", "", XY (470, 218), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 0);
 
     //Raumanimationen
@@ -88,10 +88,10 @@ CMakler::CMakler(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
 
         NeonFx.ReInit ("neon.raw");
 
-        BubbleAnim.ReSize  (pRoomLib, "BUL00",    7, NULL,    FALSE, ANIMATION_MODE_REPEAT, 0,  2);
-        FishAnim.ReSize    (pRoomLib, "FISH00",  35, NULL,    FALSE, ANIMATION_MODE_REPEAT, 400, 2, 300, 1);
+        BubbleAnim.ReSize  (pRoomLib, "BUL00",    7, nullptr,    FALSE, ANIMATION_MODE_REPEAT, 0,  2);
+        FishAnim.ReSize    (pRoomLib, "FISH00",  35, nullptr,    FALSE, ANIMATION_MODE_REPEAT, 400, 2, 300, 1);
         Lights1Anim.ReSize (pRoomLib, "LICHTL00", 5, &NeonFx, FALSE, ANIMATION_MODE_REPEAT, 0,  5);
-        Lights2Anim.ReSize (pRoomLib, "LICHTR00", 5, NULL,    FALSE, ANIMATION_MODE_REPEAT, 0,  5);
+        Lights2Anim.ReSize (pRoomLib, "LICHTR00", 5, nullptr,    FALSE, ANIMATION_MODE_REPEAT, 0,  5);
 
         if (rand()%2==0 || (CheatAnimNow != 0)) {
             if ((qPlayer.HasItem (ITEM_BH) == 0) && (qPlayer.HasItem (ITEM_HUFEISEN) == 0) && qPlayer.TrinkerTrust==FALSE && Sim.Difficulty!=DIFF_TUTORIAL) {
@@ -177,10 +177,10 @@ void CMakler::OnPaint()
     RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
 
     RoomBm.BlitFromT (DoorOpaqueBm, 0, 149);
-    ColorFX.BlitTrans (DoorTransBms[0].pBitmap, RoomBm.pBitmap, XY(325,200), NULL, 2);
-    ColorFX.BlitTrans (DoorTransBms[1].pBitmap, RoomBm.pBitmap, XY(225,184), NULL, 2);
-    ColorFX.BlitTrans (DoorTransBms[2].pBitmap, RoomBm.pBitmap, XY(102,172), NULL, 2);
-    ColorFX.BlitTrans (DoorTransBms[3].pBitmap, RoomBm.pBitmap, XY(0,157), NULL, 2);
+    ColorFX.BlitTrans (DoorTransBms[0].pBitmap, RoomBm.pBitmap, XY(325,200), nullptr, 2);
+    ColorFX.BlitTrans (DoorTransBms[1].pBitmap, RoomBm.pBitmap, XY(225,184), nullptr, 2);
+    ColorFX.BlitTrans (DoorTransBms[2].pBitmap, RoomBm.pBitmap, XY(102,172), nullptr, 2);
+    ColorFX.BlitTrans (DoorTransBms[3].pBitmap, RoomBm.pBitmap, XY(0,157), nullptr, 2);
     //ColorFX.BlitOutline (DoorTransBms[3].pBitmap, RoomBm.pBitmap, XY(0,157), 0xffffff);
 
     //Die Raum-Animationen:
@@ -262,7 +262,7 @@ void CMakler::OnPaint()
             if (NewTip != CurrentTip)
             {
                 MenuRepaint ();
-                DrawPlaneTipContents (OnscreenBitmap, &PlaneTypes[MenuDataTable.LineIndex[NewTip]], NULL,
+                DrawPlaneTipContents (OnscreenBitmap, &PlaneTypes[MenuDataTable.LineIndex[NewTip]], nullptr,
                         XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack);
                 CurrentTip = NewTip;
             }

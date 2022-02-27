@@ -43,25 +43,25 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
 
     SP_Mann.ReSize (14);
     SP_Mann.Clips[0].ReSize (0, "mu_putza.smk", "mu_putza.raw", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A9E1", 0, 1, 2);
     SP_Mann.Clips[1].ReSize (1, "mu_putzb.smk", "mu_putzb.raw", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9A9E1", 0, 1, 2);
     SP_Mann.Clips[2].ReSize (2, "mu_turn.smk", "", XY (420, 250), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &TriggerEmergency, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+            &TriggerEmergency, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
             "A1E1E1E1", 5, 3, 5, 6);
     SP_Mann.Clips[3].ReSize (3, "mu_redea.smk", "", XY (420, 250), SPM_TALKING,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A8A8E1E1", 3, 4, 5, 6);
     SP_Mann.Clips[4].ReSize (4, "mu_redeb.smk", "", XY (420, 250), SPM_TALKING,     CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A8A8E1E1", 3, 4, 5, 6);
     SP_Mann.Clips[5].ReSize (5, "mu_redew.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(5,5),   SMACKER_CLIP_CANCANCEL,
-            &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, -1, NULL,
+            &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, -1, nullptr,
             "A9A1E1E1E1", 5, 9, 3, 5, 6);
     SP_Mann.Clips[6].ReSize (6, "mu_turnz.smk", "", XY (420, 250), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &TriggerEmergency, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 0, NULL,
+            &TriggerEmergency, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, 0, nullptr,
             "A9", 0);
 
     SP_Mann.Clips[9].ReSize (9, "mu_redew.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(370,370),   SMACKER_CLIP_CANCANCEL,
@@ -69,21 +69,21 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
             "A1E1E1E1", 5, 3, 5, 6);
 
     SP_Mann.Clips[7].ReSize (7, "mu_guck.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, NULL,
+            &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, nullptr,
             "A1", 8);
     SP_Mann.Clips[8].ReSize (8, "mu_guckz.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &TriggerSkelett, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 3, NULL,
+            &TriggerSkelett, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 3, nullptr,
             "A1", 5);
     SP_Mann.Clips[10].ReSize (10, "", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, -1, NULL,
+            &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, -1, nullptr,
             "A1", 11);
 
     //Er erwischt ihn:
     SP_Mann.Clips[11].ReSize (11, "mu_guck.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_DONTCANCEL,
-            &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, NULL,
+            &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, nullptr,
             "A1", 12);
     SP_Mann.Clips[12].ReSize (12, "mu_guckz.smk", "", XY (420, 250), SPM_LISTENING,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 13);
     SP_Mann.Clips[13].ReSize (11, "mu_hit.smk", "", XY (420, 250), SPM_LISTENING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
             &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_FRAME+3*SMACKER_CLIP_MULT, 4, &TriggerMann,
@@ -91,10 +91,10 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
 
     SP_Skelett.ReSize (8);
     SP_Skelett.Clips[0].ReSize (0, "flyingmw.smk", "", XY (420, 180), SPM_IDLE,       CRepeat(1,1), CPostWait(60,60), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &TriggerSkelett,
+            nullptr, SMACKER_CLIP_SET, 0, &TriggerSkelett,
             "A9", 0);
     SP_Skelett.Clips[1].ReSize (1, "", "", XY (420, 180), SPM_IDLE,                   CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
-            &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, NULL,
+            &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, nullptr,
             "A9A9", 2, 6);
 
     //Er wird nicht erwischt:
@@ -107,7 +107,7 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
             &TriggerMann, SMACKER_CLIP_SET | SMACKER_CLIP_POST, 10, &TriggerEmergency,
             "A9", 7);
     SP_Skelett.Clips[7].ReSize (7, "flyingm.smk", "flyingm.raw", XY (420, 180), SPM_IDLE,        CRepeat(2,2), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &TriggerEmergency,
+            nullptr, SMACKER_CLIP_SET, 0, &TriggerEmergency,
             "A9", 0);
 
     SP_Skelett.Clips[3].ReSize (3, "flygrinz.smk", "flygrinz.raw", XY (420, 180), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
@@ -115,14 +115,14 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
             "A9", 0);
 
     SP_Skelett.Clips[4].ReSize (4, "", "", XY (420, 180), SPM_IDLE,                   CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
-            &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, NULL,
+            &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, nullptr,
             "A9", 5);
     SP_Skelett.Clips[5].ReSize (5, "fly_auah.smk", "", XY (420, 180), SPM_IDLE,        CRepeat(1,1), CPostWait(0,0),    SMACKER_CLIP_DONTCANCEL,
             &TriggerSkelett, SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, &TriggerEmergency,
             "A9", 0);
 
     //Raumanimationen
-    RotorAnim.ReSize   (pRoomLib, "ROTOR01",  2, NULL, FALSE, ANIMATION_MODE_REPEAT, 0,  1);
+    RotorAnim.ReSize   (pRoomLib, "ROTOR01",  2, nullptr, FALSE, ANIMATION_MODE_REPEAT, 0,  1);
 
     //Hintergrundsounds:
     if (Sim.Options.OptionEffekte != 0)
@@ -143,7 +143,7 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
 //--------------------------------------------------------------------------------------------
 //Reload misc. Bitmaps:
 //--------------------------------------------------------------------------------------------
-void CMuseum::ReloadBitmaps(void)
+void CMuseum::ReloadBitmaps()
 {
     Talkers.Talkers[TALKER_MUSEUM].DecreaseReference ();
 }
@@ -151,7 +151,7 @@ void CMuseum::ReloadBitmaps(void)
 //--------------------------------------------------------------------------------------------
 //Kauft dem Museum das gebrauchte Flugzeug ab:
 //--------------------------------------------------------------------------------------------
-void CMuseum::BuyUsedPlane(void)
+void CMuseum::BuyUsedPlane()
 {
     /*if (Sim.Players.Players[PlayerNum].Planes.GetNumFree()==0) Sim.Players.Players[PlayerNum].Planes.Planes.ReSize (Sim.Players.Players[PlayerNum].Planes.AnzEntries()+10);
       Sim.Players.Players[PlayerNum].Planes += Sim.UsedPlanes[0x1000000+CurrentDetail];
@@ -168,7 +168,7 @@ void CMuseum::BuyUsedPlane(void)
 //--------------------------------------------------------------------------------------------
 //Verkauft dem Museum das gebrauchte Flugzeug:
 //--------------------------------------------------------------------------------------------
-void CMuseum::SellUsedPlane(void)
+void CMuseum::SellUsedPlane()
 {
     //Sim.Players.Players[PlayerNum].Money  += Sim.Players.Players[PlayerNum].Planes[CurrentDetail].CalculatePrice();
     /*Sim.Players.Players[PlayerNum].ChangeMoney (
@@ -267,7 +267,7 @@ void CMuseum::OnPaint()
 }
                 }
 
-                DrawPlaneTip (TipBm, &BlockBm, NULL, &Sim.UsedPlanes[0x1000000+NewTip]);
+                DrawPlaneTip (TipBm, &BlockBm, nullptr, &Sim.UsedPlanes[0x1000000+NewTip]);
                 //DrawPlaneTip (TipBm, &BlockBm, &PlaneTypes[Sim.UsedPlanes[0x1000000+NewTip].TypeId], &Sim.UsedPlanes[0x1000000+NewTip]);
             }
             else
@@ -296,7 +296,7 @@ void CMuseum::OnPaint()
                 {
                     MenuRepaint ();
                     //DrawPlaneTipContents (OnscreenBitmap, &PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]].TypeId], &Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]],
-                    DrawPlaneTipContents (OnscreenBitmap, NULL, &Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]],
+                    DrawPlaneTipContents (OnscreenBitmap, nullptr, &Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]],
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack);
                 }
 

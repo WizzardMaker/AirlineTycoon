@@ -36,12 +36,11 @@ int AllGamesRoomsContainer::RoomsSortByName( Room* const &key, Room* const &data
 
 QuickJoinUser::QuickJoinUser()
 {
-    networkedQuickJoinUser.query.queries=0;
+    networkedQuickJoinUser.query.queries=nullptr;
     totalTimeWaiting=0;
 }
 QuickJoinUser::~QuickJoinUser()
-{
-}
+= default;
 
 int QuickJoinUser::SortByTotalTimeWaiting( QuickJoinUser* const &key, QuickJoinUser* const &data )
 {
@@ -101,14 +100,14 @@ void NetworkedQuickJoinUser::Serialize(bool writeToBitstream, RakNet::BitStream 
 }
 // ----------------------------  RoomMember  ----------------------------
 
-RoomMember::RoomMember() {isReady=false; newMemberNotificationProcessed=false; joinTime=0; roomMemberMode=RMM_PUBLIC; roomsParticipant=0;}
-RoomMember::~RoomMember() {}
+RoomMember::RoomMember() {isReady=false; newMemberNotificationProcessed=false; joinTime=0; roomMemberMode=RMM_PUBLIC; roomsParticipant=nullptr;}
+RoomMember::~RoomMember() = default;
 
 // ----------------------------  Slots  ----------------------------
 
 Slots::Slots() {publicSlots=reservedSlots=spectatorSlots=0;}
-Slots::~Slots() {}
-RoomsErrorCode Slots::Validate(void) const
+Slots::~Slots() = default;
+RoomsErrorCode Slots::Validate() const
 {
     if (publicSlots+reservedSlots < 1) {
         return REC_SLOTS_VALIDATION_NO_PLAYABLE_SLOTS;
@@ -173,15 +172,13 @@ RemoveUserResult::RemoveUserResult()
 {
     removedFromQuickJoin=false;
     removedFromRoom=false;
-    room=0;
+    room=nullptr;
     gotNewModerator=false;
     roomDestroyed=false;
 }
 
 RemoveUserResult::~RemoveUserResult()
-{
-
-}
+= default;
 
 void RemoveUserResult::Serialize(bool writeToBitstream, RakNet::BitStream *bitStream)
 {
@@ -235,7 +232,7 @@ void JoinedRoomResult::Serialize(bool writeToBitstream, RakNet::BitStream *bitSt
 // ----------------------------  RoomDescriptor  ----------------------------
 void RoomDescriptor::FromRoom(Room *room, AllGamesRoomsContainer *agrc)
 {
-    if (room==0) {
+    if (room==nullptr) {
         return;
 }
 
@@ -310,12 +307,12 @@ void RoomDescriptor::Serialize(bool writeToBitstream, RakNet::BitStream *bitStre
 }
 // ----------------------------  RoomQuery  ----------------------------
 
-RoomsErrorCode RoomQuery::Validate(void) const
+RoomsErrorCode RoomQuery::Validate() const
 {
     if (numQueries > DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT+MAX_CUSTOM_QUERY_FIELDS) {
         return REC_ROOM_QUERY_TOO_MANY_QUERIES;
 }
-    if (numQueries>0 && queries==0) {
+    if (numQueries>0 && queries==nullptr) {
         return REC_ROOM_QUERY_INVALID_QUERIES_POINTER;
 }
     return REC_SUCCESS;
@@ -376,17 +373,15 @@ RoomCreationParameters::RoomCreationParameters()
 {
     networkedRoomCreationParameters.hiddenFromSearches=false;
     networkedRoomCreationParameters.destroyOnModeratorLeave=false;
-    firstUser=0;
+    firstUser=nullptr;
     createdRoom=false;
-    roomOutput=0;
+    roomOutput=nullptr;
     networkedRoomCreationParameters.inviteToRoomPermission=NetworkedRoomCreationParameters::INVITE_MODE_ANYONE_CAN_INVITE;
     networkedRoomCreationParameters.inviteToSpectatorSlotPermission=NetworkedRoomCreationParameters::INVITE_MODE_ANYONE_CAN_INVITE;
     networkedRoomCreationParameters.clearInvitesOnNewModerator=false;
 }
 RoomCreationParameters::~RoomCreationParameters()
-{
-
-}
+= default;
 RoomsErrorCode RoomCreationParameters::Validate(const DataStructures::List<RakNet::RakString> &otherRoomNames,
         ProfanityFilter *profanityFilter) const
 {
@@ -411,8 +406,8 @@ RoomsErrorCode RoomCreationParameters::Validate(const DataStructures::List<RakNe
 
 // ----------------------------  RoomQuery  ----------------------------
 
-RoomQuery::RoomQuery() {queries=0; numQueries=0; queriesAllocated=false; SetQueriesToStatic();}
-RoomQuery::~RoomQuery() {}
+RoomQuery::RoomQuery() {queries=nullptr; numQueries=0; queriesAllocated=false; SetQueriesToStatic();}
+RoomQuery::~RoomQuery() = default;
 void RoomQuery::AddQuery_NUMERIC(const char *columnName, double numericValue, DataStructures::Table::FilterQueryType op)
 {
     SetupNextQuery(columnName,op);
@@ -421,7 +416,7 @@ void RoomQuery::AddQuery_NUMERIC(const char *columnName, double numericValue, Da
 }
 void RoomQuery::AddQuery_STRING(const char *columnName, const char *charValue, DataStructures::Table::FilterQueryType op)
 {
-    if (charValue==0 || charValue[0]==0) {
+    if (charValue==nullptr || charValue[0]==0) {
         return;
 }
 
@@ -431,7 +426,7 @@ void RoomQuery::AddQuery_STRING(const char *columnName, const char *charValue, D
 }
 void RoomQuery::AddQuery_BINARY(const char *columnName, const char *input, int inputLength, DataStructures::Table::FilterQueryType op)
 {
-    if (input==0 || input[0]==0 || inputLength==0) {
+    if (input==nullptr || input[0]==0 || inputLength==0) {
         return;
 }
     SetupNextQuery(columnName,op);
@@ -451,7 +446,7 @@ void RoomQuery::SetupNextQuery(const char *columnName,DataStructures::Table::Fil
     strcpy(fq[numQueries].columnName, columnName);
     fq[numQueries].operation=op;
 }
-void RoomQuery::SetQueriesToStatic(void)
+void RoomQuery::SetQueriesToStatic()
 {
     queries = (DataStructures::Table::FilterQuery *)fq;
     for (int i=0; i < 32; i++)
@@ -467,9 +462,7 @@ AllGamesRoomsContainer::AllGamesRoomsContainer()
     nextRoomId=0;
 }
 AllGamesRoomsContainer::~AllGamesRoomsContainer()
-{
-
-}
+= default;
 RoomsErrorCode AllGamesRoomsContainer::CreateRoom(RoomCreationParameters *roomCreationParameters,
         ProfanityFilter *profanityFilter)
 {
@@ -494,8 +487,8 @@ RoomsErrorCode AllGamesRoomsContainer::EnterRoom(RoomCreationParameters *roomCre
         RoomQuery *query,
         JoinedRoomResult *joinRoomResult)
 {
-    roomCreationParameters->roomOutput=0;
-    joinRoomResult->roomOutput=0;
+    roomCreationParameters->roomOutput=nullptr;
+    joinRoomResult->roomOutput=nullptr;
     joinRoomResult->agrc=this;
     if (roomCreationParameters->firstUser->GetRoom() != nullptr) {
         return REC_ENTER_ROOM_CURRENTLY_IN_A_ROOM;
@@ -537,7 +530,7 @@ RoomsErrorCode AllGamesRoomsContainer::JoinByFilter(const GameIdentifier& gameId
 
     if (!perGamesRoomsContainers.Has(gameIdentifier))
     {
-        joinRoomResult->roomOutput=0;
+        joinRoomResult->roomOutput=nullptr;
         return REC_JOIN_BY_FILTER_UNKNOWN_TITLE;
     }
     PerGameRoomsContainer *perGameRoomsContainer = perGamesRoomsContainers.Get(gameIdentifier);
@@ -615,7 +608,7 @@ RoomsErrorCode AllGamesRoomsContainer::SearchByFilter( const GameIdentifier& gam
 }
 void AllGamesRoomsContainer::DestroyRoomIfDead(Room *room) const
 {
-    if (room==0 || !room->IsRoomDead()) {
+    if (room==nullptr || !room->IsRoomDead()) {
         return;
 }
     unsigned int i;
@@ -660,9 +653,9 @@ RoomsErrorCode AllGamesRoomsContainer::RemoveUser(RoomsParticipant* roomsPartici
 {
     if (RemoveUserFromQuickJoin(roomsParticipant, &removeUserResult->qju)!=REC_SUCCESS)
     {
-        removeUserResult->qju=0;
+        removeUserResult->qju=nullptr;
         removeUserResult->removedFromQuickJoin=false;
-        if (roomsParticipant->GetRoom()==0) {
+        if (roomsParticipant->GetRoom()==nullptr) {
             return REC_REMOVE_USER_NOT_IN_ROOM;
 }
 
@@ -676,7 +669,7 @@ RoomsErrorCode AllGamesRoomsContainer::RemoveUser(RoomsParticipant* roomsPartici
 }
 RoomsErrorCode AllGamesRoomsContainer::SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, const RakNet::RakString& subject, const RakNet::RakString& body)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_SEND_INVITE_UNKNOWN_ROOM_ID;
 }
 
@@ -685,7 +678,7 @@ RoomsErrorCode AllGamesRoomsContainer::SendInvite(RoomsParticipant* roomsPartici
 RoomsErrorCode AllGamesRoomsContainer::AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, const RakNet::RakString& inviteSender)
 {
     *room = GetRoomByLobbyRoomID(roomId);
-    if (*room==0) {
+    if (*room==nullptr) {
         return REC_ACCEPT_INVITE_UNKNOWN_ROOM_ID;
 }
     if (roomsParticipant->GetRoom() != nullptr) {
@@ -698,7 +691,7 @@ RoomsErrorCode AllGamesRoomsContainer::AcceptInvite(RoomID roomId, Room **room, 
 }
 RoomsErrorCode AllGamesRoomsContainer::StartSpectating(RoomsParticipant* roomsParticipant)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_START_SPECTATING_UNKNOWN_ROOM_ID;
 }
 
@@ -706,7 +699,7 @@ RoomsErrorCode AllGamesRoomsContainer::StartSpectating(RoomsParticipant* roomsPa
 }
 RoomsErrorCode AllGamesRoomsContainer::StopSpectating(RoomsParticipant* roomsParticipant)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_STOP_SPECTATING_UNKNOWN_ROOM_ID;
 }
 
@@ -714,7 +707,7 @@ RoomsErrorCode AllGamesRoomsContainer::StopSpectating(RoomsParticipant* roomsPar
 }
 RoomsErrorCode AllGamesRoomsContainer::GrantModerator(RoomsParticipant* roomsParticipant, RoomsParticipant *newModerator, DataStructures::List<InvitedUser> &clearedInvites)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_GRANT_MODERATOR_UNKNOWN_ROOM_ID;
 }
 
@@ -722,7 +715,7 @@ RoomsErrorCode AllGamesRoomsContainer::GrantModerator(RoomsParticipant* roomsPar
 }
 RoomsErrorCode AllGamesRoomsContainer::ChangeSlotCounts(RoomsParticipant* roomsParticipant, const Slots& slots)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_CHANGE_SLOT_COUNTS_UNKNOWN_ROOM_ID;
 }
 
@@ -730,7 +723,7 @@ RoomsErrorCode AllGamesRoomsContainer::ChangeSlotCounts(RoomsParticipant* roomsP
 }
 RoomsErrorCode AllGamesRoomsContainer::SetCustomRoomProperties(RoomsParticipant* roomsParticipant, DataStructures::Table *table) const
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_SET_CUSTOM_ROOM_PROPERTIES_UNKNOWN_ROOM_ID;
 }
 
@@ -769,7 +762,7 @@ RoomsErrorCode AllGamesRoomsContainer::SetCustomRoomProperties(RoomsParticipant*
         }
         oldTableIndex=oldTable->ColumnIndex(table->ColumnName(newTableIndex));
         row = roomsParticipant->GetRoom()->tableRow;
-        *(row->cells[oldTableIndex])=*(table->GetRowByIndex(0,0)->cells[newTableIndex]);
+        *(row->cells[oldTableIndex])=*(table->GetRowByIndex(0,nullptr)->cells[newTableIndex]);
     }
     return REC_SUCCESS;
 }
@@ -795,7 +788,7 @@ void AllGamesRoomsContainer::GetRoomProperties(RoomID roomId, Room **room, DataS
 }
 RoomsErrorCode AllGamesRoomsContainer::ChangeRoomName(RoomsParticipant* roomsParticipant, const RakNet::RakString& newRoomName, ProfanityFilter *profanityFilter) const
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_CHANGE_ROOM_NAME_UNKNOWN_ROOM_ID;
 }
 
@@ -813,7 +806,7 @@ RoomsErrorCode AllGamesRoomsContainer::ChangeRoomName(RoomsParticipant* roomsPar
 }
 RoomsErrorCode AllGamesRoomsContainer::SetHiddenFromSearches(RoomsParticipant* roomsParticipant, bool _hiddenFromSearches)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_SET_HIDDEN_FROM_SEARCHES_UNKNOWN_ROOM_ID;
 }
 
@@ -821,7 +814,7 @@ RoomsErrorCode AllGamesRoomsContainer::SetHiddenFromSearches(RoomsParticipant* r
 }
 RoomsErrorCode AllGamesRoomsContainer::SetDestroyOnModeratorLeave(RoomsParticipant* roomsParticipant, bool destroyOnModeratorLeave)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_SET_DESTROY_ON_MODERATOR_LEAVE_UNKNOWN_ROOM_ID;
 }
 
@@ -829,7 +822,7 @@ RoomsErrorCode AllGamesRoomsContainer::SetDestroyOnModeratorLeave(RoomsParticipa
 }
 RoomsErrorCode AllGamesRoomsContainer::SetReadyStatus(RoomsParticipant* roomsParticipant, bool isReady)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_SET_READY_STATUS_UNKNOWN_ROOM_ID;
 }
 
@@ -839,7 +832,7 @@ RoomsErrorCode AllGamesRoomsContainer::GetReadyStatus( RoomID roomId, Room **roo
 {
     *room = GetRoomByLobbyRoomID(roomId);
 
-    if (room==0) {
+    if (room==nullptr) {
         return REC_GET_READY_STATUS_UNKNOWN_ROOM_ID;
 }
 
@@ -847,7 +840,7 @@ RoomsErrorCode AllGamesRoomsContainer::GetReadyStatus( RoomID roomId, Room **roo
 }
 RoomsErrorCode AllGamesRoomsContainer::SetRoomLockState(RoomsParticipant* roomsParticipant, RoomLockState _roomLockState)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_SET_ROOM_LOCK_STATE_UNKNOWN_ROOM_ID;
 }
 
@@ -857,7 +850,7 @@ RoomsErrorCode AllGamesRoomsContainer::GetRoomLockState(RoomID roomId, Room **ro
 {
     *room = GetRoomByLobbyRoomID(roomId);
 
-    if (*room==0) {
+    if (*room==nullptr) {
         return REC_GET_ROOM_LOCK_STATE_UNKNOWN_ROOM_ID;
 }
 
@@ -867,7 +860,7 @@ RoomsErrorCode AllGamesRoomsContainer::AreAllMembersReady(RoomID roomId, Room **
 {
     *room = GetRoomByLobbyRoomID(roomId);
 
-    if (*room==0) {
+    if (*room==nullptr) {
         return REC_ARE_ALL_MEMBERS_READY_UNKNOWN_ROOM_ID;
 }
 
@@ -875,7 +868,7 @@ RoomsErrorCode AllGamesRoomsContainer::AreAllMembersReady(RoomID roomId, Room **
 }
 RoomsErrorCode AllGamesRoomsContainer::KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, const RakNet::RakString& reason)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_KICK_MEMBER_UNKNOWN_ROOM_ID;
 }
 
@@ -883,7 +876,7 @@ RoomsErrorCode AllGamesRoomsContainer::KickMember(RoomsParticipant* roomsPartici
 }
 RoomsErrorCode AllGamesRoomsContainer::UnbanMember(RoomsParticipant* roomsParticipant, const RakNet::RakString& name)
 {
-    if (roomsParticipant->GetRoom()==0) {
+    if (roomsParticipant->GetRoom()==nullptr) {
         return REC_UNBAN_MEMBER_UNKNOWN_ROOM_ID;
 }
 
@@ -892,7 +885,7 @@ RoomsErrorCode AllGamesRoomsContainer::UnbanMember(RoomsParticipant* roomsPartic
 RoomsErrorCode AllGamesRoomsContainer::GetBanReason( RoomID lobbyRoomId, Room **room, const RakNet::RakString& name, RakNet::RakString *reason)
 {
     *room = GetRoomByLobbyRoomID(lobbyRoomId);
-    if (*room==0) {
+    if (*room==nullptr) {
         return REC_GET_BAN_REASON_UNKNOWN_ROOM_ID;
 }
     return (*room)->GetBanReason(name, reason);
@@ -917,7 +910,7 @@ Room * AllGamesRoomsContainer::GetRoomByLobbyRoomID(RoomID lobbyRoomID) const
             return room;
 }
     }
-    return 0;
+    return nullptr;
 }
 Room * AllGamesRoomsContainer::GetRoomByName(const RakNet::RakString& roomName) const
 {
@@ -930,7 +923,7 @@ Room * AllGamesRoomsContainer::GetRoomByName(const RakNet::RakString& roomName) 
             return room;
 }
     }
-    return 0;
+    return nullptr;
 }
 RoomsErrorCode AllGamesRoomsContainer::ProcessQuickJoins(
         DataStructures::List<QuickJoinUser*> &timeoutExpired,
@@ -970,8 +963,7 @@ PerGameRoomsContainer::PerGameRoomsContainer()
     nextQuickJoinProcess.SetPeriod(PROCESS_QUICK_JOINS_INTERVAL);
 }
 PerGameRoomsContainer::~PerGameRoomsContainer()
-{
-}
+= default;
 RoomsErrorCode PerGameRoomsContainer::CreateRoom(RoomCreationParameters *roomCreationParameters,
         ProfanityFilter *profanityFilter,
         RoomID lobbyRoomId,
@@ -996,12 +988,12 @@ RoomsErrorCode PerGameRoomsContainer::CreateRoom(RoomCreationParameters *roomCre
 }
 RoomsErrorCode PerGameRoomsContainer::JoinByFilter(RoomMemberMode roomMemberMode, RoomsParticipant* roomsParticipant, RoomID lastRoomJoined, RoomQuery *query, JoinedRoomResult *joinRoomResult)
 {
-    joinRoomResult->roomOutput=0;
+    joinRoomResult->roomOutput=nullptr;
     if (roomMemberMode==RMM_MODERATOR) {
         return REC_JOIN_BY_FILTER_CANNOT_JOIN_AS_MODERATOR;
 }
     RoomsErrorCode roomsErrorCode;
-    if (query!=0)
+    if (query!=nullptr)
     {
         roomsErrorCode = query->Validate();
         if (roomsErrorCode!=REC_SUCCESS) {
@@ -1035,14 +1027,14 @@ RoomsErrorCode PerGameRoomsContainer::AddUserToQuickJoin(QuickJoinUser *quickJoi
 RoomsErrorCode PerGameRoomsContainer::RemoveUserFromQuickJoin(RoomsParticipant* roomsParticipant, QuickJoinUser **qju)
 {
     unsigned int quickJoinIndex = GetQuickJoinIndex(roomsParticipant);
-    *qju=0;
+    *qju=nullptr;
     if (quickJoinIndex==(unsigned int) -1) {
         return REC_REMOVE_FROM_QUICK_JOIN_NOT_THERE;
 }
     quickJoinList[quickJoinIndex]->roomsParticipant->SetInQuickJoin(false);
     *qju=quickJoinList[quickJoinIndex];
     quickJoinList.RemoveAtIndex(quickJoinIndex);
-    roomsParticipant->SetPerGameRoomsContainer(0);
+    roomsParticipant->SetPerGameRoomsContainer(nullptr);
     return REC_SUCCESS;
 }
 bool PerGameRoomsContainer::IsInQuickJoin(RoomsParticipant* roomsParticipant)
@@ -1227,7 +1219,7 @@ unsigned PerGameRoomsContainer::ProcessQuickJoins( DataStructures::List<QuickJoi
                 }
             }
 
-            potentialNewRoom.QueryTable(columnIndices,1,subQueries,subQueryCount,0,0,&resultTable);
+            potentialNewRoom.QueryTable(columnIndices,1,subQueries,subQueryCount,nullptr,0,&resultTable);
             if (resultTable.GetRowCount()>0)
             {
                 potentialNewRoommates.Insert(quickJoinList[quickJoinIndex2], _FILE_AND_LINE_ );
@@ -1239,7 +1231,7 @@ unsigned PerGameRoomsContainer::ProcessQuickJoins( DataStructures::List<QuickJoi
                     roomCreationParameters.networkedRoomCreationParameters.roomName.Set(QUICK_JOIN_ROOM_NAME "%i", startingRoomId+numRoomsCreated);
                     roomCreationParameters.firstUser=quickJoinMember->roomsParticipant;
 
-                    roomsErrorCode = CreateRoom(&roomCreationParameters, 0,startingRoomId+numRoomsCreated, false);
+                    roomsErrorCode = CreateRoom(&roomCreationParameters, nullptr,startingRoomId+numRoomsCreated, false);
                     joinedRoomResult.roomOutput=roomCreationParameters.roomOutput;
                     numRoomsCreated++;
                     RakAssert(roomsErrorCode==REC_SUCCESS);
@@ -1323,7 +1315,7 @@ RoomsErrorCode PerGameRoomsContainer::SearchByFilter( RoomsParticipant* roomsPar
     columnIndices[0]=DefaultRoomColumns::TC_LOBBY_ROOM_PTR;
 
     // Process user queries
-    roomsTable.QueryTable(columnIndices,1,roomQuery->queries,roomQuery->numQueries,0,0,&resultTable);
+    roomsTable.QueryTable(columnIndices,1,roomQuery->queries,roomQuery->numQueries,nullptr,0,&resultTable);
 
     roomsOutput.Clear(false, _FILE_AND_LINE_);
     DataStructures::Page<unsigned, DataStructures::Table::Row*, _TABLE_BPLUS_TREE_ORDER> *cur = resultTable.GetRows().GetListHead();
@@ -1348,7 +1340,7 @@ void PerGameRoomsContainer::RoomPrioritySort( RoomsParticipant* roomsParticipant
 {
     int i;
     // If you don't care about room filters, just join any room
-    if (roomQuery==0 || roomQuery->numQueries==0 || roomQuery->queries==0)
+    if (roomQuery==nullptr || roomQuery->numQueries==0 || roomQuery->queries==nullptr)
     {
         DataStructures::List<Room*> rooms;
         GetAllRooms(rooms);
@@ -1372,7 +1364,7 @@ void PerGameRoomsContainer::RoomPrioritySort( RoomsParticipant* roomsParticipant
     columnIndices[0]=DefaultRoomColumns::TC_LOBBY_ROOM_PTR;
 
     // Process user queries
-    roomsTable.QueryTable(columnIndices,1,roomQuery->queries,roomQuery->numQueries,0,0,&resultTable);
+    roomsTable.QueryTable(columnIndices,1,roomQuery->queries,roomQuery->numQueries,nullptr,0,&resultTable);
 
     roomsOutput.Clear(false, _FILE_AND_LINE_);
     DataStructures::Page<unsigned, DataStructures::Table::Row*, _TABLE_BPLUS_TREE_ORDER> *cur = resultTable.GetRows().GetListHead();
@@ -1394,8 +1386,8 @@ void PerGameRoomsContainer::RoomPrioritySort( RoomsParticipant* roomsParticipant
 Room* PerGameRoomsContainer::GetRoomByLobbyRoomID(RoomID lobbyRoomID) const
 {
     DataStructures::Table::Row *row = roomsTable.GetRowByID(lobbyRoomID);
-    if (row==0) {
-        return 0;
+    if (row==nullptr) {
+        return nullptr;
 }
 
     return (Room*) roomsTable.GetRowByID(lobbyRoomID)->cells[DefaultRoomColumns::TC_LOBBY_ROOM_PTR]->ptr;
@@ -1412,7 +1404,7 @@ Room * PerGameRoomsContainer::GetRoomByName(const RakNet::RakString& roomName)
             return rooms[i];
         }
     }
-    return 0;
+    return nullptr;
 }
 void PerGameRoomsContainer::GetAllRooms(DataStructures::List<Room*> &rooms) const
 {
@@ -1472,7 +1464,7 @@ Room::Room( RoomID _roomId, RoomCreationParameters *roomCreationParameters, Data
     Slots usedSlots;
     UpdateRowSlots( tableRow, &roomCreationParameters->networkedRoomCreationParameters.slots, &usedSlots);
 
-    RoomMember *roomMember = new RoomMember;
+    auto *roomMember = new RoomMember;
     roomMember->roomMemberMode=RMM_MODERATOR;
     roomMember->roomsParticipant=roomsParticipant;
     roomsParticipant->SetRoom(this);
@@ -1485,8 +1477,7 @@ Room::Room( RoomID _roomId, RoomCreationParameters *roomCreationParameters, Data
     tableRow->cells[DefaultRoomColumns::TC_LOBBY_ROOM_PTR]->SetPtr(this);
 }
 Room::~Room()
-{
-}
+= default;
 void Room::UpdateRowSlots( DataStructures::Table::Row* row, Slots *totalSlots, Slots *usedSlots)
 {
     row->cells[DefaultRoomColumns::TC_TOTAL_SLOTS]->Set(totalSlots->publicSlots+totalSlots->reservedSlots+totalSlots->spectatorSlots);
@@ -1497,7 +1488,7 @@ void Room::UpdateRowSlots( DataStructures::Table::Row* row, Slots *totalSlots, S
 
     UpdateUsedSlots(row, totalSlots, usedSlots);
 }
-void Room::UpdateUsedSlots( void )
+void Room::UpdateUsedSlots( )
 {
     Slots totalSlots = GetTotalSlots();
     Slots usedSlots = GetUsedSlots();
@@ -1520,7 +1511,7 @@ void Room::UpdateUsedSlots( Slots *totalSlots, Slots *usedSlots )
 {
     UpdateUsedSlots(tableRow, totalSlots, usedSlots);
 }
-Slots Room::GetTotalSlots(void) const
+Slots Room::GetTotalSlots() const
 {
     Slots totalSlots;
     totalSlots.publicSlots=(int)GetNumericProperty(DefaultRoomColumns::TC_TOTAL_PUBLIC_SLOTS);
@@ -1534,7 +1525,7 @@ void Room::SetTotalSlots(Slots *totalSlots)
     SetNumericProperty(DefaultRoomColumns::TC_TOTAL_RESERVED_SLOTS, totalSlots->reservedSlots);
     SetNumericProperty(DefaultRoomColumns::TC_TOTAL_SPECTATOR_SLOTS, totalSlots->spectatorSlots);
 }
-Slots Room::GetUsedSlots(void) const
+Slots Room::GetUsedSlots() const
 {
     Slots usedSlots;
     unsigned i;
@@ -1665,7 +1656,7 @@ RoomsErrorCode Room::AcceptInvite(RoomsParticipant* roomsParticipant, const RakN
     inviteList.RemoveAtIndex(inviteIndex);
 
     // Add the new roomOutput member
-    RoomMember* roomMember = new RoomMember;
+    auto* roomMember = new RoomMember;
     roomMember->isReady=false;
     roomMember->joinTime=RakNet::GetTimeMS();
     roomMember->roomMemberMode=RMM_RESERVED;
@@ -2020,7 +2011,7 @@ RoomsErrorCode Room::KickMember(RoomsParticipant* roomsParticipant, RoomsPartici
         return REC_KICK_MEMBER_CANNOT_PERFORM_ON_SELF;
 }
 
-    kickedParticipant->SetRoom(0);
+    kickedParticipant->SetRoom(nullptr);
     roomMemberList.RemoveAtIndex(kickedParticipantIndex);
 
     if (GetBannedIndex(kickedParticipant->GetName())==-1)
@@ -2094,7 +2085,7 @@ RoomsErrorCode Room::JoinByFilter(RoomsParticipant* roomsParticipant, RoomMember
     if (roomMemberMode==RMM_MODERATOR) { return REC_JOIN_BY_FILTER_CANNOT_JOIN_AS_MODERATOR;
 }
     // Is the roomOutput locked for the target slot type (any slot and RLS_ALL_LOCKED, or player and RLS_PLAYERS_LOCKED)?
-    joinRoomResult->roomOutput=0;
+    joinRoomResult->roomOutput=nullptr;
     bool joinAsSpectator = roomMemberMode==RMM_SPECTATOR_PUBLIC || roomMemberMode==RMM_SPECTATOR_RESERVED || roomMemberMode==RMM_ANY_SPECTATOR;
     ParticipantCanJoinRoomResult pcjrr = ParticipantCanJoinRoom(roomsParticipant, joinAsSpectator, true);
     if (pcjrr==PCJRR_BANNED) { return REC_JOIN_BY_FILTER_BANNED;
@@ -2123,7 +2114,7 @@ RoomsErrorCode Room::JoinByFilter(RoomsParticipant* roomsParticipant, RoomMember
             roomMemberMode=RMM_RESERVED;
 }
     }
-    RoomMember *rm = new RoomMember;
+    auto *rm = new RoomMember;
     rm->roomsParticipant=roomsParticipant;
     rm->roomMemberMode=roomMemberMode;
     roomMemberList.Insert(rm, _FILE_AND_LINE_ );
@@ -2135,7 +2126,7 @@ RoomsErrorCode Room::JoinByFilter(RoomsParticipant* roomsParticipant, RoomMember
         inviteList.RemoveAtIndex(firstInviteIndex);
     }
     else {
-        joinRoomResult->acceptedInvitor=0;
+        joinRoomResult->acceptedInvitor=nullptr;
 }
 
     // Moderator does not count towards a slot
@@ -2222,7 +2213,7 @@ ParticipantCanJoinRoomResult Room::ParticipantCanJoinAsPlayer( RoomsParticipant*
 
     return PCJRR_SUCCESS;
 }
-bool Room::IsRoomDead(void) const
+bool Room::IsRoomDead() const
 {
     return roomMemberList.Size()==0 || roomDestroyed;
 }
@@ -2239,7 +2230,7 @@ RoomsErrorCode Room::GetInvitesToParticipant(RoomsParticipant* roomsParticipant,
     }
     return REC_SUCCESS;
 }
-RoomsParticipant* Room::GetModerator(void) const
+RoomsParticipant* Room::GetModerator() const
 {
     unsigned int i;
     for (i=0; i < roomMemberList.Size(); i++) {
@@ -2248,9 +2239,9 @@ RoomsParticipant* Room::GetModerator(void) const
 }
 }
     RakAssert("Room::GetModerator: Room should always have a moderator" && 0);
-    return 0;
+    return nullptr;
 }
-RoomID Room::GetID(void) const
+RoomID Room::GetID() const
 {
     return lobbyRoomId;
 }
@@ -2296,7 +2287,7 @@ RoomsErrorCode Room::RemoveUser(RoomsParticipant* roomsParticipant,RemoveUserRes
             removeUserResult->roomDestroyed=true;
             unsigned int i;
             for (i=0; i < roomMemberList.Size(); i++) {
-                roomMemberList[i]->roomsParticipant->SetRoom(0);
+                roomMemberList[i]->roomsParticipant->SetRoom(nullptr);
 }
             roomDestroyed=true;
             removeUserResult->roomDestroyed=true;
@@ -2346,7 +2337,7 @@ RoomsErrorCode Room::RemoveUser(RoomsParticipant* roomsParticipant,RemoveUserRes
 
     delete roomMemberList[roomsParticipantIndex];
     roomMemberList.RemoveAtIndex(roomsParticipantIndex);
-    roomsParticipant->SetRoom(0);
+    roomsParticipant->SetRoom(nullptr);
     removeUserResult->roomDestroyed=IsRoomDead();
     roomDestroyed=removeUserResult->roomDestroyed;
     removeUserResult->removedFromRoom=true;
@@ -2357,11 +2348,11 @@ RoomsErrorCode Room::RemoveUser(RoomsParticipant* roomsParticipant,RemoveUserRes
     return REC_SUCCESS;
 
 }
-bool Room::IsRoomLockedToSpectators(void) const
+bool Room::IsRoomLockedToSpectators() const
 {
     return roomLockState==RLS_ALL_LOCKED;
 }
-bool Room::IsRoomLockedToPlayers(void) const
+bool Room::IsRoomLockedToPlayers() const
 {
     return roomLockState==RLS_PLAYERS_LOCKED || roomLockState==RLS_ALL_LOCKED;
 }
@@ -2423,19 +2414,19 @@ unsigned int Room::GetFirstInviteIndex(const RakNet::RakString& invitee) const
 }
     return (unsigned int) -1;
 }
-bool Room::AreAllPlayableSlotsFilled(void) const
+bool Room::AreAllPlayableSlotsFilled() const
 {
     return !HasOpenPublicSlots() && !HasOpenReservedSlots();
 }
-bool Room::HasOpenPublicSlots(void) const
+bool Room::HasOpenPublicSlots() const
 {
     return GetNumericProperty(DefaultRoomColumns::TC_REMAINING_PUBLIC_SLOTS)!=0.0;
 }
-bool Room::HasOpenReservedSlots(void) const
+bool Room::HasOpenReservedSlots() const
 {
     return GetNumericProperty(DefaultRoomColumns::TC_REMAINING_RESERVED_SLOTS)!=0.0;
 }
-bool Room::HasOpenSpectatorSlots(void) const
+bool Room::HasOpenSpectatorSlots() const
 {
     return GetNumericProperty(DefaultRoomColumns::TC_REMAINING_SPECTATOR_SLOTS)!=0.0;
 }
@@ -2477,7 +2468,7 @@ void Room::ChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakStr
     }
 }
 // ----------------------------  UNIT TEST  ----------------------------
-void AllGamesRoomsContainer::UnitTest(void)
+void AllGamesRoomsContainer::UnitTest()
 {
     RoomsErrorCodeDescription::Validate();
 
@@ -2788,7 +2779,7 @@ void AllGamesRoomsContainer::UnitTest(void)
     // Enter roomOutput (member one) (should create a room)
     JoinedRoomResult joinedRoomResult;
     roomCreationParameters.networkedRoomCreationParameters.slots.publicSlots=0;
-    roomsErrorCode = agrc.EnterRoom( &roomCreationParameters, RMM_ANY_PLAYABLE, 0, 0, &joinedRoomResult );
+    roomsErrorCode = agrc.EnterRoom( &roomCreationParameters, RMM_ANY_PLAYABLE, nullptr, nullptr, &joinedRoomResult );
     RakAssert(roomsErrorCode==REC_SUCCESS);
     RakAssert(roomsParticipant1.GetRoom()!=0);
     RakAssert(roomsParticipant1.GetRoom()->GetModerator()==&roomsParticipant1);
@@ -2850,7 +2841,7 @@ void AllGamesRoomsContainer::UnitTest(void)
 
     // Try to enter the room (no public slots, tried to create room of same name, failed)
     roomCreationParameters.firstUser=&roomsParticipant2;
-    roomsErrorCode = agrc.EnterRoom( &roomCreationParameters, RMM_ANY_PLAYABLE, 0, 0, &joinedRoomResult );
+    roomsErrorCode = agrc.EnterRoom( &roomCreationParameters, RMM_ANY_PLAYABLE, nullptr, nullptr, &joinedRoomResult );
     RakAssert(roomsErrorCode==REC_ROOM_CREATION_PARAMETERS_ROOM_NAME_IN_USE);
 
     // Open a public slot
@@ -2861,7 +2852,7 @@ void AllGamesRoomsContainer::UnitTest(void)
 
     // Enter room
     roomCreationParameters.firstUser=&roomsParticipant2;
-    roomsErrorCode = agrc.EnterRoom( &roomCreationParameters, RMM_ANY_PLAYABLE, 0, 0, &joinedRoomResult );
+    roomsErrorCode = agrc.EnterRoom( &roomCreationParameters, RMM_ANY_PLAYABLE, nullptr, nullptr, &joinedRoomResult );
     RakAssert(roomsErrorCode==REC_SUCCESS);
     RakAssert(roomsParticipant1.GetRoom()!=0);
     RakAssert(roomsParticipant1.GetRoom()->GetModerator()==&roomsParticipant1);

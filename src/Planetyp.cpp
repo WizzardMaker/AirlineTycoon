@@ -73,29 +73,29 @@ void CPlaneTypes::ReInit (const CString &TabFilename)
 
         //SpeedUp durch direkten Zugriff:
         Id=(*this)(Id);
-        (*this)[Id].Hersteller        = strtok (NULL, TabSeparator);
-        (*this)[Id].Name              = strtok (NULL, TabSeparator);
-        (*this)[Id].NotizblockPhoto   = StringToInt64(strtok (NULL, TabSeparator));
-        (*this)[Id].AnzPhotos         = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].FirstMissions     = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].FirstDay          = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Erstbaujahr       = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Spannweite        = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Laenge            = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Hoehe             = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Startgewicht      = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Passagiere        = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Geschwindigkeit   = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Reichweite        = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Triebwerke        = strtok (NULL, TabSeparator);
-        (*this)[Id].Schub             = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].AnzPiloten        = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].AnzBegleiter      = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Tankgroesse       = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Verbrauch         = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Preis             = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Wartungsfaktor    = float(atof (strtok (NULL, TabSeparator)));
-        (*this)[Id].Kommentar         = strtok (NULL, TabSeparator);
+        (*this)[Id].Hersteller        = strtok (nullptr, TabSeparator);
+        (*this)[Id].Name              = strtok (nullptr, TabSeparator);
+        (*this)[Id].NotizblockPhoto   = StringToInt64(strtok (nullptr, TabSeparator));
+        (*this)[Id].AnzPhotos         = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].FirstMissions     = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].FirstDay          = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Erstbaujahr       = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Spannweite        = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Laenge            = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Hoehe             = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Startgewicht      = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Passagiere        = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Geschwindigkeit   = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Reichweite        = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Triebwerke        = strtok (nullptr, TabSeparator);
+        (*this)[Id].Schub             = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].AnzPiloten        = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].AnzBegleiter      = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Tankgroesse       = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Verbrauch         = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Preis             = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Wartungsfaktor    = float(atof (strtok (nullptr, TabSeparator)));
+        (*this)[Id].Kommentar         = strtok (nullptr, TabSeparator);
     }
 }
 
@@ -279,7 +279,7 @@ CPlane::CPlane (const CString& Name, ULONG TypeId, UBYTE Zustand, SLONG Baujahr)
 // wenn die CPlanes resizet wurden liegt der Buffer woanders und das Album fragt sich warum
 // es davon nichts weiß.
 //--------------------------------------------------------------------------------------------
-void CPlane::RepairReferences (void)
+void CPlane::RepairReferences ()
 {
     XPlane.Parts.Repair (XPlane.Parts.PlaneParts);
 }
@@ -287,10 +287,10 @@ void CPlane::RepairReferences (void)
 //--------------------------------------------------------------------------------------------
 //Berechnet den Marktwert des Flugzeuges:
 //--------------------------------------------------------------------------------------------
-SLONG CPlane::CalculatePrice (void) const
+SLONG CPlane::CalculatePrice () const
 {
     //SLONG rc = SLONG(__int64(PlaneTypes[TypeId].Preis) * Zustand/10000 * Zustand * (Baujahr-1900) / 120);
-    SLONG rc = SLONG(__int64(ptPreis) * Zustand/10000 * Zustand * (Baujahr-1900) / 120);
+    auto rc = SLONG(__int64(ptPreis) * Zustand/10000 * Zustand * (Baujahr-1900) / 120);
 
     if (Sponsored != 0) { rc/=10;
 }
@@ -349,7 +349,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                     if (GetFlugplanEintrag()->Gate==-1)
                     {
                         //Kein Gate frei:
-                        CRentRoute *pRoute  = NULL;
+                        CRentRoute *pRoute  = nullptr;
                         PLAYER     &qPlayer = Sim.Players.Players[PlayerNum];
 
                         if (GetFlugplanEintrag()->ObjectType==1) {
@@ -458,7 +458,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                             SLONG Saldo;
                             XY    tmp;
 
-                            CRentRoute *pRoute = NULL;
+                            CRentRoute *pRoute = nullptr;
                             if (GetFlugplanEintrag()->ObjectType==1) {
                                 pRoute = &Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(GetFlugplanEintrag()->ObjectId)];
 }
@@ -966,7 +966,7 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
     }
 
     //Überschüssige Flüge abschneiden:
-    if (gMouseLButton==0 || Sim.Players.Players[PlayerNum].Owner!=0 || Sim.Players.Players[PlayerNum].LocationWin==NULL || ((Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_GLOBE && Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_LAPTOP) && ((CPlaner*)Sim.Players.Players[PlayerNum].LocationWin)->DragFlightMode==0)) {
+    if (gMouseLButton==0 || Sim.Players.Players[PlayerNum].Owner!=0 || Sim.Players.Players[PlayerNum].LocationWin==nullptr || ((Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_GLOBE && Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_LAPTOP) && ((CPlaner*)Sim.Players.Players[PlayerNum].LocationWin)->DragFlightMode==0)) {
         for (c=0; c<Flugplan.Flug.AnzEntries(); c++)
         {
             if (Flugplan.Flug[c].ObjectType==0) { break;
@@ -1177,7 +1177,7 @@ void CPlane::FlugplaeneFortfuehren (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 //Kann das Flugzeug zur Zeit verkauft werden, oder sind Flüge darauf gebucht?
 //--------------------------------------------------------------------------------------------
-BOOL CPlane::CanBeSold (void)
+BOOL CPlane::CanBeSold ()
 {
     SLONG c;
 
@@ -1242,7 +1242,7 @@ void CPlane::UpdateGlobePos (UWORD EarthAlpha)
 //--------------------------------------------------------------------------------------------
 //Berechnet den Saldo einer Woche:
 //--------------------------------------------------------------------------------------------
-SLONG CPlane::GetSaldo (void)
+SLONG CPlane::GetSaldo ()
 {
     SLONG c;
     SLONG Summe;
@@ -1287,7 +1287,7 @@ SLONG CPlane::GetMaxPassengerOpenFlight (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 //Löscht den Saldo:
 //--------------------------------------------------------------------------------------------
-void CPlane::ClearSaldo (void)
+void CPlane::ClearSaldo ()
 {
     Salden.FillWith (0);
 }
@@ -1317,9 +1317,9 @@ void CPlane::AddPanne (SLONG Code)
 //--------------------------------------------------------------------------------------------
 //Gibt eine Referenz auf den aktuellen Flugplan zurück:
 //--------------------------------------------------------------------------------------------
-const CFlugplanEintrag *CPlane::GetFlugplanEintrag (void)
+const CFlugplanEintrag *CPlane::GetFlugplanEintrag ()
 {
-    if (Flugplan.NextFlight==-1) { return (NULL);
+    if (Flugplan.NextFlight==-1) { return (nullptr);
 }
 
     return (&Flugplan.Flug[Flugplan.NextFlight]);
@@ -1633,7 +1633,7 @@ BOOL CPlanes::IsPlaneNameInUse (const CString &PlaneName)
 // wenn die CPlanes resizet wurden liegt der Buffer woanders und das Album fragt sich warum
 // es davon nichts weiß.
 //--------------------------------------------------------------------------------------------
-void CPlanes::RepairReferences (void)
+void CPlanes::RepairReferences ()
 {
     SLONG c;
 
@@ -1661,7 +1661,7 @@ void CPlanes::DoOneStep (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 //Wieviel mehr Begleiter als normal haben wir im Durchschnitt?:
 //--------------------------------------------------------------------------------------------
-double CPlanes::GetAvgBegleiter (void)
+double CPlanes::GetAvgBegleiter ()
 {
     SLONG Anz=0;
     SLONG Max=0;
@@ -1695,7 +1695,7 @@ void CPlanes::UpdateGlobePos (UWORD EarthAlpha)
 //--------------------------------------------------------------------------------------------
 //Hat der Spieler ein Flugzeug, wo es Probleme gibt?
 //--------------------------------------------------------------------------------------------
-BOOL CPlanes::HasProblemPlane (void)
+BOOL CPlanes::HasProblemPlane ()
 {
     for (SLONG c=this->AnzEntries()-1; c>=0; c--) {
         if (this->IsInAlbum(c) != 0) {
@@ -1713,8 +1713,7 @@ BOOL CPlanes::HasProblemPlane (void)
 //Konstruktor:
 //============================================================================================
 CPlaneNames::CPlaneNames ()
-{
-}
+= default;
 
 //--------------------------------------------------------------------------------------------
 //Konstruktor:
@@ -1728,8 +1727,7 @@ CPlaneNames::CPlaneNames (const CString &TabFilename)
 //Destruktor:
 //--------------------------------------------------------------------------------------------
 CPlaneNames::~CPlaneNames ()
-{
-}
+= default;
 
 //--------------------------------------------------------------------------------------------
 //Konstruktor:
@@ -1763,7 +1761,7 @@ void CPlaneNames::ReInit (const CString &TabFilename)
         //Tabellenzeile hinzufügen:
         str = strtok (Line, ";\x8\"");
 
-        if (atoi (strtok (NULL, TabSeparator))==1)
+        if (atoi (strtok (nullptr, TabSeparator))==1)
         {
             if (Anz1>=MAX_PNAMES1) { TeakLibW_Exception (FNL, ExcImpossible, "");
 }

@@ -117,7 +117,7 @@ AirportView::~AirportView()
 //--------------------------------------------------------------------------------------------
 //Lädt die Bitmap neu:
 //--------------------------------------------------------------------------------------------
-void AirportView::ReloadBitmaps (void)
+void AirportView::ReloadBitmaps ()
 {
 }
 
@@ -403,7 +403,7 @@ void AirportView::FocusCameraOnPos (XY Pos, BOOL Speed)
 //--------------------------------------------------------------------------------------------
 //Bewegt die Kamera ein Stück:
 //--------------------------------------------------------------------------------------------
-void AirportView::MoveCamera (void)
+void AirportView::MoveCamera ()
 {
     //Falls keine Editor, dann wird der Focus durch den Spieler bestimmt:
     if (Editor == 0)
@@ -463,7 +463,7 @@ void AirportView::MoveCamera (void)
 //--------------------------------------------------------------------------------------------
 //Zentriert Kamera auf dem Spieler:
 //--------------------------------------------------------------------------------------------
-void AirportView::CenterCameraOnPlayer (void)
+void AirportView::CenterCameraOnPlayer ()
 {
     //Falls keine Editor, dann wird der Focus durch den Spieler bestimmt:
     if (Editor == 0)
@@ -643,7 +643,7 @@ void AirportView::OnPaint()
     }
 
     //Wenn ein Raumbild offen (und davor ist), dann nicht neu zeichnen:
-    if (TopWin==NULL)
+    if (TopWin==nullptr)
     {
         //Ggf. Parallax Tabelle initialisieren:
         if (ParallaxIndex[0]==-1) {
@@ -941,7 +941,7 @@ void AirportView::OnPaint()
                                                 MoodBms[qPerson.Mood].BlitFrom (SmallLogoBms[qPerson.FlightAirline], XY(8,10));
 }
 
-                                            ColorFX.BlitTrans (MoodBms[qPerson.Mood].pBitmap, &PrimaryBm.PrimaryBm, qPerson.ScreenPos-ViewPos+XY(8-1-MoodBms[qPerson.Mood].Size.x*4/5,-MoodBms[qPerson.Mood].Size.y-qClan.Phasen[0][0].Size.y-1), NULL, Grade);
+                                            ColorFX.BlitTrans (MoodBms[qPerson.Mood].pBitmap, &PrimaryBm.PrimaryBm, qPerson.ScreenPos-ViewPos+XY(8-1-MoodBms[qPerson.Mood].Size.x*4/5,-MoodBms[qPerson.Mood].Size.y-qClan.Phasen[0][0].Size.y-1), nullptr, Grade);
                                         }
                                     }
                                 }
@@ -955,7 +955,7 @@ void AirportView::OnPaint()
                                         for (SLONG c=0; c<20; c++) {
                                             if (qPlayer.Smoke[c].TTL != 0)
                                             {
-                                                ColorFX.BlitTrans (gStenchBms[0].pBitmap, &PrimaryBm.PrimaryBm, qPlayer.Smoke[c].Position-ViewPos, NULL, 8-min(qPlayer.Smoke[c].TTL/2,8));
+                                                ColorFX.BlitTrans (gStenchBms[0].pBitmap, &PrimaryBm.PrimaryBm, qPlayer.Smoke[c].Position-ViewPos, nullptr, 8-min(qPlayer.Smoke[c].TTL/2,8));
 
                                                 qPlayer.Smoke[c].Position.y--;
                                                 qPlayer.Smoke[c].TTL--;
@@ -984,7 +984,7 @@ void AirportView::OnPaint()
                                         for (SLONG c=0; c<20; c++) {
                                             if (qPlayer.Smoke[c].TTL != 0)
                                             {
-                                                ColorFX.BlitTrans (gSmokeBms[0].pBitmap, &PrimaryBm.PrimaryBm, qPlayer.Smoke[c].Position-ViewPos, NULL, 8-min(qPlayer.Smoke[c].TTL/2,8));
+                                                ColorFX.BlitTrans (gSmokeBms[0].pBitmap, &PrimaryBm.PrimaryBm, qPlayer.Smoke[c].Position-ViewPos, nullptr, 8-min(qPlayer.Smoke[c].TTL/2,8));
 
                                                 qPlayer.Smoke[c].Position.y--;
                                                 qPlayer.Smoke[c].TTL--;
@@ -1019,7 +1019,7 @@ void AirportView::OnPaint()
                                         for (SLONG c=0; c<20; c++) {
                                             if (qSmoker.Smoke[c].TTL != 0)
                                             {
-                                                ColorFX.BlitTrans (gStenchBms[0].pBitmap, &PrimaryBm.PrimaryBm, qSmoker.Smoke[c].Position-ViewPos, NULL, 8-min(qSmoker.Smoke[c].TTL/2,8));
+                                                ColorFX.BlitTrans (gStenchBms[0].pBitmap, &PrimaryBm.PrimaryBm, qSmoker.Smoke[c].Position-ViewPos, nullptr, 8-min(qSmoker.Smoke[c].TTL/2,8));
 
                                                 if (rand()%3==0) {
                                                     qSmoker.Smoke[c].Position.x+=qSmoker.Smoke[c].vx;
@@ -1251,7 +1251,7 @@ void AirportView::OnPaint()
                                         SDL_Color fg = { 255, 255, 0 };
                                         SDL_Surface* Text = TTF_RenderText_Shaded(Font, bprintf ("%3li",(long)qBuild.Par), fg, bg);
                                         SDL_Rect Dst = { qBuild.ScreenPos.x-ViewPos.x+WinP1.x+3, qBuild.ScreenPos.y-ViewPos.y+WinP1.y+1, Text->w, Text->h };
-                                        SDL_BlitSurface(Text, NULL, Surf, &Dst);
+                                        SDL_BlitSurface(Text, nullptr, Surf, &Dst);
                                         SDL_FreeSurface(Text);
                                         TTF_CloseFont(Font);
                                     }
@@ -1978,7 +1978,7 @@ void AirportView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     XY   &ViewPos = Sim.Players.Players[(SLONG)PlayerNum].ViewPos;
 
     //Sowas darf nur das Hauptfenster, was immer links oben ist und nicht verdeckt wird:
-    if (WinP1.x==0 && WinP1.y==0 && TopWin==NULL)
+    if (WinP1.x==0 && WinP1.y==0 && TopWin==nullptr)
     {
         //Editor F-Keys
         if ((GetAsyncKeyState (VK_SHIFT) != 0) && (GetAsyncKeyState (VK_CONTROL) == 0))
@@ -2547,7 +2547,7 @@ SLONG AIRPORT::GetNumberOfShops (ULONG BrickId)
 //--------------------------------------------------------------------------------------------
 //Wieviele Gates haben noch keinen Mieter?
 //--------------------------------------------------------------------------------------------
-SLONG AIRPORT::GetNumberOfFreeGates (void)
+SLONG AIRPORT::GetNumberOfFreeGates ()
 {
     SLONG c;
     SLONG d;
@@ -2642,7 +2642,7 @@ BUILD *AIRPORT::GetBuildNear (const XY &Pos, const XY &MaxDist, ULONG BrickId)
 }
 
     //Da war nichts!
-    return (NULL);
+    return (nullptr);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2690,7 +2690,7 @@ void AIRPORT::Load (SLONG Hall, SLONG Level)
 //--------------------------------------------------------------------------------------------
 //AIRPORT::Save (void) const:
 //--------------------------------------------------------------------------------------------
-void AIRPORT::Save (void) const
+void AIRPORT::Save () const
 {
     if (HallNum!=0)  //Nicht speichern, wenn alle da sind
     {
@@ -2853,7 +2853,7 @@ void AIRPORT::LoadAirport (SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Ent
 //--------------------------------------------------------------------------------------------
 //Den Flughafen für einen neuen Tag vorbereiten: Personen entfernen & Spieler hinzufügen
 //--------------------------------------------------------------------------------------------
-void AIRPORT::NewDay (void)
+void AIRPORT::NewDay ()
 {
     //Alte Leute entfernen:
     Sim.Persons.ClearAlbum();
@@ -2972,7 +2972,7 @@ SLONG AIRPORT::CalcPlateYPosition (BUILD &qBuild, SLONG BrickYOffset)
 //--------------------------------------------------------------------------------------------
 //Berechnet das iPlate Array neu:
 //--------------------------------------------------------------------------------------------
-void AIRPORT::CalcPlates (void)
+void AIRPORT::CalcPlates ()
 {
     SLONG c;
     SLONG d;
@@ -3508,7 +3508,7 @@ void AIRPORT::CalcPlates (void)
 //--------------------------------------------------------------------------------------------
 //Schaut, ob die Türen bewegt werden müssen:
 //--------------------------------------------------------------------------------------------
-void AIRPORT::PumpDoors (void)
+void AIRPORT::PumpDoors ()
 {
     SLONG c;
     SLONG ArabIndex = Bricks((SLONG)0x10000000+727);
@@ -3758,7 +3758,7 @@ void AIRPORT::TryDoor (XY ArrayPos, BOOL Player, SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 //Sorgt dafür, daß nach neuem Tag/LoadGame eine Tür richtig (Explodiert oder nicht) angezeigt wird:
 //--------------------------------------------------------------------------------------------
-void AIRPORT::UpdateStaticDoorImage (void)
+void AIRPORT::UpdateStaticDoorImage ()
 {
     SLONG c;
 
@@ -3789,7 +3789,7 @@ void AIRPORT::UpdateStaticDoorImage (void)
 //--------------------------------------------------------------------------------------------
 //Berechnet die Koordinaten einzelnen Spezialstellen neu:
 //--------------------------------------------------------------------------------------------
-void AIRPORT::CalcCoordinates (void)
+void AIRPORT::CalcCoordinates ()
 {
     SLONG c;
     SLONG d;
@@ -3957,7 +3957,7 @@ void AIRPORT::CalcCoordinates (void)
 //--------------------------------------------------------------------------------------------
 //Entfernt alle unsichtbaren Laufinformations-Builds (auch Runen genannt):
 //--------------------------------------------------------------------------------------------
-void AIRPORT::RemoveRunes (void)
+void AIRPORT::RemoveRunes ()
 {
     SLONG c;
     SLONG d;
@@ -3995,7 +3995,7 @@ void AIRPORT::RemoveRunes (void)
 //--------------------------------------------------------------------------------------------
 //Gibt für die On-Screen Informationen einen STATIC Pointer auf den Filenamen zurück:
 //--------------------------------------------------------------------------------------------
-char *AIRPORT::GetHallFilename (void)
+char *AIRPORT::GetHallFilename ()
 {
     if (HallNum==0) {
         return (bprintf (HallFilenames [HallNum], HallLevel[0], HallLevel[1], HallLevel[2], HallLevel[3], HallLevel[4], HallLevel[5], HallLevel[6], HallLevel[7], HallLevel[8]));
@@ -4005,7 +4005,7 @@ char *AIRPORT::GetHallFilename (void)
 //--------------------------------------------------------------------------------------------
 //Sorgt dafür, daß die Builds die Bricks nicht-assoziativ adressieren; Nicht mit Airport Parts verwenden!
 //--------------------------------------------------------------------------------------------
-void AIRPORT::UnassociateBuilds (void)
+void AIRPORT::UnassociateBuilds ()
 {
     SLONG c;
 
@@ -4021,7 +4021,7 @@ void AIRPORT::UnassociateBuilds (void)
 //--------------------------------------------------------------------------------------------
 //Hasht die Builds in diverse Buckets:
 //--------------------------------------------------------------------------------------------
-void AIRPORT::DoHashBuilds (void)
+void AIRPORT::DoHashBuilds ()
 {
     SLONG c;
     SLONG d;
@@ -4050,7 +4050,7 @@ void AIRPORT::DoHashBuilds (void)
 //--------------------------------------------------------------------------------------------
 //Berechnet das Array mit den Sitzen:
 //--------------------------------------------------------------------------------------------
-void AIRPORT::CalcSeats (void)
+void AIRPORT::CalcSeats ()
 {
     ULONG SeatsIndex[6]={0x10000000+370,0x10000000+371,0x10000000+372,0,0,0};
     SLONG c;
@@ -4117,7 +4117,7 @@ void AIRPORT::SetConditionBlock (SLONG Id, BOOL Blocking)
 //--------------------------------------------------------------------------------------------
 //Generiert die Mapper-Tabelle für die Schalter-Schildchen
 //--------------------------------------------------------------------------------------------
-void AIRPORT::CreateGateMapper (void)
+void AIRPORT::CreateGateMapper ()
 {
     SLONG c;
     SLONG d;
@@ -4146,7 +4146,7 @@ void AIRPORT::CreateGateMapper (void)
 //--------------------------------------------------------------------------------------------
 //Erneuert den Inhalt der Textbricks:
 //--------------------------------------------------------------------------------------------
-void AIRPORT::RepaintTextBricks (void)
+void AIRPORT::RepaintTextBricks ()
 {
     SLONG c;
     SLONG d;
@@ -4265,8 +4265,8 @@ TEAKFILE &operator << (TEAKFILE &File, const AIRPORT &Airport)
         File << Airport.iPlateDir;
 }
 
-    for (SLONG c=0; c<10; c++) {
-        File << Airport.HallLevel[c];
+    for (int c : Airport.HallLevel) {
+        File << c;
 }
 
     return (File);
@@ -4295,8 +4295,8 @@ TEAKFILE &operator >> (TEAKFILE &File, AIRPORT &Airport)
         Airport.iPlateDir+=20*16;
     }
 
-    for (SLONG c=0; c<10; c++) {
-        File >> Airport.HallLevel[c];
+    for (int & c : Airport.HallLevel) {
+        File >> c;
 }
 
     return (File);

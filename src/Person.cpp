@@ -85,18 +85,18 @@ void CLANS::ReInit (const CString &TabFilename)
                 Id=(*this)(Id);
 
                 (*this)[Id].Type        = (UBYTE)atoi (strtok (Line, TabSeparator));
-                (*this)[Id].Group       = atoi (strtok (NULL, TabSeparator));
-                strtok (NULL, TabSeparator);  //Comment-Spalte
-                (*this)[Id].UpdateNow   = (UBYTE)atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].Wkeit       = (UBYTE)atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].WalkSpeed   = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].Faktor      = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].HasSuitcase = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].GimmickArt1 = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].GimmickArt2 = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].Offset.x    = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].Offset.y    = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].PalFilename = strtok (NULL, TabSeparator);
+                (*this)[Id].Group       = atoi (strtok (nullptr, TabSeparator));
+                strtok (nullptr, TabSeparator);  //Comment-Spalte
+                (*this)[Id].UpdateNow   = (UBYTE)atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].Wkeit       = (UBYTE)atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].WalkSpeed   = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].Faktor      = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].HasSuitcase = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].GimmickArt1 = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].GimmickArt2 = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].Offset.x    = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].Offset.y    = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].PalFilename = strtok (nullptr, TabSeparator);
 
                 if ((*this)[Id].Type>11 || (*this)[Id].Group>0 || (gShowAllPools != 0)) {
                     (*this)[Id].TodayInGame = TRUE;
@@ -115,42 +115,42 @@ void CLANS::ReInit (const CString &TabFilename)
             {
                 //Spalte 1-7 ignorieren
                 strtok (Line, TabSeparator);
-                for (c=0; c<7; c++) { strtok (NULL, TabSeparator);
+                for (c=0; c<7; c++) { strtok (nullptr, TabSeparator);
 }
 
-                (*this)[Id].GimmickOffset.x   = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].GimmickOffset.y   = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].ShadowOffset.x    = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].ShadowOffset.y    = atoi (strtok (NULL, TabSeparator));
+                (*this)[Id].GimmickOffset.x   = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].GimmickOffset.y   = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].ShadowOffset.x    = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].ShadowOffset.y    = atoi (strtok (nullptr, TabSeparator));
 
-                strtok (NULL, TabSeparator);
+                strtok (nullptr, TabSeparator);
             }
             else if (ShadowPass==2)
             {
                 //Spalte 1-9 ignorieren
                 strtok (Line, TabSeparator);
-                for (c=0; c<9; c++) { strtok (NULL, TabSeparator);
+                for (c=0; c<9; c++) { strtok (nullptr, TabSeparator);
 }
 
-                (*this)[Id].SkelettOffset.x    = atoi (strtok (NULL, TabSeparator));
-                (*this)[Id].SkelettOffset.y    = atoi (strtok (NULL, TabSeparator));
+                (*this)[Id].SkelettOffset.x    = atoi (strtok (nullptr, TabSeparator));
+                (*this)[Id].SkelettOffset.y    = atoi (strtok (nullptr, TabSeparator));
 
-                strtok (NULL, TabSeparator);
+                strtok (nullptr, TabSeparator);
             }
 
             for (c=0; c<10+4; c++)
             {
                 if (c==8+4)
                 {
-                    DirPhaseLists[c]     = strtok (NULL, TabSeparator);
+                    DirPhaseLists[c]     = strtok (nullptr, TabSeparator);
                     PhaseListsNumbers[c] = -1;
                 }
                 else
                 {
-                    if (c<4+4) {             strtok (NULL, TabSeparator);
+                    if (c<4+4) {             strtok (nullptr, TabSeparator);
 }
-                    DirPhaseLists[c]     = strtok (NULL, TabSeparator);
-                    PhaseListsNumbers[c] = atoi(strtok (NULL, TabSeparator));
+                    DirPhaseLists[c]     = strtok (nullptr, TabSeparator);
+                    PhaseListsNumbers[c] = atoi(strtok (nullptr, TabSeparator));
                 }
             }
 
@@ -179,7 +179,7 @@ void CLANS::ReInit (const CString &TabFilename)
                     if (ShadowPass==2) { pPhasen=&(*this)[Id].Skelett[d];
 }
 
-                    BUFFER<__int64> *pIds=NULL;
+                    BUFFER<__int64> *pIds=nullptr;
                     SLONG            Anz;
 
                     if (ShadowPass==0) { pIds=&(*this)[Id].PhasenIds[d];
@@ -197,7 +197,7 @@ void CLANS::ReInit (const CString &TabFilename)
                         for (Anz=0; ; Anz++)
                         {
                             if (Anz==0) { Texts[Anz]=strtok (Str, " ");
-                            } else { Texts[Anz]=strtok (NULL, " ");
+                            } else { Texts[Anz]=strtok (nullptr, " ");
 }
                             if (Texts[Anz] == nullptr) { break;
 }
@@ -252,7 +252,7 @@ void CLANS::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 //Tut die Bitmaps dann geladen machen:
 //--------------------------------------------------------------------------------------------
-void CLANS::LoadBitmaps (void)
+void CLANS::LoadBitmaps ()
 {
     SLONG c;
     SLONG n;
@@ -892,7 +892,7 @@ PERSON::PERSON (UBYTE ClanId, XY Position, UBYTE Reason, UBYTE FlightAirline, SL
 //--------------------------------------------------------------------------------------------
 //Verwaltet die Extra-Animationen (Stinkbombe, Klebstoff):
 //--------------------------------------------------------------------------------------------
-void PERSON::DoOneAnimationStep (void)
+void PERSON::DoOneAnimationStep ()
 {
     CLAN &qClan = Clans[(SLONG)ClanId];
     XY    ArrayPos;
@@ -982,7 +982,7 @@ void PERSON::DoOneAnimationStep (void)
 //--------------------------------------------------------------------------------------------
 //Eine Person (Kunde) geht einen Schritt weiter:
 //--------------------------------------------------------------------------------------------
-void PERSON::DoOneCustomerStep (void)
+void PERSON::DoOneCustomerStep ()
 {
     CLAN &qClan = Clans[(SLONG)ClanId];
     XY    StepSize (qClan.WalkSpeed,qClan.WalkSpeed);
@@ -1166,7 +1166,7 @@ void PERSON::DoOneCustomerStep (void)
             NewPossibleDirs = 128+32;
 }
 
-        UBYTE AnzPossibleDirs = UBYTE(static_cast<int>((NewPossibleDirs&16)!=0) + static_cast<int>((NewPossibleDirs&32)!=0) + static_cast<int>((NewPossibleDirs&64)!=0) + static_cast<int>((NewPossibleDirs&128)!=0));
+        auto AnzPossibleDirs = UBYTE(static_cast<int>((NewPossibleDirs&16)!=0) + static_cast<int>((NewPossibleDirs&32)!=0) + static_cast<int>((NewPossibleDirs&64)!=0) + static_cast<int>((NewPossibleDirs&128)!=0));
 
         //Im Warteraum einen Sitz suchen:
         if ((State & (~PERSON_WAITFLAG) & (~PERSON_BROWSEFLAG))==PERSON_WAITING)
@@ -1840,7 +1840,7 @@ DirtyLabel:
 //--------------------------------------------------------------------------------------------
 //Einer der Spieler geht einen Schritt weiter:
 //--------------------------------------------------------------------------------------------
-void PERSON::DoOnePlayerStep (void)
+void PERSON::DoOnePlayerStep ()
 {
     BOOL    Upfloor;
     SLONG   c;
@@ -2862,7 +2862,7 @@ void PERSON::LookAt (SLONG Dir)
 //--------------------------------------------------------------------------------------------
 //Eine Person hat einen Checkpunkt (Sekundärziel) erreicht und braucht neue Anweisungen:
 //--------------------------------------------------------------------------------------------
-void PERSON::PersonReachedTarget (void)
+void PERSON::PersonReachedTarget ()
 {
     //Das hängt davon ab, warum sie am Flughafen ist:
     switch (Reason)
@@ -3126,7 +3126,7 @@ void PERSON::PersonReachedTarget (void)
                                 } else { Target= Airport.GetRandomTypedRune (RUNE_DURCHLEUCHTER, (UBYTE)fpe->Gate, false, &PersonalRand);
 }
                             }
-                            else if (fpe==NULL || (fpe->Startzeit==(SLONG)Sim.GetHour() && Sim.GetMinute()>=55) || fpe->Startzeit<(SLONG)Sim.GetHour())
+                            else if (fpe==nullptr || (fpe->Startzeit==(SLONG)Sim.GetHour() && Sim.GetMinute()>=55) || fpe->Startzeit<(SLONG)Sim.GetHour())
                             {
                                 //Flugzeug ist schon weg:
                                 Mood   = (UBYTE)(FirstClass != 0u?MoodPersonMissedFC:MoodPersonMissed);
@@ -3263,14 +3263,14 @@ void PERSON::PersonReachedTarget (void)
 //--------------------------------------------------------------------------------------------
 //Gibt eine Referenz auf den aktuellen Flugplan zurück:
 //--------------------------------------------------------------------------------------------
-const CFlugplanEintrag *PERSON::GetFlugplanEintrag (void) const
+const CFlugplanEintrag *PERSON::GetFlugplanEintrag () const
 {
     if (FlightAirline>=0 && FlightAirline<=3)
     {
         return (&Sim.Players.Players[(SLONG)FlightAirline].Planes[FlightPlaneId].Flugplan.Flug[(SLONG)FlightPlaneIndex]);
     }
 
-    return (NULL);
+    return (nullptr);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -3284,7 +3284,7 @@ PERSONS::PERSONS () : ALBUM<PERSON> (Persons, "Persons")
 //--------------------------------------------------------------------------------------------
 //Sortiert alle Personen gemäß ihrer Tiefe:
 //--------------------------------------------------------------------------------------------
-void PERSONS::DepthSort (void)
+void PERSONS::DepthSort ()
 {
     Sort ();  //Album-Template Routine verwenden
 }
@@ -3313,7 +3313,7 @@ void PERSONS::RemoveAnimationNear (XY Position)
 //--------------------------------------------------------------------------------------------
 //Alle Personen gehen einen Schritt weiter:
 //--------------------------------------------------------------------------------------------
-void PERSONS::DoOneStep (void)
+void PERSONS::DoOneStep ()
 {
     SLONG c;
     static BOOL LastMode=-1;
@@ -3356,7 +3356,7 @@ void PERSONS::DoOneStep (void)
     if (Sim.CallItADay == 0)
     {
         //Personen, die warten werden nur berücksichtigt wenn Ostern auf Pfingsten fällt:
-        UBYTE Waiting = UBYTE(Sim.TimeSlice);
+        auto Waiting = UBYTE(Sim.TimeSlice);
 
         if ((Sim.Gamestate&GAMESTATE_QUIT) != 0)
         {
@@ -3449,7 +3449,7 @@ void PERSONS::DoOneStep (void)
                         case CLAN_PLAYER4: //Falls Person auf Flughafensicht, dann laufen:
                             {
                                 PLAYER &qPlayer = Sim.Players.Players[(SLONG)qPerson.State];
-                                if (qPlayer.GetRoom()==ROOM_AIRPORT && (qPlayer.IsTalking == 0) && (qPlayer.LocationWin==NULL || ((*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_F && (*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_M))) {
+                                if (qPlayer.GetRoom()==ROOM_AIRPORT && (qPlayer.IsTalking == 0) && (qPlayer.LocationWin==nullptr || ((*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_F && (*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_M))) {
                                     if (qPlayer.Stunned==0) {
                                         if (Sim.Difficulty!=DIFF_TUTORIAL || Sim.Tutorial>=1100 || (Sim.IsTutorial == 0))
                                         {
@@ -3558,7 +3558,7 @@ ULONG PERSONS::GetPlayerIndex (SLONG Number)
 //--------------------------------------------------------------------------------------------
 //Wer will gerade nur einkaufen:
 //--------------------------------------------------------------------------------------------
-SLONG PERSONS::GetNumShoppers (void)
+SLONG PERSONS::GetNumShoppers ()
 {
     SLONG c;
     SLONG n=0;
@@ -3578,7 +3578,7 @@ SLONG PERSONS::GetNumShoppers (void)
 //--------------------------------------------------------------------------------------------
 //Schaut, ob Stimmungen angezeigt werden müssen:
 //--------------------------------------------------------------------------------------------
-void PERSONS::TryMoods (void)
+void PERSONS::TryMoods ()
 {
     SLONG Indexes[4];
     XY    Positions[4];
@@ -3940,7 +3940,7 @@ void CPersonQueue::SetSpotTime (XY Position, SLONG TimeSlice)
 //--------------------------------------------------------------------------------------------
 //Überwacht die Queue:
 //--------------------------------------------------------------------------------------------
-void CPersonQueue::Pump (void)
+void CPersonQueue::Pump ()
 {
     SLONG c;
     SLONG Anz; //, MinPriority;
@@ -3996,7 +3996,7 @@ void CPersonQueue::Pump (void)
 //--------------------------------------------------------------------------------------------
 //neuer Tag ==> Queue leeren:
 //--------------------------------------------------------------------------------------------
-void CPersonQueue::NewDay (void)
+void CPersonQueue::NewDay ()
 {
     Person.ReSize (0);
     Person.ReSize (50);
@@ -4007,7 +4007,7 @@ void CPersonQueue::NewDay (void)
 //--------------------------------------------------------------------------------------------
 // Resets all TimeSlice field from the Spots Array:
 //--------------------------------------------------------------------------------------------
-void CPersonQueue::ResetSpotTimeSlices (void)
+void CPersonQueue::ResetSpotTimeSlices ()
 {
     SLONG c;
 

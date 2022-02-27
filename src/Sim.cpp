@@ -43,8 +43,8 @@ static long MonthLength [] = { 31, 28, 31, 30, 31, 30, 30, 31, 30, 31, 30, 31 };
 
 static const char FileId[] = "Sim.";
 
-char chRegKey[]    = "Software\\Spellbound Software\\Airline Tycoon Deluxe\\1.0";
-char chRegKeyOld[] = "Software\\Spellbound Software\\Airline Tycoon Evolution\\1.0";
+char chRegKey[]    = R"(Software\Spellbound Software\Airline Tycoon Deluxe\1.0)";
+char chRegKeyOld[] = R"(Software\Spellbound Software\Airline Tycoon Evolution\1.0)";
 //char chRegKeyOld[] = "Software\\Spellbound Software\\Airline Tycoon FirstClass\\1.0";
 
 extern SLONG NewgameWantsToLoad;
@@ -159,7 +159,7 @@ void SIM::AddSmacker (const CString& Filename, long BrickId, XY Offset)
 //--------------------------------------------------------------------------------------------
 //Einige Leute gehen am Flughafen einkaufen
 //--------------------------------------------------------------------------------------------
-void SIM::AddNewShoppers (void) const
+void SIM::AddNewShoppers () const
 {
     if (((Sim.Time>9*60000 && Sim.Time<=12*60000) || (Sim.Time>=14*60000 && Sim.Time<=16*60000)) && Sim.CheckIn!=-1 && Sim.Shops!=-1 && Editor==EDITOR_NONE)
     {
@@ -184,7 +184,7 @@ void SIM::AddNewShoppers (void) const
 //--------------------------------------------------------------------------------------------
 //Fügt Flugpassagiere hinzu:
 //--------------------------------------------------------------------------------------------
-void SIM::AddNewPassengers (void)
+void SIM::AddNewPassengers ()
 {
     SLONG c;
     SLONG d;
@@ -461,7 +461,7 @@ void SIM::ChooseStartup (BOOL GameModeQuick)
         if (Sim.Options.OptionRandomStartday != 0) {
             Sim.StartTime = (rand()%365)*60*60*24;
         } else {
-            Sim.StartTime = time (NULL);
+            Sim.StartTime = time (nullptr);
 }
     }
 
@@ -668,10 +668,10 @@ void SIM::ChooseStartup (BOOL GameModeQuick)
         Sim.StatnewDays       = 7;
         Sim.DropDownPosY      = 0;
 
-        for (short p = 0 ; p < 3 ; p++) {
+        for (auto & p : Sim.StatiArray) {
             for (short i = 0 ; i < 16; i++)
             {
-                Sim.StatiArray[p][i]=true;
+                p[i]=true;
             }
 }
     }
@@ -1201,7 +1201,7 @@ leave_loop: ;
 //----------------------------------------------------------------------------------------
 //Sucht die Städte aus, die der Spieler in der Routenmissionen verbinden muß
 //----------------------------------------------------------------------------------------
-void SIM::CreateMissionCities (void)
+void SIM::CreateMissionCities ()
 {
     SLONG         c;
     SLONG         d;
@@ -1328,7 +1328,7 @@ void SIM::CreateMissionCities (void)
 //----------------------------------------------------------------------------------------
 //Sucht die Stadt mit dem Erdbeben aus:
 //----------------------------------------------------------------------------------------
-void SIM::CreateEarthquakeCity (void)
+void SIM::CreateEarthquakeCity ()
 {
     SLONG c;
     SLONG best=-1;
@@ -1359,7 +1359,7 @@ void SIM::CreateEarthquakeCity (void)
 //----------------------------------------------------------------------------------------
 //Zählt die Uhr einen Schritt weiter und löst ggf. Ereignisse aus.
 //----------------------------------------------------------------------------------------
-void SIM::DoTimeStep (void)
+void SIM::DoTimeStep ()
 {
     BOOL  DoCalc;
     SLONG c;
@@ -1443,7 +1443,7 @@ void SIM::DoTimeStep (void)
                 Message << rChkPersonRandCreate << rChkPersonRandMisc << rChkHeadlineRand;
                 Message << rChkLMA << rChkRBA << rChkFrachen << rChkGeneric;
 
-                for (long c=0; c<MAX_CITIES; c++) { Message << rChkAA[c];
+                for (unsigned int & c : rChkAA) { Message << c;
 }
                 for (c=0; c<4; c++) { Message;
 }
@@ -2400,7 +2400,7 @@ void SIM::DoTimeStep (void)
 //------------------------------------------------------------------------------
 //Gibt die aktuelle Woche (1,2,3,4) zurück:
 //------------------------------------------------------------------------------
-SLONG SIM::GetWeek (void) const
+SLONG SIM::GetWeek () const
 {
     return (Date % 4);
 }
@@ -2408,7 +2408,7 @@ SLONG SIM::GetWeek (void) const
 //--------------------------------------------------------------------------------------------
 //Gibt die aktuelle Stunde zurück:
 //--------------------------------------------------------------------------------------------
-SLONG SIM::GetHour (void) const
+SLONG SIM::GetHour () const
 {
     return (Time/60000);
 }
@@ -2417,7 +2417,7 @@ SLONG SIM::GetHour (void) const
 //Gibt die Jahrezeit zurück. Das ist nicht immer SIM::Jahreszeit. Die Variable enthält, die
 //zur Zeit *geladene* Jahreszeit.
 //--------------------------------------------------------------------------------------------
-SLONG SIM::GetSeason (void)
+SLONG SIM::GetSeason ()
 {
     time_t     Time = Sim.StartTime + Sim.Date*60*60*24;
     struct tm *pTimeStruct = localtime (&Time);
@@ -2456,7 +2456,7 @@ SLONG SIM::GetSeason (void)
 //--------------------------------------------------------------------------------------------
 //Überprüft, ob wir die richtigen Bricks geladen haben:
 //--------------------------------------------------------------------------------------------
-void SIM::UpdateSeason (void)
+void SIM::UpdateSeason ()
 {
     if (GetSeason() != Jahreszeit)
     {
@@ -2483,7 +2483,7 @@ void SIM::UpdateSeason (void)
 //--------------------------------------------------------------------------------------------
 //Gibt die aktuelle Minute zurück:
 //--------------------------------------------------------------------------------------------
-SLONG SIM::GetMinute (void) const
+SLONG SIM::GetMinute () const
 {
     return ((Time/1000)%60);
 }
@@ -2491,7 +2491,7 @@ SLONG SIM::GetMinute (void) const
 //------------------------------------------------------------------------------
 //Gibt die aktuelle Zeit als String zurück:
 //------------------------------------------------------------------------------
-CString SIM::GetTimeString (void)
+CString SIM::GetTimeString ()
 {
     return (bprintf ("%2li:%02li", GetHour(), GetMinute()));
 }
@@ -2499,7 +2499,7 @@ CString SIM::GetTimeString (void)
 //------------------------------------------------------------------------------
 //Läßt neuen Tag & ggf. Monat beginnen
 //------------------------------------------------------------------------------
-void SIM::NewDay (void)
+void SIM::NewDay ()
 {
     SLONG     c;
     SLONG     d;
@@ -2943,7 +2943,7 @@ void SIM::CreateRandomUsedPlane (SLONG Index)
 //--------------------------------------------------------------------------------------------
 //Sucht drei zufällige Flugzeuge für heute aus:
 //--------------------------------------------------------------------------------------------
-void SIM::CreateRandomUsedPlanes (void)
+void SIM::CreateRandomUsedPlanes ()
 {
     SLONG c;
 
@@ -2968,7 +2968,7 @@ void SIM::CreateRandomUsedPlanes (void)
 //--------------------------------------------------------------------------------------------
 //Füllt nach einiger Zeit die Flieger wieder auf:
 //--------------------------------------------------------------------------------------------
-void SIM::UpdateUsedPlanes (void)
+void SIM::UpdateUsedPlanes ()
 {
     SLONG c;
     SLONG Anz = min (SLONG(UsedPlanes.AnzEntries()), Sim.TickMuseumRefill/20); //Normalerweise war das früher Time-Last / 5000, hier aber /100000, also effektiv /20
@@ -2993,7 +2993,7 @@ void SIM::UpdateUsedPlanes (void)
 //--------------------------------------------------------------------------------------------
 //Die Gates werden ggf. vertauscht um in der perfekten Reihenfolge zu sein:
 //--------------------------------------------------------------------------------------------
-void SIM::ReformGates (void)
+void SIM::ReformGates ()
 {
     SLONG c;
     SLONG d;
@@ -3316,7 +3316,7 @@ BOOL SIM::LoadGame (SLONG Number)
         Sim.DayState  = 1;
 
         delete TopWin;
-        TopWin=NULL;
+        TopWin=nullptr;
 
         BOOL bReadyForMornings[4];
 
@@ -3334,7 +3334,7 @@ BOOL SIM::LoadGame (SLONG Number)
             if (Sim.Players.Players[c].LocationWin != nullptr)
             {
                 delete Sim.Players.Players[c].LocationWin;
-                Sim.Players.Players[c].LocationWin=NULL;
+                Sim.Players.Players[c].LocationWin=nullptr;
             }
 }
     }
@@ -3346,7 +3346,7 @@ BOOL SIM::LoadGame (SLONG Number)
             if (Sim.Players.Players[c].LocationWin != nullptr)
             {
                 delete Sim.Players.Players[c].LocationWin;
-                Sim.Players.Players[c].LocationWin = NULL;
+                Sim.Players.Players[c].LocationWin = nullptr;
             }
         }
     }
@@ -3938,7 +3938,7 @@ void SIM::ReadSavegameOwners (SLONG Index)
 //--------------------------------------------------------------------------------------------
 //Lädt die Optionen aus der Registry:
 //--------------------------------------------------------------------------------------------
-void SIM::LoadOptions (void)
+void SIM::LoadOptions ()
 {
     Options.ReadOptions();
     Airport.RepaintTextBricks ();
@@ -3947,7 +3947,7 @@ void SIM::LoadOptions (void)
 //--------------------------------------------------------------------------------------------
 //Speichert die Optionen in der Registry:
 //--------------------------------------------------------------------------------------------
-void SIM::SaveOptions (void)
+void SIM::SaveOptions ()
 {
     Options.WriteOptions();
 }
@@ -3955,7 +3955,7 @@ void SIM::SaveOptions (void)
 //--------------------------------------------------------------------------------------------
 //Bringt den Benutzungplan der Räume auf den neusten Stand:
 //--------------------------------------------------------------------------------------------
-void SIM::UpdateRoomUsage (void)
+void SIM::UpdateRoomUsage ()
 {
     SLONG c;
     SLONG d;
@@ -4074,7 +4074,7 @@ void SIM::NetRefill (SLONG Type, SLONG City)
 //--------------------------------------------------------------------------------------------
 // Ein Spieler will einen anderen übernehmen:
 //--------------------------------------------------------------------------------------------
-void SIM::NetSynchronizeOvertake (void) const
+void SIM::NetSynchronizeOvertake () const
 {
     Sim.SendSimpleMessage (ATNET_OVERTAKE, 0, OvertakenAirline, OvertakerAirline, Overtake);
 }
@@ -4136,7 +4136,7 @@ void SIM::AddHighscore (const CString& Name, DWORD UniqueGameId2, __int64 Score)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void SIM::SaveHighscores (void)
+void SIM::SaveHighscores ()
 {
 #ifdef _DEBUG
     return; //Debug exit for better single installation multiplayer testing
@@ -4144,12 +4144,12 @@ void SIM::SaveHighscores (void)
     CString  str;
     TEAKFILE OutputFile (AppPath+"misc/xmlmap.fla", TEAKFILE_WRITE);
 
-    for (long c=0; c<6; c++)
+    for (auto & Highscore : Highscores)
     {
-        OutputFile.Write ((UBYTE*)(LPCTSTR)Highscores[c].Name, Highscores[c].Name.GetLength());
+        OutputFile.Write ((UBYTE*)(LPCTSTR)Highscore.Name, Highscore.Name.GetLength());
         OutputFile.Write ((UBYTE*)";", 1);
 
-        str = bprintf ("%lu;", Highscores[c].UniqueGameId2);
+        str = bprintf ("%lu;", Highscore.UniqueGameId2);
         OutputFile.Write ((UBYTE*)(LPCTSTR)str, str.GetLength());
 
         __int64 k1 = rand()%256 + rand()%256*256 + rand()%256*65536 + rand()%256*65536*256;
@@ -4158,11 +4158,11 @@ void SIM::SaveHighscores (void)
         __int64 k4;
         __int64 k5;
 
-        k4 = k5 = Highscores[c].Score;
+        k4 = k5 = Highscore.Score;
         k4 ^= (k1^k3);
         k5 ^= k2;
 
-        if (Highscores[c].Score==0) { k1=k2=k3=k4=k5=0;
+        if (Highscore.Score==0) { k1=k2=k3=k4=k5=0;
 }
 
         str = bprintf ("%I64i;", k1);
@@ -4185,7 +4185,7 @@ void SIM::SaveHighscores (void)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void SIM::LoadHighscores (void)
+void SIM::LoadHighscores ()
 {
     try
     {
@@ -4194,7 +4194,7 @@ void SIM::LoadHighscores (void)
             char Buffer[8192];
             TEAKFILE OutputFile (AppPath+"misc/xmlmap.fla", TEAKFILE_READ);
 
-            for (long c=0; c<6; c++)
+            for (auto & Highscore : Highscores)
             {
                 OutputFile.ReadLine (Buffer, 8192);
 
@@ -4203,8 +4203,8 @@ void SIM::LoadHighscores (void)
                     sprintf (Buffer, "%s", bprintf(" %s", Buffer));
                 }
 
-                Highscores[c].Name = strtok (Buffer, ";");
-                Highscores[c].UniqueGameId2 = atoi (strtok (NULL, ";"));
+                Highscore.Name = strtok (Buffer, ";");
+                Highscore.UniqueGameId2 = atoi (strtok (nullptr, ";"));
 
                 int64_t k1 = atoll (strtok (nullptr, ";"));
                 int64_t k2 = atoll (strtok (nullptr, ";"));
@@ -4213,9 +4213,9 @@ void SIM::LoadHighscores (void)
                 int64_t k5 = atoll (strtok (nullptr, ";"));
 
                 if ((k4^k1^k3) == (k5^k2)) {
-                    Highscores[c].Score = k5^k2;
+                    Highscore.Score = k5^k2;
                 } else {
-                    Highscores[c].Score = 0;
+                    Highscore.Score = 0;
 }
             }
         }
@@ -4226,7 +4226,7 @@ void SIM::LoadHighscores (void)
 //--------------------------------------------------------------------------------------------
 //Liest die Optionen aus der Registry:
 //--------------------------------------------------------------------------------------------
-void COptions::ReadOptions (void)
+void COptions::ReadOptions ()
 {
     SLONG tmp  = Sim.MaxDifficulty;
     SLONG tmp2 = Sim.MaxDifficulty2;
@@ -4448,7 +4448,7 @@ void COptions::ReadOptions (void)
 //--------------------------------------------------------------------------------------------
 //Schreibt die Optionen in die Registry:
 //--------------------------------------------------------------------------------------------
-void COptions::WriteOptions (void)
+void COptions::WriteOptions ()
 {
     SLONG tmp  = Sim.MaxDifficulty;
     SLONG tmp2 = Sim.MaxDifficulty2;
@@ -4562,7 +4562,7 @@ SValue::SValue ()
 //--------------------------------------------------------------------------------------------
 //Init:
 //--------------------------------------------------------------------------------------------
-void SValue::Init (void)
+void SValue::Init ()
 {
     Days.ReSize (31);     Days.FillWith (0);
     Months.ReSize (12);   Months.FillWith (0);
@@ -4571,7 +4571,7 @@ void SValue::Init (void)
 //--------------------------------------------------------------------------------------------
 //Verwaltung für den neuen Tag:
 //--------------------------------------------------------------------------------------------
-void SValue::NewDay (void)
+void SValue::NewDay ()
 {
     memmove (Days+1, Days, 30*sizeof(Days[0]));
 }
@@ -4591,7 +4591,7 @@ void SValue::NewMonth (BOOL MonthIsSumOfDays)
 //--------------------------------------------------------------------------------------------
 //Gibt das Minimum aus dem letzten Monat aus:
 //--------------------------------------------------------------------------------------------
-__int64 SValue::GetMin (void)
+__int64 SValue::GetMin ()
 {
     __int64 rc=Days[0];
 
@@ -4606,7 +4606,7 @@ __int64 SValue::GetMin (void)
 //--------------------------------------------------------------------------------------------
 //Gibt den Durchschnitt (Average) aus dem letzten Monat aus:
 //--------------------------------------------------------------------------------------------
-__int64 SValue::GetAvg (void)
+__int64 SValue::GetAvg ()
 {
     __int64 rc=0;
 
@@ -4621,7 +4621,7 @@ __int64 SValue::GetAvg (void)
 //--------------------------------------------------------------------------------------------
 //Gibt das Maximum aus dem letzten Monat aus:
 //--------------------------------------------------------------------------------------------
-__int64 SValue::GetMax (void)
+__int64 SValue::GetMax ()
 {
     __int64 rc=Days[0];
 
@@ -4636,7 +4636,7 @@ __int64 SValue::GetMax (void)
 //--------------------------------------------------------------------------------------------
 //Gibt die Summe aus dem letzten Monat aus:
 //--------------------------------------------------------------------------------------------
-__int64 SValue::GetSum (void)
+__int64 SValue::GetSum ()
 {
     __int64 rc=0;
 

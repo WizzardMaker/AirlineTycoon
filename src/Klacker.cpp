@@ -33,26 +33,26 @@ KLACKER::~KLACKER ()
     if ((pGLib != nullptr) && (pGfxMain != nullptr))
     {
         pGfxMain->ReleaseLib (pGLib);
-        pGLib=NULL;
+        pGLib=nullptr;
     }
 }
 
 //--------------------------------------------------------------------------------------------
 //Löscht alle Inhalte:
 //--------------------------------------------------------------------------------------------
-void KLACKER::Clear (void)
+void KLACKER::Clear ()
 {
     memset (Soll, 0, 24*16);
 
-    for (SLONG c=0; c<16; c++) {
-        LineDisabled[c]=false;
+    for (bool & c : LineDisabled) {
+        c=false;
 }
 }
 
 //--------------------------------------------------------------------------------------------
 //Blättert alle Zeichen die es nötig haben einen Zeile weiter:
 //--------------------------------------------------------------------------------------------
-BOOL KLACKER::Klack (void)
+BOOL KLACKER::Klack ()
 {
     SLONG c;
     SLONG d;
@@ -115,7 +115,7 @@ BOOL KLACKER::Klack (void)
 //--------------------------------------------------------------------------------------------
 //Gibt TRUE zurück, wenn nichts mehr zu klackern ist:
 //--------------------------------------------------------------------------------------------
-BOOL KLACKER::IsFinished (void)
+BOOL KLACKER::IsFinished ()
 {
     return static_cast<BOOL>(memcmp (Soll, Haben, 16*24)==0);
 }
@@ -123,7 +123,7 @@ BOOL KLACKER::IsFinished (void)
 //--------------------------------------------------------------------------------------------
 //Bringt alle Felder sofort auf den Soll-Stand:
 //--------------------------------------------------------------------------------------------
-void KLACKER::Warp (void)
+void KLACKER::Warp ()
 {
     SLONG c;
 
@@ -226,7 +226,7 @@ void KLACKER::PrintAt (SLONG x, SLONG y, const char *Text)
 
         p = (char*)memchr (KlackerFntDef, ch, strlen(KlackerFntDef));
 
-        if (p==NULL) { Soll[c+x + y*24] = 0;
+        if (p==nullptr) { Soll[c+x + y*24] = 0;
         } else { Soll[c+x + y*24] = UBYTE(p-KlackerFntDef);
 }
     }
@@ -244,7 +244,7 @@ void KLACKER::PrintVolumeAt (SLONG x, SLONG y, SLONG Maximum, SLONG Current)
     {
         p = strchr (KlackerFntDef, '-');
 
-        if (p==NULL) { Soll[c+x + y*24] = 0;
+        if (p==nullptr) { Soll[c+x + y*24] = 0;
         } else { Soll[c+x + y*24] = UBYTE(p-KlackerFntDef);
 }
     }
@@ -253,7 +253,7 @@ void KLACKER::PrintVolumeAt (SLONG x, SLONG y, SLONG Maximum, SLONG Current)
     {
         p = strchr (KlackerFntDef, '|');
 
-        if (p==NULL) { Soll[x+Current + y*24] = 0;
+        if (p==nullptr) { Soll[x+Current + y*24] = 0;
         } else { Soll[x+Current + y*24] = UBYTE(p-KlackerFntDef);
 }
     }
@@ -262,7 +262,7 @@ void KLACKER::PrintVolumeAt (SLONG x, SLONG y, SLONG Maximum, SLONG Current)
 //--------------------------------------------------------------------------------------------
 //Entfernt alles Flugzeuge:
 //--------------------------------------------------------------------------------------------
-void CKlackerPlanes::Reset (void)
+void CKlackerPlanes::Reset ()
 {
     KlackerPlanes.ReSize (10);
 

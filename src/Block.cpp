@@ -34,7 +34,7 @@ BLOCK::BLOCK ()
     PageSize     = 0;
     PageSizeB    = 0;
     Destructing  = 0;
-    pGLibPicture = NULL;
+    pGLibPicture = nullptr;
     StyleType    = 0;
     Index        = TRUE;
 
@@ -67,7 +67,7 @@ void BLOCK::BlitAt (SBBM &RoomBm)
     else
     {
         SLONG Phase = (Sim.TimeSlice-AnimationStart)*2-7;
-        CLaptop *pLaptop = (CLaptop*)Base;
+        auto *pLaptop = (CLaptop*)Base;
 
         if (Destructing==1)
         {
@@ -160,7 +160,7 @@ void BLOCK::BlitAt (SBBM &RoomBm)
                 }
                 if (Phase>=22 && Phase<38)
                 {
-                    ColorFX.BlitTrans (Bitmap.pBitmap, RoomBm.pBitmap, ScreenPos, NULL, (38-Phase)/2);
+                    ColorFX.BlitTrans (Bitmap.pBitmap, RoomBm.pBitmap, ScreenPos, nullptr, (38-Phase)/2);
                 }
                 if (Phase>=38) { RoomBm.BlitFromT (Bitmap, ScreenPos);
 }
@@ -225,7 +225,7 @@ void BLOCK::BlitAt (SBBM &RoomBm)
                 }
                 if (Phase>=22 && Phase<38)
                 {
-                    ColorFX.BlitTrans (Bitmap.pBitmap, RoomBm.pBitmap, ScreenPos, NULL, (38-Phase)/2);
+                    ColorFX.BlitTrans (Bitmap.pBitmap, RoomBm.pBitmap, ScreenPos, nullptr, (38-Phase)/2);
                 }
                 if (Phase>=38) { RoomBm.BlitFromT (Bitmap, ScreenPos);
 }
@@ -243,7 +243,7 @@ void BLOCK::LoadLib (const CString &LibName)
     {
         Bitmap.Destroy();
         pGfxMain->ReleaseLib (pGLibPicture);
-        pGLibPicture = NULL;
+        pGLibPicture = nullptr;
     }
 
     if (LibName.GetLength()>0)
@@ -314,7 +314,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
     XY         PageAreaB;   //Hier steht die aktuelle Seite Papier
     PLAYER    &qPlayer = Sim.Players.Players[PlayerNum];
 
-    if (Base==NULL) { return;
+    if (Base==nullptr) { return;
 }
 
     BLOCK::StyleType=StyleType;
@@ -343,7 +343,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
     if (StyleType==0) //Globus/Filofax
     {
-        CGlobe *pGlobe = (CGlobe*)Base;
+        auto *pGlobe = (CGlobe*)Base;
 
         TitleArea   = XY (48,57);
         ClientArea  = XY (48,72);
@@ -411,7 +411,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
     }
     else //Laptop
     {
-        CLaptop *pLaptop = (CLaptop*)Base;
+        auto *pLaptop = (CLaptop*)Base;
 
         TitleArea   = XY (41,7);
         ClientArea  = XY (20,21)+XY(1,1);
@@ -1565,13 +1565,13 @@ switch_again:
     else if (TipInUseB == TIP_PLANE)
     {
         //DrawPlaneTipContents (Bitmap, &PlaneTypes[qPlayer.Planes[CurrentTipId].TypeId], &qPlayer.Planes[CurrentTipId], TitleAreaB, ClientAreaB, &TitleFont, &FontSmallBlack, TRUE);
-        DrawPlaneTipContents (Bitmap, NULL, &qPlayer.Planes[CurrentTipId], TitleAreaB, ClientAreaB, &TitleFont, &FontSmallBlack, TRUE);
+        DrawPlaneTipContents (Bitmap, nullptr, &qPlayer.Planes[CurrentTipId], TitleAreaB, ClientAreaB, &TitleFont, &FontSmallBlack, TRUE);
     }
     else if (TipInUseB == TIP_AUFTRAG)
     {
         DrawAuftragTipContents (-1,
                 Bitmap,
-                NULL,
+                nullptr,
                 &Sim.Players.Players[(SLONG)PlayerNum].Auftraege[CurrentTipId],
                 CurrentTipIdPar3, //Gate
                 CurrentTipIdPar1,
@@ -1583,7 +1583,7 @@ switch_again:
     {
         DrawFrachtTipContents (-1,
                 Bitmap,
-                NULL,
+                nullptr,
                 &Sim.Players.Players[(SLONG)PlayerNum].Frachten[CurrentTipId],
                 CurrentTipIdPar3, //t mit diesem Flug transportiert
                 CurrentTipIdPar1, //Costs
@@ -1691,7 +1691,7 @@ void BLOCK::RefreshData (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 //Springt zum Index:
 //--------------------------------------------------------------------------------------------
-void BLOCK::GotoIndex (void)
+void BLOCK::GotoIndex ()
 {
     Index = TRUE;
 
@@ -1701,21 +1701,21 @@ void BLOCK::GotoIndex (void)
 //--------------------------------------------------------------------------------------------
 //Geht eine Seite weiter:
 //--------------------------------------------------------------------------------------------
-void BLOCK::GotoNext (void)
+void BLOCK::GotoNext ()
 {
 }
 
 //--------------------------------------------------------------------------------------------
 //Geht eine Seite zurück:
 //--------------------------------------------------------------------------------------------
-void BLOCK::GotoPrevious (void)
+void BLOCK::GotoPrevious ()
 {
 }
 
 //--------------------------------------------------------------------------------------------
 //Erneuert den PageSize Eintrag:
 //--------------------------------------------------------------------------------------------
-void BLOCK::UpdatePageSize (void)
+void BLOCK::UpdatePageSize ()
 {
     PageSize   = 6;
     PageSizeB  = 6;

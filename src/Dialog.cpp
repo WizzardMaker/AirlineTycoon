@@ -86,7 +86,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
     if (DialogPartner!=TALKER_NONE)
     {
         //Klick ignorieren, wenn er erst anfängt zu reden:
-        if (pSmackerPartner!=NULL && TextAlign==0 && pSmackerPartner->GetMood()!=SPM_TALKING && timeGetTime()<=(DWORD)SmackerTimeToTalk)
+        if (pSmackerPartner!=nullptr && TextAlign==0 && pSmackerPartner->GetMood()!=SPM_TALKING && timeGetTime()<=(DWORD)SmackerTimeToTalk)
         {
             //Hack, damit leerer Sprach-Text weggeklickt werden kann:
             if (CanCancelEmpty != TRUE)
@@ -972,7 +972,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                     case 3050: //Wirklich etwas machen: (Aktien ausgeben)
                                {
                                    SLONG   MarktAktien;
-                                   SLONG   AlterKurs=SLONG(qPlayer.Kurse[0]);
+                                   auto   AlterKurs=SLONG(qPlayer.Kurse[0]);
 
                                    if (DialogPar3==5) MarktAktien=DialogPar1;
                                    else if (DialogPar3==3) MarktAktien=DialogPar1*8/10;
@@ -993,7 +993,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (c!=PlayerNum)
                                        {
-                                           SLONG entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum]*(AlterKurs-qPlayer.Kurse[0]));
+                                           auto entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum]*(AlterKurs-qPlayer.Kurse[0]));
 
                                            Sim.Players.Players[c].ChangeMoney (entschaedigung, 3161, "");
                                            Sim.Players.Players[c].Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, entschaedigung);

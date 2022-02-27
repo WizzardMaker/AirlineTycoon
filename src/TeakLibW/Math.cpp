@@ -28,6 +28,6 @@ SLONG Calc1nSum(SLONG a)
 
 double GetFrameRate()
 {
-    TeakLibW_Exception(0, 0, ExcNotImplemented);
+    TeakLibW_Exception(nullptr, 0, ExcNotImplemented);
     return 42.0;
 }

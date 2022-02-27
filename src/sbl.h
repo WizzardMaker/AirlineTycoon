@@ -25,6 +25,7 @@ extern SLONG GetHighestSetBit(SLONG mask);
 class GfxLib
 {
     public:
+        GfxLib(void*, SDL_Renderer*, char*, SLONG, SLONG, SLONG*);
         struct _GfxStruct* ReloadSurface(__int64);
         static SLONG Restore(void);
         void Release(void);
@@ -40,7 +41,6 @@ class GfxLib
         __int64 GetGfxShortId(SLONG);
 
     protected:
-        GfxLib(void*, SDL_Renderer*, char*, SLONG, SLONG, SLONG*);
         void ErrorProc(SLONG);
 
         friend class GfxMain;

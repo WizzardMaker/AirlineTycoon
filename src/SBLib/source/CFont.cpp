@@ -1,18 +1,18 @@
 #include "StdAfx.h"
 
-SB_CFont::SB_CFont(void)
-    : Surface(NULL)
-    , Texture(NULL)
-    , VarWidth(NULL)
-    , VarHeight(NULL)
+SB_CFont::SB_CFont()
+    : Surface(nullptr)
+    , Texture(nullptr)
+    , VarWidth(nullptr)
+    , VarHeight(nullptr)
     , Hidden(false)
-    , Tabulator(NULL)
+    , Tabulator(nullptr)
     , LineSpace(1.5F)
-      , Bitmap(NULL)
+      , Bitmap(nullptr)
 {
 }
 
-SB_CFont::~SB_CFont(void)
+SB_CFont::~SB_CFont()
 {
     if (Texture != nullptr) {
         SDL_DestroyTexture(Texture);
@@ -43,7 +43,7 @@ bool SB_CFont::Load(SDL_Renderer* renderer, const char* path, struct HPALETTE__*
         return false;
 }
 
-    SDL_Color* colors = new SDL_Color[Header.NumColors + 1];
+    auto* colors = new SDL_Color[Header.NumColors + 1];
     if (SDL_RWread(file, colors, 1, Header.szColors) != Header.szColors) {
         return false;
 }
@@ -198,7 +198,7 @@ void SB_CFont::SetTabulator(TABS* pTabs, ULONG szTabs)
 {
     if (this->Tabulator != nullptr) {
         delete[] this->Tabulator;
-        this->Tabulator = NULL;
+        this->Tabulator = nullptr;
     }
     this->NumTabs = (word)(szTabs / sizeof(TABS));
     this->Tabulator = new TABS[this->NumTabs];
@@ -353,7 +353,7 @@ bool SB_CFont::DrawChar(unsigned char ch, bool /*unused*/)
 {
     if (this->VarHeight != nullptr)
     {
-        if (this->Bitmap != (SB_CBitmapCore*)0x0)
+        if (this->Bitmap != (SB_CBitmapCore*)nullptr)
         {
             SDL_Rect srcRect;
             srcRect.x = 0;

@@ -18,7 +18,7 @@ static char THIS_FILE[] = __FILE__;
 extern BOOL    deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame, XY OffsetA, XY OffsetB);
 
 XY      gScrollOffsetA, gScrollOffsetB;
-FILE   *pSoundLogFile=NULL;
+FILE   *pSoundLogFile=nullptr;
 SLONG   SoundLogFileStartTime=0;
 
 __int64 GetIdFromString (CString Text)
@@ -40,7 +40,7 @@ BOOL SBBM::ShiftUp (SLONG y)
     SDL_Surface *orig = this->pBitmap->GetSurface();
     SDL_Surface *buffer = SDL_CreateRGBSurfaceWithFormat(0, Size.x, Size.y, orig->format->BitsPerPixel, orig->format->format);
 
-    SDL_BlitSurface(orig, NULL, buffer, NULL); //copy content from original to buffer
+    SDL_BlitSurface(orig, nullptr, buffer, nullptr); //copy content from original to buffer
 
     SDL_Rect src = { 0, 0, Size.x,Size.y };
     SDL_Rect dst = { 0, -y, Size.x, Size.y };
@@ -460,7 +460,7 @@ BOOL  SBBM::TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CStr
         SDL_Color fg = { GetRValue(Front), GetGValue(Front), GetBValue(Front) };
         SDL_Surface* Text = TTF_RenderText_Shaded(Font, String, fg, bg);
         SDL_Rect Dst = { x, y, Text->w, Text->h };
-        SDL_BlitSurface(Text, NULL, Surf, &Dst);
+        SDL_BlitSurface(Text, nullptr, Surf, &Dst);
         SDL_FreeSurface(Text);
         TTF_CloseFont(Font);
     }
@@ -518,7 +518,7 @@ BOOL  SBPRIMARYBM::TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, con
         SDL_Color fg = { GetRValue(Front), GetGValue(Front), GetBValue(Front) };
         SDL_Surface* Text = TTF_RenderText_Shaded(Font, String, fg, bg);
         SDL_Rect Dst = { x, y, Text->w, Text->h };
-        SDL_BlitSurface(Text, NULL, Surf, &Dst);
+        SDL_BlitSurface(Text, nullptr, Surf, &Dst);
         SDL_FreeSurface(Text);
         TTF_CloseFont(Font);
     }
@@ -631,7 +631,7 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL ShowFPS)
             FrameWnd->PauseBm.Destroy();
             if ((FrameWnd->pGLibPause != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (FrameWnd->pGLibPause);
 }
-            FrameWnd->pGLibPause=NULL;
+            FrameWnd->pGLibPause=nullptr;
         }
     }
 
@@ -699,15 +699,15 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL ShowFPS)
 
           n++;  */
 
-        static FILE *pFile=NULL;
+        static FILE *pFile=nullptr;
         static SLONG FileIndex=0;
         static SBBM  OldFrame;
 
         //Vollbild Delta Video:
-        const Uint8* States = SDL_GetKeyboardState(NULL);
+        const Uint8* States = SDL_GetKeyboardState(nullptr);
         if ((States [VK_SCROLL]&0x0001) != 0)
         {
-            if (pFile==NULL)
+            if (pFile==nullptr)
             {
                 pFile         = fopen (bprintf (MakeVideoPath, FileIndex), "wb");
                 pSoundLogFile = fopen (CString (bprintf (MakeVideoPath, FileIndex))+".txt", "wb");
@@ -739,15 +739,15 @@ void  SBPRIMARYBM::Flip (XY WindowPos, BOOL ShowFPS)
 
                 fclose (pFile);
                 fclose (pSoundLogFile);
-                pFile         = NULL;
-                pSoundLogFile = NULL;
+                pFile         = nullptr;
+                pSoundLogFile = nullptr;
                 FileIndex++;
             }
         }
     }
 }
 
-SBBMS::SBBMS () {}
+SBBMS::SBBMS () = default;
 
 void SBBMS::ReSize (GfxLib* gfxLibrary, __int64 graphicID, ...)
 {
@@ -815,7 +815,7 @@ void SBBMS::ReSize (GfxLib* gfxLibrary, const CString &graphicstr)
     for (Anz=0; ; Anz++)
     {
         if (Anz==0) { Texts[Anz]=strtok (Str, " ");
-        } else { Texts[Anz]=strtok (NULL, " ");
+        } else { Texts[Anz]=strtok (nullptr, " ");
 }
         if (Texts[Anz] == nullptr) { break;
 }
@@ -861,7 +861,7 @@ void SBBMS::ReSize (GfxLib* gfxLibrary, const CString &graphicstr, SLONG Anzahl,
     ReSize(gfxLibrary, graphicIds, flags);
 }
 
-SBBMS::~SBBMS () {}
+SBBMS::~SBBMS () = default;
 
 void SBPRIMARYBM::ReSize (SDL_Window *Wnd, BOOL Fullscreen, const XY &Resolution)
 {

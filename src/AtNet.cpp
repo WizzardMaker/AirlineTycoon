@@ -40,7 +40,7 @@ void SetNetworkBitmap (SLONG Number, SLONG WaitingType)
 
     if (CurrentNumber!=Number || gNetworkBmsType!=WaitingType)
     {
-        GfxLib *pGLib=NULL;
+        GfxLib *pGLib=nullptr;
 
         if (Number==0)
         {
@@ -187,7 +187,7 @@ void PumpBroadcastBitmap (bool bJustForEmergency)
 //--------------------------------------------------------------------------------------------
 //Look for new messages:
 //--------------------------------------------------------------------------------------------
-void PumpNetwork (void)
+void PumpNetwork ()
 {
     SLONG c=0;
     SLONG d=0;
@@ -414,7 +414,7 @@ void PumpNetwork (void)
 
                         Sim.TimeSlice = MessageTime;
                         /*hprintf ("Diff=%li", LocalTime-Sim.TimeSlice);*/
-                        if (qPlayer.GetRoom()==ROOM_AIRPORT && (qPlayer.IsTalking == 0) && (qPlayer.LocationWin==NULL || ((*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_F && (*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_M))) {
+                        if (qPlayer.GetRoom()==ROOM_AIRPORT && (qPlayer.IsTalking == 0) && (qPlayer.LocationWin==nullptr || ((*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_F && (*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_M))) {
                             while (Sim.TimeSlice<LocalTime)
                             {
                                 qPerson.DoOnePlayerStep ();
@@ -521,8 +521,8 @@ void PumpNetwork (void)
 
                         if (RoomEntered!=-1)
                         {
-                            CTalker *pTalker=NULL;
-                            CTalker *pTalker2=NULL;
+                            CTalker *pTalker=nullptr;
+                            CTalker *pTalker2=nullptr;
 
                             switch (RoomEntered)
                             {
@@ -1268,7 +1268,7 @@ void PumpNetwork (void)
                 case ATNET_DIALOG_REQUEST:
                     {
                         PLAYER   &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                        CStdRaum *pRaum   = (CStdRaum*)qPlayer.LocationWin;
+                        auto *pRaum   = (CStdRaum*)qPlayer.LocationWin;
 
                         SLONG RequestingPlayer;
 
@@ -1325,7 +1325,7 @@ void PumpNetwork (void)
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
                         SLONG   OtherPlayerNum;
 
-                        CStdRaum *pRaum   = (CStdRaum*)qPlayer.LocationWin;
+                        auto *pRaum   = (CStdRaum*)qPlayer.LocationWin;
 
                         Message >> OtherPlayerNum;
 
@@ -1869,7 +1869,7 @@ void PumpNetwork (void)
                         Message >> rPersonRandCreate >> rPersonRandMisc >> rHeadlineRand;
                         Message >> rLMA >> rRBA >> rFrachen >> rGeneric;
 
-                        for (long c=0; c<MAX_CITIES; c++) { Message >> rAA[c];
+                        for (unsigned int & c : rAA) { Message >> c;
 }
                         for (c=0; c<20; c++) { Message >> rActionId[c];
 }

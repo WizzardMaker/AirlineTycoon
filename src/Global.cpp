@@ -59,7 +59,7 @@ SLONG                   gUpdatingPools=0;
 GameFrame              *FrameWnd;         //Das Rahmenfenster;
 SDL_Renderer           *lpDD;             //DirectDraw object
 SBPRIMARYBM             PrimaryBm;        //DirectDraw primary & back surface
-SB_CCursor             *pCursor=NULL;
+SB_CCursor             *pCursor=nullptr;
 SLONG                   gRepairPrice[] = { 1200, 18000, 48000, 150000 };
 SLONG                   gWerbePrice[] = { 1000, 10000,  50000, 100000,  250000,  2500000,
     2000,  8000,  22000,  56000,  120000,  1400000,
@@ -74,7 +74,7 @@ GfxLib                 *pGLibStd;
 GfxLib                 *pGLibBasis;
 GfxLib                 *pGLibPlanes;
 GfxLib                 *pGLibBerater;
-GfxLib                 *pGlowEffectLib=NULL;
+GfxLib                 *pGlowEffectLib=nullptr;
 
 SBBMS                   gGlowBms;
 SBBM                    gNumberTemplate;
@@ -342,10 +342,10 @@ SLONG                   AuslandsFRefill[MAX_CITIES];    //Aus dem Ausland
 //--------------------------------------------------------------------------------------------
 //Die Soundeffekte:
 //--------------------------------------------------------------------------------------------
-SSE                    *gpSSE=NULL;           // Die Sound-Engine ist global
-MIDI                   *gpMidi=NULL;
-FX                     *gpClickFx=NULL;
-FX                     *gpPlaneFx=NULL;
+SSE                    *gpSSE=nullptr;           // Die Sound-Engine ist global
+MIDI                   *gpMidi=nullptr;
+FX                     *gpClickFx=nullptr;
+FX                     *gpPlaneFx=nullptr;
 SBFX                    gDoorOpen;
 SBFX                    gDoorClose;
 SBFX                    gMovePaper;

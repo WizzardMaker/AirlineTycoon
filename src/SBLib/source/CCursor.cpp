@@ -3,12 +3,12 @@
 SB_CCursor::SB_CCursor(class SB_CPrimaryBitmap* primary, class SB_CBitmapCore* cursor)
     : Primary(primary)
     , Cursor(cursor)
-      , Background(NULL)
+      , Background(nullptr)
 {
     CreateBackground();
 }
 
-SB_CCursor::~SB_CCursor(void)
+SB_CCursor::~SB_CCursor()
 {
     if (Background != nullptr) {
         SDL_FreeSurface(Background);
@@ -55,7 +55,7 @@ SLONG SB_CCursor::Render(SDL_Renderer* renderer)
 {
     SDL_Rect dst = { Position.x, Position.y, Cursor->GetXSize(), Cursor->GetYSize() };
     if (renderer != nullptr) {
-        return SDL_RenderCopy(renderer, Cursor->GetTexture(), NULL, &dst);
+        return SDL_RenderCopy(renderer, Cursor->GetTexture(), nullptr, &dst);
 }
     return -1;
 }
@@ -76,7 +76,7 @@ SLONG SB_CCursor::RestoreBackground(struct SDL_Surface* surf)
 }
 
     SDL_Rect rect = { Position.x, Position.y, Cursor->GetXSize(), Cursor->GetYSize() };
-    return SDL_BlitSurface(surf, NULL, Primary->GetSurface(), &rect);
+    return SDL_BlitSurface(surf, nullptr, Primary->GetSurface(), &rect);
 }
 
 SLONG SB_CCursor::SaveBackground(struct SDL_Surface* surf)
@@ -90,7 +90,7 @@ SLONG SB_CCursor::SaveBackground(struct SDL_Surface* surf)
     return SDL_BlitSurface(Primary->GetSurface(), &src, surf, &dst);
 }
 
-SLONG SB_CCursor::CreateBackground(void)
+SLONG SB_CCursor::CreateBackground()
 {
     if (Cursor == nullptr) {
         return -1;

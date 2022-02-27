@@ -64,17 +64,17 @@ CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
 
     KonstruktorFinished=TRUE;
 
-    for (SLONG c=0; c<4; c++) {
-        SP_Flags[c].ReSize (1);
+    for (auto & SP_Flag : SP_Flags) {
+        SP_Flag.ReSize (1);
 }
 
-    SP_Flags[0].Clips[0].ReSize (0, "flagb.smk", "", XY ( 142,  63), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
-    SP_Flags[1].Clips[0].ReSize (0, "flagg.smk", "", XY ( 442, 163), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
-    SP_Flags[2].Clips[0].ReSize (0, "flagr.smk", "", XY ( 782,  63), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
-    SP_Flags[3].Clips[0].ReSize (0, "flagy.smk", "", XY (1072, 103), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
+    SP_Flags[0].Clips[0].ReSize (0, "flagb.smk", "", XY ( 142,  63), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0, nullptr, "A9", 0);
+    SP_Flags[1].Clips[0].ReSize (0, "flagg.smk", "", XY ( 442, 163), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0, nullptr, "A9", 0);
+    SP_Flags[2].Clips[0].ReSize (0, "flagr.smk", "", XY ( 782,  63), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0, nullptr, "A9", 0);
+    SP_Flags[3].Clips[0].ReSize (0, "flagy.smk", "", XY (1072, 103), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0, nullptr, "A9", 0);
 
     SP_Ufo.ReSize (1);
-    SP_Ufo.Clips[0].ReSize (0, "ufo.smk", "", XY (0, 0), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
+    SP_Ufo.Clips[0].ReSize (0, "ufo.smk", "", XY (0, 0), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0, nullptr, "A9", 0);
 
     UfoPosition=XY(640,800);
     UfoVelocity=XY(  0, -12);

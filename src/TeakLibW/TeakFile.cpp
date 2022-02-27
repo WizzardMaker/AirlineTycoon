@@ -6,8 +6,8 @@ const char* ExcWrite    = "Can't write %s!";
 const char* ExcSeek     = "Can't seek %s at %li!";
 
 TEAKFILE::TEAKFILE()
-    : Ctx(NULL)
-    , Path(NULL)
+    : Ctx(nullptr)
+    , Path(nullptr)
     , MemPointer(0)
       , MemBufferUsed(0)
 
@@ -15,8 +15,8 @@ TEAKFILE::TEAKFILE()
 }
 
 TEAKFILE::TEAKFILE(char const* path, SLONG mode)
-    : Ctx(NULL)
-    , Path(NULL)
+    : Ctx(nullptr)
+    , Path(nullptr)
     , MemPointer(0)
       , MemBufferUsed(0)
 {
@@ -58,29 +58,29 @@ void TEAKFILE::Close()
     if (Ctx != nullptr) {
         SDL_RWclose(Ctx);
 }
-    Ctx = NULL;
+    Ctx = nullptr;
     if (Path != nullptr) {
         SDL_free(Path);
 }
-    Path = NULL;
+    Path = nullptr;
 }
 
-SLONG TEAKFILE::GetFileLength(void) const { return (SLONG)SDL_RWsize(Ctx); }
+SLONG TEAKFILE::GetFileLength() const { return (SLONG)SDL_RWsize(Ctx); }
 
-SLONG TEAKFILE::GetPosition(void) const { return (SLONG)SDL_RWtell(Ctx); }
+SLONG TEAKFILE::GetPosition() const { return (SLONG)SDL_RWtell(Ctx); }
 
 void TEAKFILE::Open(char const* path, SLONG mode)
 {
     Ctx = SDL_RWFromFile(path, mode == TEAKFILE_WRITE ? "wb" : "rb");
     if (Ctx == nullptr) {
-        TeakLibW_Exception(0, 0, ExcOpen, Path);
+        TeakLibW_Exception(nullptr, 0, ExcOpen, Path);
 }
 
     Path = SDL_strdup(path);
 
 }
 
-int TEAKFILE::IsOpen() const { return static_cast<int>(Ctx != NULL); }
+int TEAKFILE::IsOpen() const { return static_cast<int>(Ctx != nullptr); }
 
 void TEAKFILE::Read(unsigned char* buffer, SLONG size)
 {
@@ -98,7 +98,7 @@ void TEAKFILE::Read(unsigned char* buffer, SLONG size)
     else
     {
         if (SDL_RWread(Ctx, buffer, 1, size) != size) {
-            TeakLibW_Exception(0, 0, ExcRead, Path);
+            TeakLibW_Exception(nullptr, 0, ExcRead, Path);
 }
     }
 }
@@ -119,7 +119,7 @@ void TEAKFILE::Write(unsigned char* buffer, SLONG size)
     else
     {
         if (SDL_RWwrite(Ctx, buffer, 1, size) != size) {
-            TeakLibW_Exception(0, 0, ExcWrite, Path);
+            TeakLibW_Exception(nullptr, 0, ExcWrite, Path);
 }
     }
 }
@@ -139,7 +139,7 @@ void TEAKFILE::WriteTrap(SLONG trap) const
 void TEAKFILE::SetPosition(SLONG pos) const
 {
     if (SDL_RWseek(Ctx, pos, RW_SEEK_SET) < 0) {
-        TeakLibW_Exception(0, 0, ExcSeek, Path, pos);
+        TeakLibW_Exception(nullptr, 0, ExcSeek, Path, pos);
 }
 }
 
@@ -149,7 +149,7 @@ void TEAKFILE::Announce(SLONG size)
 }
 
 CRLEReader::CRLEReader(const char* path)
-    : Ctx(NULL)
+    : Ctx(nullptr)
     , SeqLength(0)
     , SeqUsed(0)
     , IsSeq(false)
@@ -298,11 +298,11 @@ int DoesFileExist(char const* path)
 BUFFER<BYTE>* LoadCompleteFile(char const* path)
 {
     CRLEReader reader(path);
-    BUFFER<BYTE>* buffer = new BUFFER<BYTE>(reader.GetSize());
+    auto* buffer = new BUFFER<BYTE>(reader.GetSize());
     if (!reader.Read(*buffer, buffer->AnzEntries(), true))
     {
         delete buffer;
-        return NULL;
+        return nullptr;
     }
 
     if(reader.getIsRLE())

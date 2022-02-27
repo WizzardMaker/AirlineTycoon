@@ -9,7 +9,7 @@ extern bool bgIsLoadingSavegame;
 //--------------------------------------------------------------------------------------------
 //Returns the number of players on which this computer will send information:
 //--------------------------------------------------------------------------------------------
-SLONG PLAYER::NetSynchronizeGetNum (void)
+SLONG PLAYER::NetSynchronizeGetNum ()
 {
     if (Sim.bIsHost != 0)
     {
@@ -31,7 +31,7 @@ SLONG PLAYER::NetSynchronizeGetNum (void)
 //--------------------------------------------------------------------------------------------
 //Sends the data concerning image to other players:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeImage (void)
+void PLAYER::NetSynchronizeImage ()
 {
     TEAKFILE Message;
     SLONG    c;
@@ -67,7 +67,7 @@ void PLAYER::NetSynchronizeImage (void)
 //--------------------------------------------------------------------------------------------
 //Sends the data concerning money to other players:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeMoney (void)
+void PLAYER::NetSynchronizeMoney ()
 {
     TEAKFILE Message;
     SLONG    c;
@@ -104,7 +104,7 @@ void PLAYER::NetSynchronizeMoney (void)
 //--------------------------------------------------------------------------------------------
 //Sends the data concerning routes to other players:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeRoutes (void)
+void PLAYER::NetSynchronizeRoutes ()
 {
     TEAKFILE Message;
     SLONG    c;
@@ -147,7 +147,7 @@ void PLAYER::NetRouteUpdateTicketpreise (SLONG RouteId, SLONG Ticketpreis, SLONG
 //--------------------------------------------------------------------------------------------
 //Sends the data concerning flags to other players:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeFlags (void)
+void PLAYER::NetSynchronizeFlags ()
 {
     TEAKFILE Message;
     SLONG    c;
@@ -180,7 +180,7 @@ void PLAYER::NetSynchronizeFlags (void)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeItems (void)
+void PLAYER::NetSynchronizeItems ()
 {
     TEAKFILE Message;
     SLONG    c;
@@ -210,7 +210,7 @@ void PLAYER::NetSynchronizeItems (void)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizePlanes (void)
+void PLAYER::NetSynchronizePlanes ()
 {
     if (Sim.bIsHost != 0)
     {
@@ -250,7 +250,7 @@ void PLAYER::NetSynchronizePlanes (void)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeMeeting (void)
+void PLAYER::NetSynchronizeMeeting ()
 {
     TEAKFILE Message;
     SLONG    c;
@@ -295,7 +295,7 @@ void PLAYER::NetSynchronizeMeeting (void)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeSabotage (void) const
+void PLAYER::NetSynchronizeSabotage () const
 {
     TEAKFILE Message;
 
@@ -395,7 +395,7 @@ void PLAYER::NetUpdateRentRoute (SLONG Route1Id, SLONG Route2Id)
 //--------------------------------------------------------------------------------------------
 // Updates the Kooperation status:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeKooperation (void) const
+void PLAYER::NetSynchronizeKooperation () const
 {
     TEAKFILE Message;
 
@@ -411,7 +411,7 @@ void PLAYER::NetSynchronizeKooperation (void) const
 //--------------------------------------------------------------------------------------------
 // Updates the total number of workers and which planes they work on:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetUpdateWorkers (void)
+void PLAYER::NetUpdateWorkers ()
 {
     TEAKFILE Message;
     SLONG    m;
@@ -518,7 +518,7 @@ void PLAYER::NetUpdatePlaneProps (SLONG PlaneId)
 //--------------------------------------------------------------------------------------------
 // Broadcasts a players kerosine state:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetUpdateKerosin (void) const
+void PLAYER::NetUpdateKerosin () const
 {
     TEAKFILE Message;
 

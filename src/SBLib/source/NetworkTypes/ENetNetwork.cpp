@@ -13,7 +13,7 @@ ENetNetwork::ENetNetwork()
           rand.SRandTime();
           mLocalID = rand.Rand();
 
-          ENetNetworkPlayer *player = new ENetNetworkPlayer();
+          auto *player = new ENetNetworkPlayer();
           player->ID = mLocalID;
           player->peer = nullptr;
           mPlayers.Add(player);
@@ -47,7 +47,7 @@ SLONG ENetNetwork::GetMessageCount() {
     }
     else if (mState == SBNETWORK_SESSION_SEARCHING)
     {
-        ENetSessionInfo *info = new ENetSessionInfo();
+        auto *info = new ENetSessionInfo();
         buf.data = info;
         buf.dataLength = sizeof(ENetSessionInfo);
         if (enet_socket_receive(mSocket, &address, &buf, 1) > 0)
@@ -89,7 +89,7 @@ SLONG ENetNetwork::GetMessageCount() {
                 /* Store any relevant client information here. */
                 if (event.data != 0)
                 {
-                    ENetNetworkPlayer *player = new ENetNetworkPlayer();
+                    auto *player = new ENetNetworkPlayer();
                     player->ID = event.data;
                     player->peer = event.peer;
                     player->peer->data = &mPlayers.Add(player);
@@ -112,13 +112,13 @@ SLONG ENetNetwork::GetMessageCount() {
                         break;
 }
 
-                    ENetNetworkPeer* peer = (ENetNetworkPeer*)event.packet->data;
+                    auto* peer = (ENetNetworkPeer*)event.packet->data;
                     if (peer->ID == mLocalID) {
                         break;
 }
 
                     /* Initiate the connection, allocating the two channels 0 and 1. */
-                    ENetNetworkPlayer *player = new ENetNetworkPlayer();
+                    auto *player = new ENetNetworkPlayer();
                     player->ID = peer->ID;
                     player->peer = enet_host_connect(mHost, &peer->address, 2, mLocalID);
                     player->peer->data = &mPlayers.Add(player);
@@ -133,7 +133,7 @@ SLONG ENetNetwork::GetMessageCount() {
                 /* Delete the player and inform the multiplayer code */
                 if (event.peer->data != nullptr)
                 {
-                    SBNetworkPlayer* player = (SBNetworkPlayer*)event.peer->data;
+                    auto* player = (SBNetworkPlayer*)event.peer->data;
                     DPPacket dp;
                     dp.messageType = DPSYS_DESTROYPLAYERORGROUP;
                     dp.playerType = DPPLAYERTYPE_PLAYER;
@@ -156,7 +156,7 @@ SLONG ENetNetwork::GetMessageCount() {
                 /* Handle host migration and inform the multiplayer code */
                 if (event.peer == mMaster)
                 {
-                    ENetNetworkPlayer* master = static_cast<ENetNetworkPlayer*>(mPlayers.GetFirst());
+                    auto* master = static_cast<ENetNetworkPlayer*>(mPlayers.GetFirst());
                     for (mPlayers.GetNext(); !mPlayers.IsLast(); mPlayers.GetNext())
                     {
                         if (mPlayers.GetLastAccessed()->ID < master->ID) {
@@ -179,7 +179,7 @@ SLONG ENetNetwork::GetMessageCount() {
                 }
 
                 /* Reset the peer's client information. */
-                event.peer->data = NULL;
+                event.peer->data = nullptr;
         }
     }
 
@@ -226,7 +226,7 @@ void ENetNetwork::Disconnect() {
 }
 
 bool ENetNetwork::CreateSession(SBNetworkCreation* sessionSettings) {
-    ENetSessionInfo *info = new ENetSessionInfo();
+    auto *info = new ENetSessionInfo();
     strcpy(info->sessionName, sessionSettings->sessionName.c_str());
     info->hostID = mLocalID;
     info->address.host = ENET_HOST_ANY;
@@ -322,7 +322,7 @@ bool ENetNetwork::StartGetSessionListAsync() {
 }
 
 bool ENetNetwork::JoinSession(const SBStr& session, SBStr  /*unused*/) {
-    ENetSessionInfo* info = NULL;
+    ENetSessionInfo* info = nullptr;
     for (mSessionInfo.GetFirst(); !mSessionInfo.IsLast(); mSessionInfo.GetNext())
     {
         if (session == mSessionInfo.GetLastAccessed()->sessionName) {
@@ -336,7 +336,7 @@ bool ENetNetwork::JoinSession(const SBStr& session, SBStr  /*unused*/) {
 
     /* Initiate the connection, allocating the two channels 0 and 1. */
     ENetEvent event;
-    ENetNetworkPlayer *player = new ENetNetworkPlayer();
+    auto *player = new ENetNetworkPlayer();
     player->ID = info->hostID;
     player->peer = enet_host_connect(mHost, &info->address, 2, mLocalID);
     player->peer->data = &mPlayers.Add(player);

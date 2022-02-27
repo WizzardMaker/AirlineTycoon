@@ -48,7 +48,7 @@ void CAnimation::ReSize (GfxLib *gfxLib, const CString &graphicIDs, SLONG Anzahl
 //--------------------------------------------------------------------------------------------
 //Setzt die Animation zurück (z.B. für den Bildschirmschoner)
 //--------------------------------------------------------------------------------------------
-void CAnimation::Reset (void)
+void CAnimation::Reset ()
 {
     CAnimation::CounterStart = Sim.TickerTime+Prelude;
 }
@@ -56,7 +56,7 @@ void CAnimation::Reset (void)
 //--------------------------------------------------------------------------------------------
 //Gibt den aktuell gezeigten Frame zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CAnimation::GetFrame (void) const
+SLONG CAnimation::GetFrame () const
 {
     if (Frames.AnzEntries() != 0)
     {
@@ -96,18 +96,18 @@ SLONG CAnimation::GetFrame (void) const
 //--------------------------------------------------------------------------------------------
 //Entfernt die Animation vom Bildschirm:
 //--------------------------------------------------------------------------------------------
-void CAnimation::Remove (void)
+void CAnimation::Remove ()
 {
     if (pSoundFx != nullptr) { pSoundFx->Stop();
 }
-    pSoundFx=NULL;
+    pSoundFx=nullptr;
     Frames.Destroy();
 }
 
 //--------------------------------------------------------------------------------------------
 //Startet einen Animation JETZT:
 //--------------------------------------------------------------------------------------------
-void CAnimation::StartNow (void)
+void CAnimation::StartNow ()
 {
     Mode         = ANIMATION_MODE_ONCE;
     CounterStart = Sim.TickerTime+Prelude;
@@ -184,7 +184,7 @@ void CAnimation::BlitAt (SBBM &RoomBm, SLONG x, SLONG y)
 //--------------------------------------------------------------------------------------------
 CAnimation::CAnimation()
 {
-    pSoundFx=NULL;
+    pSoundFx=nullptr;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -279,50 +279,50 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerN
     SP_Mann.ReSize (9);
     //--------------------------------------------------------------------------------------------
     SP_Mann.Clips[0].ReSize (0, "wk_wait.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9A1E1", 0, 4, 1);
 
     SP_Mann.Clips[4].ReSize (4, "wk_tuch.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 5);
     SP_Mann.Clips[5].ReSize (5, "wk_putz.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,3), CPostWait(0,0),  SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 6);
     SP_Mann.Clips[6].ReSize (6, "wk_tuchz.smk", "", XY (190, 209), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 0);
 
     SP_Mann.Clips[1].ReSize (1, "wk_turn.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "E1E1", 2, 3);
 
     SP_Mann.Clips[2].ReSize (2, "wk_rede.smk", "", XY (190, 209), SPM_TALKING,    CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9E1E1", 2, 3, 7);
     SP_Mann.Clips[3].ReSize (3, "wk_redew.smk", "", XY (190, 209), SPM_LISTENING, CRepeat(1,1), CPostWait(10,10), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9E1E1A3", 3, 2, 7, 8);
     SP_Mann.Clips[8].ReSize (8, "wk_rauch.smk", "", XY (173, 209), SPM_LISTENING, CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+18*SMACKER_CLIP_MULT, 1, NULL,  //Warten
+            &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+18*SMACKER_CLIP_MULT, 1, nullptr,  //Warten
             "A9E1E1", 3, 2, 7);
 
     SP_Mann.Clips[7].ReSize (7, "wk_turnz.smk", "", XY (190, 209), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,  //Warten
             "A9", 0);
 
     SP_Wer.ReSize(4);
     //--------------------------------------------------------------------------------------------
     SP_Wer.Clips[0].ReSize (0, "werstand.smk", "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(100,210), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 1);
     SP_Wer.Clips[1].ReSize (1, "werl.smk",     "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 2);
     SP_Wer.Clips[2].ReSize (2, "werstand.smk", "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(100,210), SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 3);
     SP_Wer.Clips[3].ReSize (3, "werr.smk",     "", XY (535, 72), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 0);
 
     SP_Schleim.ReSize(3);
@@ -331,54 +331,54 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerN
     {
         if (rand()%10==0 || (CheatAnimNow != 0)) {
             SP_Schleim.Clips[0].ReSize (0, "slimew.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(30,30),    SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, &Sim.Slimed,
+                    nullptr, SMACKER_CLIP_SET, 0, &Sim.Slimed,
                     "A8A1", 0, 1);
         } else {
             SP_Schleim.Clips[0].ReSize (0, "slimew.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(30,30),    SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, &Sim.Slimed,
+                    nullptr, SMACKER_CLIP_SET, 0, &Sim.Slimed,
                     "A4", 0);
 }
     }
     else
     {
         SP_Schleim.Clips[0].ReSize (0, "slime02.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(99,99), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL,
+                nullptr, SMACKER_CLIP_SET, 0, nullptr,
                 "A9", 2);
     }
     SP_Schleim.Clips[1].ReSize (1, "slime01.smk", "slime01.raw", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
-            &Sim.Slimed, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 2, NULL,
+            &Sim.Slimed, SMACKER_CLIP_SET|SMACKER_CLIP_POST, 2, nullptr,
             "A9", 2);
     SP_Schleim.Clips[2].ReSize (2, "slime02.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(99,99), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 2);
 
     for (SLONG c=0; c<5; c++)
     {
         SP_Blase[c].ReSize(3);
         SP_Blase[c].Clips[0].ReSize (0, "blasew.smk", "", SlimePositions[c], SPM_IDLE,   CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, &Sim.Slimed,
+                nullptr, SMACKER_CLIP_SET, 0, &Sim.Slimed,
                 "A9", 0);
         SP_Blase[c].Clips[1].ReSize (1, bprintf ("blase%02li.smk", c%3+1), "", SlimePositions[c], SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL,
+                nullptr, SMACKER_CLIP_SET, 0, nullptr,
                 "A9", 0);
         SP_Blase[c].Clips[2].ReSize (2, "blasew.smk", "", SlimePositions[c],  SPM_IDLE,  CRepeat(1,1), CPostWait(30+rand()%80,130+rand()%80),   SMACKER_CLIP_DONTCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL,
+                nullptr, SMACKER_CLIP_SET, 0, nullptr,
                 "A9", 1);
     }
 
     SP_Bombe.ReSize(2);
     //--------------------------------------------------------------------------------------------
     SP_Bombe.Clips[0].ReSize (0, "bombew.smk", "", XY (180, 386), SPM_IDLE, CRepeat(1,1), CPostWait(100,210), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, &KommVar,
+            nullptr, SMACKER_CLIP_SET, 0, &KommVar,
             "A9", 0);
     SP_Bombe.Clips[1].ReSize (1, "bombe.smk", "bombe.raw", XY (180, 386), SPM_IDLE, CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_DONTCANCEL,
-            &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+            &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
             "A9", 0);
 
     SP_Hund.ReSize(1);
     //--------------------------------------------------------------------------------------------
     SP_Hund.Clips[0].ReSize (0, "spike.smk", "", XY (529, 115), SPM_IDLE, CRepeat(1,1), CPostWait(0,0), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A9", 0);
 
     //Hintergrundsounds:
@@ -392,8 +392,8 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerN
     //Raumanimationen
     if (rand()%6==0 || (CheatAnimNow != 0)) { SoudAnim.ReSize (pRoomLib, "SOUD0000", 21, &SawFx, FALSE, ANIMATION_MODE_REPEAT,  150,  2, 100);
 }
-    FlameAnim.ReSize (pRoomLib, "FLAME01",  3, NULL, TRUE, ANIMATION_MODE_REPEAT,   0,  1);
-    LightAnim.ReSize (pRoomLib, "LIGHT01",  2, NULL, FALSE, ANIMATION_MODE_REPEAT, 400, 2, 300, 30);
+    FlameAnim.ReSize (pRoomLib, "FLAME01",  3, nullptr, TRUE, ANIMATION_MODE_REPEAT,   0,  1);
+    LightAnim.ReSize (pRoomLib, "LIGHT01",  2, nullptr, FALSE, ANIMATION_MODE_REPEAT, 400, 2, 300, 30);
 
 #ifdef DEMO
     MenuStart (MENU_REQUEST, MENU_REQUEST_NO_WERKSTATT);
@@ -448,10 +448,10 @@ void CWerkstatt::OnPaint()
     SP_Schleim.BlitAtT (RoomBm);
 
     if (Sim.Slimed!=-1) {
-        for (SLONG c=0; c<5; c++)
+        for (auto & c : SP_Blase)
         {
-            SP_Blase[c].Pump ();
-            SP_Blase[c].BlitAtT (RoomBm);
+            c.Pump ();
+            c.BlitAtT (RoomBm);
         }
 }
 
@@ -496,7 +496,7 @@ void CWerkstatt::OnPaint()
                 {
                     MenuRepaint ();
                     //DrawPlaneTipContents (OnscreenBitmap, &PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]].TypeId], &Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]],
-                    DrawPlaneTipContents (OnscreenBitmap, NULL, &Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]],
+                    DrawPlaneTipContents (OnscreenBitmap, nullptr, &Sim.Players.Players[(SLONG)PlayerNum].Planes[MenuDataTable.LineIndex[NewTip]],
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack, TRUE);
                 }
 

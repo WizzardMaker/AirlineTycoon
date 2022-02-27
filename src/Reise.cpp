@@ -90,22 +90,22 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     SP_Girl.ReSize (4);
     //--------------------------------------------------------------------------------------------
     SP_Girl.Clips[0].ReSize (0, "rbwait.smk", "", XY (200, 227), SPM_IDLE,        CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A3A4A4A9", 0, 1, 2, 3);
     SP_Girl.Clips[1].ReSize (1, "rbdrehh.smk", "", XY (200, 227), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
     SP_Girl.Clips[2].ReSize (2, "rbdrehf.smk", "", XY (200, 227), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A1", 0);
     SP_Girl.Clips[3].ReSize (3, "rbtaste.smk", "", XY (200, 227), SPM_IDLE,      CRepeat(1,1), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
-            &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+4*SMACKER_CLIP_MULT, 0, NULL,
+            &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+4*SMACKER_CLIP_MULT, 0, nullptr,
             "A1", 0);
 
     SP_Monitor.ReSize (5);
     //--------------------------------------------------------------------------------------------
     SP_Monitor.Clips[0].ReSize (0, "", "",          XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),     SMACKER_CLIP_CANCANCEL,
-            NULL, SMACKER_CLIP_SET, 0, NULL,
+            nullptr, SMACKER_CLIP_SET, 0, nullptr,
             "A5A5A5A5", 1, 2, 3, 4);
     SP_Monitor.Clips[1].ReSize (1, "monir.smk", "", XY (170, 318), SPM_IDLE,       CRepeat(1,1), CPostWait(999,999), SMACKER_CLIP_CANCANCEL,
             &KommMonitor, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommMonitor,
@@ -129,7 +129,7 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
                 &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommVar,
                 "A9A2", 0, 1);
         SP_Schlange.Clips[1].ReSize (1, "snakzung.smk", "snakzung.raw", XY (564, 213), SPM_IDLE,     CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_DONTCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, &KommVar,
+                nullptr, SMACKER_CLIP_SET, 0, &KommVar,
                 "A1", 0);
         SP_Schlange.Clips[2].ReSize (2, "snakeat.smk", "snakeat.raw", XY (494, 194), SPM_IDLE,       CRepeat(1,1), CPostWait(0,0),  SMACKER_CLIP_CANCANCEL,
                 &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommVar,
@@ -140,13 +140,13 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
             SP_Spinne.ReSize (3);
             //--------------------------------------------------------------------------------------------
             SP_Spinne.Clips[0].ReSize (0, "blasew.smk", "", XY (380,320), SPM_IDLE,      CRepeat(3,3), CPostWait(10,30), SMACKER_CLIP_CANCANCEL,
-                    NULL, SMACKER_CLIP_SET, 0, NULL,
+                    nullptr, SMACKER_CLIP_SET, 0, nullptr,
                     "A9A1A2", 0, 1, 2);
             SP_Spinne.Clips[1].ReSize (1, "spider.smk", "", XY (380,320), SPM_IDLE,      CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_CANCANCEL,
                     &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_FRAME+11*SMACKER_CLIP_MULT, 2, &KommVar2,
                     "A1", 2);
             SP_Spinne.Clips[2].ReSize (2, "blasew.smk", "", XY (380,320), SPM_IDLE,      CRepeat(9,9), CPostWait(99,99), SMACKER_CLIP_CANCANCEL,
-                    &KommVar2, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, NULL,
+                    &KommVar2, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, nullptr,
                     "A9A2A1", 0, 1, 2);
         }
     }
@@ -159,7 +159,7 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     MapPlaneBms[3].ReSize (pMenuLib, "PL_J00", 1+8);
     MapPlaneBms[4].ReSize (pMenuLib, "PL_SW00", 1+8);
 
-    pZettelLib=NULL;
+    pZettelLib=nullptr;
 
     //Hintergrundsounds:
     if (Sim.Options.OptionEffekte != 0)

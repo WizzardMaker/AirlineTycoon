@@ -361,7 +361,7 @@ void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Ga
 {
     SLONG      c;
 
-    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) { return;
+    if (TipBm.Size.x==0 || TipBm.pBitmap==nullptr) { return;
 }
 
     //Fenster-Überschrift:
@@ -470,7 +470,7 @@ void DrawAuftragTip (SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOri
 //--------------------------------------------------------------------------------------------
 void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CAuftrag *Auftrag, SLONG Gate, SLONG Costs, SLONG Okay, XY Headline, XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked)
 {
-    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) { return;
+    if (TipBm.Size.x==0 || TipBm.pBitmap==nullptr) { return;
 }
 
     //Fenster-Überschrift:
@@ -540,7 +540,7 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
     }
 
     //Flugzeuge
-    if (PlayerNum!=-1 && pPlaneTips!=NULL)
+    if (PlayerNum!=-1 && pPlaneTips!=nullptr)
     {
         SLONG   c;
         PLAYER &qPlayer=Sim.Players.Players[PlayerNum];
@@ -653,7 +653,7 @@ void DrawFrachtTip (SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOrig
 //--------------------------------------------------------------------------------------------
 void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFracht *Fracht, SLONG TonsThis, SLONG Costs, SLONG Income, SLONG Okay, XY Headline, XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked)
 {
-    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) { return;
+    if (TipBm.Size.x==0 || TipBm.pBitmap==nullptr) { return;
 }
 
     SLONG Offset = Costs != 0?30:0;
@@ -736,7 +736,7 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170);
             TipBm.BlitFromT (FlugplanBms[17], Contents.x-2, Contents.y+152);
         }
-        else if (TonsThis==0 && !(PlayerNum!=-1 && pPlaneTips!=NULL))
+        else if (TonsThis==0 && !(PlayerNum!=-1 && pPlaneTips!=nullptr))
         {
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2005), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+132+25, Contents.x+170, Contents.y+180);
             TipBm.BlitFromT (FlugplanBms[18], Contents.x, Contents.y+132+25);
@@ -744,7 +744,7 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
     }
 
     //Flugzeuge
-    if (PlayerNum!=-1 && pPlaneTips!=NULL)
+    if (PlayerNum!=-1 && pPlaneTips!=nullptr)
     {
         SLONG   c;
         PLAYER &qPlayer=Sim.Players.Players[PlayerNum];
@@ -884,7 +884,7 @@ void DrawKursTipContents (SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, SB_C
     SLONG c;
     SLONG Max;
 
-    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) { return;
+    if (TipBm.Size.x==0 || TipBm.pBitmap==nullptr) { return;
 }
 
     //Fenster-Überschrift:

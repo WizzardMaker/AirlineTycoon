@@ -26,13 +26,10 @@ char ProfanityFilter::BANCHARS[] = "!@#$%^&*()";
 char ProfanityFilter::WORDCHARS[] = "abcdefghijklmnopqrstuvwxyz0123456789";
 
 ProfanityFilter::ProfanityFilter()
-{
-}
+= default;
 
 ProfanityFilter::~ProfanityFilter()
-{
-
-}
+= default;
 
 char ProfanityFilter::RandomBanChar()
 {
@@ -42,12 +39,12 @@ char ProfanityFilter::RandomBanChar()
 
 bool ProfanityFilter::HasProfanity(const char *str)
 {
-    return FilterProfanity(str, 0,false) > 0;
+    return FilterProfanity(str, nullptr,false) > 0;
 }
 
 int ProfanityFilter::FilterProfanity(const char *input, char *output, bool filter)
 {
-    if (input==0 || input[0]==0) {
+    if (input==nullptr || input[0]==0) {
         return 0;
 }
 
@@ -61,7 +58,7 @@ int ProfanityFilter::FilterProfanity(const char *input, char *output, bool filte
 }
 
     start = strpbrk(start, WORDCHARS);
-    while (start != 0)
+    while (start != nullptr)
     {
         size_t len = strspn(start, WORDCHARS);
         if (len > 0)

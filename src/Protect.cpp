@@ -807,7 +807,7 @@ void GetProtectionString (const CString &TabFilename, SLONG *pPageAndWord, CStri
                 bFirst=false;
                 if (pPageAndWord != nullptr) { *pPageAndWord = Num;
 }
-                if (pRightWord != nullptr) {   *pRightWord   = strtok (NULL, TabSeparator);
+                if (pRightWord != nullptr) {   *pRightWord   = strtok (nullptr, TabSeparator);
 }
             }
         }

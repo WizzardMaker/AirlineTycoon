@@ -67,19 +67,19 @@ CKiosk::CKiosk(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "kio
     {
         SP_Mann.ReSize (5);
         SP_Mann.Clips[0].ReSize (0, "k_leser.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL,
+                nullptr, SMACKER_CLIP_SET, 0, nullptr,
                 "A1", 1);
         SP_Mann.Clips[1].ReSize (1, "k_seite.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL,
+                nullptr, SMACKER_CLIP_SET, 0, nullptr,
                 "A1", 2);
         SP_Mann.Clips[2].ReSize (2, "k_lesel.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL,
+                nullptr, SMACKER_CLIP_SET, 0, nullptr,
                 "A1", 3);
         SP_Mann.Clips[3].ReSize (3, "k_turn.smk", "k_turn.raw", XY (120, 205), SPM_IDLE,   CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL,
+                nullptr, SMACKER_CLIP_SET, 0, nullptr,
                 "A3A1", 0, 4);
         SP_Mann.Clips[4].ReSize (4, "k_seite.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(0,0),   SMACKER_CLIP_DONTCANCEL,
-                NULL, SMACKER_CLIP_SET, 0, NULL,
+                nullptr, SMACKER_CLIP_SET, 0, nullptr,
                 "A1", 3);
 
         DefaultDialogPartner=TALKER_KIOSK;
@@ -145,7 +145,7 @@ CKiosk::~CKiosk()
 //--------------------------------------------------------------------------------------------
 //Malt einen Tip neu:
 //--------------------------------------------------------------------------------------------
-void CKiosk::RepaintTip (void)
+void CKiosk::RepaintTip ()
 {
     SLONG c;
     SLONG d;
@@ -190,7 +190,7 @@ void CKiosk::RepaintTip (void)
                 {
                     WasPicture=TRUE;
 
-                    GfxLib *pGLibLocal=NULL;
+                    GfxLib *pGLibLocal=nullptr;
 
                     pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("kioskloc.gli", GliPath), &pGLibLocal, L_LOCMEM);
 
@@ -222,7 +222,7 @@ void CKiosk::RepaintTip (void)
 
                 if (hl.PictureId==GFX_FEUER || hl.PictureId==GFX_REIFEN || hl.PictureId==GFX_SALZ || hl.PictureId==GFX_SKELETT || hl.PictureId==GFX_SUPERMAN)
                 {
-                    GfxLib *pGLibNews=NULL;
+                    GfxLib *pGLibNews=nullptr;
 
                     pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("kiosks.gli", GliPath), &pGLibNews, L_LOCMEM);
                     Picture.ReSize (pGLibNews, hl.PictureId);
@@ -256,7 +256,7 @@ void CKiosk::RepaintTip (void)
                     for (e=0; e<4; e++) {
                         if (hl.PictureId==GFX_1+e*100 || hl.PictureId==GFX_2+e*100 || hl.PictureId==GFX_3+e*100 || hl.PictureId==GFX_4+e*100 || hl.PictureId==GFX_LIEBSTE+e*100 || hl.PictureId==GFX_PLANES+e*100 || hl.PictureId==GFX_GELD+e*100 || hl.PictureId==GFX_ROUTEN+e*100)
                         {
-                            GfxLib *pGLibNews=NULL;
+                            GfxLib *pGLibNews=nullptr;
 
                             pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename (CString(bprintf ("kioskp%li.gli", e+1)), GliPath), &pGLibNews, L_LOCMEM);
                             Picture.ReSize (pGLibNews, hl.PictureId-e*100);

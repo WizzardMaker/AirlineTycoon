@@ -60,23 +60,23 @@ void CITIES::ReInit (const CString &TabFilename)
         //SpeedUp durch direkten Zugriff:
         Id=(*this)(Id);
 
-        (*this)[Id].Name              = strtok (NULL, TabSeparator);
-        (*this)[Id].Lage              = strtok (NULL, TabSeparator);
-        (*this)[Id].Areacode          = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].KuerzelGood       = strtok (NULL, TabSeparator);
-        (*this)[Id].KuerzelReal       = strtok (NULL, TabSeparator);
-        (*this)[Id].Wave              = strtok (NULL, TabSeparator);
-        (*this)[Id].TextRes           = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].AnzTexts          = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].PhotoName         = strtok (NULL, TabSeparator);
-        (*this)[Id].AnzPhotos         = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].Einwohner         = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].GlobusPosition.x  = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].GlobusPosition.y  = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].MapPosition.x     = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].MapPosition.y     = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].BuroRent          = atoi (strtok (NULL, TabSeparator));
-        (*this)[Id].bNewInAddOn       = atoi (strtok (NULL, TabSeparator));
+        (*this)[Id].Name              = strtok (nullptr, TabSeparator);
+        (*this)[Id].Lage              = strtok (nullptr, TabSeparator);
+        (*this)[Id].Areacode          = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].KuerzelGood       = strtok (nullptr, TabSeparator);
+        (*this)[Id].KuerzelReal       = strtok (nullptr, TabSeparator);
+        (*this)[Id].Wave              = strtok (nullptr, TabSeparator);
+        (*this)[Id].TextRes           = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].AnzTexts          = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].PhotoName         = strtok (nullptr, TabSeparator);
+        (*this)[Id].AnzPhotos         = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].Einwohner         = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].GlobusPosition.x  = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].GlobusPosition.y  = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].MapPosition.x     = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].MapPosition.y     = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].BuroRent          = atoi (strtok (nullptr, TabSeparator));
+        (*this)[Id].bNewInAddOn       = atoi (strtok (nullptr, TabSeparator));
 
         (*this)[Id].Name = KorrigiereUmlaute ((*this)[Id].Name);
 
@@ -302,7 +302,7 @@ CRentCity::CRentCity ()
 //--------------------------------------------------------------------------------------------
 //Gibt zurück, wieviele Routen der Spieler besitzt:
 //--------------------------------------------------------------------------------------------
-SLONG CRentCities::GetNumUsed(void)
+SLONG CRentCities::GetNumUsed()
 {
     SLONG c;
     SLONG Anz=0;
