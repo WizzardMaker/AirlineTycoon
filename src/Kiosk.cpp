@@ -159,7 +159,7 @@ void CKiosk::RepaintTip (void)
         p=HeadlineStart[c];
 
         for (d=0; d<10; d++)
-            HasPictures |= (Sim.Headlines.GetHeadline (c, d).PictureId!=NULL);
+            HasPictures |= (Sim.Headlines.GetHeadline (c, d).PictureId!=0);
 
         if (c==0 && !HasPictures) p.y+=85;
 

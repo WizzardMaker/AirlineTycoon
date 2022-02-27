@@ -631,7 +631,7 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
                     {
                         if (*pp==(UWORD)(int)White)
                         {
-                            register UWORD vga=*p;
+                            UWORD vga=*p;
 
                             *p = UWORD(Table1[vga&255]+Table1[256+(vga>>8)]+
                                     Table1[((UBYTE*)pp)[0]]+Table1[256+((UBYTE*)pp)[1]]);
@@ -914,7 +914,7 @@ void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect,
     SB_CBitmapKey Key(*pBitmap);
     if (Key.Bitmap==NULL) return;
 
-    register SLONG Width = Key.lPitch/2;
+    SLONG Width = Key.lPitch/2;
 
     if (sizex>0)
         for (cy=0; cy<sizey; cy++)
@@ -1212,7 +1212,7 @@ void RemapColor (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontCo
     SB_CBitmapKey Key(*pBitmap);
     if (Key.Bitmap==NULL) return;
 
-    register SLONG Width = Key.lPitch/2;
+    SLONG Width = Key.lPitch/2;
 
     if (sizex>0)
         for (cy=0; cy<sizey; cy++)

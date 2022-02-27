@@ -19,7 +19,9 @@ class CTakeOffApp
         ~CTakeOffApp();
 
         void GameLoop(void*);
+#ifdef DEBUG
         void CheckSystem (void);
+#endif
 
         // Overrides
         // ClassWizard generated virtual function overrides

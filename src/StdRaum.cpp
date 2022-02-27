@@ -339,7 +339,7 @@ CStdRaum::CStdRaum (BOOL bHandy, ULONG PlayerNum, CString GfxLibName, __int64 gr
     CurrentTextGroupId    = NULL;
     LastTextGroupId       = *(ULONG*)"none";
 
-    if (graficId==NULL) PicBitmap.ReSize (SLONG(0),SLONG(0));
+    if (graficId==0) PicBitmap.ReSize (SLONG(0),SLONG(0));
     else PicBitmap.ReSize (pRoomLib, graficId, CREATE_SYSMEM);
 
     RoomBm.ReSize (PicBitmap.Size, CREATE_SYSMEM);
@@ -516,7 +516,7 @@ void CStdRaum::ReSize (CString GfxLibName, __int64 graficId)
     else
         pRoomLib=NULL;
 
-    if (graficId==NULL) PicBitmap.ReSize (SLONG(0),SLONG(0));
+    if (graficId==0) PicBitmap.ReSize (SLONG(0),SLONG(0));
     else PicBitmap.ReSize (pRoomLib, graficId, CREATE_SYSMEM);
 
     RoomBm.ReSize (PicBitmap.Size, CREATE_SYSMEM);
@@ -527,7 +527,7 @@ void CStdRaum::ReSize (CString GfxLibName, __int64 graficId)
 //--------------------------------------------------------------------------------------------
 void CStdRaum::ReSize (__int64 graficId)
 {
-    if (graficId==NULL) PicBitmap.ReSize (SLONG(0),SLONG(0));
+    if (graficId==0) PicBitmap.ReSize (SLONG(0),SLONG(0));
     else PicBitmap.ReSize (pRoomLib, graficId, CREATE_SYSMEM);
 
     RoomBm.ReSize (PicBitmap.Size, CREATE_SYSMEM);
@@ -896,7 +896,7 @@ void CStdRaum::RepaintText (BOOL RefreshAll)
                 OnscreenBitmap.Clear (0);
         }
 
-        if (CurrentTextSubIdBis==NULL)
+        if (CurrentTextSubIdBis==0)
         {
             SmackerTimeToTalk = timeGetTime()+Optionen[0].GetLength()*2*50;
             if (pSmackerPartner)
@@ -2469,7 +2469,7 @@ void CStdRaum::InitToolTips (void)
         //Oder in einem Dialog?
         else if (DialogPartner!=TALKER_NONE)
         {
-            if (CurrentTextSubIdBis==NULL || (CurrentTextSubIdVon==CurrentTextSubIdBis))
+            if (CurrentTextSubIdBis==0 || (CurrentTextSubIdVon==CurrentTextSubIdBis))
             {
                 SetMouseLook (CURSOR_HOT, 0, -102, 1, CurrentTextSubIdVon);
             }
@@ -3049,7 +3049,7 @@ void CStdRaum::PostPaint (void)
     //Der Computergegner hat es ggf eilig und bricht den Dialog ab:
     if (DialogPartner==TALKER_COMPETITOR && Sim.Players.Players[DialogPar1].Owner==1 && timeGetTime()-TimeBubbleDisplayed>15*1000)
     {
-        if (CurrentTextSubIdBis==NULL || CurrentTextSubIdVon==CurrentTextSubIdBis)
+        if (CurrentTextSubIdBis==0 || CurrentTextSubIdVon==CurrentTextSubIdBis)
             PreLButtonDown(XY (160, 100));
         else
         {

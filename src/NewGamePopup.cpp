@@ -2119,7 +2119,7 @@ void NewGamePopup::CheckNetEvents() {
                                     return;
                                 }
 
-                                if (Sim.Players.Players[WantedIndex].NetworkID == NULL)
+                                if (Sim.Players.Players[WantedIndex].NetworkID == 0)
                                 {
                                     Sim.Players.Players[WantedIndex].NetworkID = SenderID;
                                     Sim.Players.Players[WantedIndex].Owner = 2;
@@ -2127,7 +2127,7 @@ void NewGamePopup::CheckNetEvents() {
                                 else
                                 {
                                     for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++)
-                                        if (Sim.Players.Players[c].NetworkID == NULL)
+                                        if (Sim.Players.Players[c].NetworkID == 0)
                                         {
                                             Sim.Players.Players[c].NetworkID = SenderID;
                                             Sim.Players.Players[c].Owner = 2;

@@ -2090,6 +2090,7 @@ void CTakeOffApp::GameLoop(void*)
     VoiceScheduler.Clear();
 }
 
+#ifdef DEBUG
 void CTakeOffApp::CheckSystem (void)
 {
     for (SLONG c=0; c<Sim.Players.AnzPlayers; c++)
@@ -2121,6 +2122,7 @@ void CTakeOffApp::CheckSystem (void)
         }
     }
 }
+#endif
 
 //--------------------------------------------------------------------------------------------
 //Initilisiert alle benötigten DirectX-Schnittstellen:

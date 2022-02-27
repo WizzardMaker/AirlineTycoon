@@ -1028,7 +1028,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, __int64 graphicID, ...)
 
     //Anzahl ermitteln:
     va_start (marker, graphicID);
-    while ((i&0xffffffff)!=NULL)
+    while ((i&0xffffffff)!=0)
     {
         count++;
         i = va_arg(marker, __int64);
@@ -1041,7 +1041,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, __int64 graphicID, ...)
     count=0, i=graphicID;
 
     va_start (marker, graphicID);
-    while ((i&0xffffffff)!=NULL)
+    while ((i&0xffffffff)!=0)
     {
         graphicIds[count++]=i;
         i = va_arg(marker, __int64);
