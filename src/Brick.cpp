@@ -179,41 +179,38 @@ BOOL BRICK::IsGlasAt(SLONG x, SLONG y) { return static_cast<BOOL>(Bitmap[0L].Get
 // Ggf. die Bricks an das neue Zeitalter anpassen:
 //--------------------------------------------------------------------------------------------
 void BRICK::UpdateBrick() {
-    BOOL ReloadNecessary = FALSE;
     long c = 0;
 
     // Falls Bitmap noch nicht vorhanden ==> laden!
-    if (Bitmap.AnzEntries() == 0) {
-        ReloadNecessary = TRUE;
+    if (Bitmap.AnzEntries() > 0) {
+        return;
     }
 
-    if (ReloadNecessary != 0) {
-        // Bild muß (neu) geladen werden:
-        SLONG AnzPhases = 0;
+    // Bild muß (neu) geladen werden:
 
-        // Wie oft kommt diese Periode drin vor ?
-        AnzPhases = graphicIDs.AnzEntries();
+    // Wie oft kommt diese Periode drin vor ?
+    SLONG AnzPhases = graphicIDs.AnzEntries();
 
-        // Sind Angaben vorhanden?
-        if (AnzPhases > 1) {
-            // Speicher für die Animationsphasen bereitstellen:
-            Bitmap.ReSize(AnzPhases);
+    // Sind Angaben vorhanden?
+    if (AnzPhases > 1) {
+        // Speicher für die Animationsphasen bereitstellen:
+        Bitmap.ReSize(AnzPhases);
 
-            // Dies wird jetzt wieder als Zähler verwendet:
-            AnzPhases = 0;
+        // Dies wird jetzt wieder als Zähler verwendet:
+        AnzPhases = 0;
 
-            // Das richtige Sub-Bild raussuchen:
-            for (c = 0; c < graphicIDs.AnzEntries(); c++) {
-                // Bild in Brick-Bitmap einbinden:
-                Bitmap[AnzPhases++].ReSize(pGLibBrick, graphicIDs[c]);
-                /*TECBM(FullFilename (Filename, BrickPath), c).Size);*/
-            }
-        } else {
-            // Speicher für die Animationsphases bereitstellen:
-            Bitmap.ReSize(1);
-
-            Bitmap[0L].ReSize(pGLibBrick, graphicIDs[0]);
+        // Das richtige Sub-Bild raussuchen:
+        for (c = 0; c < graphicIDs.AnzEntries(); c++) {
+            // Bild in Brick-Bitmap einbinden:
+            Bitmap[AnzPhases++].ReSize(pGLibBrick, graphicIDs[c]);
+            /*TECBM(FullFilename (Filename, BrickPath), c).Size);*/
         }
+    } else {
+        // Speicher für die Animationsphases bereitstellen:
+        Bitmap.ReSize(1);
+        graphicIDs.ReSize(1);
+
+        Bitmap[0L].ReSize(pGLibBrick, graphicIDs[0]);
     }
 }
 
