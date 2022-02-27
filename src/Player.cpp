@@ -4000,19 +4000,19 @@ void PLAYER::RobotExecuteAction() {
                             if (VonZeit >= 0 && VonZeit < 23 + 24) {
                                 if (level == 0 || level == 1) {
                                     for (e = qAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                        if ((qAuftraege.Auftraege[e].Praemie != 0) && qAuftraege.Auftraege[e].VonCity == ULONG(VonCity)) {
+                                        if ((qAuftraege[e].Praemie != 0) && qAuftraege[e].VonCity == ULONG(VonCity)) {
                                             if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                                (Cities.CalcDistance(qAuftraege.Auftraege[e].VonCity, qAuftraege.Auftraege[e].NachCity) > 3000000 ||
-                                                 qAuftraege.Auftraege[e].Personen <= 90)) {
+                                                (Cities.CalcDistance(qAuftraege[e].VonCity, qAuftraege[e].NachCity) > 3000000 ||
+                                                 qAuftraege[e].Personen <= 90)) {
                                                 continue;
                                             }
 
-                                            SLONG Cost = ((CalculateFlightCost(VonCity, qAuftraege.Auftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
-                                            if (Cost <= qAuftraege.Auftraege[e].Praemie * 8 / 10) {
+                                            SLONG Cost = ((CalculateFlightCost(VonCity, qAuftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
+                                            if (Cost <= qAuftraege[e].Praemie * 8 / 10) {
                                                 if (Auftraege.GetNumFree() < 2) {
-                                                    Auftraege.Auftraege.ReSize(Auftraege.AnzEntries() + 1);
+                                                    Auftraege.ReSize(Auftraege.AnzEntries() + 1);
                                                 }
-                                                SLONG ObjectId = (Auftraege += qAuftraege.Auftraege[e]);
+                                                SLONG ObjectId = (Auftraege += qAuftraege[e]);
 
                                                 if (Sim.Difficulty != DIFF_ADDON09 || NumOrderFlightsToday2 >= 5) {
                                                     Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
@@ -4020,7 +4020,7 @@ void PLAYER::RobotExecuteAction() {
 
                                                 NumOrderFlightsToday2++;
 
-                                                qAuftraege.Auftraege[e].Praemie = 0;
+                                                qAuftraege[e].Praemie = 0;
 
                                                 if (Auftraege.IsInAlbum(ObjectId) == 0) {
                                                     hprintvar(__LINE__);
@@ -4055,18 +4055,18 @@ void PLAYER::RobotExecuteAction() {
                                     SLONG MinE = -1;
 
                                     for (e = qAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                        if ((qAuftraege.Auftraege[e].Praemie != 0) &&
-                                            VonZeit + Cities.CalcFlugdauer(VonCity, qAuftraege.Auftraege[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
-                                            // VonZeit+Cities.CalcFlugdauer (VonCity, qAuftraege.Auftraege[e].VonCity,
+                                        if ((qAuftraege[e].Praemie != 0) &&
+                                            VonZeit + Cities.CalcFlugdauer(VonCity, qAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
+                                            // VonZeit+Cities.CalcFlugdauer (VonCity, qAuftraege[e].VonCity,
                                             // PlaneTypes[Planes[c].TypeId].Geschwindigkeit)<23+24)
-                                            if (Cities.CalcDistance(VonCity, qAuftraege.Auftraege[e].VonCity) < Min) {
+                                            if (Cities.CalcDistance(VonCity, qAuftraege[e].VonCity) < Min) {
                                                 if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                                    (Cities.CalcDistance(qAuftraege.Auftraege[e].VonCity, qAuftraege.Auftraege[e].NachCity) > 3000000 ||
-                                                     qAuftraege.Auftraege[e].Personen <= 90)) {
+                                                    (Cities.CalcDistance(qAuftraege[e].VonCity, qAuftraege[e].NachCity) > 3000000 ||
+                                                     qAuftraege[e].Personen <= 90)) {
                                                     continue;
                                                 }
 
-                                                Min = Cities.CalcDistance(VonCity, qAuftraege.Auftraege[e].VonCity);
+                                                Min = Cities.CalcDistance(VonCity, qAuftraege[e].VonCity);
                                                 MinE = e;
                                             }
                                         }
@@ -4075,13 +4075,13 @@ void PLAYER::RobotExecuteAction() {
                                     if (MinE != -1 && Min < 9000000 && (Min < 5000000 || VonZeit < 34) && (Min < 3000000 || VonZeit < 24)) {
                                         e = MinE;
 
-                                        SLONG Cost = ((CalculateFlightCost(VonCity, qAuftraege.Auftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
-                                        if (Cost <= qAuftraege.Auftraege[e].Praemie) {
+                                        SLONG Cost = ((CalculateFlightCost(VonCity, qAuftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
+                                        if (Cost <= qAuftraege[e].Praemie) {
                                             if (Auftraege.GetNumFree() < 2) {
-                                                Auftraege.Auftraege.ReSize(Auftraege.AnzEntries() + 1);
+                                                Auftraege.ReSize(Auftraege.AnzEntries() + 1);
                                             }
-                                            SLONG ObjectId = (Auftraege += qAuftraege.Auftraege[e]);
-                                            qAuftraege.Auftraege[e].Praemie = 0;
+                                            SLONG ObjectId = (Auftraege += qAuftraege[e]);
+                                            qAuftraege[e].Praemie = 0;
 
                                             if (Sim.Difficulty != DIFF_ADDON09 || NumOrderFlightsToday2 >= 5) {
                                                 Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
@@ -4097,7 +4097,7 @@ void PLAYER::RobotExecuteAction() {
                                             CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
                                             // DisplayBroadcastMessage (bprintf ("B: %s took Order %s-%s", (LPCTSTR)NameX,
-                                            // (LPCTSTR)Cities[qAuftraege.Auftraege[e].VonCity].Name, (LPCTSTR)Cities[qAuftraege.Auftraege[e].NachCity].Name));
+                                            // (LPCTSTR)Cities[qAuftraege[e].VonCity].Name, (LPCTSTR)Cities[qAuftraege[e].NachCity].Name));
 
                                             fpe.ObjectType = 2;
                                             fpe.ObjectId = ObjectId;
@@ -4111,7 +4111,7 @@ void PLAYER::RobotExecuteAction() {
                                             fpe.PArrived = 0;
 
                                             // log: hprintf ("Player %li takes(2) %li Passengers %li-%li (%li, %li)", PlayerNum, fpe.Passagiere,
-                                            // qAuftraege.Auftraege[e].VonCity, qAuftraege.Auftraege[e].NachCity, n, e);
+                                            // qAuftraege[e].VonCity, qAuftraege[e].NachCity, n, e);
 
                                             Planes[c].Flugplan.UpdateNextFlight();
                                             Planes[c].Flugplan.UpdateNextStart();
@@ -4167,7 +4167,7 @@ void PLAYER::RobotExecuteAction() {
                                 if (VonZeit >= 0 && VonZeit < 23 + 24 + 24) {
                                     if (level == 0 || level == 1) {
                                         for (e = qFrachten.AnzEntries() - 1; e >= 0; e--) {
-                                            CFracht &qFracht = qFrachten.Fracht[e];
+                                            CFracht &qFracht = qFrachten[e];
 
                                             if (qFracht.Praemie >= 0 && qFracht.VonCity == ULONG(VonCity)) {
                                                 SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
@@ -4178,7 +4178,7 @@ void PLAYER::RobotExecuteAction() {
                                                 if ((Cost <= qFracht.Praemie * 8 / 10 + Bewertungsbonus) ||
                                                     (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0)) {
                                                     if (Frachten.GetNumFree() < 2) {
-                                                        Frachten.Fracht.ReSize(Frachten.AnzEntries() + 1);
+                                                        Frachten.ReSize(Frachten.AnzEntries() + 1);
                                                     }
                                                     Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
                                                     SLONG ObjectId = (Frachten += qFracht);
@@ -4223,12 +4223,11 @@ void PLAYER::RobotExecuteAction() {
                                             SLONG MinE = -1;
 
                                             for (e = qFrachten.AnzEntries() - 1; e >= 0; e--) {
-                                                if (qFrachten.Fracht[e].Praemie >= 0 &&
-                                                    VonZeit + Cities.CalcFlugdauer(VonCity, qFrachten.Fracht[e].VonCity, Planes[c].ptGeschwindigkeit) <
-                                                        23 + 24) {
-                                                    if (Cities.CalcDistance(VonCity, qFrachten.Fracht[e].VonCity) < Min &&
-                                                        Cities.CalcDistance(VonCity, qFrachten.Fracht[e].VonCity) > MinMin) {
-                                                        Min = Cities.CalcDistance(VonCity, qFrachten.Fracht[e].VonCity);
+                                                if (qFrachten[e].Praemie >= 0 &&
+                                                    VonZeit + Cities.CalcFlugdauer(VonCity, qFrachten[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
+                                                    if (Cities.CalcDistance(VonCity, qFrachten[e].VonCity) < Min &&
+                                                        Cities.CalcDistance(VonCity, qFrachten[e].VonCity) > MinMin) {
+                                                        Min = Cities.CalcDistance(VonCity, qFrachten[e].VonCity);
                                                         MinE = e;
                                                     }
                                                 }
@@ -4242,7 +4241,7 @@ void PLAYER::RobotExecuteAction() {
                                             if (MinE != -1 && Min < 15000000 && (Min < 6000000 || VonZeit < 34 + 24) && (Min < 3000000 || VonZeit < 24 + 24)) {
                                                 e = MinE;
 
-                                                CFracht &qFracht = qFrachten.Fracht[e];
+                                                CFracht &qFracht = qFrachten[e];
 
                                                 SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
@@ -4254,7 +4253,7 @@ void PLAYER::RobotExecuteAction() {
 
                                                 if ((Cost <= qFracht.Praemie + Bewertungsbonus) || (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0)) {
                                                     if (Frachten.GetNumFree() < 2) {
-                                                        Frachten.Fracht.ReSize(Frachten.AnzEntries() + 1);
+                                                        Frachten.ReSize(Frachten.AnzEntries() + 1);
                                                     }
                                                     Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
                                                     SLONG ObjectId = (Frachten += qFracht);
@@ -5037,30 +5036,30 @@ void PLAYER::RobotExecuteAction() {
                         if (VonZeit >= 0 && VonZeit < 23 + 24) {
                             if (level == 0 || level == 1) {
                                 for (e = LastMinuteAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                    if ((LastMinuteAuftraege.Auftraege[e].Praemie != 0) && LastMinuteAuftraege.Auftraege[e].VonCity == ULONG(VonCity)) {
+                                    if ((LastMinuteAuftraege[e].Praemie != 0) && LastMinuteAuftraege[e].VonCity == ULONG(VonCity)) {
                                         NetGenericAsync(17003 + Sim.Date * 100, e, PlayerNum);
                                         if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                            (Cities.CalcDistance(LastMinuteAuftraege.Auftraege[e].VonCity, LastMinuteAuftraege.Auftraege[e].NachCity) >
+                                            (Cities.CalcDistance(LastMinuteAuftraege[e].VonCity, LastMinuteAuftraege[e].NachCity) >
                                                  3000000 ||
-                                             LastMinuteAuftraege.Auftraege[e].Personen <= 90)) {
+                                             LastMinuteAuftraege[e].Personen <= 90)) {
                                             continue;
                                         }
 
-                                        SLONG Cost = ((CalculateFlightCost(VonCity, LastMinuteAuftraege.Auftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
+                                        SLONG Cost = ((CalculateFlightCost(VonCity, LastMinuteAuftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
 
                                         NetGenericAsync(17004 + Cost * 100, e, PlayerNum);
-                                        if (Cost <= LastMinuteAuftraege.Auftraege[e].Praemie * 8 / 10) {
+                                        if (Cost <= LastMinuteAuftraege[e].Praemie * 8 / 10) {
                                             if ((!RobotUse(ROBOT_USE_TUTORIALLIMIT)) ||
                                                 Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0) < Sim.Date * 2 + 3 + (PlayerNum & 1)) {
                                                 NetGenericAsync(17005 + Cost * 100, c + d + e + level, PlayerNum);
 
                                                 if (Auftraege.GetNumFree() < 2) {
-                                                    Auftraege.Auftraege.ReSize(Auftraege.AnzEntries() + 1);
+                                                    Auftraege.ReSize(Auftraege.AnzEntries() + 1);
                                                 }
-                                                SLONG ObjectId = (Auftraege += LastMinuteAuftraege.Auftraege[e]);
+                                                SLONG ObjectId = (Auftraege += LastMinuteAuftraege[e]);
                                                 Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
                                                 Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(0, 1);
-                                                LastMinuteAuftraege.Auftraege[e].Praemie = 0;
+                                                LastMinuteAuftraege[e].Praemie = 0;
 
                                                 CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
@@ -5091,20 +5090,20 @@ void PLAYER::RobotExecuteAction() {
                                 SLONG MinE = -1;
 
                                 for (e = LastMinuteAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                    if ((LastMinuteAuftraege.Auftraege[e].Praemie != 0) &&
-                                        VonZeit + Cities.CalcFlugdauer(VonCity, LastMinuteAuftraege.Auftraege[e].VonCity, Planes[c].ptGeschwindigkeit) <
+                                    if ((LastMinuteAuftraege[e].Praemie != 0) &&
+                                        VonZeit + Cities.CalcFlugdauer(VonCity, LastMinuteAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) <
                                             23 + 24) {
-                                        // VonZeit+Cities.CalcFlugdauer (VonCity, LastMinuteAuftraege.Auftraege[e].VonCity,
+                                        // VonZeit+Cities.CalcFlugdauer (VonCity, LastMinuteAuftraege[e].VonCity,
                                         // PlaneTypes[Planes[c].TypeId].Geschwindigkeit)<23+24)
-                                        if (Cities.CalcDistance(VonCity, LastMinuteAuftraege.Auftraege[e].VonCity) < Min) {
+                                        if (Cities.CalcDistance(VonCity, LastMinuteAuftraege[e].VonCity) < Min) {
                                             if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                                (Cities.CalcDistance(LastMinuteAuftraege.Auftraege[e].VonCity, LastMinuteAuftraege.Auftraege[e].NachCity) >
+                                                (Cities.CalcDistance(LastMinuteAuftraege[e].VonCity, LastMinuteAuftraege[e].NachCity) >
                                                      3000000 ||
-                                                 LastMinuteAuftraege.Auftraege[e].Personen <= 90)) {
+                                                 LastMinuteAuftraege[e].Personen <= 90)) {
                                                 continue;
                                             }
 
-                                            Min = Cities.CalcDistance(VonCity, LastMinuteAuftraege.Auftraege[e].VonCity);
+                                            Min = Cities.CalcDistance(VonCity, LastMinuteAuftraege[e].VonCity);
                                             MinE = e;
                                         }
                                     }
@@ -5113,17 +5112,17 @@ void PLAYER::RobotExecuteAction() {
                                 if (MinE != -1 && Min < 15000000 && (Min < 6000000 || VonZeit < 34) && (Min < 4000000 || VonZeit < 24)) {
                                     e = MinE;
 
-                                    SLONG Cost = ((CalculateFlightCost(VonCity, LastMinuteAuftraege.Auftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
-                                    if (Cost <= LastMinuteAuftraege.Auftraege[e].Praemie) {
+                                    SLONG Cost = ((CalculateFlightCost(VonCity, LastMinuteAuftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
+                                    if (Cost <= LastMinuteAuftraege[e].Praemie) {
                                         if ((!RobotUse(ROBOT_USE_TUTORIALLIMIT)) ||
                                             Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0) < Sim.Date * 2 + 3 + (PlayerNum & 1)) {
                                             if (Auftraege.GetNumFree() < 2) {
-                                                Auftraege.Auftraege.ReSize(Auftraege.AnzEntries() + 1);
+                                                Auftraege.ReSize(Auftraege.AnzEntries() + 1);
                                             }
-                                            SLONG ObjectId = (Auftraege += LastMinuteAuftraege.Auftraege[e]);
+                                            SLONG ObjectId = (Auftraege += LastMinuteAuftraege[e]);
                                             Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
                                             Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(0, 1);
-                                            LastMinuteAuftraege.Auftraege[e].Praemie = 0;
+                                            LastMinuteAuftraege[e].Praemie = 0;
 
                                             if (Auftraege.IsInAlbum(ObjectId) == 0) {
                                                 hprintvar(__LINE__);
@@ -5198,23 +5197,23 @@ void PLAYER::RobotExecuteAction() {
                         if (VonZeit >= 0 && VonZeit < 23 + 24 + 24) {
                             if (level == 0 || level == 1) {
                                 for (e = ReisebueroAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                    if ((ReisebueroAuftraege.Auftraege[e].Praemie != 0) && ReisebueroAuftraege.Auftraege[e].VonCity == ULONG(VonCity)) {
+                                    if ((ReisebueroAuftraege[e].Praemie != 0) && ReisebueroAuftraege[e].VonCity == ULONG(VonCity)) {
                                         if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                            (Cities.CalcDistance(ReisebueroAuftraege.Auftraege[e].VonCity, ReisebueroAuftraege.Auftraege[e].NachCity) >
+                                            (Cities.CalcDistance(ReisebueroAuftraege[e].VonCity, ReisebueroAuftraege[e].NachCity) >
                                                  3000000 ||
-                                             ReisebueroAuftraege.Auftraege[e].Personen <= 90)) {
+                                             ReisebueroAuftraege[e].Personen <= 90)) {
                                             continue;
                                         }
 
-                                        SLONG Cost = ((CalculateFlightCost(VonCity, ReisebueroAuftraege.Auftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
-                                        if (Cost <= ReisebueroAuftraege.Auftraege[e].Praemie * 8 / 10) {
+                                        SLONG Cost = ((CalculateFlightCost(VonCity, ReisebueroAuftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
+                                        if (Cost <= ReisebueroAuftraege[e].Praemie * 8 / 10) {
                                             if ((!RobotUse(ROBOT_USE_TUTORIALLIMIT)) ||
                                                 Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0) < Sim.Date * 2 + 3 + (PlayerNum & 1)) {
                                                 if (Auftraege.GetNumFree() < 2) {
-                                                    Auftraege.Auftraege.ReSize(Auftraege.AnzEntries() + 1);
+                                                    Auftraege.ReSize(Auftraege.AnzEntries() + 1);
                                                 }
-                                                SLONG ObjectId = (Auftraege += ReisebueroAuftraege.Auftraege[e]);
-                                                ReisebueroAuftraege.Auftraege[e].Praemie = 0;
+                                                SLONG ObjectId = (Auftraege += ReisebueroAuftraege[e]);
+                                                ReisebueroAuftraege[e].Praemie = 0;
 
                                                 if (Sim.Difficulty != DIFF_ADDON09 || NumOrderFlightsToday2 >= 5) {
                                                     Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
@@ -5256,20 +5255,20 @@ void PLAYER::RobotExecuteAction() {
                                 SLONG MinE = -1;
 
                                 for (e = ReisebueroAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                    if ((ReisebueroAuftraege.Auftraege[e].Praemie != 0) &&
-                                        VonZeit + Cities.CalcFlugdauer(VonCity, ReisebueroAuftraege.Auftraege[e].VonCity, Planes[c].ptGeschwindigkeit) <
+                                    if ((ReisebueroAuftraege[e].Praemie != 0) &&
+                                        VonZeit + Cities.CalcFlugdauer(VonCity, ReisebueroAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) <
                                             23 + 24) {
-                                        // VonZeit+Cities.CalcFlugdauer (VonCity, ReisebueroAuftraege.Auftraege[e].VonCity,
+                                        // VonZeit+Cities.CalcFlugdauer (VonCity, ReisebueroAuftraege[e].VonCity,
                                         // PlaneTypes[Planes[c].TypeId].Geschwindigkeit)<23+24)
-                                        if (Cities.CalcDistance(VonCity, ReisebueroAuftraege.Auftraege[e].VonCity) < Min) {
+                                        if (Cities.CalcDistance(VonCity, ReisebueroAuftraege[e].VonCity) < Min) {
                                             if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
-                                                (Cities.CalcDistance(ReisebueroAuftraege.Auftraege[e].VonCity, ReisebueroAuftraege.Auftraege[e].NachCity) >
+                                                (Cities.CalcDistance(ReisebueroAuftraege[e].VonCity, ReisebueroAuftraege[e].NachCity) >
                                                      3000000 ||
-                                                 ReisebueroAuftraege.Auftraege[e].Personen <= 90)) {
+                                                 ReisebueroAuftraege[e].Personen <= 90)) {
                                                 continue;
                                             }
 
-                                            Min = Cities.CalcDistance(VonCity, ReisebueroAuftraege.Auftraege[e].VonCity);
+                                            Min = Cities.CalcDistance(VonCity, ReisebueroAuftraege[e].VonCity);
                                             MinE = e;
                                         }
                                     }
@@ -5278,15 +5277,15 @@ void PLAYER::RobotExecuteAction() {
                                 if (MinE != -1 && Min < 15000000 && (Min < 6000000 || VonZeit < 34) && (Min < 3000000 || VonZeit < 24)) {
                                     e = MinE;
 
-                                    SLONG Cost = ((CalculateFlightCost(VonCity, ReisebueroAuftraege.Auftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
-                                    if (Cost <= ReisebueroAuftraege.Auftraege[e].Praemie) {
+                                    SLONG Cost = ((CalculateFlightCost(VonCity, ReisebueroAuftraege[e].VonCity, 8000, 700, -1)) + 99) / 100 * 100;
+                                    if (Cost <= ReisebueroAuftraege[e].Praemie) {
                                         if ((!RobotUse(ROBOT_USE_TUTORIALLIMIT)) ||
                                             Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0) < Sim.Date * 2 + 3 + (PlayerNum & 1)) {
                                             if (Auftraege.GetNumFree() < 2) {
-                                                Auftraege.Auftraege.ReSize(Auftraege.AnzEntries() + 1);
+                                                Auftraege.ReSize(Auftraege.AnzEntries() + 1);
                                             }
-                                            SLONG ObjectId = (Auftraege += ReisebueroAuftraege.Auftraege[e]);
-                                            ReisebueroAuftraege.Auftraege[e].Praemie = 0;
+                                            SLONG ObjectId = (Auftraege += ReisebueroAuftraege[e]);
+                                            ReisebueroAuftraege[e].Praemie = 0;
 
                                             if (Sim.Difficulty != DIFF_ADDON09 || NumOrderFlightsToday2 >= 5) {
                                                 Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
@@ -5376,7 +5375,7 @@ void PLAYER::RobotExecuteAction() {
                         if (VonZeit >= 0 && VonZeit < 23 + 24 + 24) {
                             if (level == 0 || level == 1) {
                                 for (e = gFrachten.AnzEntries() - 1; e >= 0; e--) {
-                                    CFracht &qFracht = gFrachten.Fracht[e];
+                                    CFracht &qFracht = gFrachten[e];
 
                                     if (qFracht.Praemie >= 0 && qFracht.VonCity == ULONG(VonCity)) {
                                         SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
@@ -5387,7 +5386,7 @@ void PLAYER::RobotExecuteAction() {
 
                                         if ((Cost <= qFracht.Praemie * 8 / 10 + Bewertungsbonus) || (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0)) {
                                             if (Frachten.GetNumFree() < 2) {
-                                                Frachten.Fracht.ReSize(Frachten.AnzEntries() + 1);
+                                                Frachten.ReSize(Frachten.AnzEntries() + 1);
                                             }
                                             Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
                                             SLONG ObjectId = (Frachten += qFracht);
@@ -5432,11 +5431,11 @@ void PLAYER::RobotExecuteAction() {
                                     SLONG MinE = -1;
 
                                     for (e = gFrachten.AnzEntries() - 1; e >= 0; e--) {
-                                        if (gFrachten.Fracht[e].Praemie >= 0 &&
-                                            VonZeit + Cities.CalcFlugdauer(VonCity, gFrachten.Fracht[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
-                                            if (Cities.CalcDistance(VonCity, gFrachten.Fracht[e].VonCity) < Min &&
-                                                Cities.CalcDistance(VonCity, gFrachten.Fracht[e].VonCity) > MinMin) {
-                                                Min = Cities.CalcDistance(VonCity, gFrachten.Fracht[e].VonCity);
+                                        if (gFrachten[e].Praemie >= 0 &&
+                                            VonZeit + Cities.CalcFlugdauer(VonCity, gFrachten[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
+                                            if (Cities.CalcDistance(VonCity, gFrachten[e].VonCity) < Min &&
+                                                Cities.CalcDistance(VonCity, gFrachten[e].VonCity) > MinMin) {
+                                                Min = Cities.CalcDistance(VonCity, gFrachten[e].VonCity);
                                                 MinE = e;
                                             }
                                         }
@@ -5450,7 +5449,7 @@ void PLAYER::RobotExecuteAction() {
                                     if (MinE != -1 && Min < 15000000 && (Min < 6000000 || VonZeit < 34 + 24) && (Min < 3000000 || VonZeit < 24 + 24)) {
                                         e = MinE;
 
-                                        CFracht &qFracht = gFrachten.Fracht[e];
+                                        CFracht &qFracht = gFrachten[e];
 
                                         SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
@@ -5462,7 +5461,7 @@ void PLAYER::RobotExecuteAction() {
 
                                         if ((Cost <= qFracht.Praemie + Bewertungsbonus) || (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0)) {
                                             if (Frachten.GetNumFree() < 2) {
-                                                Frachten.Fracht.ReSize(Frachten.AnzEntries() + 1);
+                                                Frachten.ReSize(Frachten.AnzEntries() + 1);
                                             }
                                             Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
                                             SLONG ObjectId = (Frachten += qFracht);
@@ -7474,7 +7473,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
                     Player.HasAlkohol = 1;
                     Player.Koffein = 0;
                     Player.IsStuck = 0;
-                    Player.Frachten.Fracht.ReSize(0);
+                    Player.Frachten.ReSize(0);
                     Player.Frachten.IsInAlbum(static_cast<SLONG>(0));
                     Player.IsDrunk = 0;
                     Player.KioskTrust = 0;

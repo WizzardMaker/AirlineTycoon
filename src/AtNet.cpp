@@ -537,7 +537,8 @@ void PumpNetwork() {
                     case ROOM_WERBUNG:
                         pTalker = &Talkers.Talkers[TALKER_WERBUNG];
                         break;
-                    default: break;
+                    default:
+                        break;
                     }
 
                     if ((pTalker != nullptr) && (pTalker->IsBusy() == 0)) {
@@ -616,7 +617,8 @@ void PumpNetwork() {
                     case ROOM_WERBUNG:
                         Talkers.Talkers[TALKER_WERBUNG].DecreaseLocking();
                         break;
-                    default: break;
+                    default:
+                        break;
                     }
 
                     if (Sim.RoomBusy[RoomLeft] != 0U) {
@@ -652,7 +654,8 @@ void PumpNetwork() {
                 case 2:
                     qPlayer.Image = 1000;
                     break;
-                default: break;
+                default:
+                    break;
                 }
             } break;
 
@@ -930,19 +933,19 @@ void PumpNetwork() {
 
                 switch (Type) {
                 case 1:
-                    LastMinuteAuftraege.Auftraege[Index].Praemie = 0;
+                    LastMinuteAuftraege[Index].Praemie = 0;
                     break;
                 case 2:
-                    ReisebueroAuftraege.Auftraege[Index].Praemie = 0;
+                    ReisebueroAuftraege[Index].Praemie = 0;
                     break;
                 case 3:
-                    gFrachten.Fracht[Index].Praemie = -1;
+                    gFrachten[Index].Praemie = -1;
                     break;
                 case 4:
-                    AuslandsAuftraege[City].Auftraege[Index].Praemie = 0;
+                    AuslandsAuftraege[City][Index].Praemie = 0;
                     break;
                 case 5:
-                    AuslandsFrachten[City].Fracht[Index].Praemie = 0;
+                    AuslandsFrachten[City][Index].Praemie = 0;
                     break;
                 default:
                     printf("AtNet.cpp: Default case should not be reached.");
@@ -1024,7 +1027,7 @@ void PumpNetwork() {
                 PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
                 if (qPlayer.Auftraege.GetNumFree() < 3) {
-                    qPlayer.Auftraege.Auftraege.ReSize(qPlayer.Auftraege.AnzEntries() + 10);
+                    qPlayer.Auftraege.ReSize(qPlayer.Auftraege.AnzEntries() + 10);
                 }
 
                 qPlayer.Auftraege += a;
@@ -1039,7 +1042,7 @@ void PumpNetwork() {
                 PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
                 if (qPlayer.Frachten.GetNumFree() < 3) {
-                    qPlayer.Frachten.Fracht.ReSize(qPlayer.Frachten.AnzEntries() + 10);
+                    qPlayer.Frachten.ReSize(qPlayer.Frachten.AnzEntries() + 10);
                 }
 
                 qPlayer.Frachten += a;
@@ -2053,8 +2056,7 @@ void NetGenericSync(long SyncId, long Par) {
     }
 }
 #else
-void NetGenericSync(long /*SyncId*/, long /*Par*/) {
-}
+void NetGenericSync(long /*SyncId*/, long /*Par*/) {}
 #endif
 
 //--------------------------------------------------------------------------------------------
@@ -2117,6 +2119,5 @@ void NetGenericAsync(long SyncId, long Par, long player) {
     }
 }
 #else
-void NetGenericAsync(long /*SyncId*/, long /*Par*/, long /*player*/) {
-}
+void NetGenericAsync(long /*SyncId*/, long /*Par*/, long /*player*/) {}
 #endif

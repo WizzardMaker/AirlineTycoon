@@ -965,7 +965,8 @@ void CPlaner::DoPollingStuff() {
             case 1:
                 TipType = TIP_CITY;
                 break;
-            default: break;
+            default:
+                break;
             }
 
             if (TipType != 0) {
@@ -987,7 +988,8 @@ void CPlaner::DoPollingStuff() {
             case 1:
                 TipType = TIP_CITY;
                 break;
-            default: break;
+            default:
+                break;
             }
 
             if (TipType != 0) {
@@ -1699,7 +1701,8 @@ void CPlaner::HandleLButtonDown() {
 
                     pBlock->Refresh(PlayerNum, IsLaptop);
                     break;
-                default: break;
+                default:
+                    break;
                 }
             }
         }
@@ -2254,7 +2257,8 @@ void CPlaner::HandleLButtonDown() {
                           } */
                     }
                     break;
-                default: break;
+                default:
+                    break;
                 }
             }
         }
@@ -2295,7 +2299,8 @@ void CPlaner::HandleLButtonDown() {
                     qRRoute.Ticketpreis = Cost * 4 / 10 * 10;
                     qRRoute.TicketpreisFC = qRRoute.Ticketpreis * 2;
                     break;
-                default: break;
+                default:
+                    break;
                 }
 
                 if (ClientPosB.IfIsWithin(148, 40 - 2, 160, 40 - 2 + 14)) {
@@ -3026,7 +3031,8 @@ void CPlaner::HandleLButtonDouble() {
                             }
                         }
                         break;
-                    default: break;
+                    default:
+                        break;
                     }
                 }
             }

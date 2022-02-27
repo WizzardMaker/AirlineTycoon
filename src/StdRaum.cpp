@@ -499,7 +499,8 @@ void CStdRaum::ProcessEvent(const SDL_Event &event, const CPoint &position) {
             OnRButtonUp(WM_RBUTTONUP, position);
         }
     } break;
-    default: break;
+    default:
+        break;
     }
 }
 
@@ -1939,7 +1940,8 @@ void CStdRaum::StopDialog() {
             case TALKER_WERBUNG:
                 room = ROOM_WERBUNG;
                 break;
-            default: break;
+            default:
+                break;
             }
 
             if ((room != 0) && Sim.RoomBusy[room] > 0) {
@@ -2042,7 +2044,8 @@ void CStdRaum::InitToolTips() {
                     SetMouseLook(CURSOR_HOT, 4001, -100, 11);
                 }
                 break;
-            default: break;
+            default:
+                break;
             }
 
             CursorPos += MenuPos;
@@ -2175,20 +2178,20 @@ void CStdRaum::InitToolTips() {
                 }
 
                 if ((CursorPos.y - 7 - 26 >= 0 && CursorPos.x >= 216 && CursorPos.x <= 387 &&
-                     (c >= 0 && c < 6 && (AuslandsAuftraege[MenuPar1].Auftraege[c].Praemie != 0))) ||
-                    (c >= 7 && c < 7 + 6 && (AuslandsFrachten[MenuPar1].Fracht[c - 7].Praemie != 0)) || c == 7 + 7) {
+                     (c >= 0 && c < 6 && (AuslandsAuftraege[MenuPar1][c].Praemie != 0))) ||
+                    (c >= 7 && c < 7 + 6 && (AuslandsFrachten[MenuPar1][c - 7].Praemie != 0)) || c == 7 + 7) {
                     CheckCursorHighlight(CursorPos, CRect(32 + 180, c * 13 + 7 + 26, 204 + 180, c * 13 + 7 + 15 + 26), ColorOfFontBlack);
                     SetMouseLook(CURSOR_HOT, 0, -101, MENU_AUSLANDSAUFTRAG, CursorPos.x, c);
                 }
-                if (c != MenuPar2 && c >= 0 && c <= 5 && CursorPos.x >= 216 && CursorPos.x <= 387 && (AuslandsAuftraege[MenuPar1].Auftraege[c].Praemie != 0)) {
+                if (c != MenuPar2 && c >= 0 && c <= 5 && CursorPos.x >= 216 && CursorPos.x <= 387 && (AuslandsAuftraege[MenuPar1][c].Praemie != 0)) {
                     MenuRepaint();
-                    Sim.Players.Players[PlayerNum].CheckAuftragsBerater(AuslandsAuftraege[MenuPar1].Auftraege[c]);
+                    Sim.Players.Players[PlayerNum].CheckAuftragsBerater(AuslandsAuftraege[MenuPar1][c]);
 
                     MenuPar2 = c;
                 } else if (c != MenuPar2 && c >= 7 && c < 7 + 6 && CursorPos.x >= 216 && CursorPos.x <= 387 &&
-                           (AuslandsFrachten[MenuPar1].Fracht[c - 7].Praemie != 0)) {
+                           (AuslandsFrachten[MenuPar1][c - 7].Praemie != 0)) {
                     MenuRepaint();
-                    Sim.Players.Players[PlayerNum].CheckAuftragsBerater(AuslandsFrachten[MenuPar1].Fracht[c - 7]);
+                    Sim.Players.Players[PlayerNum].CheckAuftragsBerater(AuslandsFrachten[MenuPar1][c - 7]);
 
                     MenuPar2 = c;
                 } else if (c < 0 || c > 5) {
@@ -2516,7 +2519,8 @@ void CStdRaum::InitToolTips() {
                     SetMouseLook(CURSOR_HOT, 0, -101, MENU_BRIEFING, 2);
                 }
                 break;
-            default: break;
+            default:
+                break;
             }
         }
         // Oder in einem Dialog?
@@ -3325,7 +3329,8 @@ void CStdRaum::OnLButtonDblClk(UINT /*unused*/, CPoint point) {
                     MenuRepaint();
                 }
                 break;
-            default: break;
+            default:
+                break;
             }
         } else if (IsDialogOpen() != 0) {
             PreLButtonDown(point);
@@ -3718,8 +3723,8 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
                 if (qPlayer.GetRoom() == ROOM_LAST_MINUTE) {
                     long cnt = 0;
                     for (long c = LastMinuteAuftraege.AnzEntries() - 1; c >= 0; c--) {
-                        if (LastMinuteAuftraege.Auftraege[c].Praemie > 0) {
-                            LastMinuteAuftraege.Auftraege[c].Praemie = 0;
+                        if (LastMinuteAuftraege[c].Praemie > 0) {
+                            LastMinuteAuftraege[c].Praemie = 0;
                             qPlayer.NetUpdateTook(2, c);
                             cnt++;
                         }
@@ -3733,8 +3738,8 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
                 } else if (qPlayer.GetRoom() == ROOM_REISEBUERO) {
                     long cnt = 0;
                     for (long c = ReisebueroAuftraege.AnzEntries() - 1; c >= 0; c--) {
-                        if (ReisebueroAuftraege.Auftraege[c].Praemie > 0) {
-                            ReisebueroAuftraege.Auftraege[c].Praemie = 0;
+                        if (ReisebueroAuftraege[c].Praemie > 0) {
+                            ReisebueroAuftraege[c].Praemie = 0;
                             qPlayer.NetUpdateTook(1, c);
                             cnt++;
                         }
@@ -4054,17 +4059,17 @@ void CStdRaum::RepaintTip() {
 
     case TIP_BUYAUFTRAG:
         DrawAuftragTip(PlayerNum, TipBm, static_cast<SBBMS *>(pTipOriginBm2), pTipOriginBm,
-                       (CurrentTipId == -1) ? nullptr : (&LastMinuteAuftraege.Auftraege[CurrentTipId]), CurrentTipIdPar1, CurrentTipIdPar2, XY(0, 0));
+                       (CurrentTipId == -1) ? nullptr : (&LastMinuteAuftraege[CurrentTipId]), CurrentTipIdPar1, CurrentTipIdPar2, XY(0, 0));
         break;
 
     case TIP_BUYAUFTRAGR:
         DrawAuftragTip(PlayerNum, TipBm, static_cast<SBBMS *>(pTipOriginBm2), pTipOriginBm,
-                       (CurrentTipId == -1) ? nullptr : (&ReisebueroAuftraege.Auftraege[CurrentTipId]), CurrentTipIdPar1, CurrentTipIdPar2, XY(0, 0));
+                       (CurrentTipId == -1) ? nullptr : (&ReisebueroAuftraege[CurrentTipId]), CurrentTipIdPar1, CurrentTipIdPar2, XY(0, 0));
         break;
 
     case TIP_BUYFRACHT:
-        DrawFrachtTip(PlayerNum, TipBm, static_cast<SBBMS *>(pTipOriginBm2), pTipOriginBm, (CurrentTipId == -1) ? nullptr : (&gFrachten.Fracht[CurrentTipId]),
-                      0, CurrentTipIdPar1, 777, CurrentTipIdPar2, XY(0, 0));
+        DrawFrachtTip(PlayerNum, TipBm, static_cast<SBBMS *>(pTipOriginBm2), pTipOriginBm, (CurrentTipId == -1) ? nullptr : (&gFrachten[CurrentTipId]), 0,
+                      CurrentTipIdPar1, 777, CurrentTipIdPar2, XY(0, 0));
         break;
 
     case TIP_FRACHT:
@@ -5642,7 +5647,7 @@ void CStdRaum::MenuRepaint() {
         OnscreenBitmap.BlitFrom(MenuBms[0]);
         OnscreenBitmap.PrintAt(Cities[MenuPar1].Name, FontSmallBlack, TEC_FONT_LEFT, 34 + 180, 12, 204 + 180, 13 + 14);
         for (c = 0; c < 6; c++) {
-            CAuftrag &qAuftrag = AuslandsAuftraege[MenuPar1].Auftraege[c];
+            CAuftrag &qAuftrag = AuslandsAuftraege[MenuPar1][c];
 
             if (qAuftrag.Praemie != 0) {
                 CITY &qVon = Cities[qAuftrag.VonCity];
@@ -5668,7 +5673,7 @@ void CStdRaum::MenuRepaint() {
             }
         }
         for (c = 0; c < 6; c++) {
-            CFracht &qFracht = AuslandsFrachten[MenuPar1].Fracht[c];
+            CFracht &qFracht = AuslandsFrachten[MenuPar1][c];
 
             if (qFracht.Praemie > 0) {
                 CITY &qVon = Cities[qFracht.VonCity];
@@ -5909,7 +5914,8 @@ void CStdRaum::MenuRepaint() {
             }
         }
         break;
-    default: break;
+    default:
+        break;
     }
 }
 
@@ -5935,7 +5941,8 @@ bool CStdRaum::MenuIsPlain() const {
     case MENU_REQUEST_BETATEST2:
         return true;
         break;
-    default: break;
+    default:
+        break;
     }
 
     if (MenuPar1 >= MENU_REQUEST_NO_LM && MenuPar1 <= MENU_REQUEST_NO_WERBUNG) {
@@ -5987,7 +5994,8 @@ void CStdRaum::MenuPostPaint() {
             }
         }
         break;
-    default: break;
+    default:
+        break;
     }
 
     // Basic Repainting:
@@ -6033,7 +6041,8 @@ void CStdRaum::MenuPostPaint() {
             OnscreenBitmap.BlitFrom(MenuBms[13 + static_cast<int>(MouseClickPar1 == 2)], 325, 385);
         }
         break;
-    default: break;
+    default:
+        break;
     }
 }
 
@@ -6585,11 +6594,11 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 return;
             }
         } else if (MouseClickArea == -101 && MouseClickPar2 >= 0 && MouseClickPar2 <= 5) {
-            CAuftrag &qAuftrag = AuslandsAuftraege[MenuPar1].Auftraege[MouseClickPar2];
+            CAuftrag &qAuftrag = AuslandsAuftraege[MenuPar1][MouseClickPar2];
 
             if (qAuftrag.Praemie != 0) {
                 if (qPlayer.Auftraege.GetNumFree() < 3) {
-                    qPlayer.Auftraege.Auftraege.ReSize(qPlayer.Auftraege.AnzEntries() + 10);
+                    qPlayer.Auftraege.ReSize(qPlayer.Auftraege.AnzEntries() + 10);
                 }
 
                 qPlayer.Auftraege += qAuftrag;
@@ -6621,11 +6630,11 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 MenuRepaint();
             }
         } else if (MouseClickArea == -101 && MouseClickPar2 >= 7 && MouseClickPar2 <= 7 + 5) {
-            CFracht &qFracht = AuslandsFrachten[MenuPar1].Fracht[MouseClickPar2 - 7];
+            CFracht &qFracht = AuslandsFrachten[MenuPar1][MouseClickPar2 - 7];
 
             if (qFracht.Praemie > 0) {
                 if (qPlayer.Frachten.GetNumFree() < 3) {
-                    qPlayer.Frachten.Fracht.ReSize(qPlayer.Frachten.AnzEntries() + 10);
+                    qPlayer.Frachten.ReSize(qPlayer.Frachten.AnzEntries() + 10);
                 }
 
                 qPlayer.Frachten += qFracht;
@@ -7279,8 +7288,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
             if (MouseClickArea == -101 && MouseClickId == MENU_REQUEST && MouseClickPar1 == 1) {
                 BLOCKS &qBlocks = qPlayer.Blocks;
                 for (SLONG c = 0; c < qBlocks.AnzEntries(); c++) {
-                    if ((qBlocks.IsInAlbum(c) != 0) && qBlocks[c].IndexB == 0 && qBlocks[c].BlockTypeB == 3 &&
-                        qPlayer.Auftraege(qBlocks[c].SelectedIdB) == ULONG(MenuPar2)) {
+                    if ((qBlocks.IsInAlbum(c) != 0) && qBlocks[c].IndexB == 0 && qBlocks[c].BlockTypeB == 3 && qPlayer.Auftraege(qBlocks[c].SelectedIdB) == ULONG(MenuPar2)) {
                         qBlocks[c].IndexB = TRUE;
                         qBlocks[c].PageB = 0;
                         qBlocks[c].RefreshData(PlayerNum);
@@ -7308,8 +7316,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
             if (MouseClickArea == -101 && MouseClickId == MENU_REQUEST && MouseClickPar1 == 1) {
                 BLOCKS &qBlocks = qPlayer.Blocks;
                 for (SLONG c = 0; c < qBlocks.AnzEntries(); c++) {
-                    if ((qBlocks.IsInAlbum(c) != 0) && qBlocks[c].IndexB == 0 && qBlocks[c].BlockTypeB == 3 &&
-                        qPlayer.Auftraege(qBlocks[c].SelectedIdB) == ULONG(MenuPar2)) {
+                    if ((qBlocks.IsInAlbum(c) != 0) && qBlocks[c].IndexB == 0 && qBlocks[c].BlockTypeB == 3 && qPlayer.Auftraege(qBlocks[c].SelectedIdB) == ULONG(MenuPar2)) {
                         qBlocks[c].IndexB = TRUE;
                         qBlocks[c].PageB = 0;
                         qBlocks[c].RefreshData(PlayerNum);
@@ -7342,8 +7349,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
             if (MouseClickArea == -101 && MouseClickId == MENU_REQUEST && MouseClickPar1 == 1) {
                 BLOCKS &qBlocks = qPlayer.Blocks;
                 for (SLONG c = 0; c < qBlocks.AnzEntries(); c++) {
-                    if ((qBlocks.IsInAlbum(c) != 0) && qBlocks[c].IndexB == 0 && qBlocks[c].BlockTypeB == 6 &&
-                        qPlayer.Frachten(qBlocks[c].SelectedIdB) == ULONG(MenuPar2)) {
+                    if ((qBlocks.IsInAlbum(c) != 0) && qBlocks[c].IndexB == 0 && qBlocks[c].BlockTypeB == 6 && qPlayer.Frachten(qBlocks[c].SelectedIdB) == ULONG(MenuPar2)) {
                         qBlocks[c].IndexB = TRUE;
                         qBlocks[c].PageB = 0;
                         qBlocks[c].RefreshData(PlayerNum);
@@ -7374,8 +7380,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
             if (MouseClickArea == -101 && MouseClickId == MENU_REQUEST && MouseClickPar1 == 1) {
                 BLOCKS &qBlocks = qPlayer.Blocks;
                 for (SLONG c = 0; c < qBlocks.AnzEntries(); c++) {
-                    if ((qBlocks.IsInAlbum(c) != 0) && qBlocks[c].IndexB == 0 && qBlocks[c].BlockTypeB == 6 &&
-                        qPlayer.Frachten(qBlocks[c].SelectedIdB) == ULONG(MenuPar2)) {
+                    if ((qBlocks.IsInAlbum(c) != 0) && qBlocks[c].IndexB == 0 && qBlocks[c].BlockTypeB == 6 && qPlayer.Frachten(qBlocks[c].SelectedIdB) == ULONG(MenuPar2)) {
                         qBlocks[c].IndexB = TRUE;
                         qBlocks[c].PageB = 0;
                         qBlocks[c].RefreshData(PlayerNum);
@@ -7870,7 +7875,8 @@ void CStdRaum::MenuLeftClick(XY Pos) {
             }
         }
         break;
-    default: break;
+    default:
+        break;
     }
 }
 
@@ -8329,8 +8335,8 @@ void CStdRaum::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/) {
                                        CurrentMenu == MENU_ENTERPROTECT || CurrentMenu == MENU_BROADCAST || CurrentMenu == MENU_CHAT)) {
         if (nChar == ' ' || nChar == ':' || nChar == ',' || nChar == ';' || nChar == '!' || nChar == '?' || nChar == '\'' || nChar == '-' || nChar == '+' ||
             nChar == '(' || nChar == ')' || (nChar >= '0' && nChar <= '9') || (nChar >= 'A' && nChar <= 'Z') || (nChar >= 'a' && nChar <= 'z') ||
-            nChar == UBYTE('\xC4') || nChar == UBYTE('\xD6') || nChar == UBYTE('\xDC') || nChar == UBYTE('\xE4') || nChar == UBYTE('\xF6') || nChar == UBYTE('\xFC') ||
-            nChar == '.' || nChar == UBYTE('\xDF')) {
+            nChar == UBYTE('\xC4') || nChar == UBYTE('\xD6') || nChar == UBYTE('\xDC') || nChar == UBYTE('\xE4') || nChar == UBYTE('\xF6') ||
+            nChar == UBYTE('\xFC') || nChar == '.' || nChar == UBYTE('\xDF')) {
             if (Optionen[0].GetLength() < 20 || CurrentMenu == MENU_BROADCAST || CurrentMenu == MENU_CHAT) {
                 Optionen[0] += static_cast<unsigned char>(nChar);
                 MenuRepaint();

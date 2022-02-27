@@ -792,15 +792,15 @@ void CAuftraege::FillForLastMinute() {
 
     CalcPlayerMaximums();
 
-    Auftraege.ReSize(6); // ex:10
+    ReSize(6); // ex:10
 
-    for (c = 0; c < Auftraege.AnzEntries(); c++) {
-        Auftraege[c].RefillForLastMinute(c / 2, &Random);
+    for (auto& a : *this) {
+        a.RefillForLastMinute(c / 2, &Random);
     }
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 20 && Sim.Date <= 30) {
-        for (c = 0; c < Auftraege.AnzEntries(); c++) {
-            Auftraege[c].Praemie = 0;
+        for (auto& a : *this) {
+            a.Praemie = 0;
         }
     }
 }
@@ -810,7 +810,7 @@ void CAuftraege::FillForLastMinute() {
 //--------------------------------------------------------------------------------------------
 void CAuftraege::RefillForLastMinute(SLONG Minimum) {
     SLONG c = 0;
-    SLONG Anz = min(Auftraege.AnzEntries(), Sim.TickLastMinuteRefill);
+    SLONG Anz = min(AnzEntries(), Sim.TickLastMinuteRefill);
 
     NetGenericSync(7000, Minimum);
     NetGenericSync(7001, Sim.TickLastMinuteRefill);
@@ -818,24 +818,33 @@ void CAuftraege::RefillForLastMinute(SLONG Minimum) {
 
     CalcPlayerMaximums();
 
-    Auftraege.ReSize(6); // ex:10
+    ReSize(6); // ex:10
 
-    for (c = 0; c < Auftraege.AnzEntries() && Anz > 0; c++) {
-        if (Auftraege[c].Praemie == 0) {
-            Auftraege[c].RefillForLastMinute(c / 2, &Random);
+    for (auto& a : *this) {
+        if(Anz <= 0) {
+            break;
+        }
+        if (a.Praemie == 0) {
+            a.RefillForLastMinute(c / 2, &Random);
             Anz--;
         }
     }
 
-    for (c = 0; c < Auftraege.AnzEntries() && Anz > 0; c++) {
-        if (Auftraege[c].Praemie != 0) {
+    for (auto& a : *this) {
+        if(Anz <= 0) {
+            break;
+        }
+        if (a.Praemie != 0) {
             Minimum--;
         }
     }
 
-    for (c = 0; c < Auftraege.AnzEntries() && Anz > 0; c++) {
-        if (Auftraege[c].Praemie == 0 && Minimum > 0) {
-            Auftraege[c].RefillForLastMinute(c / 2, &Random);
+    for (auto& a : *this) {
+        if(Anz <= 0) {
+            break;
+        }
+        if (a.Praemie == 0 && Minimum > 0) {
+            a.RefillForLastMinute(c / 2, &Random);
             Minimum--;
         }
     }
@@ -843,8 +852,8 @@ void CAuftraege::RefillForLastMinute(SLONG Minimum) {
     Sim.TickLastMinuteRefill = 0;
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 20 && Sim.Date <= 30) {
-        for (c = 0; c < Auftraege.AnzEntries(); c++) {
-            Auftraege[c].Praemie = 0;
+        for (auto& a : *this) {
+            a.Praemie = 0;
         }
     }
 }
@@ -857,21 +866,21 @@ void CAuftraege::FillForReisebuero() {
 
     CalcPlayerMaximums();
 
-    Auftraege.ReSize(6);
+    ReSize(6);
 
-    for (c = 0; c < Auftraege.AnzEntries(); c++) {
+    for (auto& a : *this) {
         if (Sim.Date < 5 && c < 5) {
-            Auftraege[c].RefillForAusland(4, Sim.HomeAirportId, &Random);
+            a.RefillForAusland(4, Sim.HomeAirportId, &Random);
         } else if (Sim.Date < 10 && c < 3) {
-            Auftraege[c].RefillForAusland(4, Sim.HomeAirportId, &Random);
+            a.RefillForAusland(4, Sim.HomeAirportId, &Random);
         } else {
-            Auftraege[c].RefillForAusland(c / 2, Sim.HomeAirportId, &Random);
+            a.RefillForAusland(c / 2, Sim.HomeAirportId, &Random);
         }
     }
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 20 && Sim.Date <= 30) {
-        for (c = 0; c < Auftraege.AnzEntries(); c++) {
-            Auftraege[c].Praemie = 0;
+        for (auto& a : *this) {
+            a.Praemie = 0;
         }
     }
 }
@@ -881,43 +890,52 @@ void CAuftraege::FillForReisebuero() {
 //--------------------------------------------------------------------------------------------
 void CAuftraege::RefillForReisebuero(SLONG Minimum) {
     SLONG c = 0;
-    SLONG Anz = min(Auftraege.AnzEntries(), Sim.TickReisebueroRefill);
+    SLONG Anz = min(AnzEntries(), Sim.TickReisebueroRefill);
 
     // NetGenericSync (8000, Minimum);
     // NetGenericSync (8001, Random.GetSeed());
 
     CalcPlayerMaximums();
 
-    Auftraege.ReSize(6);
+    ReSize(6);
 
-    for (c = 0; c < Auftraege.AnzEntries() && Anz > 0; c++) {
-        if (Auftraege[c].Praemie == 0) {
+    for (auto& a : *this) {
+        if(Anz <= 0) {
+            break;
+        }
+        if (a.Praemie == 0) {
             if (Sim.Date < 5 && c < 5) {
-                Auftraege[c].RefillForAusland(4, Sim.HomeAirportId, &Random);
+                a.RefillForAusland(4, Sim.HomeAirportId, &Random);
             } else if (Sim.Date < 10 && c < 3) {
-                Auftraege[c].RefillForAusland(4, Sim.HomeAirportId, &Random);
+                a.RefillForAusland(4, Sim.HomeAirportId, &Random);
             } else {
-                Auftraege[c].RefillForAusland(c / 2, Sim.HomeAirportId, &Random);
+                a.RefillForAusland(c / 2, Sim.HomeAirportId, &Random);
             }
 
             Anz--;
         }
     }
 
-    for (c = 0; c < Auftraege.AnzEntries() && Anz > 0; c++) {
-        if (Auftraege[c].Praemie != 0) {
+    for (auto& a : *this) {
+        if(Anz <= 0) {
+            break;
+        }
+        if (a.Praemie != 0) {
             Minimum--;
         }
     }
 
-    for (c = 0; c < Auftraege.AnzEntries() && Anz > 0; c++) {
-        if (Auftraege[c].Praemie == 0 && Minimum > 0) {
+    for (auto& a : *this) {
+        if(Anz <= 0) {
+            break;
+        }
+        if (a.Praemie == 0 && Minimum > 0) {
             if (Sim.Date < 5 && c < 5) {
-                Auftraege[c].RefillForAusland(4, Sim.HomeAirportId, &Random);
+                a.RefillForAusland(4, Sim.HomeAirportId, &Random);
             } else if (Sim.Date < 10 && c < 3) {
-                Auftraege[c].RefillForAusland(4, Sim.HomeAirportId, &Random);
+                a.RefillForAusland(4, Sim.HomeAirportId, &Random);
             } else {
-                Auftraege[c].RefillForAusland(c / 2, Sim.HomeAirportId, &Random);
+                a.RefillForAusland(c / 2, Sim.HomeAirportId, &Random);
             }
 
             Minimum--;
@@ -927,8 +945,8 @@ void CAuftraege::RefillForReisebuero(SLONG Minimum) {
     Sim.TickReisebueroRefill = 0;
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 20 && Sim.Date <= 30) {
-        for (c = 0; c < Auftraege.AnzEntries(); c++) {
-            Auftraege[c].Praemie = 0;
+        for (auto& a : *this) {
+            a.Praemie = 0;
         }
     }
 }
@@ -941,16 +959,15 @@ void CAuftraege::FillForAusland(SLONG CityNum) {
 
     CalcPlayerMaximums();
 
-    Auftraege.ReSize(6);   // ex:10
-    IsInAlbum(0xffffffff); // Refresh erzwingen
+    ReSize(6);   // ex:10
 
-    for (c = 0; c < Auftraege.AnzEntries(); c++) {
+    for (auto& a : *this) {
         if (Sim.Date < 5 && c < 5) {
-            Auftraege[c].RefillForAusland(4, CityNum, &Random);
+            a.RefillForAusland(4, CityNum, &Random);
         } else if (Sim.Date < 10 && c < 3) {
-            Auftraege[c].RefillForAusland(4, CityNum, &Random);
+            a.RefillForAusland(4, CityNum, &Random);
         } else {
-            Auftraege[c].RefillForAusland(c / 2, CityNum, &Random);
+            a.RefillForAusland(c / 2, CityNum, &Random);
         }
     }
 }
@@ -960,41 +977,49 @@ void CAuftraege::FillForAusland(SLONG CityNum) {
 //--------------------------------------------------------------------------------------------
 void CAuftraege::RefillForAusland(SLONG CityNum, SLONG Minimum) {
     SLONG c = 0;
-    SLONG Anz = min(Auftraege.AnzEntries(), AuslandsRefill[CityNum]);
+    SLONG Anz = min(AnzEntries(), AuslandsRefill[CityNum]);
 
     CalcPlayerMaximums();
 
-    Auftraege.ReSize(6);
-    IsInAlbum(0xffffffff); // Refresh erzwingen
+    ReSize(6);
 
-    for (c = 0; c < Auftraege.AnzEntries() && Anz > 0; c++) {
-        if (Auftraege[c].Praemie == 0) {
+    for (auto& a : *this) {
+        if(Anz <= 0) {
+            break;
+        }
+        if (a.Praemie == 0) {
             if (Sim.Date < 5 && c < 5) {
-                Auftraege[c].RefillForAusland(4, CityNum, &Random);
+                a.RefillForAusland(4, CityNum, &Random);
             } else if (Sim.Date < 10 && c < 3) {
-                Auftraege[c].RefillForAusland(4, CityNum, &Random);
+                a.RefillForAusland(4, CityNum, &Random);
             } else {
-                Auftraege[c].RefillForAusland(c / 2, CityNum, &Random);
+                a.RefillForAusland(c / 2, CityNum, &Random);
             }
 
             Anz--;
         }
     }
 
-    for (c = 0; c < Auftraege.AnzEntries() && Anz > 0; c++) {
-        if (Auftraege[c].Praemie != 0) {
+    for (auto& a : *this) {
+        if(Anz <= 0) {
+            break;
+        }
+        if (a.Praemie != 0) {
             Minimum--;
         }
     }
 
-    for (c = 0; c < Auftraege.AnzEntries() && Anz > 0; c++) {
-        if (Auftraege[c].Praemie == 0 && Minimum > 0) {
+    for (auto& a : *this) {
+        if(Anz <= 0) {
+            break;
+        }
+        if (a.Praemie == 0 && Minimum > 0) {
             if (Sim.Date < 5 && c < 5) {
-                Auftraege[c].RefillForAusland(4, CityNum, &Random);
+                a.RefillForAusland(4, CityNum, &Random);
             } else if (Sim.Date < 10 && c < 3) {
-                Auftraege[c].RefillForAusland(4, CityNum, &Random);
+                a.RefillForAusland(4, CityNum, &Random);
             } else {
-                Auftraege[c].RefillForAusland(c / 2, CityNum, &Random);
+                a.RefillForAusland(c / 2, CityNum, &Random);
             }
 
             Minimum--;
@@ -1011,9 +1036,9 @@ SLONG CAuftraege::GetNumDueToday() {
     SLONG c = 0;
     SLONG Anz = 0;
 
-    for (c = 0; c < Auftraege.AnzEntries(); c++) {
-        if ((IsInAlbum(c) != 0) && Auftraege[c].BisDate >= Sim.Date) {
-            if (Auftraege[c].InPlan == 0 && Auftraege[c].BisDate == Sim.Date) {
+    for (c = 0; c < AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && at(c).BisDate >= Sim.Date) {
+            if (at(c).InPlan == 0 && at(c).BisDate == Sim.Date) {
                 Anz++;
             }
         }
@@ -1029,9 +1054,9 @@ SLONG CAuftraege::GetNumOpen() {
     SLONG c = 0;
     SLONG Anz = 0;
 
-    for (c = 0; c < Auftraege.AnzEntries(); c++) {
-        if ((IsInAlbum(c) != 0) && Auftraege[c].BisDate >= Sim.Date) {
-            if (Auftraege[c].InPlan == 0) {
+    for (c = 0; c < AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && at(c).BisDate >= Sim.Date) {
+            if (at(c).InPlan == 0) {
                 Anz++;
             }
         }
@@ -1044,8 +1069,7 @@ SLONG CAuftraege::GetNumOpen() {
 // Speichert ein CAuftrag Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CAuftraege &Auftraege) {
-    File << Auftraege.Auftraege;
-    File << *((const ALBUM<CAuftrag> *)&Auftraege);
+    File << *((const ALBUM_V<CAuftrag> *)&Auftraege);
 
     if (SaveVersionSub >= 100) {
         File << Auftraege.Random;
@@ -1058,8 +1082,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CAuftraege &Auftraege) {
 // Läd ein CAuftrag Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CAuftraege &Auftraege) {
-    File >> Auftraege.Auftraege;
-    File >> *((ALBUM<CAuftrag> *)&Auftraege);
+    File >> *((ALBUM_V<CAuftrag> *)&Auftraege);
 
     if (SaveVersionSub >= 100) {
         File >> Auftraege.Random;

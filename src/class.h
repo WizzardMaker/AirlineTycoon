@@ -534,18 +534,18 @@ class /**/ CPlaneTypes : public ALBUM<CPlaneType> {
 class /**/ CAuftrag {
 
   public:
-    ULONG VonCity;     // bezeichnet eine Stadt
-    ULONG NachCity;    // bezeichnet eine Stadt
-    ULONG Personen;    // So viele müssen in die Maschine passen
-    UWORD Date;        // Vertragsbeginn
-    UWORD BisDate{};   // Vertragsende
-    SBYTE InPlan;      // 0=Nix, -1=Durchgeführt, 1=1x im Plan
-    SBYTE Okay{};      // 0=Nix, -1=Durchgeführt, 1=1x im Plan
-    SLONG Praemie;     // Prämie bei Erfüllung
-    SLONG Strafe;      // Strafe bei Versagen
-    BOOL bUhrigFlight; // Von Uhrig in Auftrag gegeben?
+    ULONG VonCity{};     // bezeichnet eine Stadt
+    ULONG NachCity{};    // bezeichnet eine Stadt
+    ULONG Personen{};    // So viele müssen in die Maschine passen
+    UWORD Date{};        // Vertragsbeginn
+    UWORD BisDate{};     // Vertragsende
+    SBYTE InPlan{};      // 0=Nix, -1=Durchgeführt, 1=1x im Plan
+    SBYTE Okay{};        // 0=Nix, -1=Durchgeführt, 1=1x im Plan
+    SLONG Praemie{};     // Prämie bei Erfüllung
+    SLONG Strafe{};      // Strafe bei Versagen
+    BOOL bUhrigFlight{}; // Von Uhrig in Auftrag gegeben?
 
-    CAuftrag() {}
+    CAuftrag() = default;
     CAuftrag(ULONG VonCity, ULONG NachCity, ULONG Personen, UWORD Date, SLONG Praemie, SLONG Strafe);
     CAuftrag(ULONG VonCity, ULONG NachCity, ULONG Personen, UWORD Date);
     CAuftrag(char *VonCity, char *NachCity, ULONG Personen, UWORD Date, SLONG Praemie, SLONG Strafe);
@@ -564,13 +564,12 @@ class /**/ CAuftrag {
     friend TEAKFILE &operator>>(TEAKFILE &File, CAuftrag &Auftrag);
 };
 
-class CAuftraege : public ALBUM<CAuftrag> {
+class CAuftraege : public ALBUM_V<CAuftrag> {
   public:
-    FBUFFER<CAuftrag> Auftraege;
     TEAKRAND Random;
 
   public:
-    CAuftraege() : ALBUM<CAuftrag>(Auftraege, "Auftraege") {}
+    CAuftraege() : ALBUM_V<CAuftrag>("Auftraege") {}
     void FillForLastMinute(void);
     void RefillForLastMinute(SLONG Minimum = 0);
     void FillForReisebuero(void);
@@ -589,19 +588,19 @@ class CAuftraege : public ALBUM<CAuftrag> {
 //--------------------------------------------------------------------------------------------
 class CFracht {
   public:
-    ULONG VonCity;  // bezeichnet eine Stadt
-    ULONG NachCity; // bezeichnet eine Stadt
-    SLONG Tons;     // So viele Tonnen müssen insgesamt geflogen werden
-    SLONG TonsOpen; // So viele Tonnen sind weder geflogen, noch im Flugplan verplant
-    SLONG TonsLeft; // So viele Tonnen müssen noch geflogen werden
-    UWORD Date;     // Vertragsbeginn
-    UWORD BisDate;  // Vertragsende
-    SBYTE InPlan;   // 0=Nix, -1=Durchgeführt, 1=1x im Plan
-    SBYTE Okay;     // 0=Nix, -1=Durchgeführt, 1=1x im Plan
-    SLONG Praemie;  // Prämie bei Erfüllung
-    SLONG Strafe;   // Strafe bei Versagen
+    ULONG VonCity{};  // bezeichnet eine Stadt
+    ULONG NachCity{}; // bezeichnet eine Stadt
+    SLONG Tons{};     // So viele Tonnen müssen insgesamt geflogen werden
+    SLONG TonsOpen{}; // So viele Tonnen sind weder geflogen, noch im Flugplan verplant
+    SLONG TonsLeft{}; // So viele Tonnen müssen noch geflogen werden
+    UWORD Date{};     // Vertragsbeginn
+    UWORD BisDate{};  // Vertragsende
+    SBYTE InPlan{};   // 0=Nix, -1=Durchgeführt, 1=1x im Plan
+    SBYTE Okay{};     // 0=Nix, -1=Durchgeführt, 1=1x im Plan
+    SLONG Praemie{};  // Prämie bei Erfüllung
+    SLONG Strafe{};   // Strafe bei Versagen
 
-    CFracht() {}
+    CFracht() = default;
     CFracht(ULONG VonCity, ULONG NachCity, SLONG Tons, ULONG Personen, UWORD Date, SLONG Praemie, SLONG Strafe);
     CFracht(ULONG VonCity, ULONG NachCity, SLONG Tons, ULONG Personen, UWORD Date);
     CFracht(char *VonCity, char *NachCity, SLONG Tons, ULONG Personen, UWORD Date, SLONG Praemie, SLONG Strafe);
@@ -613,18 +612,18 @@ class CFracht {
     void Refill(SLONG AreaType, TEAKRAND *pRnd);
     void RefillForAusland(SLONG AreaType, SLONG CityNum, TEAKRAND *pRandom);
     BOOL FitsInPlane(const CPlane &Plane) const;
+    BOOL IsValid() const { return Praemie > 0; };
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CFracht &Fracht);
     friend TEAKFILE &operator>>(TEAKFILE &File, CFracht &Fracht);
 };
 
-class CFrachten : public ALBUM<CFracht> {
+class CFrachten : public ALBUM_V<CFracht> {
   public:
-    FBUFFER<CFracht> Fracht;
     TEAKRAND Random;
 
   public:
-    CFrachten() : ALBUM<CFracht>(Fracht, "Fracht") {}
+    CFrachten() : ALBUM_V<CFracht>("Fracht") {}
 
     void Fill(void);
     void Refill(SLONG Minimum = 0);

@@ -176,8 +176,8 @@ CReisebuero::~CReisebuero() {
     }
 
     for (c = 0; c < ReisebueroAuftraege.AnzEntries(); c++) {
-        if (ReisebueroAuftraege.Auftraege[c].Praemie < 0) {
-            ReisebueroAuftraege.Auftraege[c].Praemie = 0;
+        if (ReisebueroAuftraege[c].Praemie < 0) {
+            ReisebueroAuftraege[c].Praemie = 0;
         }
     }
 
@@ -246,7 +246,7 @@ void CReisebuero::OnPaint() {
 
     RoomBm.pBitmap->SetClipRect(CRect(0, 0, 640, 440));
     for (c = 0; c < ReisebueroAuftraege.AnzEntries(); c++) {
-        if (ReisebueroAuftraege.Auftraege[c].Praemie > 0) {
+        if (ReisebueroAuftraege[c].Praemie > 0) {
             RoomBm.BlitFromT(ZettelBms[c], ZettelPos[c * 2], ZettelPos[c * 2 + 1]);
 
             if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0)) {
@@ -262,7 +262,7 @@ void CReisebuero::OnPaint() {
                     if (c != LastTip) {
                         LastTip = c;
 
-                        Sim.Players.Players[PlayerNum].CheckAuftragsBerater(ReisebueroAuftraege.Auftraege[c]);
+                        Sim.Players.Players[PlayerNum].CheckAuftragsBerater(ReisebueroAuftraege[c]);
                     }
                 }
             }
@@ -273,14 +273,14 @@ void CReisebuero::OnPaint() {
     }
 
     for (c = 0; c < ReisebueroAuftraege.AnzEntries(); c++) {
-        if (ReisebueroAuftraege.Auftraege[c].Praemie < 0) {
-            ReisebueroAuftraege.Auftraege[c].Praemie += DeltaTime * 3;
-            if (ReisebueroAuftraege.Auftraege[c].Praemie > 0) {
-                ReisebueroAuftraege.Auftraege[c].Praemie = 0;
+        if (ReisebueroAuftraege[c].Praemie < 0) {
+            ReisebueroAuftraege[c].Praemie += DeltaTime * 3;
+            if (ReisebueroAuftraege[c].Praemie > 0) {
+                ReisebueroAuftraege[c].Praemie = 0;
             }
 
             XY Pos;
-            SLONG p = -ReisebueroAuftraege.Auftraege[c].Praemie;
+            SLONG p = -ReisebueroAuftraege[c].Praemie;
 
             Pos.x = (p * ZettelPos[c * 2] + 590 * (1000 - p)) / 1000;
             Pos.y = (p * ZettelPos[c * 2 + 1] + 440 * (1000 - p)) / 1000;
@@ -327,18 +327,18 @@ void CReisebuero::OnPaint() {
 // void CReisebuero::OnPaint()
 //--------------------------------------------------------------------------------------------
 void CReisebuero::RepaintZettel(SLONG n) {
-    if (ReisebueroAuftraege.Auftraege[n].Praemie > 0) {
+    if (ReisebueroAuftraege[n].Praemie > 0) {
         ZettelBms[n].ReSize(gZettelBms[n % 3].Size);
         ZettelBms[n].BlitFrom(gZettelBms[n % 3]);
 
-        ZettelBms[n].PrintAt(bprintf("%s-%s", (LPCTSTR)Cities[ReisebueroAuftraege.Auftraege[n].VonCity].Kuerzel,
-                                     (LPCTSTR)Cities[ReisebueroAuftraege.Auftraege[n].NachCity].Kuerzel),
+        ZettelBms[n].PrintAt(bprintf("%s-%s", (LPCTSTR)Cities[ReisebueroAuftraege[n].VonCity].Kuerzel,
+                                     (LPCTSTR)Cities[ReisebueroAuftraege[n].NachCity].Kuerzel),
                              FontSmallBlack, TEC_FONT_CENTERED, XY(3, 10), XY(ZettelBms[n].Size.x - 3, 29));
 
-        ZettelBms[n].PrintAt(ShortenLongCities(Cities[ReisebueroAuftraege.Auftraege[n].VonCity].Name), FontSmallBlack, TEC_FONT_CENTERED, XY(3, 31),
+        ZettelBms[n].PrintAt(ShortenLongCities(Cities[ReisebueroAuftraege[n].VonCity].Name), FontSmallBlack, TEC_FONT_CENTERED, XY(3, 31),
                              XY(ZettelBms[n].Size.x - 3, 102));
         ZettelBms[n].PrintAt("-", FontSmallBlack, TEC_FONT_CENTERED, XY(3, 42), XY(ZettelBms[n].Size.x - 3, 102));
-        ZettelBms[n].PrintAt(ShortenLongCities(Cities[ReisebueroAuftraege.Auftraege[n].NachCity].Name), FontSmallBlack, TEC_FONT_CENTERED, XY(3, 54),
+        ZettelBms[n].PrintAt(ShortenLongCities(Cities[ReisebueroAuftraege[n].NachCity].Name), FontSmallBlack, TEC_FONT_CENTERED, XY(3, 54),
                              XY(ZettelBms[n].Size.x - 3, 102));
     }
 }
@@ -371,17 +371,17 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point) {
         }
 
         for (c = ReisebueroAuftraege.AnzEntries() - 1; c >= 0; c--) {
-            if (ReisebueroAuftraege.Auftraege[c].Praemie > 0) {
+            if (ReisebueroAuftraege[c].Praemie > 0) {
                 if (RoomPos.IfIsWithin(ZettelPos[c * 2], ZettelPos[c * 2 + 1], ZettelPos[c * 2] + gZettelBms[c % 3].Size.x,
                                        ZettelPos[c * 2 + 1] + gZettelBms[c % 3].Size.y)) {
                     if (qPlayer.Auftraege.GetNumFree() < 3) {
-                        qPlayer.Auftraege.Auftraege.ReSize(qPlayer.Auftraege.AnzEntries() + 10);
+                        qPlayer.Auftraege.ReSize(qPlayer.Auftraege.AnzEntries() + 10);
                     }
 
                     PlayUniversalFx("paptake.raw", Sim.Options.OptionEffekte);
 
-                    qPlayer.Auftraege += ReisebueroAuftraege.Auftraege[c];
-                    qPlayer.NetUpdateOrder(ReisebueroAuftraege.Auftraege[c]);
+                    qPlayer.Auftraege += ReisebueroAuftraege[c];
+                    qPlayer.NetUpdateOrder(ReisebueroAuftraege[c]);
 
                     // Für den Statistikscreen:
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
@@ -389,7 +389,7 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point) {
                     SIM::SendSimpleMessage(ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, static_cast<long>(qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0)),
                                            static_cast<long>(qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay(0)));
 
-                    ReisebueroAuftraege.Auftraege[c].Praemie = -1000;
+                    ReisebueroAuftraege[c].Praemie = -1000;
                     qPlayer.NetUpdateTook(2, c);
                     break;
                 }

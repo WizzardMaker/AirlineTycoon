@@ -795,7 +795,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
         }
 
         qPlayer.History.ReInit();
-        qPlayer.Auftraege.Auftraege.ReSize(40);
+        qPlayer.Auftraege.ReSize(40);
 
         CAuftrag a;
         CalcPlayerMaximums(true);

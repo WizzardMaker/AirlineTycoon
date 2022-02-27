@@ -124,8 +124,8 @@ CLastMinute::~CLastMinute() {
     }
 
     for (c = 0; c < LastMinuteAuftraege.AnzEntries(); c++) {
-        if (LastMinuteAuftraege.Auftraege[c].Praemie < 0) {
-            LastMinuteAuftraege.Auftraege[c].Praemie = 0;
+        if (LastMinuteAuftraege[c].Praemie < 0) {
+            LastMinuteAuftraege[c].Praemie = 0;
         }
     }
 
@@ -201,7 +201,7 @@ void CLastMinute::OnPaint() {
 
     RoomBm.pBitmap->SetClipRect(CRect(0, 0, 640, 440));
     for (c = 0; c < LastMinuteAuftraege.AnzEntries(); c++) {
-        if (LastMinuteAuftraege.Auftraege[c].Praemie > 0) {
+        if (LastMinuteAuftraege[c].Praemie > 0) {
             if (RoomBm.BlitFromT(ZettelBms[c], ZettelPos[c * 2], ZettelPos[c * 2 + 1]) == 0) {
                 RepaintZettel(c);
                 RoomBm.BlitFromT(ZettelBms[c], ZettelPos[c * 2], ZettelPos[c * 2 + 1]);
@@ -220,7 +220,7 @@ void CLastMinute::OnPaint() {
                     if (c != LastTip) {
                         LastTip = c;
 
-                        Sim.Players.Players[PlayerNum].CheckAuftragsBerater(LastMinuteAuftraege.Auftraege[c]);
+                        Sim.Players.Players[PlayerNum].CheckAuftragsBerater(LastMinuteAuftraege[c]);
                     }
                 }
             }
@@ -231,14 +231,14 @@ void CLastMinute::OnPaint() {
     }
 
     for (c = 0; c < LastMinuteAuftraege.AnzEntries(); c++) {
-        if (LastMinuteAuftraege.Auftraege[c].Praemie < 0) {
-            LastMinuteAuftraege.Auftraege[c].Praemie += DeltaTime * 4;
-            if (LastMinuteAuftraege.Auftraege[c].Praemie > 0) {
-                LastMinuteAuftraege.Auftraege[c].Praemie = 0;
+        if (LastMinuteAuftraege[c].Praemie < 0) {
+            LastMinuteAuftraege[c].Praemie += DeltaTime * 4;
+            if (LastMinuteAuftraege[c].Praemie > 0) {
+                LastMinuteAuftraege[c].Praemie = 0;
             }
 
             XY Pos;
-            SLONG p = -LastMinuteAuftraege.Auftraege[c].Praemie;
+            SLONG p = -LastMinuteAuftraege[c].Praemie;
 
             Pos.x = (p * ZettelPos[c * 2] + 16 * (1000 - p)) / 1000;
             Pos.y = (p * ZettelPos[c * 2 + 1] + 440 * (1000 - p)) / 1000;
@@ -281,18 +281,18 @@ void CLastMinute::OnPaint() {
 // void CLastMinute::OnPaint()
 //--------------------------------------------------------------------------------------------
 void CLastMinute::RepaintZettel(SLONG n) {
-    if (LastMinuteAuftraege.Auftraege[n].Praemie > 0) {
+    if (LastMinuteAuftraege[n].Praemie > 0) {
         ZettelBms[n].ReSize(gZettelBms[n % 3].Size);
         ZettelBms[n].BlitFrom(gZettelBms[n % 3]);
 
-        ZettelBms[n].PrintAt(bprintf("%s-%s", (LPCTSTR)Cities[LastMinuteAuftraege.Auftraege[n].VonCity].Kuerzel,
-                                     (LPCTSTR)Cities[LastMinuteAuftraege.Auftraege[n].NachCity].Kuerzel),
+        ZettelBms[n].PrintAt(bprintf("%s-%s", (LPCTSTR)Cities[LastMinuteAuftraege[n].VonCity].Kuerzel,
+                                     (LPCTSTR)Cities[LastMinuteAuftraege[n].NachCity].Kuerzel),
                              FontSmallBlack, TEC_FONT_CENTERED, XY(3, 10), XY(ZettelBms[n].Size.x - 3, 29));
 
-        ZettelBms[n].PrintAt(ShortenLongCities(Cities[LastMinuteAuftraege.Auftraege[n].VonCity].Name), FontSmallBlack, TEC_FONT_CENTERED, XY(3, 31),
+        ZettelBms[n].PrintAt(ShortenLongCities(Cities[LastMinuteAuftraege[n].VonCity].Name), FontSmallBlack, TEC_FONT_CENTERED, XY(3, 31),
                              XY(ZettelBms[n].Size.x - 3, 102));
         ZettelBms[n].PrintAt("-", FontSmallBlack, TEC_FONT_CENTERED, XY(3, 41), XY(ZettelBms[n].Size.x - 3, 102));
-        ZettelBms[n].PrintAt(ShortenLongCities(Cities[LastMinuteAuftraege.Auftraege[n].NachCity].Name), FontSmallBlack, TEC_FONT_CENTERED, XY(3, 52),
+        ZettelBms[n].PrintAt(ShortenLongCities(Cities[LastMinuteAuftraege[n].NachCity].Name), FontSmallBlack, TEC_FONT_CENTERED, XY(3, 52),
                              XY(ZettelBms[n].Size.x - 3, 102));
     }
 }
@@ -320,19 +320,19 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point) {
         }
 
         for (c = LastMinuteAuftraege.AnzEntries() - 1; c >= 0; c--) {
-            if (LastMinuteAuftraege.Auftraege[c].Praemie > 0) {
+            if (LastMinuteAuftraege[c].Praemie > 0) {
                 if (RoomPos.IfIsWithin(ZettelPos[c * 2], ZettelPos[c * 2 + 1], ZettelPos[c * 2] + gZettelBms[c % 3].Size.x,
                                        ZettelPos[c * 2 + 1] + gZettelBms[c % 3].Size.y)) {
                     if (qPlayer.Auftraege.GetNumFree() < 3) {
-                        qPlayer.Auftraege.Auftraege.ReSize(qPlayer.Auftraege.AnzEntries() + 10);
+                        qPlayer.Auftraege.ReSize(qPlayer.Auftraege.AnzEntries() + 10);
                     }
 
                     gUniversalFx.Stop();
                     gUniversalFx.ReInit("paptake.raw");
                     gUniversalFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
 
-                    qPlayer.Auftraege += LastMinuteAuftraege.Auftraege[c];
-                    qPlayer.NetUpdateOrder(LastMinuteAuftraege.Auftraege[c]);
+                    qPlayer.Auftraege += LastMinuteAuftraege[c];
+                    qPlayer.NetUpdateOrder(LastMinuteAuftraege[c]);
 
                     // Für den Statistikscreen:
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
@@ -341,7 +341,7 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point) {
                     SIM::SendSimpleMessage(ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, static_cast<long>(qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0)),
                                            static_cast<long>(qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay(0)));
 
-                    LastMinuteAuftraege.Auftraege[c].Praemie = -1000;
+                    LastMinuteAuftraege[c].Praemie = -1000;
                     qPlayer.NetUpdateTook(1, c);
                     break;
                 }
