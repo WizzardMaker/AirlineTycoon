@@ -167,6 +167,7 @@ void GameFrame::UpdateWindow() {
         case(0): //Fullscreen
             SDL_SetWindowSize(m_hWnd, screenWidth, screenHeight);
             SDL_SetWindowFullscreen(m_hWnd, SDL_TRUE);
+            Sim.Options.OptionKeepAspectRatio = false;
             break;
         case(1): //Windowed
             SDL_SetWindowFullscreen(m_hWnd, 0);
@@ -181,6 +182,7 @@ void GameFrame::UpdateWindow() {
             SDL_SetWindowBordered(m_hWnd, SDL_FALSE);
             SDL_SetWindowPosition(m_hWnd, 0, 0);
             SDL_SetWindowSize(m_hWnd, screenWidth, screenHeight);
+            Sim.Options.OptionKeepAspectRatio = false;
             break;
     }
 
