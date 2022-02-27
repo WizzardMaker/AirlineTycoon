@@ -5,7 +5,7 @@ project(raknet)
 FILE(GLOB ALL_HEADER_SRCS ${PROJECT_SOURCE_DIR}/*.h)
 FILE(GLOB ALL_CPP_SRCS ${PROJECT_SOURCE_DIR}/*.cpp)
 
-add_library(raknet SHARED ${ALL_CPP_SRCS} ${ALL_HEADER_SRCS})
+add_library(raknet ${ALL_CPP_SRCS} ${ALL_HEADER_SRCS})
 
 target_include_directories(raknet PUBLIC ${PROJECT_SOURCE_DIR}/Include)
 
