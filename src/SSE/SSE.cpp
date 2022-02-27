@@ -653,11 +653,13 @@ int MIDI::Load(const char* file)
         _music = Mix_LoadMUS(_musicData.file.c_str());
         // Some versions ship with ogg music as well, use it as a fall-back
     } else if(_mode == 2){
-        std::transform(_musicData.file.begin(), _musicData.file.end(),
-                _musicData.file.begin(), ::tolower);
-
         _musicData.file.replace(_musicData.file.size() - 3, 3, "ogg");
         _music = Mix_LoadMUS(_musicData.file.c_str());
+    }
+
+    if(!_music)
+    {
+        printf("MP: Could not load music: %s\n", _musicData.file.c_str());
     }
 
     _musicData.pSSE->_playingMusicObj = this;
