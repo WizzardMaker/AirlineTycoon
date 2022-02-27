@@ -155,7 +155,7 @@ void CLastMinute::OnPaint() {
 
     LastTime = timeGetTime();
 
-    // Koordinaten für kleine Fenster konvertieren:
+    // Koordinaten fÃ¼r kleine Fenster konvertieren:
     ConvertMousePosition(point, &RoomPos);
 
     if (SLONG(Sim.Time) >= timeLastClose) {
@@ -334,7 +334,7 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point) {
                     qPlayer.Auftraege += LastMinuteAuftraege.Auftraege[c];
                     qPlayer.NetUpdateOrder(LastMinuteAuftraege.Auftraege[c]);
 
-                    // Für den Statistikscreen:
+                    // FÃ¼r den Statistikscreen:
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
                     qPlayer.Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(0, 1);
 
@@ -363,7 +363,7 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point) {
 void CLastMinute::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

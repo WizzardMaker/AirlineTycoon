@@ -14,7 +14,7 @@ static char THIS_FILE[] = __FILE__;
 extern SB_CColorFX ColorFX;
 
 //--------------------------------------------------------------------------------------------
-// Die Schalter wird eröffnet:
+// Die Schalter wird erÃ¶ffnet:
 //--------------------------------------------------------------------------------------------
 CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0) {
     ReSize("weltall.gli", 0);
@@ -160,7 +160,7 @@ void CWeltAll::OnPaint() {
         }
     }
 
-    // Evtl. Sternschnuppen hinzufügen:
+    // Evtl. Sternschnuppen hinzufÃ¼gen:
     if (((Time / 1000) != (LastTime / 1000)) && ((rand() % 3) == 0)) {
         for (c = 0; c < 20; c++) {
             if (Sternschnuppen[c].StartIndex == -1) {
@@ -424,7 +424,7 @@ void CWeltAll::OnLButtonDown(UINT nFlags, CPoint point) {
 void CWeltAll::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //--------------------------------------------------------------------------------------------
-// Die Bank wird eröffnet:
+// Die Bank wird erÃ¶ffnet:
 //--------------------------------------------------------------------------------------------
 Bank::Bank(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "bank.gli", GFX_BANK) {
     SLONG OldZins = 0;
@@ -335,7 +335,7 @@ void Bank::OnRButtonDown(UINT nFlags, CPoint point) {
 //============================================================================================
 
 //--------------------------------------------------------------------------------------------
-// Löscht die Bilanz
+// LÃ¶scht die Bilanz
 //--------------------------------------------------------------------------------------------
 void CBilanz::Clear() {
     HabenZinsen = Tickets = Auftraege = SollRendite = HabenRendite = 0;
@@ -343,17 +343,17 @@ void CBilanz::Clear() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt den Saldo der Habens-Seite zurück:
+// Gibt den Saldo der Habens-Seite zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 SLONG CBilanz::GetHaben() const { return (HabenZinsen + Tickets + Auftraege + HabenRendite); }
 
 //--------------------------------------------------------------------------------------------
-// Gibt den Saldo der Soll-Seite zurück:
+// Gibt den Saldo der Soll-Seite zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 SLONG CBilanz::GetSoll() const { return (SollZinsen + Kerosin + Personal + Vertragsstrafen + Wartung + Gatemiete + Citymiete + Routenmiete + SollRendite); }
 
 //--------------------------------------------------------------------------------------------
-// Gibt den Saldo zurück:
+// Gibt den Saldo zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 SLONG CBilanz::GetSumme() const { return (GetHaben() - GetSoll()); }
 
@@ -371,7 +371,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CBilanz &Bilanz) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt einen Bilanzdatensatz:
+// LÃ¤dt einen Bilanzdatensatz:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CBilanz &Bilanz) {
     File >> Bilanz.HabenZinsen >> Bilanz.Tickets >> Bilanz.Auftraege;

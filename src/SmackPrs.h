@@ -1,5 +1,5 @@
 //============================================================================================
-// SmackPrs.h - Wrapper-Klasse für den Smacker für 16Bit Farben bei 8-Bit Videos:
+// SmackPrs.h - Wrapper-Klasse fÃ¼r den Smacker fÃ¼r 16Bit Farben bei 8-Bit Videos:
 //============================================================================================
 
 //--------------------------------------------------------------------------------------------
@@ -37,12 +37,12 @@ typedef XY CPostWait;
 
 void CalculatePalettemapper(const UBYTE *pPalette, SDL_Palette *pPaletteMapper);
 
-// Werte für CSmackerClip.State:
+// Werte fÃ¼r CSmackerClip.State:
 #define SMACKER_CLIP_INACTIVE 0
 #define SMACKER_CLIP_PLAYING 1
 #define SMACKER_CLIP_WAITING 2
 
-// Werte für die Variablenverknüpfunng
+// Werte fÃ¼r die VariablenverknÃ¼pfunng
 #define SMACKER_CLIP_MULT 8192 // Hiermit multipliziert man um den Frame anzugeben
 
 #define SMACKER_CLIP_FRAME 4096
@@ -57,8 +57,8 @@ void CalculatePalettemapper(const UBYTE *pPalette, SDL_Palette *pPaletteMapper);
 #define SPM_IDLE 1          // Macht seine Arbeit
 #define SPM_HOLY 2          //..ist dabei scheinheilig
 #define SPM_TALKING 3       // redet
-#define SPM_ANGRY_TALKING 4 // redet und ist wütend dabei
-#define SPM_LISTENING 5     // hört zu, während der Spieler redet
+#define SPM_ANGRY_TALKING 4 // redet und ist wÃ¼tend dabei
+#define SPM_LISTENING 5     // hÃ¶rt zu, wÃ¤hrend der Spieler redet
 #define SPM_LETTER 6        // liest einen Brief
 
 #define SMACKER_CLIP_CANCANCEL 1
@@ -83,7 +83,7 @@ class CSmackerClip {
     SBFX SoundFx;
     SLONG NumSoundFx{};            // Anzahl der Soundeffekte
     CUnrepeatedRandom SoundRandom; // Wenn es mehrere Soundeffekte gibt
-    DWORD TickerNext{};            // Zu diesem Zeitpunkt muß das nächste Sample gestartet werden
+    DWORD TickerNext{};            // Zu diesem Zeitpunkt muÃŸ das nÃ¤chste Sample gestartet werden
     BOOL IsFXPlaying{};
 
   private: // Statische Eigenschaften...
@@ -95,7 +95,7 @@ class CSmackerClip {
     BOOL CanCancelClip{}; // Kann der Clip vorzeitig abgebrochen werden?
 
     SLONG *PostVar{};      // NULL oder Variable, die am Animationsende gesetzt werden soll
-    SLONG PostOperation{}; // Die Art der Operation, die durchgeführt werden soll
+    SLONG PostOperation{}; // Die Art der Operation, die durchgefÃ¼hrt werden soll
     SLONG PostValue{};
     const SLONG *DecisionVar{}; // wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
 
@@ -139,8 +139,8 @@ class CSmackerPerson {
     SLONG ActiveClip;    // Nummer vom aktuellen Clip
     SLONG CurrentMood;   // Idle, Talking, Listening, ...
     SLONG DesiredMood;   // Diese Stimmung (z.B. "Listening") soll die Figur haben
-    SLONG AcceptedMood1; // Dieser Zustand ist zwar nicht erwünscht, würde aber als weg zu DesiredMood akzeptiert
-    SLONG AcceptedMood2; // Dieser Zustand ist zwar nicht erwünscht, würde aber als weg zu DesiredMood akzeptiert
+    SLONG AcceptedMood1; // Dieser Zustand ist zwar nicht erwÃ¼nscht, wÃ¼rde aber als weg zu DesiredMood akzeptiert
+    SLONG AcceptedMood2; // Dieser Zustand ist zwar nicht erwÃ¼nscht, wÃ¼rde aber als weg zu DesiredMood akzeptiert
 
     SBFX SpeakFx;
 

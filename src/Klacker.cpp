@@ -1,5 +1,5 @@
 //============================================================================================
-// Klacker.cpp : Routinen für die Basisfunktionen der Klackertafel:
+// Klacker.cpp : Routinen fÃ¼r die Basisfunktionen der Klackertafel:
 //============================================================================================
 #include "StdAfx.h"
 
@@ -12,7 +12,7 @@ KLACKER::KLACKER() {
     memset(Haben, 0, 24 * 16);
 
     pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("klacker.gli", RoomPath)), &pGLib, L_LOCMEM);
-    Cursors.ReSize(pGLib, "KL_K1", 8); // 8 neue Chars für die Polen........................... //3 neue Chars füt SL //3 Neue für ES
+    Cursors.ReSize(pGLib, "KL_K1", 8); // 8 neue Chars fÃ¼r die Polen........................... //3 neue Chars fÃ¼t SL //3 Neue fÃ¼r ES
     KlackerBms.ReSize(
         pGLib, "KL_SP KL_A KL_B KL_C KL_D KL_E KL_F KL_G KL_H KL_I KL_J KL_K KL_L KL_M KL_N KL_O KL_P KL_Q KL_R KL_S KL_T KL_U KL_V KL_W KL_X KL_Y KL_Z KL_AE "
                "KL_OE KL_UE KL_0 KL_1 KL_2 KL_3 KL_4 KL_5 KL_6 KL_7 KL_8 KL_9 KL_PKT KL_AUSR KL_DPKT KL_SEMI KL_KOMMA KL_FRAGE KL_KLA KL_KLZ KL_MINUS KL_BULL "
@@ -42,7 +42,7 @@ KLACKER::~KLACKER() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Löscht alle Inhalte:
+// LÃ¶scht alle Inhalte:
 //--------------------------------------------------------------------------------------------
 void KLACKER::Clear() {
     memset(Soll, 0, 24 * 16);
@@ -53,7 +53,7 @@ void KLACKER::Clear() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Blättert alle Zeichen die es nötig haben einen Zeile weiter:
+// BlÃ¤ttert alle Zeichen die es nÃ¶tig haben einen Zeile weiter:
 //--------------------------------------------------------------------------------------------
 BOOL KLACKER::Klack() {
     SLONG c = 0;
@@ -123,7 +123,7 @@ BOOL KLACKER::Klack() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt TRUE zurück, wenn nichts mehr zu klackern ist:
+// Gibt TRUE zurÃ¼ck, wenn nichts mehr zu klackern ist:
 //--------------------------------------------------------------------------------------------
 BOOL KLACKER::IsFinished() { return static_cast<BOOL>(memcmp(Soll, Haben, 16 * 24) == 0); }
 
@@ -149,22 +149,22 @@ void KLACKER::PrintAt(SLONG x, SLONG y, const char *Text) {
 
         ch = GerToUpper(ch);
         if (gLanguage != LANGUAGE_1 && gLanguage != LANGUAGE_E) {
-            if (ch == 'É' || ch == 'È' || ch == 'Ê' || ch == 'é' || ch == 'è' || ch == 'ê') {
+            if (ch == '\xC9' || ch == '\xC8' || ch == '\xCA' || ch == '\xE9' || ch == '\xE8' || ch == '\xEA') {
                 ch = 'E';
             }
-            if (ch == 'á' || ch == 'Á' || ch == 'à' || ch == 'À' || ch == 'ã') {
+            if (ch == '\xE1' || ch == '\xC1' || ch == '\xE0' || ch == '\xC0' || ch == '\xE3') {
                 ch = 'A';
             }
-            if (ch == 'í' || ch == 'Í' || ch == 'ì' || ch == 'Ì') {
+            if (ch == '\xED' || ch == '\xCD' || ch == '\xEC' || ch == '\xCC') {
                 ch = 'I';
             }
-            if (ch == 'ú' || ch == 'Ú') {
+            if (ch == '\xFA' || ch == '\xDA') {
                 ch = 'U';
             }
-            if (ch == 'ó' || ch == 'Ó') {
+            if (ch == '\xF3' || ch == '\xD3') {
                 ch = 'O';
             }
-            if (ch == 'ç') {
+            if (ch == '\xE7') {
                 ch = 'C';
             }
         }
@@ -373,7 +373,7 @@ void CKlackerPlanes::PostPaint(SBBM &PrimaryBm) const {
                 }
                 x += gUniversalPlaneBms[9 + KlackerPlanes[c].Logo * 5 + 0].Size.x;
 
-                // Körper:
+                // KÃ¶rper:
                 for (SLONG d = 0; d < KlackerPlanes[c].Size; d++) {
                     PrimaryBm.BlitFromT(gUniversalPlaneBms[31], x, KlackerPlanes[c].ScreenPos.y - gUniversalPlaneBms[9 + 1].Size.y);
                     if (KlackerPlanes[c].Logo != 0) {
@@ -408,7 +408,7 @@ void CKlackerPlanes::PostPaint(SBBM &PrimaryBm) const {
                                     KlackerPlanes[c].ScreenPos.y - gUniversalPlaneBms[9 + 4].Size.y + 19 - 50);
                 x += gUniversalPlaneBms[9 + KlackerPlanes[c].Logo * 5 + 4].Size.x;
 
-                // Körper:
+                // KÃ¶rper:
                 for (SLONG d = 0; d < KlackerPlanes[c].Size; d++) {
                     PrimaryBm.BlitFromT(gUniversalPlaneBms[31], x, KlackerPlanes[c].ScreenPos.y - gUniversalPlaneBms[9 + 1].Size.y);
                     if (KlackerPlanes[c].Logo != 0) {

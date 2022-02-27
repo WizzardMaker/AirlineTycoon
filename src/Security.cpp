@@ -16,7 +16,7 @@ static char THIS_FILE[] = __FILE__;
 #define DSBVOLUME_MAX 0
 
 //--------------------------------------------------------------------------------------------
-// Die Schalter wird erˆffnet:
+// Die Schalter wird er√∂ffnet:
 //--------------------------------------------------------------------------------------------
 CSecurity::CSecurity(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "security.gli", GFX_SECURITY) {
     SetRoomVisited(PlayerNum, ROOM_SECURITY);
@@ -383,7 +383,7 @@ void CSecurity::OnLButtonDown(UINT nFlags, CPoint point) {
 void CSecurity::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

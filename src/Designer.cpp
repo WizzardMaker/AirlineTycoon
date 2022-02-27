@@ -25,7 +25,7 @@ namespace fs = std::filesystem;
 #endif
 
 //--------------------------------------------------------------------------------------------
-// Die Schalter wird erˆffnet:
+// Die Schalter wird er√∂ffnet:
 //--------------------------------------------------------------------------------------------
 CDesigner::CDesigner(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "designer.gli", GFX_DESIGNER) {
     SetRoomVisited(PlayerNum, ROOM_DESIGNER);
@@ -213,7 +213,7 @@ void CDesigner::OnLButtonDown(UINT nFlags, CPoint point) {
 void CDesigner::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

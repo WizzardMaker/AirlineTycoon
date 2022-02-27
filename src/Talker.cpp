@@ -49,7 +49,7 @@ void CTalkers::Pump() {
 //============================================================================================
 // CTalker::
 //============================================================================================
-// Ein Gespr‰ch per Telefon oder direkt beginnen
+// Ein Gespr√§ch per Telefon oder direkt beginnen
 //============================================================================================
 void CTalker::StartDialog(BOOL Medium) {
     if (Medium != 0) {
@@ -62,7 +62,7 @@ void CTalker::StartDialog(BOOL Medium) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Ein Gespr‰ch beenden und ggf. auflegen
+// Ein Gespr√§ch beenden und ggf. auflegen
 //--------------------------------------------------------------------------------------------
 void CTalker::StopDialog() {
     if (State == 1) {
@@ -79,7 +79,7 @@ void CTalker::StopDialog() {
 void CTalker::StartTalking() { Talking = TRUE; }
 
 //--------------------------------------------------------------------------------------------
-// Auf den Gespr‰chsparter warten
+// Auf den Gespr√§chsparter warten
 //--------------------------------------------------------------------------------------------
 void CTalker::StopTalking() { Talking = FALSE; }
 
@@ -148,7 +148,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CTalker &Talker) {
 }
 
 //--------------------------------------------------------------------------------------------
-// L‰dt ein Talker-Objekt:
+// L√§dt ein Talker-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CTalker &Talker) {
     File >> Talker.OwnNumber >> Talker.State >> Talker.Talking;
@@ -168,7 +168,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CTalkers &Talkers) {
 }
 
 //--------------------------------------------------------------------------------------------
-// L‰dt ein Talkers-Objekt:
+// L√§dt ein Talkers-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CTalkers &Talkers) {
     File >> Talkers.Talkers;

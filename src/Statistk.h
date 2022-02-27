@@ -5,15 +5,15 @@
 
 class CStatButton {
   public:
-    SLONG Id;            // Frei wählbar, aber bitte immer eindeutig
+    SLONG Id;            // Frei wÃ¤hlbar, aber bitte immer eindeutig
     SLONG HelpId;        // ToolTipID
     CRect HotArea;       // MouseArea, wo der Button gehighlighted wird
     XY BitmapOffset;     // Hierhin wird die Button-Bitmap geblittet
-    XY *BitmapOffset2;   // Referenzmöglichkeit für bewegte Buttons
+    XY *BitmapOffset2;   // ReferenzmÃ¶glichkeit fÃ¼r bewegte Buttons
     SBBM *BitmapNormal;  // Normale Bitmap oder NULL
-    SBBM *BitmapHi;      // Bitmap fürs Highlight oder NULL
-    SBBM *BitmapClicked; // Bitmap fürs Geclickte oder NULL
-    SBBM *BitmapSuperHi; // Nur für Toggle-Buttons: Highlight, wenn geklickt
+    SBBM *BitmapHi;      // Bitmap fÃ¼rs Highlight oder NULL
+    SBBM *BitmapClicked; // Bitmap fÃ¼rs Geclickte oder NULL
+    SBBM *BitmapSuperHi; // Nur fÃ¼r Toggle-Buttons: Highlight, wenn geklickt
     BOOL IsToggle;       // Ist es ein Toggle-Button?
     DWORD LastClicked;   // Wann wurde er zum letzten Mal geklickt (intern)
 
@@ -23,7 +23,7 @@ class CStatButton {
 };
 
 #define MAX_GROUP 3      // Anzahl der Gruppen
-#define MAX_ITEMS 16     // Anzahl der Einträge je Gruppe
+#define MAX_ITEMS 16     // Anzahl der EintrÃ¤ge je Gruppe
 #define LINE_DISTANCE 20 // Abstand der Zeilen
 
 #define TYP_LINEFEED 0   // Leerzeile
@@ -34,9 +34,9 @@ class CStatButton {
 #define TYP_SHAREVALUE 5 // Wert aller Aktien zusammen
 
 #define TYP_VALUE 20          // Normale Zahl
-#define TYP_CURRENCY 21       // Währung
+#define TYP_CURRENCY 21       // WÃ¤hrung
 #define TYP_PERCENT 22        // Prozent
-#define TYP_SINGLE_PERCENT 23 // Prozent, aber nicht in Abhängigkeit von der Vorvariable
+#define TYP_SINGLE_PERCENT 23 // Prozent, aber nicht in AbhÃ¤ngigkeit von der Vorvariable
 
 typedef struct tagItem {
     bool visible;
@@ -53,14 +53,14 @@ class CStatistik : public CStdRaum {
 
     BUFFER<CStatButton> StatButtons; // Die Statistik Buttons
 
-    SBBM HighlightBar; // Der helle Balken für die optische Auswahl
-    SBBM TopSaver;     // Verhindert, daß der obere Rand von den Zoomicons überschrien wird
+    SBBM HighlightBar; // Der helle Balken fÃ¼r die optische Auswahl
+    SBBM TopSaver;     // Verhindert, daÃŸ der obere Rand von den Zoomicons Ã¼berschrien wird
 
     SBBM DropDownBackgroundBm; // Die Hintergrundbitmap
     SBBM DropDownBm;           // Die Hintergrundbitmap mit Linien drauf
     SBBMS UpDownArrows;        // Die Buttons zum runter/raufscrollen
 
-    SBBM TextTableBm; // Die Bitmap mit den Texten (kann von der Drop-Down Liste überdeckt werden)
+    SBBM TextTableBm; // Die Bitmap mit den Texten (kann von der Drop-Down Liste Ã¼berdeckt werden)
 
     SBBMS LupeLogoBms;    // Die Lupe mit dem Firmenlogo
     SBBMS LupeZoomBms;    // Die Lupe mit +/s
@@ -68,7 +68,7 @@ class CStatistik : public CStdRaum {
     SBBMS ButtonRouteBms; // Die Buttons mit der Route
 
     SBBMS ExitBms; // Das Exit-Schild
-    SBBMS LogoBms; // Die Vier großen Spielerlogos in 3 varianten
+    SBBMS LogoBms; // Die Vier groÃŸen Spielerlogos in 3 varianten
     SBBMS PobelBms;
 
     XY DropDownPos;
@@ -80,14 +80,14 @@ class CStatistik : public CStdRaum {
 
     // Diese Werte am besten in der Registry
     // speichern.
-    bool _fGraphVisible;                  // true -> Der Graph ist sichtbar, ansonsten die schnöden Zahlen
-    bool _playerMask[4]{};                // Diese Spieler wurden zur Ansicht ausgewählt
-    BYTE _group;                          // Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
+    bool _fGraphVisible;                  // true -> Der Graph ist sichtbar, ansonsten die schnÃ¶den Zahlen
+    bool _playerMask[4]{};                // Diese Spieler wurden zur Ansicht ausgewÃ¤hlt
+    BYTE _group;                          // Die angewÃ¤hlte Gruppe (*0=Finanzen, 1=?, 2=?)
     long _days;                           // Anzahl der darzustellenden Tage
-    long _newDays;                        // Für eine Animation
-    ITEM _iArray[MAX_GROUP][MAX_ITEMS]{}; // Merkt sich für jede Gruppe welche Einträge selektiert sind.
+    long _newDays;                        // FÃ¼r eine Animation
+    ITEM _iArray[MAX_GROUP][MAX_ITEMS]{}; // Merkt sich fÃ¼r jede Gruppe welche EintrÃ¤ge selektiert sind.
 
-    // Temporäre Werte
+    // TemporÃ¤re Werte
     short _selectedItem;
     short _oldSelectedItem;
     double _yAxis{};

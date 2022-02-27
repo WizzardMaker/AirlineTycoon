@@ -180,7 +180,7 @@ void SynthesizeNumber(SBFX *TargetFx, const CString &Talker, SLONG Number, BOOL 
         }
     }
 
-    // Währung:
+    // WÃ¤hrung:
     if (Waehrung != 0) {
         LocalVon[ElementsInFusion] = (TalkerFxVon[TalkerIndex])[SAY_D_MARK];
         LocalBis[ElementsInFusion] = (TalkerFxBis[TalkerIndex])[SAY_D_MARK];

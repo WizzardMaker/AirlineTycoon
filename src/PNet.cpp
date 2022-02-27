@@ -37,7 +37,7 @@ void PLAYER::NetSynchronizeImage() {
 
     Message << ATNET_SYNC_IMAGE << NetSynchronizeGetNum();
 
-    // Für den lokalen Spieler und (wenn dies der Server ist) auch für Computerspieler:
+    // FÃ¼r den lokalen Spieler und (wenn dies der Server ist) auch fÃ¼r Computerspieler:
     for (c = 0; c < 4; c++) {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
@@ -73,7 +73,7 @@ void PLAYER::NetSynchronizeMoney() {
 
     Message << ATNET_SYNC_MONEY << NetSynchronizeGetNum();
 
-    // Für den lokalen Spieler und (wenn dies der Server ist) auch für Computerspieler:
+    // FÃ¼r den lokalen Spieler und (wenn dies der Server ist) auch fÃ¼r Computerspieler:
     for (c = 0; c < 4; c++) {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
@@ -108,7 +108,7 @@ void PLAYER::NetSynchronizeRoutes() {
 
     Message << ATNET_SYNC_ROUTES << NetSynchronizeGetNum();
 
-    // Für den lokalen Spieler und (wenn dies der Server ist) auch für Computerspieler:
+    // FÃ¼r den lokalen Spieler und (wenn dies der Server ist) auch fÃ¼r Computerspieler:
     for (c = 0; c < 4; c++) {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
@@ -128,7 +128,7 @@ void PLAYER::NetSynchronizeRoutes() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läßt einen Spieler die Ticketpreis verändern:
+// LÃ¤ÃŸt einen Spieler die Ticketpreis verÃ¤ndern:
 //--------------------------------------------------------------------------------------------
 void PLAYER::NetRouteUpdateTicketpreise(SLONG RouteId, SLONG Ticketpreis, SLONG TicketpreisFC) const {
     SIM::SendSimpleMessage(ATNET_SYNCROUTECHANGE, 0, PlayerNum, RouteId, Ticketpreis, TicketpreisFC);
@@ -145,7 +145,7 @@ void PLAYER::NetSynchronizeFlags() {
 
     Message << ATNET_SYNC_FLAGS << NetSynchronizeGetNum();
 
-    // Für den lokalen Spieler und (wenn dies der Server ist) auch für Computerspieler:
+    // FÃ¼r den lokalen Spieler und (wenn dies der Server ist) auch fÃ¼r Computerspieler:
     for (c = 0; c < 4; c++) {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
@@ -172,7 +172,7 @@ void PLAYER::NetSynchronizeItems() {
 
     Message << ATNET_SYNC_ITEMS << NetSynchronizeGetNum();
 
-    // Für den lokalen Spieler und (wenn dies der Server ist) auch für Computerspieler:
+    // FÃ¼r den lokalen Spieler und (wenn dies der Server ist) auch fÃ¼r Computerspieler:
     for (c = 0; c < 4; c++) {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
@@ -209,7 +209,7 @@ void PLAYER::NetSynchronizePlanes() {
 
         Message << ATNET_SYNC_PLANES << count;
 
-        // Wwenn dies der Server ist für alle Computerspieler:
+        // Wwenn dies der Server ist fÃ¼r alle Computerspieler:
         for (c = 0; c < 4; c++) {
             PLAYER &qPlayer = Sim.Players.Players[c];
 
@@ -243,7 +243,7 @@ void PLAYER::NetSynchronizeMeeting() {
 
     Message << ATNET_SYNC_MEETING << count;
 
-    // Wenn dies der Server ist für alle Computerspieler:
+    // Wenn dies der Server ist fÃ¼r alle Computerspieler:
     for (c = 0; c < 4; c++) {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
@@ -296,7 +296,7 @@ void PLAYER::NetUpdateFlightplan(SLONG PlaneId) {
 //--------------------------------------------------------------------------------------------
 // Player took an order flight ==> Tell the others:
 // Type: 1 - LastMinute
-// Type: 2 - Reisebüro
+// Type: 2 - ReisebÃ¼ro
 // Type: 3 - Fracht
 // Type: 4 - Ausland, City = CityIndex
 // This function only handle the blackboard in the room; It does not update the player's data

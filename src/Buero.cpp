@@ -1,5 +1,5 @@
 //============================================================================================
-// Buero.cpp : Das Büro des Spielers
+// Buero.cpp : Das BÃ¼ro des Spielers
 //============================================================================================
 #include "StdAfx.h"
 #include "Buero.h"
@@ -34,7 +34,7 @@ class CWaitCursorNow {
 };
 
 //--------------------------------------------------------------------------------------------
-// Büro-Konstruktor:
+// BÃ¼ro-Konstruktor:
 //--------------------------------------------------------------------------------------------
 CBuero::CBuero(BOOL handy, ULONG playerNum) : CStdRaum(handy, playerNum, "", 0) {
     CWaitCursorNow wc; // CD-Cursor anzeigen
@@ -277,7 +277,7 @@ void CBuero::OnLButtonDown(UINT nFlags, CPoint point) {
     }
 
     if (PreLButtonDown(point) == 0) {
-        // Klickt ist zu früh? Dann abbrechen!
+        // Klickt ist zu frÃ¼h? Dann abbrechen!
         if (MouseClickArea == ROOM_BURO_A && MouseClickId == 10 && Sim.Tutorial < 1401 && (Sim.IsTutorial != 0)) {
             return;
         }
@@ -338,7 +338,7 @@ void CBuero::OnRButtonDown(UINT nFlags, CPoint point) {
         return;
     }
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }
@@ -357,7 +357,7 @@ void CBuero::OnRButtonDown(UINT nFlags, CPoint point) {
 //============================================================================================
 // CLetters::
 //============================================================================================
-// Löscht alle Briefe:
+// LÃ¶scht alle Briefe:
 //============================================================================================
 void CLetters::Clear() {
     SLONG c = 0;
@@ -368,7 +368,7 @@ void CLetters::Clear() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt dem Spieler einen weiteren Brief hinzu:
+// FÃ¼gt dem Spieler einen weiteren Brief hinzu:
 //--------------------------------------------------------------------------------------------
 void CLetters::SortLetters() {
     SLONG c = 0;
@@ -391,7 +391,7 @@ void CLetters::SortLetters() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt dem Spieler einen weiteren Brief hinzu:
+// FÃ¼gt dem Spieler einen weiteren Brief hinzu:
 //--------------------------------------------------------------------------------------------
 void CLetters::AddLetter(BOOL IsLetter, const CString &Subject, const CString &Letter, const CString &Absender, SLONG Picture) {
     SortLetters();
@@ -440,7 +440,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CLetter &l) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein Letter-Objekt;
+// LÃ¤dt ein Letter-Objekt;
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CLetter &l) {
     File >> l.IsLetter >> l.Date >> l.Subject >> l.Letter >> l.Absender >> l.PictureId;

@@ -39,7 +39,7 @@ void CHLObj::Destroy() {
 void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
 #ifdef ENABLE_ASM
     static char FirstTime;
-    static ULONG JumpBuffer[8]; // Für Wiederholungen
+    static ULONG JumpBuffer[8]; // FÃ¼r Wiederholungen
 #endif
 
     SLONG cx = 0;
@@ -48,7 +48,7 @@ void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
 
     CRect ClipRect = pBitmap->GetClipRect();
 
-    // Knock-Out für horizontales Clipping?
+    // Knock-Out fÃ¼r horizontales Clipping?
     if (Target.x >= ClipRect.right || Target.x + Size.x <= ClipRect.left) {
         return;
     }
@@ -72,7 +72,7 @@ void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
 
     bm += Key.lPitch / 2 * Min;
 
-    // count für die übersprungenen Zeilen initialisieren
+    // count fÃ¼r die Ã¼bersprungenen Zeilen initialisieren
     for (count = cy = 0; cy < Min; cy++) {
         count += HLineEntries[cy];
     }
@@ -117,7 +117,7 @@ void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
                         test    al, al
                         jnz     AlreadyInitialized
 
-                        // Nein, wir führen also die First-Time Initialisierung durch:
+                        // Nein, wir fÃ¼hren also die First-Time Initialisierung durch:
                         lea     edx, JumpBuffer
 
                         lea     eax, CopyWords08
@@ -237,7 +237,7 @@ void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Blittet und vergrößert:
+// Blittet und vergrÃ¶ÃŸert:
 //--------------------------------------------------------------------------------------------
 void CHLObj::BlitLargeAt(SB_CBitmapCore *pBitmap, XY Target) {
     SLONG cx = 0;
@@ -246,7 +246,7 @@ void CHLObj::BlitLargeAt(SB_CBitmapCore *pBitmap, XY Target) {
 
     CRect ClipRect = pBitmap->GetClipRect();
 
-    // Knock-Out für horizontales Clipping?
+    // Knock-Out fÃ¼r horizontales Clipping?
     if (Target.x >= ClipRect.right || Target.x + Size.x * 2 <= ClipRect.left) {
         return;
     }
@@ -353,7 +353,7 @@ void CHLPool::Destroy() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt die Bitmap-Daten ohne die eigentlichen Bitmaps...
+// LÃ¤dt die Bitmap-Daten ohne die eigentlichen Bitmaps...
 //--------------------------------------------------------------------------------------------
 BOOL CHLPool::PreLoad() {
     // Ggf. Basepool-Objekte laden
@@ -387,7 +387,7 @@ BOOL CHLPool::PreLoad() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt den Pool in den Speicher
+// LÃ¤dt den Pool in den Speicher
 //--------------------------------------------------------------------------------------------
 BOOL CHLPool::Load() {
     // Ggf. Basepool-Objekte laden
@@ -503,7 +503,7 @@ void CHLPool::Unload() {
 // Konstruirt den Pool anhand einer Datei
 //--------------------------------------------------------------------------------------------
 void CHLPool::ReSize(const CString &Filename, CHLPool *pHLBasepool1, CHLPool *pHLBasepool2) {
-    Destroy(); // Altes Objekt zerstören
+    Destroy(); // Altes Objekt zerstÃ¶ren
 
     CHLPool::Filename = Filename;
     CHLPool::pHLBasepool1 = pHLBasepool1;
@@ -511,8 +511,8 @@ void CHLPool::ReSize(const CString &Filename, CHLPool *pHLBasepool1, CHLPool *pH
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt dem Pool eine neue Bitmap hinzu:
-// * Quality : Bildqualität der Kompression in % (bis zu 100%)
+// FÃ¼gt dem Pool eine neue Bitmap hinzu:
+// * Quality : BildqualitÃ¤t der Kompression in % (bis zu 100%)
 // * Speed   : Entpackgeschindigkkeit, 100% ist Maximum
 //--------------------------------------------------------------------------------------------
 void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal, SLONG Quality, SLONG /*Speed*/) {
@@ -546,14 +546,14 @@ void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal
     BUFFER<UBYTE> Equal(65536);
 
     BytesReal += pBitmap->GetXSize() * pBitmap->GetYSize() * 2;
-    BytesAdministration += pBitmap->GetYSize(); // Anz Genes für jede Scanline
-    BytesCompressed += pBitmap->GetYSize();     // Anz Genes für jede Scanline
+    BytesAdministration += pBitmap->GetYSize(); // Anz Genes fÃ¼r jede Scanline
+    BytesCompressed += pBitmap->GetYSize();     // Anz Genes fÃ¼r jede Scanline
 
     qObj.HLineEntries.ReSize(pBitmap->GetYSize());
 
     SB_CBitmapKey Key(*pBitmap);
 
-    // ggf. Palette übernehmen:
+    // ggf. Palette Ã¼bernehmen:
     if (PaletteMapper.AnzEntries() == 0) {
         PaletteMapper.ReSize(256);
 
@@ -607,7 +607,7 @@ void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal
             *reinterpret_cast<const __int64 *>("CONVERTD");
     }
 
-    //Ähnlichkeitstabelle berechnen:
+    //Ã„hnlichkeitstabelle berechnen:
     {
         SLONG x = 0;
         SLONG y = 0;
@@ -638,7 +638,7 @@ void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal
         for (x = 0; x < pBitmap->GetXSize(); x++) {
             //...und nach nicht.transparenten Pixeln suchen:
             if (bm[x] != 0) {
-                qObj.HLineEntries[y]++; // Erhöhe, die Zahl der Gen-Strings für diese Zeile
+                qObj.HLineEntries[y]++; // ErhÃ¶he, die Zahl der Gen-Strings fÃ¼r diese Zeile
 
                 // Suchen, wie weit die nicht-transparente HLine geht...
                 for (cx = 0; cx + x < pBitmap->GetXSize() && (bm[cx + x] != 0U); cx++) {
@@ -646,7 +646,7 @@ void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal
                 }
 
                 if (cx <= 4) {
-                    // Für HLines mit einer Länge <=2 gilt eine Sonderregelung:
+                    // FÃ¼r HLines mit einer LÃ¤nge <=2 gilt eine Sonderregelung:
                     qObj.HLines[AnzObjHLines].Offset = static_cast<UBYTE>(x);
                     qObj.HLines[AnzObjHLines].Anz = static_cast<UBYTE>(cx);
 
@@ -665,7 +665,7 @@ void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal
                         UBYTE *p = nullptr;
                         CHLPool *pCHLPool = nullptr;
 
-                        // Die Basepools der Basepools werden bis jetzt übersehen:
+                        // Die Basepools der Basepools werden bis jetzt Ã¼bersehen:
                         pCHLPool = nullptr;
                         if (Pass == 1) {
                             pCHLPool = pHLBasepool1;
@@ -746,7 +746,7 @@ void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal
                             // if (p+cx-1<pCHLPool->pPool+pCHLPool->PoolSize) break;
 
                             if (Pass == 3) {
-                                // Gen-String wurde nicht gefunden! Also in den Pool einfügen:
+                                // Gen-String wurde nicht gefunden! Also in den Pool einfÃ¼gen:
                                 if (pCHLPool->pPool == nullptr) {
                                     // Erst einmal den Pool anlegen:
                                     pCHLPool->pPool = new UBYTE[1000];
@@ -755,10 +755,10 @@ void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal
                                     pCHLPool->PoolMaxSize = 1000;
                                 }
 
-                                // Pool ggf. vergrößern?
+                                // Pool ggf. vergrÃ¶ÃŸern?
                                 if (PoolSize + cx > PoolMaxSize) {
                                     /*{
-                                    //Für alle HLines eines Objektes...
+                                    //FÃ¼r alle HLines eines Objektes...
                                     for (SLONG d=AnzObjHLines-1; d>=0; d--)
                                     {
                                     //Falls die HLine aus dem aktuellen Pool stammt...
@@ -786,7 +786,7 @@ void CHLPool::AddBitmap(__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal
                                     PoolMaxSize += 1000;
 
                                     /*{
-                                    //Für alle HLines eines Objektes...
+                                    //FÃ¼r alle HLines eines Objektes...
                                     for (SLONG d=AnzObjHLines-1; d>=0; d--)
                                     {
                                     //Falls die HLine aus dem aktuellen Pool stammt...
@@ -860,11 +860,11 @@ void CHLPool::DoBaseObjects() {
         HLBasepool2Size = 0;
     }
 
-    // Für alle Objekte...
+    // FÃ¼r alle Objekte...
     for (c = HLObjects.AnzEntries() - 1; c >= 0; c--) {
         CHLObj &qObj = HLObjects[c];
 
-        // Für alle HLines eines Objektes...
+        // FÃ¼r alle HLines eines Objektes...
         for (d = qObj.HLines.AnzEntries() - 1; d >= 0; d--) {
             // Falls die HLine aus dem aktuellen Pool stammt...
             if (qObj.HLines[d].Anz > 4) {
@@ -893,11 +893,11 @@ void CHLPool::UnBaseObjects() {
     SLONG c = 0;
     SLONG d = 0;
 
-    // Für alle Objekte...
+    // FÃ¼r alle Objekte...
     for (c = HLObjects.AnzEntries() - 1; c >= 0; c--) {
         CHLObj &qObj = HLObjects[c];
 
-        // Für alle HLines eines Objektes...
+        // FÃ¼r alle HLines eines Objektes...
         for (d = qObj.HLines.AnzEntries() - 1; d >= 0; d--) {
             // Falls die HLine aus dem aktuellen Pool stammt...
             if (qObj.HLines[d].Anz > 4) {
@@ -932,11 +932,11 @@ void CHLPool::ReBaseObjects(UBYTE *pOldPool, UBYTE *pNewPool) {
     SLONG c = 0;
     SLONG d = 0;
 
-    // Für alle Objekte...
+    // FÃ¼r alle Objekte...
     for (c = HLObjects.AnzEntries() - 1; c >= 0; c--) {
         CHLObj &qObj = HLObjects[c];
 
-        // Für alle HLines eines Objektes...
+        // FÃ¼r alle HLines eines Objektes...
         for (d = qObj.HLines.AnzEntries() - 1; d >= 0; d--) {
             // Falls die HLine aus dem aktuellen Pool stammt...
             if (qObj.HLines[d].Anz > 4) {
@@ -987,7 +987,7 @@ CHLObj *CHLPool::GetHLObj(const CString &String) {
 //--------------------------------------------------------------------------------------------
 // CHLBm::
 //--------------------------------------------------------------------------------------------
-// Eine HL-Bitmap ist eine Referenz auf ein HL-Objekt; Es kann mehrere HLBMs für ein HLOBJ geben
+// Eine HL-Bitmap ist eine Referenz auf ein HL-Objekt; Es kann mehrere HLBMs fÃ¼r ein HLOBJ geben
 //--------------------------------------------------------------------------------------------
 CHLBm::CHLBm() = default;
 

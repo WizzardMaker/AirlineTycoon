@@ -1,5 +1,5 @@
 //============================================================================================
-// HallDiskMenu - Das Lade- und Speichermenü für die einzelnen Airport Halls
+// HallDiskMenu - Das Lade- und SpeichermenÃ¼ fÃ¼r die einzelnen Airport Halls
 //============================================================================================
 #include "StdAfx.h"
 #include "HalldiskMenu.h"
@@ -110,7 +110,7 @@ void HallDiskMenu::OnPaint() {
 void HallDiskMenu::OnClose() {
     TopWin = nullptr;
 
-    // Self-Destruct (zerstört Fenster und gibt anschließend Speicher frei):
+    // Self-Destruct (zerstÃ¶rt Fenster und gibt anschlieÃŸend Speicher frei):
     delete this;
 }
 

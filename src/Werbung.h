@@ -9,7 +9,7 @@ class CWerbung : public CStdRaum {
 
     // Operations
   public:
-    SBBM TipBm; // Fenster für Flugzeug-Details
+    SBBM TipBm; // Fenster fÃ¼r Flugzeug-Details
     SBBM DiskBm;
     SBBM NoSaboBm;
     SLONG CurrentTip{}; // Dieser Tip wird gerade angezeigt

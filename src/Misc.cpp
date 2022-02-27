@@ -48,7 +48,7 @@ SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineL
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt die Anzahl der gesetzten Bits zurück: (Bitte ein Bit.... Hahaha!)
+// Gibt die Anzahl der gesetzten Bits zurÃ¼ck: (Bitte ein Bit.... Hahaha!)
 //--------------------------------------------------------------------------------------------
 SLONG GetAnzBits(ULONG Flags) {
     SLONG c = 0;
@@ -89,7 +89,7 @@ double GetAlphaFromXY(XY Delta) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Löscht einen CString und legt ihn wieder an. Deckt so Fehler im Speicher auf.
+// LÃ¶scht einen CString und legt ihn wieder an. Deckt so Fehler im Speicher auf.
 //--------------------------------------------------------------------------------------------
 void CheckCString(CString *String) {
     CString tmp;
@@ -100,32 +100,32 @@ void CheckCString(CString *String) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Korrigiert die Umlaute wegen dem schönen Windows-Doppelsystem
+// Korrigiert die Umlaute wegen dem schÃ¶nen Windows-Doppelsystem
 //--------------------------------------------------------------------------------------------
 CString KorrigiereUmlaute(CString &OriginalText) {
     CString rc;
     int c = 0;
 
-    // Keine Korrektur für Tschechien:
+    // Keine Korrektur fÃ¼r Tschechien:
     if (gLanguage == LANGUAGE_1) {
         return (OriginalText);
     }
 
     for (c = 0; c < OriginalText.GetLength(); c++) {
-        if (OriginalText[c] == '„') {
-            rc += 'ä'; // Nicht ändern - das macht so wie es ist schon Sinn!
-        } else if (OriginalText[c] == '”') {
-            rc += 'ö';
-        } else if (OriginalText[c] == '') {
-            rc += 'ü';
-        } else if (OriginalText[c] == 'Ž') {
-            rc += 'Ä';
-        } else if (OriginalText[c] == '™') {
-            rc += 'Ö';
-        } else if (OriginalText[c] == 'š') {
-            rc += 'Ü';
-        } else if (OriginalText[c] == 'á' && gLanguage == LANGUAGE_D) {
-            rc += 'ß';
+        if (OriginalText[c] == '\x84') {
+            rc += '\xE4'; // Nicht Ã¤ndern - das macht so wie es ist schon Sinn!
+        } else if (OriginalText[c] == '\x94') {
+            rc += '\xF6';
+        } else if (OriginalText[c] == '\x81') {
+            rc += '\xFC';
+        } else if (OriginalText[c] == '\x8E') {
+            rc += '\xC4';
+        } else if (OriginalText[c] == '\x99') {
+            rc += '\xD6';
+        } else if (OriginalText[c] == '\x9A') {
+            rc += '\xDC';
+        } else if (OriginalText[c] == '\xE1' && gLanguage == LANGUAGE_D) {
+            rc += '\xDF';
         } else {
             rc += OriginalText[c];
         }
@@ -135,14 +135,14 @@ CString KorrigiereUmlaute(CString &OriginalText) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft, ob der Cursor in einem Bereich ist und erledigt das Highlighting:
+//ÃœberprÃ¼ft, ob der Cursor in einem Bereich ist und erledigt das Highlighting:
 //--------------------------------------------------------------------------------------------
 BOOL CheckCursorHighlight(const CRect &rect, UWORD FontColor, SLONG Look, SLONG TipId, SLONG ClickArea, SLONG ClickId, SLONG ClickPar1, SLONG ClickPar2) {
     return (CheckCursorHighlight(gMousePosition, rect, FontColor, Look, TipId, ClickArea, ClickId, ClickPar1, ClickPar2));
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft, ob der Cursor in einem Bereich ist und erledigt das Highlighting:
+//ÃœberprÃ¼ft, ob der Cursor in einem Bereich ist und erledigt das Highlighting:
 //--------------------------------------------------------------------------------------------
 BOOL CheckCursorHighlight(const XY &CursorPos, const CRect &rect, UWORD FontColor, SLONG Look, SLONG TipId, SLONG ClickArea, SLONG ClickId, SLONG ClickPar1,
                           SLONG ClickPar2) {
@@ -214,7 +214,7 @@ void DrawChart(SBBM &TipBm, ULONG Color, const FBUFFER<SLONG> &Values, SLONG Min
 }
 
 //--------------------------------------------------------------------------------------------
-// Liest den aktuellen Taktzyklenzähler der CPU
+// Liest den aktuellen TaktzyklenzÃ¤hler der CPU
 //--------------------------------------------------------------------------------------------
 #if 0
 #pragma warning(disable : 4035)
@@ -269,7 +269,7 @@ BOOL IsRoomBusy(UWORD RoomId, SLONG ExceptPlayer) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Projeziert die Länge/Breite in Pixel; Gibt TRUE zurück wenn auf Erdvorderseite
+// Projeziert die LÃ¤nge/Breite in Pixel; Gibt TRUE zurÃ¼ck wenn auf Erdvorderseite
 //--------------------------------------------------------------------------------------------
 BOOL EarthProjectize(const XY &NaturalPos, UWORD EarthAlpha, XY *PixelPos) {
     double _a = 2.65;
@@ -287,7 +287,7 @@ BOOL EarthProjectize(const XY &NaturalPos, UWORD EarthAlpha, XY *PixelPos) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Projeziert die Länge/Breite in Pixel; Gibt TRUE zurück wenn auf Erdvorderseite
+// Projeziert die LÃ¤nge/Breite in Pixel; Gibt TRUE zurÃ¼ck wenn auf Erdvorderseite
 //--------------------------------------------------------------------------------------------
 BOOL EarthProjectize(const FXY &NaturalPos, UWORD EarthAlpha, XY *PixelPos) {
     double _a = 2.65;
@@ -305,7 +305,7 @@ BOOL EarthProjectize(const FXY &NaturalPos, UWORD EarthAlpha, XY *PixelPos) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Erhöht die n-te Stelle von der Zahl "Value" um Add (wenn Add einstellig ist)
+// ErhÃ¶ht die n-te Stelle von der Zahl "Value" um Add (wenn Add einstellig ist)
 //--------------------------------------------------------------------------------------------
 SLONG AddToNthDigit(SLONG Value, SLONG Digit, SLONG Add) {
     SLONG c = 0;
@@ -333,12 +333,12 @@ SLONG AddToNthDigit(SLONG Value, SLONG Digit, SLONG Add) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Im Mess-Age (oder war's Message?) Zeitalter braucht man einfache Nachrichten (für Fehler)
+// Im Mess-Age (oder war's Message?) Zeitalter braucht man einfache Nachrichten (fÃ¼r Fehler)
 //--------------------------------------------------------------------------------------------
 void MyMessageBox(LPCTSTR Title, LPCTSTR String, ...) {
     char Buffer[256];
 
-    // Hilfskonstruktion für beliebige viele Argumente deklarieren:
+    // Hilfskonstruktion fÃ¼r beliebige viele Argumente deklarieren:
     va_list Vars;
 
     // Tabelle initialisieren:
@@ -407,10 +407,10 @@ void DoAppPath() {
     // Vollen Programmnamen anfordern:
     char *buffer = SDL_strdup(SDL_GetBasePath());
 
-    // eigentlichen Programmteil löschen:
+    // eigentlichen Programmteil lÃ¶schen:
     // while (strlen(buffer)>0 && buffer[(SLONG)(strlen(buffer)-1)]!='\\') buffer[(SLONG)(strlen(buffer)-1)]=0;
 
-    // Verzeichnis-Namen der %§$@#"$! MS-Entwicklungsumgebung löschen:
+    // Verzeichnis-Namen der %Â§$@#"$! MS-Entwicklungsumgebung lÃ¶schen:
     // if (strlen(buffer) > 6 && strnicmp(buffer + strlen(buffer) - 6, "debug\\", 6) == 0) buffer[(SLONG)(strlen(buffer) - 6)] = 0;
     // if (strlen(buffer) > 8 && strnicmp(buffer + strlen(buffer) - 8, "release\\", 8) == 0) buffer[(SLONG)(strlen(buffer) - 8)] = 0;
 
@@ -419,7 +419,7 @@ void DoAppPath() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt einen vollständigen Filenamen mit dem vollen Pfad zurück:
+// Gibt einen vollstÃ¤ndigen Filenamen mit dem vollen Pfad zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 CString FullFilename(const CString &Filename, const CString &PathString) {
     CString path;
@@ -440,7 +440,7 @@ CString FullFilename(const CString &Filename, const CString &PathString) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt einen vollständigen Filenamen mit dem vollen Pfad zurück wobei ein Parameter ok ist:
+// Gibt einen vollstÃ¤ndigen Filenamen mit dem vollen Pfad zurÃ¼ck wobei ein Parameter ok ist:
 //--------------------------------------------------------------------------------------------
 CString FullFilename(const CString &Filename, const CString &PathString, SLONG Num) {
     CString tmp;
@@ -467,7 +467,7 @@ CString FullFilename(const CString &Filename, const CString &PathString, SLONG N
 // Berechnet, wieviel ein Flug kostet:
 //--------------------------------------------------------------------------------------------
 SLONG CalculateFlightKerosin(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit) {
-    SLONG Kerosin = Cities.CalcDistance(VonCity, NachCity) / 1000 // weil Distanz in m übergeben wird
+    SLONG Kerosin = Cities.CalcDistance(VonCity, NachCity) / 1000 // weil Distanz in m Ã¼bergeben wird
                     * Verbrauch / 160                             // Liter pro Barrel
                     / Geschwindigkeit;
 
@@ -591,7 +591,7 @@ SLONG CalculateRealFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SL
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt die Einheiten-Tabelle:
+// LÃ¤dt die Einheiten-Tabelle:
 //--------------------------------------------------------------------------------------------
 void InitEinheiten(const CString &Filename) {
     SLONG c = 0;
@@ -677,7 +677,7 @@ void HEADLINES::Init() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt die aktuellen Schlagzeilen:
+// LÃ¤dt die aktuellen Schlagzeilen:
 //--------------------------------------------------------------------------------------------
 void HEADLINES::ReloadHeadline() {
     SLONG c = 0;
@@ -732,7 +732,7 @@ void HEADLINES::ReloadHeadline() {
         if ((Zeitung != 0) && (Kette != 0) && (LastKette != 0) && CurrentChain[Zeitung - 1] == 0 && NewRand[Zeitung - 1] != -10 && Kette != LastKette + 1 &&
             LocalRand.Rand(20) == 0) {
             CurrentChain[Zeitung - 1] = Kette;
-            NewRand[Zeitung - 1] = -10; // Token für: Kette angefangen/fortgesetzt
+            NewRand[Zeitung - 1] = -10; // Token fÃ¼r: Kette angefangen/fortgesetzt
             Headline[(Zeitung - 1) * 10].Headline = strtok(nullptr, TabSeparator);
             Headline[(Zeitung - 1) * 10].PictureId = 0;
             Headline[(Zeitung - 1) * 10].PicturePriority = 0;
@@ -741,7 +741,7 @@ void HEADLINES::ReloadHeadline() {
         // Oder noch besser: eine Kette fortsetzen
         if ((Zeitung != 0) && CurrentChain[Zeitung - 1] + 1 == Kette && NewRand[Zeitung - 1] != -10) {
             CurrentChain[Zeitung - 1]++;
-            NewRand[Zeitung - 1] = -10; // Token für: Kette angefangen/fortgesetzt
+            NewRand[Zeitung - 1] = -10; // Token fÃ¼r: Kette angefangen/fortgesetzt
             Headline[(Zeitung - 1) * 10].Headline = strtok(nullptr, TabSeparator);
             Headline[(Zeitung - 1) * 10].PictureId = 0;
             Headline[(Zeitung - 1) * 10].PicturePriority = 0;
@@ -750,13 +750,13 @@ void HEADLINES::ReloadHeadline() {
         // Oder am besten: eine fremde Kette fortsetzen
         if ((Zeitung != 0) && CurrentChain[(Zeitung - 1 + 1) % 3] + 1 == Kette) {
             CurrentChain[Zeitung - 1]++;
-            NewRand[Zeitung - 1] = -10; // Token für: Kette angefangen/fortgesetzt
+            NewRand[Zeitung - 1] = -10; // Token fÃ¼r: Kette angefangen/fortgesetzt
             Headline[(Zeitung - 1) * 10].Headline = strtok(nullptr, TabSeparator);
             Headline[(Zeitung - 1) * 10].PictureId = 0;
             Headline[(Zeitung - 1) * 10].PicturePriority = 0;
         } else if ((Zeitung != 0) && CurrentChain[(Zeitung - 1 + 2) % 3] + 1 == Kette) {
             CurrentChain[Zeitung - 1]++;
-            NewRand[Zeitung - 1] = -10; // Token für: Kette angefangen/fortgesetzt
+            NewRand[Zeitung - 1] = -10; // Token fÃ¼r: Kette angefangen/fortgesetzt
             Headline[(Zeitung - 1) * 10].Headline = strtok(nullptr, TabSeparator);
             Headline[(Zeitung - 1) * 10].PictureId = 0;
             Headline[(Zeitung - 1) * 10].PicturePriority = 0;
@@ -772,7 +772,7 @@ void HEADLINES::ReloadHeadline() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Ersetzt bestimmte Tokens durch zufällige Inhalte:
+// Ersetzt bestimmte Tokens durch zufÃ¤llige Inhalte:
 //--------------------------------------------------------------------------------------------
 void HEADLINES::InterpolateHeadline() {
     SLONG c = 0;
@@ -876,7 +876,7 @@ void HEADLINES::InterpolateHeadline() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Speichert eine neue Schlagzeile für morgen
+// Speichert eine neue Schlagzeile fÃ¼r morgen
 //--------------------------------------------------------------------------------------------
 void HEADLINES::AddOverride(long Newspaper, const CString &HeadlineText, __int64 PictureId, SLONG PicturePriority) {
     SLONG c = 0;
@@ -1176,7 +1176,7 @@ void HEADLINES::ReInit(const CString &TabFilename) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Sortiert die aktuellen Schlagzeilen nach Priorität:
+// Sortiert die aktuellen Schlagzeilen nach PrioritÃ¤t:
 //--------------------------------------------------------------------------------------------
 void HEADLINES::SortByPriority() {
     SLONG c = 0;
@@ -1251,7 +1251,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const HEADLINES &Headlines) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein Headlines-Objekt:
+// LÃ¤dt ein Headlines-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, HEADLINES &Headlines) {
     SLONG c = 0;
@@ -1297,7 +1297,7 @@ CMessages::CMessages() : Messages(15) {
 BOOL CMessages::IsSilent() { return static_cast<BOOL>(Messages[0].BeraterTyp == -1 && Messages[1].BeraterTyp == -1); }
 
 //--------------------------------------------------------------------------------------------
-// Für einen neuen Tag initialisieren:
+// FÃ¼r einen neuen Tag initialisieren:
 //--------------------------------------------------------------------------------------------
 void CMessages::NewDay() {
     SLONG c = 0;
@@ -1322,7 +1322,7 @@ void CMessages::NoComments() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Eine Nachricht in die Warteschlange hinzufügen:
+// Eine Nachricht in die Warteschlange hinzufÃ¼gen:
 //--------------------------------------------------------------------------------------------
 void CMessages::AddMessage(SLONG BeraterTyp, const CString &Message, SLONG Urgent, SLONG Mood) {
     SLONG c = 0;
@@ -1430,7 +1430,7 @@ void CMessages::AddMessage(SLONG BeraterTyp, const CString &Message, SLONG Urgen
 }
 
 //--------------------------------------------------------------------------------------------
-// Läßt die aktuelle Nachricht verschwinden:
+// LÃ¤ÃŸt die aktuelle Nachricht verschwinden:
 //--------------------------------------------------------------------------------------------
 void CMessages::NextMessage() {
     if (TalkCountdown > 0) {
@@ -1615,7 +1615,7 @@ void CMessages::Pump() {
 }
 
 //------------------------------------------------------------------------------
-// Läßt einen Berater sofort (ohne sanftes runtersliden) verschwinden:
+// LÃ¤ÃŸt einen Berater sofort (ohne sanftes runtersliden) verschwinden:
 //------------------------------------------------------------------------------
 void CMessages::KillBerater() { BeraterPosY = 440; }
 
@@ -1650,7 +1650,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CMessage &Message) {
 }
 
 //------------------------------------------------------------------------------
-// Lädt ein Message-Objekt:
+// LÃ¤dt ein Message-Objekt:
 //------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CMessage &Message) {
     File >> Message.BeraterTyp >> Message.Message >> Message.Urgent >> Message.Mood;
@@ -1676,7 +1676,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CMessages &Messages) {
 }
 
 //------------------------------------------------------------------------------
-// Lädt ein Messages-Objekt:
+// LÃ¤dt ein Messages-Objekt:
 //------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CMessages &Messages) {
     File >> Messages.Messages >> Messages.AktuellerBeraterTyp;
@@ -1692,12 +1692,12 @@ TEAKFILE &operator>>(TEAKFILE &File, CMessages &Messages) {
 }
 
 //------------------------------------------------------------------------------
-// Hierdurch wird aus 10000 das schönere 10.000
+// Hierdurch wird aus 10000 das schÃ¶nere 10.000
 //------------------------------------------------------------------------------
 CString Insert1000erDots(long Value) {
     short c = 0;
     short d = 0; // Position in neuen bzw. alten String
-    short l = 0; // Stringlänge
+    short l = 0; // StringlÃ¤nge
     short CharsUntilPoint = 0;
     char String[80];
     char Tmp[80];
@@ -1741,12 +1741,12 @@ CString Insert1000erDots(long Value) {
 }
 
 //------------------------------------------------------------------------------
-// Hierdurch wird aus 10000 das schönere 10.000
+// Hierdurch wird aus 10000 das schÃ¶nere 10.000
 //------------------------------------------------------------------------------
 CString Insert1000erDots64(__int64 Value) {
     short c = 0;
     short d = 0; // Position in neuen bzw. alten String
-    short l = 0; // Stringlänge
+    short l = 0; // StringlÃ¤nge
     short CharsUntilPoint = 0;
     char String[40];
     char Tmp[40];
@@ -1869,17 +1869,17 @@ TEAKRAND::TEAKRAND() { Seed = Value = 0; }
 TEAKRAND::TEAKRAND(ULONG Seed) { Seed = Value = Seed; }
 
 //--------------------------------------------------------------------------------------------
-// nachträglicher Kondtruktor
+// nachtrÃ¤glicher Kondtruktor
 //--------------------------------------------------------------------------------------------
 void TEAKRAND::SRand(ULONG Seed) { Seed = Value = Seed; }
 
 //--------------------------------------------------------------------------------------------
-// nachträglicher Kondtruktor mit Seed aus Uhrzeit
+// nachtrÃ¤glicher Kondtruktor mit Seed aus Uhrzeit
 //--------------------------------------------------------------------------------------------
 void TEAKRAND::SRandTime() { Seed = Value = timeGetTime(); }
 
 //--------------------------------------------------------------------------------------------
-// Setzt den Zufallsgenerator auf dem exakten Zustand nach dem Konstruktor zurück:
+// Setzt den Zufallsgenerator auf dem exakten Zustand nach dem Konstruktor zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 void TEAKRAND::Reset() { Value = Seed; }
 
@@ -1939,7 +1939,7 @@ UWORD TEAKRAND::Rand(SLONG Max) {
 UWORD TEAKRAND::Rand(SLONG Min, SLONG Max) { return (UWORD(Rand() % (Max - Min + 1) + Min)); }
 
 //--------------------------------------------------------------------------------------------
-// Gibt den aktuellen "Seed" zus Generators zurück:
+// Gibt den aktuellen "Seed" zus Generators zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 ULONG TEAKRAND::GetSeed() { return (Value); }
 
@@ -1953,7 +1953,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const TEAKRAND &r) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt den Zustand des Generators:
+// LÃ¤dt den Zustand des Generators:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, TEAKRAND &r) {
     File >> r.Seed >> r.Value;
@@ -1962,7 +1962,7 @@ TEAKFILE &operator>>(TEAKFILE &File, TEAKRAND &r) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Zählt mit Verzeichnisundwildcard String die Dateinamen:
+// ZÃ¤hlt mit Verzeichnisundwildcard String die Dateinamen:
 //--------------------------------------------------------------------------------------------
 long CountMatchingFilelist(const CString &DirAndWildcards) {
     int Pos = DirAndWildcards.Find('*');
@@ -2038,7 +2038,7 @@ CString GetMatchingNext(const CString &DirAndWildcards, const CString &CurrentFi
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt den nächstbesten, notfalls numerierten freien Dateinamen zurück (Input mit %s)
+// Gibt den nÃ¤chstbesten, notfalls numerierten freien Dateinamen zurÃ¼ck (Input mit %s)
 //--------------------------------------------------------------------------------------------
 CString CreateNumeratedFreeFilename(const CString &DirAndFilename) {
     long c = 0;
@@ -2054,7 +2054,7 @@ CString CreateNumeratedFreeFilename(const CString &DirAndFilename) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt nur den Dateinamen zurück:
+// Gibt nur den Dateinamen zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 CString GetFilenameFromFullFilename(CString FullFilename) {
     for (int c = FullFilename.GetLength() - 1; c >= 0; c--) {
@@ -2067,39 +2067,39 @@ CString GetFilenameFromFullFilename(CString FullFilename) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Entfernt französische Akzente:
+// Entfernt franzÃ¶sische Akzente:
 //--------------------------------------------------------------------------------------------
 CString RemoveAccents(CString str) {
     for (int c = str.GetLength() - 1; c >= 0; c--) {
-        if (str[c] == 'á' || str[c] == 'à' || str[c] == 'â') {
+        if (str[c] == '\xE1' || str[c] == '\xE0' || str[c] == '\xE2') {
             str.SetAt(c, 'a');
         }
-        if (str[c] == 'é' || str[c] == 'è' || str[c] == 'ê') {
+        if (str[c] == '\xE9' || str[c] == '\xE8' || str[c] == '\xEA') {
             str.SetAt(c, 'e');
         }
-        if (str[c] == 'í' || str[c] == 'ì' || str[c] == 'î') {
+        if (str[c] == '\xED' || str[c] == '\xEC' || str[c] == '\xEE') {
             str.SetAt(c, 'i');
         }
-        if (str[c] == 'ó' || str[c] == 'ò' || str[c] == 'ô') {
+        if (str[c] == '\xF3' || str[c] == '\xF2' || str[c] == '\xF4') {
             str.SetAt(c, 'o');
         }
-        if (str[c] == 'ú' || str[c] == 'ù' || str[c] == 'û') {
+        if (str[c] == '\xFA' || str[c] == '\xF9' || str[c] == '\xFB') {
             str.SetAt(c, 'u');
         }
 
-        if (str[c] == 'Á' || str[c] == 'À' || str[c] == 'Â') {
+        if (str[c] == '\xC1' || str[c] == '\xC0' || str[c] == '\xC2') {
             str.SetAt(c, 'A');
         }
-        if (str[c] == 'É' || str[c] == 'È' || str[c] == 'Ê') {
+        if (str[c] == '\xC9' || str[c] == '\xC8' || str[c] == '\xCA') {
             str.SetAt(c, 'E');
         }
-        if (str[c] == 'Í' || str[c] == 'Ì' || str[c] == 'Î') {
+        if (str[c] == '\xCD' || str[c] == '\xCC' || str[c] == '\xCE') {
             str.SetAt(c, 'I');
         }
-        if (str[c] == 'Ó' || str[c] == 'Ò' || str[c] == 'Ô') {
+        if (str[c] == '\xD3' || str[c] == '\xD2' || str[c] == '\xD4') {
             str.SetAt(c, 'O');
         }
-        if (str[c] == 'Ú' || str[c] == 'Ù' || str[c] == 'Û') {
+        if (str[c] == '\xDA' || str[c] == '\xD9' || str[c] == '\xDB') {
             str.SetAt(c, 'U');
         }
     }

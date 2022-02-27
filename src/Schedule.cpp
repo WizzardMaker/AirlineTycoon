@@ -1,5 +1,5 @@
 //============================================================================================
-// Schedule.cpp - Der Bildschirm für den Scheduler
+// Schedule.cpp - Der Bildschirm fÃ¼r den Scheduler
 //============================================================================================
 #include "StdAfx.h"
 #include "AtNet.h"
@@ -80,7 +80,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CFlugplanEintrag &Eintrag) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läd ein CFlugplanEintrag Datum:
+// LÃ¤d ein CFlugplanEintrag Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CFlugplanEintrag &Eintrag) {
     if (SaveVersion == 1 && SaveVersionSub == 1) {
@@ -118,7 +118,7 @@ CFlugplan::CFlugplan() {
 
     NextFlight = -1;
     NextStart = -1;
-    Flug.ReSize(10 * 6); // Maximal 10 Flüge pro Tag
+    Flug.ReSize(10 * 6); // Maximal 10 FlÃ¼ge pro Tag
 
     for (c = Flug.AnzEntries() - 1; c >= 0; c--) {
         Flug[c].ObjectType = 0;
@@ -139,7 +139,7 @@ void CFlugplan::UpdateNextFlight() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt true zurück, wenn der Flugplan einen der beiden ObjectIds enthält:
+// Gibt true zurÃ¼ck, wenn der Flugplan einen der beiden ObjectIds enthÃ¤lt:
 //--------------------------------------------------------------------------------------------
 BOOL CFlugplan::ContainsFlight(ULONG ObjectType, SLONG ObjectId1, SLONG ObjectId2) {
     for (SLONG e = 0; e < Flug.AnzEntries(); e++) {
@@ -214,7 +214,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CFlugplan &Plan) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läd ein CFlugplan Datum:
+// LÃ¤d ein CFlugplan Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CFlugplan &Plan) {
     File >> Plan.Flug >> Plan.StartCity >> Plan.NextFlight >> Plan.NextStart;
@@ -223,12 +223,12 @@ TEAKFILE &operator>>(TEAKFILE &File, CFlugplan &Plan) {
 
 //--------------------------------------------------------------------------------------------
 // Berechnet die Zahl der Passagiere auf dem Flug, wenn der Flug in diesem Augenblick erstellt/
-// geändert wird. Kurzfristige Flüge haben weniger passagiere
+// geÃ¤ndert wird. Kurzfristige FlÃ¼ge haben weniger passagiere
 //--------------------------------------------------------------------------------------------
 void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
-    // Routen automatisch ergänzen:
+    // Routen automatisch ergÃ¤nzen:
     if (ObjectType == 1) {
         VonCity = Routen[ObjectId].VonCity;
         NachCity = Routen[ObjectId].NachCity;
@@ -245,14 +245,14 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
     {
         CRoute &qRoute = Routen[ObjectId];
 
-        // Normale Passagiere: Aber nicht mehr kurz vor dem Start ändern:
+        // Normale Passagiere: Aber nicht mehr kurz vor dem Start Ã¤ndern:
         if (Startdate > Sim.Date || (Startdate == Sim.Date && Sim.GetHour() + 1 < Startzeit)) {
             SLONG c = 0;
             SLONG tmp = 0;
             SLONG Gewichte[4];
             SLONG Gesamtgewicht = 0;
 
-            // Bonusregelgungen für Spieler anhand von Image, Rang, Preis, ...
+            // Bonusregelgungen fÃ¼r Spieler anhand von Image, Rang, Preis, ...
             for (c = 0; c < 4; c++) {
                 PLAYER &qPlayer = Sim.Players.Players[c];
                 CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[Routen(ObjectId)];
@@ -281,7 +281,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                         Gewichte[c] = 1;
                     }
 
-                    // Zuschläge für den Rang:
+                    // ZuschlÃ¤ge fÃ¼r den Rang:
                     if (qRentRoute.Rang == 1) {
                         Gewichte[c] = Gewichte[c] * 150 / 100;
                     }
@@ -289,7 +289,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                         Gewichte[c] = Gewichte[c] * 120 / 100;
                     }
 
-                    // Abschläge, wenn er selten fliegt:
+                    // AbschlÃ¤ge, wenn er selten fliegt:
                     if (qRentRoute.AvgFlown > 4) {
                         Gewichte[c] = Gewichte[c] * 10 / (10 + min(qRentRoute.AvgFlown - 3, 10));
                         if (Gewichte[c] < 1) {
@@ -297,7 +297,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                         }
                     }
 
-                    // 25% Bonus für den Computer
+                    // 25% Bonus fÃ¼r den Computer
                     if (qPlayer.Owner == 1) {
                         Gewichte[c] += Gewichte[c] / 4;
                     }
@@ -326,7 +326,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                 tmp = 0;
             }
 #endif
-            // Wie viele können mitfliegen (plus Toleranz)?
+            // Wie viele kÃ¶nnen mitfliegen (plus Toleranz)?
             tmp = min(tmp, qPlane.MaxPassagiere + qPlane.MaxPassagiere / 2);
 
             // NetGenericAsync (24004+ObjectId+Sim.Date*100, tmp);
@@ -342,7 +342,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             // NetGenericAsync (30000+ObjectId+Sim.Date*100, HoursBefore);
             // NetGenericAsync (23003+ObjectId+Sim.Date*100, tmp);
 
-            // Abschläge bei Wucherpreisen:
+            // AbschlÃ¤ge bei Wucherpreisen:
             SLONG Cost = CalculateFlightCost(qRoute.VonCity, qRoute.NachCity, 800, 800, -1) * 3 / 180 * 2;
 
             // NetGenericAsync (31001+ObjectId+Sim.Date*100, Cost);
@@ -368,7 +368,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
 
             // NetGenericAsync (22002+ObjectId+Sim.Date*100, tmp);
 
-            // Image berücksichtigen:
+            // Image berÃ¼cksichtigen:
             SLONG ImageTotal = 0;
 
             {
@@ -406,7 +406,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
 
             // NetGenericAsync (21001+ObjectId+Sim.Date*100, tmp);
 
-            // Wie viele können wirklich mitfliegen?
+            // Wie viele kÃ¶nnen wirklich mitfliegen?
             if (Gesamtgewicht > 0) {
                 tmp = min(tmp, qRoute.Bedarf * Gewichte[PlayerNum] / Gesamtgewicht);
             }
@@ -421,14 +421,14 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             // NetGenericAsync (20000+ObjectId+Sim.Date*100, Passagiere);
         }
 
-        // Erste Klasse Passagiere: Aber nicht mehr kurz vor dem Start ändern:
+        // Erste Klasse Passagiere: Aber nicht mehr kurz vor dem Start Ã¤ndern:
         if (Startdate > Sim.Date || (Startdate == Sim.Date && Sim.GetHour() + 1 < Startzeit)) {
             SLONG c = 0;
             SLONG tmp = 0;
             SLONG Gewichte[4];
             SLONG Gesamtgewicht = 0;
 
-            // Bonusregelgungen für Spieler anhand von Image, Rang, Preis, ...
+            // Bonusregelgungen fÃ¼r Spieler anhand von Image, Rang, Preis, ...
             for (c = 0; c < 4; c++) {
                 PLAYER &qPlayer = Sim.Players.Players[c];
                 CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[Routen(ObjectId)];
@@ -457,7 +457,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                         Gewichte[c] = 1;
                     }
 
-                    // Zuschläge für den Rang:
+                    // ZuschlÃ¤ge fÃ¼r den Rang:
                     if (qRentRoute.Rang == 1) {
                         Gewichte[c] = Gewichte[c] * 170 / 100;
                     }
@@ -465,7 +465,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                         Gewichte[c] = Gewichte[c] * 120 / 100;
                     }
 
-                    // Abschläge, wenn er selten fliegt:
+                    // AbschlÃ¤ge, wenn er selten fliegt:
                     if (qRentRoute.AvgFlown > 4) {
                         Gewichte[c] = Gewichte[c] * 10 / (10 + min(qRentRoute.AvgFlown - 3, 10));
                         if (Gewichte[c] < 1) {
@@ -473,7 +473,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                         }
                     }
 
-                    // 25% Bonus für den Computer
+                    // 25% Bonus fÃ¼r den Computer
                     if (qPlayer.Owner == 1) {
                         Gewichte[c] += Gewichte[c] / 4;
                     }
@@ -498,10 +498,10 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                 tmp = 0;
             }
 #endif
-            // Wie viele können mitfliegen (plus Toleranz)?
+            // Wie viele kÃ¶nnen mitfliegen (plus Toleranz)?
             tmp = min(tmp, qPlane.MaxPassagiereFC + qPlane.MaxPassagiereFC / 2);
 
-            // Fliegt er heute oder morgen oder übermorgen oder überübermorgen? Dann machen wir Abstriche!
+            // Fliegt er heute oder morgen oder Ã¼bermorgen oder Ã¼berÃ¼bermorgen? Dann machen wir Abstriche!
             if (HoursBefore > 72) {
                 HoursBefore = 72;
             }
@@ -509,7 +509,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                 tmp = tmp * (HoursBefore + 48) / (72 + 48);
             }
 
-            // Abschläge bei Wucherpreisen:
+            // AbschlÃ¤ge bei Wucherpreisen:
             SLONG Cost = CalculateFlightCost(qRoute.VonCity, qRoute.NachCity, 800, 800, -1) * 3 / 180 * 2;
 
             Cost *= 3;
@@ -525,7 +525,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                 tmp = tmp * 5 / 6;
             }
 
-            // Luxus ist ganz wichtig für die: (Summe e [0..16])
+            // Luxus ist ganz wichtig fÃ¼r die: (Summe e [0..16])
             long LuxusSumme =
                 qPlane.Sitze + qPlane.Essen + qPlane.Tabletts + qPlane.Deco + qPlane.Triebwerk + qPlane.Reifen + qPlane.Elektronik + qPlane.Sicherheit;
 
@@ -539,7 +539,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                 tmp = tmp * (LuxusSumme - 6) / 8;
             }
 
-            // Image berücksichtigen:
+            // Image berÃ¼cksichtigen:
             SLONG ImageTotal = 0;
 
             {
@@ -571,7 +571,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                 tmp = UWORD(tmp * 1000 / 1100);
             }
 
-            // Wie viele können wirklich mitfliegen?
+            // Wie viele kÃ¶nnen wirklich mitfliegen?
             if (Gesamtgewicht > 0) {
                 tmp = min(tmp, qRoute.Bedarf * Gewichte[PlayerNum] / Gesamtgewicht);
             }
@@ -601,12 +601,12 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     CString CityString;
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
-    // Hat angebliche Asynchronitäten berichtet, obwohl der Flugplan gleich war!
+    // Hat angebliche AsynchronitÃ¤ten berichtet, obwohl der Flugplan gleich war!
     // NetGenericAsync (90000+ObjectId+Sim.Date*100+PlayerNum*1000, Startzeit);
     // if (ObjectType==1)
     //   NetGenericAsync (80000+ObjectId+Sim.Date*100+PlayerNum*1000, qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image);
 
-    SLONG BadKerosinFaktor = 1; // Wird bei schlechtem Kerosin erhöht
+    SLONG BadKerosinFaktor = 1; // Wird bei schlechtem Kerosin erhÃ¶ht
 
     if ((qPlayer.TankOpen != 0) && qPlayer.TankInhalt > 0 && qPlayer.BadKerosin * 100 / qPlayer.TankInhalt > 50) {
         BadKerosinFaktor = 3;
@@ -680,7 +680,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
         Ausgaben += Passagiere * FoodCosts[Plane->Essen];
     }
 
-    // Für den Statistik-Screen:
+    // FÃ¼r den Statistik-Screen:
     if (ObjectType == 1 || ObjectType == 2) {
         qPlayer.Statistiken[STAT_PASSAGIERE].AddAtPastDay(0, Passagiere);
         qPlayer.Statistiken[STAT_PASSAGIERE].AddAtPastDay(0, PassagiereFC);
@@ -730,11 +730,11 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
     CityString = Cities[VonCity].Kuerzel + "-" + Cities[NachCity].Kuerzel;
 
-    // Versteckter Bonus für Computerspieler:
+    // Versteckter Bonus fÃ¼r Computerspieler:
     Saldo += min64(qPlayer.Bonus, abs64(Saldo) / 10);
     qPlayer.Bonus -= min64(qPlayer.Bonus, abs64(Saldo) / 10);
 
-    // Müssen wir das Flugzeug umrüsten (Sitze raus/rein wegen Fracht)?
+    // MÃ¼ssen wir das Flugzeug umrÃ¼sten (Sitze raus/rein wegen Fracht)?
     if (ObjectType != 3) {
         if (Plane->OhneSitze != static_cast<int>(ObjectType == 4)) {
             Plane->OhneSitze = static_cast<BOOL>(ObjectType == 4);
@@ -819,7 +819,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
             qRRoute.Image++;
         }
     }
-    // Bei Aufträgen, die Prämie verbuchen; Aufträge als erledigt markieren
+    // Bei AuftrÃ¤gen, die PrÃ¤mie verbuchen; AuftrÃ¤ge als erledigt markieren
     else if (ObjectType == 2) {
         Hdu.HercPrintf("Player %li flies %li Passengers from %s to %s\n", PlayerNum, qPlayer.Auftraege[ObjectId].Personen,
                        (LPCTSTR)Cities[qPlayer.Auftraege[ObjectId].VonCity].Name, (LPCTSTR)Cities[qPlayer.Auftraege[ObjectId].NachCity].Name);
@@ -917,7 +917,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
         // Wieviel Personal haben wir an Bord?
 
-        if (qPlayer.Owner != 1) { // Nur für reale Spieler:
+        if (qPlayer.Owner != 1) { // Nur fÃ¼r reale Spieler:
             Add += (3 * Plane->AnzBegleiter / Plane->ptAnzBegleiter);
         }
         // Add+=(3*Plane->AnzBegleiter/PlaneTypes[Plane->TypeId].AnzBegleiter);
@@ -928,7 +928,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
             SLONG Costs1 = Ticketpreis;
             SLONG Costs2 = CalculateFlightCost(VonCity, NachCity, 800, 800, -1) * 3 / 180 * 2 * 3;
 
-            // Computerspieler erhalten Ihre 10% Kerosinrabatt hier, statt im Araber-Menü
+            // Computerspieler erhalten Ihre 10% Kerosinrabatt hier, statt im Araber-MenÃ¼
             if (qPlayer.Owner == 1) {
                 Costs2 = Costs2 * 9 / 10;
             }
@@ -974,7 +974,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Flug wurde geändert:
+// Flug wurde geÃ¤ndert:
 //--------------------------------------------------------------------------------------------
 void CFlugplanEintrag::FlightChanged() { HoursBefore = UBYTE((Startdate - Sim.Date) * 24 + (Startzeit - Sim.GetHour())); }
 
@@ -1003,7 +1003,7 @@ SLONG CFlugplanEintrag::GetEinnahmen(SLONG PlayerNum, const CPlane &qPlane) cons
         return (Sim.Players.Players[PlayerNum].Frachten[ObjectId].Praemie);
         break;
 
-    default: // Eigentlich unmöglich:
+    default: // Eigentlich unmÃ¶glich:
         return (0);
     }
 
@@ -1034,7 +1034,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CGate &Gate) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein CGate-Objekt:
+// LÃ¤dt ein CGate-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CGate &Gate) {
     File >> Gate.Nummer >> Gate.Miete;
@@ -1054,7 +1054,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CGates &Gates) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein CGates-Objekt:
+// LÃ¤dt ein CGates-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CGates &Gates) {
     File >> Gates.Gates;

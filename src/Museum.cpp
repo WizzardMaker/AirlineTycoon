@@ -18,7 +18,7 @@ static XY PlanePositions[3] = {XY(140, 281), XY(206, 293), XY(291, 276)};
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------------------------------------
-// Das Museum wird erˆffnet:
+// Das Museum wird er√∂ffnet:
 //--------------------------------------------------------------------------------------------
 CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "museum.gli", GFX_MUSEUM) {
     SetRoomVisited(PlayerNum, ROOM_MUSEUM);
@@ -334,12 +334,12 @@ void CMuseum::OnLButtonDown(UINT nFlags, CPoint point) {
 void CMuseum::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y - StatusLineSizeY) {
         return;
     }
 
-    // Click w‰hrend ein On-Screen Fenster offen ist?
+    // Click w√§hrend ein On-Screen Fenster offen ist?
     if (MenuIsOpen() != 0) {
         MenuRightClick(point);
     } else if (point.y < 440) {

@@ -51,7 +51,7 @@ BOOL deltaCompressFrame(FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCo
         return (FALSE);
     }
 
-    // Speed-Up für Offset-Berechnung
+    // Speed-Up fÃ¼r Offset-Berechnung
     for (pass = 0; pass < 3; pass++) {
         DirectOffsets[pass] = Offsets[pass].x + Offsets[pass].y * NewKey.lPitch / 2;
     }
@@ -66,7 +66,7 @@ BOOL deltaCompressFrame(FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCo
                         Offsets[pass].y < NewFrame.GetYSize() - y) {
                         if ((reinterpret_cast<__int64 *>((static_cast<UWORD *>(NewKey.Bitmap)) + x + y_pitch))[0] ==
                             (reinterpret_cast<__int64 *>((static_cast<UWORD *>(OldKey.Bitmap)) + x + y_pitch + DirectOffsets[pass]))[0]) {
-                            // Ein Offset hat gepasst! Für wieviele Pixel?
+                            // Ein Offset hat gepasst! FÃ¼r wieviele Pixel?
                             for (cx = 4; x + cx < NewFrame.GetXSize() && cx < 250; cx++) {
                                 if (Offsets[pass].x < NewFrame.GetXSize() - x - cx) {
                                     if ((reinterpret_cast<__int64 *>((static_cast<UWORD *>(NewKey.Bitmap)) + x + cx + y_pitch))[0] !=
@@ -82,7 +82,7 @@ BOOL deltaCompressFrame(FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCo
                             Buffer[BufferIndex++] = UBYTE(gDeltaTokenDelta1 + pass);
                             Buffer[BufferIndex++] = cx;
 
-                            // Und Rückweg zu den äußerer Schleifen vorbereiten:
+                            // Und RÃ¼ckweg zu den Ã¤uÃŸerer Schleifen vorbereiten:
                             x += cx - 1;
                             pBufferCounter = nullptr;
 
@@ -160,7 +160,7 @@ BOOL deltaDecompressFrame(FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitmap
     fread(&Offsets[1], 1, sizeof(XY), SourceFile);
     fread(&Offsets[2], 1, sizeof(XY), SourceFile);
 
-    // Prüfen, ob der Header stimmt:
+    // PrÃ¼fen, ob der Header stimmt:
     if (strcmp(Header, gDeltaHeader) != 0) {
         return (FALSE);
     }

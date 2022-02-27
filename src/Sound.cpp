@@ -334,7 +334,7 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
 }
 
 //--------------------------------------------------------------------------------------------
-// Für eine Voice hinzu:
+// FÃ¼r eine Voice hinzu:
 //--------------------------------------------------------------------------------------------
 void CVoiceScheduler::AddVoice(const CString &str) {
     Voices.ReSize(Voices.AnzEntries() + 1);
@@ -348,7 +348,7 @@ void CVoiceScheduler::AddVoice(const CString &str) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Löscht alle Voices:
+// LÃ¶scht alle Voices:
 //--------------------------------------------------------------------------------------------
 void CVoiceScheduler::Clear() {
     if (AnzEntries() != 0) {
@@ -359,12 +359,12 @@ void CVoiceScheduler::Clear() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt die Anzahl der Voices im Buffer zurück:
+// Gibt die Anzahl der Voices im Buffer zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 SLONG CVoiceScheduler::AnzEntries() { return (Voices.AnzEntries()); }
 
 //--------------------------------------------------------------------------------------------
-// Gibt TRUE zurück, wenn gerade eine Voice gespielt wird:
+// Gibt TRUE zurÃ¼ck, wenn gerade eine Voice gespielt wird:
 //--------------------------------------------------------------------------------------------
 BOOL CVoiceScheduler::IsVoicePlaying() {
     if (gpSSE == nullptr || !gpSSE->IsSoundEnabled()) {
@@ -380,7 +380,7 @@ BOOL CVoiceScheduler::IsVoicePlaying() {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überwacht die Voices:
+//Ãœberwacht die Voices:
 //--------------------------------------------------------------------------------------------
 void CVoiceScheduler::Pump() {
     if (AnzEntries() > 0 && (IsVoicePlaying() == 0)) {
@@ -480,7 +480,7 @@ void SetWaveVolume(long volume) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Spielt das nächste Midi:
+// Spielt das nÃ¤chste Midi:
 //--------------------------------------------------------------------------------------------
 void NextMidi() {
     static BOOL WasHere = 0;
@@ -535,7 +535,7 @@ void NextMidi() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt zurück, ob der Rechner Midi-fähig ist:
+// Gibt zurÃ¼ck, ob der Rechner Midi-fÃ¤hig ist:
 //--------------------------------------------------------------------------------------------
 BOOL IsMidiAvailable() {
 #if 0
@@ -614,7 +614,7 @@ void StopMidi() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Hält das Abspielen eines Midi-Files an; kann (muß aber nicht) fortgesetzt werden:
+// HÃ¤lt das Abspielen eines Midi-Files an; kann (muÃŸ aber nicht) fortgesetzt werden:
 //--------------------------------------------------------------------------------------------
 void PauseMidi() {
     // CDebugEntryExit ("PauseMidi");
@@ -775,7 +775,7 @@ void CAmbienteManager::SetFx(SLONG FxId, const CString &Soundeffekt) const {
 }
 
 //--------------------------------------------------------------------------------------------
-// Die globale Laufstärke setzen
+// Die globale LaufstÃ¤rke setzen
 //--------------------------------------------------------------------------------------------
 void CAmbienteManager::SetGlobalVolume(SLONG Volume) {
     GlobalVolume = Volume;
@@ -786,7 +786,7 @@ void CAmbienteManager::SetGlobalVolume(SLONG Volume) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Die Lautstärke für einen Effekt setzen:
+// Die LautstÃ¤rke fÃ¼r einen Effekt setzen:
 //--------------------------------------------------------------------------------------------
 void CAmbienteManager::SetVolume(SLONG FxId, SLONG Volume) const {
     SLONG NewVolume = Volume * GlobalVolume / 100;
@@ -817,7 +817,7 @@ void CAmbienteManager::SetVolume(SLONG FxId, SLONG Volume) const {
     }
 
     if (NewVolume != AmbientFx[FxId].CurrentVolume) {
-        // Nötigenfalls überhaupt erst einmal starten:
+        // NÃ¶tigenfalls Ã¼berhaupt erst einmal starten:
         if (AmbientFx[FxId].CurrentVolume == 0) {
             AmbientFx[FxId].Soundeffekt.Play(DSBPLAY_NOSTOP | DSBPLAY_LOOPING);
         }
@@ -826,7 +826,7 @@ void CAmbienteManager::SetVolume(SLONG FxId, SLONG Volume) const {
 
         AmbientFx[FxId].Soundeffekt.SetVolume(Prozent2Dezibel(NewVolume));
 
-        // Nötigenfalls ganz anhalten:
+        // NÃ¶tigenfalls ganz anhalten:
         if (AmbientFx[FxId].CurrentVolume == 0) {
             AmbientFx[FxId].Soundeffekt.Stop();
         }
@@ -834,7 +834,7 @@ void CAmbienteManager::SetVolume(SLONG FxId, SLONG Volume) const {
 }
 
 //--------------------------------------------------------------------------------------------
-// Die Lautstärke neu berechnen:
+// Die LautstÃ¤rke neu berechnen:
 //--------------------------------------------------------------------------------------------
 void CAmbienteManager::RecalcVolumes() const {
     for (SLONG c = 0; c < AmbientFx.AnzEntries(); c++) {

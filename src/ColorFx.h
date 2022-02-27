@@ -1,5 +1,5 @@
 //============================================================================================
-// CColorFx - Klasse für Helligkeits- und Farbeffekte mit 16Bit Bitmaps
+// CColorFx - Klasse fÃ¼r Helligkeits- und Farbeffekte mit 16Bit Bitmaps
 //============================================================================================
 // Anleitung: "i:\projekt\sbl\doku\CColorFx.txt"
 //============================================================================================

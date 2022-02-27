@@ -5,7 +5,7 @@
 //============================================================================================
 #include "StdAfx.h"
 #include "AtNet.h"
-#include "NewGamePopup.h" //Fenster zum Wahl der Gegner und der Spielstärke
+#include "NewGamePopup.h" //Fenster zum Wahl der Gegner und der SpielstÃ¤rke
 #include "SecurityManager.h"
 #include "cd_prot.h"
 #include "fillfile.h"
@@ -26,7 +26,7 @@ const char TOKEN_NEWGAME[] = "NewG";
 
 SLONG NewgameWantsToLoad = FALSE;
 SLONG NewgameToOptions = FALSE;
-SLONG gNetworkSavegameLoading = -1; // Komm-Variable, über die der Options-Screen mitteilt, welcher Spielstand für's Netzwerk geladen werden soll
+SLONG gNetworkSavegameLoading = -1; // Komm-Variable, Ã¼ber die der Options-Screen mitteilt, welcher Spielstand fÃ¼r's Netzwerk geladen werden soll
 
 extern CJumpingVar<ULONG> gPhysicalCdRomBitlist;
 extern CJumpingVar<CString> gCDPath;
@@ -248,14 +248,14 @@ void NewGamePopup::Konstruktor(BOOL /*bHandy*/, SLONG /*PlayerNum*/) {
         Sim.Players.Players[c].Abk.ToUpper();
 
         for (int d = 0; d < Sim.Players.Players[c].Name.GetLength(); d++) {
-            if (Sim.Players.Players[c].Name[d] == 'ä') {
-                Sim.Players.Players[c].Name.SetAt(d, 'Ä');
+            if (Sim.Players.Players[c].Name[d] == '\xE4') {
+                Sim.Players.Players[c].Name.SetAt(d, '\xC4');
             }
-            if (Sim.Players.Players[c].Name[d] == 'ö') {
-                Sim.Players.Players[c].Name.SetAt(d, 'Ö');
+            if (Sim.Players.Players[c].Name[d] == '\xF6') {
+                Sim.Players.Players[c].Name.SetAt(d, '\xD6');
             }
-            if (Sim.Players.Players[c].Name[d] == 'ü') {
-                Sim.Players.Players[c].Name.SetAt(d, 'Ü');
+            if (Sim.Players.Players[c].Name[d] == '\xFC') {
+                Sim.Players.Players[c].Name.SetAt(d, '\xDC');
             }
         }
     }
@@ -534,11 +534,11 @@ void NewGamePopup::RefreshKlackerField() {
         }
 
         KlackerTafel.PrintAt(1, bFirstClass != 0 ? 13 : 14, StandardTexte.GetS(TOKEN_NEWGAME, 510)); // Beenden
-    } else if (PageNum == 1)                                                                         // Mission wählen
+    } else if (PageNum == 1)                                                                         // Mission wÃ¤hlen
     {
         CString tmp;
 
-        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // Zurück
+        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // ZurÃ¼ck
         KlackerTafel.PrintAt(24 - strlen(StandardTexte.GetS(TOKEN_NEWGAME, 4002)), 15, StandardTexte.GetS(TOKEN_NEWGAME, 4002)); // Weiter
 
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 1999)); // Missionen:
@@ -566,7 +566,7 @@ void NewGamePopup::RefreshKlackerField() {
     {
         CString tmp;
 
-        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // Zurück
+        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // ZurÃ¼ck
 
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 1100)); // Missionen:
 
@@ -577,11 +577,11 @@ void NewGamePopup::RefreshKlackerField() {
             tmp = Insert1000erDots64(Sim.Highscores[c - 1].Score) + "                         ";
             KlackerTafel.PrintAt(3, c * 2 + 1, tmp);
         }
-    } else if (PageNum == 12) // Add-On Mission wählen
+    } else if (PageNum == 12) // Add-On Mission wÃ¤hlen
     {
         CString tmp;
 
-        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // Zurück
+        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // ZurÃ¼ck
         KlackerTafel.PrintAt(24 - strlen(StandardTexte.GetS(TOKEN_NEWGAME, 4002)), 15, StandardTexte.GetS(TOKEN_NEWGAME, 4002)); // Weiter
 
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 1999)); // Missionen:
@@ -596,11 +596,11 @@ void NewGamePopup::RefreshKlackerField() {
             tmp += StandardTexte.GetS(TOKEN_NEWGAME, 3000 + c);
             KlackerTafel.PrintAt(1, 2 + (c - 11), tmp);
         }
-    } else if (PageNum == 122) // Flight Security Mission wählen
+    } else if (PageNum == 122) // Flight Security Mission wÃ¤hlen
     {
         CString tmp;
 
-        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // Zurück
+        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // ZurÃ¼ck
         KlackerTafel.PrintAt(24 - strlen(StandardTexte.GetS(TOKEN_NEWGAME, 4002)), 15, StandardTexte.GetS(TOKEN_NEWGAME, 4002)); // Weiter
 
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 1999)); // Missionen:
@@ -627,8 +627,8 @@ void NewGamePopup::RefreshKlackerField() {
             KlackerTafel.PrintAt(1, 4, StandardTexte.GetS(TOKEN_NEWGAME, 513)); // Noch Mehr Missionen
         }
 
-        KlackerTafel.PrintAt(0, 6, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // Zurück
-    } else if (PageNum == 2 || PageNum == 14 || PageNum == 18)               // Spieler wählen
+        KlackerTafel.PrintAt(0, 6, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // ZurÃ¼ck
+    } else if (PageNum == 2 || PageNum == 14 || PageNum == 18)               // Spieler wÃ¤hlen
     {
         if (PageNum == 18 && (pNetworkPlayers != nullptr)) // Auf Mitspieler warten
         {
@@ -658,7 +658,7 @@ void NewGamePopup::RefreshKlackerField() {
             }
         }
 
-        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // Zurück
+        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // ZurÃ¼ck
         if ((NamesOK != 0) && (PageNum != 18 || (bThisIsSessionMaster && (pNetworkPlayers != nullptr) && pNetworkPlayers->GetNumberOfElements() > 1))) {
             SLONG c = 4;
 
@@ -683,7 +683,7 @@ void NewGamePopup::RefreshKlackerField() {
             }
         }
 
-        KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 999)); // Spieler wählen
+        KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 999)); // Spieler wÃ¤hlen
 
         for (c = 0; c < 4; c++) {
             KlackerTafel.Soll[3 + (c * 2 + 2) * 24] = Sim.Players.Players[c].Logo;
@@ -695,12 +695,12 @@ void NewGamePopup::RefreshKlackerField() {
             KlackerTafel.PrintAt(6, c * 2 + 3, (LPCTSTR)Sim.Players.Players[c].Airline);
             KlackerTafel.PrintAt(3, c * 2 + 3, (LPCTSTR)Sim.Players.Players[c].Abk);
         }
-    } else if (PageNum == 13) // Netzwerk: Provider-Medium wählen
+    } else if (PageNum == 13) // Netzwerk: Provider-Medium wÃ¤hlen
     {
         pNetworkConnections = gNetwork.GetConnectionList();
 
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 700));
-        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // Zurück
+        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // ZurÃ¼ck
         KlackerTafel.PrintAt(24 - strlen(StandardTexte.GetS(TOKEN_NEWGAME, 4002)), 15, StandardTexte.GetS(TOKEN_NEWGAME, 4002)); // Weiter
 
         // Die Medien ohne Modem:
@@ -743,7 +743,7 @@ void NewGamePopup::RefreshKlackerField() {
         //   KlackerTafel.PrintAt (3, 2+c, Buffer);
         //   if (c==Selection) KlackerTafel.PrintAt (0, 2+c, "==>");
         //}
-    } else if (PageNum == 15) // Netzwerk: Session auswählen / erzeugen
+    } else if (PageNum == 15) // Netzwerk: Session auswÃ¤hlen / erzeugen
     {
         if (gNetwork.IsEnumSessionFinished()) {
             pNetworkSessions = gNetwork.GetSessionListAsync();
@@ -751,7 +751,7 @@ void NewGamePopup::RefreshKlackerField() {
         }
 
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 701));
-        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // Zurück
+        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // ZurÃ¼ck
 
         SLONG NumberOfElements = pNetworkSessions != nullptr ? pNetworkSessions->GetNumberOfElements() : 0;
 
@@ -801,7 +801,7 @@ void NewGamePopup::RefreshKlackerField() {
     } else if (PageNum == 17) // Session erzeugen
     {
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 702));
-        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // Zurück
+        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));                                                    // ZurÃ¼ck
         KlackerTafel.PrintAt(24 - strlen(StandardTexte.GetS(TOKEN_NEWGAME, 4002)), 15, StandardTexte.GetS(TOKEN_NEWGAME, 4002)); // Weiter
 
         KlackerTafel.PrintAt(0, 2, NetworkSession);
@@ -810,9 +810,9 @@ void NewGamePopup::RefreshKlackerField() {
         KlackerTafel.PrintAt(0, 6, "Mission:"); // StandardTexte.GetS(TOKEN_NEWGAME, 710 + Sim.bAllowCheating));
 
         KlackerTafel.PrintAt(0, 7, MissionTypes[SessionMissionID].c_str());
-    } else if (PageNum == 5) // Heimatflughafen wählen
+    } else if (PageNum == 5) // Heimatflughafen wÃ¤hlen
     {
-        KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 600)); // Heimatflughafen wählen
+        KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 600)); // Heimatflughafen wÃ¤hlen
 
         KlackerTafel.PrintAt(22, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4003)); // OK
 
@@ -838,19 +838,19 @@ void NewGamePopup::RefreshKlackerField() {
     } else if (PageNum == MULTIPLAYER_PRE_SESSION) {
         // Header:
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 702));
-        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // Zurück
+        KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); // ZurÃ¼ck
 
         KlackerTafel.PrintAt(0, 3, StandardTexte.GetS(TOKEN_NEWGAME, 706)); // Session laden
         KlackerTafel.PrintAt(0, 4, StandardTexte.GetS(TOKEN_NEWGAME, 707)); // Session laden
         KlackerTafel.PrintAt(0, 6, StandardTexte.GetS(TOKEN_NEWGAME, 702)); // Neue Session
     } else if (PageNum == 99)                                               // Loading...
     {
-        KlackerTafel.PrintAt(12 - (strlen(StandardTexte.GetS(TOKEN_NEWGAME, 530)) - 3) / 2, 8, StandardTexte.GetS(TOKEN_NEWGAME, 530)); // Zurück
+        KlackerTafel.PrintAt(12 - (strlen(StandardTexte.GetS(TOKEN_NEWGAME, 530)) - 3) / 2, 8, StandardTexte.GetS(TOKEN_NEWGAME, 530)); // ZurÃ¼ck
     }
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft ob die Namen von Spielern & Fluggesellschaften eindeutig sind:
+//ÃœberprÃ¼ft ob die Namen von Spielern & Fluggesellschaften eindeutig sind:
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::CheckNames() {
     SLONG c = 0;
@@ -868,7 +868,7 @@ void NewGamePopup::CheckNames() {
         }
     }
 
-    // Und es muß EXAKT einen Human-Player geben:
+    // Und es muÃŸ EXAKT einen Human-Player geben:
     for (c = d = 0; c < 4; c++) {
         if (Sim.Players.Players[c].Owner == 0) {
             d++;
@@ -993,7 +993,7 @@ void NewGamePopup::OnPaint() {
         }
 
         if (PageNum == 2 || PageNum == 14 || PageNum == 18) {
-            // Logo-Felder drüber blitten:
+            // Logo-Felder drÃ¼ber blitten:
             for (y = 0; y < 4; y++) {
                 if (KlackerTafel.Haben[3 + (y * 2 + 2) * 24] < SmallLogoBms.AnzEntries()) {
                     RoomBm.BlitFrom(SmallLogoBms[static_cast<long>(KlackerTafel.Haben[3 + (y * 2 + 2) * 24])], 215 - 80 + 48, y * 22 * 3 + 199 - 66 - 1);
@@ -1136,7 +1136,7 @@ void NewGamePopup::OnPaint() {
                 if (Line == 15 && Column >= 0 && Column <= 10) {
                     SetMouseLook(CURSOR_HOT, 0, -100, 0);
                 }
-            } else if (PageNum == 13) // Netzwerk: Provider-Medium wählen
+            } else if (PageNum == 13) // Netzwerk: Provider-Medium wÃ¤hlen
             {
                 if (Line >= 2 && Line < 2 + NetMediumCount) {
                     SetMouseLook(CURSOR_HOT, 0, -100, 0);
@@ -1147,7 +1147,7 @@ void NewGamePopup::OnPaint() {
                 } else if (GridPos.IfIsWithin(17, 15, 24, 15)) {
                     SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
                 }
-            } else if (PageNum == MULTIPLAYER_SELECT_SESSION) // Netzwerk: Session wählen
+            } else if (PageNum == MULTIPLAYER_SELECT_SESSION) // Netzwerk: Session wÃ¤hlen
             {
                 if (Line >= 2 && Line < 2 + static_cast<SLONG>(pNetworkConnections->GetNumberOfElements())) {
                     SetMouseLook(CURSOR_HOT, 0, -100, 0);
@@ -1745,7 +1745,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                 PageSub += 12;
                 RefreshKlackerField();
             }
-        } else if (PageNum == MULTIPLAYER_SELECT_NETWORK) // Netzwerk: Provider-Medium wählen
+        } else if (PageNum == MULTIPLAYER_SELECT_NETWORK) // Netzwerk: Provider-Medium wÃ¤hlen
         {
             long c = 0;
 
@@ -1772,7 +1772,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                 KlackerTafel.Warp();
             }
 
-            // Zurück:
+            // ZurÃ¼ck:
             if (GridPos.IfIsWithin(1, 15, 7, 15)) {
                 PageNum = MAIN_MENU;
                 Sim.Options.OptionLastProvider = Selection;
@@ -1837,7 +1837,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                   }
                   }*/
             }
-        } else if (PageNum == MULTIPLAYER_SELECT_SESSION) // Netzwerk: Session auswählen / erzeugen
+        } else if (PageNum == MULTIPLAYER_SELECT_SESSION) // Netzwerk: Session auswÃ¤hlen / erzeugen
         {
             if ((pNetworkSessions != nullptr) && Line >= 2 && Line <= 2 + static_cast<SLONG>(pNetworkSessions->GetNumberOfElements())) {
                 Selection = Line - 2;
@@ -1845,7 +1845,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                 KlackerTafel.Warp();
             }
 
-            // Zurück:
+            // ZurÃ¼ck:
             if (GridPos.IfIsWithin(1, 15, 7, 15)) {
                 gNetwork.DisConnect();
                 PageNum = MULTIPLAYER_SELECT_NETWORK;
@@ -1903,7 +1903,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
             }
         } else if (PageNum == MULTIPLAYER_CREATE_SESSION) // Netzwerk: Session erzeugen
         {
-            // Zurück:
+            // ZurÃ¼ck:
             if (GridPos.IfIsWithin(1, 15, 7, 15)) {
                 SLONG id = SBNetwork::GetProviderID(const_cast<char *>((LPCTSTR)pNetworkConnections->Get(NetMediumMapper[Sim.Options.OptionLastProvider] + 1)));
                 if (id == SBNETWORK_RAKNET_DIRECT_HOST) {
@@ -1966,7 +1966,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
             PageNum = MAIN_MENU;
             RefreshKlackerField();
         } else if (PageNum == MULTIPLAYER_PRE_SESSION) {
-            // Zurück:
+            // ZurÃ¼ck:
             if (GridPos.IfIsWithin(0, 15, 7, 15)) {
                 PageNum = MULTIPLAYER_SELECT_NETWORK;
 
@@ -2547,18 +2547,18 @@ void NewGamePopup::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
     if (nChar >= 'a' && nChar <= 'z') {
         nChar = toupper(nChar);
     }
-    if (nChar == 196 || nChar == 228) {
-        nChar = static_cast<UINT>('Ä');
+    if (nChar == '\xE4') {
+        nChar = static_cast<UINT>('\xC4');
     }
-    if (nChar == 214 || nChar == 246) {
-        nChar = static_cast<UINT>('Ö');
+    if (nChar == '\xF6') {
+        nChar = static_cast<UINT>('\xD6');
     }
-    if (nChar == 220 || nChar == 252) {
-        nChar = static_cast<UINT>('Ü');
+    if (nChar == '\xFC') {
+        nChar = static_cast<UINT>('\xDC');
     }
 
     if (CursorY != -1 && (PageNum == 2 || PageNum == 14 || PageNum == 18)) {
-        if (nChar == '-' || nChar == ' ' || (nChar >= 'A' && nChar <= 'Z') || nChar == 'Ä' || nChar == 'Ö' || nChar == 'Ü' || nChar == '.') {
+        if (nChar == '-' || nChar == ' ' || (nChar >= 'A' && nChar <= 'Z') || nChar == '\xC4' || nChar == '\xD6' || nChar == '\xDC' || nChar == '.') {
             if (CursorX < 0) {
                 if (nChar != ' ') {
                     Sim.Players.Players[SLONG(CursorY / 2)].Abk.SetAt(CursorX + 3, UBYTE(nChar));
@@ -2587,7 +2587,7 @@ void NewGamePopup::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
             }
         }
     } else if (PageNum == 17) {
-        if (nChar == '-' || nChar == ' ' || (nChar >= 'A' && nChar <= 'Z') || nChar == 'Ä' || nChar == 'Ö' || nChar == 'Ü' || nChar == '.') {
+        if (nChar == '-' || nChar == ' ' || (nChar >= 'A' && nChar <= 'Z') || nChar == '\xC4' || nChar == '\xD6' || nChar == '\xDC' || nChar == '.') {
             NetworkSession.SetAt(CursorX, UBYTE(nChar));
             RefreshKlackerField();
 

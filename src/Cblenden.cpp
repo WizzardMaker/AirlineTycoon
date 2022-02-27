@@ -1,27 +1,27 @@
 //============================================================================================
-// Blenden.Cpp - Überblenden von Bildern
+// Blenden.Cpp - Ãœberblenden von Bildern
 //============================================================================================
 // Allgemeines:
 //------------
 // Mit deinem Sample bin ich nicht so ganz klargekommen, da anscheinend auch ein paar Zu-
-// sammengänge fehlten. Und da ich sowieso ein paar Sachen anders machen wollte, habe ich
+// sammengÃ¤nge fehlten. Und da ich sowieso ein paar Sachen anders machen wollte, habe ich
 // hier einige eigene Klassen entworfen.
-// Um ein paar nette Gimmicks zu machen muß leider grundsätzlich für jeden Frame des Über-
-// blenden der gesamte Bereich neu gezeichnet werden. Aber das dürfte mit der Rechenpower
+// Um ein paar nette Gimmicks zu machen muÃŸ leider grundsÃ¤tzlich fÃ¼r jeden Frame des Ãœber-
+// blenden der gesamte Bereich neu gezeichnet werden. Aber das dÃ¼rfte mit der Rechenpower
 // von heute kein Problem sein.
 //--------------------------------------------------------------------------------------------
 // Benutzung:
 //----------
 // 1. CBlenden *MeineBlende;
-// 2. (Drei gleichgroße Bitmaps für Quell- und Zielzustand, sowie Zwischenbild anlegen)
+// 2. (Drei gleichgroÃŸe Bitmaps fÃ¼r Quell- und Zielzustand, sowie Zwischenbild anlegen)
 // 3. MeineBlende = new CCoolBlend (bm1, bm2, bm3, x, y);
 //     oder:
 //    MeineBlende = new CFallBlend (bm1, bm2, bm3, x, y);
-//     Dabei sind bm1 bis bm3 die erwähnten Bitmaps. X und Y sind Koordinaten innerhalb der
-//     der Bitmaps (siehe Fehlermanagent). Idealerweise übergibt man hier den Punkt der an-
+//     Dabei sind bm1 bis bm3 die erwÃ¤hnten Bitmaps. X und Y sind Koordinaten innerhalb der
+//     der Bitmaps (siehe Fehlermanagent). Idealerweise Ã¼bergibt man hier den Punkt der an-
 //     geklickt wurde (wobei 0,0 die linke obere Ecke der Bitmap ist). Aber auch der Bitmap-
-//     mittelpunkt (x=bm1.Size.x/2) oder ein zufälliger Punkt sehen gut aus.
-// 4. Man überlegt sich, wie viele Animationsstufen man haben möchte:
+//     mittelpunkt (x=bm1.Size.x/2) oder ein zufÃ¤lliger Punkt sehen gut aus.
+// 4. Man Ã¼berlegt sich, wie viele Animationsstufen man haben mÃ¶chte:
 //     long   AnzBlendPhases = 30;
 //     double PhaseCounter = 0;
 //     double PhaseStepper = 100/(AnzBlendPhases-1);
@@ -34,21 +34,21 @@
 //--------------------------------------------------------------------------------------------
 // Fehlermanagement:
 //-----------------
-// Ich kenne deine Fehlerroutinen nicht, daher habe ich alle Abfragen auf kritische Zustände
-// erst einmal weggelassen. Folgende Bedingungen müssen daher unbedingt eingehalten werden:
-//  1) pSurface1, pSurface2, pTmpSurface müssen Zeiger auf DirectDrawSurfaces sein. Die
-//     Surfaces müssen die gleiche Dimension haben und dürfen nicht 'Lost' sein. Sie dürfen
-//     auf keinen Fall während des Überblendes (mit free) gelöscht werden. Der Inhalt
-//     von pTmpSurface wird beim Überblenden verändert.
+// Ich kenne deine Fehlerroutinen nicht, daher habe ich alle Abfragen auf kritische ZustÃ¤nde
+// erst einmal weggelassen. Folgende Bedingungen mÃ¼ssen daher unbedingt eingehalten werden:
+//  1) pSurface1, pSurface2, pTmpSurface mÃ¼ssen Zeiger auf DirectDrawSurfaces sein. Die
+//     Surfaces mÃ¼ssen die gleiche Dimension haben und dÃ¼rfen nicht 'Lost' sein. Sie dÃ¼rfen
+//     auf keinen Fall wÃ¤hrend des Ãœberblendes (mit free) gelÃ¶scht werden. Der Inhalt
+//     von pTmpSurface wird beim Ãœberblenden verÃ¤ndert.
 //  2) Es gilt: 0 <= Prozent <= 100; Kommawerte sind erlaubt
 //  3) Es gilt: 0 <= ClickX/Y < BitmapDimensionX/Y (wichtig: das zweite Zeichen ist kleiner,
 //     nicht kleinergleich)
 //--------------------------------------------------------------------------------------------
 // Probleme:
 //---------
-// Der Effekt CCoolBlend ist leider nicht soo cool wie ich ursprünglich gedacht hatte. Das
-// z.T. daran, daß Winzigweich (grübel, was mag das heißen...) bei der Implementation vom
-// StrechBlit geschlampt hat. Bei Bedarf müßte ich dann eine eigene Routine schreiben, aber
+// Der Effekt CCoolBlend ist leider nicht soo cool wie ich ursprÃ¼nglich gedacht hatte. Das
+// z.T. daran, daÃŸ Winzigweich (grÃ¼bel, was mag das heiÃŸen...) bei der Implementation vom
+// StrechBlit geschlampt hat. Bei Bedarf mÃ¼ÃŸte ich dann eine eigene Routine schreiben, aber
 // schau's Dir erst einmal an.
 //============================================================================================
 
@@ -63,7 +63,7 @@ static char THIS_FILE[] = __FILE__;
 /*#include "all.h"  */
 
 //--------------------------------------------------------------------------------------------
-// Abstrakte Basisklasse für Blenden; Mit virtual Pointern praktisch für Mehrfachverwendung...
+// Abstrakte Basisklasse fÃ¼r Blenden; Mit virtual Pointern praktisch fÃ¼r Mehrfachverwendung...
 //--------------------------------------------------------------------------------------------
 // Konstruirt die Basisdaten
 //--------------------------------------------------------------------------------------------
@@ -102,13 +102,13 @@ CBlenden::CBlenden(LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2,
 CBlenden::~CBlenden() {}
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch starkes zoomen ins alte Bild
+//Ãœberblenden durch starkes zoomen ins alte Bild
 //--------------------------------------------------------------------------------------------
 // CCoolBlend (pSurface1, pSurface2, pTmpSurface, ClickX, ClickY)
 //  pSurface1   - Pointer auf DDSurface des noch angezeigten Bildes (Umblenden von)
 //  pSurface2   - Pointer auf DDSurface des anzuzeigenden Bildes (Umblenden nach)
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
-//  ClickX/Y    - Mittelpunkt der Überblend-Animation; Idealerweise Mausklickposition
+//  ClickX/Y    - Mittelpunkt der Ãœberblend-Animation; Idealerweise Mausklickposition
 //--------------------------------------------------------------------------------------------
 CCoolBlend::CCoolBlend(LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY,
                        bool fTransparent)
@@ -153,13 +153,13 @@ void CCoolBlend::UpdateTmpSurface(double Prozent) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch fallen (auf alte Bild) und abprallen (vom neuen Bild)
+//Ãœberblenden durch fallen (auf alte Bild) und abprallen (vom neuen Bild)
 //--------------------------------------------------------------------------------------------
 // CFallBlend (pSurface1, pSurface2, pTmpSurface, ClickX, ClickY)
 //  pSurface1   - Pointer auf DDSurface des noch angezeigten Bildes (Umblenden von)
 //  pSurface2   - Pointer auf DDSurface des anzuzeigenden Bildes (Umblenden nach)
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
-//  ClickX/Y    - Mittelpunkt der Überblend-Animation; Idealerweise Mausklickposition
+//  ClickX/Y    - Mittelpunkt der Ãœberblend-Animation; Idealerweise Mausklickposition
 //--------------------------------------------------------------------------------------------
 CFallBlend::CFallBlend(LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long ClickX, long ClickY,
                        bool fTransparent)
@@ -199,13 +199,13 @@ void CFallBlend::UpdateTmpSurface(double Prozent) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch flackernde Random-Blöcke
+//Ãœberblenden durch flackernde Random-BlÃ¶cke
 //--------------------------------------------------------------------------------------------
 // CRandomBlend (pSurface1, pSurface2, pTmpSurface, ClickX, ClickY)
 //  pSurface1   - Pointer auf DDSurface des noch angezeigten Bildes (Umblenden von)
 //  pSurface2   - Pointer auf DDSurface des anzuzeigenden Bildes (Umblenden nach)
 //  pTmpSurface - Pointer auf DDSurface in dem die Zwischendaten gespeichert werden
-//  RandomX/Y   - Größe der Random-Blöcke
+//  RandomX/Y   - GrÃ¶ÃŸe der Random-BlÃ¶cke
 //--------------------------------------------------------------------------------------------
 CRandomBlend::CRandomBlend(LPDIRECTDRAWSURFACE pSurface1, LPDIRECTDRAWSURFACE pSurface2, LPDIRECTDRAWSURFACE pTmpSurface, long RandomX, long RandomY,
                            bool fTransparent)
@@ -247,7 +247,7 @@ void CRandomBlend::UpdateTmpSurface(double Prozent) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch Doom-Schleimeffekt
+//Ãœberblenden durch Doom-Schleimeffekt
 //--------------------------------------------------------------------------------------------
 // CSlimeBlend (pSurface1, pSurface2, pTmpSurface, ClickX, ClickY)
 //  pSurface1   - Pointer auf DDSurface des noch angezeigten Bildes (Umblenden von)
@@ -301,7 +301,7 @@ void CSlimeBlend::UpdateTmpSurface(double Prozent) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch horizontale Balken, die von beiden Seiten kommen
+//Ãœberblenden durch horizontale Balken, die von beiden Seiten kommen
 //--------------------------------------------------------------------------------------------
 // CHLineBlend (pSurface1, pSurface2, pTmpSurface, AnzHLines)
 //  pSurface1   - Pointer auf DDSurface des noch angezeigten Bildes (Umblenden von)
@@ -364,7 +364,7 @@ void CHLineBlend::UpdateTmpSurface(double Prozent) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch sich schließende Rolläden
+//Ãœberblenden durch sich schlieÃŸende RollÃ¤den
 //--------------------------------------------------------------------------------------------
 // CShadesBlend (pSurface1, pSurface2, pTmpSurface, AnzHLines)
 //  pSurface1   - Pointer auf DDSurface des noch angezeigten Bildes (Umblenden von)
@@ -417,7 +417,7 @@ void CShadesBlend::UpdateTmpSurface(double Prozent) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch Terminator II FX (fallendes Bild)
+//Ãœberblenden durch Terminator II FX (fallendes Bild)
 //--------------------------------------------------------------------------------------------
 // CTerminatorBlend (pSurface1, pSurface2, pTmpSurface)
 //  pSurface1   - Pointer auf DDSurface des noch angezeigten Bildes (Umblenden von)

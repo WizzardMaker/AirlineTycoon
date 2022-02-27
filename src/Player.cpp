@@ -21,7 +21,7 @@ extern SLONG ReifenCosts[];
 extern SLONG ElektronikCosts[];
 extern SLONG SicherheitCosts[];
 
-//Öffnungszeiten:
+//Ã–ffnungszeiten:
 extern SLONG timeDutyOpen;
 extern SLONG timeDutyClose;
 extern SLONG timeArabOpen;
@@ -38,7 +38,7 @@ extern SLONG SaveVersionSub;
 extern SLONG CheckGeneric;
 
 //--------------------------------------------------------------------------------------------
-// abs für 64-Bit Variablen
+// abs fÃ¼r 64-Bit Variablen
 //--------------------------------------------------------------------------------------------
 __int64 abs64(__int64 v);
 
@@ -101,7 +101,7 @@ PLAYER::~PLAYER() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt 5 Flüge vom Uhrig hinzu:
+// FÃ¼gt 5 FlÃ¼ge vom Uhrig hinzu:
 //--------------------------------------------------------------------------------------------
 void PLAYER::Add5UhrigFlights() {
     for (SLONG c = 0; c < 5; c++) {
@@ -217,7 +217,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
 
     // Detect overflow of 32-Bit Variable
     if (Money > 0 && (PLAYER::Money + Money) < PLAYER::Money) {
-        ; // Nichts machen, weil's sonst einen Overflow geben würde
+        ; // Nichts machen, weil's sonst einen Overflow geben wÃ¼rde
     } else {
         PLAYER::Money += Money;
     }
@@ -251,7 +251,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         Bilanz.Routenmiete += AbsMoney32;
         break;
     case 2060:
-        /* Vertragsstrafe für Passagier-Aufträge */
+        /* Vertragsstrafe fÃ¼r Passagier-AuftrÃ¤ge */
         Bilanz.Vertragsstrafen += AbsMoney32;
         break;
     case 2061:
@@ -274,7 +274,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         /* Kreditaufnahme */
         break;
     case 2004:
-        /* Kreditrückzahlung */
+        /* KreditrÃ¼ckzahlung */
         break;
     case 2006:
         /* Geld im Papierkorb */
@@ -295,7 +295,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         /* Ersteigerung eines Gate */
         break;
     case 2065:
-        /* Vertragsstrafe für Frachtaufträge */
+        /* Vertragsstrafe fÃ¼r FrachtauftrÃ¤ge */
         break;
     case 2080:
         /* Sabotage */
@@ -307,28 +307,28 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         /* Kauf von Tanks */
         break;
     case 2100:
-        /* Erlös durch Routenflug */
+        /* ErlÃ¶s durch Routenflug */
         break;
     case 2101:
-        /* Erlös durch Auftragsflug */
+        /* ErlÃ¶s durch Auftragsflug */
         break;
     case 2102:
         /* Verlust durch Leerflug */
         break;
     case 2103:
-        /* Erlös durch Frachtflug */
+        /* ErlÃ¶s durch Frachtflug */
         break;
     case 2110:
-        /* Aufrüstung eines Flugzeuges */
+        /* AufrÃ¼stung eines Flugzeuges */
         break;
     case 2111:
-        /* Umrüstung eines Flugzeuges für Fracht */
+        /* UmrÃ¼stung eines Flugzeuges fÃ¼r Fracht */
         break;
     case 2200:
-        /* gezahlte Strafe für Sabotage */
+        /* gezahlte Strafe fÃ¼r Sabotage */
         break;
     case 2201:
-        /* erhaltene Entschädigung für Sabotage */
+        /* erhaltene EntschÃ¤digung fÃ¼r Sabotage */
         break;
     case 3120:
     case 3121:
@@ -336,7 +336,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
     case 3123:
     case 3124:
     case 3125:
-        /* Kosten für versch. Werbe-Kampagnen */
+        /* Kosten fÃ¼r versch. Werbe-Kampagnen */
         break;
     case 3130:
         /* Bodyguard-Rabatt */
@@ -348,31 +348,31 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         /* Aktien verkaufen */
         break;
     case 3160:
-        /* Bankgebühr beim Ausgeben von Aktien */
+        /* BankgebÃ¼hr beim Ausgeben von Aktien */
         break;
     case 3161:
-        /* Entschädigung bei Ausgabe von Aktien (sowohl gezahlt als auch erhalten) */
+        /* EntschÃ¤digung bei Ausgabe von Aktien (sowohl gezahlt als auch erhalten) */
         break;
     case 3162:
-        /* Erlös von ausgegebenen Aktien */
+        /* ErlÃ¶s von ausgegebenen Aktien */
         break;
     case 3170:
         /* Kosten Gate-Erweiterung */
         break;
     case 3180:
-        /* Vermögen von Airline-Übernahmen */
+        /* VermÃ¶gen von Airline-Ãœbernahmen */
         break;
     case 3181:
-        /* Erlös von Aktien bei Airline-Liquidation */
+        /* ErlÃ¶s von Aktien bei Airline-Liquidation */
         break;
     case 3300:
-        /* Münze für Fernglas */
+        /* MÃ¼nze fÃ¼r Fernglas */
         break;
     case 3400:
-        /* Kosten für Teil der Rakete */
+        /* Kosten fÃ¼r Teil der Rakete */
         break;
     case 3500:
-        /* Kosten für Sabotage (Salz - Absturz) */
+        /* Kosten fÃ¼r Sabotage (Salz - Absturz) */
         break;
     case 3501:
         /* Kosten durch Panne */
@@ -381,10 +381,10 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         /* Gewinn/Verlust durch Sabotage (Hacking eines Bankkontos) */
         break;
     case 3503:
-        /* Ausgaben für Security */
+        /* Ausgaben fÃ¼r Security */
         break;
     case 3600:
-        /* Vermögenssteuer */
+        /* VermÃ¶genssteuer */
         break;
     case 3700:
         /* Geld erhalten von anderem Spieler (Multiplayer) */
@@ -396,7 +396,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         /* shoppen im DutyFree */
         break;
     default:
-        printf("ChangeMoney: Keine Kategorie für %d\n", Reason);
+        printf("ChangeMoney: Keine Kategorie fÃ¼r %d\n", Reason);
     }
 
     if (LocationWin != nullptr) {
@@ -405,7 +405,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
 }
 
 //--------------------------------------------------------------------------------------------
-// Geht in einen Raum hinein (Fenster wird eröffnet)
+// Geht in einen Raum hinein (Fenster wird erÃ¶ffnet)
 //--------------------------------------------------------------------------------------------
 void PLAYER::EnterRoom(SLONG RoomNum, bool bDontBroadcast) {
     SLONG c = 0;
@@ -452,7 +452,7 @@ void PLAYER::AddRocketPart(SLONG rocketPart, SLONG /*price*/) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Verläßt der Raum
+// VerlÃ¤ÃŸt der Raum
 //--------------------------------------------------------------------------------------------
 void PLAYER::LeaveRoom() {
     SLONG c = 0;
@@ -469,7 +469,7 @@ void PLAYER::LeaveRoom() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Verläßt alle Räume
+// VerlÃ¤ÃŸt alle RÃ¤ume
 //--------------------------------------------------------------------------------------------
 void PLAYER::LeaveAllRooms() {
     SLONG c = 0;
@@ -484,19 +484,19 @@ void PLAYER::LeaveAllRooms() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt den aktuellen Raum zurück:
+// Gibt den aktuellen Raum zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 UWORD PLAYER::GetRoom() { return (TopLocation); }
 
 //--------------------------------------------------------------------------------------------
-// Speed-up für GetRoom()
+// Speed-up fÃ¼r GetRoom()
 //--------------------------------------------------------------------------------------------
 void PLAYER::CalcRoom() {
     SLONG c = 0;
     SLONG Room = 0;
     BOOL Found = FALSE;
 
-    // Zählen, wie lange wir in diesem Raum schon sind:
+    // ZÃ¤hlen, wie lange wir in diesem Raum schon sind:
     for (c = 9; c >= 0; c--) {
         if (Locations[c] != 0U) {
             SLONG l = (Locations[c] & 255);
@@ -567,7 +567,7 @@ void PLAYER::BroadcastRooms(SLONG Message, SLONG RoomLeft) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Berechnet, was die anstehenden Umrüstungen zusammen kosten werden:
+// Berechnet, was die anstehenden UmrÃ¼stungen zusammen kosten werden:
 //--------------------------------------------------------------------------------------------
 SLONG PLAYER::CalcPlanePropSum() {
     SLONG Costs = 0;
@@ -620,13 +620,13 @@ long PLAYER::CalcSecurityCosts(bool bFixOnly, bool bPlaneOnly) {
     long costplane = 0;
 
     if ((SecurityFlags & 0x0001) != 0U) {
-        costfix += 25000; // Büro
+        costfix += 25000; // BÃ¼ro
     }
     if ((SecurityFlags & 0x0002) != 0U) {
         costfix += 20000; // Laptop
     }
     if ((SecurityFlags & 0x0004) != 0U) {
-        costfix += 25000; // Personbüro
+        costfix += 25000; // PersonbÃ¼ro
     }
     if ((SecurityFlags & 0x0008) != 0U) {
         costfix += 30000; // Bank
@@ -665,7 +665,7 @@ long PLAYER::CalcSecurityCosts(bool bFixOnly, bool bPlaneOnly) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Zieht Miete für Cities und Routen vom Geld ab:
+// Zieht Miete fÃ¼r Cities und Routen vom Geld ab:
 //--------------------------------------------------------------------------------------------
 void PLAYER::BookBuroRent() {
     SLONG c = 0;
@@ -730,7 +730,7 @@ void PLAYER::BookSalary() {
 }
 
 //------------------------------------------------------------------------------
-// Gibt den aktuellen Missionserfolg zurück:
+// Gibt den aktuellen Missionserfolg zurÃ¼ck:
 //------------------------------------------------------------------------------
 SLONG PLAYER::GetMissionRating(bool bAnderer) {
     if (IsOut != 0) {
@@ -769,7 +769,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         if (Money > 0) {
             rc = Credit; // Nur Kredit
         } else {
-            rc = Credit - Money; // Kredit + Überziehungskredit
+            rc = Credit - Money; // Kredit + Ãœberziehungskredit
         }
 
         return (SLONG(min(0x7fffffff, rc)));
@@ -843,7 +843,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     case DIFF_ADDON07: {
-        //Äußerung zu den Flugzeugen:
+        //Ã„uÃŸerung zu den Flugzeugen:
         SLONG d = 0;
         SLONG tmp = 0;
         SLONG anz = 0;
@@ -877,7 +877,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     case DIFF_ATFS02: {
-        //Äußerung zu den Flugzeugen:
+        //Ã„uÃŸerung zu den Flugzeugen:
         SLONG d = 0;
         SLONG anz = 0;
         for (d = anz = 0; d < Planes.AnzEntries(); d++) {
@@ -1135,7 +1135,7 @@ BOOL PLAYER::HasWon() {
 }
 
 //------------------------------------------------------------------------------
-// Läßt neuen Tag beginnen
+// LÃ¤ÃŸt neuen Tag beginnen
 //------------------------------------------------------------------------------
 void PLAYER::NewDay() {
     SLONG c = 0;
@@ -1169,7 +1169,7 @@ void PLAYER::NewDay() {
     DaysWithoutStrike++;
     DaysWithoutSabotage++;
 
-    // Holzkohle glüht nicht mehr:
+    // Holzkohle glÃ¼ht nicht mehr:
     for (d = 0; d < 6; d++) {
         if (Items[d] == ITEM_GLKOHLE) {
             Items[d] = ITEM_KOHLE;
@@ -1208,7 +1208,7 @@ void PLAYER::NewDay() {
         }
     }
 
-    // Laptop wird über Nacht repariert:
+    // Laptop wird Ã¼ber Nacht repariert:
     if (LaptopVirus == 2) {
         LaptopVirus = 3;
     }
@@ -1336,7 +1336,7 @@ void PLAYER::NewDay() {
 
     MoneyPast[MoneyPast.AnzEntries() - 1] = Money;
 
-    // Aktienkurseinträge verschieben:
+    // AktienkurseintrÃ¤ge verschieben:
     for (c = 9; c >= 1; c--) {
         Kurse[c] = Kurse[c - 1];
     }
@@ -1574,46 +1574,46 @@ void PLAYER::NewDay() {
     ChangeMoney(-Summe - gRepairPrice[MechMode] * SLONG(Planes.GetNumUsed()) / 30, 3110, "");
     Statistiken[STAT_WARTUNG].AddAtPastDay(0, -(Summe + gRepairPrice[MechMode] * SLONG(Planes.GetNumUsed()) / 30));
 
-    // Den Flugplan für die Routen updaten:
+    // Den Flugplan fÃ¼r die Routen updaten:
     if (DoRoutes != 0) {
         RobotPlanRoutes();
     }
 
-    // Eine Vermögenssteuer. Speziell für Eric:
+    // Eine VermÃ¶genssteuer. Speziell fÃ¼r Eric:
     __int64 Tax = 0;
 
     // MaxInt64: 18446744073709551615
 
-    // Für ATP überall noch 0 Nullen hinzugefügt:
+    // FÃ¼r ATP Ã¼berall noch 0 Nullen hinzugefÃ¼gt:
     if (Money > 50000000000000) {
-        Tax += (Money - 50000000000000) / 10; // 10% für Vermögen über  50000 Mio
+        Tax += (Money - 50000000000000) / 10; // 10% fÃ¼r VermÃ¶gen Ã¼ber  50000 Mio
     }
     if (Money > 100000000000000) {
-        Tax += (Money - 100000000000000) / 10; // nochmal 10% für über  100000 Mio
+        Tax += (Money - 100000000000000) / 10; // nochmal 10% fÃ¼r Ã¼ber  100000 Mio
     }
     if (Money > 200000000000000) {
-        Tax += (Money - 200000000000000) / 10; // nochmal 10% für über  200000 Mio
+        Tax += (Money - 200000000000000) / 10; // nochmal 10% fÃ¼r Ã¼ber  200000 Mio
     }
     if (Money > 400000000000000) {
-        Tax += (Money - 400000000000000) / 10; // nochmal 10% für über  400000 Mio
+        Tax += (Money - 400000000000000) / 10; // nochmal 10% fÃ¼r Ã¼ber  400000 Mio
     }
     if (Money > 800000000000000) {
-        Tax += (Money - 800000000000000) / 10; // nochmal 10% für über  800000 Mio
+        Tax += (Money - 800000000000000) / 10; // nochmal 10% fÃ¼r Ã¼ber  800000 Mio
     }
     if (Money > 1200000000000000) {
-        Tax += (Money - 1200000000000000) / 10; // nochmal 10% für über 1200000 Mio
+        Tax += (Money - 1200000000000000) / 10; // nochmal 10% fÃ¼r Ã¼ber 1200000 Mio
     }
     if (Money > 1600000000000000) {
-        Tax += (Money - 1600000000000000) / 10; // nochmal 10% für über 1600000 Mio
+        Tax += (Money - 1600000000000000) / 10; // nochmal 10% fÃ¼r Ã¼ber 1600000 Mio
     }
     if (Money > 1700000000000000) {
-        Tax += (Money - 1700000000000000) / 10; // nochmal 10% für über 1700000 Mio
+        Tax += (Money - 1700000000000000) / 10; // nochmal 10% fÃ¼r Ã¼ber 1700000 Mio
     }
     if (Money > 1800000000000000) {
-        Tax += (Money - 1800000000000000) / 10; // nochmal 10% für über 1800000 Mio
+        Tax += (Money - 1800000000000000) / 10; // nochmal 10% fÃ¼r Ã¼ber 1800000 Mio
     }
     if (Money > 1900000000000000) {
-        Tax += (Money - 1900000000000000) / 10; // nochmal 10% für über 1900000 Mio
+        Tax += (Money - 1900000000000000) / 10; // nochmal 10% fÃ¼r Ã¼ber 1900000 Mio
     }
 
     if (Tax != 0) {
@@ -1626,7 +1626,7 @@ void PLAYER::NewDay() {
 //--------------------------------------------------------------------------------------------
 void PLAYER::RouteWegnehmen(long Routenindex, long NeuerBesitzer) {
     // MP: Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang != -1
-    // geändert zu
+    // geÃ¤ndert zu
     // Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang != 0
     if (NeuerBesitzer == -1 || Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang != 0) {
         for (SLONG e = 0; e < 4; e++) {
@@ -1666,7 +1666,7 @@ void PLAYER::RouteWegnehmen(long Routenindex, long NeuerBesitzer) {
             for (SLONG e = Planes[d].Flugplan.Flug.AnzEntries() - 1; e >= 0; e--) {
                 if (qPlan.Flug[e].ObjectType == 1 && Routen(qPlan.Flug[e].ObjectId) == ULONG(Routenindex)) {
                     if (qPlan.Flug[e].Startdate > Sim.Date || (qPlan.Flug[e].Startzeit >= 1 && qPlan.Flug[e].Startdate == Sim.Date)) {
-                        // Löschen:
+                        // LÃ¶schen:
                         if (e == 0) {
                             qPlan.StartCity = qPlan.Flug[e].NachCity;
                         }
@@ -1684,12 +1684,12 @@ void PLAYER::RouteWegnehmen(long Routenindex, long NeuerBesitzer) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Bringt Aufträge aus neusten Stand; bucht Strafen
+// Bringt AuftrÃ¤ge aus neusten Stand; bucht Strafen
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateAuftraege() {
     SLONG c = 0;
 
-    // Aufträge anschauen
+    // AuftrÃ¤ge anschauen
     for (c = 0; c < Auftraege.AnzEntries(); c++) {
         if (Auftraege.IsInAlbum(c) != 0) {
             if (Auftraege[c].BisDate == Sim.Date - 1) {
@@ -1702,7 +1702,7 @@ void PLAYER::UpdateAuftraege() {
                                         (LPCTSTR)CString(
                                             bprintf("%s-%s", (LPCTSTR)Cities[Auftraege[c].VonCity].Kuerzel, (LPCTSTR)Cities[Auftraege[c].NachCity].Kuerzel)));
 
-                            // Für die Gewinn-Mission:
+                            // FÃ¼r die Gewinn-Mission:
                             Gewinn -= Auftraege[c].Strafe;
 
                             if (Owner == 0 && (IsOut == 0)) {
@@ -1734,7 +1734,7 @@ void PLAYER::UpdateAuftraege() {
                         for (e = Planes[d].Flugplan.Flug.AnzEntries() - 1; e >= 0; e--) {
                             if (qPlan.Flug[e].ObjectType == 2 && Auftraege(qPlan.Flug[e].ObjectId) == ULONG(c)) {
                                 if (qPlan.Flug[e].Startdate > Sim.Date || qPlan.Flug[e].Startzeit > 2) {
-                                    // Löschen:
+                                    // LÃ¶schen:
                                     if (e == 0) {
                                         qPlan.StartCity = qPlan.Flug[e].NachCity;
                                     }
@@ -1762,7 +1762,7 @@ void PLAYER::UpdateAuftraege() {
         }
     }
 
-    // Das gleiche für Frachtaufträge:
+    // Das gleiche fÃ¼r FrachtauftrÃ¤ge:
     for (c = 0; c < Frachten.AnzEntries(); c++) {
         if (Frachten.IsInAlbum(c) != 0) {
             if (Frachten[c].BisDate == Sim.Date - 1) {
@@ -1775,7 +1775,7 @@ void PLAYER::UpdateAuftraege() {
                                         (LPCTSTR)CString(
                                             bprintf("%s-%s", (LPCTSTR)Cities[Frachten[c].VonCity].Kuerzel, (LPCTSTR)Cities[Frachten[c].NachCity].Kuerzel)));
 
-                            // Für die Gewinn-Mission:
+                            // FÃ¼r die Gewinn-Mission:
                             Sim.Players.Players[PlayerNum].Gewinn -= Frachten[c].Strafe;
 
                             if (Owner == 0 && (IsOut == 0)) {
@@ -1808,7 +1808,7 @@ void PLAYER::UpdateAuftraege() {
                         for (e = Planes[d].Flugplan.Flug.AnzEntries() - 1; e >= 0; e--) {
                             if (qPlan.Flug[e].ObjectType == 4 && Frachten(qPlan.Flug[e].ObjectId) == ULONG(c)) {
                                 if (qPlan.Flug[e].Startdate > Sim.Date || qPlan.Flug[e].Startzeit > 2) {
-                                    // Löschen:
+                                    // LÃ¶schen:
                                     if (e == 0) {
                                         qPlan.StartCity = qPlan.Flug[e].NachCity;
                                     }
@@ -1839,7 +1839,7 @@ void PLAYER::UpdateAuftraege() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Wurde ein Auftrag schon irgendwo eingetragen? Gibt ggf. Namen zurück
+// Wurde ein Auftrag schon irgendwo eingetragen? Gibt ggf. Namen zurÃ¼ck
 //--------------------------------------------------------------------------------------------
 BOOL PLAYER::IsAuftragInUse(SLONG AuftragsId, CString *PlaneName) {
     SLONG c = 0;
@@ -1952,7 +1952,7 @@ SLONG PLAYER::AnzPlanesOnRoute(ULONG RouteId) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Der Spieler kann in mehreren Räumen zugleich sein (Büro, Scheduler, ...); Ist er im Parameter-Raum?
+// Der Spieler kann in mehreren RÃ¤umen zugleich sein (BÃ¼ro, Scheduler, ...); Ist er im Parameter-Raum?
 //--------------------------------------------------------------------------------------------
 BOOL PLAYER::IsLocationInQueue(UWORD Location) {
     SLONG c = 0;
@@ -1994,7 +1994,7 @@ BOOL PLAYER::IsClosedLocationInQueue() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Hat der Spieler einen bestimmten Berater? Gibt ggf. die Qualität zurück
+// Hat der Spieler einen bestimmten Berater? Gibt ggf. die QualitÃ¤t zurÃ¼ck
 //--------------------------------------------------------------------------------------------
 SLONG PLAYER::HasBerater(SLONG Berater) const {
     SLONG c = 0;
@@ -2048,7 +2048,7 @@ void PLAYER::UpdatePersonalberater(SLONG Toleranz) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Welche Aufträge wurden wie oft verplant?:
+// Welche AuftrÃ¤ge wurden wie oft verplant?:
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateAuftragsUsage() {
     SLONG c = 0;
@@ -2069,7 +2069,7 @@ void PLAYER::UpdateAuftragsUsage() {
             CFlugplan *Plan = &Planes[c].Flugplan;
 
             for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
-                // Nur bei Aufträgen von menschlichen Spielern
+                // Nur bei AuftrÃ¤gen von menschlichen Spielern
                 if (Plan->Flug[d].ObjectType == 2 && (Owner == 0 || Owner == 2)) // ex: Nur Owner==0
                 {
                     // if ((PlaneTypes[Planes[c].TypeId].Passagiere>=SLONG(Auftraege[Plan->Flug[d].ObjectId].Personen) &&
@@ -2095,7 +2095,7 @@ void PLAYER::UpdateAuftragsUsage() {
                         Plan->Flug[d].Okay = 1; // Falscher Tag!
                     }
                 }
-                // Frachtaufträge werden hier nicht behandelt
+                // FrachtauftrÃ¤ge werden hier nicht behandelt
                 else if (Plan->Flug[d].ObjectType != 4) {
                     Plan->Flug[d].Okay = 0; // Alles klar
                 }
@@ -2105,18 +2105,18 @@ void PLAYER::UpdateAuftragsUsage() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Welche Frachtaufträge wurden wie oft verplant?:
+// Welche FrachtauftrÃ¤ge wurden wie oft verplant?:
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateFrachtauftragsUsage() {
     SLONG c = 0;
     SLONG d = 0;
 
-    // Nur bei Aufträgen von menschlichen Spielern
+    // Nur bei AuftrÃ¤gen von menschlichen Spielern
     if (Owner == 1) {
         return;
     }
 
-    // TonsOpen bei allen Frachtaufträge resetten:
+    // TonsOpen bei allen FrachtauftrÃ¤ge resetten:
     for (c = Frachten.AnzEntries() - 1; c >= 0; c--) {
         if (Frachten.IsInAlbum(c) != 0) {
             Frachten[c].Okay = 1;
@@ -2128,7 +2128,7 @@ void PLAYER::UpdateFrachtauftragsUsage() {
         }
     }
 
-    // TonsOpen bei allen Frachtaufträge neu berechnen:
+    // TonsOpen bei allen FrachtauftrÃ¤ge neu berechnen:
     for (c = 0; c < Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0) {
             CFlugplan *Plan = &Planes[c].Flugplan;
@@ -2145,9 +2145,9 @@ void PLAYER::UpdateFrachtauftragsUsage() {
                                (qFPE.Startdate == Sim.Date && qFPE.Startzeit > Sim.GetHour())) {
                         CFracht &qFracht = Frachten[qFPE.ObjectId];
 
-                        // Ist dieser Frachtflug überhaupt noch zu erledigen?
+                        // Ist dieser Frachtflug Ã¼berhaupt noch zu erledigen?
                         if (qFracht.TonsLeft != 0) {
-                            // Wir misbrauchen bei Frachtflügen das Passagierfeld um zu speichern, wieviel Fracht hier mitfliegt
+                            // Wir misbrauchen bei FrachtflÃ¼gen das Passagierfeld um zu speichern, wieviel Fracht hier mitfliegt
                             qFPE.Passagiere = Planes[c].ptPassagiere / 10;
 
                             // Flug nur beachten, wenn er noch nicht gestartet ist:
@@ -2200,7 +2200,7 @@ void PLAYER::PlanGates() {
     SLONG tmp = 0;
     CFlugplan *Plan = nullptr;
 
-    // Alte Gate-Einteilung löschen:
+    // Alte Gate-Einteilung lÃ¶schen:
     for (c = 0; c < 24 * 7; c++) {
         Gates.Auslastung[c] = 0;
     }
@@ -2241,7 +2241,7 @@ void PLAYER::PlanGates() {
                             if (Plan->Flug[d].VonCity == ULONG(Sim.HomeAirportId)) {
                                 // Abflug!
                                 if (Gates.Auslastung[tmp] < Gates.NumRented && Gates.Auslastung[tmp - 1] < Gates.NumRented) {
-                                    // Gate wird für Flug veranschlagt:
+                                    // Gate wird fÃ¼r Flug veranschlagt:
                                     if (Plan->Flug[d].Startdate > Sim.Date ||
                                         (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
                                         Plan->Flug[d].Gate = Gates.Gates[static_cast<SLONG>(max(Gates.Auslastung[tmp], Gates.Auslastung[tmp - 1]))].Nummer;
@@ -2261,7 +2261,7 @@ void PLAYER::PlanGates() {
                                     Gates.Auslastung[tmp] = static_cast<UBYTE>(Gates.NumRented + 1);
                                     Gates.Auslastung[tmp - 1] = static_cast<UBYTE>(Gates.NumRented + 1);
 
-                                    // Andere Flüge warnen:
+                                    // Andere FlÃ¼ge warnen:
                                     if (Owner == 0) {
                                         for (SLONG e = 0; e < Planes.AnzEntries(); e++) {
                                             if (Planes.IsInAlbum(e) != 0) {
@@ -2287,7 +2287,7 @@ void PLAYER::PlanGates() {
                             {
                                 // ex: if (Gates.Auslastung[tmp] < Gates.GetNumUsed() && Gates.Auslastung[tmp-1] < Gates.GetNumUsed())
                                 if (Gates.Auslastung[tmp] < Gates.NumRented) {
-                                    // Gate wird für Flug veranschlagt:
+                                    // Gate wird fÃ¼r Flug veranschlagt:
                                     if (Plan->Flug[d].Startdate > Sim.Date ||
                                         (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
                                         Plan->Flug[d].Gate = Gates.Gates[static_cast<SLONG>(Gates.Auslastung[tmp])].Nummer;
@@ -2303,7 +2303,7 @@ void PLAYER::PlanGates() {
 
                                     Gates.Auslastung[tmp] = static_cast<UBYTE>(Gates.NumRented + 1);
 
-                                    // Andere Flüge warnen:
+                                    // Andere FlÃ¼ge warnen:
                                     if (Owner == 0) {
                                         for (SLONG e = 0; e < Planes.AnzEntries(); e++) {
                                             if (Planes.IsInAlbum(e) != 0) {
@@ -2338,7 +2338,7 @@ void PLAYER::PlanGates() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läßt einen Spieler zu einer Rune laufen: rc=FALSE, wenn Raum geschlossen
+// LÃ¤ÃŸt einen Spieler zu einer Rune laufen: rc=FALSE, wenn Raum geschlossen
 //--------------------------------------------------------------------------------------------
 BOOL PLAYER::WalkToRoom(UBYTE RoomId) {
     if (PlayerNum == Sim.localPlayer) {
@@ -2352,7 +2352,7 @@ BOOL PLAYER::WalkToRoom(UBYTE RoomId) {
         return (FALSE);
     }
 
-    // Schauen, ob wir zu dem Raum gehen können, oder ob zu ist:
+    // Schauen, ob wir zu dem Raum gehen kÃ¶nnen, oder ob zu ist:
     SLONG MenuClosed = -1;
     if (RoomId == ROOM_SHOP1 && (SLONG(Sim.Time) < timeDutyOpen || ((Sim.Weekday == 5 || Sim.Weekday == 6) && SLONG(Sim.Time) > timeDutyClose))) {
         MenuClosed = MENU_CLOSED_DUTYFREE;
@@ -2429,7 +2429,7 @@ BOOL PLAYER::WalkToRoom(UBYTE RoomId) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läßt den Spieler zu einer bestimmten, angeklickten Stelle laufen:
+// LÃ¤ÃŸt den Spieler zu einer bestimmten, angeklickten Stelle laufen:
 //--------------------------------------------------------------------------------------------
 void PLAYER::WalkToMouseClick(XY AirportClickPos) {
     SLONG Room = Airport.IsInMarkedArea(AirportClickPos);
@@ -2442,7 +2442,7 @@ void PLAYER::WalkToMouseClick(XY AirportClickPos) {
     }
 
     if (Room == ROOM_WALL) {
-        // Bei Klick auf die Wand eines Büros davor stehenbleiben
+        // Bei Klick auf die Wand eines BÃ¼ros davor stehenbleiben
         if (AirportClickPos.y < 150) {
             AirportClickPos.y = 138;
         } else {
@@ -2529,7 +2529,7 @@ void PLAYER::WalkToMouseClick(XY AirportClickPos) {
             PrimaryTarget.y = (PrimaryTarget.y + 2200) / 22 - 100;
         }
 
-        // Test: Ist Zielkachel blockiert? Dann evtl. südlich davon!
+        // Test: Ist Zielkachel blockiert? Dann evtl. sÃ¼dlich davon!
         while (PrimaryTarget.y != 3 && PrimaryTarget.y != 15) {
             if (((Airport.iPlate[PrimaryTarget.y + (PrimaryTarget.x << 4)] & 4) != 0) &&
                 ((Airport.iPlate[PrimaryTarget.y + (PrimaryTarget.x << 4)] & 0xf0) != 0)) {
@@ -2538,14 +2538,14 @@ void PLAYER::WalkToMouseClick(XY AirportClickPos) {
             PrimaryTarget.y++;
 
             if (PrimaryTarget.y > 15) {
-                // Nicht möglich.
+                // Nicht mÃ¶glich.
                 WalkStop();
                 return;
             }
         }
 
         if (PrimaryTarget.y == 3 || PrimaryTarget.y == 15) {
-            // Nicht möglich.
+            // Nicht mÃ¶glich.
             WalkStop();
             return;
         }
@@ -2571,7 +2571,7 @@ void PLAYER::WalkToMouseClick(XY AirportClickPos) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läßt den Spieler zu einer bestimmten Stelle laufen:
+// LÃ¤ÃŸt den Spieler zu einer bestimmten Stelle laufen:
 //--------------------------------------------------------------------------------------------
 void PLAYER::WalkToPlate(XY Plate) {
     if (RunningToToilet != 0) {
@@ -2589,7 +2589,7 @@ void PLAYER::WalkToPlate(XY Plate) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Der Spieler läuft nicht mehr automatisch:
+// Der Spieler lÃ¤uft nicht mehr automatisch:
 //--------------------------------------------------------------------------------------------
 void PLAYER::WalkStop() { iWalkActive = FALSE; }
 
@@ -2632,7 +2632,7 @@ void PLAYER::WalkStopEx() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Berechnet das Sekundärziel für den Spieler:
+// Berechnet das SekundÃ¤rziel fÃ¼r den Spieler:
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateWaypoints() {
     SLONG cx = 0;
@@ -2740,7 +2740,7 @@ void PLAYER::UpdateWaypoints() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läßt den Spieler in die richtige Richtung laufen:
+// LÃ¤ÃŸt den Spieler in die richtige Richtung laufen:
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateWaypointWalkingDirection() {
     if (IsOut != 0) {
@@ -2786,7 +2786,7 @@ void PLAYER::UpdateWaypointWalkingDirection() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Erledigt Dinge für den Roboter:
+// Erledigt Dinge fÃ¼r den Roboter:
 //--------------------------------------------------------------------------------------------
 void PLAYER::RobotPump() {
     SLONG c = 0;
@@ -2838,7 +2838,7 @@ void PLAYER::RobotPump() {
             LastActionId = 0;
             RobotActions[0].ActionId = ACTION_NONE;
 
-            // Alle Figuren in der Nähe der Tür "entminen"
+            // Alle Figuren in der NÃ¤he der TÃ¼r "entminen"
             for (SLONG c = 0; c < SLONG(Airport.Runes.AnzEntries()); c++) {
                 if (Airport.Runes[c].BrickId == 0x10000000 + RUNE_2SHOP && Airport.Runes[c].Par == ROOM_BURO_A + PlayerNum * 10) {
                     for (SLONG d = Sim.Persons.AnzEntries() - 1; d >= 0; d--) {
@@ -2880,7 +2880,7 @@ void PLAYER::RobotPump() {
                         pPerson = &Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)];
                     }
 
-                    // Nur wenn Spieler nicht gerade Raum betritt oder verläßt und auch nicht auf Toilette ist:
+                    // Nur wenn Spieler nicht gerade Raum betritt oder verlÃ¤ÃŸt und auch nicht auf Toilette ist:
                     if (pPerson->StatePar == 0 && GetRoom() != ROOM_WC_M && GetRoom() != ROOM_WC_F) {
                         pPerson->Running = TRUE;
                         LeaveAllRooms();
@@ -3138,7 +3138,7 @@ void PLAYER::RobotPlan() {
     }
 
     if (RobotActions[0].ActionId == ACTION_NONE && RobotActions[1].ActionId == ACTION_NONE) {
-        // Zeit für default-Actions?
+        // Zeit fÃ¼r default-Actions?
         if (Money > 5000000 && Image > -100 && (SavesForRocket == 0) && SLONG(Sim.Time) > timeMuseOpen && Sim.Weekday != 5 && Sim.Weekday != 6 &&
             (bWasInMuseumToday == 0)) {
             RobotActions[1].ActionId = ACTION_BUYUSEDPLANE;
@@ -3364,7 +3364,7 @@ void PLAYER::RobotPlanRoutes() {
     LastCity.FillWith(0);
     PlanesOnRoute.FillWith(0);
 
-    // Alte Routenpläne löschen:
+    // Alte RoutenplÃ¤ne lÃ¶schen:
     forall(c, Planes) if (Planes.IsInAlbum(c) != 0) {
         CFlugplan &qPlan = Planes[c].Flugplan;
 
@@ -3373,7 +3373,7 @@ void PLAYER::RobotPlanRoutes() {
                 qPlan.Flug[d].ObjectType = 0;
             }
 
-            // Was fliegen wir dann überhaupt noch?
+            // Was fliegen wir dann Ã¼berhaupt noch?
             if (qPlan.Flug[d].ObjectType == 1) {
                 PlanesOnRoute[qPlan.Flug[d].ObjectId]++;
                 LastCity[c] = qPlan.Flug[d].NachCity;
@@ -3414,7 +3414,7 @@ void PLAYER::RobotPlanRoutes() {
                     // qPlan.Flug[e].CalcPassengers (Planes[d].TypeId, PlayerNum, Planes[d]);
                     qPlan.Flug[e].PArrived = 0;
 
-                    Planes[d].CheckFlugplaene(PlayerNum, TRUE, FALSE); // FALSE=Gates erst später planen
+                    Planes[d].CheckFlugplaene(PlayerNum, TRUE, FALSE); // FALSE=Gates erst spÃ¤ter planen
 
                     LastCity[d] = Routen[c].NachCity;
 
@@ -3440,7 +3440,7 @@ void PLAYER::RobotPlanRoutes() {
 
     PlanGates();
 
-    // Test: Haben wir für jede Route ein Flugzeug, was groß genug ist?
+    // Test: Haben wir fÃ¼r jede Route ein Flugzeug, was groÃŸ genug ist?
     BuyBigPlane = 0;
     for (c = 0; c < SLONG(Routen.AnzEntries()); c++) {
         if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U)) {
@@ -3456,7 +3456,7 @@ void PLAYER::RobotPlanRoutes() {
     }
     // if (PlaneTypes[Planes[d].TypeId].Reichweite>=BuyBigPlane) BuyBigPlane=0;
 
-    // Neue Routenpläne verteilen
+    // Neue RoutenplÃ¤ne verteilen
     do {
         FlightAdded = FALSE;
 
@@ -3493,7 +3493,7 @@ void PLAYER::RobotPlanRoutes() {
             }
         }
 
-        // Flug in den Plan einfügen:
+        // Flug in den Plan einfÃ¼gen:
         if (BestD != -1) {
             CFlugplan &qPlan = Planes[BestD].Flugplan;
 
@@ -3520,7 +3520,7 @@ void PLAYER::RobotPlanRoutes() {
                     qPlan.Flug[d].CalcPassengers(PlayerNum, Planes[BestD]);
                     qPlan.Flug[d].PArrived = 0;
 
-                    Planes[BestD].CheckFlugplaene(PlayerNum, TRUE, FALSE); // FALSE=Gates erst später planen
+                    Planes[BestD].CheckFlugplaene(PlayerNum, TRUE, FALSE); // FALSE=Gates erst spÃ¤ter planen
 
                     LastCity[BestD] = Routen[BestC].NachCity;
 
@@ -3549,7 +3549,7 @@ void PLAYER::RobotPlanRoutes() {
 
     PlanGates();
 
-    // Autoflüge ggf. durch Routen ersetzen:
+    // AutoflÃ¼ge ggf. durch Routen ersetzen:
     forall(d, Planes) if (Planes.IsInAlbum(d) != 0) {
         CFlugplan &qPlan = Planes[d].Flugplan;
 
@@ -3663,7 +3663,7 @@ void PLAYER::RobotPlanRoutes() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Computerspieler ist angekommen, jetzt wird Aktion ausgeführt:
+// Computerspieler ist angekommen, jetzt wird Aktion ausgefÃ¼hrt:
 //--------------------------------------------------------------------------------------------
 void PLAYER::RobotExecuteAction() {
     SLONG c = 0;
@@ -3679,19 +3679,19 @@ void PLAYER::RobotExecuteAction() {
     LocalRandom.SRand(WaitWorkTill);
 
     if (Sim.bNetwork != 0) {
-        // Synchronisieren (tagsüber):
+        // Synchronisieren (tagsÃ¼ber):
         if (WaitWorkTill == -1) {
             if (Sim.bIsHost != 0) {
-                // Wird das zu spät (Wegen der 18-Uhr-Grenze)?
+                // Wird das zu spÃ¤t (Wegen der 18-Uhr-Grenze)?
                 if (Sim.Time + 2000 > 18 * 60000) {
                     RobotActions[0].ActionId = ACTION_NONE;
                     return;
                 }
 
                 if (!(Sim.CallItADay == 1)) {
-                    // Normal tagsüber synchronisieren:
-                    WaitWorkTill = Sim.TimeSlice + 40; // Zwei Sekunden warten, bis die Aktion wirklich ausgeführt wird
-                    WaitWorkTill2 = Sim.Time + 2000;   // Zwei Sekunden warten, bis die Aktion wirklich ausgeführt wird
+                    // Normal tagsÃ¼ber synchronisieren:
+                    WaitWorkTill = Sim.TimeSlice + 40; // Zwei Sekunden warten, bis die Aktion wirklich ausgefÃ¼hrt wird
+                    WaitWorkTill2 = Sim.Time + 2000;   // Zwei Sekunden warten, bis die Aktion wirklich ausgefÃ¼hrt wird
 
                     TEAKFILE Message;
 
@@ -3719,7 +3719,7 @@ void PLAYER::RobotExecuteAction() {
                     return;
                 }
             } else {
-                // Für Synchronität zwischen Host und Client
+                // FÃ¼r SynchronitÃ¤t zwischen Host und Client
                 if (!(Sim.CallItADay == 1)) {
                     return;
                 }
@@ -3750,14 +3750,14 @@ void PLAYER::RobotExecuteAction() {
 
                 SIM::SendMemFile(Message);
 
-                // Darauf warten, daß die anderen Spieler ihr okay geben:
+                // Darauf warten, daÃŸ die anderen Spieler ihr okay geben:
                 if (Sim.Time > 9 * 60000 + 500) {
                     for (c = 0; c < 4; c++) {
                         Sim.Players.Players[c].bReadyForMorning = 0;
                     }
                 }
             } else {
-                // Okay, habe den Computerspieler durchgeführt:
+                // Okay, habe den Computerspieler durchgefÃ¼hrt:
                 SIM::SendSimpleMessage(ATNET_READYFORMORNING, 0, Sim.localPlayer);
             }
         }
@@ -3765,7 +3765,7 @@ void PLAYER::RobotExecuteAction() {
         LocalRandom.SRand(time(nullptr));
     }
 
-    // Manchmal führt der Client Sachen doppelt aus. Seltsam aber wahr. Hiermit wird's verhindert:
+    // Manchmal fÃ¼hrt der Client Sachen doppelt aus. Seltsam aber wahr. Hiermit wird's verhindert:
     {
         static SLONG LastActionId;
         static ULONG LastTime;
@@ -3804,7 +3804,7 @@ void PLAYER::RobotExecuteAction() {
             }
         }
     } else {
-        LocalRandom.Rand(2); // Sicherheitshalber, damit wir immer genau ein Random ausführen
+        LocalRandom.Rand(2); // Sicherheitshalber, damit wir immer genau ein Random ausfÃ¼hren
     }
 
     // NetGenericSync (100, LocalRandom.GetSeed());
@@ -3852,7 +3852,7 @@ void PLAYER::RobotExecuteAction() {
         }
     }
 
-    // 6.3.02 Manchmal kommen wir als Client hier an, bevor in der Anrufenden Funktion der Shift durchgeführt wurde. Das holen wir dann hier mal schnell nach:
+    // 6.3.02 Manchmal kommen wir als Client hier an, bevor in der Anrufenden Funktion der Shift durchgefÃ¼hrt wurde. Das holen wir dann hier mal schnell nach:
     if (RobotActions[0].ActionId == ACTION_NONE && RobotActions[1].ActionId != ACTION_NONE) {
         // Alles in der Queue einen weiterschieben
         for (c = 0; c < RobotActions.AnzEntries() - 1; c++) {
@@ -3862,7 +3862,7 @@ void PLAYER::RobotExecuteAction() {
         RobotActions[RobotActions.AnzEntries() - 1].ActionId = ACTION_NONE;
     }
 
-    // Die exakte Zeit des Ausführens auf dem Server simulieren
+    // Die exakte Zeit des AusfÃ¼hrens auf dem Server simulieren
     SLONG RealLocalTime = Sim.Time;
 
     Hdu.HercPrintf("Player %li: %li, %li at %li/%li\n", PlayerNum, RobotActions[0].ActionId, RobotActions[1].ActionId, WaitWorkTill, WaitWorkTill2);
@@ -3880,7 +3880,7 @@ void PLAYER::RobotExecuteAction() {
         break;
 
     case ACTION_STARTDAY:
-        // Logik für wechsel zu Routen und sparen für Rakete oder Flugzeug:
+        // Logik fÃ¼r wechsel zu Routen und sparen fÃ¼r Rakete oder Flugzeug:
         if (DoRoutes == 0) {
             if (RobotUse(ROBOT_USE_SUGGESTROUTES) || (PlayerNum + 30 < Sim.Date && Planes.GetNumUsed() > 6) ||
                 (PlayerNum + 15 < Sim.Date &&
@@ -3968,7 +3968,7 @@ void PLAYER::RobotExecuteAction() {
                 qAuftraege.RefillForAusland(n);
                 qFrachten.RefillForAusland(n);
 
-                // Normale Aufträge:
+                // Normale AuftrÃ¤ge:
                 for (c = 0; c < SLONG(Planes.AnzEntries()); c++) {
                     if (Planes.IsInAlbum(c) != 0) {
                         SLONG d = 0;
@@ -4127,9 +4127,9 @@ void PLAYER::RobotExecuteAction() {
                     }
                 }
 
-                // ANFANG FRACHTAUFTRÄGE
-                // ANFANG FRACHTAUFTRÄGE
-                // ANFANG FRACHTAUFTRÄGE
+                // ANFANG FRACHTAUFTRÃ„GE
+                // ANFANG FRACHTAUFTRÃ„GE
+                // ANFANG FRACHTAUFTRÃ„GE
                 if ((DoRoutes == 0) && !(RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4)) {
                     SLONG Bewertungsbonus = 0;
                     if (RobotUse(ROBOT_USE_MUCH_FRACHT) && PlayerNum == 2) {
@@ -4172,7 +4172,7 @@ void PLAYER::RobotExecuteAction() {
                                             if (qFracht.Praemie >= 0 && qFracht.VonCity == ULONG(VonCity)) {
                                                 SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
-                                                // Multiplikator, weil wir mehrere Flüge durchführen müssen:
+                                                // Multiplikator, weil wir mehrere FlÃ¼ge durchfÃ¼hren mÃ¼ssen:
                                                 Cost = Cost * 2 * (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
 
                                                 if ((Cost <= qFracht.Praemie * 8 / 10 + Bewertungsbonus) ||
@@ -4216,7 +4216,7 @@ void PLAYER::RobotExecuteAction() {
                                             }
                                         }
                                     } else if (level == 2) {
-                                        SLONG MinMin = 0; // Min muß mindestens so groß sein
+                                        SLONG MinMin = 0; // Min muÃŸ mindestens so groÃŸ sein
 
                                         while (true) {
                                             SLONG Min = 999999999;
@@ -4246,7 +4246,7 @@ void PLAYER::RobotExecuteAction() {
 
                                                 SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
-                                                // Multiplikator, weil wir mehrere Flüge durchführen müssen:
+                                                // Multiplikator, weil wir mehrere FlÃ¼ge durchfÃ¼hren mÃ¼ssen:
                                                 Cost = Cost * (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
 
                                                 // Anflug:
@@ -4295,9 +4295,9 @@ void PLAYER::RobotExecuteAction() {
                         }
                     }
                 }
-                // ENDE FRACHTAUFTRÄGE
-                // ENDE FRACHTAUFTRÄGE
-                // ENDE FRACHTAUFTRÄGE
+                // ENDE FRACHTAUFTRÃ„GE
+                // ENDE FRACHTAUFTRÃ„GE
+                // ENDE FRACHTAUFTRÃ„GE
 
                 qAuftraege.RefillForAusland(n, 3);
                 qFrachten.RefillForAusland(n, 3);
@@ -4454,7 +4454,7 @@ void PLAYER::RobotExecuteAction() {
         if (dislike == -1 && (RobotUse(ROBOT_USE_EXTREME_SABOTAGE) || LocalRandom.Rand(3) == 0 || PlayerNum == 0)) {
             dislike = LocalRandom.Rand(4);
             if (RobotUse(ROBOT_USE_EXTREME_SABOTAGE) && (dislike == PlayerNum || (Sim.Players.Players[dislike].IsOut != 0))) {
-                long r = -9999; // Besten Spieler als Sabotageziel wählen:
+                long r = -9999; // Besten Spieler als Sabotageziel wÃ¤hlen:
                 for (long c = 0; c < 4; c++) {
                     if ((Sim.Players.Players[c].IsOut == 0) && Sim.Players.Players[c].GetMissionRating() > r) {
                         dislike = c;
@@ -4963,7 +4963,7 @@ void PLAYER::RobotExecuteAction() {
             Kurse[0] = 0;
         }
 
-        // Entschädigung +/-
+        // EntschÃ¤digung +/-
         auto diff = AlterKurs - Kurse[0];
         ChangeMoney(SLONG(-(AnzAktien - OwnsAktien[PlayerNum]) * diff), 3161, "");
         for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
@@ -4980,7 +4980,7 @@ void PLAYER::RobotExecuteAction() {
         }
 
         if (PlayerNum != 3 || RobotUse(ROBOT_USE_REBUYSHARES)) {
-            // Direkt wieder die Hälfte aufkaufen:
+            // Direkt wieder die HÃ¤lfte aufkaufen:
             OwnsAktien[PlayerNum] += NeueAktien / 2;
             Money -= NeueAktien / 2 * EKurs;
         }
@@ -5163,7 +5163,7 @@ void PLAYER::RobotExecuteAction() {
         TimeReiseburo = Sim.Time;
         break;
 
-        // Reisebüro:
+        // ReisebÃ¼ro:
     case ACTION_CHECKAGENT2:
         if (DoRoutes == 0) {
             ReisebueroAuftraege.RefillForReisebuero();
@@ -5332,7 +5332,7 @@ void PLAYER::RobotExecuteAction() {
         TimeReiseburo = Sim.Time;
         break;
 
-        // Frachtbüro:
+        // FrachtbÃ¼ro:
     case ACTION_CHECKAGENT3:
         if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4) {
             break;
@@ -5381,7 +5381,7 @@ void PLAYER::RobotExecuteAction() {
                                     if (qFracht.Praemie >= 0 && qFracht.VonCity == ULONG(VonCity)) {
                                         SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
-                                        // Multiplikator, weil wir mehrere Flüge durchführen müssen:
+                                        // Multiplikator, weil wir mehrere FlÃ¼ge durchfÃ¼hren mÃ¼ssen:
                                         Cost = Cost * 2 * (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
                                         // Cost = Cost*2 * (qFracht.Tons / (PlaneTypes[Planes[c].TypeId].Passagiere/10) + 1);
 
@@ -5425,7 +5425,7 @@ void PLAYER::RobotExecuteAction() {
                                     }
                                 }
                             } else if (level == 2) {
-                                SLONG MinMin = 0; // Min muß mindestens so groß sein
+                                SLONG MinMin = 0; // Min muÃŸ mindestens so groÃŸ sein
 
                                 while (true) {
                                     SLONG Min = 999999999;
@@ -5454,7 +5454,7 @@ void PLAYER::RobotExecuteAction() {
 
                                         SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
-                                        // Multiplikator, weil wir mehrere Flüge durchführen müssen:
+                                        // Multiplikator, weil wir mehrere FlÃ¼ge durchfÃ¼hren mÃ¼ssen:
                                         Cost = Cost * (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
 
                                         // Anflug:
@@ -5618,7 +5618,7 @@ void PLAYER::RobotExecuteAction() {
             SLONG Anz = 0;
             BUFFER<BOOL> IsBuyable;
 
-            // Mal schauen wie unser Routen/Flugzeug Verhältnis aussieht:
+            // Mal schauen wie unser Routen/Flugzeug VerhÃ¤ltnis aussieht:
             for (c = 0; c < RentRouten.RentRouten.AnzEntries(); c++) {
                 if (Routen.IsInAlbum(c) != 0) {
                     if (RentRouten.RentRouten[c].Rang != 0U) {
@@ -5638,7 +5638,7 @@ void PLAYER::RobotExecuteAction() {
                 IsBuyable.ReSize(Routen.AnzEntries());
                 IsBuyable.FillWith(0);
 
-                // Mal sehen, was wir kaufen können:
+                // Mal sehen, was wir kaufen kÃ¶nnen:
                 for (SLONG d = Routen.AnzEntries() - 1; d >= 0; d--) {
                     if ((Routen.IsInAlbum(d) != 0) && RentRouten.RentRouten[d].Rang == 0) {
                         if (Routen[d].VonCity == static_cast<ULONG>(Sim.HomeAirportId) || Routen[d].NachCity == static_cast<ULONG>(Sim.HomeAirportId)) {
@@ -5672,7 +5672,7 @@ void PLAYER::RobotExecuteAction() {
                 // Beste Route aussuchen:
                 for (c = 0; c < RentRouten.RentRouten.AnzEntries(); c++) {
                     if (IsBuyable[c] != 0) {
-                        // Ist die Route für die Mission wichtig?
+                        // Ist die Route fÃ¼r die Mission wichtig?
                         if (RobotUse(ROBOT_USE_ROUTEMISSION)) {
                             SLONG d = 0;
 
@@ -5882,7 +5882,7 @@ void PLAYER::RobotExecuteAction() {
 
     RobotActions[0].ActionId = ACTION_NONE;
 
-    // Die exakte Zeit des Ausführens auf dem Server simulieren (Ende):
+    // Die exakte Zeit des AusfÃ¼hrens auf dem Server simulieren (Ende):
     if (Sim.bNetwork != 0) {
         Sim.Time = RealLocalTime;
     }
@@ -5923,7 +5923,7 @@ BOOL PLAYER::IsOkayToCallThisPlayer() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Verzögert Flüge um Gates auszulasten:
+// VerzÃ¶gert FlÃ¼ge um Gates auszulasten:
 //--------------------------------------------------------------------------------------------
 void PLAYER::DelayFlightsIfNecessary() {
     SLONG c = 0;
@@ -5963,7 +5963,7 @@ void PLAYER::DelayFlightsIfNecessary() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Der Berater gibt Nachrichten für zwischendurch aus:
+// Der Berater gibt Nachrichten fÃ¼r zwischendurch aus:
 //--------------------------------------------------------------------------------------------
 void PLAYER::RandomBeraterMessage() {
     SLONG Which = rand() % 3;
@@ -6143,7 +6143,7 @@ BOOL PLAYER::HasItem(UBYTE Item) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Hat der Spieler noch Platz für ein Item?
+// Hat der Spieler noch Platz fÃ¼r ein Item?
 //--------------------------------------------------------------------------------------------
 BOOL PLAYER::HasSpaceForItem() {
     for (SLONG d = 0; d < 6; d++) {
@@ -6168,7 +6168,7 @@ void PLAYER::MapWorkerOverflow(BOOL Advice) {
     SLONG d = 0;
     BOOL NeedAdvice = FALSE;
 
-    // Zählung in den Flugzeugen vorbereiten:
+    // ZÃ¤hlung in den Flugzeugen vorbereiten:
     for (c = 0; c < SLONG(Planes.AnzEntries()); c++) {
         if (Planes.IsInAlbum(c) != 0) {
             Planes[c].AnzPiloten = 0;
@@ -6252,7 +6252,7 @@ void PLAYER::MapWorkers(BOOL Advice) {
 
     xPiloten = xBegleiter = 0;
 
-    // Zählung in den Flugzeugen vorbereiten:
+    // ZÃ¤hlung in den Flugzeugen vorbereiten:
     for (c = 0; c < SLONG(Planes.AnzEntries()); c++) {
         if (Planes.IsInAlbum(c) != 0) {
             Planes[c].AnzPiloten = 0;
@@ -6289,7 +6289,7 @@ void PLAYER::MapWorkers(BOOL Advice) {
         }
     }
 
-    // Sind irgendwo mehr Stewardessen als gewünscht?:
+    // Sind irgendwo mehr Stewardessen als gewÃ¼nscht?:
     for (c = 0; c < SLONG(Planes.AnzEntries()); c++) {
         while ((Planes.IsInAlbum(c) != 0) && Planes[c].AnzBegleiter > Planes[c].MaxBegleiter) {
             for (d = 0; d < Workers.Workers.AnzEntries(); d++) {
@@ -6342,13 +6342,13 @@ again: // Zweiter Pass, wenn Stewardessen aus Luxusstellen umgebucht werden, dam
                     xPiloten--;
                 }
 
-                // Das gleiche für Begleiter:
+                // Das gleiche fÃ¼r Begleiter:
                 if (Workers.Workers[c].Typ == WORKER_STEWARDESS) {
                     Workers.Workers[c].PlaneId = Planes.GetIdFromIndex(MinNeededIndex);
                     Planes[MinNeededIndex].AnzBegleiter++;
                     xBegleiter--;
                 }
-            } else // Kein Flugzeug gefunden? Für Stewardessen kann man noch was machen:
+            } else // Kein Flugzeug gefunden? FÃ¼r Stewardessen kann man noch was machen:
             {
                 for (d = 0; d < SLONG(Planes.AnzEntries()); d++) {
                     if (Planes.IsInAlbum(d) != 0) {
@@ -6363,7 +6363,7 @@ again: // Zweiter Pass, wenn Stewardessen aus Luxusstellen umgebucht werden, dam
         }
     }
 
-    // Brauchen wir jetzt noch Begleiter? Und haben wir außerdem irgendwo mehr als unbedingt notwendig?
+    // Brauchen wir jetzt noch Begleiter? Und haben wir auÃŸerdem irgendwo mehr als unbedingt notwendig?
     {
         SLONG NeededBegleiter = 0;
         SLONG MovableBegleiter = 0;
@@ -6399,7 +6399,7 @@ again: // Zweiter Pass, wenn Stewardessen aus Luxusstellen umgebucht werden, dam
         }
     }
 
-    // Und jetzt noch die offenen Stellen zählen:
+    // Und jetzt noch die offenen Stellen zÃ¤hlen:
     for (d = 0; d < SLONG(Planes.AnzEntries()); d++) {
         if (Planes.IsInAlbum(d) != 0) {
             // if (PlaneTypes[Planes[d].TypeId].AnzPiloten>Planes[d].AnzPiloten)
@@ -6464,7 +6464,7 @@ void PLAYER::UpdatePilotCount() {
 
     xPiloten = xBegleiter = 0;
 
-    // Zählung in den Flugzeugen vorbereiten:
+    // ZÃ¤hlung in den Flugzeugen vorbereiten:
     for (c = 0; c < SLONG(Planes.AnzEntries()); c++) {
         if (Planes.IsInAlbum(c) != 0) {
             Planes[c].AnzPiloten = 0;
@@ -6546,7 +6546,7 @@ void PLAYER::UpdateWalkSpeed() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läßt den Bodyguard ggf. einen Rabatt aushandeln:
+// LÃ¤ÃŸt den Bodyguard ggf. einen Rabatt aushandeln:
 //--------------------------------------------------------------------------------------------
 void PLAYER::DoBodyguardRabatt(SLONG Money) {
     SLONG quality = HasBerater(BERATERTYP_SICHERHEIT);
@@ -6595,7 +6595,7 @@ void PLAYER::UpdateStatistics() {
     if (Money > 0) {
         Statistiken[STAT_KREDIT].SetAtPastDay(0, Credit); // Nur Kredit
     } else {
-        Statistiken[STAT_KREDIT].SetAtPastDay(0, Credit - Money); // Kredit + Überziehungskredit
+        Statistiken[STAT_KREDIT].SetAtPastDay(0, Credit - Money); // Kredit + Ãœberziehungskredit
     }
 
     // STAT_FLUGZEUGE:
@@ -6660,7 +6660,7 @@ void PLAYER::UpdateStatistics() {
         }
         Statistiken[STAT_MITARBEITER].SetAtPastDay(0, d);
     }
-    // Owner==2 über Network
+    // Owner==2 Ã¼ber Network
 
     // STAT_ZUFR_PERSONAL:
     if (Owner == 0) {
@@ -6686,7 +6686,7 @@ void PLAYER::UpdateStatistics() {
 
         Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(0, c);
     }
-    // Owner==2 über Network
+    // Owner==2 Ã¼ber Network
 
     if (Owner == 0 && (Sim.bCheatedSession == 0)) {
         Sim.AddHighscore((LPCSTR)NameX, Sim.UniqueGameId2, Statistiken[STAT_FIRMENWERT].GetAtPastDay(0));
@@ -6930,7 +6930,7 @@ PLAYERS::PLAYERS() {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft alle Flugpläne auf tote Einträge: (crasht bei toten Einträgen; nur zum testen)
+//ÃœberprÃ¼ft alle FlugplÃ¤ne auf tote EintrÃ¤ge: (crasht bei toten EintrÃ¤gen; nur zum testen)
 //--------------------------------------------------------------------------------------------
 void PLAYERS::CheckFlighplans() {
     for (SLONG c = 0; c < AnzPlayers; c++) {
@@ -7018,7 +7018,7 @@ SLONG PLAYERS::GetAnzRobotPlayers() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt den Index des x. menschlichen (Nicht-Computer) Spielers zurück:
+// Gibt den Index des x. menschlichen (Nicht-Computer) Spielers zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 SLONG PLAYERS::GetIndexOfHumanPlayerNumberX(SLONG x) {
     SLONG c = 0;
@@ -7069,7 +7069,7 @@ BOOL PLAYERS::IsPlaneNameInUse(const CString &PlaneName) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läßt alle Spieler zum Raum der Flughafenaufsicht laufen:
+// LÃ¤ÃŸt alle Spieler zum Raum der Flughafenaufsicht laufen:
 //--------------------------------------------------------------------------------------------
 void PLAYERS::WalkToStartingPoint() {
     SLONG c = 0;
@@ -7082,7 +7082,7 @@ void PLAYERS::WalkToStartingPoint() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Erledigt Dinge für den Roboter:
+// Erledigt Dinge fÃ¼r den Roboter:
 //--------------------------------------------------------------------------------------------
 void PLAYERS::RobotPump() {
     SLONG c = 0;
@@ -7102,7 +7102,7 @@ void PLAYERS::RobotPump() {
         }
     }
 
-    // Hack: Ab & Zu, wenn alle Player im Flughafen sind und keiner telefoniert, werden alle Räume freigegeben...
+    // Hack: Ab & Zu, wenn alle Player im Flughafen sind und keiner telefoniert, werden alle RÃ¤ume freigegeben...
     if (Sim.CallItADay == 0) {
         if ((DoIt != 0) && LastTenMinutes != Sim.GetMinute() / 10) {
             for (c = 0; c < 256; c++) {
@@ -7138,7 +7138,7 @@ void PLAYERS::RobotInit() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Der Berater gibt Nachrichten für zwischendurch aus:
+// Der Berater gibt Nachrichten fÃ¼r zwischendurch aus:
 //--------------------------------------------------------------------------------------------
 void PLAYERS::RandomBeraterMessage() {
     SLONG c = 0;
@@ -7156,7 +7156,7 @@ void PLAYERS::RandomBeraterMessage() {
 HISTORY::HISTORY() { ReInit(); }
 
 //--------------------------------------------------------------------------------------------
-// Alles löschen:
+// Alles lÃ¶schen:
 //--------------------------------------------------------------------------------------------
 void HISTORY::ReInit() {
     SLONG c = 0;
@@ -7186,7 +7186,7 @@ void HISTORY::AddEntry(__int64 Money, const CString &Description) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Bit 0: Handy, Bit 1: Ferngespräch
+// Bit 0: Handy, Bit 1: FerngesprÃ¤ch
 //--------------------------------------------------------------------------------------------
 void HISTORY::AddNewCall(SLONG Type) {
     SLONG c = 0;
@@ -7203,7 +7203,7 @@ void HISTORY::AddNewCall(SLONG Type) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Aktualisiert die Kosten für Gespräche
+// Aktualisiert die Kosten fÃ¼r GesprÃ¤che
 //--------------------------------------------------------------------------------------------
 void HISTORY::AddCallCost(long Money) {
     for (SLONG c = 99; c >= 0; c--) {
@@ -7224,7 +7224,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const HISTORYLINE &h) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein HISTORYLINE-Objekt:
+// LÃ¤dt ein HISTORYLINE-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, HISTORYLINE &h) {
     File >> h.Money >> h.Description >> h.ByPhone;
@@ -7254,7 +7254,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const HISTORY &h) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein HISTORY-Objekt:
+// LÃ¤dt ein HISTORY-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, HISTORY &h) {
     SLONG c = 0;
@@ -7341,7 +7341,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player) {
     File.Write((const UBYTE *)Player.DisplayRoutes, sizeof(Player.DisplayRoutes));
     File.Write((const UBYTE *)Player.DisplayPlanes, sizeof(Player.DisplayPlanes));
 
-    // Größere Daten:
+    // GrÃ¶ÃŸere Daten:
     File << Player.Planes << Player.Auftraege << Player.Gates;
     File << Player.Items << Player.RentCities << Player.RentRouten;
     File << Player.CursorPos << Player.History << Player.Blocks;
@@ -7415,7 +7415,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein PLAYER-Objekt:
+// LÃ¤dt ein PLAYER-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
     SLONG c = 0;
@@ -7504,14 +7504,14 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
     File.Read((UBYTE *)Player.DisplayRoutes, sizeof(Player.DisplayRoutes));
     File.Read((UBYTE *)Player.DisplayPlanes, sizeof(Player.DisplayPlanes));
 
-    // Größere Daten:
+    // GrÃ¶ÃŸere Daten:
     File >> Player.Planes >> Player.Auftraege >> Player.Gates;
     File >> Player.Items >> Player.RentCities >> Player.RentRouten;
     File >> Player.CursorPos >> Player.History >> Player.Blocks;
     File >> Player.Messages >> Player.Letters;
     File >> Player.LaptopBattery >> Player.LaptopQuality;
 
-    // Mehr Strecken im AddOn ==> RentCities ggf. ergänzen
+    // Mehr Strecken im AddOn ==> RentCities ggf. ergÃ¤nzen
     if (Player.RentCities.RentCities.AnzEntries() != Cities.AnzEntries()) {
         Player.RentCities.RentCities.ReSize(Cities.AnzEntries());
     }
@@ -7605,7 +7605,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYERS &Players) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein PLAYERS-Objekt:
+// LÃ¤dt ein PLAYERS-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, PLAYERS &Players) {
     File >> Players.AnzPlayers >> Players.Players;
@@ -7614,7 +7614,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYERS &Players) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Unterstützen die Roboter im aktuellen die Level ein bestimmtes Feature?:
+// UnterstÃ¼tzen die Roboter im aktuellen die Level ein bestimmtes Feature?:
 //--------------------------------------------------------------------------------------------
 bool RobotUse(SLONG FeatureId) {
     SLONG Level = 0;
@@ -7630,7 +7630,7 @@ bool RobotUse(SLONG FeatureId) {
         Level = Sim.Difficulty - DIFF_ATFS01 + 7 + 10;
     }
 
-    // Tabelle ermitteln für welche Level ein Feature ermittelt wird:
+    // Tabelle ermitteln fÃ¼r welche Level ein Feature ermittelt wird:
     const char *pFeatureDesc = nullptr;
     switch (FeatureId) {
     // 0-5 : Level im Basisspiel

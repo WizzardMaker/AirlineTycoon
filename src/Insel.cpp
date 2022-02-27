@@ -21,7 +21,7 @@ static char THIS_FILE[] = __FILE__;
 void PrepareReflexionTable(SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTable);
 void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &ReflexionSourceBm, const BUFFER<UBYTE> &pReflexionTable);
 
-// F¸r die Zeichenreihenfolge
+// F√ºr die Zeichenreihenfolge
 static SLONG PartsRemapper[] = {0, 1, 2, 3, 9, 4, 6, 5, 8, 7};
 
 static XY RocketPartOffsets[] = {XY(0, 50), XY(3, 2), XY(4, 8), XY(18, 29), XY(39, 29), XY(19, 27), XY(23, 29), XY(31, 29), XY(19, 15), XY(19, 0)};
@@ -481,7 +481,7 @@ void CInsel::OnPaint() {
         RoomBm.BlitFrom(FernglasBms[1], 0, 30);
         RoomBm.BlitFrom(FernglasBms[1], 0, 346);
 
-        // Wiederholung f¸r Vogel und Schiff
+        // Wiederholung f√ºr Vogel und Schiff
         if (timeGetTime() > DWORD(VogelOffset) && (timeGetTime() - VogelOffset) / 100 > 1400) {
             VogelOffset = timeGetTime() + rand() % 5000 + 2000;
             VogelY = 22 * 1000;
@@ -599,7 +599,7 @@ void CInsel::OnRButtonDown(UINT nFlags, CPoint point) {
 #ifndef DEMO
     DefaultOnRButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

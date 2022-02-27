@@ -1,21 +1,21 @@
 //============================================================================================
-// Checkup.cpp : Prüft diverse Sachen der Rechnerkonfiguration [TH]
+// Checkup.cpp : PrÃ¼ft diverse Sachen der Rechnerkonfiguration [TH]
 //============================================================================================
 // Link: "Checkup.h"
 //============================================================================================
 //  Infos:
 // ------------------------------------------------------------------------------------------
 //  CSystemCheckup fragt diverse Sachen vom System ab. Dazu erzeugt man eine Instanz und
-//  übergibt als Flags, welche Sachen abgefragt werden sollen (oder CHECKUP_ALL) und wie die
+//  Ã¼bergibt als Flags, welche Sachen abgefragt werden sollen (oder CHECKUP_ALL) und wie die
 //  Registry mitspielt.
 //
-//  Die Daten können ohne Bezug auf die Registry einfach ermittelt werden (default) oder
-//  können mittels CHECKUP_WRITE nach dem ermittelt in die Registry geschrieben werden.
-//  Bei übergabe des Parameters CHECKUP_READ werden die Werte nicht ermittelt, sondern nur
+//  Die Daten kÃ¶nnen ohne Bezug auf die Registry einfach ermittelt werden (default) oder
+//  kÃ¶nnen mittels CHECKUP_WRITE nach dem ermittelt in die Registry geschrieben werden.
+//  Bei Ã¼bergabe des Parameters CHECKUP_READ werden die Werte nicht ermittelt, sondern nur
 //  aus der Registry gelesen. Ist eine bestimmte Eigenschaft in den Registry-Infos nicht
 //  vorhanden, so wird diese noch ermittelt.
 //
-//  Läßt man den CDFile-Parameter leer, so wird der CD-Speed Check ggf. übersprungen.
+//  LÃ¤ÃŸt man den CDFile-Parameter leer, so wird der CD-Speed Check ggf. Ã¼bersprungen.
 //============================================================================================
 #include "StdAfx.h"
 
@@ -40,7 +40,7 @@ void GetDXVersion(LPDWORD pdwDXVersion, LPDWORD pdwDXPlatform);
 void test(void) { CSystemCheckup sc(CHECKUP_ALL | CHECKUP_WRITE, "f:\\setup.exe"); }
 
 //--------------------------------------------------------------------------------------------
-// Gibt TRUE zurück, wenn mindestens ein Pentium vorhanden ist; bei 486 gibt es FALSE zurück
+// Gibt TRUE zurÃ¼ck, wenn mindestens ein Pentium vorhanden ist; bei 486 gibt es FALSE zurÃ¼ck
 //--------------------------------------------------------------------------------------------
 BOOL IsPentiumOrBetter(void) {
     SYSTEM_INFO SystemInfo;
@@ -64,7 +64,7 @@ BOOL IsPentiumOrBetter(void) {
     if (SystemInfo.dwProcessorType == 886)
         return (TRUE);
 
-    // Methode 2: neu, für Windows NT
+    // Methode 2: neu, fÃ¼r Windows NT
     if (SystemInfo.wProcessorLevel == 3)
         return (FALSE); // 386er
     if (SystemInfo.wProcessorLevel == 4)
@@ -97,10 +97,10 @@ CRegistryAccess::CRegistryAccess(const CString &RegistryPath) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Öffnet den Zugriff auf einen Bereich der Registry; Gibt FALSE im Fehlerfall zurück:
+// Ã–ffnet den Zugriff auf einen Bereich der Registry; Gibt FALSE im Fehlerfall zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 bool CRegistryAccess::Open(const CString & /*RegistryPath*/) {
-    Close(); // Alten Zugriff schließen
+    Close(); // Alten Zugriff schlieÃŸen
 
 #if USE_JSON
     CString PerfPath = GetPerfPath();
@@ -125,7 +125,7 @@ bool CRegistryAccess::Open(const CString & /*RegistryPath*/) {
 CRegistryAccess::~CRegistryAccess() { Close(); }
 
 //--------------------------------------------------------------------------------------------
-// Alten Zugriff schließen:
+// Alten Zugriff schlieÃŸen:
 //--------------------------------------------------------------------------------------------
 void CRegistryAccess::Close() {
     if (hKey != nullptr) {
@@ -141,12 +141,12 @@ void CRegistryAccess::Close() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt TRUE zurück, wenn z.Zt ein Registry-Zugriff offen ist:
+// Gibt TRUE zurÃ¼ck, wenn z.Zt ein Registry-Zugriff offen ist:
 //--------------------------------------------------------------------------------------------
 bool CRegistryAccess::IsOpen() { return (hKey != nullptr); }
 
 //--------------------------------------------------------------------------------------------
-// Schreibt einen Registry-Key; Gibt FALSE im Fehlerfall zurück, sonst TRUE
+// Schreibt einen Registry-Key; Gibt FALSE im Fehlerfall zurÃ¼ck, sonst TRUE
 //--------------------------------------------------------------------------------------------
 bool CRegistryAccess::WriteRegistryKeyEx(const char *Text, const CString &EntryName) {
     if (hKey == nullptr) {
@@ -215,7 +215,7 @@ bool CRegistryAccess::WriteRegistryKeyEx_d(const double *Double, const CString &
 }
 
 //--------------------------------------------------------------------------------------------
-// Ließt einen Registry-Key; Gibt FALSE im Fehlerfall zurück, sonst TRUE
+// LieÃŸt einen Registry-Key; Gibt FALSE im Fehlerfall zurÃ¼ck, sonst TRUE
 //--------------------------------------------------------------------------------------------
 bool CRegistryAccess::ReadRegistryKeyEx(char *Text, const CString &EntryName) {
     if (hKey == nullptr) {
@@ -310,7 +310,7 @@ bool CRegistryAccess::ReadRegistryKeyEx_d(double *Double, const CString &EntryNa
 //--------------------------------------------------------------------------------------------
 // CSystemCheckup::
 //--------------------------------------------------------------------------------------------
-// Die Systemdaten abprüfen:
+// Die Systemdaten abprÃ¼fen:
 //--------------------------------------------------------------------------------------------
 CSystemCheckup::CSystemCheckup(long Flags, CString CDFile) {
     memset(this, 0, sizeof(*this));
@@ -320,7 +320,7 @@ CSystemCheckup::CSystemCheckup(long Flags, CString CDFile) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Die Systemdaten abprüfen:
+// Die Systemdaten abprÃ¼fen:
 //--------------------------------------------------------------------------------------------
 void CSystemCheckup::Checkup(long Flags, CString CDFile) {
     // Das, was wir holen wollen, als noch nicht geholt markieren:
@@ -419,7 +419,7 @@ void CSystemCheckup::Checkup(long Flags, CString CDFile) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Prüft die CD-Geschwindigkeit:
+// PrÃ¼ft die CD-Geschwindigkeit:
 //--------------------------------------------------------------------------------------------
 void CSystemCheckup::CheckupCD(const CString &CDFile) {
     DWORD SectorsPerCluster;
@@ -463,7 +463,7 @@ void CSystemCheckup::CheckupCD(const CString &CDFile) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Prüft die CPU-Geschwindigkeit
+// PrÃ¼ft die CPU-Geschwindigkeit
 //--------------------------------------------------------------------------------------------
 void CSystemCheckup::CheckupCPU(void) {
     if (IsPentiumOrBetter()) {
@@ -505,7 +505,7 @@ void CSystemCheckup::CheckupCPU(void) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Prüft, welches OS und welche Version vorhanden ist:
+// PrÃ¼ft, welches OS und welche Version vorhanden ist:
 //--------------------------------------------------------------------------------------------
 void CSystemCheckup::CheckupOS(void) {
     OSVERSIONINFO osvi;
@@ -541,7 +541,7 @@ void CSystemCheckup::CheckupRAM(void) {
 
     GlobalMemoryStatus(&MemoryStatus);
 
-    // Daten übertragen:
+    // Daten Ã¼bertragen:
     RealMB = ((MemoryStatus.dwTotalPhys - 1) / 1024 / 1024) + 1;
     VirtualMB = MemoryStatus.dwTotalPageFile / 1024 / 1024;
 
@@ -612,7 +612,7 @@ void CSystemCheckup::CheckupDirectX(void) {
     bMidi = midiOutGetNumDevs() > 0;
 
     //------------------------------------------------------------
-    // Können wir WAV's wiedergeben?
+    // KÃ¶nnen wir WAV's wiedergeben?
     //------------------------------------------------------------
     LPDIRECTSOUND lpDS;
 
@@ -625,7 +625,7 @@ void CSystemCheckup::CheckupDirectX(void) {
         bWave = FALSE;
 
     //------------------------------------------------------------
-    // Haben wir Hardware-Support für 3d-Befehle?
+    // Haben wir Hardware-Support fÃ¼r 3d-Befehle?
     //------------------------------------------------------------
     DDCAPS Caps;
 

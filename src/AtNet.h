@@ -93,7 +93,7 @@ static const ULONG ATNET_SYNC_ITEMS = 0xadaa1004;      // Synchronizes all items
 static const ULONG ATNET_ADD_SYMPATHIE = 0xadaa1005;   // Changes the sympathie of one robot for another person by a value
 static const ULONG ATNET_ADD_EXPLOSION = 0xadaa1006;   // Start an explosion on another computer
 static const ULONG ATNET_SYNC_OFFICEFLAG = 0xadaa1007; // Synchronizes the office State flag
-static const ULONG ATNET_SYNC_PLANES = 0xadaa1008;     // Flugzeuge von einem Spieler komplett übertragen
+static const ULONG ATNET_SYNC_PLANES = 0xadaa1008;     // Flugzeuge von einem Spieler komplett Ã¼bertragen
 static const ULONG ATNET_SYNC_MEETING = 0xadaa1009;    // Die typischen Sachen vom Meeting synchronisieren
 
 // Synchronizing the robots:

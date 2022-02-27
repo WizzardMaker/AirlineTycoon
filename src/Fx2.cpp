@@ -7,7 +7,7 @@
 #endif
 #include <afxtempl.h> // MFC extensions
 
-#include <mmsystem.h> //Für timeGetTime()
+#include <mmsystem.h> //FÃ¼r timeGetTime()
 #include <ddraw.h>    //MS Direct Draw
 #include <math.h>
 
@@ -80,17 +80,17 @@ template <class T, SLONG Precision> class FIXPOINT {
 };
 
 //--------------------------------------------------------------------------------------------
-// Blittet eine Textur auf eine Kugel; Nur ein Drehfaktor ist dafür erlaubt:
-// Die Breite der Quellbitmap muß einer 2erpotenz (16, 32, 64, ...) sein. Sonst explodiert
-// alles bekannte Leben im Universum, die Welt geht unter und die PDS gewinnt die nächste Wahl!
+// Blittet eine Textur auf eine Kugel; Nur ein Drehfaktor ist dafÃ¼r erlaubt:
+// Die Breite der Quellbitmap muÃŸ einer 2erpotenz (16, 32, 64, ...) sein. Sonst explodiert
+// alles bekannte Leben im Universum, die Welt geht unter und die PDS gewinnt die nÃ¤chste Wahl!
 //--------------------------------------------------------------------------------------------
 void Fx2SphereBlit(LPDIRECTDRAWSURFACE lpDDTargetSurface, LPDIRECTDRAWSURFACE lpDDSourceSurface, SLONG midx, SLONG midy, SLONG r, UWORD Alpha) {
     DDSURFACEDESC ddsdSrc, ddsdTgt;
     const UBYTE *s, *stdsource; // Source Bitmap Pointer
     UBYTE *t, *stdtarget;       // TargetBitmap Pointer
-    SLONG cx, cy;               // Zähler für die Schleifen
-    SLONG xs;                   // x-Größe der aktuellen Zeile
-    ULONG Mask;                 // Für Wrap-Around
+    SLONG cx, cy;               // ZÃ¤hler fÃ¼r die Schleifen
+    SLONG xs;                   // x-GrÃ¶ÃŸe der aktuellen Zeile
+    ULONG Mask;                 // FÃ¼r Wrap-Around
     SLONG SourceBase;           // Drehung
     TBOWVECT<SLONG, 16> si;
     TBOWVECT<SLONG, 16> vi;
@@ -130,7 +130,7 @@ void Fx2SphereBlit(LPDIRECTDRAWSURFACE lpDDTargetSurface, LPDIRECTDRAWSURFACE lp
                     si.Init(0, (long)(ddsdSrc.dwWidth / 4 * FXF), ddsdSrc.dwWidth / 4, xs + 1);
                     si++;
 
-                    // Schauen, ob clipping für links/rechts notwendig ist:
+                    // Schauen, ob clipping fÃ¼r links/rechts notwendig ist:
                     if (midx > xs && midx + xs < long(ddsdTgt.dwWidth)) {
                         t[0] = s[((SourceBase + SLONG(si)) & Mask)];
                         si++;
@@ -165,7 +165,7 @@ void Fx2SphereBlit(LPDIRECTDRAWSURFACE lpDDTargetSurface, LPDIRECTDRAWSURFACE lp
                     si.Init(0, (LONG)(ddsdSrc.dwWidth / 4 * FXF), ddsdSrc.dwWidth / 4, xs + 1);
                     si++;
 
-                    // Schauen, ob clipping für links/rechts notwendig ist:
+                    // Schauen, ob clipping fÃ¼r links/rechts notwendig ist:
                     if (midx > xs && midx + xs < long(ddsdTgt.dwWidth)) {
                         // Nein ==> schnelle Version:
                         for (cx = 0; cx <= xs; cx++) {
@@ -190,7 +190,7 @@ void Fx2SphereBlit(LPDIRECTDRAWSURFACE lpDDTargetSurface, LPDIRECTDRAWSURFACE lp
             }
         }
 
-        // Nächste Zeile vorbereiten:
+        // NÃ¤chste Zeile vorbereiten:
         vi++;
     }
 
@@ -199,15 +199,15 @@ void Fx2SphereBlit(LPDIRECTDRAWSURFACE lpDDTargetSurface, LPDIRECTDRAWSURFACE lp
 }
 
 //--------------------------------------------------------------------------------------------
-// Blittet eine Textur auf eine Kugel; Nur ein Drehfaktor ist dafür erlaubt:
-// Die Quellbitmap muß zweimal nebeneinander vorhanden sein, wegen dem Clipping
+// Blittet eine Textur auf eine Kugel; Nur ein Drehfaktor ist dafÃ¼r erlaubt:
+// Die Quellbitmap muÃŸ zweimal nebeneinander vorhanden sein, wegen dem Clipping
 //--------------------------------------------------------------------------------------------
 void Fx2SphereBlitNot2n(LPDIRECTDRAWSURFACE lpDDTargetSurface, LPDIRECTDRAWSURFACE lpDDSourceSurface, SLONG midx, SLONG midy, SLONG r, UWORD Alpha) {
     DDSURFACEDESC ddsdSrc, ddsdTgt;
     const UBYTE *s, *stdsource; // Source Bitmap Pointer
     UBYTE *t, *stdtarget;       // TargetBitmap Pointer
-    SLONG cx, cy;               // Zähler für die Schleifen
-    SLONG xs;                   // x-Größe der aktuellen Zeile
+    SLONG cx, cy;               // ZÃ¤hler fÃ¼r die Schleifen
+    SLONG xs;                   // x-GrÃ¶ÃŸe der aktuellen Zeile
     TBOWVECT<SLONG, 16> si;
     TBOWVECT<SLONG, 16> vi;
 
@@ -243,7 +243,7 @@ void Fx2SphereBlitNot2n(LPDIRECTDRAWSURFACE lpDDTargetSurface, LPDIRECTDRAWSURFA
                     si.Init(0, (long)(ddsdSrc.dwWidth / 8 * FXF), ddsdSrc.dwWidth / 8, xs + 1);
                     si++;
 
-                    // Schauen, ob clipping für links/rechts notwendig ist:
+                    // Schauen, ob clipping fÃ¼r links/rechts notwendig ist:
                     if (midx > xs && midx + xs < long(ddsdTgt.dwWidth)) {
                         register SLONG tmp;
 
@@ -280,7 +280,7 @@ void Fx2SphereBlitNot2n(LPDIRECTDRAWSURFACE lpDDTargetSurface, LPDIRECTDRAWSURFA
                     si.Init(0, (LONG)(ddsdSrc.dwWidth / 8 * FXF), ddsdSrc.dwWidth / 8, xs + 1);
                     si++;
 
-                    // Schauen, ob clipping für links/rechts notwendig ist:
+                    // Schauen, ob clipping fÃ¼r links/rechts notwendig ist:
                     if (midx > xs && midx + xs < long(ddsdTgt.dwWidth)) {
                         // Nein ==> schnelle Version:
                         for (cx = 0; cx <= xs; cx++) {
@@ -305,7 +305,7 @@ void Fx2SphereBlitNot2n(LPDIRECTDRAWSURFACE lpDDTargetSurface, LPDIRECTDRAWSURFA
             }
         }
 
-        // Nächste Zeile vorbereiten:
+        // NÃ¤chste Zeile vorbereiten:
         vi++;
     }
 

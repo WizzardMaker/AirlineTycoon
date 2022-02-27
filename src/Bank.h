@@ -26,15 +26,15 @@ class Bank : public CStdRaum {
 
     // Attributes
   public:
-    TEXT_STYLE StyleAktie{};  // Angestellter für Aktie
-    TEXT_STYLE StyleKredit{}; // Angestellter für Kredit
-    TEXT_STYLE StyleAuszug{}; // Style für den Kontoauszug
+    TEXT_STYLE StyleAktie{};  // Angestellter fÃ¼r Aktie
+    TEXT_STYLE StyleKredit{}; // Angestellter fÃ¼r Kredit
+    TEXT_STYLE StyleAuszug{}; // Style fÃ¼r den Kontoauszug
     SLONG CurrentText{};      // Nummer des aktuellen Dialogs
-    SLONG CurrentValue{};     // Betrag über den gerade geredet wird..
-    SBBM TipBm;               // Fenster für Flugzeug-Tips
-    SLONG CurrentAktie;       //Über dieses Flugzeug wir geredet
+    SLONG CurrentValue{};     // Betrag Ã¼ber den gerade geredet wird..
+    SBBM TipBm;               // Fenster fÃ¼r Flugzeug-Tips
+    SLONG CurrentAktie;       //Ãœber dieses Flugzeug wir geredet
     SLONG CurrentTip;         // Dieser Tip wird gerade angezeigt
-    SLONG KontoType;          //-1=Kein Menü offen; 1=Kredit aufnehmen; 2=Tilgen
+    SLONG KontoType;          //-1=Kein MenÃ¼ offen; 1=Kredit aufnehmen; 2=Tilgen
     SBBM ZettelBm;
     GfxLib *pMenuLib{};
 

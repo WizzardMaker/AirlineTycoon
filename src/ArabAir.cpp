@@ -16,7 +16,7 @@ static char THIS_FILE[] = __FILE__;
 #define DSBVOLUME_MAX 0
 
 //--------------------------------------------------------------------------------------------
-// Die Schalter wird erˆffnet:
+// Die Schalter wird er√∂ffnet:
 //--------------------------------------------------------------------------------------------
 CArabAir::CArabAir(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "arab.gli", GFX_ARAB_AUS) {
     SetRoomVisited(PlayerNum, ROOM_ARAB_AIR);
@@ -185,7 +185,7 @@ void CArabAir::OnLButtonDown(UINT nFlags, CPoint point) {
 void CArabAir::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

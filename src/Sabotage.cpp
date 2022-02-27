@@ -1,5 +1,5 @@
 //============================================================================================
-// Sabotage.cpp : Der Raum f¸r die Sabotage
+// Sabotage.cpp : Der Raum f√ºr die Sabotage
 //============================================================================================
 // Link: "Sabotage.h"
 //============================================================================================
@@ -268,7 +268,7 @@ void CSabotage::OnLButtonDown(UINT nFlags, CPoint point) {
 void CSabotage::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }
@@ -293,7 +293,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CSabotageAct &SabotageAct) {
 }
 
 //--------------------------------------------------------------------------------------------
-// L‰dt ein CSabotageAct-Objekt:
+// L√§dt ein CSabotageAct-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CSabotageAct &SabotageAct) {
     File >> SabotageAct.Player >> SabotageAct.ArabMode >> SabotageAct.Opfer;

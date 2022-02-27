@@ -35,16 +35,16 @@ typedef CStdStringA CString;
 #include "TakeOff.h"
 #include "GameFrame.h" //Rahmenfenster mit PrimarySurface
 
-// Räume:
+// RÃ¤ume:
 #include "SmackPrs.h"
 #include "StdRaum.h"
-#include "Planer.h"      //Die Basisklasse für Laptop/Globe
+#include "Planer.h"      //Die Basisklasse fÃ¼r Laptop/Globe
 #include "AirportView.h" //Die Isometrische Sicht auf den Flughafen
 #include "Globe.h"       //Der Nachfolger des Schedulers
 #include "Laptop.h"      //Der Schleppable
-#include "LastMin.h"     //Das LastMinute Reisebüro
+#include "LastMin.h"     //Das LastMinute ReisebÃ¼ro
 #include "Options.h"     //Das Optionsfenster
-#include "Personal.h"    //Das Personalbüro
+#include "Personal.h"    //Das PersonalbÃ¼ro
 #include "Schedule.h"    //Der Scheduler Bildschirm
 #include "Werkstat.h"    //Die Werkstatthalle
 

@@ -110,7 +110,7 @@ void CWorld::OnRButtonDown(UINT nFlags, CPoint point) {
         return;
     }
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

@@ -15,7 +15,7 @@ static char THIS_FILE[] = __FILE__;
 #define GFX_RICK (0x000000004b434952)
 
 //--------------------------------------------------------------------------------------------
-// Die Schalter wird erˆffnet:
+// Die Schalter wird er√∂ffnet:
 //--------------------------------------------------------------------------------------------
 CRicks::CRicks(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "rick.gli", GFX_RICK) {
     SetRoomVisited(PlayerNum, ROOM_RICKS);
@@ -182,7 +182,7 @@ void CRicks::OnLButtonDown(UINT nFlags, CPoint point) {
 void CRicks::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

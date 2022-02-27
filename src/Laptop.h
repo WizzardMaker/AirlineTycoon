@@ -32,14 +32,14 @@ class CLaptop : public CPlaner {
 
     // Bitmaps:
     SBBM Window, BigWin; // Das einfach und das doppelte Fenster
-    SBBMS Wallpapers;    // Die Hintergr¸nde
-    SBBMS Close;         // Schlieﬂen des Fenster
-    SBBMS DownLeft;      // bl‰ttern
-    SBBMS DownRight;     // bl‰ttern
-    SBBMS UpLeft;        // bl‰ttern
-    SBBMS UpRight;       // bl‰ttern
+    SBBMS Wallpapers;    // Die Hintergr√ºnde
+    SBBMS Close;         // Schlie√üen des Fenster
+    SBBMS DownLeft;      // bl√§ttern
+    SBBMS DownRight;     // bl√§ttern
+    SBBMS UpLeft;        // bl√§ttern
+    SBBMS UpRight;       // bl√§ttern
     SBBMS Inhalt;        // Zum Inhalt
-    SBBMS Jump;          // Springt ein Element vor oder zur¸ck
+    SBBMS Jump;          // Springt ein Element vor oder zur√ºck
     SBBMS Switch;        // Schaltet die Art des rechten Fenster
     SBBM Karte;          // Weltkarte
     SBBMS EckBms;        // Die vier Ecken zum aufblenden...
@@ -47,7 +47,7 @@ class CLaptop : public CPlaner {
     SBBMS ScrollBms;
 
     // Sonstiges:
-    GfxLib *pGLibGlobe{}; // Library f¸r den Raum: Animationen der Objekte; wird immer geladen
+    GfxLib *pGLibGlobe{}; // Library f√ºr den Raum: Animationen der Objekte; wird immer geladen
 
     SBFX StartupFX;
 

@@ -16,7 +16,7 @@ static XY SlimePositions[] = {XY(93, 441), XY(111, 418), XY(137, 430), XY(54, 42
 
 //--------------------------------------------------------------------------------------------
 // Eine Animation initialisieren:
-// * GfxLib  *gfxLib       Grafikbibliothek für die Animation
+// * GfxLib  *gfxLib       Grafikbibliothek fÃ¼r die Animation
 // * CString &graphicIDs   Name der Startphase
 // * SLONG    Anzahl       Anzahl der Bilder in der Animation
 // * SBFX    *Fx           Effekt, der beim Abspielen gespielt wird
@@ -24,8 +24,8 @@ static XY SlimePositions[] = {XY(93, 441), XY(111, 418), XY(137, 430), XY(54, 42
 // * SLONG    Mode         ONCE/REPEAT/RANDOM PHASE
 // * SLONG    Prelude      Soviel x/20 Sekunden bis zum Animationsbeginn warten
 // * SLONG    Speed        Geschwindigkeit der Animation in x/20 Sekunden pro Frame
-// * SLONG    CyclycWait   (optional) Wartepausen zwischen Folgedurchgängen der Animation
-// * SLONG    RepeatCore   (optional) Sooft wird die Animation am Stück sofort wiederholt
+// * SLONG    CyclycWait   (optional) Wartepausen zwischen FolgedurchgÃ¤ngen der Animation
+// * SLONG    RepeatCore   (optional) Sooft wird die Animation am StÃ¼ck sofort wiederholt
 //--------------------------------------------------------------------------------------------
 void CAnimation::ReSize(GfxLib *gfxLib, const CString &graphicIDs, SLONG Anzahl, SBFX *Fx, BOOL StartPic, SLONG Mode, SLONG Prelude, SLONG Speed,
                         SLONG CyclycWait, SLONG RepeatCore) {
@@ -43,12 +43,12 @@ void CAnimation::ReSize(GfxLib *gfxLib, const CString &graphicIDs, SLONG Anzahl,
 }
 
 //--------------------------------------------------------------------------------------------
-// Setzt die Animation zurück (z.B. für den Bildschirmschoner)
+// Setzt die Animation zurÃ¼ck (z.B. fÃ¼r den Bildschirmschoner)
 //--------------------------------------------------------------------------------------------
 void CAnimation::Reset() { CAnimation::CounterStart = Sim.TickerTime + Prelude; }
 
 //--------------------------------------------------------------------------------------------
-// Gibt den aktuell gezeigten Frame zurück:
+// Gibt den aktuell gezeigten Frame zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 SLONG CAnimation::GetFrame() const {
     if (Frames.AnzEntries() != 0) {
@@ -232,7 +232,7 @@ void CAnimation::BlitAtT(SBBM &RoomBm, SLONG x, SLONG y) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Die Schalter wird eröffnet:
+// Die Schalter wird erÃ¶ffnet:
 //--------------------------------------------------------------------------------------------
 CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "werkstat.gli", GFX_WERKSTAT) {
     SetRoomVisited(PlayerNum, ROOM_WERKSTATT);
@@ -523,7 +523,7 @@ void CWerkstatt::OnLButtonDown(UINT nFlags, CPoint point) {
 // void CWerkstatt::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 void CWerkstatt::OnRButtonDown(UINT nFlags, CPoint point) {
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

@@ -1,5 +1,5 @@
 //============================================================================================
-// DutyFree.cpp : Der DutyFree Laden. Hier gibt's Anz¸ge (unter anderem)
+// DutyFree.cpp : Der DutyFree Laden. Hier gibt's Anz√ºge (unter anderem)
 //============================================================================================
 // Link: "DutyFree.h"
 //============================================================================================
@@ -260,7 +260,7 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point) {
 
     DefaultOnLButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (ConvertMousePosition(point, &RoomPos) == 0) {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
@@ -380,7 +380,7 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point) {
 void CDutyFree::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

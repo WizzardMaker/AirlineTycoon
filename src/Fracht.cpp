@@ -35,7 +35,7 @@ void CalcPlayerMaximums(bool bForce = false);
 CString ShortenLongCities(CString City);
 
 //--------------------------------------------------------------------------------------------
-// Die Schalter wird eröffnet:
+// Die Schalter wird erÃ¶ffnet:
 //--------------------------------------------------------------------------------------------
 CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "fracht.gli", GFX_FRACHT) {
     bCanPaint = false;
@@ -76,7 +76,7 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
                               nullptr, // Warten->Speak/Listen
                               "A1E1", 5, 6);
 
-    // Zuhören:
+    // ZuhÃ¶ren:
     SP_Fracht.Clips[5].ReSize(5, "fm4spas1.smk", "", XY(485, 50), SPM_LISTENING, CRepeat(1, 1), CPostWait(10, 30), SMACKER_CLIP_CANCANCEL, nullptr,
                               SMACKER_CLIP_SET, 0, nullptr, // Listening
                               "A9A9A9E1E1", 5, 6, 7, 8, 12);
@@ -101,7 +101,7 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
                                SMACKER_CLIP_SET, 0, nullptr, // Talking
                                "A9A9A9E1E1", 9, 10, 12, 5, 12);
 
-    // Zurück zur Arbeit drehen:
+    // ZurÃ¼ck zur Arbeit drehen:
     SP_Fracht.Clips[12].ReSize(12, "fm4back.smk", "", XY(485, 50), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, nullptr, SMACKER_CLIP_SET,
                                0, nullptr, // Speak/Listen->Warten
                                "A1E1", 0, 6);
@@ -201,7 +201,7 @@ void CFrachtRaum::OnPaint() {
 
     LastTime = timeGetTime();
 
-    // Koordinaten für kleine Fenster konvertieren:
+    // Koordinaten fÃ¼r kleine Fenster konvertieren:
     ConvertMousePosition(point, &RoomPos);
 
     if (bHandy == 0) {
@@ -371,7 +371,7 @@ void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point) {
 
                     KommVar = 3;
 
-                    // Für den Statistikscreen:
+                    // FÃ¼r den Statistikscreen:
                     qPlayer.Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
 
                     gFrachten.Fracht[c].Praemie = -1000;
@@ -391,7 +391,7 @@ void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point) {
 void CFrachtRaum::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }
@@ -427,7 +427,7 @@ void CFrachtRaum::RepaintZettel(SLONG n) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Das Raster zum ausgrauen der ungültigen Tage zeichnen:
+// Das Raster zum ausgrauen der ungÃ¼ltigen Tage zeichnen:
 //--------------------------------------------------------------------------------------------
 void CFracht::BlitGridAt(SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page) const {
     SLONG c = 0;
@@ -448,7 +448,7 @@ void CFracht::BlitGridAt(SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page
 }
 
 //--------------------------------------------------------------------------------------------
-// Legt Städte fest: (AreaType: 0=Europa-Europa, 1=Region-gleicher Region, 2=alles
+// Legt StÃ¤dte fest: (AreaType: 0=Europa-Europa, 1=Region-gleicher Region, 2=alles
 //--------------------------------------------------------------------------------------------
 void CFracht::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRand) {
     SLONG TimeOut = 0;
@@ -522,7 +522,7 @@ void CFracht::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRand) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag für den Spielbeginn ein:
+// FÃ¼gt einen neuen Auftrag fÃ¼r den Spielbeginn ein:
 //--------------------------------------------------------------------------------------------
 void CFracht::RefillForBegin(SLONG AreaType, TEAKRAND *pRand) {
     SLONG TimeOut = 0;
@@ -561,10 +561,10 @@ too_large:
 
     SLONG Type = pRand->Rand(100);
 
-    // Typ A = Normal, Gewinn möglich, etwas Strafe
+    // Typ A = Normal, Gewinn mÃ¶glich, etwas Strafe
     if (Type >= 0 && Type < 50) {
     }
-    // Typ B = Hoffmann, Gewinn möglich, keine Strafe
+    // Typ B = Hoffmann, Gewinn mÃ¶glich, keine Strafe
     else if (Type >= 50 && Type < 60) {
         BisDate = UWORD(Sim.Date + 6);
     }
@@ -574,7 +574,7 @@ too_large:
         Strafe = Praemie * 2;
         BisDate = UWORD(Sim.Date + 1);
     }
-    // Typ E = Glücksfall, viel Gewinn, keine Strafe
+    // Typ E = GlÃ¼cksfall, viel Gewinn, keine Strafe
     else if (Type >= 95 && Type < 100) {
         Praemie *= 2;
         Strafe = 0;
@@ -616,7 +616,7 @@ too_large:
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag ein:
+// FÃ¼gt einen neuen Auftrag ein:
 //--------------------------------------------------------------------------------------------
 void CFracht::Refill(SLONG AreaType, TEAKRAND *pRnd) {
     SLONG TimeOut = 0;
@@ -650,10 +650,10 @@ too_large:
 
     SLONG Type = pRnd->Rand(100);
 
-    // Typ A = Normal, Gewinn möglich, etwas Strafe
+    // Typ A = Normal, Gewinn mÃ¶glich, etwas Strafe
     if (Type >= 0 && Type < 50) {
     }
-    // Typ B = Hoffmann, Gewinn möglich
+    // Typ B = Hoffmann, Gewinn mÃ¶glich
     else if (Type >= 50 && Type < 60) {
         Date = UWORD(Sim.Date);
         BisDate = UWORD(Sim.Date + 4 + pRnd->Rand(3));
@@ -664,11 +664,11 @@ too_large:
         Strafe = Praemie * 2;
         BisDate = Date = UWORD(Sim.Date + 1);
     }
-    // Typ D = Betrug, kein Gewinn möglich, etwas Strafe
+    // Typ D = Betrug, kein Gewinn mÃ¶glich, etwas Strafe
     else if (Type >= 80 && Type < 95) {
         Praemie /= 2;
     }
-    // Typ E = Glücksfall, viel Gewinn, keine Strafe
+    // Typ E = GlÃ¼cksfall, viel Gewinn, keine Strafe
     else if (Type >= 95 && Type < 100) {
         Praemie *= 2;
         Strafe = 0;
@@ -763,7 +763,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CFracht &Fracht) {
 //============================================================================================
 // CFrachten::
 //============================================================================================
-// Fügt eine Reihe von neuen Aufträgen ein:
+// FÃ¼gt eine Reihe von neuen AuftrÃ¤gen ein:
 //============================================================================================
 void CFrachten::Fill() {
     SLONG c = 0;
@@ -784,7 +784,7 @@ void CFrachten::Fill() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag ein:
+// FÃ¼gt einen neuen Auftrag ein:
 //--------------------------------------------------------------------------------------------
 void CFrachten::Refill(SLONG Minimum) {
     SLONG c = 0;
@@ -885,7 +885,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CFrachten &Frachten) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läd ein CFrachten Datum:
+// LÃ¤d ein CFrachten Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CFrachten &Frachten) {
     File >> Frachten.Fracht;
@@ -896,7 +896,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CFrachten &Frachten) {
 }
 
 //============================================================================================
-// Läßt nötigenfalls den Auftragsberater mit einem Spruch erscheien
+// LÃ¤ÃŸt nÃ¶tigenfalls den Auftragsberater mit einem Spruch erscheien
 //============================================================================================
 void PLAYER::CheckAuftragsBerater(const CFracht &Fracht) {
     if (HasBerater(BERATERTYP_AUFTRAG) != 0) {
@@ -938,7 +938,7 @@ void PLAYER::CheckAuftragsBerater(const CFracht &Fracht) {
         } else {
             SLONG Cost = ((CalculateFlightCost(Fracht.VonCity, Fracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
-            // Bei den Kosten auch die wahrscheinliche Zahl der Flüge berücksichtigen:
+            // Bei den Kosten auch die wahrscheinliche Zahl der FlÃ¼ge berÃ¼cksichtigen:
             if (Fracht.Tons > 22) {
                 Cost *= Fracht.Tons / 22;
             }
@@ -1005,10 +1005,10 @@ too_large:
 
     SLONG Type = pRandom->Rand(100);
 
-    // Typ A = Normal, Gewinn möglich, etwas Strafe
+    // Typ A = Normal, Gewinn mÃ¶glich, etwas Strafe
     if (Type >= 0 && Type < 50) {
     }
-    // Typ B = Hoffmann, Gewinn möglich
+    // Typ B = Hoffmann, Gewinn mÃ¶glich
     else if (Type >= 50 && Type < 60) {
         Date = UWORD(Sim.Date);
         BisDate = UWORD(Sim.Date + 4 + pRandom->Rand(3));
@@ -1019,11 +1019,11 @@ too_large:
         Strafe = Praemie * 2;
         BisDate = Date = UWORD(Sim.Date + 1);
     }
-    // Typ D = Betrug, kein Gewinn möglich, etwas Strafe
+    // Typ D = Betrug, kein Gewinn mÃ¶glich, etwas Strafe
     else if (Type >= 80 && Type < 95) {
         Praemie /= 2;
     }
-    // Typ E = Glücksfall, viel Gewinn, keine Strafe
+    // Typ E = GlÃ¼cksfall, viel Gewinn, keine Strafe
     else if (Type >= 95 && Type < 100) {
         Praemie *= 2;
         Strafe = 0;

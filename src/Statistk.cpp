@@ -22,7 +22,7 @@ extern SB_CColorFX ColorFX;
 extern ULONG AktienKursLineColor[4];
 ULONG DarkColors[4] = {0x00407f, 0x007f20, 0x7f0000, 0x7f7f00};
 
-// Das Ausgabefenster für den Graphen
+// Das Ausgabefenster fÃ¼r den Graphen
 #define G_LEFT (6)
 #define G_TOP (30)
 #define G_RIGHT (439)
@@ -35,7 +35,7 @@ long days[] = {7, 14, 21, 30, 90, 180, 270, 360};
 const char TOKEN_STAT[] = "STAT";
 
 //--------------------------------------------------------------------------------------------
-// Die Screen wird eröffnet:
+// Die Screen wird erÃ¶ffnet:
 //--------------------------------------------------------------------------------------------
 CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "statistk.gli", GFX_STATISTK) {
     SLONG c = 0;
@@ -48,7 +48,7 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
     _fGraphVisible = Sim.StatfGraphVisible;
     DropDownPos.y = Sim.DropDownPosY;
 
-    // Umständlich, aber wahr...
+    // UmstÃ¤ndlich, aber wahr...
     {
         for (short p = 0; p < MAX_GROUP; p++) {
             for (short i = 0; i < MAX_ITEMS; i++) {
@@ -202,7 +202,7 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         _iArray[g][c++].define = STAT_ZUFR_PERSONAL;
     }
 
-    // Temporäre Dinge
+    // TemporÃ¤re Dinge
     _fRepaint = true;
     _selectedItem = -1; // Kein (Font-)Item selektiert
     _oldSelectedItem = -1;
@@ -248,9 +248,9 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
 
     // Die Buttons:         .ID HelpId  ........MouseRect......  .BlitOffset  & #2  ..NormalBm.  ...HighBm..  ..ClickBm..  ClckHi Toggle
     StatButtons[0].ReSize(999, 0, CRect(0, 440, 79, 479), XY(0, 440), nullptr, &ExitBms[0], &ExitBms[1], nullptr, nullptr, FALSE);
-    // Hinweis: Der Exit-Button muß immer Button 0 sein!
+    // Hinweis: Der Exit-Button muÃŸ immer Button 0 sein!
 
-    // Der Buttons für die DropDown Liste:
+    // Der Buttons fÃ¼r die DropDown Liste:
     StatButtons[1].ReSize(100, 0, CRect(190, 11, 639, 38), XY(390, 10), &DropDownPos, nullptr, &UpDownArrows[1], nullptr, nullptr, FALSE);
 
     // Die vier Spielerportraits:
@@ -265,7 +265,7 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
     StatButtons[8].ReSize(122, 3302, CRect(130, 370, 185, 429), XY(130, 370), nullptr, nullptr, &ButtonRouteBms[0], &ButtonRouteBms[1], &ButtonRouteBms[1],
                           TRUE);
 
-    // Die Zoom-Buttons für die Drop-Down Liste:
+    // Die Zoom-Buttons fÃ¼r die Drop-Down Liste:
     StatButtons[9].ReSize(130, 0, CRect(374, -318, 408, -293), XY(374, -318), &DropDownPos, nullptr, &LupeZoomBms[1], &LupeZoomBms[1], nullptr, FALSE);
     StatButtons[10].ReSize(131, 0, CRect(412, -318, 446, -293), XY(412, -318), &DropDownPos, nullptr, &LupeZoomBms[0], &LupeZoomBms[0], nullptr, FALSE);
 
@@ -530,8 +530,8 @@ void CStatistik::OnPaint() {
     long xPos = 35 + ((160 - 35) >> 1) - (length >> 1);
     RoomBm.PrintAt(output, FontDialogPartner, TEC_FONT_LEFT, xPos, 15, xPos + length + 5, 45);
 
-    // Zeichnet die Einträge einer Gruppe. Ist der Mauscursor
-    // über einem Eintrag wird dieser focusiert.
+    // Zeichnet die EintrÃ¤ge einer Gruppe. Ist der Mauscursor
+    // Ã¼ber einem Eintrag wird dieser focusiert.
     long xOffset[] = {0, -18, -11, -11, -11, -11};
     long xOffset2[] = {-11, -18, -11, -11, -11, -11};
     RECT rc = {45, 56, 155, 66};
@@ -602,7 +602,7 @@ void CStatistik::OnPaint() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Berechnet einige Sachen für den Graphen
+// Berechnet einige Sachen fÃ¼r den Graphen
 //--------------------------------------------------------------------------------------------
 void CStatistik::CalcGraph() {
     __int64 min = 0;
@@ -675,7 +675,7 @@ void CStatistik::CalcGraph() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet das Menü mit dem Graphen neu:
+// Zeichnet das MenÃ¼ mit dem Graphen neu:
 //--------------------------------------------------------------------------------------------
 void CStatistik::RepaintGraphWindow() {
     long x1 = 0;
@@ -701,7 +701,7 @@ void CStatistik::RepaintGraphWindow() {
 
     DropDownBm.PrintAt(output, StatFonts[1], TEC_FONT_LEFT, 263, 12, G_RIGHT, G_BOTTOM);
 
-    if (Sim.Date == 0) { // Am ersten Tag keine Statistik möglich
+    if (Sim.Date == 0) { // Am ersten Tag keine Statistik mÃ¶glich
         return;
     }
 
@@ -855,7 +855,7 @@ void CStatistik::RepaintGraphWindow() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet das Menü mit dem Text neu:
+// Zeichnet das MenÃ¼ mit dem Text neu:
 //--------------------------------------------------------------------------------------------
 void CStatistik::RepaintTextWindow() {
     int p = 0;
@@ -1111,9 +1111,9 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point) {
             }
         }
 
-        // Prüfen ob ein (Font-)Item angeklickt wurde
+        // PrÃ¼fen ob ein (Font-)Item angeklickt wurde
         if (_selectedItem != -1) {
-            // Falls das gewählte Icon eine Gruppe war diese komplett
+            // Falls das gewÃ¤hlte Icon eine Gruppe war diese komplett
             // ein- oder ausschalten.
             if (_iArray[_group][_selectedItem].typOfItem == TYP_GROUP) {
                 while (++_selectedItem < MAX_ITEMS && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
@@ -1154,7 +1154,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point) {
 void CStatistik::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

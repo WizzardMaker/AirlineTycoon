@@ -26,19 +26,19 @@ class CWeltAll : public CStdRaum {
     SBBM SpaceBm;      // Das Hintergrundbild
 
     SBBMS StationBms;    // Die 10 (farblich neutralen) Bilder der Station
-    SBBMS Ring1ColorBms; // Die vier Farblichen Bilder für Ring 1
-    SBBMS Ring2ColorBms; // Die vier Farblichen Bilder für Ring 2
-    SBBMS Ring3ColorBms; // Die vier Farblichen Bilder für Ring 3
-    SBBMS O2ColorBms;    // Die vier Farblichen Bilder für die Sauerstofftanks
+    SBBMS Ring1ColorBms; // Die vier Farblichen Bilder fÃ¼r Ring 1
+    SBBMS Ring2ColorBms; // Die vier Farblichen Bilder fÃ¼r Ring 2
+    SBBMS Ring3ColorBms; // Die vier Farblichen Bilder fÃ¼r Ring 3
+    SBBMS O2ColorBms;    // Die vier Farblichen Bilder fÃ¼r die Sauerstofftanks
     SBBM CentralL;       // Die Zentrale mit Licht
-    SBBM BusinessL;      // Der Geschäftsbereich mit Licht
+    SBBM BusinessL;      // Der GeschÃ¤ftsbereich mit Licht
     SBBM CommL;          // Die Antenne mit Licht
-    SBBM LivingL;        // Der Geschäftsbereich mit Licht
+    SBBM LivingL;        // Der GeschÃ¤ftsbereich mit Licht
 
     SBBMS StarBms; // Die Sternschnuppen
 
     SLONG BlinkArrowsTimer; // Die blinkenden Pfeile
-    SLONG LastTime;         // Für Animationen
+    SLONG LastTime;         // FÃ¼r Animationen
 
     CSternschnuppe Sternschnuppen[20];
     CSmackerPerson SP_Flags[4];

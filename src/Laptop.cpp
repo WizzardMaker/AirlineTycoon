@@ -219,7 +219,7 @@ CLaptop::CLaptop(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.
         }
     }
 
-    // Base-Pointer der Blöcke initialisieren:
+    // Base-Pointer der BlÃ¶cke initialisieren:
     for (c = qPlayer.Blocks.AnzEntries(); c >= 0; c--) {
         if (qPlayer.Blocks.IsInAlbum(ULONG(c)) != 0) {
             qPlayer.Blocks[c].Base = this;
@@ -375,7 +375,7 @@ void CLaptop::OnPaint() {
         return;
     }
 
-    // Blöcke: Tips löschen:
+    // BlÃ¶cke: Tips lÃ¶schen:
     for (c = qPlayer.Blocks.AnzEntries() - 1; c >= 1; c--) {
         if (qPlayer.Blocks.IsInAlbum(c) != 0) {
             qPlayer.Blocks[c].SetTip(TIP_NONE, TIP_NONE, 0);
@@ -469,7 +469,7 @@ void CLaptop::OnPaint() {
 
     // Laptop-Inhalt nur zeichnen, wenn die Batterie voll ist:
     if (qPlayer.LaptopBattery > 0 && (Copyprotection == 0)) {
-        // Die Warnlampen für die Flüge:
+        // Die Warnlampen fÃ¼r die FlÃ¼ge:
         if (WarningLightModes[0] == 1 || (WarningLightModes[0] == 2 && (Time & 1023) < 512)) {
             RoomBm.BlitFrom(WarningLightBms[0], 59, 40);
         }
@@ -838,7 +838,7 @@ void CLaptop::OnPaint() {
                 RoomBm.BlitFromT(PlaneRouteBms[0], 66, 277);
                 RoomBm.BlitFromT(PlaneRouteBms[9], 91 + 1, 346 + 2);
 
-                // Highlight, wenn gedrückt:
+                // Highlight, wenn gedrÃ¼ckt:
                 if (qPlayer.DisplayPlanes[0] != 0U) {
                     RoomBm.BlitFromT(PlaneRouteBms[2], 66, 277);
                 }
@@ -864,7 +864,7 @@ void CLaptop::OnPaint() {
                     RoomBm.BlitFromT(PlaneRouteBms[19 + qPlayer.DisplayRoutes[3]], 91 + 1 + 24, 346 + 2 + 23);
                 }
 
-                // Highlight, wenn Cursor drüber
+                // Highlight, wenn Cursor drÃ¼ber
                 if (MouseClickArea == ROOM_LAPTOP && MouseClickId == 100) {
                     if (MouseClickPar1 == 70) {
                         RoomBm.BlitFromT(PlaneRouteBms[1], 66 + 9, 277 + 8);
@@ -895,7 +895,7 @@ void CLaptop::OnPaint() {
 
             RoomBm.pBitmap->SetClipRect(CRect(39, 29, 600, 409));
 
-            // Blöcke zeichnen:
+            // BlÃ¶cke zeichnen:
             for (c = qPlayer.Blocks.AnzEntries() - 1; c >= 1; c--) {
                 if ((qPlayer.Blocks.IsInAlbum(c) != 0) && (FensterVisible != 0)) {
                     BLOCK &qBlock = qPlayer.Blocks[c];
@@ -1151,7 +1151,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
         BLOCK &qBlock = Sim.Players.Players[PlayerNum].Blocks[CurrentBlock];
 
         if (MouseClickArea == ROOM_LAPTOP && MouseClickId == 100) {
-            // Quick-Jump zum nächsten Element:
+            // Quick-Jump zum nÃ¤chsten Element:
             if (MouseClickPar1 >= 170 && MouseClickPar1 <= 173) {
                 SLONG c = 0;
 
@@ -1174,7 +1174,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
                     }
 
                     switch (pBlock->BlockType) {
-                    // Städte-Index:
+                    // StÃ¤dte-Index:
                     case 1:
                         pBlock->AnzPages = 1 + Cities[pBlock->SelectedId].AnzTexts + Cities[pBlock->SelectedId].AnzPhotos;
                         EarthTargetAlpha = UWORD((Cities[pBlock->SelectedId].GlobusPosition.x + 170) * (3200 / 18) - 16000 + 1300);
@@ -1282,7 +1282,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
             } else if (MouseClickPar1 == 60 || MouseClickPar1 == 61 || MouseClickPar1 == 62) {
                 // Neue Parameter laden:
                 if (MouseClickPar1 == 60) {
-                    qBlock.BlockTypeB = 3; // Aufträge
+                    qBlock.BlockTypeB = 3; // AuftrÃ¤ge
                 }
                 if (MouseClickPar1 == 61) {
                     qBlock.BlockTypeB = 6; // Fracht

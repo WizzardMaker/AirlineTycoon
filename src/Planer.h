@@ -1,5 +1,5 @@
 //============================================================================================
-// Planer.h : Die Basisklasse für Globe und Laptop
+// Planer.h : Die Basisklasse fÃ¼r Globe und Laptop
 //============================================================================================
 
 class CPlaner : public CStdRaum {
@@ -12,12 +12,12 @@ class CPlaner : public CStdRaum {
     // Bitmaps:
     SBBM GlobeBm;
     SBBM PostItBm;        // Das UnterCursor PostIt
-    SBBMS MapPlaneBms[4]; // Die kleinen Flugzeuge für den Globus
+    SBBMS MapPlaneBms[4]; // Die kleinen Flugzeuge fÃ¼r den Globus
 
     TECBM EarthBm;
 
     // Sonstiges:
-    SLONG LastPaintedMinute{}; // Jede Stunden wegen den Schlössern ein repaint
+    SLONG LastPaintedMinute{}; // Jede Stunden wegen den SchlÃ¶ssern ein repaint
     BOOL FensterVisible;       // Wurden die Fenster ausgeblendet?
     BOOL IsLaptop;             // 0=Globe, 1=Laptop
     UBYTE UsedToRotate;        // Kennzeichnet ob Routen NACH Rotation notwendig sind
@@ -27,11 +27,11 @@ class CPlaner : public CStdRaum {
 
     // Cursor, Dragging, PostIt
     SLONG CurrentDragId{};     // Falls ButtonDown, dann wird dieses Fenster gezogen
-    XY DragOffset;             // Maus Position in der Überschrift
+    XY DragOffset;             // Maus Position in der Ãœberschrift
     XY DragStart;              // Hier hat der Dreck angefangen.... Hohoho
     SLONG CurrentPostItType{}; // Identifiziert PostIt-Bitmap des Auftrags
     SLONG CurrentPostItId{};   // Identifiziert PostIt-Bitmap des Auftrags
-    SLONG CurrentBlock{};      //Über diesem Block ist der Cursor...
+    SLONG CurrentBlock{};      //Ãœber diesem Block ist der Cursor...
     BLOCK *pBlock{};           // Pointer auf den Block oder NULL
 
     BOOL IsInClientArea{};  // Ist der Cursor in der Client-Area des Blockes
@@ -49,7 +49,7 @@ class CPlaner : public CStdRaum {
     // Erdkugel:
     UWORD &EarthAlpha;        // Rotationsposition der Erde
     UWORD EarthTargetAlpha{}; // Zielposition der Rotation
-    DWORD LastTime{};         // Für's Sync bei rotieren
+    DWORD LastTime{};         // FÃ¼r's Sync bei rotieren
 
     // Operations:
   public:

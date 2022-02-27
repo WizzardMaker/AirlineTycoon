@@ -24,7 +24,7 @@ extern SLONG timeReisClose;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------------------------------------
-// Zählt wie oft das Zeichen vorkommt:
+// ZÃ¤hlt wie oft das Zeichen vorkommt:
 //--------------------------------------------------------------------------------------------
 long strchrcount(CString Text, char chr);
 
@@ -207,7 +207,7 @@ void CReisebuero::OnPaint() {
 
     LastTime = timeGetTime();
 
-    // Koordinaten für kleine Fenster konvertieren:
+    // Koordinaten fÃ¼r kleine Fenster konvertieren:
     ConvertMousePosition(point, &RoomPos);
 
     if (bHandy == 0) {
@@ -383,7 +383,7 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point) {
                     qPlayer.Auftraege += ReisebueroAuftraege.Auftraege[c];
                     qPlayer.NetUpdateOrder(ReisebueroAuftraege.Auftraege[c]);
 
-                    // Für den Statistikscreen:
+                    // FÃ¼r den Statistikscreen:
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
 
                     SIM::SendSimpleMessage(ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, static_cast<long>(qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0)),
@@ -405,7 +405,7 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point) {
 void CReisebuero::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

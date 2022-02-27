@@ -134,7 +134,7 @@ CGlobe::CGlobe(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
 
     Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.RepaintAll = FALSE;
 
-    // Globus-Block nötigenfalls erzeugen:
+    // Globus-Block nÃ¶tigenfalls erzeugen:
     if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(0)) == 0) {
         ULONG Id = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.GetUniqueId();
 
@@ -187,7 +187,7 @@ CGlobe::CGlobe(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
         Limit(static_cast<SLONG>(-20), Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[Id].ScreenPos.y, static_cast<SLONG>(400));
     }
 
-    // Base-Pointer der Blöcke initialisieren:
+    // Base-Pointer der BlÃ¶cke initialisieren:
     for (c = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.AnzEntries() - 1; c >= 0; c--) {
         if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(c)) != 0) {
             Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[c].Base = nullptr;
@@ -307,7 +307,7 @@ void CGlobe::OnPaint() {
         FensterVisible = FALSE;
     }
 
-    // Blöcke: Tips löschen:
+    // BlÃ¶cke: Tips lÃ¶schen:
     if (qPlayer.Blocks.IsInAlbum(ULONG(0)) != 0) {
         qPlayer.Blocks[ULONG(0)].SetTip(TIP_NONE, TIP_NONE, 0);
     }
@@ -411,7 +411,7 @@ void CGlobe::OnPaint() {
                 SetMouseLook(CURSOR_HOT, 3002, ROOM_GLOBE, 100, 22); // Flugzeuge
             }
             if (CurrentBlockPos.IfIsWithin(108, 260, 188, 290)) {
-                SetMouseLook(CURSOR_HOT, 3001, ROOM_GLOBE, 100, 21); // Städte
+                SetMouseLook(CURSOR_HOT, 3001, ROOM_GLOBE, 100, 21); // StÃ¤dte
             }
             if (CurrentBlockPos.IfIsWithin(169, 260, 268, 290)) {
                 SetMouseLook(CURSOR_HOT, 3005, ROOM_GLOBE, 100, 25); // Infos
@@ -455,7 +455,7 @@ void CGlobe::OnPaint() {
 
             if ((pBlock != nullptr) && pBlock->BlockType == 2) {
                 if (CurrentBlockPos.IfIsWithin(272, 258, 343, 289)) {
-                    SetMouseLook(CURSOR_HOT, 3003, ROOM_GLOBE, 100, 23); // Aufträge
+                    SetMouseLook(CURSOR_HOT, 3003, ROOM_GLOBE, 100, 23); // AuftrÃ¤ge
                 }
                 if (CurrentBlockPos.IfIsWithin(343, 258, 414, 289)) {
                     SetMouseLook(CURSOR_HOT, 3008, ROOM_GLOBE, 100, 26); // Fracht
@@ -528,7 +528,7 @@ void CGlobe::OnPaint() {
             RoomBm.BlitFromT(DarkBm, 500, 0);
         }
 
-        // Blöcke zeichnen
+        // BlÃ¶cke zeichnen
         if (FensterVisible != 0) {
             qPlayer.Blocks[ULONG(0)].IsTopWindow = TRUE;
             qPlayer.Blocks[ULONG(0)].UpdateTip(PlayerNum, FALSE);
@@ -671,7 +671,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point) {
             if (MouseClickArea == ROOM_GLOBE && MouseClickId == 100) {
                 if (MouseClickPar1 == 21 || MouseClickPar1 == 22 || MouseClickPar1 == 25) {
                     if (qBlock.BlockType != MouseClickPar1 - 20) {
-                        // Tutorial und zu früh? Dann abbruch!
+                        // Tutorial und zu frÃ¼h? Dann abbruch!
                         if ((Sim.IsTutorial != 0) && Sim.Tutorial != 1502) {
                             return;
                         }
@@ -690,7 +690,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point) {
                         qBlock.Page = qBlock.Pages[MouseClickPar1 - 21];
                         qBlock.RefreshData(PlayerNum);
 
-                        // Tutorium: Spieler öffnet Flugzeugliste:
+                        // Tutorium: Spieler Ã¶ffnet Flugzeugliste:
                         if (qBlock.BlockType == 2 && (Sim.IsTutorial != 0) && Sim.Tutorial == 1502) {
                             Sim.Tutorial = 1503;
                             Sim.Players.Players[Sim.localPlayer].Messages.NextMessage();
@@ -754,12 +754,12 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point) {
                 if (MouseClickPar1 == 23 || MouseClickPar1 == 24 || MouseClickPar1 == 26) {
                     if (qBlock.BlockTypeB != MouseClickPar1 - 20) {
                         if ((Sim.IsTutorial == 0) || MouseClickPar1 == 23) {
-                            // Tutorium: Spieler kann Routen nicht öffnen:
+                            // Tutorium: Spieler kann Routen nicht Ã¶ffnen:
                             if (MouseClickPar1 - 20 != 3 && (Sim.IsTutorial != 0)) {
                                 return;
                             }
 
-                            // Tutorium: Spieler kann Aufträge nicht zu früh nicht öffnen:
+                            // Tutorium: Spieler kann AuftrÃ¤ge nicht zu frÃ¼h nicht Ã¶ffnen:
                             if (MouseClickPar1 - 20 == 3 && (Sim.IsTutorial != 0) && Sim.Tutorial < 1504) {
                                 return;
                             }
@@ -779,7 +779,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point) {
                             qBlock.RefreshData(PlayerNum);
                             qBlock.AnzPagesB = max(0, (qBlock.TableB.AnzRows - 1) / 6) + 1;
 
-                            // Tutorium: Spieler öffnet Auftragsliste:
+                            // Tutorium: Spieler Ã¶ffnet Auftragsliste:
                             if (qBlock.BlockTypeB == 3 && (Sim.IsTutorial != 0) && Sim.Tutorial == 1504) {
                                 Sim.Tutorial = 1505;
 
@@ -855,7 +855,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point) {
         {
         ULONG Id;
 
-        //Tutorium: Spieler öffnet Flugzeugliste:
+        //Tutorium: Spieler Ã¶ffnet Flugzeugliste:
         if (CurrentIcon==2 && Sim.Difficulty==DIFF_TUTORIAL && Sim.Tutorial==1502)
         {
         Sim.Tutorial=1503;
@@ -863,7 +863,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point) {
         Sim.Players.Players[Sim.localPlayer].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_TUTORIUM, 1503),
     (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX));
         }
-        //Tutorium: Spieler öffnet Auftragsliste:
+        //Tutorium: Spieler Ã¶ffnet Auftragsliste:
         else if (CurrentIcon==3 && Sim.Difficulty==DIFF_TUTORIAL && Sim.Tutorial==1504)
         {
         Sim.Tutorial=1505;

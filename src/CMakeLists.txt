@@ -1,4 +1,4 @@
-﻿
+
 project (AT)
 
 add_subdirectory (TeakLibW)

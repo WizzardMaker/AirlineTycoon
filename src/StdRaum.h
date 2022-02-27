@@ -13,11 +13,11 @@ class CStdRaum {
 
     // Handy-Dialog-Attributes
   protected:
-    BOOL bHandy;             // TRUE, wenn das Fenster zum Handy gehört
+    BOOL bHandy;             // TRUE, wenn das Fenster zum Handy gehÃ¶rt
     SLONG TempScreenScroll;  // Rein/Rausfahrposition vom Handy-Fenster
     SLONG TempScreenScrollV; // Bewegung vom Handy-Fenster
     SLONG LastScrollTime;
-    SLONG HandyOffset; // x-Verschiebung des Bildes für den Handy-Dialog
+    SLONG HandyOffset; // x-Verschiebung des Bildes fÃ¼r den Handy-Dialog
     SLONG KonstruktorFinished;
 
     // Attributes
@@ -25,16 +25,16 @@ class CStdRaum {
     SLONG PlayerNum;         // Auf diesem Spieler ist das Fenster fixiert
     XY WinP1, WinP2;         // Die Position des ViewFensters im GameFrame Fenster
     XY AirportRoomPos;       // Diese Position hat der Raum auf dem Flughafen
-    SLONG StatusLineSizeY;   // Die Y-Größe der Statuszeile. Entweder 20 oder 40
+    SLONG StatusLineSizeY;   // Die Y-GrÃ¶ÃŸe der Statuszeile. Entweder 20 oder 40
     SBBM RoomBm;             // Bitmap, wenn man in einem Raum ist....
     RECT WindowRect{};       // Create-Window Koordinaten
-    CString Optionen[10];    // Bis zu 10 Anwahlmöglichkeiten
-    CString OrgOptionen[10]; // Bis zu 10 Anwahlmöglichkeiten, noch mit den Speech-Texten
-    BOOL CanCancelEmpty{};   // Manchmal darf man Dialogblase beenden, bevor der Typ redet. Nämlich, wenn das Sprachsample leer ist.
+    CString Optionen[10];    // Bis zu 10 AnwahlmÃ¶glichkeiten
+    CString OrgOptionen[10]; // Bis zu 10 AnwahlmÃ¶glichkeiten, noch mit den Speech-Texten
+    BOOL CanCancelEmpty{};   // Manchmal darf man Dialogblase beenden, bevor der Typ redet. NÃ¤mlich, wenn das Sprachsample leer ist.
 
     // Tip Attributes
   protected:
-    BOOL ForceRedrawTip;  // TRUE=Bitmap muß neugezeichnet werden
+    BOOL ForceRedrawTip;  // TRUE=Bitmap muÃŸ neugezeichnet werden
     SLONG CurrentTipType; // Wollen wir darstellen
     SLONG LastTipType;    // Ist in der Bitmap
     SLONG CurrentTipId;   // z.B. CityId
@@ -44,20 +44,20 @@ class CStdRaum {
     SLONG CurrentTipIdPar2; // z.B. vom Makler oder vom Museum
     SLONG LastTipIdPar2;
     SBBM TipBm;            // Der aktuelle Tip, inklusive Text
-    SBBM *pTipOriginBm{};  // Die Tip-Bitmap; sie gehört einem Raum
-    void *pTipOriginBm2{}; // Die Tip-Bitmap; sie gehört einem Raum
+    SBBM *pTipOriginBm{};  // Die Tip-Bitmap; sie gehÃ¶rt einem Raum
+    void *pTipOriginBm2{}; // Die Tip-Bitmap; sie gehÃ¶rt einem Raum
     XY TipPos;
 
     // Optionale & Dialog-Attribute:
   protected:
     BOOL UsingHandy;             // Verwendet er das Handy?
-    BOOL Ferngespraech;          // Ist es ein Ferngespräch?
-    SLONG LetzteEinheit{};       // Zu welchem Zeitpunkt war die letzte Gebühreneinheit?
-    SLONG TimeBubbleDisplayed{}; // Wann wurde diese Sprechblase eröffnet (wg. Timeout beim Gespräch mit Spielern)
-    GfxLib *pRoomLib;            // Library für den Raum;
+    BOOL Ferngespraech;          // Ist es ein FerngesprÃ¤ch?
+    SLONG LetzteEinheit{};       // Zu welchem Zeitpunkt war die letzte GebÃ¼hreneinheit?
+    SLONG TimeBubbleDisplayed{}; // Wann wurde diese Sprechblase erÃ¶ffnet (wg. Timeout beim GesprÃ¤ch mit Spielern)
+    GfxLib *pRoomLib;            // Library fÃ¼r den Raum;
     SBBM PicBitmap;              // Der Raum
-    SBBM OnscreenBitmap;         // On-Screen Dialoge & Menüs
-    SBBM NumberBitmap;           // Mit dieser Bitmap werden Zahlen eingeblendet, die früher über Zahlensynthese erzeugt wurden
+    SBBM OnscreenBitmap;         // On-Screen Dialoge & MenÃ¼s
+    SBBM NumberBitmap;           // Mit dieser Bitmap werden Zahlen eingeblendet, die frÃ¼her Ã¼ber Zahlensynthese erzeugt wurden
     XY NumberBitmapPos;          // Position der NumberBitmap
     SBBM StatusBm;               // Statuszeile mit Geld/Uhrzeit
     __int64 LastMoney;           // Das *angezeigte* Geld
@@ -72,25 +72,25 @@ class CStdRaum {
     ULONG CurrentTextGroupId;    // Nummer der aktuellen Dialoggruppe
     ULONG LastTextGroupId;       // Zuletzt verwendete Gruppe
     ULONG CurrentTextSubIdVon{}; // Nummer des aktuellen Dialogelementes
-    ULONG CurrentTextSubIdBis{}; // Nötigenfalls ein Bereich...
+    ULONG CurrentTextSubIdBis{}; // NÃ¶tigenfalls ein Bereich...
     SLONG DefaultDialogPartner;  // Der antwortet, wenn man aufs Inventar klickt
     BOOL DisplayThisBubble{};    // TRUE, wenn Sprechblase des Dialoges angezeigt werden soll (FALSE, um sie wegen der Sprachausgabe auszublenden.)
 
   public:
-    SLONG TimeAtStart{}; // timeGetTime() als Menü oder Dialogblase geöffnet wurde
+    SLONG TimeAtStart{}; // timeGetTime() als MenÃ¼ oder Dialogblase geÃ¶ffnet wurde
 
-    BOOL PayingForCall{}; // Bezahlt der Spieler dieses Gespräch?
+    BOOL PayingForCall{}; // Bezahlt der Spieler dieses GesprÃ¤ch?
 
     BOOL DontDisplayPlayer{}; // Wenn TRUE, wird der Spieler beim Dialog nicht in der Ecke gezeigt
     XY PlayerBubblePos;       // Dort erscheint die Sprechblase (nur wenn DontDisplayPlayer==TRUE)
 
     CSmackerPerson *pSmackerPartner; // Der Dialogpartner per Smacker
     CSmackerPerson *pSmackerPlayer;  // Der Spieler per Smacker
-    SLONG SmackerTimeToTalk{};       // Clock-Zeitpunkt für den Gesprächspartner bis zu dem diese Figur labert
+    SLONG SmackerTimeToTalk{};       // Clock-Zeitpunkt fÃ¼r den GesprÃ¤chspartner bis zu dem diese Figur labert
 
     XY BubblePos;     // Position der Sprechblase
-    CRect BubbleRect; // Für's Speedup
-    CRect TextRect;   // Für's Speedup
+    CRect BubbleRect; // FÃ¼r's Speedup
+    CRect TextRect;   // FÃ¼r's Speedup
     SLONG BubbleStyle;
 
     SB_CFont *pFontNormal{};    // Text im normalen Zustand
@@ -100,16 +100,16 @@ class CStdRaum {
     BUFFER<XY> GlowEffects;
     BUFFER<SLONG> GlowBitmapIndices;
 
-    BOOL TalkedToA; // Schon mit Person A geredet? (Wichtig für Dialogeröffnung)
-    BOOL TalkedToB; // Schon mit Person B geredet? (Wichtig für Dialogeröffnung)
+    BOOL TalkedToA; // Schon mit Person A geredet? (Wichtig fÃ¼r DialogerÃ¶ffnung)
+    BOOL TalkedToB; // Schon mit Person B geredet? (Wichtig fÃ¼r DialogerÃ¶ffnung)
 
-    // Attribute für On-screen Menüs:
+    // Attribute fÃ¼r On-screen MenÃ¼s:
   protected:
-    GfxLib *pMenuLib1, *pMenuLib2; // Libraries das Menü
+    GfxLib *pMenuLib1, *pMenuLib2; // Libraries das MenÃ¼
     SBBMS MenuBms;
     BUFFER<SBBMS> MenuBms2;
-    SLONG CurrentMenu;      //-1=kein Menü
-    SLONG LastMenu{};       //-1=kein Menü
+    SLONG CurrentMenu;      //-1=kein MenÃ¼
+    SLONG LastMenu{};       //-1=kein MenÃ¼
     XY MenuStartPos;        // Von hier wird's gezoomt
     BOOL ZoomFromAirport{}; // MenuStartPos ist relativ zum Flughafen
     double MinimumZoom;     // Minimaler Zoomfaktor
@@ -119,22 +119,22 @@ class CStdRaum {
     CString MenuPar4;
     SLONG MenuPar1{}, MenuPar2{}, MenuPar3{}; // Generisch
     SLONG MenuInfo{}, MenuInfo2{}, MenuInfo3{};
-    SLONG MenuPage{}, MenuPageMax{}; // Wenn man blättern kann
-    BUFFER<SLONG> MenuRemapper;      // Wenn ein Subset von Daten gewählt wurde
+    SLONG MenuPage{}, MenuPageMax{}; // Wenn man blÃ¤ttern kann
+    BUFFER<SLONG> MenuRemapper;      // Wenn ein Subset von Daten gewÃ¤hlt wurde
     CDataTable MenuDataTable;        // Alternative Darstellung
     ULONG MenuDialogReEntryA{};      // Wiedereinsteig in den Dialog
     SLONG MenuDialogReEntryB;        // Wiedereinsteig in den Dialog
 
-    // VonBis Array für die Auswahl
-    SLONG TextAreaSizeY[20]{}; // Die Y-Größe von maximal 20 Optionen
+    // VonBis Array fÃ¼r die Auswahl
+    SLONG TextAreaSizeY[20]{}; // Die Y-GrÃ¶ÃŸe von maximal 20 Optionen
 
-    // Attribute für den Taschenrechner:
+    // Attribute fÃ¼r den Taschenrechner:
     BOOL CalculatorIsOpen;
     XY CalculatorPos;        // Bildschirmposition
     SLONG CalculatorValue{}; // Dargestellte Zahl
     SBBMS CalculatorBms;
-    SLONG CalculatorKey{};      // Zuletzt gedrückte Taste
-    SLONG CalculatorKeyTimer{}; // Time für die Taste
+    SLONG CalculatorKey{};      // Zuletzt gedrÃ¼ckte Taste
+    SLONG CalculatorKeyTimer{}; // Time fÃ¼r die Taste
     GfxLib *pCalculatorLib;
 
     SBFX CalculatorFX;
@@ -143,7 +143,7 @@ class CStdRaum {
     BOOL ReadyToStartSpeechFx;
 
   public:
-    SLONG StatusCount; // DrawCounter für den StatusBar Speedup
+    SLONG StatusCount; // DrawCounter fÃ¼r den StatusBar Speedup
 
     // Sounds:
   protected:
@@ -183,7 +183,7 @@ class CStdRaum {
     void MakeNumberWindow(CString Text);
     void MakeNumberWindow(const char *GroupId, ULONG SubId, ...);
 
-    // Menü-Operationen:
+    // MenÃ¼-Operationen:
   public:
     bool MenuIsPlain(void) const;
     void MenuStart(SLONG MenuType, SLONG MenuPar1 = 0, SLONG MenuPar2 = 0, SLONG MenuPar3 = 0);

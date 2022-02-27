@@ -196,7 +196,7 @@ void CTafel::RepaintZettel(SLONG n) {
             ZettelBms[n].PrintAt(Cities[Routen[TafelData.Route[n].ZettelId].NachCity].Name, FontSmallBlack, TEC_FONT_CENTERED, XY(3, 56 + 6),
                                  XY(ZettelBms[n].Size.x - 3, 202));
 
-            // Bisheriger Höchstbieter & Gebot:
+            // Bisheriger HÃ¶chstbieter & Gebot:
             if (TafelData.Route[n].Player != -1) {
                 ZettelBms[n].PrintAt(Sim.Players.Players[TafelData.Route[n].Player].Airline, FontSmallBlack, TEC_FONT_CENTERED, XY(3, 72 + 30),
                                      XY(ZettelBms[n].Size.x - 3, 202));
@@ -216,7 +216,7 @@ void CTafel::RepaintZettel(SLONG n) {
             ZettelBms[n].PrintAt(Cities[TafelData.City[n - 7].ZettelId].Name, FontSmallBlack, TEC_FONT_CENTERED, XY(3, 28 + 30),
                                  XY(ZettelBms[n].Size.x - 3, 132));
 
-            // Bisheriger Höchstbieter & Gebot:
+            // Bisheriger HÃ¶chstbieter & Gebot:
             if (TafelData.City[n - 7].Player != -1) {
                 ZettelBms[n].PrintAt(Sim.Players.Players[TafelData.City[n - 7].Player].Airline, FontSmallBlack, TEC_FONT_LEFT, XY(13, 55 + 30),
                                      XY(ZettelBms[n].Size.x - 3, 132));
@@ -235,7 +235,7 @@ void CTafel::RepaintZettel(SLONG n) {
             ZettelBms[n].PrintAt(bprintf(StandardTexte.GetS(TOKEN_MISC, 2500), TafelData.Gate[n - 14].ZettelId + 1), FontSmallBlack, TEC_FONT_CENTERED,
                                  XY(3, 18 + 15), XY(ZettelBms[n].Size.x - 3, 102));
 
-            // Bisheriger Höchstbieter & Gebot:
+            // Bisheriger HÃ¶chstbieter & Gebot:
             if (TafelData.Gate[n - 14].Player != -1) {
                 ZettelBms[n].PrintAt(Sim.Players.Players[TafelData.Gate[n - 14].Player].Airline, FontSmallBlack, TEC_FONT_LEFT, XY(13, 45 + 30),
                                      XY(ZettelBms[n].Size.x - 3, 202));
@@ -321,7 +321,7 @@ void CTafel::OnLButtonDown(UINT nFlags, CPoint point) {
 void CTafel::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }
@@ -339,7 +339,7 @@ void CTafel::OnRButtonDown(UINT nFlags, CPoint point) {
 //--------------------------------------------------------------------------------------------
 // CTafelData::
 //--------------------------------------------------------------------------------------------
-// Daten alle löschen ==> keine Zettel
+// Daten alle lÃ¶schen ==> keine Zettel
 //--------------------------------------------------------------------------------------------
 void CTafelData::Clear() {
     SLONG c = 0;
@@ -355,7 +355,7 @@ void CTafelData::Clear() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Zettel für n Tage auslosen:
+// Zettel fÃ¼r n Tage auslosen:
 //--------------------------------------------------------------------------------------------
 void CTafelData::Randomize(SLONG Day) {
     SLONG c = 0;
@@ -398,7 +398,7 @@ void CTafelData::Randomize(SLONG Day) {
         // Dann die Orte:
         for (c = 0; c < min(Day, 10); c++) {
             if ((localRand.Rand(100)) < 30 && NumCities < 3) {
-                // Stadt raussuchen, fünf Anläufe:
+                // Stadt raussuchen, fÃ¼nf AnlÃ¤ufe:
                 for (e = 0; e < 5; e++) {
                     ObjId = Cities(Cities.GetRandomUsedIndex(&localRand));
 
@@ -439,9 +439,9 @@ void CTafelData::Randomize(SLONG Day) {
                 }
             }
 
-            // Für die Routenmission:
+            // FÃ¼r die Routenmission:
             if (Sim.Difficulty == DIFF_NORMAL && NumCities < 4) {
-                // Stadt raussuchen, zehn Anläufe:
+                // Stadt raussuchen, zehn AnlÃ¤ufe:
                 for (e = 0; e < 10; e++) {
                     ObjId = Cities(Cities.GetRandomUsedIndex(&localRand));
 
@@ -536,7 +536,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CTafelZettel &TafelZettel) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein TafelZettel-Objekt:
+// LÃ¤dt ein TafelZettel-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CTafelZettel &TafelZettel) {
     File >> TafelZettel.ZettelId >> TafelZettel.Player;
@@ -560,7 +560,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CTafelData &TafelData) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein TafelData-Objekt:
+// LÃ¤dt ein TafelData-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CTafelData &TafelData) {
     SLONG c = 0;

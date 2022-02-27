@@ -63,7 +63,7 @@
 //			- Jim Cline
 //			- Jeff Kohn
 //			- Todd Heckel
-//			- Ullrich Poll‰hne
+//			- Ullrich Poll√§hne
 //			- Joe Vitaterna
 //			- Joe Woodbury
 //			- Aaron (no last name)
@@ -217,7 +217,7 @@
 //	  2000-APR-17 - Thanks to Joe Vitaterna for pointing out that ReverseFind
 //					is supposed to be a const function.
 //
-//	  2000-MAR-07 - Thanks to Ullrich Poll‰hne for catching a range bug in one
+//	  2000-MAR-07 - Thanks to Ullrich Poll√§hne for catching a range bug in one
 //					of the overloads of assign.
 //
 //    2000-FEB-01 - You can now use CStdString on the Mac with CodeWarrior!
@@ -1990,7 +1990,7 @@ template <typename CT> class CStdStr : public std::basic_string<CT> {
         // <nChars> or the NULL terminator, whichever comes first.  Since we
         // are about to call a less forgiving overload (in which <nChars>
         // must be a valid length), we must adjust the length here to a safe
-        // value.  Thanks to Ullrich Poll‰hne for catching this bug
+        // value.  Thanks to Ullrich Poll√§hne for catching this bug
 
         nChars = SSMIN(nChars, str.length() - nStart);
         MYTYPE strTemp(str.c_str() + nStart, nChars);
@@ -2009,7 +2009,7 @@ template <typename CT> class CStdStr : public std::basic_string<CT> {
         // <nChars> or the NULL terminator, whichever comes first.  Since we
         // are about to call a less forgiving overload (in which <nChars>
         // must be a valid length), we must adjust the length here to a safe
-        // value. Thanks to Ullrich Poll‰hne for catching this bug
+        // value. Thanks to Ullrich Poll√§hne for catching this bug
 
         nChars = SSMIN(nChars, str.length() - nStart);
 

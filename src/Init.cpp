@@ -25,7 +25,7 @@ extern char chRegKeyOld[];
 DWORD GetKey();
 
 //--------------------------------------------------------------------------------------------
-// Programm läuft nicht direkt von CD:
+// Programm lÃ¤uft nicht direkt von CD:
 //--------------------------------------------------------------------------------------------
 #ifdef CD_PROTECTION
 void DontRunFromCD(void) {
@@ -40,7 +40,7 @@ void DontRunFromCD(void) {
         ::MessageBox(NULL,
                      "Please start SETUP.EXE to install Airline Tycoon.\n\n"
                      "Bitte verwenden Sie SETUP.EXE um Airline Tycoon zu installieren.\n\n"
-                     "Veuillez s´il vous plait utiliser SETUP.EXE pour installer Airline Tycoon.",
+                     "Veuillez sÂ´il vous plait utiliser SETUP.EXE pour installer Airline Tycoon.",
                      "Airline Tycoon : Error!", MB_OK);
 
         exit(0);
@@ -56,7 +56,7 @@ void UpdateSavegames() {
       {
       char *Text;
 
-      if (gLanguage==LANGUAGE_D) Text = "Möchten Sie Ihre alten Spielstände aus dem 'Airline Tycoon' Verzeichnis in das Verzeichnis von 'Airline Tycoon First
+      if (gLanguage==LANGUAGE_D) Text = "MÃ¶chten Sie Ihre alten SpielstÃ¤nde aus dem 'Airline Tycoon' Verzeichnis in das Verzeichnis von 'Airline Tycoon First
       Class' kopieren?"; else Text = "Would you like to copy your old savegames from the 'Airline Tycoon' directory into the directory of 'Airline Tycoon First
       Class' ?";
 
@@ -92,7 +92,7 @@ void InitPathVars() {
     // Keine Demo, sondern Vollversion:
 #ifdef CD_PROTECTION_ANY_TYPE
     // Kopierschutz der AddOn-Version ist nett: Wir probieren erst einmal, die CD zu finden.
-    // Ist sie nicht da, dann schränken wir das Hauptmenü nur ein.
+    // Ist sie nicht da, dann schrÃ¤nken wir das HauptmenÃ¼ nur ein.
 do_findcd_main:
     if (CDProtection(&str)) {
         gCDPath = str;
@@ -100,12 +100,12 @@ do_findcd_main:
         gSpawnOnly = FALSE;
     }
 
-    // Prüfen, ob es die AddOn-CD ist und nicht die Basis-CD
+    // PrÃ¼fen, ob es die AddOn-CD ist und nicht die Basis-CD
     /*if (DoesFileExist (gCDPath+"intro\\credits.smk"))
       {
       if (MessageBox (NULL, "Please insert the Deluxe CD.\n\n"
       "Bitte legen Sie die Deluxe CD ein.\n\n"
-      "Veuillez insérer le CD de Deluxe.\n\n" , "Airline Tycoon : Error!",  MB_RETRYCANCEL)==IDCANCEL)
+      "Veuillez insÃ©rer le CD de Deluxe.\n\n" , "Airline Tycoon : Error!",  MB_RETRYCANCEL)==IDCANCEL)
       exit(-1);
 
       goto do_findcd_main;
@@ -123,7 +123,7 @@ do_findcd_main:
             if (::MessageBox(NULL,
                              "Please insert the Deluxe CD.\n\n"
                              "Bitte legen Sie die Deluxe CD ein.\n\n"
-                             "Veuillez insérer le CD de Deluxe.\n\n",
+                             "Veuillez insÃ©rer le CD de Deluxe.\n\n",
                              "Airline Tycoon : Error!", MB_RETRYCANCEL) == IDCANCEL)
                 exit(-1);
         }
@@ -148,7 +148,7 @@ do_findcd:
     gCDPath = "z:\\";
 #else
     // Demo-CD mit Voices. Erst einmal ohne CD probieren. Wenn dann aber Verzeichnisse
-    // Fehlen (z.B. Voices), dann müssen wir doch nach der CD suchen:
+    // Fehlen (z.B. Voices), dann mÃ¼ssen wir doch nach der CD suchen:
     goto skip_search_demo_cd;
 
 do_findcd:
@@ -157,7 +157,7 @@ do_findcd:
         if (::MessageBox(NULL,
                          "CD not found! Please insert the Demo-CD containing 'Airline Tycoon Deluxe' in your CD-Drive.\n\n"
                          "CD wurde nicht gefunden! Bitte legen Sie eine Demo-CD mit Airline Tycoon Deluxe in das CD-Rom Laufwerk ein.\n\n"
-                         "CD non trouvé ! Inserez s'il vous plait le CD dans votre lecteur de CD-Rom.",
+                         "CD non trouvÃ© ! Inserez s'il vous plait le CD dans votre lecteur de CD-Rom.",
                          "Airline Tycoon : Error!", MB_RETRYCANCEL) == IDCANCEL)
             exit(-1);
     }
@@ -297,7 +297,7 @@ void InitSoundSystem(SDL_Window *AppWnd) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Sorgt für Screen Refresh und für Ablauf der Simulation:
+// Sorgt fÃ¼r Screen Refresh und fÃ¼r Ablauf der Simulation:
 //--------------------------------------------------------------------------------------------
 void InitFonts() {
     FontCash.Load(lpDD, const_cast<char *>((LPCTSTR)FullFilename("status.mcf", MiscPath)));
@@ -382,7 +382,7 @@ void InitStatusLines() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt die Inventar-Bilder:
+// LÃ¤dt die Inventar-Bilder:
 //--------------------------------------------------------------------------------------------
 void InitItems() {
     gItemBms.ReSize(pGLibStd, "ITEM00", 26);
@@ -440,7 +440,7 @@ void InitItems() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt die Tip-Bitmaps:
+// LÃ¤dt die Tip-Bitmaps:
 //--------------------------------------------------------------------------------------------
 void InitTipBms() {
     SLONG c = 0;

@@ -1,5 +1,5 @@
 //============================================================================================//============================================================================================
-// Auftrag.cpp : Routinen für die Aufträge die die Spieler haben
+// Auftrag.cpp : Routinen fÃ¼r die AuftrÃ¤ge die die Spieler haben
 //============================================================================================
 #include "StdAfx.h"
 #include "AtNet.h"
@@ -16,7 +16,7 @@ SLONG PlayerMinLength = 2000000;
 void CalcPlayerMaximums(bool bForce = false);
 
 //--------------------------------------------------------------------------------------------
-// Berechnet, was für Aufträge der Spieler maximal annehmen kann:
+// Berechnet, was fÃ¼r AuftrÃ¤ge der Spieler maximal annehmen kann:
 //--------------------------------------------------------------------------------------------
 void CalcPlayerMaximums(bool bForce) {
     static SLONG LastHour = -1;
@@ -63,7 +63,7 @@ void CalcPlayerMaximums(bool bForce) {
 }
 
 //============================================================================================
-// Läßt nötigenfalls den Auftragsberater mit einem Spruch erscheien
+// LÃ¤ÃŸt nÃ¶tigenfalls den Auftragsberater mit einem Spruch erscheien
 //============================================================================================
 void PLAYER::CheckAuftragsBerater(const CAuftrag &Auftrag) {
     if (HasBerater(BERATERTYP_AUFTRAG) != 0) {
@@ -203,7 +203,7 @@ CAuftrag::CAuftrag(char *VonCity, char *NachCity, ULONG Personen, UWORD Date) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Legt Städte fest: (AreaType: 0=Europa-Europa, 1=Region-gleicher Region, 2=alles
+// Legt StÃ¤dte fest: (AreaType: 0=Europa-Europa, 1=Region-gleicher Region, 2=alles
 //--------------------------------------------------------------------------------------------
 void CAuftrag::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRandom) {
     SLONG TimeOut = 0;
@@ -278,7 +278,7 @@ void CAuftrag::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRandom) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag ein:
+// FÃ¼gt einen neuen Auftrag ein:
 //--------------------------------------------------------------------------------------------
 void CAuftrag::RefillForLastMinute(SLONG AreaType, TEAKRAND *pRandom) {
     SLONG TimeOut = 0;
@@ -301,10 +301,10 @@ too_large:
 
     SLONG Type = pRandom->Rand(100);
 
-    // Typ A = Normal, Gewinn möglich, etwas Strafe
+    // Typ A = Normal, Gewinn mÃ¶glich, etwas Strafe
     if (Type >= 0 && Type < 50) {
     }
-    // Typ B = Hoffmann, Gewinn möglich, keine Strafe
+    // Typ B = Hoffmann, Gewinn mÃ¶glich, keine Strafe
     else if (Type >= 50 && Type < 60) {
         Date++;
         BisDate++;
@@ -314,11 +314,11 @@ too_large:
         Praemie *= 2;
         Strafe = Praemie * 4;
     }
-    // Typ D = Betrug, kein Gewinn möglich, etwas Strafe
+    // Typ D = Betrug, kein Gewinn mÃ¶glich, etwas Strafe
     else if (Type >= 80 && Type < 95) {
         Praemie /= 2;
     }
-    // Typ E = Glücksfall, viel Gewinn, keine Strafe
+    // Typ E = GlÃ¼cksfall, viel Gewinn, keine Strafe
     else if (Type >= 95 && Type < 100) {
         Praemie *= 2;
         Strafe = 0;
@@ -360,7 +360,7 @@ too_large:
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag ein:
+// FÃ¼gt einen neuen Auftrag ein:
 //--------------------------------------------------------------------------------------------
 void CAuftrag::RefillForReisebuero(SLONG AreaType, TEAKRAND *pRandom) {
     SLONG TimeOut = 0;
@@ -386,10 +386,10 @@ too_large:
 
     SLONG Type = pRandom->Rand(100);
 
-    // Typ A = Normal, Gewinn möglich, etwas Strafe
+    // Typ A = Normal, Gewinn mÃ¶glich, etwas Strafe
     if (Type >= 0 && Type < 50) {
     }
-    // Typ B = Hoffmann, Gewinn möglich
+    // Typ B = Hoffmann, Gewinn mÃ¶glich
     else if (Type >= 50 && Type < 60) {
         Date = UWORD(Sim.Date);
         BisDate = UWORD(Sim.Date + 4 + pRandom->Rand(3));
@@ -400,11 +400,11 @@ too_large:
         Strafe = Praemie * 2;
         BisDate = Date = UWORD(Sim.Date + 1);
     }
-    // Typ D = Betrug, kein Gewinn möglich, etwas Strafe
+    // Typ D = Betrug, kein Gewinn mÃ¶glich, etwas Strafe
     else if (Type >= 80 && Type < 95) {
         Praemie /= 2;
     }
-    // Typ E = Glücksfall, viel Gewinn, keine Strafe
+    // Typ E = GlÃ¼cksfall, viel Gewinn, keine Strafe
     else if (Type >= 95 && Type < 100) {
         Praemie *= 2;
         Strafe = 0;
@@ -450,7 +450,7 @@ too_large:
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag für den Spielbeginn ein:
+// FÃ¼gt einen neuen Auftrag fÃ¼r den Spielbeginn ein:
 //--------------------------------------------------------------------------------------------
 void CAuftrag::RefillForBegin(SLONG AreaType, TEAKRAND *pRandom) {
     SLONG TimeOut = 0;
@@ -474,10 +474,10 @@ too_large:
 
     SLONG Type = pRandom->Rand(100);
 
-    // Typ A = Normal, Gewinn möglich, etwas Strafe
+    // Typ A = Normal, Gewinn mÃ¶glich, etwas Strafe
     if (Type >= 0 && Type < 50) {
     }
-    // Typ B = Hoffmann, Gewinn möglich, keine Strafe
+    // Typ B = Hoffmann, Gewinn mÃ¶glich, keine Strafe
     else if (Type >= 50 && Type < 60) {
         BisDate = UWORD(Sim.Date + 6);
     }
@@ -487,7 +487,7 @@ too_large:
         Strafe = Praemie * 2;
         BisDate = UWORD(Sim.Date + 1);
     }
-    // Typ E = Glücksfall, viel Gewinn, keine Strafe
+    // Typ E = GlÃ¼cksfall, viel Gewinn, keine Strafe
     else if (Type >= 95 && Type < 100) {
         Praemie *= 2;
         Strafe = 0;
@@ -522,7 +522,7 @@ too_large:
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag für Uhrig ein:
+// FÃ¼gt einen neuen Auftrag fÃ¼r Uhrig ein:
 //--------------------------------------------------------------------------------------------
 void CAuftrag::RefillForUhrig(SLONG AreaType, TEAKRAND *pRandom) {
     SLONG TimeOut = 0;
@@ -548,10 +548,10 @@ too_large:
 
     SLONG Type = pRandom->Rand(100);
 
-    // Typ A = Normal, Gewinn möglich, etwas Strafe
+    // Typ A = Normal, Gewinn mÃ¶glich, etwas Strafe
     if (Type >= 0 && Type < 50) {
     }
-    // Typ B = Hoffmann, Gewinn möglich
+    // Typ B = Hoffmann, Gewinn mÃ¶glich
     else if (Type >= 50 && Type < 60) {
         Date = UWORD(Sim.Date);
         BisDate = UWORD(Sim.Date + 4 + pRandom->Rand(3));
@@ -562,11 +562,11 @@ too_large:
         Strafe = Praemie * 2;
         BisDate = Date = UWORD(Sim.Date + 1);
     }
-    // Typ D = Betrug, kein Gewinn möglich, etwas Strafe
+    // Typ D = Betrug, kein Gewinn mÃ¶glich, etwas Strafe
     else if (Type >= 80 && Type < 95) {
         Praemie /= 2;
     }
-    // Typ E = Glücksfall, viel Gewinn, keine Strafe
+    // Typ E = GlÃ¼cksfall, viel Gewinn, keine Strafe
     else if (Type >= 95 && Type < 100) {
         Praemie *= 2;
         Strafe = 0;
@@ -612,7 +612,7 @@ too_large:
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag für den Spielbeginn ein:
+// FÃ¼gt einen neuen Auftrag fÃ¼r den Spielbeginn ein:
 //--------------------------------------------------------------------------------------------
 void CAuftrag::RefillForAusland(SLONG AreaType, SLONG CityNum, TEAKRAND *pRandom) {
     SLONG TimeOut = 0;
@@ -657,10 +657,10 @@ too_large:
 
     SLONG Type = localRand.Rand(100);
 
-    // Typ A = Normal, Gewinn möglich, etwas Strafe
+    // Typ A = Normal, Gewinn mÃ¶glich, etwas Strafe
     if (Type >= 0 && Type < 50) {
     }
-    // Typ B = Hoffmann, Gewinn möglich
+    // Typ B = Hoffmann, Gewinn mÃ¶glich
     else if (Type >= 50 && Type < 65) {
         Date = UWORD(Sim.Date);
         BisDate = UWORD(Sim.Date + 4 + localRand.Rand(3));
@@ -671,11 +671,11 @@ too_large:
         Strafe = Praemie * 2;
         BisDate = Date = UWORD(Sim.Date + 1);
     }
-    // Typ D = Betrug, kein Gewinn möglich, etwas Strafe
+    // Typ D = Betrug, kein Gewinn mÃ¶glich, etwas Strafe
     else if (Type >= 80 && Type < 95) {
         Praemie /= 2;
     }
-    // Typ E = Glücksfall, viel Gewinn, keine Strafe
+    // Typ E = GlÃ¼cksfall, viel Gewinn, keine Strafe
     else if (Type >= 95 && Type < 100) {
         Praemie *= 2;
         Strafe = 0;
@@ -722,7 +722,7 @@ too_large:
 }
 
 //--------------------------------------------------------------------------------------------
-// Das Raster zum ausgrauen der ungültigen Tage zeichnen:
+// Das Raster zum ausgrauen der ungÃ¼ltigen Tage zeichnen:
 //--------------------------------------------------------------------------------------------
 void CAuftrag::BlitGridAt(SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG /*Page*/) const {
     SLONG c = 0;
@@ -785,7 +785,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CAuftrag &Auftrag) {
 //============================================================================================
 // CAuftraege::
 //============================================================================================
-// Fügt eine Reihe von neuen Aufträgen ein:
+// FÃ¼gt eine Reihe von neuen AuftrÃ¤gen ein:
 //============================================================================================
 void CAuftraege::FillForLastMinute() {
     SLONG c = 0;
@@ -806,7 +806,7 @@ void CAuftraege::FillForLastMinute() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag ein:
+// FÃ¼gt einen neuen Auftrag ein:
 //--------------------------------------------------------------------------------------------
 void CAuftraege::RefillForLastMinute(SLONG Minimum) {
     SLONG c = 0;
@@ -850,7 +850,7 @@ void CAuftraege::RefillForLastMinute(SLONG Minimum) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt eine Reihe von neuen Aufträgen ein:
+// FÃ¼gt eine Reihe von neuen AuftrÃ¤gen ein:
 //--------------------------------------------------------------------------------------------
 void CAuftraege::FillForReisebuero() {
     SLONG c = 0;
@@ -877,7 +877,7 @@ void CAuftraege::FillForReisebuero() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag ein:
+// FÃ¼gt einen neuen Auftrag ein:
 //--------------------------------------------------------------------------------------------
 void CAuftraege::RefillForReisebuero(SLONG Minimum) {
     SLONG c = 0;
@@ -934,7 +934,7 @@ void CAuftraege::RefillForReisebuero(SLONG Minimum) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt eine Reihe von neuen Aufträgen ein:
+// FÃ¼gt eine Reihe von neuen AuftrÃ¤gen ein:
 //--------------------------------------------------------------------------------------------
 void CAuftraege::FillForAusland(SLONG CityNum) {
     SLONG c = 0;
@@ -956,7 +956,7 @@ void CAuftraege::FillForAusland(SLONG CityNum) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Fügt einen neuen Auftrag ein:
+// FÃ¼gt einen neuen Auftrag ein:
 //--------------------------------------------------------------------------------------------
 void CAuftraege::RefillForAusland(SLONG CityNum, SLONG Minimum) {
     SLONG c = 0;
@@ -1055,7 +1055,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CAuftraege &Auftraege) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Läd ein CAuftrag Datum:
+// LÃ¤d ein CAuftrag Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CAuftraege &Auftraege) {
     File >> Auftraege.Auftraege;

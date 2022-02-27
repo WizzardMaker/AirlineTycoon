@@ -1,5 +1,5 @@
 //============================================================================================
-// TitlePopup.Cpp : Titelbild mit primitiven Auswahlmöglichkeiten
+// TitlePopup.Cpp : Titelbild mit primitiven AuswahlmÃ¶glichkeiten
 //============================================================================================
 #include "StdAfx.h"
 #include "TitlePopup.h"

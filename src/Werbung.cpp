@@ -17,7 +17,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //--------------------------------------------------------------------------------------------
-// Die Schalter wird eröffnet:
+// Die Schalter wird erÃ¶ffnet:
 //--------------------------------------------------------------------------------------------
 CWerbung::CWerbung(BOOL qHandy, ULONG PlayerNum) : CStdRaum(qHandy, PlayerNum, "", 0) {
     if (bHandy == 0) {
@@ -54,13 +54,13 @@ CWerbung::CWerbung(BOOL qHandy, ULONG PlayerNum) : CStdRaum(qHandy, PlayerNum, "
                                 SMACKER_CLIP_SET, 0, nullptr, // Reden
                                 "A9E1E1", 4, 5, 7);
         SP_Mann.Clips[5].ReSize(5, "wa_redew.smk", "", XY(290, 240), SPM_LISTENING, CRepeat(1, 1), CPostWait(2, 2), SMACKER_CLIP_CANCANCEL, nullptr,
-                                SMACKER_CLIP_SET, 0, nullptr, // Zuhören
+                                SMACKER_CLIP_SET, 0, nullptr, // ZuhÃ¶ren
                                 "A9A1E1E1", 5, 6, 4, 7);
         SP_Mann.Clips[6].ReSize(6, "wa_redek.smk", "", XY(290, 240), SPM_LISTENING, CRepeat(1, 1), CPostWait(2, 2), SMACKER_CLIP_CANCANCEL, nullptr,
                                 SMACKER_CLIP_SET, 0, nullptr, // Blinzeln
                                 "A9E1E1", 5, 4, 7);
         SP_Mann.Clips[7].ReSize(7, "wa_turnz.smk", "", XY(290, 240), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, nullptr,
-                                SMACKER_CLIP_SET, 0, nullptr, // Zurückdrehen
+                                SMACKER_CLIP_SET, 0, nullptr, // ZurÃ¼ckdrehen
                                 "A9", 0);
 
         // Raumanimationen
@@ -246,7 +246,7 @@ void CWerbung::OnLButtonDown(UINT nFlags, CPoint point) {
 void CWerbung::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

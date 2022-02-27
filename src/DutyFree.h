@@ -11,9 +11,9 @@ class CDutyFree : public CStdRaum {
 
     // Attributes
   public:
-    SLONG Topic{};   // Darüber reden wir gerade (zum Verkauf)
+    SLONG Topic{};   // DarÃ¼ber reden wir gerade (zum Verkauf)
     SBBM TipBm;      // Bitmap der Tips
-    SBBM HufeisenBm; // Das Hufeisen über der Tür
+    SBBM HufeisenBm; // Das Hufeisen Ã¼ber der TÃ¼r
 
     SLONG CurrTip{}; // zeigt, welcher Tip gerade angezeigt wird
 

@@ -13,7 +13,7 @@ extern const char ExcNever[];        // Interne Dinge; Sicherheitshalber abgefra
 extern const char ExcCreateWindow[]; // Fenster konnte nicht erzeugt werden
 
 //--------------------------------------------------------------------------------------------
-// Dinge für den Überblendeffekt:
+// Dinge fÃ¼r den Ãœberblendeffekt:
 //--------------------------------------------------------------------------------------------
 extern SBBM gBlendBm;
 extern SBBM gBlendBm2;
@@ -21,7 +21,7 @@ extern SLONG gBlendState;
 extern SLONG gFramesToDrawBeforeFirstBlend;
 
 //--------------------------------------------------------------------------------------------
-// Flags für Cheats:
+// Flags fÃ¼r Cheats:
 //--------------------------------------------------------------------------------------------
 extern BOOL CheatRunningman;
 extern BOOL CheatMoreNuns;
@@ -44,14 +44,14 @@ extern TEAKRAND HeadlineRand;     // Alles, was die zeitungen Angeht
 // Die Registratur:
 //--------------------------------------------------------------------------------------------
 extern CRegistration Registration;
-extern SLONG MissionKeys[];  // Die Schlüsselwerte für die Registry
-extern SLONG MissionKeys2[]; // Die Schlüsselwerte für die Registry
-extern SLONG MissionKeys3[]; // Die Schlüsselwerte für die Registry
+extern SLONG MissionKeys[];  // Die SchlÃ¼sselwerte fÃ¼r die Registry
+extern SLONG MissionKeys2[]; // Die SchlÃ¼sselwerte fÃ¼r die Registry
+extern SLONG MissionKeys3[]; // Die SchlÃ¼sselwerte fÃ¼r die Registry
 
 //--------------------------------------------------------------------------------------------
 // Pointer auf Fenster:
 //--------------------------------------------------------------------------------------------
-extern CStdRaum *TopWin; //Übergeordnetes Fenster, z.B. load Airport
+extern CStdRaum *TopWin; //Ãœbergeordnetes Fenster, z.B. load Airport
 
 //--------------------------------------------------------------------------------------------
 // Einige *WIRKLICH* globale Ressourcen:
@@ -95,8 +95,8 @@ extern XY gMousePosition;            // Position des Mauscursors
 extern XY gMouseClickPosition;       // Position des Mauscursors zum Zeitpunkt des MouseDown-Events
 extern BOOL gMouseLButton;           // Status des linken Mausknopfes
 extern BOOL gMouseRButton;           // Status des rechten Mausknopfes
-extern SLONG gMouseLButtonDownTimer; // Timerinhalt, wenn der LMB gedrückt wurde
-extern BOOL gMouseScroll;            // Mouse-Scrolling für den Airport?
+extern SLONG gMouseLButtonDownTimer; // Timerinhalt, wenn der LMB gedrÃ¼ckt wurde
+extern BOOL gMouseScroll;            // Mouse-Scrolling fÃ¼r den Airport?
 extern SLONG MouseLook;              // Normal, Hot, Page
 extern SLONG MouseClickArea;         // In Statusleiste/Raum
 extern SLONG MouseClickId;           // Der Id
@@ -129,7 +129,7 @@ extern SLONG gShowCursorFeet;
 extern SBBM gDialogBarBm;
 extern SBBMS gToolTipBms;
 
-extern BOOL gRoomJustLeft; // TRUE, wenn Raum gerade verlassen wurde (wegen messagePump während TransBlit)
+extern BOOL gRoomJustLeft; // TRUE, wenn Raum gerade verlassen wurde (wegen messagePump wÃ¤hrend TransBlit)
 
 //--------------------------------------------------------------------------------------------
 // Text-Ressourcen:
@@ -149,22 +149,22 @@ extern BOOL bQuick;              // Depeche Mode = Alles auf die Schnelle..
 extern BOOL bgWarp;              // Spieler warpt zum Ziel
 extern BOOL bNoVgaRam;           // Keine Bitmaps ins VGA-Ram legen
 extern BOOL bCheatMode;          // Ist der Cheatmode zum testen aktiviert?
-extern BOOL bNoSpeedyBar;        // Kein SpeedUp für die Statuszeile
+extern BOOL bNoSpeedyBar;        // Kein SpeedUp fÃ¼r die Statuszeile
 extern BOOL bNoQuickMouse;       // Keine Maus-Aufrufe beim OnMouseMove
-extern BOOL bCursorCaptured;     // Cursor gekidnappt und muß jetzt selbst gemalt werden?
+extern BOOL bCursorCaptured;     // Cursor gekidnappt und muÃŸ jetzt selbst gemalt werden?
 extern BOOL bMidiAvailable;      // Ist ein Midi-Sequenzer vorhanden?
 extern SLONG nOptionsOpen;       // Fummelt gerade wer an den Options?
 extern SLONG nAppsDisabled;      // Ist ein anderer Spieler gerade in einer anderen Anwendung?
-extern SLONG nWaitingForPlayer;  // Müssen wir da auf einen anderen Spieler warten?
+extern SLONG nWaitingForPlayer;  // MÃ¼ssen wir da auf einen anderen Spieler warten?
 extern BOOL bTwoWins;            // SplitScreen Testen?
 extern SLONG Editor;             // Ist der Flughafeneditor aktiv ? (=0)
-extern BOOL gDisablePauseKey;    // Pause-Key für Texteingabe abgeschaltet?
-extern BOOL bgJustDidLotsOfWork; // Gegen Sprünge nach Load/Save
+extern BOOL gDisablePauseKey;    // Pause-Key fÃ¼r Texteingabe abgeschaltet?
+extern BOOL bgJustDidLotsOfWork; // Gegen SprÃ¼nge nach Load/Save
 extern BOOL bLeaveGameLoop;      // Hauptschleife verlassen?
 extern BOOL bFirstClass;
 
 //--------------------------------------------------------------------------------------------
-// Das Spiel höchstpersönlich:
+// Das Spiel hÃ¶chstpersÃ¶nlich:
 //--------------------------------------------------------------------------------------------
 extern CTakeOffApp theApp;
 
@@ -180,14 +180,14 @@ extern const char *HallFilenames[]; // Die Filenamen der Airport-Hallen
 //--------------------------------------------------------------------------------------------
 extern CString BitmapPath;   // diverse Bitmaps
 extern CString BrickPath;    // Hier sind die Part-Dateien
-extern CString CityPath;     // Städte Bitmaps
+extern CString CityPath;     // StÃ¤dte Bitmaps
 extern CString ClanPath;     // Clan Bitmaps
 extern CString ExcelPath;    // Hier sind die csv-Tabellen
 extern CString MiscPath;     // Sonstige Kleinigkeiten
-extern CString SavegamePath; // Die Spielstände
+extern CString SavegamePath; // Die SpielstÃ¤nde
 extern CString ScanPath;     // gescannte Bilder
-extern CString SoundPath;    // Musikstücke und Samples
-extern CString RoomPath;     // Bilder für die Räume
+extern CString SoundPath;    // MusikstÃ¼cke und Samples
+extern CString RoomPath;     // Bilder fÃ¼r die RÃ¤ume
 extern CString PlanePath;    // Bilder der Flugzeuge
 extern CString GliPath;      // diverse GLI-Dateien
 extern CString SmackerPath;  // Die Smacker-Filmchen
@@ -255,7 +255,7 @@ extern UWORD ColorOfFontGrey;
 extern UWORD ColorOfFontRed;
 
 extern XY ReferenceCursorPos; // Kopie von CursorPos, die nur pro Frame upgedaten wird
-extern CRect gHighlightArea;  // Für das Text-Highlighting
+extern CRect gHighlightArea;  // FÃ¼r das Text-Highlighting
 extern UWORD gHighlightFontColor;
 extern CRect gLastHighlightArea;
 
@@ -266,10 +266,10 @@ extern TABS TABRight[];
 // Die Statuszeilen und Textzeilen: normal+Editoren
 //--------------------------------------------------------------------------------------------
 extern SBBMS StatusLineBms;
-extern SBBMS gTutoriumBms;      // Statuszeile: Tutorium läuft
+extern SBBMS gTutoriumBms;      // Statuszeile: Tutorium lÃ¤uft
 extern SBBMS gRepeatMessageBms; // Statuszeile: Message noch einmal, bitte
 extern SBBMS gStatisticBms;     // Statuszeile: Statistiken
-extern SBBMS gStatLineHigh;     // Statuszeile: Highlights für Geld und Zeit
+extern SBBMS gStatLineHigh;     // Statuszeile: Highlights fÃ¼r Geld und Zeit
 extern SBBMS gClockBms;
 extern SLONG gStatButton;
 extern SLONG gStatButtonTimer;
@@ -292,7 +292,7 @@ extern BOOL IsPaintingTextBubble;
 extern BOOL PleaseCancelTextBubble;
 
 //--------------------------------------------------------------------------------------------
-// Der Mehrzwecke Menü-Hintergrund fürs aktuelle Zeitalter & die aktuelle Bildgröße und die Tips
+// Der Mehrzwecke MenÃ¼-Hintergrund fÃ¼rs aktuelle Zeitalter & die aktuelle BildgrÃ¶ÃŸe und die Tips
 //--------------------------------------------------------------------------------------------
 extern SBBM gNotepadButtonL;
 extern SBBM gNotepadButtonM;
@@ -307,11 +307,11 @@ extern SBBM gLockBm;   // vom Scheduler
 
 extern SBBMS LogoBms;      // Die Logos der Fluggesellschaften
 extern SBBMS SmallLogoBms; // Die kleinen Logos der Fluggesellschaften
-extern SBBMS TinyLogoBms;  // Für die Sprechblasen
+extern SBBMS TinyLogoBms;  // FÃ¼r die Sprechblasen
 extern SBBMS MoodBms;      // Die Spimmungs-Sprechblasen
-extern SBBMS SmileyBms;    // Die Spimmungs-Köpfe für die Aussagen des Beraters
+extern SBBMS SmileyBms;    // Die Spimmungs-KÃ¶pfe fÃ¼r die Aussagen des Beraters
 
-extern SBBM gCityMarkerBm; // Marker für eine Stadt
+extern SBBM gCityMarkerBm; // Marker fÃ¼r eine Stadt
 extern SBBMS FlugplanBms;
 extern BUFFER<SBBMS> FlugplanIconBms;
 extern SBBMS gInfoBms; // Der Infobutton in der Routenliste
@@ -330,9 +330,9 @@ extern CSmoker Smokers[5];
 //--------------------------------------------------------------------------------------------
 extern SBBMS gItemBms;
 extern CTafelData TafelData;
-extern CAuftraege LastMinuteAuftraege;           // Die hängen gerade aus
-extern CAuftraege ReisebueroAuftraege;           // Die hängen gerade aus
-extern CFrachten gFrachten;                      // Die Frachtaufträge
+extern CAuftraege LastMinuteAuftraege;           // Die hÃ¤ngen gerade aus
+extern CAuftraege ReisebueroAuftraege;           // Die hÃ¤ngen gerade aus
+extern CFrachten gFrachten;                      // Die FrachtauftrÃ¤ge
 extern CAuftraege AuslandsAuftraege[MAX_CITIES]; // Aus dem Ausland
 extern SLONG AuslandsRefill[MAX_CITIES];         // Aus dem Ausland
 extern CFrachten AuslandsFrachten[MAX_CITIES];   // Aus dem Ausland
@@ -363,7 +363,7 @@ extern SLONG LastAnzPeopleOnScreen;
 extern SLONG LastAnzPlanesOnScreen;
 
 //--------------------------------------------------------------------------------------------
-// Für Dialog-Ressourcen:
+// FÃ¼r Dialog-Ressourcen:
 //--------------------------------------------------------------------------------------------
 extern const char TOKEN_ADVICE[];
 extern const char TOKEN_AKTIE[];

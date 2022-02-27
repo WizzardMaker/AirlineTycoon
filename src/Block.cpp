@@ -1,5 +1,5 @@
 //============================================================================================
-// Block.cpp : Routinen für den Notizblock der Spieler
+// Block.cpp : Routinen fÃ¼r den Notizblock der Spieler
 //============================================================================================
 #include "StdAfx.h"
 
@@ -39,7 +39,7 @@ BLOCK::BLOCK() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Den Block zerstören:
+// Den Block zerstÃ¶ren:
 //--------------------------------------------------------------------------------------------
 BLOCK::~BLOCK() {
     // if (pGLibPicture && pGfxMain)
@@ -215,7 +215,7 @@ void BLOCK::BlitAt(SBBM &RoomBm) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Eine Lib für den Block laden:
+// Eine Lib fÃ¼r den Block laden:
 //--------------------------------------------------------------------------------------------
 void BLOCK::LoadLib(const CString &LibName) {
     if ((pGLibPicture != nullptr) && (pGfxMain != nullptr)) {
@@ -283,10 +283,10 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
     SLONG d = 0;
     SLONG e = 0;
     SLONG i = 0;
-    XY TitleArea;   // Hier beginnt der Platz für den Fenstertitel
+    XY TitleArea;   // Hier beginnt der Platz fÃ¼r den Fenstertitel
     XY ClientArea;  // Hier beginnt das Papier
     XY PageArea;    // Hier steht die aktuelle Seite Papier
-    XY TitleAreaB;  // Hier beginnt der Platz für den Fenstertitel
+    XY TitleAreaB;  // Hier beginnt der Platz fÃ¼r den Fenstertitel
     XY ClientAreaB; // Hier beginnt das Papier
     XY PageAreaB;   // Hier steht die aktuelle Seite Papier
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
@@ -301,7 +301,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
     SB_CFont &TitleFont = StyleType != 0 ? FontNormalGreen : FontSmallBlack;
 
     if (TipInUse == TIP_NONE) {
-        // Specials für die Info-Seiten, wenn man keinen Berater hat:
+        // Specials fÃ¼r die Info-Seiten, wenn man keinen Berater hat:
         if (Index == 0 && BlockType == 5) {
             if (SelectedId == 0) {
                 AnzPages = 1;
@@ -377,7 +377,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
             }
 
             if (BlockTypeB == 3) {
-                Bitmap.BlitFromT(pGlobe->IndexA[0], 268, 256); // Aufträge
+                Bitmap.BlitFromT(pGlobe->IndexA[0], 268, 256); // AuftrÃ¤ge
             }
             if (BlockTypeB == 4) {
                 Bitmap.BlitFromT(pGlobe->IndexA[2], 268, 256); // Routen
@@ -1237,7 +1237,7 @@ switch_again:
                 for (c = PageB; c < PageB + 6 && c < TableB.AnzRows; c++) {
                     SB_CFont *s = nullptr;
 
-                    // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
+                    // Nachschauen, ob der Flug zu lang ist fÃ¼r das Flugzeug:
                     if (Index != 1 && TableB.ValueFlags[0 + c * TableB.AnzColums] == 0 && (qPlayer.Auftraege.IsInAlbum(TableB.LineIndex[c]) != 0)) {
                         // if (!qPlayer.Auftraege[TableB.LineIndex[c]].FitsInPlane
                         // (PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId]))
@@ -1315,7 +1315,7 @@ switch_again:
 
                     s = &FontSmallBlack;
 
-                    // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
+                    // Nachschauen, ob der Flug zu lang ist fÃ¼r das Flugzeug:
                     if (Index != 1) {
                         SLONG VonCityId = Routen[TableB.LineIndex[c]].VonCity;
                         SLONG NachCityId = Routen[TableB.LineIndex[c]].NachCity;
@@ -1377,7 +1377,7 @@ switch_again:
                 for (c = PageB; c < PageB + 6 && c < TableB.AnzRows; c++) {
                     SB_CFont *s = nullptr;
 
-                    // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
+                    // Nachschauen, ob der Flug zu lang ist fÃ¼r das Flugzeug:
                     if (Index != 1 && TableB.ValueFlags[0 + c * TableB.AnzColums] == 0 && (qPlayer.Frachten.IsInAlbum(TableB.LineIndex[c]) != 0)) {
                         // if (!qPlayer.Frachten[TableB.LineIndex[c]].FitsInPlane (PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId]))
                         if (qPlayer.Frachten[TableB.LineIndex[c]].FitsInPlane(Sim.Players.Players[PlayerNum].Planes[SelectedId]) == 0) {
@@ -1438,7 +1438,7 @@ switch_again:
         } else if (IndexB == 0 && (DoubleBlock != 0) && BlockType == 2) {
             // Details
             switch (BlockTypeB) {
-            // Aufträge:
+            // AuftrÃ¤ge:
             case 3: {
                 if (qPlayer.Auftraege.IsInAlbum(SelectedIdB) == 0) {
                     qPlayer.Blocks.RepaintAll = 1;
@@ -1454,7 +1454,7 @@ switch_again:
                 Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qAuftrag.VonCity].Kuerzel, (LPCTSTR)Cities[qAuftrag.NachCity].Kuerzel), TitleFont,
                                TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
 
-                // Ausführlich von A nach B
+                // AusfÃ¼hrlich von A nach B
                 Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qAuftrag.VonCity].Name, (LPCTSTR)Cities[qAuftrag.NachCity].Name), FontSmallBlack,
                                TEC_FONT_LEFT, ClientAreaB + XY(0, 1), ClientAreaB + XY(172, 168));
 
@@ -1475,7 +1475,7 @@ switch_again:
                                        FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 40), ClientAreaB + XY(172, 170));
                     }
 
-                    // Prämie und Strafe
+                    // PrÃ¤mie und Strafe
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 66), ClientAreaB + XY(172, 170));
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 53), ClientAreaB + XY(172, 170));
                     Bitmap.PrintAt(bprintf("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString(qAuftrag.Strafe))), FontSmallBlack, TEC_FONT_LEFT,
@@ -1521,7 +1521,7 @@ switch_again:
                 Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qRoute.VonCity].Kuerzel, (LPCTSTR)Cities[qRoute.NachCity].Kuerzel), TitleFont, TEC_FONT_LEFT,
                                TitleAreaB, Bitmap.Size);
 
-                // Ausführlich von A nach B
+                // AusfÃ¼hrlich von A nach B
                 Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qRoute.VonCity].Name, (LPCTSTR)Cities[qRoute.NachCity].Name), FontSmallBlack, TEC_FONT_LEFT,
                                ClientAreaB + XY(0, 1), ClientAreaB + XY(172, 168));
 
@@ -1537,7 +1537,7 @@ switch_again:
                                    ClientAreaB + XY(172, 170));
                     Bitmap.PrintAt("+-", FontSmallBlack, TEC_FONT_RIGHT, ClientAreaB + XY(2, 40), ClientAreaB + XY(172, 170));
 
-                    // erhöhen oder verringern:
+                    // erhÃ¶hen oder verringern:
                     // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1100), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,40), ClientAreaB+XY(172,170));
                     // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1101), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,53), ClientAreaB+XY(172,170));
 
@@ -1610,7 +1610,7 @@ switch_again:
                                    ClientAreaB + XY(172, 170));
                     Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRRoute.Miete), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 131 - 2),
                                    ClientAreaB + XY(172, 170));
-                    // Kündigen:
+                    // KÃ¼ndigen:
                     Bitmap.BlitFrom(FlugplanBms[57], ClientAreaB + XY(2, 144 - 2));
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1200), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(22, 148), Bitmap.Size);
                 } else if (PageB == 2) {
@@ -1618,7 +1618,7 @@ switch_again:
                 }
             } break;
 
-                // Frachtaufträge:
+                // FrachtauftrÃ¤ge:
             case 6: {
                 if (qPlayer.Frachten.IsInAlbum(SelectedIdB) == 0) {
                     qPlayer.Blocks.RepaintAll = 1;
@@ -1634,7 +1634,7 @@ switch_again:
                 Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qFracht.VonCity].Kuerzel, (LPCTSTR)Cities[qFracht.NachCity].Kuerzel), TitleFont,
                                TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
 
-                // Ausführlich von A nach B
+                // AusfÃ¼hrlich von A nach B
                 Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qFracht.VonCity].Name, (LPCTSTR)Cities[qFracht.NachCity].Name), FontSmallBlack, TEC_FONT_LEFT,
                                ClientAreaB + XY(0, 1), ClientAreaB + XY(172, 168));
 
@@ -1665,7 +1665,7 @@ switch_again:
                                        FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 40 + 23), ClientAreaB + XY(172, 170));
                     }
 
-                    // Prämie und Strafe
+                    // PrÃ¤mie und Strafe
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 66 + 19),
                                    ClientAreaB + XY(172, 170));
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 53 + 21),
@@ -1741,13 +1741,13 @@ switch_again:
 }
 
 //--------------------------------------------------------------------------------------------
-// Bringt die Daten (die später durch Refresh angezeigt werden) auf den neusten Stand:
+// Bringt die Daten (die spÃ¤ter durch Refresh angezeigt werden) auf den neusten Stand:
 //--------------------------------------------------------------------------------------------
 void BLOCK::RefreshData(SLONG PlayerNum) {
     UpdatePageSize();
 
     switch (BlockType) {
-    // Städte:
+    // StÃ¤dte:
     case 1:
         Table.FillWithCities(&Sim.Players.Players[PlayerNum].RentCities);
         break;
@@ -1787,7 +1787,7 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
     }
 
     switch (BlockTypeB) {
-    // Aufträge:
+    // AuftrÃ¤ge:
     case 3:
         TableB.FillWithAuftraege(&Sim.Players.Players[PlayerNum].Auftraege);
         if (IndexB != 0U) {
@@ -1808,7 +1808,7 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
         }
         break;
 
-        // Frachtaufträge:
+        // FrachtauftrÃ¤ge:
     case 6:
         TableB.FillWithFracht(&Sim.Players.Players[PlayerNum].Frachten);
         if (IndexB != 0U) {
@@ -1838,7 +1838,7 @@ void BLOCK::GotoIndex() {
 void BLOCK::GotoNext() {}
 
 //--------------------------------------------------------------------------------------------
-// Geht eine Seite zurück:
+// Geht eine Seite zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 void BLOCK::GotoPrevious() {}
 
@@ -1861,7 +1861,7 @@ void BLOCK::UpdatePageSize() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Erneuert alle Blöcke mit Listen von Aufträgen:
+// Erneuert alle BlÃ¶cke mit Listen von AuftrÃ¤gen:
 //--------------------------------------------------------------------------------------------
 void BLOCKS::RefreshAuftragsBloecke(SLONG PlayerNum, SLONG Background) {
     for (SLONG c = 0; c < AnzEntries(); c++) {
@@ -1897,7 +1897,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const BLOCK &b) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein BLOCK-Objekt:
+// LÃ¤dt ein BLOCK-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, BLOCK &b) {
     File >> b.Table >> b.TableB;
@@ -1939,7 +1939,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const BLOCKS &b) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein BLOCKS-Objekt:
+// LÃ¤dt ein BLOCKS-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, BLOCKS &b) {
     File >> b.RepaintAll >> b.Blocks;

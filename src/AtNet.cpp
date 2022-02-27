@@ -201,7 +201,7 @@ void PumpBroadcastBitmap(bool bJustForEmergency) {
 //--------------------------------------------------------------------------------------------
 void PumpNetwork() {
     SLONG c = 0;
-    SLONG e = 0; // Universell, können von jedem case verwendet werden.
+    SLONG e = 0; // Universell, kÃ¶nnen von jedem case verwendet werden.
 
     if (Sim.bNetwork == 0) {
         return;
@@ -981,7 +981,7 @@ void PumpNetwork() {
                 qPlane.Flugplan.UpdateNextFlight();
                 qPlane.Flugplan.UpdateNextStart();
 
-                // Alle Aufträge überprüfen:
+                // Alle AuftrÃ¤ge Ã¼berprÃ¼fen:
                 CFlugplan &qPlan = qPlane.Flugplan;
 
                 for (e = qPlan.Flug.AnzEntries() - 1; e >= 0; e--) {
@@ -1076,7 +1076,7 @@ void PumpNetwork() {
                 PLAYER &qFromPlayer = Sim.Players.Players[From];
 
                 switch (Art) {
-                // Tafel: Jemand hat einen überboten
+                // Tafel: Jemand hat einen Ã¼berboten
                 case 0:
                     if (qPlayer.HasBerater(BERATERTYP_INFO) != 0) {
                         if (Generic1 >= 14) {
@@ -1396,7 +1396,7 @@ void PumpNetwork() {
                 PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
                 qPlayer.IsTalking = FALSE;
 
-                // Aus irgendeinem Grund fängt die Spielfigur sonst an zu laufen:
+                // Aus irgendeinem Grund fÃ¤ngt die Spielfigur sonst an zu laufen:
                 if (qPlayer.Owner == 2) {
                     qPlayer.WalkStopEx();
                 }
@@ -1444,7 +1444,7 @@ void PumpNetwork() {
                 if (qPlayer.LocationWin != nullptr) {
                     CStdRaum &qRoom = *(qPlayer.LocationWin);
 
-                    bool bImpossible = false; // Kein Telefonat annehmen, wenn wir gerade den Höhrer in die Hand nehmen:
+                    bool bImpossible = false; // Kein Telefonat annehmen, wenn wir gerade den HÃ¶hrer in die Hand nehmen:
                     if (qPlayer.GetRoom() == ROOM_BURO_A + Sim.localPlayer * 10 && ((dynamic_cast<CBuero *>(qPlayer.LocationWin))->KommVarTelefon != 0)) {
                         bImpossible = true;
                     }
@@ -1973,7 +1973,7 @@ void PumpNetwork() {
 CString GetMediumName(SLONG Medium) { return (StandardTexte.GetS(TOKEN_MISC, 7100 + Medium)); }
 
 //--------------------------------------------------------------------------------------------
-// Kehrt erst zurück, wenn die anderen Spieler hier auch waren:
+// Kehrt erst zurÃ¼ck, wenn die anderen Spieler hier auch waren:
 //--------------------------------------------------------------------------------------------
 void NetGenericSync(long SyncId) {
     if (Sim.bNetwork == 0) {
@@ -2004,7 +2004,7 @@ void NetGenericSync(long SyncId) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Kehrt erst zurück, wenn die anderen Spieler hier auch waren:
+// Kehrt erst zurÃ¼ck, wenn die anderen Spieler hier auch waren:
 // Gibt Warnung aus, falls die Parameter unterschiedlich waren.
 //--------------------------------------------------------------------------------------------
 #ifdef _DEBUG
@@ -2058,7 +2058,7 @@ void NetGenericSync(long /*SyncId*/, long /*Par*/) {
 #endif
 
 //--------------------------------------------------------------------------------------------
-// Kehrt erst zurück, wenn die anderen Spieler hier auch waren:
+// Kehrt erst zurÃ¼ck, wenn die anderen Spieler hier auch waren:
 // Gibt Warnung aus, falls die Parameter unterschiedlich waren.
 //--------------------------------------------------------------------------------------------
 #ifdef _DEBUG
@@ -2084,7 +2084,7 @@ void NetGenericAsync(long SyncId, long Par, long player) {
         if (GenericAsyncIds[d] == SyncId)
             break;
 
-    // Eventuell müssen wir einen Leereintrag suchen:
+    // Eventuell mÃ¼ssen wir einen Leereintrag suchen:
     if (d == 400) {
         for (d = 0; d < 400; d += 4)
             if (GenericAsyncIds[d] == 0 && GenericAsyncIds[d + 1] == 0 && GenericAsyncIds[d + 2] == 0 && GenericAsyncIds[d + 3] == 0)

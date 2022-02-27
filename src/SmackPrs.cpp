@@ -1,5 +1,5 @@
 //============================================================================================
-// SmackPrs.cpp : Wrapper-Klasse für den Smacker für 16Bit Farben bei 8-Bit Videos:
+// SmackPrs.cpp : Wrapper-Klasse fÃ¼r den Smacker fÃ¼r 16Bit Farben bei 8-Bit Videos:
 //============================================================================================
 #include "StdAfx.h"
 #include <cmath>
@@ -46,7 +46,7 @@ CSmack16::~CSmack16() {
 }
 
 //--------------------------------------------------------------------------------------------
-//Öffnet ein Smacker-Filmchen:
+//Ã–ffnet ein Smacker-Filmchen:
 //--------------------------------------------------------------------------------------------
 void CSmack16::Open(const CString &Filename) {
     pSmack = smk_open_file(FullFilename(Filename, SmackerPath), SMK_MODE_MEMORY);
@@ -59,7 +59,7 @@ void CSmack16::Open(const CString &Filename) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Nächster Frame:
+// NÃ¤chster Frame:
 //--------------------------------------------------------------------------------------------
 BOOL CSmack16::Next(SBBM *pTargetBm) {
     if (timeGetTime() >= FrameNext && State == SMK_MORE) {
@@ -230,7 +230,7 @@ void CSmackerClip::ReSize(SLONG ClipId, const CString &Filename, const CString &
 
     CSmackerClip::SuccessorIds[0] = SuccessorIds;
 
-    // Hilfskonstruktion für beliebige viele Argumente deklarieren:
+    // Hilfskonstruktion fÃ¼r beliebige viele Argumente deklarieren:
     {
         va_list Vars;
 
@@ -254,7 +254,7 @@ void CSmackerClip::ReSize(SLONG ClipId, const CString &Filename, const CString &
 }
 
 //--------------------------------------------------------------------------------------------
-// Lässt die Person die nächste Silbe raussuchen:
+// LÃ¤sst die Person die nÃ¤chste Silbe raussuchen:
 //--------------------------------------------------------------------------------------------
 void CSmackerClip::NextSyllable() {
     if (SoundFilename.GetLength() > 0) {
@@ -284,7 +284,7 @@ void CSmackerClip::NextSyllable() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lässt die Person die nächste Silbe sprechen:
+// LÃ¤sst die Person die nÃ¤chste Silbe sprechen:
 //--------------------------------------------------------------------------------------------
 void CSmackerClip::PlaySyllable() {
     if (SoundFx.pFX != nullptr) {
@@ -325,7 +325,7 @@ void CSmackerPerson::ReSize(SLONG NumberOfClips) { Clips.ReSize(NumberOfClips); 
 void CSmackerPerson::SetSpeakFx(const CString &Filename) { SpeakFx.ReInit(Filename, const_cast<char *>((LPCTSTR)SmackerPath)); }
 
 //--------------------------------------------------------------------------------------------
-// Legt die Stimmung (Freizeit, Reden, Zuhören) fest, in der man jemand haben will
+// Legt die Stimmung (Freizeit, Reden, ZuhÃ¶ren) fest, in der man jemand haben will
 //--------------------------------------------------------------------------------------------
 void CSmackerPerson::SetDesiredMood(SLONG DesiredMood, SLONG AcceptedMood1, SLONG AcceptedMood2) {
     CSmackerPerson::DesiredMood = DesiredMood;
@@ -359,7 +359,7 @@ SLONG CSmackerPerson::GetFrame() const {
 }
 
 //--------------------------------------------------------------------------------------------
-// Beginnt den nächsten Clip, selbst wenn es verboten ist:
+// Beginnt den nÃ¤chsten Clip, selbst wenn es verboten ist:
 //--------------------------------------------------------------------------------------------
 void CSmackerPerson::ForceNextClip() {
     Clips[ActiveClip].Stop();
@@ -465,7 +465,7 @@ void CSmackerPerson::Pump() {
             }
             BitmapPos = Clips[ActiveClip].ScreenOffset;
 
-            // Variablenveränderung, während der Film läuft?
+            // VariablenverÃ¤nderung, wÃ¤hrend der Film lÃ¤uft?
             if ((Clips[ActiveClip].PostVar != nullptr) && ((Clips[ActiveClip].PostOperation & SMACKER_CLIP_FRAME) != 0)) // Variablen-Messageing:
             {
                 if (Clips[ActiveClip].FrameNum >= ULONG(Clips[ActiveClip].PostOperation >> 13) &&
@@ -574,14 +574,14 @@ void CSmackerPerson::NextClip() {
         }
     }
 
-    // Erste Priorität hat immer eine "DecisionVar"
+    // Erste PrioritÃ¤t hat immer eine "DecisionVar"
     if ((Clips[ActiveClip].DecisionVar != nullptr) && Clips[ActiveClip].DecisionVar[0] != -1) {
         ActiveClip = Clips[ActiveClip].DecisionVar[0];
         goto found_next_clip;
     } else // Ansonsten entscheiden wir anhand von Zufall und Regeln
     {
         if (CurrentMood == DesiredMood) {
-            // 1. Schauen, wie's weitergeht ohen die Stimmung zu ändern:
+            // 1. Schauen, wie's weitergeht ohen die Stimmung zu Ã¤ndern:
             //---------------------------------------------------------------------------
             PropSum = 0; // Wahrscheinlichkeiten aufsummieren:
             for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
@@ -593,7 +593,7 @@ void CSmackerPerson::NextClip() {
             if (PropSum != 0) {
                 PropSum = rand() % PropSum;
 
-                // Alternative auswählten:
+                // Alternative auswÃ¤hlten:
                 for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
                     if (Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId == DesiredMood && Clips[ActiveClip].SuccessorTokens[c * 2] != 'E') {
                         PropSum -= (Clips[ActiveClip].SuccessorTokens[c * 2 + 1] - '0');
@@ -605,7 +605,7 @@ void CSmackerPerson::NextClip() {
                 }
             }
 
-            // 2. Unmöglich, rettet bei Bugs vor dem Absturz:
+            // 2. UnmÃ¶glich, rettet bei Bugs vor dem Absturz:
             //---------------------------------------------------------------------------
             PropSum = 0; // Wahrscheinlichkeiten aufsummieren:
             for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
@@ -614,7 +614,7 @@ void CSmackerPerson::NextClip() {
 
             PropSum = rand() % PropSum;
 
-            // Alternative auswählten:
+            // Alternative auswÃ¤hlten:
             for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
                 PropSum -= (Clips[ActiveClip].SuccessorTokens[c * 2 + 1] - '0');
                 if (PropSum < 0) {
@@ -636,7 +636,7 @@ void CSmackerPerson::NextClip() {
             if (PropSum != 0) {
                 PropSum = rand() % PropSum;
 
-                // Alternative auswählten:
+                // Alternative auswÃ¤hlten:
                 for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
                     if (Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId == DesiredMood && Clips[ActiveClip].SuccessorTokens[c * 2] == 'E') {
                         PropSum -= (Clips[ActiveClip].SuccessorTokens[c * 2 + 1] - '0');
@@ -662,7 +662,7 @@ void CSmackerPerson::NextClip() {
             if (PropSum != 0) {
                 PropSum = rand() % PropSum;
 
-                // Alternative auswählten:
+                // Alternative auswÃ¤hlten:
                 for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
                     if ((Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId == DesiredMood || Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId == CurrentMood ||
                          Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId == AcceptedMood1 ||
@@ -689,7 +689,7 @@ void CSmackerPerson::NextClip() {
             if (PropSum != 0) {
                 PropSum = rand() % PropSum;
 
-                // Alternative auswählten:
+                // Alternative auswÃ¤hlten:
                 for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
                     if (Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId == DesiredMood && Clips[ActiveClip].SuccessorTokens[c * 2] != 'S') {
                         PropSum -= (Clips[ActiveClip].SuccessorTokens[c * 2 + 1] - '0');
@@ -715,7 +715,7 @@ void CSmackerPerson::NextClip() {
             if (PropSum != 0) {
                 PropSum = rand() % PropSum;
 
-                // Alternative auswählten:
+                // Alternative auswÃ¤hlten:
                 for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
                     if ((Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId == DesiredMood || Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId == CurrentMood ||
                          Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId == AcceptedMood1 ||
@@ -730,7 +730,7 @@ void CSmackerPerson::NextClip() {
                 }
             }
 
-            // 5. Unmöglich, rettet bei Bugs vor dem Absturz:
+            // 5. UnmÃ¶glich, rettet bei Bugs vor dem Absturz:
             //---------------------------------------------------------------------------
             PropSum = 0; // Wahrscheinlichkeiten aufsummieren:
             for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
@@ -739,7 +739,7 @@ void CSmackerPerson::NextClip() {
 
             PropSum = rand() % PropSum;
 
-            // Alternative auswählten:
+            // Alternative auswÃ¤hlten:
             for (c = 0; c < Clips[ActiveClip].SuccessorIds.AnzEntries(); c++) {
                 PropSum -= (Clips[ActiveClip].SuccessorTokens[c * 2 + 1] - '0');
                 if (PropSum < 0) {

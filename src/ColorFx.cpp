@@ -1,5 +1,5 @@
 //============================================================================================
-// CColorFx - Klasse für Helligkeits- und Farbeffekte mit 16Bit Bitmaps
+// CColorFx - Klasse fÃ¼r Helligkeits- und Farbeffekte mit 16Bit Bitmaps
 //============================================================================================
 // Anleitung: "i:\projekt\sbl\doku\CColorFx.txt"
 // Link:      "Colorfx.h"
@@ -19,7 +19,7 @@ SB_CColorFX::SB_CColorFX() = default;
 SB_CColorFX::SB_CColorFX(SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *Bitmap) { ReInit(FXType, Steps, Bitmap); }
 
 //--------------------------------------------------------------------------------------------
-// Nachträglicher Konstruktor:
+// NachtrÃ¤glicher Konstruktor:
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::ReInit(SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *Bitmap) {
     SLONG c = 0;
@@ -62,7 +62,7 @@ void SB_CColorFX::ReInit(SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *Bi
 
     AnzSteps = Steps + 1;
 
-    // Speicher für Tabelle reservieren:
+    // Speicher fÃ¼r Tabelle reservieren:
     BlendTables.ReSize((Steps + 1) * 256 * 2);
 
     // Effekte berechnen:
@@ -580,7 +580,7 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
 
                 Key2 = SB_CBitmapKey(*SrcBitmap);
 
-                // Falls der Key nicht mehr erhältlich ist, wurde die Sprechblase inzwischen geschlossen:
+                // Falls der Key nicht mehr erhÃ¤ltlich ist, wurde die Sprechblase inzwischen geschlossen:
                 if (Key2.Bitmap == nullptr) {
                     // delete Key2;
                     IsPaintingTextBubble = FALSE;
@@ -589,7 +589,7 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
 
                 Key = SB_CBitmapKey(*TgtBitmap);
 
-                // Falls der Key nicht mehr erhältlich ist, wurde die Sprechlblase inzwischen geschlossen:
+                // Falls der Key nicht mehr erhÃ¤ltlich ist, wurde die Sprechlblase inzwischen geschlossen:
                 if (Key.Bitmap == nullptr || Key2.Bitmap == nullptr) {
                     // delete Key;
                     // delete Key2;
@@ -954,7 +954,7 @@ void SB_CColorFX::HighlightText(SB_CBitmapCore *pBitmap, const CRect &HighRect, 
 }
 
 //--------------------------------------------------------------------------------------------
-// Blitten mit Alpha-Kanal für Schatten:
+// Blitten mit Alpha-Kanal fÃ¼r Schatten:
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos) {
     if (SrcBitmap == nullptr) {
@@ -1080,7 +1080,7 @@ void SB_CColorFX::BlitAlpha(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
 }
 
 //--------------------------------------------------------------------------------------------
-// Blitten mit Glow-Effekt fürs Tutorial:
+// Blitten mit Glow-Effekt fÃ¼rs Tutorial:
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos) {
     if (TargetPos.x >= 640 || TargetPos.x + SrcBitmap->GetXSize() < 0) {

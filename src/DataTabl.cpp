@@ -1,5 +1,5 @@
 //============================================================================================
-// DataTable.cpp - Die allgemeine Struktur für die Tabellendaten
+// DataTable.cpp - Die allgemeine Struktur fÃ¼r die Tabellendaten
 //============================================================================================
 #include "StdAfx.h"
 
@@ -10,7 +10,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //--------------------------------------------------------------------------------------------
-// Löscht eine Tabelle:
+// LÃ¶scht eine Tabelle:
 //--------------------------------------------------------------------------------------------
 void CDataTable::Destroy() {
     AnzColums = 0;
@@ -27,7 +27,7 @@ void CDataTable::Destroy() {
 void CDataTable::Sort() {}
 
 //--------------------------------------------------------------------------------------------
-// Füllt die Tabelle mit den Angaben zu den Flugzeugen, die als Parameter beiliegen:
+// FÃ¼llt die Tabelle mit den Angaben zu den Flugzeugen, die als Parameter beiliegen:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithPlanes(CPlanes *Planes, BOOL Expert, SLONG FilterType, SLONG Filter1, SLONG Filter2) {
     SLONG c = 0;
@@ -169,7 +169,7 @@ void CDataTable::FillWithPlanes(CPlanes *Planes, BOOL Expert, SLONG FilterType, 
 }
 
 //--------------------------------------------------------------------------------------------
-// Füllt die Tabelle mit den Angaben zu den Flugzeugen:
+// FÃ¼llt die Tabelle mit den Angaben zu den Flugzeugen:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithPlaneTypes() {
     SLONG c = 0;
@@ -207,7 +207,7 @@ void CDataTable::FillWithPlaneTypes() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Füllt die Tabelle mit den Angaben zu den Flugzeugen:
+// FÃ¼llt die Tabelle mit den Angaben zu den Flugzeugen:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithXPlaneTypes() {
     SLONG c = 0;
@@ -256,7 +256,7 @@ void CDataTable::FillWithXPlaneTypes() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Füllt die Tabelle mit den Daten der Routen die als Parameter beiliegen:
+// FÃ¼llt die Tabelle mit den Daten der Routen die als Parameter beiliegen:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithRouten(CRouten *Routen, CRentRouten *RentRouten, BOOL UniqueOnly) {
     SLONG c = 0;
@@ -341,7 +341,7 @@ void CDataTable::FillWithRouten(CRouten *Routen, CRentRouten *RentRouten, BOOL U
 }
 
 //--------------------------------------------------------------------------------------------
-// Füllt die Tabelle mit den Daten aller Routen die als Parameter beiliegen:
+// FÃ¼llt die Tabelle mit den Daten aller Routen die als Parameter beiliegen:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithAllRouten(CRouten *Routen, CRentRouten *RentRouten, BOOL UniqueOnly) {
     SLONG c = 0;
@@ -420,7 +420,7 @@ void CDataTable::FillWithAllRouten(CRouten *Routen, CRentRouten *RentRouten, BOO
 }
 
 //--------------------------------------------------------------------------------------------
-// Füllt die Tabelle mit den Daten der Aufträge, die als Paramter beiliegen:
+// FÃ¼llt die Tabelle mit den Daten der AuftrÃ¤ge, die als Paramter beiliegen:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithAuftraege(CAuftraege *Auftraege) {
     SLONG c = 0;
@@ -520,7 +520,7 @@ void CDataTable::FillWithAuftraege(CAuftraege *Auftraege) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Füllt die Tabelle mit den Daten der Aufträge, die als Paramter beiliegen:
+// FÃ¼llt die Tabelle mit den Daten der AuftrÃ¤ge, die als Paramter beiliegen:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithFracht(CFrachten *Frachten) {
     SLONG c = 0;
@@ -620,7 +620,7 @@ void CDataTable::FillWithFracht(CFrachten *Frachten) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Füllt die Datentabelle mit allen verfügbaren Städten:
+// FÃ¼llt die Datentabelle mit allen verfÃ¼gbaren StÃ¤dten:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithCities(CRentCities *RentCities) {
     SLONG c = 0;
@@ -658,7 +658,7 @@ void CDataTable::FillWithCities(CRentCities *RentCities) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Füllt die Datentabelle mit allen verfügbaren Expertenmeinungen:
+// FÃ¼llt die Datentabelle mit allen verfÃ¼gbaren Expertenmeinungen:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithExperts(SLONG /*PlayerNum*/) {
     SLONG c = 0;
@@ -696,7 +696,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CDataTable &d) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein DataTable-Objekt:
+// LÃ¤dt ein DataTable-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CDataTable &d) {
     File >> d.Title >> d.AnzRows >> d.AnzColums;

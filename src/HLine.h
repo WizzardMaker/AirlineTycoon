@@ -14,7 +14,7 @@ class CHLPool;
 //--------------------------------------------------------------------------------------------
 class CHLGene {
   private:
-    UBYTE Offset;  // X-Offset f¸r die Bitmap
+    UBYTE Offset;  // X-Offset f√ºr die Bitmap
     UBYTE Anz;     // Anzahl der Pixel im String
     UBYTE *pPixel; // Pointer in den Pool oder wenn Anz<=2, direkt die Pixel
 
@@ -44,7 +44,7 @@ class CHLGene {
 #pragma pack(pop, pragma_gene)
 
 //--------------------------------------------------------------------------------------------
-// Ein Object, was aus HLines besteht: (es gehˆrt immer dem Pool)
+// Ein Object, was aus HLines besteht: (es geh√∂rt immer dem Pool)
 //--------------------------------------------------------------------------------------------
 class CHLObj {
   private:
@@ -52,7 +52,7 @@ class CHLObj {
     XY Size;
     CHLPool *pHLPool;            // Zeiger auf Parent (H-Line Pool)
     FBUFFER<CHLGene> HLines;     // Elemente aus dem Pool
-    FBUFFER<UBYTE> HLineEntries; // Array, daﬂ angibtm wieviele Eintr‰ge pro Zeile da sind
+    FBUFFER<UBYTE> HLineEntries; // Array, da√ü angibtm wieviele Eintr√§ge pro Zeile da sind
 
   private: // Konstruktion/Destruktion:
     CHLObj();
@@ -89,24 +89,24 @@ class CHLPool {
   private: // Pool-informationen
     CString Filename;
     UBYTE *pPool;          // Eine Folge von 2-byte Pixeln (64k Farben)
-    SLONG PoolSize;        // Aktuelle Grˆﬂe in Pixeln (1 Pixel = 2 Bytes)
-    SLONG PoolMaxSize{};   // Maximale Grˆﬂe in Pixeln
+    SLONG PoolSize;        // Aktuelle Gr√∂√üe in Pixeln (1 Pixel = 2 Bytes)
+    SLONG PoolMaxSize{};   // Maximale Gr√∂√üe in Pixeln
     CHLPool *pHLBasepool1; // Eltern-Pool #1
     CHLPool *pHLBasepool2; // Eltern-Pool #2
 
-    UBYTE *pHLBasepool1Pool{}; // Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools mˆglich ist)
-    UBYTE *pHLBasepool2Pool{}; // Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools mˆglich ist)
-    SLONG HLBasepool1Size{};   // Grˆﬂe Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools mˆglich ist)
-    SLONG HLBasepool2Size{};   // Grˆﬂe Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools mˆglich ist)
+    UBYTE *pHLBasepool1Pool{}; // Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools m√∂glich ist)
+    UBYTE *pHLBasepool2Pool{}; // Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools m√∂glich ist)
+    SLONG HLBasepool1Size{};   // Gr√∂√üe Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools m√∂glich ist)
+    SLONG HLBasepool2Size{};   // Gr√∂√üe Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools m√∂glich ist)
 
-    FBUFFER<UWORD> PaletteMapper; // 256 Paletteneintr‰ge zum remappen
+    FBUFFER<UWORD> PaletteMapper; // 256 Paletteneintr√§ge zum remappen
 
     SLONG Loaded; // 0=Nein, 1=Preloaded, 2=Loaded
 
   public:                      // Pool-Statistiken:
-    SLONG BytesReal;           // So groﬂ waren die Bitmaps einmal
-    SLONG BytesCompressed;     // So groﬂ sind sie jetzt
-    SLONG BytesAdministration; // Und soviel ging f¸r die Verwaltung bei drauf
+    SLONG BytesReal;           // So gro√ü waren die Bitmaps einmal
+    SLONG BytesCompressed;     // So gro√ü sind sie jetzt
+    SLONG BytesAdministration; // Und soviel ging f√ºr die Verwaltung bei drauf
     SLONG LinesInPool;         // Soviele Lines sind im Pool
     SLONG LinesRepeated;       // Soviele Lines wurde nicht in den Pool getan, sondern referenziert
 
@@ -135,7 +135,7 @@ class CHLPool {
 };
 
 //--------------------------------------------------------------------------------------------
-// Eine HL-Bitmap ist eine Referenz auf ein HL-Objekt; Es kann mehrere HLBMs f¸r ein HLOBJ geben
+// Eine HL-Bitmap ist eine Referenz auf ein HL-Objekt; Es kann mehrere HLBMs f√ºr ein HLOBJ geben
 //--------------------------------------------------------------------------------------------
 class CHLBm {
   private:

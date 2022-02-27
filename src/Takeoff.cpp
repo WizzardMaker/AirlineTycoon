@@ -22,7 +22,7 @@
 #include "Makler.h"
 #include "Museum.h"
 #include "Nasa.h"
-#include "NewGamePopup.h" //Fenster zum Wahl der Gegner und der Spielstärke
+#include "NewGamePopup.h" //Fenster zum Wahl der Gegner und der SpielstÃ¤rke
 #include "Outro.h"
 #include "PlanProp.h"
 #include "Reise.h"
@@ -112,26 +112,26 @@ SLONG gTimerCorrection = 0; // Is it necessary to adapt the local clock to the s
 // 432897342156432198-423554835218452549   5.6.98-??.?.98 : Intern; Bomico; Trinode
 // 883610937218917328-719273618973427422  ??.?.98-25.6.98 : Intern; Bomico
 // 936249237874523734-224238234810878542  25.6.98- 8.7.98 : Intern; Bomico
-// 195236205634827322-964583412397724543   8.7.98- 8.7.98 : Intern; Taiwain (Englisch, mit Markierung in Hauptmenü-Bitmap)
+// 195236205634827322-964583412397724543   8.7.98- 8.7.98 : Intern; Taiwain (Englisch, mit Markierung in HauptmenÃ¼-Bitmap)
 // 889132557179123773-104993427823467831   8.7.98- 9.7.98 : Intern; Jon Benton, Buzz Software
 // 883125133229672333-712487216511248790   9.7.98- 9.7.98 : Intern; Via Bomico auch an die Presse
 // 321612656732266231-237856732144345622   9.7.98-16.7.98 : Intern; Via Bomico auch an die Presse
 // 897893125667432312-922026623427828832  16.7.98-19.7.98 : Intern; Ascaron
 // 989423123113267672-123012311723475355  19.7.98-31.7.98 : Intern;
-// 123453273129043612-893121723114389453  31.7.98- 7.8.98 : Intern; Mitgenommen nach Mülheim
+// 123453273129043612-893121723114389453  31.7.98- 7.8.98 : Intern; Mitgenommen nach MÃ¼lheim
 // 723162316723632131-908090896239016302   7.8.98- 8.9.98 : Intern; An Bomico gegeben
 // 423423787892349122-783120312831231255   8.9.98-12.9.98 : Release-Version (erster Versuch)
 // 423123479031289074-978789786786122322  12.9.98-15.9.98 : Release-Version
-// 312573126784237983-423423789897233332  15.9.98-29.10.98 : Englische Version für Buzz-Software
-// 676786789767891234-234534534534563232 29.10.98-  7.4.99 : Englische Version für Buzz-Software
+// 312573126784237983-423423789897233332  15.9.98-29.10.98 : Englische Version fÃ¼r Buzz-Software
+// 676786789767891234-234534534534563232 29.10.98-  7.4.99 : Englische Version fÃ¼r Buzz-Software
 // 234234239467423422-423098146284923443   7.4.99- 19.4.98 : Betatest Version (offiziell)
 // 993621834926654222-986294432529344524  19.4.99- 19.4.98 : PC Games
 // 312312312397889777-777312893743282949  19.4.99- 19.4.98 : GameStar
 // 882638264836778892-992265266635274828  19.4.99-   . .98 : Powerplay
 // 999666555423198743-423423423488888222  19.4.99- 21.4.98 : Betatest Version (offiziell)
-// 423987402389743333-988437373399993784  21.4.99- 21.4.98 : Version für Petra Maueröder
+// 423987402389743333-988437373399993784  21.4.99- 21.4.98 : Version fÃ¼r Petra MauerÃ¶der
 // 423874612978367654-423423467897689766  21.4.99- 22.4.98 : Betatest Version (offiziell)
-// 455675675567567656-423423423244444543  22.4.99- 22.4.98 : Version für Joe Nettelbeck
+// 455675675567567656-423423423244444543  22.4.99- 22.4.98 : Version fÃ¼r Joe Nettelbeck
 // 787878787889879433-654445373848292349  22.4.99-  5.6.98 : Betatest Version (offiziell)
 // 765423432423432676-432987774377733433   5.6.99-   .4.98 : Release-Version
 //--------------------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ extern "C"
 
     const char *pText = "Hallo, ich bin ein Text";
 
-    // eigentlich wurde UCharToReadableAnsi ja geschaffen um Daten-Streams zu konvertieren, aber man kann es natürlich auch mit einem String machen!
+    // eigentlich wurde UCharToReadableAnsi ja geschaffen um Daten-Streams zu konvertieren, aber man kann es natÃ¼rlich auch mit einem String machen!
     char *pEncoded = UCharToReadableAnsi((unsigned char *)pText, strlen(pText) + 1);
     char *pEncoded2 = UCharToReadableAnsi((unsigned char *)pEncoded, strlen(pEncoded) + 1);
 
@@ -438,10 +438,10 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
     // Die Standardsprachen:
     //#define LANGUAGE_D       0             //D-Deutsch, inklusive
     //#define LANGUAGE_E       1             //E-Englisch, bezahlt
-    //#define LANGUAGE_F       2             //F-Französisch, bezahlt
+    //#define LANGUAGE_F       2             //F-FranzÃ¶sisch, bezahlt
     //#define LANGUAGE_T       3             //T-Taiwanesisch, gilt als englische
     //#define LANGUAGE_P       4             //P-Polnisch, inklusive
-    //#define LANGUAGE_N       5             //N-Niederländisch, bezahlt
+    //#define LANGUAGE_N       5             //N-NiederlÃ¤ndisch, bezahlt
     //#define LANGUAGE_I       6             //I-Italienisch, bezahlt
     //#define LANGUAGE_S       7             //S-Spanisch, bezahlt
     //#define LANGUAGE_O       8             //O-Portugisisch, bezahlt
@@ -466,9 +466,9 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
     }
 
     gPhysicalCdRomBitlist.Pump();
-    // gUpdatingPools = TRUE; //Zum testen; für Release auskommentieren
+    // gUpdatingPools = TRUE; //Zum testen; fÃ¼r Release auskommentieren
 
-    // Flag-Ersatzstücke aus der Registry lesen:
+    // Flag-ErsatzstÃ¼cke aus der Registry lesen:
     {
         CRegistryAccess reg(chRegKey);
 
@@ -765,7 +765,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
             LOADING_TEXT("Loading unit texts...");
         InitEinheiten(FullFilename("ein_ger.res", MiscPath));
 
-        // Großes und kleines Icon setzen:
+        // GroÃŸes und kleines Icon setzen:
         // FrameWnd->SetIcon (m_hBigIcon = LoadIcon(IDR_MAINFRAME1), 1);
         // FrameWnd->SetIcon (m_hSmallIcon = LoadIcon(IDR_MAINFRAME), 0);
 
@@ -910,7 +910,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
 
         if (gUpdatingPools == 0) {
             if (gLanguage == LANGUAGE_N)
-                LOADING_TEXT("Initialiseert de röntgenfoto's...")
+                LOADING_TEXT("Initialiseert de r\xF6ntgenfoto's...")
             else if (gLanguage == LANGUAGE_F)
                 LOADING_TEXT("Francais...")
             else
@@ -1029,7 +1029,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Sorgt für Screen Refresh und für Ablauf der Simulation:
+// Sorgt fÃ¼r Screen Refresh und fÃ¼r Ablauf der Simulation:
 //--------------------------------------------------------------------------------------------
 void CTakeOffApp::GameLoop(void * /*unused*/) {
     SLONG c = 0;
@@ -1041,7 +1041,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
     SLONG Faktor = 1;
     BOOL RefreshNeccessary = FALSE;
 
-    DWORD SimStepsCounter = 0; // Zählt wieviele SimSteps an einem Stück gemacht wurden um ab&zu einen ScreenRefresh zu erzwingen
+    DWORD SimStepsCounter = 0; // ZÃ¤hlt wieviele SimSteps an einem StÃ¼ck gemacht wurden um ab&zu einen ScreenRefresh zu erzwingen
 
     Sim.TimeSlice = 0;
 
@@ -1080,7 +1080,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                     }
                 }
 
-                // Titelmenü anzeigen:
+                // TitelmenÃ¼ anzeigen:
                 if ((Sim.Options.OptionViewedIntro != 0) || IntroPath.GetLength() == 0) {
                     Sim.Gamestate = GAMESTATE_TITLE | GAMESTATE_WORKING;
                     TopWin = new TitlePopup(FALSE, 0);
@@ -1091,7 +1091,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
             }
 
             if (Sim.Gamestate == (GAMESTATE_TITLE | GAMESTATE_DONE)) {
-                // New Game -> Abfragen für Spielmodus:
+                // New Game -> Abfragen fÃ¼r Spielmodus:
                 CStdRaum *TmpWin = TopWin;
                 TopWin = nullptr;
                 delete TmpWin;
@@ -1158,7 +1158,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                     Sim.DayState = 1;
 
                     if (1 == 0) {
-                        // Speedup zum testen; für Release beides auskommentieren:
+                        // Speedup zum testen; fÃ¼r Release beides auskommentieren:
                         Sim.IsTutorial = FALSE;
                         Sim.bNoTime = FALSE;
                         Sim.DayState = 2;
@@ -1575,7 +1575,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                     qPlayer.CalcRoom();
                                 }
 
-                                // Veränderung am Second-Level-Raum?
+                                // VerÃ¤nderung am Second-Level-Raum?
                                 if (Sim.Difficulty != DIFF_TUTORIAL || Sim.Tutorial >= 1200 || Sim.IsTutorial == 0 || Sim.Tutorial == 0) {
                                     if (qPlayer.Owner == 0) // Nur Spieler bekommen Fenster
                                     {
@@ -1677,7 +1677,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                     qPlayer.BroadcastPosition(true);
                                                 }
 
-                                                // Fenster für Raum eröffnen:
+                                                // Fenster fÃ¼r Raum erÃ¶ffnen:
                                                 switch (Room) {
                                                 case ROOM_BURO_A:
                                                 case ROOM_BURO_B:
@@ -1818,12 +1818,12 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                 SIM::UpdateRoomUsage();
                                             }
                                         }
-                                    } else if (Sim.Players.Players[c].Owner == 1) // Und das gleiche für Roboter:
+                                    } else if (Sim.Players.Players[c].Owner == 1) // Und das gleiche fÃ¼r Roboter:
                                     {
                                         for (d = 0; d < 10; d++) {
                                             if ((qPlayer.Locations[d] & ROOM_ENTERING) != 0) {
                                                 if (IsRoomBusy(UWORD(qPlayer.Locations[d] & (~ROOM_ENTERING)), c) != 0) {
-                                                    // Raum schon besetzt? Erst zweite Priorität ausführen:
+                                                    // Raum schon besetzt? Erst zweite PrioritÃ¤t ausfÃ¼hren:
                                                     for (e = qPlayer.RobotActions.AnzEntries() - 1; e >= 1; e--) {
                                                         qPlayer.RobotActions[e] = qPlayer.RobotActions[e - 1];
                                                     }
@@ -2031,7 +2031,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
 
                             // Zeit weitermachen:
                             if (Sim.bNoTime == 0) {
-                                // Zeitabhängige Events auslösen & Uhr weitersetzten:
+                                // ZeitabhÃ¤ngige Events auslÃ¶sen & Uhr weitersetzten:
                                 if (Sim.Time < 8 * 60000) {
                                     Sim.DoTimeStep();
                                     if (Sim.Time >= 8 * 60000) {
@@ -2168,7 +2168,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
 
                         PumpNetwork();
 
-                        // Nur zum testen der Flugpläne
+                        // Nur zum testen der FlugplÃ¤ne
                         // Sim.Players.CheckFlighplans();
 
                         // Exe Check             10 Minuten                  2 Stunden
@@ -2216,7 +2216,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                     Sim.Tutorial = 999;
                 }
 
-                // Zeit für die AnimBricks aktualisieren:
+                // Zeit fÃ¼r die AnimBricks aktualisieren:
                 Sim.TickerTime = Time >> 5;
             } else {
                 RefreshNeccessary = TRUE;
@@ -2353,7 +2353,7 @@ void CTakeOffApp::CheckSystem(void) {
 #endif
 
 //--------------------------------------------------------------------------------------------
-// Initilisiert alle benötigten DirectX-Schnittstellen:
+// Initilisiert alle benÃ¶tigten DirectX-Schnittstellen:
 //--------------------------------------------------------------------------------------------
 BOOL InitDirectX() {
     // HRESULT ddrval;

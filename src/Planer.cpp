@@ -1,5 +1,5 @@
 //============================================================================================
-// Planer.cpp : Die Basisklasse für den Planungsbildschirm Laptop/Filofax
+// Planer.cpp : Die Basisklasse fÃ¼r den Planungsbildschirm Laptop/Filofax
 //============================================================================================
 // Link: "Planer.h"
 //============================================================================================
@@ -21,7 +21,7 @@ extern SLONG FoodCosts[];
 extern SB_CFont FontVerySmall;
 
 //--------------------------------------------------------------------------------------------
-// Malt den Erdball (Groß oder Klein) an eine Stelle
+// Malt den Erdball (GroÃŸ oder Klein) an eine Stelle
 //--------------------------------------------------------------------------------------------
 void PaintGlobe(const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const XY &Offset) {
     TECBMKEYC SrcKey(SourceBm);
@@ -174,7 +174,7 @@ CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop)
         }
     }
 
-    // Ist inzwischen ein Blockeintrag ungültig geworden?
+    // Ist inzwischen ein Blockeintrag ungÃ¼ltig geworden?
     for (c = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.AnzEntries() - 1; c >= 0; c--) {
         if (Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks.IsInAlbum(ULONG(c)) != 0) {
             BLOCK &qBlock = Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Blocks[c];
@@ -192,7 +192,7 @@ CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop)
                 }
             }
 
-            // Städtedetail? Zurückschalten:
+            // StÃ¤dtedetail? ZurÃ¼ckschalten:
             if (qBlock.BlockType == 1 && qBlock.Index != 1) {
                 qBlock.Index = 1;
                 qBlock.Page = 0;
@@ -236,7 +236,7 @@ CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop)
 CPlaner::~CPlaner() { PostItBm.Destroy(); }
 
 //--------------------------------------------------------------------------------------------
-// Malt den Erdball (Groß oder Klein) an eine Stelle
+// Malt den Erdball (GroÃŸ oder Klein) an eine Stelle
 //--------------------------------------------------------------------------------------------
 void CPlaner::PaintGlobe() { ::PaintGlobe(EarthBm, &GlobeBm, EarthAlpha, XY(0, 0)); }
 
@@ -656,12 +656,12 @@ void CPlaner::PaintGlobeInScreen(XY TargetPos) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Erledigt alles, was regelmäßig abgefragt wird: Tooltips, Verschieben von Flügen...
+// Erledigt alles, was regelmÃ¤ÃŸig abgefragt wird: Tooltips, Verschieben von FlÃ¼gen...
 //--------------------------------------------------------------------------------------------
 void CPlaner::DoPollingStuff() {
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
-    // Geschlossene Blöcke aus dem Array entfernen:
+    // Geschlossene BlÃ¶cke aus dem Array entfernen:
     SLONG c = 0;
     for (c = 0; c < qPlayer.Blocks.AnzEntries(); c++) {
         if ((qPlayer.Blocks.IsInAlbum(c) != 0) && qPlayer.Blocks[c].Destructing == 2) {
@@ -696,7 +696,7 @@ void CPlaner::DoPollingStuff() {
         }
     }
 
-    // Alle Blöcke bei Bedarf neu zeichnen:
+    // Alle BlÃ¶cke bei Bedarf neu zeichnen:
     if (qPlayer.Blocks.RepaintAll != 0) {
         qPlayer.Blocks.RepaintAll = FALSE;
 
@@ -947,7 +947,7 @@ void CPlaner::DoPollingStuff() {
         }
     }
 
-    // Reguläre Plane/City/.. Tips für die Listen
+    // RegulÃ¤re Plane/City/.. Tips fÃ¼r die Listen
     if ((IsInClientArea != 0) && (pBlock != nullptr) && (pBlock->IsTopWindow != 0) && pBlock->Index == 1) {
         if (pBlock->BlockType != 2 && ClientPos.IfIsWithin(0, 0, 174, 170) && ClientPos.y / 13 + pBlock->Page < pBlock->Table.AnzRows &&
             (qPlayer.Buttons & 1) == 0) {
@@ -1048,12 +1048,12 @@ void CPlaner::DoPollingStuff() {
         }
     }
 
-    // Tip für Flüge im Block (und nicht im Index)
+    // Tip fÃ¼r FlÃ¼ge im Block (und nicht im Index)
     if ((pBlock != nullptr) && pBlock->Index == 0 && pBlock->BlockType == 2 && pBlock->Page == 0 && CurrentPostItType == 0 && (IsInClientArea != 0)) {
-        if (ClientPos.IfIsWithin(22, 150, 58, 164) && (pBlock->IsTopWindow != 0)) // Flugpläne automatisch erweitern
+        if (ClientPos.IfIsWithin(22, 150, 58, 164) && (pBlock->IsTopWindow != 0)) // FlugplÃ¤ne automatisch erweitern
         {
             SetMouseLook(CURSOR_HOT, 3021, IsLaptop != 0 ? ROOM_LAPTOP : ROOM_GLOBE, 150);
-        } else if (ClientPos.IfIsWithin(135, 150, 170, 164) && (pBlock->IsTopWindow != 0)) // Flugpläne löschen
+        } else if (ClientPos.IfIsWithin(135, 150, 170, 164) && (pBlock->IsTopWindow != 0)) // FlugplÃ¤ne lÃ¶schen
         {
             SetMouseLook(CURSOR_HOT, 3022, IsLaptop != 0 ? ROOM_LAPTOP : ROOM_GLOBE, 151);
         }
@@ -1349,14 +1349,14 @@ void CPlaner::DoPollingStuff() {
                 }
             }
         } else if (pBlock->PageB == 1) {
-            if (ClientPosB.IfIsWithin(2, 144, 169, 157)) // Kündigen?
+            if (ClientPosB.IfIsWithin(2, 144, 169, 157)) // KÃ¼ndigen?
             {
                 CheckCursorHighlight(ClientPosB, CRect(0, 142, 172, 156), ColorOfFontBlack);
             }
         }
     }
 
-    // Cursor über Flugzeug?
+    // Cursor Ã¼ber Flugzeug?
     if (CurrentBlock == -1 && ((qPlayer.DisplayPlanes[PlayerNum] != 0U) || IsLaptop == FALSE)) {
         for (c = qPlayer.Planes.AnzEntries() - 1; c >= 0; c--) {
             if (qPlayer.Planes.IsInAlbum(c) != 0) {
@@ -1371,7 +1371,7 @@ void CPlaner::DoPollingStuff() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Erledigt den Kram, der unbedingt, *nach* dem Paint gemacht werden muß
+// Erledigt den Kram, der unbedingt, *nach* dem Paint gemacht werden muÃŸ
 //--------------------------------------------------------------------------------------------
 void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
     if (pBlock != nullptr) {
@@ -1379,7 +1379,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
 
         FlightPlanPos += pBlock->ScreenPos;
 
-        // Grid, zum markieren der Zieltage (Aufträge):
+        // Grid, zum markieren der Zieltage (AuftrÃ¤ge):
         if (CurrentPostItType == 2 && pBlock->Index != 1 && (pBlock->Page == 0 || pBlock->Index == 2) && pBlock->BlockType == 2 &&
             (pBlock->IsTopWindow != 0)) // Auftrag
         {
@@ -1408,7 +1408,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
             }
         }
 
-        // Grid, zum markieren der Zieltage (Frachtaufträge):
+        // Grid, zum markieren der Zieltage (FrachtauftrÃ¤ge):
         if (CurrentPostItType == 4 && pBlock->Index != 1 && (pBlock->Page == 0 || pBlock->Index == 2) && pBlock->BlockType == 2 &&
             (pBlock->IsTopWindow != 0)) // Auftrag
         {
@@ -1437,7 +1437,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
             }
         }
 
-        // Grid zum markieren der ungültigen Flugzeuge
+        // Grid zum markieren der ungÃ¼ltigen Flugzeuge
         SLONG CheckVonCityId = -1;
         SLONG CheckNachCityId = -1;
         SLONG MinPass = 0;
@@ -1469,7 +1469,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
                 {
                     CheckVonCityId = Routen[pBlock->TableB.LineIndex[TableCursor]].VonCity;
                     CheckNachCityId = Routen[pBlock->TableB.LineIndex[TableCursor]].NachCity;
-                } else if (pBlock->BlockTypeB == 6) // Aufträge
+                } else if (pBlock->BlockTypeB == 6) // AuftrÃ¤ge
                 {
                     CheckVonCityId = qPlayer.Frachten[pBlock->TableB.LineIndex[TableCursor]].VonCity;
                     CheckNachCityId = qPlayer.Frachten[pBlock->TableB.LineIndex[TableCursor]].NachCity;
@@ -1506,7 +1506,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
             }
         }
 
-        // Wiederholfunktion für Kerosinpreis erhöhen / verringern
+        // Wiederholfunktion fÃ¼r Kerosinpreis erhÃ¶hen / verringern
         if ((gMouseLButton != 0) && (IsInClientAreaB != 0) && pBlock->BlockType == 2 && pBlock->IndexB == 0 && pBlock->BlockTypeB == 4 && pBlock->PageB == 0) {
             if (ClientPosB.IfIsWithin(2, 40, 169, 118) && timeGetTime() - gMouseLButtonDownTimer > 800) {
                 /*
@@ -1564,11 +1564,11 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
                 Off += XY(187 + 20, 21) + XY(-1, 1);
             }
 
-            if (pBlock->BlockTypeB == 4 && ClientPosB.IfIsWithin(2, 144, 169, 157)) // Route Kündigen?
+            if (pBlock->BlockTypeB == 4 && ClientPosB.IfIsWithin(2, 144, 169, 157)) // Route KÃ¼ndigen?
             {
                 RoomBm.BlitFrom(FlugplanBms[58], Off.x + 2, Off.y + 144 + 3 - 5);
             }
-            if (pBlock->BlockTypeB == 3 && ClientPosB.IfIsWithin(0, 118, 169, 134)) // Auftrag kündigen
+            if (pBlock->BlockTypeB == 3 && ClientPosB.IfIsWithin(0, 118, 169, 134)) // Auftrag kÃ¼ndigen
             {
                 if (qPlayer.Auftraege[pBlock->SelectedIdB].InPlan == 0) {
                     RoomBm.BlitFrom(FlugplanBms[58], Off.x, Off.y + 144 - 26);
@@ -1628,7 +1628,7 @@ void CPlaner::HandleLButtonDown() {
 
             if (TableCursor >= 0 && TableCursor < pBlock->Table.AnzRows) {
                 switch (pBlock->BlockType) {
-                // Städte-Index:
+                // StÃ¤dte-Index:
                 case 1:
                     pBlock->Index = 0;
                     pBlock->Page = 0;
@@ -1644,7 +1644,7 @@ void CPlaner::HandleLButtonDown() {
 
                     // Flugzeug-Details:
                 case 2:
-                    // Tutorial und noch zu früh? Dann abbrechen!
+                    // Tutorial und noch zu frÃ¼h? Dann abbrechen!
                     if ((Sim.IsTutorial != 0) && Sim.Tutorial < 1503) {
                         return;
                     }
@@ -1708,7 +1708,7 @@ void CPlaner::HandleLButtonDown() {
             SLONG ActivePlane = pBlock->SelectedId;
             CFlugplan &qPlan = qPlayer.Planes[ActivePlane].Flugplan;
 
-            if ((MouseClickArea == ROOM_GLOBE || MouseClickArea == ROOM_LAPTOP) && MouseClickId == 150) // Flugpläne automatisch erweitern
+            if ((MouseClickArea == ROOM_GLOBE || MouseClickArea == ROOM_LAPTOP) && MouseClickId == 150) // FlugplÃ¤ne automatisch erweitern
             {
                 qPlan.UpdateNextFlight();
                 qPlan.UpdateNextStart();
@@ -1720,7 +1720,7 @@ void CPlaner::HandleLButtonDown() {
                 qPlayer.Planes[pBlock->SelectedId].CheckFlugplaene(PlayerNum, FALSE);
                 qPlayer.Blocks[CurrentBlock].RefreshData(PlayerNum);
                 qPlayer.Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
-            } else if ((MouseClickArea == ROOM_GLOBE || MouseClickArea == ROOM_LAPTOP) && MouseClickId == 151) // Flugplan löschen
+            } else if ((MouseClickArea == ROOM_GLOBE || MouseClickArea == ROOM_LAPTOP) && MouseClickId == 151) // Flugplan lÃ¶schen
             {
                 (*qPlayer.LocationWin).MenuStart(MENU_REQUEST, MENU_REQUEST_KILLPLAN, ActivePlane);
             } else if (CurrentPostItType != 0 && ClientPos.IfIsWithin(24, 17, 167, 149)) {
@@ -1744,7 +1744,7 @@ void CPlaner::HandleLButtonDown() {
                     Date++;
                 }
 
-                // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
+                // Nachschauen, ob der Flug zu lang ist fÃ¼r das Flugzeug:
                 {
                     SLONG VonCityId = 0;
                     SLONG NachCityId = 0;
@@ -1948,7 +1948,7 @@ void CPlaner::HandleLButtonDown() {
                         Time = Sim.GetHour() + 2;
                     }
 
-                    // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
+                    // Nachschauen, ob der Flug zu lang ist fÃ¼r das Flugzeug:
                     {
                         SLONG VonCityId = 0;
                         SLONG NachCityId = 0;
@@ -2453,7 +2453,7 @@ void CPlaner::HandleRButtonDown() {
                     ButtonIndexB();
                 } else {
                     if (IsLaptop != 0) {
-                        // Block schließen:
+                        // Block schlieÃŸen:
                         if (pBlock->Destructing == 0) {
                             pBlock->Destructing = 1;
                             pBlock->AnimationStart = Sim.TimeSlice;
@@ -2515,7 +2515,7 @@ void CPlaner::HandleLButtonUp() {
                         Date++;
                     }
 
-                    // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
+                    // Nachschauen, ob der Flug zu lang ist fÃ¼r das Flugzeug:
                     {
                         SLONG VonCityId = 0;
                         SLONG NachCityId = 0;
@@ -2659,7 +2659,7 @@ void CPlaner::HandleRButtonUp() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Nächste Seite...
+// NÃ¤chste Seite...
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonNext() {
     if (pBlock != nullptr) {
@@ -2685,7 +2685,7 @@ void CPlaner::ButtonNext() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Nächste Seite für Block B...
+// NÃ¤chste Seite fÃ¼r Block B...
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonNextB() {
     if (pBlock != nullptr) {
@@ -2733,7 +2733,7 @@ void CPlaner::ButtonPrev() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Vorherige Seite für Block B...
+// Vorherige Seite fÃ¼r Block B...
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonPrevB() {
     if (pBlock != nullptr) {
@@ -2761,7 +2761,7 @@ void CPlaner::ButtonPrevB() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Block schließen...
+// Block schlieÃŸen...
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonClose() const {
     if (pBlock != nullptr) {
@@ -2771,7 +2771,7 @@ void CPlaner::ButtonClose() const {
 }
 
 //--------------------------------------------------------------------------------------------
-// Zurück zum Index...
+// ZurÃ¼ck zum Index...
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonIndex() {
     if (pBlock != nullptr) {
@@ -2828,7 +2828,7 @@ void CPlaner::ButtonIndex() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Zurück zum Index für den rechten Block...
+// ZurÃ¼ck zum Index fÃ¼r den rechten Block...
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonIndexB() {
     if (pBlock != nullptr) {

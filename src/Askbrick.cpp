@@ -1,5 +1,5 @@
 //============================================================================================
-// AskBrick.Cpp : Auswahlmenü für die Bricks des Editors
+// AskBrick.Cpp : AuswahlmenÃ¼ fÃ¼r die Bricks des Editors
 //============================================================================================
 #include "StdAfx.h"
 #include "AskBrick.h"
@@ -133,7 +133,7 @@ void AskBrick::OnRButtonDown(UINT /*nFlags*/, CPoint /*point*/) {
 }
 
 void AskBrick::OnClose() {
-    // Self-Destruct (zerstört Fenster und gibt anschließend Speicher frei):
+    // Self-Destruct (zerstÃ¶rt Fenster und gibt anschlieÃŸend Speicher frei):
     delete this;
 }
 

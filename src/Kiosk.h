@@ -17,7 +17,7 @@ class CKiosk : public CStdRaum {
     SBBM Newspapers[3];          // Die drei Zeitungen
     SBBMS NewspaperTemplates[3]; // Die drei Zeitungen (Vorlagen)
     SBBMS NewspaperDefs[3];      // Die Default-Bilder und Artikel
-    float NewspaperZoom[3]{};    // Die aktuellen Zoom-Zust‰nde
+    float NewspaperZoom[3]{};    // Die aktuellen Zoom-Zust√§nde
     SBBM SleeperBm;
     SBBM StinkBm;
 

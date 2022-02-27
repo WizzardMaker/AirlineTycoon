@@ -13,14 +13,14 @@ class AirportView : public CStdRaum {
   public:
     BOOL LButtonState{}; // Status des linken Mausknopfes
     ULONG EditObject;    // Das Objekt, was gerade am Cursor klebt
-    ULONG EditObject2{}; // zweite Objekt (für Links)
-    ULONG UnderCursor{}; // Das Objekt, über dem der Cursor gerade ist
+    ULONG EditObject2{}; // zweite Objekt (fÃ¼r Links)
+    ULONG UnderCursor{}; // Das Objekt, Ã¼ber dem der Cursor gerade ist
     SLONG PersonsToAdd;  // Zahl Personen, die noch zum Test kommen sollen
 
     // Operations
   public:
     void AnnouceTipDataUpdate(SLONG TipType);
-    void ReloadBitmaps(void);                  // Lädt alle Bitmaps erneut
+    void ReloadBitmaps(void);                  // LÃ¤dt alle Bitmaps erneut
     void FocusCameraOnPos(XY Pos, BOOL Speed); // Setzt die aktuelle Kameraposition
     void CenterCameraOnPlayer(void);
     void MoveCamera(void);

@@ -38,7 +38,7 @@ class NewGamePopup : public CStdRaum {
 
     BOOL TimerFailure{};
     PAGE_TYPE PageNum; // Seite 1 oder 2
-    SLONG PageSub{};   // Sub-Id für die Seite
+    SLONG PageSub{};   // Sub-Id fÃ¼r die Seite
     SLONG bad{};
     KLACKER KlackerTafel; // Die Tafel auf der alles angezeigt wird
     ULONG PlayerReadyAt{};

@@ -1,5 +1,5 @@
 //============================================================================================
-// Brick.Cpp - Funktionen für die Verwaltung der baulichen Elemente:
+// Brick.Cpp - Funktionen fÃ¼r die Verwaltung der baulichen Elemente:
 //============================================================================================
 #include "StdAfx.h"
 
@@ -18,7 +18,7 @@ BRICK::BRICK() = default;
 BRICK::~BRICK() = default;
 
 //--------------------------------------------------------------------------------------------
-// Die Ausmaße einer Brick-Bitmap zurückgeben:
+// Die AusmaÃŸe einer Brick-Bitmap zurÃ¼ckgeben:
 //--------------------------------------------------------------------------------------------
 XY BRICK::GetBitmapDimension() const { return (Bitmap[0L].Size); }
 
@@ -82,7 +82,7 @@ void BRICK::BlitAt(SBBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLONG Phas
 // Einen Brick an Stelle X blitten + skalieren:
 //--------------------------------------------------------------------------------------------
 void BRICK::BlitAt(SBBM & /*Offscreen*/, BOOL Ansatz, const XY &p1, const XY &p2) {
-    // Hier stand überall früher PrimaryBm statt Offscreen...
+    // Hier stand Ã¼berall frÃ¼her PrimaryBm statt Offscreen...
 
     if (Ansatz != 0) {
         if (NonTrans == 1) {
@@ -107,7 +107,7 @@ void BRICK::BlitAt(SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLO
         return;
     }
 
-    // Hier stand überall früher PrimaryBm statt Offscreen...
+    // Hier stand Ã¼berall frÃ¼her PrimaryBm statt Offscreen...
 
     // Wenn man es mit dem Maus-Cursor besonders anfasst:
     if (Ansatz != 0) {
@@ -163,7 +163,7 @@ void BRICK::BlitAt(SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLO
 // Einen Brick an Stelle X blitten + skalieren:
 //--------------------------------------------------------------------------------------------
 void BRICK::BlitAt(SBPRIMARYBM & /*Offscreen*/, BOOL Ansatz, const XY &p1, const XY &p2) {
-    // Hier stand überall früher PrimaryBm statt Offscreen...
+    // Hier stand Ã¼berall frÃ¼her PrimaryBm statt Offscreen...
 
     if (Ansatz != 0) {
         if (NonTrans == 1) {
@@ -181,7 +181,7 @@ void BRICK::BlitAt(SBPRIMARYBM & /*Offscreen*/, BOOL Ansatz, const XY &p1, const
 }
 
 //--------------------------------------------------------------------------------------------
-// Für Editor: Ist Mauscursor auf Glas oder auf echtem Baustein?
+// FÃ¼r Editor: Ist Mauscursor auf Glas oder auf echtem Baustein?
 //--------------------------------------------------------------------------------------------
 BOOL BRICK::IsGlasAt(SLONG x, SLONG y) { return static_cast<BOOL>(Bitmap[0L].GetPixel(x, y) == 0); }
 
@@ -198,7 +198,7 @@ void BRICK::UpdateBrick() {
     }
 
     if (ReloadNecessary != 0) {
-        // Bild muß (neu) geladen werden:
+        // Bild muÃŸ (neu) geladen werden:
         SLONG AnzPhases = 0;
 
         // Wie oft kommt diese Periode drin vor ?
@@ -206,10 +206,10 @@ void BRICK::UpdateBrick() {
 
         // Sind Angaben vorhanden?
         if (AnzPhases > 1) {
-            // Speicher für die Animationsphasen bereitstellen:
+            // Speicher fÃ¼r die Animationsphasen bereitstellen:
             Bitmap.ReSize(AnzPhases);
 
-            // Dies wird jetzt wieder als Zähler verwendet:
+            // Dies wird jetzt wieder als ZÃ¤hler verwendet:
             AnzPhases = 0;
 
             // Das richtige Sub-Bild raussuchen:
@@ -219,7 +219,7 @@ void BRICK::UpdateBrick() {
                 /*TECBM(FullFilename (Filename, BrickPath), c).Size);*/
             }
         } else {
-            // Speicher für die Animationsphases bereitstellen:
+            // Speicher fÃ¼r die Animationsphases bereitstellen:
             Bitmap.ReSize(1);
 
             Bitmap[0L].ReSize(pGLibBrick, graphicIDs[0]);
@@ -269,7 +269,7 @@ XY BRICK::GetIntelligentPosition(SLONG x, SLONG y) {
 BRICKS::BRICKS(const CString &TabFilename) : ALBUM<BRICK>(Bricks, "Bricks") { ReInit(TabFilename); }
 
 //--------------------------------------------------------------------------------------------
-// Lädt nachträglich die Tabelle mit den Bricks:
+// LÃ¤dt nachtrÃ¤glich die Tabelle mit den Bricks:
 //--------------------------------------------------------------------------------------------
 void BRICKS::ReInit(const CString &TabFilename) {
     // CStdioFile    Tab;
@@ -303,10 +303,10 @@ void BRICKS::ReInit(const CString &TabFilename) {
 
         TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
 
-        // Tabellenzeile hinzufügen:
+        // Tabellenzeile hinzufÃ¼gen:
         Id = atol(strtok(Line, ";\x8\"")) + 0x10000000;
 
-        // Hinzufügen (darf noch nicht existieren):
+        // HinzufÃ¼gen (darf noch nicht existieren):
         if (IsInAlbum(Id) != 0) {
             TeakLibW_Exception(FNL, ExcNever);
         }
@@ -428,7 +428,7 @@ void BRICKS::UpdateBricks() {
 #endif
     if (bFirstClass == 0) {
         for (c = 0; c < 8; c++) {
-            // Hiermit löschen wir die Smacker-Platzhalter an den Gates. Die dienen beim Editieren als optische Hilfe zur Positionierung, aber im Spiel können
+            // Hiermit lÃ¶schen wir die Smacker-Platzhalter an den Gates. Die dienen beim Editieren als optische Hilfe zur Positionierung, aber im Spiel kÃ¶nnen
             // wir sie nicht gebrauchen
             (*this)[SLONG(0x10000000 + 760 + c)].Bitmap[0].FillWith(0);
             (*this)[SLONG(0x10000000 + 768 + c)].Bitmap[0].FillWith(0);
@@ -503,7 +503,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const BUILD &Build) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt einen Build-Eintrag:
+// LÃ¤dt einen Build-Eintrag:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, BUILD &Build) {
     File >> Build.BrickId >> Build.ScreenPos >> Build.Par;
@@ -521,7 +521,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const BUILDS &Builds) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt einen Builds-Objekt:
+// LÃ¤dt einen Builds-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, BUILDS &Builds) {
     File >> Builds.Builds;
@@ -531,12 +531,12 @@ TEAKFILE &operator>>(TEAKFILE &File, BUILDS &Builds) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Löscht alle Elemente des Flughafens:
+// LÃ¶scht alle Elemente des Flughafens:
 //--------------------------------------------------------------------------------------------
 void BUILDS::Clear() { ClearAlbum(); }
 
 //--------------------------------------------------------------------------------------------
-// Lädt einen Airport-Anordnung:
+// LÃ¤dt einen Airport-Anordnung:
 //--------------------------------------------------------------------------------------------
 void BUILDS::Load(SLONG Hall, SLONG Level) {
     CString Filename;
@@ -546,7 +546,7 @@ void BUILDS::Load(SLONG Hall, SLONG Level) {
         Difficulty = DIFF_FREEGAMEMAP;
     }
 
-    // Wenn der Flughafen für einen Level nicht existiert, dann Fallback auf den Difficulty-Level davor probieren
+    // Wenn der Flughafen fÃ¼r einen Level nicht existiert, dann Fallback auf den Difficulty-Level davor probieren
     do {
         Filename = FullFilename(HallFilenames[Hall], MiscPath, 100 * Difficulty + Level);
         Difficulty--;
@@ -591,7 +591,7 @@ void BUILDS::Save(SLONG Hall, SLONG Level) const {
 }
 
 //--------------------------------------------------------------------------------------------
-// Sortiert alle Elemente des Flughafens gemäß ihrer Z-Position:
+// Sortiert alle Elemente des Flughafens gemÃ¤ÃŸ ihrer Z-Position:
 //--------------------------------------------------------------------------------------------
 void BUILDS::Sort() {
     SLONG c = 0;

@@ -50,7 +50,7 @@ void PaintStarAt(SBBM &Bitmap, XY Pos) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über eine Stadt in die Bitmap:
+// Zeichnet die Infos Ã¼ber eine Stadt in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawCityTip(SBBM &TipBm, ULONG CityId) {
     SLONG c = 0;
@@ -101,7 +101,7 @@ void DrawCityTip(SBBM &TipBm, ULONG CityId) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über eine Stadt in die Bitmap:
+// Zeichnet die Infos Ã¼ber eine Stadt in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawCityTipContents(SBBM &TipBm, ULONG CityId, XY Headline, XY Contents, XY Map, SB_CFont *pHeadFont, SB_CFont *pFont) {
     SLONG c = 0;
@@ -152,7 +152,7 @@ void DrawCityTipContents(SBBM &TipBm, ULONG CityId, XY Headline, XY Contents, XY
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über ein Flugzeug in die Bitmap:
+// Zeichnet die Infos Ã¼ber ein Flugzeug in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawPlaneTip(SBBM &TipBm, SBBM *pTipOriginBm, CPlaneType *PlaneType, CPlane *Plane) {
     XY Max;
@@ -166,7 +166,7 @@ void DrawPlaneTip(SBBM &TipBm, SBBM *pTipOriginBm, CPlaneType *PlaneType, CPlane
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über ein Flugzeug in die Bitmap:
+// Zeichnet die Infos Ã¼ber ein Flugzeug in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawPlaneTipContents(SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL OwnPlane,
                           SLONG OwnedByComputer) {
@@ -190,7 +190,7 @@ void DrawPlaneTipContents(SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY 
 
     Contents.y += 15;
 
-    // Block 1 Überschriften:
+    // Block 1 Ãœberschriften:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1000), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 0, Max.x, Max.y);
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1017), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 11, Max.x, Max.y);
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1001), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 22, Max.x, Max.y);
@@ -207,7 +207,7 @@ void DrawPlaneTipContents(SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY 
 
     Contents.y += 4;
 
-    // Block 2 Überschriften:
+    // Block 2 Ãœberschriften:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1002), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 33, Max.x, Max.y);
     // Block 2 Inhalt:
     if (Plane != nullptr) {
@@ -217,7 +217,7 @@ void DrawPlaneTipContents(SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY 
     }
 
     if (Plane != nullptr) {
-        // Block 3 Überschriften:
+        // Block 3 Ãœberschriften:
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1008), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 44, Max.x, Max.y);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1009), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 55, Max.x, Max.y);
         // Block 3 Inhalt:
@@ -226,7 +226,7 @@ void DrawPlaneTipContents(SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY 
     } else {
         Contents.y += 11;
 
-        // Block 3 Überschriften:
+        // Block 3 Ãœberschriften:
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1007), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 33, Max.x, Max.y);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1008), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 44, Max.x, Max.y);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1009), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 55, Max.x, Max.y);
@@ -245,7 +245,7 @@ void DrawPlaneTipContents(SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY 
 
     Contents.y += 15;
 
-    // Block 4 Überschriften:
+    // Block 4 Ãœberschriften:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1010), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 66, Max.x, Max.y);
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1011), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 77, Max.x, Max.y);
     // Block 4 Inhalt:
@@ -268,7 +268,7 @@ void DrawPlaneTipContents(SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY 
 
     Contents.y += 4;
 
-    // Block 5 Überschriften:
+    // Block 5 Ãœberschriften:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1012), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 88, Max.x, Max.y);
 
     if (Plane != nullptr) {
@@ -285,7 +285,7 @@ void DrawPlaneTipContents(SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY 
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über ein Flugzeug in die Bitmap:
+// Zeichnet die Infos Ã¼ber ein Flugzeug in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawXPlaneTipContents(SBBM &TipBm, const CString &Planename, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont) {
     XY Max;
@@ -303,7 +303,7 @@ void DrawXPlaneTipContents(SBBM &TipBm, const CString &Planename, XY Headline, X
 
     Contents.y += 15;
 
-    // Block 1 Überschriften:
+    // Block 1 Ãœberschriften:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1000), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 0, Max.x, Max.y);
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1017), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 11, Max.x, Max.y);
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1001), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 22, Max.x, Max.y);
@@ -314,14 +314,14 @@ void DrawXPlaneTipContents(SBBM &TipBm, const CString &Planename, XY Headline, X
 
     Contents.y += 4;
 
-    // Block 2 Überschriften:
+    // Block 2 Ãœberschriften:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1002), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 33, Max.x, Max.y);
     // Block 2 Inhalt:
     TipBm.PrintAt(Einheiten[EINH_KMH].bString(plane.CalcSpeed()), *pFont, TEC_FONT_LEFT, Contents.x + 70, Contents.y + 33, Max.x, Max.y);
 
     Contents.y += 11;
 
-    // Block 3 Überschriften:
+    // Block 3 Ãœberschriften:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1008), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 44, Max.x, Max.y);
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1009), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 55, Max.x, Max.y);
     // Block 3 Inhalt:
@@ -332,7 +332,7 @@ void DrawXPlaneTipContents(SBBM &TipBm, const CString &Planename, XY Headline, X
 
     Contents.y += 15;
 
-    // Block 4 Überschriften:
+    // Block 4 Ãœberschriften:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1010), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 66, Max.x, Max.y);
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1011), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 77, Max.x, Max.y);
 
@@ -341,7 +341,7 @@ void DrawXPlaneTipContents(SBBM &TipBm, const CString &Planename, XY Headline, X
 
     Contents.y += 4;
 
-    // Block 5 Überschriften:
+    // Block 5 Ãœberschriften:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1012), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 88, Max.x, Max.y);
 
     // Block 5 Inhalt:
@@ -349,7 +349,7 @@ void DrawXPlaneTipContents(SBBM &TipBm, const CString &Planename, XY Headline, X
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über eine Route in die Bitmap:
+// Zeichnet die Infos Ã¼ber eine Route in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawRouteTipContents(SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gate, SLONG Passagiere, SLONG PassagiereFC, SLONG Costs, SLONG Ticketpreis,
                           SLONG TicketpreisFC, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked) {
@@ -359,10 +359,10 @@ void DrawRouteTipContents(SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gat
         return;
     }
 
-    // Fenster-Überschrift:
+    // Fenster-Ãœberschrift:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 900), *pHeadFont, TEC_FONT_LEFT, Headline.x, Headline.y, Contents.x + 170, Headline.y + 15);
 
-    // Sub-Überschrift:
+    // Sub-Ãœberschrift:
     if (TipBm.TryPrintAt(bprintf("%s - %s", (LPCTSTR)Cities[Routen[RouteId].VonCity].Name, (LPCTSTR)Cities[Routen[RouteId].NachCity].Name), *pFont,
                          TEC_FONT_LEFT, Contents.x, Contents.y, Contents.x + 170, Contents.y + 170) < 12) {
         TipBm.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[Routen[RouteId].VonCity].Name, (LPCTSTR)Cities[Routen[RouteId].NachCity].Name), *pFont, TEC_FONT_LEFT,
@@ -380,7 +380,7 @@ void DrawRouteTipContents(SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gat
     if (Costs != 0) {
         SLONG tmp = Ticketpreis;
 
-        // Block 1 Überschriften:
+        // Block 1 Ãœberschriften:
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1014), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 44, Contents.x + 170, Contents.y + 170);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1000), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 55, Contents.x + 170, Contents.y + 170);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1007), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 66, Contents.x + 170, Contents.y + 170);
@@ -394,7 +394,7 @@ void DrawRouteTipContents(SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gat
 
         tmp = Ticketpreis * Passagiere + TicketpreisFC * PassagiereFC;
 
-        // Block 2 Überschriften:
+        // Block 2 Ãœberschriften:
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1008), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 88, Contents.x + 170, Contents.y + 170);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1009), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 99, Contents.x + 170, Contents.y + 170);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1010), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 110, Contents.x + 170, Contents.y + 170);
@@ -419,7 +419,7 @@ void DrawRouteTipContents(SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gat
         }
     } else // abstrakte Version
     {
-        // Block 1 Überschriften:
+        // Block 1 Ãœberschriften:
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1000), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 22, Contents.x + 170, Contents.y + 170);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1014), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 33, Contents.x + 170, Contents.y + 170);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1001), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 44, Contents.x + 170, Contents.y + 170);
@@ -430,7 +430,7 @@ void DrawRouteTipContents(SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gat
         TipBm.PrintAt(CString(bitoa(Ticketpreis)) + "/" + CString(Einheiten[EINH_DM].bString(TicketpreisFC)), *pFont, TEC_FONT_LEFT, Contents.x + 85,
                       Contents.y + 44, Contents.x + 170, Contents.y + 170);
 
-        // Block 2 Überschriften:
+        // Block 2 Ãœberschriften:
         CRentRoute &qRRoute = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(RouteId)];
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1002), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 66, Contents.x + 170, Contents.y + 170);
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1003), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 77, Contents.x + 170, Contents.y + 170);
@@ -444,7 +444,7 @@ void DrawRouteTipContents(SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gat
         TipBm.PrintAt(Einheiten[EINH_P].bString(qRRoute.Image), *pFont, TEC_FONT_LEFT, Contents.x + 85, Contents.y + 88, Contents.x + 170, Contents.y + 170);
         TipBm.PrintAt(Einheiten[EINH_DM].bString(qRRoute.Miete), *pFont, TEC_FONT_LEFT, Contents.x + 85, Contents.y + 99, Contents.x + 170, Contents.y + 170);
 
-        // Block 3 Überschrift:
+        // Block 3 Ãœberschrift:
         TipBm.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1016), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 121, Contents.x + 170, Contents.y + 170);
 
         // Hit-Liste der Leute auf der Route:
@@ -458,7 +458,7 @@ void DrawRouteTipContents(SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gat
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über ein Flugzeug in die Bitmap:
+// Zeichnet die Infos Ã¼ber ein Flugzeug in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawAuftragTip(SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOriginBm, CAuftrag *Auftrag, SLONG Costs, SLONG Okay, XY MapOffset) {
     // SBBM      &AuftragBm = Costs ? GlobalAuftragProfitTipBm : GlobalAuftragTipBm;
@@ -473,7 +473,7 @@ void DrawAuftragTip(SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOrig
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über ein Flugzeug in die Bitmap:
+// Zeichnet die Infos Ã¼ber ein Flugzeug in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawAuftragTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CAuftrag *Auftrag, SLONG Gate, SLONG Costs, SLONG Okay, XY Headline, XY Contents,
                             XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked) {
@@ -481,10 +481,10 @@ void DrawAuftragTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CAu
         return;
     }
 
-    // Fenster-Überschrift:
+    // Fenster-Ãœberschrift:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 900), *pHeadFont, TEC_FONT_LEFT, Headline.x, Headline.y, Contents.x + 170, Headline.y + 15);
 
-    // Sub-Überschrift:
+    // Sub-Ãœberschrift:
     if (TipBm.TryPrintAt(bprintf("%s - %s", (LPCTSTR)Cities[Auftrag->VonCity].Name, (LPCTSTR)Cities[Auftrag->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x,
                          Contents.y + 0, Contents.x + 170, Contents.y + 15) < 12) {
         TipBm.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[Auftrag->VonCity].Name, (LPCTSTR)Cities[Auftrag->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x,
@@ -569,7 +569,7 @@ void DrawAuftragTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CAu
                 Pos.x = qPlayer.Planes[c].Position.x * 34 / 60 + 17 + 101 + 4 + MapOffset.x;
                 Pos.y = qPlayer.Planes[c].Position.y * 73 / 90 + 107 + 96 - 15 + MapOffset.y;
 
-                // Ungültige Flugzeuge ausgrauen:
+                // UngÃ¼ltige Flugzeuge ausgrauen:
                 // if ((!Auftrag->FitsInPlane (PlaneTypes[(SLONG)qPlayer.Planes[c].TypeId])) ||
                 // SLONG(Auftrag->Personen)>qPlayer.Planes[c].MaxPassagiere+qPlayer.Planes[c].MaxPassagiereFC)
                 if ((Auftrag->FitsInPlane(qPlayer.Planes[c]) == 0) ||
@@ -585,7 +585,7 @@ void DrawAuftragTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CAu
                 Pos.x = qPlayer.Planes[c].Position.x * 34 / 60 + 17 + 101 + 4 + MapOffset.x;
                 Pos.y = qPlayer.Planes[c].Position.y * 73 / 90 + 107 + 96 - 15 + MapOffset.y;
 
-                // gültige Flugzeuge zeichnen:
+                // gÃ¼ltige Flugzeuge zeichnen:
                 // if (Auftrag->FitsInPlane (PlaneTypes[(SLONG)qPlayer.Planes[c].TypeId]) &&
                 // SLONG(Auftrag->Personen)<=qPlayer.Planes[c].MaxPassagiere+qPlayer.Planes[c].MaxPassagiereFC)
                 if ((Auftrag->FitsInPlane(qPlayer.Planes[c]) != 0) &&
@@ -658,7 +658,7 @@ void DrawAuftragTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CAu
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über ein Flugzeug in die Bitmap:
+// Zeichnet die Infos Ã¼ber ein Flugzeug in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawFrachtTip(SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOriginBm, CFracht *Fracht, SLONG TonsThis, SLONG Costs, SLONG Income, SLONG Okay,
                    XY MapOffset) {
@@ -673,7 +673,7 @@ void DrawFrachtTip(SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOrigi
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über ein Flugzeug in die Bitmap:
+// Zeichnet die Infos Ã¼ber ein Flugzeug in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawFrachtTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFracht *Fracht, SLONG TonsThis, SLONG Costs, SLONG Income, SLONG Okay, XY Headline,
                            XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked) {
@@ -683,10 +683,10 @@ void DrawFrachtTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFra
 
     SLONG Offset = Costs != 0 ? 30 : 0;
 
-    // Fenster-Überschrift:
+    // Fenster-Ãœberschrift:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 902), *pHeadFont, TEC_FONT_LEFT, Headline.x, Headline.y, Contents.x + 170, Headline.y + 15);
 
-    // Sub-Überschrift:
+    // Sub-Ãœberschrift:
     if (TipBm.TryPrintAt(bprintf("%s - %s", (LPCTSTR)Cities[Fracht->VonCity].Name, (LPCTSTR)Cities[Fracht->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x,
                          Contents.y + 0, Contents.x + 170, Contents.y + 15) < 12) {
         TipBm.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[Fracht->VonCity].Name, (LPCTSTR)Cities[Fracht->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x,
@@ -795,7 +795,7 @@ void DrawFrachtTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFra
                 Pos.x = qPlayer.Planes[c].Position.x * 34 / 60 + 17 + 101 + 4 + MapOffset.x;
                 Pos.y = qPlayer.Planes[c].Position.y * 73 / 90 + 107 + 96 - 15 + MapOffset.y;
 
-                // Ungültige Flugzeuge ausgrauen:
+                // UngÃ¼ltige Flugzeuge ausgrauen:
                 // if (!Fracht->FitsInPlane (PlaneTypes[(SLONG)qPlayer.Planes[c].TypeId]))
                 if (Fracht->FitsInPlane(qPlayer.Planes[c]) == 0) {
                     TipBm.BlitFromT((pPlaneTips[4])[qPlayer.Planes[c].GlobeAngle], Pos.x - 9, Pos.y - 9);
@@ -809,7 +809,7 @@ void DrawFrachtTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFra
                 Pos.x = qPlayer.Planes[c].Position.x * 34 / 60 + 17 + 101 + 4 + MapOffset.x;
                 Pos.y = qPlayer.Planes[c].Position.y * 73 / 90 + 107 + 96 - 15 + MapOffset.y;
 
-                // gültige Flugzeuge zeichnen:
+                // gÃ¼ltige Flugzeuge zeichnen:
                 // if (Fracht->FitsInPlane (PlaneTypes[(SLONG)qPlayer.Planes[c].TypeId]))
                 if (Fracht->FitsInPlane(qPlayer.Planes[c]) != 0) {
                     TipBm.BlitFromT((pPlaneTips[PlayerNum])[qPlayer.Planes[c].GlobeAngle], Pos.x - 9, Pos.y - 9);
@@ -880,14 +880,14 @@ void DrawFrachtTipContents(SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFra
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über ein Flugzeug in die Bitmap:
+// Zeichnet die Infos Ã¼ber ein Flugzeug in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawAutoflugTipContents(SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLONG VonCity, SLONG NachCity, XY Headline, XY Contents, SB_CFont *pHeadFont,
                              SB_CFont *pFont, BOOL Unlocked) {
-    // Fenster-Überschrift:
+    // Fenster-Ãœberschrift:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 901), *pHeadFont, TEC_FONT_LEFT, Headline.x, Headline.y, Contents.x + 170, Headline.y + 15);
 
-    // Sub-Überschrift:
+    // Sub-Ãœberschrift:
     if (TipBm.TryPrintAt(bprintf("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 0,
                          Contents.x + 170, Contents.y + 15) < 12) {
         TipBm.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y + 0,
@@ -927,7 +927,7 @@ void DrawAutoflugTipContents(SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLON
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über eine Aktie in die Bitmap:
+// Zeichnet die Infos Ã¼ber eine Aktie in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawKursTipContents(SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, SB_CFont *pHeadFont, SB_CFont *pFont) {
     SLONG c = 0;
@@ -937,7 +937,7 @@ void DrawKursTipContents(SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, SB_CF
         return;
     }
 
-    // Fenster-Überschrift:
+    // Fenster-Ãœberschrift:
     TipBm.PrintAt(Sim.Players.Players[PlayerAktie].Airline, *pHeadFont, TEC_FONT_LEFT, 32, 3, 218, 15);
 
     // Block 1 - Aktie am Markt:
@@ -992,10 +992,10 @@ void DrawKursTipContents(SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, SB_CF
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet die Infos über einen Gegenstand in die Bitmap:
+// Zeichnet die Infos Ã¼ber einen Gegenstand in die Bitmap:
 //--------------------------------------------------------------------------------------------
 void DrawItemTipContents(SBBM &TipBm, SLONG Item, SB_CFont *pHeadFont, SB_CFont *pFont) {
-    // Fenster-Überschrift:
+    // Fenster-Ãœberschrift:
     TipBm.PrintAt(StandardTexte.GetS(TOKEN_ITEM, 1000 + Item), *pHeadFont, TEC_FONT_LEFT, 32, 4, 218, 15);
 
     // Text:
@@ -1005,7 +1005,7 @@ void DrawItemTipContents(SBBM &TipBm, SLONG Item, SB_CFont *pHeadFont, SB_CFont 
 }
 
 //--------------------------------------------------------------------------------------------
-// Zeichnet den Tip fürs Geld, das man ausgegeben hat:
+// Zeichnet den Tip fÃ¼rs Geld, das man ausgegeben hat:
 //--------------------------------------------------------------------------------------------
 void DrawMoneyTip(SBBM &TipBm, SLONG PlayerNum, SLONG Page) {
     SLONG c = 0;
@@ -1019,7 +1019,7 @@ void DrawMoneyTip(SBBM &TipBm, SLONG PlayerNum, SLONG Page) {
     Hdu.HercPrintf(0, "bank_ro.mcf");
     FontBankRed.Load(lpDD, const_cast<char *>((LPCTSTR)FullFilename("bank_ro.mcf", MiscPath)));
 
-    // Fenster-Überschrift:
+    // Fenster-Ãœberschrift:
     {
         time_t Time = Sim.StartTime + Sim.Date * 60 * 60 * 24;
         struct tm *pTimeStruct = localtime(&Time);
@@ -1077,7 +1077,7 @@ void DrawPlanesNotepad(SBBM &NotepadBm, CDataTable *Table, SLONG CountFrom, SBBM
     NotepadBm.ReSize((*pMenuBms)[0].Size); // gNotepadBm
     NotepadBm.BlitFrom((*pMenuBms)[0]);
 
-    //Überschriften:
+    //Ãœberschriften:
     NotepadBm.PrintAt(Table->ColTitle[0], FontSmallBlack, TEC_FONT_LEFT, XY(216, 12), (*pMenuBms)[0].Size);
 
     if (DisplayWartungskosten != 0) {

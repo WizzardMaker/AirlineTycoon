@@ -1,5 +1,5 @@
 //============================================================================================
-// City.Cpp - Routinen zur Verwaltung von Städten
+// City.Cpp - Routinen zur Verwaltung von StÃ¤dten
 //============================================================================================
 #include <cmath>
 
@@ -19,7 +19,7 @@ SLONG ReadLine(BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineL
 CITIES::CITIES(const CString &TabFilename) : ALBUM<CITY>(Cities, "Cities") { ReInit(TabFilename); }
 
 //--------------------------------------------------------------------------------------------
-// Initialisiert die Städte:
+// Initialisiert die StÃ¤dte:
 //--------------------------------------------------------------------------------------------
 void CITIES::ReInit(const CString &TabFilename) {
     // CStdioFile    Tab;
@@ -45,10 +45,10 @@ void CITIES::ReInit(const CString &TabFilename) {
         // if (!Tab.ReadString (Line, 300)) break;
         TeakStrRemoveEndingCodes(Line, "\xd\xa\x1a\r");
 
-        // Tabellenzeile hinzufügen:
+        // Tabellenzeile hinzufÃ¼gen:
         Id = atol(strtok(Line, ";\x8\"")) + 0x1000000;
 
-        // Hinzufügen (darf noch nicht existieren):
+        // HinzufÃ¼gen (darf noch nicht existieren):
         if (IsInAlbum(Id) != 0) {
             TeakLibW_Exception(FNL, ExcNever);
         }
@@ -78,7 +78,7 @@ void CITIES::ReInit(const CString &TabFilename) {
         (*this)[Id].Name = KorrigiereUmlaute((*this)[Id].Name);
 
 #ifdef DEMO
-        (*this)[Id].AnzPhotos = 0; // In der Demo keine Städtebilder
+        (*this)[Id].AnzPhotos = 0; // In der Demo keine StÃ¤dtebilder
 #endif
 
         Anz++;
@@ -107,7 +107,7 @@ void CITIES::UseRealKuerzel(BOOL Real) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Berechnet die Entfernung zweier beliebiger Städte: (in Meter)
+// Berechnet die Entfernung zweier beliebiger StÃ¤dte: (in Meter)
 //--------------------------------------------------------------------------------------------
 SLONG CITIES::CalcDistance(long CityId1, long CityId2) {
     if (HashTable.AnzEntries() == 0) {
@@ -130,7 +130,7 @@ SLONG CITIES::CalcDistance(long CityId1, long CityId2) {
 
     FXYZ Vector1;      // Vektor vom Erdmittelpunkt zu City1
     FXYZ Vector2;      // Vektor vom Erdmittelpunkt zu City2
-    float Alpha = NAN; // Winkel in Grad zwischen den Vektoren (für Kreissegment)
+    float Alpha = NAN; // Winkel in Grad zwischen den Vektoren (fÃ¼r Kreissegment)
 
     // Berechnung des ersten Vektors:
     Vector1.x = static_cast<float>(cos((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0));
@@ -153,7 +153,7 @@ SLONG CITIES::CalcDistance(long CityId1, long CityId2) {
     // Berechnung des Winkels zwischen den Vektoren:
     Alpha = static_cast<float>(acos((Vector1.x * Vector2.x + Vector1.y * Vector2.y + Vector1.z * Vector2.z) / Vector1.abs() / Vector2.abs()) * 180.0 / 3.14159);
 
-    // Berechnung der Länge des Kreissegments: (40040174 = Äquatorumfang)
+    // Berechnung der LÃ¤nge des Kreissegments: (40040174 = Ã„quatorumfang)
     HashTable[SLONG(CityId1 + CityId2 * AnzEntries())] = SLONG(fabs(Alpha) * 40040174.0 / 360.0);
 
     SLONG rc = HashTable[SLONG(CityId1 + CityId2 * AnzEntries())];
@@ -175,7 +175,7 @@ SLONG CITIES::CalcFlugdauer(long CityId1, long CityId2, long Speed) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt eine zufällige Stadt zurück:
+// Gibt eine zufÃ¤llige Stadt zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 SLONG CITIES::GetRandomUsedIndex(TEAKRAND *pRand) {
     SLONG c = 0;
@@ -207,7 +207,7 @@ SLONG CITIES::GetRandomUsedIndex(TEAKRAND *pRand) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt eine zufällige Stadt von diesem AreaCode zurück:
+// Gibt eine zufÃ¤llige Stadt von diesem AreaCode zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 SLONG CITIES::GetRandomUsedIndex(SLONG AreaCode, TEAKRAND *pRand) {
     SLONG c = 0;
@@ -239,7 +239,7 @@ SLONG CITIES::GetRandomUsedIndex(SLONG AreaCode, TEAKRAND *pRand) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt die Nummer der Stadt mit dem angegebnen Namen zurück:
+// Gibt die Nummer der Stadt mit dem angegebnen Namen zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 ULONG CITIES::GetIdFromName(const char *Name) {
     SLONG c = 0;
@@ -255,7 +255,7 @@ ULONG CITIES::GetIdFromName(const char *Name) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt die Nummer der Stadt mit dem angegebnen Namen zurück:
+// Gibt die Nummer der Stadt mit dem angegebnen Namen zurÃ¼ck:
 //--------------------------------------------------------------------------------------------
 ULONG CITIES::GetIdFromNames(const char *Name, ...) {
     SLONG c = 0;
@@ -282,7 +282,7 @@ ULONG CITIES::GetIdFromNames(const char *Name, ...) {
 CRentCity::CRentCity() { Rang = 0; }
 
 //--------------------------------------------------------------------------------------------
-// Gibt zurück, wieviele Routen der Spieler besitzt:
+// Gibt zurÃ¼ck, wieviele Routen der Spieler besitzt:
 //--------------------------------------------------------------------------------------------
 SLONG CRentCities::GetNumUsed() {
     SLONG c = 0;
@@ -307,7 +307,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CRentCity &r) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein RentCity-Objekt:
+// LÃ¤dt ein RentCity-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CRentCity &r) {
     File >> r.Rang >> r.Image >> r.Miete;

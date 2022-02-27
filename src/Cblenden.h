@@ -1,5 +1,5 @@
 //============================================================================================
-// Blenden.h - Überblenden von Bildern
+// Blenden.h - Ãœberblenden von Bildern
 //============================================================================================
 #ifndef _CBLENDEN_CLASS
 #define _CBLENDEN_CLASS
@@ -7,7 +7,7 @@
 #define dword unsigned long
 
 //--------------------------------------------------------------------------------------------
-// Abstrakte Basisklasse für Blenden; Mit virtual Pointern praktisch für Mehrfachverwendung...
+// Abstrakte Basisklasse fÃ¼r Blenden; Mit virtual Pointern praktisch fÃ¼r Mehrfachverwendung...
 //--------------------------------------------------------------------------------------------
 class CBlenden {
   protected:
@@ -25,7 +25,7 @@ class CBlenden {
 };
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch starkes zoomen ins alte Bild
+//Ãœberblenden durch starkes zoomen ins alte Bild
 //--------------------------------------------------------------------------------------------
 class CCoolBlend : public CBlenden {
   protected:
@@ -38,7 +38,7 @@ class CCoolBlend : public CBlenden {
 };
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch fallen (auf alte Bild) und abprallen (vom neuen Bild)
+//Ãœberblenden durch fallen (auf alte Bild) und abprallen (vom neuen Bild)
 //--------------------------------------------------------------------------------------------
 class CFallBlend : public CBlenden {
   protected:
@@ -51,7 +51,7 @@ class CFallBlend : public CBlenden {
 };
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch flackernde Random-Blöcke
+//Ãœberblenden durch flackernde Random-BlÃ¶cke
 //--------------------------------------------------------------------------------------------
 class CRandomBlend : public CBlenden {
   protected:
@@ -64,7 +64,7 @@ class CRandomBlend : public CBlenden {
 };
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch Doom-Schleimeffekt
+//Ãœberblenden durch Doom-Schleimeffekt
 //--------------------------------------------------------------------------------------------
 class CSlimeBlend : public CBlenden {
   public:
@@ -74,7 +74,7 @@ class CSlimeBlend : public CBlenden {
 };
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch horizontale Balken, die von beiden Seiten kommen
+//Ãœberblenden durch horizontale Balken, die von beiden Seiten kommen
 //--------------------------------------------------------------------------------------------
 class CHLineBlend : public CBlenden {
   private:
@@ -87,7 +87,7 @@ class CHLineBlend : public CBlenden {
 };
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch sich schließende Rolläden
+//Ãœberblenden durch sich schlieÃŸende RollÃ¤den
 //--------------------------------------------------------------------------------------------
 class CShadesBlend : public CBlenden {
   private:
@@ -102,7 +102,7 @@ class CShadesBlend : public CBlenden {
 };
 
 //--------------------------------------------------------------------------------------------
-//Überblenden durch Terminator II FX (fallendes Bild)
+//Ãœberblenden durch Terminator II FX (fallendes Bild)
 //--------------------------------------------------------------------------------------------
 class CTerminatorBlend : public CBlenden {
   public:

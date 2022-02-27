@@ -10,7 +10,7 @@ const char ExcNever[] = "ExcNever";
 const char ExcCreateWindow[] = "CreateWindow failed!";
 
 //--------------------------------------------------------------------------------------------
-// Dinge für den Überblendeffekt:
+// Dinge fÃ¼r den Ãœberblendeffekt:
 //--------------------------------------------------------------------------------------------
 SBBM gBlendBm;
 SBBM gBlendBm2;
@@ -18,7 +18,7 @@ SLONG gBlendState = -1;
 SLONG gFramesToDrawBeforeFirstBlend = 0; // Paint 2 frames, before reading from the screen for blending reasons
 
 //--------------------------------------------------------------------------------------------
-// Flags für Cheats:
+// Flags fÃ¼r Cheats:
 //--------------------------------------------------------------------------------------------
 BOOL CheatRunningman = FALSE;
 BOOL CheatMoreNuns = FALSE;
@@ -48,7 +48,7 @@ SLONG MissionKeys3[] = {298, 346, 532, 2098, 3331, 3333, 4001, 4098, 4800, 8099}
 //--------------------------------------------------------------------------------------------
 // Pointer auf Fenster:
 //--------------------------------------------------------------------------------------------
-CStdRaum *TopWin; //Übergeordnetes Fenster, z.B. load Airport
+CStdRaum *TopWin; //Ãœbergeordnetes Fenster, z.B. load Airport
 
 //--------------------------------------------------------------------------------------------
 // Einige *WIRKLICH* globale Ressourcen:
@@ -93,8 +93,8 @@ XY gMousePosition;            // Position des Mauscursors
 XY gMouseClickPosition = 0;   // Position des Mauscursors zum Zeitpunkt des MouseDown-Events
 BOOL gMouseLButton = 0;       // Status des linken Mausknopfes
 BOOL gMouseRButton = 0;       // Status des rechten Mausknopfes
-SLONG gMouseLButtonDownTimer; // Timerinhalt, wenn der LMB gedrückt wurde
-BOOL gMouseScroll = 0;        // Mouse-Scrolling für den Airport?
+SLONG gMouseLButtonDownTimer; // Timerinhalt, wenn der LMB gedrÃ¼ckt wurde
+BOOL gMouseScroll = 0;        // Mouse-Scrolling fÃ¼r den Airport?
 SLONG MouseLook;              // Normal, Hot, Page
 SLONG MouseClickArea;         // In Statusleiste/Raum
 SLONG MouseClickId;           // Der Id
@@ -127,7 +127,7 @@ SLONG gShowCursorFeet = -1;
 SBBM gDialogBarBm;
 SBBMS gToolTipBms;
 
-BOOL gRoomJustLeft; // TRUE, wenn Raum gerade verlassen wurde (wegen messagePump während TransBlit)
+BOOL gRoomJustLeft; // TRUE, wenn Raum gerade verlassen wurde (wegen messagePump wÃ¤hrend TransBlit)
 
 //--------------------------------------------------------------------------------------------
 // Text-Ressourcen:
@@ -146,22 +146,22 @@ BOOL bCheatMode = FALSE;          // Ist der Cheatmode zum testen aktiviert?
 BOOL bQuick = FALSE;              // Depeche Mode = Alles auf die Schnelle..
 BOOL bgWarp = FALSE;              // Spieler warpt zum Ziel
 BOOL bNoVgaRam = FALSE;           // Keine Bitmaps ins VGA-Ram legen
-BOOL bNoSpeedyBar = FALSE;        // Kein SpeedUp für die Statuszeile
+BOOL bNoSpeedyBar = FALSE;        // Kein SpeedUp fÃ¼r die Statuszeile
 BOOL bNoQuickMouse = FALSE;       // Keine Maus-Aufrufe beim OnMouseMove
-BOOL bCursorCaptured;             // Cursor gekidnappt und muß jetzt selbst gemalt werden?
+BOOL bCursorCaptured;             // Cursor gekidnappt und muÃŸ jetzt selbst gemalt werden?
 BOOL bMidiAvailable;              // Ist ein Midi-Sequenzer vorhanden?
 SLONG nOptionsOpen = 0;           // Fummelt gerade wer an den Options?
-SLONG nWaitingForPlayer = 0;      // Müssen wir da auf einen anderen Spieler warten?
+SLONG nWaitingForPlayer = 0;      // MÃ¼ssen wir da auf einen anderen Spieler warten?
 SLONG nAppsDisabled = 0;          // Ist ein anderer Spieler gerade in einer anderen Anwendung?
 BOOL bTwoWins;                    // SplitScreen Testen?
 SLONG Editor;                     // Ist der Flughafeneditor aktiv ? (=0)
-BOOL gDisablePauseKey;            // Pause-Key für Texteingabe abgeschaltet?
-BOOL bgJustDidLotsOfWork = FALSE; // Gegen Sprünge nach Load/Save
+BOOL gDisablePauseKey;            // Pause-Key fÃ¼r Texteingabe abgeschaltet?
+BOOL bgJustDidLotsOfWork = FALSE; // Gegen SprÃ¼nge nach Load/Save
 BOOL bLeaveGameLoop = FALSE;      // Hauptschleife verlassen?
 BOOL bFirstClass = FALSE;
 
 //--------------------------------------------------------------------------------------------
-// Das Spiel höchstpersönlich:
+// Das Spiel hÃ¶chstpersÃ¶nlich:
 //--------------------------------------------------------------------------------------------
 CTakeOffApp theApp;
 
@@ -187,14 +187,14 @@ const char *HallFilenames[] = {"kompletter Airport (%li-%li-%li-%li-%li-%li-%li-
 //--------------------------------------------------------------------------------------------
 CString BitmapPath;   // diverse Bitmaps
 CString BrickPath;    // Hier sind die Part-Dateien
-CString CityPath;     // Städte Bitmaps
+CString CityPath;     // StÃ¤dte Bitmaps
 CString ClanPath;     // Clan Bitmaps
 CString ExcelPath;    // Hier sind die csv-Tabellen
 CString MiscPath;     // Sonstige Kleinigkeiten
-CString SavegamePath; // Die Spielstände
+CString SavegamePath; // Die SpielstÃ¤nde
 CString ScanPath;     // gescannte Bilder
-CString SoundPath;    // Musikstücke und Samples
-CString RoomPath;     // Bilder für die Räume
+CString SoundPath;    // MusikstÃ¼cke und Samples
+CString RoomPath;     // Bilder fÃ¼r die RÃ¤ume
 CString PlanePath;    // Bilder der Flugzeuge
 CString GliPath;      // diverse GLI-Dateien
 CString SmackerPath;  // Die Smacker-Filmchen
@@ -231,15 +231,17 @@ BUFFER<XY> GlobeWindows;
 //--------------------------------------------------------------------------------------------
 // Der Klacker-Font:
 //--------------------------------------------------------------------------------------------
-// const char *KlackerFntDef = " ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ0123456789.!:;,?()-#=*|><+²³";
-const char *KlackerFntDef = " ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ0123456789.!:;,?()-#=*|><+"
+// const char *KlackerFntDef = " ABCDEFGHIJKLMNOPQRSTUVWXYZÃ„Ã–Ãœ0123456789.!:;,?()-#=*|><+Â²Â³";
+const char *KlackerFntDef = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            "\xC4\xD6\xDC"
+                            "0123456789.!:;,?()-#=*|><+"
                             "\xC1\xC8\xCF\xC9\xCC\xCD\xD2\xD3\xD8\x8A\x8D\xDA\xD9\xDD\x8E"
                             "\xA5\xC6\xCA\xA3\xD1\x8C\x8F\xAF"
                             "\xBC\xC0\xC5"
                             "\xA6\xC3\xC7"
-                            "²³";
-// const char *KlackerFntDef = " ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ0123456789.!:;,?()-#=*|><+" "\xC1\xC8\xCF\xC9\xCC\xCD\xD2\xD3\xD8\x8A\x8D\xDA\xD9\xDD\x8E"
-// "\xA5\xC6\xCA\xA3\xD1\x8C\x8F\xAF" "\xBC\xC0\xC5" "\xA6\xC3\x80" "²³";
+                            "\xB2\xB3";
+// const char *KlackerFntDef = " ABCDEFGHIJKLMNOPQRSTUVWXYZÃ„Ã–Ãœ0123456789.!:;,?()-#=*|><+" "\xC1\xC8\xCF\xC9\xCC\xCD\xD2\xD3\xD8\x8A\x8D\xDA\xD9\xDD\x8E"
+// "\xA5\xC6\xCA\xA3\xD1\x8C\x8F\xAF" "\xBC\xC0\xC5" "\xA6\xC3\x80" "Â²Â³";
 
 //--------------------------------------------------------------------------------------------
 // Text-Style des Spielers:
@@ -256,10 +258,10 @@ SB_CFont FontCondensedBlack;
 SB_CFont FontCondensedGrey;
 SB_CFont FontCondensedRed;
 
-SB_CFont FontDialogPartner; // Gesprächspartner
+SB_CFont FontDialogPartner; // GesprÃ¤chspartner
 SB_CFont FontDialogInk;
-SB_CFont FontDialog;      // Eigene Sätze
-SB_CFont FontDialogLight; // Eigene Sätze im Highlight
+SB_CFont FontDialog;      // Eigene SÃ¤tze
+SB_CFont FontDialogLight; // Eigene SÃ¤tze im Highlight
 SB_CFont FontNormalGrey;
 SB_CFont FontNormalGreen;
 SB_CFont FontBigGrey;  // Alter Dialogfont
@@ -270,7 +272,7 @@ UWORD ColorOfFontGrey;
 UWORD ColorOfFontRed;
 
 XY ReferenceCursorPos; // Kopie von CursorPos, die nur pro Frame upgedaten wird
-CRect gHighlightArea;  // Für das Text-Highlighting
+CRect gHighlightArea;  // FÃ¼r das Text-Highlighting
 UWORD gHighlightFontColor;
 CRect gLastHighlightArea;
 
@@ -281,10 +283,10 @@ TABS TABRight[] = {{TAB_STYLE_RIGHT, 0}};
 // Die Statuszeilen und Textzeilen: normal+Editoren
 //--------------------------------------------------------------------------------------------
 SBBMS StatusLineBms;
-SBBMS gTutoriumBms;      // Statuszeile: Tutorium läuft
+SBBMS gTutoriumBms;      // Statuszeile: Tutorium lÃ¤uft
 SBBMS gRepeatMessageBms; // Statuszeile: Message noch einmal, bitte
 SBBMS gStatisticBms;     // Statuszeile: Statistiken
-SBBMS gStatLineHigh;     // Statuszeile: Highlights für Geld und Zeit
+SBBMS gStatLineHigh;     // Statuszeile: Highlights fÃ¼r Geld und Zeit
 SBBMS gClockBms;
 SLONG gStatButton = 0;
 SLONG gStatButtonTimer = 0;
@@ -307,7 +309,7 @@ BOOL IsPaintingTextBubble = FALSE;
 BOOL PleaseCancelTextBubble = FALSE;
 
 //--------------------------------------------------------------------------------------------
-// Der Mehrzwecke Menü-Hintergrund fürs aktuelle Zeitalter & die aktuelle Bildgröße und die Tips
+// Der Mehrzwecke MenÃ¼-Hintergrund fÃ¼rs aktuelle Zeitalter & die aktuelle BildgrÃ¶ÃŸe und die Tips
 //--------------------------------------------------------------------------------------------
 SBBM gNotepadButtonL;
 SBBM gNotepadButtonM;
@@ -322,11 +324,11 @@ SBBM gLockBm;   // vom Scheduler
 
 SBBMS LogoBms;      // Die Logos der Fluggesellschaften
 SBBMS SmallLogoBms; // Die kleinen Logos der Fluggesellschaften
-SBBMS TinyLogoBms;  // Für die Sprechblasen
+SBBMS TinyLogoBms;  // FÃ¼r die Sprechblasen
 SBBMS MoodBms;      // Die Spimmungs-Sprechblasen
-SBBMS SmileyBms;    // Die Spimmungs-Köpfe für die Aussagen des Beraters
+SBBMS SmileyBms;    // Die Spimmungs-KÃ¶pfe fÃ¼r die Aussagen des Beraters
 
-SBBM gCityMarkerBm; // Marker für eine Stadt
+SBBM gCityMarkerBm; // Marker fÃ¼r eine Stadt
 SBBMS FlugplanBms;
 BUFFER<SBBMS> FlugplanIconBms;
 SBBMS gInfoBms; // Der Infobutton in der Routenliste
@@ -345,9 +347,9 @@ CSmoker Smokers[5];
 //--------------------------------------------------------------------------------------------
 SBBMS gItemBms;
 CTafelData TafelData;
-CAuftraege LastMinuteAuftraege;           // Die hängen gerade aus
-CAuftraege ReisebueroAuftraege;           // Die hängen gerade aus
-CFrachten gFrachten;                      // Die Frachtaufträge
+CAuftraege LastMinuteAuftraege;           // Die hÃ¤ngen gerade aus
+CAuftraege ReisebueroAuftraege;           // Die hÃ¤ngen gerade aus
+CFrachten gFrachten;                      // Die FrachtauftrÃ¤ge
 CAuftraege AuslandsAuftraege[MAX_CITIES]; // Aus dem Ausland
 SLONG AuslandsRefill[MAX_CITIES];         // Aus dem Ausland
 CFrachten AuslandsFrachten[MAX_CITIES];   // Aus dem Ausland
@@ -378,7 +380,7 @@ SLONG LastAnzPeopleOnScreen = 0;
 SLONG LastAnzPlanesOnScreen = 0;
 
 //--------------------------------------------------------------------------------------------
-// Für Dialog- und Tip-Ressourcen:
+// FÃ¼r Dialog- und Tip-Ressourcen:
 //--------------------------------------------------------------------------------------------
 const char TOKEN_ADVICE[] = "Advi";
 const char TOKEN_AKTIE[] = "Akti";
@@ -429,7 +431,7 @@ const SLONG MoodPlayerBase1 = 0;      // Spieler
 const SLONG MoodPersonBase2 = 5;      // Customers
 const SLONG MoodPersonBase3 = 13;     // Anonyme Kunden
 const SLONG MoodPersonRepair = 5;     // Kunde meint: Flugzeug ist Schrott
-const SLONG MoodPersonSick = 6;       // Kunde meint: Scheiß Kapitän
+const SLONG MoodPersonSick = 6;       // Kunde meint: ScheiÃŸ KapitÃ¤n
 const SLONG MoodPersonSmile = 7;      // Kunde meint: war guter Flug!
 const SLONG MoodPersonFlying = 8;     // Kunde will zum Abflug
 const SLONG MoodPersonMissed = 9;     // Kunde hat Flug verpasst
@@ -451,9 +453,9 @@ const SLONG MoodPersonBone = 24;
 const SLONG MoodPersonStench = 25;      // Kunde (neutral) meint: Mir stinkts
 const SLONG MoodPersonStuck = 26;       // Spieler ist klebengeblieben
 const SLONG MoodPersonStenchDog = 27;   // Gestank aus Hundesicht
-const SLONG MoodPersonEmpty = 28;       // Leere Gedankenblase für Netzwerkunterhaltungen
+const SLONG MoodPersonEmpty = 28;       // Leere Gedankenblase fÃ¼r Netzwerkunterhaltungen
 const SLONG MoodPersonRepairFC = 29;    // Kunde meint: Flugzeug ist Schrott
-const SLONG MoodPersonSickFC = 30;      // Kunde meint: Scheiß Kapitän
+const SLONG MoodPersonSickFC = 30;      // Kunde meint: ScheiÃŸ KapitÃ¤n
 const SLONG MoodPersonSmileFC = 31;     // Kunde meint: war guter Flug!
 const SLONG MoodPersonFlyingFC = 32;    // Kunde will zum Abflug
 const SLONG MoodPersonMissedFC = 33;    // Kunde hat Flug verpasst

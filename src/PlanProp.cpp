@@ -35,7 +35,7 @@ SLONG ElektronikCosts[] = {600000, 1500000, 8000000};
 SLONG SicherheitCosts[] = {0, 2000000, 6000000};
 
 //--------------------------------------------------------------------------------------------
-// Die Schalter wird erˆffnet:
+// Die Schalter wird er√∂ffnet:
 //--------------------------------------------------------------------------------------------
 CPlaneProps::CPlaneProps(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "planprop.gli", 0) {
     SetRoomVisited(PlayerNum, ROOM_PLANEPROPS);
@@ -176,7 +176,7 @@ void CPlaneProps::OnPaint() {
             CPlane &qPlane = Sim.Players.Players[PlayerNum].Planes[PlaneDataTable.LineIndex[PlaneIndex]];
             SBBM &qCursor = CursorBms[static_cast<SLONG>((timeGetTime() / 150) % 8)];
 
-            // Groﬂes Fenster (links):
+            // Gro√ües Fenster (links):
             if (qPlane.DecoTarget < 2) {
                 RoomBm.BlitFrom(Floors[qPlane.DecoTarget], 0 + ScrollOffsetX, 27);
             }
@@ -207,7 +207,7 @@ void CPlaneProps::OnPaint() {
                 RoomBm.BlitFromT(qCursor, StarOffsets[3] + XY(qPlane.EssenTarget * 47 - 1, -1) + ScrollOffset);
             }
 
-            // Kosten f¸r aktuelle Auswahl
+            // Kosten f√ºr aktuelle Auswahl
             UBYTE Backup = 0;
             for (SLONG c = 0; c < 3; c++) {
                 for (SLONG d = 0; d < 4; d++) {
@@ -276,7 +276,7 @@ void CPlaneProps::OnPaint() {
             // (PlaneTypes[qPlane.TypeId].Passagiere*FoodCosts[qPlane.EssenTarget]), (LPCTSTR)StandardTexte.GetS (TOKEN_SCHED, 1801)),    FontSmallBlack,
             // TEC_FONT_RIGHT, XY(502,334)+ScrollOffset, XY(631,353)+ScrollOffset);
 
-            // Kosten f¸r aktuelle Auswahl
+            // Kosten f√ºr aktuelle Auswahl
             for (SLONG c = 0; c < 3; c++) {
                 for (SLONG d = 0; d < 4; d++) {
                     if (gMousePosition.IfIsWithin(StarOffsets[d].x + c * 47 + ScrollOffsetX, StarOffsets[d].y, StarOffsets[d].x + 43 + c * 47 + ScrollOffsetX,
@@ -308,7 +308,7 @@ void CPlaneProps::OnPaint() {
                   SetMouseLook (CURSOR_HOT, 3100, ROOM_PLANEPROPS, 10);
                   RoomBm.BlitFromT (MenuBms[0], 135, 27);
 
-                //Wiederholfunktion f¸r bl‰ttern links:
+                //Wiederholfunktion f√ºr bl√§ttern links:
                 if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>800)
                 {
                 PlaneIndex--;
@@ -347,7 +347,7 @@ void CPlaneProps::OnPaint() {
                 SetMouseLook (CURSOR_HOT, 3104, ROOM_PLANEPROPS, 14);
                 RoomBm.BlitFromT (MenuBms[4], 248, 27);
 
-                //Wiederholfunktion f¸r bl‰ttern rechts:
+                //Wiederholfunktion f√ºr bl√§ttern rechts:
                 if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>800 && PlaneIndex<PlaneDataTable.AnzRows-1)
                 {
                 PlaneIndex++;
@@ -375,7 +375,7 @@ void CPlaneProps::OnPaint() {
                 }
             }
 
-            // Badge f¸r die Stewardess:
+            // Badge f√ºr die Stewardess:
             if ((qPlayer.SecurityFlags & (1 << 6)) != 0U) {
                 RoomBm.BlitFrom(BadgeBm, 420 + ScrollOffsetX, 352);
             }
@@ -475,7 +475,7 @@ void CPlaneProps::OnPaint() {
             CPlane &qPlane = Sim.Players.Players[PlayerNum].Planes[PlaneDataTable.LineIndex[PlaneIndex]];
             SBBM &qCursor = CursorBms[static_cast<SLONG>((timeGetTime() / 150) % 8)];
 
-            // Groﬂes Fenster (rechts):
+            // Gro√ües Fenster (rechts):
             if (qPlane.ReifenTarget != 0U) {
                 RoomBm.BlitFrom(ReifenBms[qPlane.ReifenTarget - 1], 325 + ScrollOffsetX, 74);
             }
@@ -509,7 +509,7 @@ void CPlaneProps::OnPaint() {
                 RoomBm.BlitFromT(qCursor, StarOffsets[7] + XY(qPlane.ElektronikTarget * 47 - 1, -1) + ScrollOffset);
             }
 
-            // Kosten f¸r aktuelle Auswahl
+            // Kosten f√ºr aktuelle Auswahl
             UBYTE Backup = 0;
             if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && ActivePage == 0) {
                 for (SLONG c = 0; c < 3; c++) {
@@ -598,7 +598,7 @@ void CPlaneProps::OnPaint() {
                 RoomBm.BlitFrom(Prozente[prozent], 62 + ScrollOffsetX, 408);
             }
 
-            // Kosten f¸r aktuelle Auswahl
+            // Kosten f√ºr aktuelle Auswahl
             SLONG c = 0;
             SLONG d = 0;
             if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && ActivePage == 0) {
@@ -629,7 +629,7 @@ void CPlaneProps::OnPaint() {
             }
 
             if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && ActivePage == 0) {
-                // Cursor¸berwachung bei den Sternen
+                // Cursor√ºberwachung bei den Sternen
                 for (c = 0; c < 3; c++) {
                     for (d = 0; d < 4; d++) {
                         if (gMousePosition.IfIsWithin(StarOffsets[d + 4].x + c * 47, StarOffsets[d + 4].y, StarOffsets[d + 4].x + 43 + c * 47,
@@ -681,7 +681,7 @@ void CPlaneProps::OnPaint() {
         }
     }
 
-    //‹berschrift:
+    //√úberschrift:
     SLONG HeadlineOffset = 229 * (100 - ActivePage) / 100;
     RoomBm.BlitFromT(MenuMaskBm, HeadlineOffset, 2);
 
@@ -697,7 +697,7 @@ void CPlaneProps::OnPaint() {
             SetMouseLook(CURSOR_HOT, 3100, ROOM_PLANEPROPS, 10);
             RoomBm.BlitFromT(MenuBms[0], 135 + HeadlineOffset, 27);
 
-            // Wiederholfunktion f¸r bl‰ttern links:
+            // Wiederholfunktion f√ºr bl√§ttern links:
             if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 800) {
                 PlaneIndex--;
                 gMouseLButtonDownTimer = timeGetTime() - 400;
@@ -737,7 +737,7 @@ void CPlaneProps::OnPaint() {
             SetMouseLook(CURSOR_HOT, 3104, ROOM_PLANEPROPS, 14);
             RoomBm.BlitFromT(MenuBms[4], 248 + HeadlineOffset, 27);
 
-            // Wiederholfunktion f¸r bl‰ttern rechts:
+            // Wiederholfunktion f√ºr bl√§ttern rechts:
             if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 800 && PlaneIndex < PlaneDataTable.AnzRows - 1) {
                 PlaneIndex++;
                 gMouseLButtonDownTimer = timeGetTime() - 400;
@@ -1007,7 +1007,7 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
 // void CPlaneProps::OnLButtonDblClk(UINT, CPoint point)
 //--------------------------------------------------------------------------------------------
 void CPlaneProps::OnLButtonDblClk(UINT /*nFlags*/, CPoint point) {
-    // Ist das Fenster hier zust‰ndig? Ist der Klick in diesem Fenster?
+    // Ist das Fenster hier zust√§ndig? Ist der Klick in diesem Fenster?
     if (point.x >= WinP1.x && point.x <= WinP2.x && point.y >= WinP1.y && point.y <= WinP2.y && (Editor == 0)) {
         CPlane &qPlane = Sim.Players.Players[PlayerNum].Planes[PlaneDataTable.LineIndex[PlaneIndex]];
 
@@ -1083,7 +1083,7 @@ void CPlaneProps::OnLButtonDblClk(UINT /*nFlags*/, CPoint point) {
 void CPlaneProps::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Auﬂerhalb geklickt? Dann Default-Handler!
+    // Au√üerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

@@ -111,7 +111,7 @@ BOOL SBBM::BlitFrom(SBBM &TecBitmap, const CRect &r1, const XY &dest) const {
     return (TRUE);
 }
 
-// Eine einfarbige Linie ziehen (Farb¸bergabe in HardwareColor (Hardwareabh‰ngig))
+// Eine einfarbige Linie ziehen (Farb√ºbergabe in HardwareColor (Hardwareabh√§ngig))
 void SBBM::Line(XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColors) {
     RECT DefClip;
     SLONG cc = 0; // Count Colors
@@ -309,7 +309,7 @@ BOOL SBPRIMARYBM::BlitFromT(SBBM &TecBitmap, const CRect &r1, const XY &dest) {
 }
 
 //============================================================================================
-// Klasse f¸r meine Bitmaps:
+// Klasse f√ºr meine Bitmaps:
 //============================================================================================
 BOOL SBBM::BlitFrom(SBBM & /*TecBitmap*/, XY /*p1*/, XY /*p2*/) {
     /*Bench.BlitTime.Start();
@@ -332,7 +332,7 @@ BOOL SBPRIMARYBM::FlipBlitFromT(SBBM &TecBitmap, XY Target) {
         return FALSE;
     }
 
-    // Source-Rechteck f¸llen
+    // Source-Rechteck f√ºllen
     SDL_Rect srcRect;
 
     srcRect.x = 0;
@@ -340,7 +340,7 @@ BOOL SBPRIMARYBM::FlipBlitFromT(SBBM &TecBitmap, XY Target) {
     srcRect.w = TecBitmap.pBitmap->GetXSize();
     srcRect.h = TecBitmap.pBitmap->GetYSize();
 
-    // Zielpunkt f¸llen
+    // Zielpunkt f√ºllen
     POINT pt = {Target.x, Target.y};
 
     /*DDBLTFX DDBltFx;
@@ -529,7 +529,7 @@ void SBPRIMARYBM::Flip(XY WindowPos, BOOL /*ShowFPS*/) {
 
               if (gBlendState==4)
               {
-            //Jaja, sehr seltsam. Warum, daﬂ steht in Gameframe.cpp
+            //Jaja, sehr seltsam. Warum, da√ü steht in Gameframe.cpp
             SLONG c=0;
 
             SB_CBitmapKey SrcKey(PrimaryBm);

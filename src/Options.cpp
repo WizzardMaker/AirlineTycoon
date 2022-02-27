@@ -1,5 +1,5 @@
 //============================================================================================
-// Options.cpp : Das Optionsmenü
+// Options.cpp : Das OptionsmenÃ¼
 //============================================================================================
 // Link: "Options.h"
 //============================================================================================
@@ -87,7 +87,7 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
 }
 
 //--------------------------------------------------------------------------------------------
-// Options-Fenster zerstören:
+// Options-Fenster zerstÃ¶ren:
 //--------------------------------------------------------------------------------------------
 Options::~Options() {
     SLONG c = 0;
@@ -794,7 +794,7 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
             }
             if (Line >= 2 && Line <= 13 && SavegameInfos[Line - 2].GetLength() > 0) {
                 if (NewgameWantsToLoad == 2) {
-                    // Netzwerk-Laden vom Hauptmenü aus:
+                    // Netzwerk-Laden vom HauptmenÃ¼ aus:
                     gNetworkSavegameLoading = Line - 2;
                     KlackerTafel.Warp();
                     FrameWnd->Invalidate();
@@ -803,7 +803,7 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
                     MessagePump();
                     Sim.Gamestate = GAMESTATE_BOOT;
                 } else if (Sim.bNetwork != 0) {
-                    // Laden während des Spiels: Kommt das mit der aktuellen Anzahl der Spieler hin?
+                    // Laden wÃ¤hrend des Spiels: Kommt das mit der aktuellen Anzahl der Spieler hin?
                     if (SIM::GetSavegameNumHumans(Line - 2) != Sim.Players.GetAnzHumanPlayers()) {
                         if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
                             (Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuStart(MENU_REQUEST, MENU_REQUEST_NET_NUM);
@@ -983,16 +983,16 @@ void Options::OnChar(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
         if (nChar >= 'a' && nChar <= 'z') {
             nChar = toupper(nChar);
         }
-        if (nChar == 196 || nChar == 228) {
-            nChar = static_cast<UINT>('Ä');
+        if (nChar == '\xE4') {
+            nChar = static_cast<UINT>('\xC4');
         }
-        if (nChar == 214 || nChar == 246) {
-            nChar = static_cast<UINT>('Ö');
+        if (nChar == '\xF6') {
+            nChar = static_cast<UINT>('\xD6');
         }
-        if (nChar == 220 || nChar == 252) {
-            nChar = static_cast<UINT>('Ü');
+        if (nChar == '\xFC') {
+            nChar = static_cast<UINT>('\xDC');
         }
-        if (nChar == ' ' || nChar == '-' || nChar == '+' || nChar == '.' || (nChar >= 'A' && nChar <= 'Z') || nChar == 'Ä' || nChar == 'Ö' || nChar == 'Ü' ||
+        if (nChar == ' ' || nChar == '-' || nChar == '+' || nChar == '.' || (nChar >= 'A' && nChar <= 'Z') || nChar == '\xC4' || nChar == '\xD6' || nChar == '\xDC' ||
             (nChar >= '0' && nChar <= '9')) {
             if ((SavenamesValid[CursorY] == 0) && strncmp(SavegameNames[CursorY], StandardTexte.GetS(TOKEN_MISC, 4073), 6) == 0) {
                 SavegameNames[CursorY] = "      ";

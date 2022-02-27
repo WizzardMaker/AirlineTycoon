@@ -18,7 +18,7 @@ extern ULONG AktienKursLineColor[4];
 
 static const XY ListOffset = XY(461, 29);
 static const XY TipOffset = XY(462, 16);
-static const XY MapOffset = XY(198, 150); // Für den Zoom der Karte den Faktor
+static const XY MapOffset = XY(198, 150); // FÃ¼r den Zoom der Karte den Faktor
 static const SLONG MapScale = 1925;       //..und den Offset
 static const SLONG ListSize = 22;
 
@@ -195,7 +195,7 @@ void CRouteBox::OnPaint() {
             SetMouseLook(CURSOR_HOT, 4602, ROOM_ROUTEBOX, 32);
         }
 
-        // Die Büroklammern:
+        // Die BÃ¼roklammern:
         if ((Sim.ItemClips != 0) && (Sim.Players.Players[PlayerNum].HasItem(ITEM_PAPERCLIP) == 0)) {
             if (gMousePosition.IfIsWithin(0, 245, 36, 287) || gMousePosition.IfIsWithin(186, 276, 214, 322) || gMousePosition.IfIsWithin(225, 269, 245, 314) ||
                 gMousePosition.IfIsWithin(347, 280, 383, 320)) {
@@ -617,7 +617,7 @@ void CRouteBox::RepaintMap() {
         }
     }
 
-    // Die markierung für die Mission:
+    // Die markierung fÃ¼r die Mission:
     if (Sim.Difficulty == DIFF_NORMAL) {
         for (c = 0; c <= 5; c++) {
             XY p1 = XY(Cities[Sim.MissionCities[c]].MapPosition) * MapScale / SLONG(1000);
@@ -633,7 +633,7 @@ void CRouteBox::RepaintMap() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Füllt den DataTable mit neuen Daten:
+// FÃ¼llt den DataTable mit neuen Daten:
 //--------------------------------------------------------------------------------------------
 void CRouteBox::UpdateDataTable() {
     switch (Filter) {
@@ -837,7 +837,7 @@ void CRouteBox::OnLButtonDblClk(UINT /*nFlags*/, CPoint /*point*/) {
 void CRouteBox::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }

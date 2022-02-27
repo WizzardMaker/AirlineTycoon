@@ -2,12 +2,12 @@
 //#define CD_PROTECTION
 //#define DISABLE_DEBUG_KEYS
 
-// Kopierschutz in der holl‰ndischen Version
+// Kopierschutz in der holl√§ndischen Version
 //#define CD_PROTECTION_METALOCK
 #define CD_PROTECTION_METALOCK_POS 600000000
 #define CD_PROTECTION_METALOCK_BYTE 0x42
 
-// F¸r internen Gebrauch:
+// F√ºr internen Gebrauch:
 #ifdef CD_PROTECTION_METALOCK
 #define CD_PROTECTION_ANY_TYPE
 #endif
@@ -15,26 +15,26 @@
 #define CD_PROTECTION_ANY_TYPE
 #endif
 
-// Nicht kommentieren um die F¸lldatei abzufragen
+// Nicht kommentieren um die F√ºlldatei abzufragen
 //#define CD_PROTECTION_FILLFILE
 
-// Nicht Kommentieren um nur CDs mit ‹berl‰nge zu akzeptieren:
+// Nicht Kommentieren um nur CDs mit √úberl√§nge zu akzeptieren:
 //#define CD_PROTECTION_LARGE
 
 // Nicht Kommentieren um nur nur lizenzierte PCs zu akzeptieren:
 //#define BETA_LICENSE_NECESSARY
 
-// Nicht Kommentieren um nur bis einschlieﬂlich zu diesem Monat lizensieren:
+// Nicht Kommentieren um nur bis einschlie√ülich zu diesem Monat lizensieren:
 //#define BETA_LICENSE_NECESSARY
 //#define BETA_TIME_LIMIT
 #define BETA_TIME_LIMIT_YEAR 1999
 #define BETA_TIME_LIMIT_MONTH 9
 
-// So groﬂ muﬂ die CD sein, um akzeptiert zu werden:
+// So gro√ü mu√ü die CD sein, um akzeptiert zu werden:
 //(wird in newgame.cpp und init.cp abgefragt)
-// Bei Perry Rhodan w‰re  706904064 ein exact match
+// Bei Perry Rhodan w√§re  706904064 ein exact match
 // Beim ersten Test waren es 437125100 (erfolgreich)
-//‹berl‰nge bei Sonopress: 700125100
+//√úberl√§nge bei Sonopress: 700125100
 #define REQUIRED_CD_SIZE 700125100 // 651*1024*1024
 
 #ifdef CD_PROTECTION_LARGE

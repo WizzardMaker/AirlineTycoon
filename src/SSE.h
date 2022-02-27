@@ -45,7 +45,7 @@
 #define STATE_PAUSED (0x0001)
 #define STATE_PLAYING (0x0002)
 
-// Zus‰tzliche Flags f¸r ::Play()
+// Zus√§tzliche Flags f√ºr ::Play()
 #define DSBPLAY_RESUME (0x10000000)
 #define DSBPLAY_SETPAN (0x20000000)
 #define DSBPLAY_FIRE (0x40000000)
@@ -81,7 +81,7 @@ class SSE;
 
 /******************************************************************************\
  *
- * Typen f¸r die Objektdaten
+ * Typen f√ºr die Objektdaten
  *
  \******************************************************************************/
 
@@ -96,10 +96,10 @@ typedef struct _DigitalData {
 typedef struct _FXData {
     Mix_Chunk *pBuffer;
     word ref;
-    size_t bufferSize; // Die aktuelle Grˆﬂe des DSBuffers
+    size_t bufferSize; // Die aktuelle Gr√∂√üe des DSBuffers
 
     dword samplesPerSec; // Primary buffer frequency
-    word channels;       // Kan‰le
+    word channels;       // Kan√§le
     word bitsPerSample;  // Bits per Sample of mono data
 
     SLONG pan;
@@ -119,13 +119,13 @@ typedef struct _MusicData {
   {
 //IDirectSoundBuffer *		pBuffer;			// Der Sound-Puffer
 //IDirectSoundNotify *		pNotify;			// Das Notify-Objekt
-dword						bufferSize;			// Die Grˆﬂe des Buffers
+dword						bufferSize;			// Die Gr√∂√üe des Buffers
 dword						bufferSecs;			// Wieviele Sekunden werden im Puffer gehalten
 dword						triggerSecs;		// Nach wieviel gespielten Sekunden wird neu geladen
 
 HANDLE						hFile;				// Das Handle der zu spielenden Datei
-dword						fileSizeRemaining;	// Die noch zu lesende Dateigrˆﬂe
-dword						initialFileSize;	// Die Gesamtgrˆﬂe der Datei
+dword						fileSizeRemaining;	// Die noch zu lesende Dateigr√∂√üe
+dword						initialFileSize;	// Die Gesamtgr√∂√üe der Datei
 dword						initialFilePos;		// (Nach Pause) Startposition im File
 
 dword						cNotifyStructs;		// Anzahl der zu setzenden Notifies
@@ -141,7 +141,7 @@ bool						compatibleMode;		// Soll der kompatible (Terratec-freundliche)
 // Modus verwendet werden?
 
 dword						samplesPerSec;		// Die Samplefrequenz
-word						channels;			// Kan‰le
+word						channels;			// Kan√§le
 word						bitsPerSample;		// Bittiefe
 
 dword						state;
@@ -149,7 +149,7 @@ bool						looped;				// Soll der Sound geloopt werden?
 bool						critical;			// Ist der Thread gerade im kritischen Teil
 
 SLONG						pan;				// Pan-Wert
-SLONG						volume;				// gemerkte Lautst‰rke
+SLONG						volume;				// gemerkte Lautst√§rke
 
 } DigiMusicData;*/
 
@@ -198,7 +198,7 @@ class SSE {
     DllExport bool IsMusicEnabled() { return _fMusicEnabled; }
     DllExport void StopMusic();
 
-    // Lautst‰rkefunktionen
+    // Lautst√§rkefunktionen
 
     DllExport static int SetMusicVolume(SLONG volume);
     DllExport static int GetMusicVolume(SLONG *pVolume);
@@ -227,9 +227,9 @@ class SSE {
   protected:
     SDL_Window *_hWnd;
     dword _samplesPerSec; // Primary buffer frequency
-    word _channels;       // Kan‰le
+    word _channels;       // Kan√§le
     word _bitsPerSample;  // Bits per Sample of mono data
-    word _maxSound;       // Anz. der Samples, die gleichzeitig gespielt werden d¸rfen
+    word _maxSound;       // Anz. der Samples, die gleichzeitig gespielt werden d√ºrfen
     bool _swapChannels{};
 
     // IDirectSound* _pDS;			// DirectSound-Object
@@ -251,7 +251,7 @@ class SSE {
 /******************************************************************************\
  *
  * Class:	DIGITAL
- * Desc:	Einheitliche Schnittstelle f¸r Samples u.s.w.
+ * Desc:	Einheitliche Schnittstelle f√ºr Samples u.s.w.
  *
  \******************************************************************************/
 class DIGITAL {
@@ -328,7 +328,7 @@ class FX : public DIGITAL {
 /******************************************************************************\
  *
  * Class:	MUSIC
- * Desc:	Einheitliche Schnittstelle f¸r Midi, CD u.s.w.
+ * Desc:	Einheitliche Schnittstelle f√ºr Midi, CD u.s.w.
  *
  \******************************************************************************/
 class MUSIC {

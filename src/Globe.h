@@ -16,8 +16,8 @@ class CGlobe : public CPlaner {
     SBBMS IconBms[6];
 
     // Sonstiges:
-    GfxLib *pGLibGlobe{}; // Library für den Raum: Animationen der Objekte; wird immer geladen
-    GfxLib *pGLibStd{};   // Library für den Globe: Filofax, Register, ...
+    GfxLib *pGLibGlobe{}; // Library fÃ¼r den Raum: Animationen der Objekte; wird immer geladen
+    GfxLib *pGLibStd{};   // Library fÃ¼r den Globe: Filofax, Register, ...
 
     GfxLib *pGLibDark;
     SBBM DarkBm;
@@ -26,15 +26,15 @@ class CGlobe : public CPlaner {
 
     // Bitmaps:
     SBBM GlasLeer;
-    SBBM Back, Next;              // Eselsohren für vor und zurück
+    SBBM Back, Next;              // Eselsohren fÃ¼r vor und zurÃ¼ck
     SBBMS Index1, IndexA;         // Das linke und das rechte Indexsystem
-    SBBM Inhalt;                  // Die Fahne für den Inhalt
+    SBBM Inhalt;                  // Die Fahne fÃ¼r den Inhalt
     SBBM Filofax;                 // Das Filofax selbst
     SBBM FiloEdge;                // Das Filofax in der Ecke
-    SBBMS FiloTops;               // Das oben umgeblätterte Filofax
+    SBBMS FiloTops;               // Das oben umgeblÃ¤tterte Filofax
     SBBM Karte;                   // Die Weltkarte
     SBBM TurnLeftBm, TurnRightBm; // Dreht die Weltkugel
-    SBBMS TimeTables;             // Die Hintergrundbilder für den Flugplan
+    SBBMS TimeTables;             // Die Hintergrundbilder fÃ¼r den Flugplan
 
     BOOL Copyprotection;
 

@@ -24,7 +24,7 @@ BOOL CreditsFilesAreMissing = FALSE;
 #ifdef CD_PROTECTION
 
 //--------------------------------------------------------------------------------------------
-// Gibt die Seriennummer eines Volumes zurück: (z.B. 0x0D4719D2 für 0D47-19D2)
+// Gibt die Seriennummer eines Volumes zurÃ¼ck: (z.B. 0x0D4719D2 fÃ¼r 0D47-19D2)
 //--------------------------------------------------------------------------------------------
 ULONG GetVolumeSerial(char Drive) {
     char laufwerk[4];
@@ -45,7 +45,7 @@ ULONG GetVolumeSerial(char Drive) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Liest aus der Registry eine Liste aller physikalischen Devices und gibt zurück, ob die
+// Liest aus der Registry eine Liste aller physikalischen Devices und gibt zurÃ¼ck, ob die
 // sie vorhanden sind. Bit0=DriveA, Bit1=DriveB, ...
 //--------------------------------------------------------------------------------------------
 ULONG GetPhysicalCdRomBitlist(void) {
@@ -122,7 +122,7 @@ ULONG GetPhysicalCdRomBitlist(void) {
     strDeviceDesc[9] = 'c';
     strDeviceDesc[10] = 0;
 
-    char strVirtual[30]; // Gefährliche Strings
+    char strVirtual[30]; // GefÃ¤hrliche Strings
     strVirtual[0] = 'v';
     strVirtual[1] = 'i';
     strVirtual[2] = 'r';
@@ -194,7 +194,7 @@ ULONG GetPhysicalCdRomBitlist(void) {
             CString CLine = Line;
             HKEY hKey2;
 
-            // Alle Geräte (z.B. Mitsumi CD-Rom) für diesen DeviceTyp abfragen:
+            // Alle GerÃ¤te (z.B. Mitsumi CD-Rom) fÃ¼r diesen DeviceTyp abfragen:
             if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_LOCAL_MACHINE, CString(Subkey) + "\\" + CLine, 0, NULL, REG_OPTION_NON_VOLATILE,
                                                 KEY_ENUMERATE_SUB_KEYS | KEY_EXECUTE | KEY_QUERY_VALUE, NULL, &hKey2, &dwDisposition)) {
                 DWORD Index2 = 0;
@@ -204,7 +204,7 @@ ULONG GetPhysicalCdRomBitlist(void) {
                     CString CLine2 = Line;
                     HKEY hKey3;
 
-                    // Alle Untereinträge für dieses Gerät abfragen:
+                    // Alle UntereintrÃ¤ge fÃ¼r dieses GerÃ¤t abfragen:
                     if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_LOCAL_MACHINE, CString(Subkey) + "\\" + CLine + "\\" + CLine2, 0, NULL, REG_OPTION_NON_VOLATILE,
                                                         KEY_ENUMERATE_SUB_KEYS | KEY_EXECUTE | KEY_QUERY_VALUE, NULL, &hKey3, &dwDisposition)) {
                         DWORD Index3 = 0;
@@ -215,7 +215,7 @@ ULONG GetPhysicalCdRomBitlist(void) {
 
                             SLONG err;
 
-                            // Und für diesen Untereintrag des Gerätes nachschauen, ob's ein CD-Rom ist:
+                            // Und fÃ¼r diesen Untereintrag des GerÃ¤tes nachschauen, ob's ein CD-Rom ist:
                             HKEY hKey4;
                             if (ERROR_SUCCESS == (err = RegCreateKeyEx(HKEY_LOCAL_MACHINE, CString(Subkey) + "\\" + CLine + "\\" + CLine2 + "\\" + CLine3, 0,
                                                                        NULL, REG_OPTION_NON_VOLATILE, KEY_ENUMERATE_SUB_KEYS | KEY_EXECUTE | KEY_QUERY_VALUE,
@@ -225,7 +225,7 @@ ULONG GetPhysicalCdRomBitlist(void) {
 
                                 if (ERROR_SUCCESS == RegQueryValueEx(hKey4, strClass, NULL, NULL, (UBYTE *)Temp, &TempSize)) {
                                     if (stricmp(Temp, strCDROM) == 0) {
-                                        // Enthält die Device Description sowas wie "virtual"?
+                                        // EnthÃ¤lt die Device Description sowas wie "virtual"?
                                         TempSize = 500;
                                         if (ERROR_SUCCESS == RegQueryValueEx(hKey4, strDeviceDesc, NULL, NULL, (UBYTE *)Temp, &TempSize)) {
                                             strlwr(Temp);
@@ -315,7 +315,7 @@ return (true);
 }
 
 //--------------------------------------------------------------------------------------------
-// Errechnet eine Checksumme für eine Datei:
+// Errechnet eine Checksumme fÃ¼r eine Datei:
 //--------------------------------------------------------------------------------------------
 ULONG GetFileChecksum(const CString &Filename) {
     TEAKFILE File(Filename, TEAKFILE_READ);
@@ -335,7 +335,7 @@ ULONG GetFileChecksum(const CString &Filename) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Prüft, ob die EXE-Datei okay ist:
+// PrÃ¼ft, ob die EXE-Datei okay ist:
 //--------------------------------------------------------------------------------------------
 BOOL CheckMainFile(const CString &Filename) {
     ULONG Hash = GetFileChecksum(Filename);
@@ -355,7 +355,7 @@ BOOL CheckMainFile(const CString &Filename) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt TRUE zurück, wenn Datei korrekt gefunden wurde:
+// Gibt TRUE zurÃ¼ck, wenn Datei korrekt gefunden wurde:
 //--------------------------------------------------------------------------------------------
 bool CheckCDFile(int _filepos, int _filesize, int _code) {
     // Create a new security manager
@@ -405,7 +405,7 @@ bool CheckCDFile(int _filepos, int _filesize, int _code) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft nach und nach die Länge einer Datei auf der CD:
+//ÃœberprÃ¼ft nach und nach die LÃ¤nge einer Datei auf der CD:
 //--------------------------------------------------------------------------------------------
 void CheckSomeCdFileLength(void) {
     static SLONG NumNewDay = 0;
@@ -469,7 +469,7 @@ void CheckSomeCdFileLength(void) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt zurück, wieviele Bytes auf einer CD sind:
+// Gibt zurÃ¼ck, wieviele Bytes auf einer CD sind:
 //--------------------------------------------------------------------------------------------
 SLONG GetTotalDiskSpace(char Driveletter) {
     char Path[] = "-:\\";
@@ -722,7 +722,7 @@ DWORD GetKey() {
 bool CheckComputerLicense(void) {
     static DWORD Licenses[] = {            // Spellbound:
                                0x5a386d00, // Mein Rechner
-                               0xafce7953, // Mein Zweitrechner für's Netzwerk
+                               0xafce7953, // Mein Zweitrechner fÃ¼r's Netzwerk
                                0xa25b21cb, // Armin Gessert
                                0x3d7d3458, // Armin Gessert (Laptop)
                                0x250bf30b, // Jean-Marc Haessig
@@ -775,7 +775,7 @@ bool CheckComputerLicense(void) {
                                0x8adc4ed3, // j.tegethoff@01019freenet.de
                                0x5b36189f, // Rudi Esser
                                0xe4ab1fd7, // M.Stueber@mobilkom.at
-                               0xd7ebc476, // Ingo Löhrer
+                               0xd7ebc476, // Ingo LÃ¶hrer
                                0x08ae5e71, // Klaus H.D. Luber
                                0xe030371f, // Klaus H.D. Luber (neu)
                                0xf0921f32, // Mario Ruppert

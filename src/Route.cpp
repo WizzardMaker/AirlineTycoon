@@ -107,7 +107,7 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
             }
         }
 
-        // Tabellenzeile hinzufügen:
+        // Tabellenzeile hinzufÃ¼gen:
         Id = GetUniqueId();
         (*this) += Id;
 
@@ -121,7 +121,7 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
         (*this)[Id].Bedarf = 0;
         (*this)[Id].bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn == 2 || Cities[NachCity].bNewInAddOn == 2);
 
-        // Tabellenzeile hinzufügen:
+        // Tabellenzeile hinzufÃ¼gen:
         Id2 = GetUniqueId();
         (*this) += Id2;
 
@@ -181,7 +181,7 @@ void CRouten::ReInitExtend(const CString &TabFilename) {
         ULONG VonCity = Cities.GetIdFromName(const_cast<char *>((LPCTSTR)KorrigiereUmlaute(Helper1)));
         ULONG NachCity = Cities.GetIdFromName(const_cast<char *>((LPCTSTR)KorrigiereUmlaute(Helper2)));
 
-        // Tabellenzeile hinzufügen:
+        // Tabellenzeile hinzufÃ¼gen:
         Id = GetUniqueId();
         (*this) += Id;
 
@@ -195,7 +195,7 @@ void CRouten::ReInitExtend(const CString &TabFilename) {
         (*this)[Id].Bedarf = 0;
         (*this)[Id].bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn == 2 || Cities[NachCity].bNewInAddOn == 2);
 
-        // Tabellenzeile hinzufügen:
+        // Tabellenzeile hinzufÃ¼gen:
         Id2 = GetUniqueId();
         (*this) += Id2;
 
@@ -249,7 +249,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CRouten &r) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein CRouten Datum:
+// LÃ¤dt ein CRouten Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CRouten &r) {
     if (SaveVersion == 1 && SaveVersionSub < 12) {
@@ -282,7 +282,7 @@ CRentRoute::CRentRoute() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Gibt zurück, wieviele Routen der Spieler besitzt:
+// Gibt zurÃ¼ck, wieviele Routen der Spieler besitzt:
 //--------------------------------------------------------------------------------------------
 SLONG CRentRouten::GetNumUsed() {
     SLONG c = 0;
@@ -310,7 +310,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CRentRoute &r) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein RentRouten-Objekt:
+// LÃ¤dt ein RentRouten-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CRentRoute &r) {
     File >> r.Rang >> r.LastFlown >> r.AvgFlown;

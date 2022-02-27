@@ -1,5 +1,5 @@
 //============================================================================================
-// Klasse für meine Bitmaps:
+// Klasse fÃ¼r meine Bitmaps:
 //============================================================================================
 
 #ifndef sbbm_h
@@ -8,7 +8,7 @@
 #include "HLine.h"
 
 //--------------------------------------------------------------------------------------------
-// Liest den aktuellen Taktzyklenzähler der CPU
+// Liest den aktuellen TaktzyklenzÃ¤hler der CPU
 //--------------------------------------------------------------------------------------------
 inline __int64 Read64TimeStampCounter(void) {
     /*__int64 rc;
@@ -113,7 +113,7 @@ class SBBM {
     CHLObj *pHLObj;
 
   public:
-    XY Size; // Größe der Bitmap
+    XY Size; // GrÃ¶ÃŸe der Bitmap
 
   public: // Konstruktor (Bitmap1.Cpp):
     SBBM(void) {
@@ -313,7 +313,7 @@ class SBPRIMARYBM {
     BOOL Fullscreen;
 
   public:
-    XY Size; // Größe der Bitmap
+    XY Size; // GrÃ¶ÃŸe der Bitmap
 
   public:
     SBPRIMARYBM() {}
@@ -345,7 +345,7 @@ class SBPRIMARYBM {
     BOOL TextOut(SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CString &String);
 };
 
-// Automatisches Lock/Unlock für SBBM's
+// Automatisches Lock/Unlock fÃ¼r SBBM's
 class SBBMKEY {
   protected:
     // LPDIRECTDRAWSURFACE  lpDDSurface;
@@ -359,7 +359,7 @@ class SBBMKEY {
     ~SBBMKEY();
 };
 
-// Version für Konstante:
+// Version fÃ¼r Konstante:
 class SBBMKEYC {
   protected:
     // LPDIRECTDRAWSURFACE  lpDDSurface;

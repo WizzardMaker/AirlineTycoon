@@ -32,7 +32,7 @@ class CMakler : public CStdRaum {
     SBFX NeonFx;
     SLONG SpringState;
 
-    SBBM TipBm;         // Fenster für Flugzeug-Tips
+    SBBM TipBm;         // Fenster fÃ¼r Flugzeug-Tips
     SLONG CurrentTip{}; // Dieser Tip wird gerade angezeigt
 
     CSmackerPerson SP_Makler;

@@ -12,7 +12,7 @@ class CMuseum : public CStdRaum {
 
     // Attributes
   public:
-    SBBM BlockBm;       // Fenster für Flugzeug-Details
+    SBBM BlockBm;       // Fenster fÃ¼r Flugzeug-Details
     SLONG CurrentTip{}; // Dieser Tip wird gerade angezeigt
     GfxLib *pMenuLib{};
     SBBMS MiniPlanes;
