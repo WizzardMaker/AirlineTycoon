@@ -135,7 +135,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CFlugplanEintrag &Eintrag)
 //============================================================================================
 CFlugplan::CFlugplan ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     NextFlight = -1;
     NextStart  = -1;
@@ -274,8 +274,8 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
         //Normale Passagiere: Aber nicht mehr kurz vor dem Start ändern:
         if (Startdate>Sim.Date || (Startdate==Sim.Date && Sim.GetHour()+1<Startzeit))
         {
-            SLONG c;
-            SLONG tmp;
+            SLONG c = 0;
+            SLONG tmp = 0;
             SLONG Gewichte[4];
             SLONG Gesamtgewicht=0;
 
@@ -386,7 +386,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
             //NetGenericAsync (22002+ObjectId+Sim.Date*100, tmp);
 
             //Image berücksichtigen:
-            SLONG   ImageTotal;
+            SLONG   ImageTotal = 0;
 
             {
                 CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)];
@@ -434,8 +434,8 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
         //Erste Klasse Passagiere: Aber nicht mehr kurz vor dem Start ändern:
         if (Startdate>Sim.Date || (Startdate==Sim.Date && Sim.GetHour()+1<Startzeit))
         {
-            SLONG c;
-            SLONG tmp;
+            SLONG c = 0;
+            SLONG tmp = 0;
             SLONG Gewichte[4];
             SLONG Gesamtgewicht=0;
 
@@ -538,7 +538,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
 }
 
             //Image berücksichtigen:
-            SLONG   ImageTotal;
+            SLONG   ImageTotal = 0;
 
             {
                 CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)];
@@ -589,7 +589,7 @@ void CFlugplanEintrag::CalcPassengers (SLONG PlayerNum, CPlane &qPlane)
 //--------------------------------------------------------------------------------------------
 void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
 {
-    __int64 Saldo;
+    __int64 Saldo = 0;
     SLONG   Einnahmen=0;
     SLONG   Ausgaben=0;
     CString CityString;
@@ -772,8 +772,8 @@ void CFlugplanEintrag::BookFlight (CPlane *Plane, SLONG PlayerNum)
 
         if (Sim.Players.Players[(SLONG)PlayerNum].HasFlownRoutes == 0)
         {
-            SLONG c;
-            SLONG Anz;
+            SLONG c = 0;
+            SLONG Anz = 0;
 
             for (c=Anz=0; c<4; c++) {
                 if (Sim.Players.Players[c].HasFlownRoutes != 0) { Anz++;

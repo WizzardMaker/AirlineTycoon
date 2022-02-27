@@ -196,7 +196,7 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
     }
 
 
-    Packet* p;
+    Packet* p = nullptr;
     if ((p = mMaster->Receive()) != nullptr) { //Game loop network messages:
         if (p == nullptr) {
             return false;

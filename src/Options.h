@@ -28,12 +28,12 @@ class Options : public CStdRaum
         SDL_TimerID     TimerId;
         SB_CFont        VersionFont;
 
-        SLONG           CursorX;
+        SLONG           CursorX{};
         SLONG           CursorY;
         CString         SavegameNames[12];
-        BOOL            SavenamesValid[12];
+        BOOL            SavenamesValid[12]{};
         CString         SavegameInfos[12];
-        FBUFFER<SBBM>* CursorBms;     //Die Eingabemarkierung
+        FBUFFER<SBBM>* CursorBms{};     //Die Eingabemarkierung
         BOOL            BlinkState;
 
         SBFX            AmbientFX;

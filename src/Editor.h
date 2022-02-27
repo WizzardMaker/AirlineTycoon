@@ -114,8 +114,8 @@ class CEditor : public CStdRaum
         XY             GripAtPos2d;
         XY             GripAtPosB2d;
         long           GripRelation;
-        long           GripRelationB;
-        long           GripRelationPart;
+        long           GripRelationB{};
+        long           GripRelationPart{};
 
         SB_CFont       FontBankBlack;
         SB_CFont       FontBankRed;
@@ -129,13 +129,13 @@ class CEditor : public CStdRaum
         BOOL           DragDropMode;
         CString        PartUnderCursor;   //Das Part was dranklebt oder Leerstring
         CString        PartUnderCursorB;  //Der andere Flügel, der ggf. mit dranklebt
-        long           RelationIdUnderCursor;  //Für das Snap-In die passende Relation
+        long           RelationIdUnderCursor{};  //Für das Snap-In die passende Relation
 
-        bool           bBodyOutlined;     //Ist Body markiert?
-        bool           bCockpitOutlined;  //Ist Cockpit markiert?
-        bool           bHeckOutlined;     //Ist Heck markiert?
-        bool           bWingOutlined;     //Sind Flügel markiert?
-        bool           bMotorOutlined;    //Ist Motor markiert?
+        bool           bBodyOutlined{};     //Ist Body markiert?
+        bool           bCockpitOutlined{};  //Ist Cockpit markiert?
+        bool           bHeckOutlined{};     //Ist Heck markiert?
+        bool           bWingOutlined{};     //Sind Flügel markiert?
+        bool           bMotorOutlined{};    //Ist Motor markiert?
 
         bool           bAllowB;
         bool           bAllowC;

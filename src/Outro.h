@@ -17,9 +17,9 @@ class COutro : public CStdRaum
 
         SLONG        FrameNum;
         DWORD        FrameNext;
-        unsigned long Width;
-        unsigned long Height;
-        unsigned char Scale;
+        unsigned long Width{};
+        unsigned long Height{};
+        unsigned char Scale{};
 
         // Overrides
         // ClassWizard generated virtual function overrides

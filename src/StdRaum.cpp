@@ -182,7 +182,7 @@ void UpdateStatusBar ()
 //--------------------------------------------------------------------------------------------
 void SetRoomVisited (SLONG PlayerNum, UBYTE RoomId)
 {
-    SLONG c;
+    SLONG c = 0;
     BOOL  WasAlreadyHere=FALSE;
 
     for (c=0; c<RoomTipTable[c]; c+=2)
@@ -447,7 +447,7 @@ UTF8Toisolat1(unsigned char* out, int outlen, unsigned char* in, int inlen)
     unsigned char* outstart = out;
     unsigned char* outend = out + outlen;
     unsigned char* inend = in + inlen;
-    unsigned char c;
+    unsigned char c = 0;
 
     while (in < inend) {
         c = *in++;
@@ -632,7 +632,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, ULONG SubId, const CString &String
 
     if (((Sim.Options.OptionTalking*Sim.Options.OptionMasterVolume) != 0) && Sim.Options.OptionDigiSound==1)
     {
-        SLONG pl;
+        SLONG pl = 0;
         if (TextAlign==1) { pl = Sim.localPlayer;
         } else { pl = DialogPar1;
 }
@@ -679,7 +679,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubId, 
     TimeBubbleDisplayed = timeGetTime();
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
-    va_list  Vars;
+    va_list  Vars = nullptr;
 
     //Tabelle initialisieren:
     va_start (Vars, Normal);
@@ -701,7 +701,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubId, 
 //--------------------------------------------------------------------------------------------
 void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVon, ULONG SubIdBis, SLONG ParameterIndiziert, SB_CFont *Normal, SB_CFont *Highlight, ...)
 {
-    SLONG c;
+    SLONG c = 0;
 
     CanCancelEmpty = FALSE;
     TimeAtStart = timeGetTime();
@@ -734,7 +734,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVo
     BUFFER<char> TmpString(4096);
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
-    va_list  Vars;
+    va_list  Vars = nullptr;
 
     //Tabelle initialisieren:
     va_start (Vars, Highlight);
@@ -802,7 +802,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVo
 
     if (((Sim.Options.OptionTalking*Sim.Options.OptionMasterVolume) != 0) && SubIdVon==SubIdBis && Sim.Options.OptionDigiSound==1)
     {
-        SLONG pl;
+        SLONG pl = 0;
         if (TextAlign==1) { pl = Sim.localPlayer;
         } else { pl = DialogPar1;
 }
@@ -850,8 +850,8 @@ void CStdRaum::MakeNumberWindow (CString Text)
     }
     else
     {
-        SLONG c;
-        SLONG suby;
+        SLONG c = 0;
+        SLONG suby = 0;
 
         if (pGLib == nullptr)
         {
@@ -906,7 +906,7 @@ void CStdRaum::MakeNumberWindow (const char *GroupId, ULONG SubId, ...)
     BUFFER<char> TmpString(4096);
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
-    va_list  Vars;
+    va_list  Vars = nullptr;
 
     //Tabelle initialisieren:
     va_start (Vars, SubId);
@@ -996,9 +996,9 @@ void CStdRaum::RepaintText (BOOL RefreshAll)
         }
         else
         {
-            ULONG c;
+            ULONG c = 0;
             ULONG Summe=1;
-            ULONG Size;
+            ULONG Size = 0;
 
             if (TextAlign!=0) //unten, vom Spieler
             {
@@ -1057,7 +1057,7 @@ void CStdRaum::RepaintText (BOOL RefreshAll)
 }
 
                     if ((c==CurrentHighlight || CurrentTextSubIdVon==CurrentTextSubIdBis) && (IsInBuro != 0)) {
-                        ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_TALKING, SPM_LISTENING);
+                        (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_TALKING, SPM_LISTENING);
 }
 
                     if (c==CurrentHighlight) { OnscreenBitmap.PrintAt (Optionen[c-CurrentTextSubIdVon], *pFontHighlight, TEC_FONT_LEFT, TextRect.left+18+30, Summe, TextRect.right, TextRect.bottom);
@@ -1160,7 +1160,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
 
     if (IsInBuro != 0)
     {
-        ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_LISTENING, SPM_IDLE);
+        (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_LISTENING, SPM_IDLE);
     }
 
     //Die Farbe des Dialogpartners:
@@ -1169,7 +1169,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
         case TALKER_FRACHT:
             pFontPartner    = &FontDialogPartner;
 
-            pSmackerPartner = &((CFrachtRaum*)this)->SP_Fracht;
+            pSmackerPartner = &(dynamic_cast<CFrachtRaum*>(this))->SP_Fracht;
 
             BubblePos    = XY(556,143-17);
             BubbleStyle  = 1;
@@ -1197,7 +1197,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
         case TALKER_SECURITY:
             pFontPartner    = &FontDialogPartner;
 
-            pSmackerPartner = &((CSecurity*)this)->SP_Secman;
+            pSmackerPartner = &(dynamic_cast<CSecurity*>(this))->SP_Secman;
 
             BubblePos    = XY(328,100);
             BubbleStyle  = 2;
@@ -1217,7 +1217,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
         case TALKER_DESIGNER:
             pFontPartner    = &FontDialogPartner;
 
-            pSmackerPartner = &((CDesigner*)this)->SP_Stan;
+            pSmackerPartner = &(dynamic_cast<CDesigner*>(this))->SP_Stan;
 
             BubblePos    = XY(268,126);
             BubbleStyle  = 0;
@@ -1241,7 +1241,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             {
                 Sim.RoomBusy[ROOM_ARAB_AIR]++;
                 if (DialogMedium==MEDIUM_HANDY && (Sim.Players.Players[PlayerNum].DialogWin != nullptr)) {
-                    pSmackerPartner = &((CArabAir*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Araber;
+                    pSmackerPartner = &(dynamic_cast<CArabAir*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Araber;
 }
 
                 BubblePos    = XY(526,183);
@@ -1249,7 +1249,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CArabAir*)this)->SP_Araber;
+                pSmackerPartner = &(dynamic_cast<CArabAir*>(this))->SP_Araber;
 
                 BubblePos    = XY(486,183);
                 BubbleStyle  = 1;
@@ -1288,7 +1288,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                 Sim.RoomBusy[ROOM_SABOTAGE]++;
                 if (Sim.Players.Players[PlayerNum].DialogWin != nullptr)
                 {
-                    pSmackerPartner = &((CSabotage*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Araber;
+                    pSmackerPartner = &(dynamic_cast<CSabotage*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Araber;
                     ((CStdRaum*)Sim.Players.Players[PlayerNum].DialogWin)->HandyOffset = 367;
                 }
 
@@ -1297,7 +1297,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CSabotage*)this)->SP_Araber;
+                pSmackerPartner = &(dynamic_cast<CSabotage*>(this))->SP_Araber;
 
                 BubblePos    = XY(396,198);
                 BubbleStyle  = 1;
@@ -1342,7 +1342,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                 Sim.RoomBusy[ROOM_BANK]++;
                 if (Sim.Players.Players[PlayerNum].DialogWin != nullptr)
                 {
-                    pSmackerPartner = &((Bank*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Mann;
+                    pSmackerPartner = &(dynamic_cast<Bank*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Mann;
                     ((CStdRaum*)Sim.Players.Players[PlayerNum].DialogWin)->HandyOffset = 367;
                 }
 
@@ -1351,7 +1351,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((Bank*)this)->SP_Mann;
+                pSmackerPartner = &(dynamic_cast<Bank*>(this))->SP_Mann;
 
                 BubblePos    = XY(477,157);
                 BubbleStyle  = 2;
@@ -1378,7 +1378,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                 Sim.RoomBusy[ROOM_BANK]++;
                 if (Sim.Players.Players[PlayerNum].DialogWin != nullptr)
                 {
-                    pSmackerPartner = &((Bank*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Frau;
+                    pSmackerPartner = &(dynamic_cast<Bank*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Frau;
                     ((CStdRaum*)Sim.Players.Players[PlayerNum].DialogWin)->HandyOffset = 50+103;
                 }
 
@@ -1387,7 +1387,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((Bank*)this)->SP_Frau;
+                pSmackerPartner = &(dynamic_cast<Bank*>(this))->SP_Frau;
 
                 BubblePos    = XY(240,147);
                 BubbleStyle  = 2;
@@ -1411,7 +1411,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             {
                 Sim.RoomBusy[ROOM_AUFSICHT]++;
                 if (DialogMedium==MEDIUM_HANDY && (Sim.Players.Players[PlayerNum].DialogWin != nullptr)) {
-                    pSmackerPartner = &((CAufsicht*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Boss;
+                    pSmackerPartner = &(dynamic_cast<CAufsicht*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Boss;
 }
 
                 BubblePos    = XY(470,158);
@@ -1419,11 +1419,11 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CAufsicht*)this)->SP_Boss;
+                pSmackerPartner = &(dynamic_cast<CAufsicht*>(this))->SP_Boss;
 
-                ((CAufsicht*)this)->ExitFromLeft   = -1;
-                ((CAufsicht*)this)->ExitFromMiddle = -1;
-                ((CAufsicht*)this)->ExitFromRight  = -1;
+                (dynamic_cast<CAufsicht*>(this))->ExitFromLeft   = -1;
+                (dynamic_cast<CAufsicht*>(this))->ExitFromMiddle = -1;
+                (dynamic_cast<CAufsicht*>(this))->ExitFromRight  = -1;
 
                 BubblePos    = XY(400,102);  //XY(408,158);
                 BubbleStyle  = 2;            //1;
@@ -1484,7 +1484,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                 Sim.RoomBusy[ROOM_MAKLER]++;
                 if (DialogMedium==MEDIUM_HANDY && (Sim.Players.Players[PlayerNum].DialogWin != nullptr))
                 {
-                    pSmackerPartner = &((CMakler*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Makler;
+                    pSmackerPartner = &(dynamic_cast<CMakler*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Makler;
                     ((CStdRaum*)Sim.Players.Players[PlayerNum].DialogWin)->HandyOffset = 378;
                 }
 
@@ -1493,7 +1493,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CMakler*)this)->SP_Makler;
+                pSmackerPartner = &(dynamic_cast<CMakler*>(this))->SP_Makler;
 
                 BubblePos    = XY(540,200);
                 BubbleStyle  = 2;
@@ -1534,7 +1534,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                 Sim.RoomBusy[ROOM_WERKSTATT]++;
                 if (Sim.Players.Players[PlayerNum].DialogWin != nullptr)
                 {
-                    pSmackerPartner = &((CWerkstatt*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Mann;
+                    pSmackerPartner = &(dynamic_cast<CWerkstatt*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Mann;
                     ((CStdRaum*)Sim.Players.Players[PlayerNum].DialogWin)->HandyOffset = 267-136;
                 }
 
@@ -1543,7 +1543,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CWerkstatt*)this)->SP_Mann;
+                pSmackerPartner = &(dynamic_cast<CWerkstatt*>(this))->SP_Mann;
 
                 BubblePos     = XY(200,203);
                 BubbleStyle   = 2;              //Von Süden
@@ -1581,7 +1581,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                 Sim.RoomBusy[ROOM_MUSEUM]++;
                 if (Sim.Players.Players[PlayerNum].DialogWin != nullptr)
                 {
-                    pSmackerPartner = &((CMuseum*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Mann;
+                    pSmackerPartner = &(dynamic_cast<CMuseum*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Mann;
                     ((CStdRaum*)Sim.Players.Players[PlayerNum].DialogWin)->HandyOffset = 367;
                 }
 
@@ -1590,7 +1590,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CMuseum*)this)->SP_Mann;
+                pSmackerPartner = &(dynamic_cast<CMuseum*>(this))->SP_Mann;
 
                 BubblePos     = XY(440,234);
                 BubbleStyle   = 2;              //Von Süden
@@ -1646,7 +1646,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             {
                 if (Sim.Players.Players[PlayerNum].DialogWin != nullptr)
                 {
-                    pSmackerPartner = &((CPersonal*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Frau;
+                    pSmackerPartner = &(dynamic_cast<CPersonal*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Frau;
                     ((CStdRaum*)Sim.Players.Players[PlayerNum].DialogWin)->HandyOffset = 320;
                 }
 
@@ -1655,7 +1655,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CPersonal*)this)->SP_Frau;
+                pSmackerPartner = &(dynamic_cast<CPersonal*>(this))->SP_Frau;
 
                 BubblePos    = XY(443,208);
                 BubbleStyle  = 1;
@@ -1695,7 +1695,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             {
                 if (Sim.Players.Players[PlayerNum].DialogWin != nullptr)
                 {
-                    pSmackerPartner = &((CPersonal*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Mann;
+                    pSmackerPartner = &(dynamic_cast<CPersonal*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Mann;
                     ((CStdRaum*)Sim.Players.Players[PlayerNum].DialogWin)->HandyOffset = 160;
                 }
 
@@ -1704,7 +1704,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CPersonal*)this)->SP_Mann;
+                pSmackerPartner = &(dynamic_cast<CPersonal*>(this))->SP_Mann;
 
                 BubblePos    = XY(280,144);
                 BubbleStyle  = 3;
@@ -1737,7 +1737,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             {
                 Sim.RoomBusy[ROOM_WERBUNG]++;
                 if (DialogMedium==MEDIUM_HANDY && (Sim.Players.Players[PlayerNum].DialogWin != nullptr)) {
-                    pSmackerPartner = &((CWerbung*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Mann;
+                    pSmackerPartner = &(dynamic_cast<CWerbung*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Mann;
 }
 
                 BubblePos    = XY(526,300);
@@ -1745,7 +1745,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CWerbung*)this)->SP_Mann;
+                pSmackerPartner = &(dynamic_cast<CWerbung*>(this))->SP_Mann;
 
                 BubblePos    = XY(400,250);
                 BubbleStyle  = 2;
@@ -1786,7 +1786,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             {
                 Sim.RoomBusy[ROOM_NASA]++;
                 if (DialogMedium==MEDIUM_HANDY && (Sim.Players.Players[PlayerNum].DialogWin != nullptr)) {
-                    pSmackerPartner = &((CNasa*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Mann;
+                    pSmackerPartner = &(dynamic_cast<CNasa*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Mann;
 }
 
                 BubblePos    = XY(394-44,160-86+218);
@@ -1794,7 +1794,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CNasa*)this)->SP_Mann;
+                pSmackerPartner = &(dynamic_cast<CNasa*>(this))->SP_Mann;
 
                 BubblePos    = XY(394,160-86+40);
                 BubbleStyle  = 2;
@@ -1828,7 +1828,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             {
                 Sim.RoomBusy[ROOM_SHOP1]++;
                 if (DialogMedium==MEDIUM_HANDY && (Sim.Players.Players[PlayerNum].DialogWin != nullptr)) {
-                    pSmackerPartner = &((CDutyFree*)Sim.Players.Players[PlayerNum].DialogWin)->SP_Frau;
+                    pSmackerPartner = &(dynamic_cast<CDutyFree*>(Sim.Players.Players[PlayerNum].DialogWin))->SP_Frau;
 }
 
                 BubblePos    = XY(396,198);
@@ -1836,7 +1836,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             }
             else
             {
-                pSmackerPartner = &((CDutyFree*)this)->SP_Frau;
+                pSmackerPartner = &(dynamic_cast<CDutyFree*>(this))->SP_Frau;
 
                 BubblePos    = XY(396,128);
                 BubbleStyle  = 1;
@@ -1960,7 +1960,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
         case TALKER_RICK:
             pFontPartner = &FontDialogPartner;
 
-            pSmackerPartner = &((CRicks*)this)->SP_Rick;
+            pSmackerPartner = &(dynamic_cast<CRicks*>(this))->SP_Rick;
 
             BubblePos    = XY(540-320,200-95);
             BubbleStyle  = 2;
@@ -1989,7 +1989,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
         case TALKER_TRINKER:
             pFontPartner = &FontDialogPartner;
 
-            pSmackerPartner = &((CRicks*)this)->SP_TrinkerMund;
+            pSmackerPartner = &(dynamic_cast<CRicks*>(this))->SP_TrinkerMund;
 
             BubblePos    = XY(540-60,200-87);
             BubbleStyle  = 2;
@@ -2118,7 +2118,7 @@ void CStdRaum::StopDialog ()
 }
 
         if (IsInBuro != 0) {
-            ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
+            (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_IDLE);
 }
 
         if (DialogPartner!=TALKER_NONE) { Talkers.Talkers[DialogPartner].StopDialog ();
@@ -2140,7 +2140,7 @@ void CStdRaum::StopDialog ()
 //--------------------------------------------------------------------------------------------
 void CStdRaum::InitToolTips ()
 {
-    SLONG c;
+    SLONG c = 0;
     XY    CursorPos = gMousePosition; //Sim.Players.Players[(SLONG)PlayerNum].CursorPos;
 
     gHighlightFontColor = 0;
@@ -2669,7 +2669,7 @@ void CStdRaum::PumpToolTips ()
         {
             Offset = Sim.Players.Players[Sim.localPlayer].Blocks[ULONG(0)].ScreenPos;
 
-            if (((CGlobe*)this)->FensterVisible == 0) { Offset=XY(1000,1000);
+            if ((dynamic_cast<CGlobe*>(this))->FensterVisible == 0) { Offset=XY(1000,1000);
 }
         }
 
@@ -2697,7 +2697,7 @@ void CStdRaum::PostPaint ()
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
     XY     p;
-    SLONG  c;
+    SLONG  c = 0;
     SLONG  Rand=0;
 
     XY CursorPos = qPlayer.CursorPos;
@@ -2812,7 +2812,7 @@ void CStdRaum::PostPaint ()
 
             if (TalkingSpeechFx != 0)
             {
-                dword status;
+                dword status = 0;
                 SpeechFx.pFX->GetStatus (&status);
                 if ((status & DSBSTATUS_PLAYING) != 0u) {
                     SmackerTimeToTalk = timeGetTime()+Optionen[0].GetLength()*2*50;
@@ -2867,7 +2867,7 @@ void CStdRaum::PostPaint ()
                 if (DontDisplayPlayer==-1 && (IsInBuro == 0)) {
                     PrimaryBm.BlitFromT (BeraterBms[qMessages.AktuelleBeraterBitmap][0], 0, qPlayer.Messages.BeraterPosY);
                 } else if (qPlayer.Messages.IsDialogTalking<=0 && (IsInBuro != 0) && (IsDialogOpen() != 0)) {
-                    ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_LISTENING);
+                    (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_LISTENING);
 }
             }
         }
@@ -3011,7 +3011,7 @@ void CStdRaum::PostPaint ()
 }
 
             //Gedankenblase für nachdenkende Netzwerkspieler:
-            if ((IsDialogOpen() != 0) && pSmackerPartner==nullptr || TextAlign!=0 || (pSmackerPartner->GetMood()==SPM_TALKING || (pSmackerPartner->GetMood()==SPM_LISTENING && TextAlign==0)))
+            if (((IsDialogOpen() != 0) && pSmackerPartner==nullptr) || TextAlign!=0 || (pSmackerPartner->GetMood()==SPM_TALKING || (pSmackerPartner->GetMood()==SPM_LISTENING && TextAlign==0)))
             {
                 if (OnscreenBitmap.pBitmap==nullptr)
                 {
@@ -3145,7 +3145,7 @@ void CStdRaum::PostPaint ()
                 if (DontDisplayPlayer==-1 && (IsInBuro == 0)) {
                     PrimaryBm.BlitFromT (BeraterBms[qMessages.AktuelleBeraterBitmap]["\x0\x2\x1\x3\x2\x3\x0\x1\x2"[static_cast<int>(TalkingSpeechFx==0||SpeechFx.pFX->IsMouthOpen(200))*((qMessages.TalkPhase/3)&7)]+static_cast<int>(DialogMedium==MEDIUM_HANDY)*4], 0, qMessages.BeraterPosY);
                 } else if ((qPlayer.Messages.IsDialogTalking<=0 || ((TalkingSpeechFx != 0) && !SpeechFx.pFX->IsMouthOpen(200))) && (IsInBuro != 0) && (IsDialogOpen() != 0)) {
-                    ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_LISTENING);
+                    (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_LISTENING);
 }
 
             if (qMessages.Messages[(SLONG)0].Message.GetLength()>0 && qMessages.AktuellerBeraterTyp<100)
@@ -3243,7 +3243,7 @@ void CStdRaum::PostPaint ()
             }
             else
             {
-                SLONG x;
+                SLONG x = 0;
 
                 do
                 {
@@ -3285,7 +3285,7 @@ void CStdRaum::PostPaint ()
 
     if ((IsDialogOpen() != 0) && (CurrentTextSubIdVon==CurrentTextSubIdBis || CurrentTextSubIdBis==0) && (TalkingSpeechFx != 0))
     {
-        dword status;
+        dword status = 0;
         SpeechFx.pFX->GetStatus (&status);
         if ((status & DSBSTATUS_PLAYING)==0 && ReadyToStartSpeechFx==0)
         {
@@ -3321,7 +3321,7 @@ void CStdRaum::CheckHighlight (const CPoint& point)
     //Falls wir hier ein Auswahlmenü haben:
     if ((CurrentTextSubIdBis != 0u) && CurrentTextSubIdVon!=CurrentTextSubIdBis)
     {
-        ULONG c;
+        ULONG c = 0;
         ULONG Summe=1;
 
         if (TextAlign!=0)
@@ -3419,7 +3419,7 @@ void CStdRaum::OnLButtonDblClk(UINT /*unused*/, CPoint point)
                                 else
                                 {
                                     SLONG n=Workers.GetQualityRatio (MenuRemapper[MenuPage-1]);
-                                    SLONG Smiley;
+                                    SLONG Smiley = 0;
 
                                     if (Workers.Workers[MenuRemapper[MenuPage-1]].Talent<=25) { n=1006; Smiley=SMILEY_BAD; }
                                     else if (Workers.Workers[MenuRemapper[MenuPage-1]].Talent<=45) { n=1007; Smiley=SMILEY_BAD; }
@@ -3544,7 +3544,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point)
     //Klick ins Inventar?
     else if (point.x>=WinP1.x+(WinP2.x-WinP1.x)*4/10 && point.y>=WinP2.y-StatusLineSizeY && point.x<634 && point.y<WinP2.y)
     {
-        SLONG ItemIndex;
+        SLONG ItemIndex = 0;
 
         ItemIndex = (point.x-250)/60;
 
@@ -3570,8 +3570,8 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point)
                     {
                         if (qPlayer.GetRoom()==ROOM_BURO_A+PlayerNum*10)
                         {
-                            ((CBuero*)this)->KommVarTelefon=1;
-                            ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_LISTENING);
+                            (dynamic_cast<CBuero*>(this))->KommVarTelefon=1;
+                            (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_LISTENING);
                         }
                         else
                         {
@@ -4046,7 +4046,7 @@ void CStdRaum::OnRButtonDown(UINT nFlags, CPoint point)
     //Klick ins Inventar?
     else if (point.x>=WinP1.x+(WinP2.x-WinP1.x)*4/10 && point.y>=WinP2.y-StatusLineSizeY && point.x<634 && point.y<WinP2.y && CurrentMenu==MENU_NONE && DialogPartner==TALKER_NONE)
     {
-        SLONG ItemIndex;
+        SLONG ItemIndex = 0;
 
         ItemIndex = (point.x-250)/60;
 
@@ -4135,7 +4135,7 @@ void CStdRaum::OnPaint(BOOL bHandyDialog)
     }
 
     {
-        SLONG   c;
+        SLONG   c = 0;
 
         //Wird hier abgeschaltet und jedesmal wieder neu eingeschaltet. Oder auch nicht...
         CurrentTipType = TIP_NONE;
@@ -4335,7 +4335,7 @@ BOOL CStdRaum::ConvertMousePosition (const XY &WindowsBased, XY *RoomBased) cons
 //--------------------------------------------------------------------------------------------
 void CStdRaum::MenuStart (SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG MenuPar3)
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (MenuType==MENU_ENTERPROTECT && (DoesFileExist(FullFilename (CString("S")+"a"+"b"+"b"+"e"+"l"+"."+"d"+"o"+"t", MiscPath)) != 0)) {
         return;
@@ -4403,7 +4403,7 @@ void CStdRaum::MenuStart (SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG 
         case MENU_FILOFAX:
             if (MenuPar1==2 && Sim.Players.Players[PlayerNum].GetRoom()==ROOM_BURO_A+PlayerNum*10)
             {
-                ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_LISTENING, SPM_IDLE);
+                (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_LISTENING, SPM_IDLE);
             }
             if (MenuPar1==1) { pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("adressen.gli", GliPath), &pMenuLib1, L_LOCMEM);
 }
@@ -4537,7 +4537,7 @@ void CStdRaum::MenuStart (SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG 
                 PLAYER &qPlayer=Sim.Players.Players[Sim.localPlayer];
                 pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("rename.gli", GliPath), &pMenuLib1, L_LOCMEM);
                 MenuBms.ReSize(pMenuLib1, "MENU");
-                if (qPlayer.GetRoom()==ROOM_EDITOR) { Optionen[0]=((CEditor*)qPlayer.LocationWin)->Plane.Name;
+                if (qPlayer.GetRoom()==ROOM_EDITOR) { Optionen[0]=(dynamic_cast<CEditor*>(qPlayer.LocationWin))->Plane.Name;
 }
                 OnscreenBitmap.ReSize (MenuBms[0].Size);
             }
@@ -4769,15 +4769,15 @@ void CStdRaum::MenuStart (SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG 
 //--------------------------------------------------------------------------------------------
 void CStdRaum::MenuRepaint ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     switch (CurrentMenu)
     {
         case MENU_BANK:
             if (Sim.Players.Players[PlayerNum].GetRoom()==ROOM_BANK)
             {
-                SB_CFont &qFontBankBlack = ((Bank*)this)->FontBankBlack;
-                SB_CFont &qFontBankRed   = ((Bank*)this)->FontBankRed;
+                SB_CFont &qFontBankBlack = (dynamic_cast<Bank*>(this))->FontBankBlack;
+                SB_CFont &qFontBankRed   = (dynamic_cast<Bank*>(this))->FontBankRed;
 
                 OnscreenBitmap.BlitFrom (MenuBms[0]);
 
@@ -4881,12 +4881,12 @@ void CStdRaum::MenuRepaint ()
 
         case MENU_BRANCHLIST:
             {
-                SLONG n;
+                SLONG n = 0;
 
                 for (c=n=0; c<(SLONG)Cities.AnzEntries(); c++) {
                     if (Cities.IsInAlbum(c) != 0)
                     {
-                        SLONG d;
+                        SLONG d = 0;
                         SLONG coop=0;
 
                         for (d=0; d<4; d++) {
@@ -4905,7 +4905,7 @@ void CStdRaum::MenuRepaint ()
                 for (c=n=0; c<(SLONG)Cities.AnzEntries(); c++) {
                     if (Cities.IsInAlbum(c) != 0)
                     {
-                        SLONG d;
+                        SLONG d = 0;
                         SLONG coop=0;
 
                         for (d=0; d<4; d++) {
@@ -5052,7 +5052,7 @@ void CStdRaum::MenuRepaint ()
 
         case MENU_PLANEREPAIRS:
             {
-                SLONG c;
+                SLONG c = 0;
 
                 PLAYER &qPlayer=Sim.Players.Players[Sim.localPlayer];
 
@@ -5099,7 +5099,7 @@ void CStdRaum::MenuRepaint ()
 
         case MENU_SECURITY: //==>+<==
             {
-                SLONG c;
+                SLONG c = 0;
 
                 PLAYER &qPlayer=Sim.Players.Players[Sim.localPlayer];
 
@@ -5147,7 +5147,7 @@ void CStdRaum::MenuRepaint ()
 
         case MENU_PANNEN:
             {
-                SLONG c;
+                SLONG c = 0;
 
                 PLAYER &qPlayer=Sim.Players.Players[Sim.localPlayer];
 
@@ -5308,7 +5308,7 @@ void CStdRaum::MenuRepaint ()
                 PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
                 OnscreenBitmap.BlitFrom (MenuBms[0]);
-                OnscreenBitmap.PrintAt (bprintf (StandardTexte.GetS (TOKEN_MISC, 3099), (LPCTSTR)(CString)((CEditor*)qPlayer.LocationWin)->Plane.Name), FontBigGrey, TEC_FONT_LEFT, 10, 10, 280, 190);
+                OnscreenBitmap.PrintAt (bprintf (StandardTexte.GetS (TOKEN_MISC, 3099), (LPCTSTR)(CString)(dynamic_cast<CEditor*>(qPlayer.LocationWin))->Plane.Name), FontBigGrey, TEC_FONT_LEFT, 10, 10, 280, 190);
                 OnscreenBitmap.PrintAt (StandardTexte.GetS (TOKEN_MISC, 3002), FontBigGrey, TEC_FONT_LEFT, 16, 160, 274, 190);
                 OnscreenBitmap.PrintAt (StandardTexte.GetS (TOKEN_MISC, 3003), FontBigGrey, TEC_FONT_RIGHT, 16, 160, 274, 190);
                 OnscreenBitmap.PrintAt (Optionen[0]+"_", FontSmallBlack, TEC_FONT_LEFT, 26, 141, 268, 155);
@@ -5449,7 +5449,7 @@ void CStdRaum::MenuRepaint ()
 }
 
                 __int64 Rabatt=0;
-                __int64 Kosten;
+                __int64 Kosten = 0;
 
                 Kosten=__int64(Kerosinpreis)*__int64(MenuPar2);
 
@@ -5487,7 +5487,7 @@ void CStdRaum::MenuRepaint ()
 
                 OnscreenBitmap.PrintAt (StandardTexte.GetS (TOKEN_TANK, 2030), FontSmallBlack, TEC_FONT_LEFT, 36, 120, 325, 167);
 
-                SLONG _tank;
+                SLONG _tank = 0;
                 if (Sim.Players.Players[(SLONG)PlayerNum].Tank==0) {
                     _tank=9999999;
                 } else {
@@ -5522,8 +5522,8 @@ void CStdRaum::MenuRepaint ()
         case MENU_SETRENDITE:
             if (Sim.Players.Players[PlayerNum].GetRoom()==ROOM_BANK)
             {
-                SB_CFont &qFontBankBlack = ((Bank*)this)->FontBankBlack;
-                SB_CFont &qFontBankRed   = ((Bank*)this)->FontBankRed;
+                SB_CFont &qFontBankBlack = (dynamic_cast<Bank*>(this))->FontBankBlack;
+                SB_CFont &qFontBankRed   = (dynamic_cast<Bank*>(this))->FontBankRed;
 
                 OnscreenBitmap.BlitFrom (MenuBms[0]);
                 OnscreenBitmap.PrintAt (StandardTexte.GetS (TOKEN_AKTIE, 2000), qFontBankRed, TEC_FONT_LEFT, 56, 10, 325, 113);
@@ -5539,7 +5539,7 @@ void CStdRaum::MenuRepaint ()
         case MENU_AKTIE:
             if (Sim.Players.Players[PlayerNum].GetRoom()==ROOM_BANK)
             {
-                SLONG neu;
+                SLONG neu = 0;
 
                 SLONG Max=Sim.Players.Players[MenuPar1].AnzAktien;
                 for (SLONG c=0; c<4; c++) {
@@ -5548,8 +5548,8 @@ void CStdRaum::MenuRepaint ()
 }
 }
 
-                SB_CFont &qFontBankBlack = ((Bank*)this)->FontBankBlack;
-                SB_CFont &qFontBankRed   = ((Bank*)this)->FontBankRed;
+                SB_CFont &qFontBankBlack = (dynamic_cast<Bank*>(this))->FontBankBlack;
+                SB_CFont &qFontBankRed   = (dynamic_cast<Bank*>(this))->FontBankRed;
 
                 if (MenuPar2==0) { neu=Sim.Players.Players[(SLONG)PlayerNum].OwnsAktien[MenuPar1]+MenuInfo;
                 } else { neu=Sim.Players.Players[(SLONG)PlayerNum].OwnsAktien[MenuPar1]-MenuInfo;
@@ -5615,7 +5615,7 @@ void CStdRaum::MenuRepaint ()
             //Texte reinschreiben:
             {
                 SLONG Time=Sim.GetHour()-1;
-                SLONG pass;
+                SLONG pass = 0;
                 SLONG py=0;
 
                 OnscreenBitmap.PrintAt (Cities[Sim.HomeAirportId].Name, FontSmallWhiteX, TEC_FONT_CENTERED, 8+55, 46-14, 310, 243);
@@ -5627,10 +5627,10 @@ void CStdRaum::MenuRepaint ()
                 OnscreenBitmap.PrintAt (StandardTexte.GetS (TOKEN_MISC, 1501), FontSmallWhiteX, TEC_FONT_LEFT, 8+115, 151+3, 310, 243+3);
                 OnscreenBitmap.PrintAt (StandardTexte.GetS (TOKEN_MISC, 1503), FontSmallWhiteX, TEC_FONT_LEFT, 280, 151+3, 320, 243+3);
 
-                SLONG c;
-                SLONG d;
-                SLONG e;
-                CFlugplan *Plan;
+                SLONG c = 0;
+                SLONG d = 0;
+                SLONG e = 0;
+                CFlugplan *Plan = nullptr;
 
                 //Arrivals:
                 for (pass=1; pass<48; pass++)
@@ -5934,9 +5934,9 @@ void CStdRaum::MenuRepaint ()
                         }
 
                         //Äußerung zu den Flugzeugen:
-                        SLONG d;
-                        SLONG tmp;
-                        SLONG tmp2;
+                        SLONG d = 0;
+                        SLONG tmp = 0;
+                        SLONG tmp2 = 0;
                         for (d=tmp=tmp2=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++) {
                             if (qPlayer.Planes.IsInAlbum(d) != 0)
                             {
@@ -6536,7 +6536,7 @@ phone_busy:
             else if (MouseClickPar1==-2) { MenuPage++; MenuRepaint(); gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7); }
             else if (MouseClickArea==-101)
             {
-                SLONG c;
+                SLONG c = 0;
 
                 MenuStop ();
 
@@ -6644,7 +6644,7 @@ phone_busy:
                                 DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
                             }
                             if (qPlayer.GetRoom()==ROOM_BURO_A+PlayerNum*10) {
-                                ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
+                                (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_IDLE);
 }
                         }
                         else if ((bHandy==0 && qOther.GetRoom()!=ROOM_BURO_A+MouseClickPar2*10) || (qOther.IsStuck != 0))
@@ -6655,7 +6655,7 @@ phone_busy:
                                 DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
                             }
                             if (qPlayer.GetRoom()==ROOM_BURO_A+PlayerNum*10) {
-                                ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
+                                (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_IDLE);
 }
                         }
                         else if (qOther.IsTalking != 0)
@@ -6666,7 +6666,7 @@ phone_busy:
                                 DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
                             }
                             if (qPlayer.GetRoom()==ROOM_BURO_A+PlayerNum*10) {
-                                ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
+                                (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_IDLE);
 }
                         }
                         else if (qOther.BoredOfPlayer != 0)
@@ -6677,7 +6677,7 @@ phone_busy:
                                 DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
                             }
                             if (qPlayer.GetRoom()==ROOM_BURO_A+PlayerNum*10) {
-                                ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
+                                (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_IDLE);
 }
                         }
                         else
@@ -6890,7 +6890,7 @@ phone_busy:
                         } else
                         {
                             SLONG n=Workers.GetQualityRatio (MenuRemapper[MenuPage-1]);
-                            SLONG Smiley;
+                            SLONG Smiley = 0;
 
                             if (Workers.Workers[MenuRemapper[MenuPage-1]].Talent<=25) { n=1006; Smiley=SMILEY_BAD; }
                             else if (Workers.Workers[MenuRemapper[MenuPage-1]].Talent<=45) { n=1007; Smiley=SMILEY_BAD; }
@@ -7428,7 +7428,7 @@ phone_busy:
 
                         if ((qPlayer.LocationWin != nullptr) && (qPlayer.GetRoom()==ROOM_LAPTOP || qPlayer.GetRoom()==ROOM_GLOBE))
                         {
-                            CPlaner &qPlaner=*(CPlaner*)(qPlayer.LocationWin);
+                            CPlaner &qPlaner=*dynamic_cast<CPlaner*>(qPlayer.LocationWin);
 
                             if (qPlaner.CurrentPostItType==1 && (qPlaner.CurrentPostItId==(SLONG)Routen.GetIdFromIndex(MenuPar2) || qPlaner.CurrentPostItId==(SLONG)Routen.GetIdFromIndex(MenuPar3))) {
                                 qPlaner.CurrentPostItType=0;
@@ -7443,7 +7443,7 @@ phone_busy:
 
                         if (qPlayer.GetRoom()==ROOM_ROUTEBOX) {
                             if (qPlayer.LocationWin != nullptr) {
-                                ((CRouteBox*)qPlayer.LocationWin)->UpdateDataTable();
+                                (dynamic_cast<CRouteBox*>(qPlayer.LocationWin))->UpdateDataTable();
 }
 }
 
@@ -7456,7 +7456,7 @@ phone_busy:
                 case MENU_REQUEST_RENTROUTE:
                     if (MouseClickArea==-101 && MouseClickId==MENU_REQUEST && MouseClickPar1==1)
                     {
-                        SLONG d;
+                        SLONG d = 0;
                         SLONG Rang=1;
 
                         for (d=0; d<4; d++) {
@@ -7476,7 +7476,7 @@ phone_busy:
 
                         if (qPlayer.GetRoom()==ROOM_ROUTEBOX) {
                             if (qPlayer.LocationWin != nullptr) {
-                                ((CRouteBox*)qPlayer.LocationWin)->UpdateDataTable ();
+                                (dynamic_cast<CRouteBox*>(qPlayer.LocationWin))->UpdateDataTable ();
 }
 }
 
@@ -7502,7 +7502,7 @@ phone_busy:
 
                         if ((qPlayer.LocationWin != nullptr) && (qPlayer.GetRoom()==ROOM_LAPTOP || qPlayer.GetRoom()==ROOM_GLOBE))
                         {
-                            CPlaner &qPlaner=*(CPlaner*)(qPlayer.LocationWin);
+                            CPlaner &qPlaner=*dynamic_cast<CPlaner*>(qPlayer.LocationWin);
 
                             if (qPlaner.CurrentPostItType==2 && qPlaner.CurrentPostItId==(SLONG)qPlayer.Auftraege.GetIdFromIndex(MenuPar2)) {
                                 qPlaner.CurrentPostItType=0;
@@ -7535,7 +7535,7 @@ phone_busy:
 
                         if ((qPlayer.LocationWin != nullptr) && (qPlayer.GetRoom()==ROOM_LAPTOP || qPlayer.GetRoom()==ROOM_GLOBE))
                         {
-                            CPlaner &qPlaner=*(CPlaner*)(qPlayer.LocationWin);
+                            CPlaner &qPlaner=*dynamic_cast<CPlaner*>(qPlayer.LocationWin);
 
                             if (qPlaner.CurrentPostItType==2 && qPlaner.CurrentPostItId==(SLONG)qPlayer.Auftraege.GetIdFromIndex(MenuPar2)) {
                                 qPlaner.CurrentPostItType=0;
@@ -7565,7 +7565,7 @@ phone_busy:
 
                         if ((qPlayer.LocationWin != nullptr) && (qPlayer.GetRoom()==ROOM_LAPTOP || qPlayer.GetRoom()==ROOM_GLOBE))
                         {
-                            CPlaner &qPlaner=*(CPlaner*)(qPlayer.LocationWin);
+                            CPlaner &qPlaner=*dynamic_cast<CPlaner*>(qPlayer.LocationWin);
 
                             if (qPlaner.CurrentPostItType==2 && qPlaner.CurrentPostItId==(SLONG)qPlayer.Frachten.GetIdFromIndex(MenuPar2)) {
                                 qPlaner.CurrentPostItType=0;
@@ -7601,7 +7601,7 @@ phone_busy:
 
                         if ((qPlayer.LocationWin != nullptr) && (qPlayer.GetRoom()==ROOM_LAPTOP || qPlayer.GetRoom()==ROOM_GLOBE))
                         {
-                            CPlaner &qPlaner=*(CPlaner*)(qPlayer.LocationWin);
+                            CPlaner &qPlaner=*dynamic_cast<CPlaner*>(qPlayer.LocationWin);
 
                             if (qPlaner.CurrentPostItType==2 && qPlaner.CurrentPostItId==(SLONG)qPlayer.Frachten.GetIdFromIndex(MenuPar2)) {
                                 qPlaner.CurrentPostItType=0;
@@ -7662,7 +7662,7 @@ phone_busy:
 
                         Sim.Players.Players[Sim.localPlayer].UpdateAuftragsUsage();
                         Sim.Players.Players[Sim.localPlayer].UpdateFrachtauftragsUsage();
-                        Sim.Players.Players[Sim.localPlayer].Blocks.RefreshAuftragsBloecke (PlayerNum, ((CPlaner*)this)->IsLaptop);
+                        Sim.Players.Players[Sim.localPlayer].Blocks.RefreshAuftragsBloecke (PlayerNum, (dynamic_cast<CPlaner*>(this))->IsLaptop);
                         Sim.Players.Players[Sim.localPlayer].Planes[MenuPar2].CheckFlugplaene(PlayerNum, FALSE);
                         Sim.Players.Players[Sim.localPlayer].Blocks.RepaintAll=TRUE;
                     }
@@ -7675,7 +7675,7 @@ phone_busy:
                     {
                         if ((qPlayer.LocationWin != nullptr) && qPlayer.GetRoom()==ROOM_EDITOR)
                         {
-                            CEditor &qEditor=*(CEditor*)(qPlayer.LocationWin);
+                            CEditor &qEditor=*dynamic_cast<CEditor*>(qPlayer.LocationWin);
 
                             if (MenuPar2==77) { qEditor.DeleteCurrent();
                             } else {              qEditor.Plane.Clear();
@@ -7713,7 +7713,7 @@ phone_busy:
                 qPlayer.Letters.Letters[MenuPage].Date=-1;
                 qPlayer.Letters.SortLetters();
                 if (qPlayer.Letters.AnzLetters()==0) {
-                    ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
+                    (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_IDLE);
                 } else
                 {
                     if (MenuPage>qPlayer.Letters.AnzLetters()-1) {
@@ -7724,7 +7724,7 @@ phone_busy:
             }
             else if (MouseClickArea==-100 && MouseClickId==10)
             {
-                ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
+                (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_IDLE);
                 //MenuStop();
             }
             else if (MouseClickArea==-100 && MouseClickId==3)
@@ -7815,7 +7815,7 @@ phone_busy:
             if (MouseClickArea==-101 && MouseClickId==MENU_RENAMEEDITPLANE && MouseClickPar1==1 && qPlayer.GetRoom()==ROOM_EDITOR)
             {
                 MenuStop ();
-                ((CEditor*)qPlayer.LocationWin)->Plane.Name=Optionen[0];
+                (dynamic_cast<CEditor*>(qPlayer.LocationWin))->Plane.Name=Optionen[0];
             }
             if (MouseClickArea==-101 && MouseClickId==MENU_RENAMEEDITPLANE && MouseClickPar1==2) { MenuStop ();
 }
@@ -8043,7 +8043,7 @@ phone_busy:
 
             if (MouseClickArea==-101 && MouseClickId==MENU_CHAT && MouseClickPar1==2)
             {
-                SLONG c;
+                SLONG c = 0;
 
                 //Sind nur Zahlen im Text?
                 for (c=strlen(Optionen[0])-1; c>=0; c--) {
@@ -8099,7 +8099,7 @@ phone_busy:
                     StartDialog (TALKER_BOSS, MEDIUM_AIR, 30);
                 }
                 else {
-                    ((CAufsicht*)this)->TryLeaveAufsicht();
+                    (dynamic_cast<CAufsicht*>(this))->TryLeaveAufsicht();
 }
             }
             break;
@@ -8146,7 +8146,7 @@ void CStdRaum::MenuRightClick (XY /*unused*/)
 
     if (CurrentMenu==MENU_LETTERS)
     {
-        ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
+        (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_IDLE);
         return;
     }
     if (CurrentMenu==MENU_REQUEST && MenuPar1==MENU_REQUEST_CALLITADAY)
@@ -8257,7 +8257,7 @@ void CStdRaum::MenuStop ()
 
     if (CurrentMenu==MENU_LETTERS || (CurrentMenu==MENU_FILOFAX && MenuPar1!=1 && qPlayer.GetRoom()==ROOM_BURO_A+PlayerNum*10))
     {
-        ((CBuero*)this)->SP_Player.SetDesiredMood (SPM_IDLE);
+        (dynamic_cast<CBuero*>(this))->SP_Player.SetDesiredMood (SPM_IDLE);
     }
 
     if (CurrentMenu==MENU_AUSLANDSAUFTRAG && qPlayer.CalledCities[MenuPar1]==0) { MenuDialogReEntryB=5000;
@@ -8357,8 +8357,8 @@ void CStdRaum::CalcRepaint ()
 {
     if (CalculatorIsOpen != 0)
     {
-        SLONG c;
-        SLONG n;
+        SLONG c = 0;
+        SLONG n = 0;
 
         PrimaryBm.BlitFromT (CalculatorBms[0], CalculatorPos);
 
@@ -8504,7 +8504,7 @@ void CStdRaum::CalcStop (BOOL Cancel)
 //--------------------------------------------------------------------------------------------
 void CStdRaum::CalcClick ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     XY Pos=gMousePosition-CalculatorPos;
 
@@ -8738,7 +8738,7 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
                 else if (CurrentMenu == MENU_RENAMEEDITPLANE && qPlayer.GetRoom() == ROOM_EDITOR)
                 {
                     MenuStop();
-                    ((CEditor*)qPlayer.LocationWin)->Plane.Name = Optionen[0];
+                    (dynamic_cast<CEditor*>(qPlayer.LocationWin))->Plane.Name = Optionen[0];
                 }
             }
         }

@@ -18,13 +18,13 @@ class CAufsicht : public CStdRaum
 
         CSmackerPerson SP_Boss;
         CSmackerPerson SP_Player[4];
-        BOOL           IsOut[4];
+        BOOL           IsOut[4]{};
 
         BOOL           bOkayToAct;          //Spieler darf morgends nur handeln, wenn alle Spieler hier sind oder waren
 
         CSmackerPerson SP_Halo[4];
-        SLONG          HaloKomm[4];
-        SLONG          PersonHaloKomm[4];
+        SLONG          HaloKomm[4]{};
+        SLONG          PersonHaloKomm[4]{};
 
         // Attributes
     public:

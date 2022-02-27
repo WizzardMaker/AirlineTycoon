@@ -13,8 +13,8 @@ class HallDiskMenu : public CStdRaum
         // Attributes
     public:
         SBBM           MenuBm;
-        GfxLib        *pMenuLib;
-        BOOL           bFiles[10*10];
+        GfxLib        *pMenuLib{};
+        BOOL           bFiles[10*10]{};
 
         // Operations
     public:

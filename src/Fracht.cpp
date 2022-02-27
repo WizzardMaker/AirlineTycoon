@@ -205,7 +205,7 @@ void CFrachtRaum::OnPaint()
     if (!bCanPaint) { return;
 }
 
-    SLONG c;
+    SLONG c = 0;
     XY    RoomPos;
     BOOL  RemoveTip=TRUE;
     BOOL  IsOverPaper=FALSE;
@@ -345,7 +345,7 @@ void CFrachtRaum::OnPaint()
 //--------------------------------------------------------------------------------------------
 void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    SLONG   c;
+    SLONG   c = 0;
     XY      RoomPos;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
@@ -474,7 +474,7 @@ void CFrachtRaum::RepaintZettel (SLONG n)
 //--------------------------------------------------------------------------------------------
 void CFracht::BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page) const
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (Tagesansicht != 0)
     {
@@ -834,7 +834,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CFracht &Fracht)
 //============================================================================================
 void CFrachten::Fill ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     CalcPlayerMaximums ();
 
@@ -856,7 +856,7 @@ void CFrachten::Fill ()
 //--------------------------------------------------------------------------------------------
 void CFrachten::Refill (SLONG Minimum)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz = min (Fracht.AnzEntries(), Sim.TickFrachtRefill);
 
     CalcPlayerMaximums ();
@@ -907,7 +907,7 @@ void CFrachten::Refill (SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 SLONG CFrachten::GetNumDueToday ()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz=0;
 
     for (c=0; c<Fracht.AnzEntries(); c++) {
@@ -926,7 +926,7 @@ SLONG CFrachten::GetNumDueToday ()
 //--------------------------------------------------------------------------------------------
 SLONG CFrachten::GetNumOpen ()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz=0;
 
     for (c=0; c<Fracht.AnzEntries(); c++) {
@@ -972,8 +972,8 @@ void PLAYER::CheckAuftragsBerater (const CFracht &Fracht)
     if (HasBerater(BERATERTYP_AUFTRAG) != 0)
     {
         SLONG Cost=((CalculateFlightCost (Fracht.VonCity, Fracht.NachCity, 8000, 700, -1))+99)/100*100;
-        SLONG d;
-        SLONG Okay;
+        SLONG d = 0;
+        SLONG Okay = 0;
 
         for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++) {
             if (Planes.IsInAlbum(d) != 0) {
@@ -1172,7 +1172,7 @@ too_large:
 //--------------------------------------------------------------------------------------------
 void CFrachten::RefillForAusland (SLONG CityNum, SLONG Minimum)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz = min (Fracht.AnzEntries(), AuslandsFRefill[CityNum]);
 
     CalcPlayerMaximums ();
@@ -1217,7 +1217,7 @@ void CFrachten::RefillForAusland (SLONG CityNum, SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 void CFrachten::FillForAusland (SLONG CityNum)
 {
-    SLONG c;
+    SLONG c = 0;
 
     CalcPlayerMaximums ();
 

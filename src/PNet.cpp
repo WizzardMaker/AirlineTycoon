@@ -13,8 +13,8 @@ SLONG PLAYER::NetSynchronizeGetNum ()
 {
     if (Sim.bIsHost != 0)
     {
-        SLONG c;
-        SLONG n;
+        SLONG c = 0;
+        SLONG n = 0;
 
         n=1;
         for (c=0; c<4; c++) {
@@ -34,7 +34,7 @@ SLONG PLAYER::NetSynchronizeGetNum ()
 void PLAYER::NetSynchronizeImage ()
 {
     TEAKFILE Message;
-    SLONG    c;
+    SLONG    c = 0;
 
     Message.Announce(1024);
 
@@ -47,7 +47,7 @@ void PLAYER::NetSynchronizeImage ()
 
         if (qPlayer.Owner==0 || ((Sim.bIsHost != 0) && qPlayer.Owner==1 && (qPlayer.IsOut == 0)))
         {
-            SLONG d;
+            SLONG d = 0;
 
             Message << c << qPlayer.Image << qPlayer.ImageGotWorse;
 
@@ -70,7 +70,7 @@ void PLAYER::NetSynchronizeImage ()
 void PLAYER::NetSynchronizeMoney ()
 {
     TEAKFILE Message;
-    SLONG    c;
+    SLONG    c = 0;
 
     Message.Announce(256);
 
@@ -83,7 +83,7 @@ void PLAYER::NetSynchronizeMoney ()
 
         if (qPlayer.Owner==0 || ((Sim.bIsHost != 0) && qPlayer.Owner==1 && (qPlayer.IsOut == 0)))
         {
-            SLONG d;
+            SLONG d = 0;
 
             Message << c;
 
@@ -107,7 +107,7 @@ void PLAYER::NetSynchronizeMoney ()
 void PLAYER::NetSynchronizeRoutes ()
 {
     TEAKFILE Message;
-    SLONG    c;
+    SLONG    c = 0;
 
     Message.Announce(1024);
 
@@ -150,7 +150,7 @@ void PLAYER::NetRouteUpdateTicketpreise (SLONG RouteId, SLONG Ticketpreis, SLONG
 void PLAYER::NetSynchronizeFlags ()
 {
     TEAKFILE Message;
-    SLONG    c;
+    SLONG    c = 0;
 
     Message.Announce(64);
 
@@ -183,7 +183,7 @@ void PLAYER::NetSynchronizeFlags ()
 void PLAYER::NetSynchronizeItems ()
 {
     TEAKFILE Message;
-    SLONG    c;
+    SLONG    c = 0;
 
     Message.Announce(64);
 
@@ -215,7 +215,7 @@ void PLAYER::NetSynchronizePlanes ()
     if (Sim.bIsHost != 0)
     {
         TEAKFILE Message;
-        SLONG    c;
+        SLONG    c = 0;
 
         Message.Announce(1024);
 
@@ -253,7 +253,7 @@ void PLAYER::NetSynchronizePlanes ()
 void PLAYER::NetSynchronizeMeeting ()
 {
     TEAKFILE Message;
-    SLONG    c;
+    SLONG    c = 0;
 
     Message.Announce(64);
 
@@ -414,9 +414,9 @@ void PLAYER::NetSynchronizeKooperation () const
 void PLAYER::NetUpdateWorkers ()
 {
     TEAKFILE Message;
-    SLONG    m;
-    SLONG    n;
-    SLONG    c;
+    SLONG    m = 0;
+    SLONG    n = 0;
+    SLONG    c = 0;
 
     if (bgIsLoadingSavegame) { return;
 }
@@ -449,8 +449,8 @@ void PLAYER::NetUpdateWorkers ()
 
     if (Owner==0)
     {
-        SLONG c;
-        SLONG d;
+        SLONG c = 0;
+        SLONG d = 0;
 
         for (c=d=0; c<Workers.Workers.AnzEntries(); c++) {
             if (Workers.Workers[c].Employer==PlayerNum) { d+=Workers.Workers[c].Gehalt;

@@ -37,41 +37,41 @@ class NewGamePopup : public CStdRaum
             MP_LOADING = 99,
         };
 
-        BOOL            TimerFailure;
+        BOOL            TimerFailure{};
         PAGE_TYPE       PageNum;       //Seite 1 oder 2
-        SLONG           PageSub;       //Sub-Id für die Seite
-        SLONG           bad;
+        SLONG           PageSub{};       //Sub-Id für die Seite
+        SLONG           bad{};
         KLACKER         KlackerTafel;  //Die Tafel auf der alles angezeigt wird
-        ULONG           PlayerReadyAt;
-        ULONG           UnselectedNetworkIDs[4];
+        ULONG           PlayerReadyAt{};
+        ULONG           UnselectedNetworkIDs[4]{};
 
-        SDL_TimerID     TimerId;
+        SDL_TimerID     TimerId{};
         SB_CFont        VersionFont;
 
-        SLONG           CursorX, CursorY; //Der blinkende Eingabecursor; -1 = kein Cursor sichtbar
-        UBYTE           BlinkState;
+        SLONG           CursorX{}, CursorY{}; //Der blinkende Eingabecursor; -1 = kein Cursor sichtbar
+        UBYTE           BlinkState{};
         SBBMS           PlayerBms;
         SBBM            HakenBm;
-        SLONG           Selection;
+        SLONG           Selection{};
 
-        BOOL            NamesOK;       //Sind alle Namen eindeutig?
+        BOOL            NamesOK{};       //Sind alle Namen eindeutig?
 
         SBFX            ClickFx;
 
-        SBList<SBStr>           *pNetworkSessions;
-        SBList<SBStr>           *pNetworkConnections;
-        SBList<SBNetworkPlayer*> *pNetworkPlayers;
+        SBList<SBStr>           *pNetworkSessions{};
+        SBList<SBStr>           *pNetworkConnections{};
+        SBList<SBNetworkPlayer*> *pNetworkPlayers{};
 
-        int						SessionMissionID;
+        int						SessionMissionID{};
 
-        ULONG                    PlayerID;
-        bool                     bThisIsSessionMaster;
+        ULONG                    PlayerID{};
+        bool                     bThisIsSessionMaster{};
 
         SBStr                    NetworkConnection;
         static SBStr             NetworkSession;
 
-        long NetMediumCount;
-        long NetMediumMapper[32];
+        long NetMediumCount{};
+        long NetMediumMapper[32]{};
 
 
         // Operations

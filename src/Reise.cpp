@@ -36,8 +36,8 @@ extern SLONG timeReisClose;
 //--------------------------------------------------------------------------------------------
 long strchrcount (CString Text, char chr)
 {
-    long c;
-    long n;
+    long c = 0;
+    long n = 0;
 
     for (c=n=0; c<Text.GetLength(); c++) {
         if (Text[int(c)]==chr) {
@@ -73,7 +73,7 @@ CString ShortenLongCities (CString City)
 //--------------------------------------------------------------------------------------------
 CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "reiseb.gli", GFX_REISEB)
 {
-    SLONG c;
+    SLONG c = 0;
 
     SetRoomVisited (PlayerNum, ROOM_REISEBUERO);
 
@@ -190,7 +190,7 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 //--------------------------------------------------------------------------------------------
 CReisebuero::~CReisebuero()
 {
-    SLONG c;
+    SLONG c = 0;
 
     TipBm.Destroy();
 
@@ -222,7 +222,7 @@ CReisebuero::~CReisebuero()
 //--------------------------------------------------------------------------------------------
 void CReisebuero::OnPaint()
 {
-    SLONG  c;
+    SLONG  c = 0;
     CPoint point = Sim.Players.Players[(SLONG)PlayerNum].CursorPos;
     XY     RoomPos;
     BOOL   RemoveTip=TRUE;
@@ -386,7 +386,7 @@ void CReisebuero::RepaintZettel (SLONG n)
 //--------------------------------------------------------------------------------------------
 void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    SLONG c;
+    SLONG c = 0;
     XY RoomPos;
 
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];

@@ -55,10 +55,10 @@ void PrepareReflexionTable (SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTabl
 #ifndef DEMO
     BUFFER<UBYTE> &ReflexionTable = *pReflexionTable;
 
-    SLONG x;
-    SLONG y;
-    SLONG xx;
-    SLONG yy;
+    SLONG x = 0;
+    SLONG y = 0;
+    SLONG xx = 0;
+    SLONG yy = 0;
 
     ReflexionTable.ReSize (ReflexionMaskBm.Size.x*ReflexionMaskBm.Size.y);
 
@@ -380,8 +380,8 @@ CInsel::~CInsel()
 void CInsel::OnPaint()
 {
 #ifndef DEMO
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     if (KonstruktorFinished == 0) { return;
 }

@@ -43,7 +43,7 @@ void CPlaneTypes::ReInit (const CString &TabFilename)
 {
     //CStdioFile    Tab;
     BUFFER<char>  Line(800);
-    long          Id;
+    long          Id = 0;
 
     //Load Table header:
     BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
@@ -104,9 +104,9 @@ void CPlaneTypes::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 ULONG CPlaneTypes::GetRandomExistingType (TEAKRAND *pRand)
 {
-    SLONG c;
-    SLONG Anz;
-    SLONG rnd;
+    SLONG c = 0;
+    SLONG Anz = 0;
+    SLONG rnd = 0;
 
     for (c=Anz=0; c<(SLONG)AnzEntries(); c++) {
         if (IsInAlbum (c) != 0) {
@@ -151,7 +151,7 @@ void CPlaneTypes::BlitPlaneAt (SBPRIMARYBM &TargetBm, SLONG PlaneType, SLONG Siz
         case 2:
             {
                 //Breite für's zentrieren berechnen:
-                SLONG c;
+                SLONG c = 0;
                 SLONG x=-(gUniversalPlaneBms[9+OwningPlayer*5+0].Size.x+gUniversalPlaneBms[9+OwningPlayer*5+2].Size.x+gUniversalPlaneBms[9+OwningPlayer*5+1].Size.x*((*this)[PlaneType].Passagiere/60))/2;
 
                 //Bug blitten:
@@ -410,8 +410,8 @@ void CPlane::DoOneStep (SLONG PlayerNum)
         case -3:
             SkipPlaneCalculation=0;
             {
-                SLONG Speed;
-                SLONG Temp;
+                SLONG Speed = 0;
+                SLONG Temp = 0;
 
                 Speed = max(3, min (10, abs (AirportPos.x-TargetX)/30));
 
@@ -454,8 +454,8 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
                         if (Startzeit==255) //Passagiere absetzen?
                         {
-                            SLONG c;
-                            SLONG Saldo;
+                            SLONG c = 0;
+                            SLONG Saldo = 0;
                             XY    tmp;
 
                             CRentRoute *pRoute = nullptr;
@@ -594,7 +594,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                         }
                         else  //nein, abholen
                         {
-                            SLONG c;
+                            SLONG c = 0;
                             SLONG Gate=GetFlugplanEintrag()->Gate;
 
                             //Personen brauchen nicht mehr warten, sondern können das Flugzeug stürmen:
@@ -683,7 +683,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
             if (PlayerNum>=0 && PlayerNum<=3 && (Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_PLANEPROPS || (Sim.CallItADay != 0)))
             {
                 SLONG Costs=0;
-                SLONG Delta;
+                SLONG Delta = 0;
 
                 PLAYER &qPlayer=Sim.Players.Players[PlayerNum];
 
@@ -778,8 +778,8 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     //Zeitlich sortieren:
     for (c=Flugplan.Flug.AnzEntries()-1; c>0; c--) {
@@ -966,7 +966,7 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
     }
 
     //Überschüssige Flüge abschneiden:
-    if (gMouseLButton==0 || Sim.Players.Players[PlayerNum].Owner!=0 || Sim.Players.Players[PlayerNum].LocationWin==nullptr || ((Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_GLOBE && Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_LAPTOP) && ((CPlaner*)Sim.Players.Players[PlayerNum].LocationWin)->DragFlightMode==0)) {
+    if (gMouseLButton==0 || Sim.Players.Players[PlayerNum].Owner!=0 || Sim.Players.Players[PlayerNum].LocationWin==nullptr || ((Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_GLOBE && Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_LAPTOP) && (dynamic_cast<CPlaner*>(Sim.Players.Players[PlayerNum].LocationWin))->DragFlightMode==0)) {
         for (c=0; c<Flugplan.Flug.AnzEntries(); c++)
         {
             if (Flugplan.Flug[c].ObjectType==0) { break;
@@ -1024,11 +1024,11 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
 //--------------------------------------------------------------------------------------------
 void CPlane::ExtendFlugplaene (SLONG PlayerNum)
 {
-    SLONG c;
-    SLONG RapportL;    //Länge des Rapports in Tagen
-    SLONG AnzOkay;
-    SLONG AnzSource;
-    SLONG SourceStart;
+    SLONG c = 0;
+    SLONG RapportL = 0;    //Länge des Rapports in Tagen
+    SLONG AnzOkay = 0;
+    SLONG AnzSource = 0;
+    SLONG SourceStart = 0;
 
     for (c=0; c<Flugplan.Flug.AnzEntries(); c++) {
         if (Flugplan.Flug[c].ObjectType==0) { break;
@@ -1089,8 +1089,8 @@ void CPlane::ExtendFlugplaene (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 void CPlane::FlugplaeneFortfuehren (SLONG PlayerNum)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
     SLONG LastDate=0;
     SLONG LastTime=0;
 
@@ -1179,7 +1179,7 @@ void CPlane::FlugplaeneFortfuehren (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 BOOL CPlane::CanBeSold ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=Flugplan.Flug.AnzEntries()-1; c>=0; c--)
     {
@@ -1244,8 +1244,8 @@ void CPlane::UpdateGlobePos (UWORD EarthAlpha)
 //--------------------------------------------------------------------------------------------
 SLONG CPlane::GetSaldo ()
 {
-    SLONG c;
-    SLONG Summe;
+    SLONG c = 0;
+    SLONG Summe = 0;
 
     for (c=Summe=0; c<7; c++) {
         Summe+=Salden[c];
@@ -1297,7 +1297,7 @@ void CPlane::ClearSaldo ()
 //--------------------------------------------------------------------------------------------
 void CPlane::AddPanne (SLONG Code)
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (Pannen.AnzEntries()<10) {
         Pannen.ReSize (Pannen.AnzEntries()+1);
@@ -1332,8 +1332,8 @@ void CPlane::CalculateHappyPassengers (SLONG PlayerNum)
 {
     //SLONG QualitySum=Sitze+Essen+Tabletts+Deco+AnzBegleiter-PlaneTypes[TypeId].AnzBegleiter;
     SLONG QualitySum=Sitze+Essen+Tabletts+Deco+AnzBegleiter-ptAnzBegleiter;
-    SLONG c;
-    SLONG Saldo;
+    SLONG c = 0;
+    SLONG Saldo = 0;
     SLONG TooExpensive=0;
 
     //hprintf ("QualitySum=%li", QualitySum);
@@ -1427,9 +1427,9 @@ void CPlane::CalculateHappyPassengers (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 void CPlane::UpdatePersonalQuality (SLONG PlayerNum)
 {
-    SLONG Saldo;
-    SLONG c;
-    SLONG n;
+    SLONG Saldo = 0;
+    SLONG c = 0;
+    SLONG n = 0;
 
     Saldo=0;
 
@@ -1618,7 +1618,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CPlanes &Planes)
 //============================================================================================
 BOOL CPlanes::IsPlaneNameInUse (const CString &PlaneName)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<(SLONG)AnzEntries(); c++) {
         if ((IsInAlbum(c) != 0) && Planes[c].Name==PlaneName) { return (TRUE);
@@ -1635,7 +1635,7 @@ BOOL CPlanes::IsPlaneNameInUse (const CString &PlaneName)
 //--------------------------------------------------------------------------------------------
 void CPlanes::RepairReferences ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<(SLONG)AnzEntries(); c++) {
         if (IsInAlbum(c) != 0) {
@@ -1649,7 +1649,7 @@ void CPlanes::RepairReferences ()
 //--------------------------------------------------------------------------------------------
 void CPlanes::DoOneStep (SLONG PlayerNum)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<(SLONG)AnzEntries(); c++) {
         if (IsInAlbum(c) != 0) {
@@ -1795,7 +1795,7 @@ CString CPlaneNames::GetRandom (TEAKRAND *pRnd)
 //--------------------------------------------------------------------------------------------
 CString CPlaneNames::GetUnused (TEAKRAND *pRnd)
 {
-    SLONG   c;
+    SLONG   c = 0;
     CString Name;
 
     //Namen erster Qualitätsstufe

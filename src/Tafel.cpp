@@ -106,7 +106,7 @@ void CTafel::ReloadBitmaps ()
 //--------------------------------------------------------------------------------------------
 void CTafel::OnPaint()
 {
-    SLONG   c;
+    SLONG   c = 0;
     BOOL    OnTip=FALSE;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
@@ -293,7 +293,7 @@ void CTafel::RepaintZettel (SLONG n)
 //--------------------------------------------------------------------------------------------
 void CTafel::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    SLONG   c;
+    SLONG   c = 0;
     XY      RoomPos;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
@@ -405,7 +405,7 @@ void CTafel::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 void CTafelData::Clear ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<7; c++)
     {
@@ -423,15 +423,15 @@ void CTafelData::Clear ()
 //--------------------------------------------------------------------------------------------
 void CTafelData::Randomize (SLONG Day)
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
-    SLONG f;
-    SLONG Anz;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
+    SLONG f = 0;
+    SLONG Anz = 0;
     SLONG Id=0;
-    SLONG ObjId;
-    SLONG PlayerIndex;
-    SLONG PlayerUsed;
+    SLONG ObjId = 0;
+    SLONG PlayerIndex = 0;
+    SLONG PlayerUsed = 0;
 
     ULONG CityIds[7];
 
@@ -624,7 +624,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CTafelZettel &TafelZettel)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator << (TEAKFILE &File, const CTafelData &TafelData)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<7; c++) {
         File << TafelData.Route[c] << TafelData.City[c] << TafelData.Gate[c];
@@ -638,7 +638,7 @@ TEAKFILE &operator << (TEAKFILE &File, const CTafelData &TafelData)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, CTafelData &TafelData)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<7; c++)
     {

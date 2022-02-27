@@ -268,7 +268,7 @@ CStatistik::~CStatistik()
 //--------------------------------------------------------------------------------------------
 void CStatistik::OnPaint()
 {
-    SLONG  c;
+    SLONG  c = 0;
     SBBM  *ExitBm=nullptr;
     XY     ExitBmPos;
     DWORD  CurrentTime=timeGetTime();
@@ -417,7 +417,7 @@ void CStatistik::OnPaint()
     CString output;
     if (timeGetTime()%6000>3000 && (Sim.Difficulty==DIFF_ADDON03 || Sim.Difficulty==DIFF_ADDON04 || Sim.Difficulty==DIFF_ADDON06))
     {
-        SLONG n;
+        SLONG n = 0;
 
         switch (Sim.Difficulty)
         {
@@ -597,11 +597,11 @@ void CStatistik::CalcGraph()
 //--------------------------------------------------------------------------------------------
 void CStatistik::RepaintGraphWindow ()
 {
-    long	 x1;
-    long	 y1;
-    long	 x2;
+    long	 x1 = 0;
+    long	 y1 = 0;
+    long	 x2 = 0;
     long	 y2 = -1;
-    long	value;
+    long	value = 0;
     bool	fDrawAxis = false;
 
     SB_Hardwarecolor red = DropDownBm.pBitmap->GetHardwarecolor (0xff0000);
@@ -780,7 +780,7 @@ void CStatistik::RepaintGraphWindow ()
 //--------------------------------------------------------------------------------------------
 void CStatistik::RepaintTextWindow ()
 {
-    int p;
+    int p = 0;
 
     TextTableBm.BlitFrom (PicBitmap, -191, -40);
 
@@ -891,7 +891,7 @@ void CStatistik::RepaintTextWindow ()
 void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY      RoomPos;
-    SLONG   c;
+    SLONG   c = 0;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
     DefaultOnLButtonDown ();

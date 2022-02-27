@@ -9,7 +9,7 @@ SLONG gLanguage;
 
 void LanguageSpecifyString(char *Dst)
 {
-    int i;
+    int i = 0;
     int j = 0;
     char langs[24];
 
@@ -119,7 +119,7 @@ void TEXTRES::Open(char const* source, void* cached)
         AnzEntries = -1;
         for (SLONG i = 0, j = 0; i < FileBuffer.AnzEntries(); i += j)
         {
-            SLONG Size;
+            SLONG Size = 0;
             if (FileBuffer.AnzEntries() - i <= 1023) {
                 Size = FileBuffer.AnzEntries() - i;
             } else {

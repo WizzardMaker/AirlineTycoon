@@ -111,7 +111,7 @@ CWerbung::~CWerbung()
 //--------------------------------------------------------------------------------------------
 void CWerbung::OnPaint()
 {
-    SLONG   NewTip;
+    SLONG   NewTip = 0;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
     if (Sim.Date>4) { Sim.GiveHint (HINT_WERBUNG);

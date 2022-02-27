@@ -18,7 +18,7 @@ CTalkers::CTalkers () : Talkers (TALKER_ANZ)
 //--------------------------------------------------------------------------------------------
 void CTalkers::Init ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Talkers.AnzEntries(); c++)
     {
@@ -33,7 +33,7 @@ void CTalkers::Init ()
 //--------------------------------------------------------------------------------------------
 void CTalkers::Pump ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Talkers.AnzEntries(); c++) {
         if (Talkers[c].NumRef != 0)

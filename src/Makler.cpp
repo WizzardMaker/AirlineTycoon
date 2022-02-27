@@ -134,7 +134,7 @@ CMakler::~CMakler()
 //--------------------------------------------------------------------------------------------
 void CMakler::OnPaint()
 {
-    SLONG   NewTip;
+    SLONG   NewTip = 0;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
     if (Sim.Date>5) { Sim.GiveHint (HINT_FLUGZEUGMAKLER);

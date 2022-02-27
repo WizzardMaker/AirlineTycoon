@@ -196,8 +196,8 @@ void GameFrame::UpdateFrameSize() const
         SDL_RenderSetLogicalSize(lpDD, 640, 480);
     }
     else {
-        int screenW;
-        int screenH;
+        int screenW = 0;
+        int screenH = 0;
         SDL_GetWindowSize(m_hWnd, &screenW, &screenH);
         SDL_RenderSetLogicalSize(lpDD, screenW, screenH);
     }
@@ -232,7 +232,7 @@ GameFrame::GameFrame()
     SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
     SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "1");
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-    SDL_Window* h;
+    SDL_Window* h = nullptr;
 
     switch (Sim.Options.OptionFullscreen)
     {
@@ -413,8 +413,8 @@ void GameFrame::TranslatePointToGameSpace(CPoint* p) const {
         return;
 }
 
-    int screenW;
-    int screenH;
+    int screenW = 0;
+    int screenH = 0;
     SDL_GetRendererOutputSize(SDL_GetRenderer(m_hWnd), &screenW, &screenH);
     float x = p->x;
     float y = p->y;
@@ -431,8 +431,8 @@ void GameFrame::TranslatePointToScreenSpace(int& x, int& y) const {
         return;
 }
 
-    int screenW;
-    int screenH;
+    int screenW = 0;
+    int screenH = 0;
     SDL_GetRendererOutputSize(SDL_GetRenderer(m_hWnd), &screenW, &screenH);
     float _x = x;
     float _y = y;
@@ -540,8 +540,8 @@ void GameFrame::ProcessEvent(const SDL_Event& event)
 
 void GameFrame::Invalidate()
 {
-    CStdRaum* w;
-    SLONG     c;
+    CStdRaum* w = nullptr;
+    SLONG     c = 0;
 
     if (TopWin != nullptr)
     {
@@ -569,8 +569,8 @@ void GameFrame::Invalidate()
 //--------------------------------------------------------------------------------------------
 void GameFrame::RePostMessage (const CPoint& Pos) const
 {
-    CStdRaum *w;
-    SLONG     c;
+    CStdRaum *w = nullptr;
+    SLONG     c = 0;
 
     //An alle direkten Sub-Windows schicken:
     if (TopWin != nullptr)
@@ -651,7 +651,7 @@ void GameFrame::OnPaint()
     static SLONG LastMouseLook=-1;
     static SLONG LastFeet=-1;
     DWORD Time=timeGetTime();
-    SLONG c;
+    SLONG c = 0;
 
     //Ggf. die Cursor bewegen:
     if (Time-LastTime>30)
@@ -761,7 +761,7 @@ void GameFrame::OnPaint()
             if ((ToolTipState != 0) && (ToolTipId != 0))
             {
                 SLONG px=gMousePosition.x+16-gToolTipBm.Size.x/2;
-                SLONG py;
+                SLONG py = 0;
 
                 UpdateStatusBar ();
 
@@ -1538,9 +1538,9 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
     if (nChar==VK_ESCAPE && (TopWin != nullptr))
     {
-        if (Sim.Gamestate == (GAMESTATE_INTRO | GAMESTATE_WORKING)) { ((CIntro*)TopWin)->OnKeyDown(nChar, nRepCnt, nFlags);
+        if (Sim.Gamestate == (GAMESTATE_INTRO | GAMESTATE_WORKING)) { (dynamic_cast<CIntro*>(TopWin))->OnKeyDown(nChar, nRepCnt, nFlags);
 }
-        if (Sim.Gamestate == (GAMESTATE_OUTRO | GAMESTATE_WORKING)) { ((COutro*)TopWin)->OnKeyDown(nChar, nRepCnt, nFlags);
+        if (Sim.Gamestate == (GAMESTATE_OUTRO | GAMESTATE_WORKING)) { (dynamic_cast<COutro*>(TopWin))->OnKeyDown(nChar, nRepCnt, nFlags);
 }
     }
 
@@ -2135,7 +2135,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
             Sim.MaxDifficulty  = DIFF_FINAL;
             Sim.MaxDifficulty2 = DIFF_ADDON10;
             if (Sim.Gamestate==(GAMESTATE_INIT | GAMESTATE_WORKING) && (TopWin != nullptr)) {
-                ((NewGamePopup*)TopWin)->RefreshKlackerField();
+                (dynamic_cast<NewGamePopup*>(TopWin))->RefreshKlackerField();
 }
             CheatSound ();
         }
@@ -2161,7 +2161,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
         {
             Sim.MaxDifficulty3 = DIFF_ATFS10;
             if (Sim.Gamestate==(GAMESTATE_INIT | GAMESTATE_WORKING) && (TopWin != nullptr)) {
-                ((NewGamePopup*)TopWin)->RefreshKlackerField();
+                (dynamic_cast<NewGamePopup*>(TopWin))->RefreshKlackerField();
 }
             CheatSound ();
         }
@@ -2196,7 +2196,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
             Sim.MaxDifficulty2=DIFF_ADDON01;
             Sim.MaxDifficulty3=DIFF_ATFS01;
             if (Sim.Gamestate==(GAMESTATE_INIT | GAMESTATE_WORKING) && (TopWin != nullptr)) {
-                ((NewGamePopup*)TopWin)->RefreshKlackerField();
+                (dynamic_cast<NewGamePopup*>(TopWin))->RefreshKlackerField();
 }
             CheatSound ();
         }
@@ -2209,7 +2209,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
                 TypeBuffer[29]=='D' && (Sim.bNetwork == 0))
         {
             if ((qPlayer.LocationWin != nullptr) && qPlayer.GetRoom()==ROOM_AIRPORT) {
-                ((AirportView*)qPlayer.LocationWin)->PersonsToAdd+=200;
+                (dynamic_cast<AirportView*>(qPlayer.LocationWin))->PersonsToAdd+=200;
 }
             CheatSound ();
         }

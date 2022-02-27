@@ -27,17 +27,17 @@ SB_CColorFX::SB_CColorFX (SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *B
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::ReInit (SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *Bitmap)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
     SLONG AnzRBits=0;
     SLONG ShiftR=0;
-    SLONG MaskR;
+    SLONG MaskR = 0;
     SLONG AnzGBits=0;
     SLONG ShiftG=0;
-    SLONG MaskG;
+    SLONG MaskG = 0;
     SLONG AnzBBits=0;
     SLONG ShiftB=0;
-    SLONG MaskB;
+    SLONG MaskB = 0;
 
     //Bitstruktor ermitteln:
     MaskR = Bitmap->GetPixelFormat()->Rmask;
@@ -126,9 +126,9 @@ void SB_CColorFX::ReInit (SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *B
         {
             for (d=0; d<256; d++)
             {
-                SLONG r;
-                SLONG g;
-                SLONG b;
+                SLONG r = 0;
+                SLONG g = 0;
+                SLONG b = 0;
 
                 r=((d>>11)&31);
                 g=((d>>5)&63);
@@ -161,9 +161,9 @@ void SB_CColorFX::ReInit (SB_CColorFXType FXType, SLONG Steps, SB_CBitmapCore *B
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *Bitmap)
 {
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
     UWORD *Table = BlendTables+(Step<<9);
     static SLONG sizex;
 
@@ -248,10 +248,10 @@ void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *Bitmap)
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap)
 {
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
-    UWORD *pp;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
+    UWORD *pp = nullptr;
     UWORD *Table = BlendTables+(Step<<9);
     static SLONG sizex;
 
@@ -319,10 +319,10 @@ void SB_CColorFX::Apply (SLONG Step, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2, SB_CBitmapCore *SrcBitmap2)
 {
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
-    UWORD *pp;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
+    UWORD *pp = nullptr;
     UWORD *Table = BlendTables+(Step<<9);
     UWORD *Table2 = BlendTables+(Step2<<9);
     static ULONG ESP;
@@ -423,11 +423,11 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2,
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, SB_CBitmapCore *SrcBitmap2, SB_CBitmapCore *TgtBitmap)
 {
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
-    UWORD *pp;
-    UWORD *ppp;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
+    UWORD *pp = nullptr;
+    UWORD *ppp = nullptr;
     UWORD *Table = BlendTables+(Step<<9);
     UWORD *Table2 = BlendTables+(Step2<<9);
     static ULONG ESP;
@@ -521,10 +521,10 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, 
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, const CRect *SrcRect, SLONG Grade)
 {
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
-    UWORD *pp;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
+    UWORD *pp = nullptr;
     static UWORD *Table1 = BlendTables+(2<<9);
     static UWORD *Table2 = BlendTables+(6<<9);
     static SLONG  sizex;
@@ -707,10 +707,10 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::BlitOutline (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, ULONG LineColor)
 {
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
-    UWORD *pp;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
+    UWORD *pp = nullptr;
 
     XY t=TargetPos;
     CRect Rect=CRect(0,0,SrcBitmap->GetXSize()-1,SrcBitmap->GetYSize()-1);
@@ -806,10 +806,10 @@ next:;
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, const CRect *SrcRect, SLONG Grade)
 {
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
-    UWORD *pp;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
+    UWORD *pp = nullptr;
     UWORD *Table1 = BlendTables+((AnzSteps/2)<<9);
     UWORD *Table2 = BlendTables+((AnzSteps/2)<<9);
     static SLONG sizex;
@@ -825,7 +825,7 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
 
     XY t=TargetPos;
 
-    UWORD White;
+    UWORD White = 0;
     CRect Rect;
 
     {
@@ -928,11 +928,11 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
 //--------------------------------------------------------------------------------------------
 void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD FontColor, ULONG HighlightColor)
 {
-    SLONG  x;
-    SLONG  y;
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
+    SLONG  x = 0;
+    SLONG  y = 0;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
     UWORD *Table1 = BlendTables+(7<<9);
     UWORD *Table2 = BlendTables+(1<<9);
     static SLONG sizex;
@@ -1026,10 +1026,10 @@ void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
     if (TargetPos.x>=640 || TargetPos.x+SrcBitmap->GetXSize()<0) { return;
 }
 
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
-    UWORD *pp;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
+    UWORD *pp = nullptr;
     static SLONG sizex;
     static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
@@ -1039,7 +1039,7 @@ void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
     if (SrcBitmap->GetXSize()<=0 || SrcBitmap->GetXSize()>=640) { DebugBreak();
 }
 
-    UWORD White;
+    UWORD White = 0;
     CRect Rect;
 
     {
@@ -1162,10 +1162,10 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
     if (TargetPos.x>=640 || TargetPos.x+SrcBitmap->GetXSize()<0) { return;
 }
 
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
-    UWORD *pp;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
+    UWORD *pp = nullptr;
     static SLONG sizex;
     static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
@@ -1175,7 +1175,7 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
     if (SrcBitmap->GetXSize()<=0 || SrcBitmap->GetXSize()>=640) { DebugBreak();
 }
 
-    UWORD White;
+    UWORD White = 0;
     CRect Rect;
 
     {
@@ -1254,9 +1254,9 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
 
 void RemapColor (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontColor, ULONG NewFontColor)
 {
-    SLONG  cx;
-    SLONG  cy;
-    UWORD *p;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
+    UWORD *p = nullptr;
     static SLONG sizex;
     static SLONG sizey;
 

@@ -49,9 +49,9 @@ void CHLObj::BlitAt (SB_CBitmapCore *pBitmap, XY Target)
     static char FirstTime;
     static ULONG JumpBuffer[8];  //Für Wiederholungen
 
-    SLONG cx;
-    SLONG cy;
-    SLONG count;
+    SLONG cx = 0;
+    SLONG cy = 0;
+    SLONG count = 0;
 
     CRect ClipRect = pBitmap->GetClipRect();
 
@@ -67,8 +67,8 @@ void CHLObj::BlitAt (SB_CBitmapCore *pBitmap, XY Target)
 }
     auto *bm=(UWORD *)(((UWORD*)Key.Bitmap)+Target.x+Target.y*(Key.lPitch>>1));
 
-    SLONG Min;
-    SLONG Max; //Vertikales Clipping
+    SLONG Min = 0;
+    SLONG Max = 0; //Vertikales Clipping
     Min = max (0, ClipRect.top-Target.y);
     Max = min (HLineEntries.AnzEntries(), ClipRect.bottom-Target.y);
 
@@ -250,9 +250,9 @@ void CHLObj::BlitLargeAt (SB_CBitmapCore *pBitmap, XY Target)
     static char FirstTime;
     static ULONG JumpBuffer[8];  //Für Wiederholungen
 
-    SLONG cx;
-    SLONG cy;
-    SLONG count;
+    SLONG cx = 0;
+    SLONG cy = 0;
+    SLONG count = 0;
 
     CRect ClipRect = pBitmap->GetClipRect();
 
@@ -268,8 +268,8 @@ void CHLObj::BlitLargeAt (SB_CBitmapCore *pBitmap, XY Target)
 }
     auto *bm=(UWORD *)(((UWORD*)Key.Bitmap)+Target.x+Target.y*(Key.lPitch>>1));
 
-    SLONG Min;
-    SLONG Max; //Vertikales Clipping
+    SLONG Min = 0;
+    SLONG Max = 0; //Vertikales Clipping
     Min = max (0, ClipRect.top-Target.y);
     Max = min (HLineEntries.AnzEntries(), (ClipRect.bottom-Target.y)/2);
 
@@ -430,7 +430,7 @@ BOOL CHLPool::Load ()
 
         if (DoesFileExist (CompleteFilename) != 0)
         {
-            SLONG    c;
+            SLONG    c = 0;
             SBBM     TmpBm (10,10);
             TEAKFILE File (CompleteFilename, TEAKFILE_READ);
 
@@ -608,21 +608,21 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
     //Bitmaps runterrechnen:
     if ( ((__int64*)(((UWORD*)Key.Bitmap)+pBitmap->GetYSize()*Key.lPitch/2))[-1]!=*(__int64*)"CONVERTD")
     {
-        SLONG  x;
-        SLONG  y;
-        SLONG  c;
-        SLONG  d;
+        SLONG  x = 0;
+        SLONG  y = 0;
+        SLONG  c = 0;
+        SLONG  d = 0;
         SLONG  dc=0;
-        SLONG  n;
+        SLONG  n = 0;
 
         for (y=0; y<pBitmap->GetYSize(); y++) {
             for (x=0; x<pBitmap->GetXSize(); x++)
             {
                 n=x+y*Key.lPitch/2;
 
-                SLONG r;
-                SLONG g;
-                SLONG b;
+                SLONG r = 0;
+                SLONG g = 0;
+                SLONG b = 0;
                 UWORD p=*(((UWORD *)Key.Bitmap)+n);
 
                 if (p!=0)
@@ -654,8 +654,8 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
 
     //Ähnlichkeitstabelle berechnen:
     {
-        SLONG x;
-        SLONG y;
+        SLONG x = 0;
+        SLONG y = 0;
 
         for (y=0; y<256; y++) {
             for (x=0; x<=y; x++)
@@ -670,10 +670,10 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
     }
 
     //Datenkompression beginnt hier:
-    SLONG x;
-    SLONG y;
-    SLONG cx;
-    SLONG Pass;
+    SLONG x = 0;
+    SLONG y = 0;
+    SLONG cx = 0;
+    SLONG Pass = 0;
 
     auto *bm=(UBYTE *)Key.Bitmap;
 
@@ -713,8 +713,8 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                     //In drei verschiedenen Pools suchen:
                     for (Pass=1; Pass<=3; Pass++)
                     {
-                        UBYTE   *p;
-                        CHLPool *pCHLPool;
+                        UBYTE   *p = nullptr;
+                        CHLPool *pCHLPool = nullptr;
 
                         //Die Basepools der Basepools werden bis jetzt übersehen:
                         pCHLPool = nullptr;
@@ -737,7 +737,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                             {
                                 if (Equal[p[0]+(bm[x]<<8)]<255 && Equal[p[cx-1]+(bm[x+cx-1]<<8)]<255)
                                 {
-                                    SLONG cmp;
+                                    SLONG cmp = 0;
                                     SLONG Dist=0;
 
                                     for (cmp=cx-1; cmp>=0; cmp--) {
@@ -889,8 +889,8 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
 //--------------------------------------------------------------------------------------------
 void CHLPool::DoBaseObjects ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     if (pHLBasepool1 != nullptr)
     {
@@ -944,8 +944,8 @@ void CHLPool::DoBaseObjects ()
 //--------------------------------------------------------------------------------------------
 void CHLPool::UnBaseObjects ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     //Für alle Objekte...
     for (c=HLObjects.AnzEntries()-1; c>=0; c--)
@@ -981,8 +981,8 @@ void CHLPool::UnBaseObjects ()
 //--------------------------------------------------------------------------------------------
 void CHLPool::ReBaseObjects (UBYTE *pOldPool, UBYTE *pNewPool)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     //Für alle Objekte...
     for (c=HLObjects.AnzEntries()-1; c>=0; c--)
@@ -1007,7 +1007,7 @@ void CHLPool::ReBaseObjects (UBYTE *pOldPool, UBYTE *pNewPool)
 //--------------------------------------------------------------------------------------------
 CHLObj *CHLPool::GetHLObj (__int64 graphicID)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=HLObjects.AnzEntries()-1; c>=0; c--) {
         if (HLObjects[c].graphicID==graphicID) { return (&HLObjects[c]);
@@ -1022,8 +1022,8 @@ CHLObj *CHLPool::GetHLObj (__int64 graphicID)
 //--------------------------------------------------------------------------------------------
 CHLObj *CHLPool::GetHLObj (const CString &String)
 {
-    SLONG   c;
-    __int64 graphicId;
+    SLONG   c = 0;
+    __int64 graphicId = 0;
 
     graphicId=0;
     for (c=0; c<(SLONG)strlen(String); c++) {
@@ -1079,7 +1079,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, __int64 graphicID, ...)
 {
     SLONG           count=0;
     __int64         i=graphicID;
-    va_list         marker;
+    va_list         marker = nullptr;
     BUFFER<__int64> graphicIds;
 
     //Anzahl ermitteln:
@@ -1112,7 +1112,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, __int64 graphicID, ...)
 //--------------------------------------------------------------------------------------------
 void CHLBms::ReSize (CHLPool *pHLPool, const BUFFER<__int64> &graphicIds)
 {
-    SLONG c;
+    SLONG c = 0;
 
     Bitmaps.ReSize (graphicIds.AnzEntries());
 
@@ -1126,7 +1126,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, const BUFFER<__int64> &graphicIds)
 //--------------------------------------------------------------------------------------------
 void CHLBms::ReSize (CHLPool *pHLPool, const CString &graphicstr)
 {
-    SLONG           Anz;
+    SLONG           Anz = 0;
     char           *Texts[100];
     BUFFER<__int64> graphicIds;
     BUFFER<char>    Str (graphicstr.GetLength()+1);
@@ -1191,8 +1191,8 @@ void CHLBms::ReSize (CHLPool *pHLPool, const CString &graphicstr, SLONG Anzahl)
 void UpdateHLinePool ()
 {
     SLONG c=0;
-    SLONG d;
-    SLONG e;
+    SLONG d = 0;
+    SLONG e = 0;
     PALETTE AnimPal;
     PALETTE SkelPal;
 

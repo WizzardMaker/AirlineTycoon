@@ -172,7 +172,7 @@ bool FX::StopPriority(dword flags)
     FX* playing = nullptr;
     for (FX& fx : _digitalData.pSSE->_soundObjList)
     {
-        dword status;
+        dword status = 0;
         fx.GetStatus(&status);
         if ((status & DSBSTATUS_PLAYING) != 0u)
         {
@@ -232,7 +232,7 @@ int FX::Play(dword dwFlags, SLONG pan)
 
     if (_digitalData.fNoStop)
     {
-        dword status;
+        dword status = 0;
         GetStatus(&status);
         if ((status & DSBSTATUS_PLAYING) != 0u) {
             return SSE_OK;
@@ -336,11 +336,11 @@ int FX::SetPan(SLONG pan)
 
 int ChangeFrequency(Mix_Chunk* chunk, int freq) {
 
-    Uint16 format;
-    int channels;
+    Uint16 format = 0;
+    int channels = 0;
     Mix_QuerySpec(nullptr, &format, &channels);
 
-    int channel;
+    int channel = 0;
     SDL_AudioCVT cvt;
 
     //Create a converter from the PLAY_FREQUENCY to "freq"
@@ -449,7 +449,7 @@ int FX::Tokenize(__int64 Token, SLONG* Von, SLONG* Bis, SLONG& rcAnzahl)
 }
 
     size_t count = 0;
-    size_t i;
+    size_t i = 0;
     Von[count++] = 0;
     Uint8* ptr = _fxData.pBuffer->abuf;
     for (i = 0; i < _fxData.bufferSize - 7; i++)

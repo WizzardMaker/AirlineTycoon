@@ -31,14 +31,14 @@ void PaintGlobe (const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const 
     TECBMKEYC      SrcKey (SourceBm);
     SB_CBitmapKey  TgtKey (*TargetBm->pBitmap);
 
-    const UBYTE *s; //Source Bitmap Pointer
-    UWORD       *t; //TargetBitmap Pointer
+    const UBYTE *s = nullptr; //Source Bitmap Pointer
+    UWORD       *t = nullptr; //TargetBitmap Pointer
 
-    UWORD *map;
-    UBYTE *lightmap;
+    UWORD *map = nullptr;
+    UBYTE *lightmap = nullptr;
 
-    SLONG  cx;
-    SLONG  cy;
+    SLONG  cx = 0;
+    SLONG  cy = 0;
 
     static SLONG a; a = (EarthAlpha>>7);
     static ULONG _esp;
@@ -168,7 +168,7 @@ CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop)
     CStdRaum (bHandy, PlayerNum, "", 0),
     EarthAlpha (EarthAlpha)
 {
-    SLONG c;
+    SLONG c = 0;
 
     //if (!bHandy) AmbientManager.SetGlobalVolume (50);
 
@@ -268,9 +268,9 @@ void CPlaner::PaintGlobe ()
 //--------------------------------------------------------------------------------------------
 void CPlaner::PaintGlobeRoutes ()
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
 
     for (c=0; c<Sim.Players.AnzPlayers; c++) {
         if (Sim.Players.Players[c].IsOut == 0)
@@ -317,7 +317,7 @@ void CPlaner::PaintGlobeRoutes ()
                             FXY tmp;
                             //SB_Hardwarecolor red = GlobeBm.pBitmap->GetHardwarecolor (0xff0000);
 
-                            SLONG n;
+                            SLONG n = 0;
                             SLONG dist=Cities.CalcDistance (Routen[d].VonCity, Routen[d].NachCity);
 
                             if (dist<500000) {        n=256;
@@ -384,7 +384,7 @@ void CPlaner::PaintGlobeRoutes ()
                         FXY tmp;
                         //SB_Hardwarecolor red = GlobeBm.pBitmap->GetHardwarecolor (0xff0000);
 
-                        SLONG n;
+                        SLONG n = 0;
                         SLONG dist=Cities.CalcDistance (qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity);
 
                         if (dist<500000) {        n=256;
@@ -439,10 +439,10 @@ void CPlaner::PaintPostIt ()
     CString NachCityKuerzel;
     SLONG   VonCityId = 0;
     SLONG   NachCityId = 0;
-    SLONG   Dauer;
-    SLONG   Speed;
-    SLONG   c;
-    SLONG   i;
+    SLONG   Dauer = 0;
+    SLONG   Speed = 0;
+    SLONG   c = 0;
+    SLONG   i = 0;
 
     if (CurrentPostItType==2) //Auftrag
     {
@@ -542,7 +542,7 @@ void CPlaner::PaintPostIt ()
 
         if (Dauer<=6)
         {
-            SB_CFont *pFont;
+            SB_CFont *pFont = nullptr;
             XY        OffsetA(0,0);
             XY        OffsetB(0,0);
 
@@ -577,8 +577,8 @@ void CPlaner::PaintPostIt ()
 void CPlaner::PaintGlobeInScreen (XY TargetPos)
 {
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
-    SLONG   c;
-    SLONG   d;
+    SLONG   c = 0;
+    SLONG   d = 0;
 
     //Flugzeuge hinter Erde
     if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0 || Sim.Players.Players[(SLONG)PlayerNum].GetRoom()!=ROOM_LAPTOP) {
@@ -698,7 +698,7 @@ void CPlaner::DoPollingStuff ()
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
     //Geschlossene Blöcke aus dem Array entfernen:
-    SLONG c;
+    SLONG c = 0;
     for (c=0; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++) {
         if ((qPlayer.Blocks.IsInAlbum(c) != 0) && qPlayer.Blocks[c].Destructing==2)
         {
@@ -1090,7 +1090,7 @@ void CPlaner::DoPollingStuff ()
                 if (Date!=Sim.Date || Time>Sim.GetHour()+1)
                 {
                     //Drag am Fluganfang:
-                    SLONG d;
+                    SLONG d = 0;
                     for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--) {
                         if (qPlan.Flug[d].ObjectType==1 || qPlan.Flug[d].ObjectType==2 || qPlan.Flug[d].ObjectType==4)
                         {
@@ -1133,7 +1133,7 @@ void CPlaner::DoPollingStuff ()
                 CFlugplan &qPlan = qPlayer.Planes[ActivePlane].Flugplan;
                 SLONG      Date=Sim.Date+(ClientPos.y-17)/19;
                 SLONG      Time=(ClientPos.x-25)/6;
-                SLONG      d;
+                SLONG      d = 0;
 
                 for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--) {
                     if (qPlan.Flug[d].ObjectType != 0)
@@ -1246,7 +1246,7 @@ void CPlaner::DoPollingStuff ()
                 SLONG      Time=(ClientPos.y-6)/6;
                 SLONG      ActivePlane = pBlock->SelectedId;
                 CFlugplan &qPlan = qPlayer.Planes[ActivePlane].Flugplan;
-                SLONG      d;
+                SLONG      d = 0;
 
                 if (Date!=Sim.Date || Time>Sim.GetHour()+1)
                 {
@@ -1292,7 +1292,7 @@ void CPlaner::DoPollingStuff ()
                 CFlugplan &qPlan = qPlayer.Planes[ActivePlane].Flugplan;
                 SLONG      Date=Sim.Date+pBlock->Page;
                 SLONG      Time=(ClientPos.y-6)/6;
-                SLONG      d;
+                SLONG      d = 0;
 
                 for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--) {
                     if (qPlan.Flug[d].ObjectType != 0)
@@ -1571,7 +1571,7 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
             {
                 CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)];
                 CRentRoute *pRRoute = nullptr;
-                SLONG SelectedIdB2;
+                SLONG SelectedIdB2 = 0;
                 SLONG Cost = CalculateFlightCostRechnerisch (Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1)*3/180*2;
 
                 for (SLONG c=qPlayer.RentRouten.RentRouten.AnzEntries()-1; c>=0; c--) {
@@ -1681,7 +1681,7 @@ void CPlaner::HandleLButtonDown ()
         //in Index Mode?
         if (pBlock->Index==1)
         {
-            SLONG TableCursor;
+            SLONG TableCursor = 0;
 
             if (pBlock->BlockType==2) { TableCursor=pBlock->Page + ClientPos.y/26;
             } else { TableCursor=pBlock->Page + ClientPos.y/13;
@@ -1801,8 +1801,8 @@ void CPlaner::HandleLButtonDown ()
 
                 //Nachschauen, ob der Flug zu lang ist für das Flugzeug:
                 {
-                    SLONG VonCityId;
-                    SLONG NachCityId;
+                    SLONG VonCityId = 0;
+                    SLONG NachCityId = 0;
 
                     if (CurrentPostItType==2) //Auftrag
                     {
@@ -1867,7 +1867,7 @@ void CPlaner::HandleLButtonDown ()
                     }
                     else
                     {
-                        SLONG c;
+                        SLONG c = 0;
                         for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--) {
                             if (qPlan.Flug[c].ObjectType != 0)
                             {
@@ -1945,7 +1945,7 @@ void CPlaner::HandleLButtonDown ()
                 CFlugplan &qPlan = qPlayer.Planes[ActivePlane].Flugplan;
                 SLONG      Date=Sim.Date+(ClientPos.y-17)/19;
                 SLONG      Time=(ClientPos.x-25)/6;
-                SLONG      c;
+                SLONG      c = 0;
 
                 if (Date>Sim.Date || (Date==Sim.Date && Time>Sim.GetHour()+1))
                 {
@@ -2066,7 +2066,7 @@ void CPlaner::HandleLButtonDown ()
                         }
                         else
                         {
-                            SLONG c;
+                            SLONG c = 0;
                             for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--) {
                                 if (qPlan.Flug[c].ObjectType != 0)
                                 {
@@ -2137,7 +2137,7 @@ void CPlaner::HandleLButtonDown ()
                     CFlugplan &qPlan = qPlayer.Planes[ActivePlane].Flugplan;
                     SLONG      Date=Sim.Date+pBlock->Page;
                     SLONG      Time=(ClientPos.y-5)/6;
-                    SLONG      c;
+                    SLONG      c = 0;
 
                     if (Date>Sim.Date || (Date==Sim.Date && Time>Sim.GetHour()+1))
                     {
@@ -2373,7 +2373,7 @@ void CPlaner::HandleLButtonDown ()
                 PLAYER     &qPlayer = Sim.Players.Players[PlayerNum];
                 CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)];
                 CRentRoute *pRRoute = nullptr;
-                SLONG SelectedIdB2;
+                SLONG SelectedIdB2 = 0;
                 SLONG Cost = CalculateFlightCostRechnerisch (Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1)*3/180*2;
 
                 for (SLONG c=qPlayer.RentRouten.RentRouten.AnzEntries()-1; ; c--) {
@@ -2453,7 +2453,7 @@ void CPlaner::HandleLButtonDown ()
         {
             if (ClientPosB.IfIsWithin (2,144,169,157))
             {
-                SLONG d;
+                SLONG d = 0;
                 SLONG RouteB=-1;
 
                 for (d=0; d<Routen.Routen.AnzEntries(); d++) {
@@ -2679,7 +2679,7 @@ void CPlaner::HandleLButtonUp ()
                         }
                         else
                         {
-                            SLONG c;
+                            SLONG c = 0;
 
                             for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--) {
                                 if (qPlan.Flug[c].ObjectType != 0)
@@ -2925,7 +2925,7 @@ void CPlaner::ButtonIndex ()
 
                 if (bFullscreen != 0)
                 {
-                    SLONG cy;
+                    SLONG cy = 0;
                     if (pBlock->BlockType!=2) { cy=13*(c-pBlock->Page)-6;
                     } else { cy=26*(c-pBlock->Page);
 }
@@ -3084,7 +3084,7 @@ void CPlaner::HandleLButtonDouble ()
                                 else
                                 {
 add:
-                                    SLONG c;
+                                    SLONG c = 0;
                                     for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--)
                                         if (qPlan.Flug[c].ObjectType!=0)
                                             break;

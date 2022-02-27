@@ -27,9 +27,9 @@ static const char FileId[] = "Aufs";
 //--------------------------------------------------------------------------------------------
 CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "aufsicht.gli", GFX_AUFSICHT)
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
 
     Sim.ShowExtrablatt = -1;
     Sim.FocusPerson    = -1;
@@ -463,7 +463,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
 //--------------------------------------------------------------------------------------------
 CAufsicht::~CAufsicht()
 {
-    SLONG c;
+    SLONG c = 0;
 
     LeereZettelBms.Destroy();
     PostcardBm.Destroy();
@@ -1010,7 +1010,7 @@ void CAufsicht::OnLButtonDown(UINT nFlags, CPoint point)
 void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
 {
     BOOL  CanCancel=TRUE;
-    SLONG c;
+    SLONG c = 0;
 
     if (bOkayToAct == 0) { return;
 }

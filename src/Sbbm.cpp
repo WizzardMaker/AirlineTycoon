@@ -23,7 +23,7 @@ SLONG   SoundLogFileStartTime=0;
 
 __int64 GetIdFromString (CString Text)
 {
-    __int64 id;
+    __int64 id = 0;
 
     id=0;
     for (SLONG d=0; d<SLONG(Text.GetLength()); d++) {
@@ -201,14 +201,14 @@ void SBBM::Line (XY p1, XY p2, BOOL Fat, SB_Hardwarecolor *pColor, SLONG NumColo
     // ---------------------
     else
     {
-        long   error;
-        long   x;
-        long   y;
-        long   dx;
-        long   dy;
-        long   dxa;
-        long   dya;
-        long   incr;
+        long   error = 0;
+        long   x = 0;
+        long   y = 0;
+        long   dx = 0;
+        long   dy = 0;
+        long   dxa = 0;
+        long   dya = 0;
+        long   incr = 0;
 
         dxa = abs(dx = p2.x - p1.x);
         dya = abs(dy = p2.y - p1.y);
@@ -448,7 +448,7 @@ SLONG SBBM::TryPrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &
 
 BOOL  SBBM::TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CString &String)
 {
-    SDL_Surface* Surf;
+    SDL_Surface* Surf = nullptr;
 
     /*if (bFullscreen)*/ Surf=PrimaryBm.PrimaryBm.GetSurface();
     /*else Surf=PrimaryBm.Offscreen.pBitmap->GetSurface();*/
@@ -504,7 +504,7 @@ void SBBM::ReSize (GfxLib* gfxLibrary, CString graphicStr)
 
 BOOL  SBPRIMARYBM::TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CString &String)
 {
-    SDL_Surface* Surf;
+    SDL_Surface* Surf = nullptr;
 
     /*if (bFullscreen)*/ Surf=PrimaryBm.GetSurface();
     /*else Surf=Offscreen.pBitmap->GetSurface();*/
@@ -753,7 +753,7 @@ void SBBMS::ReSize (GfxLib* gfxLibrary, __int64 graphicID, ...)
 {
     SLONG           count=0;
     __int64         i=graphicID;
-    va_list         marker;
+    va_list         marker = nullptr;
     BUFFER<__int64> graphicIds;
 
     //Anzahl ermitteln:
@@ -783,7 +783,7 @@ void SBBMS::ReSize (GfxLib* gfxLibrary, __int64 graphicID, ...)
 
 void SBBMS::ReSize (GfxLib* gfxLibrary, const BUFFER<__int64> &graphicIds, SLONG flags)
 {
-    SLONG c;
+    SLONG c = 0;
 
     Bitmaps.ReSize (graphicIds.AnzEntries());
 
@@ -794,7 +794,7 @@ void SBBMS::ReSize (GfxLib* gfxLibrary, const BUFFER<__int64> &graphicIds, SLONG
 
 void SBBMS::ReSize (CHLPool* pPool, const BUFFER<__int64> &graphicIds)
 {
-    SLONG c;
+    SLONG c = 0;
 
     Bitmaps.ReSize (graphicIds.AnzEntries());
 
@@ -805,7 +805,7 @@ void SBBMS::ReSize (CHLPool* pPool, const BUFFER<__int64> &graphicIds)
 
 void SBBMS::ReSize (GfxLib* gfxLibrary, const CString &graphicstr)
 {
-    SLONG           Anz;
+    SLONG           Anz = 0;
     char           *Texts[200];
     BUFFER<__int64> graphicIds;
     BUFFER<char>    Str (graphicstr.GetLength()+1);

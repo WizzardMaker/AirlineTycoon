@@ -79,8 +79,8 @@ private:
 
     SBList<RakNet::Packet*> mPackets;
 	
-	RakNet::RoomsPlugin* mRoomsPluginClient;
-	RakNet::RakPeerInterface* mServerBrowserPeer;
+	RakNet::RoomsPlugin* mRoomsPluginClient{};
+	RakNet::RakPeerInterface* mServerBrowserPeer{};
 	RAKNetRoomCallbacks mRoomCallbacks;
 	
 	/// <summary>
@@ -91,5 +91,5 @@ private:
 	void RequestHostedClients(RakNet::RakNetGUID serverGuid);
 
 	//Server Search network elements:
-	RakNet::RakPeerInterface* mRoomClient;
+	RakNet::RakPeerInterface* mRoomClient{};
 };

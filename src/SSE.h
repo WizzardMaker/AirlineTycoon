@@ -235,7 +235,7 @@ class SSE
     word		_channels;			// Kanäle
     word		_bitsPerSample;	// Bits per Sample of mono data
     word		_maxSound;			// Anz. der Samples, die gleichzeitig gespielt werden dürfen
-    bool		_swapChannels;
+    bool		_swapChannels{};
 
     //IDirectSound* _pDS;			// DirectSound-Object
     //IDSB*		_pBuffer;			// Primary buffer
@@ -246,7 +246,7 @@ class SSE
     bool		_fSoundEnabled;
     bool		_fMusicEnabled;
 
-    class MUSIC*	_playingMusicObj;	// Das aktuell gespielte Music-Objekt
+    class MUSIC*	_playingMusicObj{};	// Das aktuell gespielte Music-Objekt
 
     //std::string	_musicListPath;	// Pfad auf Musik-Dateien
     //char*		   _pMusicListFiles;	// Liste der Musik-Dateien (00-terminiert)
@@ -329,7 +329,7 @@ class FX : public DIGITAL
     SLONG  GetByteLength (void) { return (_fxData.bufferSize); }
 
     protected:
-    FXData	_fxData;
+    FXData	_fxData{};
 };
 
 /******************************************************************************\
@@ -402,7 +402,7 @@ class MIDI : public MUSIC
 
     protected:
     Mix_Music*		_music;
-    int				_mode;
+    int				_mode{};
 };
 /******************************************************************************\
  *

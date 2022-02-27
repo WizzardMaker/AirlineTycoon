@@ -58,7 +58,7 @@ void PaintStarAt (SBBM &Bitmap, XY Pos)
 //--------------------------------------------------------------------------------------------
 void DrawCityTip (SBBM &TipBm, ULONG CityId)
 {
-    SLONG      c;
+    SLONG      c = 0;
     XY         CityPos;
 
     //Marker setzen:
@@ -103,7 +103,7 @@ void DrawCityTip (SBBM &TipBm, ULONG CityId)
 //--------------------------------------------------------------------------------------------
 void DrawCityTipContents (SBBM &TipBm, ULONG CityId, XY Headline, XY Contents, XY Map, SB_CFont *pHeadFont, SB_CFont *pFont)
 {
-    SLONG      c;
+    SLONG      c = 0;
     XY         CityPos;
 
     //Marker setzen:
@@ -359,7 +359,7 @@ void DrawXPlaneTipContents (SBBM &TipBm, const CString& Planename, XY Headline, 
 //--------------------------------------------------------------------------------------------
 void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gate, SLONG Passagiere, SLONG PassagiereFC, SLONG Costs, SLONG Ticketpreis, SLONG TicketpreisFC, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked)
 {
-    SLONG      c;
+    SLONG      c = 0;
 
     if (TipBm.Size.x==0 || TipBm.pBitmap==nullptr) { return;
 }
@@ -542,7 +542,7 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
     //Flugzeuge
     if (PlayerNum!=-1 && pPlaneTips!=nullptr)
     {
-        SLONG   c;
+        SLONG   c = 0;
         PLAYER &qPlayer=Sim.Players.Players[PlayerNum];
         XY      Pos;
         XY      p;
@@ -746,7 +746,7 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
     //Flugzeuge
     if (PlayerNum!=-1 && pPlaneTips!=nullptr)
     {
-        SLONG   c;
+        SLONG   c = 0;
         PLAYER &qPlayer=Sim.Players.Players[PlayerNum];
         XY      Pos;
         XY      p;
@@ -881,8 +881,8 @@ void DrawAutoflugTipContents (SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLO
 //--------------------------------------------------------------------------------------------
 void DrawKursTipContents (SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, SB_CFont *pHeadFont, SB_CFont *pFont)
 {
-    SLONG c;
-    SLONG Max;
+    SLONG c = 0;
+    SLONG Max = 0;
 
     if (TipBm.Size.x==0 || TipBm.pBitmap==nullptr) { return;
 }
@@ -959,8 +959,8 @@ void DrawItemTipContents (SBBM &TipBm, SLONG Item, SB_CFont *pHeadFont, SB_CFont
 //--------------------------------------------------------------------------------------------
 void DrawMoneyTip (SBBM &TipBm, SLONG PlayerNum, SLONG Page)
 {
-    SLONG      c;
-    __int64    money;
+    SLONG      c = 0;
+    __int64    money = 0;
     PLAYER    &qPlayer = Sim.Players.Players[PlayerNum];
 
     SB_CFont       FontBankBlack;
@@ -1019,7 +1019,7 @@ void DrawMoneyTip (SBBM &TipBm, SLONG PlayerNum, SLONG Page)
 //--------------------------------------------------------------------------------------------
 void DrawPlanesNotepad (SBBM &NotepadBm, CDataTable *Table, SLONG CountFrom, SBBMS *pMenuBms, BOOL DisplayWartungskosten)
 {
-    SLONG c;
+    SLONG c = 0;
 
     //Hintergrund machen:
     NotepadBm.ReSize ((*pMenuBms)[0].Size);  //gNotepadBm
@@ -1036,7 +1036,7 @@ void DrawPlanesNotepad (SBBM &NotepadBm, CDataTable *Table, SLONG CountFrom, SBB
 
     for (c=CountFrom; c<CountFrom+13 && c<Table->AnzRows; c++)
     {
-        SB_CFont *pFont1;
+        SB_CFont *pFont1 = nullptr;
         CString   Text2;
 
         if (Table->ValueFlags[0+c*Table->AnzColums] != 0u) { pFont1=&FontSmallRed;

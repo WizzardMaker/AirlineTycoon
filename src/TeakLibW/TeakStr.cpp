@@ -3,7 +3,7 @@
 char* bprintf(char const* format, ...)
 {
     static char buffer[8192];
-    va_list args;
+    va_list args = nullptr;
     va_start (args, format);
     vsnprintf (buffer, sizeof(buffer), format, args);
     va_end (args);
@@ -19,7 +19,7 @@ char* bitoa(int val)
 
 char* TeakStrRemoveEndingCodes(char* str, char const* codes)
 {
-    int i;
+    int i = 0;
     for (i = strlen(str) - 1; i >= 0 && (strchr(codes, str[i]) != nullptr); --i) {;
 }
     str[i + 1] = 0;

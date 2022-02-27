@@ -19,14 +19,14 @@ class CIntro : public CStdRaum
         SBBM         FadeTo;
         bool         bWasIntroPlayed;
 
-        GfxLib* pRoomLib;               //Library für den Raum
+        GfxLib* pRoomLib{};               //Library für den Raum
 
         SLONG        FrameNum;
-        SLONG        FadeCount;
+        SLONG        FadeCount{};
         DWORD        FrameNext;
-        unsigned long Width;
-        unsigned long Height;
-        unsigned char Scale;
+        unsigned long Width{};
+        unsigned long Height{};
+        unsigned char Scale{};
 
         // Overrides
         // ClassWizard generated virtual function overrides

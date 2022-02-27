@@ -36,8 +36,8 @@ void CDataTable::Sort ()
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType, SLONG Filter1, SLONG Filter2)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1000);
 
@@ -150,7 +150,7 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
         if (ValueFlags[c*4]==FALSE && ValueFlags[c*4+4]==TRUE ||
                 (ValueFlags[c*4]==FALSE && ValueFlags[c*4+4]==FALSE && Values[c*4]>Values[c*4+4]))
         {
-            SLONG tmp0;
+            SLONG tmp0 = 0;
             tmp0=LineIndex[c]; LineIndex[c]=LineIndex[c+1]; LineIndex[c+1]=tmp0;
 
             CString tmp1;
@@ -159,7 +159,7 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
             tmp1=Values[c*4+2]; Values[c*4+2]=Values[c*4+6]; Values[c*4+6]=tmp1;
             tmp1=Values[c*4+3]; Values[c*4+3]=Values[c*4+7]; Values[c*4+7]=tmp1;
 
-            UBYTE tmp2;
+            UBYTE tmp2 = 0;
             tmp2=ValueFlags[c*4+0]; ValueFlags[c*4+0]=ValueFlags[c*4+4]; ValueFlags[c*4+4]=tmp2;
             tmp2=ValueFlags[c*4+1]; ValueFlags[c*4+1]=ValueFlags[c*4+5]; ValueFlags[c*4+5]=tmp2;
 
@@ -174,8 +174,8 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithPlaneTypes ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1600);
 
@@ -213,8 +213,8 @@ void CDataTable::FillWithPlaneTypes ()
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithXPlaneTypes ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1600);
 
@@ -264,8 +264,8 @@ void CDataTable::FillWithXPlaneTypes ()
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL UniqueOnly)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1100);
 
@@ -311,7 +311,7 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
         if (Values[c*AnzColums].Compare(Values[c*AnzColums+AnzColums])>0 ||
                 (Values[c*AnzColums].Compare(Values[c*AnzColums+AnzColums])==0 && Values[c*AnzColums+1].Compare(Values[c*AnzColums+1+AnzColums])>0))
         {
-            SLONG tmp0;
+            SLONG tmp0 = 0;
             tmp0=LineIndex[c]; LineIndex[c]=LineIndex[c+1]; LineIndex[c+1]=tmp0;
 
             CString tmp1;
@@ -334,8 +334,8 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithAllRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL UniqueOnly)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1100);
 
@@ -375,7 +375,7 @@ void CDataTable::FillWithAllRouten (CRouten *Routen, CRentRouten *RentRouten, BO
         if (Values[c*AnzColums].Compare(Values[c*AnzColums+AnzColums])>0 ||
                 (Values[c*AnzColums].Compare(Values[c*AnzColums+AnzColums])==0 && Values[c*AnzColums+1].Compare(Values[c*AnzColums+1+AnzColums])>0))
         {
-            SLONG tmp0;
+            SLONG tmp0 = 0;
             tmp0=LineIndex[c]; LineIndex[c]=LineIndex[c+1]; LineIndex[c+1]=tmp0;
 
             CString tmp1;
@@ -398,8 +398,8 @@ void CDataTable::FillWithAllRouten (CRouten *Routen, CRentRouten *RentRouten, BO
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithAuftraege (CAuftraege *Auftraege)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1200);
 
@@ -447,7 +447,7 @@ void CDataTable::FillWithAuftraege (CAuftraege *Auftraege)
                 (ValueFlags[c*7+2]==ValueFlags[c*7+2+7] && (*Auftraege)[LineIndex[c]].BisDate>(*Auftraege)[LineIndex[c+1]].BisDate) ||
                 (ValueFlags[c*7+2]==ValueFlags[c*7+2+7] && (*Auftraege)[LineIndex[c]].BisDate==(*Auftraege)[LineIndex[c+1]].BisDate && Values[c*7]>Values[c*7+7]))
         {
-            SLONG tmp0;
+            SLONG tmp0 = 0;
             tmp0=LineIndex[c]; LineIndex[c]=LineIndex[c+1]; LineIndex[c+1]=tmp0;
 
             CString tmp1;
@@ -476,8 +476,8 @@ void CDataTable::FillWithAuftraege (CAuftraege *Auftraege)
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithFracht (CFrachten *Frachten)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1200);
 
@@ -525,7 +525,7 @@ void CDataTable::FillWithFracht (CFrachten *Frachten)
                 (ValueFlags[c*7+2]==ValueFlags[c*7+2+7] && (*Frachten)[LineIndex[c]].BisDate>(*Frachten)[LineIndex[c+1]].BisDate) ||
                 (ValueFlags[c*7+2]==ValueFlags[c*7+2+7] && (*Frachten)[LineIndex[c]].BisDate==(*Frachten)[LineIndex[c+1]].BisDate && Values[c*7]>Values[c*7+7]))
         {
-            SLONG tmp0;
+            SLONG tmp0 = 0;
             tmp0=LineIndex[c]; LineIndex[c]=LineIndex[c+1]; LineIndex[c+1]=tmp0;
 
             CString tmp1;
@@ -554,8 +554,8 @@ void CDataTable::FillWithFracht (CFrachten *Frachten)
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithCities (CRentCities *RentCities)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1400);
 
@@ -594,8 +594,8 @@ void CDataTable::FillWithCities (CRentCities *RentCities)
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithExperts (SLONG /*PlayerNum*/)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Title = StandardTexte.GetS (TOKEN_EXPERT, 1000);
 

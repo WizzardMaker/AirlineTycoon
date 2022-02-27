@@ -54,7 +54,7 @@ class CWaitCursorNow
 //--------------------------------------------------------------------------------------------
 CGlobe::CGlobe (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.Players.Players[(SLONG)PlayerNum].EarthAlpha, FALSE)
 {
-    SLONG c;
+    SLONG c = 0;
 
     CWaitCursorNow wc; //CD-Cursor anzeigen
 
@@ -292,7 +292,7 @@ CGlobe::~CGlobe()
 //--------------------------------------------------------------------------------------------
 void CGlobe::OnPaint()
 {
-    SLONG   c;
+    SLONG   c = 0;
     DWORD   Time=timeGetTime();
     static  DWORD LastTime;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];

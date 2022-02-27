@@ -340,8 +340,8 @@ void InitFonts ()
 
     //Determine Font colors on this video card:
     SBBM  TestBm (20,20);
-    SLONG x;
-    SLONG y;
+    SLONG x = 0;
+    SLONG y = 0;
 
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallBlack, TEC_FONT_LEFT, 0, 0, 20, 20);
@@ -445,7 +445,7 @@ void InitItems ()
 //--------------------------------------------------------------------------------------------
 void InitTipBms ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     gCursorFeetBms[0].ReSize (pGLibStd, "CWALKL01", 9, CREATE_VIDMEM);
     gCursorFeetBms[1].ReSize (pGLibStd, "CWALKR01", 9, CREATE_VIDMEM);
@@ -505,10 +505,10 @@ void InitTipBms ()
 //--------------------------------------------------------------------------------------------
 void InitGlobeMapper ()
 {
-    int x;
-    int y;
-    int xs;
-    dword Color;
+    int x = 0;
+    int y = 0;
+    int xs = 0;
+    dword Color = 0;
 
     //Dafault-Positionen der Laptop-Fenster:
     GlobeWindows.ReSize (5);

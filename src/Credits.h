@@ -12,14 +12,14 @@ class CCredits : public CStdRaum
 
         // Attributes
     private:
-        GfxLib         *pGLibCredits;
+        GfxLib         *pGLibCredits{};
         SBBM            Background;
         SBBM            Left, Right;
         SBBM            TextLines[25];
-        BOOL            TimerFailure;
+        BOOL            TimerFailure{};
         SLONG           ScrollPos;
         SLONG           LastTime;
-        TEXT_STYLE      StyleCredits;
+        TEXT_STYLE      StyleCredits{};
 
         // Operations
     public:

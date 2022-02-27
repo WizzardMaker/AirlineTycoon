@@ -14,8 +14,8 @@ class CMuseum : public CStdRaum
         // Attributes
     public:
         SBBM        BlockBm;             //Fenster für Flugzeug-Details
-        SLONG       CurrentTip;          //Dieser Tip wird gerade angezeigt
-        GfxLib     *pMenuLib;
+        SLONG       CurrentTip{};          //Dieser Tip wird gerade angezeigt
+        GfxLib     *pMenuLib{};
         SBBMS       MiniPlanes;
 
         SBFX        TriebwerkFx;

@@ -421,7 +421,7 @@ CWerkstatt::~CWerkstatt()
 //--------------------------------------------------------------------------------------------
 void CWerkstatt::OnPaint()
 {
-    SLONG NewTip;
+    SLONG NewTip = 0;
 
     if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
 }

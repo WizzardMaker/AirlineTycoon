@@ -1,6 +1,8 @@
 //============================================================================================
 // City.Cpp - Routinen zur Verwaltung von Städten
 //============================================================================================
+#include <math.h>
+
 #include "StdAfx.h"
 
 #ifdef _DEBUG
@@ -28,7 +30,7 @@ void CITIES::ReInit (const CString &TabFilename)
 {
     //CStdioFile    Tab;
     BUFFER<char>  Line(300);
-    long          Id;
+    long          Id = 0;
     SLONG         Anz=0;
 
     //Load Table header:
@@ -97,7 +99,7 @@ void CITIES::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 void CITIES::UseRealKuerzel (BOOL Real)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=AnzEntries()-1; c>=0; c--) {
         if (IsInAlbum(c) != 0) {
@@ -135,7 +137,7 @@ SLONG CITIES::CalcDistance (long CityId1, long CityId2)
     
             FXYZ  Vector1;    //Vektor vom Erdmittelpunkt zu City1
         FXYZ  Vector2;    //Vektor vom Erdmittelpunkt zu City2
-        float Alpha;      //Winkel in Grad zwischen den Vektoren (für Kreissegment)
+        float Alpha = NAN;      //Winkel in Grad zwischen den Vektoren (für Kreissegment)
 
         //Berechnung des ersten Vektors:
         Vector1.x = (float)cos ((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0);
@@ -185,7 +187,7 @@ SLONG CITIES::CalcFlugdauer (long CityId1, long CityId2, long Speed)
 //--------------------------------------------------------------------------------------------
 SLONG CITIES::GetRandomUsedIndex (TEAKRAND *pRand)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG n=0;
 
     for (c=AnzEntries()-1; c>=0; c--) {
@@ -216,7 +218,7 @@ SLONG CITIES::GetRandomUsedIndex (TEAKRAND *pRand)
 //--------------------------------------------------------------------------------------------
 SLONG CITIES::GetRandomUsedIndex (SLONG AreaCode, TEAKRAND *pRand)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG n=0;
 
     for (c=AnzEntries()-1; c>=0; c--) {
@@ -247,7 +249,7 @@ SLONG CITIES::GetRandomUsedIndex (SLONG AreaCode, TEAKRAND *pRand)
 //--------------------------------------------------------------------------------------------
 ULONG CITIES::GetIdFromName (const char *Name)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<(SLONG)AnzEntries(); c++) {
         if ((IsInAlbum(c) != 0) && stricmp (Name, (LPCTSTR)Cities[c].Name)==0) {
@@ -273,9 +275,9 @@ ULONG CITIES::GetIdFromName (const char *Name)
 //--------------------------------------------------------------------------------------------
 ULONG CITIES::GetIdFromNames (const char *Name, ...)
 {
-    SLONG c;
+    SLONG c = 0;
 
-    va_list va_marker;
+    va_list va_marker = nullptr;
     foreacharg (va_marker, LPCSTR, Name, NULL)
     {
         for (c=0; c<(SLONG)AnzEntries(); c++) {
@@ -304,7 +306,7 @@ CRentCity::CRentCity ()
 //--------------------------------------------------------------------------------------------
 SLONG CRentCities::GetNumUsed()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz=0;
 
     for (c=0; c<(SLONG)Cities.AnzEntries(); c++) {

@@ -23,13 +23,13 @@ class CFrachtRaum : public CStdRaum
         SBBM        KranMaskeBm;
         SBBM        StempelBm;
 
-        SLONG       LastTip;
+        SLONG       LastTip{};
         SBBM        ZettelBms[6];
         SBBM        TipBm;
         SBBMS       MapPlaneBms[5];
         SBBMS       SeileBms;
         SBBMS       KistenBms;
-        GfxLib     *pMenuLib;
+        GfxLib     *pMenuLib{};
         GfxLib     *pZettelLib;
 
         bool        bCanPaint;

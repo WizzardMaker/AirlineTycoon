@@ -225,7 +225,7 @@ class SB_CCursor
         SB_CBitmapCore* Cursor;
         SDL_Surface* Background;
         XY Position;
-        dword Unknown[22];
+        dword Unknown[22]{};
 };
 
 //static_assert(sizeof(SB_CCursor) == 0x6Cu, "SB_CCursor size check");
@@ -249,9 +249,9 @@ class SB_CPrimaryBitmap : public SB_CBitmapCore
     private:
         void Delete(void);
 
-        SDL_Window* Window;
-        dword Unknown[9];
-        SB_CCursor* Cursor;
+        SDL_Window* Window{};
+        dword Unknown[9]{};
+        SB_CCursor* Cursor{};
 };
 
 //static_assert(sizeof(SB_CPrimaryBitmap) == 0x88u, "SB_CPrimaryBitmap size check");
@@ -270,7 +270,7 @@ class SB_CBitmapMain
     private:
         SDL_Renderer* Renderer;
         std::list<SB_CBitmapCore> Bitmaps;
-        dword Unknown[3];
+        dword Unknown[3]{};
 };
 
 ////static_assert(sizeof(SB_CBitmapMain) == 0x1Cu, "SB_CBitmapMain size check");
@@ -282,7 +282,7 @@ class SB_CBitmapKey
         ~SB_CBitmapKey(void);
 
         SDL_Surface* Surface;
-        dword Unknown[27];
+        dword Unknown[27]{};
         void* Bitmap;
         int lPitch;
 };
@@ -375,15 +375,15 @@ class SB_CFont
         bool CopyBitmapToMem(struct tagCreateFont*);
 
     private:
-        FontHeader Header;
-        dword Unknown0[4];
+        FontHeader Header{};
+        dword Unknown0[4]{};
         SDL_Surface* Surface;
         SDL_Texture* Texture;
         BYTE* VarWidth;
         BYTE* VarHeight;
         bool Hidden;
         TABS* Tabulator;
-        word NumTabs;
+        word NumTabs{};
         XY Pos;
         XY Start;
         float LineSpace;

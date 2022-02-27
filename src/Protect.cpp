@@ -751,8 +751,8 @@ bool CheckComputerLicense (void)
 void GetProtectionString (const CString &TabFilename, SLONG *pPageAndWord, CString *pRightWord)
 {
     BUFFER<char>  Line(300);
-    SLONG         FileP;
-    SLONG         Num;
+    SLONG         FileP = 0;
+    SLONG         Num = 0;
     SLONG         Count=0;
 
     //Load Table header:

@@ -207,7 +207,7 @@ void CPersonal::OnPaint()
     if (FlugbahnType>0)
     {
         XY    Pos;
-        SLONG Size;
+        SLONG Size = 0;
 
         if (FlugbahnType==1)
         {
@@ -331,7 +331,7 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
 {
     //CStdioFile    Tab;
     BUFFER<char>  Line(300);
-    SLONG         Num;
+    SLONG         Num = 0;
     CString       TmpStr;
 
     //Load Table header:
@@ -437,9 +437,9 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
 //--------------------------------------------------------------------------------------------
 void CWorkers::NewDay ()
 {
-    SLONG c;
-    SLONG m;
-    SLONG n;
+    SLONG c = 0;
+    SLONG m = 0;
+    SLONG n = 0;
 
     CheckShortage ();
 
@@ -595,8 +595,8 @@ CString CWorkers::GetRandomName(BOOL Geschlecht) const
 //--------------------------------------------------------------------------------------------
 void CWorkers::CheckShortage ()
 {
-    SLONG    anz;
-    SLONG    c;
+    SLONG    anz = 0;
+    SLONG    c = 0;
     TEAKRAND LocalRand (Sim.Date+Sim.StartTime);
 
     for (anz=c=0; c<Workers.AnzEntries(); c++) {
@@ -671,8 +671,8 @@ void CWorkers::Gehaltsaenderung (BOOL Art, SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetQualityRatio (SLONG prs)
 {
-    SLONG c;
-    SLONG p1;
+    SLONG c = 0;
+    SLONG p1 = 0;
 
     for (c=p1=0; c<Workers.AnzEntries(); c++) {
         if (Workers[c].Typ==Workers[prs].Typ) {
@@ -693,8 +693,8 @@ SLONG CWorkers::GetQualityRatio (SLONG prs)
 //--------------------------------------------------------------------------------------------
 void CWorkers::EnsureBerater (SLONG Typ)
 {
-    SLONG c;
-    SLONG m;
+    SLONG c = 0;
+    SLONG m = 0;
 
     //Arbeitsmarkt reorganisieren:
     for (c=0; c<Workers.AnzEntries(); c++) {
@@ -723,9 +723,9 @@ void CWorkers::EnsureBerater (SLONG Typ)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetAverageHappyness (SLONG PlayerNum)
 {
-    SLONG c;
-    SLONG Anz;
-    SLONG Value;
+    SLONG c = 0;
+    SLONG Anz = 0;
+    SLONG Value = 0;
 
     for (c=Anz=Value=0; c<Workers.AnzEntries(); c++) {
         if (Workers[c].Employer==PlayerNum)
@@ -745,7 +745,7 @@ SLONG CWorkers::GetAverageHappyness (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetMaxHappyness (SLONG PlayerNum)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Max=-1;
 
     for (c=0; c<Workers.AnzEntries(); c++) {
@@ -764,7 +764,7 @@ SLONG CWorkers::GetMaxHappyness (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetMinHappyness (SLONG PlayerNum)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Min=999;
 
     for (c=0; c<Workers.AnzEntries(); c++) {
@@ -783,7 +783,7 @@ SLONG CWorkers::GetMinHappyness (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 void CWorkers::AddHappiness (SLONG PlayerNum, SLONG Value)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Workers.AnzEntries(); c++) {
         if (Workers[c].Employer==PlayerNum)
@@ -802,8 +802,8 @@ void CWorkers::AddHappiness (SLONG PlayerNum, SLONG Value)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetNumJoblessBerater ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     for (c=d=0; c<Workers.AnzEntries(); c++) {
         if (Workers[c].Employer==WORKER_JOBLESS) {
@@ -821,8 +821,8 @@ SLONG CWorkers::GetNumJoblessBerater ()
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetNumJoblessPiloten ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     for (c=d=0; c<Workers.AnzEntries(); c++) {
         if (Workers[c].Employer==WORKER_JOBLESS) {
@@ -840,8 +840,8 @@ SLONG CWorkers::GetNumJoblessPiloten ()
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetNumJoblessFlugbegleiter ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     for (c=d=0; c<Workers.AnzEntries(); c++) {
         if (Workers[c].Employer==WORKER_JOBLESS) {

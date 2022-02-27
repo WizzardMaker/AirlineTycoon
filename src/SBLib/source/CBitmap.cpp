@@ -101,7 +101,7 @@ ULONG SB_CBitmapCore::Line(SLONG x1, SLONG y1, SLONG x2, SLONG y2, SB_Hardwareco
             return 1;
 }
 
-        dword key;
+        dword key = 0;
         auto color = (dword)hwcolor;
         SDL_GetColorKey(lpDDSurface, &key);
         SDL_SetRenderDrawColor(lpDD, (color & 0xFF0000) >> 16, (color & 0xFF00) >> 8, color & 0xFF,
@@ -110,17 +110,17 @@ ULONG SB_CBitmapCore::Line(SLONG x1, SLONG y1, SLONG x2, SLONG y2, SB_Hardwareco
     }
 
     // Bresenham's Line Algorithm
-    int x;
-    int y;
-    int dx;
-    int dy;
-    int dx1;
-    int dy1;
-    int px;
-    int py;
-    int xe;
-    int ye;
-    int i;
+    int x = 0;
+    int y = 0;
+    int dx = 0;
+    int dy = 0;
+    int dx1 = 0;
+    int dy1 = 0;
+    int px = 0;
+    int py = 0;
+    int xe = 0;
+    int ye = 0;
+    int i = 0;
     dx = x2 - x1;
     dy = y2 - y1;
     dx1 = fabs(dx);
@@ -249,7 +249,7 @@ ULONG SB_CBitmapCore::Clear(SB_Hardwarecolor hwcolor, const RECT* pRect)
             return 1;
 }
 
-        dword key;
+        dword key = 0;
         SDL_GetColorKey(lpDDSurface, &key);
         SDL_SetRenderDrawColor(lpDD, (color & 0xFF0000) >> 16, (color & 0xFF00) >> 8, color & 0xFF,
                 color == key ? SDL_ALPHA_TRANSPARENT : SDL_ALPHA_OPAQUE);
@@ -345,7 +345,7 @@ SDL_Surface* SB_CBitmapCore::GetFlippedSurface() {
         SDL_UnlockSurface(flippedBufferSurface);
     }
 
-    Uint32 key;
+    Uint32 key = 0;
     if (SDL_GetColorKey(lpDDSurface, &key) == 0)
     {
         SDL_SetColorKey(flippedBufferSurface, 1, key);

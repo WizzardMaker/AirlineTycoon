@@ -13,11 +13,11 @@ class CReisebuero : public CStdRaum
 
         // Attributes
     public:
-        SLONG       LastTip;
+        SLONG       LastTip{};
         SBBM        ZettelBms[10];
         SBBM        TipBm;
         SBBMS       MapPlaneBms[5];
-        GfxLib     *pMenuLib;
+        GfxLib     *pMenuLib{};
         GfxLib     *pZettelLib;
 
         SBFX        WellenFx;

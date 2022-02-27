@@ -18,7 +18,7 @@ class CDesigner : public CStdRaum
 
         SBFX           BackFx;
 
-        SLONG          CurrentTip;          //Dieser Tip wird gerade angezeigt
+        SLONG          CurrentTip{};          //Dieser Tip wird gerade angezeigt
 
         // Overrides
         // ClassWizard generated virtual function overrides

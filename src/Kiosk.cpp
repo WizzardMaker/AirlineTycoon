@@ -147,12 +147,12 @@ CKiosk::~CKiosk()
 //--------------------------------------------------------------------------------------------
 void CKiosk::RepaintTip ()
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
     XY    p;
-    BOOL  WasPicture;
-    BOOL  HasPictures;
+    BOOL  WasPicture = 0;
+    BOOL  HasPictures = 0;
     SBBM  Picture;
 
     for (c=0; c<3; c++)
@@ -316,7 +316,7 @@ void CKiosk::RepaintTip ()
 void CKiosk::OnPaint()
 {
     SLONG NewTip=-1;
-    SLONG c;
+    SLONG c = 0;
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();

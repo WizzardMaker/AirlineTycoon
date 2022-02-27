@@ -21,11 +21,11 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
     if (OldFrame.GetYSize()!=NewFrame.GetYSize()) { return (FALSE);
 }
 
-    SLONG         x;
-    SLONG         y;
-    SLONG         y_pitch;
-    SLONG         pass;
-    UBYTE         cx;
+    SLONG         x = 0;
+    SLONG         y = 0;
+    SLONG         y_pitch = 0;
+    SLONG         pass = 0;
+    UBYTE         cx = 0;
 
     BUFFER<UBYTE> Buffer(OldFrame.GetXSize()*OldFrame.GetYSize()*3);
     SLONG         BufferIndex=0;
@@ -142,10 +142,10 @@ BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitma
     if (OldFrame.GetYSize()!=NewFrame.GetYSize()) { return (FALSE);
 }
 
-    SLONG         Anz;
-    SLONG         c;
-    SLONG         x;
-    SLONG         y;
+    SLONG         Anz = 0;
+    SLONG         c = 0;
+    SLONG         x = 0;
+    SLONG         y = 0;
     XY            OffsetA;
     XY            OffsetB;
 
@@ -216,7 +216,7 @@ BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitma
 //--------------------------------------------------------------------------------------------
 void Unvideo (const CString& Filename, const CString& TargetFilename)
 {
-    SLONG cy;
+    SLONG cy = 0;
     FILE  *pFile = fopen (Filename, "rb");
 
     SBBM OldBm(640,480);

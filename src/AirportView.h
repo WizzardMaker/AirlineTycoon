@@ -12,10 +12,10 @@ class AirportView : public CStdRaum
 
         //Attributes:
     public:
-        BOOL           LButtonState;        //Status des linken Mausknopfes
+        BOOL           LButtonState{};        //Status des linken Mausknopfes
         ULONG          EditObject;          //Das Objekt, was gerade am Cursor klebt
-        ULONG          EditObject2;         //zweite Objekt (für Links)
-        ULONG          UnderCursor;         //Das Objekt, über dem der Cursor gerade ist
+        ULONG          EditObject2{};         //zweite Objekt (für Links)
+        ULONG          UnderCursor{};         //Das Objekt, über dem der Cursor gerade ist
         SLONG			   PersonsToAdd;		   //Zahl Personen, die noch zum Test kommen sollen
 
         // Operations

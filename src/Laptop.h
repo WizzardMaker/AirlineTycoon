@@ -17,19 +17,19 @@ class CLaptop : public CPlaner
         SLONG          KommVarLampe;
 
         CSmackerPerson SP_Buttons[6];
-        SLONG          KommVarButtons[6];
-        BOOL           HasVirus;
+        SLONG          KommVarButtons[6]{};
+        BOOL           HasVirus{};
 
         //Die Ikonen & Bitmaps:
-        GfxLib *pGLibIcons[6];
+        GfxLib *pGLibIcons[6]{};
         SBBMS   IconBms[6];
 
         SBBM    HighlightBm;
         SBBMS   IconsDefaultBms;
         SBBM    LockBm;
 
-        SLONG   IconRot[6];
-        SLONG   IconRotSpeed[6];
+        SLONG   IconRot[6]{};
+        SLONG   IconRotSpeed[6]{};
 
         //Bitmaps:
         SBBM    Window, BigWin;             //Das einfach und das doppelte Fenster
@@ -48,19 +48,19 @@ class CLaptop : public CPlaner
         SBBMS   ScrollBms;
 
         //Sonstiges:
-        GfxLib *pGLibGlobe;                 //Library für den Raum: Animationen der Objekte; wird immer geladen
+        GfxLib *pGLibGlobe{};                 //Library für den Raum: Animationen der Objekte; wird immer geladen
 
         SBFX    StartupFX;
 
         SLONG   ScrollBlock;                //Id des Blocks wo man gerade am Scrollbar zerrt
-        SLONG   ScrollSide;                 //Linke (0) oder rechte Seite (1) des Scrollbars
+        SLONG   ScrollSide{};                 //Linke (0) oder rechte Seite (1) des Scrollbars
         XY      ScrollOffset;               //Offset beim Klick auf Scrollbar
 
         BOOL    Copyprotection;
 
         //Things for the three (blinking) Warning-Lights
         SBBMS   WarningLightBms;            //Warnings for order, freight orders and routes
-        SLONG   WarningLightModes[3];       //0=Off, 1=On, 2=Blinking
+        SLONG   WarningLightModes[3]{};       //0=Off, 1=On, 2=Blinking
 
         // Operations
     public:

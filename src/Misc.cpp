@@ -2,6 +2,8 @@
 // Misc.cpp : Diverse Sachen
 //============================================================================================
 #include "StdAfx.h"
+#include <math.h>
+
 #include <cassert>
 #include <chrono>
 #include <filesystem>
@@ -35,7 +37,7 @@ TEAKRAND *pSurvisedRandom2=nullptr;
 //--------------------------------------------------------------------------------------------
 SLONG ReadLine (BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG d=0;
 
     for (c=BufferStart; c<Buffer.AnzEntries() && d<LineLength-1; c++,d++)
@@ -58,8 +60,8 @@ SLONG ReadLine (BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG Line
 //--------------------------------------------------------------------------------------------
 SLONG GetAnzBits (ULONG Flags)
 {
-    SLONG c;
-    SLONG rc;
+    SLONG c = 0;
+    SLONG rc = 0;
 
     for (c=rc=0; c<32; c++) {
         if ((Flags & (1<<c)) != 0u) { rc++;
@@ -81,7 +83,7 @@ double GetAlphaFromXY (XY Delta)
     }
     else
     {
-        double rc;
+        double rc = NAN;
 
         if (Delta.x>0) { rc=atan2 (Delta.y, Delta.x)*180/3.14159275+90;
         } else { rc=180-atan2 (Delta.y, -Delta.x)*180/3.14159275+90;
@@ -111,7 +113,7 @@ void CheckCString (CString *String)
 CString KorrigiereUmlaute (CString &OriginalText)
 {
     CString rc;
-    int     c;
+    int     c = 0;
 
     //Keine Korrektur für Tschechien:
     if (gLanguage==LANGUAGE_1) { return(OriginalText);
@@ -170,7 +172,7 @@ BOOL CheckCursorHighlight (const XY &CursorPos, const CRect &rect, UWORD FontCol
 //--------------------------------------------------------------------------------------------
 void DrawChart (SBBM &TipBm, ULONG Color, const FBUFFER<SLONG> &Values, SLONG MinValue, SLONG MaxValue, const XY &TopLeft, const XY &TopRight, const XY &BottomLeft, const XY &BottomRight)
 {
-    SLONG c;
+    SLONG c = 0;
     SB_Hardwarecolor hwColor = TipBm.pBitmap->GetHardwarecolor (Color);
 
     if (MaxValue==-1) {
@@ -238,8 +240,8 @@ __int64 StringToInt64 (const CString &String)
 //--------------------------------------------------------------------------------------------
 BOOL IsRoomBusy(UWORD RoomId, SLONG ExceptPlayer)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     if ((RoomId==ROOM_AUFSICHT && Sim.Time==9*60000) || RoomId==ROOM_AIRPORT) { return (FALSE);
 }
@@ -299,9 +301,9 @@ BOOL EarthProjectize (const FXY &NaturalPos, UWORD EarthAlpha, XY *PixelPos)
 //--------------------------------------------------------------------------------------------
 SLONG AddToNthDigit (SLONG Value, SLONG Digit, SLONG Add)
 {
-    SLONG c;
-    SLONG betrag;
-    SLONG n;
+    SLONG c = 0;
+    SLONG betrag = 0;
+    SLONG n = 0;
 
     if (Value==0) { return (Add);
 }
@@ -330,7 +332,7 @@ void MyMessageBox (LPCTSTR Title, LPCTSTR String, ...)
     char Buffer[256];
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
-    va_list  Vars;
+    va_list  Vars = nullptr;
 
     //Tabelle initialisieren:
     va_start (Vars, String);
@@ -375,11 +377,11 @@ void MyMessageBox (LPCTSTR Title, LPCTSTR String, ...)
 //--------------------------------------------------------------------------------------------
 UWORD ConvertString2Date (char *String)
 {
-    char          *Back;
-    char          *p;
-    unsigned short Date;
-    SLONG          c;
-    SLONG          Year;
+    char          *Back = nullptr;
+    char          *p = nullptr;
+    unsigned short Date = 0;
+    SLONG          c = 0;
+    SLONG          Year = 0;
 
     Back = new char [strlen(String)+1];
     strcpy (Back, String);
@@ -587,7 +589,7 @@ SLONG CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, S
 //--------------------------------------------------------------------------------------------
 void InitEinheiten (const CString &Filename)
 {
-    SLONG c;
+    SLONG c = 0;
 
     ETexte.Open (Filename, TEXTRES_CACHED);
 
@@ -672,7 +674,7 @@ void HEADLINES::BlitHeadline (long Newspaper, SBBM &Offscreen, const CPoint& p1,
 //--------------------------------------------------------------------------------------------
 void HEADLINES::Init ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<3; c++)
     {
@@ -697,12 +699,12 @@ void HEADLINES::Init ()
 //--------------------------------------------------------------------------------------------
 void HEADLINES::ReloadHeadline ()
 {
-    SLONG         c;
+    SLONG         c = 0;
     SLONG         NewRand [3];
     BUFFER<char>  Line(300);
-    SLONG         Zeitung;
+    SLONG         Zeitung = 0;
     SLONG         Kette=0;
-    SLONG         LastKette;
+    SLONG         LastKette = 0;
 
     BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (HeadlineFile, ExcelPath)));
     SLONG         FileP=0;
@@ -800,12 +802,12 @@ void HEADLINES::ReloadHeadline ()
 //--------------------------------------------------------------------------------------------
 void HEADLINES::InterpolateHeadline ()
 {
-    SLONG   c;
-    SLONG   d;
-    SLONG   e;
-    SLONG   count;
-    SLONG   von;
-    SLONG   bis;
+    SLONG   c = 0;
+    SLONG   d = 0;
+    SLONG   e = 0;
+    SLONG   count = 0;
+    SLONG   von = 0;
+    SLONG   bis = 0;
     CString Extrakt;        //Der Teil in geschweiften Klammern
 
     TEAKRAND LocalRand (Sim.Date+Sim.StartTime);
@@ -847,7 +849,7 @@ void HEADLINES::InterpolateHeadline ()
             //City random:
             if (Extrakt.CompareNoCase ("city")==0)
             {
-                SLONG CityId;
+                SLONG CityId = 0;
 
                 do { CityId=LocalRand.Rand(Cities.AnzEntries()); } while (Cities.IsInAlbum(CityId) == 0);
 
@@ -863,8 +865,8 @@ void HEADLINES::InterpolateHeadline ()
             else if (Extrakt.Mid(0, 5).CompareNoCase ("rand(")==0)
             {
                 char  Buffer[40];
-                SLONG a;
-                SLONG b;
+                SLONG a = 0;
+                SLONG b = 0;
 
                 strcpy (Buffer, Extrakt);
                 a = atoi (strtok (Buffer+5, "),"));
@@ -911,7 +913,7 @@ void HEADLINES::InterpolateHeadline ()
 //--------------------------------------------------------------------------------------------
 void HEADLINES::AddOverride (long Newspaper, const CString &HeadlineText, __int64 PictureId, SLONG PicturePriority)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=Newspaper*10; c<Newspaper*10+10; c++) {
         if (Override[c].Headline.IsEmpty())
@@ -931,8 +933,8 @@ void HEADLINES::ComparisonHeadlines ()
 {
     if (Sim.Date>8 && (Sim.Date&3)==2)
     {
-        SLONG c;
-        SLONG d;
+        SLONG c = 0;
+        SLONG d = 0;
         SLONG best=-1;
         SLONG best2=-1;
 
@@ -1102,7 +1104,7 @@ void HEADLINES::ComparisonHeadlines ()
     //Sonderzeitungsmeldungen bei bes. Fortschritten im Raktenbau:
     if (Sim.Difficulty==DIFF_FINAL)
     {
-        SLONG c;
+        SLONG c = 0;
 
         if (Sim.Date==2) { AddOverride (1, StandardTexte.GetS (TOKEN_MISC, 2070), 0, 5);
 }
@@ -1158,9 +1160,9 @@ void HEADLINES::ReInit (const CString &TabFilename)
 {
     //TEAKFILE      Tab;
     BUFFER<char>  Line(300);
-    SLONG         c;
-    SLONG         Zeitung;
-    SLONG         Kette;
+    SLONG         c = 0;
+    SLONG         Zeitung = 0;
+    SLONG         Kette = 0;
 
     HeadlineFile = TabFilename;
 
@@ -1199,7 +1201,7 @@ void HEADLINES::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 void HEADLINES::SortByPriority ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<9; c++) {
         if (Headline[c].PicturePriority<Headline[c+1].PicturePriority && !Headline[c].Headline.IsEmpty() && !Headline[c+1].Headline.IsEmpty())
@@ -1243,7 +1245,7 @@ void HEADLINES::SortByPriority ()
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator << (TEAKFILE &File, const HEADLINES &Headlines)
 {
-    SLONG c;
+    SLONG c = 0;
 
     File << Headlines.HeadlineFile << Headlines.IsInteresting;
 
@@ -1273,7 +1275,7 @@ TEAKFILE &operator << (TEAKFILE &File, const HEADLINES &Headlines)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, HEADLINES &Headlines)
 {
-    SLONG c;
+    SLONG c = 0;
 
     File >> Headlines.HeadlineFile >> Headlines.IsInteresting;
 
@@ -1326,7 +1328,7 @@ BOOL CMessages::IsSilent ()
 //--------------------------------------------------------------------------------------------
 void CMessages::NewDay ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Messages.AnzEntries(); c++) {
         Messages[c].BeraterTyp=-1;
@@ -1353,7 +1355,7 @@ void CMessages::NoComments ()
 //--------------------------------------------------------------------------------------------
 void CMessages::AddMessage (SLONG BeraterTyp, const CString& Message, SLONG Urgent, SLONG Mood)
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (bLeaveGameLoop != 0) { return;
 }
@@ -1478,7 +1480,7 @@ void CMessages::NextMessage ()
 //--------------------------------------------------------------------------------------------
 void CMessages::PaintMessage ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (IsDialog == 0)
     {
@@ -1554,7 +1556,7 @@ void CMessages::PaintMessage ()
 //--------------------------------------------------------------------------------------------
 void CMessages::Pump ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     SLONG HandyOffset=0;
 
@@ -1775,10 +1777,10 @@ TEAKFILE &operator >> (TEAKFILE &File, CMessages &Messages)
 //------------------------------------------------------------------------------
 CString Insert1000erDots (long Value)
 {
-    short	 c;
-    short	 d; // Position in neuen bzw. alten String
-    short l;   // Stringlänge
-    short	CharsUntilPoint;
+    short	 c = 0;
+    short	 d = 0; // Position in neuen bzw. alten String
+    short l = 0;   // Stringlänge
+    short	CharsUntilPoint = 0;
     char	String[80];
     char	Tmp[80];
 
@@ -1828,10 +1830,10 @@ CString Insert1000erDots (long Value)
 //------------------------------------------------------------------------------
 CString Insert1000erDots64 (__int64 Value)
 {
-    short	 c;
-    short	 d; // Position in neuen bzw. alten String
-    short l;   // Stringlänge
-    short	CharsUntilPoint;
+    short	 c = 0;
+    short	 d = 0; // Position in neuen bzw. alten String
+    short l = 0;   // Stringlänge
+    short	CharsUntilPoint = 0;
     char	String[40];
     char	Tmp[40];
 
@@ -1881,9 +1883,9 @@ CString Insert1000erDots64 (__int64 Value)
 //------------------------------------------------------------------------------
 CRect PaintTextBubble (SBBM &OffscreenBm, const XY &p1, const XY &p2, const XY &Entry)
 {
-    SLONG c;
-    SLONG l;
-    SLONG SizeY;
+    SLONG c = 0;
+    SLONG l = 0;
+    SLONG SizeY = 0;
     CRect rc(p1.x, p1.y, p2.x, p2.y);
 
     if (p2.y-p1.y<68)
@@ -2172,7 +2174,7 @@ CString GetMatchingNext (const CString& DirAndWildcards, const CString& CurrentF
 //--------------------------------------------------------------------------------------------
 CString CreateNumeratedFreeFilename (const CString& DirAndFilename)
 {
-    long c;
+    long c = 0;
 
     for (c=0; c<100000; c++)
     {

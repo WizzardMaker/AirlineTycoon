@@ -20,7 +20,7 @@ SLONG MaxCredits;
 //////////////////////////////////////////////////////////////////////////////////////////////
 CCredits::CCredits(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0)
 {
-    SLONG c;
+    SLONG c = 0;
     CRect rect (0,0,640,480);
 
     gMouseStartup = TRUE;
@@ -88,7 +88,7 @@ void CCredits::ReloadBitmap()
 //--------------------------------------------------------------------------------------------
 void CCredits::OnPaint()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Time = timeGetTime();
 
     while (Time-LastTime>0)

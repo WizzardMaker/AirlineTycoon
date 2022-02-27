@@ -144,9 +144,9 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
     CString       path;
     CString       TextFollows;
     BUFFER<SBFX*> Effects (50);
-    SLONG         c;
-    SLONG         m;
-    SLONG         n;
+    SLONG         c = 0;
+    SLONG         m = 0;
+    SLONG         n = 0;
     BOOL          UndoWait=FALSE;
 
     if (gpSSE==nullptr || !gpSSE->IsSoundEnabled()) { return (0);
@@ -378,7 +378,7 @@ BOOL CVoiceScheduler::IsVoicePlaying ()
 
     if (AnzEntries()>0 && (CurrentVoice.pFX != nullptr))
     {
-        dword status;
+        dword status = 0;
         CurrentVoice.pFX->GetStatus (&status);
         return static_cast<BOOL>((status & DSBSTATUS_PLAYING)!=0);
     }
@@ -392,7 +392,7 @@ void CVoiceScheduler::Pump ()
 {
     if (AnzEntries()>0 && (IsVoicePlaying() == 0))
     {
-        SLONG c;
+        SLONG c = 0;
 
         for (c=0; c<Voices.AnzEntries()-1; c++) {
             Voices[c]=Voices[c+1];
@@ -698,8 +698,8 @@ void SBFX::Fusion (const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumF
 
 void SBFX::Tokenize (BUFFER<SBFX> &Effects) const
 {
-    SLONG  c;
-    SLONG  Anzahl;
+    SLONG  c = 0;
+    SLONG  Anzahl = 0;
     FX  **ppFx = pFX->Tokenize (0x80007FFF80007FFF, Anzahl);
 
     Effects.ReSize (0);
@@ -713,7 +713,7 @@ void SBFX::Tokenize (BUFFER<SBFX> &Effects) const
 
 void SBFX::Tokenize (BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis) const
 {
-    SLONG Anzahl;
+    SLONG Anzahl = 0;
 
     Von.ReSize (100);
     Bis.ReSize (100);
@@ -915,11 +915,11 @@ BOOL Near (SND_TYPE a, SND_TYPE b)
 
 void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
-    SLONG o;
-    SLONG t;   //toleranz
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
+    SLONG o = 0;
+    SLONG t = 0;   //toleranz
 
     for (c=Input.AnzEntries()-1; c>=0; c--) {
         for (d=0; d<sizeof (Tokens); d++) {
@@ -1029,9 +1029,9 @@ void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
 
 void DecompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
 {
-    SLONG c;
-    SLONG d;
-    SLONG o;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG o = 0;
 
     o=0;
     for (c=0; c<Input.AnzEntries(); c++)

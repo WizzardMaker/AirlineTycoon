@@ -2,6 +2,7 @@
 // SmackPrs.cpp : Wrapper-Klasse für den Smacker für 16Bit Farben bei 8-Bit Videos:
 //============================================================================================
 #include "StdAfx.h"
+#include <math.h>
 #include <smacker.h>
 
 //Zum debuggen:
@@ -76,7 +77,7 @@ BOOL CSmack16::Next (SBBM *pTargetBm)
         //Take the next frame:
         State = smk_next(pSmack);
 
-        double usf;
+        double usf = NAN;
         smk_info_all(pSmack, nullptr, nullptr, &usf);
         FrameNext = timeGetTime() + (usf / 1000.0);
 
@@ -216,7 +217,7 @@ void CSmackerClip::ReSize (SLONG          ClipId,
         const CString&        SuccessorTokens,        //z.B. "A2X8"...
         SLONG          SuccessorIds, ...)
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (pSmack != nullptr) { smk_close (pSmack);
 }
@@ -251,7 +252,7 @@ void CSmackerClip::ReSize (SLONG          ClipId,
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
     {
-        va_list  Vars;
+        va_list  Vars = nullptr;
 
         //Tabelle initialisieren:
         va_start (Vars, SuccessorIds);
@@ -448,7 +449,7 @@ void CSmackerPerson::Pump ()
                 Clips[ActiveClip].PlaySyllable ();
 }
 
-            double usf;
+            double usf = NAN;
             smk_next(Clips[ActiveClip].pSmack);
             smk_info_all(Clips[ActiveClip].pSmack, &Clips[ActiveClip].FrameNum, &Clips[ActiveClip].Frames, &usf);
             Clips[ActiveClip].FrameNext = timeGetTime() + (usf / 1000.0);
@@ -485,7 +486,7 @@ void CSmackerPerson::Pump ()
             Clips[ActiveClip].PlaySyllable ();
 }
 
-        double usf;
+        double usf = NAN;
         smk_next(Clips[ActiveClip].pSmack);
         smk_info_all(Clips[ActiveClip].pSmack, &Clips[ActiveClip].FrameNum, &Clips[ActiveClip].Frames, &usf);
         Clips[ActiveClip].FrameNext = timeGetTime() + (usf / 1000.0);
@@ -572,7 +573,7 @@ void CSmackerPerson::Pump ()
                     Clips[ActiveClip].PlaySyllable ();
 }
 
-                double usf;
+                double usf = NAN;
                 if (Clips[ActiveClip].FrameNum >= Clips[ActiveClip].Frames - 1) {
                     smk_first(Clips[ActiveClip].pSmack);
                 } else {
@@ -598,8 +599,8 @@ void CSmackerPerson::Pump ()
 //--------------------------------------------------------------------------------------------
 void CSmackerPerson::NextClip ()
 {
-    SLONG c;
-    SLONG PropSum;
+    SLONG c = 0;
+    SLONG PropSum = 0;
 
     if (Clips.AnzEntries()==0) { return;
 }

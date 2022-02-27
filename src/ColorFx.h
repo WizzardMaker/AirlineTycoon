@@ -16,7 +16,7 @@ typedef BUFFER<UWORD> BUFFER_UWORD;
 class SB_CColorFX
 {
     private:
-        SLONG           AnzSteps;
+        SLONG           AnzSteps{};
         BUFFER<UWORD>   BlendTables;
 
     public:

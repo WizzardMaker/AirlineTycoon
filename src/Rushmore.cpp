@@ -56,7 +56,7 @@ CRushmore::~CRushmore()
 //--------------------------------------------------------------------------------------------
 void CRushmore::OnPaint()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Remapper[4];
     SLONG Ratings[4];
     SLONG RatingsB[4];
@@ -82,7 +82,7 @@ void CRushmore::OnPaint()
     for (c=0; c<3; c++) {
         if (Ratings[Remapper[c]]<Ratings[Remapper[c+1]])
         {
-            SLONG d;
+            SLONG d = 0;
 
             d=Remapper[c]; Remapper[c]=Remapper[c+1]; Remapper[c+1]=d;
             c-=2;

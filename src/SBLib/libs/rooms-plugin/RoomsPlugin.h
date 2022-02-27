@@ -958,7 +958,7 @@ namespace RakNet
             ProfanityFilter *profanityFilter;
             RakNet::TimeMS lastUpdateTime;
 
-            bool isServer;
+            bool isServer{};
 
             // Client data
             SystemAddress serverAddress;

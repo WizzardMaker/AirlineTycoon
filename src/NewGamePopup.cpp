@@ -92,7 +92,7 @@ NewGamePopup::NewGamePopup(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, Play
 
 void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
 {
-    SLONG c;
+    SLONG c = 0;
 
     bNewGamePopupIsOpen = true;
 
@@ -442,7 +442,7 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 NewGamePopup::~NewGamePopup()
 {
-    SLONG c;
+    SLONG c = 0;
     if (TimerId != 0) { SDL_RemoveTimer(TimerId);
 }
 
@@ -502,7 +502,7 @@ NewGamePopup::~NewGamePopup()
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::RefreshKlackerField()
 {
-    SLONG c;
+    SLONG c = 0;
 
     KlackerTafel.Clear();
 
@@ -898,8 +898,8 @@ void NewGamePopup::RefreshKlackerField()
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::CheckNames()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     NamesOK = TRUE;
 
@@ -1369,7 +1369,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point)
                 PageSub = 0;
 
 again_heimatflughafen:
-                SLONG c;
+                SLONG c = 0;
                 for (c = PageSub; c < PageSub + 12; c++) {
                     if ((Cities.IsInAlbum(c) != 0) && Cities.GetIdFromIndex(c) == (ULONG)Sim.HomeAirportId) { break;
 }
@@ -1567,7 +1567,7 @@ again_heimatflughafen:
                 {
                     if (PageNum == SELECT_PLAYER_MULTIPLAYER)
                     {
-                        SLONG c;
+                        SLONG c = 0;
 
                         if (!(NamesOK && bThisIsSessionMaster && pNetworkPlayers && pNetworkPlayers->GetNumberOfElements() > 1))
                             return;
@@ -1801,7 +1801,7 @@ again_heimatflughafen:
         }
         else if (PageNum == MULTIPLAYER_SELECT_NETWORK)  //Netzwerk: Provider-Medium wählen
         {
-            long c;
+            long c = 0;
 
             for (c = 0; c < 4; c++)
             {
@@ -2156,7 +2156,7 @@ void NewGamePopup::CheckNetEvents() {
 
             if (Sim.ReceiveMemFile(Message))
             {
-                ULONG MessageType;
+                ULONG MessageType = 0;
                 ULONG Par1 = 0;
                 ULONG Par2 = 0;
                 ULONG Par3 = 0;
@@ -2185,9 +2185,9 @@ void NewGamePopup::CheckNetEvents() {
                     case ATNET_WANNAJOIN:
                         if (bThisIsSessionMaster)
                         {
-                            SLONG c;
-                            SLONG AnzHumanPlayers;
-                            ULONG SenderID;
+                            SLONG c = 0;
+                            SLONG AnzHumanPlayers = 0;
+                            ULONG SenderID = 0;
                             Message >> SenderID;
 
                             for (c = AnzHumanPlayers = 0; c < 4; c++) {
@@ -2216,7 +2216,7 @@ void NewGamePopup::CheckNetEvents() {
                             }
                             else
                             {
-                                SLONG WantedIndex;
+                                SLONG WantedIndex = 0;
                                 Message >> WantedIndex;
 
                                 if (MessageType == ATNET_WANNAJOIN)
@@ -2274,8 +2274,8 @@ void NewGamePopup::CheckNetEvents() {
 
                     case ATNET_SAVGEGAMECHECK:
                         {
-                            SLONG SavegameIndex;
-                            DWORD UniqueGameId;
+                            SLONG SavegameIndex = 0;
+                            DWORD UniqueGameId = 0;
 
                             Message >> SavegameIndex >> UniqueGameId;
 
@@ -2309,9 +2309,9 @@ void NewGamePopup::CheckNetEvents() {
 
                     case ATNET_SELECTPLAYER:
                         {
-                            SLONG OldIndex;
-                            SLONG NewIndex;
-                            ULONG PlayerNetworkID;
+                            SLONG OldIndex = 0;
+                            SLONG NewIndex = 0;
+                            ULONG PlayerNetworkID = 0;
 
                             Message >> OldIndex >> NewIndex >> PlayerNetworkID;
 
@@ -2334,8 +2334,8 @@ void NewGamePopup::CheckNetEvents() {
 
                     case ATNET_UNSELECTPLAYER:
                         {
-                            SLONG PlayerIndex;
-                            ULONG PlayerNetworkID;
+                            SLONG PlayerIndex = 0;
+                            ULONG PlayerNetworkID = 0;
 
                             Message >> PlayerIndex >> PlayerNetworkID;
 
@@ -2356,7 +2356,7 @@ void NewGamePopup::CheckNetEvents() {
                     case ATNET_WANNALEAVE:
                         if (bThisIsSessionMaster)
                         {
-                            ULONG SenderID;
+                            ULONG SenderID = 0;
                             Message >> SenderID;
 
                             for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
@@ -2383,8 +2383,8 @@ void NewGamePopup::CheckNetEvents() {
                     case ATNET_BEGINGAME:
                         if (PageNum == 18)
                         {
-                            SLONG Time;
-                            SLONG difficulty;
+                            SLONG Time = 0;
+                            SLONG difficulty = 0;
 
                             PageNum = MP_LOADING;
                             PageSub = 0;
@@ -2413,9 +2413,9 @@ void NewGamePopup::CheckNetEvents() {
 
                     case ATNET_BEGINGAMELOADING:
                         {
-                            SLONG Time;
-                            SLONG Index;
-                            SLONG difficulty;
+                            SLONG Time = 0;
+                            SLONG Index = 0;
+                            SLONG difficulty = 0;
 
                             Message >> Sim.bAllowCheating >> Time >> Sim.HomeAirportId >> Index >> difficulty;
                             Sim.Options.OptionAirport = Sim.HomeAirportId;
@@ -2525,8 +2525,8 @@ void NewGamePopup::CheckNetEvents() {
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::OnTimer(UINT nIDEvent)
 {
-    SLONG c;
-    SLONG l;
+    SLONG c = 0;
+    SLONG l = 0;
     static int counter = 0;
 
     if (!bNewGamePopupIsOpen) { return;

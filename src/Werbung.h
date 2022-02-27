@@ -13,7 +13,7 @@ class CWerbung : public CStdRaum
         SBBM        TipBm;               //Fenster für Flugzeug-Details
         SBBM        DiskBm;
         SBBM        NoSaboBm;
-        SLONG       CurrentTip;          //Dieser Tip wird gerade angezeigt
+        SLONG       CurrentTip{};          //Dieser Tip wird gerade angezeigt
 
         SBFX        CoffeeFx;
         SBFX        SpratzelFx;

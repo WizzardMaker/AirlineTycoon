@@ -13,12 +13,12 @@ class CGlobe : public CPlaner
         SLONG   Quietsching;
 
         //Die Ikonen & Bitmaps:
-        GfxLib *pGLibIcons[6];
+        GfxLib *pGLibIcons[6]{};
         SBBMS   IconBms[6];
 
         //Sonstiges:
-        GfxLib *pGLibGlobe;                 //Library für den Raum: Animationen der Objekte; wird immer geladen
-        GfxLib *pGLibStd;                   //Library für den Globe: Filofax, Register, ...
+        GfxLib *pGLibGlobe{};                 //Library für den Raum: Animationen der Objekte; wird immer geladen
+        GfxLib *pGLibStd{};                   //Library für den Globe: Filofax, Register, ...
 
         GfxLib *pGLibDark;
         SBBM    DarkBm;

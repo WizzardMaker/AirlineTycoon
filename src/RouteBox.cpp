@@ -3,6 +3,8 @@
 //============================================================================================
 #include "StdAfx.h"
 #include "RouteBox.h"
+
+#include <math.h>
 #include "glrb.h"
 #include "AtNet.h"
 
@@ -30,7 +32,7 @@ static const XY PlayerOffsets[] = { XY(241,267), XY(248,335), XY(304,258), XY(31
 //--------------------------------------------------------------------------------------------
 SLONG CalcDistanceLine2Dot (XY LineP1, XY LineP2, XY p)
 {
-    float Abschnitt;
+    float Abschnitt = NAN;
 
     Abschnitt = ((LineP1-p)*(LineP1-LineP2)) / (float)(LineP2-LineP1).abs() / (float)(LineP2-LineP1).abs();
 
@@ -225,8 +227,8 @@ void CRouteBox::OnPaint()
         }
         else if (gMousePosition.IfIsWithin (17,27,434,295) && !gMousePosition.IfIsWithin (9,268,200,434) && !gMousePosition.IfIsWithin (230,254,361,387))
         {
-            SLONG c;
-            SLONG minc;
+            SLONG c = 0;
+            SLONG minc = 0;
             SLONG mindist=-1;
 
             for (c=Routen.AnzEntries()-1; c>=0; c--) {
@@ -260,7 +262,7 @@ void CRouteBox::OnPaint()
                         if (p1.x>p2.x) { Swap (p1, p2);
 }
 
-                        long mitte;
+                        long mitte = 0;
                         if (p1.y>p2.y) { mitte = p1.y+(p2.y-p1.y)*(p1.x-16)/(437-16-(p2.x-p1.x));
                         } else {           mitte = p2.y+(p1.y-p2.y)*(p1.x-16)/(437-16-(p2.x-p1.x));
 }
@@ -404,8 +406,8 @@ void CRouteBox::OnPaint()
 //--------------------------------------------------------------------------------------------
 void CRouteBox::RepaintList()
 {
-    SLONG c;
-    SLONG i;
+    SLONG c = 0;
+    SLONG i = 0;
 
     ListBm.ReSize (172, 310);
     ListBm.BlitFrom (PicBitmap, -461, -29);
@@ -415,7 +417,7 @@ void CRouteBox::RepaintList()
 
     for (c=RoutePage*ListSize; c<(RoutePage+1)*ListSize && c<Table.AnzRows; c++)
     {
-        SB_CFont *s;
+        SB_CFont *s = nullptr;
         BOOL      Haken=FALSE;
 
         i=c-RoutePage*ListSize;
@@ -445,7 +447,7 @@ void CRouteBox::RepaintList()
 //--------------------------------------------------------------------------------------------
 void CRouteBox::RepaintTip ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     TipBm.ReSize (177, 157);
     TipBm.BlitFrom (PicBitmap, -26, -275);
@@ -515,9 +517,9 @@ void CRouteBox::RepaintTip ()
 //--------------------------------------------------------------------------------------------
 void CRouteBox::RepaintMap ()
 {
-    SLONG c;
-    SLONG d;
-    SLONG Pass;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG Pass = 0;
 
     MapBm.ReSize (415, 240);
     MapBm.BlitFrom (PicBitmap, -19, -28);
@@ -581,7 +583,7 @@ void CRouteBox::RepaintMap ()
                             if (p1.x>p2.x) { Swap (p1, p2);
 }
 
-                            long mitte;
+                            long mitte = 0;
                             if (p1.y>p2.y) { mitte = p1.y+(p2.y-p1.y)*(p1.x-16)/(437-16-(p2.x-p1.x));
                             } else {           mitte = p2.y+(p1.y-p2.y)*(p1.x-16)/(437-16-(p2.x-p1.x));
 }
@@ -625,9 +627,9 @@ void CRouteBox::UpdateDataTable ()
 
         case 1:
             {
-                SLONG c;
-                SLONG d;
-                SLONG e;
+                SLONG c = 0;
+                SLONG d = 0;
+                SLONG e = 0;
 
                 Table.FillWithAllRouten (&Routen, &Sim.Players.Players[(SLONG)PlayerNum].RentRouten, TRUE);
 
@@ -655,9 +657,9 @@ void CRouteBox::UpdateDataTable ()
 
         case 2:
             {
-                SLONG c;
-                SLONG d;
-                SLONG e;
+                SLONG c = 0;
+                SLONG d = 0;
+                SLONG e = 0;
 
                 Table.FillWithAllRouten (&Routen, &Sim.Players.Players[(SLONG)PlayerNum].RentRouten, TRUE);
 
@@ -734,7 +736,7 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point)
 
                 if (qRRoute.Rang != 0u)
                 {
-                    SLONG d;
+                    SLONG d = 0;
                     SLONG RouteB=-1;
 
                     for (d=0; d<Routen.Routen.AnzEntries(); d++) {
@@ -764,7 +766,7 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point)
                 }
                 else
                 {
-                    SLONG d;
+                    SLONG d = 0;
                     SLONG Rang=1;
                     SLONG RouteB=-1;
 

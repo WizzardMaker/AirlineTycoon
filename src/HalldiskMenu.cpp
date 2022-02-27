@@ -22,8 +22,8 @@ static const char FileId[] = "Hall";
 //--------------------------------------------------------------------------------------------
 HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     CRect rect (10,10,620,460);
 
@@ -74,9 +74,9 @@ HallDiskMenu::~HallDiskMenu()
 void HallDiskMenu::OnPaint()
 {
     SLONG xOffset []= {79, 104, 126, 155, 187, 225, 255, 301, 350, 386, 446 };
-    SLONG c;
-    SLONG d;
-    SLONG e;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
 
     if ((bActive != 0) && MenuBm.Size.x>0)
     {
@@ -123,7 +123,7 @@ void HallDiskMenu::OnClose()
 //--------------------------------------------------------------------------------------------
 void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    SLONG n;
+    SLONG n = 0;
 
     point.x-=9; point.y-=9;
 
@@ -201,8 +201,8 @@ void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
         if (Sim.Difficulty==DIFF_FREEGAMEMAP) { Sim.Difficulty=DIFF_FREEGAME;
 }
 
-        SLONG c;
-        SLONG d;
+        SLONG c = 0;
+        SLONG d = 0;
 
         memset (bFiles, 0, sizeof (bFiles));
 
@@ -221,8 +221,8 @@ void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
     {
         Sim.Difficulty=UBYTE((point.y-161)/9)+11;
 
-        SLONG c;
-        SLONG d;
+        SLONG c = 0;
+        SLONG d = 0;
 
         memset (bFiles, 0, sizeof (bFiles));
 

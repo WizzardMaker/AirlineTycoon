@@ -57,7 +57,7 @@ void BRICK::BlitAt (SBBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLONG Pha
 
             if (Triggered==90)
             {
-                SLONG c;
+                SLONG c = 0;
                 SLONG Target = (Sim.TickerTime/AnimSpeed)%WaitSum;
 
                 for (c=0; c<Bitmap.AnzEntries(); c++)
@@ -141,7 +141,7 @@ void BRICK::BlitAt (SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SL
 
             if (Triggered==90)
             {
-                SLONG c;
+                SLONG c = 0;
                 SLONG Target = (Sim.TickerTime/AnimSpeed)%WaitSum;
 
                 for (c=0; c<Bitmap.AnzEntries(); c++)
@@ -212,7 +212,7 @@ BOOL BRICK::IsGlasAt (SLONG x, SLONG y)
 void BRICK::UpdateBrick ()
 {
     BOOL  ReloadNecessary = FALSE;
-    long c;
+    long c = 0;
 
     //Falls Bitmap noch nicht vorhanden ==> laden!
     if (Bitmap.AnzEntries()==0) { ReloadNecessary=TRUE;
@@ -221,7 +221,7 @@ void BRICK::UpdateBrick ()
     if (ReloadNecessary != 0)
     {
         //Bild muﬂ (neu) geladen werden:
-        SLONG  AnzPhases;
+        SLONG  AnzPhases = 0;
 
         //Wie oft kommt diese Periode drin vor ?
         AnzPhases=graphicIDs.AnzEntries();
@@ -260,7 +260,7 @@ XY BRICK::GetIntelligentPosition (SLONG x, SLONG y)
 {
     XY    rc;
     XY    LocalOffset;
-    SLONG BaseOffsetX;
+    SLONG BaseOffsetX = 0;
 
     LocalOffset = XY(0,0);
 
@@ -304,8 +304,8 @@ void BRICKS::ReInit (const CString &TabFilename)
     //CStdioFile    Tab;
     BUFFER<char>  Line(300);
     char         *TimePointer [150];
-    long          Id;
-    long          AnzTimePointer;
+    long          Id = 0;
+    long          AnzTimePointer = 0;
 
     //Load Table header:
     BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
@@ -409,10 +409,10 @@ void BRICKS::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 void BRICKS::UpdateBricks ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
     SLONG Anz=0;
-    SLONG VidMemFree;
+    SLONG VidMemFree = 0;
     SLONG Bytes=0;
 
     //hprintf ("Updating Bricks.");
@@ -650,7 +650,7 @@ void BUILDS::Save (SLONG Hall, SLONG Level) const
 //--------------------------------------------------------------------------------------------
 void BUILDS::Sort ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<long(AnzEntries()-1); c++) {
         if (((IsInAlbum(c) == 0) && (IsInAlbum(c+1) != 0)) ||

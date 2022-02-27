@@ -30,7 +30,7 @@ TEAKFILE::~TEAKFILE()
 
 void TEAKFILE::ReadLine(char* buffer, SLONG size)
 {
-    int i;
+    int i = 0;
     for (i = 0; i < size && (IsEof() == 0); i++)
     {
         char c = SDL_ReadU8(Ctx);
@@ -86,7 +86,7 @@ void TEAKFILE::Read(unsigned char* buffer, SLONG size)
 {
     if (MemBuffer.AnzEntries() > 0)
     {
-        SLONG anz;
+        SLONG anz = 0;
         if ( size >= MemBufferUsed - MemPointer ) {
             anz = MemBufferUsed - MemPointer;
         } else {

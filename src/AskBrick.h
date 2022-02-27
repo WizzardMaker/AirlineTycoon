@@ -13,7 +13,7 @@ class AskBrick : public CStdRaum
         // Attributes
     public:
         SBBM           AskBrickBm;
-        GfxLib        *pMenuLib;
+        GfxLib        *pMenuLib{};
 
     private:
         ULONG Group;

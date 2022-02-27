@@ -67,7 +67,7 @@ void BLOCK::BlitAt (SBBM &RoomBm)
     else
     {
         SLONG Phase = (Sim.TimeSlice-AnimationStart)*2-7;
-        auto *pLaptop = (CLaptop*)Base;
+        auto *pLaptop = dynamic_cast<CLaptop*>(Base);
 
         if (Destructing==1)
         {
@@ -302,10 +302,10 @@ void BLOCK::UpdateTip (SLONG PlayerNum, BOOL StyleType)
 //--------------------------------------------------------------------------------------------
 void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 {
-    SLONG      c;
-    SLONG      d;
-    SLONG      e;
-    SLONG      i;
+    SLONG      c = 0;
+    SLONG      d = 0;
+    SLONG      e = 0;
+    SLONG      i = 0;
     XY         TitleArea;  //Hier beginnt der Platz für den Fenstertitel
     XY         ClientArea; //Hier beginnt das Papier
     XY         PageArea;   //Hier steht die aktuelle Seite Papier
@@ -343,7 +343,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
     if (StyleType==0) //Globus/Filofax
     {
-        auto *pGlobe = (CGlobe*)Base;
+        auto *pGlobe = dynamic_cast<CGlobe*>(Base);
 
         TitleArea   = XY (48,57);
         ClientArea  = XY (48,72);
@@ -411,7 +411,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
     }
     else //Laptop
     {
-        auto *pLaptop = (CLaptop*)Base;
+        auto *pLaptop = dynamic_cast<CLaptop*>(Base);
 
         TitleArea   = XY (41,7);
         ClientArea  = XY (20,21)+XY(1,1);
@@ -516,7 +516,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                     for (c=Page; c<Page+6 && c<Table.AnzRows; c++)
                     {
-                        SB_CFont *f;
+                        SB_CFont *f = nullptr;
 
                         if (Table.ValueFlags[0+c*Table.AnzColums] != 0u) { f=&FontSmallRed;
                         } else {                                       f=&FontSmallBlack;
@@ -593,7 +593,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                     //Paint Planes Details:
                 case 2:
                     {
-                        SB_CFont *f;
+                        SB_CFont *f = nullptr;
                         CPlanes &qPlanes=qPlayer.Planes;
 
                         //if (qPlanes[SelectedId].AnzBegleiter<PlaneTypes[qPlanes[SelectedId].TypeId].AnzBegleiter ||
@@ -615,7 +615,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                         if (Base->IsLaptop==FALSE)
                         {
-                            Bitmap.BlitFromT (((CGlobe*)Base)->TimeTables[0], ClientArea+XY(21,-2));
+                            Bitmap.BlitFromT ((dynamic_cast<CGlobe*>(Base))->TimeTables[0], ClientArea+XY(21,-2));
                         }
                         else
                         {
@@ -705,7 +705,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                                             if (d<24 && Plan.Flug[c].ObjectType!=0)
                                             {
-                                                SB_CFont *pFont;
+                                                SB_CFont *pFont = nullptr;
                                                 XY        OffsetA(0,0);
                                                 XY        OffsetB(0,0);
 
@@ -825,8 +825,8 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                     }
                     else if (Page==2) //Besatzung:
                     {
-                        SLONG       c;
-                        SLONG       n;
+                        SLONG       c = 0;
+                        SLONG       n = 0;
                         CPlane     &qPlane     = qPlayer.Planes[SelectedId];
                         //CPlaneType &qPlaneType = PlaneTypes[qPlane.TypeId];
 
@@ -913,16 +913,16 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                         case 0:
                             if (Bitmap.pBitmap != nullptr)
                             {
-                                SLONG x;
-                                SLONG y;
-                                SLONG c;
+                                SLONG x = 0;
+                                SLONG y = 0;
+                                SLONG c = 0;
                                 SB_Hardwarecolor red = Bitmap.pBitmap->GetHardwarecolor (0xff0000);
 
                                 CGates &qGates = qPlayer.Gates;
 
                                 if (Base->IsLaptop==FALSE)
                                 {
-                                    Bitmap.BlitFromT (((CGlobe*)Base)->TimeTables[0], ClientArea+XY(21,-2));
+                                    Bitmap.BlitFromT ((dynamic_cast<CGlobe*>(Base))->TimeTables[0], ClientArea+XY(21,-2));
                                 }
                                 else
                                 {
@@ -1031,7 +1031,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                                     for (c=(Page-1)*13; c<(Page-1)*13+13 && c<Table.AnzRows; c++)
                                     {
-                                        SB_CFont *pFont;
+                                        SB_CFont *pFont = nullptr;
 
                                         if (Table.ValueFlags[0+c*Table.AnzColums] != 0u) { pFont=&FontSmallRed;
                                         } else { pFont=&FontSmallBlack;
@@ -1079,7 +1079,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                             {
                                 if (Page==0) //Geld&Schulden
                                 {
-                                    SLONG c;
+                                    SLONG c = 0;
 
                                     Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3300), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,1+0*13), Bitmap.Size);
                                     Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3301), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,1+6*13), Bitmap.Size);
@@ -1096,7 +1096,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                                 }
                                 else if (Page==1) //Flugzeuge&Image
                                 {
-                                    SLONG c;
+                                    SLONG c = 0;
 
                                     Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3302), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,1+0*13), Bitmap.Size);
                                     Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3303), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,1+6*13), Bitmap.Size);
@@ -1113,7 +1113,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                                 }
                                 if (Page==2) //Routen&Niederlassungen
                                 {
-                                    SLONG c;
+                                    SLONG c = 0;
 
                                     Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3304), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,1+0*13), Bitmap.Size);
                                     Bitmap.PrintAt (StandardTexte.GetS (TOKEN_EXPERT, 3305), FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,1+6*13), Bitmap.Size);
@@ -1160,7 +1160,7 @@ switch_again:
 
                     for (c=PageB; c<PageB+6 && c<TableB.AnzRows; c++)
                     {
-                        SB_CFont *s;
+                        SB_CFont *s = nullptr;
 
                         //Nachschauen, ob der Flug zu lang ist für das Flugzeug:
                         if (Index!=1 && TableB.ValueFlags[0+c*TableB.AnzColums]==0 && (qPlayer.Auftraege.IsInAlbum(TableB.LineIndex[c]) != 0))
@@ -1213,7 +1213,7 @@ switch_again:
 
                     for (c=PageB; c<PageB+6 && c<TableB.AnzRows; c++)
                     {
-                        SB_CFont *s;
+                        SB_CFont *s = nullptr;
 
                         Bitmap.BlitFromT (gPostItBms[0], ClientAreaB+XY(1, (c-PageB)*26));
                         Bitmap.BlitFromT (gInfoBms[0], ClientAreaB+XY(3, (c-PageB)*26+9));
@@ -1267,7 +1267,7 @@ switch_again:
 
                     for (c=PageB; c<PageB+6 && c<TableB.AnzRows; c++)
                     {
-                        SB_CFont *s;
+                        SB_CFont *s = nullptr;
 
                         //Nachschauen, ob der Flug zu lang ist für das Flugzeug:
                         if (Index!=1 && TableB.ValueFlags[0+c*TableB.AnzColums]==0 && (qPlayer.Frachten.IsInAlbum(TableB.LineIndex[c]) != 0))
@@ -1551,13 +1551,13 @@ switch_again:
     {
         if (StyleType==1) //Laptop
         {
-            Bitmap.BlitFrom (((CLaptop*)Base)->Karte, ClientAreaB+XY(-4,-2));
+            Bitmap.BlitFrom ((dynamic_cast<CLaptop*>(Base))->Karte, ClientAreaB+XY(-4,-2));
             if (CurrentTipId!=0xffffffff) { DrawCityTipContents (Bitmap, CurrentTipId, TitleAreaB, ClientAreaB+XY(0, -15), ClientAreaB+XY(-18,-20), &TitleFont, &FontSmallBlack);
 }
         }
         else
         {
-            Bitmap.BlitFrom (((CGlobe*)Base)->Karte, ClientAreaB+XY(-9,-11));
+            Bitmap.BlitFrom ((dynamic_cast<CGlobe*>(Base))->Karte, ClientAreaB+XY(-9,-11));
             if (CurrentTipId!=0xffffffff) { DrawCityTipContents (Bitmap, CurrentTipId, TitleAreaB, ClientAreaB+XY(0, -15), ClientAreaB+XY(-9,-11), &TitleFont, &FontSmallBlack);
 }
         }

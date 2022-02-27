@@ -89,7 +89,7 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
 //--------------------------------------------------------------------------------------------
 Options::~Options()
 {
-    SLONG c;
+    SLONG c = 0;
     if (TimerId != 0) { SDL_RemoveTimer(TimerId);
 }
 
@@ -130,10 +130,10 @@ Options::~Options()
 //--------------------------------------------------------------------------------------------
 void Options::UpdateSavegameNames()
 {
-    SLONG   c;
+    SLONG   c = 0;
     CString Filename;
 
-    const char* pNamebaseStr;
+    const char* pNamebaseStr = nullptr;
 
     if (Sim.bNetwork != 0) { pNamebaseStr = "net%li.dat";
     } else { pNamebaseStr = "game%li.dat";
@@ -145,8 +145,8 @@ void Options::UpdateSavegameNames()
 
         if (DoesFileExist(Filename) != 0)
         {
-            SLONG    SaveVersion;
-            SLONG    SaveVersionSub;
+            SLONG    SaveVersion = 0;
+            SLONG    SaveVersionSub = 0;
             TEAKFILE InputFile(Filename, TEAKFILE_READ);
 
             InputFile >> SavegameNames[c];
@@ -173,7 +173,7 @@ void Options::UpdateSavegameNames()
 //--------------------------------------------------------------------------------------------
 void Options::RefreshKlackerField()
 {
-    SLONG c;
+    SLONG c = 0;
 
     KlackerTafel.Clear();
 
@@ -376,7 +376,7 @@ void Options::OnPaint()
         //Klacker-Felder:
         if (PageNum == 5 || PageNum == 6)
         {
-            BOOL SavenameValid;
+            BOOL SavenameValid = 0;
 
             for (py = 63, y = 0; y < 16; y++, py += 22)
             {

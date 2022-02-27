@@ -159,7 +159,7 @@ CBuero::~CBuero()
 //--------------------------------------------------------------------------------------------
 void CBuero::OnPaint()
 {
-    SLONG  d;
+    SLONG  d = 0;
     XY     RoomPos;
     CPoint point = Sim.Players.Players[(SLONG)PlayerNum].CursorPos;
 
@@ -387,7 +387,7 @@ void CBuero::OnRButtonDown(UINT nFlags, CPoint point)
 //============================================================================================
 void CLetters::Clear ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Letters.AnzEntries(); c++) {
         Letters[c].Date=-1;
@@ -399,7 +399,7 @@ void CLetters::Clear ()
 //--------------------------------------------------------------------------------------------
 void CLetters::SortLetters ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Letters.AnzEntries()-1; c++)
     {
@@ -423,7 +423,7 @@ void CLetters::AddLetter (BOOL IsLetter, const CString &Subject, const CString &
 {
     SortLetters ();
 
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Letters.AnzEntries(); c++) {
         if (Letters[c].Date!=-1 && Letters[c].Subject==Subject && Letters[c].Letter==Letter && Letters[c].Absender==Absender) {
@@ -446,8 +446,8 @@ void CLetters::AddLetter (BOOL IsLetter, const CString &Subject, const CString &
 //--------------------------------------------------------------------------------------------
 SLONG CLetters::AnzLetters ()
 {
-    SLONG c;
-    SLONG Anz;
+    SLONG c = 0;
+    SLONG Anz = 0;
 
     for (Anz=c=0; c<Letters.AnzEntries(); c++) {
         if (Letters[c].Date!=-1) { Anz++;

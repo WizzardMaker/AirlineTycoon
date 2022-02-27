@@ -73,14 +73,14 @@ class CHLPool
         CString   Filename;
         UBYTE   *pPool;                    //Eine Folge von 2-byte Pixeln (64k Farben)
         SLONG     PoolSize;                //Aktuelle Größe in Pixeln (1 Pixel = 2 Bytes)
-        SLONG     PoolMaxSize;             //Maximale Größe in Pixeln
+        SLONG     PoolMaxSize{};             //Maximale Größe in Pixeln
         CHLPool *pHLBasepool1;             //Eltern-Pool #1
         CHLPool *pHLBasepool2;             //Eltern-Pool #2
 
-        UBYTE   *pHLBasepool1Pool;         //Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
-        UBYTE   *pHLBasepool2Pool;         //Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
-        SLONG     HLBasepool1Size;         //Größe Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
-        SLONG     HLBasepool2Size;         //Größe Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
+        UBYTE   *pHLBasepool1Pool{};         //Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
+        UBYTE   *pHLBasepool2Pool{};         //Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
+        SLONG     HLBasepool1Size{};         //Größe Eltern-Pool #1 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
+        SLONG     HLBasepool2Size{};         //Größe Eltern-Pool #2 (Cache; damit UnBase auch nach unload des Elternpools möglich ist)
 
         FBUFFER<UWORD> PaletteMapper;      //256 Paletteneinträge zum remappen
 
@@ -123,7 +123,7 @@ class CHLPool
 class CHLBm
 {
     private:
-        CHLObj  *pObj;
+        CHLObj  *pObj{};
 
     public: //Konstruktion/Destruktion:
         CHLBm ();

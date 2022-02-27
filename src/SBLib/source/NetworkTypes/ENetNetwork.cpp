@@ -32,7 +32,7 @@ SLONG ENetNetwork::GetMessageCount() {
     ENetBuffer buf;
     if (mState == SBNETWORK_SESSION_MASTER)
     {
-        SLONG clientID;
+        SLONG clientID = 0;
         buf.data = &clientID;
         buf.dataLength = sizeof(SLONG);
         if (enet_socket_receive(mSocket, &address, &buf, 1) > 0)
@@ -97,7 +97,7 @@ SLONG ENetNetwork::GetMessageCount() {
                     if (mState == SBNETWORK_SESSION_MASTER)
                     {
                         /* Broadcast the address of this peer to all other peers */
-                        ENetNetworkPeer peer;
+                        ENetNetworkPeer peer{};
                         peer.ID = event.data;
                         peer.address = event.peer->address;
                         ENetPacket* packet = enet_packet_create(&peer, sizeof(ENetNetworkPeer), ENET_PACKET_FLAG_RELIABLE);
@@ -134,7 +134,7 @@ SLONG ENetNetwork::GetMessageCount() {
                 if (event.peer->data != nullptr)
                 {
                     auto* player = (SBNetworkPlayer*)event.peer->data;
-                    DPPacket dp;
+                    DPPacket dp{};
                     dp.messageType = DPSYS_DESTROYPLAYERORGROUP;
                     dp.playerType = DPPLAYERTYPE_PLAYER;
                     dp.dpId = player->ID;
@@ -166,7 +166,7 @@ SLONG ENetNetwork::GetMessageCount() {
 
                     if (master->ID == mLocalID)
                     {
-                        DPPacket dp;
+                        DPPacket dp{};
                         dp.messageType = DPSYS_HOST;
                         dp.playerType = DPPLAYERTYPE_PLAYER;
                         dp.dpId = master->ID;

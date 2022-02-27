@@ -74,8 +74,8 @@ void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
     if (HasBerater(BERATERTYP_AUFTRAG) != 0)
     {
         SLONG Cost=((CalculateFlightCost (Auftrag.VonCity, Auftrag.NachCity, 8000, 700, -1))+99)/100*100;
-        SLONG d;
-        SLONG Okay;
+        SLONG d = 0;
+        SLONG Okay = 0;
 
         for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++) {
             if (Planes.IsInAlbum(d) != 0)
@@ -799,7 +799,7 @@ too_large:
 //--------------------------------------------------------------------------------------------
 void CAuftrag::BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page) const
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (Tagesansicht == 0)
     {
@@ -873,7 +873,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CAuftrag &Auftrag)
 //============================================================================================
 void CAuftraege::FillForLastMinute ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     CalcPlayerMaximums ();
 
@@ -895,7 +895,7 @@ void CAuftraege::FillForLastMinute ()
 //--------------------------------------------------------------------------------------------
 void CAuftraege::RefillForLastMinute (SLONG Minimum)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz = min (Auftraege.AnzEntries(), Sim.TickLastMinuteRefill);
 
     NetGenericSync (7000, Minimum);
@@ -941,7 +941,7 @@ void CAuftraege::RefillForLastMinute (SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 void CAuftraege::FillForReisebuero ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     CalcPlayerMaximums ();
 
@@ -967,7 +967,7 @@ void CAuftraege::FillForReisebuero ()
 //--------------------------------------------------------------------------------------------
 void CAuftraege::RefillForReisebuero (SLONG Minimum)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz = min (Auftraege.AnzEntries(), Sim.TickReisebueroRefill);
 
     //NetGenericSync (8000, Minimum);
@@ -1020,7 +1020,7 @@ void CAuftraege::RefillForReisebuero (SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 void CAuftraege::FillForAusland (SLONG CityNum)
 {
-    SLONG c;
+    SLONG c = 0;
 
     CalcPlayerMaximums ();
 
@@ -1041,7 +1041,7 @@ void CAuftraege::FillForAusland (SLONG CityNum)
 //--------------------------------------------------------------------------------------------
 void CAuftraege::RefillForAusland (SLONG CityNum, SLONG Minimum)
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz = min (Auftraege.AnzEntries(), AuslandsRefill[CityNum]);
 
     CalcPlayerMaximums ();
@@ -1086,7 +1086,7 @@ void CAuftraege::RefillForAusland (SLONG CityNum, SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 SLONG CAuftraege::GetNumDueToday ()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz=0;
 
     for (c=0; c<Auftraege.AnzEntries(); c++) {
@@ -1105,7 +1105,7 @@ SLONG CAuftraege::GetNumDueToday ()
 //--------------------------------------------------------------------------------------------
 SLONG CAuftraege::GetNumOpen ()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz=0;
 
     for (c=0; c<Auftraege.AnzEntries(); c++) {

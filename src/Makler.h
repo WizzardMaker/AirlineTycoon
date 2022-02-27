@@ -34,7 +34,7 @@ class CMakler : public CStdRaum
         SLONG       SpringState;
 
         SBBM        TipBm;               //Fenster für Flugzeug-Tips
-        SLONG       CurrentTip;          //Dieser Tip wird gerade angezeigt
+        SLONG       CurrentTip{};          //Dieser Tip wird gerade angezeigt
 
         CSmackerPerson SP_Makler;
 

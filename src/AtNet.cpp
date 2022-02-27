@@ -5,6 +5,8 @@
 //============================================================================================
 #include "StdAfx.h"
 #include "AtNet.h"
+
+#include <math.h>
 #include "Buero.h"
 
 #include "SbLib.h"
@@ -76,9 +78,9 @@ void SetNetworkBitmap (SLONG Number, SLONG WaitingType)
 void DisplayBroadcastMessage (CString str, SLONG FromPlayer)
 {
     SBBM    TempBm (gBroadcastBm.Size);
-    SLONG   sy;
-    SLONG   oldy;
-    SLONG   offy;
+    SLONG   sy = 0;
+    SLONG   oldy = 0;
+    SLONG   offy = 0;
 
     if (Sim.bNetwork == 0) {
         return;
@@ -214,7 +216,7 @@ void PumpNetwork ()
 
         if (Sim.ReceiveMemFile (Message))
         {
-            ULONG MessageType;
+            ULONG MessageType = 0;
             ULONG Par1=0;
             ULONG Par2=0;
             ULONG Par3=0;
@@ -263,7 +265,7 @@ void PumpNetwork ()
                 case ATNET_CHATBROADCAST:
                     {
                         CString str;
-                        SLONG   from;
+                        SLONG   from = 0;
 
                         Message >> from >> str;
 
@@ -305,8 +307,8 @@ void PumpNetwork ()
 
                 case DPSYS_DESTROYPLAYERORGROUP:
                     {
-                        DWORD dwPlayerType;
-                        DPID  dpId;
+                        DWORD dwPlayerType = 0;
+                        DPID  dpId = 0;
 
                         Message >> dwPlayerType >> dpId;
 
@@ -373,9 +375,9 @@ void PumpNetwork ()
 
                 case ATNET_PLAYERPOS:
                     {
-                        SLONG PlayerNum;
-                        SLONG MessageTime;
-                        SLONG LocalTime;
+                        SLONG PlayerNum = 0;
+                        SLONG MessageTime = 0;
+                        SLONG LocalTime = 0;
 
                         Message >> PlayerNum;
                         //if (Sim.Players.Players[PlayerNum].Owner!=1) hprintf ("Received Message ATNET_PLAYERPOS (%li)", PlayerNum);
@@ -429,7 +431,7 @@ void PumpNetwork ()
 
                 case ATNET_ADD_EXPLOSION:
                     {
-                        SLONG PlayerNum;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum;
 
@@ -450,7 +452,7 @@ void PumpNetwork ()
 
                 case ATNET_CAFFEINE:
                     {
-                        SLONG PlayerNum;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum;
 
@@ -460,8 +462,8 @@ void PumpNetwork ()
 
                 case ATNET_GIMMICK:
                     {
-                        SLONG PlayerNum;
-                        SLONG Mode;
+                        SLONG PlayerNum = 0;
+                        SLONG Mode = 0;
 
                         Message >> PlayerNum >> Mode;
 
@@ -489,8 +491,8 @@ void PumpNetwork ()
 
                 case ATNET_PLAYERLOOK:
                     {
-                        SLONG PlayerNum;
-                        SLONG Dir;
+                        SLONG PlayerNum = 0;
+                        SLONG Dir = 0;
 
                         Message >> PlayerNum >> Dir;
 
@@ -500,7 +502,7 @@ void PumpNetwork ()
 
                 case ATNET_PLAYERSTOP:
                     {
-                        SLONG PlayerNum;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum;
 
@@ -510,8 +512,8 @@ void PumpNetwork ()
 
                 case ATNET_ENTERROOM:
                     {
-                        SLONG PlayerNum;
-                        SLONG RoomEntered;
+                        SLONG PlayerNum = 0;
+                        SLONG RoomEntered = 0;
 
                         Message >> PlayerNum;
 
@@ -576,8 +578,8 @@ void PumpNetwork ()
 
                 case ATNET_LEAVEROOM:
                     {
-                        SLONG PlayerNum;
-                        SLONG RoomLeft;
+                        SLONG PlayerNum = 0;
+                        SLONG RoomLeft = 0;
 
                         Message >> PlayerNum;
 
@@ -618,8 +620,8 @@ void PumpNetwork ()
 
                 case ATNET_CHEAT:
                     {
-                        SLONG PlayerNum;
-                        SLONG Cheat;
+                        SLONG PlayerNum = 0;
+                        SLONG Cheat = 0;
 
                         Message >> PlayerNum >> Cheat;
 
@@ -636,8 +638,8 @@ void PumpNetwork ()
 
                 case ATNET_SYNC_IMAGE:
                     {
-                        SLONG Anz;
-                        SLONG PlayerNum;
+                        SLONG Anz = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> Anz;
 
@@ -646,7 +648,7 @@ void PumpNetwork ()
                             Message >> PlayerNum;
 
                             PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
-                            SLONG   d;
+                            SLONG   d = 0;
 
                             Message >> qPlayer.Image >> qPlayer.ImageGotWorse;
 
@@ -665,8 +667,8 @@ void PumpNetwork ()
 
                 case ATNET_SYNC_MONEY:
                     {
-                        SLONG Anz;
-                        SLONG PlayerNum;
+                        SLONG Anz = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> Anz;
 
@@ -675,7 +677,7 @@ void PumpNetwork ()
                             Message >> PlayerNum;
 
                             PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
-                            SLONG   d;
+                            SLONG   d = 0;
 
                             Message >> qPlayer.Money     >> qPlayer.Credit    >> qPlayer.Bonus
                                 >> qPlayer.AnzAktien >> qPlayer.MaxAktien >> qPlayer.TrustedDividende
@@ -693,8 +695,8 @@ void PumpNetwork ()
 
                 case ATNET_SYNC_ROUTES:
                     {
-                        SLONG Anz;
-                        SLONG PlayerNum;
+                        SLONG Anz = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> Anz;
 
@@ -703,7 +705,7 @@ void PumpNetwork ()
                             Message >> PlayerNum;
 
                             PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
-                            SLONG   d;
+                            SLONG   d = 0;
 
                             for (d=Routen.AnzEntries()-1; d>=0; d--)
                             {
@@ -720,8 +722,8 @@ void PumpNetwork ()
 
                 case ATNET_SYNC_FLAGS:
                     {
-                        SLONG Anz;
-                        SLONG PlayerNum;
+                        SLONG Anz = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> Anz;
 
@@ -745,7 +747,7 @@ void PumpNetwork ()
 
                 case ATNET_SYNC_OFFICEFLAG:
                     {
-                        SLONG PlayerNum;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum;
 
@@ -764,8 +766,8 @@ void PumpNetwork ()
 
                 case ATNET_SYNC_ITEMS:
                     {
-                        SLONG Anz;
-                        SLONG PlayerNum;
+                        SLONG Anz = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> Anz;
 
@@ -786,8 +788,8 @@ void PumpNetwork ()
 
                 case ATNET_SYNC_PLANES:
                     {
-                        SLONG Anz;
-                        SLONG PlayerNum;
+                        SLONG Anz = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> Anz;
 
@@ -806,8 +808,8 @@ void PumpNetwork ()
 
                 case ATNET_SYNC_MEETING:
                     {
-                        SLONG Anz;
-                        SLONG PlayerNum;
+                        SLONG Anz = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> Anz;
 
@@ -824,7 +826,7 @@ void PumpNetwork ()
                             Anz--;
                         }
 
-                        BOOL SentFromHost;
+                        BOOL SentFromHost = 0;
                         Message >> SentFromHost;
 
                         if (SentFromHost != 0)
@@ -836,9 +838,9 @@ void PumpNetwork ()
 
                 case ATNET_ADD_SYMPATHIE:
                     {
-                        SLONG Anz;
-                        SLONG PlayerNum;
-                        SLONG SympathieTarget;
+                        SLONG Anz = 0;
+                        SLONG PlayerNum = 0;
+                        SLONG SympathieTarget = 0;
 
                         Message >> PlayerNum >> SympathieTarget >> Anz;
 
@@ -851,10 +853,10 @@ void PumpNetwork ()
 
                 case ATNET_SYNCROUTECHANGE:
                     {
-                        SLONG PlayerNum;
-                        SLONG RouteId;
-                        SLONG Ticketpreis;
-                        SLONG TicketpreisFC;
+                        SLONG PlayerNum = 0;
+                        SLONG RouteId = 0;
+                        SLONG Ticketpreis = 0;
+                        SLONG TicketpreisFC = 0;
 
                         Message >> PlayerNum >> RouteId >> Ticketpreis >> TicketpreisFC;
 
@@ -875,8 +877,8 @@ void PumpNetwork ()
                     //--------------------------------------------------------------------------------------------
                 case ATNET_ROBOT_EXECUTE:
                     {
-                        SLONG c;
-                        SLONG PlayerNum;
+                        SLONG c = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum;
 
@@ -896,10 +898,10 @@ void PumpNetwork ()
                     //--------------------------------------------------------------------------------------------
                 case ATNET_PLAYER_REFILL:
                     {
-                        SLONG Type;
-                        SLONG City;
-                        SLONG Delta;
-                        SLONG Time;
+                        SLONG Type = 0;
+                        SLONG City = 0;
+                        SLONG Delta = 0;
+                        SLONG Time = 0;
 
                         Message >> Type >> City >> Delta >> Time;
 
@@ -916,10 +918,10 @@ void PumpNetwork ()
 
                 case ATNET_PLAYER_TOOK:
                     {
-                        SLONG Type;
-                        SLONG City;
-                        SLONG Index;
-                        SLONG PlayerNum;
+                        SLONG Type = 0;
+                        SLONG City = 0;
+                        SLONG Index = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum >> Type >> Index >> City;
 
@@ -950,8 +952,8 @@ void PumpNetwork ()
                     //--------------------------------------------------------------------------------------------
                 case ATNET_FP_UPDATE:
                     {
-                        SLONG PlaneId;
-                        SLONG PlayerNum;
+                        SLONG PlaneId = 0;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlaneId >> PlayerNum;
 
@@ -1012,7 +1014,7 @@ void PumpNetwork ()
 
                 case ATNET_TAKE_ORDER:
                     {
-                        SLONG    PlayerNum;
+                        SLONG    PlayerNum = 0;
                         CAuftrag a;
 
                         Message >> PlayerNum >> a;
@@ -1029,7 +1031,7 @@ void PumpNetwork ()
 
                 case ATNET_TAKE_FREIGHT:
                     {
-                        SLONG   PlayerNum;
+                        SLONG   PlayerNum = 0;
                         CFracht a;
 
                         Message >> PlayerNum >> a;
@@ -1056,9 +1058,9 @@ void PumpNetwork ()
 
                 case ATNET_TAKE_ROUTE:
                     {
-                        SLONG PlayerNum;
-                        SLONG Route1Id;
-                        SLONG Route2Id;
+                        SLONG PlayerNum = 0;
+                        SLONG Route1Id = 0;
+                        SLONG Route2Id = 0;
 
                         Message >> PlayerNum >> Route1Id >> Route2Id;
 
@@ -1071,9 +1073,9 @@ void PumpNetwork ()
 
                 case ATNET_ADVISOR:
                     {
-                        SLONG   Art;
-                        SLONG   From;
-                        SLONG   Generic1;
+                        SLONG   Art = 0;
+                        SLONG   From = 0;
+                        SLONG   Generic1 = 0;
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
                         Message >> Art >> From >> Generic1;
@@ -1122,9 +1124,9 @@ void PumpNetwork ()
 
                 case ATNET_BUY_USED:
                     {
-                        SLONG PlayerNum;
-                        SLONG PlaneIndex;
-                        SLONG Time;
+                        SLONG PlayerNum = 0;
+                        SLONG PlaneIndex = 0;
+                        SLONG Time = 0;
 
                         Message >> PlayerNum >> PlaneIndex >> Time;
 
@@ -1144,8 +1146,8 @@ void PumpNetwork ()
 
                 case ATNET_SELL_USED:
                     {
-                        SLONG PlayerNum;
-                        SLONG PlaneId;
+                        SLONG PlayerNum = 0;
+                        SLONG PlaneId = 0;
 
                         Message >> PlayerNum >> PlaneId;
 
@@ -1157,9 +1159,9 @@ void PumpNetwork ()
 
                 case ATNET_BUY_NEW:
                     {
-                        SLONG    PlayerNum;
-                        SLONG    Anzahl;
-                        SLONG    Type;
+                        SLONG    PlayerNum = 0;
+                        SLONG    Anzahl = 0;
+                        SLONG    Type = 0;
                         TEAKRAND rnd;
 
                         Message >> PlayerNum >> Anzahl >> Type;
@@ -1176,8 +1178,8 @@ void PumpNetwork ()
 
                 case ATNET_BUY_NEWX:
                     {
-                        SLONG    PlayerNum;
-                        SLONG    Anzahl;
+                        SLONG    PlayerNum = 0;
+                        SLONG    Anzahl = 0;
                         CXPlane  plane;
                         TEAKRAND rnd;
 
@@ -1195,9 +1197,9 @@ void PumpNetwork ()
 
                 case ATNET_PERSONNEL:
                     {
-                        SLONG PlayerNum;
-                        SLONG m;
-                        SLONG n;
+                        SLONG PlayerNum = 0;
+                        SLONG m = 0;
+                        SLONG n = 0;
 
                         Message >> PlayerNum >> m >> n;
 
@@ -1223,7 +1225,7 @@ void PumpNetwork ()
                                 }
                                 else
                                 {
-                                    SLONG dummy;
+                                    SLONG dummy = 0;
 
                                     Message >> dummy >> dummy >> dummy;
                                 }
@@ -1234,8 +1236,8 @@ void PumpNetwork ()
 
                 case ATNET_PLANEPROPS:
                     {
-                        SLONG PlayerNum;
-                        SLONG PlaneId;
+                        SLONG PlayerNum = 0;
+                        SLONG PlaneId = 0;
 
                         Message >> PlayerNum >> PlaneId;
                         if(PlayerNum > 4) {
@@ -1270,7 +1272,7 @@ void PumpNetwork ()
                         PLAYER   &qPlayer = Sim.Players.Players[Sim.localPlayer];
                         auto *pRaum   = (CStdRaum*)qPlayer.LocationWin;
 
-                        SLONG RequestingPlayer;
+                        SLONG RequestingPlayer = 0;
 
                         //Ist Spieler bereit, einen Dialog zu beginnen?
                         if (qPlayer.GetRoom()==ROOM_AIRPORT && (qPlayer.IsStuck == 0) &&
@@ -1292,7 +1294,7 @@ void PumpNetwork ()
                         }
                         else
                         {
-                            UBYTE Dummy;
+                            UBYTE Dummy = 0;
                             XY    Dummy2;
 
                             Message >> Dummy    >> RequestingPlayer
@@ -1307,8 +1309,8 @@ void PumpNetwork ()
                 case ATNET_DIALOG_YES:
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                        SLONG   TargetPlayer;
-                        SLONG   Phase;
+                        SLONG   TargetPlayer = 0;
+                        SLONG   Phase = 0;
 
                         Message >> TargetPlayer >> Phase;
 
@@ -1323,7 +1325,7 @@ void PumpNetwork ()
                 case ATNET_DIALOG_START:
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                        SLONG   OtherPlayerNum;
+                        SLONG   OtherPlayerNum = 0;
 
                         auto *pRaum   = (CStdRaum*)qPlayer.LocationWin;
 
@@ -1346,10 +1348,10 @@ void PumpNetwork ()
                         }
                         else
                         {
-                            UBYTE DummyPhase;
-                            UBYTE DummyLookDir;
-                            SLONG DummyX;
-                            SLONG DummyY;
+                            UBYTE DummyPhase = 0;
+                            UBYTE DummyLookDir = 0;
+                            SLONG DummyX = 0;
+                            SLONG DummyY = 0;
 
                             Message >> DummyX >> DummyY >> DummyPhase >> DummyLookDir;
 
@@ -1377,7 +1379,7 @@ void PumpNetwork ()
 
                 case ATNET_DIALOG_SAY:
                     {
-                        SLONG   id;
+                        SLONG   id = 0;
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
                         Message >> id;
@@ -1395,8 +1397,8 @@ void PumpNetwork ()
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
                         CString Answer;
-                        SLONG   id;
-                        BOOL    TextAlign;
+                        SLONG   id = 0;
+                        BOOL    TextAlign = 0;
 
                         Message >> TextAlign >> id >> Answer;
 
@@ -1420,7 +1422,7 @@ void PumpNetwork ()
 
                 case ATNET_DIALOG_LOCK:
                     {
-                        SLONG PlayerNum;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum;
 
@@ -1431,7 +1433,7 @@ void PumpNetwork ()
 
                 case ATNET_DIALOG_UNLOCK:
                     {
-                        SLONG PlayerNum;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum;
 
@@ -1457,7 +1459,7 @@ void PumpNetwork ()
 
                 case ATNET_DIALOG_KOOP:
                     {
-                        SLONG PlayerNum;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum;
 
@@ -1469,8 +1471,8 @@ void PumpNetwork ()
 
                 case ATNET_DIALOG_DROPITEM:
                     {
-                        SLONG PlayerNum;
-                        SLONG Item;
+                        SLONG PlayerNum = 0;
+                        SLONG Item = 0;
 
                         Message >> PlayerNum >> Item;
 
@@ -1484,8 +1486,8 @@ void PumpNetwork ()
                 case ATNET_PHONE_DIAL:
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                        SLONG   OtherPlayerNum;
-                        SLONG   bHandy;
+                        SLONG   OtherPlayerNum = 0;
+                        SLONG   bHandy = 0;
 
                         Message >> OtherPlayerNum >> bHandy;
 
@@ -1494,7 +1496,7 @@ void PumpNetwork ()
                             CStdRaum &qRoom = *((CStdRaum*)qPlayer.LocationWin);
 
                             bool bImpossible = false; //Kein Telefonat annehmen, wenn wir gerade den Höhrer in die Hand nehmen:
-                            if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10 && (((CBuero*)qPlayer.LocationWin)->KommVarTelefon!=0)) {
+                            if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10 && ((dynamic_cast<CBuero*>(qPlayer.LocationWin))->KommVarTelefon!=0)) {
                                 bImpossible=true;
 }
 
@@ -1531,8 +1533,8 @@ void PumpNetwork ()
                 case ATNET_PHONE_ACCEPT:
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                        SLONG   OtherPlayerNum;
-                        SLONG   bHandy;
+                        SLONG   OtherPlayerNum = 0;
+                        SLONG   bHandy = 0;
 
                         Message >> OtherPlayerNum >> bHandy;
 
@@ -1560,7 +1562,7 @@ void PumpNetwork ()
                             qRoom.DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
 
                             if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10) {
-                                ((CBuero*)&qRoom)->SP_Player.SetDesiredMood (SPM_IDLE);
+                                (dynamic_cast<CBuero*>(&qRoom))->SP_Player.SetDesiredMood (SPM_IDLE);
 }
                         }
                     }
@@ -1578,7 +1580,7 @@ void PumpNetwork ()
                             qRoom.DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
 
                             if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10) {
-                                ((CBuero*)&qRoom)->SP_Player.SetDesiredMood (SPM_IDLE);
+                                (dynamic_cast<CBuero*>(&qRoom))->SP_Player.SetDesiredMood (SPM_IDLE);
 }
                         }
                     }
@@ -1618,8 +1620,8 @@ void PumpNetwork ()
 
                 case ATNET_CHATMONEY:
                     {
-                        SLONG   Money;
-                        SLONG   OtherPlayer;
+                        SLONG   Money = 0;
+                        SLONG   OtherPlayer = 0;
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
                         Message >> Money >> OtherPlayer;
@@ -1641,7 +1643,7 @@ void PumpNetwork ()
                     //--------------------------------------------------------------------------------------------
                 case ATNET_SABOTAGE_DIRECT:
                     {
-                        SLONG Type;
+                        SLONG Type = 0;
                         XY    Position;
 
                         Message >> Type;
@@ -1653,9 +1655,9 @@ void PumpNetwork ()
                         }
                         else if (Type==ITEM_GLUE) //Klebstoff
                         {
-                            UBYTE Dir;
-                            UBYTE NewDir;
-                            UBYTE Phase;
+                            UBYTE Dir = 0;
+                            UBYTE NewDir = 0;
+                            UBYTE Phase = 0;
 
                             Message >> Dir >> NewDir >> Phase;
 
@@ -1666,7 +1668,7 @@ void PumpNetwork ()
 
                 case ATNET_SABOTAGE_ARAB:
                     {
-                        SLONG PlayerNum;
+                        SLONG PlayerNum = 0;
 
                         Message >> PlayerNum;
 
@@ -1688,7 +1690,7 @@ void PumpNetwork ()
 
                 case ATNET_TAKETHING:
                     {
-                        SLONG Item;
+                        SLONG Item = 0;
 
                         Message >> Item;
 
@@ -1712,7 +1714,7 @@ void PumpNetwork ()
                     //--------------------------------------------------------------------------------------------
                 case ATNET_DAYFINISH:
                     {
-                        SLONG FromPlayer;
+                        SLONG FromPlayer = 0;
 
                         Message >> FromPlayer;
 
@@ -1722,7 +1724,7 @@ void PumpNetwork ()
                 case ATNET_DAYBACK:
                     if (Sim.CallItADayAt==0)
                     {
-                        SLONG FromPlayer;
+                        SLONG FromPlayer = 0;
 
                         Message >> FromPlayer;
 
@@ -1769,7 +1771,7 @@ void PumpNetwork ()
                     //--------------------------------------------------------------------------------------------
                 case ATNET_IO_SAVE:
                     {
-                        SLONG   CursorY;
+                        SLONG   CursorY = 0;
                         CString Name;
 
                         Message >> Sim.UniqueGameId >> CursorY >> Name;
@@ -1780,9 +1782,9 @@ void PumpNetwork ()
 
                 case ATNET_IO_LOADREQUEST:
                     {
-                        SLONG Index;
-                        SLONG FromPlayer;
-                        DWORD UniqueGameId;
+                        SLONG Index = 0;
+                        SLONG FromPlayer = 0;
+                        DWORD UniqueGameId = 0;
 
                         Message >> FromPlayer >> Index >> UniqueGameId;
 
@@ -1801,9 +1803,9 @@ void PumpNetwork ()
 
                 case ATNET_IO_LOADREQUEST_OK:
                     {
-                        SLONG c;
-                        SLONG FromPlayer;
-                        SLONG Index;
+                        SLONG c = 0;
+                        SLONG FromPlayer = 0;
+                        SLONG Index = 0;
 
                         Message >> FromPlayer >> Index;
 
@@ -1841,7 +1843,7 @@ void PumpNetwork ()
 
                 case ATNET_IO_LOADREQUEST_DOIT:
                     {
-                        SLONG Index;
+                        SLONG Index = 0;
 
                         Message >> Index;
 
@@ -1854,15 +1856,15 @@ void PumpNetwork ()
                     //--------------------------------------------------------------------------------------------
                 case ATNET_CHECKRANDS:
                     {
-                        SLONG rTime;
-                        SLONG rGeneric;
-                        ULONG rPersonRandCreate;
-                        ULONG rPersonRandMisc;
-                        ULONG rHeadlineRand;
-                        ULONG rLMA;
-                        ULONG rRBA;
+                        SLONG rTime = 0;
+                        SLONG rGeneric = 0;
+                        ULONG rPersonRandCreate = 0;
+                        ULONG rPersonRandMisc = 0;
+                        ULONG rHeadlineRand = 0;
+                        ULONG rLMA = 0;
+                        ULONG rRBA = 0;
                         ULONG rAA[MAX_CITIES];
-                        ULONG rFrachen;
+                        ULONG rFrachen = 0;
                         SLONG rActionId[5*4];
 
                         Message >> rTime;
@@ -1897,7 +1899,7 @@ void PumpNetwork ()
 
                 case ATNET_GENERICSYNC:
                     {
-                        long localPlayer;
+                        long localPlayer = 0;
 
                         Message >> localPlayer;
                         Message >> GenericSyncIds[localPlayer];
@@ -1908,7 +1910,7 @@ void PumpNetwork ()
 
                 case ATNET_GENERICSYNCX:
                     {
-                        long localPlayer;
+                        long localPlayer = 0;
 
                         Message >> localPlayer;
                         Message >> GenericSyncIds[localPlayer] >> GenericSyncIdPars[localPlayer];
@@ -1919,9 +1921,9 @@ void PumpNetwork ()
 
                 case ATNET_GENERICASYNC:
                     {
-                        long SyncId;
-                        long Par;
-                        long player;
+                        long SyncId = 0;
+                        long Par = 0;
+                        long player = 0;
 
                         Message >> player;
                         Message >> SyncId >> Par;
@@ -1937,8 +1939,8 @@ void PumpNetwork ()
                     //--------------------------------------------------------------------------------------------
                 case ATNET_BODYGUARD:
                     {
-                        long localPlayer;
-                        long delta;
+                        long localPlayer = 0;
+                        long delta = 0;
 
                         Message >> localPlayer >> delta;
 
@@ -1951,9 +1953,9 @@ void PumpNetwork ()
 
                 case ATNET_CHANGEMONEY:
                     {
-                        long localPlayer;
-                        long delta;
-                        long statistikid;
+                        long localPlayer = 0;
+                        long delta = 0;
+                        long statistikid = 0;
 
                         Message >> localPlayer >> delta >> statistikid;
 
@@ -1965,13 +1967,13 @@ void PumpNetwork ()
 
                 case ATNET_SYNCKEROSIN:
                     {
-                        SLONG  localPlayer;
-                        SLONG  TankOpen;
-                        SLONG  TankInhalt;
-                        SLONG  BadKerosin;
-                        SLONG  KerosinKind;
-                        BOOL   Tank;
-                        double TankPreis;
+                        SLONG  localPlayer = 0;
+                        SLONG  TankOpen = 0;
+                        SLONG  TankInhalt = 0;
+                        SLONG  BadKerosin = 0;
+                        SLONG  KerosinKind = 0;
+                        BOOL   Tank = 0;
+                        double TankPreis = NAN;
 
                         Message >> localPlayer >> Tank >> TankOpen >> TankInhalt >> BadKerosin >> KerosinKind >> TankPreis;
 
@@ -1991,8 +1993,8 @@ void PumpNetwork ()
 
                 case ATNET_SYNCGEHALT:
                     {
-                        SLONG  localPlayer;
-                        SLONG  gehalt;
+                        SLONG  localPlayer = 0;
+                        SLONG  gehalt = 0;
 
                         Message >> localPlayer >> gehalt;
 
@@ -2002,9 +2004,9 @@ void PumpNetwork ()
 
                 case ATNET_SYNCNUMFLUEGE:
                     {
-                        SLONG  localPlayer;
-                        SLONG  auftrag;
-                        SLONG  lm;
+                        SLONG  localPlayer = 0;
+                        SLONG  auftrag = 0;
+                        SLONG  lm = 0;
 
                         Message >> localPlayer >> auftrag >> lm;
 
@@ -2059,7 +2061,7 @@ void NetGenericSync (long SyncId)
 
     while (true)
     {
-        long c;
+        long c = 0;
         for (c=0; c<4; c++) {
             if (Sim.Players.Players[c].Owner!=1 && GenericSyncIds[c]!=SyncId && (Sim.Players.Players[c].IsOut == 0)) {
                 break;

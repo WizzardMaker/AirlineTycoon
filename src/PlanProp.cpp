@@ -338,8 +338,8 @@ void CPlaneProps::OnPaint()
             //Die Stewardess Anzeige:
             {
                 SLONG px=480-7+ScrollOffsetX; //y=408
-                SLONG m;
-                SLONG n;
+                SLONG m = 0;
+                SLONG n = 0;
 
                 //n=min(qPlane.AnzBegleiter, PlaneTypes[qPlane.TypeId].AnzBegleiter);
                 n=min(qPlane.AnzBegleiter, qPlane.ptAnzBegleiter);
@@ -404,7 +404,7 @@ void CPlaneProps::OnPaint()
 
                 if (min(640,400+c*25+ScrollOffsetX)<min(640,425+c*25+ScrollOffsetX))
                 {
-                    SLONG n;
+                    SLONG n = 0;
 
                     n = 8-(8-(50-(100-ActivePage))*8/50)*((7-c))/7;
 
@@ -529,8 +529,8 @@ void CPlaneProps::OnPaint()
             }
 
             //Kosten für aktuelle Auswahl
-            SLONG c;
-            SLONG d;
+            SLONG c = 0;
+            SLONG d = 0;
             if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && ActivePage==0) {
                 for (c=0; c<3; c++) {
                     for (d=0; d<4; d++) {
@@ -586,7 +586,7 @@ void CPlaneProps::OnPaint()
 
                 if (max(0,215-c*25+ScrollOffsetX)<max(0,240-c*25+ScrollOffsetX))
                 {
-                    SLONG n;
+                    SLONG n = 0;
 
                     n = 8-(8-(50-ActivePage)*8/50)*((7-c))/7;
 

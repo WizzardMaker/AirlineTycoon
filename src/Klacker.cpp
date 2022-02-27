@@ -54,10 +54,10 @@ void KLACKER::Clear ()
 //--------------------------------------------------------------------------------------------
 BOOL KLACKER::Klack ()
 {
-    SLONG c;
-    SLONG d;
-    SLONG Anz;
-    SLONG OrgAnz;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG Anz = 0;
+    SLONG OrgAnz = 0;
     SLONG l = strlen (KlackerFntDef);
     BOOL  rc = FALSE;
 
@@ -125,7 +125,7 @@ BOOL KLACKER::IsFinished ()
 //--------------------------------------------------------------------------------------------
 void KLACKER::Warp ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<16*24; c++) {
         Haben[c]=Soll[c];
@@ -137,8 +137,8 @@ void KLACKER::Warp ()
 //--------------------------------------------------------------------------------------------
 void KLACKER::PrintAt (SLONG x, SLONG y, const char *Text)
 {
-    SLONG c;
-    char *p;
+    SLONG c = 0;
+    char *p = nullptr;
 
     for (c=0; c+x<24 && (Text[c] != 0); c++)
     {
@@ -237,8 +237,8 @@ void KLACKER::PrintAt (SLONG x, SLONG y, const char *Text)
 //--------------------------------------------------------------------------------------------
 void KLACKER::PrintVolumeAt (SLONG x, SLONG y, SLONG Maximum, SLONG Current)
 {
-    SLONG c;
-    const char *p;
+    SLONG c = 0;
+    const char *p = nullptr;
 
     for (c=0; c+x<24 && c<Maximum; c++)
     {

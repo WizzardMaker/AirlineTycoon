@@ -18,7 +18,7 @@ extern SLONG SaveVersionSub;
 //============================================================================================
 SLONG CRoute::AnzPassagiere() const
 {
-    SLONG DayFaktor;
+    SLONG DayFaktor = 0;
 
     if (Sim.Date<3) {  DayFaktor=1000;
     } else if (Sim.Date<9) {  DayFaktor=900;
@@ -72,8 +72,8 @@ void CRouten::ReInit (const CString &TabFilename, bool bNoDoublettes)
 {
     //CStdioFile    Tab;
     BUFFER<char>  Line(300);
-    long          Id;
-    long          Id2;
+    long          Id = 0;
+    long          Id2 = 0;
 
     //Load Table header:
     BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
@@ -152,8 +152,8 @@ void CRouten::ReInitExtend (const CString &TabFilename)
 {
     //CStdioFile    Tab;
     BUFFER<char>  Line(300);
-    long          Id;
-    long          Id2;
+    long          Id = 0;
+    long          Id2 = 0;
     long          linenumber=0;
 
     //Load Table header:
@@ -220,7 +220,7 @@ void CRouten::ReInitExtend (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 void CRouten::NewDay ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (Sim.Date==0)
     {
@@ -299,7 +299,7 @@ CRentRoute::CRentRoute ()
 //--------------------------------------------------------------------------------------------
 SLONG CRentRouten::GetNumUsed()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz=0;
 
     for (c=0; c<SLONG(Routen.AnzEntries()); c++) {

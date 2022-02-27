@@ -100,7 +100,7 @@ bool CRegistryAccess::Open (const CString& RegistryPath)
 {
     Close ();   //Alten Zugriff schlieﬂen
 
-    DWORD dwDisposition;
+    DWORD dwDisposition = 0;
 
 #if USE_JSON
     CString PerfPath = GetPerfPath();

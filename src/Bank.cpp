@@ -20,8 +20,8 @@ static const char FileId[] = "Bank";
 //--------------------------------------------------------------------------------------------
 Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.gli", GFX_BANK)
 {
-    SLONG OldZins;
-    SLONG NewZins;
+    SLONG OldZins = 0;
+    SLONG NewZins = 0;
 
     Sim.FocusPerson=-1;
 
@@ -210,7 +210,7 @@ static XY BottomRight[4]   = { XY(408,94), XY(427,94), XY(408,148), XY(427,142) 
 //--------------------------------------------------------------------------------------------
 void Bank::OnPaint()
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (Sim.Date>5) { Sim.GiveHint (HINT_BANK);
 }
@@ -226,8 +226,8 @@ void Bank::OnPaint()
         if (Sim.Players.Players[c].IsOut == 0)
         {
             FBUFFER<SLONG> Kurse(10);
-            SLONG          d;
-            SLONG          Max;
+            SLONG          d = 0;
+            SLONG          Max = 0;
 
             for (Max=d=0; d<10; d++)
             {

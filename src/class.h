@@ -210,15 +210,15 @@ class /**/CAnimation
 {
     public:
         SBBMS    Frames;
-        BOOL     StartPic;
-        SLONG    Mode;
-        SLONG    Prelude;
-        SLONG    CounterStart;
-        SLONG    Speed;
-        SLONG    CyclycWait;
-        SLONG    RepeatCore;
+        BOOL     StartPic{};
+        SLONG    Mode{};
+        SLONG    Prelude{};
+        SLONG    CounterStart{};
+        SLONG    Speed{};
+        SLONG    CyclycWait{};
+        SLONG    RepeatCore{};
         SBFX    *pSoundFx;
-        BOOL     JustPlayed;
+        BOOL     JustPlayed{};
 
     public:
         CAnimation();
@@ -488,9 +488,9 @@ class /**/CAuftrag
         ULONG          NachCity;            //bezeichnet eine Stadt
         ULONG          Personen;            //So viele müssen in die Maschine passen
         UWORD          Date;                //Vertragsbeginn
-        UWORD          BisDate;             //Vertragsende
+        UWORD          BisDate{};             //Vertragsende
         SBYTE          InPlan;              //0=Nix, -1=Durchgeführt, 1=1x im Plan
-        SBYTE          Okay;                //0=Nix, -1=Durchgeführt, 1=1x im Plan
+        SBYTE          Okay{};                //0=Nix, -1=Durchgeführt, 1=1x im Plan
         SLONG          Praemie;             //Prämie bei Erfüllung
         SLONG          Strafe;              //Strafe bei Versagen
         BOOL           bUhrigFlight;        //Von Uhrig in Auftrag gegeben?
@@ -638,15 +638,15 @@ class CRentRoute
     public:
         UBYTE          Rang;                //0=nicht gemietet; sonst 1..3
         SLONG          LastFlown;           //Wieviele Tage ist der letzte Flug her?
-        SLONG          AvgFlown;            //Alle soviele Tage fliegt man im Schnitt
+        SLONG          AvgFlown{};            //Alle soviele Tage fliegt man im Schnitt
         SLONG          Auslastung;          //Zu soviel % ist der Flieger i.d.R. ausgelastet
         SLONG          AuslastungFC;        //Zu soviel % ist der Flieger i.d.R. ausgelastet
         SLONG          RoutenAuslastung;    //Soviel % des Routenbedarfes deckt man im Schnitt
         SLONG          HeuteBefoerdert;     //Soviele Passagiere haben wir heute hier befördert
         UBYTE          Image;               //Die Bekanntheit; beginnt bei 0, kann durch Werbung oder Geduld auf 100 gesteigert werden
         SLONG          Miete;               //Soviel zahlt der Spieler wegen der Versteigerung
-        SLONG          Ticketpreis;         //Soviel kostet ein Ticket
-        SLONG          TicketpreisFC;       //Soviel kostet ein Ticket in der ersten Klasse
+        SLONG          Ticketpreis{};         //Soviel kostet ein Ticket
+        SLONG          TicketpreisFC{};       //Soviel kostet ein Ticket in der ersten Klasse
         SLONG          TageMitVerlust;      //Solange fliegen wir hier schon mit Verlust
         SLONG          TageMitGering;       //Tage mit geringer Auslastung (<10%); wenn man die Route nicht gemietet hat, dann die Tage, seitdem sie einem aberkannt wurde oder 99
 
@@ -674,22 +674,22 @@ class CFlugplanEintrag
 {
     public:
         UBYTE          Okay;                //0=Auftrag Okay 1=falscher Tag, 2=schon durchgeführt, 3=Passagiere passen nicht
-        UBYTE          HoursBefore;         //So viele Stunden vor dem Start wurde der Flug festgelegt
-        UWORD          Passagiere;          //Zahl der belegten Sitzplätze (Normal)
-        UWORD          PassagiereFC;        //Zahl der belegten Sitzplätze (in der ersten Klasse)
-        UWORD          PArrived;            //Zahl Passagiere, die schon im Flughafen sind
+        UBYTE          HoursBefore{};         //So viele Stunden vor dem Start wurde der Flug festgelegt
+        UWORD          Passagiere{};          //Zahl der belegten Sitzplätze (Normal)
+        UWORD          PassagiereFC{};        //Zahl der belegten Sitzplätze (in der ersten Klasse)
+        UWORD          PArrived{};            //Zahl Passagiere, die schon im Flughafen sind
         SLONG          Gate;                //-1 = kein Gate frei ==> Flugfeld; -2=externer Hafen
         UBYTE          GateWarning;         //Warnung, daß ein anderer Flug zu dieser Zeit Probleme macht
-        ULONG          VonCity;             //bezeichnet eine Stadt
-        ULONG          NachCity;            //bezeichnet eine Stadt
+        ULONG          VonCity{};             //bezeichnet eine Stadt
+        ULONG          NachCity{};            //bezeichnet eine Stadt
         SLONG          Startzeit;           //Zu diesem Zeitpunkt (0-24h) beginnt dieser Eintrag
         SLONG          Landezeit;           //Zu diesem Zeitpunkt (0-24h) landet das Flugzeug
-        SLONG          Startdate;           //Referenz auf Sim.Date
-        SLONG          Landedate;           //Referenz auf Sim.Date
+        SLONG          Startdate{};           //Referenz auf Sim.Date
+        SLONG          Landedate{};           //Referenz auf Sim.Date
         BOOL           ObjectType;          //0=Nix 1=Route 2=Auftrag 3=Automatik 4=Fracht
         SLONG          ObjectId;            //Bezeichnet Auftrag oder -1
-        SLONG          Ticketpreis;         //Ticketpreis für Routen
-        SLONG          TicketpreisFC;       //Ticketpreis für Routen (Erste Klasse)
+        SLONG          Ticketpreis{};         //Ticketpreis für Routen
+        SLONG          TicketpreisFC{};       //Ticketpreis für Routen (Erste Klasse)
 
     public:
         CFlugplanEintrag ();
@@ -708,7 +708,7 @@ class CFlugplanEintrag
 class CFlugplan
 {
     public:
-        SLONG StartCity;                    //Hier beginnt der Flugplan
+        SLONG StartCity{};                    //Hier beginnt der Flugplan
         FBUFFER<CFlugplanEintrag>  Flug;    //Eine Zeile des Flugplans
         SLONG NextFlight;                   //Aktueller; sonst nächster Flug
         SLONG NextStart;                    //Verweis auf den nächsten, startenden Flug
@@ -818,25 +818,25 @@ class /**/CPlane
     //Basisdaten:
     public:
         CString        Name;                //Der Name des Flugzeuges
-        SLONG          Ort;                 //-1=Landend; -2=Startend; -5 in der Luft; sonst Stadt
+        SLONG          Ort{};                 //-1=Landend; -2=Startend; -5 in der Luft; sonst Stadt
         XY             Position;            //Position am Flughafen oder in der Luft
         XY             GlobePos;            //Position auf der Kugel im Scheduler
-        BOOL           BehindGlobe;         //Ist das Flugzeug auf der Rückseite der Erde
+        BOOL           BehindGlobe{};         //Ist das Flugzeug auf der Rückseite der Erde
         UBYTE          GlobeAngle;          //Der Winkel des Flugzeuges auf dem Globus
         XY             AirportPos;          //Position am Flughafen
-        SLONG          TargetX;             //Speicherung der Zielposition als Speed-up
-        UBYTE          Startzeit;           //Speicherung als Speed-up oder 255 falls nach Landung
-        ULONG          TypeId;              //referenziert CPlaneType oder ist -1
+        SLONG          TargetX{};             //Speicherung der Zielposition als Speed-up
+        UBYTE          Startzeit{};           //Speicherung als Speed-up oder 255 falls nach Landung
+        ULONG          TypeId{};              //referenziert CPlaneType oder ist -1
         CFlugplan      Flugplan;            //Der Flugplan
         UBYTE          WorstZustand;        //Der schlimmste Zustand
         UBYTE          Zustand;             //Reparaturzustand: 0%-100%
         UBYTE          TargetZustand;       //So soll es aussehen
         FBUFFER<ULONG> Salden;              //Die täglichen Einnahmen-Ausgaben des Flugzeuges der letzten Woche
-        SLONG          Baujahr;             //Das Baujahr dieses Flugzeuges
+        SLONG          Baujahr{};             //Das Baujahr dieses Flugzeuges
         SLONG          AnzPiloten;          //Aktuelle Zahl: Piloten und Co-Piloten
         SLONG          AnzBegleiter;        //Aktuelle Zahl: Zahl der Stewardessen
-        SLONG          MaxBegleiter;        //Ziel: Zahl der Stewardessen
-        SLONG          PersonalQuality;     //So gut sind diese Leute im Schnitt
+        SLONG          MaxBegleiter{};        //Ziel: Zahl der Stewardessen
+        SLONG          PersonalQuality{};     //So gut sind diese Leute im Schnitt
         SLONG          Wartungskosten;      //Soviel kostet das Flugzeug pro Tag an Wartung
         UBYTE          Sitze, SitzeTarget;
         UBYTE          Essen, EssenTarget;
@@ -846,15 +846,15 @@ class /**/CPlane
         UBYTE          Reifen, ReifenTarget;
         UBYTE          Elektronik, ElektronikTarget;
         UBYTE          Sicherheit, SicherheitTarget;
-        SLONG          MaxPassagiereTarget, MaxPassagiereTargetFC; //Soviele Leute passen bei der derzeiten Konfiguration rein
+        SLONG          MaxPassagiereTarget{}, MaxPassagiereTargetFC{}; //Soviele Leute passen bei der derzeiten Konfiguration rein
         //SLONG          AnzPutzcrew;
         SLONG          Auslastung;          //Zu soviel % ist es gefüllt
         SLONG          AuslastungFC;        //Zu soviel % ist es gefüllt
         SLONG          Kilometer;           //Soviele Kilometer ist es schon geflogen
         SLONG          SummePassagiere;     //Soviele Passagiere hat es schon befördert
-        SLONG          MaxPassagiere, MaxPassagiereFC; //Soviele Leute passen bei der derzeiten Konfiguration rein
+        SLONG          MaxPassagiere{}, MaxPassagiereFC{}; //Soviele Leute passen bei der derzeiten Konfiguration rein
         BOOL           Sponsored;           //Wenn TRUE, dann ist es staatlich gefördert und schnlecht zu verkaufen
-        BOOL           OhneSitze;           //Wenn TRUE, dann wurden die Sitze zum transportieren von Fracht ausgebaut (Umrüstkosten)
+        BOOL           OhneSitze{};           //Wenn TRUE, dann wurden die Sitze zum transportieren von Fracht ausgebaut (Umrüstkosten)
         SLONG          NumPannen;           //Anzahl der Pannen insgesamt
         SLONG          Problem;             //0 oder Anzahl der Stunden bis das Flugzeug kein Problem mehr hat
         SLONG          PseudoProblem;       //0 oder Anzahl der Stunden wie das Flugzeug noch festgehalten wird
@@ -864,17 +864,17 @@ class /**/CPlane
     public:
         CString  ptHersteller;          //Textstring, z.B. "Boing"
         CString  ptName;                //Der Name des Flugzeuges
-        SLONG    ptErstbaujahr;         //Zahl, z.B. 1980
-        SLONG    ptReichweite;          //Reichweite in km
-        SLONG    ptGeschwindigkeit;     //in km/h
-        SLONG    ptPassagiere;          //Maximale Zahl der Passagiere (ein erste Klasse Passagier verbraucht 2 Plätze)
-        SLONG    ptAnzPiloten;          //Piloten und Co-Piloten
-        SLONG    ptAnzBegleiter;        //Zahl der Stewardessen
-        SLONG    ptTankgroesse;         //Kerosin in l
-        SLONG    ptVerbrauch;           //Kerosin in l/h
-        SLONG    ptPreis;               //Der Neupreis in DM
-        SLONG    ptLaerm;               //Der Laerm, den diese Maschine verursacht
-        float    ptWartungsfaktor;      //Faktor für die Wartungskosten
+        SLONG    ptErstbaujahr{};         //Zahl, z.B. 1980
+        SLONG    ptReichweite{};          //Reichweite in km
+        SLONG    ptGeschwindigkeit{};     //in km/h
+        SLONG    ptPassagiere{};          //Maximale Zahl der Passagiere (ein erste Klasse Passagier verbraucht 2 Plätze)
+        SLONG    ptAnzPiloten{};          //Piloten und Co-Piloten
+        SLONG    ptAnzBegleiter{};        //Zahl der Stewardessen
+        SLONG    ptTankgroesse{};         //Kerosin in l
+        SLONG    ptVerbrauch{};           //Kerosin in l/h
+        SLONG    ptPreis{};               //Der Neupreis in DM
+        SLONG    ptLaerm{};               //Der Laerm, den diese Maschine verursacht
+        float    ptWartungsfaktor{};      //Faktor für die Wartungskosten
         CString  ptKommentar;           //Ggf. allgemeines über diese Maschine
 
         CXPlane  XPlane;                //Selbstgebautes Flugzeug falls TypeId==-1
@@ -973,11 +973,11 @@ class /**/KLACKER
     public:
         SBBMS           Cursors;
         SBBMS           KlackerBms;
-        SLONG           NewScreen;
-        GfxLib         *pGLib;
-        bool            LineDisabled[16];
-        char            Soll [24*16];  //So sollen die Plättchen zur Zeit sein
-        char            Haben [24*16]; //So sind die Plättchen zur Zeit (Indices auf FontDef)
+        SLONG           NewScreen{};
+        GfxLib         *pGLib{};
+        bool            LineDisabled[16]{};
+        char            Soll [24*16]{};  //So sollen die Plättchen zur Zeit sein
+        char            Haben [24*16]{}; //So sind die Plättchen zur Zeit (Indices auf FontDef)
         SBFX            KlackerFx[3];
 
     public:
@@ -1010,16 +1010,16 @@ class /**/HEADLINES
     private:
         CString   HeadlineFile;
         CHeadline Headline[30];       //Die aktuellen Schlagzeilen der Zeitungen (max. 10 pro Zeitung)
-        SLONG     CurrentChain[3];   //Die aktuellen Ketten als Zahl (Wild/News/Lokal)
-        SLONG     NumRand [3];       //Zahl der Zufallsantworten in einer Kette
+        SLONG     CurrentChain[3]{};   //Die aktuellen Ketten als Zahl (Wild/News/Lokal)
+        SLONG     NumRand [3]{};       //Zahl der Zufallsantworten in einer Kette
         CHeadline Override [30];     //Wird tagsüber gesetzt und am nächsten Tag effektiv
 
         //Flexibles Zufallszeux:
         CString   FlexiCity[3];      //Zufallsstadt für einen Thread
-        SLONG     FlexiNumber[3];    //Zufallszahl für einen Thread
+        SLONG     FlexiNumber[3]{};    //Zufallszahl für einen Thread
 
     public:
-        BOOL      IsInteresting;     //Ist heute etwas interessantes dabei?
+        BOOL      IsInteresting{};     //Ist heute etwas interessantes dabei?
 
     public:
         HEADLINES ();
@@ -1096,8 +1096,8 @@ class /**/CRentCity
 {
     public:
         UBYTE          Rang;                //0=nicht gemietet; sonst 1..3
-        UBYTE          Image;
-        SLONG          Miete;
+        UBYTE          Image{};
+        SLONG          Miete{};
 
     public:
         CRentCity ();
@@ -1157,56 +1157,56 @@ class /**/BLOCK
         CDataTable Table;
         CDataTable TableB;
 
-        CPlaner   *Base;              //Basisdaten fürs malen
+        CPlaner   *Base{};              //Basisdaten fürs malen
         GfxLib    *pGLibPicture;
         XY         ScreenPos;         //Position auf dem Bildschirm
 
         BOOL       Destructing;       //Block wird gerade zerstört
-        SLONG      AnimationStart;    //Startzeit für die Animation
-        SLONG      PlayerNum;
+        SLONG      AnimationStart{};    //Startzeit für die Animation
+        SLONG      PlayerNum{};
         SLONG      StyleType;         //Block oder Window
 
         SBBM       Bitmap;            //
-        BOOL       IsTopWindow;       //Ist dieses Fenster oben auf?
+        BOOL       IsTopWindow{};       //Ist dieses Fenster oben auf?
 
         //Linker Block:
         SLONG      BlockType;         //1..5=City, Plane, Auftrag, Route, Info
         SLONG      SelectedId;        //CityId, PlaneId, .... (Verzeichniseintrag)
         UBYTE      Index;             //Inhalt oder konkreter Verzeichniseintrag
-        SLONG      Page, AnzPages;    //Aktuell angezeigte Seite
+        SLONG      Page, AnzPages{};    //Aktuell angezeigte Seite
         SLONG      Tip, TipInUse;     //Tip auf der linken Seite?
         SLONG      PageSize;          //Zahl der Linien auf einer Seite
 
         //Rechter Block:
-        BOOL       DoubleBlock;       //Ist der rechte Abschnitt sichtbar?
+        BOOL       DoubleBlock{};       //Ist der rechte Abschnitt sichtbar?
         SLONG      BlockTypeB;        //1..6=City, Plane, Auftrag, Route, Info, Fracht
         SLONG      SelectedIdB;       //CityId, PlaneId, .... (Verzeichniseintrag)
-        UBYTE      IndexB;            //Inhalt oder konkreter Verzeichniseintrag
-        SLONG      PageB, AnzPagesB;  //Aktuell angezeigte Seite
+        UBYTE      IndexB{};            //Inhalt oder konkreter Verzeichniseintrag
+        SLONG      PageB, AnzPagesB{};  //Aktuell angezeigte Seite
         SLONG      TipB, TipInUseB;   //Tip auf der rechten Seite?
         SLONG      PageSizeB;         //Zahl der Linien auf einer Seite
 
         //Tip-Eigenschaften:
-        SLONG      CurrentTipId;      //z.B. CityId
-        SLONG      LastTipId;         //z.B. CityId
-        SLONG      CurrentTipIdPar1;
-        SLONG      LastTipIdPar1;
-        SLONG      CurrentTipIdPar2;
-        SLONG      LastTipIdPar2;
-        SLONG      CurrentTipIdPar3;
-        SLONG      LastTipIdPar3;
-        SLONG      CurrentTipIdPar4;
-        SLONG      LastTipIdPar4;
-        SLONG      CurrentTipIdPar5;
-        SLONG      LastTipIdPar5;
-        SLONG      CurrentTipIdPar6;
-        SLONG      LastTipIdPar6;
-        SLONG      CurrentTipIdPar7;
-        SLONG      LastTipIdPar7;
+        SLONG      CurrentTipId{};      //z.B. CityId
+        SLONG      LastTipId{};         //z.B. CityId
+        SLONG      CurrentTipIdPar1{};
+        SLONG      LastTipIdPar1{};
+        SLONG      CurrentTipIdPar2{};
+        SLONG      LastTipIdPar2{};
+        SLONG      CurrentTipIdPar3{};
+        SLONG      LastTipIdPar3{};
+        SLONG      CurrentTipIdPar4{};
+        SLONG      LastTipIdPar4{};
+        SLONG      CurrentTipIdPar5{};
+        SLONG      LastTipIdPar5{};
+        SLONG      CurrentTipIdPar6{};
+        SLONG      LastTipIdPar6{};
+        SLONG      CurrentTipIdPar7{};
+        SLONG      LastTipIdPar7{};
 
-        UBYTE      Indexes[6];        //Die Zustände für verschiedene Bereiche
-        SLONG      SelectedIds[6];    //Die Zustände für verschiedene Bereiche
-        SLONG      Pages[6];          //Aktuell angezeigte Seite
+        UBYTE      Indexes[6]{};        //Die Zustände für verschiedene Bereiche
+        SLONG      SelectedIds[6]{};    //Die Zustände für verschiedene Bereiche
+        SLONG      Pages[6]{};          //Aktuell angezeigte Seite
 
     public:
         BLOCK ();
@@ -1247,21 +1247,21 @@ class /**/BRICK //Ein einzelnes Bodenteil eines bestimmten Zeitalters
 {
     private:
         CString             Filename;      //Name der lbm-Files
-        SLONG               RamPriority;   //Priotität fürs VGA-RAM
-        BOOL                NonTrans;      //Flag falls ohne Glass
-        BOOL                Triggered;     //Läuft die Animation nicht ständig, sondern getriggert ab?
-        BYTE                Layer;         //Die Sortierungsschicht (y übergeordnet)
-        BYTE                AnimSpeed;     //Divisor für Ticker als Bitmap-Index
-        SLONG               FloorOffset;   //Y-Offset für die Sortierung
+        SLONG               RamPriority{};   //Priotität fürs VGA-RAM
+        BOOL                NonTrans{};      //Flag falls ohne Glass
+        BOOL                Triggered{};     //Läuft die Animation nicht ständig, sondern getriggert ab?
+        BYTE                Layer{};         //Die Sortierungsschicht (y übergeordnet)
+        BYTE                AnimSpeed{};     //Divisor für Ticker als Bitmap-Index
+        SLONG               FloorOffset{};   //Y-Offset für die Sortierung
         XY                  BaseOffset;    //Basis für iEditor
         XY                  Grid;          //Schrittweiter für iEditor
-        SLONG               MinY;          //Limit für iEditor
-        SLONG               MaxY;          //Limit für iEditor
-        UBYTE               ObstacleType;  //Art der Verkehrsbehinderung
+        SLONG               MinY{};          //Limit für iEditor
+        SLONG               MaxY{};          //Limit für iEditor
+        UBYTE               ObstacleType{};  //Art der Verkehrsbehinderung
         BUFFER<SBBM>        Bitmap;        //Bitmap(s) ggf. mit Animation
         BUFFER<__int64>     graphicIDs;    //Bitmap-IDs
         BUFFER<SLONG>       WaitTimes;     //Solange bleibt der jeweilige Frame...
-        SLONG               WaitSum;       //Summe der Waittimes
+        SLONG               WaitSum{};       //Summe der Waittimes
 
     public:
         BRICK ();
@@ -1294,7 +1294,7 @@ class /**/BRICKS : public ALBUM<BRICK>
         BUFFER<BRICK> Bricks;
 
     private:
-        short         CurrentDate;
+        short         CurrentDate{};
 
     public:
         BRICKS () : ALBUM<BRICK> (Bricks, "Bricks") {}
@@ -1434,21 +1434,21 @@ class /**/PERSON
 {
     private:
         UBYTE       ClanId;           //Referenziert das Clan-Array
-        UBYTE       Dir;              //In welche Richtung 0-3 bzw. 0-7 geht die Person
-        UBYTE       LookDir;          //Hierhin schauen wir
-        UBYTE       Phase;            //Die aktuelle Animationsphase
-        UBYTE       State;            //Zustand (bei Check-In, bei Wartehalle, ...); bzw Player#
-        SLONG       StatePar;         //Zustandsparameter (0:kein Raum, >0:Raumnummer&Entry/Exit-Flag, -1:Raum wird verlassen)
-        SLONG       FloorOffset;      //Cache für den Clan-Wert
-        UBYTE       WaitCount;        //Wegen Deadlock; wird beim Warten erhöht (20x pro sec); Bei den Werten 200-250 wird gedrängelt
-        UBYTE       Reason;           //Der Grund, warum sie am Flughafen ist (z.B. Abflug)
-        UBYTE       FlightAirline;    //Die Fluglinie (0-3) der Person..
-        ULONG       FlightPlaneId;    //..mit diesem Flugzeug der Linie wird geflogen..
-        UBYTE       FlightPlaneIndex; //..und mit diesem Flug (0-6)
-        UBYTE       Mood;             //Stimmung
-        UBYTE       MoodCountdown;    //Wie lange noch zeigen
-        UBYTE       Running;          //Rennt diese Figur?
-        UBYTE       FirstClass;       //Ein ErsteKlasse Passagier?
+        UBYTE       Dir{};              //In welche Richtung 0-3 bzw. 0-7 geht die Person
+        UBYTE       LookDir{};          //Hierhin schauen wir
+        UBYTE       Phase{};            //Die aktuelle Animationsphase
+        UBYTE       State{};            //Zustand (bei Check-In, bei Wartehalle, ...); bzw Player#
+        SLONG       StatePar{};         //Zustandsparameter (0:kein Raum, >0:Raumnummer&Entry/Exit-Flag, -1:Raum wird verlassen)
+        SLONG       FloorOffset{};      //Cache für den Clan-Wert
+        UBYTE       WaitCount{};        //Wegen Deadlock; wird beim Warten erhöht (20x pro sec); Bei den Werten 200-250 wird gedrängelt
+        UBYTE       Reason{};           //Der Grund, warum sie am Flughafen ist (z.B. Abflug)
+        UBYTE       FlightAirline{};    //Die Fluglinie (0-3) der Person..
+        ULONG       FlightPlaneId{};    //..mit diesem Flugzeug der Linie wird geflogen..
+        UBYTE       FlightPlaneIndex{}; //..und mit diesem Flug (0-6)
+        UBYTE       Mood{};             //Stimmung
+        UBYTE       MoodCountdown{};    //Wie lange noch zeigen
+        UBYTE       Running{};          //Rennt diese Figur?
+        UBYTE       FirstClass{};       //Ein ErsteKlasse Passagier?
 
         TEAKRAND    PersonalRand;     //Der private Zufallsgenerator, wenn es darum geht ein neues Ziel zu bestimmen
         TEAKRAND    PersonalRandWalk; //Der private Zufallsgenerator für Laufangelegenheiten
@@ -1590,7 +1590,7 @@ class /**/HISTORY
 {
     public:
         HISTORYLINE     HistoryLine[100];
-        __int64         HistoricMoney;
+        __int64         HistoricMoney{};
 
     public:
         HISTORY ();
@@ -1636,17 +1636,17 @@ class /**/CMessages
         FBUFFER<CMessage> Messages;
         CMessage          LastMessage;
         SBBM              SprechblaseBm;
-        SLONG             AktuellerBeraterTyp;  // -1 = keiner
-        SLONG             AktuelleBeraterBitmap; //0=erster Berater
-        SLONG             TalkPhase;
-        SLONG             BlinkCountdown;
-        SLONG             TalkCountdown;
+        SLONG             AktuellerBeraterTyp{};  // -1 = keiner
+        SLONG             AktuelleBeraterBitmap{}; //0=erster Berater
+        SLONG             TalkPhase{};
+        SLONG             BlinkCountdown{};
+        SLONG             TalkCountdown{};
         SLONG             BeraterPosY;
-        SLONG             BeraterWalkState;    // -1=up, 1=down
+        SLONG             BeraterWalkState{};    // -1=up, 1=down
         BOOL              IsMonolog;           // Bleibt der Berater da?
         BOOL              IsDialog;            // Ist der Spieler unten?
         SLONG             IsDialogTalking;     // Labert der Spieler?
-        SLONG             PlayerNum;
+        SLONG             PlayerNum{};
 
     public:
         CMessages ();
@@ -1812,12 +1812,12 @@ typedef struct smk_t* smk;
 class CSmack16
 {
     public:
-        SDL_Palette* PaletteMapper;          //Tabelle zum Mappen von 8 auf 16 Bit
+        SDL_Palette* PaletteMapper{};          //Tabelle zum Mappen von 8 auf 16 Bit
         smk          pSmack;
-        char         State;
-        unsigned long Width;
-        unsigned long Height;
-        DWORD        FrameNext;
+        char         State{};
+        unsigned long Width{};
+        unsigned long Height{};
+        DWORD        FrameNext{};
 
     public:
         CSmack16 ();
@@ -1855,98 +1855,98 @@ class PLAYER
 {
     //Generelles:
     public:
-        SLONG          PlayerNum;  //Seine Nummer
+        SLONG          PlayerNum{};  //Seine Nummer
         BOOL           IsOut;      //Ist der Spieler aus dem Spiel?
         CString        Name;       //Karl Arsch oder Dirk Doof
         CString        NameX;      //ohne Leerstellen
         CString        Airline;    //Name der Fluglinie;
         CString        AirlineX;   //Name der Fluglinie; ohne Leerstellen am Ende
         CString        Abk;        //Kurzname der Fluglinie, z.B. 'LH'
-        UBYTE          Owner;      //Spieler=0, Computergegner=1, Netzwerkgegner=2
+        UBYTE          Owner{};      //Spieler=0, Computergegner=1, Netzwerkgegner=2
         ULONG          NetworkID;  //IDs des Spielers im Netzwerk (0=Nicht im Netzwerk)
-        UBYTE          Logo;       //Nummer des Logos der Fluglinie
-        __int64          Money;      //Seine Barschaft
-        __int64          Bonus;      //versteckter Bonus, den der Computerspieler noch erhält
+        UBYTE          Logo{};       //Nummer des Logos der Fluglinie
+        __int64          Money{};      //Seine Barschaft
+        __int64          Bonus{};      //versteckter Bonus, den der Computerspieler noch erhält
         FBUFFER<__int64> MoneyPast;  //Vergangenheitslinie des Geldes
-        __int64          Credit;     //Seine Schulden
-        SLONG          Image;      //Firmenimage generell [-1000..1000]
-        SLONG          BadKerosin; //Soviel Liter schlechtes Kerosin wurde gekauft
-        SLONG          KerosinKind;//Diese Art wird getankt
-        SLONG          Tank;       //Soviel kann man auf Reserve Bunkern
-        BOOL           TankOpen;   //Tanks sind zur Verwendung freigegeben
-        SLONG          TankInhalt; //Soviel ist im Tank drin
-        double         TankPreis;  //Korekt berechneter Preis; auch bei mix
-        SLONG          GameSpeed;  //0..3
-        SLONG          ArabTrust;  //Sabotage möglich?
-        SLONG          ArabMode;   //Anschlag unterwegs?
-        SLONG          ArabMode2;  //Anschlag unterwegs? Und zwar von der Spieler-Bezogenen Art
-        SLONG          ArabMode3;  //Anschlag unterwegs? Und zwar von den Specials
-        SLONG          ArabActive; //FALSE=Flugzeug war noch nicht gelandet; TRUE=Flugzeug war am Boden, Anschlag jetzt möglich
-        SLONG          ArabOpfer;  //Anschlag auf wen?
-        SLONG          ArabOpfer2; //Anschlag auf wen?
-        SLONG          ArabOpfer3; //Anschlag auf wen?
-        SLONG          ArabPlane;  //Auf welches Flugzeug des Opfers?
-        SLONG          ArabHints;  //Wieviele Indizien gibt es, die auf den Spieler hinweisen?
-        SLONG          MechMode;   //Wie wird repariert? 0-3
-        BOOL           GlobeOiled; //Ist der Globus geölt?
-        SLONG          MechTrust;  //0=kein, 1=offen, 2=genehmigt
-        SLONG          MechAngry;  //0=nein, 1=wütend
-        UWORD          EarthAlpha;
-        UBYTE          DisplayRoutes[4];  //Routen bei der Flugplanung anzeigen?
-        UBYTE          DisplayPlanes[4];  //Flugzeuge bei der Flugplanung anzeigen?
-        SLONG          ReferencePlane;    //Hier wurde zuletzt daran gearbeitet
-        BOOL           SickTokay;         //Ist der Spieler heute krank?
-        BOOL           RunningToToilet;   //Muß er ganz dringend zur Toilette?
+        __int64          Credit{};     //Seine Schulden
+        SLONG          Image{};      //Firmenimage generell [-1000..1000]
+        SLONG          BadKerosin{}; //Soviel Liter schlechtes Kerosin wurde gekauft
+        SLONG          KerosinKind{};//Diese Art wird getankt
+        SLONG          Tank{};       //Soviel kann man auf Reserve Bunkern
+        BOOL           TankOpen{};   //Tanks sind zur Verwendung freigegeben
+        SLONG          TankInhalt{}; //Soviel ist im Tank drin
+        double         TankPreis{};  //Korekt berechneter Preis; auch bei mix
+        SLONG          GameSpeed{};  //0..3
+        SLONG          ArabTrust{};  //Sabotage möglich?
+        SLONG          ArabMode{};   //Anschlag unterwegs?
+        SLONG          ArabMode2{};  //Anschlag unterwegs? Und zwar von der Spieler-Bezogenen Art
+        SLONG          ArabMode3{};  //Anschlag unterwegs? Und zwar von den Specials
+        SLONG          ArabActive{}; //FALSE=Flugzeug war noch nicht gelandet; TRUE=Flugzeug war am Boden, Anschlag jetzt möglich
+        SLONG          ArabOpfer{};  //Anschlag auf wen?
+        SLONG          ArabOpfer2{}; //Anschlag auf wen?
+        SLONG          ArabOpfer3{}; //Anschlag auf wen?
+        SLONG          ArabPlane{};  //Auf welches Flugzeug des Opfers?
+        SLONG          ArabHints{};  //Wieviele Indizien gibt es, die auf den Spieler hinweisen?
+        SLONG          MechMode{};   //Wie wird repariert? 0-3
+        BOOL           GlobeOiled{}; //Ist der Globus geölt?
+        SLONG          MechTrust{};  //0=kein, 1=offen, 2=genehmigt
+        SLONG          MechAngry{};  //0=nein, 1=wütend
+        UWORD          EarthAlpha{};
+        UBYTE          DisplayRoutes[4]{};  //Routen bei der Flugplanung anzeigen?
+        UBYTE          DisplayPlanes[4]{};  //Flugzeuge bei der Flugplanung anzeigen?
+        SLONG          ReferencePlane{};    //Hier wurde zuletzt daran gearbeitet
+        BOOL           SickTokay{};         //Ist der Spieler heute krank?
+        BOOL           RunningToToilet{};   //Muß er ganz dringend zur Toilette?
         SLONG          PlayerSmoking;     //Qualmt der Spieler?
         SLONG          PlayerStinking;    //Qualmt der Spieler?
-        SLONG          Stunned;           //Kann der Spieler sich bewegen?
-        SLONG          OfficeState;       //0=normal, 1=vermint, 2=explodiert, 3=dunkel
+        SLONG          Stunned{};           //Kann der Spieler sich bewegen?
+        SLONG          OfficeState{};       //0=normal, 1=vermint, 2=explodiert, 3=dunkel
         CSmack16      *pSmack;            //Video für die Explosion
         BUFFER<CSmoke> Smoke;
-        SLONG          LaptopVirus;       //0=kein Virus, 1=Virus, 2=In Reparatur, 3=abholbereit
-        SLONG          WerbeBroschuere;   //-1=keine Broschüre, sonst die vom Spieler
-        BOOL           TelephoneDown;     //0=Telefone okay, 1=Telefon ausgefallen
-        BOOL           Presseerklaerung;  //1=Ist heute Opfer einer Presseerklärung
-        BOOL           GlobeFileOpen;     //Ist das Filofax im Globus offen?
-        BOOL           HasAlkohol;        //Alkohol im Glas im Büro drin?
-        SLONG          Koffein;           //Ist der Spieler high auf Kerosin
-        SLONG          IsDrunk;           //Wieviel Promille hat der Spieler intus?
-        ULONG          SecurityFlags;     //Welche Security-Programme hat der Spieler aboniert
-        ULONG          SecurityNeeded;    //Welche Security-Programme hat der Spieler aboniert
+        SLONG          LaptopVirus{};       //0=kein Virus, 1=Virus, 2=In Reparatur, 3=abholbereit
+        SLONG          WerbeBroschuere{};   //-1=keine Broschüre, sonst die vom Spieler
+        BOOL           TelephoneDown{};     //0=Telefone okay, 1=Telefon ausgefallen
+        BOOL           Presseerklaerung{};  //1=Ist heute Opfer einer Presseerklärung
+        BOOL           GlobeFileOpen{};     //Ist das Filofax im Globus offen?
+        BOOL           HasAlkohol{};        //Alkohol im Glas im Büro drin?
+        SLONG          Koffein{};           //Ist der Spieler high auf Kerosin
+        SLONG          IsDrunk{};           //Wieviel Promille hat der Spieler intus?
+        ULONG          SecurityFlags{};     //Welche Security-Programme hat der Spieler aboniert
+        ULONG          SecurityNeeded{};    //Welche Security-Programme hat der Spieler aboniert
 
-        SLONG          StrikeHours;       //Soviele Stunden, wollen die Piloten noch streiken
-        SLONG          StrikeNotified;    //TRUE, wenn Spieler schon angefaxt wurde
-        SLONG          StrikePlanned;     //TRUE ==> Worker gehen zum nächsten fairen Termin auf Streik
-        SLONG          StrikeEndCountdown;//In soviel Minuten wird der Streik jetzt beendet
-        SLONG          StrikeEndType;     //Und zwar auf die Art: 1=Drohung; 2=Gehaltserhöhung; 3=Trinker; 4=Abwarten
-        SLONG          DaysWithoutStrike; //Soviele Tage geht es schon gut
-        SLONG          DaysWithoutSabotage; //Soviele Tage geht es schon gut
-        SLONG          TrinkerTrust;      //Beim Trinker eingeschleimt?
-        SLONG          SeligTrust;        //Bei Fräulein Selig eingeschleimt?
-        SLONG          SpiderTrust;       //Beim Araber eingeschleimt?
-        SLONG          WerbungTrust;      //Beim Besitzer der Werbeagentur eingeschleimt?
-        SLONG          DutyTrust;         //Bei Frau im Duyt-Free Laden eingeschleimt?
-        SLONG          KioskTrust;        //Beim Kioskbesitzer eingeschleimt?
+        SLONG          StrikeHours{};       //Soviele Stunden, wollen die Piloten noch streiken
+        SLONG          StrikeNotified{};    //TRUE, wenn Spieler schon angefaxt wurde
+        SLONG          StrikePlanned{};     //TRUE ==> Worker gehen zum nächsten fairen Termin auf Streik
+        SLONG          StrikeEndCountdown{};//In soviel Minuten wird der Streik jetzt beendet
+        SLONG          StrikeEndType{};     //Und zwar auf die Art: 1=Drohung; 2=Gehaltserhöhung; 3=Trinker; 4=Abwarten
+        SLONG          DaysWithoutStrike{}; //Soviele Tage geht es schon gut
+        SLONG          DaysWithoutSabotage{}; //Soviele Tage geht es schon gut
+        SLONG          TrinkerTrust{};      //Beim Trinker eingeschleimt?
+        SLONG          SeligTrust{};        //Bei Fräulein Selig eingeschleimt?
+        SLONG          SpiderTrust{};       //Beim Araber eingeschleimt?
+        SLONG          WerbungTrust{};      //Beim Besitzer der Werbeagentur eingeschleimt?
+        SLONG          DutyTrust{};         //Bei Frau im Duyt-Free Laden eingeschleimt?
+        SLONG          KioskTrust{};        //Beim Kioskbesitzer eingeschleimt?
 
-        BOOL           bReadyForMorning;  //Ist Spieler bereit (wichtig für Netzwerk)
-        BOOL           bReadyForBriefing; //Ist Spieler an Folgetagen bereit für's Briefing
+        BOOL           bReadyForMorning{};  //Ist Spieler bereit (wichtig für Netzwerk)
+        BOOL           bReadyForBriefing{}; //Ist Spieler an Folgetagen bereit für's Briefing
 
         //Statistik/Spielziel:
     public:
-        BOOL           HasFlownRoutes;    //Flag, ob er schon einmal eine Route geflogen ist
-        SLONG          NumAuftraege;      //Zahl der geflogenen Aufträge
-        SLONG          NumPassengers;     //Zahl der Passagieren, die man befördert hat
-        __int64        Gewinn;
-        SLONG          ConnectFlags;      //Flags für Städte, die verbunden wurden
-        SLONG          RocketFlags;       //Flags für die Raketenbauteile
-        SLONG          LastRocketFlags;   //Vom Tag davor
-        SLONG          NumFracht;         //Soviele tonnnen wurden bisher transportiert
-        SLONG          NumFrachtFree;     //Soviele tonnnen wurden bisher gratis transportiert
-        SLONG          NumMiles;          //Soviele meilen sind wir schon geflogen
-        SLONG          NumServicePoints;  //Soviele meilen sind wir schon geflogen
-        SLONG          NumOrderFlights;   //Soviele von Uhrigs Aufträgen ist man geflogen
-        SLONG          NumOrderFlightsToday;   //Soviele von Uhrigs Aufträgen ist man heute geflogen
-        SLONG          NumOrderFlightsToday2;  //Soviele von Uhrigs Aufträgen hat der Computer heute angenommen
+        BOOL           HasFlownRoutes{};    //Flag, ob er schon einmal eine Route geflogen ist
+        SLONG          NumAuftraege{};      //Zahl der geflogenen Aufträge
+        SLONG          NumPassengers{};     //Zahl der Passagieren, die man befördert hat
+        __int64        Gewinn{};
+        SLONG          ConnectFlags{};      //Flags für Städte, die verbunden wurden
+        SLONG          RocketFlags{};       //Flags für die Raketenbauteile
+        SLONG          LastRocketFlags{};   //Vom Tag davor
+        SLONG          NumFracht{};         //Soviele tonnnen wurden bisher transportiert
+        SLONG          NumFrachtFree{};     //Soviele tonnnen wurden bisher gratis transportiert
+        SLONG          NumMiles{};          //Soviele meilen sind wir schon geflogen
+        SLONG          NumServicePoints{};  //Soviele meilen sind wir schon geflogen
+        SLONG          NumOrderFlights{};   //Soviele von Uhrigs Aufträgen ist man geflogen
+        SLONG          NumOrderFlightsToday{};   //Soviele von Uhrigs Aufträgen ist man heute geflogen
+        SLONG          NumOrderFlightsToday2{};  //Soviele von Uhrigs Aufträgen hat der Computer heute angenommen
 
         FBUFFER<SValue> Statistiken;      //Die diversen Statistiken
 
@@ -1957,8 +1957,8 @@ class PLAYER
         CFrachten      Frachten;   //Verträge die er für Flüge abgeschlossen hat
         CGates         Gates;      //Die Gates (immer CheckIn + Abflug) die gemietet wurden
         FBUFFER<UBYTE> Items;      //Dinge die der Spieler besitzt
-        SLONG          LaptopBattery;
-        SLONG          LaptopQuality;
+        SLONG          LaptopBattery{};
+        SLONG          LaptopQuality{};
         CRentCities    RentCities; //Die eröffneten Niederlassungen
         FBUFFER<UBYTE> CalledCities; //TRUE=Man hat schon mit ihnen telefoniert
         CRentRouten    RentRouten; //Diese Routen haben wir gemietet
@@ -1970,16 +1970,16 @@ class PLAYER
 
         //Aktien & Zinsen:
     public:
-        UBYTE          SollZins;   //Zins für Schulden
-        UBYTE          HabenZins;  //Zins für Guthaben
-        CBilanz        Bilanz, BilanzGestern;
-        SLONG          AnzAktien;  //Zahl der emmitierten Aktien
-        SLONG          MaxAktien;  //Zahl der emmitierbaren Aktien
-        SLONG          OwnsAktien[4]; //Soviele Aktien besitzt der Spieler jeweils von der Sorte
-        __int64        AktienWert[4]; //Soviele waren die Aktien beim Kauf jeweils Wert
-        double         Kurse[10];  //Die letzten 10 Kurse
-        SLONG          Dividende;  //Die zuletzt ausgezahlte Dividende
-        SLONG          TrustedDividende;  //Das Vertrauen der Anleger
+        UBYTE          SollZins{};   //Zins für Schulden
+        UBYTE          HabenZins{};  //Zins für Guthaben
+        CBilanz        Bilanz{}, BilanzGestern{};
+        SLONG          AnzAktien{};  //Zahl der emmitierten Aktien
+        SLONG          MaxAktien{};  //Zahl der emmitierbaren Aktien
+        SLONG          OwnsAktien[4]{}; //Soviele Aktien besitzt der Spieler jeweils von der Sorte
+        __int64        AktienWert[4]{}; //Soviele waren die Aktien beim Kauf jeweils Wert
+        double         Kurse[10]{};  //Die letzten 10 Kurse
+        SLONG          Dividende{};  //Die zuletzt ausgezahlte Dividende
+        SLONG          TrustedDividende{};  //Das Vertrauen der Anleger
 
         //Interne Verwaltung:
     public:
@@ -1991,26 +1991,26 @@ class PLAYER
         UBYTE          NewDir;     //Flag, falls die Laufrichtung geändert wurde
         XY             WinP1;      //Die Position des ViewFensters im GameFrame Fenster
         XY             WinP2;
-        UWORD          Locations[10];//0=kein, 1=Flughafen; 2-? = Raum
-        SLONG          LocationTime; //Seit diesem Sim.Time sind wir in dieser Location (oder -1 für Flughafen)
-        SLONG          LocationForbidden; //Diese Location ist verboten, weil man zu lange dort war
-        SLONG          LocationForbiddenTime; //Und zwar um diese Uhrzeit
+        UWORD          Locations[10]{};//0=kein, 1=Flughafen; 2-? = Raum
+        SLONG          LocationTime{}; //Seit diesem Sim.Time sind wir in dieser Location (oder -1 für Flughafen)
+        SLONG          LocationForbidden{}; //Diese Location ist verboten, weil man zu lange dort war
+        SLONG          LocationForbiddenTime{}; //Und zwar um diese Uhrzeit
         UWORD          TopLocation;
-        BYTE           Windows;    //Bits 1, 2, 4, 8 für die belegten Ausschnitte
+        BYTE           Windows{};    //Bits 1, 2, 4, 8 für die belegten Ausschnitte
         CPoint         Position;   //Position im Flughafen
         BYTE           Buttons;    //Button 1&2 in 0001b und 0010b
-        SLONG          xPiloten;   //So viele sind zu viel (zu wenig)
-        SLONG          xBegleiter; //So viele sind zu viel (zu wenig)
-        BOOL           CallItADay; //Feierabend für heute?
-        SLONG          NumFlights; //So viele Flüge hat er durchgeführt
-        SLONG          RoutePage;  //Seite in RouteBox
-        SLONG          StandCount; //Solange steht der Spieler schon dumm an dieser Stelle herum
-        BOOL           TalkedToNasa;     //Nasa-Mann ist nur einmal ausdringlich
+        SLONG          xPiloten{};   //So viele sind zu viel (zu wenig)
+        SLONG          xBegleiter{}; //So viele sind zu viel (zu wenig)
+        BOOL           CallItADay{}; //Feierabend für heute?
+        SLONG          NumFlights{}; //So viele Flüge hat er durchgeführt
+        SLONG          RoutePage{};  //Seite in RouteBox
+        SLONG          StandCount{}; //Solange steht der Spieler schon dumm an dieser Stelle herum
+        BOOL           TalkedToNasa{};     //Nasa-Mann ist nur einmal ausdringlich
 
         //Laufen:
     public:
-        BOOL           iWalkActive;
-        BOOL           WalkToGlobe;      //Spieler geht zum Globus
+        BOOL           iWalkActive{};
+        BOOL           WalkToGlobe{};      //Spieler geht zum Globus
         XY             PrimaryTarget;    //Hierhin wollen wir
         XY             SecondaryTarget;  //für Raumeingänge
         XY             TertiaryTarget;   //für Treppen
@@ -2018,41 +2018,41 @@ class PLAYER
         SLONG          WalkSpeed;        //So schnell sind wir
         UWORD          WaitForRoom;      //0=kein
         UWORD          ThrownOutOfRoom;  //0=kein
-        SLONG          DirectToRoom;     //Wird auf einen Raum gezielt?
-        SLONG          ExRoom;           //Aus dem Raum kommen wir gerade
-        SLONG          IsStuck;          //0 oder Zahl der Sekunden
+        SLONG          DirectToRoom{};     //Wird auf einen Raum gezielt?
+        SLONG          ExRoom{};           //Aus dem Raum kommen wir gerade
+        SLONG          IsStuck{};          //0 oder Zahl der Sekunden
 
         //Computerspieler
     public:
-        BOOL           ImageGotWorse;    //Für's Briefing
+        BOOL           ImageGotWorse{};    //Für's Briefing
         FBUFFER<CRobotAction> RobotActions;
-        SLONG          StandStillSince;  //TimeOut
-        SLONG          LastActionId;
-        SLONG          WorkCountdown; //Computer "macht" etwas
-        SLONG          WaitWorkTill;  //Timeslice-Angabe, wann der Computerspieler seine Aktion beginnen soll; Wichtig, damit im Netzwerk die Aktionen absolut synchron ausgeführt werden
-        ULONG          WaitWorkTill2; //Sim.Time-Angabe, nur zweitrangig für die Synchronisierung
-        SLONG          TimeBuro;      //Wann war der Computerspieler zuletzt
-        SLONG          TimePersonal;  //im Büro, beim Reisebüro, ö.ä.
-        SLONG          TimeAufsicht;  //Zeit seit letzen Besuch
-        SLONG          TimeReiseburo; //Zeit seit letzen Besuch
-        SLONG          GefallenRatio; //Wer schuldet wem einen gefallen?
+        SLONG          StandStillSince{};  //TimeOut
+        SLONG          LastActionId{};
+        SLONG          WorkCountdown{}; //Computer "macht" etwas
+        SLONG          WaitWorkTill{};  //Timeslice-Angabe, wann der Computerspieler seine Aktion beginnen soll; Wichtig, damit im Netzwerk die Aktionen absolut synchron ausgeführt werden
+        ULONG          WaitWorkTill2{}; //Sim.Time-Angabe, nur zweitrangig für die Synchronisierung
+        SLONG          TimeBuro{};      //Wann war der Computerspieler zuletzt
+        SLONG          TimePersonal{};  //im Büro, beim Reisebüro, ö.ä.
+        SLONG          TimeAufsicht{};  //Zeit seit letzen Besuch
+        SLONG          TimeReiseburo{}; //Zeit seit letzen Besuch
+        SLONG          GefallenRatio{}; //Wer schuldet wem einen gefallen?
         FBUFFER<SLONG> Sympathie;     //Sympatiewerte für die Spieler
         FBUFFER<SLONG> Kooperation;   //Arbeiten die Spieler zusammen und teilen die Routen?
-        SLONG          DoRoutes;      //Auf Routen umsteigen?
-        SLONG          WantToDoRoutes;//Plant er umzusteigen?
-        SLONG          OutOfGates;    //Mußte gepatcht werden?
-        BOOL           SavesForPlane; //Spart auf ein Flugzeug
-        SLONG          BuyBigPlane;   //Wenn != 0 dann brauchen wir unbedingt ein Flugzeug mit mindestens dieser Reichweite
-        BOOL           SavesForRocket;//Spart auf ein Raketenteil
-        SLONG          PlayerDialog;  //Spricht er mit einem Spieler
-        SLONG          PlayerDialogState;  //-1 = kein Dialog, oder im Dialog; 0-3 Dialog mit Spieler x wird aufgebaut
-        bool           bDialogStartSent;   //Wurde ATNET_DIALOG_START schon verschickt?
-        SLONG          IsWalking2Player;   //Geht er auf einen anderen Spieler zu? (-1 = nein)
-        BOOL           IsTalking;     //Redet er mit einem anderen Spieler
-        SLONG          CalledPlayer;  //Heute schon den Spieler angerufen?
-        BOOL           BoredOfPlayer; //Ist heute schon TimeOut beim Spieler aufgetreten?
-        SLONG          SpeedCount;    //Trick für den Rundenwechsel zu beschleunigen
-        BOOL           bWasInMuseumToday;
+        SLONG          DoRoutes{};      //Auf Routen umsteigen?
+        SLONG          WantToDoRoutes{};//Plant er umzusteigen?
+        SLONG          OutOfGates{};    //Mußte gepatcht werden?
+        BOOL           SavesForPlane{}; //Spart auf ein Flugzeug
+        SLONG          BuyBigPlane{};   //Wenn != 0 dann brauchen wir unbedingt ein Flugzeug mit mindestens dieser Reichweite
+        BOOL           SavesForRocket{};//Spart auf ein Raketenteil
+        SLONG          PlayerDialog{};  //Spricht er mit einem Spieler
+        SLONG          PlayerDialogState{};  //-1 = kein Dialog, oder im Dialog; 0-3 Dialog mit Spieler x wird aufgebaut
+        bool           bDialogStartSent{};   //Wurde ATNET_DIALOG_START schon verschickt?
+        SLONG          IsWalking2Player{};   //Geht er auf einen anderen Spieler zu? (-1 = nein)
+        BOOL           IsTalking{};     //Redet er mit einem anderen Spieler
+        SLONG          CalledPlayer{};  //Heute schon den Spieler angerufen?
+        BOOL           BoredOfPlayer{}; //Ist heute schon TimeOut beim Spieler aufgetreten?
+        SLONG          SpeedCount{};    //Trick für den Rundenwechsel zu beschleunigen
+        BOOL           bWasInMuseumToday{};
         TEAKRAND       PlayerWalkRandom;
         TEAKRAND       PlayerExtraRandom;
 
@@ -2343,17 +2343,17 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
         PLAYERS        Players;    //Die agierenden Personen
         CPlanes        UsedPlanes; //Flugzeuge, die zum Verkauf (gebraucht) anstehen
         HEADLINES      Headlines;  //Die aktuellen Schlagzeilen
-        SLONG          Kerosin;    //Preis pro Liter
+        SLONG          Kerosin{};    //Preis pro Liter
         FBUFFER<SLONG> KerosinPast;
         SLONG          localPlayer;//Welcher Spieler sitzt vorm Rechner?
-        SLONG          FocusPerson;//Ihn zeigt die Kamera; normalerweise -1
+        SLONG          FocusPerson{};//Ihn zeigt die Kamera; normalerweise -1
 
-        SLONG          TicksPlayed; //Solange (in 20stel Sekunden) spielt der Spieler schon
-        SLONG          NumRestored; //Sooft wurde diese Partie geladen/gespeichert
-        SLONG          TicksSinceLoad; //Solange (in 20stel Sekunden) spielt der Spieler schon seit dem letzten Load
-        SLONG          bExeChanged; //Wurde die Exe verändert?
-        DWORD          UniqueGameId;//Identifiziert eine Session eindeutig
-        DWORD          UniqueGameId2;//Identifiziert eine Session eindeutig, ist auch ohne Netzwerk verfügbar und wird im Spiel nicht verändert (ist aber im Netzwerk nicht synchron)
+        SLONG          TicksPlayed{}; //Solange (in 20stel Sekunden) spielt der Spieler schon
+        SLONG          NumRestored{}; //Sooft wurde diese Partie geladen/gespeichert
+        SLONG          TicksSinceLoad{}; //Solange (in 20stel Sekunden) spielt der Spieler schon seit dem letzten Load
+        SLONG          bExeChanged{}; //Wurde die Exe verändert?
+        DWORD          UniqueGameId{};//Identifiziert eine Session eindeutig
+        DWORD          UniqueGameId2{};//Identifiziert eine Session eindeutig, ist auch ohne Netzwerk verfügbar und wird im Spiel nicht verändert (ist aber im Netzwerk nicht synchron)
 
         FBUFFER<CSabotageAct> SabotageActs;
 
@@ -2362,113 +2362,113 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
         //Flags & Co.:
     public:
         BOOL        bNetwork;           //Are we playing by Network rules?
-        BOOL        bIsHost;            //Is this computer the network-host?
+        BOOL        bIsHost{};            //Is this computer the network-host?
         CString     SessionName;        //The name of the current Session
 
-        BOOL        bCheatedSession;    //Wenn der Spieler cheatet, gibt's keine Highscore
+        BOOL        bCheatedSession{};    //Wenn der Spieler cheatet, gibt's keine Highscore
         BOOL        bReloadAirport;     //Reload the Airport over night because of the update
-        BOOL        bWatchForReady;     //Auf die ReadyForMorning Flags achten?
-        ULONG       DialogOvertureFlags;//Flags, für diverse Dialoge
-        BOOL        ExpandAirport;      //Flughafen bald erweitern?
-        SLONG       LastExpansionDate;  //Wurde zuletzt erweitert am...
+        BOOL        bWatchForReady{};     //Auf die ReadyForMorning Flags achten?
+        ULONG       DialogOvertureFlags{};//Flags, für diverse Dialoge
+        BOOL        ExpandAirport{};      //Flughafen bald erweitern?
+        SLONG       LastExpansionDate{};  //Wurde zuletzt erweitert am...
         UBYTE       Gamestate;          //Schon initialisiert? Oder wird schon gespielt?
-        SBYTE       Difficulty;         //Schwierigkeitsgrad
-        BOOL        IsTutorial;         //Läuft das Tutorial (mit der Sekretärin noch?)
-        SLONG       MaxDifficulty;      //Maximaler Schwierigkeitsgrad
-        SLONG       MaxDifficulty2;     //Maximaler Schwierigkeitsgrad für Add-On
-        SLONG       MaxDifficulty3;     //Maximaler Schwierigkeitsgrad für Add-On Fligh Security
+        SBYTE       Difficulty{};         //Schwierigkeitsgrad
+        BOOL        IsTutorial{};         //Läuft das Tutorial (mit der Sekretärin noch?)
+        SLONG       MaxDifficulty{};      //Maximaler Schwierigkeitsgrad
+        SLONG       MaxDifficulty2{};     //Maximaler Schwierigkeitsgrad für Add-On
+        SLONG       MaxDifficulty3{};     //Maximaler Schwierigkeitsgrad für Add-On Fligh Security
         ULONG       GameSpeed;          //Time+=Gamespeed
         BOOL        bPause;             //Spiel im Pause-Modus
         BOOL        bNoTime;            //Zeit wird nicht weitergezählt (Briefing)
-        BOOL        DayState;           //1=Tag wird gestartet; 2=Spieler spielt; 3=Tag wird beendet; 4=Tag wurde beendet
+        BOOL        DayState{};           //1=Tag wird gestartet; 2=Spieler spielt; 3=Tag wird beendet; 4=Tag wurde beendet
         BOOL        CallItADay;
-        SLONG       CallItADayAt;        //Netzwerk: Feierabend bei dieser TimeSlice einläuten
-        BOOL        AnyPersonsInAirport; //Speedup: Ist jemand da?
-        SLONG       Tutorial;            //Soweit ist das Tutorium
-        SLONG       LaptopSoldTo;        //An wen (oder -1) wurde heute der Laptop verkauft?
-        SLONG       MoneyInBankTrash;    //Liegt bei der Bank Geld im Mülleimer  (-1=noch nicht, 1=ja, 0=nein, weil weg
-        SLONG       Slimed;              //Werkstatt verschleimt?
-        BOOL        UsedTelescope;
-        BOOL        UsedPlaneProp2;
-        BOOL        DontDisplayPlayer;
+        SLONG       CallItADayAt{};        //Netzwerk: Feierabend bei dieser TimeSlice einläuten
+        BOOL        AnyPersonsInAirport{}; //Speedup: Ist jemand da?
+        SLONG       Tutorial{};            //Soweit ist das Tutorium
+        SLONG       LaptopSoldTo{};        //An wen (oder -1) wurde heute der Laptop verkauft?
+        SLONG       MoneyInBankTrash{};    //Liegt bei der Bank Geld im Mülleimer  (-1=noch nicht, 1=ja, 0=nein, weil weg
+        SLONG       Slimed{};              //Werkstatt verschleimt?
+        BOOL        UsedTelescope{};
+        BOOL        UsedPlaneProp2{};
+        BOOL        DontDisplayPlayer{};
         BOOL        bAllowCheating;      //Ist cheaten im Netzwerk erlaubt?
-        SLONG       ShowExtrablatt;
-        BOOL        ItemGlove;           //Hat heute schon jemand die Handschuhe genommen?
-        BOOL        ItemClips;           //Hat heute schon jemand die Büroklammern genommen?
-        SLONG       ItemGlue;            //Hat heute schon jemand den Kleber organisiert?
-        BOOL        ItemPostcard;        //Hat heute schon jemand die Postkarte genommen?
-        BOOL        ItemKohle;           //Hat heute schon jemand die Holzkohle genommen?
-        BOOL        ItemParfuem;         //Hat heute schon jemand das Parfüm genommen?
-        BOOL        ItemZange;           //Hat heute schon jemand die Zange genommen?
-        SLONG       nSecOutDays;         //0 oder n=So viele Tage fällt das Security Office noch aus
+        SLONG       ShowExtrablatt{};
+        BOOL        ItemGlove{};           //Hat heute schon jemand die Handschuhe genommen?
+        BOOL        ItemClips{};           //Hat heute schon jemand die Büroklammern genommen?
+        SLONG       ItemGlue{};            //Hat heute schon jemand den Kleber organisiert?
+        BOOL        ItemPostcard{};        //Hat heute schon jemand die Postkarte genommen?
+        BOOL        ItemKohle{};           //Hat heute schon jemand die Holzkohle genommen?
+        BOOL        ItemParfuem{};         //Hat heute schon jemand das Parfüm genommen?
+        BOOL        ItemZange{};           //Hat heute schon jemand die Zange genommen?
+        SLONG       nSecOutDays{};         //0 oder n=So viele Tage fällt das Security Office noch aus
 
-        BOOL        b18Uhr;              //ab 18 Uhr wird im Netzwerk nicht mehr synchronisiert
-        BOOL        bCompatibleRoutes;   //True if this game uses (old) compatible Routes (some may be double)
+        BOOL        b18Uhr{};              //ab 18 Uhr wird im Netzwerk nicht mehr synchronisiert
+        BOOL        bCompatibleRoutes{};   //True if this game uses (old) compatible Routes (some may be double)
 
-        ULONG       KeyHints[3];         //Hilfe-texte für die Tasten: [0]=einmal [1]=heute [2]=zum zweiten Mal
-        bool        bThisIsSessionMaster;//Ist dies der Server?
+        ULONG       KeyHints[3]{};         //Hilfe-texte für die Tasten: [0]=einmal [1]=heute [2]=zum zweiten Mal
+        bool        bThisIsSessionMaster{};//Ist dies der Server?
 
         FBUFFER<SLONG> MissionCities;    //Die Zielstädte für die Missionen
-        SLONG          KrisenCity;       //Id der Stadt, wo das Erdbeben ist
-        long           ProtectionState;  //0: unchecked, 1=check & okay, -x Countdown till quit
+        SLONG          KrisenCity{};       //Id der Stadt, wo das Erdbeben ist
+        long           ProtectionState{};  //0: unchecked, 1=check & okay, -x Countdown till quit
 
         //Referenzflugzeug:
     public:
-        SLONG       PlanePropId;
-        SLONG       RFActivePage;
-        float       RFBegleiterFaktor;        //Zahl der Stewardessen relativ zum normalen
+        SLONG       PlanePropId{};
+        SLONG       RFActivePage{};
+        float       RFBegleiterFaktor{};        //Zahl der Stewardessen relativ zum normalen
         //float       RFPutzFaktor;             //Zahl der Putzen relativ zum normalen
 
-        UBYTE       RFSitzeRF;
-        UBYTE       RFEssen;
-        UBYTE       RFTabletts;
-        UBYTE       RFDeco;
-        UBYTE       RFTriebwerk;
-        UBYTE       RFReifen;
-        UBYTE       RFElektronik;
-        UBYTE       RFSicherheit;
+        UBYTE       RFSitzeRF{};
+        UBYTE       RFEssen{};
+        UBYTE       RFTabletts{};
+        UBYTE       RFDeco{};
+        UBYTE       RFTriebwerk{};
+        UBYTE       RFReifen{};
+        UBYTE       RFElektronik{};
+        UBYTE       RFSicherheit{};
 
         //Statistik:
     public:
-        bool		   StatfGraphVisible;							// true -> Der Graph ist sichtbar, ansonsten die schnöden Zahlen
-        bool		   StatplayerMask[4];							// Diese Spieler wurden zur Ansicht ausgewählt
-        BYTE		   Statgroup;										// Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
-        SLONG	   Statdays;										// Anzahl der darzustellenden Tage
-        SLONG	   StatnewDays;									// Für eine Animation
-        bool		   StatiArray[3][16];		               // Merkt sich für jede Gruppe welche Einträge selektiert sind.
-        SLONG       DropDownPosY;
+        bool		   StatfGraphVisible{};							// true -> Der Graph ist sichtbar, ansonsten die schnöden Zahlen
+        bool		   StatplayerMask[4]{};							// Diese Spieler wurden zur Ansicht ausgewählt
+        BYTE		   Statgroup{};										// Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
+        SLONG	   Statdays{};										// Anzahl der darzustellenden Tage
+        SLONG	   StatnewDays{};									// Für eine Animation
+        bool		   StatiArray[3][16]{};		               // Merkt sich für jede Gruppe welche Einträge selektiert sind.
+        SLONG       DropDownPosY{};
 
         //Datum und Zeit:
     public:
         CCodedVar<SLONG,0x7ab8077f,0x6c931a93> Date;    //Tage seit Spielbeginn
         ULONG       Time;          //Die Simulationszeit
-        SLONG       Month, MonthDay; //Zur Vereinfachung gespeichert
+        SLONG       Month{}, MonthDay{}; //Zur Vereinfachung gespeichert
         UBYTE       QuitCountDown; //Zähler, die lange die Leute bis zum Quit winken
-        DWORD       TickerTime;    //Zähler für die AnimBricks
-        SLONG       TimeSlice;     //Für die Synchronisation im Netzwerk
-        time_t      StartTime;     //Zu diesem Zeitpunkt wurde die Parie gestartet
-        SLONG       StartWeekday;  //An diesem Wochentag haben wir das Spiel begonnen
-        SLONG       Weekday;       //0-6 für Mo-So
+        DWORD       TickerTime{};    //Zähler für die AnimBricks
+        SLONG       TimeSlice{};     //Für die Synchronisation im Netzwerk
+        time_t      StartTime{};     //Zu diesem Zeitpunkt wurde die Parie gestartet
+        SLONG       StartWeekday{};  //An diesem Wochentag haben wir das Spiel begonnen
+        SLONG       Weekday{};       //0-6 für Mo-So
         SLONG       Jahreszeit;    //0-3 = Frühling, Sommer, Herbst, Winter geladen, -1 noch keine Jahrezeit geladen
 
         //Eine eventuelle Aktienübernahme:
-        SLONG       OvertakenAirline;   //Konkurrenzlinie schlucken?
-        SLONG       OvertakerAirline;   //Konkurrenzlinie schlucken?
-        SLONG       Overtake;           //0=Nix, 1=Schlucken, 2=Auflösen
+        SLONG       OvertakenAirline{};   //Konkurrenzlinie schlucken?
+        SLONG       OvertakerAirline{};   //Konkurrenzlinie schlucken?
+        SLONG       Overtake{};           //0=Nix, 1=Schlucken, 2=Auflösen
 
         //Sonstiges:
-        SLONG       TickReisebueroRefill;  //Wird alle 5 Sekunden erhöht und gibt an, wieviel max. gefüllt werden darf
-        SLONG       TickLastMinuteRefill;
-        SLONG       TickFrachtRefill;
-        SLONG       TickMuseumRefill;
+        SLONG       TickReisebueroRefill{};  //Wird alle 5 Sekunden erhöht und gibt an, wieviel max. gefüllt werden darf
+        SLONG       TickLastMinuteRefill{};
+        SLONG       TickFrachtRefill{};
+        SLONG       TickMuseumRefill{};
 
         //Die Ausbauzustände des Flughafens:
     public:
-        SLONG       LeftEnd, CheckIn, Office, Entry, Shops, Cafe, Security, Suitcase, WaitZone, RightEnd;
+        SLONG       LeftEnd{}, CheckIn{}, Office{}, Entry{}, Shops{}, Cafe{}, Security{}, Suitcase{}, WaitZone{}, RightEnd{};
 
         //Sonstiges:
     public:
-        SLONG          HomeAirportId; //Id der Heimatstadt
+        SLONG          HomeAirportId{}; //Id der Heimatstadt
         COptions       Options;
         FBUFFER<UBYTE> RoomBusy;
         FBUFFER<CAirportSmack> AirportSmacks;

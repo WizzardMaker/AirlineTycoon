@@ -186,11 +186,11 @@ void SIM::AddNewShoppers () const
 //--------------------------------------------------------------------------------------------
 void SIM::AddNewPassengers ()
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
-    SLONG n;
-    CFlugplan *Plan;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
+    SLONG n = 0;
+    CFlugplan *Plan = nullptr;
 
     //Für alle Spieler:
     for (c=0; c<Sim.Players.AnzPlayers; c++)
@@ -375,9 +375,9 @@ bool SIM::AddGlueSabotage (XY Position, SLONG Dir, SLONG NewDir, SLONG Phase)
 //------------------------------------------------------------------------------
 void SIM::ChooseStartup (BOOL GameModeQuick)
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
 
     DumpAASeedSum (1000);
 
@@ -933,7 +933,7 @@ void SIM::ChooseStartup (BOOL GameModeQuick)
         //Piloten und Flugbegleiter einstellen (nur bei Menschen):
         if (qPlayer.Owner != 1)
         {
-            SLONG    Anzahl;
+            SLONG    Anzahl = 0;
             TEAKRAND LocalRand (Sim.StartTime+c);
 
             //Piloten:
@@ -1020,12 +1020,12 @@ void SIM::ChooseStartup (BOOL GameModeQuick)
     if (Sim.Difficulty>DIFF_NORMAL && Sim.Difficulty!=DIFF_ADDON02)
     {
         SLONG NearCities[4];
-        SLONG c;
-        SLONG d;
-        SLONG e;
-        SLONG f;
-        SLONG Dist;
-        SLONG DistD;
+        SLONG c = 0;
+        SLONG d = 0;
+        SLONG e = 0;
+        SLONG f = 0;
+        SLONG Dist = 0;
+        SLONG DistD = 0;
         long  LoopCount=0;
 
         //Eine Route anmieten:
@@ -1050,7 +1050,7 @@ void SIM::ChooseStartup (BOOL GameModeQuick)
 
                                 if (RobotUse(ROBOT_USE_TRAVELHOLDING))
                                 {
-                                    CRentCity *pRentCity;
+                                    CRentCity *pRentCity = nullptr;
 
                                     if (Routen[d].VonCity!=ULONG(Sim.HomeAirportId))
                                     {
@@ -1128,7 +1128,7 @@ leave_loop: ;
 
                         //hprintf ("Player %li rents %s", c, (LPCTSTR)Cities[NearCities[(c+d)%4]].Name);
 
-                        SLONG f;
+                        SLONG f = 0;
                         SLONG Anz=1;
                         for (f=0; f<4; f++) {
                             if (f!=c && (Players.Players[f].RentCities.RentCities[NearCities[(c+d)%4]].Rang != 0u)) { Anz++;
@@ -1203,9 +1203,9 @@ leave_loop: ;
 //----------------------------------------------------------------------------------------
 void SIM::CreateMissionCities ()
 {
-    SLONG         c;
-    SLONG         d;
-    SLONG         e;
+    SLONG         c = 0;
+    SLONG         d = 0;
+    SLONG         e = 0;
     BUFFER<SLONG> Map(Cities.AnzEntries());
 
     //Die Map-Tabelle ist ein Filter, der alle Städte nach ihrer Einwohnerzahl sortiert:
@@ -1294,8 +1294,8 @@ void SIM::CreateMissionCities ()
 
         if (d<0)
         {
-            long Id;
-            long Id2;
+            long Id = 0;
+            long Id2 = 0;
 
             Id=Routen.GetUniqueId();
             Routen+=Id;
@@ -1330,7 +1330,7 @@ void SIM::CreateMissionCities ()
 //----------------------------------------------------------------------------------------
 void SIM::CreateEarthquakeCity ()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG best=-1;
     SLONG bestDiff=2000000000;
 
@@ -1361,15 +1361,15 @@ void SIM::CreateEarthquakeCity ()
 //----------------------------------------------------------------------------------------
 void SIM::DoTimeStep ()
 {
-    BOOL  DoCalc;
-    SLONG c;
-    SLONG d;
-    SLONG e;
-    SLONG count;
-    SLONG Minute;
-    SLONG OldMinute;
+    BOOL  DoCalc = 0;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
+    SLONG count = 0;
+    SLONG Minute = 0;
+    SLONG OldMinute = 0;
     SLONG OldHour=Sim.GetHour();
-    SLONG City;
+    SLONG City = 0;
 
     PLAYER &qLocalPlayer = Sim.Players.Players[Sim.localPlayer];
 
@@ -1589,7 +1589,7 @@ void SIM::DoTimeStep ()
 
                     if ((qPlayer.StrikePlanned != 0) && Sim.GetHour()>6 && Sim.GetHour()<18 && CallItADay==FALSE)
                     {
-                        SLONG c;
+                        SLONG c = 0;
                         SLONG AnyPlanes=FALSE;
 
                         for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--) {
@@ -1749,7 +1749,7 @@ void SIM::DoTimeStep ()
 
         if (Minute<OldMinute)
         {
-            SLONG c;
+            SLONG c = 0;
 
             //Sabotage:
             for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
@@ -1785,7 +1785,7 @@ void SIM::DoTimeStep ()
                             if (ActNow != 0)
                             {
                                 //Die Anschläge ausführen:
-                                __int64 PictureId;
+                                __int64 PictureId = 0;
                                 CPlane &qPlane = qOpfer.Planes[Sim.Players.Players[c].ArabPlane];
 
                                 qOpfer.Statistiken[STAT_UNFAELLE].AddAtPastDay (0, 1);
@@ -2095,7 +2095,7 @@ void SIM::DoTimeStep ()
                                 //Wir müssen die aktuelle Länge/Breite berechnen:
                                 if (Sim.GetHour()==8 || (Sim.GetHour()>=9 && Sim.GetHour()<18 && Sim.CallItADay==FALSE) || Minute==0)
                                 {
-                                    SLONG Advance; //Prozentrechnung von 0 bis 255
+                                    SLONG Advance = 0; //Prozentrechnung von 0 bis 255
 
                                     Advance =  qFPE.Landezeit-qFPE.Startzeit-1;
                                     Advance += 24*(qFPE.Landedate-qFPE.Startdate);
@@ -2275,7 +2275,7 @@ void SIM::DoTimeStep ()
                         //Ersatzteil für reparaturbedürftige Flugzeuge:
                         if (qFPE.ObjectType==2 && qFPE.Passagiere==0)
                         {
-                            SLONG d;
+                            SLONG d = 0;
 
                             for (d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++) {
                                 if (qPlayer.Planes.IsInAlbum (d) != 0) {
@@ -2501,8 +2501,8 @@ CString SIM::GetTimeString ()
 //------------------------------------------------------------------------------
 void SIM::NewDay ()
 {
-    SLONG     c;
-    SLONG     d;
+    SLONG     c = 0;
+    SLONG     d = 0;
     CFlugplan TmpFlugplan;
 
     AnyPersonsInAirport=FALSE;
@@ -2945,7 +2945,7 @@ void SIM::CreateRandomUsedPlane (SLONG Index)
 //--------------------------------------------------------------------------------------------
 void SIM::CreateRandomUsedPlanes ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     UsedPlanes.Planes.ReSize (3);
     UsedPlanes.ClearAlbum ();
@@ -2970,7 +2970,7 @@ void SIM::CreateRandomUsedPlanes ()
 //--------------------------------------------------------------------------------------------
 void SIM::UpdateUsedPlanes ()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Anz = min (SLONG(UsedPlanes.AnzEntries()), Sim.TickMuseumRefill/20); //Normalerweise war das früher Time-Last / 5000, hier aber /100000, also effektiv /20
 
     for (c=0; c<SLONG(UsedPlanes.AnzEntries()) && Anz>0; c++) {
@@ -2995,9 +2995,9 @@ void SIM::UpdateUsedPlanes ()
 //--------------------------------------------------------------------------------------------
 void SIM::ReformGates ()
 {
-    SLONG c;
-    SLONG d;
-    SLONG n;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG n = 0;
 
     for (c=n=0; c<4; c++) {
         if (Players.Players[c].IsOut == 0)
@@ -3151,9 +3151,9 @@ TEAKFILE &operator << (TEAKFILE &File, const SIM &Sim)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, SIM &Sim)
 {
-    SLONG c;
-    SLONG tmp;
-    SLONG Dummy;
+    SLONG c = 0;
+    SLONG tmp = 0;
+    SLONG Dummy = 0;
     ULONG NetworkIDs[4];
     BOOL  bReadyForMornings[4];
 
@@ -3202,7 +3202,7 @@ TEAKFILE &operator >> (TEAKFILE &File, SIM &Sim)
         File >> Sim.RFActivePage;
         File >> Sim.RFTriebwerk  >> Sim.RFReifen >> Sim.RFElektronik >> Sim.RFSicherheit;
 
-        BOOL bIsHostDummy;
+        BOOL bIsHostDummy = 0;
         File >> bIsHostDummy; //Sim.bIsHost; (bringt probleme, wenn wir den Host so ändern; wir müssen beim DX Wert bleiben)
     }
     else
@@ -3239,7 +3239,7 @@ TEAKFILE &operator >> (TEAKFILE &File, SIM &Sim)
 
     //Datum und Zeit:
     File.ReadTrap (100);
-    SLONG SimDate;
+    SLONG SimDate = 0;
     File >> SimDate           >> Sim.Time       >> Sim.Month;
     File >> Sim.MonthDay      >> Sim.QuitCountDown;
     File >> Sim.TickerTime    >> Sim.TimeSlice  >> Sim.StartWeekday >> Sim.Weekday;
@@ -3289,7 +3289,7 @@ TEAKFILE &operator >> (TEAKFILE &File, SIM &Sim)
 //--------------------------------------------------------------------------------------------
 BOOL SIM::LoadGame (SLONG Number)
 {
-    const char *pNamebaseStr;
+    const char *pNamebaseStr = nullptr;
 
     if (Sim.bNetwork != 0) { pNamebaseStr = "net%li.dat";
     } else { pNamebaseStr = "game%li.dat";
@@ -3297,8 +3297,8 @@ BOOL SIM::LoadGame (SLONG Number)
 
     CString Filename = FullFilename ((LPCTSTR)bprintf(pNamebaseStr, Number), SavegamePath);
     CString Dummy;
-    SLONG   c;
-    SLONG   d;
+    SLONG   c = 0;
+    SLONG   d = 0;
     SLONG   NumSaveGameCities=55;
 
     VoiceScheduler.Clear();
@@ -3367,9 +3367,9 @@ BOOL SIM::LoadGame (SLONG Number)
 
     if (SaveVersionSub>=100)
     {
-        BOOL  BoolDummy;
-        UBYTE UByteDummy;
-        SLONG SlongDummy;
+        BOOL  BoolDummy = 0;
+        UBYTE UByteDummy = 0;
+        SLONG SlongDummy = 0;
 
         InputFile >> UniqueGameId >> BoolDummy  >> SlongDummy >> SlongDummy;
         InputFile >> UByteDummy   >> UByteDummy >> UByteDummy >> UByteDummy;
@@ -3599,7 +3599,7 @@ reload_airport:
 //--------------------------------------------------------------------------------------------
 void SIM::SaveGame (SLONG Number, const CString &Name) const
 {
-    const char *pNamebaseStr;
+    const char *pNamebaseStr = nullptr;
 
     if (Sim.bNetwork != 0) { pNamebaseStr = "net%li.dat";
     } else { pNamebaseStr = "game%li.dat";
@@ -3721,7 +3721,7 @@ SLONG SIM::GetSavegameLocalPlayer (SLONG Index)
 {
     CString Filename;
 
-    const char *pNamebaseStr;
+    const char *pNamebaseStr = nullptr;
 
     if (Sim.bNetwork != 0) { pNamebaseStr = "net%li.dat";
     } else { pNamebaseStr = "game%li.dat";
@@ -3731,8 +3731,8 @@ SLONG SIM::GetSavegameLocalPlayer (SLONG Index)
 
     if (DoesFileExist (Filename) != 0)
     {
-        SLONG    SaveVersion;
-        SLONG    SaveVersionSub;
+        SLONG    SaveVersion = 0;
+        SLONG    SaveVersionSub = 0;
         CString  DummyStr;
         TEAKFILE InputFile (Filename, TEAKFILE_READ);
 
@@ -3741,9 +3741,9 @@ SLONG SIM::GetSavegameLocalPlayer (SLONG Index)
 
         if (SaveVersionSub>=100)
         {
-            DWORD LocalPlayer;
-            BOOL  BoolDummy;
-            BOOL  SlongDummy;
+            DWORD LocalPlayer = 0;
+            BOOL  BoolDummy = 0;
+            BOOL  SlongDummy = 0;
 
             //Info-String ignorieren
             InputFile >> DummyStr;
@@ -3765,7 +3765,7 @@ DWORD SIM::GetSavegameUniqueGameId (SLONG Index, bool bForceNetwork)
 {
     CString Filename;
 
-    const char *pNamebaseStr;
+    const char *pNamebaseStr = nullptr;
 
     if ((Sim.bNetwork != 0) || bForceNetwork) { pNamebaseStr = "net%li.dat";
     } else { pNamebaseStr = "game%li.dat";
@@ -3775,8 +3775,8 @@ DWORD SIM::GetSavegameUniqueGameId (SLONG Index, bool bForceNetwork)
 
     if (DoesFileExist (Filename) != 0)
     {
-        SLONG    SaveVersion;
-        SLONG    SaveVersionSub;
+        SLONG    SaveVersion = 0;
+        SLONG    SaveVersionSub = 0;
         CString  DummyStr;
         TEAKFILE InputFile (Filename, TEAKFILE_READ);
 
@@ -3785,7 +3785,7 @@ DWORD SIM::GetSavegameUniqueGameId (SLONG Index, bool bForceNetwork)
 
         if (SaveVersionSub>=100)
         {
-            DWORD UniqueGameId;
+            DWORD UniqueGameId = 0;
 
             //Info-String ignorieren
             InputFile >> DummyStr;
@@ -3806,7 +3806,7 @@ SLONG SIM::GetSavegameNumHumans (SLONG Index)
 {
     CString Filename;
 
-    const char *pNamebaseStr;
+    const char *pNamebaseStr = nullptr;
 
     if (Sim.bNetwork != 0) { pNamebaseStr = "net%li.dat";
     } else { pNamebaseStr = "game%li.dat";
@@ -3816,8 +3816,8 @@ SLONG SIM::GetSavegameNumHumans (SLONG Index)
 
     if (DoesFileExist (Filename) != 0)
     {
-        SLONG    SaveVersion;
-        SLONG    SaveVersionSub;
+        SLONG    SaveVersion = 0;
+        SLONG    SaveVersionSub = 0;
         CString  DummyStr;
         TEAKFILE InputFile (Filename, TEAKFILE_READ);
 
@@ -3826,9 +3826,9 @@ SLONG SIM::GetSavegameNumHumans (SLONG Index)
 
         if (SaveVersionSub>=100)
         {
-            SLONG nHumans;
-            SLONG DummySlong;
-            SLONG DummyBool;
+            SLONG nHumans = 0;
+            SLONG DummySlong = 0;
+            SLONG DummyBool = 0;
 
             //Info-String ignorieren
             InputFile >> DummyStr;
@@ -3850,7 +3850,7 @@ CString SIM::GetSavegameSessionName (SLONG Index)
 {
     CString Filename;
 
-    const char *pNamebaseStr;
+    const char *pNamebaseStr = nullptr;
 
     if (Sim.bNetwork != 0) { pNamebaseStr = "net%li.dat";
     } else { pNamebaseStr = "game%li.dat";
@@ -3860,8 +3860,8 @@ CString SIM::GetSavegameSessionName (SLONG Index)
 
     if (DoesFileExist (Filename) != 0)
     {
-        SLONG    SaveVersion;
-        SLONG    SaveVersionSub;
+        SLONG    SaveVersion = 0;
+        SLONG    SaveVersionSub = 0;
         CString  DummyStr;
         TEAKFILE InputFile (Filename, TEAKFILE_READ);
 
@@ -3870,9 +3870,9 @@ CString SIM::GetSavegameSessionName (SLONG Index)
 
         if (SaveVersionSub>=100)
         {
-            BOOL  BoolDummy;
-            SLONG SlongDummy;
-            UBYTE ByteDummy;
+            BOOL  BoolDummy = 0;
+            SLONG SlongDummy = 0;
+            UBYTE ByteDummy = 0;
 
             //Info-String ignorieren
             InputFile >> DummyStr;
@@ -3901,7 +3901,7 @@ void SIM::ReadSavegameOwners (SLONG Index)
 {
     CString Filename;
 
-    const char *pNamebaseStr;
+    const char *pNamebaseStr = nullptr;
 
     if (Sim.bNetwork != 0) { pNamebaseStr = "net%li.dat";
     } else { pNamebaseStr = "game%li.dat";
@@ -3911,8 +3911,8 @@ void SIM::ReadSavegameOwners (SLONG Index)
 
     if (DoesFileExist (Filename) != 0)
     {
-        SLONG    SaveVersion;
-        SLONG    SaveVersionSub;
+        SLONG    SaveVersion = 0;
+        SLONG    SaveVersionSub = 0;
         CString  DummyStr;
         TEAKFILE InputFile (Filename, TEAKFILE_READ);
 
@@ -3921,8 +3921,8 @@ void SIM::ReadSavegameOwners (SLONG Index)
 
         if (SaveVersionSub>=100)
         {
-            BOOL  BoolDummy;
-            BOOL  SlongDummy;
+            BOOL  BoolDummy = 0;
+            BOOL  SlongDummy = 0;
 
             //Info-String ignorieren
             InputFile >> DummyStr;
@@ -3957,8 +3957,8 @@ void SIM::SaveOptions ()
 //--------------------------------------------------------------------------------------------
 void SIM::UpdateRoomUsage ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     Sim.RoomBusy[ROOM_SHOP1      ]=0;
     Sim.RoomBusy[ROOM_SHOP2      ]=0;
@@ -4053,8 +4053,8 @@ void SIM::NetRefill (SLONG Type, SLONG City)
 
     Message << ATNET_PLAYER_REFILL << Type << City;
 
-    SLONG Delta;
-    SLONG Time;
+    SLONG Delta = 0;
+    SLONG Time = 0;
 
     switch (Type)
     {
@@ -4084,8 +4084,8 @@ void SIM::NetSynchronizeOvertake () const
 //--------------------------------------------------------------------------------------------
 void SIM::AddHighscore (const CString& Name, DWORD UniqueGameId2, __int64 Score)
 {
-    long c;
-    long d;
+    long c = 0;
+    long d = 0;
 
     //Pass 1: Einen existierenden Eintrag der gleichen Session überschreiben?
     for (c=0; c<6; c++) {
@@ -4155,8 +4155,8 @@ void SIM::SaveHighscores ()
         __int64 k1 = rand()%256 + rand()%256*256 + rand()%256*65536 + rand()%256*65536*256;
         __int64 k2 = rand()%256 + rand()%256*256 + rand()%256*65536 + rand()%256*65536*256;
         __int64 k3 = rand()%256 + rand()%256*256 + rand()%256*65536 + rand()%256*65536*256;
-        __int64 k4;
-        __int64 k5;
+        __int64 k4 = 0;
+        __int64 k5 = 0;
 
         k4 = k5 = Highscore.Score;
         k4 ^= (k1^k3);
@@ -4231,7 +4231,7 @@ void COptions::ReadOptions ()
     SLONG tmp  = Sim.MaxDifficulty;
     SLONG tmp2 = Sim.MaxDifficulty2;
     SLONG tmp3 = Sim.MaxDifficulty3;
-    SLONG c;
+    SLONG c = 0;
     char Buffer[80];
 
     CRegistryAccess reg (chRegKey);
@@ -4453,7 +4453,7 @@ void COptions::WriteOptions ()
     SLONG tmp  = Sim.MaxDifficulty;
     SLONG tmp2 = Sim.MaxDifficulty2;
     SLONG tmp3 = Sim.MaxDifficulty3;
-    SLONG c;
+    SLONG c = 0;
 
     Sim.MaxDifficulty  = MissionKeys[Sim.MaxDifficulty];
     Sim.MaxDifficulty2 = MissionKeys2[Sim.MaxDifficulty2-DIFF_ADDON01];

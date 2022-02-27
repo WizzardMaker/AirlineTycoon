@@ -132,7 +132,7 @@ CSabotage::~CSabotage()
 //--------------------------------------------------------------------------------------------
 void CSabotage::OnPaint()
 {
-    SLONG   NewTip;
+    SLONG   NewTip = 0;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
     if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_SABOTAGE, 0);

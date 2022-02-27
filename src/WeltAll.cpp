@@ -118,7 +118,7 @@ CWeltAll::~CWeltAll()
 //--------------------------------------------------------------------------------------------
 void CWeltAll::OnPaint()
 {
-    SLONG c;
+    SLONG c = 0;
 
     SLONG Time=timeGetTime();
 

@@ -12,14 +12,14 @@ class CDutyFree : public CStdRaum
 
         // Attributes
     public:
-        SLONG       Topic;               //Darüber reden wir gerade (zum Verkauf)
+        SLONG       Topic{};               //Darüber reden wir gerade (zum Verkauf)
         SBBM        TipBm;               //Bitmap der Tips
         SBBM        HufeisenBm;          //Das Hufeisen über der Tür
 
-        SLONG       CurrTip;             //zeigt, welcher Tip gerade angezeigt wird
+        SLONG       CurrTip{};             //zeigt, welcher Tip gerade angezeigt wird
 
         SBBM        ZettelBm;
-        GfxLib     *pMenuLib;
+        GfxLib     *pMenuLib{};
 
         SBBM        OpaqueBm;
         SBBM        TransBm;

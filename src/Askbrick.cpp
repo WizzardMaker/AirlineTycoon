@@ -62,9 +62,9 @@ AskBrick::~AskBrick()
 
 void AskBrick::OnPaint()
 {
-    SLONG g;
-    SLONG x;
-    SLONG y;
+    SLONG g = 0;
+    SLONG x = 0;
+    SLONG y = 0;
 
     if (bActive != 0)
     {
@@ -108,9 +108,9 @@ void AskBrick::OnPaint()
 
 void AskBrick::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    SLONG g;
-    SLONG x;
-    SLONG y;
+    SLONG g = 0;
+    SLONG x = 0;
+    SLONG y = 0;
 
     g = Group;
 

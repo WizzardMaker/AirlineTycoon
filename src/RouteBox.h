@@ -33,10 +33,10 @@ class CRouteBox : public CStdRaum
         SLONG      RoutePage;
         SLONG      RoutePageMax;
 
-        SLONG      CurrentTip;
+        SLONG      CurrentTip{};
         SLONG      CurrentTipIndex;         //Index im Table-Array
 
-        SLONG      LastTip;
+        SLONG      LastTip{};
 
         BUFFER<BOOL> IsBuyable;
 

@@ -15,7 +15,7 @@ class CWerkstatt : public CStdRaum
 
         SBFX                    SawFx;
 
-        SLONG                   CurrentTip;          //Dieser Tip wird gerade angezeigt
+        SLONG                   CurrentTip{};          //Dieser Tip wird gerade angezeigt
 
         CAnimation              SoudAnim;
         CAnimation              FlameAnim;

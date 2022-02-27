@@ -131,12 +131,12 @@ namespace RakNet
 
         // Following members only apply if removedFromRoom==true
         Room *room;
-        RoomID roomId;
+        RoomID roomId{};
         bool gotNewModerator; // If you were the moderator before, this is true
         DataStructures::List<InvitedUser> clearedInvitations; // If invitations were cleared when you leave, these are the invitations
         bool roomDestroyed; // Up to caller to deallocate
 
-        QuickJoinUser *qju;
+        QuickJoinUser *qju{};
         void Serialize(bool writeToBitstream, RakNet::BitStream *bitStream);
     };
 
@@ -326,7 +326,7 @@ namespace RakNet
         RakNet::TimeMS totalTimeWaiting;
 
         // Which user
-        RoomsParticipant* roomsParticipant;
+        RoomsParticipant* roomsParticipant{};
         static int SortByTotalTimeWaiting( QuickJoinUser* const &key, QuickJoinUser* const &data );
         static int SortByMinimumSlots( QuickJoinUser* const &key, QuickJoinUser* const &data );
     };
@@ -506,7 +506,7 @@ namespace RakNet
             RoomsErrorCode SearchByFilter( RoomsParticipant* roomsParticipant, RoomQuery *roomQuery, DataStructures::OrderedList<Room*, Room*, AllGamesRoomsContainer::RoomsSortByName> &roomsOutput, bool onlyJoinable );
 
             friend class AllGamesRoomsContainer;
-            IntervalTimer nextQuickJoinProcess;
+            IntervalTimer nextQuickJoinProcess{};
     };
 
     // Holds all the members of a particular roomOutput

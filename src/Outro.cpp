@@ -3,6 +3,7 @@
 //============================================================================================
 #include "StdAfx.h"
 #include "Outro.h"
+#include <math.h>
 #include <smacker.h>
 
 #ifdef _DEBUG
@@ -35,7 +36,7 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
         Height *= 2;
 }
 
-    unsigned char tracks;
+    unsigned char tracks = 0;
     unsigned char channels[7];
     unsigned char depth[7];
     unsigned long rate[7];
@@ -128,7 +129,7 @@ void COutro::OnPaint()
         SDL_QueueAudio(audioDevice, smk_get_audio(pSmack, 0), smk_get_audio_size(pSmack, 0));
         State = smk_next(pSmack);
 
-        double usf;
+        double usf = NAN;
         smk_info_all(pSmack, nullptr, nullptr, &usf);
         FrameNext = timeGetTime() + (usf / 1000.0);
     }

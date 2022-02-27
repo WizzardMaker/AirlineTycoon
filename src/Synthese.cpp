@@ -27,8 +27,8 @@ void SynthesizeNumber (SBFX *TargetFx, const CString& Talker, SLONG Number, BOOL
 {
     SLONG LocalVon[100];
     SLONG LocalBis[100];
-    SLONG c;
-    SLONG TalkerIndex;
+    SLONG c = 0;
+    SLONG TalkerIndex = 0;
     SLONG ElementsInFusion=0;
 
     if ((Sim.Options.OptionRoundNumber != 0) && (Number>=1000 || Number<=-1000))
@@ -84,7 +84,7 @@ void SynthesizeNumber (SBFX *TargetFx, const CString& Talker, SLONG Number, BOOL
 
         while (Number>0)
         {
-            SLONG n;
+            SLONG n = 0;
 
             if (Number>=1000000) { n=Number/1000000;
             } else if (Number>=1000) { n=Number/1000;

@@ -109,7 +109,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
             return (TRUE);
         }
 
-        SLONG c, tmp, tmp2, id;
+        SLONG c = 0, tmp = 0, tmp2 = 0, id = 0;
         bool  bJustDeletedTextWindow=false;
 
         if (MouseClickArea==-102 && MouseClickId==1)
@@ -646,7 +646,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
 
                             Array.ReSize (maybeArray.AnzEntries());
 
-                            long c, d;
+                            long c = 0, d = 0;
                             for (c=0, d=0; c<(SLONG)maybeArray.AnzEntries(); c++)
                             {
                                 CXPlane plane;
@@ -971,7 +971,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 3050: //Wirklich etwas machen: (Aktien ausgeben)
                                {
-                                   SLONG   MarktAktien;
+                                   SLONG   MarktAktien = 0;
                                    auto   AlterKurs=SLONG(qPlayer.Kurse[0]);
 
                                    if (DialogPar3==5) MarktAktien=DialogPar1;
@@ -1091,7 +1091,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                Sim.bNoTime   = FALSE;
                                Sim.DayState  = 2;
                                //qPlayer.LeaveRoom();
-                               ((CAufsicht*)this)->TryLeaveAufsicht ();
+                               (dynamic_cast<CAufsicht*>(this))->TryLeaveAufsicht ();
                                break;
 
                                //Guten Morgen & globale Bewertung:
@@ -1145,7 +1145,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 6001:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1163,7 +1163,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -1261,7 +1261,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 6101:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1280,7 +1280,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -1351,7 +1351,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                     case 6201:
 #ifndef DEMO
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1369,7 +1369,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -1438,7 +1438,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                     case 6301:
 #ifndef DEMO
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1458,7 +1458,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -1530,7 +1530,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                     case 6401:
 #ifndef DEMO
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1548,7 +1548,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -1617,7 +1617,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                     case 6501:
 #ifndef DEMO
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1637,7 +1637,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -1696,7 +1696,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 7101:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1714,7 +1714,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -1779,7 +1779,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 7201:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1797,7 +1797,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -1861,7 +1861,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 7301:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1879,7 +1879,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -1943,7 +1943,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 7401:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -1961,7 +1961,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2025,7 +2025,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 7501:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2043,7 +2043,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2109,7 +2109,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 7601:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2127,7 +2127,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2193,7 +2193,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 7701:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2211,7 +2211,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2277,7 +2277,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 7801:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2295,7 +2295,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2360,7 +2360,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 7901:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2378,7 +2378,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2445,7 +2445,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 8001:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2463,7 +2463,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2518,7 +2518,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 8501:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2536,7 +2536,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2601,7 +2601,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                {
                                    bool  bAnywon=false;
                                    long  won=-1;
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2620,7 +2620,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2685,7 +2685,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                {
                                    bool  bAnywon=false;
                                    long  won=-1;
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2704,7 +2704,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2769,7 +2769,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                {
                                    bool  bAnywon=false;
                                    long  won=-1;
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2788,7 +2788,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2851,7 +2851,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 8901:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2869,7 +2869,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -2932,7 +2932,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 9001:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -2950,7 +2950,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -3015,7 +3015,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                {
                                    bool  bAnywon=false;
                                    long  won=-1;
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -3034,7 +3034,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -3097,7 +3097,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 9201:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -3115,7 +3115,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -3178,7 +3178,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 9301:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -3196,7 +3196,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -3259,7 +3259,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 9401:
                                {
-                                   SLONG c,d=-1;
+                                   SLONG c = 0,d=-1;
 
                                    for (c=d=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
@@ -3277,7 +3277,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    else
                                    {
                                        //Ja: Hat es einer erreicht, oder mehrere?
-                                       SLONG c, Anz=0;
+                                       SLONG c = 0, Anz=0;
 
                                        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                            if (!Sim.Players.Players[c].IsOut)
@@ -3318,11 +3318,11 @@ _und_jetzt_weiter_mit_etc:
                                    CString TmpStr;
 
                                    //Override um in eine andere Richtung zu schauen:
-                                   if (DialogPar1==0 || DialogPar1==1) ((CAufsicht*)this)->ExitFromMiddle=4;
+                                   if (DialogPar1==0 || DialogPar1==1) (dynamic_cast<CAufsicht*>(this))->ExitFromMiddle=4;
                                    if (DialogPar1==2 || DialogPar1==3)
                                    {
-                                       ((CAufsicht*)this)->ExitFromLeft=10;
-                                       ((CAufsicht*)this)->ExitFromMiddle=7;
+                                       (dynamic_cast<CAufsicht*>(this))->ExitFromLeft=10;
+                                       (dynamic_cast<CAufsicht*>(this))->ExitFromMiddle=7;
                                    }
 
                                    //"Beginnen wir mit ..." / "Und weiter mit ..."
@@ -3510,9 +3510,9 @@ _und_jetzt_weiter_mit_etc:
                                {
                                    MakeSayWindow (0, TOKEN_BOSS, 2102, pFontPartner);
 
-                                   ((CAufsicht*)this)->ExitFromLeft=6;
-                                   ((CAufsicht*)this)->ExitFromMiddle=-1;
-                                   ((CAufsicht*)this)->ExitFromRight=9;
+                                   (dynamic_cast<CAufsicht*>(this))->ExitFromLeft=6;
+                                   (dynamic_cast<CAufsicht*>(this))->ExitFromMiddle=-1;
+                                   (dynamic_cast<CAufsicht*>(this))->ExitFromRight=9;
                                }
                                break;
 
@@ -3522,11 +3522,11 @@ _und_jetzt_weiter_mit_etc:
                     case 2080:
 _ehemals_2080:
                                for (c=0; c<DialogPar1; c++)
-                                   ((CAufsicht*)this)->SP_Player[c].SetDesiredMood (SPM_IDLE);
+                                   (dynamic_cast<CAufsicht*>(this))->SP_Player[c].SetDesiredMood (SPM_IDLE);
 
                                if (DialogPar1<Sim.SabotageActs.AnzEntries())
                                {
-                                   SLONG c;
+                                   SLONG c = 0;
 
                                    for (c=0; c<DialogPar1; c++)
                                        if (Sim.SabotageActs[c].Opfer==Sim.SabotageActs[DialogPar1].Opfer)
@@ -3538,7 +3538,7 @@ _ehemals_2080:
                                    if (c==DialogPar1)
                                    {
                                        if (Sim.SabotageActs[DialogPar1].Player!=-2)
-                                           ((CAufsicht*)this)->SP_Player[Sim.SabotageActs[DialogPar1].Player].SetDesiredMood (SPM_HOLY);
+                                           (dynamic_cast<CAufsicht*>(this))->SP_Player[Sim.SabotageActs[DialogPar1].Player].SetDesiredMood (SPM_HOLY);
                                        MakeSayWindow (0, TOKEN_BOSS, 2050+DialogPar2, pFontPartner, (LPCTSTR)Sim.Players.Players[Sim.SabotageActs[DialogPar1].Opfer].AirlineX);
                                    }
 
@@ -3557,7 +3557,7 @@ _ehemals_2080:
                     case 2061: case 2062: case 2063: case 2064: case 2065:
                     case 2075: case 2076: case 2077: case 2078:
                     case 2091: case 2092: case 2093: case 2094: case 2095: case 2096:
-                               ((CAufsicht*)this)->ExitFromMiddle=2; //Erhobener Zeigefinger:
+                               (dynamic_cast<CAufsicht*>(this))->ExitFromMiddle=2; //Erhobener Zeigefinger:
 
                                if (Sim.SabotageActs[DialogPar1].Player==-2 || Sim.Players.Players[Sim.SabotageActs[DialogPar1].Player].ArabHints<15)
                                    MakeSayWindow (0, TOKEN_BOSS, 2070, pFontPartner);
@@ -3579,11 +3579,11 @@ _ehemals_2080:
                                {
                                    SLONG count=1000;
 
-                                   ((CAufsicht*)this)->ExitFromMiddle=12; //Alle einmal böse anblicken
-                                   ((CAufsicht*)this)->SP_Boss.ForceNextClip ();
-                                   while (((CAufsicht*)this)->SP_Boss.GetMood()!=SPM_IDLE && count>0)
+                                   (dynamic_cast<CAufsicht*>(this))->ExitFromMiddle=12; //Alle einmal böse anblicken
+                                   (dynamic_cast<CAufsicht*>(this))->SP_Boss.ForceNextClip ();
+                                   while ((dynamic_cast<CAufsicht*>(this))->SP_Boss.GetMood()!=SPM_IDLE && count>0)
                                    {
-                                       ((CAufsicht*)this)->SP_Boss.Pump ();
+                                       (dynamic_cast<CAufsicht*>(this))->SP_Boss.Pump ();
                                        count--;
                                    }
                                }
@@ -3699,7 +3699,7 @@ _ehemals_2080:
                                Sim.DayState  = 2;
                                StopDialog ();
                                //qPlayer.LeaveRoom();
-                               ((CAufsicht*)this)->TryLeaveAufsicht ();
+                               (dynamic_cast<CAufsicht*>(this))->TryLeaveAufsicht ();
                                break;
 
                     case 4012: case 4130: case 4131: case 4110:
@@ -3725,7 +3725,7 @@ _ehemals_2080:
                                break;
                     case 5010: case 5020:
                                {
-                                   SLONG   c, d;
+                                   SLONG   c = 0, d = 0;
                                    PLAYER &Overtaker=Sim.Players.Players[Sim.OvertakerAirline];
                                    PLAYER &Overtaken=Sim.Players.Players[Sim.OvertakenAirline];
 
@@ -4011,7 +4011,7 @@ _ehemals_2080:
                                StopDialog ();
 
                                if (Sim.GetHour()==9 && Sim.GetMinute()==0)
-                                   ((CAufsicht*)this)->TryLeaveAufsicht ();
+                                   (dynamic_cast<CAufsicht*>(this))->TryLeaveAufsicht ();
                                break;
                 }
                 break;
@@ -4347,7 +4347,7 @@ _ehemals_2080:
 
                     case 100: case 102:
                         {
-                            SLONG c, n1=0, n2=0, n3=0;
+                            SLONG c = 0, n1=0, n2=0, n3=0;
 
                             for (c=0; c<Workers.Workers.AnzEntries(); c++)
                                 if (Workers.Workers[c].Employer==WORKER_JOBLESS)
@@ -4381,7 +4381,7 @@ _ehemals_2080:
 
                     case 250:
                         {
-                            SLONG c, n1=0, n2=0, n3=0;
+                            SLONG c = 0, n1=0, n2=0, n3=0;
 
                             for (c=0; c<Workers.Workers.AnzEntries(); c++)
                                 if (Workers.Workers[c].Employer==WORKER_JOBLESS)
@@ -5286,7 +5286,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_BASE, -RocketPrices[0]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5301,7 +5301,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_TOWER, -RocketPrices[1]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5314,7 +5314,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_ARM, -RocketPrices[2]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5328,7 +5328,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_AIRFRAME, -RocketPrices[3]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5343,7 +5343,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_WINGS, -RocketPrices[4]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5358,7 +5358,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_CAPSULE, -RocketPrices[5]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5373,7 +5373,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_HECK, -RocketPrices[6]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5390,7 +5390,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_PROP, -RocketPrices[7]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5405,7 +5405,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_MAINPROP, -RocketPrices[8]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5420,7 +5420,7 @@ label_maindialog_players_again:
                             MakeSayWindow (0, TOKEN_NASA, 7000, pFontPartner);
                         else
                         {
-                            ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                            (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                             qPlayer.AddRocketPart(ROCKET_COCKPIT, -RocketPrices[9]);
                             MakeSayWindow (0, TOKEN_NASA, 5099, pFontPartner);
                             PlayFanfare();
@@ -5459,7 +5459,7 @@ label_maindialog_players_again:
                                 MakeSayWindow (0, TOKEN_NASA, 8300, pFontPartner);
                             else
                             {
-                                ((CNasa*)((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
+                                (dynamic_cast<CNasa*>((qPlayer.DialogWin) ? qPlayer.DialogWin : this))->KommVarTippNow=12;
                                 qPlayer.AddRocketPart(Flag, -RocketPrices[Index]);
                                 MakeSayWindow (0, TOKEN_NASA, 8302, pFontPartner);
                                 PlayFanfare();
@@ -5504,7 +5504,7 @@ label_maindialog_players_again:
                         else if (Sim.Difficulty==DIFF_NORMAL && Sim.Date==1) MakeSayWindow (0, TOKEN_RICK, 2101, pFontPartner);
                         else
                         {
-                            SLONG c;
+                            SLONG c = 0;
 
                             //Neues Flugzeug:
                             for (c=0; c<SLONG(PlaneTypes.AnzEntries()); c++)

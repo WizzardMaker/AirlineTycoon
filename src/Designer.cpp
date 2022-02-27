@@ -128,7 +128,7 @@ CDesigner::~CDesigner()
 //--------------------------------------------------------------------------------------------
 void CDesigner::OnPaint()
 {
-    SLONG   NewTip;
+    SLONG   NewTip = 0;
 
     if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_DESIGNER, 0);
 }

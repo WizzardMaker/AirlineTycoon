@@ -195,7 +195,7 @@ struct protectedValue
     __forceinline void	SetScrambled( int iValue );
 
     // Members
-    charint			mcharintScore;
+    charint			mcharintScore{};
     unsigned		muScramble;
 };
 
@@ -216,7 +216,7 @@ void protectedValue::SetValue( int iValue )
 
 void protectedValue::AddValue( const int iAdd )
 {
-    int iScore;
+    int iScore = 0;
     iScore = Descramble( );
     iScore += iAdd;
     SetScrambled( iScore );
@@ -234,7 +234,7 @@ int protectedValue::GetValue( ) const
 
 int	protectedValue::Descramble( ) const
 {
-    charint iScore;
+    charint iScore{};
 
     // descramble
     iScore.acValue[0] = mcharintScore.acValue[2] ^ ( unsigned char ) muScramble;
@@ -676,8 +676,8 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
     //Waiting Area
     {
         CWait    Waiting;
-        GfxLib  *pRoomLib;
-        GfxLib  *pRoomLib2;
+        GfxLib  *pRoomLib = nullptr;
+        GfxLib  *pRoomLib2 = nullptr;
         SBBM     TitleBitmap;
 
         pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("titel.gli", RoomPath),  &pRoomLib, L_LOCMEM);
@@ -948,16 +948,16 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
 //--------------------------------------------------------------------------------------------
 void CTakeOffApp::GameLoop(void* /*unused*/)
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
     DWORD LastTime=0xffffffff;
-    DWORD Time;
+    DWORD Time = 0;
     DWORD NumSimSteps=0;
     SLONG Faktor=1;
     BOOL  RefreshNeccessary=FALSE;
 
-    DWORD SimStepsCounter;        //Zählt wieviele SimSteps an einem Stück gemacht wurden um ab&zu einen ScreenRefresh zu erzwingen
+    DWORD SimStepsCounter = 0;        //Zählt wieviele SimSteps an einem Stück gemacht wurden um ab&zu einen ScreenRefresh zu erzwingen
 
     Sim.TimeSlice = 0;
 
@@ -980,7 +980,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
             RefreshNeccessary=FALSE;
             if (((Time-LastTime)/50)>0)
             {
-                DWORD tmp;
+                DWORD tmp = 0;
 
                 tmp          = (Time-LastTime)/50;    //20 Schritte pro Sekunde
                 NumSimSteps += tmp;
@@ -1198,7 +1198,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                     }
                     else if (Sim.Tutorial==1200+30 && (qLocalPlayer.Messages.IsSilent () != 0))
                     {
-                        SLONG c;
+                        SLONG c = 0;
                         for (c=9; c>=0; c--) {
                             if (qLocalPlayer.Locations[c]==ROOM_AUFSICHT) { break;
 }
@@ -1321,7 +1321,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                         bgWarp = FALSE;
 
                         if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
-                            ((AirportView*)Sim.Players.Players[Sim.localPlayer].LocationWin)->CenterCameraOnPlayer();
+                            (dynamic_cast<AirportView*>(Sim.Players.Players[Sim.localPlayer].LocationWin))->CenterCameraOnPlayer();
 }
                     }
 
@@ -1357,7 +1357,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                             Sim.Players.Players[Sim.localPlayer].bReadyForMorning=1;
                         }
 
-                        if ((Sim.bWatchForReady != 0) && (Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_AUFSICHT || (Sim.Players.Players[Sim.localPlayer].GetRoom()==ROOM_AUFSICHT && ((CAufsicht*)Sim.Players.Players[Sim.localPlayer].LocationWin)->bExitASAP)) && (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr))
+                        if ((Sim.bWatchForReady != 0) && (Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_AUFSICHT || (Sim.Players.Players[Sim.localPlayer].GetRoom()==ROOM_AUFSICHT && (dynamic_cast<CAufsicht*>(Sim.Players.Players[Sim.localPlayer].LocationWin))->bExitASAP)) && (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr))
                         {
                             for (c=0; c<4; c++) {
                                 if (!static_cast<bool>(Sim.Players.Players[c].bReadyForMorning) && Sim.Players.Players[c].Owner!=1)
@@ -2119,7 +2119,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                     for (c=0; c<Sim.Players.AnzPlayers; c++)
                     {
                         if (Sim.Players.Players[c].GetRoom()==ROOM_AIRPORT && (Sim.Players.Players[c].LocationWin != nullptr)) {
-                            ((AirportView*)Sim.Players.Players[c].LocationWin)->MoveCamera ();
+                            (dynamic_cast<AirportView*>(Sim.Players.Players[c].LocationWin))->MoveCamera ();
 }
                     }
                 }
@@ -2319,9 +2319,9 @@ void CTakeOffApp::WinHelp(DWORD /*unused*/, UINT /*unused*/)
 char *UCharToReadableAnsi( const unsigned char *pData, const unsigned uLen )
 {
     unsigned uBitSize = uLen * 8;
-    unsigned i;
-    unsigned short int wData;
-    char *pReturn;
+    unsigned i = 0;
+    unsigned short int wData = 0;
+    char *pReturn = nullptr;
 
     pReturn = new char[( uBitSize + 4 ) / 5 + 1]; // ( char * ) malloc( ( ( uBitSize + 4 ) / 5 + 1 ) * sizeof( char ) );
     pReturn[(uBitSize + 4 ) / 5] = '\0';

@@ -17,7 +17,7 @@ class CSabotage : public CStdRaum
         SBFX        ZischFx;
         SBFX        LunteFx;
         SBFX        BackFx;
-        SLONG       CurrentTip;          //Dieser Tip wird gerade angezeigt
+        SLONG       CurrentTip{};          //Dieser Tip wird gerade angezeigt
 
         SLONG          PlayEyeAnim;
         SBBM           AraberBm;

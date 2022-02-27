@@ -37,7 +37,7 @@ CString ShortenLongCities (CString City);
 //--------------------------------------------------------------------------------------------
 CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "lastmin.gli", GFX_LASTMIN)
 {
-    SLONG c;
+    SLONG c = 0;
 
     SetRoomVisited (PlayerNum, ROOM_LAST_MINUTE);
 
@@ -135,7 +135,7 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 //--------------------------------------------------------------------------------------------
 CLastMinute::~CLastMinute()
 {
-    SLONG c;
+    SLONG c = 0;
 
     TipBm.Destroy();
 
@@ -167,7 +167,7 @@ CLastMinute::~CLastMinute()
 //--------------------------------------------------------------------------------------------
 void CLastMinute::OnPaint()
 {
-    SLONG  c;
+    SLONG  c = 0;
     CPoint point = Sim.Players.Players[(SLONG)PlayerNum].CursorPos;
     XY     RoomPos;
     BOOL   RemoveTip=TRUE;
@@ -332,7 +332,7 @@ void CLastMinute::RepaintZettel (SLONG n)
 //--------------------------------------------------------------------------------------------
 void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    SLONG c;
+    SLONG c = 0;
     XY RoomPos;
 
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];

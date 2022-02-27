@@ -57,7 +57,7 @@ __int64 abs64 (__int64 v)
 //============================================================================================
 PLAYER::PLAYER ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     NewDir           = 8;
     Buttons          = 0;
@@ -120,7 +120,7 @@ void PLAYER::Add5UhrigFlights ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::BuyPlane (ULONG PlaneTypeId, TEAKRAND *pRnd)
 {
-    ULONG Id;
+    ULONG Id = 0;
 
     if (Planes.GetNumFree()==0)
     {
@@ -151,7 +151,7 @@ void PLAYER::BuyPlane (ULONG PlaneTypeId, TEAKRAND *pRnd)
 //--------------------------------------------------------------------------------------------
 void PLAYER::BuyPlane (CXPlane &plane, TEAKRAND *pRnd)
 {
-    ULONG Id;
+    ULONG Id = 0;
 
     if (Planes.GetNumFree()==0)
     {
@@ -256,7 +256,7 @@ void PLAYER::ChangeMoney (__int64 Money, SLONG Reason, const CString& Par1, char
 //--------------------------------------------------------------------------------------------
 void PLAYER::EnterRoom (SLONG RoomNum, bool bDontBroadcast)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<10; c++) {
         if ((Locations[c]&(~(ROOM_ENTERING|ROOM_LEAVING)))==RoomNum) {
@@ -307,7 +307,7 @@ void PLAYER::AddRocketPart(SLONG rocketPart, SLONG price) {
 //--------------------------------------------------------------------------------------------
 void PLAYER::LeaveRoom ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=9; c>=0; c--) {
         if (Locations[c] != 0u)
@@ -326,7 +326,7 @@ void PLAYER::LeaveRoom ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::LeaveAllRooms ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=9; c>=0; c--) {
         if ((Locations[c] != 0u) && Locations[c]!=ROOM_AIRPORT) {
@@ -350,8 +350,8 @@ UWORD PLAYER::GetRoom ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::CalcRoom ()
 {
-    SLONG c;
-    SLONG Room;
+    SLONG c = 0;
+    SLONG Room = 0;
     BOOL  Found=FALSE;
 
     //Zählen, wie lange wir in diesem Raum schon sind:
@@ -523,8 +523,8 @@ long PLAYER::CalcSecurityCosts (bool bFixOnly, bool bPlaneOnly)
 //--------------------------------------------------------------------------------------------
 void PLAYER::BookBuroRent ()
 {
-    SLONG c;
-    SLONG Gebuehr;
+    SLONG c = 0;
+    SLONG Gebuehr = 0;
 
     //Erst einmal die gate-Mieten:
     for (c=Gebuehr=0; c<(SLONG)Gates.Gates.AnzEntries(); c++) {
@@ -561,7 +561,7 @@ void PLAYER::BookBuroRent ()
 //------------------------------------------------------------------------------
 void PLAYER::BookSalary ()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Money=0;
 
     if (Owner==0)
@@ -621,7 +621,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                 //AddOn-Missionen
             case DIFF_ADDON01:
                 {
-                    __int64 rc;
+                    __int64 rc = 0;
 
                     if (Money>0) rc=Credit;         //Nur Kredit
                     else rc=Credit-Money;   //Kredit + Überziehungskredit
@@ -706,7 +706,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
             case DIFF_ADDON07:
                 {
                     //Äußerung zu den Flugzeugen:
-                    SLONG d, tmp, anz;
+                    SLONG d = 0, tmp = 0, anz = 0;
                     for (d=tmp=anz=0; d<(SLONG)Planes.AnzEntries(); d++)
                         if (Planes.IsInAlbum(d))
                         {
@@ -737,7 +737,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
             case DIFF_ATFS02:
                 {
                     //Äußerung zu den Flugzeugen:
-                    SLONG d, anz;
+                    SLONG d = 0, anz = 0;
                     for (d=anz=0; d<(SLONG)Planes.AnzEntries(); d++)
                         if (Planes.IsInAlbum(d))
                         {
@@ -751,7 +751,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 
             case DIFF_ATFS03:
                 {
-                    long c;
+                    long c = 0;
                     __int64 p = 0;
                     __int64 f = 0;
 
@@ -964,10 +964,10 @@ BOOL PLAYER::HasWon ()
 //------------------------------------------------------------------------------
 void PLAYER::NewDay ()
 {
-    SLONG c;
-    SLONG d;
-    SLONG tmp;
-    SLONG Summe;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG tmp = 0;
+    SLONG Summe = 0;
 
     PlayerWalkRandom.SRand (Sim.Date+PlayerNum);
     PlayerExtraRandom.SRand (0);
@@ -1474,7 +1474,7 @@ void PLAYER::RouteWegnehmen (long Routenindex, long NeuerBesitzer)
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateAuftraege ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     //Aufträge anschauen
     for (c=0; c<(SLONG)Auftraege.AnzEntries(); c++)
@@ -1518,8 +1518,8 @@ void PLAYER::UpdateAuftraege ()
             }
             else if (Auftraege[c].BisDate == Sim.Date-2)
             {
-                SLONG d;
-                SLONG e;
+                SLONG d = 0;
+                SLONG e = 0;
                 BOOL  CantDelete=FALSE;
 
                 //Veralteten Auftrag aus Flugplan entfernen:
@@ -1602,8 +1602,8 @@ void PLAYER::UpdateAuftraege ()
             }
             else if (Frachten[c].BisDate <= Sim.Date-2)
             {
-                SLONG d;
-                SLONG e;
+                SLONG d = 0;
+                SLONG e = 0;
                 BOOL  CantDelete=FALSE;
 
                 //Veralteten Frachtauftrag aus Flugplan entfernen:
@@ -1652,8 +1652,8 @@ start_loop_again:
 //--------------------------------------------------------------------------------------------
 BOOL PLAYER::IsAuftragInUse (SLONG AuftragsId, CString *PlaneName)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0)
@@ -1679,9 +1679,9 @@ BOOL PLAYER::IsAuftragInUse (SLONG AuftragsId, CString *PlaneName)
 //--------------------------------------------------------------------------------------------
 void PLAYER::RentRoute (SLONG City1, SLONG City2, SLONG Miete)
 {
-    SLONG c;
-    SLONG d;
-    SLONG n;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG n = 0;
 
     for (c=0; c<(SLONG)Routen.AnzEntries(); c++) {
         if (Routen.IsInAlbum(c) != 0)
@@ -1717,7 +1717,7 @@ void PLAYER::RentRoute (SLONG City1, SLONG City2, SLONG Miete)
 //--------------------------------------------------------------------------------------------
 void PLAYER::RentGate (SLONG Nummer, SLONG Miete)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Gates.Gates.AnzEntries(); c++)
     {
@@ -1751,9 +1751,9 @@ long PLAYER::CalcCreditLimit () const
 //--------------------------------------------------------------------------------------------
 SLONG PLAYER::AnzPlanesOnRoute (ULONG RouteId)
 {
-    SLONG c;
-    SLONG d;
-    SLONG rc;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG rc = 0;
 
     for (c=rc=0; c<Planes.Planes.AnzEntries(); c++) {
         if (Planes.IsInAlbum(c) != 0) {
@@ -1773,7 +1773,7 @@ SLONG PLAYER::AnzPlanesOnRoute (ULONG RouteId)
 //--------------------------------------------------------------------------------------------
 BOOL PLAYER::IsLocationInQueue (UWORD Location)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<10; c++)
     {
@@ -1795,7 +1795,7 @@ BOOL PLAYER::IsLocationInQueue (UWORD Location)
 //--------------------------------------------------------------------------------------------
 BOOL PLAYER::IsClosedLocationInQueue ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<10; c++)
     {
@@ -1817,7 +1817,7 @@ BOOL PLAYER::IsClosedLocationInQueue ()
 //--------------------------------------------------------------------------------------------
 SLONG PLAYER::HasBerater (SLONG Berater) const
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG Max=0;
 
     if (CheatBerater != 0) { Max=100;
@@ -1837,7 +1837,7 @@ SLONG PLAYER::HasBerater (SLONG Berater) const
 //--------------------------------------------------------------------------------------------
 BOOL PLAYER::HasBeraterApplied (SLONG Berater)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Workers.Workers.AnzEntries(); c++) {
         if (Workers.Workers[c].Typ==Berater && Workers.Workers[c].Employer==WORKER_JOBLESS) {
@@ -1869,8 +1869,8 @@ void PLAYER::UpdatePersonalberater (SLONG Toleranz)
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateAuftragsUsage ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     for (c=Auftraege.AnzEntries()-1; c>=0; c--) {
         if (Auftraege.IsInAlbum(c) != 0)
@@ -1931,8 +1931,8 @@ void PLAYER::UpdateAuftragsUsage ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateFrachtauftragsUsage ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     //Nur bei Aufträgen von menschlichen Spielern
     if (Owner==1) { return;
@@ -2027,10 +2027,10 @@ void PLAYER::UpdateFrachtauftragsUsage ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::PlanGates ()
 {
-    SLONG c;
-    SLONG d;
-    SLONG tmp;
-    CFlugplan *Plan;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG tmp = 0;
+    CFlugplan *Plan = nullptr;
 
     //Alte Gate-Einteilung löschen:
     for (c=0; c<24*7; c++) { Gates.Auslastung[c]=0;
@@ -2464,10 +2464,10 @@ void PLAYER::WalkStopEx ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateWaypoints ()
 {
-    SLONG cx;
-    SLONG cy;
-    SLONG xs;
-    SLONG refy;
+    SLONG cx = 0;
+    SLONG cy = 0;
+    SLONG xs = 0;
+    SLONG refy = 0;
 
     iWalkActive=TRUE;
 
@@ -2629,7 +2629,7 @@ void PLAYER::UpdateWaypointWalkingDirection ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::RobotPump()
 {
-    SLONG   c;
+    SLONG   c = 0;
     PERSON *pPerson = nullptr;
 
     if ((Sim.bNetwork != 0) && WaitWorkTill!=-1)
@@ -2891,7 +2891,7 @@ void PLAYER::RobotPump()
 //--------------------------------------------------------------------------------------------
 void PLAYER::RobotInit()
 {
-    SLONG c;
+    SLONG c = 0;
 
     WorkCountdown=10+PlayerNum*10;
 
@@ -3138,13 +3138,13 @@ again2:
 //--------------------------------------------------------------------------------------------
 void PLAYER::RobotPlanRoutes()
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
-    SLONG BestC;
-    SLONG BestD;
-    SLONG BestDValue;
-    BOOL  FlightAdded;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
+    SLONG BestC = 0;
+    SLONG BestD = 0;
+    SLONG BestDValue = 0;
+    BOOL  FlightAdded = 0;
 
     if (Owner!=1 || (IsOut != 0)) { return; //War Irtum, kein Computerspieler
 }
@@ -3488,10 +3488,10 @@ void PLAYER::RobotPlanRoutes()
 //--------------------------------------------------------------------------------------------
 void PLAYER::RobotExecuteAction()
 {
-    SLONG c;
-    SLONG n;
-    SLONG dislike;
-    SLONG level;
+    SLONG c = 0;
+    SLONG n = 0;
+    SLONG dislike = 0;
+    SLONG level = 0;
 
     if (Owner!=1 || (IsOut != 0)) { return; //War Irtum, kein Computerspieler
 }
@@ -3722,7 +3722,7 @@ void PLAYER::RobotExecuteAction()
                         (PlayerNum+30<Sim.Date && Planes.GetNumUsed()>6) ||
                         (PlayerNum+15<Sim.Date && (Sim.Players.Players[(PlayerNum+3)%4].DoRoutes==1 || Sim.Players.Players[(PlayerNum+3)%4].DoRoutes>20)))
                 {
-                    SLONG c;
+                    SLONG c = 0;
                     SLONG Anz=0;
 
                     for (c=RentRouten.RentRouten.AnzEntries()-1; c>=0; c--) {
@@ -3779,7 +3779,7 @@ void PLAYER::RobotExecuteAction()
             {
                 for (SLONG n=0; n<SLONG(Cities.AnzEntries()); n++)
                 {
-                    SLONG c;
+                    SLONG c = 0;
 
                     if ((Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) && ((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->CurrentMenu==MENU_AUSLANDSAUFTRAG && Cities.GetIdFromIndex(((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuPar1)==Cities.GetIdFromIndex(n)) {
                         continue; //Skip it, because Player is just phoning it.
@@ -3811,10 +3811,10 @@ okay_we_have_that_city:
                     for (c=0; c<SLONG(Planes.AnzEntries()); c++) {
                         if (Planes.IsInAlbum(c) != 0)
                         {
-                            SLONG d;
-                            SLONG e;
-                            SLONG VonCity;
-                            SLONG VonZeit;
+                            SLONG d = 0;
+                            SLONG e = 0;
+                            SLONG VonCity = 0;
+                            SLONG VonZeit = 0;
 
                             for (level=0; level<=2; level++)
                             {
@@ -3974,10 +3974,10 @@ okay_we_have_that_city:
                         for (c=0; c<SLONG(Planes.AnzEntries()); c++) {
                             if (Planes.IsInAlbum(c) != 0)
                             {
-                                SLONG d;
-                                SLONG e;
-                                SLONG VonCity;
-                                SLONG VonZeit;
+                                SLONG d = 0;
+                                SLONG e = 0;
+                                SLONG VonCity = 0;
+                                SLONG VonZeit = 0;
 
                                 for (level=0; level<=2; level++)
                                 {
@@ -4535,7 +4535,7 @@ okay_we_have_that_city:
         case ACTION_VISITMECH:
             if (RobotUse(ROBOT_USE_REPAIRPLANES))
             {
-                SLONG c;
+                SLONG c = 0;
                 SLONG FreeMoney=long(min(0x7fffffff, Money));
 
                 for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
@@ -4564,7 +4564,7 @@ okay_we_have_that_city:
             }
             else if (RobotUse(ROBOT_USE_GOODPLANES))
             {
-                SLONG c;
+                SLONG c = 0;
 
                 for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
                     if (Planes.IsInAlbum(c) != 0) {
@@ -4577,7 +4577,7 @@ okay_we_have_that_city:
             }
             else
             {
-                SLONG c;
+                SLONG c = 0;
 
                 for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
                     if (Planes.IsInAlbum(c) != 0) {
@@ -4768,10 +4768,10 @@ okay_we_have_that_city:
                 for (c=0; c<SLONG(Planes.AnzEntries()); c++) {
                     if (Planes.IsInAlbum(c) != 0)
                     {
-                        SLONG d;
-                        SLONG e;
-                        SLONG VonCity;
-                        SLONG VonZeit;
+                        SLONG d = 0;
+                        SLONG e = 0;
+                        SLONG VonCity = 0;
+                        SLONG VonZeit = 0;
 
                         NetGenericAsync (17001+Sim.Date*100, c, PlayerNum);
                         for (level=0; level<=2; level++)
@@ -4928,10 +4928,10 @@ okay_we_have_that_city:
                 for (c=0; c<SLONG(Planes.AnzEntries()); c++) {
                     if (Planes.IsInAlbum(c) != 0)
                     {
-                        SLONG d;
-                        SLONG e;
-                        SLONG VonCity;
-                        SLONG VonZeit;
+                        SLONG d = 0;
+                        SLONG e = 0;
+                        SLONG VonCity = 0;
+                        SLONG VonZeit = 0;
 
                         for (level=0; level<=2; level++)
                         {
@@ -5099,10 +5099,10 @@ okay_we_have_that_city:
                 for (c=0; c<SLONG(Planes.AnzEntries()); c++) {
                     if (Planes.IsInAlbum(c) != 0)
                     {
-                        SLONG d;
-                        SLONG e;
-                        SLONG VonCity;
-                        SLONG VonZeit;
+                        SLONG d = 0;
+                        SLONG e = 0;
+                        SLONG VonCity = 0;
+                        SLONG VonZeit = 0;
 
                         for (level=0; level<=2; level++)
                         {
@@ -5312,7 +5312,7 @@ okay_we_have_that_city:
         case ACTION_VISITAUFSICHT:
             if (OutOfGates>SLONG(Planes.GetNumUsed())) //Gates erwerben
             {
-                SLONG Cheapest;
+                SLONG Cheapest = 0;
 
                 for (c=0; c<7; c++) {
                     if ((TafelData.Gate[c].ZettelId != 0) && TafelData.Gate[c].Player!=PlayerNum) {
@@ -5374,7 +5374,7 @@ okay_we_have_that_city:
         case ACTION_VISITROUTEBOX:
             do
             {
-                SLONG        c;
+                SLONG        c = 0;
                 SLONG        Anz=0;
                 BUFFER<BOOL> IsBuyable;
 
@@ -5427,7 +5427,7 @@ okay_we_have_that_city:
 }
 }
 
-                    SLONG Best;
+                    SLONG Best = 0;
                     SLONG BestC=-1;
 
                     //Beste Route aussuchen:
@@ -5438,7 +5438,7 @@ okay_we_have_that_city:
                             //Ist die Route für die Mission wichtig?
                             if (RobotUse(ROBOT_USE_ROUTEMISSION))
                             {
-                                SLONG d;
+                                SLONG d = 0;
 
                                 for (d=0; d<6; d++)
                                 {
@@ -5683,8 +5683,8 @@ BOOL PLAYER::IsOkayToCallThisPlayer ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::DelayFlightsIfNecessary ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     if (Owner!=1 || (IsOut != 0)) { return; //War Irtum, kein Computerspieler
 }
@@ -5731,9 +5731,9 @@ void PLAYER::RandomBeraterMessage ()
 
     if ((HasBerater(BERATERTYP_PERSONAL) != 0) && Which==0)
     {
-        SLONG c;
-        SLONG d;
-        SLONG n;
+        SLONG c = 0;
+        SLONG d = 0;
+        SLONG n = 0;
 
         d=-1;
 
@@ -5792,7 +5792,7 @@ void PLAYER::RandomBeraterMessage ()
     }
     else if ((HasBerater(BERATERTYP_FLUGZEUG) != 0) && Which==2)
     {
-        SLONG   c;
+        SLONG   c = 0;
         SLONG   Anz=0;
         CString PlaneList;
         CString Comment;
@@ -5938,10 +5938,10 @@ BOOL PLAYER::HasSpaceForItem ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::MapWorkerOverflow (BOOL Advice)
 {
-    SLONG c;
-    SLONG d;
-    SLONG xPiloten;
-    SLONG xBegleiter;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG xPiloten = 0;
+    SLONG xBegleiter = 0;
     BOOL  NeedAdvice=FALSE;
 
     xPiloten=xBegleiter=0;
@@ -6030,10 +6030,10 @@ void PLAYER::MapWorkerOverflow (BOOL Advice)
 //--------------------------------------------------------------------------------------------
 void PLAYER::MapWorkers (BOOL Advice)
 {
-    SLONG c;
-    SLONG d;
-    SLONG MinNeeded;
-    SLONG MinNeededIndex;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG MinNeeded = 0;
+    SLONG MinNeededIndex = 0;
     SLONG LastPiloten=xPiloten;
     SLONG LastBegleiter=xBegleiter;
 
@@ -6251,7 +6251,7 @@ again: //Zweiter Pass, wenn Stewardessen aus Luxusstellen umgebucht werden, dami
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdatePilotCount ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     xPiloten=xBegleiter=0;
 
@@ -6286,8 +6286,8 @@ void PLAYER::UpdatePilotCount ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::ReformIcons ()
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     if (LocationWin != nullptr) { ((CStdRaum*)LocationWin)->StatusCount = 3;
 }
@@ -6309,7 +6309,7 @@ void PLAYER::ReformIcons ()
 
         if (Items[c]>Items[c+1])
         {
-            UBYTE Tmp;
+            UBYTE Tmp = 0;
 
             Tmp=Items[c]; Items[c]=Items[c+1]; Items[c+1]=Tmp;
         }
@@ -6323,7 +6323,7 @@ void PLAYER::ReformIcons ()
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateWalkSpeed ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (Owner!=2)
     {
@@ -6365,7 +6365,7 @@ void PLAYER::DoBodyguardRabatt (SLONG Money)
 //--------------------------------------------------------------------------------------------
 void PLAYER::SackWorkers () const
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Workers.Workers.AnzEntries(); c++) {
         if (Workers.Workers[c].Employer==PlayerNum) {
@@ -6379,9 +6379,9 @@ void PLAYER::SackWorkers () const
 //--------------------------------------------------------------------------------------------
 void PLAYER::UpdateStatistics ()
 {
-    SLONG c;
-    SLONG d;
-    SLONG e;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
     __int64 value=0;
 
     //STAT_KONTO:
@@ -6788,8 +6788,8 @@ void PLAYERS::UpdateStatistics ()
 //--------------------------------------------------------------------------------------------
 SLONG PLAYERS::GetAnzHumanPlayers ()
 {
-    SLONG c;
-    SLONG Anz;
+    SLONG c = 0;
+    SLONG Anz = 0;
 
     for (c=Anz=0; c<AnzPlayers; c++) {
         if ((Players[c].IsOut == 0) && Players[c].Owner!=1) { Anz++;
@@ -6804,8 +6804,8 @@ SLONG PLAYERS::GetAnzHumanPlayers ()
 //--------------------------------------------------------------------------------------------
 SLONG PLAYERS::GetAnzRobotPlayers ()
 {
-    SLONG c;
-    SLONG Anz;
+    SLONG c = 0;
+    SLONG Anz = 0;
 
     for (c=Anz=0; c<AnzPlayers; c++) {
         if ((Players[c].IsOut == 0) && Players[c].Owner==1) { Anz++;
@@ -6820,8 +6820,8 @@ SLONG PLAYERS::GetAnzRobotPlayers ()
 //--------------------------------------------------------------------------------------------
 SLONG PLAYERS::GetIndexOfHumanPlayerNumberX (SLONG x)
 {
-    SLONG c;
-    SLONG Anz;
+    SLONG c = 0;
+    SLONG Anz = 0;
 
     for (c=Anz=0; c<AnzPlayers; c++) {
         if (Players[c].Owner!=1)
@@ -6841,7 +6841,7 @@ SLONG PLAYERS::GetIndexOfHumanPlayerNumberX (SLONG x)
 //--------------------------------------------------------------------------------------------
 BOOL PLAYERS::IsLogoInUse (SLONG Player, UBYTE Logo)
 {
-    SLONG c;
+    SLONG c = 0;
 
     //Default-Logos zuweisen:
     for (c=0; c<4; c++) {
@@ -6857,7 +6857,7 @@ BOOL PLAYERS::IsLogoInUse (SLONG Player, UBYTE Logo)
 //--------------------------------------------------------------------------------------------
 BOOL PLAYERS::IsPlaneNameInUse (const CString &PlaneName)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<AnzPlayers; c++) {
         if (Players[c].Planes.IsPlaneNameInUse (PlaneName) != 0) {
@@ -6873,7 +6873,7 @@ BOOL PLAYERS::IsPlaneNameInUse (const CString &PlaneName)
 //--------------------------------------------------------------------------------------------
 void PLAYERS::WalkToStartingPoint ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<AnzPlayers; c++) {
         if (Sim.Players.Players[c].IsOut == 0) {
@@ -6887,7 +6887,7 @@ void PLAYERS::WalkToStartingPoint ()
 //--------------------------------------------------------------------------------------------
 void PLAYERS::RobotPump()
 {
-    SLONG c;
+    SLONG c = 0;
     BOOL  DoIt=TRUE;
     static SLONG LastTenMinutes=0;
 
@@ -6940,7 +6940,7 @@ void PLAYERS::MessagePump()
 //--------------------------------------------------------------------------------------------
 void PLAYERS::RobotInit()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<AnzPlayers; c++) {
         Players[c].RobotInit ();
@@ -6952,7 +6952,7 @@ void PLAYERS::RobotInit()
 //--------------------------------------------------------------------------------------------
 void PLAYERS::RandomBeraterMessage ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<AnzPlayers; c++) {
         Players[c].RandomBeraterMessage ();
@@ -6975,7 +6975,7 @@ HISTORY::HISTORY ()
 //--------------------------------------------------------------------------------------------
 void HISTORY::ReInit ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<100; c++)
     {
@@ -6990,7 +6990,7 @@ void HISTORY::ReInit ()
 //--------------------------------------------------------------------------------------------
 void HISTORY::AddEntry (__int64 Money, const CString& Description)
 {
-    SLONG c;
+    SLONG c = 0;
 
     HistoricMoney += HistoryLine[0].Money;
 
@@ -7009,7 +7009,7 @@ void HISTORY::AddEntry (__int64 Money, const CString& Description)
 //--------------------------------------------------------------------------------------------
 void HISTORY::AddNewCall (SLONG Type)
 {
-    SLONG c;
+    SLONG c = 0;
 
     HistoricMoney += HistoryLine[0].Money;
 
@@ -7063,7 +7063,7 @@ TEAKFILE &operator >> (TEAKFILE &File, HISTORYLINE &h)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator << (TEAKFILE &File, const HISTORY &h)
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (SaveVersion==1 && SaveVersionSub>=100)
     {
@@ -7088,7 +7088,7 @@ TEAKFILE &operator << (TEAKFILE &File, const HISTORY &h)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, HISTORY &h)
 {
-    SLONG c;
+    SLONG c = 0;
 
     if (SaveVersion==1 && SaveVersionSub>=100)
     {
@@ -7114,7 +7114,7 @@ TEAKFILE &operator >> (TEAKFILE &File, HISTORY &h)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator << (TEAKFILE &File, const PLAYER &Player)
 {
-    SLONG c;
+    SLONG c = 0;
 
     //Generelles:
     File << Player.PlayerNum  << Player.Name        << Player.NameX;
@@ -7253,7 +7253,7 @@ TEAKFILE &operator << (TEAKFILE &File, const PLAYER &Player)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, PLAYER &Player)
 {
-    SLONG c;
+    SLONG c = 0;
 
     //Generelles:
     File >> Player.PlayerNum  >> Player.Name        >> Player.NameX;
@@ -7373,7 +7373,7 @@ TEAKFILE &operator >> (TEAKFILE &File, PLAYER &Player)
         if (SaveVersion==1 && SaveVersionSub>=103) { File >> Player.AktienWert[c];
         } else
         {
-            ULONG tmp;
+            ULONG tmp = 0;
             File >> tmp;
             Player.AktienWert[c] = tmp;
         }

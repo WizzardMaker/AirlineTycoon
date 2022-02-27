@@ -108,8 +108,8 @@ void GetInvitesToParticipant_Func::SerializeOut(bool writeToBitstream, RakNet::B
 {
     SerializeIn( writeToBitstream, bitStream );
     bitStream->Serialize( writeToBitstream, resultCode );
-    unsigned int i;
-    unsigned int listSize;
+    unsigned int i = 0;
+    unsigned int listSize = 0;
     listSize=invitedUsers.Size();
     bitStream->Serialize(writeToBitstream, listSize);
     for (i=0; i < listSize; i++)
@@ -286,8 +286,8 @@ void SetReadyStatus_Func::SerializeOut(bool writeToBitstream, RakNet::BitStream 
     SerializeIn( writeToBitstream, bitStream );
     bitStream->Serialize( writeToBitstream, resultCode );
 
-    unsigned int listSize;
-    unsigned int i;
+    unsigned int listSize = 0;
+    unsigned int i = 0;
     RakNet::RakString name;
     listSize=readyUsers.Size();
     bitStream->Serialize(writeToBitstream, listSize);
@@ -329,9 +329,9 @@ void GetReadyStatus_Func::SerializeIn(bool writeToBitstream, RakNet::BitStream *
     MessageID messageId = RPO_GET_READY_STATUS;
     bitStream->Serialize(writeToBitstream, messageId);
     bitStream->Serialize(writeToBitstream, userName);
-    unsigned int listSize;
+    unsigned int listSize = 0;
     RakNet::RakString name;
-    unsigned int i;
+    unsigned int i = 0;
     listSize=readyUsers.Size();
     bitStream->Serialize(writeToBitstream, listSize);
     if (writeToBitstream)
@@ -509,8 +509,8 @@ void SearchByFilter_Func::SerializeOut(bool writeToBitstream, RakNet::BitStream 
 {
     SerializeIn( writeToBitstream, bitStream );
     bitStream->Serialize( writeToBitstream, resultCode );
-    unsigned int i;
-    unsigned int listSize;
+    unsigned int i = 0;
+    unsigned int listSize = 0;
     listSize=roomsOutput.Size();
     bitStream->Serialize(writeToBitstream, listSize);
     for (i=0; i < listSize; i++)
@@ -664,8 +664,8 @@ void RoomMemberReadyStatusSet_Notification::Serialize(bool writeToBitstream, Rak
     bitStream->Serialize(writeToBitstream, isReady);
     bitStream->Serialize(writeToBitstream, roomMember);
 
-    unsigned int listSize;
-    unsigned int i;
+    unsigned int listSize = 0;
+    unsigned int i = 0;
     RakNet::RakString name;
     listSize=readyUsers.Size();
     bitStream->Serialize(writeToBitstream, listSize);
@@ -877,8 +877,8 @@ bool RoomsPlugin::LoginRoomsParticipant(const RakNet::RakString& userName, Syste
     if (loginServerAddress!=RakNet::UNASSIGNED_SYSTEM_ADDRESS && loginServers.GetIndexOf(loginServerAddress)==(unsigned int) -1) {
         return false;
 }
-    bool objectExists;
-    unsigned int index;
+    bool objectExists = 0;
+    unsigned int index = 0;
     index=roomsParticipants.GetIndexFromKey(userName, &objectExists);
     if (!objectExists)
     {
@@ -896,8 +896,8 @@ bool RoomsPlugin::LogoffRoomsParticipant(const RakNet::RakString& userName, Syst
     if (loginServerAddress!=RakNet::UNASSIGNED_SYSTEM_ADDRESS && loginServers.GetIndexOf(loginServerAddress)==(unsigned int) -1) {
         return false;
 }
-    bool objectExists;
-    unsigned int index;
+    bool objectExists = 0;
+    unsigned int index = 0;
     index=roomsParticipants.GetIndexFromKey(userName, &objectExists);
     if (objectExists)
     {
@@ -912,7 +912,7 @@ bool RoomsPlugin::LogoffRoomsParticipant(const RakNet::RakString& userName, Syst
 }
 void RoomsPlugin::ClearRoomMembers()
 {
-    unsigned int i;
+    unsigned int i = 0;
     for (i=0; i < roomsParticipants.Size(); i++) {
         RakNet::OP_DELETE(roomsParticipants[i], _FILE_AND_LINE_);
 }
@@ -996,7 +996,7 @@ void RoomsPlugin::Update()
     {
         RakNet::TimeMS elapsedTime = curTime-lastUpdateTime;
         roomsContainer.ProcessQuickJoins( timeoutExpired, joinedRoomMembers, dereferencedPointers, elapsedTime );
-        unsigned int i;
+        unsigned int i = 0;
         for (i=0; i < timeoutExpired.Size(); i++)
         {
             QuickJoinExpired_Notification notification;
@@ -1049,7 +1049,7 @@ PluginReceiveResult RoomsPlugin::OnReceive(Packet *packet)
 }
 void RoomsPlugin::OnLoginStatus(Packet *packet)
 {
-    unsigned int i;
+    unsigned int i = 0;
     for (i=0; i < loginServers.Size(); i++)
     {
         if (loginServers[i]==packet->systemAddress)
@@ -1058,7 +1058,7 @@ void RoomsPlugin::OnLoginStatus(Packet *packet)
             bs.IgnoreBytes(1);
             RakNet::RakString name;
             bs.Read(name);
-            bool loggedOn;
+            bool loggedOn = 0;
             bs.Read(loggedOn);
             SystemAddress userAddress;
             RakNetGUID guid;
@@ -1078,7 +1078,7 @@ void RoomsPlugin::OnLoginStatus(Packet *packet)
 }
 void RoomsPlugin::OnHandleChange(Packet *packet)
 {
-    unsigned int i;
+    unsigned int i = 0;
     for (i=0; i < loginServers.Size(); i++)
     {
         if (loginServers[i]==packet->systemAddress)
@@ -1730,7 +1730,7 @@ void RoomsPlugin::OnClosedConnection(const SystemAddress &systemAddress, RakNetG
     (void) rakNetGUID;
 
     RemoveUserResult removeUserResult;
-    unsigned i;
+    unsigned i = 0;
     i=0;
     while (i < roomsParticipants.Size())
     {
@@ -1891,7 +1891,7 @@ void RoomsPlugin::GetInvitesToParticipant_Callback( const SystemAddress &senderA
 }
     DataStructures::List<InvitedUser*> invitedUsers;
     callResult->resultCode=roomsContainer.GetInvitesToParticipant( roomsPluginParticipant, invitedUsers );
-    unsigned int i;
+    unsigned int i = 0;
     for (i=0; i < invitedUsers.Size(); i++) {
         callResult->invitedUsers.Insert(* (invitedUsers[i]), _FILE_AND_LINE_ );
 }
@@ -1930,7 +1930,7 @@ void RoomsPlugin::AcceptInvite_Callback( const SystemAddress &senderAddress, Acc
     if (roomsPluginParticipant==nullptr) {
         return;
 }
-    Room *room;
+    Room *room = nullptr;
     callResult->resultCode=roomsContainer.AcceptInvite( callResult->roomId, &room, roomsPluginParticipant, callResult->inviteSender );
     if (callResult->resultCode==REC_SUCCESS)
     {
@@ -2056,7 +2056,7 @@ void RoomsPlugin::GetRoomProperties_Callback( const SystemAddress &senderAddress
         return;
 }
 
-    Room *room;
+    Room *room = nullptr;
     if (callResult->roomName.IsEmpty())
     {
         room=roomsPluginParticipant->GetRoom();
@@ -2137,7 +2137,7 @@ void RoomsPlugin::SetReadyStatus_Callback( const SystemAddress &senderAddress, S
 
     DataStructures::List<RoomsParticipant*> readyUsers;
     DataStructures::List<RoomsParticipant*> unreadyUsers;
-    unsigned int i;
+    unsigned int i = 0;
     roomsPluginParticipant->GetRoom()->GetReadyStatus(readyUsers, unreadyUsers);
 
     if (callResult->resultCode==REC_SUCCESS)
@@ -2179,11 +2179,11 @@ void RoomsPlugin::GetReadyStatus_Callback( const SystemAddress &senderAddress, G
         return;
     }
 
-    Room *room;
+    Room *room = nullptr;
     DataStructures::List<RoomsParticipant*> readyUsers;
     DataStructures::List<RoomsParticipant*> unreadyUsers;
     callResult->resultCode=roomsContainer.GetReadyStatus( roomsPluginParticipant->GetRoom()->GetID(), &room, readyUsers, unreadyUsers );
-    unsigned int i;
+    unsigned int i = 0;
     for (i=0; i < readyUsers.Size(); i++) {
         callResult->readyUsers.Insert(readyUsers[i]->GetName(), _FILE_AND_LINE_ );
 }
@@ -2220,7 +2220,7 @@ void RoomsPlugin::GetRoomLockState_Callback( const SystemAddress &senderAddress,
         ExecuteFunc(callResult, senderAddress);
         return;
     }
-    Room *room;
+    Room *room = nullptr;
     callResult->resultCode=roomsContainer.GetRoomLockState( roomsPluginParticipant->GetRoom()->GetID(), &room, &callResult->roomLockState );
     ExecuteFunc(callResult, senderAddress);
 }
@@ -2236,7 +2236,7 @@ void RoomsPlugin::AreAllMembersReady_Callback( const SystemAddress &senderAddres
         ExecuteFunc(callResult, senderAddress);
         return;
     }
-    Room *room;
+    Room *room = nullptr;
     callResult->resultCode=roomsContainer.AreAllMembersReady( roomsPluginParticipant->GetRoom()->GetID(), &room, &callResult->allReady );
     ExecuteFunc(callResult, senderAddress);
 }
@@ -2285,7 +2285,7 @@ void RoomsPlugin::GetBanReason_Callback( const SystemAddress &senderAddress, Get
     if (roomsPluginParticipant==nullptr) {
         return;
 }
-    Room *room;
+    Room *room = nullptr;
     callResult->resultCode=roomsContainer.GetBanReason( callResult->roomId, &room, callResult->userName, &callResult->reason );
     ExecuteFunc(callResult, senderAddress);
 }
@@ -2307,7 +2307,7 @@ void RoomsPlugin::RemoveUserFromQuickJoin_Callback( const SystemAddress &senderA
     if (roomsPluginParticipant==nullptr) {
         return;
 }
-    QuickJoinUser *qju;
+    QuickJoinUser *qju = nullptr;
     callResult->resultCode=roomsContainer.RemoveUserFromQuickJoin( roomsPluginParticipant, &qju );
     if (qju != nullptr) {
         RakNet::OP_DELETE(qju, _FILE_AND_LINE_);
@@ -2333,8 +2333,8 @@ void RoomsPlugin::SearchByFilter_Callback( const SystemAddress &senderAddress, S
 
     DataStructures::OrderedList<Room*, Room*, AllGamesRoomsContainer::RoomsSortByName> roomsOutput;
     callResult->resultCode=roomsContainer.SearchByFilter( callResult->gameIdentifier, roomsPluginParticipant, &callResult->roomQuery, roomsOutput, callResult->onlyJoinable);
-    unsigned i;
-    RoomDescriptor *desc;
+    unsigned i = 0;
+    RoomDescriptor *desc = nullptr;
     for (i=0; i < roomsOutput.Size(); i++)
     {
         desc = RakNet::OP_NEW<RoomDescriptor>( _FILE_AND_LINE_ );
@@ -2511,7 +2511,7 @@ void RoomsPlugin::Bitstream_Callback( const SystemAddress &senderAddress, Bitstr
 
 void RoomsPlugin::ProcessRemoveUserResult(RemoveUserResult *removeUserResult)
 {
-    unsigned int j;
+    unsigned int j = 0;
     for (j=0; j < removeUserResult->clearedInvitations.Size(); j++)
     {
         RoomsPluginParticipant* invitationRecipient = GetParticipantByHandle(removeUserResult->clearedInvitations[j].target, RakNet::UNASSIGNED_SYSTEM_ADDRESS);
@@ -2562,7 +2562,7 @@ void RoomsPlugin::ProcessRemoveUserResult(RemoveUserResult *removeUserResult)
 
 void RoomsPlugin::ExecuteNotificationToOtherRoomMembers(Room *room, RoomsPluginParticipant* roomsPluginParticipant, RoomsPluginNotification *notification)
 {
-    unsigned roomMemberIndex;
+    unsigned roomMemberIndex = 0;
     for (roomMemberIndex=0; roomMemberIndex < room->roomMemberList.Size(); roomMemberIndex++)
     {
         if (room->roomMemberList[roomMemberIndex]->roomsParticipant!=roomsPluginParticipant ) {

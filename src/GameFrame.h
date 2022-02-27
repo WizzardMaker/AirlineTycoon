@@ -15,7 +15,7 @@ class GameFrame
         SBBM     PauseBm;
         SLONG    PauseFade;
 
-        SDL_Event Mess;
+        SDL_Event Mess{};
         SDL_Window *m_hWnd;
 
 

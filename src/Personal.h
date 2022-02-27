@@ -21,7 +21,7 @@ class CPersonal : public CStdRaum
         SLONG          KommVar2;        //Work-Around
 
         SLONG          FlugbahnType;
-        SLONG          FlugbahnCounter;
+        SLONG          FlugbahnCounter{};
 
         SBBM           KugelBm;
         SBBM           WildBm;

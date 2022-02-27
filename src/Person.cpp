@@ -43,10 +43,10 @@ void CLANS::ReInit (const CString &TabFilename)
 {
     //TEAKFILE      Tab;
     BUFFER<char>  Line(5000);
-    ULONG         Id;
+    ULONG         Id = 0;
     char         *DirPhaseLists[10+4];
     SLONG         PhaseListsNumbers[10+4];
-    SLONG         c;
+    SLONG         c = 0;
 
     BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
     SLONG         FileP=0;
@@ -154,11 +154,11 @@ void CLANS::ReInit (const CString &TabFilename)
                 }
             }
 
-            SBBMS *pPhasen;
+            SBBMS *pPhasen = nullptr;
 
             for (c=0; c<10+4; c++)
             {
-                SLONG d;  //Böser Patch, damit das Laufen erst ab Index 10 kommt, obwohl es in der Excel-Tabelle schon viel eher steht:
+                SLONG d = 0;  //Böser Patch, damit das Laufen erst ab Index 10 kommt, obwohl es in der Excel-Tabelle schon viel eher steht:
                 if (c<4) { d=c;
                 } else if (c<8) { d=10+c-4;
                 } else { d=c-4;
@@ -180,7 +180,7 @@ void CLANS::ReInit (const CString &TabFilename)
 }
 
                     BUFFER<__int64> *pIds=nullptr;
-                    SLONG            Anz;
+                    SLONG            Anz = 0;
 
                     if (ShadowPass==0) { pIds=&(*this)[Id].PhasenIds[d];
 }
@@ -218,7 +218,7 @@ void CLANS::ReInit (const CString &TabFilename)
                     else
                     {
                         unsigned long long id=GetIdFromString(DirPhaseLists[c]);
-                        unsigned long long add;
+                        unsigned long long add = 0;
 
                         if (id>=0x01ff00ff00ff00ff) { add=7;
                         } else if (id>=0x01ff00ff00ff00) {   add=6;
@@ -254,8 +254,8 @@ void CLANS::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 void CLANS::LoadBitmaps ()
 {
-    SLONG c;
-    SLONG n;
+    SLONG c = 0;
+    SLONG n = 0;
 
     for (n=AnzEntries()-1; n>=0; n--) {
         if (IsInAlbum(n) != 0)
@@ -293,10 +293,10 @@ void CLANS::LoadBitmaps ()
 //--------------------------------------------------------------------------------------------
 void CLAN::BlitAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos, UBYTE Running)
 {
-    SBBM *pbm;
+    SBBM *pbm = nullptr;
     XY    Size;
-    SLONG localDir;
-    SLONG localFaktor;
+    SLONG localDir = 0;
+    SLONG localFaktor = 0;
 
     if (ScreenPos.x+200<0 || ScreenPos.x>RightAirportClip+100 || (bActive == 0)) { return;
 }
@@ -350,7 +350,7 @@ void CLAN::BlitAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos,
             //ggf. Schatten raussuchen und blitten:
             if (Type!=30 && (Sim.Options.OptionSchatten != 0) && localDir!=5 && bNotSecurity)
             {
-                SBBM *pbm;
+                SBBM *pbm = nullptr;
 
                 if (Dir<8 || Dir==9)
                 {
@@ -387,7 +387,7 @@ void CLAN::BlitAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos,
 //--------------------------------------------------------------------------------------------
 void CLAN::BlitSkelettAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos)
 {
-    SBBM *pbm;
+    SBBM *pbm = nullptr;
 
     if (Dir<8)
     {
@@ -420,7 +420,7 @@ void CLAN::BlitSkelettAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY Scr
 //--------------------------------------------------------------------------------------------
 void CLAN::BlitLargeAt (SBBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos)
 {
-    SBBM *pbm;
+    SBBM *pbm = nullptr;
     XY    Size;
 
     if (Dir<8 || Dir==9)
@@ -499,7 +499,7 @@ TEAKFILE &operator << (TEAKFILE &File, const CLAN &Clan)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, CLAN &Clan)
 {
-    BOOL tmp;
+    BOOL tmp = 0;
 
     File >> tmp;
 
@@ -526,9 +526,9 @@ TEAKFILE &operator >> (TEAKFILE &File, CLAN &Clan)
 //--------------------------------------------------------------------------------------------
 UBYTE CLANS::GetCustomerId (SLONG Browned, SLONG Koffer, TEAKRAND *pRand)
 {
-    SLONG Num;
-    SLONG c;
-    SLONG Rnd;
+    SLONG Num = 0;
+    SLONG c = 0;
+    SLONG Rnd = 0;
 
     if (CheatMoreNuns != 0)
     {
@@ -570,9 +570,9 @@ UBYTE CLANS::GetCustomerId (SLONG Browned, SLONG Koffer, TEAKRAND *pRand)
 //--------------------------------------------------------------------------------------------
 UBYTE CLANS::GetCustomerIdByGroup (SLONG Group)
 {
-    SLONG Num;
-    SLONG c;
-    SLONG Rnd;
+    SLONG Num = 0;
+    SLONG c = 0;
+    SLONG Rnd = 0;
 
     Num = 0;
 
@@ -638,11 +638,11 @@ UBYTE CLANS::GetPlayerId (ULONG PlayerType)
 //--------------------------------------------------------------------------------------------
 void CLANS::UpdateClansInGame (BOOL FirstDay)
 {
-    SLONG c;
-    SLONG d;
-    SLONG n;
-    SLONG r;
-    SLONG anz;
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG n = 0;
+    SLONG r = 0;
+    SLONG anz = 0;
     SLONG AnzAdded=0;
     SLONG AnzRemoved=0;
 
@@ -896,7 +896,7 @@ void PERSON::DoOneAnimationStep ()
 {
     CLAN &qClan = Clans[(SLONG)ClanId];
     XY    ArrayPos;
-    bool  Upfloor;
+    bool  Upfloor = 0;
 
     //Obere oder untere Ebene?
     if (Position.y<4000)
@@ -924,7 +924,7 @@ void PERSON::DoOneAnimationStep ()
             //Stinkbombe:
         case 20:
             {
-                SLONG x;
+                SLONG x = 0;
 
                 if (State!=255) {
                     if (Smokers[State].Smoke.AnzEntries() != 0)
@@ -946,7 +946,7 @@ void PERSON::DoOneAnimationStep ()
                                 Smokers[State].Smoke.ReSize(0);
                                 State=255;
 
-                                SLONG x;
+                                SLONG x = 0;
 
                                 for (x=-1; x<=1; x++)
                                 {
@@ -1154,7 +1154,7 @@ void PERSON::DoOneCustomerStep ()
     {
         //Sind wir! Und deshalb ist es Zeit sich umzuschauen und eine Entscheidung zu treffen.
         //Welche Möglichkeiten hat der Kunde dieses Feld zu verlassen?
-        UBYTE NewPossibleDirs;
+        UBYTE NewPossibleDirs = 0;
 
         //Müssen wir erst einmal eine Tür aufstoßen?
         if (ArrayPos.y<2) { Airport.TryDoor (XY(ArrayPos.x,ArrayPos.y+5), 0, 0);
@@ -1415,8 +1415,8 @@ waiting_again:
                     }
                     else
                     {
-                        SLONG c;
-                        SLONG ty;
+                        SLONG c = 0;
+                        SLONG ty = 0;
 
                         if (Position.x<Target.x) //nach rechts
                         {
@@ -1635,7 +1635,7 @@ waiting_again:
                             if (qClan.HasSuitcase<0 && (Clans.IsInAlbum(ClanId-1) != 0) && Clans[(SLONG)(ClanId-1)].HasSuitcase==-qClan.HasSuitcase)
                             {
                                 SLONG n = PersonalRand.Rand(Airport.NumBeltSpots);
-                                SLONG c;
+                                SLONG c = 0;
 
                                 //Max 2 Personen an die gleiche Stelle lassen:
                                 if (Sim.RoomBusy[ROOM_BELT_X1+n]==0 || Sim.RoomBusy[ROOM_BELT_X1+n]==1)
@@ -1842,8 +1842,8 @@ DirtyLabel:
 //--------------------------------------------------------------------------------------------
 void PERSON::DoOnePlayerStep ()
 {
-    BOOL    Upfloor;
-    SLONG   c;
+    BOOL    Upfloor = 0;
+    SLONG   c = 0;
     CLAN   &qClan = Clans[(SLONG)ClanId];
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)State];
     XY      StepSize (qPlayer.WalkSpeed*2,qPlayer.WalkSpeed);
@@ -1998,7 +1998,7 @@ void PERSON::DoOnePlayerStep ()
                 Position.y += 5000;
 
                 if (qPlayer.PlayerNum==Sim.localPlayer && qPlayer.GetRoom()==ROOM_AIRPORT) {
-                    ((AirportView*)qPlayer.LocationWin)->CenterCameraOnPlayer ();
+                    (dynamic_cast<AirportView*>(qPlayer.LocationWin))->CenterCameraOnPlayer ();
 }
 
                 if (Sim.bNetwork != 0) { qPlayer.BroadcastPosition();
@@ -2009,7 +2009,7 @@ void PERSON::DoOnePlayerStep ()
 
         //Sind wir! Und deshalb ist es Zeit sich umzuschauen und eine Entscheidung zu treffen.
         //Welche Möglichkeiten hat der Kunde dieses Feld zu verlassen?
-        UBYTE NewPossibleDirs;
+        UBYTE NewPossibleDirs = 0;
 
         //Müssen wir erst einmal eine Tür aufstoßen?
         Airport.TryDoor (ArrayPos, 1, State);
@@ -2459,7 +2459,7 @@ void PERSON::DoOnePlayerStep ()
                         }
                         else if (qPlayer.Owner==1 && ((Sim.bIsHost != 0) || Sim.bNetwork==0))
                         {
-                            SLONG e;
+                            SLONG e = 0;
 
                             //Roboter: Raum schon besetzt? Erst zweite Priorität ausführen:
                             for (e=qPlayer.RobotActions.AnzEntries()-1; e>=1; e--) {
@@ -3315,7 +3315,7 @@ void PERSONS::RemoveAnimationNear (XY Position)
 //--------------------------------------------------------------------------------------------
 void PERSONS::DoOneStep ()
 {
-    SLONG c;
+    SLONG c = 0;
     static BOOL LastMode=-1;
     static BOOL LastDate=-1;
     static SLONG Indexes[4]; //Speedup-Tabelle
@@ -3560,7 +3560,7 @@ ULONG PERSONS::GetPlayerIndex (SLONG Number)
 //--------------------------------------------------------------------------------------------
 SLONG PERSONS::GetNumShoppers ()
 {
-    SLONG c;
+    SLONG c = 0;
     SLONG n=0;
 
     for (c=(SLONG)AnzEntries()-1; c>=0; c--) {
@@ -3582,8 +3582,8 @@ void PERSONS::TryMoods ()
 {
     SLONG Indexes[4];
     XY    Positions[4];
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
     XY    p;
     XY   &qViewPos = Sim.Players.Players[(SLONG)Sim.localPlayer].ViewPos;
 
@@ -3840,8 +3840,8 @@ TEAKFILE &operator >> (TEAKFILE &File, PERSONS &Persons)
 //--------------------------------------------------------------------------------------------
 void CPersonQueue::AddPerson (UBYTE ClanId, XY Position, UBYTE Reason, UBYTE FlightAirline, SLONG FlightPlaneId, UBYTE FlightPlaneIndex, UBYTE Mood, UBYTE FirstClass)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     if ((Sim.CallItADay != 0) || Sim.Time>18*60000 || Sim.Time<8*60000) { return;
 }
@@ -3917,7 +3917,7 @@ void CPersonQueue::AddPerson (UBYTE ClanId, XY Position, UBYTE Reason, UBYTE Fli
 //--------------------------------------------------------------------------------------------
 void CPersonQueue::SetSpotTime (XY Position, SLONG TimeSlice)
 {
-    SLONG c;
+    SLONG c = 0;
 
     if ((Sim.CallItADay != 0) || Sim.Time>18*60000 || Sim.Time<8*60000) { return;
 }
@@ -3942,8 +3942,8 @@ void CPersonQueue::SetSpotTime (XY Position, SLONG TimeSlice)
 //--------------------------------------------------------------------------------------------
 void CPersonQueue::Pump ()
 {
-    SLONG c;
-    SLONG Anz; //, MinPriority;
+    SLONG c = 0;
+    SLONG Anz = 0; //, MinPriority;
 
     do
     {
@@ -4009,7 +4009,7 @@ void CPersonQueue::NewDay ()
 //--------------------------------------------------------------------------------------------
 void CPersonQueue::ResetSpotTimeSlices ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<Spots.AnzEntries(); c++) {
         Spots[c].TimeSlice=-1;

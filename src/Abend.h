@@ -13,7 +13,7 @@ class CAbend : public CStdRaum
         CWait Waiting;
         BOOL  Room;                //1=Uhr; 2=Flughafen
         SLONG Ticker;
-        SLONG State;
+        SLONG State{};
         XY    PlayerPos[4];
         DWORD LastTime;
         SBBM  AirportBm;

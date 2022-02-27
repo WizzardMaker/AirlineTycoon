@@ -47,7 +47,7 @@ class CWaitCursorNow
 //--------------------------------------------------------------------------------------------
 CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Sim.Players.Players[(SLONG)PlayerNum].EarthAlpha, TRUE)
 {
-    SLONG   c;
+    SLONG   c = 0;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
     CWaitCursorNow wc; //CD-Cursor anzeigen
@@ -374,7 +374,7 @@ CLaptop::~CLaptop()
 //--------------------------------------------------------------------------------------------
 void CLaptop::OnPaint()
 {
-    SLONG   c;
+    SLONG   c = 0;
     DWORD   Time=timeGetTime();
     static  DWORD LastTime;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
@@ -1022,7 +1022,7 @@ void CLaptop::OnPaint()
 //--------------------------------------------------------------------------------------------
 void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    SLONG c;
+    SLONG c = 0;
     XY    RoomPos;       //Position im Raum
     XY    ClientPos;     //Position in der Client-Area des Blocks
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
@@ -1076,7 +1076,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
     if (CurrentBlock==-1 && MouseClickArea==ROOM_LAPTOP && MouseClickId==101) {
         if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0)
         {
-            ULONG Id;
+            ULONG Id = 0;
 
             KommVarLampe=1;  //richtig flackern
 
@@ -1154,7 +1154,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
             //Quick-Jump zum nächsten Element:
             if (MouseClickPar1>=170 && MouseClickPar1<=173)
             {
-                SLONG c;
+                SLONG c = 0;
 
                 if (MouseClickPar1==170 || MouseClickPar1==171) //Left Block
                 {
@@ -1397,7 +1397,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
             }
             else //Nein, Block neu erzeugen:
             {
-                ULONG Id;
+                ULONG Id = 0;
 
                 KommVarLampe=1;  //richtig flackern
                 IconRotSpeed[CurrentIcon]+=1000;

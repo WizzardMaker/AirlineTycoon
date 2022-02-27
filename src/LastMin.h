@@ -13,11 +13,11 @@ class CLastMinute : public CStdRaum
 
         // Attributes
     public:
-        SLONG       LastTip;
+        SLONG       LastTip{};
         SBBM        ZettelBms[10];
         SBBM        TipBm;
         SBBMS       MapPlaneBms[5];
-        GfxLib     *pMenuLib;
+        GfxLib     *pMenuLib{};
 
         CSmackerPerson SP_Girl;
         CSmackerPerson SP_Monitor;
@@ -26,7 +26,7 @@ class CLastMinute : public CStdRaum
         SLONG          NewKranDir;
         SLONG          KranArrived;
 
-        SLONG          KommMonitor;
+        SLONG          KommMonitor{};
 
         CAnimation     CursorAnim;
 

@@ -73,40 +73,40 @@ class CSmackerClip
         SDL_Palette* PaletteMapper;       //Tabelle zum Mappen von 8 auf 16 Bit
 
         smk          pSmack;
-        unsigned long Width;
-        unsigned long Height;
-        unsigned long FrameNum;
-        unsigned long Frames;
+        unsigned long Width{};
+        unsigned long Height{};
+        unsigned long FrameNum{};
+        unsigned long Frames{};
         DWORD        FrameNext;
 
         SLONG        LastFrame;
 
         SBFX              SoundFx;
-        SLONG             NumSoundFx;     //Anzahl der Soundeffekte
+        SLONG             NumSoundFx{};     //Anzahl der Soundeffekte
         CUnrepeatedRandom SoundRandom;    //Wenn es mehrere Soundeffekte gibt
-        DWORD             TickerNext;     //Zu diesem Zeitpunkt muß das nächste Sample gestartet werden
-        BOOL              IsFXPlaying;
+        DWORD             TickerNext{};     //Zu diesem Zeitpunkt muß das nächste Sample gestartet werden
+        BOOL              IsFXPlaying{};
 
     private: //Statische Eigenschaften...
-        SLONG     ClipId;
+        SLONG     ClipId{};
         XY        ScreenOffset;
-        SLONG     MoodId;
+        SLONG     MoodId{};
         CRepeat   Repeat;                 //Min..Max
         CPostWait PostWait;               //Min..Max in 20/stel Sekunden
-        BOOL      CanCancelClip;          //Kann der Clip vorzeitig abgebrochen werden?
+        BOOL      CanCancelClip{};          //Kann der Clip vorzeitig abgebrochen werden?
 
-        SLONG    *PostVar;                //NULL oder Variable, die am Animationsende gesetzt werden soll
-        SLONG     PostOperation;          //Die Art der Operation, die durchgeführt werden soll
-        SLONG     PostValue;
-        const SLONG *DecisionVar;         //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
+        SLONG    *PostVar{};                //NULL oder Variable, die am Animationsende gesetzt werden soll
+        SLONG     PostOperation{};          //Die Art der Operation, die durchgeführt werden soll
+        SLONG     PostValue{};
+        const SLONG *DecisionVar{};         //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
 
         CString   SuccessorTokens;        //A="Always" S="only when Staying in this mood", E="Exit this mood only"
         BUFFER<SLONG> SuccessorIds;
 
     private: //Dynamische Eigenschaften...
-        SLONG     State;                  //Inaktiv, Spielt Anim, In Postwait
-        SLONG     RepeatCount;
-        SLONG     WaitCount;
+        SLONG     State{};                  //Inaktiv, Spielt Anim, In Postwait
+        SLONG     RepeatCount{};
+        SLONG     WaitCount{};
 
     public:
         CSmackerClip ();

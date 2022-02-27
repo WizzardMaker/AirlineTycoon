@@ -203,8 +203,8 @@ CMuseum::~CMuseum()
 //--------------------------------------------------------------------------------------------
 void CMuseum::OnPaint()
 {
-    SLONG  c;
-    SLONG  NewTip;
+    SLONG  c = 0;
+    SLONG  NewTip = 0;
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();

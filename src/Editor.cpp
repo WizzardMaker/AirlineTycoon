@@ -797,7 +797,7 @@ CEditor::~CEditor()
 //--------------------------------------------------------------------------------------------
 void CEditor::UpdateButtonState()
 {
-    long d;
+    long d = 0;
 
     bAllowB=true;
     bAllowC=bAllowH=bAllowW=bAllowM=false;
@@ -836,8 +836,8 @@ void CEditor::UpdateButtonState()
 //--------------------------------------------------------------------------------------------
 void CEditor::OnPaint()
 {
-    long c;
-    long d;
+    long c = 0;
+    long d = 0;
 
     if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_EDITOR, 0);
 }
@@ -1472,7 +1472,7 @@ void CEditor::DoLButtonWork (UINT nFlags, const CPoint& point)
 
             while (true)
             {
-                long c;
+                long c = 0;
                 for (c=0; c<(long)Plane.Parts.AnzEntries(); c++) {
                     if (Plane.Parts.IsInAlbum(c) != 0) {
                         //if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || (Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && ((gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800))))
@@ -1653,7 +1653,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
 
                     while (true)
                     {
-                        long c;
+                        long c = 0;
                         for (c=0; c<(long)Plane.Parts.AnzEntries(); c++)
                             if (Plane.Parts.IsInAlbum(c))
                                 if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || ((Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600)) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800) || (PartUnderCursor[0]=='M' && rel>=700 && rel<=1400 && abs(gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id-rel)==10 && abs(relnr-Plane.Parts[c].ParentRelationId)==1)))
@@ -1672,7 +1672,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
             }
             else
             {
-                long c, MouseClickId=0;
+                long c = 0, MouseClickId=0;
 
                 for (c=0; c<5; c++)
                     if (gMousePosition.IfIsWithin ( 27+c*127,363,101+c*127,436))
@@ -1729,7 +1729,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 ULONG CPlaneParts::IdFrom (const CString& ShortName)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<(SLONG)AnzEntries(); c++) {
         if ((IsInAlbum(c) != 0) && stricmp (ShortName, PlaneParts[c].Shortname)==0) {
@@ -1746,7 +1746,7 @@ ULONG CPlaneParts::IdFrom (const CString& ShortName)
 //--------------------------------------------------------------------------------------------
 bool CPlaneParts::IsShortnameInAlbum (const CString& ShortName)
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<(SLONG)AnzEntries(); c++) {
         if ((IsInAlbum(c) != 0) && stricmp (ShortName, PlaneParts[c].Shortname)==0) {
@@ -1762,8 +1762,8 @@ bool CPlaneParts::IsShortnameInAlbum (const CString& ShortName)
 //--------------------------------------------------------------------------------------------
 bool CPlaneParts::IsSlotFree (const CString& Slotname)
 {
-    SLONG c;
-    SLONG d;
+    SLONG c = 0;
+    SLONG d = 0;
 
     for (c=0; c<(SLONG)AnzEntries(); c++) {
         if (IsInAlbum(c) != 0)
@@ -1786,7 +1786,7 @@ bool CPlaneParts::IsSlotFree (const CString& Slotname)
 //--------------------------------------------------------------------------------------------
 void CPlaneParts::Sort ()
 {
-    SLONG c;
+    SLONG c = 0;
 
     for (c=0; c<long(AnzEntries()-1); c++) {
         if (((IsInAlbum(c) == 0) && (IsInAlbum(c+1) != 0)) || ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && GetPlaneBuild((*this)[c].Shortname).zPos+(*this)[c].Pos3d.y+gPlanePartRelations[(*this)[c].ParentRelationId].zAdd > GetPlaneBuild((*this)[SLONG(c+1)].Shortname).zPos+(*this)[SLONG(c+1)].Pos3d.y+gPlanePartRelations[(*this)[SLONG(c+1)].ParentRelationId].zAdd))
@@ -1921,7 +1921,7 @@ long CXPlane::CalcReichweite ()
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcPiloten ()
 {
-    long c;
+    long c = 0;
     long piloten=0;
 
     for (c=0; c<Parts.AnzEntries(); c++) {
@@ -1956,7 +1956,7 @@ long CXPlane::CalcPiloten ()
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcBegleiter ()
 {
-    long c;
+    long c = 0;
     long begleiter=0;
 
     for (c=0; c<Parts.AnzEntries(); c++) {
@@ -2017,7 +2017,7 @@ long CXPlane::CalcTank (bool bFaked)
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcVerbrauch ()
 {
-    long c;
+    long c = 0;
     long verbrauch=0;
 
     for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
@@ -2095,7 +2095,7 @@ long CXPlane::CalcPower ()
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcNoise ()
 {
-    long c;
+    long c = 0;
     long noise=0;
 
     for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
@@ -2118,7 +2118,7 @@ long CXPlane::CalcNoise ()
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcWartung ()
 {
-    long c;
+    long c = 0;
     long wartung=0;
 
     for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
@@ -2157,7 +2157,7 @@ long CXPlane::CalcWartung ()
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcSpeed ()
 {
-    long c;
+    long c = 0;
     long speed=0;
 
     //Power 6000...50000 wird zu kmh 270..1000
@@ -2205,7 +2205,7 @@ long CXPlane::CalcSpeed ()
 //--------------------------------------------------------------------------------------------
 bool CXPlane::IstPartVorhanden (CString Shortname, bool bOnlyThisType)
 {
-    long c;
+    long c = 0;
 
     if (!bOnlyThisType)
     {
@@ -2253,8 +2253,8 @@ bool CXPlane::IsBuildable ()
 //--------------------------------------------------------------------------------------------
 CString CXPlane::GetError ()
 {
-    long c;
-    long d;
+    long c = 0;
+    long d = 0;
 
     if (!IstPartVorhanden ("B*")) { return ("");
 }
@@ -2372,13 +2372,13 @@ TEAKFILE &operator << (TEAKFILE &File, const CXPlane &p)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, CXPlane &p)
 {
-    DWORD   dwSize;
-    long    lCost;
-    long    lWeight;
-    long    lConsumption;
-    long    lNoise;
-    long    lReliability;
-    long    lSpeed;
+    DWORD   dwSize = 0;
+    long    lCost = 0;
+    long    lWeight = 0;
+    long    lConsumption = 0;
+    long    lNoise = 0;
+    long    lReliability = 0;
+    long    lSpeed = 0;
 
     char Dummy[8192];
 
@@ -2487,7 +2487,7 @@ void CXPlane::operator = (const CXPlane &plane)
 //--------------------------------------------------------------------------------------------
 void ParseTokens (char *String, char *tokens[], long nTokens)
 {
-    long c;
+    long c = 0;
     long n=0;
 
     for (c=0; c<nTokens; c++) { tokens[c]=nullptr;

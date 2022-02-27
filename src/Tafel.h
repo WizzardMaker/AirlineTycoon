@@ -12,16 +12,16 @@ class CTafel : public CStdRaum
 
         // Attributes
     public:
-        TEXT_STYLE  StyleTafel;
+        TEXT_STYLE  StyleTafel{};
         SBBM        ZettelBms[21];
         SBBM        PostcardBm;
         SBBMS       LeereZettelBms;
-        SLONG       LastTip;
+        SLONG       LastTip{};
 
         CSmackerPerson SP_Fliege;
         SLONG          KommVar;
 
-        CTafelData  LastTafelData;
+        CTafelData  LastTafelData{};
 
         // Operations
     public:

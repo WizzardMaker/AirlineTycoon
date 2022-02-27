@@ -19,7 +19,7 @@ class CWorld : public CStdRaum
         CAnimation     SendingAnim;
 
         SBBM           WhiteBm;
-        SLONG          TimeStart;
+        SLONG          TimeStart{};
 
         // Operations
     public:
