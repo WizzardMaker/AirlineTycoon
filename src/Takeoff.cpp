@@ -2166,11 +2166,61 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
 
     StandardTexte.UpdateText(TOKEN_MONEY, 2021, "Kauf von Kerosin f\xFCr Flug %s");
     StandardTexte.AddText(TOKEN_MONEY, 2022, "Essen f\xFCr Passagiere f\xFCr Flug %s");
+    StandardTexte.UpdateText(TOKEN_MONEY, 2040, "Ersteigerung einer Niederlassung in %s");
+    StandardTexte.UpdateText(TOKEN_MONEY, 2041, "Ersteigerung der Route %s");
+    StandardTexte.UpdateText(TOKEN_MONEY, 2042, "Ersteigerung eines Gates");
 
     StandardTexte.UpdateText(TOKEN_MONEY, 2100, "(Saldo f\xFCr Routenflug %s)");
     StandardTexte.UpdateText(TOKEN_MONEY, 2101, "(Saldo f\xFCr Auftragsflug %s)");
     StandardTexte.UpdateText(TOKEN_MONEY, 2102, "(Saldo f\xFCr Leerflug %s)");
     StandardTexte.UpdateText(TOKEN_MONEY, 2103, "(Saldo f\xFCr Frachtflug %s)");
+    StandardTexte.UpdateText(TOKEN_MONEY, 3161, "Emissions-Entsch\xE4""digung (gezahlt)");
+    StandardTexte.AddText(TOKEN_MONEY, 3163, "Emissions-Entsch\xE4""digung (erhalten)");
 
     StandardTexte.UpdateText(TOKEN_AKTIE, 3030, "Neuer Kontostand (inkl. Geb\xFChr)");
+
+    StandardTexte.UpdateText(TOKEN_EXPERT, 3404, "Auftr\xE4ge");
+    StandardTexte.AddText(TOKEN_EXPERT, 10000, "Kerosinkauf Flugzeug");
+    StandardTexte.AddText(TOKEN_EXPERT, 10001, "Kerosinkauf Vorrat");
+    StandardTexte.AddText(TOKEN_EXPERT, 10002, "Essen f\xFCr Passagiere");
+    StandardTexte.AddText(TOKEN_EXPERT, 10003, "Flugzeugumr\xFCstung Fracht/Passagiere");
+    StandardTexte.AddText(TOKEN_EXPERT, 10004, "Kreditneuaufnahme");
+    StandardTexte.AddText(TOKEN_EXPERT, 10005, "Kredittilgung");
+    StandardTexte.UpdateText(TOKEN_EXPERT, 3501, "Kreditzinsen");
+    StandardTexte.AddText(TOKEN_EXPERT, 10006, "Verm\xF6genssteuer");
+    StandardTexte.AddText(TOKEN_EXPERT, 10007, "Diebstahl (Hacking)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10008, "Kompensation");
+    StandardTexte.AddText(TOKEN_EXPERT, 10009, "gezahlt an Saboteur");
+    StandardTexte.AddText(TOKEN_EXPERT, 10010, "Strafe wegen Sabotage");
+    StandardTexte.AddText(TOKEN_EXPERT, 10011, "erlittener Schaden durch Sabotage");
+    StandardTexte.AddText(TOKEN_EXPERT, 10012, "Bodyguard-Rabatt");
+    StandardTexte.AddText(TOKEN_EXPERT, 10013, "von Mitspielern erhalten");
+    StandardTexte.AddText(TOKEN_EXPERT, 10014, "Sonstige Einnahmen");
+    StandardTexte.AddText(TOKEN_EXPERT, 10015, "Schaden durch Pannen");
+    StandardTexte.AddText(TOKEN_EXPERT, 10016, "Sicherheitskosten");
+    StandardTexte.AddText(TOKEN_EXPERT, 10017, "Werbungskosten");
+    StandardTexte.AddText(TOKEN_EXPERT, 10018, "an Mitspieler geschickt");
+    StandardTexte.AddText(TOKEN_EXPERT, 10019, "Sonstige Ausgaben");
+    StandardTexte.AddText(TOKEN_EXPERT, 10020, "Aktienverkauf");
+    StandardTexte.AddText(TOKEN_EXPERT, 10021, "Aktienemissionen");
+    StandardTexte.AddText(TOKEN_EXPERT, 10022, "Emissions-Entsch\xE4""digung (erhalten)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10023, "Aktienkauf");
+    StandardTexte.AddText(TOKEN_EXPERT, 10024, "Emissions-Geb\xFChr");
+    StandardTexte.AddText(TOKEN_EXPERT, 10025, "Emissions-Entsch\xE4""digung (gezahlt)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10026, "Flugzeugverkauf");
+    StandardTexte.AddText(TOKEN_EXPERT, 10027, "Einkommen von \xDC""bernahmen");
+    StandardTexte.AddText(TOKEN_EXPERT, 10028, "Flugzeugkauf");
+    StandardTexte.AddText(TOKEN_EXPERT, 10029, "Flugzeugausr\xFCstung");
+    StandardTexte.AddText(TOKEN_EXPERT, 10030, "Erst. von Niederlassungen");
+    StandardTexte.AddText(TOKEN_EXPERT, 10031, "Ersteigerung von Routen");
+    StandardTexte.AddText(TOKEN_EXPERT, 10032, "Ersteigerung von Gates");
+    StandardTexte.AddText(TOKEN_EXPERT, 10033, "Kerosintanks");
+
+    StandardTexte.AddText(TOKEN_EXPERT, 10050, "Operatives Gesch\xE4""ft (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10051, "Personal und Miete (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10052, "Zinsen und Kredite (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10053, "Aktiengesch\xE4""fte (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10054, "Expansion (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10055, "Sabotage (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10056, "Sonstiges (1000 \x80)");
 }

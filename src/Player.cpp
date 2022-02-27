@@ -199,7 +199,6 @@ void PLAYER::BuyPlane(CXPlane &plane, TEAKRAND *pRnd) {
 // Geld mit Grund verbuchen:
 //--------------------------------------------------------------------------------------------
 void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char *Par2) {
-    __int64 AbsMoney = abs64(Money);
 
     if (LocationWin != nullptr) {
         (LocationWin)->StatusCount = 3;
@@ -227,126 +226,140 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
     case 2000:
         /* D::Kreditzinsen */
         Statistiken[STAT_A_ZINS].AddAtPastDay(0, Money);
-        Bilanz.SollZinsen += AbsMoney;
+        Bilanz.SollZinsen += Money;
         break;
     case 2002:
         /* D::Überziehungszinsen */
         Statistiken[STAT_A_ZINS].AddAtPastDay(0, Money);
-        Bilanz.SollZinsen += AbsMoney;
+        Bilanz.SollZinsen += Money;
         break;
     case 2001:
         /* D::Guthabenszinsen */
         Statistiken[STAT_E_ZINS].AddAtPastDay(0, Money);
-        Bilanz.HabenZinsen += AbsMoney;
+        Bilanz.HabenZinsen += Money;
         break;
     case 2003:
         /* D::Kredit Neuaufnahme */
         Statistiken[STAT_E_KREDIT].AddAtPastDay(0, Money);
+        Bilanz.KreditNeu += Money;
         break;
     case 2004:
         /* D::Kredit Tilgung */
         Statistiken[STAT_A_KREDIT].AddAtPastDay(0, Money);
+        Bilanz.KreditTilgung += Money;
         break;
     case 2006:
         /* D::Fundsache (Geld im Papierkorb) */
         Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.SonstigeEinnahmen += Money;
         break;
     case 2010:
         /* D::Kauf des Flugzeuges %s */
         Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(0, Money);
+        Bilanz.FlugzeugKauf += Money;
         break;
     case 2011:
         /* D::Verkauf des Flugzeuges %s */
         Statistiken[STAT_E_FLUGZEUGE].AddAtPastDay(0, Money);
+        Bilanz.FlugzeugVerkauf += Money;
         break;
     case 2020:
         /* D::Kauf von Kerosin auf Vorrat */
-        Bilanz.Kerosin += AbsMoney;
         Statistiken[STAT_A_KEROSIN].AddAtPastDay(0, Money);
+        Bilanz.KerosinVorrat += Money;
         break;
     case 2021:
         /* D::Kauf von Kerosin für Flugzeug */
-        Bilanz.Kerosin += AbsMoney;
         Statistiken[STAT_A_KEROSIN].AddAtPastDay(0, Money);
+        Bilanz.KerosinFlug += Money;
         break;
     case 2022:
         /* Kauf von Essen für Fluggäste */
         Statistiken[STAT_A_ESSEN].AddAtPastDay(0, Money);
+        Bilanz.Essen += Money;
         break;
     case 2030:
         /* D::Ticketeinnahmen */
         Bilanz.Tickets += Money;
         Statistiken[STAT_E_ROUTEN].AddAtPastDay(0, Money);
+        Bilanz.Tickets += Money;
         break;
     case 2040:
-        /* D::Miete eines Schalters in %s */
+        /* Ersteigerung einer Niederlassung in %s */
         Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Bilanz.ExpansionCity += Money;
         break;
     case 2041:
-        /* D::Miete der Route %s */
+        /* Ersteigerung der Route %s */
         Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Bilanz.ExpansionRouten += Money;
         break;
     case 2042:
-        /* D::Miete eines Gates */
+        /* Ersteigerung eines Gates */
         Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Bilanz.ExpansionGates += Money;
         break;
     case 2050:
         /* D::Miete für Gates im Heimatflughäfen */
-        Bilanz.Gatemiete += AbsMoney;
         Statistiken[STAT_A_MIETEN].AddAtPastDay(0, Money);
+        Bilanz.Gatemiete += Money;
         break;
     case 2051:
         /* D::Miete für Niederlassungen */
-        Bilanz.Citymiete += AbsMoney;
         Statistiken[STAT_A_MIETEN].AddAtPastDay(0, Money);
+        Bilanz.Citymiete += Money;
         break;
     case 2052:
         /* D::Miete für Routen */
-        Bilanz.Routenmiete += AbsMoney;
         Statistiken[STAT_A_MIETEN].AddAtPastDay(0, Money);
+        Bilanz.Routenmiete += Money;
         break;
     case 2060:
         /* D::Strafe für Auftrag %s */
         Statistiken[STAT_A_STRAFEN].AddAtPastDay(0, Money);
-        Bilanz.Vertragsstrafen += AbsMoney;
+        Bilanz.Vertragsstrafen += Money;
 
         // Für die Gewinn-Mission:
         Gewinn += Money;
         break;
     case 2061:
         /* D::Prämie für Auftrag %s */
-        Bilanz.Auftraege += Money;
         Statistiken[STAT_E_AUFTRAEGE].AddAtPastDay(0, Money);
+        Bilanz.Auftraege += Money;
         NumAuftraege++;
         break;
     case 2065:
         /* D::Strafe für Frachtauftrag %s */
         Statistiken[STAT_A_STRAFEN].AddAtPastDay(0, Money);
+        Bilanz.Vertragsstrafen += Money;
 
         // Für die Gewinn-Mission:
         Gewinn += Money;
         break;
     case 2066:
         /* D::Prämie für Frachtauftrag %s */
-        Bilanz.Auftraege += Money;
         Statistiken[STAT_E_AUFTRAEGE].AddAtPastDay(0, Money);
+        Bilanz.Auftraege += Money;
         break;
     case 2070:
         /* D::Löhne & Gehälter */
-        Bilanz.Personal += AbsMoney;
         Statistiken[STAT_A_GEHAELTER].AddAtPastDay(0, Money);
+        Bilanz.Personal += Money;
         break;
     case 2080:
         /* D::Sabotage */
         Statistiken[STAT_A_SABOTAGE].AddAtPastDay(0, Money);
+        Bilanz.Sabotage += Money;
         break;
     case 2090:
         /* nicht benutzt */
         /* D::Kerosin */
+        DebugBreak();
         break;
     case 2091:
         /* D::Kerosintanks, %sl x %s */
         Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Bilanz.ExpansionTanks += Money;
         break;
     case 2100:
         /* D::Saldo für Routenflug %s */
@@ -368,27 +381,32 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         /* D::Flugzeugumrüstung der %s */
         if (Money < 0) {
             Statistiken[STAT_E_FLUGZEUGE].AddAtPastDay(0, -Money);
+            Bilanz.FlugzeugUpgrades += Money;
         }
         if (Money > 0) {
             Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(0, Money);
+            Bilanz.FlugzeugUpgrades += Money;
         }
         break;
     case 2111:
         /* D::Umbau der Sitze der %s */
         Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(0, Money);
+        Bilanz.FlugzeugUmbau += Money;
         break;
     case 2200:
         /* D::Strafe wegen Sabotage */
         Statistiken[STAT_A_SABOTAGE].AddAtPastDay(0, Money);
+        Bilanz.SabotageStrafe += Money;
         break;
     case 2201:
         /* D::Entschädigung wegen Sabotage */
         Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.SabotageKomp += Money;
         break;
     case 3110:
         /* D::Flugzeugwartung */
-        Bilanz.Wartung += AbsMoney;
         Statistiken[STAT_A_WARTUNG].AddAtPastDay(0, Money);
+        Bilanz.Wartung += Money;
         break;
     case 3120:
     case 3121:
@@ -398,116 +416,151 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
     case 3125:
         /* Kosten für versch. Werbe-Kampagnen */
         Statistiken[STAT_A_AGENTUREN].AddAtPastDay(0, Money);
+        Bilanz.WerbeKosten += Money;
         break;
     case 3130:
         /* D::Bodyguard-Rabatt */
         Statistiken[STAT_E_RABATT].AddAtPastDay(0, Money);
+        Bilanz.BodyguardRabatt += Money;
         break;
     case 3140:
         /* D::Rendite-Ausschüttung */
         Statistiken[STAT_A_AKTIEN].AddAtPastDay(0, Money);
-        Bilanz.SollRendite += AbsMoney;
+        Bilanz.SollRendite += Money;
         break;
     case 3141:
         /* D::Rendite-Einnahmen */
         Statistiken[STAT_E_AKTIEN].AddAtPastDay(0, Money);
-        Bilanz.HabenRendite += AbsMoney;
+        Bilanz.HabenRendite += Money;
         break;
     case 3150:
         /* D::Aktien-Kauf */
         Statistiken[STAT_A_AKTIEN].AddAtPastDay(0, Money);
+        Bilanz.Aktienkauf += Money;
         break;
     case 3151:
         /* D::Aktien-Verkauf */
         Statistiken[STAT_E_AKTIEN].AddAtPastDay(0, Money);
+        Bilanz.Aktienverkauf += Money;
         break;
     case 3160:
         /* D::Emissions-Gebühr */
         Statistiken[STAT_A_AKTIEN].AddAtPastDay(0, Money);
+        Bilanz.AktienEmissionFee += Money;
         break;
     case 3161:
-        /* D::Emissions-Entschädigung */
-        Statistiken[STAT_E_AKTIEN].AddAtPastDay(0, Money);
+        /* D::Emissions-Entschädigung (gezahlt) */
+        Statistiken[STAT_A_AKTIEN].AddAtPastDay(0, Money);
+        Bilanz.AktienEmissionKompGez += Money;
         break;
     case 3162:
         /* D::Emissions-Einnahmen */
         Statistiken[STAT_E_AKTIEN].AddAtPastDay(0, Money);
+        Bilanz.AktienEmission += Money;
+        break;
+    case 3163:
+        /* D::Emissions-Entschädigung (erhalten) */
+        Statistiken[STAT_E_AKTIEN].AddAtPastDay(0, Money);
+        Bilanz.AktienEmissionKompErh += Money;
         break;
     case 3170:
         /* D::Flughafenausbau */
         Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Bilanz.ExpansionGates += Money;
         break;
     case 3180:
         /* D::Vermögen von Übernahmen */
         Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.Takeovers += Money;
         break;
     case 3181:
         /* D::Liquidierung von %s */
         Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.Takeovers += Money;
         break;
     case 3200:
         /* D::Ortsgespräch */
         // nicht benutzt
+        DebugBreak();
         break;
     case 3201:
         /* D::Ortsgespräch (Handy) */
         // nicht benutzt
+        DebugBreak();
         break;
     case 3202:
         /* D::Ferngespräch */
         // nicht benutzt
+        DebugBreak();
         break;
     case 3203:
         /* D::Ferngespräch (Handy) */
         // nicht benutzt
+        DebugBreak();
         break;
     case 3204:
         /* D::Auslandsgespräch */
         // nicht benutzt
+        DebugBreak();
         break;
     case 3205:
         /* D::Auslandsgespräch (Handy) */
         // nicht benutzt
+        DebugBreak();
         break;
     case 3300:
         /* D::Münze für Fernglas */
         Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.SonstigeAusgaben += Money;
         break;
     case 3400:
         /* D::Raketenteil */
         Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.SonstigeAusgaben += Money;
         break;
     case 3500:
         /* D::Schaden durch Sabotage */
         Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.SabotageSchaden += Money;
         break;
     case 3501:
         /* D::Schaden durch Unfall */
         Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.PanneSchaden += Money;
         break;
     case 3502:
         /* D::Obskuras Services GmbH, Novosibirsk (Gewinn/Verlust durch Sabotage (Hacking eines Bankkontos)) */
         Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        if (Money > 0) {
+            Bilanz.SabotageGeklaut += Money;
+        } else {
+            Bilanz.SabotageSchaden += Money;
+        }
         break;
     case 3503:
         /* D::Rechnung von Security Incorporated */
         Statistiken[STAT_A_AGENTUREN].AddAtPastDay(0, Money);
+        Bilanz.SecurityKosten += Money;
         break;
     case 3600:
         /* D::Vermögenssteuer */
         Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.Steuer += Money;
         break;
     case 3700:
         /* D::Überweisung von %s */
         Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.GeldErhalten += Money;
         break;
     case 3701:
         /* D::Überweisung an %s */
         Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.GeldGeschickt += Money;
         break;
     case 9999:
         /* shoppen im DutyFree */
         Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Bilanz.SonstigeAusgaben += Money;
         break;
     default:
         printf("ChangeMoney: Keine Kategorie für %d\n", Reason);
@@ -5056,7 +5109,7 @@ void PLAYER::RobotExecuteAction() {
         for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
             if (c != PlayerNum) {
                 auto entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * kursDiff);
-                Sim.Players.Players[c].ChangeMoney(entschaedigung, 3161, "");
+                Sim.Players.Players[c].ChangeMoney(entschaedigung, 3163, "");
             }
         }
 

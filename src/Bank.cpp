@@ -338,19 +338,39 @@ void Bank::OnRButtonDown(UINT nFlags, CPoint point) {
 // Löscht die Bilanz
 //--------------------------------------------------------------------------------------------
 void CBilanz::Clear() {
-    HabenZinsen = Tickets = Auftraege = SollRendite = HabenRendite = 0;
-    SollZinsen = Kerosin = Personal = Vertragsstrafen = Wartung = Gatemiete = Citymiete = Routenmiete = 0;
+    Tickets = Auftraege = KerosinVorrat = KerosinFlug = Essen = 0;
+    Vertragsstrafen = Wartung = FlugzeugUmbau = Personal = Gatemiete = 0;
+    Citymiete = Routenmiete = HabenZinsen = HabenRendite = KreditNeu = 0;
+    SollZinsen = SollRendite = KreditTilgung = Steuer = Aktienverkauf = 0;
+    AktienEmission = Aktienkauf = AktienEmissionFee = FlugzeugVerkauf = 0;
+    Takeovers = FlugzeugKauf = FlugzeugUpgrades = ExpansionCity = ExpansionRouten = 0;
+    ExpansionGates = ExpansionTanks = SabotageGeklaut = SabotageKomp = Sabotage = 0;
+    SabotageStrafe = SabotageSchaden = BodyguardRabatt = GeldErhalten = SonstigeEinnahmen = 0;
+    PanneSchaden = SecurityKosten = WerbeKosten = GeldGeschickt = SonstigeAusgaben = 0;
+    KerosinGespart = AktienEmissionKompGez = AktienEmissionKompErh = 0;
 }
 
 //--------------------------------------------------------------------------------------------
 // Gibt den Saldo der Habens-Seite zurück:
 //--------------------------------------------------------------------------------------------
-__int64 CBilanz::GetHaben() const { return (HabenZinsen + Tickets + Auftraege + HabenRendite); }
+__int64 CBilanz::GetHaben() const {
+    return Tickets + Auftraege + HabenZinsen + HabenRendite + KreditNeu + \
+        Aktienverkauf + AktienEmission + AktienEmissionKompErh + FlugzeugVerkauf + Takeovers + \
+        SabotageGeklaut + SabotageKomp + BodyguardRabatt + GeldErhalten + SonstigeEinnahmen;
+}
 
 //--------------------------------------------------------------------------------------------
 // Gibt den Saldo der Soll-Seite zurück:
 //--------------------------------------------------------------------------------------------
-__int64 CBilanz::GetSoll() const { return (SollZinsen + Kerosin + Personal + Vertragsstrafen + Wartung + Gatemiete + Citymiete + Routenmiete + SollRendite); }
+__int64 CBilanz::GetSoll() const {
+    return KerosinVorrat + KerosinFlug + Essen + Vertragsstrafen + Wartung + \
+        FlugzeugUmbau + Personal + Gatemiete + Citymiete + Routenmiete + \
+        SollZinsen + SollRendite + KreditTilgung + Steuer + Aktienkauf + \
+        AktienEmissionFee + FlugzeugKauf + FlugzeugUpgrades + ExpansionCity + ExpansionRouten + \
+        ExpansionGates + ExpansionTanks + Sabotage + SabotageStrafe + SabotageSchaden + \
+        PanneSchaden + SecurityKosten + WerbeKosten + GeldGeschickt + SonstigeAusgaben + \
+        AktienEmissionKompGez;
+}
 
 //--------------------------------------------------------------------------------------------
 // Gibt den Saldo zurück:
@@ -361,11 +381,24 @@ __int64 CBilanz::GetSumme() const { return (GetHaben() - GetSoll()); }
 // Speichert einen Bilanz-Datensatz:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CBilanz &Bilanz) {
-    File << Bilanz.HabenZinsen << Bilanz.Tickets << Bilanz.Auftraege;
-    File << Bilanz.HabenRendite << Bilanz.SollRendite;
-    File << Bilanz.SollZinsen << Bilanz.Kerosin << Bilanz.Personal;
-    File << Bilanz.Vertragsstrafen << Bilanz.Wartung << Bilanz.Gatemiete;
-    File << Bilanz.Citymiete << Bilanz.Routenmiete;
+    File << Bilanz.Tickets << Bilanz.Auftraege << Bilanz.KerosinVorrat;
+    File << Bilanz.KerosinFlug << Bilanz.Essen << Bilanz.Vertragsstrafen;
+    File << Bilanz.Wartung << Bilanz.FlugzeugUmbau << Bilanz.Personal;
+    File << Bilanz.Gatemiete << Bilanz.Citymiete << Bilanz.Routenmiete;
+    File << Bilanz.HabenZinsen << Bilanz.HabenRendite << Bilanz.KreditNeu;
+    File << Bilanz.SollZinsen << Bilanz.SollRendite << Bilanz.KreditTilgung;
+    File << Bilanz.Steuer << Bilanz.Aktienverkauf << Bilanz.AktienEmission;
+    File << Bilanz.AktienEmissionKompGez << Bilanz.Aktienkauf;
+    File << Bilanz.AktienEmissionFee << Bilanz.FlugzeugVerkauf << Bilanz.Takeovers;
+    File << Bilanz.FlugzeugKauf << Bilanz.FlugzeugUpgrades << Bilanz.ExpansionCity;
+    File << Bilanz.ExpansionRouten << Bilanz.ExpansionGates;
+    File << Bilanz.ExpansionTanks << Bilanz.SabotageGeklaut << Bilanz.SabotageKomp;
+    File << Bilanz.Sabotage << Bilanz.SabotageStrafe << Bilanz.SabotageSchaden;
+    File << Bilanz.BodyguardRabatt << Bilanz.GeldErhalten;
+    File << Bilanz.SonstigeEinnahmen << Bilanz.PanneSchaden << Bilanz.SecurityKosten;
+    File << Bilanz.WerbeKosten << Bilanz.GeldGeschickt;
+    File << Bilanz.SonstigeAusgaben << Bilanz.KerosinGespart;
+    File << Bilanz.AktienEmissionKompErh;
 
     return (File);
 }
@@ -374,11 +407,24 @@ TEAKFILE &operator<<(TEAKFILE &File, const CBilanz &Bilanz) {
 // Lädt einen Bilanzdatensatz:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CBilanz &Bilanz) {
-    File >> Bilanz.HabenZinsen >> Bilanz.Tickets >> Bilanz.Auftraege;
-    File >> Bilanz.HabenRendite >> Bilanz.SollRendite;
-    File >> Bilanz.SollZinsen >> Bilanz.Kerosin >> Bilanz.Personal;
-    File >> Bilanz.Vertragsstrafen >> Bilanz.Wartung >> Bilanz.Gatemiete;
-    File >> Bilanz.Citymiete >> Bilanz.Routenmiete;
+    File >> Bilanz.Tickets >> Bilanz.Auftraege >> Bilanz.KerosinVorrat;
+    File >> Bilanz.KerosinFlug >> Bilanz.Essen >> Bilanz.Vertragsstrafen;
+    File >> Bilanz.Wartung >> Bilanz.FlugzeugUmbau >> Bilanz.Personal;
+    File >> Bilanz.Gatemiete >> Bilanz.Citymiete >> Bilanz.Routenmiete;
+    File >> Bilanz.HabenZinsen >> Bilanz.HabenRendite >> Bilanz.KreditNeu;
+    File >> Bilanz.SollZinsen >> Bilanz.SollRendite >> Bilanz.KreditTilgung;
+    File >> Bilanz.Steuer >> Bilanz.Aktienverkauf >> Bilanz.AktienEmission;
+    File >> Bilanz.AktienEmissionKompGez >> Bilanz.Aktienkauf;
+    File >> Bilanz.AktienEmissionFee >> Bilanz.FlugzeugVerkauf >> Bilanz.Takeovers;
+    File >> Bilanz.FlugzeugKauf >> Bilanz.FlugzeugUpgrades >> Bilanz.ExpansionCity;
+    File >> Bilanz.ExpansionRouten >> Bilanz.ExpansionGates;
+    File >> Bilanz.ExpansionTanks >> Bilanz.SabotageGeklaut >> Bilanz.SabotageKomp;
+    File >> Bilanz.Sabotage >> Bilanz.SabotageStrafe >> Bilanz.SabotageSchaden;
+    File >> Bilanz.BodyguardRabatt >> Bilanz.GeldErhalten;
+    File >> Bilanz.SonstigeEinnahmen >> Bilanz.PanneSchaden >> Bilanz.SecurityKosten;
+    File >> Bilanz.WerbeKosten >> Bilanz.GeldGeschickt;
+    File >> Bilanz.SonstigeAusgaben >> Bilanz.KerosinGespart;
+    File >> Bilanz.AktienEmissionKompErh;
 
     return (File);
 }

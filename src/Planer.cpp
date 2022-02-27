@@ -1691,7 +1691,9 @@ void CPlaner::HandleLButtonDown() {
                     pBlock->Page = 0;
                     pBlock->SelectedId = pBlock->Table.LineIndex[TableCursor];
 
-                    if (pBlock->SelectedId == 3 || pBlock->SelectedId == 1) {
+                    if (pBlock->SelectedId == 1) {
+                        pBlock->AnzPages = 7;
+                    } else if (pBlock->SelectedId == 3) {
                         pBlock->AnzPages = 3;
                     } else {
                         pBlock->AnzPages = 1;

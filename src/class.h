@@ -662,7 +662,6 @@ class CFlugplanEintrag {
     void FlightChanged(void);
     SLONG GetEinnahmen(SLONG PlayerNum, const CPlane &qPlane) const;
     SLONG GetAusgaben(SLONG PlayerNum, const CPlane &qPlane) const;
-    SLONG GetRealAusgaben(SLONG PlayerNum, const CPlane &qPlane, const CString &Name) const;
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CFlugplanEintrag &Eintrag);
     friend TEAKFILE &operator>>(TEAKFILE &File, CFlugplanEintrag &Eintrag);
@@ -1179,6 +1178,12 @@ class /**/ BLOCK {
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const BLOCK &b);
     friend TEAKFILE &operator>>(TEAKFILE &File, BLOCK &b);
+
+  private:
+    int PrintLine(XY ClientArea, SLONG rowID, SLONG textID);
+    int PrintLine(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
+    SLONG PrintList(XY ClientArea, const std::vector< std::pair<SLONG, __int64> >& list, SLONG idx);
+    void ZeigeTagesBilanz(XY ClientArea);
 };
 
 class BLOCKS : public ALBUM_V<BLOCK> {
@@ -1732,24 +1737,75 @@ class CTalkers {
 // Die Tagesbilanz : (Bank.cpp)
 //--------------------------------------------------------------------------------------------
 class CBilanz {
-    // Die Habensseite:
   public:
-    __int64 HabenZinsen{};
-    __int64 HabenRendite{};
+    // Seite 1 Hauptgeschäft, Einnahmen
     __int64 Tickets{};
     __int64 Auftraege{};
-
-    // Die Sollseite:
-  public:
-    __int64 SollZinsen{};
-    __int64 SollRendite{};
-    __int64 Kerosin{};
-    __int64 Personal{};
+    // Ausgaben
+    __int64 KerosinVorrat{};
+    __int64 KerosinFlug{};
+    __int64 Essen{};
     __int64 Vertragsstrafen{};
     __int64 Wartung{};
+    __int64 FlugzeugUmbau{};
+
+    // Seite 2 Gehälter/Mieten, Ausgaben
+    __int64 Personal{};
     __int64 Gatemiete{};
     __int64 Citymiete{};
     __int64 Routenmiete{};
+
+    // Seite 3 Zinsen, Einnahmen
+    __int64 HabenZinsen{};
+    __int64 HabenRendite{};
+    __int64 KreditNeu{};
+    // Ausgaben
+    __int64 SollZinsen{};
+    __int64 SollRendite{};
+    __int64 KreditTilgung{};
+    __int64 Steuer{};
+
+    // Seite 4 Aktien, Einnahmen
+    __int64 Aktienverkauf{};
+    __int64 AktienEmission{};
+    __int64 AktienEmissionKompErh{};
+    __int64 AktienEmissionKompGez{};
+    // Ausgaben
+    __int64 Aktienkauf{};
+    __int64 AktienEmissionFee{};
+
+    // Seite 5 Expansion, Einnahmen
+    __int64 FlugzeugVerkauf{};
+    __int64 Takeovers{};
+    // Ausgaben
+    __int64 FlugzeugKauf{};
+    __int64 FlugzeugUpgrades{};
+    __int64 ExpansionCity{};
+    __int64 ExpansionRouten{};
+    __int64 ExpansionGates{};
+    __int64 ExpansionTanks{};
+
+    // Seite 6 Sabotage, Einnahmen
+    __int64 SabotageGeklaut{};
+    __int64 SabotageKomp{};
+    // Ausgaben
+    __int64 Sabotage{};
+    __int64 SabotageStrafe{};
+    __int64 SabotageSchaden{};
+
+    // Seite 7 Sonstiges, Einnahmen
+    __int64 BodyguardRabatt{};
+    __int64 GeldErhalten{};
+    __int64 SonstigeEinnahmen{};
+    // Ausgaben
+    __int64 PanneSchaden{};
+    __int64 SecurityKosten{};
+    __int64 WerbeKosten{};
+    __int64 GeldGeschickt{};
+    __int64 SonstigeAusgaben{};
+
+    // Wieviel haben wir durch Tanks gespart?
+    __int64 KerosinGespart{};
 
   public:
     void Clear(void);

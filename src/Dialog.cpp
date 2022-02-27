@@ -1089,7 +1089,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     if (c != PlayerNum) {
                         auto entschaedigung = SLONG(Sim.Players.Players[c].OwnsAktien[PlayerNum] * kursDiff);
 
-                        Sim.Players.Players[c].ChangeMoney(entschaedigung, 3161, "");
+                        Sim.Players.Players[c].ChangeMoney(entschaedigung, 3163, "");
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, c, entschaedigung, STAT_E_SONSTIGES);
                     }
                 }
