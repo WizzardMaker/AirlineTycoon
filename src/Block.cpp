@@ -18,39 +18,6 @@ extern SLONG SaveVersionSub;
 extern SB_CFont FontVerySmall;
 
 //--------------------------------------------------------------------------------------------
-// Konstruktor:
-//--------------------------------------------------------------------------------------------
-BLOCK::BLOCK() {
-    BlockType = 0;  // Leer
-    BlockTypeB = 0; // Leer
-    SelectedId = 0;
-    SelectedIdB = 0;
-    Page = 0;
-    PageB = 0;
-    PageSize = 0;
-    PageSizeB = 0;
-    Destructing = 0;
-    pGLibPicture = nullptr;
-    StyleType = 0;
-    Index = TRUE;
-
-    Tip = TipInUse = 0;
-    TipB = TipInUseB = 0;
-}
-
-//--------------------------------------------------------------------------------------------
-// Den Block zerstören:
-//--------------------------------------------------------------------------------------------
-BLOCK::~BLOCK() {
-    // if (pGLibPicture && pGfxMain)
-    //{
-    //   Bitmap.Destroy();
-    //   pGfxMain->ReleaseLib (pGLibPicture);
-    //   pGLibPicture = NULL;
-    //}
-}
-
-//--------------------------------------------------------------------------------------------
 // Blittet den Block an eine bestimmte Stelle:
 //--------------------------------------------------------------------------------------------
 void BLOCK::BlitAt(SBBM &RoomBm) {
@@ -1885,9 +1852,9 @@ TEAKFILE &operator<<(TEAKFILE &File, const BLOCK &b) {
     File << b.PageB << b.AnzPagesB << b.TipB << b.TipInUseB;
     File << b.PageSize << b.PageSizeB;
 
-    File.Write((const UBYTE *)b.Indexes, sizeof(b.Indexes));
-    File.Write((const UBYTE *)(b.SelectedIds), sizeof(b.SelectedIds));
-    File.Write((const UBYTE *)(b.Pages), sizeof(b.Pages));
+    File << b.Indexes;
+    File << b.SelectedIds;
+    File << b.Pages;
 
     if (SaveVersion == 1 && SaveVersionSub >= 11) {
         File << b.DoubleBlock;
@@ -1909,17 +1876,17 @@ TEAKFILE &operator>>(TEAKFILE &File, BLOCK &b) {
     File >> b.PageB >> b.AnzPagesB >> b.TipB >> b.TipInUseB;
     File >> b.PageSize >> b.PageSizeB;
 
-    if (SaveVersion == 1 && SaveVersionSub < 100) {
+    /*if (SaveVersion == 1 && SaveVersionSub < 100) {
         File.Read((UBYTE *)b.Indexes, sizeof(b.Indexes[0]) * 5);
         File.Read(reinterpret_cast<UBYTE *>(b.SelectedIds), sizeof(b.SelectedIds[0]) * 5);
         File.Read(reinterpret_cast<UBYTE *>(b.Pages), sizeof(b.Pages[0]) * 5);
 
         b.Indexes[5] = 1U;
-    } else {
-        File.Read((UBYTE *)b.Indexes, sizeof(b.Indexes));
-        File.Read(reinterpret_cast<UBYTE *>(b.SelectedIds), sizeof(b.SelectedIds));
-        File.Read(reinterpret_cast<UBYTE *>(b.Pages), sizeof(b.Pages));
-    }
+    } else {*/
+        File >> b.Indexes;
+        File >> b.SelectedIds;
+        File >> b.Pages;
+    //}
 
     if (SaveVersion == 1 && SaveVersionSub >= 11) {
         File >> b.DoubleBlock;

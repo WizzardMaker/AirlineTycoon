@@ -368,6 +368,20 @@ class TEAKFILE {
         return File;
     }
 
+    template <typename T, unsigned int N> friend TEAKFILE &operator<<(TEAKFILE &File, const std::array<T, N> &buffer) {
+        for (SLONG i = 0; i < buffer.size(); i++) {
+            File << buffer[i];
+        }
+        return File;
+    }
+
+    template <typename T, unsigned int N> friend TEAKFILE &operator>>(TEAKFILE &File, std::array<T, N> &buffer) {
+        for (SLONG i = 0; i < buffer.size(); i++) {
+            File >> buffer[i];
+        }
+        return File;
+    }
+
     template <typename T> friend TEAKFILE &operator<<(TEAKFILE &File, const BUFFER_V<T> &buffer) {
         File << buffer.AnzEntries();
         File << buffer.getIter();

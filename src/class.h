@@ -1036,8 +1036,8 @@ class /**/ KLACKER {
 class /**/ CHeadline {
   public:
     CString Headline;  // Die Überschrift
-    __int64 PictureId; // 0 oder der Identifier eines Bildes
-    SLONG PicturePriority;
+    __int64 PictureId{}; // 0 oder der Identifier eines Bildes
+    SLONG PicturePriority{};
 
     friend class CKiosk;
     friend class HEADLINES;
@@ -1049,20 +1049,20 @@ class /**/ CHeadline {
 class /**/ HEADLINES {
   private:
     CString HeadlineFile;
-    CHeadline Headline[30];  // Die aktuellen Schlagzeilen der Zeitungen (max. 10 pro Zeitung)
-    SLONG CurrentChain[3]{}; // Die aktuellen Ketten als Zahl (Wild/News/Lokal)
-    SLONG NumRand[3]{};      // Zahl der Zufallsantworten in einer Kette
-    CHeadline Override[30];  // Wird tagsüber gesetzt und am nächsten Tag effektiv
+    std::array<CHeadline, 30> Headline;  // Die aktuellen Schlagzeilen der Zeitungen (max. 10 pro Zeitung)
+    std::array<SLONG, 3> CurrentChain{}; // Die aktuellen Ketten als Zahl (Wild/News/Lokal)
+    std::array<SLONG, 3> NumRand{};      // Zahl der Zufallsantworten in einer Kette
+    std::array<CHeadline, 30> Override;  // Wird tagsüber gesetzt und am nächsten Tag effektiv
 
     // Flexibles Zufallszeux:
-    CString FlexiCity[3];   // Zufallsstadt für einen Thread
-    SLONG FlexiNumber[3]{}; // Zufallszahl für einen Thread
+    std::array<CString, 3> FlexiCity;   // Zufallsstadt für einen Thread
+    std::array<SLONG, 3> FlexiNumber{}; // Zufallszahl für einen Thread
 
   public:
     BOOL IsInteresting{}; // Ist heute etwas interessantes dabei?
 
   public:
-    HEADLINES();
+    HEADLINES() = default;
     HEADLINES(const CString &TabFilename);
     CHeadline GetHeadline(long Newspaper, SLONG Index);
     void Init(void);
@@ -1132,12 +1132,12 @@ class /**/ CITIES : public ALBUM_V<CITY> {
 //--------------------------------------------------------------------------------------------
 class /**/ CRentCity {
   public:
-    UBYTE Rang; // 0=nicht gemietet; sonst 1..3
+    UBYTE Rang{}; // 0=nicht gemietet; sonst 1..3
     UBYTE Image{};
     SLONG Miete{};
 
   public:
-    CRentCity();
+    CRentCity() = default;
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CRentCity &r);
     friend TEAKFILE &operator>>(TEAKFILE &File, CRentCity &r);
@@ -1165,8 +1165,8 @@ class /**/ CRentCities {
 class /**/ CDataTable {
   public:
     CString Title;            // Die Überschrift der Tabelle
-    SLONG AnzRows;            // Zahl der Zeilen
-    SLONG AnzColums;          // Zahl der Spalten
+    SLONG AnzRows{};            // Zahl der Zeilen
+    SLONG AnzColums{};          // Zahl der Spalten
     BUFFER_V<CString> ColTitle; //Überschriften der Spalten
     BUFFER_V<CString> Values;   // Die Werte der Tabellenfelder
     BUFFER_V<UBYTE> ValueFlags; // Zusatzangaben für Tabellenfelder
@@ -1197,34 +1197,34 @@ class /**/ BLOCK {
     CDataTable Table;
     CDataTable TableB;
 
-    CPlaner *Base{}; // Basisdaten fürs malen
-    GfxLib *pGLibPicture;
+    CPlaner *Base{nullptr}; // Basisdaten fürs malen
+    GfxLib *pGLibPicture{nullptr};
     XY ScreenPos; // Position auf dem Bildschirm
 
-    BOOL Destructing;       // Block wird gerade zerstört
+    BOOL Destructing{};       // Block wird gerade zerstört
     SLONG AnimationStart{}; // Startzeit für die Animation
     SLONG PlayerNum{};
-    SLONG StyleType; // Block oder Window
+    SLONG StyleType{}; // Block oder Window
 
     SBBM Bitmap;        //
     BOOL IsTopWindow{}; // Ist dieses Fenster oben auf?
 
     // Linker Block:
-    SLONG BlockType;        // 1..5=City, Plane, Auftrag, Route, Info
-    SLONG SelectedId;       // CityId, PlaneId, .... (Verzeichniseintrag)
-    UBYTE Index;            // Inhalt oder konkreter Verzeichniseintrag
-    SLONG Page, AnzPages{}; // Aktuell angezeigte Seite
-    SLONG Tip, TipInUse;    // Tip auf der linken Seite?
-    SLONG PageSize;         // Zahl der Linien auf einer Seite
+    SLONG BlockType{};        // 1..5=City, Plane, Auftrag, Route, Info
+    SLONG SelectedId{};       // CityId, PlaneId, .... (Verzeichniseintrag)
+    UBYTE Index{TRUE};            // Inhalt oder konkreter Verzeichniseintrag
+    SLONG Page{}, AnzPages{}; // Aktuell angezeigte Seite
+    SLONG Tip{}, TipInUse{};    // Tip auf der linken Seite?
+    SLONG PageSize{};         // Zahl der Linien auf einer Seite
 
     // Rechter Block:
     BOOL DoubleBlock{};       // Ist der rechte Abschnitt sichtbar?
-    SLONG BlockTypeB;         // 1..6=City, Plane, Auftrag, Route, Info, Fracht
-    SLONG SelectedIdB;        // CityId, PlaneId, .... (Verzeichniseintrag)
+    SLONG BlockTypeB{};         // 1..6=City, Plane, Auftrag, Route, Info, Fracht
+    SLONG SelectedIdB{};        // CityId, PlaneId, .... (Verzeichniseintrag)
     UBYTE IndexB{};           // Inhalt oder konkreter Verzeichniseintrag
-    SLONG PageB, AnzPagesB{}; // Aktuell angezeigte Seite
-    SLONG TipB, TipInUseB;    // Tip auf der rechten Seite?
-    SLONG PageSizeB;          // Zahl der Linien auf einer Seite
+    SLONG PageB{}, AnzPagesB{}; // Aktuell angezeigte Seite
+    SLONG TipB{}, TipInUseB{};    // Tip auf der rechten Seite?
+    SLONG PageSizeB{};          // Zahl der Linien auf einer Seite
 
     // Tip-Eigenschaften:
     SLONG CurrentTipId{}; // z.B. CityId
@@ -1244,13 +1244,21 @@ class /**/ BLOCK {
     SLONG CurrentTipIdPar7{};
     SLONG LastTipIdPar7{};
 
-    UBYTE Indexes[6]{};     // Die Zustände für verschiedene Bereiche
-    SLONG SelectedIds[6]{}; // Die Zustände für verschiedene Bereiche
-    SLONG Pages[6]{};       // Aktuell angezeigte Seite
+    std::array<UBYTE, 6> Indexes{};     // Die Zustände für verschiedene Bereiche
+    std::array<SLONG, 6> SelectedIds{}; // Die Zustände für verschiedene Bereiche
+    std::array<SLONG, 6> Pages{};       // Aktuell angezeigte Seite
 
   public:
-    BLOCK();
-    ~BLOCK();
+    BLOCK() = default;
+    ~BLOCK() {
+        // if (pGLibPicture && pGfxMain)
+        //{
+        //   Bitmap.Destroy();
+        //   pGfxMain->ReleaseLib (pGLibPicture);
+        //   pGLibPicture = NULL;
+        //}
+    }
+
     void LoadLib(const CString &LibName);
     void BlitAt(SBBM &RoomBm);
     void UpdateTip(SLONG PlayerNum = -1, BOOL StyleType = -1);
@@ -1269,7 +1277,7 @@ class /**/ BLOCK {
 
 class BLOCKS : public ALBUM_V<BLOCK> {
   public:
-    BOOL RepaintAll;
+    BOOL RepaintAll{};
 
   public:
     BLOCKS() : ALBUM_V<BLOCK>("Blocks") {}
@@ -1303,13 +1311,13 @@ class /**/ BRICK // Ein einzelnes Bodenteil eines bestimmten Zeitalters
     SLONG WaitSum{};            // Summe der Waittimes
 
   public:
-    BRICK();
-    ~BRICK();
+    BRICK() = default;
     BRICK(const BRICK &Brick) { Filename = Brick.Filename; }
     BRICK &operator=(const BRICK &Brick) {
         Filename = Brick.Filename;
         return *this;
     }
+
     XY GetBitmapDimension(void) const;
     void BlitAt(SBBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLONG Phase = -1);
     void BlitAt(SBBM &Offscreen, BOOL Ansatz, SLONG x, SLONG y, SLONG Phase = -1) { BlitAt(Offscreen, Ansatz, XY(x, y), Phase); }
@@ -1664,11 +1672,11 @@ class /**/ CRobotAction {
 //--------------------------------------------------------------------------------------------
 class /**/ CMessage {
   public:
-    SLONG BeraterTyp; //-1 = leer
+    SLONG BeraterTyp{-1}; //-1 = leer
     CString Message;
-    SLONG Urgent;
-    SLONG Mood;
-    SLONG BubbleType;
+    SLONG Urgent{};
+    SLONG Mood{};
+    SLONG BubbleType{};
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CMessage &Message);
     friend TEAKFILE &operator>>(TEAKFILE &File, CMessage &Message);
@@ -1684,15 +1692,15 @@ class /**/ CMessages {
     SLONG TalkPhase{};
     SLONG BlinkCountdown{};
     SLONG TalkCountdown{};
-    SLONG BeraterPosY;
+    SLONG BeraterPosY{440};
     SLONG BeraterWalkState{}; // -1=up, 1=down
-    BOOL IsMonolog;           // Bleibt der Berater da?
-    BOOL IsDialog;            // Ist der Spieler unten?
-    SLONG IsDialogTalking;    // Labert der Spieler?
+    BOOL IsMonolog{FALSE};           // Bleibt der Berater da?
+    BOOL IsDialog{FALSE};            // Ist der Spieler unten?
+    SLONG IsDialogTalking{FALSE};    // Labert der Spieler?
     SLONG PlayerNum{};
 
   public:
-    CMessages();
+    CMessages() : Messages(15) {}
     BOOL IsSilent(void);
     void NewDay(void);
     void NoComments(void);
