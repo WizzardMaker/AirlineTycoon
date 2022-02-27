@@ -942,7 +942,7 @@ class /**/ KLACKER {
     void Warp(void);
     void PrintAt(SLONG x, SLONG y, const char *Text);
     void PrintVolumeAt(SLONG x, SLONG y, SLONG Maximum, SLONG Current);
-    BOOL IsFinished(void);
+    BOOL IsFinished(void) const;
 };
 
 class /**/ CHeadline {
@@ -2393,7 +2393,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
 
     // Datum und Zeit:
   public:
-    SLONG Date; // Tage seit Spielbeginn
+    SLONG Date{}; // Tage seit Spielbeginn
     ULONG Time;                                    // Die Simulationszeit
     SLONG Month{}, MonthDay{};                     // Zur Vereinfachung gespeichert
     UBYTE QuitCountDown;                           // Zähler, die lange die Leute bis zum Quit winken
@@ -2442,7 +2442,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     SLONG GetWeekday(void);
     CString GetTimeString(void) const;
     void NewDay(void);
-    CPlane CreateRandomUsedPlane(SLONG Index);
+    CPlane CreateRandomUsedPlane(SLONG seed) const;
     void CreateRandomUsedPlanes(void);
     void UpdateUsedPlanes(void);
     void ReformGates(void);
@@ -2454,22 +2454,22 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
 
     BOOL LoadGame(SLONG Number);
     void SaveGame(SLONG Number, const CString &Name) const;
-    DWORD GetSavegameUniqueGameId(SLONG Index, bool bForceNetwork = false);
-    SLONG GetSavegameLocalPlayer(SLONG Index);
-    SLONG GetSavegameNumHumans(SLONG Index);
+    DWORD GetSavegameUniqueGameId(SLONG Index, bool bForceNetwork = false) const;
+    SLONG GetSavegameLocalPlayer(SLONG Index) const;
+    SLONG GetSavegameNumHumans(SLONG Index) const;
     CString GetSavegameSessionName(SLONG Index);
     void ReadSavegameOwners(SLONG Index);
 
     void LoadOptions(void);
     void SaveOptions(void);
 
-    SLONG GetSeason(void);
+    SLONG GetSeason(void) const;
     void UpdateSeason(void);
 
     void GiveHint(SLONG Number);
     void InvalidateHint(SLONG Number);
 
-    void NetRefill(SLONG Type, SLONG City = 0);
+    void NetRefill(SLONG Type, SLONG City = 0) const;
     void NetSynchronizeOvertake(void) const;
 
     // In NewgamePopup.cpp

@@ -1402,7 +1402,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
                 KommVarLampe = 1; // richtig flackern
                 IconRotSpeed[CurrentIcon] += 1000;
 
-                ULONG Id;
+                ULONG Id = 0;
                 {
                     BLOCK qBlock;
 
@@ -1446,7 +1446,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
                     Limit(static_cast<SLONG>(49 - qBlock.Bitmap.Size.x / 2), qBlock.ScreenPos.x, static_cast<SLONG>(600 - qBlock.Bitmap.Size.x / 2));
                     Limit(static_cast<SLONG>(29), qBlock.ScreenPos.y, static_cast<SLONG>(380));
 
-                    Id = (Sim.Players.Players[PlayerNum].Blocks += std::move(qBlock));
+                    Id = (Sim.Players.Players[PlayerNum].Blocks += qBlock);
                 }
 
                 // Block ggf. nach vorne bringen:

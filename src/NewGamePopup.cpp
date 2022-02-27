@@ -1400,8 +1400,8 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                             return;
                         }
 
-                        if (PageNum == 18 && ((UnselectedNetworkIDs[0] != 0u) || (UnselectedNetworkIDs[1] != 0u) || (UnselectedNetworkIDs[2] != 0u) ||
-                                              (UnselectedNetworkIDs[3] != 0u))) {
+                        if (PageNum == 18 && ((UnselectedNetworkIDs[0] != 0U) || (UnselectedNetworkIDs[1] != 0U) || (UnselectedNetworkIDs[2] != 0U) ||
+                                              (UnselectedNetworkIDs[3] != 0U))) {
                             return;
                         }
 

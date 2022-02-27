@@ -114,7 +114,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
         if (MouseClickArea == -102 && MouseClickId == 1) {
             id = MouseClickPar1;
-            if ((signed)(id - CurrentTextSubIdVon) >= 0 && id - CurrentTextSubIdVon < 10) {
+            if (static_cast<signed>(id - CurrentTextSubIdVon) >= 0 && id - CurrentTextSubIdVon < 10) {
                 Answer = OrgOptionen[id - CurrentTextSubIdVon];
             }
             if (OnscreenBitmap.Size.y > 0) {
@@ -123,7 +123,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             CloseTextWindow();
         } else if (MouseClickArea == -102 && MouseClickId == 2) {
             id = MouseClickPar1;
-            if ((signed)(id - CurrentTextSubIdVon) >= 0 && id - CurrentTextSubIdVon < 10) {
+            if (static_cast<signed>(id - CurrentTextSubIdVon) >= 0 && id - CurrentTextSubIdVon < 10) {
                 Answer = OrgOptionen[id - CurrentTextSubIdVon];
             }
             if (OnscreenBitmap.Size.y > 0) {
@@ -6058,7 +6058,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                                     MakeSayWindow(0, TOKEN_RICK, 2116, pFontPartner);
                                     break;
                                 }
-                                if (qPlayer.Planes.IsInAlbum(c) && SLONG(qPlayer.Planes[c].Zustand) <= SLONG(qPlayer.Planes[c].WorstZustand + 2) &&
+                                if ((qPlayer.Planes.IsInAlbum(c) != 0) && SLONG(qPlayer.Planes[c].Zustand) <= SLONG(qPlayer.Planes[c].WorstZustand + 2) &&
                                     qPlayer.Planes[c].WorstZustand <= 80 && rand() % 5 == 0) {
                                     MakeSayWindow(0, TOKEN_RICK, 2121, pFontPartner);
                                     break;

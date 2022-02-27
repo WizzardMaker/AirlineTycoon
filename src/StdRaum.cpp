@@ -468,7 +468,7 @@ void CStdRaum::ProcessEvent(const SDL_Event &event, const CPoint &position) {
     case SDL_TEXTINPUT:
     case SDL_TEXTEDITING: {
         unsigned char testValue = '\xE4';
-        UTF8Toisolat1(&testValue, 1, (const unsigned char *)&event.text.text, 2);
+        UTF8Toisolat1(&testValue, 1, reinterpret_cast<const unsigned char *>(&event.text.text), 2);
         OnChar(testValue, 1, (SDL_GetModState() & KMOD_LALT) << 5);
     } break;
     case SDL_KEYDOWN: {
@@ -671,7 +671,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubId, S
 
     // Daten zuweisen:
     MakeSayWindow(TextAlign, SubId, CString(TmpString.getData()), Normal);
-    CurrentTextGroupId = *((const ULONG *)GroupId);
+    CurrentTextGroupId = *(reinterpret_cast<const ULONG *>(GroupId));
     LastTextGroupId = CurrentTextGroupId;
 }
 
@@ -696,7 +696,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubIdVon
     TimeBubbleDisplayed = timeGetTime();
 
     CurrentHighlight = 0;
-    CurrentTextGroupId = *((const ULONG *)GroupId);
+    CurrentTextGroupId = *(reinterpret_cast<const ULONG *>(GroupId));
     LastTextGroupId = CurrentTextGroupId;
     CurrentTextSubIdVon = SubIdVon;
     CurrentTextSubIdBis = SubIdBis;

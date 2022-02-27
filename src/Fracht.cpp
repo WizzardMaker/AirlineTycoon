@@ -608,7 +608,7 @@ too_large:
     if ((Cities.CalcDistance(VonCity, NachCity) > PlayerMaxLength)) {
         Strafe = 0;
         Praemie = Praemie * 2;
-        Date = (UWORD)Sim.Date;
+        Date = static_cast<UWORD>(Sim.Date);
         BisDate = Date + 5;
     }
 
@@ -704,7 +704,7 @@ too_large:
         Praemie = Praemie * 8 / 5;
     }
     if (Date != BisDate) {
-        Date = (UWORD)Sim.Date;
+        Date = static_cast<UWORD>(Sim.Date);
         Praemie = Praemie * 4 / 5;
     }
 
@@ -1064,7 +1064,7 @@ too_large:
         Praemie = Praemie * 8 / 5;
     }
     if (Date != BisDate) {
-        Date = (UWORD)Sim.Date;
+        Date = static_cast<UWORD>(Sim.Date);
         Praemie = Praemie * 4 / 5;
     }
 

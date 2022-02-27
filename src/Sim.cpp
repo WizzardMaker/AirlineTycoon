@@ -1257,8 +1257,8 @@ void SIM::CreateMissionCities() {
             CRoute routeHer = routeHin;
             std::swap(routeHer.VonCity, routeHer.NachCity);
 
-            Routen += std::move(routeHin);
-            Routen += std::move(routeHer);
+            Routen += routeHin;
+            Routen += routeHer;
         }
     }
 }
@@ -1605,7 +1605,7 @@ void SIM::DoTimeStep() {
                                             Auftrag.VonCity = HomeAirportId;
                                             Auftrag.NachCity = qPlayer.Planes[c].GetFlugplanEintrag()->NachCity;
                                             Auftrag.Personen = 0;
-                                            Auftrag.Date = (UWORD)Date;
+                                            Auftrag.Date = static_cast<UWORD>(Date);
                                             Auftrag.BisDate = Date + ((qPlayer.Planes[c].Problem - (24 - GetHour())) / 24);
                                             Auftrag.InPlan = 0;
                                             Auftrag.Okay = 0;
@@ -2314,7 +2314,7 @@ SLONG SIM::GetHour() const { return (Time / 60000); }
 // Gibt die Jahrezeit zurück. Das ist nicht immer SIM::Jahreszeit. Die Variable enthält, die
 // zur Zeit *geladene* Jahreszeit.
 //--------------------------------------------------------------------------------------------
-SLONG SIM::GetSeason() {
+SLONG SIM::GetSeason() const {
     time_t Time = StartTime + Date * 60 * 60 * 24;
     struct tm *pTimeStruct = localtime(&Time);
 
@@ -2820,7 +2820,7 @@ void SIM::NewDay() {
 //--------------------------------------------------------------------------------------------
 // Sucht ein zufälliges Flugzeug für heute aus:
 //--------------------------------------------------------------------------------------------
-CPlane SIM::CreateRandomUsedPlane(SLONG seed) {
+CPlane SIM::CreateRandomUsedPlane(SLONG seed) const {
     TEAKRAND rnd;
 
     rnd.SRand(Date + seed);
@@ -3004,7 +3004,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const SIM &Sim) {
     File << Sim.RFEssen << Sim.RFTabletts << Sim.RFDeco;
 
     // Die Statistik:
-    File.Write((const UBYTE *)&Sim.StatfGraphVisible, sizeof(Sim.StatfGraphVisible));
+    File.Write(reinterpret_cast<const UBYTE *>(&Sim.StatfGraphVisible), sizeof(Sim.StatfGraphVisible));
     File << Sim.Statgroup << Sim.Statdays << Sim.StatnewDays << Sim.DropDownPosY;
     File << Sim.StatplayerMask;
     File << Sim.StatiArray;
@@ -3019,7 +3019,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const SIM &Sim) {
     File << SimDate << Sim.Time << Sim.Month;
     File << Sim.MonthDay << Sim.QuitCountDown;
     File << Sim.TickerTime << Sim.TimeSlice << Sim.StartWeekday << Sim.Weekday;
-    File.Write((const UBYTE *)&Sim.StartTime, sizeof(4)); // 64Bit Size change!
+    File.Write(reinterpret_cast<const UBYTE *>(&Sim.StartTime), sizeof(4)); // 64Bit Size change!
 
     // Sonstiges:
     File.WriteTrap(100);
@@ -3588,7 +3588,7 @@ void SIM::SaveGame(SLONG Number, const CString &Name) const {
 //--------------------------------------------------------------------------------------------
 // Gibt den Localplayer eines Spielstandes zurück
 //--------------------------------------------------------------------------------------------
-SLONG SIM::GetSavegameLocalPlayer(SLONG Index) {
+SLONG SIM::GetSavegameLocalPlayer(SLONG Index) const {
     CString Filename;
 
     const char *pNamebaseStr = nullptr;
@@ -3630,7 +3630,7 @@ SLONG SIM::GetSavegameLocalPlayer(SLONG Index) {
 //--------------------------------------------------------------------------------------------
 // Gibt den UniqueGameId eines Savegames zurück:
 //--------------------------------------------------------------------------------------------
-DWORD SIM::GetSavegameUniqueGameId(SLONG Index, bool bForceNetwork) {
+DWORD SIM::GetSavegameUniqueGameId(SLONG Index, bool bForceNetwork) const {
     CString Filename;
 
     const char *pNamebaseStr = nullptr;
@@ -3669,7 +3669,7 @@ DWORD SIM::GetSavegameUniqueGameId(SLONG Index, bool bForceNetwork) {
 //--------------------------------------------------------------------------------------------
 // Returns the number of human players in a network game:
 //--------------------------------------------------------------------------------------------
-SLONG SIM::GetSavegameNumHumans(SLONG Index) {
+SLONG SIM::GetSavegameNumHumans(SLONG Index) const {
     CString Filename;
 
     const char *pNamebaseStr = nullptr;
@@ -3911,7 +3911,7 @@ void SIM::UpdateRoomUsage() {
 // Type: 3 - Fracht
 // Type: 4 - Ausland, City = CityIndex
 //--------------------------------------------------------------------------------------------
-void SIM::NetRefill(SLONG Type, SLONG City) {
+void SIM::NetRefill(SLONG Type, SLONG City) const {
     TEAKFILE Message;
 
     Message.Announce(128);
@@ -4016,11 +4016,11 @@ void SIM::SaveHighscores() {
     TEAKFILE OutputFile(path, TEAKFILE_WRITE);
 
     for (auto &Highscore : Highscores) {
-        OutputFile.Write((const UBYTE *)(LPCTSTR)Highscore.Name, Highscore.Name.GetLength());
-        OutputFile.Write((const UBYTE *)(";"), 1);
+        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)Highscore.Name), Highscore.Name.GetLength());
+        OutputFile.Write(reinterpret_cast<const UBYTE *>(";"), 1);
 
         str = bprintf("%lu;", Highscore.UniqueGameId2);
-        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
 
         __int64 k1 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
         __int64 k2 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
@@ -4037,19 +4037,19 @@ void SIM::SaveHighscores() {
         }
 
         str = bprintf("%I64i;", k1);
-        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
 
         str = bprintf("%I64i;", k2);
-        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
 
         str = bprintf("%I64i;", k3);
-        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
 
         str = bprintf("%I64i;", k4);
-        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
 
         str = bprintf("%I64i\xd\xa", k5);
-        OutputFile.Write((const UBYTE *)(LPCTSTR)str, str.GetLength());
+        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
     }
 }
 

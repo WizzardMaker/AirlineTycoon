@@ -1,9 +1,9 @@
 //============================================================================================
 // Sound.Cpp - Management von Midi und Wave Routinen
 //============================================================================================
-#include <filesystem>
 #include "StdAfx.h"
 #include "Synthese.h"
+#include <filesystem>
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -159,11 +159,11 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
     }
 
     for (n = 0; n < 50; n++) {
-        Effects[n] = NULL;
+        Effects[n] = nullptr;
     }
 
     for (m = n = 0; n < 50; n++) {
-        if (Effects[m] == NULL) {
+        if (Effects[m] == nullptr) {
             Effects[m] = new SBFX;
         }
 
@@ -701,7 +701,7 @@ void SBFX::Tokenize(BUFFER_V<SLONG> &Von, BUFFER_V<SLONG> &Bis) const {
     Von.ReSize(100);
     Bis.ReSize(100);
 
-    pFX->Tokenize(0x80007FFF80007FFF, (SLONG *)Von.data(), (SLONG *)Bis.data(), Anzahl);
+    pFX->Tokenize(0x80007FFF80007FFF, static_cast<SLONG *>(Von.data()), static_cast<SLONG *>(Bis.data()), Anzahl);
 
     Von.ReSize(Anzahl);
     Bis.ReSize(Anzahl);

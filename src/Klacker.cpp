@@ -125,7 +125,7 @@ BOOL KLACKER::Klack() {
 //--------------------------------------------------------------------------------------------
 // Gibt TRUE zurück, wenn nichts mehr zu klackern ist:
 //--------------------------------------------------------------------------------------------
-BOOL KLACKER::IsFinished() { return Soll == Haben; }
+BOOL KLACKER::IsFinished() const { return static_cast<BOOL>(Soll == Haben); }
 
 //--------------------------------------------------------------------------------------------
 // Bringt alle Felder sofort auf den Soll-Stand:
@@ -257,7 +257,7 @@ void KLACKER::PrintAt(SLONG x, SLONG y, const char *Text) {
             }
         }
 
-        auto *p = (const char*)memchr(KlackerFntDef, ch, strlen(KlackerFntDef));
+        const auto *p = strchr(KlackerFntDef, ch);
 
         if (p == nullptr) {
             Soll[c + x + y * 24] = 0;

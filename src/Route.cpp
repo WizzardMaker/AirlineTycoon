@@ -118,8 +118,8 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
             CRoute routeHer = routeHin;
             std::swap(routeHer.VonCity, routeHer.NachCity);
 
-            (*this) += std::move(routeHin);
-            (*this) += std::move(routeHer);
+            (*this) += routeHin;
+            (*this) += routeHer;
         }
     }
 
@@ -176,8 +176,8 @@ void CRouten::ReInitExtend(const CString &TabFilename) {
         CRoute routeHer = routeHin;
         std::swap(routeHer.VonCity, routeHer.NachCity);
 
-        (*this) += std::move(routeHin);
-        (*this) += std::move(routeHer);
+        (*this) += routeHin;
+        (*this) += routeHer;
     }
 
     this->Sort();

@@ -760,7 +760,7 @@ void CPlaner::DoPollingStuff() {
                     } else {
                         Limit(SLONG(0), Time, SLONG(24));
                     }
-                    Limit((SLONG)Sim.Date, Date, SLONG(Sim.Date + 6));
+                    Limit(Sim.Date, Date, SLONG(Sim.Date + 6));
 
                     if (Time == 24) {
                         Time = 0;

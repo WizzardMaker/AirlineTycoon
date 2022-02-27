@@ -181,7 +181,7 @@ void HallDiskMenu::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
     // Im unteren Click-Bereich?
     else if (x != -1 && x != 99 && point.x >= 76 && point.y >= 161) {
         if (((point.y - 161) % 9) < 8) {
-            std::array<SLONG, 10> localLevel;
+            std::array<SLONG, 10> localLevel{};
 
             // Sicherheitshalber alle Personen entfernen & Links freigeben:
             Sim.Persons.ClearAlbum();
