@@ -145,7 +145,8 @@ CRLEReader::CRLEReader(const char* path)
     , Sequence()
     , IsRLE(false)
     , Size(0)
-      , Key(0)
+    , Key(0)
+      , Path(path)
 {
     Ctx = SDL_RWFromFile(path, "rb");
     if (Ctx)
@@ -179,6 +180,29 @@ bool CRLEReader::Close()
     if (!Ctx)
         return false;
     return SDL_RWclose(Ctx) == 0;
+}
+
+void CRLEReader::SaveAsPlainText()
+{
+    printf("FOO\n");
+    if (!Ctx)
+        return;
+
+    BUFFER<BYTE> buffer(GetSize());
+    if (Read(buffer, buffer.AnzEntries(), true))
+    {
+        char fn[255];
+        snprintf(fn, 255, "%s.txt", Path);
+        printf("Write to %s\n", fn);
+
+        //TEAKFILE file(fn, TEAKFILE_WRITE);
+        FILE *fp = fopen(fn, "w");
+        for(int i = 0; i < buffer.AnzEntries(); ++i)
+        {
+            fputc(buffer[i], fp);
+        }
+        fclose(fp);
+    }
 }
 
 bool CRLEReader::Buffer(void* buffer, SLONG size)
@@ -258,5 +282,12 @@ BUFFER<BYTE>* LoadCompleteFile(char const* path)
         delete buffer;
         return NULL;
     }
+
+    if(reader.getIsRLE())
+    {
+        CRLEReader konverter(path);
+        konverter.SaveAsPlainText();
+    }
+
     return buffer;
 }

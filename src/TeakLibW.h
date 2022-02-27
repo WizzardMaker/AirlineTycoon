@@ -353,6 +353,9 @@ class CRLEReader
 
         SLONG GetSize() { return Size; }
 
+        bool getIsRLE() { return IsRLE; }
+        void SaveAsPlainText();
+
     private:
         SDL_RWops* Ctx;
         char SeqLength;
@@ -363,6 +366,8 @@ class CRLEReader
         bool IsRLE;
         SLONG Size;
         int Key;
+
+        const char *Path;
 };
 
 template <typename T>

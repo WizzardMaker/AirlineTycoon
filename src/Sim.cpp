@@ -3839,7 +3839,7 @@ void SIM::SaveHighscores (void)
     return; //Debug exit for better single installation multiplayer testing
 #endif
     CString  str;
-    TEAKFILE OutputFile (AppPath+"misc\\xmlmap.fla", TEAKFILE_WRITE);
+    TEAKFILE OutputFile (AppPath+"misc/xmlmap.fla", TEAKFILE_WRITE);
 
     for (long c=0; c<6; c++)
     {
@@ -3885,10 +3885,10 @@ void SIM::LoadHighscores (void)
 {
     try
     {
-        if (DoesFileExist (AppPath+"misc\\xmlmap.fla"))
+        if (DoesFileExist (AppPath+"misc/xmlmap.fla"))
         {
             char Buffer[8192];
-            TEAKFILE OutputFile (AppPath+"misc\\xmlmap.fla", TEAKFILE_READ);
+            TEAKFILE OutputFile (AppPath+"misc/xmlmap.fla", TEAKFILE_READ);
 
             for (long c=0; c<6; c++)
             {

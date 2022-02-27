@@ -155,7 +155,7 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
             for (c=0; c<4; c++)
                 if (strnicmp (TextFollows, Sim.Players.Players[c].AirlineX, Sim.Players.Players[c].AirlineX.GetLength())==0)
                 {
-                    str=path+"\\"+"name"+bitoa (c+1);
+                    str=path+"/"+"name"+bitoa (c+1);
                     Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                     CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
@@ -167,7 +167,7 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
                 for (c=0; c<(SLONG)Cities.AnzEntries(); c++)
                     if (strnicmp (TextFollows, Cities[c].Name, Cities[c].Name.GetLength())==0)
                     {
-                        str=path+"\\"+Cities[c].KuerzelReal;
+                        str=path+"/"+Cities[c].KuerzelReal;
                         Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                         CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
@@ -180,7 +180,7 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
                     if (PlaneTypes.IsInAlbum(c))
                         if (strnicmp (TextFollows, PlaneTypes[c].Name, PlaneTypes[c].Name.GetLength())==0)
                         {
-                            str=path+"\\"+bprintf ("pl%lib", PlaneTypes.GetIdFromIndex(c)-0x10000000);
+                            str=path+"/"+bprintf ("pl%lib", PlaneTypes.GetIdFromIndex(c)-0x10000000);
                             Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                             CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
@@ -189,7 +189,7 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
                         }
                         else if (strnicmp (TextFollows, PlaneTypes[c].Hersteller, PlaneTypes[c].Hersteller.GetLength())==0)
                         {
-                            str=path+"\\"+bprintf ("pl%lih", PlaneTypes.GetIdFromIndex(c)-0x10000000);
+                            str=path+"/"+bprintf ("pl%lih", PlaneTypes.GetIdFromIndex(c)-0x10000000);
                             Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                             CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
@@ -238,7 +238,7 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
         }
         else
         {
-            char *p=strchr ((char*)(LPCTSTR)str, '\\');
+            char *p=strchr ((char*)(LPCTSTR)str, '/');
 
             if (p)
             {
@@ -462,9 +462,9 @@ void NextMidi (void)
                   case 4:  PlayMidi ("funk.mid");     break;
                   case 5:  PlayMidi ("shuffle.mid");  break; */
 
-                case 0: PlayMidi ("LatinG.MID");   break;
-                case 1: PlayMidi ("ReggaeG.MID");  break;
-                case 2: PlayMidi ("ShuffleG.MID"); break;
+                case 0: PlayMidi ("lating.mid");   break;
+                case 1: PlayMidi ("reggaeg.mid");  break;
+                case 2: PlayMidi ("shuffleg.mid"); break;
                 case 3: PlayMidi ("at2.mid");      break;
                 case 4: PlayMidi ("funky2.mid");   break;
                 case 5: PlayMidi ("karibik.mid");  break;
