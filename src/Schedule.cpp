@@ -33,18 +33,6 @@ __int64 min64(__int64 a, __int64 b) {
 //============================================================================================
 // CFlugplanEintrag::
 //============================================================================================
-// Konstruktor:
-//============================================================================================
-CFlugplanEintrag::CFlugplanEintrag() {
-    CFlugplanEintrag::Okay = 0;
-    CFlugplanEintrag::Gate = -1;
-    CFlugplanEintrag::GateWarning = FALSE;
-    CFlugplanEintrag::Startzeit = 0;
-    CFlugplanEintrag::Landezeit = 0;
-    CFlugplanEintrag::ObjectType = 0;
-    CFlugplanEintrag::ObjectId = -1;
-}
-
 //--------------------------------------------------------------------------------------------
 // Konstruktor:
 //--------------------------------------------------------------------------------------------
@@ -111,20 +99,6 @@ TEAKFILE &operator>>(TEAKFILE &File, CFlugplanEintrag &Eintrag) {
 //============================================================================================
 // CFlugplan::
 //============================================================================================
-// Konstruktor des Flugplans:
-//============================================================================================
-CFlugplan::CFlugplan() {
-    SLONG c = 0;
-
-    NextFlight = -1;
-    NextStart = -1;
-    Flug.ReSize(10 * 6); // Maximal 10 Flüge pro Tag
-
-    for (c = Flug.AnzEntries() - 1; c >= 0; c--) {
-        Flug[c].ObjectType = 0;
-    }
-}
-
 //--------------------------------------------------------------------------------------------
 // Aktualisiert "Next Flight":
 //--------------------------------------------------------------------------------------------
@@ -1047,7 +1021,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CGate &Gate) {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CGates &Gates) {
     File << Gates.Gates;
-    File.Write((const unsigned char *)Gates.Auslastung, 24 * 7);
+    File << Gates.Auslastung;
     File << Gates.NumRented;
 
     return (File);
@@ -1058,7 +1032,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CGates &Gates) {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CGates &Gates) {
     File >> Gates.Gates;
-    File.Read(Gates.Auslastung, 24 * 7);
+    File >> Gates.Auslastung;
     File >> Gates.NumRented;
 
     return (File);

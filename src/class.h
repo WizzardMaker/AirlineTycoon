@@ -343,12 +343,12 @@ class /**/ CAmbienteManager {
 //--------------------------------------------------------------------------------------------
 class /**/ CLetter {
   public:
-    SLONG Date;
-    BOOL IsLetter; // TRUE=Letter, FALSE=Fax
+    SLONG Date{};
+    BOOL IsLetter{}; // TRUE=Letter, FALSE=Fax
     CString Subject;
     CString Letter;
     CString Absender;
-    SLONG PictureId;
+    SLONG PictureId{};
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CLetter &l);
     friend TEAKFILE &operator>>(TEAKFILE &File, CLetter &l);
@@ -381,10 +381,10 @@ class /**/ CLetters {
 class /**/ CDoor {
   public:
     XY ArrayPos; // Auslöser im Boden
-    SLONG Winkel;
-    UBYTE State;
-    SLONG Dir;
-    BOOL ArabDoor;
+    SLONG Winkel{};
+    UBYTE State{};
+    SLONG Dir{};
+    BOOL ArabDoor{};
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CDoor &d) {
         File << d.ArrayPos << d.Winkel << d.State << d.Dir << d.ArabDoor;
@@ -399,13 +399,13 @@ class /**/ CDoor {
 //--------------------------------------------------------------------------------------------
 // Eine Maßeinheit:
 //--------------------------------------------------------------------------------------------
-class /**/ CEinheit // 0 = km
-{                   // 1 = km/h
-  public:           // 2 = m
-    CString Name;   // 3 = kN
-    double Faktor;  // 4 = l
-                    // 5 = l/h
-  public:           // 6 = DM
+class /**/ CEinheit  // 0 = km
+{                    // 1 = km/h
+  public:            // 2 = m
+    CString Name;    // 3 = kN
+    double Faktor{}; // 4 = l
+                     // 5 = l/h
+  public:            // 6 = DM
     SLONG Umrechnung(SLONG Value) const;
     __int64 Umrechnung64(__int64 Value) const;
     char *bString(SLONG Value) const;
@@ -418,11 +418,11 @@ class /**/ CEinheit // 0 = km
 class /**/ PERIOD // Eine Zeitperiode vom Datum x bis Datum y
 {
   public:
-    short VonDatum;
-    short BisDatum;
+    short VonDatum{};
+    short BisDatum{};
 
   public:
-    PERIOD() {}
+    PERIOD() = default;
     PERIOD(short VonDatum, short BisDatum) {
         PERIOD::VonDatum = VonDatum;
         PERIOD::BisDatum = BisDatum;
@@ -443,11 +443,11 @@ class /**/ PERIOD // Eine Zeitperiode vom Datum x bis Datum y
 //--------------------------------------------------------------------------------------------
 class /**/ CTafelZettel {
   public:
-    SLONG ZettelId; // 0 oder Key im Routen/City Array
-    SLONG Player;   //-1 oder der derzeitige Hauptbieter (0-3)
-    SLONG Preis;    // Gebot (=Monatsmiete)
-    SLONG Rang;
-    BOOL WasInterested; // Hat der Spieler mitgeboten?
+    SLONG ZettelId{}; // 0 oder Key im Routen/City Array
+    SLONG Player{};   //-1 oder der derzeitige Hauptbieter (0-3)
+    SLONG Preis{};    // Gebot (=Monatsmiete)
+    SLONG Rang{};
+    BOOL WasInterested{}; // Hat der Spieler mitgeboten?
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CTafelZettel &TafelZettel);
     friend TEAKFILE &operator>>(TEAKFILE &File, CTafelZettel &TafelZettel);
@@ -455,9 +455,9 @@ class /**/ CTafelZettel {
 
 class /**/ CTafelData {
   public:
-    CTafelZettel Route[7]; // Bis zu 7 Routen werden versteigert
-    CTafelZettel City[7];  // Bis zu 7 Orte werden versteigert
-    CTafelZettel Gate[7];  // Bis zu 7 Gates werden versteigert
+    std::array<CTafelZettel, 7> Route; // Bis zu 7 Routen werden versteigert
+    std::array<CTafelZettel, 7> City;  // Bis zu 7 Orte werden versteigert
+    std::array<CTafelZettel, 7> Gate;  // Bis zu 7 Gates werden versteigert
 
   public:
     void Clear(void);          // Daten alle löschen ==> keine Zettel
@@ -472,8 +472,8 @@ class /**/ CTafelData {
 //--------------------------------------------------------------------------------------------
 class /**/ CGate {
   public:
-    SLONG Nummer; // Nummer auf Flughafen (0 bis n)
-    SLONG Miete;  // Monatsmiete in DM
+    SLONG Nummer{}; // Nummer auf Flughafen (0 bis n)
+    SLONG Miete{};  // Monatsmiete in DM
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CGate &Gate);
     friend TEAKFILE &operator>>(TEAKFILE &File, CGate &Gate);
@@ -482,8 +482,8 @@ class /**/ CGate {
 class /**/ CGates {
   public:
     BUFFER_V<CGate> Gates;
-    UBYTE Auslastung[24 * 7]; // Für 2x alle 24 Stunden der Uhr: Wie viele sind belegt?
-    SLONG NumRented;
+    BUFFER_V<UBYTE> Auslastung{24 * 7}; // Für 2x alle 24 Stunden der Uhr: Wie viele sind belegt?
+    SLONG NumRented{};
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CGates &Gates);
     friend TEAKFILE &operator>>(TEAKFILE &File, CGates &Gates);
@@ -681,21 +681,21 @@ class CRouten : public ALBUM_V<CRoute> {
 //--------------------------------------------------------------------------------------------
 class CRentRoute {
   public:
-    UBYTE Rang;             // 0=nicht gemietet; sonst 1..3
-    SLONG LastFlown;        // Wieviele Tage ist der letzte Flug her?
+    UBYTE Rang{};             // 0=nicht gemietet; sonst 1..3
+    SLONG LastFlown{99};        // Wieviele Tage ist der letzte Flug her?
     SLONG AvgFlown{};       // Alle soviele Tage fliegt man im Schnitt
-    SLONG Auslastung;       // Zu soviel % ist der Flieger i.d.R. ausgelastet
-    SLONG AuslastungFC;     // Zu soviel % ist der Flieger i.d.R. ausgelastet
-    SLONG RoutenAuslastung; // Soviel % des Routenbedarfes deckt man im Schnitt
-    SLONG HeuteBefoerdert;  // Soviele Passagiere haben wir heute hier befördert
-    UBYTE Image;            // Die Bekanntheit; beginnt bei 0, kann durch Werbung oder Geduld auf 100 gesteigert werden
-    SLONG Miete;            // Soviel zahlt der Spieler wegen der Versteigerung
+    SLONG Auslastung{};       // Zu soviel % ist der Flieger i.d.R. ausgelastet
+    SLONG AuslastungFC{};     // Zu soviel % ist der Flieger i.d.R. ausgelastet
+    SLONG RoutenAuslastung{}; // Soviel % des Routenbedarfes deckt man im Schnitt
+    SLONG HeuteBefoerdert{};  // Soviele Passagiere haben wir heute hier befördert
+    UBYTE Image{};            // Die Bekanntheit; beginnt bei 0, kann durch Werbung oder Geduld auf 100 gesteigert werden
+    SLONG Miete{};            // Soviel zahlt der Spieler wegen der Versteigerung
     SLONG Ticketpreis{};    // Soviel kostet ein Ticket
     SLONG TicketpreisFC{};  // Soviel kostet ein Ticket in der ersten Klasse
-    SLONG TageMitVerlust;   // Solange fliegen wir hier schon mit Verlust
-    SLONG TageMitGering; // Tage mit geringer Auslastung (<10%); wenn man die Route nicht gemietet hat, dann die Tage, seitdem sie einem aberkannt wurde oder 99
+    SLONG TageMitVerlust{};   // Solange fliegen wir hier schon mit Verlust
+    SLONG TageMitGering{99}; // Tage mit geringer Auslastung (<10%); wenn man die Route nicht gemietet hat, dann die Tage, seitdem sie einem aberkannt wurde oder 99
 
-    CRentRoute();
+    CRentRoute() = default;
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CRentRoute &r);
     friend TEAKFILE &operator>>(TEAKFILE &File, CRentRoute &r);
@@ -722,26 +722,26 @@ class CRentRouten {
 //--------------------------------------------------------------------------------------------
 class CFlugplanEintrag {
   public:
-    UBYTE Okay;            // 0=Auftrag Okay 1=falscher Tag, 2=schon durchgeführt, 3=Passagiere passen nicht
+    UBYTE Okay{};            // 0=Auftrag Okay 1=falscher Tag, 2=schon durchgeführt, 3=Passagiere passen nicht
     UBYTE HoursBefore{};   // So viele Stunden vor dem Start wurde der Flug festgelegt
     UWORD Passagiere{};    // Zahl der belegten Sitzplätze (Normal)
     UWORD PassagiereFC{};  // Zahl der belegten Sitzplätze (in der ersten Klasse)
     UWORD PArrived{};      // Zahl Passagiere, die schon im Flughafen sind
-    SLONG Gate;            //-1 = kein Gate frei ==> Flugfeld; -2=externer Hafen
-    UBYTE GateWarning;     // Warnung, daß ein anderer Flug zu dieser Zeit Probleme macht
+    SLONG Gate{-1};            //-1 = kein Gate frei ==> Flugfeld; -2=externer Hafen
+    UBYTE GateWarning{FALSE};     // Warnung, daß ein anderer Flug zu dieser Zeit Probleme macht
     ULONG VonCity{};       // bezeichnet eine Stadt
     ULONG NachCity{};      // bezeichnet eine Stadt
-    SLONG Startzeit;       // Zu diesem Zeitpunkt (0-24h) beginnt dieser Eintrag
-    SLONG Landezeit;       // Zu diesem Zeitpunkt (0-24h) landet das Flugzeug
+    SLONG Startzeit{};       // Zu diesem Zeitpunkt (0-24h) beginnt dieser Eintrag
+    SLONG Landezeit{};       // Zu diesem Zeitpunkt (0-24h) landet das Flugzeug
     SLONG Startdate{};     // Referenz auf Sim.Date
     SLONG Landedate{};     // Referenz auf Sim.Date
-    BOOL ObjectType;       // 0=Nix 1=Route 2=Auftrag 3=Automatik 4=Fracht
-    SLONG ObjectId;        // Bezeichnet Auftrag oder -1
+    BOOL ObjectType{};       // 0=Nix 1=Route 2=Auftrag 3=Automatik 4=Fracht
+    SLONG ObjectId{-1};        // Bezeichnet Auftrag oder -1
     SLONG Ticketpreis{};   // Ticketpreis für Routen
     SLONG TicketpreisFC{}; // Ticketpreis für Routen (Erste Klasse)
 
   public:
-    CFlugplanEintrag();
+    CFlugplanEintrag() = default;
     CFlugplanEintrag(BOOL ObjectType, ULONG ObjectId);
     void BookFlight(CPlane *Plane, SLONG PlayerNum);
     void CalcPassengers(SLONG PlayerNum, CPlane &qPlane);
@@ -758,11 +758,16 @@ class CFlugplan {
   public:
     SLONG StartCity{};               // Hier beginnt der Flugplan
     BUFFER_V<CFlugplanEintrag> Flug; // Eine Zeile des Flugplans
-    SLONG NextFlight;                // Aktueller; sonst nächster Flug
-    SLONG NextStart;                 // Verweis auf den nächsten, startenden Flug
+    SLONG NextFlight{-1};                // Aktueller; sonst nächster Flug
+    SLONG NextStart{-1};                 // Verweis auf den nächsten, startenden Flug
 
   public:
-    CFlugplan();
+    CFlugplan() {
+        Flug.ReSize(10 * 6); // Maximal 10 Flüge pro Tag
+        for (SLONG c = Flug.AnzEntries() - 1; c >= 0; c--) {
+            Flug[c].ObjectType = 0;
+        }
+    }
     void UpdateNextFlight(void);
     void UpdateNextStart(void);
     void Dump(bool Hercules = true);
