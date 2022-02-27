@@ -27,7 +27,9 @@ static const char FileId[] = "Aufs";
 //--------------------------------------------------------------------------------------------
 CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "aufsicht.gli", GFX_AUFSICHT)
 {
-    SLONG c, d, e;
+    SLONG c;
+    SLONG d;
+    SLONG e;
 
     Sim.ShowExtrablatt = -1;
     Sim.FocusPerson    = -1;
@@ -52,11 +54,14 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
 
     //Morgends verhindern, daß jemand rausgeht, noch bevor alle da sind:
     bOkayToAct = TRUE;
-    if (bIsMorning) bOkayToAct = FALSE;
-    if (!Sim.bNetwork) bOkayToAct=true;
-    if (!bOkayToAct) SetNetworkBitmap (3, 2); //Waitung for Players
+    if (bIsMorning) { bOkayToAct = FALSE;
+}
+    if (Sim.bNetwork == 0) { bOkayToAct=1;
+}
+    if (bOkayToAct == 0) { SetNetworkBitmap (3, 2); //Waitung for Players
+}
 
-    Sim.Players.Players[Sim.localPlayer].bReadyForBriefing=true;
+    Sim.Players.Players[Sim.localPlayer].bReadyForBriefing=1;
     Sim.SendSimpleMessage (ATNET_READYFORBRIEFING, 0, Sim.localPlayer);
 
     //DaysWithoutSabotage aktualisieren:
@@ -85,43 +90,62 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
             if (qPlayer.IsOut==0)
             {
                 qPlayer.ConnectFlags=0;
-                for (d=qPlayer.Planes.AnzEntries()-1; d>=0; d--)
-                    if (qPlayer.Planes.IsInAlbum(d))
+                for (d=qPlayer.Planes.AnzEntries()-1; d>=0; d--) {
+                    if (qPlayer.Planes.IsInAlbum(d) != 0)
                     {
                         CFlugplan &qPlan = qPlayer.Planes[d].Flugplan;
 
                         for (e=qPlan.Flug.AnzEntries()-1; e>=0; e--)
                         {
-                            if (qPlan.Flug[e].ObjectType==1)
-                                if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(qPlan.Flug[e].ObjectId)].Rang)
+                            if (qPlan.Flug[e].ObjectType==1) {
+                                if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(qPlan.Flug[e].ObjectId)].Rang != 0u) {
                                     if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(qPlan.Flug[e].ObjectId)].Auslastung>20)
                                     {
                                         ULONG a=Routen[qPlan.Flug[e].ObjectId].VonCity;
                                         ULONG b=Routen[qPlan.Flug[e].ObjectId].NachCity;
 
-                                        if (a>0x1000000) a=Cities(a);
-                                        if (b>0x1000000) b=Cities(b);
+                                        if (a>0x1000000) { a=Cities(a);
+}
+                                        if (b>0x1000000) { b=Cities(b);
+}
 
-                                        if (CityIds[0]==a && CityIds[1]==b) qPlayer.ConnectFlags|=0x0001;
-                                        if (CityIds[0]==a && CityIds[2]==b) qPlayer.ConnectFlags|=0x0002;
-                                        if (CityIds[0]==a && CityIds[3]==b) qPlayer.ConnectFlags|=0x0004;
-                                        if (CityIds[0]==a && CityIds[4]==b) qPlayer.ConnectFlags|=0x0008;
-                                        if (CityIds[0]==a && CityIds[5]==b) qPlayer.ConnectFlags|=0x0010;
-                                        if (CityIds[0]==a && CityIds[6]==b) qPlayer.ConnectFlags|=0x0020;
+                                        if (CityIds[0]==a && CityIds[1]==b) { qPlayer.ConnectFlags|=0x0001;
+}
+                                        if (CityIds[0]==a && CityIds[2]==b) { qPlayer.ConnectFlags|=0x0002;
+}
+                                        if (CityIds[0]==a && CityIds[3]==b) { qPlayer.ConnectFlags|=0x0004;
+}
+                                        if (CityIds[0]==a && CityIds[4]==b) { qPlayer.ConnectFlags|=0x0008;
+}
+                                        if (CityIds[0]==a && CityIds[5]==b) { qPlayer.ConnectFlags|=0x0010;
+}
+                                        if (CityIds[0]==a && CityIds[6]==b) { qPlayer.ConnectFlags|=0x0020;
+}
 
-                                        if (CityIds[0]==b && CityIds[1]==a) qPlayer.ConnectFlags|=0x0100;
-                                        if (CityIds[0]==b && CityIds[2]==a) qPlayer.ConnectFlags|=0x0200;
-                                        if (CityIds[0]==b && CityIds[3]==a) qPlayer.ConnectFlags|=0x0400;
-                                        if (CityIds[0]==b && CityIds[4]==a) qPlayer.ConnectFlags|=0x0800;
-                                        if (CityIds[0]==b && CityIds[5]==a) qPlayer.ConnectFlags|=0x1000;
-                                        if (CityIds[0]==b && CityIds[6]==a) qPlayer.ConnectFlags|=0x2000;
+                                        if (CityIds[0]==b && CityIds[1]==a) { qPlayer.ConnectFlags|=0x0100;
+}
+                                        if (CityIds[0]==b && CityIds[2]==a) { qPlayer.ConnectFlags|=0x0200;
+}
+                                        if (CityIds[0]==b && CityIds[3]==a) { qPlayer.ConnectFlags|=0x0400;
+}
+                                        if (CityIds[0]==b && CityIds[4]==a) { qPlayer.ConnectFlags|=0x0800;
+}
+                                        if (CityIds[0]==b && CityIds[5]==a) { qPlayer.ConnectFlags|=0x1000;
+}
+                                        if (CityIds[0]==b && CityIds[6]==a) { qPlayer.ConnectFlags|=0x2000;
+}
                                     }
+}
+}
                         }
                     }
+}
 
-                for (d=e=0; d<32; d++)
-                    if (qPlayer.ConnectFlags & (1<<d))
+                for (d=e=0; d<32; d++) {
+                    if ((qPlayer.ConnectFlags & (1<<d)) != 0) {
                         e++;
+}
+}
 
                 qPlayer.ConnectFlags=e;
             }
@@ -152,7 +176,8 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
     OpaqueBm.ReSize (pRoomLib, GFX_OPAQUE);
     TransBm.ReSize (pRoomLib, GFX_TRANS);
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (30);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (30);
+}
 
     TimeClick = timeGetTime();
 
@@ -231,11 +256,13 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
         PlayerStuff.ReSize (pRoomLib, "OBJ_PB OBJ_PV OBJ_PR OBJ_PJ");
         FrauFuss.ReSize (pRoomLib, "FRAUFUSS");
 
-        if (Sim.bNetwork && Sim.Date==0)
-            for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                Sim.Players.Players[c].bReadyForMorning=false;
+        if ((Sim.bNetwork != 0) && Sim.Date==0) {
+            for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                Sim.Players.Players[c].bReadyForMorning=0;
+}
+}
 
-        if (!IsOut[0]) //Blau:
+        if (IsOut[0] == 0) //Blau:
         {
             SP_Player[0].ReSize(9);
             SP_Player[0].Clips[0].ReSize (0, "pb_wait.smk", "", XY (70, 135), SPM_IDLE,  CRepeat(1,1), CPostWait(5,5), SMACKER_CLIP_CANCANCEL,
@@ -277,7 +304,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
                     "A1", 0);
         }
 
-        if (!IsOut[1]) //Grün:
+        if (IsOut[1] == 0) //Grün:
         {
             SP_Player[1].ReSize(7);
             SP_Player[1].Clips[0].ReSize (0, "pv_wait.smk", "", XY (165, 110), SPM_IDLE,  CRepeat(1,1), CPostWait(15,45), SMACKER_CLIP_CANCANCEL,
@@ -312,7 +339,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
                     "A1", 0);
         }
 
-        if (!IsOut[2]) //Rot:
+        if (IsOut[2] == 0) //Rot:
         {
             SP_Player[2].ReSize(6);
             SP_Player[2].Clips[0].ReSize (0, "pr_wait.smk", "", XY (422, 142), SPM_IDLE,  CRepeat(1,1), CPostWait(5,5), SMACKER_CLIP_CANCANCEL,
@@ -344,7 +371,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
                     "A1", 0);
         }
 
-        if (!IsOut[3]) //Gelb:
+        if (IsOut[3] == 0) //Gelb:
         {
             SP_Player[3].ReSize(6);
             SP_Player[3].Clips[0].ReSize (0, "pj_wait.smk", "", XY (446, 186), SPM_IDLE,  CRepeat(2,2), CPostWait(15,20), SMACKER_CLIP_CANCANCEL,
@@ -378,7 +405,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
     }
 
     //Das Briefing machen wir später & erlösen die Figuren sofort:
-    if (Sim.DayState==1 && !Sim.IsTutorial)
+    if (Sim.DayState==1 && (Sim.IsTutorial == 0))
     {
 #ifdef DEMO
         if (Sim.Date>=100)
@@ -393,33 +420,38 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
                 {
                     PLAYER &qPlayer = Sim.Players.Players[c];
 
-                    if (!qPlayer.IsOut)
+                    if (qPlayer.IsOut == 0)
                     {
-                        if (Sim.Date==0)
+                        if (Sim.Date==0) {
                             qPlayer.NumOrderFlightsToday = 2+(qPlayer.PlayerNum&1);
-                        else
+                        } else {
                             qPlayer.NumOrderFlightsToday = 0;
+}
 
                         qPlayer.NumOrderFlightsToday2 = qPlayer.NumOrderFlightsToday;
                         qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay (0, 5);
 
-                        if (qPlayer.Owner!=1)
+                        if (qPlayer.Owner!=1) {
                             qPlayer.Add5UhrigFlights();
+}
                     }
                 }
             }
 
         if (Sim.Date==0 || Sim.Options.OptionBriefBriefing==0)
         {
-            if (Sim.ProtectionState<0) StartDialog (TALKER_BOSS, MEDIUM_AIR, 30);
-            else                       StartDialog (TALKER_BOSS, MEDIUM_AIR, 1);
+            if (Sim.ProtectionState<0) { StartDialog (TALKER_BOSS, MEDIUM_AIR, 30);
+            } else {                       StartDialog (TALKER_BOSS, MEDIUM_AIR, 1);
+}
             DontDisplayPlayer=Sim.localPlayer;
         }
-        else MenuStart (MENU_BRIEFING);
+        else { MenuStart (MENU_BRIEFING);
+}
     }
 
-    if (Sim.GetHour()==9 && Sim.GetMinute()==0 && MouseWait>0)
+    if (Sim.GetHour()==9 && Sim.GetMinute()==0 && MouseWait>0) {
         MouseWait--;
+}
 
     KonstruktorFinished = 1;
     SDL_ShowWindow(FrameWnd->m_hWnd);
@@ -436,7 +468,7 @@ CAufsicht::~CAufsicht()
     LeereZettelBms.Destroy();
     PostcardBm.Destroy();
 
-    if (Sim.bNetwork && bIsMorning)
+    if ((Sim.bNetwork != 0) && bIsMorning)
     {
         PLAYER &qLocalPlayer = Sim.Players.Players[Sim.localPlayer];
 
@@ -448,7 +480,8 @@ CAufsicht::~CAufsicht()
 
     Sim.Players.Players[Sim.localPlayer].Messages.KillBerater ();
 
-    if (CheatTestGame) Sim.Players.Players[PlayerNum].GameSpeed = 3;
+    if (CheatTestGame != 0) { Sim.Players.Players[PlayerNum].GameSpeed = 3;
+}
 
     Talkers.Talkers[TALKER_BOSS].DecreaseReference ();
 
@@ -456,43 +489,48 @@ CAufsicht::~CAufsicht()
     {
         Sim.SabotageActs.ReSize(0);
 
-        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-            if (!Sim.Players.Players[c].IsOut)
+        for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+            if (Sim.Players.Players[c].IsOut == 0)
             {
                 PERSON &qPerson = Sim.Persons[Sim.Persons.GetPlayerIndex(c)];
 
-                if (Sim.Date!=0)
+                if (Sim.Date!=0) {
                     qPerson.Position=Airport.GetRandomTypedRune (RUNE_PCREATION2, (UBYTE)((c+1)*10));
-                else
+                } else {
                     qPerson.Position=Airport.GetRandomTypedRune (RUNE_PCREATION2, (UBYTE)((c+1+4)*10));
+}
 
                 qPerson.MoodCountdown = 0;
                 qPerson.ScreenPos.x   = qPerson.Position.x-(qPerson.Position.y-5000)/2+86;
                 qPerson.ScreenPos.y   = (qPerson.Position.y-5000)+93;
 
-                if (c==0 || c==1) qPerson.LookDir=3;
-                else qPerson.LookDir=1;
+                if (c==0 || c==1) { qPerson.LookDir=3;
+                } else { qPerson.LookDir=1;
+}
 
                 qPerson.Dir=qPerson.LookDir*2;
 
                 qPerson.StatePar=0;
             }
+}
 
         bool bAnyBombs=false;
-        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-            if (!Sim.Players.Players[c].IsOut)
+        for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+            if (Sim.Players.Players[c].IsOut == 0)
             {
                 PLAYER &qPlayer = Sim.Players.Players[c];
 
-                if (c!=Sim.localPlayer && (Sim.bNetwork==0 || Sim.bIsHost)) qPlayer.LeaveRoom();
+                if (c!=Sim.localPlayer && (Sim.bNetwork==0 || (Sim.bIsHost != 0))) { qPlayer.LeaveRoom();
+}
 
                 qPlayer.NumFlights=0;
                 qPlayer.WaitWorkTill=-1;
                 qPlayer.WorkCountdown=1;
                 qPlayer.WaitWorkTill = 0;
 
-                if (qPlayer.Owner==1)
+                if (qPlayer.Owner==1) {
                     qPlayer.WalkToRoom (UBYTE(ROOM_BURO_A+c*10));
+}
 
                 bool bFremdsabotage=false;
                 if (Sim.Players.Players[c].ArabMode2<0)
@@ -501,36 +539,41 @@ CAufsicht::~CAufsicht()
                     bFremdsabotage=true;
                 }
 
-                if (qPlayer.ArabMode2)
+                if (qPlayer.ArabMode2 != 0)
                 {
                     PLAYER &qOpfer=Sim.Players.Players[qPlayer.ArabOpfer2];
 
-                    if (!bFremdsabotage) Sim.Players.Players[c].Statistiken[STAT_SABOTIERT].AddAtPastDay (0, 1);
+                    if (!bFremdsabotage) { Sim.Players.Players[c].Statistiken[STAT_SABOTIERT].AddAtPastDay (0, 1);
+}
 
                     switch (qPlayer.ArabMode2)
                     {
                         case 1: //Bakterien im Kaffee
-                            if (!bFremdsabotage) qPlayer.ArabHints+=8;
+                            if (!bFremdsabotage) { qPlayer.ArabHints+=8;
+}
                             qOpfer.Sympathie[c]-=10;
                             qOpfer.SickTokay = TRUE;
                             qOpfer.NetSynchronizeFlags();
                             break;
 
                         case 2: //Virus im Notepad
-                            if (qOpfer.HasItem (ITEM_LAPTOP) && qOpfer.LaptopVirus==0)
+                            if ((qOpfer.HasItem (ITEM_LAPTOP) != 0) && qOpfer.LaptopVirus==0) {
                                 qOpfer.LaptopVirus=1;
+}
                             break;
 
                         case 3: //Bombe im Büro
                             bAnyBombs=true;
-                            if (!bFremdsabotage) qPlayer.ArabHints+=25;
+                            if (!bFremdsabotage) { qPlayer.ArabHints+=25;
+}
                             qOpfer.Sympathie[c]-=50;
                             qOpfer.OfficeState=1;
                             qOpfer.WalkToRoom (UBYTE(ROOM_BURO_A+qOpfer.PlayerNum*10));
                             break;
 
                         case 4: //Streik provozieren
-                            if (!bFremdsabotage) qPlayer.ArabHints+=40;
+                            if (!bFremdsabotage) { qPlayer.ArabHints+=40;
+}
                             qOpfer.StrikePlanned = TRUE;
                             break;
                     }
@@ -551,7 +594,7 @@ CAufsicht::~CAufsicht()
                     bFremdsabotage=true;
                 }
 
-                if (qPlayer.ArabMode3)
+                if (qPlayer.ArabMode3 != 0)
                 {
                     PLAYER &qOpfer=Sim.Players.Players[qPlayer.ArabOpfer3];
 
@@ -560,67 +603,80 @@ CAufsicht::~CAufsicht()
                     switch (qPlayer.ArabMode3)
                     {
                         case 1: //Fremde Broschüren
-                            if (!bFremdsabotage) qPlayer.ArabHints+=8;
+                            if (!bFremdsabotage) { qPlayer.ArabHints+=8;
+}
                             qOpfer.WerbeBroschuere = qPlayer.PlayerNum;
                             qOpfer.NetSynchronizeFlags();
                             break;
 
                         case 2: //Telefone sperren
-                            if (!bFremdsabotage) qPlayer.ArabHints+=15;
+                            if (!bFremdsabotage) { qPlayer.ArabHints+=15;
+}
                             qOpfer.TelephoneDown=1;
                             qOpfer.NetSynchronizeFlags();
                             break;
 
                         case 3: //Presseerklärung
-                            if (!bFremdsabotage) qPlayer.ArabHints+=25;
-                            qOpfer.Presseerklaerung=true;
+                            if (!bFremdsabotage) { qPlayer.ArabHints+=25;
+}
+                            qOpfer.Presseerklaerung=1;
                             qOpfer.NetSynchronizeFlags();
                             Sim.Players.Players[Sim.localPlayer].Letters.AddLetter (FALSE,
                                     bprintf (StandardTexte.GetS (TOKEN_LETTER, 509), (LPCTSTR)qOpfer.AirlineX, (LPCTSTR)qOpfer.NameX, (LPCTSTR)qOpfer.AirlineX),
                                     "", "", 0);
-                            if (qOpfer.PlayerNum==Sim.localPlayer)
+                            if (qOpfer.PlayerNum==Sim.localPlayer) {
                                 qOpfer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2020));
+}
 
                             {
                                 //Für alle Flugzeuge die er besitzt, die Passagierzahl aktualisieren:
-                                for (long d=0; d<(SLONG)qOpfer.Planes.AnzEntries(); d++)
-                                    if (qOpfer.Planes.IsInAlbum (d))
+                                for (long d=0; d<(SLONG)qOpfer.Planes.AnzEntries(); d++) {
+                                    if (qOpfer.Planes.IsInAlbum (d) != 0)
                                     {
                                         CPlane &qPlane=qOpfer.Planes[d];
 
-                                        for (long e=0; e<qPlane.Flugplan.Flug.AnzEntries(); e++)
-                                            if (qPlane.Flugplan.Flug[e].ObjectType==1)
+                                        for (long e=0; e<qPlane.Flugplan.Flug.AnzEntries(); e++) {
+                                            if (qPlane.Flugplan.Flug[e].ObjectType==1) {
                                                 qPlane.Flugplan.Flug[e].CalcPassengers (qOpfer.PlayerNum, qPlane);
+}
+}
                                         //qPlane.Flugplan.Flug[e].CalcPassengers (qPlane.TypeId, (LPCTSTR)qOpfer.PlayerNum, (LPCTSTR)qPlane);
                                     }
+}
                             }
                             break;
 
                         case 4: //Bankkonto hacken
                             qOpfer.ChangeMoney (-1000000, 3502, "");
-                            if (!bFremdsabotage) qPlayer.ChangeMoney (1000000, 3502, "");
-                            if (!bFremdsabotage) qPlayer.ArabHints+=30;
+                            if (!bFremdsabotage) { qPlayer.ChangeMoney (1000000, 3502, "");
+}
+                            if (!bFremdsabotage) { qPlayer.ArabHints+=30;
+}
                             break;
 
                         case 5: //Flugzeug festsetzen
-                            if (!bFremdsabotage) qPlayer.ArabHints+=50;
-                            if (qOpfer.Planes.IsInAlbum(qPlayer.ArabPlane))
+                            if (!bFremdsabotage) { qPlayer.ArabHints+=50;
+}
+                            if (qOpfer.Planes.IsInAlbum(qPlayer.ArabPlane) != 0) {
                                 qOpfer.Planes[qPlayer.ArabPlane].PseudoProblem=15;
+}
                             break;
 
                         case 6: //Route klauen
                             qPlayer.ArabHints+=70;
                             qOpfer.RouteWegnehmen (Routen(qPlayer.ArabPlane), qPlayer.PlayerNum);
                             {
-                                for (long d=0; d<Routen.Routen.AnzEntries(); d++)
-                                    if (Routen.IsInAlbum(d) && Routen[d].VonCity==Routen[qPlayer.ArabPlane].NachCity && Routen[d].NachCity==Routen[qPlayer.ArabPlane].VonCity)
+                                for (long d=0; d<Routen.Routen.AnzEntries(); d++) {
+                                    if ((Routen.IsInAlbum(d) != 0) && Routen[d].VonCity==Routen[qPlayer.ArabPlane].NachCity && Routen[d].NachCity==Routen[qPlayer.ArabPlane].VonCity)
                                     {
                                         qOpfer.RouteWegnehmen (d, qPlayer.PlayerNum);
                                         break;
                                     }
+}
                             }
-                            if (qOpfer.PlayerNum==Sim.localPlayer)
+                            if (qOpfer.PlayerNum==Sim.localPlayer) {
                                 qOpfer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2021));
+}
                             break;
                     }
 
@@ -633,32 +689,38 @@ CAufsicht::~CAufsicht()
                     qPlayer.ArabMode3 = 0;
                 }
             }
+}
 
-        if (!bAnyBombs)
-            for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                if (!Sim.Players.Players[c].IsOut)
+        if (!bAnyBombs) {
+            for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                if (Sim.Players.Players[c].IsOut == 0) {
                     Sim.Players.Players[c].WalkToRoom (UBYTE(ROOM_BURO_A+c*10));
+}
+}
+}
     }
 
-    if (Sim.Players.Players[Sim.localPlayer].OfficeState!=1)
-        for (c=0; c<4; c++)
+    if (Sim.Players.Players[Sim.localPlayer].OfficeState!=1) {
+        for (c=0; c<4; c++) {
             if (Sim.Players.Players[c].OfficeState==1 && Sim.Players.Players[c].IsOut==0)
             {
                 Sim.Players.Players[Sim.localPlayer].WalkStop ();
                 Sim.Players.Players[Sim.localPlayer].WalkStopEx ();
                 Sim.FocusPerson=Sim.Persons.GetIdFromIndex (Sim.Persons.GetPlayerIndex(c));
             }
+}
+}
 
     //Flugzeuge von allen relevanten Spielern aktualisieren:
-    for (c=0; c<4; c++)
-        if (!Sim.Players.Players[c].IsOut)
+    for (c=0; c<4; c++) {
+        if (Sim.Players.Players[c].IsOut == 0)
         {
             PLAYER &qPlayer = Sim.Players.Players[c];
 
             //Für alle Flugzeuge die er besitzt
             for (SLONG d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++)
             {
-                if (qPlayer.Planes.IsInAlbum (d))
+                if (qPlayer.Planes.IsInAlbum (d) != 0)
                 {
                     CPlane &qPlane=qPlayer.Planes[d];
 
@@ -670,19 +732,28 @@ CAufsicht::~CAufsicht()
                 }
             }
         }
+}
 
     if (Sim.Difficulty==DIFF_ATFS10)
     {
         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
-        if (Sim.Date==3)  qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2400));
-        if (Sim.Date==18) qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2401));
-        if (Sim.Date==20) qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2402));
-        if (Sim.Date==25) qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2403));
-        if (Sim.Date==35) qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2404));
-        if (Sim.Date==40) qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2405));
-        if (Sim.Date==45) qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2406));
-        if (Sim.Date==55) qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2407));
+        if (Sim.Date==3) {  qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2400));
+}
+        if (Sim.Date==18) { qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2401));
+}
+        if (Sim.Date==20) { qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2402));
+}
+        if (Sim.Date==25) { qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2403));
+}
+        if (Sim.Date==35) { qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2404));
+}
+        if (Sim.Date==40) { qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2405));
+}
+        if (Sim.Date==45) { qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2406));
+}
+        if (Sim.Date==55) { qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2407));
+}
     }
 }
 
@@ -707,46 +778,57 @@ void CAufsicht::OnPaint()
         }
     }
 
-    if (Sim.Date>5 && Sim.GetHour()>9) Sim.GiveHint (HINT_AUFSICHT);
+    if (Sim.Date>5 && Sim.GetHour()>9) { Sim.GiveHint (HINT_AUFSICHT);
+}
 
-    if (!KonstruktorFinished) return;
+    if (KonstruktorFinished == 0) { return;
+}
 
-    if (!Sim.bNetwork) bOkayToAct=true;
+    if (Sim.bNetwork == 0) { bOkayToAct=1;
+}
 
-    if (!bOkayToAct)
+    if (bOkayToAct == 0)
     {
         bOkayToAct = TRUE;
 
-        for (SLONG c=0; c<4; c++)
-            if (Sim.Players.Players[c].bReadyForBriefing==false && Sim.Players.Players[c].Owner==2 && !Sim.Players.Players[c].IsOut)
+        for (SLONG c=0; c<4; c++) {
+            if (!static_cast<bool>(Sim.Players.Players[c].bReadyForBriefing) && Sim.Players.Players[c].Owner==2 && (Sim.Players.Players[c].IsOut == 0)) {
                 bOkayToAct = FALSE;
+}
+}
 
-        if (bOkayToAct) SetNetworkBitmap (0);
+        if (bOkayToAct != 0) { SetNetworkBitmap (0);
+}
     }
 
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
-    if (CurrentMenu!=MENU_BRIEFING)
+    if (CurrentMenu!=MENU_BRIEFING) {
         CStdRaum::OnPaint ();
+}
 
-    if (!(Sim.ItemPostcard && qPlayer.SeligTrust==0 && Sim.Difficulty!=DIFF_TUTORIAL))
+    if (!((Sim.ItemPostcard != 0) && qPlayer.SeligTrust==0 && Sim.Difficulty!=DIFF_TUTORIAL)) {
         RoomBm.BlitFromT (PostcardBm, 260, 106);
+}
 
-    if (CurrentMenu!=MENU_BRIEFING || gMouseLButton || gMouseRButton)
+    if (CurrentMenu!=MENU_BRIEFING || (gMouseLButton != 0) || (gMouseRButton != 0))
     {
 do_the_painting_again:
         Painted++;
         for (SLONG c=0; c<7; c++)
         {
             //Zettel malen:
-            if (TafelData.Route[c].ZettelId && qPlayer.RentRouten.RentRouten[TafelData.Route[c].ZettelId].Rang==0)
+            if ((TafelData.Route[c].ZettelId != 0) && qPlayer.RentRouten.RentRouten[TafelData.Route[c].ZettelId].Rang==0) {
                 RoomBm.BlitFromT (LeereZettelBms[c%3], (ZettelPos[c*2]-91)*74/441+274, (ZettelPos[c*2+1]-20)*68/366+55);
+}
 
-            if (TafelData.City[c].ZettelId && qPlayer.RentCities.RentCities[TafelData.City[c].ZettelId].Rang==0)
+            if ((TafelData.City[c].ZettelId != 0) && qPlayer.RentCities.RentCities[TafelData.City[c].ZettelId].Rang==0) {
                 RoomBm.BlitFromT (LeereZettelBms[c%3], (ZettelPos[(c+7)*2]-91)*74/441+274, (ZettelPos[(c+7)*2+1]-20)*68/366+55);
+}
 
-            if (TafelData.Gate[c].ZettelId!=-1)
+            if (TafelData.Gate[c].ZettelId!=-1) {
                 RoomBm.BlitFromT (LeereZettelBms[c%3], (ZettelPos[(c+14)*2]-91)*74/441+274, (ZettelPos[(c+14)*2+1]-20)*68/366+55);
+}
         }
 
         //Draw Persons:
@@ -754,7 +836,7 @@ do_the_painting_again:
         for (SLONG d=0; d<SLONG(Sim.Persons.AnzEntries()); d++)
         {
             //Entscheidung! Person malen:
-            if (Sim.Persons.IsInAlbum(d) && Clans.IsInAlbum (Sim.Persons[d].ClanId))
+            if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum (Sim.Persons[d].ClanId) != 0))
             {
                 PERSON &qPerson=Sim.Persons[d];
                 CLAN   &qClan=Clans[(SLONG)qPerson.ClanId];
@@ -762,9 +844,12 @@ do_the_painting_again:
                 UBYTE   Phase=qPerson.Phase;
 
                 //if (Dir==1 || Dir==3) Dir = 4-Dir;
-                if (Dir<4) UBYTE(Dir = (Dir+1)&3);
-                if (Dir==8 && Phase<4)  Phase = UBYTE((Phase+1)%4);
-                if (Dir==8 && Phase>=4) Phase = UBYTE((Phase+1)%4+4);
+                if (Dir<4) { UBYTE(Dir = (Dir+1)&3);
+}
+                if (Dir==8 && Phase<4) {  Phase = UBYTE((Phase+1)%4);
+}
+                if (Dir==8 && Phase>=4) { Phase = UBYTE((Phase+1)%4+4);
+}
 
                 XY p=qPerson.ScreenPos-AirportRoomPos;
                 XY pp;
@@ -774,11 +859,13 @@ do_the_painting_again:
                     pp.x=640-p.y*4-p.x*2;
                     pp.y=220+p.x;
 
-                    if (pp.x>380 && pp.x<700 && abs(pp.y-220)<40)
+                    if (pp.x>380 && pp.x<700 && abs(pp.y-220)<40) {
                         qClan.BlitLargeAt (RoomBm, Dir, Phase, pp);
+}
                 }
             }
-            else break;
+            else { break;
+}
         }
         RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
 
@@ -792,8 +879,9 @@ do_the_painting_again:
         //Draw Smacker Persons:
         if (Sim.GetHour()==9 && Sim.GetMinute()==0)
         {
-            if (!IsOut[1]) RoomBm.BlitFromT (PlayerStuff[1], 244-20, 192+9);
-            if (!IsOut[0])
+            if (IsOut[1] == 0) { RoomBm.BlitFromT (PlayerStuff[1], 244-20, 192+9);
+}
+            if (IsOut[0] == 0)
             {
                 RoomBm.BlitFrom (FrauFuss, 138, 373);
                 RoomBm.BlitFromT (PlayerStuff[0], 72, 245);
@@ -806,10 +894,12 @@ do_the_painting_again:
         //Draw Smacker Persons:
         if (Sim.GetHour()==9 && Sim.GetMinute()==0)
         {
-            if (!IsOut[2]) RoomBm.BlitFromT (PlayerStuff[2], 403, 233);
-            if (!IsOut[3]) RoomBm.BlitFromT (PlayerStuff[3], 242, 249);
+            if (IsOut[2] == 0) { RoomBm.BlitFromT (PlayerStuff[2], 403, 233);
+}
+            if (IsOut[3] == 0) { RoomBm.BlitFromT (PlayerStuff[3], 242, 249);
+}
 
-            if (!IsOut[1])
+            if (IsOut[1] == 0)
             {
                 SP_Player[1].Pump ();
                 SP_Player[1].BlitAtT (RoomBm);
@@ -817,14 +907,15 @@ do_the_painting_again:
                 SP_Halo[1].BlitAtT (RoomBm);
             }
 
-            for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                if (!IsOut[c] && c!=1)
+            for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                if ((IsOut[c] == 0) && c!=1)
                 {
                     SP_Player[c].Pump ();
                     SP_Player[c].BlitAtT (RoomBm);
                     SP_Halo[c].Pump ();
                     SP_Halo[c].BlitAtT (RoomBm);
                 }
+}
         }
 
         if (Painted==4)
@@ -837,25 +928,29 @@ do_the_painting_again:
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen() && Sim.bNoTime==FALSE)
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && Sim.bNoTime==FALSE)
     {
-        if (gMousePosition.IfIsWithin (64, 18, 172, 240)) SetMouseLook (CURSOR_EXIT, 0, ROOM_AUFSICHT, 999);
-        else if (gMousePosition.IfIsWithin (269,41,362,137)) SetMouseLook (CURSOR_HOT, 0, ROOM_AUFSICHT, 10);
-        else if (gMousePosition.IfIsWithin (400,100,505,241)) SetMouseLook (CURSOR_HOT, 0, ROOM_AUFSICHT, 11);
+        if (gMousePosition.IfIsWithin (64, 18, 172, 240)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_AUFSICHT, 999);
+        } else if (gMousePosition.IfIsWithin (269,41,362,137)) { SetMouseLook (CURSOR_HOT, 0, ROOM_AUFSICHT, 10);
+        } else if (gMousePosition.IfIsWithin (400,100,505,241)) { SetMouseLook (CURSOR_HOT, 0, ROOM_AUFSICHT, 11);
+}
     }
     else if (Sim.GetHour()==9 && Sim.GetMinute()==0)
     {
-        if ((timeGetTime()-TimeClick>40000 && Sim.Options.OptionTalking*Sim.Options.OptionDigiSound==0) || ((bTest || CheatTestGame) && timeGetTime()-TimeClick>5000))
+        if ((timeGetTime()-TimeClick>40000 && Sim.Options.OptionTalking*Sim.Options.OptionDigiSound==0) || (((bTest != 0) || (CheatTestGame != 0)) && timeGetTime()-TimeClick>5000))
         {
-            if (bTest || CheatTestGame) OnRButtonDown(0, CPoint(160,100));
-            else CStdRaum::PreLButtonDown(XY (160, 100));
+            if ((bTest != 0) || (CheatTestGame != 0)) { OnRButtonDown(0, CPoint(160,100));
+            } else { CStdRaum::PreLButtonDown(XY (160, 100));
+}
 
-            if (bTest) TimeClick=timeGetTime()-39000;
-            else TimeClick=timeGetTime()-30000;
+            if (bTest != 0) { TimeClick=timeGetTime()-39000;
+            } else { TimeClick=timeGetTime()-30000;
+}
         }
     }
 
-    if (Sim.bPause) TimeClick = timeGetTime();
+    if (Sim.bPause != 0) { TimeClick = timeGetTime();
+}
 
     CStdRaum::PostPaint ();
 
@@ -875,21 +970,23 @@ void CAufsicht::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY RoomPos;
 
-    if (!bOkayToAct) return;
+    if (bOkayToAct == 0) { return;
+}
 
     DefaultOnLButtonDown ();
 
     TimeClick = timeGetTime();
 
-    if (CurrentMenu == MENU_GAMEOVER && timeGetTime()-TimeAtStart<3000) return;
+    if (CurrentMenu == MENU_GAMEOVER && timeGetTime()-TimeAtStart<3000) { return;
+}
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
         if (MouseClickArea==ROOM_AUFSICHT && MouseClickId==999)
         {
@@ -898,11 +995,12 @@ void CAufsicht::OnLButtonDown(UINT nFlags, CPoint point)
             //Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
             TryLeaveAufsicht ();
         }
-        else if (MouseClickArea==ROOM_AUFSICHT && MouseClickId==10)
+        else if (MouseClickArea==ROOM_AUFSICHT && MouseClickId==10) {
             Sim.Players.Players[(SLONG)PlayerNum].EnterRoom (ROOM_TAFEL);
-        else if (MouseClickArea==ROOM_AUFSICHT && MouseClickId==11)
+        } else if (MouseClickArea==ROOM_AUFSICHT && MouseClickId==11) {
             StartDialog (TALKER_BOSS, MEDIUM_AIR, 2);
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        } else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -914,11 +1012,12 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
     BOOL  CanCancel=TRUE;
     SLONG c;
 
-    if (!bOkayToAct) return;
+    if (bOkayToAct == 0) { return;
+}
 
     DefaultOnRButtonDown ();
 
-    if (MenuIsOpen() && CurrentMenu==MENU_BRIEFING)
+    if ((MenuIsOpen() != 0) && CurrentMenu==MENU_BRIEFING)
     {
         MenuStop();
 
@@ -927,23 +1026,25 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
             StartDialog (TALKER_BOSS, MEDIUM_AIR, 30);
             return;
         }
-        else
-            StartDialog (TALKER_BOSS, MEDIUM_AIR, 1);
+                    StartDialog (TALKER_BOSS, MEDIUM_AIR, 1);
         DontDisplayPlayer=Sim.localPlayer;
     }
-    if (Sim.ProtectionState<0) return;
+    if (Sim.ProtectionState<0) { return;
+}
 
     if (Sim.GetHour()==9 && Sim.GetMinute()==0)
     {
-        for (c=0; c<Sim.Players.AnzPlayers; c++)
+        for (c=0; c<Sim.Players.AnzPlayers; c++) {
             if (Sim.Players.Players[c].IsOut==0)
             {
-                if (Sim.Players.Players[c].Image<-990 || Sim.Players.Players[c].Money<DEBT_GAMEOVER) CanCancel=FALSE;
-                if (Sim.Players.Players[c].HasWon())
+                if (Sim.Players.Players[c].Image<-990 || Sim.Players.Players[c].Money<DEBT_GAMEOVER) { CanCancel=FALSE;
+}
+                if (Sim.Players.Players[c].HasWon() != 0)
                 {
                     //Add-On Mission #3 Dauert immer 30 Tage:
-                    if ((!(Sim.Difficulty==DIFF_ADDON03 && Sim.Date<TARGET_DAYS)) && (!(Sim.Difficulty==DIFF_ADDON04 && Sim.Date<TARGET_MILESDAYS)) && (!(Sim.Difficulty==DIFF_ADDON06 && Sim.Date<TARGET_VALUEDAYS)) && (!(Sim.Difficulty==DIFF_ATFS09 && Sim.Date<BTARGET_NDAYS9)) && (!(Sim.Difficulty==DIFF_ATFS10 && Sim.Date<BTARGET_NDAYS10)))
+                    if ((!(Sim.Difficulty==DIFF_ADDON03 && Sim.Date<TARGET_DAYS)) && (!(Sim.Difficulty==DIFF_ADDON04 && Sim.Date<TARGET_MILESDAYS)) && (!(Sim.Difficulty==DIFF_ADDON06 && Sim.Date<TARGET_VALUEDAYS)) && (!(Sim.Difficulty==DIFF_ATFS09 && Sim.Date<BTARGET_NDAYS9)) && (!(Sim.Difficulty==DIFF_ATFS10 && Sim.Date<BTARGET_NDAYS10))) {
                         CanCancel=FALSE;
+}
                 }
 
 #ifdef DEMO
@@ -951,15 +1052,19 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
 #endif
 
             }
+}
 
         for (c=0; c<Sim.SabotageActs.AnzEntries(); c++)
         {
-            if (Sim.SabotageActs[c].Player!=-1)
-                if (Sim.Players.Players[Sim.SabotageActs[c].Player].ArabHints>=100)
+            if (Sim.SabotageActs[c].Player!=-1) {
+                if (Sim.Players.Players[Sim.SabotageActs[c].Player].ArabHints>=100) {
                     CanCancel=FALSE;
+}
+}
         }
 
-        if (Sim.Overtake) CanCancel=FALSE;
+        if (Sim.Overtake != 0) { CanCancel=FALSE;
+}
     }
 
     //Außerhalb geklickt? Dann Default-Handler!
@@ -967,9 +1072,8 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             if (CanCancel) MenuRightClick (point);
         }
@@ -998,7 +1102,7 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
             if (!(IsDialogOpen() && Sim.IsTutorial) && CanCancel)
                 CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1006,15 +1110,16 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 void CAufsicht::TryLeaveAufsicht (void)
 {
-    if (Sim.bNetwork && bIsMorning)
+    if ((Sim.bNetwork != 0) && bIsMorning)
     {
         bExitASAP = true;
         Sim.bWatchForReady=TRUE;
         Sim.SendSimpleMessage (ATNET_READYFORMORNING, 0, Sim.localPlayer);
-        Sim.Players.Players[Sim.localPlayer].bReadyForMorning=true;
+        Sim.Players.Players[Sim.localPlayer].bReadyForMorning=1;
         SetNetworkBitmap (3, 1);
         FrameWnd->Invalidate(); MessagePump();
     }
-    else
+    else {
         Sim.Players.Players[Sim.localPlayer].LeaveRoom();
+}
 }

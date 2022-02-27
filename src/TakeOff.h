@@ -18,7 +18,7 @@ class CTakeOffApp
         CTakeOffApp();
         ~CTakeOffApp();
 
-        void GameLoop(void*);
+        static void GameLoop(void*);
 #ifdef DEBUG
         void CheckSystem (void);
 #endif

@@ -52,7 +52,7 @@ namespace RakNet
         virtual ~RoomsPluginFunc() {}
         virtual void SerializeIn(bool writeToBitstream, RakNet::BitStream *bitStream)=0;
         virtual void SerializeOut(bool writeToBitstream, RakNet::BitStream *bitStream)=0;
-        void PrintResult(void);
+        void PrintResult(void) const;
         /// \param[in] userName Who is performing this operation. Input parameter
         RakNet::RakString userName;
 
@@ -975,7 +975,7 @@ namespace RakNet
             static int RoomsPluginParticipantCompByRakString( const RakNet::RakString &key, RoomsPluginParticipant* const &data );
             DataStructures::OrderedList<RakNet::RakString, RoomsPluginParticipant*, RoomsPluginParticipantCompByRakString> roomsParticipants;
 
-            RoomsPluginParticipant* GetParticipantByHandle(RakNet::RakString handle, const SystemAddress &systemAddress);
+            RoomsPluginParticipant* GetParticipantByHandle(RakNet::RakString handle, const SystemAddress &senderAddress);
             RoomsPluginParticipant* ValidateUserHandle(RoomsPluginFunc* func, const SystemAddress &systemAddress);
             void ProcessRemoveUserResult(RemoveUserResult *removeUserResult);
 

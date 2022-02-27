@@ -26,7 +26,7 @@ BRICK::~BRICK ()
 //--------------------------------------------------------------------------------------------
 XY BRICK::GetBitmapDimension (void) const
 {
-    return (Bitmap[0l].Size);
+    return (Bitmap[0L].Size);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -34,24 +34,28 @@ XY BRICK::GetBitmapDimension (void) const
 //--------------------------------------------------------------------------------------------
 void BRICK::BlitAt (SBBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLONG Phase)
 {
-    if (ScreenPos.x+Bitmap[0l].Size.x<-2 || ScreenPos.x>RightAirportClip || !bActive) return;
+    if (ScreenPos.x+Bitmap[0L].Size.x<-2 || ScreenPos.x>RightAirportClip || (bActive == 0)) { return;
+}
 
     //Wenn man es mit dem Maus-Cursor besonders anfasst:
-    if (Ansatz)
+    if (Ansatz != 0)
     {
-        if (NonTrans==1)
-            Offscreen.BlitFrom (Bitmap[0l], ScreenPos.x-Bitmap[0l].Size.x, ScreenPos.y-Bitmap[0l].Size.y);
-        else
-            Offscreen.BlitFromT (Bitmap[0l], ScreenPos.x-Bitmap[0l].Size.x, ScreenPos.y-Bitmap[0l].Size.y);
+        if (NonTrans==1) {
+            Offscreen.BlitFrom (Bitmap[0L], ScreenPos.x-Bitmap[0L].Size.x, ScreenPos.y-Bitmap[0L].Size.y);
+        } else {
+            Offscreen.BlitFromT (Bitmap[0L], ScreenPos.x-Bitmap[0L].Size.x, ScreenPos.y-Bitmap[0L].Size.y);
+}
     }
     //Normalfall:
     else
     {
-        if (AnimSpeed)
+        if (AnimSpeed != 0u)
         {
-            if (Triggered==0 || Editor)
-                if (Phase==-1) Phase=(Sim.TickerTime/AnimSpeed)%Bitmap.AnzEntries();
-                else if (Phase>=100) Phase=(Phase-100+(Sim.TickerTime/AnimSpeed))%Bitmap.AnzEntries();
+            if (Triggered==0 || (Editor != 0)) {
+                if (Phase==-1) { Phase=(Sim.TickerTime/AnimSpeed)%Bitmap.AnzEntries();
+                } else if (Phase>=100) { Phase=(Phase-100+(Sim.TickerTime/AnimSpeed))%Bitmap.AnzEntries();
+}
+}
 
             if (Triggered==90)
             {
@@ -65,17 +69,19 @@ void BRICK::BlitAt (SBBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLONG Pha
                 }
             }
 
-            if (NonTrans==1)
+            if (NonTrans==1) {
                 Offscreen.BlitFrom (Bitmap[Phase], ScreenPos.x, ScreenPos.y);
-            else
+            } else {
                 Offscreen.BlitFromT (Bitmap[Phase], ScreenPos.x, ScreenPos.y);
+}
         }
         else //Kein Animierter Brick
         {
-            if (NonTrans==1)
+            if (NonTrans==1) {
                 Offscreen.BlitFrom (Bitmap[0], ScreenPos.x, ScreenPos.y);
-            else
-                Offscreen.BlitFromT (Bitmap[0l], ScreenPos.x, ScreenPos.y);
+            } else {
+                Offscreen.BlitFromT (Bitmap[0L], ScreenPos.x, ScreenPos.y);
+}
         }
     }
 }
@@ -87,19 +93,21 @@ void BRICK::BlitAt (SBBM &Offscreen, BOOL Ansatz, const XY &p1, const XY &p2)
 {
     //Hier stand überall früher PrimaryBm statt Offscreen...
 
-    if (Ansatz)
+    if (Ansatz != 0)
     {
-        if (NonTrans==1)
-            Offscreen.BlitFrom (Bitmap[0l], p1, p2);
-        else
-            Offscreen.BlitFromT (Bitmap[0l], p1, p2);
+        if (NonTrans==1) {
+            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+        } else {
+            Offscreen.BlitFromT (Bitmap[0L], p1, p2);
+}
     }
     else
     {
-        if (NonTrans==1)
-            Offscreen.BlitFrom (Bitmap[0l], p1, p2);
-        else
-            Offscreen.BlitFrom (Bitmap[0l], p1, p2);
+        if (NonTrans==1) {
+            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+        } else {
+            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+}
     }
 }
 
@@ -108,26 +116,30 @@ void BRICK::BlitAt (SBBM &Offscreen, BOOL Ansatz, const XY &p1, const XY &p2)
 //--------------------------------------------------------------------------------------------
 void BRICK::BlitAt (SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLONG Phase)
 {
-    if (ScreenPos.x+Bitmap[0l].Size.x<-2 || ScreenPos.x>640 || !bActive) return;
+    if (ScreenPos.x+Bitmap[0L].Size.x<-2 || ScreenPos.x>640 || (bActive == 0)) { return;
+}
 
     //Hier stand überall früher PrimaryBm statt Offscreen...
 
     //Wenn man es mit dem Maus-Cursor besonders anfasst:
-    if (Ansatz)
+    if (Ansatz != 0)
     {
-        if (NonTrans==1)
-            Offscreen.BlitFrom (Bitmap[0l], ScreenPos.x-Bitmap[0l].Size.x, ScreenPos.y-Bitmap[0l].Size.y);
-        else
-            Offscreen.BlitFromT (Bitmap[0l], ScreenPos.x-Bitmap[0l].Size.x, ScreenPos.y-Bitmap[0l].Size.y);
+        if (NonTrans==1) {
+            Offscreen.BlitFrom (Bitmap[0L], ScreenPos.x-Bitmap[0L].Size.x, ScreenPos.y-Bitmap[0L].Size.y);
+        } else {
+            Offscreen.BlitFromT (Bitmap[0L], ScreenPos.x-Bitmap[0L].Size.x, ScreenPos.y-Bitmap[0L].Size.y);
+}
     }
     //Normalfall:
     else
     {
-        if (AnimSpeed)
+        if (AnimSpeed != 0u)
         {
-            if (Triggered==0 || Editor)
-                if (Phase==-1) Phase=(Sim.TickerTime/AnimSpeed)%Bitmap.AnzEntries();
-                else if (Phase>=100) Phase=(Phase-100+(Sim.TickerTime/AnimSpeed))%Bitmap.AnzEntries();
+            if (Triggered==0 || (Editor != 0)) {
+                if (Phase==-1) { Phase=(Sim.TickerTime/AnimSpeed)%Bitmap.AnzEntries();
+                } else if (Phase>=100) { Phase=(Phase-100+(Sim.TickerTime/AnimSpeed))%Bitmap.AnzEntries();
+}
+}
 
             if (Triggered==90)
             {
@@ -141,10 +153,11 @@ void BRICK::BlitAt (SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SL
                 }
             }
 
-            if (NonTrans==1)
+            if (NonTrans==1) {
                 Offscreen.BlitFrom (Bitmap[Phase], ScreenPos.x, ScreenPos.y);
-            else
+            } else {
                 Offscreen.BlitFromT (Bitmap[Phase], ScreenPos.x, ScreenPos.y);
+}
         }
         else //Kein Animierter Brick
         {
@@ -152,11 +165,11 @@ void BRICK::BlitAt (SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SL
             {
                 Offscreen.BlitFrom (Bitmap[0], ScreenPos.x, ScreenPos.y);
             }
-            else if (NonTrans==2 && Sim.Options.OptionTransparenz)
+            else if (NonTrans==2 && (Sim.Options.OptionTransparenz != 0)) {
                 ColorFX.BlitTrans (Bitmap[0].pBitmap, &Offscreen.PrimaryBm, XY (ScreenPos.x, ScreenPos.y), NULL, -1);
-            else
+            } else
             {
-                Offscreen.BlitFromT (Bitmap[0l], ScreenPos.x, ScreenPos.y);
+                Offscreen.BlitFromT (Bitmap[0L], ScreenPos.x, ScreenPos.y);
             }
         }
     }
@@ -169,19 +182,21 @@ void BRICK::BlitAt (SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &p1, const XY 
 {
     //Hier stand überall früher PrimaryBm statt Offscreen...
 
-    if (Ansatz)
+    if (Ansatz != 0)
     {
-        if (NonTrans==1)
-            Offscreen.BlitFrom (Bitmap[0l], p1, p2);
-        else
-            Offscreen.BlitFromT (Bitmap[0l], p1, p2);
+        if (NonTrans==1) {
+            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+        } else {
+            Offscreen.BlitFromT (Bitmap[0L], p1, p2);
+}
     }
     else
     {
-        if (NonTrans==1)
-            Offscreen.BlitFrom (Bitmap[0l], p1, p2);
-        else
-            Offscreen.BlitFrom (Bitmap[0l], p1, p2);
+        if (NonTrans==1) {
+            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+        } else {
+            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+}
     }
 }
 
@@ -190,7 +205,7 @@ void BRICK::BlitAt (SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &p1, const XY 
 //--------------------------------------------------------------------------------------------
 BOOL BRICK::IsGlasAt (SLONG x, SLONG y)
 {
-    return (Bitmap[0l].GetPixel (x, y)==0);
+    return static_cast<BOOL>(Bitmap[0L].GetPixel (x, y)==0);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -202,9 +217,10 @@ void BRICK::UpdateBrick (void)
     long c;
 
     //Falls Bitmap noch nicht vorhanden ==> laden!
-    if (Bitmap.AnzEntries()==0) ReloadNecessary=TRUE;
+    if (Bitmap.AnzEntries()==0) { ReloadNecessary=TRUE;
+}
 
-    if (ReloadNecessary)
+    if (ReloadNecessary != 0)
     {
         //Bild muß (neu) geladen werden:
         SLONG  AnzPhases;
@@ -234,7 +250,7 @@ void BRICK::UpdateBrick (void)
             //Speicher für die Animationsphases bereitstellen:
             Bitmap.ReSize (1);
 
-            Bitmap[0l].ReSize (pGLibBrick, graphicIDs[0]);
+            Bitmap[0L].ReSize (pGLibBrick, graphicIDs[0]);
         }
     }
 }
@@ -251,18 +267,21 @@ XY BRICK::GetIntelligentPosition (SLONG x, SLONG y)
     LocalOffset = XY(0,0);
 
     //Die Dinge oben etwas verschieben:
-    if (GetBitmapDimension().y-2+y<210 && !GetAsyncKeyState (VK_MENU))
+    if (GetBitmapDimension().y-2+y<210 && (GetAsyncKeyState (VK_MENU) == 0))
     {
         LocalOffset.x=22;
         LocalOffset.y=5;
     }
 
-    if (GetAsyncKeyState (VK_CONTROL)) return (XY(x,y));
+    if (GetAsyncKeyState (VK_CONTROL) != 0) { return (XY(x,y));
+}
 
     rc.y = (y-(BaseOffset.y+LocalOffset.y)+Bitmap[0].Size.y*1000)/Grid.y*Grid.y+(BaseOffset.y+LocalOffset.y)-Bitmap[0].Size.y*1000;
 
-    if (rc.y<MinY) rc.y=MinY;
-    if (rc.y>MaxY) rc.y=MaxY;
+    if (rc.y<MinY) { rc.y=MinY;
+}
+    if (rc.y>MaxY) { rc.y=MaxY;
+}
 
     BaseOffsetX = (BaseOffset.x+LocalOffset.x) - (rc.y-(BaseOffset.y+LocalOffset.y))/2;
 
@@ -306,10 +325,11 @@ void BRICKS::ReInit (const CString &TabFilename)
 
     Bricks.ReSize (MAX_BRICKS);
 
-    while (1)
+    while (true)
     {
         //if (!Tab.ReadString (Line, 300)) break;
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         TeakStrRemoveEndingCodes (Line, "\xd\xa\x1a\r");
@@ -318,7 +338,8 @@ void BRICKS::ReInit (const CString &TabFilename)
         Id=atol (strtok (Line, ";\x8\""))+0x10000000;
 
         //Hinzufügen (darf noch nicht existieren):
-        if (IsInAlbum (Id)) TeakLibW_Exception (FNL, ExcNever);
+        if (IsInAlbum (Id) != 0) { TeakLibW_Exception (FNL, ExcNever);
+}
         (*this)+=Id;
 
         //SpeedUp durch direkten Zugriff:
@@ -353,17 +374,19 @@ void BRICKS::ReInit (const CString &TabFilename)
         {
             TimePointer[AnzTimePointer]=strtok (NULL, " ");
 
-            if (!TimePointer[AnzTimePointer]) break;
+            if (TimePointer[AnzTimePointer] == nullptr) { break;
+}
 
-            if (strchr (TimePointer[AnzTimePointer], ':'))
+            if (strchr (TimePointer[AnzTimePointer], ':') != nullptr)
             {
                 (*this)[Id].Triggered=90;
                 (*this)[Id].WaitTimes[AnzTimePointer] = atoi (strchr (TimePointer[AnzTimePointer], ':')+1);
 
                 *(strchr (TimePointer[AnzTimePointer], ':'))=0;
             }
-            else
+            else {
                 (*this)[Id].WaitTimes[AnzTimePointer] = 1;
+}
 
             (*this)[Id].WaitSum += (*this)[Id].WaitTimes[AnzTimePointer];
         }
@@ -388,14 +411,18 @@ void BRICKS::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 void BRICKS::UpdateBricks (void)
 {
-    SLONG c, d, Anz=0;
+    SLONG c;
+    SLONG d;
+    SLONG Anz=0;
     SLONG VidMemFree;
     SLONG Bytes=0;
 
     //hprintf ("Updating Bricks.");
-    for (c=0; c<Bricks.AnzEntries(); c++)
-        if (IsInAlbum(c))
+    for (c=0; c<Bricks.AnzEntries(); c++) {
+        if (IsInAlbum(c) != 0) {
             Bricks[c].UpdateBrick ();
+}
+}
 #if 0
     for (d=0; d<20; d++)
         for (c=0; c<Bricks.AnzEntries(); c++)
@@ -435,7 +462,7 @@ void BRICKS::UpdateBricks (void)
                     }
                 }
 #endif
-    if (!bFirstClass)
+    if (bFirstClass == 0)
     {
         for (c=0; c<8; c++)
         {
@@ -497,7 +524,8 @@ BUILD::BUILD (long BrickId, const XY &ScreenPos, BOOL Ansatz)
     BUILD::ScreenPos  = ScreenPos;
     BUILD::Par        = 0;
 
-    if (Ansatz) BUILD::ScreenPos -= Bricks[BrickId].GetBitmapDimension();
+    if (Ansatz != 0) { BUILD::ScreenPos -= Bricks[BrickId].GetBitmapDimension();
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -563,7 +591,8 @@ void BUILDS::Load (SLONG Hall, SLONG Level)
     CString Filename;
     SLONG   Difficulty = Sim.Difficulty;
 
-    if (Difficulty==DIFF_FREEGAME) Difficulty=DIFF_FREEGAMEMAP;
+    if (Difficulty==DIFF_FREEGAME) { Difficulty=DIFF_FREEGAMEMAP;
+}
 
     //Wenn der Flughafen für einen Level nicht existiert, dann Fallback auf den Difficulty-Level davor probieren
     do
@@ -571,11 +600,12 @@ void BUILDS::Load (SLONG Hall, SLONG Level)
         Filename = FullFilename (HallFilenames [Hall], MiscPath, 100*Difficulty+Level);
         Difficulty--;
 
-        if (Difficulty==10) Difficulty=Difficulty;
+        if (Difficulty==10) { Difficulty=Difficulty;
+}
     }
-    while (Difficulty>=0 && !Editor && !DoesFileExist (Filename));
+    while (Difficulty>=0 && (Editor == 0) && (DoesFileExist (Filename) == 0));
 
-    if (DoesFileExist (Filename))
+    if (DoesFileExist (Filename) != 0)
     {
         TEAKFILE File (Filename, TEAKFILE_READ);
 
@@ -601,7 +631,8 @@ void BUILDS::Save (SLONG Hall, SLONG Level) const
     CString Filename;
     SLONG   Difficulty = Sim.Difficulty;
 
-    if (Difficulty==DIFF_FREEGAME) Difficulty=DIFF_FREEGAMEMAP;
+    if (Difficulty==DIFF_FREEGAME) { Difficulty=DIFF_FREEGAMEMAP;
+}
 
     if (Level!=0)
     {
@@ -623,13 +654,15 @@ void BUILDS::Sort (void)
 {
     SLONG c;
 
-    for (c=0; c<long(AnzEntries()-1); c++)
-        if ((!IsInAlbum(c) && IsInAlbum(c+1)) ||
-                (IsInAlbum(c) && IsInAlbum(c+1) && Bricks[(*this)[c].BrickId].Layer >Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer) ||
-                (IsInAlbum(c) && IsInAlbum(c+1) && Bricks[(*this)[c].BrickId].Layer==Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer && (*this)[c].ScreenPos.y+Bricks[(*this)[c].BrickId].GetBitmapDimension().y+Bricks[(*this)[c].BrickId].FloorOffset>(*this)[(SLONG)(c+1)].ScreenPos.y+Bricks[(*this)[(SLONG)(c+1)].BrickId].GetBitmapDimension().y+Bricks[(*this)[(SLONG)(c+1)].BrickId].FloorOffset) ||
-                (IsInAlbum(c) && IsInAlbum(c+1) && Bricks[(*this)[c].BrickId].Layer==Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer && (*this)[c].ScreenPos.y+Bricks[(*this)[c].BrickId].GetBitmapDimension().y+Bricks[(*this)[c].BrickId].FloorOffset==(*this)[(SLONG)(c+1)].ScreenPos.y+Bricks[(*this)[(SLONG)(c+1)].BrickId].GetBitmapDimension().y+Bricks[(*this)[(SLONG)(c+1)].BrickId].FloorOffset && (*this)[c].ScreenPos.x>(*this)[(SLONG)(c+1)].ScreenPos.x))
+    for (c=0; c<long(AnzEntries()-1); c++) {
+        if (((IsInAlbum(c) == 0) && (IsInAlbum(c+1) != 0)) ||
+                ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && Bricks[(*this)[c].BrickId].Layer >Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer) ||
+                ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && Bricks[(*this)[c].BrickId].Layer==Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer && (*this)[c].ScreenPos.y+Bricks[(*this)[c].BrickId].GetBitmapDimension().y+Bricks[(*this)[c].BrickId].FloorOffset>(*this)[(SLONG)(c+1)].ScreenPos.y+Bricks[(*this)[(SLONG)(c+1)].BrickId].GetBitmapDimension().y+Bricks[(*this)[(SLONG)(c+1)].BrickId].FloorOffset) ||
+                ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && Bricks[(*this)[c].BrickId].Layer==Bricks[(*this)[(SLONG)(c+1)].BrickId].Layer && (*this)[c].ScreenPos.y+Bricks[(*this)[c].BrickId].GetBitmapDimension().y+Bricks[(*this)[c].BrickId].FloorOffset==(*this)[(SLONG)(c+1)].ScreenPos.y+Bricks[(*this)[(SLONG)(c+1)].BrickId].GetBitmapDimension().y+Bricks[(*this)[(SLONG)(c+1)].BrickId].FloorOffset && (*this)[c].ScreenPos.x>(*this)[(SLONG)(c+1)].ScreenPos.x))
         {
             Swap (c, c+1);
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
+}
 }

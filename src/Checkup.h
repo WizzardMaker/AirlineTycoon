@@ -45,11 +45,11 @@ class CRegistryAccess
         bool IsOpen (void);
 
         bool ReadRegistryKeyEx (char *Text, CString EntryName);
-        bool ReadRegistryKeyEx_b (BOOL *Text, CString EntryName);
+        bool ReadRegistryKeyEx_b (BOOL *Bool, CString EntryName);
         bool ReadRegistryKeyEx_l (SLONG *Long, CString EntryName);
         bool ReadRegistryKeyEx_d (double *Double, CString EntryName);
         bool WriteRegistryKeyEx (const char *Text, CString EntryName);
-        bool WriteRegistryKeyEx_b (const BOOL *Text, CString EntryName);
+        bool WriteRegistryKeyEx_b (const BOOL *Bool, CString EntryName);
         bool WriteRegistryKeyEx_l (const SLONG *Long, CString EntryName);
         bool WriteRegistryKeyEx_d (const double *Double, CString EntryName);
 };

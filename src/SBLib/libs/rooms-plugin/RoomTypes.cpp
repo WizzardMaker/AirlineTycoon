@@ -64,32 +64,38 @@ DataStructures::Table::ColumnType DefaultRoomColumns::GetColumnType(int columnId
 bool DefaultRoomColumns::HasColumnName(const char *columnName)
 {
     unsigned i;
-    for (i=0; i < TC_TABLE_COLUMNS_COUNT; i++)
-        if (strcmp(columnName,GetColumnName(i))==0)
+    for (i=0; i < TC_TABLE_COLUMNS_COUNT; i++) {
+        if (strcmp(columnName,GetColumnName(i))==0) {
             return true;
+}
+}
     return false;
 }
 int DefaultRoomColumns::GetColumnIndex(const char *columnName)
 {
     unsigned i;
-    for (i=0; i < TC_TABLE_COLUMNS_COUNT; i++)
-        if (strcmp(columnName,GetColumnName(i))==0)
+    for (i=0; i < TC_TABLE_COLUMNS_COUNT; i++) {
+        if (strcmp(columnName,GetColumnName(i))==0) {
             return i;
+}
+}
     return -1;
 }
 void DefaultRoomColumns::AddDefaultColumnsToTable(DataStructures::Table *table)
 {
     unsigned i;
-    for (i=0; i < DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT; i++)
+    for (i=0; i < DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT; i++) {
         table->AddColumn(DefaultRoomColumns::GetColumnName(i), DefaultRoomColumns::GetColumnType(i));
+}
 }
 bool DefaultRoomColumns::HasDefaultColumns(DataStructures::Table *table)
 {
     unsigned i;
     for (i=0; i < DefaultRoomColumns::TC_TABLE_COLUMNS_COUNT; i++)
     {
-        if (table->ColumnIndex(DefaultRoomColumns::GetColumnName(i))!=-1)
+        if (table->ColumnIndex(DefaultRoomColumns::GetColumnName(i))!=-1) {
             return true;
+}
     }
     return false;
 }

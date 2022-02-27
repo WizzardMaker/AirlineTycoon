@@ -93,14 +93,17 @@ CMakler::CMakler(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
         Lights1Anim.ReSize (pRoomLib, "LICHTL00", 5, &NeonFx, FALSE, ANIMATION_MODE_REPEAT, 0,  5);
         Lights2Anim.ReSize (pRoomLib, "LICHTR00", 5, NULL,    FALSE, ANIMATION_MODE_REPEAT, 0,  5);
 
-        if (rand()%2==0 || CheatAnimNow)
-            if (!qPlayer.HasItem (ITEM_BH) && !qPlayer.HasItem (ITEM_HUFEISEN) && qPlayer.TrinkerTrust==FALSE && Sim.Difficulty!=DIFF_TUTORIAL)
+        if (rand()%2==0 || (CheatAnimNow != 0)) {
+            if ((qPlayer.HasItem (ITEM_BH) == 0) && (qPlayer.HasItem (ITEM_HUFEISEN) == 0) && qPlayer.TrinkerTrust==FALSE && Sim.Difficulty!=DIFF_TUTORIAL) {
                 KlappenAnim.ReSize (pRoomLib, "KLAPPE00", 4, &KlappeFx, FALSE, ANIMATION_MODE_ONCE, 500,  5);
-            else
+            } else {
                 KlappenAnim.ReSize (pRoomLib, "KLAPOH00", 4, &KlappeFx, FALSE, ANIMATION_MODE_ONCE, 500,  5);
+}
+}
     }
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
 
     Talkers.Talkers[TALKER_MAKLER].IncreaseReference ();
     DefaultDialogPartner=TALKER_MAKLER;
@@ -134,9 +137,11 @@ void CMakler::OnPaint()
     SLONG   NewTip;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
-    if (Sim.Date>5) Sim.GiveHint (HINT_FLUGZEUGMAKLER);
+    if (Sim.Date>5) { Sim.GiveHint (HINT_FLUGZEUGMAKLER);
+}
 
-    if (SLONG(Sim.Time)>=timeMaklClose) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+    if (SLONG(Sim.Time)>=timeMaklClose) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -146,23 +151,28 @@ void CMakler::OnPaint()
     for (SLONG d=0; d<SLONG(Sim.Persons.AnzEntries()); d++)
     {
         //Entscheidung! Person malen:
-        if (Sim.Persons.IsInAlbum(d) && Clans.IsInAlbum (Sim.Persons[d].ClanId) && Sim.Persons[d].State!=Sim.localPlayer)
+        if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum (Sim.Persons[d].ClanId) != 0) && Sim.Persons[d].State!=Sim.localPlayer)
         {
             PERSON &qPerson=Sim.Persons[d];
             CLAN   &qClan=Clans[(SLONG)qPerson.ClanId];
             UBYTE   Dir   = qPerson.LookDir;
             UBYTE   Phase = qPerson.Phase;
 
-            if (Dir==1 || Dir==3) Dir = 4-Dir;
-            if (Dir==8 && Phase<4)  Phase = UBYTE((Phase+2)%4);
-            if (Dir==8 && Phase>=4) Phase = UBYTE((Phase+2)%4+4);
+            if (Dir==1 || Dir==3) { Dir = 4-Dir;
+}
+            if (Dir==8 && Phase<4) {  Phase = UBYTE((Phase+2)%4);
+}
+            if (Dir==8 && Phase>=4) { Phase = UBYTE((Phase+2)%4+4);
+}
 
             XY p=XY(126,331)-(qPerson.ScreenPos-AirportRoomPos);
 
-            if (p.x>-50 && p.y<470 && abs(qPerson.ScreenPos.y-AirportRoomPos.y)<40)
+            if (p.x>-50 && p.y<470 && abs(qPerson.ScreenPos.y-AirportRoomPos.y)<40) {
                 qClan.BlitLargeAt (RoomBm, Dir, Phase, p);
+}
         }
-        else break;
+        else { break;
+}
     }
     RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
 
@@ -177,12 +187,13 @@ void CMakler::OnPaint()
     BubbleAnim.BlitAt  (RoomBm, 394, 400);
     FishAnim.BlitAt    (RoomBm, 394, 400);
 
-    if (KommVarLicht)
+    if (KommVarLicht != 0)
     {
         Lights1Anim.BlitAt (RoomBm, 88,  400);
         Lights2Anim.BlitAt (RoomBm, 193, 375);
     }
-    else NeonFx.Stop();
+    else { NeonFx.Stop();
+}
 
     KlappenAnim.BlitAt (RoomBm, 0, 0);
 
@@ -190,29 +201,35 @@ void CMakler::OnPaint()
     SP_Makler.BlitAtT (RoomBm);
 
     SLONG  Frames=(timeGetTime()-LastWaterTime)/100;
-    if (Frames>20) Frames=20;
-    if (Frames<0)  Frames=0;
+    if (Frames>20) { Frames=20;
+}
+    if (Frames<0) {  Frames=0;
+}
 
-    if (SpringState==0 && KommVarWasser)
+    if (SpringState==0 && (KommVarWasser != 0)) {
         SpringFx.Play (DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
+}
 
-    if (SpringState==1 && !KommVarWasser)
+    if (SpringState==1 && (KommVarWasser == 0)) {
         SpringFx.Stop ();
+}
 
     SpringState=KommVarWasser;
 
     while (Frames>0)
     {
-        if (WaterFrame==0 && KommVarWasser) WaterFrame++;
-        else if (KommVarWasser)
+        if (WaterFrame==0 && (KommVarWasser != 0)) { WaterFrame++;
+        } else if (KommVarWasser != 0)
         {
             WaterFrame++;
-            if (WaterFrame>=6) WaterFrame=3;
+            if (WaterFrame>=6) { WaterFrame=3;
+}
         }
         else if (WaterFrame>0)
         {
             WaterFrame++;
-            if (WaterFrame>=9) WaterFrame=0;
+            if (WaterFrame>=9) { WaterFrame=0;
+}
         }
 
         LastWaterTime=timeGetTime();
@@ -223,13 +240,14 @@ void CMakler::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (55,106,196,405)) SetMouseLook (CURSOR_EXIT, 0, ROOM_MAKLER, 999);
-        else if (gMousePosition.IfIsWithin (335,199,640,440)) SetMouseLook (CURSOR_HOT, 0, ROOM_MAKLER, 10);
-        else if (gMousePosition.IfIsWithin (0,15,38,79) && KlappenAnim.GetFrame()==3 &&
-                !qPlayer.HasItem (ITEM_BH) && !qPlayer.HasItem (ITEM_HUFEISEN) &&
-                qPlayer.TrinkerTrust==FALSE && Sim.Difficulty!=DIFF_TUTORIAL) SetMouseLook (CURSOR_HOT, 0, ROOM_MAKLER, 20);
+        if (gMousePosition.IfIsWithin (55,106,196,405)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_MAKLER, 999);
+        } else if (gMousePosition.IfIsWithin (335,199,640,440)) { SetMouseLook (CURSOR_HOT, 0, ROOM_MAKLER, 10);
+        } else if (gMousePosition.IfIsWithin (0,15,38,79) && KlappenAnim.GetFrame()==3 &&
+                (qPlayer.HasItem (ITEM_BH) == 0) && (qPlayer.HasItem (ITEM_HUFEISEN) == 0) &&
+                qPlayer.TrinkerTrust==FALSE && Sim.Difficulty!=DIFF_TUTORIAL) { SetMouseLook (CURSOR_HOT, 0, ROOM_MAKLER, 20);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -239,7 +257,7 @@ void CMakler::OnPaint()
         NewTip = (gMousePosition.y-(MenuPos.y+22))/13 + MenuPage;
 
         if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() &&
-                PlaneTypes.IsInAlbum (MenuDataTable.LineIndex[NewTip]))
+                (PlaneTypes.IsInAlbum (MenuDataTable.LineIndex[NewTip]) != 0))
         {
             if (NewTip != CurrentTip)
             {
@@ -251,9 +269,11 @@ void CMakler::OnPaint()
 
             CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-3, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontBlack, CURSOR_HOT);
         }
-        else NewTip = -1;
+        else { NewTip = -1;
+}
     }
-    else NewTip = -1;
+    else { NewTip = -1;
+}
 
 #ifdef DEMO
     if (!IsDialogOpen() && !MenuIsOpen()) SetMouseLook (CURSOR_EXIT, 0, ROOM_MAKLER, 999);
@@ -261,7 +281,7 @@ void CMakler::OnPaint()
 
     CStdRaum::PumpToolTips ();
 
-    if (MenuIsOpen() && NewTip != CurrentTip)
+    if ((MenuIsOpen() != 0) && NewTip != CurrentTip)
     {
         MenuRepaint ();
         CurrentTip = NewTip;
@@ -278,23 +298,23 @@ void CMakler::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
         //Raum verlassen:
-        if (MouseClickArea==ROOM_MAKLER && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_MAKLER && MouseClickId==10)
+        if (MouseClickArea==ROOM_MAKLER && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_MAKLER && MouseClickId==10)
         {
             StartDialog (TALKER_MAKLER, MEDIUM_AIR);
         }
         else if (MouseClickArea==ROOM_MAKLER && MouseClickId==20)
         {
-            if (qPlayer.HasSpaceForItem() && !Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_BH))
+            if ((qPlayer.HasSpaceForItem() != 0) && (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_BH) == 0))
             {
                 Sim.Players.Players[(SLONG)PlayerNum].BuyItem (ITEM_BH);
 
@@ -303,7 +323,8 @@ void CMakler::OnLButtonDown(UINT nFlags, CPoint point)
                 KlappenAnim.CounterStart = cs;
             }
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -319,9 +340,8 @@ void CMakler::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -332,5 +352,5 @@ void CMakler::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

@@ -24,7 +24,7 @@ void PaintStarAt (SBBM &Bitmap, XY Pos)
 {
     SB_Hardwarecolor color;
 
-    if (Bitmap.Size.x && Bitmap.pBitmap)
+    if ((Bitmap.Size.x != 0) && (Bitmap.pBitmap != nullptr))
     {
         color = Bitmap.pBitmap->GetHardwarecolor (0xffff00);
         Bitmap.pBitmap->SetPixel (Pos.x, Pos.y, color);
@@ -70,7 +70,8 @@ void DrawCityTip (SBBM &TipBm, ULONG CityId)
     //Text:
     TipBm.PrintAt (bprintf ("%s (%s), %s", (LPCTSTR)Cities[CityId].Name, (LPCTSTR)Cities[CityId].Kuerzel, (LPCTSTR)Cities[CityId].Lage), FontSmallWhite, TEC_FONT_LEFT, 16, 4, 265, 82);
 
-    if (CityPos.y<17+160-60) CityPos.y+=5; else CityPos.y-=60;
+    if (CityPos.y<17+160-60) { CityPos.y+=5; } else { CityPos.y-=60;
+}
     CityPos.x = min (max (17, CityPos.x-60), 80);
 
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1000), FontSmallGrey, TEC_FONT_LEFT, CityPos.x, CityPos.y, 278, 181);
@@ -79,18 +80,22 @@ void DrawCityTip (SBBM &TipBm, ULONG CityId)
     TipBm.PrintAt (":", FontSmallGrey, TEC_FONT_LEFT, CityPos.x+84, CityPos.y+11, 278, 181);
     TipBm.PrintAt (bitoa (Cities[CityId].Einwohner), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y, 278, 181);
 
-    if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Rang==0) TipBm.PrintAt (Einheiten[EINH_DM].bString (Cities[CityId].BuroRent), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y+11, 278, 181);
-    else                                                                                           TipBm.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Miete), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y+11, 278, 181);
+    if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Rang==0) { TipBm.PrintAt (Einheiten[EINH_DM].bString (Cities[CityId].BuroRent), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y+11, 278, 181);
+    } else {                                                                                           TipBm.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Miete), FontSmallGrey, TEC_FONT_LEFT, CityPos.x+90, CityPos.y+11, 278, 181);
+}
 
     //Hit-Liste der Leute in der Stadt
-    for (c=0; c<Sim.Players.AnzPlayers; c++)
+    for (c=0; c<Sim.Players.AnzPlayers; c++) {
         if (Cities.GetIdFromIndex(CityId)!=(ULONG)Sim.HomeAirportId)
         {
-            if (Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang!=0)
+            if (Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang!=0) {
                 TipBm.PrintAt (bprintf ("%li.%s", Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang, (LPCTSTR)Sim.Players.Players[c].Airline), FontSmallGrey, TEC_FONT_LEFT, CityPos.x, CityPos.y+11*(Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang+1), 278, 181);
+}
         }
-        else
+        else {
             TipBm.PrintAt (bprintf ("%s", (LPCTSTR)Sim.Players.Players[c].Airline), FontSmallGrey, TEC_FONT_LEFT, CityPos.x, CityPos.y+11*(c+2), 278, 181);
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -110,25 +115,30 @@ void DrawCityTipContents (SBBM &TipBm, ULONG CityId, XY Headline, XY Contents, X
     //Text:
     TipBm.PrintAt (bprintf ("%s (%s)", (LPCTSTR)Cities[CityId].Name, (LPCTSTR)Cities[CityId].Kuerzel), *pHeadFont, TEC_FONT_LEFT, Headline.x, Headline.y, TipBm.Size.x, TipBm.Size.y);
 
-    if (CityPos.y<17+160-60) CityPos.y+=5; else CityPos.y-=60;
+    if (CityPos.y<17+160-60) { CityPos.y+=5; } else { CityPos.y-=60;
+}
     CityPos.x = min (max (17, CityPos.x-60), 80);
 
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1000), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+120, TipBm.Size.x, TipBm.Size.y);
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_CITY, 1001), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
     TipBm.PrintAt (bitoa (Cities[CityId].Einwohner), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+120, TipBm.Size.x, TipBm.Size.y);
 
-    if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Rang==0) TipBm.PrintAt (Einheiten[EINH_DM].bString (Cities[CityId].BuroRent), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
-    else                                                                                           TipBm.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Miete), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
+    if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Rang==0) { TipBm.PrintAt (Einheiten[EINH_DM].bString (Cities[CityId].BuroRent), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
+    } else {                                                                                           TipBm.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[(SLONG)Cities(CityId)].Miete), *pFont, TEC_FONT_LEFT, Contents.x+90, Contents.y+131, TipBm.Size.x, TipBm.Size.y);
+}
 
     //Hit-Liste der Leute in der Stadt
-    for (c=0; c<Sim.Players.AnzPlayers; c++)
+    for (c=0; c<Sim.Players.AnzPlayers; c++) {
         if (Cities.GetIdFromIndex(Cities(CityId))!=(ULONG)Sim.HomeAirportId)
         {
-            if (Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang!=0)
+            if (Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang!=0) {
                 TipBm.PrintAt (bprintf ("%li.%s", Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang, (LPCTSTR)Sim.Players.Players[c].Airline), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+122+11*(Sim.Players.Players[c].RentCities.RentCities[(SLONG)Cities(CityId)].Rang+1), TipBm.Size.x, TipBm.Size.y);
+}
         }
-        else
+        else {
             TipBm.PrintAt (bprintf ("%s", (LPCTSTR)Sim.Players.Players[c].Airline), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+122+11*(c+2), TipBm.Size.x, TipBm.Size.y);
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -155,7 +165,7 @@ void DrawPlaneTipContents (SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY
 
     Max=TipBm.Size-XY(5,5);
 
-    if (Plane)
+    if (Plane != nullptr)
     {
         //Name (Hersteller Modell):
         TipBm.PrintAt (Plane->Name,  *pHeadFont, TEC_FONT_LEFT, Headline, Max);
@@ -179,7 +189,7 @@ void DrawPlaneTipContents (SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_PLANE, 1017), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+11, Max.x, Max.y);
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_PLANE, 1001), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+22, Max.x, Max.y);
     //Block 1 Inhalt:
-    if (Plane)
+    if (Plane != nullptr)
     {
         TipBm.PrintAt (bitoa (Plane->ptPassagiere), *pFont, TEC_FONT_LEFT, Contents.x+70, Contents.y+0, Max.x, Max.y);
         TipBm.PrintAt (Einheiten[EINH_T].bString (Plane->ptPassagiere/10), *pFont, TEC_FONT_LEFT, Contents.x+70, Contents.y+11, Max.x, Max.y);
@@ -197,12 +207,13 @@ void DrawPlaneTipContents (SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY
     //Block 2 Überschriften:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_PLANE, 1002), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+33, Max.x, Max.y);
     //Block 2 Inhalt:
-    if (Plane)
+    if (Plane != nullptr) {
         TipBm.PrintAt (Einheiten[EINH_KMH].bString (Plane->ptGeschwindigkeit), *pFont, TEC_FONT_LEFT, Contents.x+70, Contents.y+33, Max.x, Max.y);
-    else
+    } else {
         TipBm.PrintAt (Einheiten[EINH_KMH].bString (PlaneType->Geschwindigkeit), *pFont, TEC_FONT_LEFT, Contents.x+70, Contents.y+33, Max.x, Max.y);
+}
 
-    if (Plane)
+    if (Plane != nullptr)
     {
         //Block 3 Überschriften:
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_PLANE, 1008), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+44, Max.x, Max.y);
@@ -227,7 +238,7 @@ void DrawPlaneTipContents (SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY
 
     Contents.y+=4;
 
-    if (OwnPlane)
+    if (OwnPlane != 0)
     {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_PLANE, 1020), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+66, Max.x, Max.y);
         TipBm.PrintAt (Einheiten[EINH_P].bString (Plane->Zustand),   *pFont, TEC_FONT_LEFT, Contents.x+70, Contents.y+66, Max.x, Max.y);
@@ -239,9 +250,9 @@ void DrawPlaneTipContents (SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_PLANE, 1010), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+66, Max.x, Max.y);
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_PLANE, 1011), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+77, Max.x, Max.y);
     //Block 4 Inhalt:
-    if (Plane)
+    if (Plane != nullptr)
     {
-        if (OwnedByComputer)
+        if (OwnedByComputer != 0)
         {
             TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_PLANE, 1014), Plane->ptAnzPiloten, Plane->ptAnzPiloten),   *pFont, TEC_FONT_LEFT, Contents.x+70, Contents.y+66, Max.x, Max.y);
             TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_PLANE, 1014), Plane->ptAnzBegleiter, Plane->ptAnzBegleiter), *pFont, TEC_FONT_LEFT, Contents.x+70, Contents.y+77, Max.x, Max.y);
@@ -263,7 +274,7 @@ void DrawPlaneTipContents (SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY
     //Block 5 Überschriften:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_PLANE, 1012), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+88, Max.x, Max.y);
 
-    if (Plane)
+    if (Plane != nullptr)
     {
         //Block 5 Inhalt:
         TipBm.PrintAt (Einheiten[EINH_DM].bString (Plane->CalculatePrice()), *pFont, TEC_FONT_LEFT, Contents.x+70, Contents.y+88, Max.x, Max.y);
@@ -290,7 +301,8 @@ void DrawXPlaneTipContents (SBBM &TipBm, CString Planename, XY Headline, XY Cont
 
     CXPlane plane;
     //CString fn = FullFilename (Planename+".plane", MyPlanePath);
-    if (Planename!="") plane.Load (Planename);
+    if (!Planename.empty()) { plane.Load (Planename);
+}
 
     //Hersteller Modell:
     TipBm.PrintAt (plane.Name, *pHeadFont, TEC_FONT_LEFT, Headline, Max);
@@ -349,18 +361,20 @@ void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Ga
 {
     SLONG      c;
 
-    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) return;
+    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) { return;
+}
 
     //Fenster-Überschrift:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 900), *pHeadFont, TEC_FONT_LEFT, Headline.x, Headline.y, Contents.x+170, Headline.y+15);
 
     //Sub-Überschrift:
-    if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Routen[RouteId].VonCity].Name, (LPCTSTR)Cities[Routen[RouteId].NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y, Contents.x+170, Contents.y+170)<12)
+    if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Routen[RouteId].VonCity].Name, (LPCTSTR)Cities[Routen[RouteId].NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y, Contents.x+170, Contents.y+170)<12) {
         TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Routen[RouteId].VonCity].Name, (LPCTSTR)Cities[Routen[RouteId].NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y, Contents.x+170, Contents.y+170);
-    else if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Routen[RouteId].VonCity].Name, (LPCTSTR)Cities[Routen[RouteId].NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y, Contents.x+170, Contents.y+170)<12)
+    } else if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Routen[RouteId].VonCity].Name, (LPCTSTR)Cities[Routen[RouteId].NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y, Contents.x+170, Contents.y+170)<12) {
         TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Routen[RouteId].VonCity].Name, (LPCTSTR)Cities[Routen[RouteId].NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y, Contents.x+170, Contents.y+170);
-    else
+    } else {
         TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Routen[RouteId].VonCity].Kuerzel, (LPCTSTR)Cities[Routen[RouteId].NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y, Contents.x+170, Contents.y+170);
+}
 
     //Konkrete oder abstrakte Version des Tips?
     if (Costs!=0)
@@ -392,9 +406,10 @@ void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Ga
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2002), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+132, Contents.x+170, Contents.y+170);
             TipBm.BlitFromT (FlugplanBms[18], Contents.x, Contents.y+132);
         }
-        else if (Gate>=0)  TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_SCHED, 2001), Gate+1), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+132, Contents.x+170, Contents.y+170);
+        else if (Gate>=0) {  TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_SCHED, 2001), Gate+1), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+132, Contents.x+170, Contents.y+170);
+}
 
-        if (!Unlocked)
+        if (Unlocked == 0)
         {
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170);
             TipBm.BlitFromT (FlugplanBms[17], Contents.x-2, Contents.y+152);
@@ -427,9 +442,11 @@ void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Ga
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1016), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+121, Contents.x+170, Contents.y+170);
 
         //Hit-Liste der Leute auf der Route:
-        for (c=0; c<Sim.Players.AnzPlayers; c++)
-            if (Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(RouteId)].Rang!=0)
+        for (c=0; c<Sim.Players.AnzPlayers; c++) {
+            if (Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(RouteId)].Rang!=0) {
                 TipBm.PrintAt (Sim.Players.Players[c].Airline, *pFont, TEC_FONT_LEFT, Contents.x+11, Contents.y+121+11*(Sim.Players.Players[c].RentRouten.RentRouten[(SLONG)Routen(RouteId)].Rang), Contents.x+170, Contents.y+170);
+}
+}
     }
 }
 
@@ -444,7 +461,8 @@ void DrawAuftragTip (SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOri
     TipBm.ReSize (pTipOriginBm->Size);
     TipBm.BlitFrom (*pTipOriginBm);
 
-    if (Auftrag) DrawAuftragTipContents (Player, TipBm, pPlaneTips, Auftrag, -2, Costs, Okay, XY(32,3), XY(32,20), MapOffset, &FontSmallBlack, &FontSmallBlack);
+    if (Auftrag != nullptr) { DrawAuftragTipContents (Player, TipBm, pPlaneTips, Auftrag, -2, Costs, Okay, XY(32,3), XY(32,20), MapOffset, &FontSmallBlack, &FontSmallBlack);
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -452,18 +470,20 @@ void DrawAuftragTip (SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOri
 //--------------------------------------------------------------------------------------------
 void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CAuftrag *Auftrag, SLONG Gate, SLONG Costs, SLONG Okay, XY Headline, XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked)
 {
-    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) return;
+    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) { return;
+}
 
     //Fenster-Überschrift:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 900), *pHeadFont, TEC_FONT_LEFT, Headline.x, Headline.y, Contents.x+170, Headline.y+15);
 
     //Sub-Überschrift:
-    if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Auftrag->VonCity].Name, (LPCTSTR)Cities[Auftrag->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12)
+    if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Auftrag->VonCity].Name, (LPCTSTR)Cities[Auftrag->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12) {
         TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Auftrag->VonCity].Name, (LPCTSTR)Cities[Auftrag->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
-    else if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Auftrag->VonCity].Name, (LPCTSTR)Cities[Auftrag->NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12)
+    } else if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Auftrag->VonCity].Name, (LPCTSTR)Cities[Auftrag->NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12) {
         TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Auftrag->VonCity].Name, (LPCTSTR)Cities[Auftrag->NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
-    else
+    } else {
         TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Auftrag->VonCity].Kuerzel, (LPCTSTR)Cities[Auftrag->NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
+}
 
     //Text:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1003), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+22, Contents.x+170, Contents.y+170);
@@ -474,12 +494,13 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1001), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+88, Contents.x+170, Contents.y+170);
 
     //Inhalt:
-    if (Sim.Date==Auftrag->BisDate)
+    if (Sim.Date==Auftrag->BisDate) {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 2002), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+22, Contents.x+170, Contents.y+170);
-    else if (Auftrag->Date==Auftrag->BisDate)
+    } else if (Auftrag->Date==Auftrag->BisDate) {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 3010+(Auftrag->Date+Sim.StartWeekday)%7), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+22, Contents.x+170, Contents.y+170);
-    else
+    } else {
         TipBm.PrintAt (CString(StandardTexte.GetS (TOKEN_SCHED, 3009))+" "+CString(StandardTexte.GetS (TOKEN_SCHED, 3010+(Auftrag->BisDate+Sim.StartWeekday)%7)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+22, Contents.x+170, Contents.y+170);
+}
 
     TipBm.PrintAt ((CString)Einheiten[EINH_KM].bString (Cities.CalcDistance (Auftrag->VonCity, Auftrag->NachCity)/1000), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+44, Contents.x+170, Contents.y+170);
     TipBm.PrintAt (bprintf("%li", Auftrag->Personen), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+55, Contents.x+170, Contents.y+170);
@@ -488,14 +509,14 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
     TipBm.PrintAt (Einheiten[EINH_DM].bString (Auftrag->Praemie), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+88, Contents.x+170, Contents.y+170);
 
     //Kommentar:
-    if (Okay && Okay>=1 && Okay<=3)
+    if ((Okay != 0) && Okay>=1 && Okay<=3)
     {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 2320+Okay), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+154, Contents.x+170, Contents.y+178);
     }
     //Kostenrechnung:
     else
     {
-        if (Costs)
+        if (Costs != 0)
         {
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE,   1009), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+99, Contents.x+170, Contents.y+170);
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1005), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+110, Contents.x+170, Contents.y+170);
@@ -508,9 +529,10 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2002), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+132, Contents.x+170, Contents.y+170);
             TipBm.BlitFromT (FlugplanBms[18], Contents.x, Contents.y+132);
         }
-        else if (Gate>=0)  TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_SCHED, 2001), Gate+1), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+132, Contents.x+170, Contents.y+170);
+        else if (Gate>=0) {  TipBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_SCHED, 2001), Gate+1), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+132, Contents.x+170, Contents.y+170);
+}
 
-        if (!Unlocked)
+        if (Unlocked == 0)
         {
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170);
             TipBm.BlitFromT (FlugplanBms[17], Contents.x-2, Contents.y+152);
@@ -522,11 +544,14 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
     {
         SLONG   c;
         PLAYER &qPlayer=Sim.Players.Players[PlayerNum];
-        XY      Pos, p, VonPos, NachPos;
+        XY      Pos;
+        XY      p;
+        XY      VonPos;
+        XY      NachPos;
         BOOL    bAnyValid=FALSE;
 
-        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--)
-            if (qPlayer.Planes.IsInAlbum(c))
+        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--) {
+            if (qPlayer.Planes.IsInAlbum(c) != 0)
             {
                 //Marker setzen:
                 Pos.x = qPlayer.Planes[c].Position.x*34/60+17+101+4+MapOffset.x;
@@ -534,12 +559,14 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
 
                 //Ungültige Flugzeuge ausgrauen:
                 //if ((!Auftrag->FitsInPlane (PlaneTypes[(SLONG)qPlayer.Planes[c].TypeId])) || SLONG(Auftrag->Personen)>qPlayer.Planes[c].MaxPassagiere+qPlayer.Planes[c].MaxPassagiereFC)
-                if ((!Auftrag->FitsInPlane (qPlayer.Planes[c])) || SLONG(Auftrag->Personen)>qPlayer.Planes[c].MaxPassagiere+qPlayer.Planes[c].MaxPassagiereFC)
+                if ((Auftrag->FitsInPlane (qPlayer.Planes[c]) == 0) || SLONG(Auftrag->Personen)>qPlayer.Planes[c].MaxPassagiere+qPlayer.Planes[c].MaxPassagiereFC) {
                     TipBm.BlitFromT ((pPlaneTips[4])[qPlayer.Planes[c].GlobeAngle], Pos.x-9, Pos.y-9);
+}
             }
+}
 
-        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--)
-            if (qPlayer.Planes.IsInAlbum(c))
+        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--) {
+            if (qPlayer.Planes.IsInAlbum(c) != 0)
             {
                 //Marker setzen:
                 Pos.x = qPlayer.Planes[c].Position.x*34/60+17+101+4+MapOffset.x;
@@ -547,12 +574,13 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
 
                 //gültige Flugzeuge zeichnen:
                 //if (Auftrag->FitsInPlane (PlaneTypes[(SLONG)qPlayer.Planes[c].TypeId]) && SLONG(Auftrag->Personen)<=qPlayer.Planes[c].MaxPassagiere+qPlayer.Planes[c].MaxPassagiereFC)
-                if (Auftrag->FitsInPlane (qPlayer.Planes[c]) && SLONG(Auftrag->Personen)<=qPlayer.Planes[c].MaxPassagiere+qPlayer.Planes[c].MaxPassagiereFC)
+                if ((Auftrag->FitsInPlane (qPlayer.Planes[c]) != 0) && SLONG(Auftrag->Personen)<=qPlayer.Planes[c].MaxPassagiere+qPlayer.Planes[c].MaxPassagiereFC)
                 {
                     TipBm.BlitFromT ((pPlaneTips[PlayerNum])[qPlayer.Planes[c].GlobeAngle], Pos.x-9, Pos.y-9);
                     bAnyValid=TRUE;
                 }
             }
+}
 
         //Pfeil zeichnen:
         VonPos.x = Cities[Auftrag->VonCity].MapPosition.x*34/60+17+101+4+MapOffset.x;
@@ -566,16 +594,19 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
 
         SB_Hardwarecolor red;
 
-        if (bAnyValid) red = TipBm.pBitmap->GetHardwarecolor (0xffff00);
-        else red = TipBm.pBitmap->GetHardwarecolor (0x404040);
+        if (bAnyValid != 0) { red = TipBm.pBitmap->GetHardwarecolor (0xffff00);
+        } else { red = TipBm.pBitmap->GetHardwarecolor (0x404040);
+}
 
-        if (abs(Cities[Auftrag->VonCity].MapPosition.x-Cities[Auftrag->NachCity].MapPosition.x)<180)
+        if (abs(Cities[Auftrag->VonCity].MapPosition.x-Cities[Auftrag->NachCity].MapPosition.x)<180) {
             TipBm.pBitmap->Line (VonPos.x, VonPos.y, NachPos.x, NachPos.y, red);
-        else
+        } else
         {
-            XY p1=VonPos, p2=NachPos;
+            XY p1=VonPos;
+            XY p2=NachPos;
 
-            if (p1.x>p2.x) Swap (p1, p2);
+            if (p1.x>p2.x) { Swap (p1, p2);
+}
 
             if ((190-(p2.x-p1.x))!=0)
             {
@@ -588,13 +619,14 @@ void DrawAuftragTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CA
                 TipBm.pBitmap->Line (p1.x, p1.y, pa.x, pa.y, red);
                 TipBm.pBitmap->Line (pb.x, pb.y, p2.x, p2.y, red);
 
-                if (p1==VonPos) VonPos=pb;
-                else { VonPos=pa; }
+                if (p1==VonPos) { VonPos=pb;
+                } else { VonPos=pa; }
             }
         }
 
         Pos=NachPos-VonPos;
-        if (Pos.abs()>0) Pos=Pos*SLONG(10/Pos.abs());
+        if (Pos.abs()>0) { Pos=Pos*SLONG(10/Pos.abs());
+}
 
         p.x= ((-Pos.y)+Pos.x)/2;
         p.y= (( Pos.x)+Pos.y)/2;
@@ -612,7 +644,8 @@ void DrawFrachtTip (SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOrig
     TipBm.ReSize (pTipOriginBm->Size);
     TipBm.BlitFrom (*pTipOriginBm);
 
-    if (Fracht) DrawFrachtTipContents (Player, TipBm, pPlaneTips, Fracht, TonsThis, Costs, Income, Okay, XY(32,3), XY(32,20), MapOffset, &FontSmallBlack, &FontSmallBlack);
+    if (Fracht != nullptr) { DrawFrachtTipContents (Player, TipBm, pPlaneTips, Fracht, TonsThis, Costs, Income, Okay, XY(32,3), XY(32,20), MapOffset, &FontSmallBlack, &FontSmallBlack);
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -620,20 +653,22 @@ void DrawFrachtTip (SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, SBBM *pTipOrig
 //--------------------------------------------------------------------------------------------
 void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFracht *Fracht, SLONG TonsThis, SLONG Costs, SLONG Income, SLONG Okay, XY Headline, XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked)
 {
-    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) return;
+    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) { return;
+}
 
-    SLONG Offset = Costs?30:0;
+    SLONG Offset = Costs != 0?30:0;
 
     //Fenster-Überschrift:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 902), *pHeadFont, TEC_FONT_LEFT, Headline.x, Headline.y, Contents.x+170, Headline.y+15);
 
     //Sub-Überschrift:
-    if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Fracht->VonCity].Name, (LPCTSTR)Cities[Fracht->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12)
+    if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Fracht->VonCity].Name, (LPCTSTR)Cities[Fracht->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12) {
         TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Fracht->VonCity].Name, (LPCTSTR)Cities[Fracht->NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
-    else if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Fracht->VonCity].Name, (LPCTSTR)Cities[Fracht->NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12)
+    } else if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Fracht->VonCity].Name, (LPCTSTR)Cities[Fracht->NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12) {
         TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Fracht->VonCity].Name, (LPCTSTR)Cities[Fracht->NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
-    else
+    } else {
         TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[Fracht->VonCity].Kuerzel, (LPCTSTR)Cities[Fracht->NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
+}
 
     //Text:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1003), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+22, Contents.x+170, Contents.y+170);
@@ -643,32 +678,35 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1002), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+66+Offset, Contents.x+170, Contents.y+170);
 
     //Inhalt:
-    if (Sim.Date==Fracht->BisDate)
+    if (Sim.Date==Fracht->BisDate) {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 2002), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+22, Contents.x+170, Contents.y+170);
-    else if (Fracht->Date==Fracht->BisDate)
+    } else if (Fracht->Date==Fracht->BisDate) {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 3010+(Fracht->Date+Sim.StartWeekday)%7), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+22, Contents.x+170, Contents.y+170);
-    else
+    } else {
         TipBm.PrintAt (CString(StandardTexte.GetS (TOKEN_SCHED, 3009))+" "+CString(StandardTexte.GetS (TOKEN_SCHED, 3010+(Fracht->BisDate+Sim.StartWeekday)%7)), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+22, Contents.x+170, Contents.y+170);
+}
 
     TipBm.PrintAt ((CString)Einheiten[EINH_KM].bString (Cities.CalcDistance (Fracht->VonCity, Fracht->NachCity)/1000), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+44, Contents.x+170, Contents.y+170);
 
-    if (TonsThis)
+    if (TonsThis != 0) {
         TipBm.PrintAt (CString (Einheiten[EINH_T].bString (TonsThis))+" / "+Einheiten[EINH_T].bString (Fracht->Tons), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+55, Contents.x+170, Contents.y+170);
-    else
+    } else {
         TipBm.PrintAt (Einheiten[EINH_T].bString (Fracht->Tons), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+55, Contents.x+170, Contents.y+170);
+}
 
     TipBm.PrintAt (Einheiten[EINH_DM].bString (Fracht->Strafe), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+66+Offset, Contents.x+170, Contents.y+170);
 
     if (Okay==0)
     {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1001), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+88+Offset, Contents.x+170, Contents.y+170);
-        if ((!Costs && Fracht->Praemie==0) || (Costs && Income==0))
+        if (((Costs == 0) && Fracht->Praemie==0) || ((Costs != 0) && Income==0)) {
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1011), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+88+Offset, Contents.x+170, Contents.y+170);
-        else
-            TipBm.PrintAt (Einheiten[EINH_DM].bString (Costs?Income:Fracht->Praemie), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+88+Offset, Contents.x+170, Contents.y+170);
+        } else {
+            TipBm.PrintAt (Einheiten[EINH_DM].bString (Costs != 0?Income:Fracht->Praemie), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+88+Offset, Contents.x+170, Contents.y+170);
+}
     }
 
-    if (Costs)
+    if (Costs != 0)
     {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1010), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+66, Contents.x+170, Contents.y+170);
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1009), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+77, Contents.x+170, Contents.y+170);
@@ -678,14 +716,14 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
     }
 
     //Kommentar:
-    if (Okay && Okay>=1 && Okay<=3)
+    if ((Okay != 0) && Okay>=1 && Okay<=3)
     {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 2320+Okay), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+100+Offset, Contents.x+170, Contents.y+178);
     }
     //Kostenrechnung:
     else
     {
-        if (Costs)
+        if (Costs != 0)
         {
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_ROUTE,   1009), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+99+Offset, Contents.x+170, Contents.y+170);
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1005), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+110+Offset, Contents.x+170, Contents.y+170);
@@ -693,7 +731,7 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
             TipBm.PrintAt (Einheiten[EINH_DM].bString (Income-Costs), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+110+Offset, Contents.x+170, Contents.y+170);
         }
 
-        if (!Unlocked)
+        if (Unlocked == 0)
         {
             TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170);
             TipBm.BlitFromT (FlugplanBms[17], Contents.x-2, Contents.y+152);
@@ -710,11 +748,14 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
     {
         SLONG   c;
         PLAYER &qPlayer=Sim.Players.Players[PlayerNum];
-        XY      Pos, p, VonPos, NachPos;
+        XY      Pos;
+        XY      p;
+        XY      VonPos;
+        XY      NachPos;
         BOOL    bAnyValid=FALSE;
 
-        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--)
-            if (qPlayer.Planes.IsInAlbum(c))
+        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--) {
+            if (qPlayer.Planes.IsInAlbum(c) != 0)
             {
                 //Marker setzen:
                 Pos.x = qPlayer.Planes[c].Position.x*34/60+17+101+4+MapOffset.x;
@@ -722,12 +763,14 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
 
                 //Ungültige Flugzeuge ausgrauen:
                 //if (!Fracht->FitsInPlane (PlaneTypes[(SLONG)qPlayer.Planes[c].TypeId]))
-                if (!Fracht->FitsInPlane (qPlayer.Planes[c]))
+                if (Fracht->FitsInPlane (qPlayer.Planes[c]) == 0) {
                     TipBm.BlitFromT ((pPlaneTips[4])[qPlayer.Planes[c].GlobeAngle], Pos.x-9, Pos.y-9);
+}
             }
+}
 
-        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--)
-            if (qPlayer.Planes.IsInAlbum(c))
+        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--) {
+            if (qPlayer.Planes.IsInAlbum(c) != 0)
             {
                 //Marker setzen:
                 Pos.x = qPlayer.Planes[c].Position.x*34/60+17+101+4+MapOffset.x;
@@ -735,12 +778,13 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
 
                 //gültige Flugzeuge zeichnen:
                 //if (Fracht->FitsInPlane (PlaneTypes[(SLONG)qPlayer.Planes[c].TypeId]))
-                if (Fracht->FitsInPlane (qPlayer.Planes[c]))
+                if (Fracht->FitsInPlane (qPlayer.Planes[c]) != 0)
                 {
                     TipBm.BlitFromT ((pPlaneTips[PlayerNum])[qPlayer.Planes[c].GlobeAngle], Pos.x-9, Pos.y-9);
                     bAnyValid=TRUE;
                 }
             }
+}
 
         //Pfeil zeichnen:
         VonPos.x = Cities[Fracht->VonCity].MapPosition.x*34/60+17+101+4+MapOffset.x;
@@ -754,16 +798,19 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
 
         SB_Hardwarecolor red;
 
-        if (bAnyValid) red = TipBm.pBitmap->GetHardwarecolor (0xffff00);
-        else red = TipBm.pBitmap->GetHardwarecolor (0x404040);
+        if (bAnyValid != 0) { red = TipBm.pBitmap->GetHardwarecolor (0xffff00);
+        } else { red = TipBm.pBitmap->GetHardwarecolor (0x404040);
+}
 
-        if (abs(Cities[Fracht->VonCity].MapPosition.x-Cities[Fracht->NachCity].MapPosition.x)<180)
+        if (abs(Cities[Fracht->VonCity].MapPosition.x-Cities[Fracht->NachCity].MapPosition.x)<180) {
             TipBm.pBitmap->Line (VonPos.x, VonPos.y, NachPos.x, NachPos.y, red);
-        else
+        } else
         {
-            XY p1=VonPos, p2=NachPos;
+            XY p1=VonPos;
+            XY p2=NachPos;
 
-            if (p1.x>p2.x) Swap (p1, p2);
+            if (p1.x>p2.x) { Swap (p1, p2);
+}
 
             if ((190-(p2.x-p1.x))!=0)
             {
@@ -776,13 +823,14 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
                 TipBm.pBitmap->Line (p1.x, p1.y, pa.x, pa.y, red);
                 TipBm.pBitmap->Line (pb.x, pb.y, p2.x, p2.y, red);
 
-                if (p1==VonPos) VonPos=pb;
-                else { VonPos=pa; }
+                if (p1==VonPos) { VonPos=pb;
+                } else { VonPos=pa; }
             }
         }
 
         Pos=NachPos-VonPos;
-        if (Pos.abs()>0) Pos=Pos*SLONG(10/Pos.abs());
+        if (Pos.abs()>0) { Pos=Pos*SLONG(10/Pos.abs());
+}
 
         p.x= ((-Pos.y)+Pos.x)/2;
         p.y= (( Pos.x)+Pos.y)/2;
@@ -800,9 +848,10 @@ void DrawAutoflugTipContents (SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLO
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 901), *pHeadFont, TEC_FONT_LEFT, Headline.x, Headline.y, Contents.x+170, Headline.y+15);
 
     //Sub-Überschrift:
-    if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12) TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
-    else if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12) TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
-    else TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Kuerzel, (LPCTSTR)Cities[NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
+    if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12) { TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Name), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
+    } else if (TipBm.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15)<12) { TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Name, (LPCTSTR)Cities[NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
+    } else { TipBm.PrintAt (bprintf ("%s - %s", (LPCTSTR)Cities[VonCity].Kuerzel, (LPCTSTR)Cities[NachCity].Kuerzel), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+0, Contents.x+170, Contents.y+15);
+}
 
     //Text:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_AUFTRAG, 1007), *pFont, TEC_FONT_LEFT, Contents.x, Contents.y+44, Contents.x+170, Contents.y+170);
@@ -820,7 +869,7 @@ void DrawAutoflugTipContents (SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLO
     TipBm.PrintAt ((CString)Einheiten[EINH_DM].bString (Costs), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+99, Contents.x+170, Contents.y+170);
     TipBm.PrintAt ((CString)Einheiten[EINH_DM].bString (Einnahmen-Costs), *pFont, TEC_FONT_LEFT, Contents.x+85, Contents.y+110, Contents.x+170, Contents.y+170);
 
-    if (!Unlocked)
+    if (Unlocked == 0)
     {
         TipBm.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 2004), *pFont, TEC_FONT_LEFT, Contents.x+10, Contents.y+152, Contents.x+170, Contents.y+170);
         TipBm.BlitFromT (FlugplanBms[17], Contents.x-2, Contents.y+152);
@@ -832,9 +881,11 @@ void DrawAutoflugTipContents (SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLO
 //--------------------------------------------------------------------------------------------
 void DrawKursTipContents (SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, SB_CFont *pHeadFont, SB_CFont *pFont)
 {
-    SLONG c, Max;
+    SLONG c;
+    SLONG Max;
 
-    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) return;
+    if (TipBm.Size.x==0 || TipBm.pBitmap==NULL) { return;
+}
 
     //Fenster-Überschrift:
     TipBm.PrintAt (Sim.Players.Players[PlayerAktie].Airline, *pHeadFont, TEC_FONT_LEFT, 32, 3, 218, 15);
@@ -869,21 +920,24 @@ void DrawKursTipContents (SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, SB_C
     }
 
     //Graph zeichnen:
-    for (Max=c=0; c<10; c++)
-        if (Max<Sim.Players.Players[PlayerAktie].Kurse[c])
+    for (Max=c=0; c<10; c++) {
+        if (Max<Sim.Players.Players[PlayerAktie].Kurse[c]) {
             Max=SLONG(Sim.Players.Players[PlayerAktie].Kurse[c]);
+}
+}
     Max=Max+Max/2;
 
     TipBm.Line (140, 79-31, 200, 79-31, 0x084848);
     TipBm.Line (140, 79, 140, 79-62, 0x080808);
     TipBm.Line (140, 79, 200, 79, 0x080808);
 
-    for (c=0; c<9; c++)
+    for (c=0; c<9; c++) {
         TipBm.Line (141+60*c/9,
                 SLONG(79-Sim.Players.Players[PlayerAktie].Kurse[9-c]*61/Max),
                 141+60*(c+1)/9,
                 SLONG(79-Sim.Players.Players[PlayerAktie].Kurse[9-(c+1)]*61/Max),
                 AktienKursLineColor[PlayerAktie]);
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -925,14 +979,17 @@ void DrawMoneyTip (SBBM &TipBm, SLONG PlayerNum, SLONG Page)
         TipBm.PrintAt (bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MONEY, 1000), (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 3010+(pTimeStruct->tm_wday+6)%7), pTimeStruct->tm_mday, pTimeStruct->tm_mon+1), FontBankRed, TEC_FONT_LEFT, 28, 11, 400, 214);
     }
 
-    for (c=0; c<Page*10; c++)
-        if (Sim.Players.Players[PlayerNum].History.HistoryLine[c].Description != "*") break;
+    for (c=0; c<Page*10; c++) {
+        if (Sim.Players.Players[PlayerNum].History.HistoryLine[c].Description != "*") { break;
+}
+}
 
     TipBm.PrintAt (bprintf ("%li/%li", 10-Page, 10-c/10), FontBankRed, TEC_FONT_RIGHT, 28, 11, 390, 214);
 
     money=Sim.Players.Players[PlayerNum].History.HistoricMoney;
-    for (c=0; c<Page*10; c++)
+    for (c=0; c<Page*10; c++) {
         money+=Sim.Players.Players[PlayerNum].History.HistoryLine[c].Money;
+}
 
     //Text:
     TipBm.PrintAt (StandardTexte.GetS (TOKEN_MONEY, 1003), FontBankBlack, TEC_FONT_LEFT, 28, 34, 400, 214);
@@ -971,29 +1028,32 @@ void DrawPlanesNotepad (SBBM &NotepadBm, CDataTable *Table, SLONG CountFrom, SBB
     //Überschriften:
     NotepadBm.PrintAt (Table->ColTitle[0], FontSmallBlack, TEC_FONT_LEFT, XY(216, 12), (*pMenuBms)[0].Size);
 
-    if (DisplayWartungskosten)
+    if (DisplayWartungskosten != 0) {
         NotepadBm.PrintAt (Table->ColTitle[2], FontSmallBlack, TEC_FONT_RIGHT, XY(335, 12), (*pMenuBms)[0].Size-XY(2,0));
-    else
+    } else {
         NotepadBm.PrintAt (Table->ColTitle[1], FontSmallBlack, TEC_FONT_RIGHT, XY(335, 12), (*pMenuBms)[0].Size-XY(2,0));
+}
 
     for (c=CountFrom; c<CountFrom+13 && c<Table->AnzRows; c++)
     {
         SB_CFont *pFont1;
         CString   Text2;
 
-        if (Table->ValueFlags[0+c*Table->AnzColums]) pFont1=&FontSmallRed;
-        else pFont1=&FontSmallBlack;
-        if (DisplayWartungskosten) Text2=Table->Values[1+c*Table->AnzColums];
-        else Text2=Table->Values[1+c*Table->AnzColums];
+        if (Table->ValueFlags[0+c*Table->AnzColums] != 0u) { pFont1=&FontSmallRed;
+        } else { pFont1=&FontSmallBlack;
+}
+        if (DisplayWartungskosten != 0) { Text2=Table->Values[1+c*Table->AnzColums];
+        } else { Text2=Table->Values[1+c*Table->AnzColums];
+}
 
-        for (SLONG x=170; x>=0; x-=4)
+        for (SLONG x=170; x>=0; x-=4) {
             if (NotepadBm.TryPrintAt (Text2, FontSmallBlack, TEC_FONT_RIGHT, XY(216+x, 25+(c-CountFrom)*13), XY((*pMenuBms)[0].Size.x-2,25+(c-CountFrom)*13+13))<13)
             {
                 NotepadBm.PrintAt (Text2, FontSmallBlack, TEC_FONT_RIGHT, XY(216+x, 25+(c-CountFrom)*13), XY((*pMenuBms)[0].Size.x-2,25+(c-CountFrom)*13+13));
 
-                if (NotepadBm.TryPrintAt (Table->Values[0+c*Table->AnzColums], *pFont1, TEC_FONT_LEFT, XY(216, 25+(c-CountFrom)*13), XY(216+x, 25+(c-CountFrom)*13+13))<13)
+                if (NotepadBm.TryPrintAt (Table->Values[0+c*Table->AnzColums], *pFont1, TEC_FONT_LEFT, XY(216, 25+(c-CountFrom)*13), XY(216+x, 25+(c-CountFrom)*13+13))<13) {
                     NotepadBm.PrintAt (Table->Values[0+c*Table->AnzColums], *pFont1, TEC_FONT_LEFT, XY(216, 25+(c-CountFrom)*13), XY(216+x, 25+(c-CountFrom)*13+13));
-                else
+                } else
                 {
                     x-=10;
                     CString str=Table->Values[0+c*Table->AnzColums]+"...";
@@ -1012,8 +1072,11 @@ void DrawPlanesNotepad (SBBM &NotepadBm, CDataTable *Table, SLONG CountFrom, SBB
                 }
                 break;
             }
+}
     }
 
-    if (CountFrom>0) NotepadBm.BlitFrom ((*pMenuBms)[1], 196, 191);
-    if (CountFrom+13<Table->AnzRows) NotepadBm.BlitFrom ((*pMenuBms)[2], 374, 199);
+    if (CountFrom>0) { NotepadBm.BlitFrom ((*pMenuBms)[1], 196, 191);
+}
+    if (CountFrom+13<Table->AnzRows) { NotepadBm.BlitFrom ((*pMenuBms)[2], 374, 199);
+}
 }

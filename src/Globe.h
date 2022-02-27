@@ -58,7 +58,7 @@ class CGlobe : public CPlaner
         virtual void OnRButtonUp(UINT nFlags, CPoint point);
         virtual void OnRButtonDown(UINT nFlags, CPoint point);
         virtual void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
-        virtual void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+        virtual void OnChar(UINT nChar, UINT a, UINT b);
         virtual void OnLButtonDblClk(UINT nFlags, CPoint point);
         //}}AFX_MSG
         //DECLARE_MESSAGE_MAP()

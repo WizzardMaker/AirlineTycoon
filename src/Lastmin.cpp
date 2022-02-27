@@ -43,8 +43,9 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 
     Sim.FocusPerson=-1;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (60);
-    Sim.NetRefill (1);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
+    SIM::NetRefill (1);
     LastMinuteAuftraege.RefillForLastMinute ();
 
     MoveKran=0;
@@ -110,12 +111,15 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 
     SetBackgroundFx (0, "pap3.raw",     25000);    //Papierrascheln
 
-    for (c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--)
-        if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(c))
+    for (c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--) {
+        if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(c) != 0) {
             Sim.Players.Players[(SLONG)PlayerNum].Planes[c].UpdateGlobePos (0);
+}
+}
 
-    for (c=0; c<(SLONG)LastMinuteAuftraege.AnzEntries(); c++)
+    for (c=0; c<(SLONG)LastMinuteAuftraege.AnzEntries(); c++) {
         RepaintZettel (c);
+}
 
 #ifdef DEMO
     MenuStart (MENU_REQUEST, MENU_REQUEST_NO_LM);
@@ -135,18 +139,22 @@ CLastMinute::~CLastMinute()
 
     TipBm.Destroy();
 
-    for (c=0; c<5; c++)
+    for (c=0; c<5; c++) {
         MapPlaneBms[c].Destroy();
+}
 
-    if (pMenuLib && pGfxMain) pGfxMain->ReleaseLib (pMenuLib);
+    if ((pMenuLib != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
+}
 
-    for (c=0; c<(SLONG)LastMinuteAuftraege.AnzEntries(); c++)
-        if (LastMinuteAuftraege.Auftraege[c].Praemie<0)
+    for (c=0; c<(SLONG)LastMinuteAuftraege.AnzEntries(); c++) {
+        if (LastMinuteAuftraege.Auftraege[c].Praemie<0) {
             LastMinuteAuftraege.Auftraege[c].Praemie=0;
+}
+}
 
     Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
 
-    Sim.NetRefill (1);
+    SIM::NetRefill (1);
     LastMinuteAuftraege.RefillForLastMinute ();
 }
 
@@ -174,9 +182,11 @@ void CLastMinute::OnPaint()
     //Koordinaten für kleine Fenster konvertieren:
     ConvertMousePosition (point, &RoomPos);
 
-    if (SLONG(Sim.Time)>=timeLastClose) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+    if (SLONG(Sim.Time)>=timeLastClose) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+}
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_LAST_MINUTE, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_LAST_MINUTE, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -188,22 +198,26 @@ void CLastMinute::OnPaint()
     SP_Kran.Pump ();
     SP_Kran.BlitAtT (RoomBm);
 
-    if (MoveKran)
+    if (MoveKran != 0)
     {
-        if (SP_Kran.GetClip()==0) NewKranDir=1;
-        if (SP_Kran.GetClip()==2) NewKranDir=3;
+        if (SP_Kran.GetClip()==0) { NewKranDir=1;
+}
+        if (SP_Kran.GetClip()==2) { NewKranDir=3;
+}
         MoveKran=FALSE;
     }
 
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (560, 0, 640, 440)) SetMouseLook (CURSOR_EXIT, 0, ROOM_LAST_MINUTE, 999);
+        if (gMousePosition.IfIsWithin (560, 0, 640, 440)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_LAST_MINUTE, 999);
+}
 
-        if (RoomPos.IfIsWithin (17,73,237,343))
+        if (RoomPos.IfIsWithin (17,73,237,343)) {
             SetTip (&TipBm, MapPlaneBms, FALSE, XY (300,125), TIP_BUYAUFTRAG, -1, 0, 0);
+}
     }
 
     RoomBm.pBitmap->SetClipRect (CRect (0,0,640,440));
@@ -211,13 +225,13 @@ void CLastMinute::OnPaint()
     {
         if (LastMinuteAuftraege.Auftraege[c].Praemie>0)
         {
-            if (!RoomBm.BlitFromT (ZettelBms[c], ZettelPos[c*2], ZettelPos[c*2+1]))
+            if (RoomBm.BlitFromT (ZettelBms[c], ZettelPos[c*2], ZettelPos[c*2+1]) == 0)
             {
                 RepaintZettel (c);
                 RoomBm.BlitFromT (ZettelBms[c], ZettelPos[c*2], ZettelPos[c*2+1]);
             }
 
-            if (!IsDialogOpen() && !MenuIsOpen())
+            if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0)) {
                 if (RoomPos.IfIsWithin (ZettelPos[c*2], ZettelPos[c*2+1], ZettelPos[c*2]+gZettelBms[c%3].Size.x, ZettelPos[c*2+1]+gZettelBms[c%3].Size.y))
                 {
                     RemoveTip   = FALSE;
@@ -234,16 +248,19 @@ void CLastMinute::OnPaint()
                         Sim.Players.Players[(SLONG)PlayerNum].CheckAuftragsBerater (LastMinuteAuftraege.Auftraege[c]);
                     }
                 }
+}
         }
     }
-    if (!IsOverPaper) LastTip=-1;
+    if (IsOverPaper == 0) { LastTip=-1;
+}
 
     for (c=0; c<(SLONG)LastMinuteAuftraege.AnzEntries(); c++)
     {
         if (LastMinuteAuftraege.Auftraege[c].Praemie<0)
         {
             LastMinuteAuftraege.Auftraege[c].Praemie+=DeltaTime*4;
-            if (LastMinuteAuftraege.Auftraege[c].Praemie>0) LastMinuteAuftraege.Auftraege[c].Praemie=0;
+            if (LastMinuteAuftraege.Auftraege[c].Praemie>0) { LastMinuteAuftraege.Auftraege[c].Praemie=0;
+}
 
             XY    Pos;
             SLONG p=-LastMinuteAuftraege.Auftraege[c].Praemie;
@@ -269,8 +286,9 @@ void CLastMinute::OnPaint()
 
     //if (Sim.Players.Players[(SLONG)PlayerNum].Messages.IsSilent()) LastTip=-1;
 
-    if (RemoveTip && !gMousePosition.IfIsWithin (8,69, 242,347) && LastMouse.IfIsWithin (8,69, 242,347))
+    if ((RemoveTip != 0) && !gMousePosition.IfIsWithin (8,69, 242,347) && LastMouse.IfIsWithin (8,69, 242,347)) {
         Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
+}
 
     LastMouse=gMousePosition;
 
@@ -321,16 +339,17 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
 #ifndef DEMO
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_LAST_MINUTE && MouseClickId==999) qPlayer.LeaveRoom();
+        if (MouseClickArea==ROOM_LAST_MINUTE && MouseClickId==999) { qPlayer.LeaveRoom();
+}
 
         for (c=LastMinuteAuftraege.AnzEntries()-1; c>=0; c--)
         {
@@ -338,8 +357,9 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point)
             {
                 if (RoomPos.IfIsWithin (ZettelPos[c*2], ZettelPos[c*2+1], ZettelPos[c*2]+gZettelBms[c%3].Size.x, ZettelPos[c*2+1]+gZettelBms[c%3].Size.y))
                 {
-                    if (qPlayer.Auftraege.GetNumFree()<3)
+                    if (qPlayer.Auftraege.GetNumFree()<3) {
                         qPlayer.Auftraege.Auftraege.ReSize (qPlayer.Auftraege.AnzEntries()+10);
+}
 
                     gUniversalFx.Stop();
                     gUniversalFx.ReInit("paptake.raw");
@@ -352,7 +372,7 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point)
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay (0, 1);
                     qPlayer.Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay (0, 1);
 
-                    Sim.SendSimpleMessage (ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, (long)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (long)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
+                    SIM::SendSimpleMessage (ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, (long)qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0), (long)qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0));
 
                     LastMinuteAuftraege.Auftraege[c].Praemie=-1000;
                     qPlayer.NetUpdateTook (1, c);
@@ -381,9 +401,8 @@ void CLastMinute::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -394,5 +413,5 @@ void CLastMinute::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

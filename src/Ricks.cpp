@@ -28,7 +28,8 @@ CRicks::CRicks(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "ric
     Sim.InvalidateHint(HINT_RICK);
     Sim.FocusPerson=-1;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (50);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (50);
+}
 
     Talkers.Talkers[TALKER_RICK].IncreaseReference ();
     DefaultDialogPartner=TALKER_RICK;
@@ -93,7 +94,7 @@ CRicks::CRicks(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "ric
             "A9E1E1", 6,5,0);
 
     //Raumanimationen
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         SetBackgroundFx (0, "kaffee.raw",   40000, 27000);
         SetBackgroundFx (2, "toilet.raw",  120000, 80000, 40);
@@ -120,9 +121,11 @@ CRicks::~CRicks()
 //--------------------------------------------------------------------------------------------
 void CRicks::OnPaint()
 {
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_RICKS, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_RICKS, 0);
+}
 
-    if (Sim.Date>4) Sim.GiveHint (HINT_RICKS);
+    if (Sim.Date>4) { Sim.GiveHint (HINT_RICKS);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -139,11 +142,12 @@ void CRicks::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (0, 0, 70, 439) || gMousePosition.IfIsWithin (570, 0, 640, 225)) SetMouseLook (CURSOR_EXIT, 0, ROOM_RICKS, 999);
-        else if (gMousePosition.IfIsWithin (159,131,302,346)) SetMouseLook (CURSOR_HOT, 0, ROOM_RICKS, 10);
-        else if (gMousePosition.IfIsWithin (466,141,639,439)) SetMouseLook (CURSOR_HOT, 0, ROOM_RICKS, 11);
+        if (gMousePosition.IfIsWithin (0, 0, 70, 439) || gMousePosition.IfIsWithin (570, 0, 640, 225)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_RICKS, 999);
+        } else if (gMousePosition.IfIsWithin (159,131,302,346)) { SetMouseLook (CURSOR_HOT, 0, ROOM_RICKS, 10);
+        } else if (gMousePosition.IfIsWithin (466,141,639,439)) { SetMouseLook (CURSOR_HOT, 0, ROOM_RICKS, 11);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -159,18 +163,19 @@ void CRicks::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_RICKS && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_RICKS && MouseClickId==10) { StartDialog (TALKER_RICK, MEDIUM_AIR, 0); }
+        if (MouseClickArea==ROOM_RICKS && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_RICKS && MouseClickId==10) { StartDialog (TALKER_RICK, MEDIUM_AIR, 0); }
         else if (MouseClickArea==ROOM_RICKS && MouseClickId==11) { StartDialog (TALKER_TRINKER, MEDIUM_AIR, 0); }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -186,9 +191,8 @@ void CRicks::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -199,5 +203,5 @@ void CRicks::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

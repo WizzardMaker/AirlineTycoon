@@ -35,6 +35,6 @@ SLONG GetHighestSetBit(SLONG mask)
 #endif
 }
 
-void ODS(char const *, ...)
+void ODS(char const * /*unused*/, ...)
 {
 }

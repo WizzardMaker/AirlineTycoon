@@ -51,7 +51,7 @@ void TeakAlbumRemoveT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULONG
             }
         }
     }
-    else if (ids.AnzEntries() > id && ids[id])
+    else if (ids.AnzEntries() > id && (ids[id] != 0u))
     {
         ids[id] = 0;
         return;
@@ -67,8 +67,9 @@ void TeakAlbumRefresh(FBUFFER<ULONG>& ids, ULONG anz)
         ids.ReSize(anz);
         if ( anz > cur )
         {
-            for (int i = 0; i < anz - cur; ++i)
+            for (int i = 0; i < anz - cur; ++i) {
                 ids[i + cur] = 0;
+}
         }
     }
 }
@@ -80,11 +81,12 @@ SLONG TeakAlbumSearchT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULON
         TeakAlbumRefresh(ids, anz);
         for (int i = ids.AnzEntries() - 1; i >= 0; --i)
         {
-            if (ids[i] == id)
+            if (ids[i] == id) {
                 return i;
+}
         }
     }
-    else if (ids.AnzEntries() > id && ids[id])
+    else if (ids.AnzEntries() > id && (ids[id] != 0u))
     {
         return id;
     }
@@ -95,14 +97,15 @@ SLONG TeakAlbumSearchT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULON
 SLONG TeakAlbumXIdSearchT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, XID& id)
 {
     TeakAlbumRefresh(ids, anz);
-    if (id.Index < ids.AnzEntries() && ids[id.Index] == id.Value)
+    if (id.Index < ids.AnzEntries() && ids[id.Index] == id.Value) {
         return id.Index;
-    if (id.Value >= 0x1000000u)
+}
+    if (id.Value >= 0x1000000U)
     {
         id.Index = TeakAlbumSearchT(ids, anz, name, id.Value);
         return id.Index;
     }
-    else if (ids[id.Index] >= 0x1000000u)
+    if (ids[id.Index] >= 0x1000000u)
     {
         TeakLibW_Exception(0, 0, ExcXIDUnrecoverable, name.c_str());
         return 0;
@@ -121,15 +124,16 @@ int TeakAlbumIsInAlbum(FBUFFER<ULONG>& ids, ULONG anz, ULONG id)
         TeakAlbumRefresh(ids, anz);
         for (int i = ids.AnzEntries() - 1; i >= 0; --i)
         {
-            if (ids[i] == id)
-                return true;
+            if (ids[i] == id) {
+                return 1;
+}
         }
     }
-    else if (ids.AnzEntries() > id && ids[id])
+    else if (ids.AnzEntries() > id && (ids[id] != 0u))
     {
-        return true;
+        return 1;
     }
-    return false;
+    return 0;
 }
 
 ULONG TeakAlbumAddT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULONG id)
@@ -137,7 +141,7 @@ ULONG TeakAlbumAddT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULONG i
     TeakAlbumRefresh(ids, anz);
     for (int i = ids.AnzEntries() - 1; i >= 0; --i)
     {
-        if (!ids[i])
+        if (ids[i] == 0u)
         {
             ids[i] = id;
             return id;
@@ -152,7 +156,7 @@ ULONG TeakAlbumFrontAddT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, UL
     TeakAlbumRefresh(ids, anz);
     for (int i = 0; i < ids.AnzEntries(); ++i)
     {
-        if (!ids[i])
+        if (ids[i] == 0u)
         {
             ids[i] = id;
             return id;
@@ -168,8 +172,9 @@ ULONG TeakAlbumGetNumFree(FBUFFER<ULONG>& ids, ULONG anz)
     TeakAlbumRefresh(ids, anz);
     for (int i = ids.AnzEntries() - 1; i >= 0; --i)
     {
-        if (!ids[i])
+        if (ids[i] == 0u) {
             ++num;
+}
     }
     return num;
 }
@@ -180,8 +185,9 @@ ULONG TeakAlbumGetNumUsed(FBUFFER<ULONG>& ids, ULONG anz)
     TeakAlbumRefresh(ids, anz);
     for (int i = ids.AnzEntries() - 1; i >= 0; --i)
     {
-        if (ids[i])
+        if (ids[i] != 0u) {
             ++num;
+}
     }
     return num;
 }
@@ -190,15 +196,17 @@ ULONG TeakAlbumRandom(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, TEAKR
 {
     TeakAlbumRefresh(ids, anz);
     ULONG used = TeakAlbumGetNumUsed(ids, anz);
-    if (!used)
+    if (used == 0u) {
         TeakLibW_Exception(0, 0, ExcAlbumFind, name.c_str());
+}
 
-    SLONG target = random ? random->Rand(used) : rand() % 5;
+    SLONG target = random != nullptr ? random->Rand(used) : rand() % 5;
     SLONG index = 0;
     for (int i = ids.AnzEntries() - 1; i >= 0; --i)
     {
-        if (++index > target)
+        if (++index > target) {
             return ids[i];
+}
     }
     TeakLibW_Exception(0, 0, ExcAlbumFind, name.c_str());
     return 0;

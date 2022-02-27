@@ -79,8 +79,8 @@ class NewGamePopup : public CStdRaum
         void Konstruktor (BOOL bHandy, SLONG PlayerNum);
         void RefreshKlackerField (void);
         void CheckNames (void);
-        void PushNames (void);
-        void PushName (SLONG n);
+        static void PushNames (void);
+        static void PushName (SLONG n);
 
         // Overrides
         // ClassWizard generated virtual function overrides

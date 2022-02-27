@@ -37,7 +37,8 @@ class CWaitCursorNow
         ~CWaitCursorNow ()
         {
             MouseWait--;
-            if (MouseWait==0) pCursor->SetImage (gCursorBm.pBitmap);
+            if (MouseWait==0) { pCursor->SetImage (gCursorBm.pBitmap);
+}
         };
 };
 
@@ -73,7 +74,7 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
     CurrentPostItType = 0;
     CurrentPostItId   = -1;
 
-    Copyprotection    = (Sim.bExeChanged==1);
+    Copyprotection    = static_cast<BOOL>(Sim.bExeChanged==1);
 
     KommVarLampe=-1;
     SP_Lampe.ReSize (4);
@@ -95,7 +96,7 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
             NULL, SMACKER_CLIP_SET, 0, NULL,
             "A1", 0);
 
-    if (qPlayer.LaptopVirus)
+    if (qPlayer.LaptopVirus != 0)
     {
         EarthAlpha=EarthTargetAlpha=8000;
 
@@ -135,11 +136,14 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
 
         EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthvir.lbm", GliPath), SYSRAMBM);
 
-        for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--)
-            if (qPlayer.Blocks.IsInAlbum(c))
+        for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--) {
+            if (qPlayer.Blocks.IsInAlbum(c) != 0) {
                 qPlayer.Blocks-=c;
+}
+}
     }
-    else EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthlap.lbm", GliPath), SYSRAMBM);
+    else { EarthBm.ReSize ((char*)(LPCTSTR)FullFilename ("earthlap.lbm", GliPath), SYSRAMBM);
+}
 
     MessagePump();
 
@@ -147,9 +151,9 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
 
     WarningLightModes[0]=WarningLightModes[1]=WarningLightModes[2]=0;
 
-    if (Copyprotection)
+    if (Copyprotection != 0) {
         ReSize ("globe_d.gli", GFX_VR3);
-    else
+    } else
         if (qPlayer.LaptopBattery>0)
         {
             ReSize ("globe_b.gli", GFX_VR);
@@ -157,8 +161,9 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
 
             UpdateWarningLightModes ();
         }
-        else
+        else {
             ReSize ("globe_c.gli", GFX_VR2);
+}
 
     MapPlaneBms[0].ReSize (pRoomLib, "PL_B00", 1+8);
     MapPlaneBms[1].ReSize (pRoomLib, "PL_V00", 1+8);
@@ -182,7 +187,7 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
 
     MessagePump();
 
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         StartupFX.ReInit("laptop.raw");
         StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
@@ -214,42 +219,48 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
     qPlayer.Blocks.RepaintAll=FALSE;
 
     //Wenn jemand keinen Berater (mehr) hat, dann alle fremden Routen/Flugzeuge unsichtbar machen:
-    if (!qPlayer.HasBerater(BERATERTYP_INFO))
+    if (qPlayer.HasBerater(BERATERTYP_INFO) == 0)
     {
-        for (SLONG c=0; c<Sim.Players.AnzPlayers; c++)
+        for (SLONG c=0; c<Sim.Players.AnzPlayers; c++) {
             if (c!=SLONG(PlayerNum))
             {
                 qPlayer.DisplayRoutes[c]=FALSE;
                 qPlayer.DisplayPlanes[c]=FALSE;
             }
+}
     }
 
     //Und wenn jemand Pleite ist, dann den auch unsichtbar machen:
-    for (c=0; c<Sim.Players.AnzPlayers; c++)
-        if (c!=SLONG(PlayerNum) && Sim.Players.Players[c].IsOut)
+    for (c=0; c<Sim.Players.AnzPlayers; c++) {
+        if (c!=SLONG(PlayerNum) && (Sim.Players.Players[c].IsOut != 0))
         {
             qPlayer.DisplayRoutes[c]=FALSE;
             qPlayer.DisplayPlanes[c]=FALSE;
         }
+}
 
     //Base-Pointer der Blöcke initialisieren:
-    for (c=qPlayer.Blocks.AnzEntries(); c>=0; c--)
-        if (qPlayer.Blocks.IsInAlbum(ULONG(c)))
+    for (c=qPlayer.Blocks.AnzEntries(); c>=0; c--) {
+        if (qPlayer.Blocks.IsInAlbum(ULONG(c)) != 0) {
             qPlayer.Blocks[c].Base=this;
+}
+}
 
-    if (qPlayer.Blocks.IsInAlbum(ULONG(0)))
+    if (qPlayer.Blocks.IsInAlbum(ULONG(0)) != 0) {
         qPlayer.Blocks[ULONG(0)].Base=NULL;
+}
 
     for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--)
     {
-        if (qPlayer.Blocks.IsInAlbum(c))
+        if (qPlayer.Blocks.IsInAlbum(c) != 0)
         {
-            if (qPlayer.Blocks[c].BlockType==2 && qPlayer.Blocks[c].Index==0 && !qPlayer.Planes.IsInAlbum (qPlayer.Blocks[c].SelectedId))
+            if (qPlayer.Blocks[c].BlockType==2 && qPlayer.Blocks[c].Index==0 && (qPlayer.Planes.IsInAlbum (qPlayer.Blocks[c].SelectedId) == 0))
             {
                 qPlayer.Blocks[c].Table.Destroy ();
                 qPlayer.Blocks[c].Bitmap.Destroy ();
                 qPlayer.Blocks -= c;
-                if (CurrentBlock==c) CurrentBlock=-1;
+                if (CurrentBlock==c) { CurrentBlock=-1;
+}
             }
             else
             {
@@ -258,13 +269,14 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
                 qBlock.RefreshData (PlayerNum);
                 qBlock.Page  = min (qBlock.Page, qBlock.AnzPages-1);
                 qBlock.PageB = min (qBlock.PageB, qBlock.AnzPagesB-1);
-                if (qPlayer.LaptopBattery>0) qBlock.Refresh (PlayerNum, TRUE);
+                if (qPlayer.LaptopBattery>0) { qBlock.Refresh (PlayerNum, TRUE);
+}
 
                 Limit ((SLONG)(49-qBlock.Bitmap.Size.x/2), qBlock.ScreenPos.x, (SLONG)(600-qBlock.Bitmap.Size.x/2));
                 Limit ((SLONG)29, qBlock.ScreenPos.y, (SLONG)380);
             }
         }
-        if (qPlayer.Blocks.IsInAlbum(c))
+        if (qPlayer.Blocks.IsInAlbum(c) != 0)
         {
             if (qPlayer.Blocks[c].Destructing==0 && qPlayer.Blocks[c].AnimationStart>Sim.TimeSlice-40)
             {
@@ -291,9 +303,11 @@ CLaptop::CLaptop (BOOL bHandy, ULONG PlayerNum) : CPlaner (bHandy, PlayerNum, Si
 
     Sim.Players.Players[Sim.localPlayer].UpdateAuftragsUsage();
 
-    for (c=0; c<4; c++)
-        if (!Sim.Players.Players[c].IsOut)
+    for (c=0; c<4; c++) {
+        if (Sim.Players.Players[c].IsOut == 0) {
             Sim.Players.Players[c].Planes.UpdateGlobePos (EarthAlpha);
+}
+}
 
     KonstruktorFinished = 2;
 
@@ -336,12 +350,13 @@ CLaptop::~CLaptop()
     MapPlaneBms[2].Destroy();
     MapPlaneBms[3].Destroy();
 
-    if (pGLibGlobe && pGfxMain) pGfxMain->ReleaseLib (pGLibGlobe);
+    if ((pGLibGlobe != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pGLibGlobe);
+}
     pGLibGlobe=NULL;
 
     for (SLONG c=0; c<6; c++)
     {
-        if (pGLibIcons[c] && pGfxMain)
+        if ((pGLibIcons[c] != nullptr) && (pGfxMain != nullptr))
         {
             IconBms[c].Destroy();
             pGfxMain->ReleaseLib (pGLibIcons[c]);
@@ -382,15 +397,18 @@ void CLaptop::OnPaint()
     }
 
     //Blöcke: Tips löschen:
-    for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--)
-        if (qPlayer.Blocks.IsInAlbum(c)) qPlayer.Blocks[c].SetTip (TIP_NONE, TIP_NONE, 0);
+    for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--) {
+        if (qPlayer.Blocks.IsInAlbum(c) != 0) { qPlayer.Blocks[c].SetTip (TIP_NONE, TIP_NONE, 0);
+}
+}
 
     RefreshTicker++;
     if ((RefreshTicker&1)==0 && qPlayer.LaptopBattery>0)
     {
-        if (qPlayer.Blocks.IsInAlbum((RefreshTicker>>1)%qPlayer.Blocks.AnzEntries()))
+        if (qPlayer.Blocks.IsInAlbum((RefreshTicker>>1)%qPlayer.Blocks.AnzEntries()) != 0) {
             //qPlayer.Blocks[(RefreshTicker>>1)%qPlayer.Blocks.AnzEntries()].Refresh(PlayerNum, Background);
             qPlayer.Blocks[(RefreshTicker>>1)%qPlayer.Blocks.AnzEntries()].Refresh(Sim.localPlayer, TRUE);
+}
     }
 
     static SLONG LastMinute;
@@ -437,7 +455,7 @@ void CLaptop::OnPaint()
             MapPlaneBms[2].Destroy();
             MapPlaneBms[3].Destroy();
 
-            if (Sim.Options.OptionEffekte)
+            if (Sim.Options.OptionEffekte != 0)
             {
                 gUniversalFx.Stop();
                 gUniversalFx.ReInit("lapdown.raw");
@@ -455,7 +473,8 @@ void CLaptop::OnPaint()
         LastHour=Sim.GetHour();
     }
 
-    if (UsedToRotate==2) UsedToRotate=1;
+    if (UsedToRotate==2) { UsedToRotate=1;
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -467,7 +486,7 @@ void CLaptop::OnPaint()
         SP_Lampe.BlitAtT (RoomBm);
     }
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<1))
+    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<1)) != 0u)
     {
         SP_Antivir.Pump ();
         SP_Antivir.BlitAtT (RoomBm);
@@ -476,21 +495,26 @@ void CLaptop::OnPaint()
     //CPlaner::DoPollingStuff ();
 
     //Laptop-Inhalt nur zeichnen, wenn die Batterie voll ist:
-    if (qPlayer.LaptopBattery>0 && !Copyprotection)
+    if (qPlayer.LaptopBattery>0 && (Copyprotection == 0))
     {
         //Die Warnlampen für die Flüge:
-        if (WarningLightModes[0]==1 || (WarningLightModes[0]==2 && (Time&1023)<512)) RoomBm.BlitFrom (WarningLightBms[0], 59, 40);
-        if (WarningLightModes[1]==1 || (WarningLightModes[1]==2 && (Time&1023)<512)) RoomBm.BlitFrom (WarningLightBms[1], 48, 61);
-        if (WarningLightModes[2]==1 || (WarningLightModes[2]==2 && (Time&1023)<512)) RoomBm.BlitFrom (WarningLightBms[2], 60, 82);
+        if (WarningLightModes[0]==1 || (WarningLightModes[0]==2 && (Time&1023)<512)) { RoomBm.BlitFrom (WarningLightBms[0], 59, 40);
+}
+        if (WarningLightModes[1]==1 || (WarningLightModes[1]==2 && (Time&1023)<512)) { RoomBm.BlitFrom (WarningLightBms[1], 48, 61);
+}
+        if (WarningLightModes[2]==1 || (WarningLightModes[2]==2 && (Time&1023)<512)) { RoomBm.BlitFrom (WarningLightBms[2], 60, 82);
+}
 
-        if (!IsDialogOpen() && !MenuIsOpen())
+        if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
         {
             //Alle 10 Minuten ein Repaint erzwingen:
             if (LastPaintedMinute!=Sim.GetMinute() && Sim.GetMinute()%10==0)
             {
-                for (c=0; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++)
-                    if (qPlayer.Blocks.IsInAlbum(c))
+                for (c=0; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++) {
+                    if (qPlayer.Blocks.IsInAlbum(c) != 0) {
                         qPlayer.Blocks[c].Refresh (PlayerNum, TRUE);
+}
+}
             }
             LastPaintedMinute=Sim.GetMinute();
 
@@ -498,19 +522,20 @@ void CLaptop::OnPaint()
             //// Mouse evaluation                                                                  ////
             ///////////////////////////////////////////////////////////////////////////////////////////
 
-            if (gMousePosition.IfIsWithin (37, 398, 74, 439)) SetMouseLook (CURSOR_EXIT, 0, ROOM_LAPTOP, 999);
+            if (gMousePosition.IfIsWithin (37, 398, 74, 439)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_LAPTOP, 999);
+}
 
             //Is Cursor over Block?
             CurrentBlock    = -1;
             IsInClientArea  = FALSE;
             IsInClientAreaB = FALSE;
             pBlock          = NULL;
-            for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--)
-                if (FensterVisible && qPlayer.Blocks.IsInAlbum(c) && qPlayer.Blocks[c].Destructing==0)
+            for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--) {
+                if ((FensterVisible != 0) && (qPlayer.Blocks.IsInAlbum(c) != 0) && qPlayer.Blocks[c].Destructing==0)
                 {
                     qPlayer.Blocks[c].IsTopWindow  = FALSE;
 
-                    if (gMousePosition.IfIsWithin (qPlayer.Blocks[c].ScreenPos, qPlayer.Blocks[c].ScreenPos+qPlayer.Blocks[c].Bitmap.Size-XY(1,1)))
+                    if (gMousePosition.IfIsWithin (qPlayer.Blocks[c].ScreenPos, qPlayer.Blocks[c].ScreenPos+qPlayer.Blocks[c].Bitmap.Size-XY(1,1))) {
                         if (qPlayer.Blocks[c].Bitmap.GetPixel ((gMousePosition-qPlayer.Blocks[c].ScreenPos).x, (gMousePosition-qPlayer.Blocks[c].ScreenPos).y)!=0)
                         {
                             CurrentBlock = c;
@@ -524,7 +549,8 @@ void CLaptop::OnPaint()
                                 ClientPos = CurrentBlockPos-XY(20,21);
                                 ReferenceCursorPos = gMousePosition;
                             }
-                            else IsInClientArea = FALSE;
+                            else { IsInClientArea = FALSE;
+}
 
                             if (CurrentBlockPos.IfIsWithin (20+187,21, 20+172+187,21+170))
                             {
@@ -532,31 +558,37 @@ void CLaptop::OnPaint()
                                 ClientPosB = CurrentBlockPos-XY(20+187,21);
                                 ReferenceCursorPos = gMousePosition;
                             }
-                            else IsInClientAreaB = FALSE;
+                            else { IsInClientAreaB = FALSE;
+}
                         }
+}
                 }
+}
 
             //Top-Fenster markieren
-            for (c=1; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++)
-                if (FensterVisible && qPlayer.Blocks.IsInAlbum(c) && qPlayer.Blocks[c].Destructing==0)
+            for (c=1; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++) {
+                if ((FensterVisible != 0) && (qPlayer.Blocks.IsInAlbum(c) != 0) && qPlayer.Blocks[c].Destructing==0)
                 {
                     qPlayer.Blocks[c].IsTopWindow  = TRUE;
                     break;
                 }
+}
 
-            if (gMouseLButton)
+            if (gMouseLButton != 0)
             {
-                if (ScrollBlock!=-1 && qPlayer.Blocks.IsInAlbum(ScrollBlock))
+                if (ScrollBlock!=-1 && (qPlayer.Blocks.IsInAlbum(ScrollBlock) != 0))
                 {
                     if (ScrollSide==0)
                     {
                         SLONG NewPos = (gMousePosition.y-qPlayer.Blocks[ScrollBlock].ScreenPos.y-ScrollOffset.y-43)
                             *qPlayer.Blocks[ScrollBlock].PageSize*(qPlayer.Blocks[ScrollBlock].AnzPages-1)/(138-43);
 
-                        if (NewPos<0) NewPos=0;
+                        if (NewPos<0) { NewPos=0;
+}
 
-                        if (NewPos>(qPlayer.Blocks[ScrollBlock].AnzPages-1)*qPlayer.Blocks[ScrollBlock].PageSize)
+                        if (NewPos>(qPlayer.Blocks[ScrollBlock].AnzPages-1)*qPlayer.Blocks[ScrollBlock].PageSize) {
                             NewPos=(qPlayer.Blocks[ScrollBlock].AnzPages-1)*qPlayer.Blocks[ScrollBlock].PageSize;
+}
 
                         if (NewPos!=qPlayer.Blocks[ScrollBlock].Page)
                         {
@@ -569,10 +601,12 @@ void CLaptop::OnPaint()
                         SLONG NewPos = (gMousePosition.y-qPlayer.Blocks[ScrollBlock].ScreenPos.y-ScrollOffset.y-43)
                             *qPlayer.Blocks[ScrollBlock].PageSizeB*(qPlayer.Blocks[ScrollBlock].AnzPagesB-1)/(138-43);
 
-                        if (NewPos<0) NewPos=0;
+                        if (NewPos<0) { NewPos=0;
+}
 
-                        if (NewPos>(qPlayer.Blocks[ScrollBlock].AnzPagesB-1)*qPlayer.Blocks[ScrollBlock].PageSizeB)
+                        if (NewPos>(qPlayer.Blocks[ScrollBlock].AnzPagesB-1)*qPlayer.Blocks[ScrollBlock].PageSizeB) {
                             NewPos=(qPlayer.Blocks[ScrollBlock].AnzPagesB-1)*qPlayer.Blocks[ScrollBlock].PageSizeB;
+}
 
                         if (NewPos!=qPlayer.Blocks[ScrollBlock].PageB)
                         {
@@ -582,18 +616,19 @@ void CLaptop::OnPaint()
                     }
                 }
             }
-            else ScrollBlock=-1;
+            else { ScrollBlock=-1;
+}
 
             CPlaner::DoPollingStuff ();
 
-            if (pBlock)
+            if (pBlock != nullptr)
             {
-                if (pBlock->IsTopWindow)
+                if (pBlock->IsTopWindow != 0)
                 {
                     if (pBlock->Page/pBlock->PageSize<pBlock->AnzPages-1 && CurrentBlockPos.IfIsWithin (0,165,19,186))
                     {
                         SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 31);  //Next
-                        if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>1000)
+                        if ((gMouseLButton != 0) && timeGetTime()-gMouseLButtonDownTimer>1000)
                         {
                             HandleLButtonDown();
                             gMouseLButtonDownTimer = timeGetTime()-870;
@@ -602,23 +637,24 @@ void CLaptop::OnPaint()
                     else if (pBlock->Page>0 && CurrentBlockPos.IfIsWithin (0,23,19,44))
                     {
                         SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 30);  //Prev
-                        if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>1000)
+                        if ((gMouseLButton != 0) && timeGetTime()-gMouseLButtonDownTimer>1000)
                         {
                             HandleLButtonDown();
                             gMouseLButtonDownTimer = timeGetTime()-870;
                         }
                     }
-                    else if (pBlock->Index!=1 && CurrentBlockPos.IfIsWithin (16,0,33,19))           //Klick auf "Index"...
+                    else if (pBlock->Index!=1 && CurrentBlockPos.IfIsWithin (16,0,33,19)) {           //Klick auf "Index"...
                         SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 35);
-                    else if (pBlock->AnzPages>1 && CurrentBlockPos.IfIsWithin (5, 43+(138-43)*pBlock->Page/pBlock->PageSize/(pBlock->AnzPages-1), 19, 43+29+(138-43)*pBlock->Page/pBlock->PageSize/(pBlock->AnzPages-1)))
+                    } else if (pBlock->AnzPages>1 && CurrentBlockPos.IfIsWithin (5, 43+(138-43)*pBlock->Page/pBlock->PageSize/(pBlock->AnzPages-1), 19, 43+29+(138-43)*pBlock->Page/pBlock->PageSize/(pBlock->AnzPages-1))) {
                         SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 88);
+}
 
-                    if (pBlock->DoubleBlock)
+                    if (pBlock->DoubleBlock != 0)
                     {
                         if (pBlock->PageB/pBlock->PageSizeB<pBlock->AnzPagesB-1 && CurrentBlockPos.IfIsWithin (375,165,395,186)) //"Next" B...
                         {
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 41);
-                            if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>1000)
+                            if ((gMouseLButton != 0) && timeGetTime()-gMouseLButtonDownTimer>1000)
                             {
                                 OnLButtonDown (0,CPoint(0,0));
                                 gMouseLButtonDownTimer = timeGetTime()-870;
@@ -627,62 +663,76 @@ void CLaptop::OnPaint()
                         else if (pBlock->PageB>0 && CurrentBlockPos.IfIsWithin (375,23,395,44))   //"Prev" B...
                         {
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 40);
-                            if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>1000)
+                            if ((gMouseLButton != 0) && timeGetTime()-gMouseLButtonDownTimer>1000)
                             {
                                 OnLButtonDown (0,CPoint(0,0));
                                 gMouseLButtonDownTimer = timeGetTime()-870;
                             }
                         }
-                        else if (pBlock->IndexB!=1 && CurrentBlockPos.IfIsWithin (202,0,219,19))   //Klick auf "Index" B...
+                        else if (pBlock->IndexB!=1 && CurrentBlockPos.IfIsWithin (202,0,219,19)) {   //Klick auf "Index" B...
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 45);
-                        else if (CurrentBlockPos.IfIsWithin (359,0,380,20))  //Klick auf "CloseWin"...
+                        } else if (CurrentBlockPos.IfIsWithin (359,0,380,20)) {  //Klick auf "CloseWin"...
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 50);
-                        else if (pBlock->BlockType==2 && pBlock->IndexB==1 && pBlock->BlockTypeB!=3 && CurrentBlockPos.IfIsWithin (217,5,236,5+16))  //Switch...
+                        } else if (pBlock->BlockType==2 && pBlock->IndexB==1 && pBlock->BlockTypeB!=3 && CurrentBlockPos.IfIsWithin (217,5,236,5+16)) {  //Switch...
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 60);
-                        else if (pBlock->BlockType==2 && pBlock->IndexB==1 && pBlock->BlockTypeB!=6 && CurrentBlockPos.IfIsWithin (237,5,256,5+16))  //Switch...
+                        } else if (pBlock->BlockType==2 && pBlock->IndexB==1 && pBlock->BlockTypeB!=6 && CurrentBlockPos.IfIsWithin (237,5,256,5+16)) {  //Switch...
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 61);
-                        else if (pBlock->BlockType==2 && pBlock->IndexB==1 && pBlock->BlockTypeB!=4 && CurrentBlockPos.IfIsWithin (257,5,276,5+16))  //Switch...
+                        } else if (pBlock->BlockType==2 && pBlock->IndexB==1 && pBlock->BlockTypeB!=4 && CurrentBlockPos.IfIsWithin (257,5,276,5+16)) {  //Switch...
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 62);
-                        else if (pBlock->IndexB!=1 && CurrentBlockPos.IfIsWithin (331,4,331+10,4+15))  //JumpL
+                        } else if (pBlock->IndexB!=1 && CurrentBlockPos.IfIsWithin (331,4,331+10,4+15)) {  //JumpL
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 172);
-                        else if (pBlock->IndexB!=1 && CurrentBlockPos.IfIsWithin (331+11,4,331+21,4+15))  //JumpR
+                        } else if (pBlock->IndexB!=1 && CurrentBlockPos.IfIsWithin (331+11,4,331+21,4+15)) {  //JumpR
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 173);
-                        else if (pBlock->AnzPagesB>1 && CurrentBlockPos.IfIsWithin (376, 43+(138-43)*pBlock->PageB/pBlock->PageSizeB/(pBlock->AnzPagesB-1), 376+15, 43+29+(138-43)*pBlock->PageB/pBlock->PageSizeB/(pBlock->AnzPagesB-1)))
+                        } else if (pBlock->AnzPagesB>1 && CurrentBlockPos.IfIsWithin (376, 43+(138-43)*pBlock->PageB/pBlock->PageSizeB/(pBlock->AnzPagesB-1), 376+15, 43+29+(138-43)*pBlock->PageB/pBlock->PageSizeB/(pBlock->AnzPagesB-1))) {
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 89);
+}
                     }
                     else
                     {
-                        if (CurrentBlockPos.IfIsWithin (173,3,191,19))  //Klick auf "CloseWin"...
+                        if (CurrentBlockPos.IfIsWithin (173,3,191,19)) {  //Klick auf "CloseWin"...
                             SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 50);
+}
                     }
 
-                    if (pBlock->Index!=1 && pBlock->BlockType!=5 && CurrentBlockPos.IfIsWithin (145+22,4,145+10+22,4+15))  //JumpL
+                    if (pBlock->Index!=1 && pBlock->BlockType!=5 && CurrentBlockPos.IfIsWithin (145+22,4,145+10+22,4+15)) {  //JumpL
                         SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 170);
-                    else if (pBlock->Index!=1 && pBlock->BlockType!=5 && CurrentBlockPos.IfIsWithin (145+11+22,4,145+21+22,4+15))  //JumpR
+                    } else if (pBlock->Index!=1 && pBlock->BlockType!=5 && CurrentBlockPos.IfIsWithin (145+11+22,4,145+21+22,4+15)) {  //JumpR
                         SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 171);
+}
                 }
             }
             else
             {
                 //Planes/Routen Buttons
-                if (gMousePosition.IfIsWithin (66, 277, 66+23, 277+23)       && !Sim.Players.Players[0].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 70);
-                if (gMousePosition.IfIsWithin (66, 277+23, 66+23, 277+46)    && !Sim.Players.Players[1].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 71);
-                if (gMousePosition.IfIsWithin (66+23, 277, 66+46, 277+23)    && !Sim.Players.Players[2].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 72);
-                if (gMousePosition.IfIsWithin (66+23, 277+23, 66+46, 277+46) && !Sim.Players.Players[3].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 73);
-                if (gMousePosition.IfIsWithin (91+1, 346+2, 91+1+23, 346+2+23)       && !Sim.Players.Players[0].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 80);
-                if (gMousePosition.IfIsWithin (91+1, 346+2+23, 91+1+23, 346+2+46)    && !Sim.Players.Players[1].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 81);
-                if (gMousePosition.IfIsWithin (91+1+23, 346+2, 91+1+46, 346+2+23)    && !Sim.Players.Players[2].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 82);
-                if (gMousePosition.IfIsWithin (91+1+23, 346+2+23, 91+1+46, 346+2+46) && !Sim.Players.Players[3].IsOut) SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 83);
+                if (gMousePosition.IfIsWithin (66, 277, 66+23, 277+23)       && (Sim.Players.Players[0].IsOut == 0)) { SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 70);
+}
+                if (gMousePosition.IfIsWithin (66, 277+23, 66+23, 277+46)    && (Sim.Players.Players[1].IsOut == 0)) { SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 71);
+}
+                if (gMousePosition.IfIsWithin (66+23, 277, 66+46, 277+23)    && (Sim.Players.Players[2].IsOut == 0)) { SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 72);
+}
+                if (gMousePosition.IfIsWithin (66+23, 277+23, 66+46, 277+46) && (Sim.Players.Players[3].IsOut == 0)) { SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 73);
+}
+                if (gMousePosition.IfIsWithin (91+1, 346+2, 91+1+23, 346+2+23)       && (Sim.Players.Players[0].IsOut == 0)) { SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 80);
+}
+                if (gMousePosition.IfIsWithin (91+1, 346+2+23, 91+1+23, 346+2+46)    && (Sim.Players.Players[1].IsOut == 0)) { SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 81);
+}
+                if (gMousePosition.IfIsWithin (91+1+23, 346+2, 91+1+46, 346+2+23)    && (Sim.Players.Players[2].IsOut == 0)) { SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 82);
+}
+                if (gMousePosition.IfIsWithin (91+1+23, 346+2+23, 91+1+46, 346+2+46) && (Sim.Players.Players[3].IsOut == 0)) { SetMouseLook (CURSOR_HOT, 1, bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 83);
+}
 
                 //Kein Planes/Routes Button, wenn man den entsprechenden Informaten nicht hat:
-                if (MouseClickPar1>=70 && MouseClickPar1<=83 && MouseClickArea==ROOM_LAPTOP && MouseClickId==100 && !Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_INFO))
+                if (MouseClickPar1>=70 && MouseClickPar1<=83 && MouseClickArea==ROOM_LAPTOP && MouseClickId==100 && (Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_INFO) == 0))
                 {
-                    if (MouseClickPar1>=70 && MouseClickPar1<=73 && PlayerNum!=MouseClickPar1-70) SetMouseLook (CURSOR_NORMAL, 0, ROOM_LAPTOP, 0, 0);
-                    if (MouseClickPar1>=80 && MouseClickPar1<=83 && PlayerNum!=MouseClickPar1-80) SetMouseLook (CURSOR_NORMAL, 0, ROOM_LAPTOP, 0, 0);
+                    if (MouseClickPar1>=70 && MouseClickPar1<=73 && PlayerNum!=MouseClickPar1-70) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_LAPTOP, 0, 0);
+}
+                    if (MouseClickPar1>=80 && MouseClickPar1<=83 && PlayerNum!=MouseClickPar1-80) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_LAPTOP, 0, 0);
+}
                 }
 
                 //Display Windows?
-                if (gMousePosition.IfIsWithin (608,312,638,350)) SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 90);
+                if (gMousePosition.IfIsWithin (608,312,638,350)) { SetMouseLook (CURSOR_HOT, 0, ROOM_LAPTOP, 100, 90);
+}
             }
 
             //Is Cursor over Icon?
@@ -690,22 +740,25 @@ void CLaptop::OnPaint()
 
             if (CurrentBlock==-1)
             {
-                for (c=0; c<12; c++)
+                for (c=0; c<12; c++) {
                     if ((c<6 && c!=3 && c!=4 && RoomPos.IfIsWithin (IconsPos[c*2+24], IconsPos[c*2+1+24], IconsPos[c*2+24]+HighlightBm.Size.x, IconsPos[c*2+1+24]+HighlightBm.Size.y)) ||
                             (c>=9 && RoomPos.IfIsWithin (IconsPos[c*2+24], IconsPos[c*2+1+24], IconsPos[c*2+24]+FlugplanIconBms[c][0].Size.x, IconsPos[c*2+1+24]+FlugplanIconBms[c][0].Size.y)) ||
                             ((c>=6 && c<9) && RoomPos.IfIsWithin (IconsPos[c*2+24], IconsPos[c*2+1+24], IconsPos[c*2+24]+FlugplanIconBms[c][0].Size.x, IconsPos[c*2+1+24]+FlugplanIconBms[c][0].Size.y)))
                     {
                         CurrentIcon = c;
 
-                        if (c<6 || c>9)
-                            if (c==0) SetMouseLook (CURSOR_EXIT, 3000+CurrentIcon, ROOM_LAPTOP, 100, CurrentIcon);
-                            else SetMouseLook (CURSOR_HOT, 3000+CurrentIcon, ROOM_LAPTOP, 100, CurrentIcon);
+                        if (c<6 || c>9) {
+                            if (c==0) { SetMouseLook (CURSOR_EXIT, 3000+CurrentIcon, ROOM_LAPTOP, 100, CurrentIcon);
+                            } else { SetMouseLook (CURSOR_HOT, 3000+CurrentIcon, ROOM_LAPTOP, 100, CurrentIcon);
+}
+}
                         //SetToolTip (3000+CurrentIcon, RoomPos);
                     }
+}
             }
 
             //Window moving:
-            if (CurrentDragId!=-1 && (qPlayer.Buttons&1))
+            if (CurrentDragId!=-1 && ((qPlayer.Buttons&1) != 0))
             {
                 qPlayer.Blocks[CurrentDragId].ScreenPos = gMousePosition-DragOffset;
                 Limit ((SLONG)(49-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2), qPlayer.Blocks[CurrentDragId].ScreenPos.x, (SLONG)(600-qPlayer.Blocks[CurrentDragId].Bitmap.Size.x/2));
@@ -716,19 +769,22 @@ void CLaptop::OnPaint()
             if (CurrentBlock==-1 && CurrentDragId==-1 && MouseClickPar1<6 && MouseClickArea==ROOM_LAPTOP && MouseClickId==100)
             {
                 IconRotSpeed[MouseClickPar1]+=(Time-LastTime)*2;
-                if (IconRotSpeed[MouseClickPar1]>1600) IconRotSpeed[MouseClickPar1]=1600;
+                if (IconRotSpeed[MouseClickPar1]>1600) { IconRotSpeed[MouseClickPar1]=1600;
+}
             }
 
             //Ggf. Erde rotieren lassen:
-            if (CurrentBlock==-1 && CurrentDragId==-1 && (qPlayer.Buttons&1))
+            if (CurrentBlock==-1 && CurrentDragId==-1 && ((qPlayer.Buttons&1) != 0))
             {
-                if (MouseClickArea==ROOM_LAPTOP && MouseClickId==100 && MouseClickPar1==11)
+                if (MouseClickArea==ROOM_LAPTOP && MouseClickId==100 && MouseClickPar1==11) {
                     CPlaner::TurnGlobe (1000);   //Turn Left
-                else if (MouseClickArea==ROOM_LAPTOP && MouseClickId==100 && MouseClickPar1==10)
+                } else if (MouseClickArea==ROOM_LAPTOP && MouseClickId==100 && MouseClickPar1==10) {
                     CPlaner::TurnGlobe (-1000);  //Turn Right
+}
             }
         }
-        else CPlaner::DoPollingStuff ();
+        else { CPlaner::DoPollingStuff ();
+}
 
         ///////////////////////////////////////////////////////////////////////////////////////////
         //// Painting                                                                          ////
@@ -739,14 +795,15 @@ void CLaptop::OnPaint()
         {
             IconRot[c]+=IconRotSpeed[c];
             IconRotSpeed[c]-=20;
-            if (IconRotSpeed[c]<0) IconRotSpeed[c]=0;
+            if (IconRotSpeed[c]<0) { IconRotSpeed[c]=0;
+}
         }
 
-        if (bActive)
+        if (bActive != 0)
         {
             PaintGlobeInScreen (GlobeOffset[1]);
 
-            if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus)
+            if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus != 0)
             {
                 for (c=0; c<6; c++)
                 {
@@ -754,15 +811,16 @@ void CLaptop::OnPaint()
                     SP_Buttons[c].BlitAtT (RoomBm);
                 }
 
-                for (c=10; c<12; c++)
-                    RoomBm.BlitFromT (FlugplanIconBms[c][c==CurrentIcon], IconsPos[c*2+24], IconsPos[c*2+1+24]);
+                for (c=10; c<12; c++) {
+                    RoomBm.BlitFromT (FlugplanIconBms[c][static_cast<int>(c==CurrentIcon)], IconsPos[c*2+24], IconsPos[c*2+1+24]);
+}
             }
             else
             {
-                for (c=0; c<12; c++)
+                for (c=0; c<12; c++) {
                     if (c<6 && c!=3 && c!=4)
                     {
-                        if (IconRot[c] && pGLibIcons[c]==0)
+                        if ((IconRot[c] != 0) && pGLibIcons[c]==0)
                         {
                             pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ((CString)bprintf ("icon%li.gli", c+1), RoomPath), &pGLibIcons[c], L_LOCMEM);
 
@@ -777,49 +835,69 @@ void CLaptop::OnPaint()
                             }
                         }
 
-                        if (c==CurrentIcon)
+                        if (c==CurrentIcon) {
                             RoomBm.BlitFromT (HighlightBm, IconsPos[c*2+24], IconsPos[c*2+1+24]);
+}
 
-                        if (IconRot[c])
+                        if (IconRot[c] != 0) {
                             RoomBm.BlitFromT (IconBms[c][(IconRot[c]>>10)%51], IconsPos[c*2+24], IconsPos[c*2+1+24]);
-                        else
+                        } else {
                             RoomBm.BlitFromT (IconsDefaultBms[c], IconsPos[c*2+24], IconsPos[c*2+1+24]);
+}
                     }
-                    else if (c>9)
-                        RoomBm.BlitFromT (FlugplanIconBms[c][c==CurrentIcon], IconsPos[c*2+24], IconsPos[c*2+1+24]);
+                    else if (c>9) {
+                        RoomBm.BlitFromT (FlugplanIconBms[c][static_cast<int>(c==CurrentIcon)], IconsPos[c*2+24], IconsPos[c*2+1+24]);
+}
+}
 
                 RoomBm.BlitFromT (PlaneRouteBms[0], 66, 277);
                 RoomBm.BlitFromT (PlaneRouteBms[9], 91+1, 346+2);
 
                 //Highlight, wenn gedrückt:
-                if (qPlayer.DisplayPlanes[0]) RoomBm.BlitFromT (PlaneRouteBms[2], 66, 277);
-                if (qPlayer.DisplayPlanes[1]) RoomBm.BlitFromT (PlaneRouteBms[4], 66, 277+23);
-                if (qPlayer.DisplayPlanes[2]) RoomBm.BlitFromT (PlaneRouteBms[6], 66+23, 277);
-                if (qPlayer.DisplayPlanes[3]) RoomBm.BlitFromT (PlaneRouteBms[8], 66+23, 277+23);
-                if (qPlayer.DisplayRoutes[0]) RoomBm.BlitFromT (PlaneRouteBms[10+qPlayer.DisplayRoutes[0]], 91+1, 346+2);
-                if (qPlayer.DisplayRoutes[1]) RoomBm.BlitFromT (PlaneRouteBms[13+qPlayer.DisplayRoutes[1]], 91+1, 346+2+23);
-                if (qPlayer.DisplayRoutes[2]) RoomBm.BlitFromT (PlaneRouteBms[16+qPlayer.DisplayRoutes[2]], 91+1+24, 346+2);
-                if (qPlayer.DisplayRoutes[3]) RoomBm.BlitFromT (PlaneRouteBms[19+qPlayer.DisplayRoutes[3]], 91+1+24, 346+2+23);
+                if (qPlayer.DisplayPlanes[0] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[2], 66, 277);
+}
+                if (qPlayer.DisplayPlanes[1] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[4], 66, 277+23);
+}
+                if (qPlayer.DisplayPlanes[2] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[6], 66+23, 277);
+}
+                if (qPlayer.DisplayPlanes[3] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[8], 66+23, 277+23);
+}
+                if (qPlayer.DisplayRoutes[0] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[10+qPlayer.DisplayRoutes[0]], 91+1, 346+2);
+}
+                if (qPlayer.DisplayRoutes[1] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[13+qPlayer.DisplayRoutes[1]], 91+1, 346+2+23);
+}
+                if (qPlayer.DisplayRoutes[2] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[16+qPlayer.DisplayRoutes[2]], 91+1+24, 346+2);
+}
+                if (qPlayer.DisplayRoutes[3] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[19+qPlayer.DisplayRoutes[3]], 91+1+24, 346+2+23);
+}
 
                 //Highlight, wenn Cursor drüber
                 if (MouseClickArea==ROOM_LAPTOP && MouseClickId==100)
                 {
-                    if (MouseClickPar1==70) RoomBm.BlitFromT (PlaneRouteBms[1], 66+9, 277+8);
-                    if (MouseClickPar1==71) RoomBm.BlitFromT (PlaneRouteBms[3], 65+9, 277+23);
-                    if (MouseClickPar1==72) RoomBm.BlitFromT (PlaneRouteBms[5], 65+24, 277+8);
-                    if (MouseClickPar1==73) RoomBm.BlitFromT (PlaneRouteBms[7], 65+24, 277+23);
-                    if (MouseClickPar1==80) RoomBm.BlitFromT (PlaneRouteBms[10], 91+1+9, 346+2+8);
-                    if (MouseClickPar1==81) RoomBm.BlitFromT (PlaneRouteBms[13], 91+1+9, 346+2+23);
-                    if (MouseClickPar1==82) RoomBm.BlitFromT (PlaneRouteBms[16], 91+1+24, 346+2+8);
-                    if (MouseClickPar1==83) RoomBm.BlitFromT (PlaneRouteBms[19], 91+1+24, 346+2+23);
+                    if (MouseClickPar1==70) { RoomBm.BlitFromT (PlaneRouteBms[1], 66+9, 277+8);
+}
+                    if (MouseClickPar1==71) { RoomBm.BlitFromT (PlaneRouteBms[3], 65+9, 277+23);
+}
+                    if (MouseClickPar1==72) { RoomBm.BlitFromT (PlaneRouteBms[5], 65+24, 277+8);
+}
+                    if (MouseClickPar1==73) { RoomBm.BlitFromT (PlaneRouteBms[7], 65+24, 277+23);
+}
+                    if (MouseClickPar1==80) { RoomBm.BlitFromT (PlaneRouteBms[10], 91+1+9, 346+2+8);
+}
+                    if (MouseClickPar1==81) { RoomBm.BlitFromT (PlaneRouteBms[13], 91+1+9, 346+2+23);
+}
+                    if (MouseClickPar1==82) { RoomBm.BlitFromT (PlaneRouteBms[16], 91+1+24, 346+2+8);
+}
+                    if (MouseClickPar1==83) { RoomBm.BlitFromT (PlaneRouteBms[19], 91+1+24, 346+2+23);
+}
                 }
             }
 
             RoomBm.pBitmap->SetClipRect (CRect (39,29,600,409));
 
             //Blöcke zeichnen:
-            for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--)
-                if (qPlayer.Blocks.IsInAlbum(c) && FensterVisible)
+            for (c=qPlayer.Blocks.AnzEntries()-1; c>=1; c--) {
+                if ((qPlayer.Blocks.IsInAlbum(c) != 0) && (FensterVisible != 0))
                 {
                     BLOCK &qBlock=qPlayer.Blocks[c];
 
@@ -837,44 +915,58 @@ void CLaptop::OnPaint()
                         {
                             if (qBlock.IndexB==1 && qBlock.TipInUseB==TIP_NONE)
                             {
-                                if (qBlock.BlockTypeB==3) RoomBm.BlitFromT (Switch[0], qBlock.ScreenPos+XY(217,5));
-                                if (qBlock.BlockTypeB==6) RoomBm.BlitFromT (Switch[1], qBlock.ScreenPos+XY(237,5));
-                                if (qBlock.BlockTypeB==4) RoomBm.BlitFromT (Switch[2], qBlock.ScreenPos+XY(257,5));
+                                if (qBlock.BlockTypeB==3) { RoomBm.BlitFromT (Switch[0], qBlock.ScreenPos+XY(217,5));
+}
+                                if (qBlock.BlockTypeB==6) { RoomBm.BlitFromT (Switch[1], qBlock.ScreenPos+XY(237,5));
+}
+                                if (qBlock.BlockTypeB==4) { RoomBm.BlitFromT (Switch[2], qBlock.ScreenPos+XY(257,5));
+}
                             }
                         }
 
-                        if (qBlock.Index!=1 && qBlock.BlockType!=5)   RoomBm.BlitFromT (Jump[0], qBlock.ScreenPos+XY(145+22, 4));
-                        if (qBlock.IndexB!=1 && qBlock.BlockTypeB!=5) RoomBm.BlitFromT (Jump[0], qBlock.ScreenPos+XY(331, 4));
+                        if (qBlock.Index!=1 && qBlock.BlockType!=5) {   RoomBm.BlitFromT (Jump[0], qBlock.ScreenPos+XY(145+22, 4));
+}
+                        if (qBlock.IndexB!=1 && qBlock.BlockTypeB!=5) { RoomBm.BlitFromT (Jump[0], qBlock.ScreenPos+XY(331, 4));
+}
                     }
 
                     //Highlight the icons?
                     if (c==CurrentBlock && MouseClickArea==ROOM_LAPTOP && MouseClickId==100)
                     {
-                        if (MouseClickPar1==30) RoomBm.BlitFromT (UpLeft[0+gMouseLButton],    pBlock->ScreenPos+XY(0, 80-58));
-                        else if (MouseClickPar1==31) RoomBm.BlitFromT (DownLeft[0+gMouseLButton],  pBlock->ScreenPos+XY(0, 105+63));
-                        else if (MouseClickPar1==35) RoomBm.BlitFromT (Inhalt[1+gMouseLButton],    pBlock->ScreenPos+XY(16,0));
-                        else if (MouseClickPar1==40) RoomBm.BlitFromT (UpRight[0+gMouseLButton],   pBlock->ScreenPos+XY(376,81-58-1));
-                        else if (MouseClickPar1==41) RoomBm.BlitFromT (DownRight[0+gMouseLButton], pBlock->ScreenPos+XY(376,105+63+1));
-                        else if (MouseClickPar1==45) RoomBm.BlitFromT (Inhalt[1+gMouseLButton],    pBlock->ScreenPos+XY(203,0));
+                        if (MouseClickPar1==30) { RoomBm.BlitFromT (UpLeft[0+gMouseLButton],    pBlock->ScreenPos+XY(0, 80-58));
+                        } else if (MouseClickPar1==31) { RoomBm.BlitFromT (DownLeft[0+gMouseLButton],  pBlock->ScreenPos+XY(0, 105+63));
+                        } else if (MouseClickPar1==35) { RoomBm.BlitFromT (Inhalt[1+gMouseLButton],    pBlock->ScreenPos+XY(16,0));
+                        } else if (MouseClickPar1==40) { RoomBm.BlitFromT (UpRight[0+gMouseLButton],   pBlock->ScreenPos+XY(376,81-58-1));
+                        } else if (MouseClickPar1==41) { RoomBm.BlitFromT (DownRight[0+gMouseLButton], pBlock->ScreenPos+XY(376,105+63+1));
+                        } else if (MouseClickPar1==45) { RoomBm.BlitFromT (Inhalt[1+gMouseLButton],    pBlock->ScreenPos+XY(203,0));
+}
 
-                        if (MouseClickPar1==60) RoomBm.BlitFromT (Switch[3], pBlock->ScreenPos+XY(217,5));
-                        if (MouseClickPar1==61) RoomBm.BlitFromT (Switch[4], pBlock->ScreenPos+XY(237,5));
-                        if (MouseClickPar1==62) RoomBm.BlitFromT (Switch[5], pBlock->ScreenPos+XY(257,5));
-                        if (MouseClickPar1==50)
-                            if (pBlock->DoubleBlock) RoomBm.BlitFromT (Close[0+gMouseLButton], pBlock->ScreenPos+XY(360,0));
-                            else RoomBm.BlitFromT (Close[0+gMouseLButton], pBlock->ScreenPos+XY(174,0));
+                        if (MouseClickPar1==60) { RoomBm.BlitFromT (Switch[3], pBlock->ScreenPos+XY(217,5));
+}
+                        if (MouseClickPar1==61) { RoomBm.BlitFromT (Switch[4], pBlock->ScreenPos+XY(237,5));
+}
+                        if (MouseClickPar1==62) { RoomBm.BlitFromT (Switch[5], pBlock->ScreenPos+XY(257,5));
+}
+                        if (MouseClickPar1==50) {
+                            if (pBlock->DoubleBlock != 0) { RoomBm.BlitFromT (Close[0+gMouseLButton], pBlock->ScreenPos+XY(360,0));
+                            } else { RoomBm.BlitFromT (Close[0+gMouseLButton], pBlock->ScreenPos+XY(174,0));
+}
+}
 
-                        if (MouseClickPar1==170) RoomBm.BlitFromT (Jump[1+gMouseLButton], pBlock->ScreenPos+XY(145+22, 4));
-                        else if (MouseClickPar1==171) RoomBm.BlitFromT (Jump[3+gMouseLButton], pBlock->ScreenPos+XY(145+22, 4));
-                        else if (MouseClickPar1==172) RoomBm.BlitFromT (Jump[1+gMouseLButton], pBlock->ScreenPos+XY(331, 4));
-                        else if (MouseClickPar1==173) RoomBm.BlitFromT (Jump[3+gMouseLButton], pBlock->ScreenPos+XY(331, 4));
+                        if (MouseClickPar1==170) { RoomBm.BlitFromT (Jump[1+gMouseLButton], pBlock->ScreenPos+XY(145+22, 4));
+                        } else if (MouseClickPar1==171) { RoomBm.BlitFromT (Jump[3+gMouseLButton], pBlock->ScreenPos+XY(145+22, 4));
+                        } else if (MouseClickPar1==172) { RoomBm.BlitFromT (Jump[1+gMouseLButton], pBlock->ScreenPos+XY(331, 4));
+                        } else if (MouseClickPar1==173) { RoomBm.BlitFromT (Jump[3+gMouseLButton], pBlock->ScreenPos+XY(331, 4));
+}
                     }
-                    else if (c==CurrentBlock && MouseClickArea==ROOM_LAPTOP && pBlock->IsTopWindow)
+                    else if (c==CurrentBlock && MouseClickArea==ROOM_LAPTOP && (pBlock->IsTopWindow != 0))
                     {
-                        if (MouseClickId==150) RoomBm.BlitFromT (FlugplanBms[52],  pBlock->ScreenPos+XY(45,67)+XY(0, 105));
-                        else if (MouseClickId==151) RoomBm.BlitFromT (FlugplanBms[53],  pBlock->ScreenPos+XY(34,67)+XY(120, 105));
+                        if (MouseClickId==150) { RoomBm.BlitFromT (FlugplanBms[52],  pBlock->ScreenPos+XY(45,67)+XY(0, 105));
+                        } else if (MouseClickId==151) { RoomBm.BlitFromT (FlugplanBms[53],  pBlock->ScreenPos+XY(34,67)+XY(120, 105));
+}
                     }
                 }
+}
 
             RoomBm.pBitmap->SetClipRect (CRect (0,0,640,480));
 
@@ -905,7 +997,7 @@ void CLaptop::OnPaint()
                 PostItPos += (gMousePosition-ClientPos);
             }
 
-            if (!RoomBm.BlitFromT (PostItBm, PostItPos))
+            if (RoomBm.BlitFromT (PostItBm, PostItPos) == 0)
             {
                 PaintPostIt ();
                 RoomBm.BlitFromT (PostItBm, PostItPos);
@@ -943,12 +1035,13 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
         return;
     }
 
-    if (DragFlightMode || MouseClickId==105) { DefaultOnLButtonDown (); return; }
+    if ((DragFlightMode != 0) || MouseClickId==105) { DefaultOnLButtonDown (); return; }
 
-    if (!KonstruktorFinished)
+    if (KonstruktorFinished == 0) {
         return;
+}
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         return;
     }
@@ -972,13 +1065,15 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
         PlayUniversalFx ("laptop4.raw", Sim.Options.OptionEffekte);
     }
 
-    if (Copyprotection) return;
-    if (PreLButtonDown (gMousePosition) || qPlayer.LaptopBattery<=0) return;
+    if (Copyprotection != 0) { return;
+}
+    if ((PreLButtonDown (gMousePosition) != 0) || qPlayer.LaptopBattery<=0) { return;
+}
 
     CPlaner::HandleLButtonDown ();
 
     //Klick auf ein FLugzeug auf der Weltkarte:
-    if (CurrentBlock==-1 && MouseClickArea==ROOM_LAPTOP && MouseClickId==101)
+    if (CurrentBlock==-1 && MouseClickArea==ROOM_LAPTOP && MouseClickId==101) {
         if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0)
         {
             ULONG Id;
@@ -1017,10 +1112,11 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
             qBlock.IndexB       = TRUE;
             qBlock.PageB        = 0;
 
-            qBlock.DoubleBlock = (qBlock.BlockType!=5);
+            qBlock.DoubleBlock = static_cast<BOOL>(qBlock.BlockType!=5);
 
             qBlock.AnzPages = 3;
-            if (Sim.Players.Players[(SLONG)PlayerNum].Planes[qBlock.SelectedId].TypeId!=-1) qBlock.AnzPages += PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[qBlock.SelectedId].TypeId].AnzPhotos;
+            if (Sim.Players.Players[(SLONG)PlayerNum].Planes[qBlock.SelectedId].TypeId!=-1) { qBlock.AnzPages += PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[qBlock.SelectedId].TypeId].AnzPhotos;
+}
 
             qBlock.RefreshData (PlayerNum);
             qBlock.Refresh (PlayerNum, TRUE);
@@ -1040,6 +1136,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
                 Id--;
             }
         }
+}
 
     //Test, ob Klick auf Block
     if (CurrentBlock!=-1)
@@ -1061,8 +1158,10 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
 
                 if (MouseClickPar1==170 || MouseClickPar1==171) //Left Block
                 {
-                    for (c=0; c<pBlock->Table.AnzRows; c++)
-                        if (pBlock->SelectedId==pBlock->Table.LineIndex[c]) break;
+                    for (c=0; c<pBlock->Table.AnzRows; c++) {
+                        if (pBlock->SelectedId==pBlock->Table.LineIndex[c]) { break;
+}
+}
 
                     if (c<pBlock->Table.AnzRows)
                     {
@@ -1092,24 +1191,29 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
                             if (pBlock->Index==0)
                             {
                                 pBlock->AnzPages = 3;
-                                if (Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].TypeId!=-1) pBlock->AnzPages += PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].TypeId].AnzPhotos;
+                                if (Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].TypeId!=-1) { pBlock->AnzPages += PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].TypeId].AnzPhotos;
+}
                             }
-                            if (pBlock->Index==2) pBlock->AnzPages = 7;
+                            if (pBlock->Index==2) { pBlock->AnzPages = 7;
+}
                             GlobeBm.Clear (0);
                             PaintGlobe ();
                             PaintGlobeRoutes();
                             break;
                     }
 
-                    if (pBlock->Page>=pBlock->AnzPages) pBlock->Page=pBlock->AnzPages-1;
+                    if (pBlock->Page>=pBlock->AnzPages) { pBlock->Page=pBlock->AnzPages-1;
+}
 
                     pBlock->RefreshData (PlayerNum);
                     pBlock->Refresh (PlayerNum, IsLaptop);
                 }
                 else if (MouseClickPar1==172 || MouseClickPar1==173) //Right Block
                 {
-                    for (c=0; c<pBlock->TableB.AnzRows; c++)
-                        if (pBlock->SelectedIdB==pBlock->TableB.LineIndex[c]) break;
+                    for (c=0; c<pBlock->TableB.AnzRows; c++) {
+                        if (pBlock->SelectedIdB==pBlock->TableB.LineIndex[c]) { break;
+}
+}
 
                     if (c<pBlock->TableB.AnzRows)
                     {
@@ -1143,20 +1247,21 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
                             break;
                     }
 
-                    if (pBlock->PageB>=pBlock->AnzPagesB) pBlock->PageB=pBlock->AnzPagesB-1;
+                    if (pBlock->PageB>=pBlock->AnzPagesB) { pBlock->PageB=pBlock->AnzPagesB-1;
+}
 
                     pBlock->RefreshData (PlayerNum);
                     pBlock->Refresh (PlayerNum, IsLaptop);
                 }
             }
 
-            if (MouseClickPar1==31) ButtonNext ();           //Klick auf "Next"...
-            else if (MouseClickPar1==30) ButtonPrev ();      //Klick auf "Prev"...
-            else if (MouseClickPar1==35) ButtonIndex ();     //Klick auf "Index"...
-            else if (MouseClickPar1==41) ButtonNextB ();     //Klick auf "NextB"...
-            else if (MouseClickPar1==40) ButtonPrevB ();     //Klick auf "PrevB"...
-            else if (MouseClickPar1==45) ButtonIndexB ();    //Klick auf "IndexB"...
-            else if (MouseClickPar1==88)
+            if (MouseClickPar1==31) { ButtonNext ();           //Klick auf "Next"...
+            } else if (MouseClickPar1==30) { ButtonPrev ();      //Klick auf "Prev"...
+            } else if (MouseClickPar1==35) { ButtonIndex ();     //Klick auf "Index"...
+            } else if (MouseClickPar1==41) { ButtonNextB ();     //Klick auf "NextB"...
+            } else if (MouseClickPar1==40) { ButtonPrevB ();     //Klick auf "PrevB"...
+            } else if (MouseClickPar1==45) { ButtonIndexB ();    //Klick auf "IndexB"...
+            } else if (MouseClickPar1==88)
             {
                 ScrollOffset = gMousePosition-qPlayer.Blocks[CurrentBlock].ScreenPos-XY(5, 43+(138-43)*pBlock->Page/pBlock->PageSize/(pBlock->AnzPages-1))-XY(0,10);
                 ScrollBlock  = CurrentBlock;
@@ -1176,9 +1281,12 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
             else if (MouseClickPar1==60 || MouseClickPar1==61 || MouseClickPar1==62)
             {
                 //Neue Parameter laden:
-                if (MouseClickPar1==60) qBlock.BlockTypeB = 3; //Aufträge
-                if (MouseClickPar1==61) qBlock.BlockTypeB = 6; //Fracht
-                if (MouseClickPar1==62) qBlock.BlockTypeB = 4; //Routen
+                if (MouseClickPar1==60) { qBlock.BlockTypeB = 3; //Aufträge
+}
+                if (MouseClickPar1==61) { qBlock.BlockTypeB = 6; //Fracht
+}
+                if (MouseClickPar1==62) { qBlock.BlockTypeB = 4; //Routen
+}
 
                 qBlock.IndexB      = qBlock.Indexes[qBlock.BlockTypeB-1];
                 qBlock.SelectedIdB = qBlock.SelectedIds[qBlock.BlockTypeB-1];
@@ -1186,9 +1294,12 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
                 qBlock.RefreshData (PlayerNum);
                 qBlock.AnzPagesB  = max (0, (qBlock.TableB.AnzRows-1)/6)+1;
 
-                if (qBlock.IndexB==1) qBlock.AnzPagesB = max (0, (qBlock.TableB.AnzRows-1)/6)+1;
-                if (qBlock.IndexB==2) qBlock.AnzPagesB = 7;
-                if (qBlock.IndexB==0) qBlock.AnzPagesB = 1;
+                if (qBlock.IndexB==1) { qBlock.AnzPagesB = max (0, (qBlock.TableB.AnzRows-1)/6)+1;
+}
+                if (qBlock.IndexB==2) { qBlock.AnzPagesB = 7;
+}
+                if (qBlock.IndexB==0) { qBlock.AnzPagesB = 1;
+}
 
                 qBlock.Refresh (PlayerNum, TRUE);
             }
@@ -1197,7 +1308,8 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
         //Ggf. Window moving...
         if (CurrentBlockPos.IfIsWithin (34,2,165,19) || CurrentBlockPos.IfIsWithin (223,2,356,19))
         {
-            if (CurrentDragId==-1) DragStart=gMousePosition;
+            if (CurrentDragId==-1) { DragStart=gMousePosition;
+}
             CurrentDragId = CurrentBlock;
             DragOffset    = gMousePosition - pBlock->ScreenPos;
         }
@@ -1220,19 +1332,22 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
     {
         if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0)
         {
-            if (MouseClickPar1==90) FensterVisible^=1;
-            else if (MouseClickPar1==70) qPlayer.DisplayPlanes[0]^=1;
-            else if (MouseClickPar1==71) qPlayer.DisplayPlanes[1]^=1;
-            else if (MouseClickPar1==72) qPlayer.DisplayPlanes[2]^=1;
-            else if (MouseClickPar1==73) qPlayer.DisplayPlanes[3]^=1;
-            else if (MouseClickPar1==80) qPlayer.DisplayRoutes[0]=UBYTE((qPlayer.DisplayRoutes[0]+1)%3);
-            else if (MouseClickPar1==81) qPlayer.DisplayRoutes[1]=UBYTE((qPlayer.DisplayRoutes[1]+1)%3);
-            else if (MouseClickPar1==82) qPlayer.DisplayRoutes[2]=UBYTE((qPlayer.DisplayRoutes[2]+1)%3);
-            else if (MouseClickPar1==83) qPlayer.DisplayRoutes[3]=UBYTE((qPlayer.DisplayRoutes[3]+1)%3);
+            if (MouseClickPar1==90) { FensterVisible^=1;
+            } else if (MouseClickPar1==70) { qPlayer.DisplayPlanes[0]^=1;
+            } else if (MouseClickPar1==71) { qPlayer.DisplayPlanes[1]^=1;
+            } else if (MouseClickPar1==72) { qPlayer.DisplayPlanes[2]^=1;
+            } else if (MouseClickPar1==73) { qPlayer.DisplayPlanes[3]^=1;
+            } else if (MouseClickPar1==80) { qPlayer.DisplayRoutes[0]=UBYTE((qPlayer.DisplayRoutes[0]+1)%3);
+            } else if (MouseClickPar1==81) { qPlayer.DisplayRoutes[1]=UBYTE((qPlayer.DisplayRoutes[1]+1)%3);
+            } else if (MouseClickPar1==82) { qPlayer.DisplayRoutes[2]=UBYTE((qPlayer.DisplayRoutes[2]+1)%3);
+            } else if (MouseClickPar1==83) { qPlayer.DisplayRoutes[3]=UBYTE((qPlayer.DisplayRoutes[3]+1)%3);
+}
 
-            if (MouseClickPar1>=70 && MouseClickPar1<=73)
-                if (Sim.Players.Players[PlayerNum].DisplayPlanes[MouseClickPar1-70])
+            if (MouseClickPar1>=70 && MouseClickPar1<=73) {
+                if (Sim.Players.Players[PlayerNum].DisplayPlanes[MouseClickPar1-70] != 0u) {
                     Sim.Players.Players[MouseClickPar1-70].Planes.UpdateGlobePos (EarthAlpha);
+}
+}
 
             if (MouseClickPar1>=80 && MouseClickPar1<=83)
             {
@@ -1243,16 +1358,18 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
         }
         else
         {
-            if (MouseClickPar1/10==7) KommVarButtons[3]=1;
-            if (MouseClickPar1/10==8) KommVarButtons[2]=1;
+            if (MouseClickPar1/10==7) { KommVarButtons[3]=1;
+}
+            if (MouseClickPar1/10==8) { KommVarButtons[2]=1;
+}
         }
     }
 
     //Klick auf Ikone behandeln:
-    if (CurrentIcon==0) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-    else if (CurrentIcon>=1 && CurrentIcon<=5 && Sim.Players.Players[PlayerNum].Blocks.GetNumFree())
+    if (CurrentIcon==0) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+    } else if (CurrentIcon>=1 && CurrentIcon<=5 && (Sim.Players.Players[PlayerNum].Blocks.GetNumFree() != 0))
     {
-        if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus)
+        if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus != 0)
         {
             KommVarButtons[CurrentIcon-1]=1;
         }
@@ -1261,10 +1378,13 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
             FensterVisible=TRUE;
 
             //Neuen Block oder Block nach vorne bringen?
-            for (c=Sim.Players.Players[(SLONG)PlayerNum].Blocks.AnzEntries(); c>0; c--)
-                if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(c))
-                    if (Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].BlockType==CurrentIcon && Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].Index==1)
+            for (c=Sim.Players.Players[(SLONG)PlayerNum].Blocks.AnzEntries(); c>0; c--) {
+                if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(c) != 0) {
+                    if (Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].BlockType==CurrentIcon && Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].Index==1) {
                         break;
+}
+}
+}
 
             if (c>=1)
             {
@@ -1297,7 +1417,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
                     qBlock.AnimationStart = Sim.TimeSlice;
 
                     qBlock.BlockType  = CurrentIcon;
-                    qBlock.DoubleBlock = (qBlock.BlockType!=5);
+                    qBlock.DoubleBlock = static_cast<BOOL>(qBlock.BlockType!=5);
 
                     qBlock.SelectedId = 0;
                     qBlock.Index      = TRUE;
@@ -1319,10 +1439,11 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
                     qBlock.UpdatePageSize ();
                     qBlock.RefreshData (PlayerNum);
 
-                    if (qBlock.BlockType==2) //Flugzeuge in einer Doppellliste:
+                    if (qBlock.BlockType==2) { //Flugzeuge in einer Doppellliste:
                         qBlock.AnzPages   = max (0, (Sim.Players.Players[PlayerNum].Blocks[Id].Table.AnzRows-1)/6)+1;
-                    else
+                    } else {
                         qBlock.AnzPages   = max (0, (Sim.Players.Players[PlayerNum].Blocks[Id].Table.AnzRows-1)/13)+1;
+}
 
                     qBlock.Refresh (PlayerNum, TRUE);
 
@@ -1352,8 +1473,9 @@ void CLaptop::OnLButtonUp(UINT nFlags, CPoint point)
 {
     DefaultOnLButtonUp();
 
-    if (!KonstruktorFinished)
+    if (KonstruktorFinished == 0) {
         return;
+}
 
     CPlaner::HandleLButtonUp ();
     CStdRaum::OnLButtonUp(nFlags, point);
@@ -1363,10 +1485,11 @@ void CLaptop::OnLButtonUp(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //void CGlobe::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CLaptop::OnLButtonDblClk(UINT, CPoint)
+void CLaptop::OnLButtonDblClk(UINT /*nFlags*/, CPoint /*point*/)
 {
-    if (!KonstruktorFinished)
+    if (KonstruktorFinished == 0) {
         return;
+}
 
     CPlaner::HandleLButtonDouble ();
     UpdateWarningLightModes ();
@@ -1377,7 +1500,8 @@ void CLaptop::OnLButtonDblClk(UINT, CPoint)
 //--------------------------------------------------------------------------------------------
 void CLaptop::OnRButtonDown(UINT nFlags, CPoint point)
 {
-    if (CurrentBlock!=-1) KommVarLampe=3;  //kurz blinken
+    if (CurrentBlock!=-1) { KommVarLampe=3;  //kurz blinken
+}
     CPlaner::HandleRButtonDown ();
     CStdRaum::OnLButtonUp(nFlags, point);
     UpdateWarningLightModes ();
@@ -1413,22 +1537,27 @@ void CLaptop::UpdateWarningLightModes (void)
 {
     PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
-    if (qPlayer.Auftraege.GetNumOpen())
+    if (qPlayer.Auftraege.GetNumOpen() != 0)
     {
         WarningLightModes[0] = 1;
-        if (qPlayer.Auftraege.GetNumDueToday()) WarningLightModes[0] = 2;
+        if (qPlayer.Auftraege.GetNumDueToday() != 0) { WarningLightModes[0] = 2;
+}
     }
-    else WarningLightModes[0] = 0;
+    else { WarningLightModes[0] = 0;
+}
 
-    if (qPlayer.Frachten.GetNumOpen())
+    if (qPlayer.Frachten.GetNumOpen() != 0)
     {
         WarningLightModes[1] = 1;
-        if (qPlayer.Frachten.GetNumDueToday()) WarningLightModes[1] = 2;
+        if (qPlayer.Frachten.GetNumDueToday() != 0) { WarningLightModes[1] = 2;
+}
     }
-    else WarningLightModes[1] = 0;
+    else { WarningLightModes[1] = 0;
+}
 
-    if (qPlayer.RentRouten.GetNumUsed())
+    if (qPlayer.RentRouten.GetNumUsed() != 0) {
         WarningLightModes[2] = 1;
-    else
+    } else {
         WarningLightModes[2] = 0;
+}
 }

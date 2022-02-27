@@ -46,9 +46,10 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
     CMessages &qMessages=qPlayer.Messages;
     CString    Answer;
 
-    if (nOptionsOpen && Sim.bNetwork && Sim.localPlayer<Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom()!=0) return (TRUE);
+    if ((nOptionsOpen != 0) && (Sim.bNetwork != 0) && Sim.localPlayer<Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom()!=0) { return (TRUE);
+}
 
-    if (bHandy)
+    if (bHandy != 0)
     {
         WasLButtonDown=TRUE;
         WasLButtonDownPoint=point;
@@ -61,14 +62,14 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
         return (TRUE);
     }
 
-    if (nOptionsOpen==false && qMessages.BeraterWalkState==0 && qMessages.AktuellerBeraterTyp!=-1 && qMessages.IsDialog==0)
+    if (!static_cast<bool>(nOptionsOpen) && qMessages.BeraterWalkState==0 && qMessages.AktuellerBeraterTyp!=-1 && qMessages.IsDialog==0)
     {
         if (XY(point).IfIsWithin (640-80, 440-120, 640, 440))
         {
             qMessages.TalkCountdown=1;
             return (TRUE);
         }
-        else if (qMessages.Messages[(SLONG)0].Message.GetLength()>0 &&
+        if (qMessages.Messages[(SLONG)0].Message.GetLength()>0 &&
                 XY(point).IfIsWithin (640-BeraterBms[qMessages.AktuelleBeraterBitmap][0].Size.x+BeraterSprechblasenOffset[qMessages.AktuelleBeraterBitmap].x-qMessages.SprechblaseBm.Size.x, qMessages.BeraterPosY+BeraterSprechblasenOffset[qMessages.AktuelleBeraterBitmap].y,
                     640-BeraterBms[qMessages.AktuelleBeraterBitmap][0].Size.x+BeraterSprechblasenOffset[qMessages.AktuelleBeraterBitmap].x, qMessages.BeraterPosY+BeraterSprechblasenOffset[qMessages.AktuelleBeraterBitmap].y+qMessages.SprechblaseBm.Size.y))
         {
@@ -77,12 +78,12 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
         }
     }
 
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0)
     {
         MenuLeftClick (point);
         return (TRUE);
     }
-    else if (DialogPartner!=TALKER_NONE)
+    if (DialogPartner!=TALKER_NONE)
     {
         //Klick ignorieren, wenn er erst anfängt zu reden:
         if (pSmackerPartner!=NULL && TextAlign==0 && pSmackerPartner->GetMood()!=SPM_TALKING && timeGetTime()<=(DWORD)SmackerTimeToTalk)

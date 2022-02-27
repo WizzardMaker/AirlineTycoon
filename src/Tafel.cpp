@@ -42,7 +42,8 @@ CTafel::CTafel (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "ta
     LeereZettelBms.ReSize (pRoomLib, "ZETTEL04", 3);
     PostcardBm.ReSize (pRoomLib, "NOCARD");
 
-    for (SLONG c=0; c<21; c++) RepaintZettel (c);
+    for (SLONG c=0; c<21; c++) { RepaintZettel (c);
+}
 
     SP_Fliege.ReSize (5);
     SP_Fliege.Clips[0].ReSize (0, "flyw01.smk", "", XY (554, 253), SPM_IDLE,   CRepeat(5,9), CPostWait(0,0),     SMACKER_CLIP_CANCANCEL,
@@ -86,7 +87,7 @@ CTafel::~CTafel()
         Message << TafelData.Gate[c].Player << TafelData.Gate[c].Preis;
     }
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -109,33 +110,38 @@ void CTafel::OnPaint()
     BOOL    OnTip=FALSE;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
 
-    if (!(Sim.ItemPostcard && qPlayer.SeligTrust==0 && Sim.Difficulty!=DIFF_TUTORIAL))
+    if (!((Sim.ItemPostcard != 0) && qPlayer.SeligTrust==0 && Sim.Difficulty!=DIFF_TUTORIAL)) {
         RoomBm.BlitFromT (PostcardBm, 16, 290);
+}
 
     for (c=0; c<7; c++)
     {
         //Zettel malen:
-        if (TafelData.City[c].ZettelId!=-1 && Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[TafelData.City[c].ZettelId].Rang==0)
-            if (!RoomBm.BlitFromT (ZettelBms[c+7], ZettelPos[(c+7)*2], ZettelPos[(c+7)*2+1]))
+        if (TafelData.City[c].ZettelId!=-1 && Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[TafelData.City[c].ZettelId].Rang==0) {
+            if (RoomBm.BlitFromT (ZettelBms[c+7], ZettelPos[(c+7)*2], ZettelPos[(c+7)*2+1]) == 0)
             {
                 RepaintZettel (c+7);
                 RoomBm.BlitFromT (ZettelBms[c+7], ZettelPos[(c+7)*2], ZettelPos[(c+7)*2+1]);
             }
+}
 
-        if (TafelData.Gate[c].ZettelId!=-1)
-            if (!RoomBm.BlitFromT (ZettelBms[c+14], ZettelPos[(c+14)*2], ZettelPos[(c+14)*2+1]))
+        if (TafelData.Gate[c].ZettelId!=-1) {
+            if (RoomBm.BlitFromT (ZettelBms[c+14], ZettelPos[(c+14)*2], ZettelPos[(c+14)*2+1]) == 0)
             {
                 RepaintZettel (c+14);
                 RoomBm.BlitFromT (ZettelBms[c+14], ZettelPos[(c+14)*2], ZettelPos[(c+14)*2+1]);
             }
+}
     }
 
-    if (OnTip==FALSE) LastTip=-1;
+    if (OnTip==FALSE) { LastTip=-1;
+}
 
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
@@ -143,27 +149,32 @@ void CTafel::OnPaint()
     SP_Fliege.Pump ();
     SP_Fliege.BlitAtT (RoomBm);
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (580,369,640,423)) SetMouseLook (CURSOR_EXIT, 0, ROOM_TAFEL, 999);
-        if (gMousePosition.IfIsWithin (500,280,640,424)) KommVar=2;
+        if (gMousePosition.IfIsWithin (580,369,640,423)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_TAFEL, 999);
+}
+        if (gMousePosition.IfIsWithin (500,280,640,424)) { KommVar=2;
+}
 
-        if (Sim.ItemPostcard && qPlayer.SeligTrust==0 && Sim.Difficulty!=DIFF_TUTORIAL)
-            if (gMousePosition.IfIsWithin (25,317,188,410) || gMousePosition.IfIsWithin (116,299,182,334) || gMousePosition.IfIsWithin (37,385,116,425)) SetMouseLook (CURSOR_HOT, 0, ROOM_TAFEL, 800);
+        if ((Sim.ItemPostcard != 0) && qPlayer.SeligTrust==0 && Sim.Difficulty!=DIFF_TUTORIAL) {
+            if (gMousePosition.IfIsWithin (25,317,188,410) || gMousePosition.IfIsWithin (116,299,182,334) || gMousePosition.IfIsWithin (37,385,116,425)) { SetMouseLook (CURSOR_HOT, 0, ROOM_TAFEL, 800);
+}
+}
 
         if (!(MouseClickArea==ROOM_TAFEL && MouseClickId==999))
         {
             //Auf einen der Zettel geklickt?
             for (c=0; c<21; c++)
             {
-                if (gMousePosition.y<440 && ((c<7 && TafelData.Route[c].ZettelId) || (c>=7 && c<14 && TafelData.City[c-7].ZettelId) || (c>=14 && TafelData.Gate[c-14].ZettelId!=-1)))
+                if (gMousePosition.y<440 && ((c<7 && (TafelData.Route[c].ZettelId != 0)) || (c>=7 && c<14 && (TafelData.City[c-7].ZettelId != 0)) || (c>=14 && TafelData.Gate[c-14].ZettelId!=-1)))
                 {
                     if (XY(gMousePosition).IfIsWithin(ZettelPos[c*2], ZettelPos[c*2+1], ZettelPos[c*2]+LeereZettelBms[c%3].Size.x, ZettelPos[c*2+1]+LeereZettelBms[c%3].Size.y))
                     {
-                        if (c>=7 && c<14 && TafelData.City[c-7].Player!=PlayerNum && Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[TafelData.City[c-7].ZettelId].Rang==0)
+                        if (c>=7 && c<14 && TafelData.City[c-7].Player!=PlayerNum && Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[TafelData.City[c-7].ZettelId].Rang==0) {
                             SetMouseLook (CURSOR_HOT, 0, ROOM_TAFEL, 0);
-                        else if (c>=14 && TafelData.Gate[c-14].Player!=PlayerNum)
+                        } else if (c>=14 && TafelData.Gate[c-14].Player!=PlayerNum) {
                             SetMouseLook (CURSOR_HOT, 0, ROOM_TAFEL, 0);
+}
                     }
                 }
             }
@@ -288,26 +299,26 @@ void CTafel::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_TAFEL && MouseClickId==999)
+        if (MouseClickArea==ROOM_TAFEL && MouseClickId==999) {
             qPlayer.LeaveRoom();
-        else if (MouseClickArea==ROOM_TAFEL && MouseClickId==800 && Sim.ItemPostcard)
+        } else if (MouseClickArea==ROOM_TAFEL && MouseClickId==800 && (Sim.ItemPostcard != 0))
         {
-            if (qPlayer.HasSpaceForItem ())
+            if (qPlayer.HasSpaceForItem () != 0)
             {
                 qPlayer.BuyItem (ITEM_POSTKARTE);
 
-                if (qPlayer.HasItem (ITEM_POSTKARTE))
+                if (qPlayer.HasItem (ITEM_POSTKARTE) != 0)
                 {
-                    Sim.ItemPostcard=false;
-                    Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_POSTKARTE);
+                    Sim.ItemPostcard=0;
+                    SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_POSTKARTE);
                 }
             }
         }
@@ -316,7 +327,7 @@ void CTafel::OnLButtonDown(UINT nFlags, CPoint point)
             //Auf einen der Zettel geklickt?
             for (c=0; c<21; c++)
             {
-                if (point.y<440 && ((c<7 && TafelData.Route[c].ZettelId) || (c>=7 && c<14 && TafelData.City[c-7].ZettelId!=-1) || (c>=14 && TafelData.Gate[c-14].ZettelId!=-1)))
+                if (point.y<440 && ((c<7 && (TafelData.Route[c].ZettelId != 0)) || (c>=7 && c<14 && TafelData.City[c-7].ZettelId!=-1) || (c>=14 && TafelData.Gate[c-14].ZettelId!=-1)))
                 {
                     if (XY(point).IfIsWithin(ZettelPos[c*2], ZettelPos[c*2+1], ZettelPos[c*2]+LeereZettelBms[c%3].Size.x, ZettelPos[c*2+1]+LeereZettelBms[c%3].Size.y))
                     {
@@ -332,8 +343,9 @@ void CTafel::OnLButtonDown(UINT nFlags, CPoint point)
                         }
                         if (c>=7 && c<14 && TafelData.City[c-7].Player!=PlayerNum && Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[TafelData.City[c-7].ZettelId].Rang==0)
                         {
-                            if (Sim.bNetwork && TafelData.City[c-7].Player!=-1 && Sim.Players.Players[TafelData.City[c-7].Player].Owner==2)
-                                Sim.SendSimpleMessage (ATNET_ADVISOR, Sim.Players.Players[TafelData.City[c-7].Player].NetworkID, 0, PlayerNum, c);
+                            if ((Sim.bNetwork != 0) && TafelData.City[c-7].Player!=-1 && Sim.Players.Players[TafelData.City[c-7].Player].Owner==2) {
+                                SIM::SendSimpleMessage (ATNET_ADVISOR, Sim.Players.Players[TafelData.City[c-7].Player].NetworkID, 0, PlayerNum, c);
+}
 
                             TafelData.City[c-7].Preis += TafelData.City[c-7].Preis/10;
                             TafelData.City[c-7].Player = PlayerNum;
@@ -341,8 +353,9 @@ void CTafel::OnLButtonDown(UINT nFlags, CPoint point)
                         }
                         else if (c>=14 && TafelData.Gate[c-14].Player!=PlayerNum)
                         {
-                            if (Sim.bNetwork && TafelData.City[c-7].Player!=-1 && Sim.Players.Players[TafelData.City[c-7].Player].Owner==2)
-                                Sim.SendSimpleMessage (ATNET_ADVISOR, Sim.Players.Players[TafelData.City[c-7].Player].NetworkID, 0, PlayerNum, c);
+                            if ((Sim.bNetwork != 0) && TafelData.City[c-7].Player!=-1 && Sim.Players.Players[TafelData.City[c-7].Player].Owner==2) {
+                                SIM::SendSimpleMessage (ATNET_ADVISOR, Sim.Players.Players[TafelData.City[c-7].Player].NetworkID, 0, PlayerNum, c);
+}
 
                             TafelData.Gate[c-14].Preis += TafelData.Gate[c-14].Preis/10;
                             TafelData.Gate[c-14].Player = PlayerNum;
@@ -371,13 +384,13 @@ void CTafel::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
 
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0)
     {
         MenuRightClick (point);
     }
     else
     {
-        if (!IsDialogOpen() && point.y<440)
+        if ((IsDialogOpen() == 0) && point.y<440)
         {
             Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
         }
@@ -410,9 +423,15 @@ void CTafelData::Clear (void)
 //--------------------------------------------------------------------------------------------
 void CTafelData::Randomize (SLONG Day)
 {
-    SLONG c, d, e, f, Anz, Id=0;
+    SLONG c;
+    SLONG d;
+    SLONG e;
+    SLONG f;
+    SLONG Anz;
+    SLONG Id=0;
     SLONG ObjId;
-    SLONG PlayerIndex, PlayerUsed;
+    SLONG PlayerIndex;
+    SLONG PlayerUsed;
 
     ULONG CityIds[7];
 
@@ -458,17 +477,23 @@ void CTafelData::Randomize (SLONG Day)
 
                     PlayerUsed=0;
 
-                    for (PlayerIndex=0; PlayerIndex<Sim.Players.AnzPlayers; PlayerIndex++)
-                        if (Sim.Players.Players[PlayerIndex].RentCities.RentCities[ObjId].Rang)
+                    for (PlayerIndex=0; PlayerIndex<Sim.Players.AnzPlayers; PlayerIndex++) {
+                        if (Sim.Players.Players[PlayerIndex].RentCities.RentCities[ObjId].Rang != 0u) {
                             PlayerUsed++;
+}
+}
 
                     //Route ablehnen, wenn sie schon 3x vermietet ist:
-                    if (PlayerUsed>=3) continue;
+                    if (PlayerUsed>=3) { continue;
+}
 
                     //Und Routen auch nicht doppelt versteigern:
-                    for (f=0; f<7; f++)
-                        if (City[f].ZettelId==ObjId) break;
-                    if (f<7) continue;
+                    for (f=0; f<7; f++) {
+                        if (City[f].ZettelId==ObjId) { break;
+}
+}
+                    if (f<7) { continue;
+}
 
                     break;
                 }
@@ -495,21 +520,30 @@ void CTafelData::Randomize (SLONG Day)
 
                     PlayerUsed=0;
 
-                    for (PlayerIndex=0; PlayerIndex<Sim.Players.AnzPlayers; PlayerIndex++)
-                        if (Sim.Players.Players[PlayerIndex].RentCities.RentCities[ObjId].Rang)
+                    for (PlayerIndex=0; PlayerIndex<Sim.Players.AnzPlayers; PlayerIndex++) {
+                        if (Sim.Players.Players[PlayerIndex].RentCities.RentCities[ObjId].Rang != 0u) {
                             PlayerUsed++;
+}
+}
 
                     //Stadt ablehnen, wenn sie schon 3x vermietet ist:
-                    if (PlayerUsed>=3) continue;
+                    if (PlayerUsed>=3) { continue;
+}
 
                     //Und Stadt auch nicht doppelt versteigern:
-                    for (f=0; f<7; f++)
-                        if (City[f].ZettelId==ObjId) break;
-                    if (f<7) continue;
+                    for (f=0; f<7; f++) {
+                        if (City[f].ZettelId==ObjId) { break;
+}
+}
+                    if (f<7) { continue;
+}
 
-                    for (f=1; f<7; f++)
-                        if (Cities(CityIds[f])==(ULONG)ObjId) break;
-                    if (f<7) continue;
+                    for (f=1; f<7; f++) {
+                        if (Cities(CityIds[f])==(ULONG)ObjId) { break;
+}
+}
+                    if (f<7) { continue;
+}
 
                     break;
                 }
@@ -530,18 +564,23 @@ void CTafelData::Randomize (SLONG Day)
 
     //Und zu letzt die Gates:
     Anz = Airport.GetNumberOfShops (RUNE_2WAIT);
-    if (Sim.Date==0) Anz=4;
+    if (Sim.Date==0) { Anz=4;
+}
 
     for (c=f=0; c<Anz && f<7; c++)
     {
         BOOL Found=FALSE;
 
-        for (d=0; d<Sim.Players.Players.AnzEntries(); d++)
-            if (!Sim.Players.Players[d].IsOut)
-                for (e=0; e<Sim.Players.Players[d].Gates.Gates.AnzEntries(); e++)
+        for (d=0; d<Sim.Players.Players.AnzEntries(); d++) {
+            if (Sim.Players.Players[d].IsOut == 0) {
+                for (e=0; e<Sim.Players.Players[d].Gates.Gates.AnzEntries(); e++) {
                     if (Sim.Players.Players[d].Gates.Gates[e].Miete!=-1 &&
-                            Sim.Players.Players[d].Gates.Gates[e].Nummer==c)
+                            Sim.Players.Players[d].Gates.Gates[e].Nummer==c) {
                         Found=TRUE;
+}
+}
+}
+}
 
         if (Found==FALSE)
         {
@@ -587,8 +626,9 @@ TEAKFILE &operator << (TEAKFILE &File, const CTafelData &TafelData)
 {
     SLONG c;
 
-    for (c=0; c<7; c++)
+    for (c=0; c<7; c++) {
         File << TafelData.Route[c] << TafelData.City[c] << TafelData.Gate[c];
+}
 
     return (File);
 }
@@ -605,8 +645,9 @@ TEAKFILE &operator >> (TEAKFILE &File, CTafelData &TafelData)
         File >> TafelData.Route[c] >> TafelData.City[c] >> TafelData.Gate[c];
         if (SaveVersion==1 && SaveVersionSub<102)
         {
-            if (TafelData.City[c].ZettelId==0)
+            if (TafelData.City[c].ZettelId==0) {
                 TafelData.City[c].ZettelId=-1; //Amsterdam-Bugfix
+}
         }
     }
 

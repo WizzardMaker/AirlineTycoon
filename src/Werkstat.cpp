@@ -56,29 +56,35 @@ void CAnimation::Reset (void)
 //--------------------------------------------------------------------------------------------
 //Gibt den aktuell gezeigten Frame zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CAnimation::GetFrame (void)
+SLONG CAnimation::GetFrame (void) const
 {
-    if (Frames.AnzEntries())
+    if (Frames.AnzEntries() != 0)
     {
         if (CAnimation::Mode==ANIMATION_MODE_NEVER)
         {
-            if (StartPic) return (0);
+            if (StartPic != 0) { return (0);
+}
         }
         else
         {
             SLONG Phase = (SLONG(Sim.TickerTime) - CounterStart)/Speed;
 
-            if (Phase<0) return (0);
+            if (Phase<0) { return (0);
+}
 
-            if (Mode==ANIMATION_MODE_RANDOM)    Phase  = SLONG(((sin (Phase)+1)/2.001)*Frames.AnzEntries());
+            if (Mode==ANIMATION_MODE_RANDOM) {    Phase  = SLONG(((sin (Phase)+1)/2.001)*Frames.AnzEntries());
+}
 
             if (Phase>=Frames.AnzEntries()*RepeatCore)
             {
-                if (Mode==ANIMATION_MODE_REPEAT && CyclycWait)
+                if (Mode==ANIMATION_MODE_REPEAT && (CyclycWait != 0)) {
                     return (0);
+}
 
-                if (Mode==ANIMATION_MODE_REPEAT) Phase %= Frames.AnzEntries();
-                if (Mode==ANIMATION_MODE_ONCE)   Phase  = Frames.AnzEntries()-1;
+                if (Mode==ANIMATION_MODE_REPEAT) { Phase %= Frames.AnzEntries();
+}
+                if (Mode==ANIMATION_MODE_ONCE) {   Phase  = Frames.AnzEntries()-1;
+}
             }
 
             return (Phase%Frames.AnzEntries());
@@ -92,7 +98,8 @@ SLONG CAnimation::GetFrame (void)
 //--------------------------------------------------------------------------------------------
 void CAnimation::Remove (void)
 {
-    if (pSoundFx) pSoundFx->Stop();
+    if (pSoundFx != nullptr) { pSoundFx->Stop();
+}
     pSoundFx=NULL;
     Frames.Destroy();
 }
@@ -111,11 +118,12 @@ void CAnimation::StartNow (void)
 //--------------------------------------------------------------------------------------------
 void CAnimation::BlitAt (SBBM &RoomBm, SLONG x, SLONG y)
 {
-    if (Frames.AnzEntries())
+    if (Frames.AnzEntries() != 0)
     {
         if (CAnimation::Mode==ANIMATION_MODE_NEVER)
         {
-            if (StartPic) RoomBm.BlitFrom (Frames[0], x, y);
+            if (StartPic != 0) { RoomBm.BlitFrom (Frames[0], x, y);
+}
         }
         else
         {
@@ -123,28 +131,33 @@ void CAnimation::BlitAt (SBBM &RoomBm, SLONG x, SLONG y)
 
             if (Phase<0)
             {
-                if (!StartPic) return;
+                if (StartPic == 0) { return;
+}
                 Phase=0;
             }
 
-            if (Mode==ANIMATION_MODE_RANDOM)    Phase  = SLONG(((sin (Phase)+1)/2.001)*Frames.AnzEntries());
+            if (Mode==ANIMATION_MODE_RANDOM) {    Phase  = SLONG(((sin (Phase)+1)/2.001)*Frames.AnzEntries());
+}
 
             if (Phase>=Frames.AnzEntries()*RepeatCore)
             {
-                if (Mode==ANIMATION_MODE_REPEAT && CyclycWait)
+                if (Mode==ANIMATION_MODE_REPEAT && (CyclycWait != 0))
                 {
                     CounterStart=Sim.TickerTime+CyclycWait;
-                    if (!StartPic) return;
+                    if (StartPic == 0) { return;
+}
                     Phase=0;
                 }
 
-                if (Mode==ANIMATION_MODE_REPEAT) Phase %= Frames.AnzEntries();
-                if (Mode==ANIMATION_MODE_ONCE)   Phase  = Frames.AnzEntries()-1;
+                if (Mode==ANIMATION_MODE_REPEAT) { Phase %= Frames.AnzEntries();
+}
+                if (Mode==ANIMATION_MODE_ONCE) {   Phase  = Frames.AnzEntries()-1;
+}
             }
 
-            if (Mode==ANIMATION_MODE_REPEAT && Prelude==0 && !JustPlayed)
+            if (Mode==ANIMATION_MODE_REPEAT && Prelude==0 && (JustPlayed == 0))
             {
-                if (pSoundFx && Sim.Options.OptionDigiSound)
+                if ((pSoundFx != nullptr) && (Sim.Options.OptionDigiSound != 0))
                 {
                     pSoundFx->Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
                     JustPlayed=TRUE;
@@ -152,12 +165,13 @@ void CAnimation::BlitAt (SBBM &RoomBm, SLONG x, SLONG y)
             }
             else
             {
-                if (pSoundFx && Sim.Options.OptionDigiSound && !JustPlayed && Phase%Frames.AnzEntries()==0)
+                if ((pSoundFx != nullptr) && (Sim.Options.OptionDigiSound != 0) && (JustPlayed == 0) && Phase%Frames.AnzEntries()==0)
                 {
                     pSoundFx->Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
                     JustPlayed = TRUE;
                 }
-                else JustPlayed=FALSE;
+                else { JustPlayed=FALSE;
+}
             }
 
             RoomBm.BlitFrom (Frames[Phase%Frames.AnzEntries()], x, y);
@@ -178,7 +192,8 @@ CAnimation::CAnimation()
 //--------------------------------------------------------------------------------------------
 CAnimation::~CAnimation()
 {
-    if (pSoundFx) pSoundFx->Stop();
+    if (pSoundFx != nullptr) { pSoundFx->Stop();
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -186,34 +201,39 @@ CAnimation::~CAnimation()
 //--------------------------------------------------------------------------------------------
 void CAnimation::BlitAtT (SBBM &RoomBm, SLONG x, SLONG y)
 {
-    if (Frames.AnzEntries())
+    if (Frames.AnzEntries() != 0)
     {
         SLONG Phase = (SLONG(Sim.TickerTime) - CounterStart)/Speed;
 
         if (Phase<0)
         {
-            if (!StartPic) return;
+            if (StartPic == 0) { return;
+}
             Phase=0;
         }
 
-        if (Mode==ANIMATION_MODE_RANDOM)    Phase  = SLONG(((sin (Phase)+1)/2.001)*Frames.AnzEntries());
+        if (Mode==ANIMATION_MODE_RANDOM) {    Phase  = SLONG(((sin (Phase)+1)/2.001)*Frames.AnzEntries());
+}
 
         if (Phase>=Frames.AnzEntries()*RepeatCore)
         {
-            if (Mode==ANIMATION_MODE_REPEAT && CyclycWait)
+            if (Mode==ANIMATION_MODE_REPEAT && (CyclycWait != 0))
             {
                 CounterStart=Sim.TickerTime+CyclycWait;
-                if (!StartPic) return;
+                if (StartPic == 0) { return;
+}
                 Phase=0;
             }
 
-            if (Mode==ANIMATION_MODE_REPEAT) Phase %= Frames.AnzEntries();
-            if (Mode==ANIMATION_MODE_ONCE)   Phase  = Frames.AnzEntries()-1;
+            if (Mode==ANIMATION_MODE_REPEAT) { Phase %= Frames.AnzEntries();
+}
+            if (Mode==ANIMATION_MODE_ONCE) {   Phase  = Frames.AnzEntries()-1;
+}
         }
 
-        if (Mode==ANIMATION_MODE_REPEAT && Prelude==0 && !JustPlayed)
+        if (Mode==ANIMATION_MODE_REPEAT && Prelude==0 && (JustPlayed == 0))
         {
-            if (pSoundFx && Sim.Options.OptionDigiSound)
+            if ((pSoundFx != nullptr) && (Sim.Options.OptionDigiSound != 0))
             {
                 pSoundFx->Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
                 JustPlayed=TRUE;
@@ -221,12 +241,13 @@ void CAnimation::BlitAtT (SBBM &RoomBm, SLONG x, SLONG y)
         }
         else
         {
-            if (pSoundFx && Sim.Options.OptionDigiSound && !JustPlayed && Phase%Frames.AnzEntries()==0)
+            if ((pSoundFx != nullptr) && (Sim.Options.OptionDigiSound != 0) && (JustPlayed == 0) && Phase%Frames.AnzEntries()==0)
             {
                 pSoundFx->Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
                 JustPlayed = TRUE;
             }
-            else JustPlayed=FALSE;
+            else { JustPlayed=FALSE;
+}
         }
 
         RoomBm.BlitFromT (Frames[Phase%Frames.AnzEntries()], x, y);
@@ -242,7 +263,8 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerN
 
     Sim.FocusPerson=-1;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
 
     KommVar=-1;
 
@@ -307,14 +329,15 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerN
     //--------------------------------------------------------------------------------------------
     if (Sim.Slimed==-1)
     {
-        if (rand()%10==0 || CheatAnimNow)
+        if (rand()%10==0 || (CheatAnimNow != 0)) {
             SP_Schleim.Clips[0].ReSize (0, "slimew.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(30,30),    SMACKER_CLIP_CANCANCEL,
                     NULL, SMACKER_CLIP_SET, 0, &Sim.Slimed,
                     "A8A1", 0, 1);
-        else
+        } else {
             SP_Schleim.Clips[0].ReSize (0, "slimew.smk", "", XY (0, 275), SPM_IDLE,       CRepeat(1,1), CPostWait(30,30),    SMACKER_CLIP_CANCANCEL,
                     NULL, SMACKER_CLIP_SET, 0, &Sim.Slimed,
                     "A4", 0);
+}
     }
     else
     {
@@ -359,7 +382,7 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerN
             "A9", 0);
 
     //Hintergrundsounds:
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         SetBackgroundFx (1, "crash.raw",   100000, 10000);
         SetBackgroundFx (2, "crash2.raw",   90000, 40000);
@@ -367,7 +390,8 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerN
     }
 
     //Raumanimationen
-    if (rand()%6==0 || CheatAnimNow) SoudAnim.ReSize (pRoomLib, "SOUD0000", 21, &SawFx, FALSE, ANIMATION_MODE_REPEAT,  150,  2, 100);
+    if (rand()%6==0 || (CheatAnimNow != 0)) { SoudAnim.ReSize (pRoomLib, "SOUD0000", 21, &SawFx, FALSE, ANIMATION_MODE_REPEAT,  150,  2, 100);
+}
     FlameAnim.ReSize (pRoomLib, "FLAME01",  3, NULL, TRUE, ANIMATION_MODE_REPEAT,   0,  1);
     LightAnim.ReSize (pRoomLib, "LIGHT01",  2, NULL, FALSE, ANIMATION_MODE_REPEAT, 400, 2, 300, 30);
 
@@ -399,7 +423,8 @@ void CWerkstatt::OnPaint()
 {
     SLONG NewTip;
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -408,7 +433,7 @@ void CWerkstatt::OnPaint()
     CStdRaum::InitToolTips ();
 
     //Der Mann im Flugzeug:
-    if (Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<7))
+    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<7)) != 0u)
     {
         SP_Hund.Pump ();
         SP_Hund.BlitAtT (RoomBm);
@@ -422,29 +447,34 @@ void CWerkstatt::OnPaint()
     SP_Schleim.Pump ();
     SP_Schleim.BlitAtT (RoomBm);
 
-    if (Sim.Slimed!=-1)
+    if (Sim.Slimed!=-1) {
         for (SLONG c=0; c<5; c++)
         {
             SP_Blase[c].Pump ();
             SP_Blase[c].BlitAtT (RoomBm);
         }
+}
 
-    if (!(Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<7)))
+    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<7)) == 0u) {
         RoomBm.BlitFromT (DoorBm, 534, 73);
+}
 
-    if (!Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_OEL))
+    if (Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_OEL) == 0) {
         RoomBm.BlitFrom (OilCanBm, 72,294);
+}
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (0, 0, 50, 439)) SetMouseLook (CURSOR_EXIT, 0, ROOM_WERKSTATT, 999);
-        else if (gMousePosition.IfIsWithin (195,212,263,437)) SetMouseLook (CURSOR_HOT, 0, ROOM_WERKSTATT, 10);
-        else if (!Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_OEL) && gMousePosition.IfIsWithin (72,294,101,315)) SetMouseLook (CURSOR_HOT, 0, ROOM_WERKSTATT, 20);
+        if (gMousePosition.IfIsWithin (0, 0, 50, 439)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_WERKSTATT, 999);
+        } else if (gMousePosition.IfIsWithin (195,212,263,437)) { SetMouseLook (CURSOR_HOT, 0, ROOM_WERKSTATT, 10);
+        } else if ((Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_OEL) == 0) && gMousePosition.IfIsWithin (72,294,101,315)) { SetMouseLook (CURSOR_HOT, 0, ROOM_WERKSTATT, 20);
+}
     }
 
     SP_Mann.Pump ();
     SP_Mann.BlitAtT (RoomBm);
-    if (Sim.Slimed==-1) KommVar=-1;
+    if (Sim.Slimed==-1) { KommVar=-1;
+}
 
     SP_Bombe.Pump ();
     SP_Bombe.BlitAtT (RoomBm);
@@ -454,13 +484,13 @@ void CWerkstatt::OnPaint()
     FlameAnim.BlitAt (RoomBm, 104, 314);
     LightAnim.BlitAtT (RoomBm, 244, 89);
 
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0)
     {
         if (CurrentMenu==MENU_PLANECOSTS && (gMousePosition-MenuPos).IfIsWithin (216,6, 387,212))
         {
             NewTip = (gMousePosition.y-(MenuPos.y+25))/13 + MenuPage;
 
-            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]))
+            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]) != 0))
             {
                 if (NewTip != CurrentTip)
                 {
@@ -470,16 +500,19 @@ void CWerkstatt::OnPaint()
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack, TRUE);
                 }
 
-                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums])
+                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums] != 0u) {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontRed, CURSOR_HOT);
-                else
+                } else {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontBlack, CURSOR_HOT);
+}
 
                 CurrentTip = NewTip;
             }
-            else NewTip = -1;
+            else { NewTip = -1;
+}
         }
-        else NewTip = -1;
+        else { NewTip = -1;
+}
 
         if (NewTip != CurrentTip)
         {
@@ -506,30 +539,31 @@ void CWerkstatt::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==10) StartDialog (TALKER_MECHANIKER, MEDIUM_AIR, 1);
-        else if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==20)
+        if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==10) { StartDialog (TALKER_MECHANIKER, MEDIUM_AIR, 1);
+        } else if (MouseClickArea==ROOM_WERKSTATT && MouseClickId==20)
         {
-            if (qPlayer.MechTrust==0)
+            if (qPlayer.MechTrust==0) {
                 StartDialog (TALKER_MECHANIKER, MEDIUM_AIR, 20);
-            else
+            } else
             {
-                if (qPlayer.HasSpaceForItem())
+                if (qPlayer.HasSpaceForItem() != 0)
                 {
                     StartDialog (TALKER_MECHANIKER, MEDIUM_AIR, 21);
                     qPlayer.BuyItem(ITEM_OEL);
                 }
             }
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -543,9 +577,8 @@ void CWerkstatt::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -556,5 +589,5 @@ void CWerkstatt::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

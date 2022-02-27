@@ -57,7 +57,8 @@ SLONG ENetNetwork::GetMessageCount() {
                 if (mSessionInfo.GetNumberOfElements() > 0) {
                     /* Check if we already know about the session */
                     for (mSessionInfo.GetFirst(); !mSessionInfo.IsLast() &&
-                            mSessionInfo.GetLastAccessed()->hostID != info->hostID; mSessionInfo.GetNext());
+                            mSessionInfo.GetLastAccessed()->hostID != info->hostID; mSessionInfo.GetNext()) {;
+}
                 }
 
                 if (mSessionInfo.GetNumberOfElements() == 0 || mSessionInfo.IsLast())
@@ -70,12 +71,14 @@ SLONG ENetNetwork::GetMessageCount() {
         }
 
         /* Automatically refresh every 5 seconds */
-        if (enet_time_get() - mSearchTime > 5000)
+        if (enet_time_get() - mSearchTime > 5000) {
             StartGetSessionListAsync();
+}
     }
 
-    if (!mHost)
+    if (mHost == nullptr) {
         return 0;
+}
 
     /* We'll call this regularly so no need to block. */
     while (enet_host_service(mHost, &event, 0) > 0)
@@ -105,12 +108,14 @@ SLONG ENetNetwork::GetMessageCount() {
             case ENET_EVENT_TYPE_RECEIVE:
                 if (event.channelID == 1)
                 {
-                    if (event.packet->dataLength != sizeof(ENetNetworkPeer))
+                    if (event.packet->dataLength != sizeof(ENetNetworkPeer)) {
                         break;
+}
 
                     ENetNetworkPeer* peer = (ENetNetworkPeer*)event.packet->data;
-                    if (peer->ID == mLocalID)
+                    if (peer->ID == mLocalID) {
                         break;
+}
 
                     /* Initiate the connection, allocating the two channels 0 and 1. */
                     ENetNetworkPlayer *player = new ENetNetworkPlayer();
@@ -126,7 +131,7 @@ SLONG ENetNetwork::GetMessageCount() {
 
             case ENET_EVENT_TYPE_DISCONNECT:
                 /* Delete the player and inform the multiplayer code */
-                if (event.peer->data)
+                if (event.peer->data != nullptr)
                 {
                     SBNetworkPlayer* player = (SBNetworkPlayer*)event.peer->data;
                     DPPacket dp;
@@ -154,8 +159,9 @@ SLONG ENetNetwork::GetMessageCount() {
                     ENetNetworkPlayer* master = static_cast<ENetNetworkPlayer*>(mPlayers.GetFirst());
                     for (mPlayers.GetNext(); !mPlayers.IsLast(); mPlayers.GetNext())
                     {
-                        if (mPlayers.GetLastAccessed()->ID < master->ID)
+                        if (mPlayers.GetLastAccessed()->ID < master->ID) {
                             master = static_cast<ENetNetworkPlayer*>(mPlayers.GetLastAccessed());
+}
                     }
 
                     if (master->ID == mLocalID)
@@ -181,12 +187,14 @@ SLONG ENetNetwork::GetMessageCount() {
 }
 
 bool ENetNetwork::Connect(const char* host) {
-    if (enet_initialize() != 0)
+    if (enet_initialize() != 0) {
         return false;
+}
 
     mSocket = enet_socket_create(ENET_SOCKET_TYPE_DATAGRAM);
-    if (mSocket == ENET_SOCKET_NULL)
+    if (mSocket == ENET_SOCKET_NULL) {
         return false;
+}
 
     enet_socket_set_option(mSocket, ENET_SOCKOPT_REUSEADDR, 1);
     enet_socket_set_option(mSocket, ENET_SOCKOPT_NONBLOCK, 1);
@@ -250,14 +258,17 @@ bool ENetNetwork::IsInSession() {
 bool ENetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool compression) {
     ENetPacket* packet = enet_packet_create(buffer, length, ENET_PACKET_FLAG_RELIABLE);
 
-    if (peerID)
+    if (peerID != 0u)
     {
-        for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext())
-            if (mPlayers.GetLastAccessed()->ID == peerID && static_cast<ENetNetworkPlayer*>(mPlayers.GetLastAccessed())->peer != nullptr)
+        for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext()) {
+            if (mPlayers.GetLastAccessed()->ID == peerID && static_cast<ENetNetworkPlayer*>(mPlayers.GetLastAccessed())->peer != nullptr) {
                 enet_peer_send(static_cast<ENetNetworkPlayer*>(mPlayers.GetLastAccessed())->peer, 0, packet);
+}
+}
 
-        if (mPlayers.IsLast())
+        if (mPlayers.IsLast()) {
             return false;
+}
     }
     else
     {
@@ -269,8 +280,9 @@ bool ENetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool c
 
 bool ENetNetwork::Receive(UBYTE** buffer, ULONG& length) {
     mPackets.GetFirst();
-    if (mPackets.IsLast())
+    if (mPackets.IsLast()) {
         return false;
+}
 
     ENetPacket* packet = mPackets.GetLastAccessed();
     length = packet->dataLength;
@@ -309,16 +321,18 @@ bool ENetNetwork::StartGetSessionListAsync() {
     return true;
 }
 
-bool ENetNetwork::JoinSession(const SBStr& session, SBStr ) {
+bool ENetNetwork::JoinSession(const SBStr& session, SBStr  /*unused*/) {
     ENetSessionInfo* info = NULL;
     for (mSessionInfo.GetFirst(); !mSessionInfo.IsLast(); mSessionInfo.GetNext())
     {
-        if (session == mSessionInfo.GetLastAccessed()->sessionName)
+        if (session == mSessionInfo.GetLastAccessed()->sessionName) {
             info = static_cast<ENetSessionInfo*>(mSessionInfo.GetLastAccessed());
+}
     }
 
-    if (!info)
+    if (info == nullptr) {
         return false;
+}
 
     /* Initiate the connection, allocating the two channels 0 and 1. */
     ENetEvent event;

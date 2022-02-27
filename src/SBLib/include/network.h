@@ -129,7 +129,7 @@ class SBNetwork
         SBNetwork(bool);
 
         SLONG GetMessageCount();
-        bool Connect(SBStr);
+        static bool Connect(SBStr);
         bool Connect(SBStr, const char*);
         void DisConnect();
         bool CreateSession(SBStr, SBNetworkCreation*);
@@ -138,7 +138,7 @@ class SBNetwork
         SBList<SBStr>* GetConnectionList();
         SBList<SBStr>* GetSessionListAsync();
         bool StartGetSessionListAsync();
-        SLONG GetProviderID(char*);
+        static SLONG GetProviderID(char*);
         void SetProvider(SBTypeEnum);
         bool IsEnumSessionFinished() const;
         bool IsInSession() const;

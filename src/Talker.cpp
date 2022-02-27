@@ -35,8 +35,8 @@ void CTalkers::Pump (void)
 {
     SLONG c;
 
-    for (c=0; c<Talkers.AnzEntries(); c++)
-        if (Talkers[c].NumRef)
+    for (c=0; c<Talkers.AnzEntries(); c++) {
+        if (Talkers[c].NumRef != 0)
         {
             if (Talkers[c].State==1 || Talkers[c].State==3)
             {
@@ -45,10 +45,13 @@ void CTalkers::Pump (void)
             else if (Talkers[c].State==2 || Talkers[c].State==4)
             {
                 Talkers[c].Phase++;
-                if (Talkers[c].Phase==4 && Talkers[c].State==4) Talkers[c].State=0;
-                if (Talkers[c].Phase==4 && Talkers[c].State==2) Talkers[c].State=3;
+                if (Talkers[c].Phase==4 && Talkers[c].State==4) { Talkers[c].State=0;
+}
+                if (Talkers[c].Phase==4 && Talkers[c].State==2) { Talkers[c].State=3;
+}
             }
         }
+}
 }
 
 //============================================================================================
@@ -58,7 +61,7 @@ void CTalkers::Pump (void)
 //============================================================================================
 void CTalker::StartDialog (BOOL Medium)
 {
-    if (Medium)
+    if (Medium != 0)
     {
         //Telefon:
         State=2;
@@ -75,9 +78,9 @@ void CTalker::StartDialog (BOOL Medium)
 //--------------------------------------------------------------------------------------------
 void CTalker::StopDialog (void)
 {
-    if (State==1)
+    if (State==1) {
         State=0;
-    else
+    } else
     {
         State=4;
         Phase=0;
@@ -103,17 +106,17 @@ void CTalker::StopTalking (void)
 //--------------------------------------------------------------------------------------------
 //Ist ein bestimmter Charaketer in einem Dialog?
 //--------------------------------------------------------------------------------------------
-BOOL CTalker::IsBusy (void)
+BOOL CTalker::IsBusy (void) const
 {
-    return ((State!=0 && State!=4) || Locking);
+    return static_cast<BOOL>((State!=0 && State!=4) || (Locking != 0));
 }
 
 //--------------------------------------------------------------------------------------------
 //Ist ein bestimmter Charaketer in einem Dialog?
 //--------------------------------------------------------------------------------------------
-BOOL CTalker::IsTalking (void)
+BOOL CTalker::IsTalking (void) const
 {
-    return (State!=0);
+    return static_cast<BOOL>(State!=0);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -140,7 +143,8 @@ void CTalker::IncreaseReference (void)
 //--------------------------------------------------------------------------------------------
 void CTalker::DecreaseReference (void)
 {
-    if (NumRef>0) NumRef--;
+    if (NumRef>0) { NumRef--;
+}
 
     /*if (NumRef==0)
       TalkerBms.Destroy();*/
@@ -159,7 +163,8 @@ void CTalker::IncreaseLocking (void)
 //--------------------------------------------------------------------------------------------
 void CTalker::DecreaseLocking (void)
 {
-    if (Locking>0) Locking--;
+    if (Locking>0) { Locking--;
+}
 }
 
 //--------------------------------------------------------------------------------------------

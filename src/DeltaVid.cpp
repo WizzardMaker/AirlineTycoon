@@ -16,10 +16,15 @@ static const UBYTE gDeltaTokenNoDelta = 255;
 //--------------------------------------------------------------------------------------------
 BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame, XY OffsetA, XY OffsetB)
 {
-    if (OldFrame.GetXSize()!=NewFrame.GetXSize()) return (FALSE);
-    if (OldFrame.GetYSize()!=NewFrame.GetYSize()) return (FALSE);
+    if (OldFrame.GetXSize()!=NewFrame.GetXSize()) { return (FALSE);
+}
+    if (OldFrame.GetYSize()!=NewFrame.GetYSize()) { return (FALSE);
+}
 
-    SLONG         x, y, y_pitch, pass;
+    SLONG         x;
+    SLONG         y;
+    SLONG         y_pitch;
+    SLONG         pass;
     UBYTE         cx;
 
     BUFFER<UBYTE> Buffer(OldFrame.GetXSize()*OldFrame.GetYSize()*3);
@@ -37,11 +42,13 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
     SB_CBitmapKey OldKey(OldFrame);
     SB_CBitmapKey NewKey(NewFrame);
 
-    if (OldKey.lPitch!=NewKey.lPitch) return (FALSE);
+    if (OldKey.lPitch!=NewKey.lPitch) { return (FALSE);
+}
 
     //Speed-Up für Offset-Berechnung
-    for (pass=0; pass<3; pass++)
+    for (pass=0; pass<3; pass++) {
         DirectOffsets[pass]=Offsets[pass].x+Offsets[pass].y*NewKey.lPitch/2;
+}
 
     //Kompression:
     for (y=y_pitch=0; y<NewFrame.GetYSize(); y++, y_pitch+=NewKey.lPitch/2)
@@ -51,8 +58,8 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
             //Drei verschiedene Offsets probieren:
             if (x+3<NewFrame.GetXSize())
             {
-                for (pass=0; pass<3; pass++)
-                    if ((-Offsets[pass].x)<=x && (-Offsets[pass].y)<=y && Offsets[pass].x<NewFrame.GetXSize()-x-3 && Offsets[pass].y<NewFrame.GetYSize()-y)
+                for (pass=0; pass<3; pass++) {
+                    if ((-Offsets[pass].x)<=x && (-Offsets[pass].y)<=y && Offsets[pass].x<NewFrame.GetXSize()-x-3 && Offsets[pass].y<NewFrame.GetYSize()-y) {
                         if ( ((__int64*)(((UWORD*)NewKey.Bitmap)+x+y_pitch))[0] == ((__int64*)(((UWORD*)OldKey.Bitmap)+x+y_pitch+DirectOffsets[pass]))[0] )
                         {
                             //Ein Offset hat gepasst! Für wieviele Pixel?
@@ -60,11 +67,13 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
                             {
                                 if (Offsets[pass].x<NewFrame.GetXSize()-x-cx)
                                 {
-                                    if ( ((__int64*)(((UWORD*)NewKey.Bitmap)+x+cx+y_pitch))[0] != ((__int64*)(((UWORD*)OldKey.Bitmap)+x+cx+y_pitch+DirectOffsets[pass]))[0] )
+                                    if ( ((__int64*)(((UWORD*)NewKey.Bitmap)+x+cx+y_pitch))[0] != ((__int64*)(((UWORD*)OldKey.Bitmap)+x+cx+y_pitch+DirectOffsets[pass]))[0] ) {
                                         break;
+}
                                 }
-                                else
+                                else {
                                     break;
+}
                             }
 
                             //Kompression speichern:
@@ -77,14 +86,17 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
 
                             break;
                         }
+}
+}
             }
-            else pass=3;
+            else { pass=3;
+}
 
             //Keine Kompression gefunden?
             if (pass==3)
             {
                 //War das gerade eben auch schon so?
-                if (pBufferCounter && (*pBufferCounter)<250 && x!=0)
+                if ((pBufferCounter != nullptr) && (*pBufferCounter)<250 && x!=0)
                 {
                     (*pBufferCounter)++;
                     *((UWORD*)(Buffer+BufferIndex)) = ((UWORD*)NewKey.Bitmap)[x+y_pitch];
@@ -103,8 +115,9 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
         }
     }
 
-    for (y=0; y<NewFrame.GetYSize(); y++)
+    for (y=0; y<NewFrame.GetYSize(); y++) {
         memcpy ((char*)OldKey.Bitmap+y*OldKey.lPitch, (char*)NewKey.Bitmap+y*NewKey.lPitch, NewFrame.GetXSize()*2);
+}
 
     //Datei-Frame-header schreiben:
     fwrite (gDeltaHeader, 1, 13,             TargetFile);
@@ -124,11 +137,17 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
 //--------------------------------------------------------------------------------------------
 BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame)
 {
-    if (OldFrame.GetXSize()!=NewFrame.GetXSize()) return (FALSE);
-    if (OldFrame.GetYSize()!=NewFrame.GetYSize()) return (FALSE);
+    if (OldFrame.GetXSize()!=NewFrame.GetXSize()) { return (FALSE);
+}
+    if (OldFrame.GetYSize()!=NewFrame.GetYSize()) { return (FALSE);
+}
 
-    SLONG         Anz, c, x, y;
-    XY            OffsetA, OffsetB;
+    SLONG         Anz;
+    SLONG         c;
+    SLONG         x;
+    SLONG         y;
+    XY            OffsetA;
+    XY            OffsetB;
 
     BUFFER<UBYTE> Buffer;
     char          Header[13];
@@ -143,7 +162,8 @@ BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitma
     fread (&Offsets[2], 1, sizeof (XY), SourceFile);
 
     //Prüfen, ob der Header stimmt:
-    if (strcmp (Header, gDeltaHeader) != 0) return (FALSE);
+    if (strcmp (Header, gDeltaHeader) != 0) { return (FALSE);
+}
 
     //Die Daten lesen:
     fread (&x,      1, sizeof (SLONG), SourceFile);
@@ -153,7 +173,8 @@ BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitma
     SB_CBitmapKey OldKey(OldFrame);
     SB_CBitmapKey NewKey(NewFrame);
 
-    if (OldKey.lPitch!=NewKey.lPitch) return (FALSE);
+    if (OldKey.lPitch!=NewKey.lPitch) { return (FALSE);
+}
 
     //Den Datenstrom decodieren:
     for (c=x=y=0; c<Buffer.AnzEntries();)
@@ -198,7 +219,8 @@ void Unvideo (CString Filename, CString TargetFilename)
     SLONG cy;
     FILE  *pFile = fopen (Filename, "rb");
 
-    SBBM OldBm(640,480), NewBm(640,480);
+    SBBM OldBm(640,480);
+    SBBM NewBm(640,480);
 
     char Pre  [] = "\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x02\xE0\x01"
         "\x10";
@@ -236,11 +258,11 @@ void Unvideo (CString Filename, CString TargetFilename)
         "\x00\x00\x00\x00\x00\x00\x12\x60\x09\x00\x00\x00\x00\x00\x54\x52"
         "\x55\x45\x56\x49\x53\x49\x4F\x4E\x2D\x58\x46\x49\x4C\x45\x2E\x00";
 
-    if (pFile)
+    if (pFile != nullptr)
     {
         SLONG num=0;
 
-        while (deltaDecompressFrame (pFile, *OldBm.pBitmap, *NewBm.pBitmap))
+        while (deltaDecompressFrame (pFile, *OldBm.pBitmap, *NewBm.pBitmap) != 0)
         {
             FILE *pOut = fopen (bprintf((LPCTSTR)TargetFilename, num), "wb");
 
@@ -259,8 +281,9 @@ void Unvideo (CString Filename, CString TargetFilename)
 
                         UWORD &w = tmp[cx];
 
-                        if (!MakeUnvideoOn555)
+                        if (MakeUnvideoOn555 == 0) {
                             w = (w&31) + ((w&(0xffff-31-32))>>1);
+}
 
                         //w = ((w&255)<<8)  + (w>>8);
                     }

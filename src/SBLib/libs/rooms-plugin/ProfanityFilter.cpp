@@ -47,16 +47,18 @@ bool ProfanityFilter::HasProfanity(const char *str)
 
 int ProfanityFilter::FilterProfanity(const char *input, char *output, bool filter)
 {
-    if (input==0 || input[0]==0)
+    if (input==0 || input[0]==0) {
         return 0;
+}
 
     int count = 0;
     char* b = (char *) alloca(strlen(input) + 1);
     strcpy(b, input);
     _strlwr(b);
     char *start = b;
-    if (output)
+    if (output != nullptr) {
         strcpy(output,input);
+}
 
     start = strpbrk(start, WORDCHARS);
     while (start != 0)
@@ -76,7 +78,7 @@ int ProfanityFilter::FilterProfanity(const char *input, char *output, bool filte
                     count++;
 
                     // size_t len = words[i].size();
-                    if (filter && output)
+                    if (filter && (output != nullptr))
                     {
                         for (unsigned int j = 0; j < len; j++)
                         {

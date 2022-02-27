@@ -26,13 +26,13 @@ class GfxLib
 {
     public:
         struct _GfxStruct* ReloadSurface(__int64);
-        SLONG Restore(void);
+        static SLONG Restore(void);
         void Release(void);
         class GfxLib* ReleaseSurface(SLONG);
         class GfxLib* ReleaseSurface(__int64);
         SDL_Surface* GetSurface(__int64);
         SDL_Surface* GetSurface(SLONG);
-        SLONG AddRef(__int64);
+        static SLONG AddRef(__int64);
         SLONG AddRef(SLONG);
         __int64 LongName2Id(char*);
         char* Id2LongName(__int64);
@@ -47,7 +47,7 @@ class GfxLib
 
     private:
         SLONG CountGfxChunks(struct _uniChunk*, SLONG);
-        struct _GfxLibHeader* LoadHeader(SDL_RWops*);
+        static struct _GfxLibHeader* LoadHeader(SDL_RWops*);
         void ReadPaletteChunk(int, struct _PaletteInfo);
         void ReadNameChunk(int, struct _LongNameChunk);
         void* DeCompData(void*, struct _GfxChunkInfo, SLONG);
@@ -219,7 +219,7 @@ class SB_CCursor
         SLONG RestoreBackground(struct SDL_Surface*);
         SLONG SaveBackground(struct SDL_Surface*);
         SLONG CreateBackground(void);
-        SLONG CreateSurface(struct SDL_Surface**, SLONG, SLONG);
+        static SLONG CreateSurface(struct SDL_Surface**, SLONG, SLONG);
 
         SB_CPrimaryBitmap* Primary;
         SB_CBitmapCore* Cursor;
@@ -244,7 +244,7 @@ class SB_CPrimaryBitmap : public SB_CBitmapCore
 
         void AssignCursor(SB_CCursor* c) { Cursor = c; }
         SDL_Window* GetPrimarySurface() { return Window; }
-        bool FastClip(CRect clipRect, POINT* pPoint, RECT* pRect);
+        static bool FastClip(CRect clipRect, POINT* pPoint, RECT* pRect);
 
     private:
         void Delete(void);
@@ -354,7 +354,7 @@ class SB_CFont
         SLONG DrawTextBlock(class SB_CBitmapCore*, SLONG, SLONG, SLONG, SLONG, const char*, SLONG = 0, SLONG = 0, bool = false);
         SLONG PreviewTextBlock(class SB_CBitmapCore*, SLONG, SLONG, SLONG, SLONG, const char*, SLONG = 0, SLONG = 0, bool = false);
         SLONG GetWidthAt(const char*, SLONG, char);
-        SLONG GetWordLength(const char*, SLONG);
+        static SLONG GetWordLength(const char*, SLONG);
         SLONG GetWidth(const char*, SLONG);
         SLONG GetWidth(unsigned char);
         bool Load(SDL_Renderer*, const char*, struct HPALETTE__* = NULL);

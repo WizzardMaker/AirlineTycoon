@@ -36,7 +36,8 @@ void CDataTable::Sort (void)
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType, SLONG Filter1, SLONG Filter2)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1000);
 
@@ -49,13 +50,14 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
     ColTitle.ReSize (AnzColums);
     LineIndex.ReSize (AnzRows);
 
-    for (c=0; c<AnzColums; c++)
+    for (c=0; c<AnzColums; c++) {
         ColTitle[c]=StandardTexte.GetS (TOKEN_SCHED, 1000+c+1);
+}
 
     if (Expert==2)  //Experte: Flugzeugkosten
     {
-        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++)
-            if (Planes->IsInAlbum(c))
+        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++) {
+            if (Planes->IsInAlbum(c) != 0)
             {
                 CPlane &qPlane = (*Planes)[c];
 
@@ -66,27 +68,30 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
 
                 d++;
             }
+}
     }
     else if (Expert==1)  //Experte: Flugzeugsaldo
     {
-        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++)
-            if (Planes->IsInAlbum(c))
+        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++) {
+            if (Planes->IsInAlbum(c) != 0)
             {
                 LineIndex[d]  = Planes->GetIdFromIndex(c);
                 Values[d*4+0] = (*Planes)[c].Name;
                 Values[d*4+1] = Einheiten[EINH_DM].bString ((*Planes)[c].GetSaldo());
-                if ((*Planes)[c].GetSaldo()<0)
+                if ((*Planes)[c].GetSaldo()<0) {
                     ValueFlags[d*4+0]=TRUE;
-                else
+                } else {
                     ValueFlags[d*4+0]=FALSE;
+}
 
                 d++;
             }
+}
     }
     else if (Expert==99)  //Werkstatt: Flugzeugkosten
     {
-        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++)
-            if (Planes->IsInAlbum(c))
+        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++) {
+            if (Planes->IsInAlbum(c) != 0)
             {
                 LineIndex[d]  = Planes->GetIdFromIndex(c);
                 Values[d*4+0] = (*Planes)[c].Name;
@@ -96,18 +101,20 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
 
                 d++;
             }
+}
     }
     else
     {
-        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++)
-            if (Planes->IsInAlbum(c))
+        for (c=0, d=0; c<(SLONG)Planes->AnzEntries(); c++) {
+            if (Planes->IsInAlbum(c) != 0)
             {
                 CPlane &qPlane = (*Planes)[c];
 
-                if (FilterType)
+                if (FilterType != 0)
                 {
-                    if (!qPlane.Flugplan.ContainsFlight (FilterType, Filter1, Filter2))
+                    if (qPlane.Flugplan.ContainsFlight (FilterType, Filter1, Filter2) == 0) {
                         continue;
+}
                 }
 
                 LineIndex[d]  = Planes->GetIdFromIndex(c);
@@ -115,24 +122,27 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
                 Values[d*4+1] = bprintf ("%li%%", (SLONG)qPlane.Zustand);
                 Values[d*4+2] = Einheiten[EINH_DM].bString ((SLONG)qPlane.Wartungskosten);
 
-                if (qPlane.Ort>=0)
+                if (qPlane.Ort>=0) {
                     Values[d*4+3] = bprintf ("%s %s", StandardTexte.GetS (TOKEN_SCHED, 1105), (LPCTSTR)Cities[qPlane.Ort].Name);
-                else
+                } else {
                     Values[d*4+3] = bprintf ("%s %s", StandardTexte.GetS (TOKEN_SCHED, 1102), (LPCTSTR)Cities[qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight].NachCity].Name);
+}
 
                 //if (qPlane.AnzBegleiter<PlaneTypes[qPlane.TypeId].AnzBegleiter ||
                 if (qPlane.AnzBegleiter<qPlane.ptAnzBegleiter ||
                         qPlane.AnzPiloten<qPlane.ptAnzPiloten ||
                         //qPlane.AnzPiloten<PlaneTypes[qPlane.TypeId].AnzPiloten ||
-                        qPlane.Problem)
+                        (qPlane.Problem != 0)) {
                     ValueFlags[d*4+0]=TRUE;
-                else
+                } else {
                     ValueFlags[d*4+0]=FALSE;
+}
 
                 ValueFlags[d*4+1]=qPlane.TargetZustand;
 
                 d++;
             }
+}
     }
 
     for (c=0; c<d-1; c++)
@@ -153,7 +163,8 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
             tmp2=ValueFlags[c*4+0]; ValueFlags[c*4+0]=ValueFlags[c*4+4]; ValueFlags[c*4+4]=tmp2;
             tmp2=ValueFlags[c*4+1]; ValueFlags[c*4+1]=ValueFlags[c*4+5]; ValueFlags[c*4+5]=tmp2;
 
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
     }
 }
@@ -163,7 +174,8 @@ void CDataTable::FillWithPlanes (CPlanes *Planes, BOOL Expert, SLONG FilterType,
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithPlaneTypes (void)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1600);
 
@@ -179,8 +191,8 @@ void CDataTable::FillWithPlaneTypes (void)
     ColTitle[0]=StandardTexte.GetS (TOKEN_SCHED, 1600+1);
     ColTitle[1]=" ";
 
-    for (c=0, d=0; c<(SLONG)PlaneTypes.AnzEntries(); c++)
-        if (PlaneTypes.IsInAlbum(c))
+    for (c=0, d=0; c<(SLONG)PlaneTypes.AnzEntries(); c++) {
+        if (PlaneTypes.IsInAlbum(c) != 0) {
             if (PlaneTypes[c].FirstMissions<Sim.Difficulty || (PlaneTypes[c].FirstMissions==Sim.Difficulty && PlaneTypes[c].FirstDay<=Sim.Date) || (DIFF_FREEGAME==Sim.Difficulty && PlaneTypes[c].FirstDay<=Sim.Date))
             {
                 LineIndex[d]  = PlaneTypes.GetIdFromIndex(c);
@@ -190,6 +202,8 @@ void CDataTable::FillWithPlaneTypes (void)
 
                 d++;
             }
+}
+}
 
     AnzRows=d;
 }
@@ -199,7 +213,8 @@ void CDataTable::FillWithPlaneTypes (void)
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithXPlaneTypes (void)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1600);
 
@@ -224,7 +239,8 @@ void CDataTable::FillWithXPlaneTypes (void)
         CXPlane plane;
 
         CString fn = FullFilename (Array[c], MyPlanePath);
-        if (fn!="") plane.Load (fn);
+        if (!fn.empty()) { plane.Load (fn);
+}
 
         if (plane.IsBuildable())
         {
@@ -248,16 +264,20 @@ void CDataTable::FillWithXPlaneTypes (void)
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL UniqueOnly)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1100);
 
-    for (c=Routen->AnzEntries()-1, d=0; c>=0; c--)
-        if (Routen->IsInAlbum(c) && RentRouten->RentRouten[c].Rang) d++;
+    for (c=Routen->AnzEntries()-1, d=0; c>=0; c--) {
+        if ((Routen->IsInAlbum(c) != 0) && (RentRouten->RentRouten[c].Rang != 0u)) { d++;
+}
+}
 
     AnzColums = 5;
     AnzRows   = d;
-    if (UniqueOnly) AnzRows/=2;
+    if (UniqueOnly != 0) { AnzRows/=2;
+}
 
     Values.ReSize (0);
     Values.ReSize (AnzColums*AnzRows);
@@ -269,8 +289,8 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
     /*for (c=0; c<AnzColums; c++)
       ColTitle[c]=StandardTexte.GetS (TOKEN_SCHED, 1100+c+1); */
 
-    for (c=d=0; c<(SLONG)Routen->AnzEntries(); c++)
-        if (Routen->IsInAlbum(c) && RentRouten->RentRouten[c].Rang && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity))
+    for (c=d=0; c<(SLONG)Routen->AnzEntries(); c++) {
+        if ((Routen->IsInAlbum(c) != 0) && (RentRouten->RentRouten[c].Rang != 0u) && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity))
         {
             LineIndex[d]          = Routen->GetIdFromIndex(c);
             Values[d*AnzColums+0] = Cities[(*Routen)[c].VonCity].Name;
@@ -284,6 +304,7 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
 
             d++;
         }
+}
 
     for (c=0; c<d-1; c++)
     {
@@ -302,7 +323,8 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
 
             tmp0=ValueFlags[c*AnzColums+0]; ValueFlags[c*AnzColums+0]=ValueFlags[c*AnzColums+AnzColums]; ValueFlags[c*AnzColums+AnzColums]=UBYTE(tmp0);
 
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
     }
 }
@@ -312,12 +334,15 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithAllRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL UniqueOnly)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1100);
 
-    for (c=Routen->AnzEntries()-1, d=0; c>=0; c--)
-        if (Routen->IsInAlbum(c) && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity)) d++;
+    for (c=Routen->AnzEntries()-1, d=0; c>=0; c--) {
+        if ((Routen->IsInAlbum(c) != 0) && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity)) { d++;
+}
+}
 
     AnzColums = 5;
     AnzRows   = d;
@@ -328,8 +353,8 @@ void CDataTable::FillWithAllRouten (CRouten *Routen, CRentRouten *RentRouten, BO
     ColTitle.ReSize (AnzColums);
     LineIndex.ReSize (AnzRows);
 
-    for (c=d=0; c<(SLONG)Routen->AnzEntries(); c++)
-        if (Routen->IsInAlbum(c) && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity))
+    for (c=d=0; c<(SLONG)Routen->AnzEntries(); c++) {
+        if ((Routen->IsInAlbum(c) != 0) && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity))
         {
             LineIndex[d]          = Routen->GetIdFromIndex(c);
             Values[d*AnzColums+0] = Cities[(*Routen)[c].VonCity].Name;
@@ -339,10 +364,11 @@ void CDataTable::FillWithAllRouten (CRouten *Routen, CRentRouten *RentRouten, BO
 
             //Values[d*AnzColums+4] = CString (bitoa (Sim.Players.Players[(SLONG)Sim.localPlayer].AnzPlanesOnRoute(c))) + StandardTexte.GetS (TOKEN_ROUTE, 1015);
 
-            ValueFlags[d*AnzColums+0] = (RentRouten->RentRouten[c].Rang>0);
+            ValueFlags[d*AnzColums+0] = static_cast<unsigned char>(RentRouten->RentRouten[c].Rang>0);
 
             d++;
         }
+}
 
     for (c=0; c<d-1; c++)
     {
@@ -361,7 +387,8 @@ void CDataTable::FillWithAllRouten (CRouten *Routen, CRentRouten *RentRouten, BO
 
             tmp0=ValueFlags[c*AnzColums+0]; ValueFlags[c*AnzColums+0]=ValueFlags[c*AnzColums+AnzColums]; ValueFlags[c*AnzColums+AnzColums]=UBYTE(tmp0);
 
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
     }
 }
@@ -371,7 +398,8 @@ void CDataTable::FillWithAllRouten (CRouten *Routen, CRentRouten *RentRouten, BO
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithAuftraege (CAuftraege *Auftraege)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1200);
 
@@ -384,11 +412,12 @@ void CDataTable::FillWithAuftraege (CAuftraege *Auftraege)
     ColTitle.ReSize (AnzColums);
     LineIndex.ReSize (AnzRows);
 
-    for (c=0; c<AnzColums; c++)
+    for (c=0; c<AnzColums; c++) {
         ColTitle[c]="";
+}
 
-    for (c=Auftraege->AnzEntries()-1, d=0; c>=0; c--)
-        if (Auftraege->IsInAlbum(c) && (*Auftraege)[c].InPlan!=-1 && (*Auftraege)[c].BisDate>=Sim.Date)
+    for (c=Auftraege->AnzEntries()-1, d=0; c>=0; c--) {
+        if ((Auftraege->IsInAlbum(c) != 0) && (*Auftraege)[c].InPlan!=-1 && (*Auftraege)[c].BisDate>=Sim.Date)
         {
             LineIndex[d]          = Auftraege->GetIdFromIndex(c);
             Values[d*AnzColums+0] = Cities[(*Auftraege)[c].VonCity].Name;
@@ -396,19 +425,21 @@ void CDataTable::FillWithAuftraege (CAuftraege *Auftraege)
             Values[d*AnzColums+2] = Cities[(*Auftraege)[c].VonCity].Kuerzel;
             Values[d*AnzColums+3] = Cities[(*Auftraege)[c].NachCity].Kuerzel;
 
-            if ((*Auftraege)[c].Date==(*Auftraege)[c].BisDate)
+            if ((*Auftraege)[c].Date==(*Auftraege)[c].BisDate) {
                 Values[d*AnzColums+4] = StandardTexte.GetS (TOKEN_SCHED, 3010+((*Auftraege)[c].Date+Sim.StartWeekday)%7);
-            else
+            } else {
                 Values[d*AnzColums+4] = CString(StandardTexte.GetS (TOKEN_SCHED, 3009)) + " " + CString(StandardTexte.GetS (TOKEN_SCHED, 3010+((*Auftraege)[c].BisDate+Sim.StartWeekday)%7));
+}
 
             Values[d*AnzColums+5] = Einheiten[EINH_DM].bString ((*Auftraege)[c].Praemie);
             Values[d*AnzColums+6] = bprintf("(%li)", (*Auftraege)[c].Personen);
 
             ValueFlags[d*AnzColums+0] = (*Auftraege)[c].InPlan;
             ValueFlags[d*AnzColums+1] = (*Auftraege)[c].Okay;
-            ValueFlags[d*AnzColums+2] = ((*Auftraege)[c].Okay==0)*2 + ((*Auftraege)[c].InPlan==0);
+            ValueFlags[d*AnzColums+2] = static_cast<int>((*Auftraege)[c].Okay==0)*2 + static_cast<int>((*Auftraege)[c].InPlan==0);
             d++;
         }
+}
 
     for (c=0; c<d-1; c++)
     {
@@ -432,7 +463,8 @@ void CDataTable::FillWithAuftraege (CAuftraege *Auftraege)
             tmp0=ValueFlags[c*7+1]; ValueFlags[c*7+1]=ValueFlags[c*7+8]; ValueFlags[c*7+8]=UBYTE(tmp0);
             tmp0=ValueFlags[c*7+2]; ValueFlags[c*7+2]=ValueFlags[c*7+9]; ValueFlags[c*7+9]=UBYTE(tmp0);
 
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
     }
 
@@ -444,7 +476,8 @@ void CDataTable::FillWithAuftraege (CAuftraege *Auftraege)
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithFracht (CFrachten *Frachten)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1200);
 
@@ -457,11 +490,12 @@ void CDataTable::FillWithFracht (CFrachten *Frachten)
     ColTitle.ReSize (AnzColums);
     LineIndex.ReSize (AnzRows);
 
-    for (c=0; c<AnzColums; c++)
+    for (c=0; c<AnzColums; c++) {
         ColTitle[c]="";
+}
 
-    for (c=Frachten->AnzEntries()-1, d=0; c>=0; c--)
-        if (Frachten->IsInAlbum(c) && (*Frachten)[c].InPlan!=-1 && (*Frachten)[c].BisDate>=Sim.Date)
+    for (c=Frachten->AnzEntries()-1, d=0; c>=0; c--) {
+        if ((Frachten->IsInAlbum(c) != 0) && (*Frachten)[c].InPlan!=-1 && (*Frachten)[c].BisDate>=Sim.Date)
         {
             LineIndex[d]          = Frachten->GetIdFromIndex(c);
             Values[d*AnzColums+0] = Cities[(*Frachten)[c].VonCity].Name;
@@ -469,19 +503,21 @@ void CDataTable::FillWithFracht (CFrachten *Frachten)
             Values[d*AnzColums+2] = Cities[(*Frachten)[c].VonCity].Kuerzel;
             Values[d*AnzColums+3] = Cities[(*Frachten)[c].NachCity].Kuerzel;
 
-            if ((*Frachten)[c].Date==(*Frachten)[c].BisDate)
+            if ((*Frachten)[c].Date==(*Frachten)[c].BisDate) {
                 Values[d*AnzColums+4] = StandardTexte.GetS (TOKEN_SCHED, 3010+((*Frachten)[c].Date+Sim.StartWeekday)%7);
-            else
+            } else {
                 Values[d*AnzColums+4] = CString(StandardTexte.GetS (TOKEN_SCHED, 3009)) + " " + CString(StandardTexte.GetS (TOKEN_SCHED, 3010+((*Frachten)[c].BisDate+Sim.StartWeekday)%7));
+}
 
             Values[d*AnzColums+5] = Einheiten[EINH_DM].bString ((*Frachten)[c].Praemie);
             Values[d*AnzColums+6] = bprintf("(%li)", (*Frachten)[c].Tons);
 
             ValueFlags[d*AnzColums+0] = (*Frachten)[c].InPlan;
             ValueFlags[d*AnzColums+1] = (*Frachten)[c].Okay;
-            ValueFlags[d*AnzColums+2] = ((*Frachten)[c].Okay==0)*2 + ((*Frachten)[c].InPlan==0);
+            ValueFlags[d*AnzColums+2] = static_cast<int>((*Frachten)[c].Okay==0)*2 + static_cast<int>((*Frachten)[c].InPlan==0);
             d++;
         }
+}
 
     for (c=0; c<d-1; c++)
     {
@@ -505,7 +541,8 @@ void CDataTable::FillWithFracht (CFrachten *Frachten)
             tmp0=ValueFlags[c*7+1]; ValueFlags[c*7+1]=ValueFlags[c*7+8]; ValueFlags[c*7+8]=UBYTE(tmp0);
             tmp0=ValueFlags[c*7+2]; ValueFlags[c*7+2]=ValueFlags[c*7+9]; ValueFlags[c*7+9]=UBYTE(tmp0);
 
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
     }
 
@@ -517,7 +554,8 @@ void CDataTable::FillWithFracht (CFrachten *Frachten)
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithCities (CRentCities *RentCities)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1400);
 
@@ -530,16 +568,18 @@ void CDataTable::FillWithCities (CRentCities *RentCities)
     ColTitle.ReSize (AnzColums);
     LineIndex.ReSize (AnzRows);
 
-    for (c=0; c<AnzColums; c++)
+    for (c=0; c<AnzColums; c++) {
         ColTitle[c]=StandardTexte.GetS (TOKEN_SCHED, 1400+c+1);
+}
 
-    for (c=d=0; c<(SLONG)Cities.AnzEntries(); c++)
-        if (Cities.IsInAlbum(c))
+    for (c=d=0; c<(SLONG)Cities.AnzEntries(); c++) {
+        if (Cities.IsInAlbum(c) != 0)
         {
-            if (RentCities && RentCities->RentCities[c].Rang)
+            if ((RentCities != nullptr) && (RentCities->RentCities[c].Rang != 0u)) {
                 ValueFlags[d*3+0]=TRUE;
-            else
+            } else {
                 ValueFlags[d*3+0]=FALSE;
+}
 
             LineIndex[d]  = Cities.GetIdFromIndex(c);
             Values[d*3+0] = Cities[c].Name;
@@ -547,13 +587,15 @@ void CDataTable::FillWithCities (CRentCities *RentCities)
             d++;
         }
 }
+}
 
 //--------------------------------------------------------------------------------------------
 //Füllt die Datentabelle mit allen verfügbaren Expertenmeinungen:
 //--------------------------------------------------------------------------------------------
 void CDataTable::FillWithExperts (SLONG /*PlayerNum*/)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     Title = StandardTexte.GetS (TOKEN_EXPERT, 1000);
 

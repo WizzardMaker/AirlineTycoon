@@ -16,20 +16,21 @@ extern SLONG SaveVersionSub;
 //============================================================================================
 //So viele fliegen (Potentiell) hier
 //============================================================================================
-SLONG CRoute::AnzPassagiere(void)
+SLONG CRoute::AnzPassagiere(void) const
 {
     SLONG DayFaktor;
 
-    if (Sim.Date<3)  DayFaktor=1000;
-    else if (Sim.Date<9)  DayFaktor=900;
-    else if (Sim.Date<29) DayFaktor=750;
-    else                  DayFaktor=650;
+    if (Sim.Date<3) {  DayFaktor=1000;
+    } else if (Sim.Date<9) {  DayFaktor=900;
+    } else if (Sim.Date<29) { DayFaktor=750;
+    } else {                  DayFaktor=650;
+}
 
     return ((SLONG)(sqrt (Cities[VonCity].Einwohner * double(Cities[NachCity].Einwohner))*Faktor/DayFaktor/2*3/4));
 }
 
-BOOL CRoute::operator > (const CRoute &p) const { return (Cities[VonCity].Name>Cities[p.VonCity].Name); }
-BOOL CRoute::operator < (const CRoute &p) const { return (Cities[VonCity].Name<Cities[p.VonCity].Name); }
+BOOL CRoute::operator > (const CRoute &p) const { return static_cast<BOOL>(Cities[VonCity].Name>Cities[p.VonCity].Name); }
+BOOL CRoute::operator < (const CRoute &p) const { return static_cast<BOOL>(Cities[VonCity].Name<Cities[p.VonCity].Name); }
 
 //--------------------------------------------------------------------------------------------
 //Eine CRoute-Objekt speichern:
@@ -71,7 +72,8 @@ void CRouten::ReInit (const CString &TabFilename, bool bNoDoublettes)
 {
     //CStdioFile    Tab;
     BUFFER<char>  Line(300);
-    long          Id, Id2;
+    long          Id;
+    long          Id2;
 
     //Load Table header:
     BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
@@ -84,9 +86,10 @@ void CRouten::ReInit (const CString &TabFilename, bool bNoDoublettes)
     IsInAlbum (0x11000000);
     Routen.ReSize (MAX_ROUTES);
 
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         //if (!Tab.ReadString (Line, 300)) break;
@@ -101,9 +104,11 @@ void CRouten::ReInit (const CString &TabFilename, bool bNoDoublettes)
         //Looking for doubles (may be turned off for compatibility)
         if (bNoDoublettes)
         {
-            for (SLONG c=0; c<(SLONG)AnzEntries(); c++)
-                if (IsInAlbum(c) && (*this)[c].VonCity==VonCity && (*this)[c].NachCity==NachCity)
+            for (SLONG c=0; c<(SLONG)AnzEntries(); c++) {
+                if ((IsInAlbum(c) != 0) && (*this)[c].VonCity==VonCity && (*this)[c].NachCity==NachCity) {
                     goto skip_this_city_because_it_exists_twice;
+}
+}
         }
 
         //Tabellenzeile hinzufügen:
@@ -118,7 +123,7 @@ void CRouten::ReInit (const CString &TabFilename, bool bNoDoublettes)
         (*this)[Id].Miete    = atol (strtok (NULL, TabSeparator));
         (*this)[Id].Faktor   = atof (strtok (NULL, TabSeparator));
         (*this)[Id].Bedarf   = 0;
-        (*this)[Id].bNewInDeluxe = (Cities[VonCity].bNewInAddOn==2 || Cities[NachCity].bNewInAddOn==2);
+        (*this)[Id].bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn==2 || Cities[NachCity].bNewInAddOn==2);
 
         //Tabellenzeile hinzufügen:
         Id2=GetUniqueId();
@@ -147,7 +152,8 @@ void CRouten::ReInitExtend (const CString &TabFilename)
 {
     //CStdioFile    Tab;
     BUFFER<char>  Line(300);
-    long          Id, Id2;
+    long          Id;
+    long          Id2;
     long          linenumber=0;
 
     //Load Table header:
@@ -160,9 +166,10 @@ void CRouten::ReInitExtend (const CString &TabFilename)
     Routen.ReSize (MAX_ROUTES);
     SLONG NumUsed = (SLONG)GetNumUsed();
 
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         if (linenumber<NumUsed/2) { linenumber++; continue; }
@@ -188,7 +195,7 @@ void CRouten::ReInitExtend (const CString &TabFilename)
         (*this)[Id].Miete    = atol (strtok (NULL, TabSeparator));
         (*this)[Id].Faktor   = atof (strtok (NULL, TabSeparator));
         (*this)[Id].Bedarf   = 0;
-        (*this)[Id].bNewInDeluxe = (Cities[VonCity].bNewInAddOn==2 || Cities[NachCity].bNewInAddOn==2);
+        (*this)[Id].bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn==2 || Cities[NachCity].bNewInAddOn==2);
 
         //Tabellenzeile hinzufügen:
         Id2=GetUniqueId();
@@ -217,19 +224,21 @@ void CRouten::NewDay (void)
 
     if (Sim.Date==0)
     {
-        for (c=0; c<Routen.AnzEntries(); c++)
-            if (IsInAlbum(c))
+        for (c=0; c<Routen.AnzEntries(); c++) {
+            if (IsInAlbum(c) != 0)
             {
                 Routen[c].Bedarf = SLONG(Routen[c].AnzPassagiere()*4.27);
             }
+}
     }
     else
     {
-        for (c=0; c<Routen.AnzEntries(); c++)
-            if (IsInAlbum(c))
+        for (c=0; c<Routen.AnzEntries(); c++) {
+            if (IsInAlbum(c) != 0)
             {
                 Routen[c].Bedarf = (Routen[c].Bedarf * 6 + (SLONG(Routen[c].AnzPassagiere()*4.27)))/7;
             }
+}
     }
 }
 
@@ -238,9 +247,9 @@ void CRouten::NewDay (void)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator << (TEAKFILE &File, const CRouten &r)
 {
-    if (SaveVersion==1 && SaveVersionSub<12)
+    if (SaveVersion==1 && SaveVersionSub<12) {
         File << r.Routen;
-    else
+    } else
     {
         File << r.Routen;
         File << *((ALBUM<CRoute>*)&r);
@@ -254,9 +263,9 @@ TEAKFILE &operator << (TEAKFILE &File, const CRouten &r)
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator >> (TEAKFILE &File, CRouten &r)
 {
-    if (SaveVersion==1 && SaveVersionSub<12)
+    if (SaveVersion==1 && SaveVersionSub<12) {
         File >> r.Routen;
-    else
+    } else
     {
         File >> r.Routen;
         File >> *((ALBUM<CRoute>*)&r);
@@ -290,13 +299,15 @@ CRentRoute::CRentRoute ()
 //--------------------------------------------------------------------------------------------
 SLONG CRentRouten::GetNumUsed(void)
 {
-    SLONG c, Anz=0;
+    SLONG c;
+    SLONG Anz=0;
 
-    for (c=0; c<SLONG(Routen.AnzEntries()); c++)
-        if (Routen.IsInAlbum(c) && RentRouten[c].Rang!=0)
+    for (c=0; c<SLONG(Routen.AnzEntries()); c++) {
+        if ((Routen.IsInAlbum(c) != 0) && RentRouten[c].Rang!=0)
         {
             Anz++;
         }
+}
 
     return (Anz);
 }

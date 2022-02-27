@@ -751,7 +751,9 @@ bool CheckComputerLicense (void)
 void GetProtectionString (const CString &TabFilename, SLONG *pPageAndWord, CString *pRightWord)
 {
     BUFFER<char>  Line(300);
-    SLONG         FileP, Num, Count=0;
+    SLONG         FileP;
+    SLONG         Num;
+    SLONG         Count=0;
 
     //Load Table header:
     BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
@@ -759,16 +761,18 @@ void GetProtectionString (const CString &TabFilename, SLONG *pPageAndWord, CStri
     //Die erste Zeile einlesen
     FileP=0; FileP=ReadLine (FileData, FileP, Line, 300);
 
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         TeakStrRemoveEndingCodes (Line, "\xd\xa\x1a\r");
 
         Num = atoi (strtok (Line, TabSeparator));
 
-        if (Num>=1000000) Count++;
+        if (Num>=1000000) { Count++;
+}
     }
 
     TEAKRAND r;
@@ -785,9 +789,10 @@ void GetProtectionString (const CString &TabFilename, SLONG *pPageAndWord, CStri
     FileP=0; FileP=ReadLine (FileData2, FileP, Line, 300);
 
     bool bFirst=true;
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData2.AnzEntries()) break;
+        if (FileP>=FileData2.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData2, FileP, Line, 300);
 
         TeakStrRemoveEndingCodes (Line, "\xd\xa\x1a\r");
@@ -800,8 +805,10 @@ void GetProtectionString (const CString &TabFilename, SLONG *pPageAndWord, CStri
             if (Count==0 || bFirst)
             {
                 bFirst=false;
-                if (pPageAndWord) *pPageAndWord = Num;
-                if (pRightWord)   *pRightWord   = strtok (NULL, TabSeparator);
+                if (pPageAndWord != nullptr) { *pPageAndWord = Num;
+}
+                if (pRightWord != nullptr) {   *pRightWord   = strtok (NULL, TabSeparator);
+}
             }
         }
     }

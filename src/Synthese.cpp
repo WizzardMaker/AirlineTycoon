@@ -25,11 +25,13 @@ static SLONG         TalkerLastLoaded=0;
 //--------------------------------------------------------------------------------------------
 void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehrung)
 {
-    SLONG LocalVon[100], LocalBis[100];
-    SLONG c, TalkerIndex;
+    SLONG LocalVon[100];
+    SLONG LocalBis[100];
+    SLONG c;
+    SLONG TalkerIndex;
     SLONG ElementsInFusion=0;
 
-    if (Sim.Options.OptionRoundNumber && (Number>=1000 || Number<=-1000))
+    if ((Sim.Options.OptionRoundNumber != 0) && (Number>=1000 || Number<=-1000))
     {
         SLONG f=1;
 
@@ -43,9 +45,11 @@ void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehru
     }
 
     //Den richtigen Talker-Index raussuchen:
-    for (c=0; c<2; c++)
-        if (Talker==TalkerId[c])
+    for (c=0; c<2; c++) {
+        if (Talker==TalkerId[c]) {
             break;
+}
+}
     if (c==2)
     {
         TalkerId[TalkerLastLoaded] = Talker;
@@ -82,9 +86,10 @@ void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehru
         {
             SLONG n;
 
-            if (Number>=1000000) n=Number/1000000;
-            else if (Number>=1000) n=Number/1000;
-            else n=Number;
+            if (Number>=1000000) { n=Number/1000000;
+            } else if (Number>=1000) { n=Number/1000;
+            } else { n=Number;
+}
 
             if (n>=100)
             {
@@ -94,7 +99,7 @@ void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehru
                 ElementsInFusion++;
 
                 //if (Number>=1000 || n%100!=0 || Waehrung)
-                if (ElementsInFusion || Number>=1000 || Waehrung)
+                if ((ElementsInFusion != 0) || Number>=1000 || (Waehrung != 0))
                 {
                     LocalVon[ElementsInFusion]=(TalkerFxVon[TalkerIndex])[SAY_D_100_];
                     LocalBis[ElementsInFusion]=(TalkerFxBis[TalkerIndex])[SAY_D_100_];
@@ -115,13 +120,13 @@ void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehru
                 //1-20...
                 if (n<=20)
                 {
-                    if (n==1 && (Number>=1000000 || (Number<100 && Waehrung)))
+                    if (n==1 && (Number>=1000000 || (Number<100 && (Waehrung != 0))))
                     {
                         LocalVon[ElementsInFusion]=(TalkerFxVon[TalkerIndex])[SAY_D_Eine];
                         LocalBis[ElementsInFusion]=(TalkerFxBis[TalkerIndex])[SAY_D_Eine];
                         ElementsInFusion++;
                     }
-                    else if (ElementsInFusion || Number>=1000 || Waehrung)
+                    else if ((ElementsInFusion != 0) || Number>=1000 || (Waehrung != 0))
                     {
                         LocalVon[ElementsInFusion]=(TalkerFxVon[TalkerIndex])[SAY_D_1_+n-1];
                         LocalBis[ElementsInFusion]=(TalkerFxBis[TalkerIndex])[SAY_D_1_+n-1];
@@ -137,7 +142,7 @@ void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehru
                 //30-90...
                 else if (n%10==0)
                 {
-                    if (ElementsInFusion || Number>=1000 || Waehrung)
+                    if ((ElementsInFusion != 0) || Number>=1000 || (Waehrung != 0))
                     {
                         LocalVon[ElementsInFusion]=(TalkerFxVon[TalkerIndex])[SAY_D_20_+n/10-2];
                         LocalBis[ElementsInFusion]=(TalkerFxBis[TalkerIndex])[SAY_D_20_+n/10-2];
@@ -158,7 +163,7 @@ void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehru
                     LocalBis[ElementsInFusion]=(TalkerFxBis[TalkerIndex])[SAY_D_1UND_+(n%10)-1];
                     ElementsInFusion++;
 
-                    if (ElementsInFusion || Number>=1000 || Waehrung)
+                    if ((ElementsInFusion != 0) || Number>=1000 || (Waehrung != 0))
                     {
                         LocalVon[ElementsInFusion]=(TalkerFxVon[TalkerIndex])[SAY_D_20_+n/10-2];
                         LocalBis[ElementsInFusion]=(TalkerFxBis[TalkerIndex])[SAY_D_20_+n/10-2];
@@ -177,7 +182,7 @@ void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehru
             {
                 Number=Number-Number/1000000*1000000;
 
-                if (Number>0 || Waehrung)
+                if (Number>0 || (Waehrung != 0))
                 {
                     LocalVon[ElementsInFusion]=(TalkerFxVon[TalkerIndex])[SAY_D_1000000_];
                     LocalBis[ElementsInFusion]=(TalkerFxBis[TalkerIndex])[SAY_D_1000000_];
@@ -194,7 +199,7 @@ void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehru
             {
                 Number=Number-Number/1000*1000;
 
-                if (Number>0 || Waehrung)
+                if (Number>0 || (Waehrung != 0))
                 {
                     LocalVon[ElementsInFusion]=(TalkerFxVon[TalkerIndex])[SAY_D_1000_];
                     LocalBis[ElementsInFusion]=(TalkerFxBis[TalkerIndex])[SAY_D_1000_];
@@ -207,12 +212,13 @@ void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehru
                     ElementsInFusion++;
                 }
             }
-            else Number=0;
+            else { Number=0;
+}
         }
     }
 
     //Währung:
-    if (Waehrung)
+    if (Waehrung != 0)
     {
         LocalVon[ElementsInFusion]=(TalkerFxVon[TalkerIndex])[SAY_D_MARK];
         LocalBis[ElementsInFusion]=(TalkerFxBis[TalkerIndex])[SAY_D_MARK];

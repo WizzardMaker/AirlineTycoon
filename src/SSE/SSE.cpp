@@ -18,7 +18,7 @@ SSE::~SSE()
     DisableDS();
 }
 
-int SSE::EnableDS()
+int SSE::EnableDS() const
 {
     if (Mix_OpenAudioDevice(_samplesPerSec, SDL_AUDIO_MASK_SIGNED | (_bitsPerSample & SDL_AUDIO_MASK_BITSIZE), _channels, 1024, nullptr, 0) < 0)
     {
@@ -39,8 +39,9 @@ int SSE::DisableDS()
 
 int SSE::CreateFX(FX** ppFX, char* file, dword samplesPerSec, word channels, word bitsPerSample)
 {
-    if (!ppFX)
+    if (ppFX == nullptr) {
         return SSE_INVALIDPARAM;
+}
 
     _soundObjList.emplace_back(FX());
     *ppFX = &_soundObjList.back();
@@ -49,8 +50,9 @@ int SSE::CreateFX(FX** ppFX, char* file, dword samplesPerSec, word channels, wor
 
 int SSE::CreateMidi(MIDI** ppMidi, char* file)
 {
-    if (!ppMidi)
+    if (ppMidi == nullptr) {
         return SSE_INVALIDPARAM;
+}
 
     _musicObjList.emplace_back(MIDI());
     *ppMidi = &_musicObjList.back();
@@ -59,39 +61,45 @@ int SSE::CreateMidi(MIDI** ppMidi, char* file)
 
 int SSE::EnableSound(bool fSoundEnabled)
 {
-    if (fSoundEnabled == _fSoundEnabled)
+    if (fSoundEnabled == _fSoundEnabled) {
         return SSE_OK;
+}
     _fSoundEnabled = fSoundEnabled;
-    if (!_fSoundEnabled)
+    if (!_fSoundEnabled) {
         StopSound();
+}
     return SSE_OK;
 }
 
 void SSE::StopSound()
 {
-    for (FX& fx : _soundObjList)
+    for (FX& fx : _soundObjList) {
         fx.Stop();
+}
 }
 
 int SSE::EnableMusic(bool fMusicEnabled)
 {
-    if (fMusicEnabled == _fMusicEnabled)
+    if (fMusicEnabled == _fMusicEnabled) {
         return SSE_OK;
+}
     _fMusicEnabled = fMusicEnabled;
-    if (!_fMusicEnabled)
+    if (!_fMusicEnabled) {
         StopMusic();
+}
     return SSE_OK;
 }
 
 void SSE::StopMusic()
 {
-    for (MIDI& mid : _musicObjList)
+    for (MIDI& mid : _musicObjList) {
         mid.Stop();
+}
 }
 
 int SSE::SetMusicVolume(SLONG volume)
 {
-    volume = min(MIX_MAX_VOLUME, (MIX_MAX_VOLUME / 7.0f) * volume);
+    volume = min(MIX_MAX_VOLUME, (MIX_MAX_VOLUME / 7.0F) * volume);
 
     Mix_VolumeMusic(volume);
     return SSE_OK;
@@ -99,8 +107,9 @@ int SSE::SetMusicVolume(SLONG volume)
 
 int SSE::GetMusicVolume(SLONG* pVolume)
 {
-    if (!pVolume)
+    if (pVolume == nullptr) {
         return SSE_INVALIDPARAM;
+}
 
     *pVolume = Mix_VolumeMusic(-1);
     return SSE_OK;
@@ -108,7 +117,7 @@ int SSE::GetMusicVolume(SLONG* pVolume)
 
 int SSE::SetSoundVolume(SLONG volume)
 {
-    volume = min(MIX_MAX_VOLUME, (MIX_MAX_VOLUME / 7.0f) * volume);
+    volume = min(MIX_MAX_VOLUME, (MIX_MAX_VOLUME / 7.0F) * volume);
 
     Mix_Volume(-1, volume);
     return SSE_OK;
@@ -116,8 +125,9 @@ int SSE::SetSoundVolume(SLONG volume)
 
 int SSE::GetSoundVolume(SLONG* pVolume)
 {
-    if (!pVolume)
+    if (pVolume == nullptr) {
         return SSE_INVALIDPARAM;
+}
 
     *pVolume = Mix_Volume(-1, -1);
     return SSE_OK;
@@ -147,35 +157,38 @@ int	FX::Create(SSE* pSSE, char* file, dword samplesPerSec, word channels, word b
     _digitalData.pSSE = pSSE;
     SetFormat(samplesPerSec, channels, bitsPerSample);
 
-    if (file)
+    if (file != nullptr) {
         Load(file);
+}
 
     return SSE_OK;
 }
 
 bool FX::StopPriority(dword flags)
 {
-    if (!(flags & DSBPLAY_PRIORITY) && !(flags & DSBPLAY_HIGHPRIORITY))
+    if (((flags & DSBPLAY_PRIORITY) == 0u) && ((flags & DSBPLAY_HIGHPRIORITY) == 0u)) {
         return false;
+}
 
     FX* playing = nullptr;
     for (FX& fx : _digitalData.pSSE->_soundObjList)
     {
         dword status;
         fx.GetStatus(&status);
-        if (status & DSBSTATUS_PLAYING)
+        if ((status & DSBSTATUS_PLAYING) != 0u)
         {
             if (!fx._digitalData.fNoStop)
             {
                 fx.Stop();
                 return true;
             }
-            if (!playing)
+            if (playing == nullptr) {
                 playing = &fx;
+}
         }
     }
 
-    if (playing && flags & DSBPLAY_HIGHPRIORITY)
+    if ((playing != nullptr) && ((flags & DSBPLAY_HIGHPRIORITY) != 0u))
     {
         playing->Stop();
         return true;
@@ -187,43 +200,50 @@ SLONG FX::Release()
 {
     Free();
 
-    if (_digitalData.pSSE)
+    if (_digitalData.pSSE != nullptr)
     {
         std::list<FX>& list = _digitalData.pSSE->_soundObjList;
         auto it = std::find_if(list.begin(), list.end(), [this](const FX& fx) { return &fx == this; });
-        if (it != list.end())
+        if (it != list.end()) {
             list.erase(it);
+}
     }
     return 0;
 }
 
 int FX::Play(dword dwFlags, SLONG pan)
 {
-    if (!_digitalData.pSSE->IsSoundEnabled())
+    if (!_digitalData.pSSE->IsSoundEnabled()) {
         return SSE_SOUNDDISABLED;
+}
 
-    if (!_fxData.pBuffer)
+    if (_fxData.pBuffer == nullptr) {
         return SSE_NOSOUNDLOADED;
+}
 
     // TODO: Panning
-    if (dwFlags & DSBPLAY_SETPAN)
+    if ((dwFlags & DSBPLAY_SETPAN) != 0u) {
         SetPan(pan);
+}
 
     if (Mix_Playing(-1) >= _digitalData.pSSE->_maxSound
-            && !StopPriority(dwFlags))
+            && !StopPriority(dwFlags)) {
         return SSE_MAXFXREACHED;
+}
 
     if (_digitalData.fNoStop)
     {
         dword status;
         GetStatus(&status);
-        if (status & DSBSTATUS_PLAYING)
+        if ((status & DSBSTATUS_PLAYING) != 0u) {
             return SSE_OK;
+}
     }
-    _digitalData.fNoStop = (dwFlags & DSBPLAY_NOSTOP);
+    _digitalData.fNoStop = ((dwFlags & DSBPLAY_NOSTOP) != 0u);
 
-    if (!(dwFlags & DSBPLAY_FIRE))
+    if ((dwFlags & DSBPLAY_FIRE) == 0u) {
         Stop();
+}
 
     _digitalData.time = timeGetTime();
     return Mix_PlayChannel(-1, _fxData.pBuffer, dwFlags & DSBPLAY_LOOPING ? -1 : 0) < 0 ? SSE_CANNOTPLAY : SSE_OK;
@@ -231,13 +251,15 @@ int FX::Play(dword dwFlags, SLONG pan)
 
 int FX::Stop()
 {
-    if (!_fxData.pBuffer)
+    if (_fxData.pBuffer == nullptr) {
         return SSE_NOSOUNDLOADED;
+}
 
     for (int i = 0; i < _digitalData.pSSE->_maxSound; i++)
     {
-        if (Mix_GetChunk(i) == _fxData.pBuffer)
+        if (Mix_GetChunk(i) == _fxData.pBuffer) {
             Mix_HaltChannel(i);
+}
     }
     _digitalData.time = 0;
     return SSE_OK;
@@ -245,13 +267,15 @@ int FX::Stop()
 
 int FX::Pause()
 {
-    if (!_fxData.pBuffer)
+    if (_fxData.pBuffer == nullptr) {
         return SSE_NOSOUNDLOADED;
+}
 
     for (int i = 0; i < _digitalData.pSSE->_maxSound; i++)
     {
-        if (Mix_GetChunk(i) == _fxData.pBuffer)
+        if (Mix_GetChunk(i) == _fxData.pBuffer) {
             Mix_Pause(i);
+}
     }
     _digitalData.time = timeGetTime() - _digitalData.time;
     return SSE_OK;
@@ -259,13 +283,15 @@ int FX::Pause()
 
 int FX::Resume()
 {
-    if (!_fxData.pBuffer)
+    if (_fxData.pBuffer == nullptr) {
         return SSE_NOSOUNDLOADED;
+}
 
     for (int i = 0; i < _digitalData.pSSE->_maxSound; i++)
     {
-        if (Mix_GetChunk(i) == _fxData.pBuffer)
+        if (Mix_GetChunk(i) == _fxData.pBuffer) {
             Mix_Resume(i);
+}
     }
     _digitalData.time = timeGetTime() - _digitalData.time;
     return SSE_OK;
@@ -273,11 +299,13 @@ int FX::Resume()
 
 int FX::GetVolume(SLONG* pVolume)
 {
-    if (!pVolume)
+    if (pVolume == nullptr) {
         return SSE_INVALIDPARAM;
+}
 
-    if (!_fxData.pBuffer)
+    if (_fxData.pBuffer == nullptr) {
         return SSE_NOSOUNDLOADED;
+}
 
     *pVolume = Mix_VolumeChunk(_fxData.pBuffer, -1);
     return SSE_OK;
@@ -285,8 +313,9 @@ int FX::GetVolume(SLONG* pVolume)
 
 int FX::SetVolume(SLONG volume)
 {
-    if (!_fxData.pBuffer)
+    if (_fxData.pBuffer == nullptr) {
         return SSE_NOSOUNDLOADED;
+}
 
     Mix_VolumeChunk(_fxData.pBuffer, volume);
     return SSE_OK;
@@ -294,8 +323,9 @@ int FX::SetVolume(SLONG volume)
 
 int FX::GetPan(SLONG* pPan)
 {
-    if (!pPan)
+    if (pPan == nullptr) {
         return SSE_INVALIDPARAM;
+}
 
     return SSE_OK;
 }
@@ -317,17 +347,21 @@ int ChangeFrequency(Mix_Chunk* chunk, int freq) {
     //Create a converter from the PLAY_FREQUENCY to "freq"
     SDL_BuildAudioCVT(&cvt, format, channels, freq, format, channels, 44100);
 
-    if (cvt.needed) { //If need to convert
+    if (cvt.needed != 0) { //If need to convert
 
-        for (channel = 0; channel < MIX_CHANNELS; channel++)
-            if (!Mix_Playing(channel)) break; //Find a free channel
+        for (channel = 0; channel < MIX_CHANNELS; channel++) {
+            if (Mix_Playing(channel) == 0) { break; //Find a free channel
+}
+}
 
-        if (channel == MIX_CHANNELS) return -1; //If there is no channel return -1
+        if (channel == MIX_CHANNELS) { return -1; //If there is no channel return -1
+}
 
         //Set converter lenght and buffer
         cvt.len = chunk->alen;
         cvt.buf = (Uint8*)SDL_malloc(cvt.len * cvt.len_mult);
-        if (cvt.buf == NULL) return -1;
+        if (cvt.buf == NULL) { return -1;
+}
 
         //Copy the Mix_Chunk data to the new chunk and make the conversion
         SDL_memcpy(cvt.buf, chunk->abuf, chunk->alen);
@@ -350,8 +384,9 @@ int ChangeFrequency(Mix_Chunk* chunk, int freq) {
 
 int FX::Load(const char* file)
 {
-    if (_fxData.pBuffer)
+    if (_fxData.pBuffer != nullptr) {
         Free();
+}
 
     _digitalData.file = file;
     Uint8* buf = (Uint8*)SDL_LoadFile(file, &_fxData.bufferSize);
@@ -365,14 +400,16 @@ int FX::Fusion(const FX** Fx, SLONG NumFx)
 {
     for (SLONG i = 0; i < NumFx; i++)
     {
-        if (!Fx[i] || !Fx[i]->_fxData.pBuffer)
+        if ((Fx[i] == nullptr) || (Fx[i]->_fxData.pBuffer == nullptr)) {
             return SSE_INVALIDPARAM;
+}
     }
 
     Free();
 
-    for (SLONG i = 0; i < NumFx; i++)
+    for (SLONG i = 0; i < NumFx; i++) {
         _fxData.bufferSize += Fx[i]->_fxData.bufferSize;
+}
     Uint8* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
     size_t pos = 0;
     for (SLONG i = 0; i < NumFx; i++)
@@ -386,13 +423,15 @@ int FX::Fusion(const FX** Fx, SLONG NumFx)
 
 int FX::Fusion(const FX* Fx, SLONG* Von, SLONG* Bis, SLONG NumFx)
 {
-    if (!Fx || !Fx->_fxData.pBuffer)
+    if ((Fx == nullptr) || (Fx->_fxData.pBuffer == nullptr)) {
         return SSE_INVALIDPARAM;
+}
 
     Free();
 
-    for (SLONG i = 0; i < NumFx; i++)
+    for (SLONG i = 0; i < NumFx; i++) {
         _fxData.bufferSize += Bis[i] - Von[i];
+}
     Uint8* buf = (Uint8*)SDL_malloc(_fxData.bufferSize);
     size_t pos = 0;
     for (SLONG i = 0; i < NumFx; i++)
@@ -406,10 +445,12 @@ int FX::Fusion(const FX* Fx, SLONG* Von, SLONG* Bis, SLONG NumFx)
 
 int FX::Tokenize(__int64 Token, SLONG* Von, SLONG* Bis, SLONG& rcAnzahl)
 {
-    if (!_fxData.pBuffer || _fxData.bufferSize < sizeof(__int64))
+    if ((_fxData.pBuffer == nullptr) || _fxData.bufferSize < sizeof(__int64)) {
         return SSE_NOSOUNDLOADED;
+}
 
-    size_t count = 0, i;
+    size_t count = 0;
+    size_t i;
     Von[count++] = 0;
     Uint8* ptr = _fxData.pBuffer->abuf;
     for (i = 0; i < _fxData.bufferSize - 7; i++)
@@ -427,15 +468,17 @@ int FX::Tokenize(__int64 Token, SLONG* Von, SLONG* Bis, SLONG& rcAnzahl)
 
 FX** FX::Tokenize(__int64 Token, SLONG& rcAnzahl)
 {
-    if (!_fxData.pBuffer || _fxData.bufferSize < sizeof(__int64))
+    if ((_fxData.pBuffer == nullptr) || _fxData.bufferSize < sizeof(__int64)) {
         return nullptr;
+}
 
     std::vector<size_t> slices;
     Uint8* ptr = _fxData.pBuffer->abuf;
     for (size_t i = 0; i < _fxData.bufferSize - 7; i++)
     {
-        if (*(__int64*)ptr == Token)
+        if (*(__int64*)ptr == Token) {
             slices.push_back(i);
+}
     }
     slices.push_back(_fxData.bufferSize);
 
@@ -458,7 +501,7 @@ FX** FX::Tokenize(__int64 Token, SLONG& rcAnzahl)
 
 int FX::Free()
 {
-    if (_fxData.pBuffer)
+    if (_fxData.pBuffer != nullptr)
     {
         Stop();
         void* buf = _fxData.pBuffer->abuf;
@@ -472,19 +515,22 @@ int FX::Free()
 
 int FX::GetStatus(dword* pStatus)
 {
-    if (!pStatus)
+    if (pStatus == nullptr) {
         return SSE_INVALIDPARAM;
+}
 
-    if (!_fxData.pBuffer)
+    if (_fxData.pBuffer == nullptr) {
         return SSE_NOSOUNDLOADED;
+}
 
     *pStatus = 0;
     for (int i = 0; i < _digitalData.pSSE->_maxSound; i++)
     {
         if (Mix_GetChunk(i) == _fxData.pBuffer)
         {
-            if (Mix_Playing(i))
+            if (Mix_Playing(i) != 0) {
                 *pStatus |= DSBSTATUS_PLAYING;
+}
         }
     }
 
@@ -493,12 +539,14 @@ int FX::GetStatus(dword* pStatus)
 
 bool FX::IsMouthOpen(SLONG PreTime)
 {
-    if (!_fxData.pBuffer || !_digitalData.time)
+    if ((_fxData.pBuffer == nullptr) || (_digitalData.time == 0u)) {
         return false;
+}
 
     dword pos = 22050 * (timeGetTime() - _digitalData.time + PreTime) / 1000;
-    if (pos * sizeof(Uint16) + 2000 >= _fxData.bufferSize)
+    if (pos * sizeof(Uint16) + 2000 >= _fxData.bufferSize) {
         return false;
+}
 
     Uint16* sampleBuf = ((Uint16*)_fxData.pBuffer->abuf) + pos;
     return (*sampleBuf) > 512
@@ -520,8 +568,9 @@ word FX::CountPlaying()
     {
         if (Mix_GetChunk(i) == _fxData.pBuffer)
         {
-            if (Mix_Playing(i))
+            if (Mix_Playing(i) != 0) {
                 count++;
+}
         }
     }
     return count;
@@ -533,16 +582,17 @@ void FX::SetFormat(dword samplesPerSec, word channels, word bitsPerSample)
     word lastChannels = _fxData.channels;
     word lastBitsPerSample = _fxData.bitsPerSample;
 
-    _fxData.samplesPerSec = samplesPerSec ? samplesPerSec : _digitalData.pSSE->_samplesPerSec;
-    _fxData.channels = channels ? channels : 1;
-    _fxData.bitsPerSample = bitsPerSample ? bitsPerSample : _digitalData.pSSE->_bitsPerSample;
+    _fxData.samplesPerSec = samplesPerSec != 0u ? samplesPerSec : _digitalData.pSSE->_samplesPerSec;
+    _fxData.channels = channels != 0u ? channels : 1;
+    _fxData.bitsPerSample = bitsPerSample != 0u ? bitsPerSample : _digitalData.pSSE->_bitsPerSample;
 
-    if (_fxData.pBuffer && (_fxData.samplesPerSec != lastSamplesPerSec ||
+    if ((_fxData.pBuffer != nullptr) && (_fxData.samplesPerSec != lastSamplesPerSec ||
                 _fxData.channels != lastChannels || _fxData.bitsPerSample != lastBitsPerSample))
     {
         Free();
-        if (!_digitalData.file.empty())
+        if (!_digitalData.file.empty()) {
             Load(_digitalData.file.c_str());
+}
     }
 }
 
@@ -559,8 +609,9 @@ int MIDI::Create(SSE* pSSE, char* file)
 {
     _musicData.pSSE = pSSE;
 
-    if (file)
+    if (file != nullptr) {
         Load(file);
+}
 
     return SSE_OK;
 }
@@ -578,27 +629,31 @@ SLONG MIDI::Release()
 {
     Free();
 
-    if (_musicData.pSSE)
+    if (_musicData.pSSE != nullptr)
     {
         std::list<MIDI>& list = _musicData.pSSE->_musicObjList;
         auto it = std::find_if(list.begin(), list.end(), [this](const MIDI& mid) { return &mid == this; });
-        if (it != list.end())
+        if (it != list.end()) {
             list.erase(it);
+}
     }
     return 0;
 }
 
 int MIDI::Play(dword dwFlags, SLONG pan)
 {
-    if (!_musicData.pSSE->IsMusicEnabled())
+    if (!_musicData.pSSE->IsMusicEnabled()) {
         return SSE_MUSICDISABLED;
+}
 
-    if (!_music)
+    if (_music == nullptr) {
         return SSE_NOMUSICLOADED;
+}
 
     // TODO: Panning
-    if (dwFlags & DSBPLAY_SETPAN)
+    if ((dwFlags & DSBPLAY_SETPAN) != 0u) {
         SetPan(pan);
+}
 
     return Mix_PlayMusic(_music, 0) < 0 ? SSE_CANNOTPLAY : SSE_OK;
 }
@@ -644,8 +699,9 @@ int MIDI::SetPan(SLONG pan)
 
 int MIDI::Load(const char* file)
 {
-    if (_music)
+    if (_music != nullptr) {
         Free();
+}
 
     _musicData.file = file;
 
@@ -657,7 +713,7 @@ int MIDI::Load(const char* file)
         _music = Mix_LoadMUS(_musicData.file.c_str());
     }
 
-    if(!_music)
+    if(_music == nullptr)
     {
         printf("MP: Could not load music: %s\n", _musicData.file.c_str());
     }

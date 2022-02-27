@@ -35,17 +35,19 @@ TEAKRAND *pSurvisedRandom2=NULL;
 //--------------------------------------------------------------------------------------------
 SLONG ReadLine (BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength)
 {
-    SLONG c, d=0;
+    SLONG c;
+    SLONG d=0;
 
     for (c=BufferStart; c<Buffer.AnzEntries() && d<LineLength-1; c++,d++)
     {
         Line[d]=Buffer[c];
-        if (Line[d]==13 || Line[d]==10 || Line[d]==26)
+        if (Line[d]==13 || Line[d]==10 || Line[d]==26) {
             if (c+1>=Buffer.AnzEntries() || (Buffer[c+1]!=13 && Buffer[c+1]!=10 && Buffer[c+1]!=26))
             {
                 Line[d+1]=0;
                 return (c+1);
             }
+}
     }
 
     return (c);
@@ -56,10 +58,13 @@ SLONG ReadLine (BUFFER<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG Line
 //--------------------------------------------------------------------------------------------
 SLONG GetAnzBits (ULONG Flags)
 {
-    SLONG c, rc;
+    SLONG c;
+    SLONG rc;
 
-    for (c=rc=0; c<32; c++)
-        if (Flags & (1<<c)) rc++;
+    for (c=rc=0; c<32; c++) {
+        if ((Flags & (1<<c)) != 0u) { rc++;
+}
+}
 
     return (rc);
 }
@@ -71,17 +76,19 @@ double GetAlphaFromXY (XY Delta)
 {
     if (Delta.x==0)
     {
-        if (Delta.y>0) return (180);
-        else return (0);
+        if (Delta.y>0) { return (180);
+        } return (0);
     }
     else
     {
         double rc;
 
-        if (Delta.x>0) rc=atan2 (Delta.y, Delta.x)*180/3.14159275+90;
-        else rc=180-atan2 (Delta.y, -Delta.x)*180/3.14159275+90;
+        if (Delta.x>0) { rc=atan2 (Delta.y, Delta.x)*180/3.14159275+90;
+        } else { rc=180-atan2 (Delta.y, -Delta.x)*180/3.14159275+90;
+}
 
-        if (rc>360) rc-=360;
+        if (rc>360) { rc-=360;
+}
         return (rc);
     }
 }
@@ -107,18 +114,20 @@ CString KorrigiereUmlaute (CString &OriginalText)
     int     c;
 
     //Keine Korrektur für Tschechien:
-    if (gLanguage==LANGUAGE_1) return(OriginalText);
+    if (gLanguage==LANGUAGE_1) { return(OriginalText);
+}
 
     for (c=0; c<OriginalText.GetLength(); c++)
     {
-        if (OriginalText[c]=='„') rc+='ä';  //Nicht ändern - das macht so wie es ist schon Sinn!
-        else if (OriginalText[c]=='”') rc+='ö';
-        else if (OriginalText[c]=='') rc+='ü';
-        else if (OriginalText[c]=='Ž') rc+='Ä';
-        else if (OriginalText[c]=='™') rc+='Ö';
-        else if (OriginalText[c]=='š') rc+='Ü';
-        else if (OriginalText[c]=='á' && gLanguage==LANGUAGE_D) rc+='ß';
-        else rc+=OriginalText[c];
+        if (OriginalText[c]=='„') { rc+='ä';  //Nicht ändern - das macht so wie es ist schon Sinn!
+        } else if (OriginalText[c]=='”') { rc+='ö';
+        } else if (OriginalText[c]=='') { rc+='ü';
+        } else if (OriginalText[c]=='Ž') { rc+='Ä';
+        } else if (OriginalText[c]=='™') { rc+='Ö';
+        } else if (OriginalText[c]=='š') { rc+='Ü';
+        } else if (OriginalText[c]=='á' && gLanguage==LANGUAGE_D) { rc+='ß';
+        } else { rc+=OriginalText[c];
+}
     }
 
     return (rc);
@@ -137,7 +146,7 @@ BOOL CheckCursorHighlight (const CRect &rect, UWORD FontColor, SLONG Look, SLONG
 //--------------------------------------------------------------------------------------------
 BOOL CheckCursorHighlight (const XY &CursorPos, const CRect &rect, UWORD FontColor, SLONG Look, SLONG TipId, SLONG ClickArea, SLONG ClickId, SLONG ClickPar1, SLONG ClickPar2)
 {
-    if (Sim.Players.Players[Sim.localPlayer].LocationWin==0 || !((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->IsDialogOpen() || ((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuIsOpen())
+    if (Sim.Players.Players[Sim.localPlayer].LocationWin==0 || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->IsDialogOpen() == 0) || (((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuIsOpen() != 0)) {
         if (CursorPos.x>=rect.left && CursorPos.x<=rect.right &&
                 CursorPos.y>=rect.top  && CursorPos.y<=rect.bottom)
         {
@@ -151,6 +160,7 @@ BOOL CheckCursorHighlight (const XY &CursorPos, const CRect &rect, UWORD FontCol
 
             return TRUE;
         }
+}
 
     return FALSE;
 }
@@ -163,26 +173,34 @@ void DrawChart (SBBM &TipBm, ULONG Color, const FBUFFER<SLONG> &Values, SLONG Mi
     SLONG c;
     SB_Hardwarecolor hwColor = TipBm.pBitmap->GetHardwarecolor (Color);
 
-    if (MaxValue==-1)
-        for (c=0; c<Values.AnzEntries(); c++)
-            if (Values[c]>MaxValue) MaxValue=Values[c];
+    if (MaxValue==-1) {
+        for (c=0; c<Values.AnzEntries(); c++) {
+            if (Values[c]>MaxValue) { MaxValue=Values[c];
+}
+}
+}
     if (MinValue==-1)
     {
         MinValue=999999;
-        for (c=0; c<Values.AnzEntries(); c++)
-            if (Values[c]<MinValue) MinValue=Values[c];
+        for (c=0; c<Values.AnzEntries(); c++) {
+            if (Values[c]<MinValue) { MinValue=Values[c];
+}
+}
     }
 
-    if (MaxValue==0) MaxValue=1;
+    if (MaxValue==0) { MaxValue=1;
+}
 
-    if (MinValue==MaxValue) MaxValue++;
+    if (MinValue==MaxValue) { MaxValue++;
+}
 
-    for (c=0; c<Values.AnzEntries()-1; c++)
+    for (c=0; c<Values.AnzEntries()-1; c++) {
         TipBm.Line (c*(TopRight.x-TopLeft.x+1)/(Values.AnzEntries()-1)+TopLeft.x,
                 (BottomRight.y*c+BottomLeft.y*(Values.AnzEntries()-1-c))/(Values.AnzEntries()-1) - (Values[c]-MinValue)* ((BottomRight.y*c+BottomLeft.y*(Values.AnzEntries()-1-c))/(Values.AnzEntries()-1) - (TopRight.y*c+TopLeft.y*(Values.AnzEntries()-1-c))/(Values.AnzEntries()-1)) / (MaxValue-MinValue),
                 (c+1)*(TopRight.x-TopLeft.x+1)/(Values.AnzEntries()-1)+TopLeft.x,
                 (BottomRight.y*(c+1)+BottomLeft.y*(Values.AnzEntries()-1-(c+1)))/(Values.AnzEntries()-1) - (Values[c+1]-MinValue)* ((BottomRight.y*(c+1)+BottomLeft.y*(Values.AnzEntries()-1-(c+1)))/(Values.AnzEntries()-1) - (TopRight.y*(c+1)+TopLeft.y*(Values.AnzEntries()-1-(c+1)))/(Values.AnzEntries()-1)) / (MaxValue-MinValue),
                 hwColor);
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -208,8 +226,9 @@ __int64 StringToInt64 (const CString &String)
 {
     __int64 rc=0;
 
-    for (long d=0; d<String.GetLength(); d++)
+    for (long d=0; d<String.GetLength(); d++) {
         rc+=__int64(String[int(d)])<<(8*d);
+}
 
     return (rc);
 }
@@ -219,19 +238,24 @@ __int64 StringToInt64 (const CString &String)
 //--------------------------------------------------------------------------------------------
 BOOL IsRoomBusy(UWORD RoomId, SLONG ExceptPlayer)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
-    if ((RoomId==ROOM_AUFSICHT && Sim.Time==9*60000) || RoomId==ROOM_AIRPORT) return (FALSE);
+    if ((RoomId==ROOM_AUFSICHT && Sim.Time==9*60000) || RoomId==ROOM_AIRPORT) { return (FALSE);
+}
 
-    for (c=0; c<Sim.Players.AnzPlayers; c++)
-        if (!Sim.Players.Players[c].IsOut)
+    for (c=0; c<Sim.Players.AnzPlayers; c++) {
+        if (Sim.Players.Players[c].IsOut == 0)
         {
-            if (c!=ExceptPlayer)
+            if (c!=ExceptPlayer) {
                 for (d=0; d<10; d++)
                 {
-                    if (Sim.Players.Players[c].Locations[d]==RoomId) return (TRUE);
+                    if (Sim.Players.Players[c].Locations[d]==RoomId) { return (TRUE);
+}
                 }
+}
         }
+}
 
     return (FALSE);
 }
@@ -249,8 +273,8 @@ BOOL EarthProjectize (const XY &NaturalPos, UWORD EarthAlpha, XY *PixelPos)
 
     (*PixelPos) = XY(px,py) /*+XY(190,190)-XY(0, 40)*/;
 
-    if (xx>16386 && xx<49152) return (FALSE);
-    else return (TRUE);
+    if (xx>16386 && xx<49152) { return (FALSE);
+    } return (TRUE);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -266,8 +290,8 @@ BOOL EarthProjectize (const FXY &NaturalPos, UWORD EarthAlpha, XY *PixelPos)
 
     (*PixelPos) = XY(px,py) /*+XY(190,190)-XY(0, 40)*/;
 
-    if (xx>16386 && xx<49152) return (FALSE);
-    else return (TRUE);
+    if (xx>16386 && xx<49152) { return (FALSE);
+    } return (TRUE);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -275,20 +299,25 @@ BOOL EarthProjectize (const FXY &NaturalPos, UWORD EarthAlpha, XY *PixelPos)
 //--------------------------------------------------------------------------------------------
 SLONG AddToNthDigit (SLONG Value, SLONG Digit, SLONG Add)
 {
-    SLONG c, betrag, n;
+    SLONG c;
+    SLONG betrag;
+    SLONG n;
 
-    if (Value==0) return (Add);
+    if (Value==0) { return (Add);
+}
 
     betrag = abs (Value);
 
     n=1;
 
-    for (c=0; c<20; c++, n=n*10)
+    for (c=0; c<20; c++, n=n*10) {
         if (n<=betrag && betrag<n*10)
         {
-            while (long(pow(10, Digit-1))>n && Digit>0) Digit--;
+            while (long(pow(10, Digit-1))>n && Digit>0) { Digit--;
+}
             return (Value+Add*n/long(pow(10, Digit-1)));
         }
+}
 
     return (Value);
 }
@@ -349,7 +378,8 @@ UWORD ConvertString2Date (char *String)
     char          *Back;
     char          *p;
     unsigned short Date;
-    SLONG          c, Year;
+    SLONG          c;
+    SLONG          Year;
 
     Back = new char [strlen(String)+1];
     strcpy (Back, String);
@@ -366,8 +396,9 @@ UWORD ConvertString2Date (char *String)
     //Umrechnen:
     Date = (UWORD)(Date * 13*30 / (12*30));
 
-    for (c=0; c<Year; c++)
+    for (c=0; c<Year; c++) {
         Date += 365;
+}
 
     delete [] Back;
 
@@ -398,16 +429,19 @@ void DoAppPath (void)
 //--------------------------------------------------------------------------------------------
 CString FullFilename (const CString &Filename, const CString &PathString)
 {
-    CString  path, rc;
+    CString  path;
+    CString  rc;
 
     path = PathString;
-    if (std::filesystem::path::preferred_separator != '\\')
+    if (std::filesystem::path::preferred_separator != '\\') {
         path.Replace('\\', std::filesystem::path::preferred_separator);
+}
 
-    if (path[1]==':')
+    if (path[1]==':') {
         rc.Format (path, (const char*)Filename);
-    else
+    } else {
         rc.Format (AppPath + path, (const char*)Filename);
+}
 
     return (rc);
 }
@@ -417,18 +451,22 @@ CString FullFilename (const CString &Filename, const CString &PathString)
 //--------------------------------------------------------------------------------------------
 CString FullFilename (const CString &Filename, const CString &PathString, SLONG Num)
 {
-    CString  tmp, path, rc;
+    CString  tmp;
+    CString  path;
+    CString  rc;
 
     tmp.Format ((const char*)Filename, Num);
 
     path = PathString;
-    if (std::filesystem::path::preferred_separator != '\\')
+    if (std::filesystem::path::preferred_separator != '\\') {
         path.Replace('\\', std::filesystem::path::preferred_separator);
+}
 
-    if (path[1]==':')
+    if (path[1]==':') {
         rc.Format (path, tmp);
-    else
+    } else {
         rc.Format (AppPath + path, tmp);
+}
 
     return (rc);
 }
@@ -457,7 +495,7 @@ SLONG CalculateFlightCostRechnerisch (SLONG VonCity, SLONG NachCity, SLONG Verbr
     SLONG Kosten=0;
 
     //Kerosin aus dem Vorrat:
-    if (PlayerNum!=-1 && Sim.Players.Players[(SLONG)PlayerNum].TankOpen)
+    if (PlayerNum!=-1 && (Sim.Players.Players[(SLONG)PlayerNum].TankOpen != 0))
     {
         SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin);
         Kosten  += SLONG(Sim.Players.Players[(SLONG)PlayerNum].TankPreis*tmp);
@@ -466,17 +504,19 @@ SLONG CalculateFlightCostRechnerisch (SLONG VonCity, SLONG NachCity, SLONG Verbr
     }
 
     //Restliches Kerosin kaufen:
-    if (PlayerNum!=-1)
+    if (PlayerNum!=-1) {
         switch (Sim.Players.Players[(SLONG)PlayerNum].KerosinKind)
         {
             case 0: Kosten += Kerosin * Sim.Kerosin * 2; break;
             case 1: Kosten += Kerosin * Sim.Kerosin;     break;
             case 2: Kosten += Kerosin * Sim.Kerosin / 2; break;
         }
-    else
+    } else {
         Kosten += Kerosin * Sim.Kerosin;
+}
 
-    if (Kosten<1000) Kosten=1000;
+    if (Kosten<1000) { Kosten=1000;
+}
 
     return (Kosten);
 }
@@ -490,7 +530,7 @@ SLONG CalculateFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG
     SLONG Kosten=0;
 
     //Kerosin aus dem Vorrat:
-    if (PlayerNum!=-1 && Sim.Players.Players[(SLONG)PlayerNum].TankOpen)
+    if (PlayerNum!=-1 && (Sim.Players.Players[(SLONG)PlayerNum].TankOpen != 0))
     {
         SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin);
 
@@ -498,17 +538,19 @@ SLONG CalculateFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG
     }
 
     //Restliches Kerosin kaufen:
-    if (PlayerNum!=-1)
+    if (PlayerNum!=-1) {
         switch (Sim.Players.Players[(SLONG)PlayerNum].KerosinKind)
         {
             case 0: Kosten += Kerosin * Sim.Kerosin * 2; break;
             case 1: Kosten += Kerosin * Sim.Kerosin;     break;
             case 2: Kosten += Kerosin * Sim.Kerosin / 2; break;
         }
-    else
+    } else {
         Kosten += Kerosin * Sim.Kerosin;
+}
 
-    if (Kosten<1000) Kosten=1000;
+    if (Kosten<1000) { Kosten=1000;
+}
 
     return (Kosten);
 }
@@ -522,7 +564,7 @@ SLONG CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, S
     SLONG Kosten=0;
 
     //Kerosin aus dem Vorrat:
-    if (Sim.Players.Players[(SLONG)PlayerNum].TankOpen)
+    if (Sim.Players.Players[(SLONG)PlayerNum].TankOpen != 0)
     {
         SLONG tmp = std::min (Sim.Players.Players[(SLONG)PlayerNum].TankInhalt, Kerosin);
 
@@ -551,7 +593,7 @@ void InitEinheiten (const CString &Filename)
 
     Einheiten.ReSize (14);
 
-    for (c=0; c<(bFirstClass?11:14); c++)
+    for (c=0; c<(bFirstClass != 0?11:14); c++)
     {
         Einheiten[c].Name = ETexte.GetS (1000, 1000+c);
         Einheiten[c].Faktor = atof (ETexte.GetS (1000, 2000+c));
@@ -561,7 +603,7 @@ void InitEinheiten (const CString &Filename)
 //--------------------------------------------------------------------------------------------
 //Rechnet um:
 //--------------------------------------------------------------------------------------------
-SLONG CEinheit::Umrechnung (SLONG Value)
+SLONG CEinheit::Umrechnung (SLONG Value) const
 {
     return ((SLONG)(Value*Faktor));
 }
@@ -569,7 +611,7 @@ SLONG CEinheit::Umrechnung (SLONG Value)
 //--------------------------------------------------------------------------------------------
 //Rechnet um:
 //--------------------------------------------------------------------------------------------
-__int64 CEinheit::Umrechnung64 (__int64 Value)
+__int64 CEinheit::Umrechnung64 (__int64 Value) const
 {
     return ((__int64)(Value*Faktor));
 }
@@ -587,8 +629,9 @@ char *CEinheit::bString (SLONG Value)
 //--------------------------------------------------------------------------------------------
 char *CEinheit::bString64 (__int64 Value)
 {
-    if (Value>=1000000000 && Name==ETexte.GetS (1000, 1000+EINH_DM))
+    if (Value>=1000000000 && Name==ETexte.GetS (1000, 1000+EINH_DM)) {
         return (Einheiten[EINH_MIODM].bString64(Value));
+}
 
     return (bprintf (Name, (LPCTSTR)Insert1000erDots64 (Umrechnung64 (Value))));
 }
@@ -658,7 +701,9 @@ void HEADLINES::ReloadHeadline (void)
     SLONG         c;
     SLONG         NewRand [3];
     BUFFER<char>  Line(300);
-    SLONG         Zeitung, Kette=0, LastKette;
+    SLONG         Zeitung;
+    SLONG         Kette=0;
+    SLONG         LastKette;
 
     BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (HeadlineFile, ExcelPath)));
     SLONG         FileP=0;
@@ -674,16 +719,18 @@ void HEADLINES::ReloadHeadline (void)
     TEAKRAND LocalRand (Sim.Date+Sim.StartTime);
 
     //Zufallsmeldungen raussuchen:
-    for (c=0; c<3; c++)
+    for (c=0; c<3; c++) {
         NewRand[c] = LocalRand.Rand(NumRand[c]);
+}
 
     //Die erste Zeile einlesen
     FileP=ReadLine (FileData, FileP, Line, 300);
 
-    while (1)
+    while (true)
     {
         //Tab.ReadLine (Line, 300);
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         LastKette = Kette;
@@ -691,7 +738,7 @@ void HEADLINES::ReloadHeadline (void)
         Kette   = atoi (strtok (NULL, TabSeparator));
 
         //Default: Zufallsmeldung
-        if (Zeitung && !Kette && NewRand[Zeitung-1]>=0)
+        if ((Zeitung != 0) && (Kette == 0) && NewRand[Zeitung-1]>=0)
         {
             NewRand[Zeitung-1]--;
             if (NewRand[Zeitung-1]==-1)
@@ -703,7 +750,7 @@ void HEADLINES::ReloadHeadline (void)
         }
 
         //Oder besser: eine Kette neu anfangen
-        if (Zeitung && Kette && LastKette && CurrentChain[Zeitung-1]==0 && NewRand[Zeitung-1]!=-10 && Kette!=LastKette+1 && LocalRand.Rand(20)==0)
+        if ((Zeitung != 0) && (Kette != 0) && (LastKette != 0) && CurrentChain[Zeitung-1]==0 && NewRand[Zeitung-1]!=-10 && Kette!=LastKette+1 && LocalRand.Rand(20)==0)
         {
             CurrentChain[Zeitung-1]  = Kette;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
@@ -713,7 +760,7 @@ void HEADLINES::ReloadHeadline (void)
         }
 
         //Oder noch besser: eine Kette fortsetzen
-        if (Zeitung && CurrentChain[Zeitung-1]+1==Kette && NewRand[Zeitung-1]!=-10)
+        if ((Zeitung != 0) && CurrentChain[Zeitung-1]+1==Kette && NewRand[Zeitung-1]!=-10)
         {
             CurrentChain[Zeitung-1]++;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
@@ -723,7 +770,7 @@ void HEADLINES::ReloadHeadline (void)
         }
 
         //Oder am besten: eine fremde Kette fortsetzen
-        if (Zeitung && CurrentChain[(Zeitung-1+1)%3]+1==Kette)
+        if ((Zeitung != 0) && CurrentChain[(Zeitung-1+1)%3]+1==Kette)
         {
             CurrentChain[Zeitung-1]++;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
@@ -731,7 +778,7 @@ void HEADLINES::ReloadHeadline (void)
             Headline[(Zeitung-1)*10].PictureId = 0;
             Headline[(Zeitung-1)*10].PicturePriority = 0;
         }
-        else if (Zeitung && CurrentChain[(Zeitung-1+2)%3]+1==Kette)
+        else if ((Zeitung != 0) && CurrentChain[(Zeitung-1+2)%3]+1==Kette)
         {
             CurrentChain[Zeitung-1]++;
             NewRand[Zeitung-1] = -10;    //Token für: Kette angefangen/fortgesetzt
@@ -742,9 +789,11 @@ void HEADLINES::ReloadHeadline (void)
     }
 
     //War die Kette zu Ende, oder haben wir sie fortgesetzt?
-    for (c=0; c<3; c++)
-        if (NewRand[c]==-1)
+    for (c=0; c<3; c++) {
+        if (NewRand[c]==-1) {
             CurrentChain[c]=0;
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -752,8 +801,12 @@ void HEADLINES::ReloadHeadline (void)
 //--------------------------------------------------------------------------------------------
 void HEADLINES::InterpolateHeadline (void)
 {
-    SLONG   c, d, e, count;
-    SLONG   von, bis;
+    SLONG   c;
+    SLONG   d;
+    SLONG   e;
+    SLONG   count;
+    SLONG   von;
+    SLONG   bis;
     CString Extrakt;        //Der Teil in geschweiften Klammern
 
     TEAKRAND LocalRand (Sim.Date+Sim.StartTime);
@@ -771,7 +824,8 @@ void HEADLINES::InterpolateHeadline (void)
             {
                 if (Headline[c*10].Headline[(int)d]=='}')
                 {
-                    if (count==0) bis=d;
+                    if (count==0) { bis=d;
+}
                     count++;
                 }
 
@@ -786,7 +840,8 @@ void HEADLINES::InterpolateHeadline (void)
                 }
             }
 
-            if (von==-1 || bis==-1) continue;
+            if (von==-1 || bis==-1) { continue;
+}
 
             Extrakt = Headline[c*10].Headline.Mid (von+1, bis-von-1);
 
@@ -795,7 +850,7 @@ void HEADLINES::InterpolateHeadline (void)
             {
                 SLONG CityId;
 
-                do { CityId=LocalRand.Rand(Cities.AnzEntries()); } while (!Cities.IsInAlbum(CityId));
+                do { CityId=LocalRand.Rand(Cities.AnzEntries()); } while (Cities.IsInAlbum(CityId) == 0);
 
                 FlexiCity[c] = Cities[CityId].Name;
                 Headline[c*10].Headline  = Headline[c*10].Headline.Mid(0, von) + FlexiCity[c] + Headline[c*10].Headline.Mid(bis+1, Headline[c*10].Headline.GetLength()-bis-1);
@@ -809,7 +864,8 @@ void HEADLINES::InterpolateHeadline (void)
             else if (Extrakt.Mid(0, 5).CompareNoCase ("rand(")==0)
             {
                 char  Buffer[40];
-                SLONG a, b;
+                SLONG a;
+                SLONG b;
 
                 strcpy (Buffer, Extrakt);
                 a = atoi (strtok (Buffer+5, "),"));
@@ -831,10 +887,10 @@ void HEADLINES::InterpolateHeadline (void)
         }
         while (von!=-1);
 
-                for (d=0; d<10; d++)
+                for (d=0; d<10; d++) {
                     if (Override[c*10+d].Headline.GetLength()>0)
                     {
-                        for (e=0; e<10; e++)
+                        for (e=0; e<10; e++) {
                             if (Headline[c*10+e].Headline.IsEmpty())
                             {
                                 IsInteresting=TRUE;
@@ -843,7 +899,9 @@ void HEADLINES::InterpolateHeadline (void)
                                 Override[c*10+d].Headline.Empty();
                                 break;
                             }
+}
                     }
+}
 
                 Headline[c*10].Headline = KorrigiereUmlaute (Headline[c*10].Headline);
     }
@@ -856,7 +914,7 @@ void HEADLINES::AddOverride (long Newspaper, const CString &HeadlineText, __int6
 {
     SLONG c;
 
-    for (c=Newspaper*10; c<Newspaper*10+10; c++)
+    for (c=Newspaper*10; c<Newspaper*10+10; c++) {
         if (Override[c].Headline.IsEmpty())
         {
             Override[c].Headline        = HeadlineText;
@@ -864,6 +922,7 @@ void HEADLINES::AddOverride (long Newspaper, const CString &HeadlineText, __int6
             Override[c].PicturePriority = PicturePriority;
             break;
         }
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -873,80 +932,100 @@ void HEADLINES::ComparisonHeadlines (void)
 {
     if (Sim.Date>8 && (Sim.Date&3)==2)
     {
-        SLONG c, d, best=-1, best2=-1;
+        SLONG c;
+        SLONG d;
+        SLONG best=-1;
+        SLONG best2=-1;
 
         TEAKRAND LocalRand (Sim.Date+Sim.StartTime);
 
         switch (LocalRand.Rand(8))
         {
             case 0: //Flugzeuge
-                for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                    if (!Sim.Players.Players[c].IsOut)
+                for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                    if (Sim.Players.Players[c].IsOut == 0)
                     {
-                        if (best==-1 || Sim.Players.Players[c].Planes.GetNumUsed()>Sim.Players.Players[best].Planes.GetNumUsed())
+                        if (best==-1 || Sim.Players.Players[c].Planes.GetNumUsed()>Sim.Players.Players[best].Planes.GetNumUsed()) {
                             best=c;
-                        else if (Sim.Players.Players[c].Planes.GetNumUsed()==Sim.Players.Players[best].Planes.GetNumUsed())
+                        } else if (Sim.Players.Players[c].Planes.GetNumUsed()==Sim.Players.Players[best].Planes.GetNumUsed()) {
                             break;
+}
                     }
+}
 
-                if (Sim.Players.Players[best].Planes.GetNumUsed()>10)
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2050), (LPCTSTR)Sim.Players.Players[best].AirlineX), GetIdFromString ("PLANES")+best*100, 10+(best==Sim.localPlayer)*10);
+                if (Sim.Players.Players[best].Planes.GetNumUsed()>10) {
+                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2050), (LPCTSTR)Sim.Players.Players[best].AirlineX), GetIdFromString ("PLANES")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
+}
                 break;
 
             case 1: //Image
-                for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                    if (!Sim.Players.Players[c].IsOut)
+                for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                    if (Sim.Players.Players[c].IsOut == 0)
                     {
-                        if (best==-1 || Sim.Players.Players[c].Image>Sim.Players.Players[best].Image)
+                        if (best==-1 || Sim.Players.Players[c].Image>Sim.Players.Players[best].Image) {
                             best=c;
-                        else if (Sim.Players.Players[c].Image==Sim.Players.Players[best].Image)
+                        } else if (Sim.Players.Players[c].Image==Sim.Players.Players[best].Image) {
                             break;
+}
                     }
+}
 
-                for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                    if (!Sim.Players.Players[c].IsOut)
+                for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                    if (Sim.Players.Players[c].IsOut == 0)
                     {
-                        if (c!=best && (best2==-1 || Sim.Players.Players[c].Image>Sim.Players.Players[best].Image))
+                        if (c!=best && (best2==-1 || Sim.Players.Players[c].Image>Sim.Players.Players[best].Image)) {
                             best2=c;
+}
                     }
+}
 
-                if (best2!=-1 && Sim.Players.Players[best].Image>100)
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2051), (LPCTSTR)Sim.Players.Players[best].AirlineX, (LPCTSTR)Sim.Players.Players[best2].AirlineX), GetIdFromString ("LIEBSTE")+best*100, 10+(best==Sim.localPlayer)*10);
+                if (best2!=-1 && Sim.Players.Players[best].Image>100) {
+                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2051), (LPCTSTR)Sim.Players.Players[best].AirlineX, (LPCTSTR)Sim.Players.Players[best2].AirlineX), GetIdFromString ("LIEBSTE")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
+}
                 break;
 
             case 2: //Routen
-                for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                    if (!Sim.Players.Players[c].IsOut)
+                for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                    if (Sim.Players.Players[c].IsOut == 0)
                     {
-                        if (best==-1 || Sim.Players.Players[c].RentRouten.GetNumUsed()>Sim.Players.Players[best].RentRouten.GetNumUsed())
+                        if (best==-1 || Sim.Players.Players[c].RentRouten.GetNumUsed()>Sim.Players.Players[best].RentRouten.GetNumUsed()) {
                             best=c;
-                        else if (Sim.Players.Players[c].RentRouten.GetNumUsed()==Sim.Players.Players[best].RentRouten.GetNumUsed())
+                        } else if (Sim.Players.Players[c].RentRouten.GetNumUsed()==Sim.Players.Players[best].RentRouten.GetNumUsed()) {
                             break;
+}
                     }
+}
 
-                if (Sim.Players.Players[best].RentRouten.GetNumUsed()>30)
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2052), (LPCTSTR)Sim.Players.Players[best].AirlineX, Sim.Players.Players[best].RentRouten.GetNumUsed()), GetIdFromString ("ROUTEN")+best*100, 10+(best==Sim.localPlayer)*10);
+                if (Sim.Players.Players[best].RentRouten.GetNumUsed()>30) {
+                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2052), (LPCTSTR)Sim.Players.Players[best].AirlineX, Sim.Players.Players[best].RentRouten.GetNumUsed()), GetIdFromString ("ROUTEN")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
+}
                 break;
 
             case 3: //Geld
-                for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                    if (!Sim.Players.Players[c].IsOut)
+                for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                    if (Sim.Players.Players[c].IsOut == 0)
                     {
-                        if (best==-1 || Sim.Players.Players[c].Money>Sim.Players.Players[best].Money)
+                        if (best==-1 || Sim.Players.Players[c].Money>Sim.Players.Players[best].Money) {
                             best=c;
-                        else if (Sim.Players.Players[c].Money==Sim.Players.Players[best].Money)
+                        } else if (Sim.Players.Players[c].Money==Sim.Players.Players[best].Money) {
                             break;
+}
                     }
+}
 
-                if (Sim.Players.Players[best].Money>25000000)
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2053), (LPCTSTR)Sim.Players.Players[best].AirlineX), GetIdFromString ("GELD")+best*100, 10+(best==Sim.localPlayer)*10);
+                if (Sim.Players.Players[best].Money>25000000) {
+                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2053), (LPCTSTR)Sim.Players.Players[best].AirlineX), GetIdFromString ("GELD")+best*100, 10+static_cast<int>(best==Sim.localPlayer)*10);
+}
                 break;
 
             case 4: //Bester Pilot:
-                for (c=Workers.Workers.AnzEntries()-1; c>=0; c--)
-                    if (Workers.Workers[c].Employer==Sim.localPlayer && Workers.Workers[c].Typ==WORKER_PILOT)
-                        if (best==-1 || Workers.Workers[c].Talent>Workers.Workers[best].Talent)
+                for (c=Workers.Workers.AnzEntries()-1; c>=0; c--) {
+                    if (Workers.Workers[c].Employer==Sim.localPlayer && Workers.Workers[c].Typ==WORKER_PILOT) {
+                        if (best==-1 || Workers.Workers[c].Talent>Workers.Workers[best].Talent) {
                             best=c;
+}
+}
+}
 
                 if (best!=-1 && Workers.Workers[best].Talent>90)
                 {
@@ -956,16 +1035,20 @@ void HEADLINES::ComparisonHeadlines (void)
                 {
                     c = LocalRand.Rand(4);
 
-                    if (!Sim.Players.Players[c].IsOut && c!=Sim.localPlayer)
+                    if ((Sim.Players.Players[c].IsOut == 0) && c!=Sim.localPlayer) {
                         AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2080), (LPCTSTR)Sim.Players.Players[c].AirlineX, (LPCTSTR)Sim.Players.Players[c].NameX, (LPCTSTR)Workers.GetRandomName(TRUE)), GetIdFromString ("PILOT"), 20);
+}
                 }
                 break;
 
             case 5: //Beste Stewardess:
-                for (c=Workers.Workers.AnzEntries()-1; c>=0; c--)
-                    if (Workers.Workers[c].Employer==Sim.localPlayer && Workers.Workers[c].Typ==WORKER_STEWARDESS)
-                        if (best==-1 || Workers.Workers[c].Talent>Workers.Workers[best].Talent)
+                for (c=Workers.Workers.AnzEntries()-1; c>=0; c--) {
+                    if (Workers.Workers[c].Employer==Sim.localPlayer && Workers.Workers[c].Typ==WORKER_STEWARDESS) {
+                        if (best==-1 || Workers.Workers[c].Talent>Workers.Workers[best].Talent) {
                             best=c;
+}
+}
+}
 
                 if (best!=-1 && Workers.Workers[best].Talent>90)
                 {
@@ -975,27 +1058,30 @@ void HEADLINES::ComparisonHeadlines (void)
                 {
                     c = LocalRand.Rand(4);
 
-                    if (!Sim.Players.Players[c].IsOut && c!=Sim.localPlayer)
+                    if ((Sim.Players.Players[c].IsOut == 0) && c!=Sim.localPlayer) {
                         AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2081), (LPCTSTR)Sim.Players.Players[c].AirlineX, (LPCTSTR)Sim.Players.Players[c].NameX, (LPCTSTR)Workers.GetRandomName(FALSE)), GetIdFromString ("STEWARD"), 20);
+}
                 }
                 break;
 
             case 6: //Die meisten Passagiere:
-                for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                    if (!Sim.Players.Players[c].IsOut)
+                for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                    if (Sim.Players.Players[c].IsOut == 0)
                     {
-                        if (best==-1 || Sim.Players.Players[c].NumPassengers>Sim.Players.Players[best].NumPassengers)
+                        if (best==-1 || Sim.Players.Players[c].NumPassengers>Sim.Players.Players[best].NumPassengers) {
                             best=c;
+}
                     }
+}
 
                 AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2082), (LPCTSTR)Sim.Players.Players[best].AirlineX, Sim.Players.Players[best].NumPassengers), GetIdFromString ("PASSAG"), 10);
                 break;
 
             case 7: //Das schlechteste Flugzeug:
-                for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-                    if (!Sim.Players.Players[c].IsOut)
-                        for (d=Sim.Players.Players[c].Planes.AnzEntries()-1; d>=0; d--)
-                            if (Sim.Players.Players[c].Planes.IsInAlbum(d))
+                for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+                    if (Sim.Players.Players[c].IsOut == 0) {
+                        for (d=Sim.Players.Players[c].Planes.AnzEntries()-1; d>=0; d--) {
+                            if (Sim.Players.Players[c].Planes.IsInAlbum(d) != 0)
                             {
                                 if (best==-1 || Sim.Players.Players[c].Planes[d].Zustand<Sim.Players.Players[best].Planes[best2].Zustand)
                                 {
@@ -1003,9 +1089,13 @@ void HEADLINES::ComparisonHeadlines (void)
                                     best2=d;
                                 }
                             }
+}
+}
+}
 
-                if (best!=-1 && Sim.Players.Players[best].Planes[best2].Zustand<50)
+                if (best!=-1 && Sim.Players.Players[best].Planes[best2].Zustand<50) {
                     AddOverride (2, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2083), (LPCTSTR)Sim.Players.Players[best].AirlineX, (LPCTSTR)Sim.Players.Players[best].Planes[best2].Name), GetIdFromString ("TRASHP0")+(__int64(best)<<(8*6)), 10);
+}
                 break;
         }
     }
@@ -1015,39 +1105,50 @@ void HEADLINES::ComparisonHeadlines (void)
     {
         SLONG c;
 
-        if (Sim.Date==2) AddOverride (1, StandardTexte.GetS (TOKEN_MISC, 2070), 0, 5);
-        if (Sim.Date==3) AddOverride (0, StandardTexte.GetS (TOKEN_MISC, 2071), 0, 5);
-        if (Sim.Date==5) AddOverride (2, StandardTexte.GetS (TOKEN_MISC, 2072), 0, 5);
-        if (Sim.Date==9) AddOverride (1, StandardTexte.GetS (TOKEN_MISC, 2073), 0, 5);
+        if (Sim.Date==2) { AddOverride (1, StandardTexte.GetS (TOKEN_MISC, 2070), 0, 5);
+}
+        if (Sim.Date==3) { AddOverride (0, StandardTexte.GetS (TOKEN_MISC, 2071), 0, 5);
+}
+        if (Sim.Date==5) { AddOverride (2, StandardTexte.GetS (TOKEN_MISC, 2072), 0, 5);
+}
+        if (Sim.Date==9) { AddOverride (1, StandardTexte.GetS (TOKEN_MISC, 2073), 0, 5);
+}
 
-        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-            if ((Sim.Players.Players[c].LastRocketFlags&ROCKET_PART_ONE)==ROCKET_PART_ONE) break;
+        for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+            if ((Sim.Players.Players[c].LastRocketFlags&ROCKET_PART_ONE)==ROCKET_PART_ONE) { break;
+}
+}
 
         if (c>=Sim.Players.Players.AnzEntries())
         {
-            for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
+            for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
                 if ((Sim.Players.Players[c].RocketFlags&ROCKET_PART_ONE)==ROCKET_PART_ONE)
                 {
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2060), (LPCTSTR)Sim.Players.Players[c].AirlineX), GetIdFromString("INTRVIEW"), 15+(c==Sim.localPlayer)*10);
+                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2060), (LPCTSTR)Sim.Players.Players[c].AirlineX), GetIdFromString("INTRVIEW"), 15+static_cast<int>(c==Sim.localPlayer)*10);
                     break;
                 }
+}
         }
 
-        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
-            if ((Sim.Players.Players[c].LastRocketFlags&ROCKET_PART_TWO_A)==ROCKET_PART_TWO_A) break;
+        for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
+            if ((Sim.Players.Players[c].LastRocketFlags&ROCKET_PART_TWO_A)==ROCKET_PART_TWO_A) { break;
+}
+}
 
         if (c>=Sim.Players.Players.AnzEntries())
         {
-            for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
+            for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
                 if ((Sim.Players.Players[c].RocketFlags&ROCKET_PART_TWO_A)==ROCKET_PART_TWO_A)
                 {
-                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2061), (LPCTSTR)Sim.Players.Players[c].AirlineX), 0, 20+(c==Sim.localPlayer)*10);
+                    AddOverride (1, bprintf ((LPCTSTR)(CString)StandardTexte.GetS (TOKEN_MISC, 2061), (LPCTSTR)Sim.Players.Players[c].AirlineX), 0, 20+static_cast<int>(c==Sim.localPlayer)*10);
                     break;
                 }
+}
         }
 
-        for (c=0; c<Sim.Players.Players.AnzEntries(); c++)
+        for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
             Sim.Players.Players[c].LastRocketFlags=Sim.Players.Players[c].RocketFlags;
+}
     }
 }
 
@@ -1058,7 +1159,9 @@ void HEADLINES::ReInit (const CString &TabFilename)
 {
     //TEAKFILE      Tab;
     BUFFER<char>  Line(300);
-    SLONG         c, Zeitung, Kette;
+    SLONG         c;
+    SLONG         Zeitung;
+    SLONG         Kette;
 
     HeadlineFile = TabFilename;
 
@@ -1077,16 +1180,18 @@ void HEADLINES::ReInit (const CString &TabFilename)
     //Tab.ReadLine (Line, 300);
     FileP=ReadLine (FileData, FileP, Line, 300);
 
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         //Tab.ReadLine (Line, 300);
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         Zeitung = atoi (strtok (Line, TabSeparator));
         Kette   = atoi (strtok (NULL, TabSeparator));
 
-        if (Zeitung && !Kette) NumRand[Zeitung-1]++;
+        if ((Zeitung != 0) && (Kette == 0)) { NumRand[Zeitung-1]++;
+}
     }
 }
 
@@ -1097,35 +1202,41 @@ void HEADLINES::SortByPriority (void)
 {
     SLONG c;
 
-    for (c=0; c<9; c++)
+    for (c=0; c<9; c++) {
         if (Headline[c].PicturePriority<Headline[c+1].PicturePriority && !Headline[c].Headline.IsEmpty() && !Headline[c+1].Headline.IsEmpty())
         {
             CHeadline tmp=Headline[c];
             Headline[c]=Headline[c+1];
             Headline[c+1]=tmp;
 
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
+}
 
-    for (c=0; c<9; c++)
+    for (c=0; c<9; c++) {
         if (Headline[10+c].PicturePriority<Headline[10+c+1].PicturePriority && !Headline[10+c].Headline.IsEmpty() && !Headline[10+c+1].Headline.IsEmpty())
         {
             CHeadline tmp=Headline[10+c];
             Headline[10+c]=Headline[10+c+1];
             Headline[10+c+1]=tmp;
 
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
+}
 
-    for (c=0; c<9; c++)
+    for (c=0; c<9; c++) {
         if (Headline[20+c].PicturePriority<Headline[20+c+1].PicturePriority && !Headline[20+c].Headline.IsEmpty() && !Headline[20+c+1].Headline.IsEmpty())
         {
             CHeadline tmp=Headline[20+c];
             Headline[20+c]=Headline[20+c+1];
             Headline[20+c+1]=tmp;
 
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1208,7 +1319,7 @@ CMessages::CMessages () : Messages (15)
 //--------------------------------------------------------------------------------------------
 BOOL CMessages::IsSilent (void)
 {
-    return (Messages[0].BeraterTyp==-1 && Messages[1].BeraterTyp==-1);
+    return static_cast<BOOL>(Messages[0].BeraterTyp==-1 && Messages[1].BeraterTyp==-1);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1218,8 +1329,9 @@ void CMessages::NewDay (void)
 {
     SLONG c;
 
-    for (c=0; c<Messages.AnzEntries(); c++)
+    for (c=0; c<Messages.AnzEntries(); c++) {
         Messages[c].BeraterTyp=-1;
+}
 
     AktuellerBeraterTyp    = -1;
     TalkCountdown          = 0;
@@ -1231,9 +1343,10 @@ void CMessages::NewDay (void)
 //--------------------------------------------------------------------------------------------
 void CMessages::NoComments (void)
 {
-    if (Messages[0].Urgent==MESSAGE_COMMENT && TalkCountdown>0)
+    if (Messages[0].Urgent==MESSAGE_COMMENT && TalkCountdown>0) {
 
         TalkCountdown = 1;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1243,17 +1356,22 @@ void CMessages::AddMessage (SLONG BeraterTyp, CString Message, SLONG Urgent, SLO
 {
     SLONG c;
 
-    if (bLeaveGameLoop) return;
+    if (bLeaveGameLoop != 0) { return;
+}
 
-    if (BeraterTyp==BERATERTYP_GIRL && Sim.Options.OptionGirl==0) return;
-    if (BeraterTyp!=BERATERTYP_GIRL && Sim.Options.OptionBerater==0) return;
+    if (BeraterTyp==BERATERTYP_GIRL && Sim.Options.OptionGirl==0) { return;
+}
+    if (BeraterTyp!=BERATERTYP_GIRL && Sim.Options.OptionBerater==0) { return;
+}
 
-    if (Message.GetLength()>0)
+    if (Message.GetLength()>0) {
         for (c=Messages.AnzEntries()-1; c>=0; c--)
         {
             //Keine Nachricht 2x in die Queue tun:
-            if (Messages[c].Message==Message && Messages[c].BeraterTyp!=-1) return;
+            if (Messages[c].Message==Message && Messages[c].BeraterTyp!=-1) { return;
+}
         }
+}
 
     if (Sim.Time>=9*60000 && Sim.Time<=18*60000 && Sim.CallItADay==0)
     {
@@ -1264,28 +1382,32 @@ void CMessages::AddMessage (SLONG BeraterTyp, CString Message, SLONG Urgent, SLO
             {
                 if (Messages[c].Urgent==MESSAGE_COMMENT && Messages[c].BeraterTyp==BeraterTyp)
                 {
-                    if (Message.GetLength()>0)
+                    if (Message.GetLength()>0) {
                         Messages[c].Message = Message;
+}
 
                     Messages[c].Mood    = Mood;
                     if (Message.GetLength()==0)
                     {
                         if (c==0)
                         {
-                            if (BeraterWalkState!=1)
+                            if (BeraterWalkState!=1) {
                                 TalkCountdown=1;
+}
                         }
                         else
                         {
-                            for (; c<Messages.AnzEntries()-2; c++)
+                            for (; c<Messages.AnzEntries()-2; c++) {
                                 Messages[c]=Messages[c+1];
+}
 
                             Messages[Messages.AnzEntries()-1].BeraterTyp=-1;
                         }
                     }
                     else if (c==0)
                     {
-                        if (BeraterWalkState==1) BeraterWalkState=-1;
+                        if (BeraterWalkState==1) { BeraterWalkState=-1;
+}
                         PaintMessage ();
                     }
 
@@ -1301,8 +1423,10 @@ void CMessages::AddMessage (SLONG BeraterTyp, CString Message, SLONG Urgent, SLO
                 for (c=Messages.AnzEntries()-1; c>0; c--)
                 {
                     Messages[c]=Messages[c-1];
-                    if (c==1 && Messages[0].BeraterTyp!=-1 && Messages[0].BeraterTyp!=BeraterTyp) break;
-                    if (c==1 && IsDialog) break;
+                    if (c==1 && Messages[0].BeraterTyp!=-1 && Messages[0].BeraterTyp!=BeraterTyp) { break;
+}
+                    if (c==1 && (IsDialog != 0)) { break;
+}
                 }
 
                 Messages[c].BeraterTyp = BeraterTyp;
@@ -1310,16 +1434,20 @@ void CMessages::AddMessage (SLONG BeraterTyp, CString Message, SLONG Urgent, SLO
                 Messages[c].Urgent     = Urgent;
                 Messages[c].Mood       = Mood;
 
-                if (c==0 && !IsDialog && AktuellerBeraterTyp>=100) AktuellerBeraterTyp=BeraterTyp;
+                if (c==0 && (IsDialog == 0) && AktuellerBeraterTyp>=100) { AktuellerBeraterTyp=BeraterTyp;
+}
 
                 //if (c==0 && AktuellerBeraterTyp==BeraterTyp)
-                if (c==0 && (AktuellerBeraterTyp==BeraterTyp || AktuellerBeraterTyp==-1))
+                if (c==0 && (AktuellerBeraterTyp==BeraterTyp || AktuellerBeraterTyp==-1)) {
                     PaintMessage ();
+}
             }
             else if (Urgent==MESSAGE_NORMAL)
             {
-                for (c=0; c<Messages.AnzEntries(); c++)
-                    if (Messages[c].BeraterTyp==-1) break;
+                for (c=0; c<Messages.AnzEntries(); c++) {
+                    if (Messages[c].BeraterTyp==-1) { break;
+}
+}
 
                 if (c<Messages.AnzEntries())
                 {
@@ -1329,7 +1457,8 @@ void CMessages::AddMessage (SLONG BeraterTyp, CString Message, SLONG Urgent, SLO
                     Messages[c].Mood       = Mood;
 
                     //if (c==0) PaintMessage ();
-                    if (c==0 && AktuellerBeraterTyp==Messages[c].BeraterTyp) PaintMessage ();
+                    if (c==0 && AktuellerBeraterTyp==Messages[c].BeraterTyp) { PaintMessage ();
+}
                 }
             }
         }
@@ -1341,7 +1470,8 @@ void CMessages::AddMessage (SLONG BeraterTyp, CString Message, SLONG Urgent, SLO
 //--------------------------------------------------------------------------------------------
 void CMessages::NextMessage (void)
 {
-    if (TalkCountdown>0) TalkCountdown=1;
+    if (TalkCountdown>0) { TalkCountdown=1;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1351,12 +1481,13 @@ void CMessages::PaintMessage (void)
 {
     SLONG c;
 
-    if (!IsDialog)
+    if (IsDialog == 0)
     {
         if (Messages[0].Message.GetLength()==0)
         {
-            for (SLONG c=0; c<Messages.AnzEntries()-1; c++)
+            for (SLONG c=0; c<Messages.AnzEntries()-1; c++) {
                 Messages[c]=Messages[c+1];
+}
         }
 
         AktuellerBeraterTyp = Messages[0].BeraterTyp;
@@ -1365,17 +1496,19 @@ void CMessages::PaintMessage (void)
         {
             AktuelleBeraterBitmap=1;
 
-            if (AktuellerBeraterTyp==BERATERTYP_GIRL) AktuelleBeraterBitmap=0;
+            if (AktuellerBeraterTyp==BERATERTYP_GIRL) { AktuelleBeraterBitmap=0;
+}
             if (AktuellerBeraterTyp==BERATERTYP_SICHERHEIT)
             {
                 AktuelleBeraterBitmap=8;
 
-                for (c=0; c<Workers.Workers.AnzEntries(); c++)
+                for (c=0; c<Workers.Workers.AnzEntries(); c++) {
                     if (Workers.Workers[c].Typ==BERATERTYP_SICHERHEIT && Workers.Workers[c].Employer==PlayerNum)
                     {
                         AktuelleBeraterBitmap+=Workers.Workers[c].Geschlecht;
                         break;
                     }
+}
             }
         }
 
@@ -1384,9 +1517,11 @@ void CMessages::PaintMessage (void)
 
         if (Messages[0].Message.GetLength()!=0)
         {
-            for (c=0; c<4; c++)
-                if (SprechblaseBm.TryPrintAt (Messages[0].Message, FontSmallBlack, TEC_FONT_LEFT, SprechblasenSizes[c].left, SprechblasenSizes[c].top, SprechblasenSizes[c].right, SprechblasenSizes[c].bottom)<SprechblasenSizes[c].bottom-SprechblasenSizes[c].top)
+            for (c=0; c<4; c++) {
+                if (SprechblaseBm.TryPrintAt (Messages[0].Message, FontSmallBlack, TEC_FONT_LEFT, SprechblasenSizes[c].left, SprechblasenSizes[c].top, SprechblasenSizes[c].right, SprechblasenSizes[c].bottom)<SprechblasenSizes[c].bottom-SprechblasenSizes[c].top) {
                     break;
+}
+}
 
             if (c<4)
             {
@@ -1424,12 +1559,14 @@ void CMessages::Pump (void)
 
     SLONG HandyOffset=0;
 
-    if (Sim.Players.Players[PlayerNum].LocationWin)
-        if (((CStdRaum*)Sim.Players.Players[PlayerNum].LocationWin)->DialogMedium &&
-                !((CStdRaum*)Sim.Players.Players[PlayerNum].LocationWin)->MenuIsOpen() &&
-                ((CStdRaum*)Sim.Players.Players[PlayerNum].LocationWin)->IsDialogOpen()) HandyOffset=4;
+    if (Sim.Players.Players[PlayerNum].LocationWin != nullptr) {
+        if ((((CStdRaum*)Sim.Players.Players[PlayerNum].LocationWin)->DialogMedium != 0) &&
+                (((CStdRaum*)Sim.Players.Players[PlayerNum].LocationWin)->MenuIsOpen() == 0) &&
+                (((CStdRaum*)Sim.Players.Players[PlayerNum].LocationWin)->IsDialogOpen() != 0)) { HandyOffset=4;
+}
+}
 
-    if (IsDialog)
+    if (IsDialog != 0)
     {
         if (AktuellerBeraterTyp==-1)
         {
@@ -1460,17 +1597,19 @@ void CMessages::Pump (void)
         {
             BeraterWalkState=0;
 
-            if (BeraterPosY<=440-BeraterSlideY[AktuelleBeraterBitmap+HandyOffset])
+            if (BeraterPosY<=440-BeraterSlideY[AktuelleBeraterBitmap+HandyOffset]) {
                 BeraterPosY=440-BeraterSlideY[AktuelleBeraterBitmap+HandyOffset];
+}
 
-            if (IsDialogTalking)
+            if (IsDialogTalking != 0)
             {
                 IsDialogTalking--;
 
-                if (IsDialogTalking)
+                if (IsDialogTalking != 0) {
                     TalkPhase++;
-                else
+                } else {
                     TalkPhase=0;
+}
             }
         }
     }
@@ -1511,28 +1650,33 @@ void CMessages::Pump (void)
                 if (BlinkCountdown>0)
                 {
                     BlinkCountdown--;
-                    if (BlinkCountdown==0) BlinkCountdown=-30-rand()%150;
+                    if (BlinkCountdown==0) { BlinkCountdown=-30-rand()%150;
+}
                 }
                 else if (BlinkCountdown<0)
                 {
                     BlinkCountdown++;
-                    if (BlinkCountdown==0) BlinkCountdown=20;
+                    if (BlinkCountdown==0) { BlinkCountdown=20;
+}
                 }
 
                 if (TalkCountdown<=0)
                 {
                     LastMessage=Messages[0];
 
-                    for (c=0; c<Messages.AnzEntries()-1; c++)
+                    for (c=0; c<Messages.AnzEntries()-1; c++) {
                         Messages[c]=Messages[c+1];
+}
 
                     if (Messages[0].BeraterTyp!=AktuellerBeraterTyp)
                     {
-                        if (IsMonolog==FALSE || Messages[0].BeraterTyp!=-1)
+                        if (IsMonolog==FALSE || Messages[0].BeraterTyp!=-1) {
                             BeraterWalkState=1;
+}
                     }
-                    else
+                    else {
                         PaintMessage ();
+}
                 }
             }
         }
@@ -1558,8 +1702,9 @@ void CMessages::StartDialog (SLONG PlayerNum)
 
     TalkPhase = 0;
 
-    if (AktuellerBeraterTyp!=-1)
+    if (AktuellerBeraterTyp!=-1) {
         BeraterWalkState=1;
+}
 }
 
 //------------------------------------------------------------------------------
@@ -1631,7 +1776,8 @@ TEAKFILE &operator >> (TEAKFILE &File, CMessages &Messages)
 //------------------------------------------------------------------------------
 CString Insert1000erDots (long Value)
 {
-    short	c,d; // Position in neuen bzw. alten String
+    short	 c;
+    short	 d; // Position in neuen bzw. alten String
     short l;   // Stringlänge
     short	CharsUntilPoint;
     char	String[80];
@@ -1639,11 +1785,12 @@ CString Insert1000erDots (long Value)
 
     static char Dot=0;
 
-    if (!Dot)
+    if (Dot == 0)
     {
         Dot = std::use_facet<std::moneypunct<char, true>>(std::locale("")).thousands_sep();
-        if (Dot!='.' && Dot!=',' && Dot!=':' && Dot!='/' && Dot!='\'' && Dot!='`')
+        if (Dot!='.' && Dot!=',' && Dot!=':' && Dot!='/' && Dot!='\'' && Dot!='`') {
             Dot='.';
+}
     }
 
     sprintf(Tmp,"%li",(long)Value);
@@ -1682,7 +1829,8 @@ CString Insert1000erDots (long Value)
 //------------------------------------------------------------------------------
 CString Insert1000erDots64 (__int64 Value)
 {
-    short	c,d; // Position in neuen bzw. alten String
+    short	 c;
+    short	 d; // Position in neuen bzw. alten String
     short l;   // Stringlänge
     short	CharsUntilPoint;
     char	String[40];
@@ -1690,11 +1838,12 @@ CString Insert1000erDots64 (__int64 Value)
 
     static char Dot=0;
 
-    if (!Dot)
+    if (Dot == 0)
     {
         Dot = std::use_facet<std::moneypunct<char, true>>(std::locale("")).thousands_sep();
-        if (Dot!='.' && Dot!=',' && Dot!=':' && Dot!='/' && Dot!='\'' && Dot!='`')
+        if (Dot!='.' && Dot!=',' && Dot!=':' && Dot!='/' && Dot!='\'' && Dot!='`') {
             Dot='.';
+}
     }
 
     sprintf(Tmp,"%lli",Value);
@@ -1733,7 +1882,8 @@ CString Insert1000erDots64 (__int64 Value)
 //------------------------------------------------------------------------------
 CRect PaintTextBubble (SBBM &OffscreenBm, const XY &p1, const XY &p2, const XY &Entry)
 {
-    SLONG c, l;
+    SLONG c;
+    SLONG l;
     SLONG SizeY;
     CRect rc(p1.x, p1.y, p2.x, p2.y);
 
@@ -1803,10 +1953,12 @@ void CheckEventSync (SLONG EventId)
 {
     hprintf ("%li,", EventId);
 
-    if (EventId!=PastRandoms[iPastRandoms]) DebugBreak();
+    if (EventId!=PastRandoms[iPastRandoms]) { DebugBreak();
+}
     iPastRandoms++;
 
-    if (PastRandoms[iPastRandoms]==0xdead && PastRandoms[iPastRandoms+1]==0xdead && PastRandoms[iPastRandoms+2]==0xdead) DebugBreak(); /**/
+    if (PastRandoms[iPastRandoms]==0xdead && PastRandoms[iPastRandoms+1]==0xdead && PastRandoms[iPastRandoms+2]==0xdead) { DebugBreak(); /**/
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1950,11 +2102,12 @@ long CountMatchingFilelist (CString DirAndWildcards)
     long n=0;
 
     //Liste holen:
-    for (auto& file : std::filesystem::directory_iterator((std::string)Dir))
+    for (const auto& file : std::filesystem::directory_iterator((std::string)Dir))
     {
         std::filesystem::path path = file.path();
-        if (!file.is_directory() && path.extension() == (std::string)Ext)
+        if (!file.is_directory() && path.extension() == (std::string)Ext) {
             n++;
+}
     }
 
     return (n);
@@ -1972,7 +2125,7 @@ void GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array)
     Array.ReSize (0);
 
     //Liste holen:
-    for (auto& file : std::filesystem::directory_iterator((std::string)Dir))
+    for (const auto& file : std::filesystem::directory_iterator((std::string)Dir))
     {
         std::filesystem::path path = file.path();
         if (!file.is_directory() && path.extension() == (std::string)Ext)
@@ -1983,12 +2136,14 @@ void GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array)
     }
 
     //Liste sortieren:
-    for (long c=0; c<Array.AnzEntries()-1; c++)
+    for (long c=0; c<Array.AnzEntries()-1; c++) {
         if (Array[c]>Array[c+1])
         {
             CString tmp=Array[c]; Array[c]=Array[c+1]; Array[c+1]=tmp;
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2000,12 +2155,15 @@ CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, long 
 
     GetMatchingFilelist (DirAndWildcards, Array);
 
-    if (Array.AnzEntries()==0) return ("");
+    if (Array.AnzEntries()==0) { return ("");
+}
 
     //Nach aktuellem Eintrag suchen:
-    for (long c=0; c<Array.AnzEntries(); c++)
-        if (Array[c]==CurrentFilename)
+    for (long c=0; c<Array.AnzEntries(); c++) {
+        if (Array[c]==CurrentFilename) {
             return (Array[(c+Add+Array.AnzEntries()*100)%Array.AnzEntries()]);
+}
+}
 
     return Array[0];
 }
@@ -2020,8 +2178,9 @@ CString CreateNumeratedFreeFilename (CString DirAndFilename)
     for (c=0; c<100000; c++)
     {
         const char* fn = bprintf(DirAndFilename, c==0 ? "" : bitoa(c));
-        if (!DoesFileExist(fn))
+        if (DoesFileExist(fn) == 0) {
             return (fn);
+}
     }
 
     return ("");
@@ -2032,9 +2191,11 @@ CString CreateNumeratedFreeFilename (CString DirAndFilename)
 //--------------------------------------------------------------------------------------------
 CString GetFilenameFromFullFilename (CString FullFilename)
 {
-    for (int c=FullFilename.GetLength()-1; c>=0; c--)
-        if (FullFilename[c]=='/' || FullFilename[c]=='\\')
+    for (int c=FullFilename.GetLength()-1; c>=0; c--) {
+        if (FullFilename[c]=='/' || FullFilename[c]=='\\') {
             return (FullFilename.Mid (c+1));
+}
+}
 
     return (FullFilename);
 }
@@ -2046,17 +2207,27 @@ CString RemoveAccents (CString str)
 {
     for (int c=str.GetLength()-1; c>=0; c--)
     {
-        if (str[c]=='á' || str[c]=='à' || str[c]=='â') str.SetAt(c, 'a');
-        if (str[c]=='é' || str[c]=='è' || str[c]=='ê') str.SetAt(c, 'e');
-        if (str[c]=='í' || str[c]=='ì' || str[c]=='î') str.SetAt(c, 'i');
-        if (str[c]=='ó' || str[c]=='ò' || str[c]=='ô') str.SetAt(c, 'o');
-        if (str[c]=='ú' || str[c]=='ù' || str[c]=='û') str.SetAt(c, 'u');
+        if (str[c]=='á' || str[c]=='à' || str[c]=='â') { str.SetAt(c, 'a');
+}
+        if (str[c]=='é' || str[c]=='è' || str[c]=='ê') { str.SetAt(c, 'e');
+}
+        if (str[c]=='í' || str[c]=='ì' || str[c]=='î') { str.SetAt(c, 'i');
+}
+        if (str[c]=='ó' || str[c]=='ò' || str[c]=='ô') { str.SetAt(c, 'o');
+}
+        if (str[c]=='ú' || str[c]=='ù' || str[c]=='û') { str.SetAt(c, 'u');
+}
 
-        if (str[c]=='Á' || str[c]=='À' || str[c]=='Â') str.SetAt(c, 'A');
-        if (str[c]=='É' || str[c]=='È' || str[c]=='Ê') str.SetAt(c, 'E');
-        if (str[c]=='Í' || str[c]=='Ì' || str[c]=='Î') str.SetAt(c, 'I');
-        if (str[c]=='Ó' || str[c]=='Ò' || str[c]=='Ô') str.SetAt(c, 'O');
-        if (str[c]=='Ú' || str[c]=='Ù' || str[c]=='Û') str.SetAt(c, 'U');
+        if (str[c]=='Á' || str[c]=='À' || str[c]=='Â') { str.SetAt(c, 'A');
+}
+        if (str[c]=='É' || str[c]=='È' || str[c]=='Ê') { str.SetAt(c, 'E');
+}
+        if (str[c]=='Í' || str[c]=='Ì' || str[c]=='Î') { str.SetAt(c, 'I');
+}
+        if (str[c]=='Ó' || str[c]=='Ò' || str[c]=='Ô') { str.SetAt(c, 'O');
+}
+        if (str[c]=='Ú' || str[c]=='Ù' || str[c]=='Û') { str.SetAt(c, 'U');
+}
     }
 
     return (str);
@@ -2093,6 +2264,6 @@ void DebugBreak(void)
 
 SHORT GetAsyncKeyState(int vKey)
 {
-    return SDL_GetModState() & vKey ? 0x8000 : 0;
+    return (SDL_GetModState() & vKey) != 0 ? 0x8000 : 0;
 }
 #endif

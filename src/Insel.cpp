@@ -42,7 +42,8 @@ class CWaitCursorNow
         ~CWaitCursorNow ()
         {
             MouseWait--;
-            if (MouseWait==0) pCursor->SetImage (gCursorBm.pBitmap);
+            if (MouseWait==0) { pCursor->SetImage (gCursorBm.pBitmap);
+}
         };
 };
 
@@ -54,7 +55,10 @@ void PrepareReflexionTable (SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTabl
 #ifndef DEMO
     BUFFER<UBYTE> &ReflexionTable = *pReflexionTable;
 
-    SLONG x, y, xx, yy;
+    SLONG x;
+    SLONG y;
+    SLONG xx;
+    SLONG yy;
 
     ReflexionTable.ReSize (ReflexionMaskBm.Size.x*ReflexionMaskBm.Size.y);
 
@@ -63,12 +67,13 @@ void PrepareReflexionTable (SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTabl
     SB_CBitmapKey SrcKey(*ReflexionMaskBm.pBitmap);
 
     //Weniger Bewegung links und rechts:
-    for (y=0; y<ReflexionMaskBm.Size.y; y++)
+    for (y=0; y<ReflexionMaskBm.Size.y; y++) {
         for (x=0; x<16; x++)
         {
             ReflexionTable[y*ReflexionMaskBm.Size.x+x]=(UBYTE)x;
             ReflexionTable[y*ReflexionMaskBm.Size.x+ReflexionMaskBm.Size.x-1-x]=(UBYTE)x;
         }
+}
 
     //Weniger Bewegung bei den Objekten in der Bitmap
     for (y=0; y<ReflexionMaskBm.Size.y; y++)
@@ -84,11 +89,15 @@ void PrepareReflexionTable (SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTabl
             {
                 pTable[x]=0;
 
-                for (yy=1; yy<16; yy++)
-                    if (y+yy<ReflexionMaskBm.Size.y)
-                        for (xx=-yy; xx<=yy; xx++)
-                            if (x+xx>=0 && x+xx<ReflexionMaskBm.Size.x)
+                for (yy=1; yy<16; yy++) {
+                    if (y+yy<ReflexionMaskBm.Size.y) {
+                        for (xx=-yy; xx<=yy; xx++) {
+                            if (x+xx>=0 && x+xx<ReflexionMaskBm.Size.x) {
                                 pTable[yy*ReflexionMaskBm.Size.x+x+xx]=(UBYTE)min (yy, pTable[yy*ReflexionMaskBm.Size.x+x+xx]);
+}
+}
+}
+}
             }
             else if (p>=10) //grau
             {
@@ -105,7 +114,8 @@ void PrepareReflexionTable (SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTabl
 void WaterBlur (SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &ReflexionSourceBm, const BUFFER<UBYTE> &pReflexionTable)
 {
 #ifndef DEMO
-    static SLONG  x, y;
+    static SLONG  x;
+    static SLONG  y;
     static SLONG  MoveOffset[16];
     static SLONG *pMoveOffset=MoveOffset;
     static UWORD *pTgtPixel;
@@ -115,14 +125,15 @@ void WaterBlur (SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &Reflex
     SB_CBitmapKey SrcKey(*ReflexionSourceBm.pBitmap);
     SB_CBitmapKey TgtKey(*pTargetBm->pBitmap);
 
-    if (pTargetBm->Size.x-1>=0)
+    if (pTargetBm->Size.x-1>=0) {
         for (y=0; y<ReflexionSourceBm.Size.y; y++)
         {
             long tx = SLONG(sin((timeGetTime()+sin((y+AnimOffset)/10.0)*2400)/500.0)*7);
             //long tx = SLONG(sin((timeGetTime()+y*240)/1000.0)*7);
 
-            for (x=0; x<16; x++)
+            for (x=0; x<16; x++) {
                 MoveOffset[x]=tx*x/15;
+}
 
             pTgtPixel = (UWORD*) (((char*)(TgtKey.Bitmap))+(y+TargetOffset.y)*TgtKey.lPitch);
             pSrcPixel = (UWORD*) (((char*)(((UWORD*)SrcKey.Bitmap)+TargetOffset.x))+y*SrcKey.lPitch);
@@ -243,10 +254,13 @@ add   edx, ecx
                 pop   esi
         }*/
 
-        for (x=pTargetBm->Size.x-1; x>=0; x--)
-            if (pRefTable[x])
+        for (x=pTargetBm->Size.x-1; x>=0; x--) {
+            if (pRefTable[x] != 0u) {
                 pTgtPixel[x] = pSrcPixel[x+MoveOffset[pRefTable[x]]];
+}
+}
         }
+}
 #endif
 }
 
@@ -313,10 +327,11 @@ CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
                 "RROCK00 RROCK01 RROCK22 RROCK03 RROCK25 RROCK27 RROCK16 RROCK09 RROCK28 RROCK24 "
                 "RROCK00 RROCK01 RROCK32 RROCK03 RROCK35 RROCK37 RROCK16 RROCK09 RROCK38 RROCK34");
 
-        if (!bHandy) AmbientManager.SetGlobalVolume (60);
+        if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
 
         //Hintergrundsounds:
-        if (Sim.Options.OptionEffekte)
+        if (Sim.Options.OptionEffekte != 0)
         {
             SetBackgroundFx (0, "moeve.raw",    50000, 25000);
 
@@ -365,9 +380,11 @@ CInsel::~CInsel()
 void CInsel::OnPaint()
 {
 #ifndef DEMO
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
-    if (!KonstruktorFinished) return;
+    if (KonstruktorFinished == 0) { return;
+}
 
     static SLONG gMouseScrollSpeed=0;
     XY   &ViewPos = Sim.Players.Players[(SLONG)PlayerNum].IslandViewPos;
@@ -377,9 +394,10 @@ void CInsel::OnPaint()
 
     BoatPos.y+=((1300-(SLONG(timeGetTime()-ShipOffset)/80))-1280)/60;
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_INSEL, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_INSEL, 0);
+}
 
-    if (!Sim.UsedTelescope)
+    if (Sim.UsedTelescope == 0)
     {
         BlinkArrowsTimer=timeGetTime();
         Sim.UsedTelescope=TRUE;
@@ -396,12 +414,16 @@ void CInsel::OnPaint()
         //Raketen-Reflexionen zeichnen:
         TempBm.ReSize (ReflexionBm.Size.x, ReflexionBm.Size.y);
         TempBm.BlitFrom (ReflexionBm);
-        for (c=0; c<4; c++)
-            if (!Sim.Players.Players[c].IsOut)
-                for (d=0; d<10; d++)
+        for (c=0; c<4; c++) {
+            if (Sim.Players.Players[c].IsOut == 0) {
+                for (d=0; d<10; d++) {
                     //for (e=0; e<10; e++) if (PartsRemapper[e]==d)
-                    if (Sim.Players.Players[c].RocketFlags & (1<<PartsRemapper[d]))
+                    if ((Sim.Players.Players[c].RocketFlags & (1<<PartsRemapper[d])) != 0) {
                         TempBm.BlitFromT (RocketPartReflexBms[c*10+PartsRemapper[d]], RocketRefOffsets[c]-XY(0, RocketPartReflexBms[c*10+PartsRemapper[d]].Size.y));
+}
+}
+}
+}
         TempBm.BlitFromT (ReflexionInselBm, 10, 236-232);
 
         //Wasser & Raketen vermanschen:
@@ -414,12 +436,16 @@ void CInsel::OnPaint()
         RoomBm.BlitFromT (TempBm, BoatPos+XY(-14, 61));
 
         //Raketen zeichnen:
-        for (c=0; c<4; c++)
-            if (!Sim.Players.Players[c].IsOut)
-                for (d=0; d<10; d++)
+        for (c=0; c<4; c++) {
+            if (Sim.Players.Players[c].IsOut == 0) {
+                for (d=0; d<10; d++) {
                     //for (e=0; e<10; e++) if (PartsRemapper[e]==d)
-                    if (Sim.Players.Players[c].RocketFlags & (1<<PartsRemapper[d]))
+                    if ((Sim.Players.Players[c].RocketFlags & (1<<PartsRemapper[d])) != 0) {
                         RoomBm.BlitFromT (RocketPartBms[c*10+PartsRemapper[d]], RocketOffsets[c]-XY(ViewPos.x,0));
+}
+}
+}
+}
         //RoomBm.BlitFromT (RocketPartBms[c*10+PartsRemapper[d]], RocketOffsets[c]+RocketPartOffsets[PartsRemapper[d]]-XY(ViewPos.x,0));
 
         //Ship+Gischt:
@@ -430,17 +456,21 @@ void CInsel::OnPaint()
         RoomBm.BlitFromT (FrontBm, -ViewPos.x, 440-FrontBm.Size.y);
 
         //Vogel...
-        if (VogelSail)
+        if (VogelSail != 0) {
             RoomBm.BlitFromT (VogelBms[SLONG(4)], (timeGetTime()-VogelOffset)/25-ViewPos.x, VogelY/1000);
-        else
+        } else {
             RoomBm.BlitFromT (VogelBms[SLONG((timeGetTime()-VogelOffset)/100%VogelBms.AnzEntries())], (timeGetTime()-VogelOffset)/25-ViewPos.x, VogelY/1000);
+}
 
-        if (!VogelSail && ((timeGetTime()-VogelOffset)/100%VogelBms.AnzEntries())==4 && rand()%10==0)
+        if ((VogelSail == 0) && ((timeGetTime()-VogelOffset)/100%VogelBms.AnzEntries())==4 && rand()%10==0) {
             VogelSail=1;
-        if (VogelSail && ((timeGetTime()-VogelOffset)/100%VogelBms.AnzEntries())==4 && rand()%7==0)
+}
+        if ((VogelSail != 0) && ((timeGetTime()-VogelOffset)/100%VogelBms.AnzEntries())==4 && rand()%7==0) {
             VogelSail=0;
+}
 
-        if (VogelSail) VogelY+=(timeGetTime()-LastVogelTime)*4;
+        if (VogelSail != 0) { VogelY+=(timeGetTime()-LastVogelTime)*4;
+}
         LastVogelTime=timeGetTime();
 
         //Fernglas (Alpha):
@@ -470,10 +500,11 @@ void CInsel::OnPaint()
             VogelY=22*1000;
         }
 
-        if (timeGetTime()>DWORD(ShipOffset) && (timeGetTime()-ShipOffset)/100>1400)
+        if (timeGetTime()>DWORD(ShipOffset) && (timeGetTime()-ShipOffset)/100>1400) {
             ShipOffset=timeGetTime()+rand()%5000+2000;
+}
 
-        if (BlinkArrowsTimer && timeGetTime()-BlinkArrowsTimer<5000)
+        if ((BlinkArrowsTimer != 0) && timeGetTime()-BlinkArrowsTimer<5000)
         {
             if ((timeGetTime()-BlinkArrowsTimer)%1000<500)
             {
@@ -488,49 +519,61 @@ void CInsel::OnPaint()
 
     if (Sim.Difficulty>=ROOM_LIMIT)
     {
-        if (!IsDialogOpen() && !MenuIsOpen() && !Sim.bPause)
+        if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && (Sim.bPause == 0))
         {
-            if (gMousePosition.x<=10  && ViewPos.x>0)   SetMouseLook (CURSOR_LEFT,  0, ROOM_INSEL, 6010);
-            if (gMousePosition.x>=630 && ViewPos.x<640) SetMouseLook (CURSOR_RIGHT, 0, ROOM_INSEL, 6011);
+            if (gMousePosition.x<=10  && ViewPos.x>0) {   SetMouseLook (CURSOR_LEFT,  0, ROOM_INSEL, 6010);
+}
+            if (gMousePosition.x>=630 && ViewPos.x<640) { SetMouseLook (CURSOR_RIGHT, 0, ROOM_INSEL, 6011);
+}
         }
 
         //Command&Conquer-Scrolling:
         if (MouseClickArea==ROOM_INSEL && MouseClickId==6010)
         {
-            if (gMouseScrollSpeed>-44-(gMouseLButton-1)*30) gMouseScrollSpeed-=2;
-            if (gMouseScrollSpeed<-66) gMouseScrollSpeed=-66;
+            if (gMouseScrollSpeed>-44-(gMouseLButton-1)*30) { gMouseScrollSpeed-=2;
+}
+            if (gMouseScrollSpeed<-66) { gMouseScrollSpeed=-66;
+}
             gMouseScroll=TRUE;
         }
         else if (MouseClickArea==ROOM_INSEL && MouseClickId==6011)
         {
-            if (gMouseScrollSpeed<44+(gMouseLButton-1)*30) gMouseScrollSpeed+=2;
-            if (gMouseScrollSpeed>66) gMouseScrollSpeed=66;
+            if (gMouseScrollSpeed<44+(gMouseLButton-1)*30) { gMouseScrollSpeed+=2;
+}
+            if (gMouseScrollSpeed>66) { gMouseScrollSpeed=66;
+}
             gMouseScroll=TRUE;
         }
 
         //Weiches Scrolling abbremsen
         if ((MouseClickId!=6010 && MouseClickId!=6011) || (gMouseLButton==0 && abs(gMouseScrollSpeed)>8))
         {
-            if (gMouseScrollSpeed>0) gMouseScrollSpeed = max (0, gMouseScrollSpeed-4);
-            if (gMouseScrollSpeed<0) gMouseScrollSpeed = min (0, gMouseScrollSpeed+4);
+            if (gMouseScrollSpeed>0) { gMouseScrollSpeed = max (0, gMouseScrollSpeed-4);
+}
+            if (gMouseScrollSpeed<0) { gMouseScrollSpeed = min (0, gMouseScrollSpeed+4);
+}
         }
 
-        if (gMouseScroll)
+        if (gMouseScroll != 0)
         {
             ViewPos.x+=gMouseScrollSpeed;
-            if (ViewPos.x<0)   ViewPos.x=0;
-            if (ViewPos.x>640) ViewPos.x=640;
+            if (ViewPos.x<0) {   ViewPos.x=0;
+}
+            if (ViewPos.x>640) { ViewPos.x=640;
+}
         }
-        else gMouseScrollSpeed=0;
+        else { gMouseScrollSpeed=0;
+}
     }
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         if (gMousePosition.IfIsWithin (0,0,100,50) ||      gMousePosition.IfIsWithin (0,0,50,100) ||
                 gMousePosition.IfIsWithin (0,390,100,440) ||   gMousePosition.IfIsWithin (0,340,50,440) ||
                 gMousePosition.IfIsWithin (590,0,640,100) ||   gMousePosition.IfIsWithin (540,0,640,50) ||
-                gMousePosition.IfIsWithin (590,340,640,440) || gMousePosition.IfIsWithin (540,390,640,440))
+                gMousePosition.IfIsWithin (590,340,640,440) || gMousePosition.IfIsWithin (540,390,640,440)) {
             SetMouseLook (CURSOR_EXIT, 0, ROOM_INSEL, 999);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -548,17 +591,18 @@ void CInsel::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_INSEL && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        if (MouseClickArea==ROOM_INSEL && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
         //else if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==10) StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, 0);
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        } else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 #endif
 }
@@ -576,9 +620,8 @@ void CInsel::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -589,6 +632,6 @@ void CInsel::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 #endif
 }

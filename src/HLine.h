@@ -148,9 +148,9 @@ class CHLBms
     public:
         void  Destroy() { Bitmaps.ReSize(0); }
         void  ReSize (CHLPool *pHLPool, __int64 graphicID, ...);
-        void  ReSize (CHLPool *pHLPool, const BUFFER<__int64> &graphicsIds);
-        void  ReSize (CHLPool *pHLPool, const CString &graphicIDs);
-        void  ReSize (CHLPool *pHLPool, const CString &graphicIDs, SLONG Anzahl);
+        void  ReSize (CHLPool *pHLPool, const BUFFER<__int64> &graphicIds);
+        void  ReSize (CHLPool *pHLPool, const CString &graphicstr);
+        void  ReSize (CHLPool *pHLPool, const CString &graphicstr, SLONG Anzahl);
         SLONG AnzEntries() const { return (Bitmaps.AnzEntries()); }
 
         //CHLBm& operator [](const SLONG Index) const { return Bitmaps[Index]; }

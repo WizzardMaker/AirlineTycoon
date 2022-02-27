@@ -60,9 +60,10 @@ CKiosk::CKiosk(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "kio
 
     Sim.FocusPerson=-1;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (60);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
 
-    if (Sim.Headlines.IsInteresting)
+    if (Sim.Headlines.IsInteresting != 0)
     {
         SP_Mann.ReSize (5);
         SP_Mann.Clips[0].ReSize (0, "k_leser.smk", "", XY (120, 205), SPM_IDLE,  CRepeat(1,1), CPostWait(40,80), SMACKER_CLIP_CANCANCEL,
@@ -146,7 +147,9 @@ CKiosk::~CKiosk()
 //--------------------------------------------------------------------------------------------
 void CKiosk::RepaintTip (void)
 {
-    SLONG c, d, e;
+    SLONG c;
+    SLONG d;
+    SLONG e;
     XY    p;
     BOOL  WasPicture;
     BOOL  HasPictures;
@@ -158,26 +161,30 @@ void CKiosk::RepaintTip (void)
         HasPictures=FALSE;
         p=HeadlineStart[c];
 
-        for (d=0; d<10; d++)
-            HasPictures |= (Sim.Headlines.GetHeadline (c, d).PictureId!=0);
+        for (d=0; d<10; d++) {
+            HasPictures |= static_cast<int>(Sim.Headlines.GetHeadline (c, d).PictureId!=0);
+}
 
-        if (c==0 && !HasPictures) p.y+=85;
+        if (c==0 && (HasPictures == 0)) { p.y+=85;
+}
 
         Newspapers[c].ReSize ((NewspaperTemplates[c])[0].Size);
-        if (c==0)
-            if (HasPictures!=0)
+        if (c==0) {
+            if (HasPictures!=0) {
                 Newspapers[c].BlitFrom ((NewspaperTemplates[c])[0]);
-            else
+            } else {
                 Newspapers[c].BlitFrom ((NewspaperTemplates[c])[1]);
-        else
+}
+        } else {
             Newspapers[c].BlitFrom ((NewspaperTemplates[c])[0]);
+}
 
         //Background Pictures:
         for (d=0; d<10; d++)
         {
             CHeadline hl=Sim.Headlines.GetHeadline (c, d);
 
-            if (!WasPicture && hl.PictureId)
+            if ((WasPicture == 0) && (hl.PictureId != 0))
             {
                 if (hl.PictureId==GFX_PASSAG || hl.PictureId==GFX_PILOT || hl.PictureId==GFX_STEWARD || hl.PictureId==GFX_TRASHP0 || hl.PictureId==GFX_TRASHP1 || hl.PictureId==GFX_TRASHP2 || hl.PictureId==GFX_TRASHP3)
                 {
@@ -209,7 +216,7 @@ void CKiosk::RepaintTip (void)
                 p.y+=Newspapers[c].TryPrintAt (hl.Headline, FontSmallBlack, TEC_FONT_LEFT, p.x, p.y, HeadlineMax[c].x, HeadlineMax[c].y)+5;
             }
 
-            if (!WasPicture && hl.PictureId)
+            if ((WasPicture == 0) && (hl.PictureId != 0))
             {
                 WasPicture=TRUE;
 
@@ -226,7 +233,8 @@ void CKiosk::RepaintTip (void)
                         Newspapers[c].BlitFromT ((NewspaperDefs[0])[0], 0, p.y);
                         Newspapers[c].BlitFromT ((NewspaperDefs[0])[1], 0, p.y+(NewspaperDefs[0])[0].Size.y+3);
                     }
-                    else Newspapers[c].BlitFrom (Picture, p.x+10, p.y);
+                    else { Newspapers[c].BlitFrom (Picture, p.x+10, p.y);
+}
 
                     p.y+=Picture.Size.y+5;
 
@@ -245,7 +253,7 @@ void CKiosk::RepaintTip (void)
                 }
                 else
                 {
-                    for (e=0; e<4; e++)
+                    for (e=0; e<4; e++) {
                         if (hl.PictureId==GFX_1+e*100 || hl.PictureId==GFX_2+e*100 || hl.PictureId==GFX_3+e*100 || hl.PictureId==GFX_4+e*100 || hl.PictureId==GFX_LIEBSTE+e*100 || hl.PictureId==GFX_PLANES+e*100 || hl.PictureId==GFX_GELD+e*100 || hl.PictureId==GFX_ROUTEN+e*100)
                         {
                             GfxLib *pGLibNews=NULL;
@@ -261,12 +269,13 @@ void CKiosk::RepaintTip (void)
                             Picture.Destroy ();
                             pGfxMain->ReleaseLib (pGLibNews);
                         }
+}
                 }
             }
         }
 
         //Verzierungen auf der Wild
-        if (WasPicture && c==0)
+        if ((WasPicture != 0) && c==0)
         {
             if (p.y<Newspapers[c].Size.y-(NewspaperDefs[0])[2].Size.y-(NewspaperDefs[0])[3].Size.y-10)
             {
@@ -275,20 +284,22 @@ void CKiosk::RepaintTip (void)
                 p.y+=(NewspaperDefs[0])[2].Size.y+5;
             }
 
-            if (p.y-5<Newspapers[c].Size.y-(NewspaperDefs[0])[3].Size.y)
+            if (p.y-5<Newspapers[c].Size.y-(NewspaperDefs[0])[3].Size.y) {
                 Newspapers[c].BlitFromT ((NewspaperDefs[0])[3], 0, Newspapers[c].Size.y-(NewspaperDefs[0])[3].Size.y);
+}
         }
 
         //Verzierungen auf der News:
         if (c==1)
         {
-            for (SLONG d=5; d>=2; d--)
+            for (SLONG d=5; d>=2; d--) {
                 if (p.y<Newspapers[c].Size.y-(NewspaperDefs[1])[d].Size.y-10)
                 {
                     Newspapers[c].BlitFrom ((NewspaperDefs[1])[d], 0, p.y);
 
                     p.y+=(NewspaperDefs[1])[d].Size.y+5;
                 }
+}
 
             Newspapers[c].BlitFrom ((NewspaperDefs[1])[7+Sim.Date%6], 134, 4);
         }
@@ -310,16 +321,17 @@ void CKiosk::OnPaint()
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
 
-    if (Sim.Headlines.IsInteresting)
+    if (Sim.Headlines.IsInteresting != 0)
     {
         SP_Mann.Pump ();
         SP_Mann.BlitAtT (RoomBm);
     }
 
-    if (!Sim.Players.Players[PlayerNum].HasItem(ITEM_STINKBOMBE))
+    if (Sim.Players.Players[PlayerNum].HasItem(ITEM_STINKBOMBE) == 0) {
         RoomBm.BlitFrom (StinkBm, 158, 397);
+}
 
-    if (bActive && (!IsDialogOpen()))
+    if ((bActive != 0) && (IsDialogOpen() == 0))
     {
         for (c=0; c<3; c++)
         {
@@ -330,9 +342,10 @@ void CKiosk::OnPaint()
 
                 XY p;
 
-                if (c==0) p=XY(183,236);
-                else if (c==1) p=XY(349,246);
-                else if (c==2) p=XY(140,185);
+                if (c==0) { p=XY(183,236);
+                } else if (c==1) { p=XY(349,246);
+                } else if (c==2) { p=XY(140,185);
+}
 
                 DestRect.x = long(p.x-Newspapers[c].Size.x/2*NewspaperZoom[c]/100);
                 DestRect.y = long(p.y-Newspapers[c].Size.x/2*NewspaperZoom[c]/100);
@@ -347,14 +360,16 @@ void CKiosk::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (560, 0, 639, 439)) SetMouseLook (CURSOR_EXIT, 0, ROOM_KIOSK, 999);
-        if (gMousePosition.IfIsWithin (158, 397, 209, 439) && !Sim.Players.Players[PlayerNum].HasItem(ITEM_STINKBOMBE)) SetMouseLook (CURSOR_HOT, 0, ROOM_KIOSK, 20);
-        else if (gMousePosition.IfIsWithin (494,169,555,325)) NewspaperZoom[1] += 20;
-        else if (gMousePosition.IfIsWithin (419,239,512,403)) NewspaperZoom[0] += 20;
-        else if (gMousePosition.IfIsWithin (426,98,516,247))  NewspaperZoom[2] += 20;
-        else if (gMousePosition.IfIsWithin (167,179,339,429) && Sim.Headlines.IsInteresting) SetMouseLook (CURSOR_HOT, 0, ROOM_KIOSK, 10);
+        if (gMousePosition.IfIsWithin (560, 0, 639, 439)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_KIOSK, 999);
+}
+        if (gMousePosition.IfIsWithin (158, 397, 209, 439) && (Sim.Players.Players[PlayerNum].HasItem(ITEM_STINKBOMBE) == 0)) { SetMouseLook (CURSOR_HOT, 0, ROOM_KIOSK, 20);
+        } else if (gMousePosition.IfIsWithin (494,169,555,325)) { NewspaperZoom[1] += 20;
+        } else if (gMousePosition.IfIsWithin (419,239,512,403)) { NewspaperZoom[0] += 20;
+        } else if (gMousePosition.IfIsWithin (426,98,516,247)) {  NewspaperZoom[2] += 20;
+        } else if (gMousePosition.IfIsWithin (167,179,339,429) && (Sim.Headlines.IsInteresting != 0)) { SetMouseLook (CURSOR_HOT, 0, ROOM_KIOSK, 10);
+}
     }
 
     for (c=0; c<3; c++)
@@ -446,18 +461,19 @@ void CKiosk::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_KIOSK && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_KIOSK && MouseClickId==10) { StartDialog (TALKER_KIOSK, MEDIUM_AIR); }
-        else if (MouseClickArea==ROOM_KIOSK && MouseClickId==20 && !Sim.Players.Players[PlayerNum].HasItem(ITEM_STINKBOMBE)) { StartDialog (TALKER_KIOSK, MEDIUM_AIR, 1000); }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        if (MouseClickArea==ROOM_KIOSK && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_KIOSK && MouseClickId==10) { StartDialog (TALKER_KIOSK, MEDIUM_AIR); }
+        else if (MouseClickArea==ROOM_KIOSK && MouseClickId==20 && (Sim.Players.Players[PlayerNum].HasItem(ITEM_STINKBOMBE) == 0)) { StartDialog (TALKER_KIOSK, MEDIUM_AIR, 1000); }
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -473,9 +489,8 @@ void CKiosk::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -486,5 +501,5 @@ void CKiosk::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

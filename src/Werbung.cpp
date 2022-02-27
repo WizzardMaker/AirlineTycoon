@@ -24,7 +24,8 @@ static const char FileId[] = "Werb";
 //--------------------------------------------------------------------------------------------
 CWerbung::CWerbung(BOOL qHandy, ULONG PlayerNum) : CStdRaum (qHandy, PlayerNum, "", 0)
 {
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
 
     Sim.FocusPerson=-1;
 
@@ -113,35 +114,41 @@ void CWerbung::OnPaint()
     SLONG   NewTip;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
-    if (Sim.Date>4) Sim.GiveHint (HINT_WERBUNG);
+    if (Sim.Date>4) { Sim.GiveHint (HINT_WERBUNG);
+}
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_WERBUNG, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_WERBUNG, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
 
     //Die Jahreszeit:
-    if (Sim.Difficulty<ROOM_LIMIT && Sim.Difficulty!=DIFF_FREEGAME)
-        RoomBm.BlitFrom (JahreszeitBms[Sim.GetSeason()], 491, 0);   //nowerbung
-    else
-        RoomBm.BlitFrom (JahreszeitBms[Sim.GetSeason()], 495, 0);   //werbung
+    if (Sim.Difficulty<ROOM_LIMIT && Sim.Difficulty!=DIFF_FREEGAME) {
+        RoomBm.BlitFrom (JahreszeitBms[SIM::GetSeason()], 491, 0);   //nowerbung
+    } else {
+        RoomBm.BlitFrom (JahreszeitBms[SIM::GetSeason()], 495, 0);   //werbung
+}
 
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (0, 145, 70, 381)) SetMouseLook (CURSOR_EXIT, 0, ROOM_WERBUNG, 999);
-        else if ((Sim.Difficulty>=ROOM_LIMIT || Sim.Difficulty==DIFF_FREEGAME) && gMousePosition.IfIsWithin (302,257,454,419)) SetMouseLook (CURSOR_HOT, 0, ROOM_WERBUNG, 10);
-        else if (gMousePosition.IfIsWithin (74,274,111,310) && !qPlayer.HasItem (ITEM_DISKETTE) && !(Sim.Difficulty<ROOM_LIMIT && Sim.Difficulty!=DIFF_FREEGAME)) SetMouseLook (CURSOR_HOT, 0, ROOM_WERBUNG, 800);
+        if (gMousePosition.IfIsWithin (0, 145, 70, 381)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_WERBUNG, 999);
+        } else if ((Sim.Difficulty>=ROOM_LIMIT || Sim.Difficulty==DIFF_FREEGAME) && gMousePosition.IfIsWithin (302,257,454,419)) { SetMouseLook (CURSOR_HOT, 0, ROOM_WERBUNG, 10);
+        } else if (gMousePosition.IfIsWithin (74,274,111,310) && (qPlayer.HasItem (ITEM_DISKETTE) == 0) && !(Sim.Difficulty<ROOM_LIMIT && Sim.Difficulty!=DIFF_FREEGAME)) { SetMouseLook (CURSOR_HOT, 0, ROOM_WERBUNG, 800);
+}
     }
 
 #ifdef DEMO
     if (!IsDialogOpen() && !MenuIsOpen()) SetMouseLook (CURSOR_EXIT, 0, ROOM_WERBUNG, 999);
 #endif
 
-    if (qPlayer.HasItem (ITEM_DISKETTE)) RoomBm.BlitFrom (DiskBm, 82, 281);
-    if (qPlayer.SecurityFlags&32) RoomBm.BlitFromT (NoSaboBm, 139, 241);
+    if (qPlayer.HasItem (ITEM_DISKETTE) != 0) { RoomBm.BlitFrom (DiskBm, 82, 281);
+}
+    if ((qPlayer.SecurityFlags&32) != 0u) { RoomBm.BlitFromT (NoSaboBm, 139, 241);
+}
 
 
     if (Sim.Difficulty>=ROOM_LIMIT || Sim.Difficulty==DIFF_FREEGAME)
@@ -167,7 +174,7 @@ void CWerbung::OnPaint()
 
             if (NewTip>=0 && NewTip<MenuDataTable.LineIndex.AnzEntries() &&
                     qPlayer.RentRouten.RentRouten.AnzEntries()>(MenuDataTable.LineIndex[NewTip]) &&
-                    qPlayer.RentRouten.RentRouten[MenuDataTable.LineIndex[NewTip]].Rang)
+                    (qPlayer.RentRouten.RentRouten[MenuDataTable.LineIndex[NewTip]].Rang != 0u))
             {
                 if (NewTip != CurrentTip)
                 {
@@ -180,11 +187,13 @@ void CWerbung::OnPaint()
 
                 PrimaryBm.BlitFromT (OnscreenBitmap, WinP2.x-10-TipBm.Size.x, (gMousePosition.y-(MenuPos.y+44))/13*13+(MenuPos.y+44)+16);
             }
-            else NewTip = -1;
+            else { NewTip = -1;
+}
         }
-        else NewTip = -1;
+        else { NewTip = -1;
+}
 
-        if (MenuIsOpen() && NewTip != CurrentTip)
+        if ((MenuIsOpen() != 0) && NewTip != CurrentTip)
         {
             MenuRepaint ();
             CurrentTip = NewTip;
@@ -202,33 +211,36 @@ void CWerbung::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
 #ifndef DEMO
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
         if (Sim.Difficulty>=ROOM_LIMIT || Sim.Difficulty==DIFF_FREEGAME)
         {
-            if (gMousePosition.IfIsWithin (287, 136, 322, 164) || gMousePosition.IfIsWithin (322, 131, 351, 156) || gMousePosition.IfIsWithin (354, 126, 393, 150)) ScreenAnim.Reset ();
+            if (gMousePosition.IfIsWithin (287, 136, 322, 164) || gMousePosition.IfIsWithin (322, 131, 351, 156) || gMousePosition.IfIsWithin (354, 126, 393, 150)) { ScreenAnim.Reset ();
+}
         }
         else
         {
-            if (gMousePosition.IfIsWithin (178, 72, 183, 88) || gMousePosition.IfIsWithin (447, 85, 470, 100))
-                if (Sim.Options.OptionEffekte)
+            if (gMousePosition.IfIsWithin (178, 72, 183, 88) || gMousePosition.IfIsWithin (447, 85, 470, 100)) {
+                if (Sim.Options.OptionEffekte != 0)
                 {
                     gUniversalFx.ReInit ("fused.raw");
                     gUniversalFx.Play (0, Sim.Options.OptionPlaneVolume*100/7*AmbientManager.GlobalVolume/100);
                 }
+}
         }
 
-        if (MouseClickArea==ROOM_WERBUNG && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_WERBUNG && MouseClickId==800) StartDialog (TALKER_WERBUNG, MEDIUM_AIR, 800);
-        else if (MouseClickArea==ROOM_WERBUNG && MouseClickId==10) StartDialog (TALKER_WERBUNG, MEDIUM_AIR, 1);
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        if (MouseClickArea==ROOM_WERBUNG && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_WERBUNG && MouseClickId==800) { StartDialog (TALKER_WERBUNG, MEDIUM_AIR, 800);
+        } else if (MouseClickArea==ROOM_WERBUNG && MouseClickId==10) { StartDialog (TALKER_WERBUNG, MEDIUM_AIR, 1);
+        } else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 #else
     if (!PreLButtonDown (point))
@@ -248,9 +260,8 @@ void CWerbung::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -261,5 +272,5 @@ void CWerbung::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

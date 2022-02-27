@@ -163,7 +163,7 @@ class CSmackerPerson
         SLONG GetDesiredMood (void);
         SLONG GetMood (void);
         SLONG GetClip (void);
-        SLONG GetFrame (void);
+        SLONG GetFrame (void) const;
 
         void  ForceNextClip (void);
 

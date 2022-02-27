@@ -45,19 +45,24 @@ void SetNetworkBitmap (SLONG Number, SLONG WaitingType)
         if (Number==0)
         {
             gNetworkBms.Destroy();
-            if (pGLib) pGfxMain->ReleaseLib (pGLib);
+            if (pGLib != nullptr) { pGfxMain->ReleaseLib (pGLib);
+}
         }
 
-        if (Number==1) pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("network1.gli", GliPath), &pGLib, L_LOCMEM);
-        if (Number==2) pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("network2.gli", GliPath), &pGLib, L_LOCMEM);
-        if (Number==3) pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("network3.gli", GliPath), &pGLib, L_LOCMEM);
+        if (Number==1) { pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("network1.gli", GliPath), &pGLib, L_LOCMEM);
+}
+        if (Number==2) { pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("network2.gli", GliPath), &pGLib, L_LOCMEM);
+}
+        if (Number==3) { pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("network3.gli", GliPath), &pGLib, L_LOCMEM);
+}
 
-        if (pGLib)
+        if (pGLib != nullptr)
         {
-            if (Number==3)
+            if (Number==3) {
                 gNetworkBms.ReSize (pGLib, "MENU PL0 PL1 PL2 PL3 PL4 PL5 PL6 PL7");
-            else
+            } else {
                 gNetworkBms.ReSize (pGLib, "MENU");
+}
         }
 
         CurrentNumber   = Number;
@@ -71,29 +76,36 @@ void SetNetworkBitmap (SLONG Number, SLONG WaitingType)
 void DisplayBroadcastMessage (CString str, SLONG FromPlayer)
 {
     SBBM    TempBm (gBroadcastBm.Size);
-    SLONG   sy, oldy, offy;
+    SLONG   sy;
+    SLONG   oldy;
+    SLONG   offy;
 
-    if (!Sim.bNetwork)
+    if (Sim.bNetwork == 0) {
         return;
+}
 
     if (FromPlayer!=Sim.localPlayer)
     {
         static SLONG LastTime=0;
 
-        if (timeGetTime()-LastTime>500)
+        if (timeGetTime()-LastTime>500) {
             PlayUniversalFx ("netmsg.raw", Sim.Options.OptionEffekte);
+}
 
         LastTime = timeGetTime();
     }
 
-    if (FromPlayer>=0 && FromPlayer<4) str = Sim.Players.Players[FromPlayer].NameX + ": " + str;
+    if (FromPlayer>=0 && FromPlayer<4) { str = Sim.Players.Players[FromPlayer].NameX + ": " + str;
+}
 
     sy   = gBroadcastBm.TryPrintAt (str, FontSmallBlack, TEC_FONT_LEFT, XY(10, 10), XY(320, 1000));
     oldy = gBroadcastBm.Size.y;
     offy = gBroadcastBm.Size.y;
 
-    if (oldy<10) oldy=10;
-    if (offy<10) offy=10;
+    if (oldy<10) { oldy=10;
+}
+    if (offy<10) { offy=10;
+}
 
     TempBm.BlitFrom (gBroadcastBm);
     gBroadcastBm.ReSize (320, oldy+sy+10);
@@ -131,22 +143,24 @@ void DisplayBroadcastMessage (CString str, SLONG FromPlayer)
 //--------------------------------------------------------------------------------------------
 void PumpBroadcastBitmap (bool bJustForEmergency)
 {
-    if (!Sim.bNetwork && gBroadcastBm.Size.y==0)
+    if ((Sim.bNetwork == 0) && gBroadcastBm.Size.y==0) {
         return;
+}
 
     static SLONG LastTimeCalled=0;
 
     if (bJustForEmergency)
     {
-        if (timeGetTime()-LastTimeCalled<500) return;
+        if (timeGetTime()-LastTimeCalled<500) { return;
+}
     }
     else
     {
         LastTimeCalled=timeGetTime();
     }
 
-    if (gBroadcastTimeout>0 && gBroadcastBm.Size.y<200) gBroadcastTimeout--;
-    else if (gBroadcastBm.Size.y)
+    if (gBroadcastTimeout>0 && gBroadcastBm.Size.y<200) { gBroadcastTimeout--;
+    } else if (gBroadcastBm.Size.y != 0)
     {
         static SLONG p=0;
 
@@ -156,9 +170,9 @@ void PumpBroadcastBitmap (bool bJustForEmergency)
         {
             p=0;
 
-            if (gBroadcastBm.Size.y-1<=0)
+            if (gBroadcastBm.Size.y-1<=0) {
                 gBroadcastBm.Destroy ();
-            else
+            } else
             {
                 SBBM TempBm (gBroadcastBm.Size);
 
@@ -175,11 +189,14 @@ void PumpBroadcastBitmap (bool bJustForEmergency)
 //--------------------------------------------------------------------------------------------
 void PumpNetwork (void)
 {
-    SLONG c=0, d=0, e=0; //Universell, können von jedem case verwendet werden.
+    SLONG c=0;
+    SLONG d=0;
+    SLONG e=0; //Universell, können von jedem case verwendet werden.
 
-    if (!Sim.bNetwork) return;
+    if (Sim.bNetwork == 0) { return;
+}
 
-    if (Sim.bThisIsSessionMaster && Sim.Time>9*60000 && Sim.Time<18*60000 && !Sim.CallItADay && !Sim.CallItADayAt)
+    if (Sim.bThisIsSessionMaster && Sim.Time>9*60000 && Sim.Time<18*60000 && (Sim.CallItADay == 0) && (Sim.CallItADayAt == 0))
     {
         static DWORD LastTime=0;
 
@@ -191,13 +208,16 @@ void PumpNetwork (void)
     }
 
     bool bReturnAfterThisMessage=false;
-    while (gNetwork.GetMessageCount() && !bReturnAfterThisMessage)
+    while ((gNetwork.GetMessageCount() != 0) && !bReturnAfterThisMessage)
     {
         TEAKFILE Message;
 
         if (Sim.ReceiveMemFile (Message))
         {
-            ULONG MessageType, Par1=0, Par2=0, Par3=0;
+            ULONG MessageType;
+            ULONG Par1=0;
+            ULONG Par2=0;
+            ULONG Par3=0;
 
             Message >> MessageType;
 
@@ -206,34 +226,38 @@ void PumpNetwork (void)
                 case ATNET_SETSPEED:
                     Message >> Par1 >> Par2;
                     Sim.Players.Players[(SLONG)Par1].GameSpeed=Par2;
-                    if (Sim.Players.Players[Sim.localPlayer].LocationWin)
+                    if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
                         ((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->StatusCount=3;
+}
                     break;
 
                 case ATNET_FORCESPEED:
                     Message >> Par1;
-                    for (c=0; c<4; c++) Sim.Players.Players[c].GameSpeed=Par1;
-                    if (Sim.Players.Players[Sim.localPlayer].LocationWin)
+                    for (c=0; c<4; c++) { Sim.Players.Players[c].GameSpeed=Par1;
+}
+                    if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
                         ((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->StatusCount=3;
+}
                     break;
 
                 case ATNET_READYFORMORNING:
                     Message >> Par1;
-                    Sim.Players.Players[SLONG(Par1)].bReadyForMorning=true;
+                    Sim.Players.Players[SLONG(Par1)].bReadyForMorning=1;
                     break;
 
                 case ATNET_READYFORBRIEFING:
                     Message >> Par1;
-                    Sim.Players.Players[SLONG(Par1)].bReadyForBriefing=true;
+                    Sim.Players.Players[SLONG(Par1)].bReadyForBriefing=1;
                     break;
 
                 case ATNET_PAUSE:
-                    FrameWnd->Pause(!Sim.bPause);
+                    FrameWnd->Pause(Sim.bPause == 0);
                     break;
 
                 case ATNET_WANNAJOIN:
-                    if (Sim.bIsHost)
+                    if (Sim.bIsHost != 0) {
                         Sim.SendSimpleMessage (ATNET_SORRYFULL, 0);
+}
                     break;
 
                 case ATNET_CHATBROADCAST:
@@ -254,7 +278,7 @@ void PumpNetwork (void)
 
                 case DPSYS_SESSIONLOST:
                     DisplayBroadcastMessage (StandardTexte.GetS (TOKEN_MISC, 7001));
-                    for (c=0; c<4; c++)
+                    for (c=0; c<4; c++) {
                         if (Sim.Players.Players[c].Owner==2)
                         {
                             Sim.Players.Players[c].Owner=1;
@@ -263,18 +287,20 @@ void PumpNetwork (void)
                             nPlayerAppsDisabled[c]=0;
                             nPlayerWaiting[c]=0;
                         }
+}
 
                     if (Sim.Players.GetAnzHumanPlayers()==1)
                     {
                         gNetwork.DisConnect ();
-                        Sim.bNetwork = false;
+                        Sim.bNetwork = 0;
                         return;
                     }
 
                     nOptionsOpen  = 0;
                     nAppsDisabled = 0;
 
-                    if (nOptionsOpen==0 && nAppsDisabled==0 && Sim.bPause==0) SetNetworkBitmap(0);
+                    if (nOptionsOpen==0 && nAppsDisabled==0 && Sim.bPause==0) { SetNetworkBitmap(0);
+}
                     break;
 
                 case DPSYS_DESTROYPLAYERORGROUP:
@@ -286,24 +312,29 @@ void PumpNetwork (void)
 
                         if (dwPlayerType==DPPLAYERTYPE_PLAYER)
                         {
-                            for (c=0; c<4; c++)
+                            for (c=0; c<4; c++) {
                                 if (Sim.Players.Players[c].NetworkID==dpId)
                                 {
                                     nOptionsOpen  -= nPlayerOptionsOpen[c];
                                     nAppsDisabled -= nPlayerAppsDisabled[c];
                                     nWaitingForPlayer -= nPlayerWaiting[c];
 
-                                    if (nOptionsOpen<0) nOptionsOpen=0;
-                                    if (nAppsDisabled<0) nOptionsOpen=0;
-                                    if (nWaitingForPlayer<0) nOptionsOpen=0;
+                                    if (nOptionsOpen<0) { nOptionsOpen=0;
+}
+                                    if (nAppsDisabled<0) { nOptionsOpen=0;
+}
+                                    if (nWaitingForPlayer<0) { nOptionsOpen=0;
+}
 
-                                    if (nOptionsOpen==0 && nAppsDisabled==0 && Sim.bPause==0) SetNetworkBitmap(0);
+                                    if (nOptionsOpen==0 && nAppsDisabled==0 && Sim.bPause==0) { SetNetworkBitmap(0);
+}
 
                                     Sim.Players.Players[c].Owner=1;
                                     Sim.Players.Players[c].NetworkID=0;
                                     Sim.Players.Players[c].GameSpeed=3;
                                     DisplayBroadcastMessage (bprintf (StandardTexte.GetS (TOKEN_MISC, 7002), (LPCTSTR)Sim.Players.Players[c].NameX));
                                 }
+}
 
                             if (Sim.Players.GetAnzHumanPlayers()==1)
                             {
@@ -312,7 +343,7 @@ void PumpNetwork (void)
                                 nAppsDisabled = 0;
                                 nWaitingForPlayer = 0;
                                 SetNetworkBitmap(0);
-                                Sim.bNetwork = false;
+                                Sim.bNetwork = 0;
                                 return;
                             }
                         }
@@ -323,7 +354,7 @@ void PumpNetwork (void)
                     Message >> Par1 >> Par2;
                     nOptionsOpen+=Par1;
                     nPlayerOptionsOpen[(SLONG)Par2]+=Par1;
-                    SetNetworkBitmap ((nOptionsOpen>0)*1);
+                    SetNetworkBitmap (static_cast<int>(nOptionsOpen>0)*1);
                     break;
 
                 case ATNET_ACTIVATEAPP:
@@ -332,7 +363,7 @@ void PumpNetwork (void)
                     nOptionsOpen+=Par1;
                     nPlayerOptionsOpen[(SLONG)Par2]+=Par1;
                     nPlayerAppsDisabled[(SLONG)Par2]+=Par1;
-                    SetNetworkBitmap ((nOptionsOpen>0)*2);
+                    SetNetworkBitmap (static_cast<int>(nOptionsOpen>0)*2);
                     break;
 
                 case ATNET_TIMEPING:
@@ -343,7 +374,8 @@ void PumpNetwork (void)
                 case ATNET_PLAYERPOS:
                     {
                         SLONG PlayerNum;
-                        SLONG MessageTime, LocalTime;
+                        SLONG MessageTime;
+                        SLONG LocalTime;
 
                         Message >> PlayerNum;
                         //if (Sim.Players.Players[PlayerNum].Owner!=1) hprintf ("Received Message ATNET_PLAYERPOS (%li)", PlayerNum);
@@ -382,13 +414,14 @@ void PumpNetwork (void)
 
                         Sim.TimeSlice = MessageTime;
                         /*hprintf ("Diff=%li", LocalTime-Sim.TimeSlice);*/
-                        if (qPlayer.GetRoom()==ROOM_AIRPORT && !qPlayer.IsTalking && (qPlayer.LocationWin==NULL || ((*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_F && (*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_M)))
+                        if (qPlayer.GetRoom()==ROOM_AIRPORT && (qPlayer.IsTalking == 0) && (qPlayer.LocationWin==NULL || ((*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_F && (*(CStdRaum*)qPlayer.LocationWin).CurrentMenu!=MENU_WC_M))) {
                             while (Sim.TimeSlice<LocalTime)
                             {
                                 qPerson.DoOnePlayerStep ();
                                 qPlayer.UpdateWaypointWalkingDirection ();
                                 Sim.TimeSlice++;
                             }
+}
 
                         Sim.TimeSlice = LocalTime;
                     }
@@ -427,7 +460,8 @@ void PumpNetwork (void)
 
                 case ATNET_GIMMICK:
                     {
-                        SLONG PlayerNum, Mode;
+                        SLONG PlayerNum;
+                        SLONG Mode;
 
                         Message >> PlayerNum >> Mode;
 
@@ -455,7 +489,8 @@ void PumpNetwork (void)
 
                 case ATNET_PLAYERLOOK:
                     {
-                        SLONG PlayerNum, Dir;
+                        SLONG PlayerNum;
+                        SLONG Dir;
 
                         Message >> PlayerNum >> Dir;
 
@@ -475,7 +510,8 @@ void PumpNetwork (void)
 
                 case ATNET_ENTERROOM:
                     {
-                        SLONG PlayerNum, RoomEntered;
+                        SLONG PlayerNum;
+                        SLONG RoomEntered;
 
                         Message >> PlayerNum;
 
@@ -485,7 +521,8 @@ void PumpNetwork (void)
 
                         if (RoomEntered!=-1)
                         {
-                            CTalker *pTalker=NULL, *pTalker2=NULL;
+                            CTalker *pTalker=NULL;
+                            CTalker *pTalker2=NULL;
 
                             switch (RoomEntered)
                             {
@@ -500,10 +537,13 @@ void PumpNetwork (void)
                                 case ROOM_WERBUNG:   pTalker  = &Talkers.Talkers[TALKER_WERBUNG];    break;
                             }
 
-                            if (pTalker  && !pTalker->IsBusy())  pTalker->IncreaseLocking();
-                            if (pTalker2 && !pTalker2->IsBusy()) pTalker2->IncreaseLocking();
+                            if ((pTalker != nullptr)  && (pTalker->IsBusy() == 0)) {  pTalker->IncreaseLocking();
+}
+                            if ((pTalker2 != nullptr) && (pTalker2->IsBusy() == 0)) { pTalker2->IncreaseLocking();
+}
 
-                            if (Sim.RoomBusy[RoomEntered]==0) Sim.RoomBusy[RoomEntered]++;
+                            if (Sim.RoomBusy[RoomEntered]==0) { Sim.RoomBusy[RoomEntered]++;
+}
                         }
 
                         //if (qPlayer.Owner!=1) hprintf ("Received Message ATNET_ENTERROOM (%li)", PlayerNum);
@@ -518,11 +558,15 @@ void PumpNetwork (void)
                         Sim.UpdateRoomUsage ();
 
                         //Bei menschlichen nicht-lokalen Mitspielern eine Fehlerbehandlung:
-                        if (qPlayer.Owner==2 && Sim.Time>9*60000)
-                            for (c=9; c>=0; c--)
-                                if (qPlayer.GetRoom()==Sim.Players.Players[Sim.localPlayer].Locations[c])
-                                    if (qPlayer.GetRoom()!=ROOM_STATISTICS && qPlayer.GetRoom()!=ROOM_GLOBE && qPlayer.GetRoom()!=ROOM_LAPTOP && qPlayer.GetRoom()!=ROOM_PLANEPROPS && qPlayer.GetRoom()!=ROOM_WC_F && qPlayer.GetRoom()!=ROOM_WC_M)
+                        if (qPlayer.Owner==2 && Sim.Time>9*60000) {
+                            for (c=9; c>=0; c--) {
+                                if (qPlayer.GetRoom()==Sim.Players.Players[Sim.localPlayer].Locations[c]) {
+                                    if (qPlayer.GetRoom()!=ROOM_STATISTICS && qPlayer.GetRoom()!=ROOM_GLOBE && qPlayer.GetRoom()!=ROOM_LAPTOP && qPlayer.GetRoom()!=ROOM_PLANEPROPS && qPlayer.GetRoom()!=ROOM_WC_F && qPlayer.GetRoom()!=ROOM_WC_M) {
                                         Sim.SendSimpleMessage (ATNET_ENTERROOMBAD, qPlayer.NetworkID);
+}
+}
+}
+}
                     }
                     break;
 
@@ -532,7 +576,8 @@ void PumpNetwork (void)
 
                 case ATNET_LEAVEROOM:
                     {
-                        SLONG PlayerNum, RoomLeft;
+                        SLONG PlayerNum;
+                        SLONG RoomLeft;
 
                         Message >> PlayerNum;
 
@@ -555,7 +600,8 @@ void PumpNetwork (void)
                                 case ROOM_WERBUNG:   Talkers.Talkers[TALKER_WERBUNG].DecreaseLocking ();    break;
                             }
 
-                            if (Sim.RoomBusy[RoomLeft]) Sim.RoomBusy[RoomLeft]--;
+                            if (Sim.RoomBusy[RoomLeft] != 0u) { Sim.RoomBusy[RoomLeft]--;
+}
                         }
                         //if (qPlayer.Owner!=1) hprintf ("Received Message ATNET_LEAVEROOM (%li)", PlayerNum);
 
@@ -590,7 +636,8 @@ void PumpNetwork (void)
 
                 case ATNET_SYNC_IMAGE:
                     {
-                        SLONG Anz, PlayerNum;
+                        SLONG Anz;
+                        SLONG PlayerNum;
 
                         Message >> Anz;
 
@@ -603,10 +650,13 @@ void PumpNetwork (void)
 
                             Message >> qPlayer.Image >> qPlayer.ImageGotWorse;
 
-                            for (d=0; d<4; d++) Message >> qPlayer.Sympathie[d];
+                            for (d=0; d<4; d++) { Message >> qPlayer.Sympathie[d];
+}
 
-                            for (d=Routen.AnzEntries()-1; d>=0; d--) Message >> qPlayer.RentRouten.RentRouten[d].Image;
-                            for (d=Cities.AnzEntries()-1; d>=0; d--) Message >> qPlayer.RentCities.RentCities[d].Image;
+                            for (d=Routen.AnzEntries()-1; d>=0; d--) { Message >> qPlayer.RentRouten.RentRouten[d].Image;
+}
+                            for (d=Cities.AnzEntries()-1; d>=0; d--) { Message >> qPlayer.RentCities.RentCities[d].Image;
+}
 
                             Anz--;
                         }
@@ -615,7 +665,8 @@ void PumpNetwork (void)
 
                 case ATNET_SYNC_MONEY:
                     {
-                        SLONG Anz, PlayerNum;
+                        SLONG Anz;
+                        SLONG PlayerNum;
 
                         Message >> Anz;
 
@@ -630,8 +681,10 @@ void PumpNetwork (void)
                                 >> qPlayer.AnzAktien >> qPlayer.MaxAktien >> qPlayer.TrustedDividende
                                 >> qPlayer.Dividende;
 
-                            for (d=0; d<4;  d++) Message >> qPlayer.OwnsAktien[d] >> qPlayer.AktienWert[d];
-                            for (d=0; d<10; d++) Message >> qPlayer.Kurse[d];
+                            for (d=0; d<4;  d++) { Message >> qPlayer.OwnsAktien[d] >> qPlayer.AktienWert[d];
+}
+                            for (d=0; d<10; d++) { Message >> qPlayer.Kurse[d];
+}
 
                             Anz--;
                         }
@@ -640,7 +693,8 @@ void PumpNetwork (void)
 
                 case ATNET_SYNC_ROUTES:
                     {
-                        SLONG Anz, PlayerNum;
+                        SLONG Anz;
+                        SLONG PlayerNum;
 
                         Message >> Anz;
 
@@ -666,7 +720,8 @@ void PumpNetwork (void)
 
                 case ATNET_SYNC_FLAGS:
                     {
-                        SLONG Anz, PlayerNum;
+                        SLONG Anz;
+                        SLONG PlayerNum;
 
                         Message >> Anz;
 
@@ -709,7 +764,8 @@ void PumpNetwork (void)
 
                 case ATNET_SYNC_ITEMS:
                     {
-                        SLONG Anz, PlayerNum;
+                        SLONG Anz;
+                        SLONG PlayerNum;
 
                         Message >> Anz;
 
@@ -719,8 +775,9 @@ void PumpNetwork (void)
 
                             PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
-                            for (SLONG c=0; c<6; c++)
+                            for (SLONG c=0; c<6; c++) {
                                 Message >> qPlayer.Items[c];
+}
 
                             Anz--;
                         }
@@ -729,7 +786,8 @@ void PumpNetwork (void)
 
                 case ATNET_SYNC_PLANES:
                     {
-                        SLONG Anz, PlayerNum;
+                        SLONG Anz;
+                        SLONG PlayerNum;
 
                         Message >> Anz;
 
@@ -748,7 +806,8 @@ void PumpNetwork (void)
 
                 case ATNET_SYNC_MEETING:
                     {
-                        SLONG Anz, PlayerNum;
+                        SLONG Anz;
+                        SLONG PlayerNum;
 
                         Message >> Anz;
 
@@ -768,7 +827,7 @@ void PumpNetwork (void)
                         BOOL SentFromHost;
                         Message >> SentFromHost;
 
-                        if (SentFromHost)
+                        if (SentFromHost != 0)
                         {
                             Message >> Sim.SabotageActs;
                         }
@@ -777,7 +836,9 @@ void PumpNetwork (void)
 
                 case ATNET_ADD_SYMPATHIE:
                     {
-                        SLONG Anz, PlayerNum, SympathieTarget;
+                        SLONG Anz;
+                        SLONG PlayerNum;
+                        SLONG SympathieTarget;
 
                         Message >> PlayerNum >> SympathieTarget >> Anz;
 
@@ -790,15 +851,20 @@ void PumpNetwork (void)
 
                 case ATNET_SYNCROUTECHANGE:
                     {
-                        SLONG PlayerNum, RouteId, Ticketpreis, TicketpreisFC;
+                        SLONG PlayerNum;
+                        SLONG RouteId;
+                        SLONG Ticketpreis;
+                        SLONG TicketpreisFC;
 
                         Message >> PlayerNum >> RouteId >> Ticketpreis >> TicketpreisFC;
 
                         PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
-                        if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(RouteId)].Ticketpreis!=Ticketpreis)
+                        if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(RouteId)].Ticketpreis!=Ticketpreis) {
                             DebugBreak();
-                        if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(RouteId)].TicketpreisFC!=TicketpreisFC)
+}
+                        if (qPlayer.RentRouten.RentRouten[(SLONG)Routen(RouteId)].TicketpreisFC!=TicketpreisFC) {
                             DebugBreak();
+}
 
                         qPlayer.UpdateTicketpreise (RouteId, Ticketpreis, TicketpreisFC);
                     }
@@ -809,7 +875,8 @@ void PumpNetwork (void)
                     //--------------------------------------------------------------------------------------------
                 case ATNET_ROBOT_EXECUTE:
                     {
-                        SLONG c, PlayerNum;
+                        SLONG c;
+                        SLONG PlayerNum;
 
                         Message >> PlayerNum;
 
@@ -817,8 +884,10 @@ void PumpNetwork (void)
 
                         Message >> qPlayer.WaitWorkTill >> qPlayer.WaitWorkTill2;
 
-                        for (c=0; c<4; c++) Message >> qPlayer.Sympathie[c];
-                        for (c=0; c<qPlayer.RobotActions.AnzEntries(); c++) Message >> qPlayer.RobotActions[c];
+                        for (c=0; c<4; c++) { Message >> qPlayer.Sympathie[c];
+}
+                        for (c=0; c<qPlayer.RobotActions.AnzEntries(); c++) { Message >> qPlayer.RobotActions[c];
+}
                     }
                     break;
 
@@ -870,8 +939,9 @@ void PumpNetwork (void)
                 case ATNET_PLAYER_18UHR:
                     Sim.b18Uhr = TRUE;
 
-                    for (c=0; c<4; c++)
-                        Sim.Players.Players[c].bReadyForMorning=false;
+                    for (c=0; c<4; c++) {
+                        Sim.Players.Players[c].bReadyForMorning=0;
+}
 
                     break;
 
@@ -880,12 +950,13 @@ void PumpNetwork (void)
                     //--------------------------------------------------------------------------------------------
                 case ATNET_FP_UPDATE:
                     {
-                        SLONG PlaneId, PlayerNum;
+                        SLONG PlaneId;
+                        SLONG PlayerNum;
 
                         Message >> PlaneId >> PlayerNum;
 
                         PLAYER   &qPlayer = Sim.Players.Players[PlayerNum];
-                        if (!qPlayer.Planes.IsInAlbum(PlaneId))
+                        if (qPlayer.Planes.IsInAlbum(PlaneId) == 0)
                         {
                             hprintf ("Plane not in Album: %li, %li", PlayerNum, PlaneId);
                         }
@@ -903,27 +974,29 @@ void PumpNetwork (void)
 
                         for (e=qPlan.Flug.AnzEntries()-1; e>=0; e--)
                         {
-                            if (qPlan.Flug[e].ObjectType==2)
-                                if (!qPlayer.Auftraege.IsInAlbum(qPlan.Flug[e].ObjectId))
+                            if (qPlan.Flug[e].ObjectType==2) {
+                                if (qPlayer.Auftraege.IsInAlbum(qPlan.Flug[e].ObjectId) == 0)
                                 {
                                     hprintf ("Err: Flight %li, %lx", qPlan.Flug[e].ObjectType, qPlan.Flug[e].ObjectId);
                                     qPlan.Flug[e].ObjectType=0;
                                 }
-                            if (qPlan.Flug[e].ObjectType==4)
-                                if (!qPlayer.Frachten.IsInAlbum(qPlan.Flug[e].ObjectId))
+}
+                            if (qPlan.Flug[e].ObjectType==4) {
+                                if (qPlayer.Frachten.IsInAlbum(qPlan.Flug[e].ObjectId) == 0)
                                 {
                                     hprintf ("Err: Flight %li, %lx", qPlan.Flug[e].ObjectType, qPlan.Flug[e].ObjectId);
                                     qPlan.Flug[e].ObjectType=0;
                                 }
+}
 
                             if (qPlan.Flug[e].ObjectType!=0)
                             {
-                                if (!Cities.IsInAlbum(qPlan.Flug[e].VonCity))
+                                if (Cities.IsInAlbum(qPlan.Flug[e].VonCity) == 0)
                                 {
                                     hprintf ("Err: Flight %li, VonCity %lx", qPlan.Flug[e].ObjectType, qPlan.Flug[e].VonCity);
                                     qPlan.Flug[e].ObjectId=0;
                                 }
-                                if (!Cities.IsInAlbum(qPlan.Flug[e].NachCity))
+                                if (Cities.IsInAlbum(qPlan.Flug[e].NachCity) == 0)
                                 {
                                     hprintf ("Err: Flight %li, NachCity %lx", qPlan.Flug[e].ObjectType, qPlan.Flug[e].NachCity);
                                     qPlan.Flug[e].ObjectId=0;
@@ -946,8 +1019,9 @@ void PumpNetwork (void)
 
                         PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
-                        if (qPlayer.Auftraege.GetNumFree()<3)
+                        if (qPlayer.Auftraege.GetNumFree()<3) {
                             qPlayer.Auftraege.Auftraege.ReSize (qPlayer.Auftraege.AnzEntries()+10);
+}
 
                         qPlayer.Auftraege+=a;
                     }
@@ -962,8 +1036,9 @@ void PumpNetwork (void)
 
                         PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
-                        if (qPlayer.Frachten.GetNumFree()<3)
+                        if (qPlayer.Frachten.GetNumFree()<3) {
                             qPlayer.Frachten.Fracht.ReSize (qPlayer.Frachten.AnzEntries()+10);
+}
 
                         qPlayer.Frachten+=a;
                     }
@@ -981,7 +1056,9 @@ void PumpNetwork (void)
 
                 case ATNET_TAKE_ROUTE:
                     {
-                        SLONG PlayerNum, Route1Id, Route2Id;
+                        SLONG PlayerNum;
+                        SLONG Route1Id;
+                        SLONG Route2Id;
 
                         Message >> PlayerNum >> Route1Id >> Route2Id;
 
@@ -994,7 +1071,9 @@ void PumpNetwork (void)
 
                 case ATNET_ADVISOR:
                     {
-                        SLONG   Art, From, Generic1;
+                        SLONG   Art;
+                        SLONG   From;
+                        SLONG   Generic1;
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
                         Message >> Art >> From >> Generic1;
@@ -1005,16 +1084,18 @@ void PumpNetwork (void)
                         {
                             //Tafel: Jemand hat einen überboten
                             case 0:
-                                if (qPlayer.HasBerater (BERATERTYP_INFO))
+                                if (qPlayer.HasBerater (BERATERTYP_INFO) != 0)
                                 {
-                                    if (Generic1>=14) qPlayer.Messages.AddMessage (BERATERTYP_INFO, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 9001), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX));
-                                    if (Generic1>=7 && Generic1<14) qPlayer.Messages.AddMessage (BERATERTYP_INFO, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 9002), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX, (LPCTSTR)Cities[TafelData.City[Generic1-7].ZettelId].Name));
+                                    if (Generic1>=14) { qPlayer.Messages.AddMessage (BERATERTYP_INFO, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 9001), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX));
+}
+                                    if (Generic1>=7 && Generic1<14) { qPlayer.Messages.AddMessage (BERATERTYP_INFO, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 9002), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX, (LPCTSTR)Cities[TafelData.City[Generic1-7].ZettelId].Name));
+}
                                 }
                                 break;
 
                                 //Jemand kauft gebrauchtes Flugzeug:
                             case 1:
-                                if (qPlayer.HasBerater (BERATERTYP_INFO))
+                                if (qPlayer.HasBerater (BERATERTYP_INFO) != 0)
                                 {
                                     qPlayer.Messages.AddMessage (BERATERTYP_INFO, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 9000), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX, Sim.UsedPlanes[0x1000000+Generic1].CalculatePrice()));
                                 }
@@ -1022,7 +1103,7 @@ void PumpNetwork (void)
 
                                 //Jemand gibt Aktien aus:
                             case 3:
-                                if (qPlayer.HasBerater (BERATERTYP_INFO))
+                                if (qPlayer.HasBerater (BERATERTYP_INFO) != 0)
                                 {
                                     qPlayer.Messages.AddMessage (BERATERTYP_INFO, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 9004), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX, Generic1));
                                 }
@@ -1030,7 +1111,7 @@ void PumpNetwork (void)
 
                                 //Jemand kauft Aktien vom localPlayer:
                             case 4:
-                                if (qPlayer.HasBerater (BERATERTYP_INFO))
+                                if (qPlayer.HasBerater (BERATERTYP_INFO) != 0)
                                 {
                                     qPlayer.Messages.AddMessage (BERATERTYP_INFO, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 9005), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX, Generic1));
                                 }
@@ -1041,7 +1122,9 @@ void PumpNetwork (void)
 
                 case ATNET_BUY_USED:
                     {
-                        SLONG PlayerNum, PlaneIndex, Time;
+                        SLONG PlayerNum;
+                        SLONG PlaneIndex;
+                        SLONG Time;
 
                         Message >> PlayerNum >> PlaneIndex >> Time;
 
@@ -1061,7 +1144,8 @@ void PumpNetwork (void)
 
                 case ATNET_SELL_USED:
                     {
-                        SLONG PlayerNum, PlaneId;
+                        SLONG PlayerNum;
+                        SLONG PlaneId;
 
                         Message >> PlayerNum >> PlaneId;
 
@@ -1073,7 +1157,9 @@ void PumpNetwork (void)
 
                 case ATNET_BUY_NEW:
                     {
-                        SLONG    PlayerNum, Anzahl, Type;
+                        SLONG    PlayerNum;
+                        SLONG    Anzahl;
+                        SLONG    Type;
                         TEAKRAND rnd;
 
                         Message >> PlayerNum >> Anzahl >> Type;
@@ -1082,14 +1168,16 @@ void PumpNetwork (void)
 
                         rnd.SRand (Sim.Date);
 
-                        for (c=0; c<Anzahl; c++)
+                        for (c=0; c<Anzahl; c++) {
                             qPlayer.BuyPlane (Type, &rnd);
+}
                     }
                     break;
 
                 case ATNET_BUY_NEWX:
                     {
-                        SLONG    PlayerNum, Anzahl;
+                        SLONG    PlayerNum;
+                        SLONG    Anzahl;
                         CXPlane  plane;
                         TEAKRAND rnd;
 
@@ -1099,14 +1187,17 @@ void PumpNetwork (void)
 
                         rnd.SRand (Sim.Date);
 
-                        for (c=0; c<Anzahl; c++)
+                        for (c=0; c<Anzahl; c++) {
                             qPlayer.BuyPlane (plane, &rnd);
+}
                     }
                     break;
 
                 case ATNET_PERSONNEL:
                     {
-                        SLONG PlayerNum, m, n;
+                        SLONG PlayerNum;
+                        SLONG m;
+                        SLONG n;
 
                         Message >> PlayerNum >> m >> n;
 
@@ -1118,12 +1209,13 @@ void PumpNetwork (void)
                             qPlayer.Statistiken[STAT_MITARBEITER].SetAtPastDay(0, n);
 
                             SLONG c=0;
-                            while (1)
+                            while (true)
                             {
                                 Message >> c;
 
-                                if (c==-1) break;
-                                if (qPlayer.Planes.IsInAlbum(c))
+                                if (c==-1) { break;
+}
+                                if (qPlayer.Planes.IsInAlbum(c) != 0)
                                 {
                                     Message >> qPlayer.Planes[c].AnzPiloten;
                                     Message >> qPlayer.Planes[c].AnzBegleiter;
@@ -1142,14 +1234,16 @@ void PumpNetwork (void)
 
                 case ATNET_PLANEPROPS:
                     {
-                        SLONG PlayerNum, PlaneId;
+                        SLONG PlayerNum;
+                        SLONG PlaneId;
 
                         Message >> PlayerNum >> PlaneId;
-                        if(PlayerNum > 4)
+                        if(PlayerNum > 4) {
                             break;
+}
                         Message >> Sim.Players.Players[PlayerNum].MechMode;
 
-                        if (PlaneId!=-1 && Sim.Players.Players[PlayerNum].Planes.IsInAlbum(PlaneId))
+                        if (PlaneId!=-1 && (Sim.Players.Players[PlayerNum].Planes.IsInAlbum(PlaneId) != 0))
                         {
                             CPlane &qPlane = Sim.Players.Players[PlayerNum].Planes[PlaneId];
 
@@ -1179,8 +1273,8 @@ void PumpNetwork (void)
                         SLONG RequestingPlayer;
 
                         //Ist Spieler bereit, einen Dialog zu beginnen?
-                        if (qPlayer.GetRoom()==ROOM_AIRPORT && !qPlayer.IsStuck &&
-                                pRaum && pRaum->MenuIsOpen()==FALSE && pRaum->IsDialogOpen()==FALSE)
+                        if (qPlayer.GetRoom()==ROOM_AIRPORT && (qPlayer.IsStuck == 0) &&
+                                (pRaum != nullptr) && pRaum->MenuIsOpen()==FALSE && pRaum->IsDialogOpen()==FALSE)
                         {
                             PERSON &qPerson = Sim.Persons.Persons[(SLONG)Sim.Persons.GetPlayerIndex(Sim.localPlayer)];
 
@@ -1213,14 +1307,16 @@ void PumpNetwork (void)
                 case ATNET_DIALOG_YES:
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                        SLONG   TargetPlayer, Phase;
+                        SLONG   TargetPlayer;
+                        SLONG   Phase;
 
                         Message >> TargetPlayer >> Phase;
 
                         Sim.Persons.Persons[(SLONG)Sim.Persons.GetPlayerIndex(TargetPlayer)].Phase=UBYTE(Phase);
 
-                        if (!qPlayer.bDialogStartSent)
+                        if (!qPlayer.bDialogStartSent) {
                             qPlayer.IsWalking2Player=TargetPlayer;
+}
                     }
                     break;
 
@@ -1234,7 +1330,7 @@ void PumpNetwork (void)
                         Message >> OtherPlayerNum;
 
                         //Erneute Abfrage: Ist Spieler bereit, einen Dialog zu beginnen?
-                        if (qPlayer.GetRoom()==ROOM_AIRPORT && !qPlayer.IsStuck && pRaum && pRaum->MenuIsOpen()==FALSE && pRaum->IsDialogOpen()==FALSE)
+                        if (qPlayer.GetRoom()==ROOM_AIRPORT && (qPlayer.IsStuck == 0) && (pRaum != nullptr) && pRaum->MenuIsOpen()==FALSE && pRaum->IsDialogOpen()==FALSE)
                         {
                             //JA!
                             PERSON &qPerson = Sim.Persons[Sim.Persons.GetPlayerIndex(OtherPlayerNum)];
@@ -1242,15 +1338,18 @@ void PumpNetwork (void)
                             Message >> qPerson.Position.x >> qPerson.Position.y
                                 >> qPerson.Phase      >> qPerson.LookDir;
 
-                            if (qPlayer.LocationWin)
+                            if (qPlayer.LocationWin != nullptr) {
                                 ((CStdRaum*)qPlayer.LocationWin)->StartDialog (TALKER_COMPETITOR, MEDIUM_AIR, OtherPlayerNum, 1);
+}
 
                             qPlayer.PlayerDialogState = -1;
                         }
                         else
                         {
-                            UBYTE DummyPhase, DummyLookDir;
-                            SLONG DummyX, DummyY;
+                            UBYTE DummyPhase;
+                            UBYTE DummyLookDir;
+                            SLONG DummyX;
+                            SLONG DummyY;
 
                             Message >> DummyX >> DummyY >> DummyPhase >> DummyLookDir;
 
@@ -1271,7 +1370,8 @@ void PumpNetwork (void)
                         qPlayer.WalkStop ();
                         qPlayer.NewDir=8;
 
-                        if (qPlayer.LocationWin) ((CStdRaum*)qPlayer.LocationWin)->StopDialog ();
+                        if (qPlayer.LocationWin != nullptr) { ((CStdRaum*)qPlayer.LocationWin)->StopDialog ();
+}
                     }
                     break;
 
@@ -1286,7 +1386,8 @@ void PumpNetwork (void)
                         MouseClickId   = 1;
                         MouseClickPar1 = id;
 
-                        if (qPlayer.LocationWin) ((CStdRaum*)qPlayer.LocationWin)->PreLButtonDown (CPoint (0,0));
+                        if (qPlayer.LocationWin != nullptr) { ((CStdRaum*)qPlayer.LocationWin)->PreLButtonDown (CPoint (0,0));
+}
                     }
                     break;
 
@@ -1299,7 +1400,8 @@ void PumpNetwork (void)
 
                         Message >> TextAlign >> id >> Answer;
 
-                        if (qPlayer.LocationWin) ((CStdRaum*)qPlayer.LocationWin)->MakeSayWindow (!TextAlign, id, Answer, ((CStdRaum*)qPlayer.LocationWin)->pFontNormal);
+                        if (qPlayer.LocationWin != nullptr) { ((CStdRaum*)qPlayer.LocationWin)->MakeSayWindow (static_cast<BOOL>(TextAlign) == 0, id, Answer, ((CStdRaum*)qPlayer.LocationWin)->pFontNormal);
+}
                     }
                     break;
 
@@ -1307,7 +1409,8 @@ void PumpNetwork (void)
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
-                        if (qPlayer.LocationWin) ((CStdRaum*)qPlayer.LocationWin)->PreLButtonDown (CPoint (0,0));
+                        if (qPlayer.LocationWin != nullptr) { ((CStdRaum*)qPlayer.LocationWin)->PreLButtonDown (CPoint (0,0));
+}
                     }
                     break;
 
@@ -1336,7 +1439,8 @@ void PumpNetwork (void)
                         qPlayer.IsTalking = FALSE;
 
                         //Aus irgendeinem Grund fängt die Spielfigur sonst an zu laufen:
-                        if (qPlayer.Owner==2) qPlayer.WalkStopEx ();
+                        if (qPlayer.Owner==2) { qPlayer.WalkStopEx ();
+}
                     }
                     break;
 
@@ -1344,7 +1448,8 @@ void PumpNetwork (void)
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
-                        if (qPlayer.LocationWin) ((CStdRaum*)qPlayer.LocationWin)->StopDialog ();
+                        if (qPlayer.LocationWin != nullptr) { ((CStdRaum*)qPlayer.LocationWin)->StopDialog ();
+}
 
                         qPlayer.PlayerDialogState = -1;
                     }
@@ -1364,7 +1469,8 @@ void PumpNetwork (void)
 
                 case ATNET_DIALOG_DROPITEM:
                     {
-                        SLONG PlayerNum, Item;
+                        SLONG PlayerNum;
+                        SLONG Item;
 
                         Message >> PlayerNum >> Item;
 
@@ -1378,23 +1484,25 @@ void PumpNetwork (void)
                 case ATNET_PHONE_DIAL:
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                        SLONG   OtherPlayerNum, bHandy;
+                        SLONG   OtherPlayerNum;
+                        SLONG   bHandy;
 
                         Message >> OtherPlayerNum >> bHandy;
 
-                        if (qPlayer.LocationWin)
+                        if (qPlayer.LocationWin != nullptr)
                         {
                             CStdRaum &qRoom = *((CStdRaum*)qPlayer.LocationWin);
 
                             bool bImpossible = false; //Kein Telefonat annehmen, wenn wir gerade den Höhrer in die Hand nehmen:
-                            if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10 && (((CBuero*)qPlayer.LocationWin)->KommVarTelefon!=0))
+                            if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10 && (((CBuero*)qPlayer.LocationWin)->KommVarTelefon!=0)) {
                                 bImpossible=true;
+}
 
-                            if (qRoom.IsDialogOpen()==0 && qRoom.MenuIsOpen()==0 && bImpossible==false && Sim.Persons[Sim.Persons.GetPlayerIndex(Sim.localPlayer)].StatePar==0 && qPlayer.TelephoneDown==FALSE)
+                            if (qRoom.IsDialogOpen()==0 && qRoom.MenuIsOpen()==0 && !bImpossible && Sim.Persons[Sim.Persons.GetPlayerIndex(Sim.localPlayer)].StatePar==0 && qPlayer.TelephoneDown==FALSE)
                             {
-                                if (bHandy==0 && qPlayer.GetRoom()!=ROOM_BURO_A+Sim.localPlayer*10)
+                                if (bHandy==0 && qPlayer.GetRoom()!=ROOM_BURO_A+Sim.localPlayer*10) {
                                     Sim.SendSimpleMessage (ATNET_PHONE_NOTHOME, Sim.Players.Players[OtherPlayerNum].NetworkID);
-                                else
+                                } else
                                 {
                                     Sim.SendSimpleMessage (ATNET_PHONE_ACCEPT, Sim.Players.Players[OtherPlayerNum].NetworkID, Sim.localPlayer, bHandy);
 
@@ -1412,21 +1520,25 @@ void PumpNetwork (void)
                                     Sim.Players.Players[OtherPlayerNum].DisplayAsTelefoning();
                                 }
                             }
-                            else Sim.SendSimpleMessage (ATNET_PHONE_BUSY, Sim.Players.Players[OtherPlayerNum].NetworkID);
+                            else { Sim.SendSimpleMessage (ATNET_PHONE_BUSY, Sim.Players.Players[OtherPlayerNum].NetworkID);
+}
                         }
-                        else Sim.SendSimpleMessage (ATNET_PHONE_BUSY, Sim.Players.Players[OtherPlayerNum].NetworkID);
+                        else { Sim.SendSimpleMessage (ATNET_PHONE_BUSY, Sim.Players.Players[OtherPlayerNum].NetworkID);
+}
                     }
                     break;
 
                 case ATNET_PHONE_ACCEPT:
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-                        SLONG   OtherPlayerNum, bHandy;
+                        SLONG   OtherPlayerNum;
+                        SLONG   bHandy;
 
                         Message >> OtherPlayerNum >> bHandy;
 
-                        if (qPlayer.LocationWin)
+                        if (qPlayer.LocationWin != nullptr) {
                             ((CStdRaum*)qPlayer.LocationWin)->StartDialog (TALKER_COMPETITOR, MEDIUM_HANDY, OtherPlayerNum, 0);
+}
 
                         qPlayer.GameSpeed = 0;
                         Sim.SendSimpleMessage (ATNET_SETSPEED, 0, Sim.localPlayer, qPlayer.GameSpeed);
@@ -1440,15 +1552,16 @@ void PumpNetwork (void)
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
-                        if (qPlayer.LocationWin)
+                        if (qPlayer.LocationWin != nullptr)
                         {
                             CStdRaum &qRoom = *((CStdRaum*)qPlayer.LocationWin);
 
                             qRoom.DialBusyFX.ReInit ("busypure.raw"); //busy pure (without dialing first)
                             qRoom.DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
 
-                            if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10)
+                            if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10) {
                                 ((CBuero*)&qRoom)->SP_Player.SetDesiredMood (SPM_IDLE);
+}
                         }
                     }
                     break;
@@ -1457,15 +1570,16 @@ void PumpNetwork (void)
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
-                        if (qPlayer.LocationWin)
+                        if (qPlayer.LocationWin != nullptr)
                         {
                             CStdRaum &qRoom = *((CStdRaum*)qPlayer.LocationWin);
 
                             qRoom.DialBusyFX.ReInit ("noanpure.raw"); //No Answer pure (without dialing first)
                             qRoom.DialBusyFX.Play(0, Sim.Options.OptionEffekte*100/7);
 
-                            if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10)
+                            if (qPlayer.GetRoom()==ROOM_BURO_A+Sim.localPlayer*10) {
                                 ((CBuero*)&qRoom)->SP_Player.SetDesiredMood (SPM_IDLE);
+}
                         }
                     }
                     break;
@@ -1480,8 +1594,9 @@ void PumpNetwork (void)
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
-                        if (qPlayer.LocationWin)
+                        if (qPlayer.LocationWin != nullptr) {
                             ((CStdRaum*)qPlayer.LocationWin)->MenuStop();
+}
                     }
                     break;
 
@@ -1492,7 +1607,7 @@ void PumpNetwork (void)
 
                         Message >> str;
 
-                        if (qPlayer.LocationWin)
+                        if (qPlayer.LocationWin != nullptr)
                         {
                             ((CStdRaum*)qPlayer.LocationWin)->MenuBms[1].ShiftUp (10);
                             ((CStdRaum*)qPlayer.LocationWin)->MenuBms[1].PrintAt (str, FontSmallRed, TEC_FONT_LEFT, 6, 119, 279, 147);
@@ -1503,7 +1618,8 @@ void PumpNetwork (void)
 
                 case ATNET_CHATMONEY:
                     {
-                        SLONG   Money, OtherPlayer;
+                        SLONG   Money;
+                        SLONG   OtherPlayer;
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
                         Message >> Money >> OtherPlayer;
@@ -1511,7 +1627,7 @@ void PumpNetwork (void)
                         Sim.Players.Players[Sim.localPlayer].ChangeMoney (Money, 3700, Sim.Players.Players[OtherPlayer].NameX);
                         Sim.Players.Players[OtherPlayer].ChangeMoney (-Money, 3701, Sim.Players.Players[Sim.localPlayer].NameX);
 
-                        if (qPlayer.LocationWin)
+                        if (qPlayer.LocationWin != nullptr)
                         {
                             ((CStdRaum*)qPlayer.LocationWin)->MenuBms[1].ShiftUp (10);
                             ((CStdRaum*)qPlayer.LocationWin)->MenuBms[1].PrintAt (bprintf (StandardTexte.GetS (TOKEN_MISC, 3010), Money), FontNormalGrey, TEC_FONT_LEFT, 6, 119, 279, 147);
@@ -1537,7 +1653,9 @@ void PumpNetwork (void)
                         }
                         else if (Type==ITEM_GLUE) //Klebstoff
                         {
-                            UBYTE Dir, NewDir, Phase;
+                            UBYTE Dir;
+                            UBYTE NewDir;
+                            UBYTE Phase;
 
                             Message >> Dir >> NewDir >> Phase;
 
@@ -1563,8 +1681,9 @@ void PumpNetwork (void)
                     Message >> Par1 >> Par2;
                     nWaitingForPlayer+=Par1;
                     nPlayerWaiting[(SLONG)Par2]+=Par1;
-                    if (nPlayerWaiting[(SLONG)Par2]<0) nPlayerWaiting[(SLONG)Par2]=0;
-                    SetNetworkBitmap ((nWaitingForPlayer>0)*3);
+                    if (nPlayerWaiting[(SLONG)Par2]<0) { nPlayerWaiting[(SLONG)Par2]=0;
+}
+                    SetNetworkBitmap (static_cast<int>(nWaitingForPlayer>0)*3);
                     break;
 
                 case ATNET_TAKETHING:
@@ -1575,15 +1694,15 @@ void PumpNetwork (void)
 
                         switch (Item)
                         {
-                            case ITEM_POSTKARTE: Sim.ItemPostcard=false; break;
-                            case ITEM_PAPERCLIP: Sim.ItemClips=false;    break;
+                            case ITEM_POSTKARTE: Sim.ItemPostcard=0; break;
+                            case ITEM_PAPERCLIP: Sim.ItemClips=0;    break;
                             case ITEM_GLUE:      Sim.ItemGlue=2;         break;
-                            case ITEM_GLOVE:     Sim.ItemGlove=false;    break;
+                            case ITEM_GLOVE:     Sim.ItemGlove=0;    break;
                             case ITEM_LAPTOP:    Message >> Sim.LaptopSoldTo; break;
-                            case ITEM_NONE:      Sim.MoneyInBankTrash=false; break;
-                            case ITEM_KOHLE:     Sim.ItemKohle=false;    break;
-                            case ITEM_PARFUEM:   Sim.ItemParfuem=false;  break;
-                            case ITEM_ZANGE:     Sim.ItemZange=false;    break;
+                            case ITEM_NONE:      Sim.MoneyInBankTrash=0; break;
+                            case ITEM_KOHLE:     Sim.ItemKohle=0;    break;
+                            case ITEM_PARFUEM:   Sim.ItemParfuem=0;  break;
+                            case ITEM_ZANGE:     Sim.ItemZange=0;    break;
                         }
                     }
                     break;
@@ -1614,14 +1733,17 @@ void PumpNetwork (void)
                     {
                         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
-                        if (Sim.Options.OptionAutosave && Sim.bNetwork)
+                        if ((Sim.Options.OptionAutosave != 0) && (Sim.bNetwork != 0)) {
                             Sim.SaveGame (11, StandardTexte.GetS (TOKEN_MISC, 5000));
+}
 
                         Message >> Sim.CallItADayAt;
 
-                        for (SLONG c=0; c<4; c++)
-                            if (Sim.Players.Players[c].Owner==2)
+                        for (SLONG c=0; c<4; c++) {
+                            if (Sim.Players.Players[c].Owner==2) {
                                 Sim.Players.Players[c].CallItADay = TRUE;
+}
+}
 
                         if (qPlayer.CallItADay==0)
                         {
@@ -1635,7 +1757,7 @@ void PumpNetwork (void)
                     //Miscellaneous:
                     //--------------------------------------------------------------------------------------------
                 case ATNET_EXPAND_AIRPORT:
-                    Sim.ExpandAirport = true;
+                    Sim.ExpandAirport = 1;
                     break;
 
                 case ATNET_OVERTAKE:
@@ -1658,35 +1780,41 @@ void PumpNetwork (void)
 
                 case ATNET_IO_LOADREQUEST:
                     {
-                        SLONG Index, FromPlayer;
+                        SLONG Index;
+                        SLONG FromPlayer;
                         DWORD UniqueGameId;
 
                         Message >> FromPlayer >> Index >> UniqueGameId;
 
-                        if (Sim.GetSavegameUniqueGameId(Index, true)==UniqueGameId)
+                        if (Sim.GetSavegameUniqueGameId(Index, true)==UniqueGameId) {
                             Sim.SendSimpleMessage (ATNET_IO_LOADREQUEST_OK, Sim.Players.Players[FromPlayer].NetworkID, Sim.localPlayer, Index);
-                        else
+                        } else
                         {
                             Sim.SendSimpleMessage (ATNET_IO_LOADREQUEST_BAD, Sim.Players.Players[FromPlayer].NetworkID, Sim.localPlayer);
 
-                            if (Sim.Players.Players[Sim.localPlayer].LocationWin)
+                            if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
                                 ((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuStart (MENU_REQUEST, MENU_REQUEST_NET_LOADTHIS);
+}
                         }
                     }
                     break;
 
                 case ATNET_IO_LOADREQUEST_OK:
                     {
-                        SLONG c, FromPlayer, Index;
+                        SLONG c;
+                        SLONG FromPlayer;
+                        SLONG Index;
 
                         Message >> FromPlayer >> Index;
 
-                        Sim.Players.Players[FromPlayer].bReadyForBriefing=true;
+                        Sim.Players.Players[FromPlayer].bReadyForBriefing=1;
 
                         //Haben alle ihr okay gegeben?
-                        for (c=0; c<4; c++)
-                            if (Sim.Players.Players[c].bReadyForBriefing==false && !Sim.Players.Players[c].IsOut && Sim.Players.Players[c].Owner==2)
+                        for (c=0; c<4; c++) {
+                            if (!static_cast<bool>(Sim.Players.Players[c].bReadyForBriefing) && (Sim.Players.Players[c].IsOut == 0) && Sim.Players.Players[c].Owner==2) {
                                 break;
+}
+}
 
                         if (c==4)
                         {
@@ -1699,14 +1827,15 @@ void PumpNetwork (void)
                     break;
 
                 case ATNET_IO_LOADREQUEST_BAD:
-                    if (Sim.Players.Players[Sim.localPlayer].bReadyForBriefing==false)
+                    if (!static_cast<bool>(Sim.Players.Players[Sim.localPlayer].bReadyForBriefing))
                     {
                         nOptionsOpen--;
                         Sim.SendSimpleMessage (ATNET_OPTIONS, 0, -1, Sim.localPlayer);
-                        Sim.Players.Players[Sim.localPlayer].bReadyForBriefing=true;
+                        Sim.Players.Players[Sim.localPlayer].bReadyForBriefing=1;
 
-                        if (Sim.Players.Players[Sim.localPlayer].LocationWin)
+                        if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
                             ((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuStart (MENU_REQUEST, MENU_REQUEST_NET_LOADONE);
+}
                     }
                     break;
 
@@ -1725,17 +1854,25 @@ void PumpNetwork (void)
                     //--------------------------------------------------------------------------------------------
                 case ATNET_CHECKRANDS:
                     {
-                        SLONG rTime, rGeneric;
-                        ULONG rPersonRandCreate, rPersonRandMisc, rHeadlineRand;
-                        ULONG rLMA, rRBA, rAA[MAX_CITIES], rFrachen;
+                        SLONG rTime;
+                        SLONG rGeneric;
+                        ULONG rPersonRandCreate;
+                        ULONG rPersonRandMisc;
+                        ULONG rHeadlineRand;
+                        ULONG rLMA;
+                        ULONG rRBA;
+                        ULONG rAA[MAX_CITIES];
+                        ULONG rFrachen;
                         SLONG rActionId[5*4];
 
                         Message >> rTime;
                         Message >> rPersonRandCreate >> rPersonRandMisc >> rHeadlineRand;
                         Message >> rLMA >> rRBA >> rFrachen >> rGeneric;
 
-                        for (long c=0; c<MAX_CITIES; c++) Message >> rAA[c];
-                        for (c=0; c<20; c++) Message >> rActionId[c];
+                        for (long c=0; c<MAX_CITIES; c++) { Message >> rAA[c];
+}
+                        for (c=0; c<20; c++) { Message >> rActionId[c];
+}
 
 #ifdef _DEBUG
                         if (rTime!=rChkTime)                         DisplayBroadcastMessage (bprintf("rTime: %li vs %li\n", rTime, rChkTime));
@@ -1782,7 +1919,9 @@ void PumpNetwork (void)
 
                 case ATNET_GENERICASYNC:
                     {
-                        long SyncId, Par, player;
+                        long SyncId;
+                        long Par;
+                        long player;
 
                         Message >> player;
                         Message >> SyncId >> Par;
@@ -1798,7 +1937,8 @@ void PumpNetwork (void)
                     //--------------------------------------------------------------------------------------------
                 case ATNET_BODYGUARD:
                     {
-                        long localPlayer, delta;
+                        long localPlayer;
+                        long delta;
 
                         Message >> localPlayer >> delta;
 
@@ -1811,18 +1951,25 @@ void PumpNetwork (void)
 
                 case ATNET_CHANGEMONEY:
                     {
-                        long localPlayer, delta, statistikid;
+                        long localPlayer;
+                        long delta;
+                        long statistikid;
 
                         Message >> localPlayer >> delta >> statistikid;
 
                         Sim.Players.Players[localPlayer].ChangeMoney (delta, 9999, "");
-                        if (statistikid!=-1) Sim.Players.Players[localPlayer].Statistiken[statistikid].AddAtPastDay (0, delta);
+                        if (statistikid!=-1) { Sim.Players.Players[localPlayer].Statistiken[statistikid].AddAtPastDay (0, delta);
+}
                     }
                     break;
 
                 case ATNET_SYNCKEROSIN:
                     {
-                        SLONG  localPlayer, TankOpen, TankInhalt, BadKerosin, KerosinKind;
+                        SLONG  localPlayer;
+                        SLONG  TankOpen;
+                        SLONG  TankInhalt;
+                        SLONG  BadKerosin;
+                        SLONG  KerosinKind;
                         BOOL   Tank;
                         double TankPreis;
 
@@ -1844,7 +1991,8 @@ void PumpNetwork (void)
 
                 case ATNET_SYNCGEHALT:
                     {
-                        SLONG  localPlayer, gehalt;
+                        SLONG  localPlayer;
+                        SLONG  gehalt;
 
                         Message >> localPlayer >> gehalt;
 
@@ -1854,7 +2002,9 @@ void PumpNetwork (void)
 
                 case ATNET_SYNCNUMFLUEGE:
                     {
-                        SLONG  localPlayer, auftrag, lm;
+                        SLONG  localPlayer;
+                        SLONG  auftrag;
+                        SLONG  lm;
 
                         Message >> localPlayer >> auftrag >> lm;
 
@@ -1898,21 +2048,26 @@ CString GetMediumName (SLONG Medium)
 //--------------------------------------------------------------------------------------------
 void NetGenericSync (long SyncId)
 {
-    if (!Sim.bNetwork) return;
-    if (Sim.localPlayer<0 || Sim.localPlayer>3) return;
+    if (Sim.bNetwork == 0) { return;
+}
+    if (Sim.localPlayer<0 || Sim.localPlayer>3) { return;
+}
 
     Sim.SendSimpleMessage (ATNET_GENERICSYNC, 0, Sim.localPlayer, SyncId);  //Requesting Sync
 
     GenericSyncIds[Sim.localPlayer]=SyncId;
 
-    while (1)
+    while (true)
     {
         long c;
-        for (c=0; c<4; c++)
-            if (Sim.Players.Players[c].Owner!=1 && GenericSyncIds[c]!=SyncId && !Sim.Players.Players[c].IsOut)
+        for (c=0; c<4; c++) {
+            if (Sim.Players.Players[c].Owner!=1 && GenericSyncIds[c]!=SyncId && (Sim.Players.Players[c].IsOut == 0)) {
                 break;
+}
+}
 
-        if (c==4) return;
+        if (c==4) { return;
+}
 
         PumpNetwork();
     }

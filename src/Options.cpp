@@ -32,13 +32,15 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
 {
     nLocalOptionsOption++;
 
-    ChangedDisplay = false;
+    ChangedDisplay = 0;
 
     //Das Optionen-Fenster ist offen! Alles anhalten!
     nOptionsOpen++;
-    if (Sim.bNetwork) Sim.SendSimpleMessage(ATNET_OPTIONS, 0, 1, Sim.localPlayer);
+    if (Sim.bNetwork != 0) { SIM::SendSimpleMessage(ATNET_OPTIONS, 0, 1, Sim.localPlayer);
+}
 
-    if (!bHandy) AmbientManager.SetGlobalVolume(0);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume(0);
+}
 
     AmbientFX.ReInit("raunen.raw");
     EffektFX.ReInit("kaffee.raw");
@@ -55,7 +57,7 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
     Options::CursorY = -1;
     Options::BlinkState = 0;
 
-    if (NewgameWantsToLoad)
+    if (NewgameWantsToLoad != 0)
     {
         UpdateSavegameNames();
         Options::PageNum = 5;
@@ -67,7 +69,8 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
         Options::PageNum = (UBYTE)OptionsShortcut;
     }
 
-    if ((Sim.Gamestate & 31) != GAMESTATE_INIT) gKlackerPlanes.Reset();
+    if ((Sim.Gamestate & 31) != GAMESTATE_INIT) { gKlackerPlanes.Reset();
+}
 
     RefreshKlackerField();
 
@@ -76,8 +79,9 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
 
     //Create a timer to 'klacker'
     TimerId = SDL_AddTimer(50, TimerFunc, this);
-    if (!TimerId) TimerFailure = 1;
-    else TimerFailure = 0;
+    if (TimerId == 0) { TimerFailure = 1;
+    } else { TimerFailure = 0;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -86,27 +90,35 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
 Options::~Options()
 {
     SLONG c;
-    if (TimerId) SDL_RemoveTimer(TimerId);
+    if (TimerId != 0) { SDL_RemoveTimer(TimerId);
+}
 
     nLocalOptionsOption--;
 
-    if (Sim.bNetwork) Sim.SendSimpleMessage(ATNET_OPTIONS, 0, -1, Sim.localPlayer);
+    if (Sim.bNetwork != 0) { SIM::SendSimpleMessage(ATNET_OPTIONS, 0, -1, Sim.localPlayer);
+}
 
     Sim.Options.WriteOptions();
 
-    if (!bLeaveGameLoop)
-        for (c = 0; c < Sim.Players.AnzPlayers; c++)
-            if (!Sim.Players.Players[c].IsOut)
+    if (bLeaveGameLoop == 0) {
+        for (c = 0; c < Sim.Players.AnzPlayers; c++) {
+            if (Sim.Players.Players[c].IsOut == 0) {
                 Sim.Players.Players[c].CalcRoom();
+}
+}
+}
 
     gDisablePauseKey = FALSE;
-    if (nOptionsOpen > 0) nOptionsOpen--;
-    if (Sim.bNetwork) SetNetworkBitmap((nOptionsOpen > 0) * 1);
+    if (nOptionsOpen > 0) { nOptionsOpen--;
+}
+    if (Sim.bNetwork != 0) { SetNetworkBitmap(static_cast<int>(nOptionsOpen > 0) * 1);
+}
 
 
     Sim.SaveOptions();
 
-    if (NewgameWantsToLoad == 1) NewgameWantsToLoad = FALSE;
+    if (NewgameWantsToLoad == 1) { NewgameWantsToLoad = FALSE;
+}
     NewgameToOptions = FALSE;
 
     StatusCount = 60;
@@ -123,14 +135,15 @@ void Options::UpdateSavegameNames(void)
 
     const char* pNamebaseStr;
 
-    if (Sim.bNetwork) pNamebaseStr = "net%li.dat";
-    else pNamebaseStr = "game%li.dat";
+    if (Sim.bNetwork != 0) { pNamebaseStr = "net%li.dat";
+    } else { pNamebaseStr = "game%li.dat";
+}
 
     for (c = 0; c < 12; c++)
     {
         Filename = FullFilename((LPCTSTR)bprintf(pNamebaseStr, c), SavegamePath);
 
-        if (DoesFileExist(Filename))
+        if (DoesFileExist(Filename) != 0)
         {
             SLONG    SaveVersion;
             SLONG    SaveVersionSub;
@@ -186,7 +199,7 @@ void Options::RefreshKlackerField(void)
         else
         {
             KlackerTafel.PrintAt(0, 9, StandardTexte.GetS(TOKEN_MISC, 4006));
-            KlackerTafel.PrintAt(0, 11, StandardTexte.GetS(TOKEN_MISC, bFirstClass ? 4007 : 4008));
+            KlackerTafel.PrintAt(0, 11, StandardTexte.GetS(TOKEN_MISC, bFirstClass != 0 ? 4007 : 4008));
         }
 
         //KlackerTafel.PrintAt (0, 15, VersionString);
@@ -203,7 +216,7 @@ void Options::RefreshKlackerField(void)
         KlackerTafel.PrintAt(0, 8, StandardTexte.GetS(TOKEN_MISC, 4026 + Sim.Options.OptionSchatten));
 
         KlackerTafel.PrintAt(0, 10, Sim.Options.OptionFullscreen == 0 ? "# Display : Fullscreen" : Sim.Options.OptionFullscreen == 1 ? "# Display : Windowed" : Sim.Options.OptionFullscreen == 2 ? "# Display : Borderless" : "???");
-        KlackerTafel.PrintAt(0, 11, ((Sim.Options.OptionKeepAspectRatio == true) ? "# Aspect Ratio: Keep" : "# Aspect Ratio: Stretch"));
+        KlackerTafel.PrintAt(0, 11, ((static_cast<bool>(Sim.Options.OptionKeepAspectRatio)) ? "# Aspect Ratio: Keep" : "# Aspect Ratio: Stretch"));
 
         KlackerTafel.PrintAt(0, 13, StandardTexte.GetS(TOKEN_MISC, 4099));
     }
@@ -223,8 +236,9 @@ void Options::RefreshKlackerField(void)
                 KlackerTafel.PrintVolumeAt(15, 3, 8, Sim.Options.OptionMusik);
             }
             KlackerTafel.PrintAt(1, 4 + musicShift, StandardTexte.GetS(TOKEN_MISC, 4150 + Sim.Options.OptionLoopMusik));
-            if (Sim.Options.OptionLoopMusik == 0)
+            if (Sim.Options.OptionLoopMusik == 0) {
                 KlackerTafel.PrintAt(1, 5 + musicShift, StandardTexte.GetS(TOKEN_MISC, 4140));
+}
         }
 
         KlackerTafel.PrintAt(0, 7, "Sound:");
@@ -261,8 +275,9 @@ void Options::RefreshKlackerField(void)
     {
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_MISC, 4070));
 
-        for (c = 0; c < 12; c++)
+        for (c = 0; c < 12; c++) {
             KlackerTafel.PrintAt(1, 2 + c, bprintf("%2li:%s", c + 1, (LPCTSTR)SavegameNames[c]));
+}
 
         KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_MISC, 4096));
     }
@@ -270,16 +285,18 @@ void Options::RefreshKlackerField(void)
     {
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_MISC, 4071));
 
-        for (c = 0; c < 11; c++)
+        for (c = 0; c < 11; c++) {
             KlackerTafel.PrintAt(1, 2 + c, bprintf("%2li:%s", c + 1, (LPCTSTR)SavegameNames[c]));
+}
 
         if (CursorY != -1)
         {
             KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_MISC, 4097));
             KlackerTafel.PrintAt(22, 15, StandardTexte.GetS(TOKEN_MISC, 4098));
         }
-        else
+        else {
             KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_MISC, 4096));
+}
     }
     else if (PageNum == 7) //Quit
     {
@@ -305,10 +322,13 @@ void Options::RefreshKlackerField(void)
 //--------------------------------------------------------------------------------------------
 void Options::OnPaint()
 {
-    static SLONG x, y, py; x++;
+    static SLONG x;
+    static SLONG y;
+    static SLONG py; x++;
     static SLONG LastLine = -1;
 
-    if (nLocalOptionsOption == 0) return;
+    if (nLocalOptionsOption == 0) { return;
+}
 
     SLONG Line = (gMousePosition.y - 63) / 22;
     SLONG Column = (gMousePosition.x - 128) / 16;
@@ -322,7 +342,7 @@ void Options::OnPaint()
         Column = -1;
     }
 
-    if (PageNum == 3 && gMouseLButton) //Sound Slide
+    if (PageNum == 3 && (gMouseLButton != 0)) //Sound Slide
     {
         if (Column >= 15 && Column < 23 && Line >= 3 && Line <= 13)
         {
@@ -330,7 +350,7 @@ void Options::OnPaint()
             if (Line == 10 && Sim.Options.OptionDurchsagen != Column - 15) { Sim.Options.OptionDurchsagen = Column - 15; DurchsagenFX.SetVolume(Prozent2Dezibel(Sim.Options.OptionDurchsagen * 100 / 8)); DurchsagenFX.Play(); }
 
 #if !defined(NO_D_VOICES) || !defined(NO_E_VOICES) || !defined(NO_N_VOICES)
-            if (bVoicesNotFound == false)
+            if (!bVoicesNotFound)
             {
                 if (Line == 11 && Sim.Options.OptionTalking != Column - 15) { Sim.Options.OptionTalking = Column - 15; TalkFX.SetVolume(Prozent2Dezibel(Sim.Options.OptionTalking * 100 / 8)); TalkFX.Play(); }
             }
@@ -343,14 +363,15 @@ void Options::OnPaint()
         }
     }
 
-    if (TimerFailure) KlackerTafel.Klack();  //Tafel notfalls asynchron aktualisieren
+    if (TimerFailure != 0) { KlackerTafel.Klack();  //Tafel notfalls asynchron aktualisieren
+}
 
     static SLONG cnt = 0; cnt++;
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint();
 
-    if (bActive)
+    if (bActive != 0)
     {
         //Klacker-Felder:
         if (PageNum == 5 || PageNum == 6)
@@ -361,45 +382,55 @@ void Options::OnPaint()
             {
                 SavenameValid = TRUE;
 
-                if (y >= 2 && y < 14 && !SavenamesValid[y - 2] && CursorY != y - 2)
+                if (y >= 2 && y < 14 && (SavenamesValid[y - 2] == 0) && CursorY != y - 2) {
                     SavenameValid = FALSE;
+}
 
-                for (x = 0; x < 24; x++)
-                    if (KlackerTafel.Haben[x + y * 24])
-                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24] + (!SavenameValid) * (73 + 8 + 3 + 3)], 128 + x * 16, py);
+                for (x = 0; x < 24; x++) {
+                    if (KlackerTafel.Haben[x + y * 24] != 0) {
+                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24] + static_cast<int>(SavenameValid == 0) * (73 + 8 + 3 + 3)], 128 + x * 16, py);
+}
+}
             }
         }
         else
         {
             for (py = 63, y = 0; y < 16; y++, py += 22)
             {
-                for (x = 0; x < 24; x++)
-                    if (KlackerTafel.Haben[x + y * 24])
+                for (x = 0; x < 24; x++) {
+                    if (KlackerTafel.Haben[x + y * 24] != 0) {
                         RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24]], 128 + x * 16, py);
+}
+}
             }
         }
 
-        if (CursorY != -1)
+        if (CursorY != -1) {
             RoomBm.BlitFromT(KlackerTafel.Cursors[long(BlinkState % 8)], (CursorX + 4) * 16 + 129, (CursorY + 1) * 22 + 85);
+}
 
         //Cursor highlighting:
         switch (PageNum)
         {
             case 1: //Startseite:
-                if (Line == 2 || Line == 3 || Line == 4) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                if (Line == 2 || Line == 3 || Line == 4) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
 
                 if ((Sim.Gamestate & 31) == GAMESTATE_INIT)
                 {
-                    if (Line == 6) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                    if (Line == 6) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 }
                 else
                 {
-                    if (Line == 6 || Line == 7 || Line == 9 || Line == 11) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                    if (Line == 6 || Line == 7 || Line == 9 || Line == 11) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 }
                 break;
 
             case 2: //Grafik:
-                if ((Line >= 2 && Line <= 8) || Line == 10 || Line == 11 || Line == 13) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                if ((Line >= 2 && Line <= 8) || Line == 10 || Line == 11 || Line == 13) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 break;
 
             case 3: //Sound:
@@ -410,28 +441,35 @@ void Options::OnPaint()
 
                     if (Column >= 15 && Column < 23 && Line >= 3 && Line <= 15)
                     {
-                        if ((Line >= 8 && Line <= 13) || (Line == 3 && !usesMidi && usesMusic)) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                        if ((Line >= 8 && Line <= 13) || (Line == 3 && !usesMidi && usesMusic)) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                     }
-                    if (Line == 2 || (Line == 4 + musicShift && usesMusic) || Line == 15) SetMouseLook(CURSOR_HOT, 0, -100, 0);
-                    if (Line == 5 + musicShift && Sim.Options.OptionLoopMusik == 0 && usesMusic) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                    if (Line == 2 || (Line == 4 + musicShift && usesMusic) || Line == 15) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
+                    if (Line == 5 + musicShift && Sim.Options.OptionLoopMusik == 0 && usesMusic) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                     break;
                 }
             case 4: //Sonstiges:
-                if ((Line >= 2 && Line <= 9) || Line == 11) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                if ((Line >= 2 && Line <= 9) || Line == 11) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 break;
 
             case 5: //Laden
                 if (Line >= 2 && Line <= 13)
                 {
-                    if (SavegameInfos[Line - 2].GetLength() > 0 && !MenuIsOpen())
+                    if (SavegameInfos[Line - 2].GetLength() > 0 && (MenuIsOpen() == 0))
                     {
                         SetMouseLook(CURSOR_HOT, 5000 + Line, SavegameInfos[Line - 2], ROOM_OPTIONS, 0);
-                        if (ToolTipState == FALSE) ToolTipTimer = timeGetTime() - 601;
+                        if (ToolTipState == FALSE) { ToolTipTimer = timeGetTime() - 601;
+}
 
-                        if (Line != LastLine) ToolTipState = FALSE;
+                        if (Line != LastLine) { ToolTipState = FALSE;
+}
                     }
                 }
-                if (Line == 15 && Column < 10) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                if (Line == 15 && Column < 10) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 break;
 
             case 6: //Speichern
@@ -440,29 +478,35 @@ void Options::OnPaint()
                     if (SavegameInfos[Line - 2].GetLength() > 0)
                     {
                         SetMouseLook(CURSOR_HOT, 5000 + Line, SavegameInfos[Line - 2], ROOM_OPTIONS, 0);
-                        if (ToolTipState == FALSE) ToolTipTimer = timeGetTime() - 601;
+                        if (ToolTipState == FALSE) { ToolTipTimer = timeGetTime() - 601;
+}
                     }
                 }
-                if (Line == 15 && Column < 10) SetMouseLook(CURSOR_HOT, 0, -100, 0);
-                if (Line == 15 && Column >= 22 && Column < 24 && CursorY != -1) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                if (Line == 15 && Column < 10) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
+                if (Line == 15 && Column >= 22 && Column < 24 && CursorY != -1) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 break;
 
             case 7: //Quit:
-                if (Line == 4 || Line == 5) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                if (Line == 4 || Line == 5) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 break;
 
             case 8: //Leave Game:
-                if (Line == 4 || Line == 5) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                if (Line == 4 || Line == 5) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 break;
         }
 
         RoomBm.PrintAt(VersionString, FontSmallRed, TEC_FONT_RIGHT, XY(0, 429), XY(519, 480));
         gKlackerPlanes.PostPaint(RoomBm);
 
-        if (CursorY != -1)
+        if (CursorY != -1) {
             gKlackerPlanes.Pump(XY((CursorX + 4) * 16 + 129, (CursorY + 1) * 44 + 85));
-        else
+        } else {
             gKlackerPlanes.Pump(gMousePosition);
+}
     }
 
     LastLine = Line;
@@ -475,13 +519,14 @@ void Options::OnPaint()
 //--------------------------------------------------------------------------------------------
 void Options::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    if (CursorY != -1 && PageNum != 6) return;
+    if (CursorY != -1 && PageNum != 6) { return;
+}
 
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0)
     {
         MenuRightClick(point);
     }
-    else if (!PreLButtonDown(point))
+    else if (PreLButtonDown(point) == 0)
     {
         ClickFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
         DefaultOnLButtonDown();
@@ -492,9 +537,12 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
         switch (PageNum)
         {
             case 1: //Startseite:
-                if (Line == 2) PageNum = 2; //Grafik-Optionen
-                if (Line == 3) PageNum = 3; //Musik-Optionen
-                if (Line == 4) PageNum = 4; //Sonstiges
+                if (Line == 2) { PageNum = 2; //Grafik-Optionen
+}
+                if (Line == 3) { PageNum = 3; //Musik-Optionen
+}
+                if (Line == 4) { PageNum = 4; //Sonstiges
+}
 
                 if ((Sim.Gamestate & 31) == GAMESTATE_INIT)
                 {
@@ -509,7 +557,8 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
                     if (Line == 6) { UpdateSavegameNames(); PageNum = 5; } //Speichern
                     if (Line == 7) { UpdateSavegameNames(); PageNum = 6; } //Laden
 
-                    if (Line == 9) PageNum = 8; //New Game
+                    if (Line == 9) { PageNum = 8; //New Game
+}
                     if (Line == 11)
                     {
                         KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
@@ -521,38 +570,47 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
                 break;
 
             case 2: //Grafik:
-                if (Line == 2)  Sim.Options.OptionPlanes ^= 1;
-                if (Line == 3) Sim.Options.OptionPassengers ^= 1;
+                if (Line == 2) {  Sim.Options.OptionPlanes ^= 1;
+}
+                if (Line == 3) { Sim.Options.OptionPassengers ^= 1;
+}
                 if (Line == 4)
                 {
                     Sim.Options.OptionBlenden ^= 1;
-                    if (Sim.Options.OptionBlenden)
+                    if (Sim.Options.OptionBlenden != 0)
                     {
                         gBlendState = -2;
-                        if (FrameWnd) FrameWnd->PrepareFade();
+                        if (FrameWnd != nullptr) { FrameWnd->PrepareFade();
+}
                     }
                 }
-                if (Line == 5) Sim.Options.OptionThinkBubbles ^= 1;
-                if (Line == 6) Sim.Options.OptionFlipping ^= 1;
-                if (Line == 7) Sim.Options.OptionTransparenz ^= 1;
-                if (Line == 8) Sim.Options.OptionSchatten ^= 1;
+                if (Line == 5) { Sim.Options.OptionThinkBubbles ^= 1;
+}
+                if (Line == 6) { Sim.Options.OptionFlipping ^= 1;
+}
+                if (Line == 7) { Sim.Options.OptionTransparenz ^= 1;
+}
+                if (Line == 8) { Sim.Options.OptionSchatten ^= 1;
+}
 
                 if (Line == 10) {
-                    ChangedDisplay = true;
+                    ChangedDisplay = 1;
 
                     Sim.Options.OptionFullscreen++;
-                    if (Sim.Options.OptionFullscreen > 2)
+                    if (Sim.Options.OptionFullscreen > 2) {
                         Sim.Options.OptionFullscreen = 0;
+}
                 } //Fullscreen Option
 
                 if (Line == 11) {
-                    Sim.Options.OptionKeepAspectRatio = !Sim.Options.OptionKeepAspectRatio;
+                    Sim.Options.OptionKeepAspectRatio = static_cast<BOOL>(Sim.Options.OptionKeepAspectRatio) == 0;
                     FrameWnd->UpdateFrameSize();
                 } //Aspect Ratio Option
 
                 if (Line == 13) {
-                    if (ChangedDisplay)
+                    if (ChangedDisplay != 0) {
                         FrameWnd->UpdateWindow();
+}
                     PageNum = 1;
                 }
                 RefreshKlackerField();
@@ -562,9 +620,11 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
                 {
                     if (Line == 2)
                     {
-                        if (++Sim.Options.OptionMusicType > 2) Sim.Options.OptionMusicType = 0;
+                        if (++Sim.Options.OptionMusicType > 2) { Sim.Options.OptionMusicType = 0;
+}
                         gpMidi->SetMode(Sim.Options.OptionMusicType);
-                        if (Sim.Options.OptionMusicType != 0 && Sim.Options.OptionMusik) NextMidi(); else StopMidi();
+                        if (Sim.Options.OptionMusicType != 0 && (Sim.Options.OptionMusik != 0)) { NextMidi(); } else { StopMidi();
+}
 
                         RefreshKlackerField();
                         //KlackerTafel.Warp();
@@ -590,7 +650,7 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
                         if (Line == 10) { Sim.Options.OptionDurchsagen = Column - 15; DurchsagenFX.SetVolume(Prozent2Dezibel(Sim.Options.OptionDurchsagen * 100 / 8)); DurchsagenFX.Play(); }
 
 #if !defined(NO_D_VOICES) || !defined(NO_E_VOICES) || !defined(NO_N_VOICES)
-                        if (bVoicesNotFound == false)
+                        if (!bVoicesNotFound)
                         {
                             if (Line == 11) { Sim.Options.OptionTalking = Column - 15; TalkFX.SetVolume(Prozent2Dezibel(Sim.Options.OptionTalking * 100 / 8)); TalkFX.Play(); }
                         }
@@ -604,42 +664,53 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
 
                     if (Line == 4 + musicShift && usesMusic) {
                         Sim.Options.OptionLoopMusik = (Sim.Options.OptionLoopMusik + 1) % (9);
-                        if (Sim.Options.OptionLoopMusik) NextMidi();
+                        if (Sim.Options.OptionLoopMusik != 0) { NextMidi();
+}
                         RefreshKlackerField();
                     }
-                    if (Line == 5 + musicShift && usesMusic) { if (Sim.Options.OptionLoopMusik == 0) NextMidi(); } //Skip
+                    if (Line == 5 + musicShift && usesMusic) { if (Sim.Options.OptionLoopMusik == 0) { NextMidi(); 
+}} //Skip
                     if (Line == 15) { PageNum = 1; AmbientFX.Stop(); } //Back
                     RefreshKlackerField();
                     break;
                 }
             case 4: //Sonstiges:
-                if (Line == 2)  Sim.Options.OptionGirl ^= 1;
-                if (Line == 3) Sim.Options.OptionBerater ^= 1;
-                if (Line == 4) Sim.Options.OptionAutosave ^= 1;
-                if (Line == 5) Sim.Options.OptionFax ^= 1;
+                if (Line == 2) {  Sim.Options.OptionGirl ^= 1;
+}
+                if (Line == 3) { Sim.Options.OptionBerater ^= 1;
+}
+                if (Line == 4) { Sim.Options.OptionAutosave ^= 1;
+}
+                if (Line == 5) { Sim.Options.OptionFax ^= 1;
+}
                 if (Line == 6) { Sim.Options.OptionRealKuerzel ^= 1; Cities.UseRealKuerzel(Sim.Options.OptionRealKuerzel); }
-                if (Line == 7) Sim.Options.OptionSpeechBubble ^= 1;
-                if (Line == 8) Sim.Options.OptionBriefBriefing ^= 1;
-                if (Line == 9) Sim.Options.OptionRandomStartday ^= 1;
-                if (Line == 11) PageNum = 1;
+                if (Line == 7) { Sim.Options.OptionSpeechBubble ^= 1;
+}
+                if (Line == 8) { Sim.Options.OptionBriefBriefing ^= 1;
+}
+                if (Line == 9) { Sim.Options.OptionRandomStartday ^= 1;
+}
+                if (Line == 11) { PageNum = 1;
+}
                 RefreshKlackerField();
                 break;
 
             case 5: //Laden:
                 if (Line == 15)
                 {
-                    if (NewgameWantsToLoad)
+                    if (NewgameWantsToLoad != 0)
                     {
                         gNetworkSavegameLoading = -1;
                         KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
                         Sim.Gamestate = GAMESTATE_BOOT;
                     }
-                    else if (OptionsShortcut)
+                    else if (OptionsShortcut != 0)
                     {
                         KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
                         Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
                     }
-                    else PageNum = 1;
+                    else { PageNum = 1;
+}
                 }
                 if (Line >= 2 && Line <= 13 && SavegameInfos[Line - 2].GetLength() > 0)
                 {
@@ -650,23 +721,25 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
                         KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
                         Sim.Gamestate = GAMESTATE_BOOT;
                     }
-                    else if (Sim.bNetwork)
+                    else if (Sim.bNetwork != 0)
                     {
                         //Laden während des Spiels: Kommt das mit der aktuellen Anzahl der Spieler hin?
-                        if (Sim.GetSavegameNumHumans(Line - 2) != Sim.Players.GetAnzHumanPlayers())
+                        if (SIM::GetSavegameNumHumans(Line - 2) != Sim.Players.GetAnzHumanPlayers())
                         {
-                            if (Sim.Players.Players[Sim.localPlayer].LocationWin)
+                            if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
                                 ((CStdRaum*)Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuStart(MENU_REQUEST, MENU_REQUEST_NET_NUM);
+}
                         }
                         else
                         {
                             //Laden im Netzwerk? Erst einmal bei den anderen Spielern nachfragen, ob das geht!
-                            for (SLONG c = 0; c < 4; c++)
-                                Sim.Players.Players[c].bReadyForBriefing = false;
+                            for (SLONG c = 0; c < 4; c++) {
+                                Sim.Players.Players[c].bReadyForBriefing = 0;
+}
 
                             nOptionsOpen++;
-                            Sim.SendSimpleMessage(ATNET_OPTIONS, 0, 1, Sim.localPlayer);
-                            Sim.SendSimpleMessage(ATNET_IO_LOADREQUEST, 0, Sim.localPlayer, Line - 2, Sim.GetSavegameUniqueGameId(Line - 2, true));
+                            SIM::SendSimpleMessage(ATNET_OPTIONS, 0, 1, Sim.localPlayer);
+                            SIM::SendSimpleMessage(ATNET_IO_LOADREQUEST, 0, Sim.localPlayer, Line - 2, SIM::GetSavegameUniqueGameId(Line - 2, true));
                         }
                     }
                     else
@@ -681,7 +754,7 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
             case 6: //Speichern:
                 if (Line == 15 && Column < 10)
                 {
-                    if (OptionsShortcut)
+                    if (OptionsShortcut != 0)
                     {
                         KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
                         Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
@@ -697,7 +770,7 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
                     CursorX = 0;
                     gDisablePauseKey = FALSE;
 
-                    if (Sim.bNetwork)
+                    if (Sim.bNetwork != 0)
                     {
                         Sim.UniqueGameId = ((timeGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
                         Sim.Players.Players[(SLONG)PlayerNum].NetSave(Sim.UniqueGameId, CursorY, (LPCTSTR)SavegameNames[CursorY]);
@@ -735,17 +808,18 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
             case 8: //Leave Game:
                 if (Line == 4)
                 {
-                    if (Sim.bNetwork)
+                    if (Sim.bNetwork != 0)
                     {
-                        Sim.SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7022), (LPCSTR)Sim.Players.Players[Sim.localPlayer].NameX));
+                        SIM::SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7022), (LPCSTR)Sim.Players.Players[Sim.localPlayer].NameX));
                         gNetwork.DisConnect();
-                        Sim.bNetwork = false;
+                        Sim.bNetwork = 0;
                     }
 
                     nOptionsOpen--;
 
                     Sim.Gamestate = GAMESTATE_BOOT;
-                    if (NewgameToOptions) KeepRoomLib();
+                    if (NewgameToOptions != 0) { KeepRoomLib();
+}
                 }
                 if (Line == 5) { PageNum = 1; RefreshKlackerField(); }
                 break;
@@ -756,11 +830,11 @@ void Options::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 // void Options::OnRButtonDown(UINT nFlags, CPoint point):
 //--------------------------------------------------------------------------------------------
-void Options::OnRButtonDown(UINT, CPoint point)
+void Options::OnRButtonDown(UINT /*nFlags*/, CPoint point)
 {
     DefaultOnRButtonDown();
 
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0)
     {
         MenuRightClick(point);
     }
@@ -776,7 +850,7 @@ void Options::OnRButtonDown(UINT, CPoint point)
             CursorY = -1;
             return;
         }
-        else if (PageNum == 1)
+        if (PageNum == 1)
         {
             if ((Sim.Gamestate & 31) == GAMESTATE_INIT)
             {
@@ -816,7 +890,8 @@ void Options::OnRButtonDown(UINT, CPoint point)
 void Options::OnTimer(UINT nIDEvent)
 {
     //Mit 10 FPS die Anzeige rotieren lassen:
-    if (nIDEvent == 1) KlackerTafel.Klack();
+    if (nIDEvent == 1) { KlackerTafel.Klack();
+}
 
     BlinkState++;
 }
@@ -828,20 +903,27 @@ void Options::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     if (CursorY != -1)
     {
-        if (nChar >= 'a' && nChar <= 'z') nChar = toupper(nChar);
-        if (nChar == 196 || nChar == 228) nChar = (UINT)'Ä';
-        if (nChar == 214 || nChar == 246) nChar = (UINT)'Ö';
-        if (nChar == 220 || nChar == 252) nChar = (UINT)'Ü';
+        if (nChar >= 'a' && nChar <= 'z') { nChar = toupper(nChar);
+}
+        if (nChar == 196 || nChar == 228) { nChar = (UINT)'Ä';
+}
+        if (nChar == 214 || nChar == 246) { nChar = (UINT)'Ö';
+}
+        if (nChar == 220 || nChar == 252) { nChar = (UINT)'Ü';
+}
         if (nChar == ' ' || nChar == '-' || nChar == '+' || nChar == '.' || (nChar >= 'A' && nChar <= 'Z') || nChar == 'Ä' || nChar == 'Ö' || nChar == 'Ü' || (nChar >= '0' && nChar <= '9'))
         {
-            if (!SavenamesValid[CursorY] && strncmp(SavegameNames[CursorY], StandardTexte.GetS(TOKEN_MISC, 4073), 6) == 0)
+            if ((SavenamesValid[CursorY] == 0) && strncmp(SavegameNames[CursorY], StandardTexte.GetS(TOKEN_MISC, 4073), 6) == 0) {
                 SavegameNames[CursorY] = "      ";
+}
 
-            while (SavegameNames[CursorY].GetLength() < CursorX + 1) SavegameNames[CursorY] += " ";
+            while (SavegameNames[CursorY].GetLength() < CursorX + 1) { SavegameNames[CursorY] += " ";
+}
             SavegameNames[CursorY].SetAt(CursorX, UBYTE(nChar));
             RefreshKlackerField();
 
-            if (CursorX < 19) CursorX++;
+            if (CursorX < 19) { CursorX++;
+}
         }
 
         if (nChar == VK_RETURN)
@@ -849,7 +931,7 @@ void Options::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
             CursorX = 0;
             gDisablePauseKey = FALSE;
 
-            if (Sim.bNetwork)
+            if (Sim.bNetwork != 0)
             {
                 Sim.UniqueGameId = ((timeGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
                 Sim.Players.Players[(SLONG)PlayerNum].NetSave(Sim.UniqueGameId, CursorY, (LPCTSTR)SavegameNames[CursorY]);
@@ -882,16 +964,20 @@ void Options::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     if (CursorY != -1)
     {
-        if (nChar == VK_LEFT && CursorX > 0)   CursorX--;
-        if (nChar == VK_RIGHT && CursorX < 19) CursorX++;
+        if (nChar == VK_LEFT && CursorX > 0) {   CursorX--;
+}
+        if (nChar == VK_RIGHT && CursorX < 19) { CursorX++;
+}
 
         if (nChar == VK_BACK)
         {
-            while (SavegameNames[CursorY].GetLength() < CursorX + 1) SavegameNames[CursorY] += " ";
+            while (SavegameNames[CursorY].GetLength() < CursorX + 1) { SavegameNames[CursorY] += " ";
+}
             SavegameNames[CursorY].SetAt(CursorX, ' ');
             RefreshKlackerField();
 
-            if (CursorX > 0) CursorX--;
+            if (CursorX > 0) { CursorX--;
+}
         }
 
         if (nChar == VK_ESCAPE)
@@ -908,6 +994,7 @@ void Options::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
         if (nChar == VK_F3) { UpdateSavegameNames(); PageNum = 5; RefreshKlackerField(); }
         if (nChar == VK_F4) { UpdateSavegameNames(); PageNum = 6; RefreshKlackerField(); }
 
-        if (nChar == VK_ESCAPE) Sim.Players.Players[Sim.localPlayer].LeaveRoom();
+        if (nChar == VK_ESCAPE) { Sim.Players.Players[Sim.localPlayer].LeaveRoom();
+}
     }
 }

@@ -24,19 +24,22 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, CString SmackName) : CStdRaum(bHand
     FrameNext = 0;
 
     StopMidi();
-    gpSSE->DisableDS();
+    SSE::DisableDS();
 
     gMouseStartup = TRUE;
 
     pSmack = smk_open_file(FullFilename(SmackName, IntroPath), SMK_MODE_MEMORY);
-    smk_enable_video(pSmack, true);
+    smk_enable_video(pSmack, 1u);
     smk_info_video(pSmack, &Width, &Height, &Scale);
-    if (Scale != SMK_FLAG_Y_NONE)
+    if (Scale != SMK_FLAG_Y_NONE) {
         Height *= 2;
+}
 
-    unsigned char tracks, channels[7], depth[7];
+    unsigned char tracks;
+    unsigned char channels[7];
+    unsigned char depth[7];
     unsigned long rate[7];
-    smk_enable_audio(pSmack, 0, true);
+    smk_enable_audio(pSmack, 0, 1u);
     smk_info_audio(pSmack, &tracks, channels, depth, rate);
 
     SDL_AudioSpec desired;
@@ -47,7 +50,8 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, CString SmackName) : CStdRaum(bHand
     desired.callback = NULL;
     desired.userdata = NULL;
     audioDevice = SDL_OpenAudioDevice(NULL, 0, &desired, NULL, 0);
-    if (!audioDevice) Hdu.HercPrintf(SDL_GetError());
+    if (audioDevice == 0u) { Hdu.HercPrintf(SDL_GetError());
+}
 
     State = smk_first(pSmack);
     Bitmap.ReSize(XY(Width, Height), CREATE_SYSMEM | CREATE_INDEXED);
@@ -56,8 +60,9 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, CString SmackName) : CStdRaum(bHand
         SB_CBitmapKey Key(*Bitmap.pBitmap);
         const unsigned char* pVideo = smk_get_video(pSmack);
         int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
-        for (unsigned long y = 0; y < Height; y++)
+        for (unsigned long y = 0; y < Height; y++) {
             memcpy((BYTE*)Key.Bitmap + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
+}
     }
     CalculatePalettemapper(smk_get_palette(pSmack), Bitmap.pBitmap->GetPixelFormat()->palette);
     SDL_QueueAudio(audioDevice, smk_get_audio(pSmack, 0), smk_get_audio_size(pSmack, 0));
@@ -72,17 +77,21 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, CString SmackName) : CStdRaum(bHand
 //--------------------------------------------------------------------------------------------
 COutro::~COutro()
 {
-    if (audioDevice) SDL_CloseAudioDevice(audioDevice);
+    if (audioDevice != 0u) { SDL_CloseAudioDevice(audioDevice);
+}
     audioDevice = 0;
 
-    if (pSmack) smk_close(pSmack);
+    if (pSmack != nullptr) { smk_close(pSmack);
+}
     pSmack = NULL;
 
     gMouseStartup = FALSE;
     pCursor->SetImage(gCursorBm.pBitmap);
 
-    if (Sim.Options.OptionEnableDigi) gpSSE->EnableDS();
-    if (Sim.Options.OptionMusicType != 0) NextMidi();
+    if (Sim.Options.OptionEnableDigi != 0) { gpSSE->EnableDS();
+}
+    if (Sim.Options.OptionMusicType != 0) { NextMidi();
+}
     SetMidiVolume(Sim.Options.OptionMusik);
 }
 
@@ -99,7 +108,8 @@ void COutro::OnPaint()
 
     SDL_PauseAudioDevice(audioDevice, 0);
 
-    if (FrameNum++ < 2) PrimaryBm.BlitFrom(RoomBm);
+    if (FrameNum++ < 2) { PrimaryBm.BlitFrom(RoomBm);
+}
 
     if (timeGetTime() >= FrameNext && State == SMK_MORE)
     {
@@ -110,8 +120,9 @@ void COutro::OnPaint()
             SB_CBitmapKey Key(*Bitmap.pBitmap);
             const unsigned char* pVideo = smk_get_video(pSmack);
             int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
-            for (unsigned long y = 0; y < Height; y++)
+            for (unsigned long y = 0; y < Height; y++) {
                 memcpy((BYTE*)Key.Bitmap + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
+}
         }
         CalculatePalettemapper(smk_get_palette(pSmack), Bitmap.pBitmap->GetPixelFormat()->palette);
         SDL_QueueAudio(audioDevice, smk_get_audio(pSmack, 0), smk_get_audio_size(pSmack, 0));
@@ -124,14 +135,15 @@ void COutro::OnPaint()
 
     PrimaryBm.BlitFrom(Bitmap, 320 - Width / 2, 240 - Height / 2);
 
-    if (State != SMK_MORE)
+    if (State != SMK_MORE) {
         Sim.Gamestate = GAMESTATE_BOOT;
+}
 }
 
 //--------------------------------------------------------------------------------------------
 //void COutro::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void COutro::OnLButtonDown(UINT, CPoint)
+void COutro::OnLButtonDown(UINT /*nFlags*/, CPoint /*point*/)
 {
     Sim.Gamestate = GAMESTATE_BOOT;
 }
@@ -139,7 +151,7 @@ void COutro::OnLButtonDown(UINT, CPoint)
 //--------------------------------------------------------------------------------------------
 // void COutro::OnRButtonDown(UINT nFlags, CPoint point):
 //--------------------------------------------------------------------------------------------
-void COutro::OnRButtonDown(UINT, CPoint)
+void COutro::OnRButtonDown(UINT /*nFlags*/, CPoint /*point*/)
 {
     DefaultOnRButtonDown();
     Sim.Gamestate = GAMESTATE_BOOT;

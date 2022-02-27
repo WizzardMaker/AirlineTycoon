@@ -34,7 +34,7 @@ public:
 	~ENetNetwork() override;
 	void Initialize() override;
 	SLONG GetMessageCount() override;
-	bool Connect(const char* address) override;
+	bool Connect(const char* host) override;
 	void Disconnect() override;
 	bool CreateSession(SBNetworkCreation* sessionSettings) override;
 	void CloseSession() override;

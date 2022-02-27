@@ -69,7 +69,7 @@ class CPlaner : public CStdRaum
         void HandleRButtonUp (void);
         void ButtonNext (void);
         void ButtonPrev (void);
-        void ButtonClose (void);
+        void ButtonClose (void) const;
         void ButtonIndex (void);
         void ButtonNextB (void);
         void ButtonPrevB (void);

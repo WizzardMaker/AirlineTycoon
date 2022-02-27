@@ -32,7 +32,8 @@ CDutyFree::CDutyFree(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     Sim.FocusPerson=-1;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
     DefaultDialogPartner=TALKER_DUTYFREE;
 
     AirportRoomPos = Airport.GetRandomTypedRune (RUNE_2SHOP, ROOM_SHOP1)+XY(88,0);
@@ -78,7 +79,7 @@ CDutyFree::CDutyFree(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     PayFX.ReInit("pay.raw");
 
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         StartupFX.ReInit("windchim.raw");
         StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
@@ -97,7 +98,8 @@ CDutyFree::~CDutyFree()
     HufeisenBm.Destroy();
     SchilderBms.Destroy();
     GeigenkastenBm.Destroy();
-    if (pMenuLib && pGfxMain) pGfxMain->ReleaseLib (pMenuLib);
+    if ((pMenuLib != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
+}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,31 +115,36 @@ void CDutyFree::OnPaint()
     PLAYER  &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
     SLONG    lasty=600;
 
-    if (Sim.Date>4) Sim.GiveHint (HINT_DUTYFREE);
+    if (Sim.Date>4) { Sim.GiveHint (HINT_DUTYFREE);
+}
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_SHOP1, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_SHOP1, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
 
-    if (Sim.Date>0 && Sim.Players.Players[PlayerNum].ArabTrust==0)
+    if (Sim.Date>0 && Sim.Players.Players[PlayerNum].ArabTrust==0) {
         RoomBm.BlitFrom (GeigenkastenBm, 275, 197);
+}
 
-    if (!(!qPlayer.HasItem (ITEM_HUFEISEN) && qPlayer.TrinkerTrust==FALSE))
+    if (!((qPlayer.HasItem (ITEM_HUFEISEN) == 0) && qPlayer.TrinkerTrust==FALSE)) {
         RoomBm.BlitFrom (HufeisenBm, 14,36);
+}
 
     //Draw Persons:
     RoomBm.pBitmap->SetClipRect(CRect(432,70,559,246));
     for (SLONG d=SLONG(Sim.Persons.AnzEntries()-1); d>=0; d--)
     {
         //Entscheidung! Person malen:
-        if (Sim.Persons.IsInAlbum(d) && Clans.IsInAlbum (Sim.Persons[d].ClanId))
+        if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum (Sim.Persons[d].ClanId) != 0))
         {
             PERSON &qPerson=Sim.Persons[d];
             CLAN   &qClan=Clans[(SLONG)qPerson.ClanId];
             UBYTE   Dir=qPerson.LookDir;
 
-            if (Dir<4) UBYTE(Dir = (Dir+2)&3);
+            if (Dir<4) { UBYTE(Dir = (Dir+2)&3);
+}
 
             XY p=qPerson.ScreenPos-AirportRoomPos;
             XY pp;
@@ -147,13 +154,15 @@ void CDutyFree::OnPaint()
                 pp.y=280;
                 pp.x=511-p.x*2*400/(pp.y+100)+(pp.y-300);
 
-                if (p.y<300 && lasty>=300)
+                if (p.y<300 && lasty>=300) {
                     ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), NULL, 4);
+}
 
                 lasty=p.y;
 
-                if (pp.x>390 && pp.x<700)
+                if (pp.x>390 && pp.x<700) {
                     qClan.BlitLargeAt (RoomBm, Dir, qPerson.Phase, pp);
+}
             }
         }
     }
@@ -161,7 +170,8 @@ void CDutyFree::OnPaint()
     RoomBm.pBitmap->SetClipRect(CRect(0,0,640,440));
 
     //DrawTransparency:
-    if (lasty>=300) ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), NULL, 4);
+    if (lasty>=300) { ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), NULL, 4);
+}
     ColorFX.BlitTrans (TransBm.pBitmap, RoomBm.pBitmap, XY(432,70), NULL, 4);
     RoomBm.BlitFromT (OpaqueBm, 432,70);
 
@@ -174,17 +184,19 @@ void CDutyFree::OnPaint()
     //Ggf. Tips einblenden:
     NewTip = -1; //Default: Keiner
 
-    if (Sim.Date<=DAYS_WITHOUT_LAPTOP || Sim.LaptopSoldTo!=-1)
+    if (Sim.Date<=DAYS_WITHOUT_LAPTOP || Sim.LaptopSoldTo!=-1) {
         RoomBm.BlitFromT (SchilderBms[gLanguage], 434, 387);
+}
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (493,52,570,224)) SetMouseLook (CURSOR_EXIT, 0, ROOM_SHOP1, 999);
-        else if (!qPlayer.HasItem (ITEM_HUFEISEN) && qPlayer.TrinkerTrust==FALSE && gMousePosition.IfIsWithin (11,33,42,68)) SetMouseLook (CURSOR_HOT, 0, ROOM_SHOP1, 800);
-        else if (gMousePosition.IfIsWithin (448,327,542,439) || gMousePosition.IfIsWithin (396,395,542,439))
+        if (gMousePosition.IfIsWithin (493,52,570,224)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_SHOP1, 999);
+        } else if ((qPlayer.HasItem (ITEM_HUFEISEN) == 0) && qPlayer.TrinkerTrust==FALSE && gMousePosition.IfIsWithin (11,33,42,68)) { SetMouseLook (CURSOR_HOT, 0, ROOM_SHOP1, 800);
+        } else if (gMousePosition.IfIsWithin (448,327,542,439) || gMousePosition.IfIsWithin (396,395,542,439))
         {
-            if (qPlayer.LaptopQuality==4 && !qPlayer.HasItem(ITEM_LAPTOP))
+            if (qPlayer.LaptopQuality==4 && (qPlayer.HasItem(ITEM_LAPTOP) == 0)) {
                 qPlayer.LaptopQuality=3;
+}
 
             if (qPlayer.LaptopQuality<4)
             {
@@ -192,29 +204,29 @@ void CDutyFree::OnPaint()
                 SetMouseLook (CURSOR_HOT, 0, ROOM_SHOP1, 10);
             }
         }
-        else if (gMousePosition.IfIsWithin (399, 55, 492, 301))
+        else if (gMousePosition.IfIsWithin (399, 55, 492, 301)) {
             SetMouseLook (CURSOR_HOT, 0, ROOM_SHOP1, 111);
-        else if (gMousePosition.IfIsWithin (280,196,350,287) && !qPlayer.HasItem(ITEM_MG) && Sim.Date>0 && Sim.Players.Players[PlayerNum].ArabTrust==0)
+        } else if (gMousePosition.IfIsWithin (280,196,350,287) && (qPlayer.HasItem(ITEM_MG) == 0) && Sim.Date>0 && Sim.Players.Players[PlayerNum].ArabTrust==0)
         {
             NewTip = 400;
             SetMouseLook (CURSOR_HOT, 0, ROOM_SHOP1, NewTip);
         }
-        else if (gMousePosition.IfIsWithin (329,247,395,309) && !qPlayer.HasItem(ITEM_PRALINEN) && !qPlayer.HasItem(ITEM_PRALINEN_A))
+        else if (gMousePosition.IfIsWithin (329,247,395,309) && (qPlayer.HasItem(ITEM_PRALINEN) == 0) && (qPlayer.HasItem(ITEM_PRALINEN_A) == 0))
         {
             NewTip = 801;
             SetMouseLook (CURSOR_HOT, 0, ROOM_SHOP1, NewTip);
         }
-        else if (gMousePosition.IfIsWithin (346,306,445,357) && !qPlayer.HasItem(ITEM_FILOFAX))
+        else if (gMousePosition.IfIsWithin (346,306,445,357) && (qPlayer.HasItem(ITEM_FILOFAX) == 0))
         {
             NewTip = 500;
             SetMouseLook (CURSOR_HOT, 0, ROOM_SHOP1, NewTip);
         }
-        else if (gMousePosition.IfIsWithin (545,334,582,439) && !qPlayer.HasItem(ITEM_HANDY))
+        else if (gMousePosition.IfIsWithin (545,334,582,439) && (qPlayer.HasItem(ITEM_HANDY) == 0))
         {
             NewTip = 600;
             SetMouseLook (CURSOR_HOT, 0, ROOM_SHOP1, NewTip);
         }
-        else if (gMousePosition.IfIsWithin (258,289,361,344) && !qPlayer.HasItem(ITEM_BIER))
+        else if (gMousePosition.IfIsWithin (258,289,361,344) && (qPlayer.HasItem(ITEM_BIER) == 0))
         {
             NewTip = 700;
             SetMouseLook (CURSOR_HOT, 0, ROOM_SHOP1, NewTip);
@@ -262,17 +274,17 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point)
     DefaultOnLButtonDown ();
 
     //Auﬂerhalb geklickt? Dann Default-Handler!
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (RoomPos))
+    if (PreLButtonDown (RoomPos) == 0)
     {
-        if (MouseClickArea==ROOM_SHOP1 && MouseClickId==999)
+        if (MouseClickArea==ROOM_SHOP1 && MouseClickId==999) {
             qPlayer.LeaveRoom();
-        else if (MouseClickArea==ROOM_SHOP1 && MouseClickId==800)
+        } else if (MouseClickArea==ROOM_SHOP1 && MouseClickId==800)
         {
             StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 800);
         }
@@ -282,44 +294,47 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point)
         }
         else if (MouseClickArea==ROOM_SHOP1 && MouseClickId==111)
         {
-            if (qPlayer.LaptopVirus==1) StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2000);
-            else if (qPlayer.LaptopVirus==2) StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2010);
-            else if (qPlayer.LaptopVirus==3) StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2020);
-            else StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2);
+            if (qPlayer.LaptopVirus==1) { StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2000);
+            } else if (qPlayer.LaptopVirus==2) { StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2010);
+            } else if (qPlayer.LaptopVirus==3) { StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2020);
+            } else { StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2);
+}
         }
         else if (MouseClickArea==ROOM_SHOP1)
         {
             if (MouseClickId==10)
             {
-                if (qPlayer.LaptopVirus==1) StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2000);
-                else if (qPlayer.LaptopVirus==2) StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2010);
-                else if (qPlayer.LaptopVirus==3) StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2020);
-                else if (Sim.Date<=DAYS_WITHOUT_LAPTOP)
+                if (qPlayer.LaptopVirus==1) { StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2000);
+                } else if (qPlayer.LaptopVirus==2) { StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2010);
+                } else if (qPlayer.LaptopVirus==3) { StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 2020);
+                } else if (Sim.Date<=DAYS_WITHOUT_LAPTOP)
                 {
                     //Laptop ist in der ersten 7 Tagen gesperrt:
                     StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 3);
                 }
                 else if (Sim.LaptopSoldTo==-1)
                 {
-                    if (qPlayer.HasItem(ITEM_LAPTOP)) qPlayer.DropItem(ITEM_LAPTOP);
-                    if (qPlayer.HasSpaceForItem())
+                    if (qPlayer.HasItem(ITEM_LAPTOP) != 0) { qPlayer.DropItem(ITEM_LAPTOP);
+}
+                    if (qPlayer.HasSpaceForItem() != 0)
                     {
-                        if (!qPlayer.HasItem(ITEM_LAPTOP))
+                        if (qPlayer.HasItem(ITEM_LAPTOP) == 0)
                         {
                             qPlayer.BuyItem(ITEM_LAPTOP);
                         }
 
-                        Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_LAPTOP, PlayerNum);
+                        SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_LAPTOP, PlayerNum);
 
                         long delta = -atoi(StandardTexte.GetS (TOKEN_ITEM, 2000+qPlayer.LaptopQuality));
                         qPlayer.ChangeMoney (delta, 9999, StandardTexte.GetS (TOKEN_ITEM, 1000+qPlayer.LaptopQuality));
                         qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, delta);
-                        Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
+                        SIM::SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
 
                         qPlayer.DoBodyguardRabatt (atoi(StandardTexte.GetS (TOKEN_ITEM, 2000+qPlayer.LaptopQuality)));
 
                         qPlayer.LaptopQuality++;
-                        if (Sim.Options.OptionEffekte) PayFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+                        if (Sim.Options.OptionEffekte != 0) { PayFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+}
 
                         switch (qPlayer.LaptopQuality)
                         {
@@ -329,36 +344,41 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point)
                             case 4: qPlayer.LaptopBattery=1440; break;
                         }
 
-                        if (qPlayer.LaptopQuality<4)
+                        if (qPlayer.LaptopQuality<4) {
                             StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 4);
+}
 
                         Sim.LaptopSoldTo=PlayerNum;
                     }
                 }
-                else StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 1, Sim.LaptopSoldTo);
+                else { StartDialog (TALKER_DUTYFREE, MEDIUM_AIR, 1, Sim.LaptopSoldTo);
+}
             }
             else if (MouseClickId==400  || MouseClickId==500 || MouseClickId==600 || MouseClickId==700)
             {
-                if (qPlayer.HasSpaceForItem())
+                if (qPlayer.HasSpaceForItem() != 0)
                 {
-                    if (MouseClickId==400) qPlayer.BuyItem(ITEM_MG);
-                    else if (MouseClickId==500) qPlayer.BuyItem(ITEM_FILOFAX);
-                    else if (MouseClickId==600) qPlayer.BuyItem(ITEM_HANDY);
-                    else if (MouseClickId==700) qPlayer.BuyItem(ITEM_BIER);
+                    if (MouseClickId==400) { qPlayer.BuyItem(ITEM_MG);
+                    } else if (MouseClickId==500) { qPlayer.BuyItem(ITEM_FILOFAX);
+                    } else if (MouseClickId==600) { qPlayer.BuyItem(ITEM_HANDY);
+                    } else if (MouseClickId==700) { qPlayer.BuyItem(ITEM_BIER);
+}
 
-                    if (Sim.Options.OptionEffekte) PayFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+                    if (Sim.Options.OptionEffekte != 0) { PayFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+}
 
                     long delta = -atoi(StandardTexte.GetS (TOKEN_ITEM, 2000+MouseClickId));
                     qPlayer.ChangeMoney (delta, 9999, StandardTexte.GetS (TOKEN_ITEM, 1000+MouseClickId));
-                    Sim.SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
+                    SIM::SendSimpleMessage (ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
 
                     qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, delta);
                     qPlayer.DoBodyguardRabatt (atoi(StandardTexte.GetS (TOKEN_ITEM, 2000+MouseClickId)));
                 }
             }
         }
-        else
+        else {
             CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -374,9 +394,8 @@ void CDutyFree::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -387,5 +406,5 @@ void CDutyFree::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

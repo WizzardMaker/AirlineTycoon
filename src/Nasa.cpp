@@ -31,12 +31,13 @@ CNasa::CNasa(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "nasa.
     Sim.FocusPerson=-1;
     DefaultDialogPartner=TALKER_NASA;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
 
     Talkers.Talkers[TALKER_NASA].IncreaseReference ();
 
     //Hintergrundsounds:
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         FunkFx.ReInit("funk.raw");
         FunkFx.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
@@ -131,9 +132,11 @@ CNasa::~CNasa()
 void CNasa::OnPaint()
 {
 #ifndef DEMO
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_SABOTAGE, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_SABOTAGE, 0);
+}
 
-    if (Sim.Date>5) Sim.GiveHint (HINT_NASA);
+    if (Sim.Date>5) { Sim.GiveHint (HINT_NASA);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -146,10 +149,11 @@ void CNasa::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (195,373,424,440)) SetMouseLook (CURSOR_EXIT, 0, ROOM_NASA, 999);
-        else if (gMousePosition.IfIsWithin (197, 140,398,377)) SetMouseLook (CURSOR_HOT, 0, ROOM_NASA, 10);
+        if (gMousePosition.IfIsWithin (195,373,424,440)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_NASA, 999);
+        } else if (gMousePosition.IfIsWithin (197, 140,398,377)) { SetMouseLook (CURSOR_HOT, 0, ROOM_NASA, 10);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -167,13 +171,13 @@ void CNasa::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
         if (MouseClickArea==ROOM_NASA && MouseClickId==999)
         {
@@ -183,10 +187,12 @@ void CNasa::OnLButtonDown(UINT nFlags, CPoint point)
                 StartDialog (TALKER_NASA, MEDIUM_AIR, 2);
                 DontDisplayPlayer=Sim.localPlayer;
             }
-            else Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+            else { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+}
         }
-        else if (MouseClickArea==ROOM_NASA && MouseClickId==10) StartDialog (TALKER_NASA, MEDIUM_AIR, 1);
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else if (MouseClickArea==ROOM_NASA && MouseClickId==10) { StartDialog (TALKER_NASA, MEDIUM_AIR, 1);
+        } else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 #endif
 }
@@ -204,9 +210,8 @@ void CNasa::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -228,6 +233,6 @@ void CNasa::OnRButtonDown(UINT nFlags, CPoint point)
             }
             else CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 #endif
 }

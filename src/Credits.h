@@ -41,8 +41,8 @@ class CCredits : public CStdRaum
         virtual void OnLButtonDown(UINT nFlags, CPoint point);
         virtual void OnTimer(UINT nIDEvent);
         virtual void OnRButtonDown(UINT nFlags, CPoint point);
-        virtual void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
-        virtual void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+        virtual void OnChar(UINT key, UINT nRepCnt, UINT nFlags);
+        virtual void OnKeyDown(UINT key, UINT nRepCnt, UINT nFlags);
         virtual BOOL OnSetCursor(void* pWnd, UINT nHitTest, UINT message);
         virtual void OnMouseMove(UINT nFlags, CPoint point);
         //}}AFX_MSG

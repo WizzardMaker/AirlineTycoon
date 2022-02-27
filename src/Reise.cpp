@@ -36,11 +36,14 @@ extern SLONG timeReisClose;
 //--------------------------------------------------------------------------------------------
 long strchrcount (CString Text, char chr)
 {
-    long c, n;
+    long c;
+    long n;
 
-    for (c=n=0; c<Text.GetLength(); c++)
-        if (Text[int(c)]==chr)
+    for (c=n=0; c<Text.GetLength(); c++) {
+        if (Text[int(c)]==chr) {
             n++;
+}
+}
 
     return(n);
 }
@@ -55,9 +58,11 @@ CString ShortenLongCities (CString City)
 
     if (strchrcount (City, ' ')==2)
     {
-        for (int c=0; c<City.GetLength(); c++)
-            if (City[c]==' ')
+        for (int c=0; c<City.GetLength(); c++) {
+            if (City[c]==' ') {
                 return City.Left(c);
+}
+}
     }
 
     return (City);
@@ -130,7 +135,7 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
                 &KommVar, SMACKER_CLIP_SET|SMACKER_CLIP_PRE, -1, &KommVar,
                 "A1", 0);
 
-        if (!Sim.Players.Players[Sim.localPlayer].HasItem (ITEM_SPINNE))
+        if (Sim.Players.Players[Sim.localPlayer].HasItem (ITEM_SPINNE) == 0)
         {
             SP_Spinne.ReSize (3);
             //--------------------------------------------------------------------------------------------
@@ -157,7 +162,7 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     pZettelLib=NULL;
 
     //Hintergrundsounds:
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         SetBackgroundFx (0, "pap3.raw",     25000);    //Papierrascheln
         SetBackgroundFx (2, "moeve.raw",    50000, 25000);
@@ -166,12 +171,15 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
         WellenFx.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
     }
 
-    for (c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--)
-        if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(c))
+    for (c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--) {
+        if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(c) != 0) {
             Sim.Players.Players[(SLONG)PlayerNum].Planes[c].UpdateGlobePos (0);
+}
+}
 
-    for (c=ReisebueroAuftraege.AnzEntries()-1; c>=0; c--)
+    for (c=ReisebueroAuftraege.AnzEntries()-1; c>=0; c--) {
         RepaintZettel (c);
+}
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -186,14 +194,18 @@ CReisebuero::~CReisebuero()
 
     TipBm.Destroy();
 
-    for (c=0; c<5; c++)
+    for (c=0; c<5; c++) {
         MapPlaneBms[c].Destroy();
+}
 
-    if (pMenuLib && pGfxMain) pGfxMain->ReleaseLib (pMenuLib);
+    if ((pMenuLib != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
+}
 
-    for (c=0; c<(SLONG)ReisebueroAuftraege.AnzEntries(); c++)
-        if (ReisebueroAuftraege.Auftraege[c].Praemie<0)
+    for (c=0; c<(SLONG)ReisebueroAuftraege.AnzEntries(); c++) {
+        if (ReisebueroAuftraege.Auftraege[c].Praemie<0) {
             ReisebueroAuftraege.Auftraege[c].Praemie=0;
+}
+}
 
     Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
 
@@ -225,9 +237,11 @@ void CReisebuero::OnPaint()
     //Koordinaten für kleine Fenster konvertieren:
     ConvertMousePosition (point, &RoomPos);
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_REISEBUERO, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_REISEBUERO, 0);
+}
 
-    if (SLONG(Sim.Time)>=timeReisClose) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+    if (SLONG(Sim.Time)>=timeReisClose) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -240,18 +254,20 @@ void CReisebuero::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (0, 0, 80, 440)) SetMouseLook (CURSOR_EXIT, 0, ROOM_REISEBUERO, 999);
-        else if (KommVar==-1 && SP_Spinne.GetClip()==1 && !Sim.Players.Players[Sim.localPlayer].HasItem (ITEM_SPINNE))
+        if (gMousePosition.IfIsWithin (0, 0, 80, 440)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_REISEBUERO, 999);
+        } else if (KommVar==-1 && SP_Spinne.GetClip()==1 && (Sim.Players.Players[Sim.localPlayer].HasItem (ITEM_SPINNE) == 0))
         {
             if ((gMousePosition.IfIsWithin (327,322,415,389) && SP_Spinne.GetFrame()<10) ||
-                    (gMousePosition.IfIsWithin (407,365,455,410) && SP_Spinne.GetFrame()>=10 && SP_Spinne.GetFrame()<15))
+                    (gMousePosition.IfIsWithin (407,365,455,410) && SP_Spinne.GetFrame()>=10 && SP_Spinne.GetFrame()<15)) {
                 SetMouseLook (CURSOR_HOT, 0, ROOM_REISEBUERO, 20);
+}
         }
 
-        if (RoomPos.IfIsWithin (403,73,623,343))
+        if (RoomPos.IfIsWithin (403,73,623,343)) {
             SetTip (&TipBm, MapPlaneBms, FALSE, XY (160, 125), TIP_BUYAUFTRAGR, -1, 0, 0);
+}
     }
 
     RoomBm.pBitmap->SetClipRect (CRect (0,0,640,440));
@@ -261,7 +277,7 @@ void CReisebuero::OnPaint()
         {
             RoomBm.BlitFromT (ZettelBms[c], ZettelPos[c*2], ZettelPos[c*2+1]);
 
-            if (!IsDialogOpen() && !MenuIsOpen())
+            if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
             {
                 if (RoomPos.IfIsWithin (ZettelPos[c*2], ZettelPos[c*2+1], ZettelPos[c*2]+gZettelBms[c%3].Size.x, ZettelPos[c*2+1]+gZettelBms[c%3].Size.y))
                 {
@@ -282,14 +298,16 @@ void CReisebuero::OnPaint()
             }
         }
     }
-    if (!IsOverPaper) LastTip=-1;
+    if (IsOverPaper == 0) { LastTip=-1;
+}
 
     for (c=0; c<(SLONG)ReisebueroAuftraege.AnzEntries(); c++)
     {
         if (ReisebueroAuftraege.Auftraege[c].Praemie<0)
         {
             ReisebueroAuftraege.Auftraege[c].Praemie+=DeltaTime*3;
-            if (ReisebueroAuftraege.Auftraege[c].Praemie>0) ReisebueroAuftraege.Auftraege[c].Praemie=0;
+            if (ReisebueroAuftraege.Auftraege[c].Praemie>0) { ReisebueroAuftraege.Auftraege[c].Praemie=0;
+}
 
             XY    Pos;
             SLONG p=-ReisebueroAuftraege.Auftraege[c].Praemie;
@@ -316,8 +334,9 @@ void CReisebuero::OnPaint()
 
     //if (Sim.Players.Players[(SLONG)PlayerNum].Messages.IsSilent()) LastTip=-1;
 
-    if (RemoveTip && !gMousePosition.IfIsWithin (401,69, 630,354) && LastMouse.IfIsWithin (401,69, 630,354))
+    if ((RemoveTip != 0) && !gMousePosition.IfIsWithin (401,69, 630,354) && LastMouse.IfIsWithin (401,69, 630,354)) {
         Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
+}
 
 
     LastMouse=gMousePosition;
@@ -374,18 +393,18 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_REISEBUERO && MouseClickId==999) qPlayer.LeaveRoom();
-        else if (MouseClickArea==ROOM_REISEBUERO && MouseClickId==20)
+        if (MouseClickArea==ROOM_REISEBUERO && MouseClickId==999) { qPlayer.LeaveRoom();
+        } else if (MouseClickArea==ROOM_REISEBUERO && MouseClickId==20)
         {
-            if (!qPlayer.HasItem (ITEM_SPINNE) && qPlayer.HasSpaceForItem())
+            if ((qPlayer.HasItem (ITEM_SPINNE) == 0) && (qPlayer.HasSpaceForItem() != 0))
             {
                 qPlayer.BuyItem (ITEM_SPINNE);
                 KommVar2 = 2;
@@ -399,8 +418,9 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point)
             {
                 if (RoomPos.IfIsWithin (ZettelPos[c*2], ZettelPos[c*2+1], ZettelPos[c*2]+gZettelBms[c%3].Size.x, ZettelPos[c*2+1]+gZettelBms[c%3].Size.y))
                 {
-                    if (qPlayer.Auftraege.GetNumFree()<3)
+                    if (qPlayer.Auftraege.GetNumFree()<3) {
                         qPlayer.Auftraege.Auftraege.ReSize (qPlayer.Auftraege.AnzEntries()+10);
+}
 
                     PlayUniversalFx ("paptake.raw", Sim.Options.OptionEffekte);
 
@@ -434,9 +454,8 @@ void CReisebuero::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -447,5 +466,5 @@ void CReisebuero::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

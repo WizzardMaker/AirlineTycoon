@@ -108,7 +108,7 @@ class SBBM
         SLONG ReSize (XY Size, SLONG flags=CREATE_SYSMEM) { if (Size!=SBBM::Size) {Destroy(); SLONG rc=bitmapMain->CreateBitmap(&pBitmap, Size.x,Size.y,0,CREATE_USECOLORKEY|flags); SBBM::Size.x = pBitmap->GetXSize(); SBBM::Size.y = pBitmap->GetYSize(); return (rc);} return (0);}
         void  ReSize (CHLPool *pHLPool, CString graphicID);
         void  ReSize (CHLPool *pHLPool, __int64 graphicID);
-        void  ReSize (GfxLib *gfxLibrary, CString graphicID);
+        void  ReSize (GfxLib *gfxLibrary, CString graphicStr);
         void  ReSize (GfxLib *gfxLibrary, __int64 graphicID, SLONG flags=CREATE_SYSMEM)
         {
             Destroy();
@@ -145,27 +145,27 @@ class SBBM
 
         //Blit Services:
         BOOL  BlitFrom (SBBM &TecBitmap) { return (BlitFrom (TecBitmap, XY (0l, 0l))); }
-        BOOL  BlitFrom (SBBM &TecBitmap, XY Target);
+        BOOL  BlitFrom (SBBM &TecBitmap, XY Target) const;
         BOOL  BlitFrom (SBBM &TecBitmap, SLONG tx, SLONG ty) { return(BlitFrom (TecBitmap, XY (tx, ty))); }
         BOOL  BlitFromT (SBBM &TecBitmap) { return(BlitFromT (TecBitmap, XY (0l, 0l))); }
-        BOOL  BlitFromT (SBBM &TecBitmap, XY Target);
+        BOOL  BlitFromT (SBBM &TecBitmap, XY Target) const;
         BOOL  BlitFromT (SBBM &TecBitmap, SLONG tx, SLONG ty) { return(BlitFromT (TecBitmap, XY (tx, ty))); }
-        BOOL  BlitFrom (SBBM &TecBitmap, XY p1, XY p2);
-        BOOL  BlitFrom (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2);
-        BOOL  BlitFromT (SBBM &TecBitmap, XY p1, XY p2);
-        BOOL  BlitFromT (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2);
-        BOOL  BlitPartFrom (SBBM &TecBitmap, XY Target, const XY &p1, const XY &p2);
+        static BOOL  BlitFrom (SBBM &TecBitmap, XY p1, XY p2);
+        static BOOL  BlitFrom (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2);
+        static BOOL  BlitFromT (SBBM &TecBitmap, XY p1, XY p2);
+        static BOOL  BlitFromT (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2);
+        BOOL  BlitPartFrom (SBBM &TecBitmap, XY Target, const XY &p1, const XY &p2) const;
         BOOL  BlitPartFrom (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG x1, SLONG y1, SLONG x2, SLONG y2) { return(BlitPartFrom (TecBitmap, XY(tx,ty), XY(x1,y1), XY(x2,y2))); }
-        BOOL  BlitPartFromT (SBBM &TecBitmap, XY Target, const XY &p1, const XY &p2);
+        BOOL  BlitPartFromT (SBBM &TecBitmap, XY Target, const XY &p1, const XY &p2) const;
         BOOL  BlitPartFromT (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG x1, SLONG y1, SLONG x2, SLONG y2) { return(BlitPartFromT (TecBitmap, XY(tx,ty), XY(x1,y1), XY(x2,y2))); }
 
-        BOOL  BlitFrom (SBBM &TecBitmap, const CRect& r1, const XY &dest);
-        BOOL  TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CString &String);
+        BOOL  BlitFrom (SBBM &TecBitmap, const CRect& r1, const XY &dest) const;
+        static BOOL  TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CString &String);
         SLONG PrintAt (const char *Str, SB_CFont &Font, SLONG Flags) { return(PrintAt (Str, Font, Flags, XY(0,0), Size-XY(1,1))); }
-        SLONG PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1, const XY &p2);
+        SLONG PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1, const XY &p2) const;
         SLONG PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, SLONG x1, SLONG y1, SLONG x2, SLONG y2) { return (PrintAt (Str, Font, Flags, XY(x1,y1), XY(x2,y2))); }
         SLONG TryPrintAt (const char *Str, SB_CFont &Font, SLONG Flags) { return(TryPrintAt (Str, Font, Flags, XY(0,0), Size-XY(1,1))); }
-        SLONG TryPrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1, const XY &p2);
+        SLONG TryPrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1, const XY &p2) const;
         SLONG TryPrintAt (const char *Str, SB_CFont &Font, SLONG Flags, SLONG x1, SLONG y1, SLONG x2, SLONG y2) { return (TryPrintAt (Str, Font, Flags, XY(x1,y1), XY(x2,y2))); }
         /*ONG PrintAt (const char *Str, const TEXT_STYLE &StdStyle, UBYTE Flags, SLONG Zeilenabstand=0) { return(PrintAt (Str, StdStyle, Flags, XY(0,0), Size-XY(1,1), Zeilenabstand)); }
           SLONG PrintAt (const char *Str, const TEXT_STYLE &StdStyle, UBYTE Flags, const XY &p1, const XY &p2, SLONG Zeilenabstand=0);
@@ -198,10 +198,10 @@ class SBBMS
         ~SBBMS ();
         void  Destroy() { Bitmaps.ReSize(0); }
         void  ReSize (GfxLib* gfxLibrary, __int64 graphicID, ...);
-        void  ReSize (CHLPool* pPool, const BUFFER<__int64> &graphicsIds);
-        void  ReSize(GfxLib* gfxLibrary, const BUFFER<__int64>& graphicsIds, SLONG flags = CREATE_SYSMEM);
-        void  ReSize(GfxLib* gfxLibrary, const CString& graphicIDs);
-        void  ReSize(GfxLib* gfxLibrary, const CString& graphicIDs, SLONG Anzahl, SLONG flags = CREATE_SYSMEM);
+        void  ReSize (CHLPool* pPool, const BUFFER<__int64> &graphicIds);
+        void  ReSize(GfxLib* gfxLibrary, const BUFFER<__int64>& graphicIds, SLONG flags = CREATE_SYSMEM);
+        void  ReSize(GfxLib* gfxLibrary, const CString& graphicstr);
+        void  ReSize(GfxLib* gfxLibrary, const CString& graphicstr, SLONG Anzahl, SLONG flags = CREATE_SYSMEM);
         SLONG AnzEntries() const { return (Bitmaps.AnzEntries()); }
 
         //SB1BM& operator [](const SLONG Index) const { return Bitmaps[Index]; }
@@ -243,10 +243,10 @@ class SBPRIMARYBM
         BOOL  BlitFromT (SBBM &TecBitmap, XY Target);
         BOOL  BlitFromT (SBBM &TecBitmap, const CRect &r1, const XY &dest);
         BOOL  BlitFromT (SBBM &TecBitmap, SLONG tx, SLONG ty) { return(BlitFromT (TecBitmap, XY (tx, ty))); }
-        BOOL  BlitFrom (SBBM &TecBitmap, XY p1, XY p2);
-        BOOL  BlitFrom (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2);
-        BOOL  BlitFromT (SBBM &TecBitmap, XY p1, XY p2);
-        BOOL  BlitFromT (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2);
+        static BOOL  BlitFrom (SBBM &TecBitmap, XY p1, XY p2);
+        static BOOL  BlitFrom (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2);
+        static BOOL  BlitFromT (SBBM &TecBitmap, XY p1, XY p2);
+        static BOOL  BlitFromT (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2);
         BOOL  TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CString &String);
 };
 

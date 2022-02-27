@@ -40,7 +40,8 @@ CDesigner::CDesigner(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     //Path will be "%AppPath%/myplanes/"
     fs::create_directory(LPCSTR(AppPath + MyPlanePath.Left(MyPlanePath.GetLength() - 3)));
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (60);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
 
     Talkers.Talkers[TALKER_DESIGNER].IncreaseReference ();
     DefaultDialogPartner=TALKER_DESIGNER;
@@ -101,7 +102,7 @@ CDesigner::CDesigner(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 
     //Hintergrundsounds:
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         BackFx.ReInit("design.raw");
         BackFx.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
@@ -129,7 +130,8 @@ void CDesigner::OnPaint()
 {
     SLONG   NewTip;
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_DESIGNER, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_DESIGNER, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -143,11 +145,12 @@ void CDesigner::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (296, 240, 361, 337)) SetMouseLook (CURSOR_EXIT, 0, ROOM_DESIGNER, 999);
-        else if (gMousePosition.IfIsWithin (200,26,354,341)) SetMouseLook (CURSOR_HOT, 0, ROOM_DESIGNER, 10);
-        else if (gMousePosition.IfIsWithin (43,112,250,307)) SetMouseLook (CURSOR_HOT, 0, ROOM_DESIGNER, 12);
+        if (gMousePosition.IfIsWithin (296, 240, 361, 337)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_DESIGNER, 999);
+        } else if (gMousePosition.IfIsWithin (200,26,354,341)) { SetMouseLook (CURSOR_HOT, 0, ROOM_DESIGNER, 10);
+        } else if (gMousePosition.IfIsWithin (43,112,250,307)) { SetMouseLook (CURSOR_HOT, 0, ROOM_DESIGNER, 12);
+}
     }
 
     if (CurrentMenu==MENU_BUYXPLANE && ((gMousePosition-MenuPos).IfIsWithin (216,6, 387,212)))
@@ -166,9 +169,11 @@ void CDesigner::OnPaint()
 
             CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-3, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontBlack, CURSOR_HOT);
         }
-        else NewTip = -1;
+        else { NewTip = -1;
+}
     }
-    else NewTip = -1;
+    else { NewTip = -1;
+}
 
     CStdRaum::PostPaint ();
     CStdRaum::PumpToolTips ();
@@ -183,21 +188,22 @@ void CDesigner::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_DESIGNER && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_DESIGNER && MouseClickId==10) { StartDialog (TALKER_DESIGNER, MEDIUM_AIR, 1000); }
+        if (MouseClickArea==ROOM_DESIGNER && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_DESIGNER && MouseClickId==10) { StartDialog (TALKER_DESIGNER, MEDIUM_AIR, 1000); }
         else if (MouseClickArea==ROOM_DESIGNER && MouseClickId==12)
         {
             Sim.Players.Players[(SLONG)PlayerNum].EnterRoom(ROOM_EDITOR);
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -213,9 +219,8 @@ void CDesigner::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -226,5 +231,5 @@ void CDesigner::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

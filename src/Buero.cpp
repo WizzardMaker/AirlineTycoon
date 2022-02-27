@@ -33,7 +33,8 @@ class CWaitCursorNow
         ~CWaitCursorNow ()
         {
             MouseWait--;
-            if (MouseWait==0) pCursor->SetImage (gCursorBm.pBitmap);
+            if (MouseWait==0) { pCursor->SetImage (gCursorBm.pBitmap);
+}
         };
 };
 
@@ -52,7 +53,8 @@ CBuero::CBuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
         pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
-    else pGLibDark=NULL;
+    else { pGLibDark=NULL;
+}
 
     IsInBuro = TRUE;
 
@@ -73,7 +75,8 @@ CBuero::CBuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "", 
     AirportRoomPos   = Airport.GetRandomTypedRune (RUNE_2SHOP, UBYTE(ROOM_BURO_A+PlayerNum*10));
     AirportRoomPos.y = AirportRoomPos.y-5000+93;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
 
     LetterBm.ReSize (pRoomLib, GFX_LETTERS);
     DoorOpaqueBm.ReSize (pRoomLib, GFX_DOOR_O);
@@ -142,7 +145,8 @@ CBuero::~CBuero()
     DarkBm.Destroy();
     NoSaboBm.Destroy();
 
-    if (pGLibDark && pGfxMain) pGfxMain->ReleaseLib (pGLibDark);
+    if ((pGLibDark != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pGLibDark);
+}
     pGLibDark=NULL;
 }
 
@@ -159,7 +163,8 @@ void CBuero::OnPaint()
     XY     RoomPos;
     CPoint point = Sim.Players.Players[(SLONG)PlayerNum].CursorPos;
 
-    if (Sim.Date>4) Sim.GiveHint (HINT_RICK);
+    if (Sim.Date>4) { Sim.GiveHint (HINT_RICK);
+}
 
     if (OfficeState!=3 && Sim.Players.Players[(SLONG)PlayerNum].OfficeState==3)
     {
@@ -167,7 +172,8 @@ void CBuero::OnPaint()
         pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("buerodrk.gli", RoomPath), &pGLibDark, L_LOCMEM);
         DarkBm.ReSize (pGLibDark, "BUERO");
     }
-    else pGLibDark=NULL;
+    else { pGLibDark=NULL;
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -180,7 +186,7 @@ void CBuero::OnPaint()
     for (d=0; d<(SLONG)Sim.Persons.AnzEntries(); d++)
     {
         //Entscheidung! Person malen:
-        if (Sim.Persons.IsInAlbum(d) && Clans.IsInAlbum (Sim.Persons[d].ClanId))
+        if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum (Sim.Persons[d].ClanId) != 0))
         {
             if (Clans[(SLONG)Sim.Persons[d].ClanId].Type>=CLAN_PLAYER1 && Clans[(SLONG)Sim.Persons[d].ClanId].Type<=CLAN_PLAYER4)
             {
@@ -189,15 +195,20 @@ void CBuero::OnPaint()
                 UBYTE   Dir   = qPerson.LookDir;
                 UBYTE   Phase = qPerson.Phase;
 
-                if (Dir==1 || Dir==3)  Dir   = UBYTE(4-Dir);
-                if (Dir==8 && Phase<4)  Phase = UBYTE((Phase+2)%4);
-                if (Dir==8 && Phase>=4) Phase = UBYTE((Phase+2)%4+4);
+                if (Dir==1 || Dir==3) {  Dir   = UBYTE(4-Dir);
+}
+                if (Dir==8 && Phase<4) {  Phase = UBYTE((Phase+2)%4);
+}
+                if (Dir==8 && Phase>=4) { Phase = UBYTE((Phase+2)%4+4);
+}
 
-                if (abs(qPerson.ScreenPos.x-AirportRoomPos.x)<70 && qPerson.ScreenPos.y>=AirportRoomPos.y+5)
+                if (abs(qPerson.ScreenPos.x-AirportRoomPos.x)<70 && qPerson.ScreenPos.y>=AirportRoomPos.y+5) {
                     qClan.BlitLargeAt (RoomBm, Dir, Phase, XY(595,289)-(qPerson.ScreenPos-AirportRoomPos));
+}
             }
         }
-        else break;
+        else { break;
+}
     }
 
     RoomBm.pBitmap->SetClipRect(CRect(0,0,640,480));
@@ -205,10 +216,12 @@ void CBuero::OnPaint()
     RoomBm.BlitFromT (DoorOpaqueBm, 521, 53);
     ColorFX.BlitTrans (DoorTransBm.pBitmap, RoomBm.pBitmap, XY(542,67), NULL, 2);
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&32) RoomBm.BlitFrom (NoSaboBm, 390, 309);
+    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&32) != 0u) { RoomBm.BlitFrom (NoSaboBm, 390, 309);
+}
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].Letters.AnzLetters())
+    if (Sim.Players.Players[(SLONG)PlayerNum].Letters.AnzLetters() != 0) {
         RoomBm.BlitFromT (LetterBm, 351, 390);
+}
 
     SP_Player.Pump ();
     SP_Player.BlitAtT (RoomBm);
@@ -218,14 +231,14 @@ void CBuero::OnPaint()
         RoomBm.BlitFromT (DarkBm, 0, 0);
     }
 
-    if (KommVarLetters)
+    if (KommVarLetters != 0)
     {
         MenuStart (MENU_LETTERS);
         MenuSetZoomStuff (XY(379, 382), 0.1, FALSE);
         KommVarLetters=0;
     }
 
-    if (KommVarCloseLetter)
+    if (KommVarCloseLetter != 0)
     {
         MenuStop();
         KommVarCloseLetter=0;
@@ -245,15 +258,16 @@ void CBuero::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (535,52,639,292)) SetMouseLook (CURSOR_EXIT, 0, ROOM_BURO_A, 999);
-        else if (gMousePosition.IfIsWithin (275,162,386,236)) SetMouseLook (CURSOR_HOT, 4400, ROOM_BURO_A, 10);
-        else if (gMousePosition.IfIsWithin (301,66,416,160)) SetMouseLook (CURSOR_HOT, 4401, ROOM_BURO_A, 20);
-        else if (gMousePosition.IfIsWithin (MantelPos[Sim.localPlayer].left, MantelPos[Sim.localPlayer].top, MantelPos[Sim.localPlayer].right, MantelPos[Sim.localPlayer].bottom)) SetMouseLook (CURSOR_HOT, 4403, ROOM_BURO_A, 12);
-        else if (Sim.Players.Players[(SLONG)PlayerNum].Letters.AnzLetters() && gMousePosition.IfIsWithin (318,368,450,431)) SetMouseLook (CURSOR_HOT, 4404, ROOM_BURO_A, 13);
-        else if (gMousePosition.IfIsWithin (322,302,432,368)) SetMouseLook (CURSOR_HOT, 4405, ROOM_BURO_A, 14);
-        else if (gMousePosition.IfIsWithin (396,279,490,359)) SetMouseLook (CURSOR_HOT, 4402, ROOM_BURO_A, 15);
+        if (gMousePosition.IfIsWithin (535,52,639,292)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_BURO_A, 999);
+        } else if (gMousePosition.IfIsWithin (275,162,386,236)) { SetMouseLook (CURSOR_HOT, 4400, ROOM_BURO_A, 10);
+        } else if (gMousePosition.IfIsWithin (301,66,416,160)) { SetMouseLook (CURSOR_HOT, 4401, ROOM_BURO_A, 20);
+        } else if (gMousePosition.IfIsWithin (MantelPos[Sim.localPlayer].left, MantelPos[Sim.localPlayer].top, MantelPos[Sim.localPlayer].right, MantelPos[Sim.localPlayer].bottom)) { SetMouseLook (CURSOR_HOT, 4403, ROOM_BURO_A, 12);
+        } else if ((Sim.Players.Players[(SLONG)PlayerNum].Letters.AnzLetters() != 0) && gMousePosition.IfIsWithin (318,368,450,431)) { SetMouseLook (CURSOR_HOT, 4404, ROOM_BURO_A, 13);
+        } else if (gMousePosition.IfIsWithin (322,302,432,368)) { SetMouseLook (CURSOR_HOT, 4405, ROOM_BURO_A, 14);
+        } else if (gMousePosition.IfIsWithin (396,279,490,359)) { SetMouseLook (CURSOR_HOT, 4402, ROOM_BURO_A, 15);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -269,33 +283,37 @@ void CBuero::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
     //Nichts machen, wenn gerade der Brief geschlossen wird:
-    if (SP_Player.GetClip()==6) return;
+    if (SP_Player.GetClip()==6) { return;
+}
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
         //Klickt ist zu früh? Dann abbrechen!
-        if (MouseClickArea==ROOM_BURO_A && MouseClickId==10 && Sim.Tutorial<1401 && Sim.IsTutorial) return;
+        if (MouseClickArea==ROOM_BURO_A && MouseClickId==10 && Sim.Tutorial<1401 && (Sim.IsTutorial != 0)) { return;
+}
 
-        if (MouseClickId!=10 && MouseClickId!=0 && Sim.Tutorial<=1401 && Sim.IsTutorial)
+        if (MouseClickId!=10 && MouseClickId!=0 && Sim.Tutorial<=1401 && (Sim.IsTutorial != 0))
         {
-            if (MouseClickArea==ROOM_BURO_A && MouseClickId==999)     Sim.Players.Players[Sim.localPlayer].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_TUTORIUM, 1520));
-            else if (MouseClickArea==ROOM_BURO_A && MouseClickId==13) Sim.Players.Players[Sim.localPlayer].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_TUTORIUM, 1521));
-            else if (MouseClickArea==ROOM_BURO_A)                     Sim.Players.Players[Sim.localPlayer].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_TUTORIUM, 1522));
+            if (MouseClickArea==ROOM_BURO_A && MouseClickId==999) {     Sim.Players.Players[Sim.localPlayer].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_TUTORIUM, 1520));
+            } else if (MouseClickArea==ROOM_BURO_A && MouseClickId==13) { Sim.Players.Players[Sim.localPlayer].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_TUTORIUM, 1521));
+            } else if (MouseClickArea==ROOM_BURO_A) {                     Sim.Players.Players[Sim.localPlayer].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_TUTORIUM, 1522));
+}
             return;
         }
 
-        if (MouseClickArea==ROOM_BURO_A && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_BURO_A && MouseClickId==10) Sim.Players.Players[(SLONG)PlayerNum].EnterRoom(ROOM_GLOBE);
-        else if (MouseClickArea==ROOM_BURO_A && MouseClickId==12)
+        if (MouseClickArea==ROOM_BURO_A && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_BURO_A && MouseClickId==10) { Sim.Players.Players[(SLONG)PlayerNum].EnterRoom(ROOM_GLOBE);
+        } else if (MouseClickArea==ROOM_BURO_A && MouseClickId==12)
         {
-            if (Sim.Date>1) Sim.GiveHint (HINT_FEIERABEND);
+            if (Sim.Date>1) { Sim.GiveHint (HINT_FEIERABEND);
+}
             MenuStart (MENU_REQUEST, MENU_REQUEST_CALLITADAY, 0);
             MenuSetZoomStuff (XY(480, 170), 0.1, FALSE);
         }
@@ -317,10 +335,12 @@ void CBuero::OnLButtonDown(UINT nFlags, CPoint point)
         }
         else if (MouseClickArea==ROOM_BURO_A && MouseClickId==15)
         {
-            if (Sim.Players.Players[(SLONG)PlayerNum].Planes.GetNumUsed()>0)
+            if (Sim.Players.Players[(SLONG)PlayerNum].Planes.GetNumUsed()>0) {
                 Sim.Players.Players[(SLONG)PlayerNum].EnterRoom(ROOM_PLANEPROPS);
+}
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -331,19 +351,20 @@ void CBuero::OnRButtonDown(UINT nFlags, CPoint point)
 {
     DefaultOnRButtonDown ();
 
-    if (Sim.Tutorial==1401 && Sim.IsTutorial) return;
+    if (Sim.Tutorial==1401 && (Sim.IsTutorial != 0)) { return;
+}
 
     //Nichts machen, wenn gerade der Brief geschlossen wird:
-    if (SP_Player.GetClip()==6) return;
+    if (SP_Player.GetClip()==6) { return;
+}
 
     //Außerhalb geklickt? Dann Default-Handler!
     if (point.x<WinP1.x || point.y<WinP1.y || point.x>WinP2.x || point.y>WinP2.y)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -356,7 +377,7 @@ void CBuero::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }
 
 //============================================================================================
@@ -368,8 +389,9 @@ void CLetters::Clear (void)
 {
     SLONG c;
 
-    for (c=0; c<Letters.AnzEntries(); c++)
+    for (c=0; c<Letters.AnzEntries(); c++) {
         Letters[c].Date=-1;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -388,7 +410,8 @@ void CLetters::SortLetters (void)
 
             tmp=Letters[c+1]; Letters[c+1]=Letters[c]; Letters[c]=tmp;
 
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
     }
 }
@@ -402,9 +425,11 @@ void CLetters::AddLetter (BOOL IsLetter, const CString &Subject, const CString &
 
     SLONG c;
 
-    for (c=0; c<Letters.AnzEntries(); c++)
-        if (Letters[c].Date!=-1 && Letters[c].Subject==Subject && Letters[c].Letter==Letter && Letters[c].Absender==Absender)
+    for (c=0; c<Letters.AnzEntries(); c++) {
+        if (Letters[c].Date!=-1 && Letters[c].Subject==Subject && Letters[c].Letter==Letter && Letters[c].Absender==Absender) {
             return;
+}
+}
 
     Letters[Letters.AnzEntries()-1].IsLetter  = IsLetter;
     Letters[Letters.AnzEntries()-1].Date      = Sim.Date;
@@ -421,10 +446,13 @@ void CLetters::AddLetter (BOOL IsLetter, const CString &Subject, const CString &
 //--------------------------------------------------------------------------------------------
 SLONG CLetters::AnzLetters (void)
 {
-    SLONG c, Anz;
+    SLONG c;
+    SLONG Anz;
 
-    for (Anz=c=0; c<Letters.AnzEntries(); c++)
-        if (Letters[c].Date!=-1) Anz++;
+    for (Anz=c=0; c<Letters.AnzEntries(); c++) {
+        if (Letters[c].Date!=-1) { Anz++;
+}
+}
 
     return (Anz);
 }

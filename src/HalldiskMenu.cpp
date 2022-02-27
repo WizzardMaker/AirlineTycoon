@@ -22,7 +22,8 @@ static const char FileId[] = "Hall";
 //--------------------------------------------------------------------------------------------
 HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     CRect rect (10,10,620,460);
 
@@ -39,12 +40,16 @@ HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, Play
     memset (bFiles, 0, sizeof (bFiles));
 
     SLONG difflevel = Sim.Difficulty;
-    if (difflevel==DIFF_FREEGAME) difflevel=DIFF_FREEGAMEMAP;
+    if (difflevel==DIFF_FREEGAME) { difflevel=DIFF_FREEGAMEMAP;
+}
 
-    for (c=0; c<10; c++)
-        for (d=0; d<10; d++)
-            if (DoesFileExist (FullFilename (HallFilenames [c+1], MiscPath, 100*difflevel+d)))
+    for (c=0; c<10; c++) {
+        for (d=0; d<10; d++) {
+            if (DoesFileExist (FullFilename (HallFilenames [c+1], MiscPath, 100*difflevel+d)) != 0) {
                 bFiles[c+d*10]=1;
+}
+}
+}
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -56,7 +61,8 @@ HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, Play
 HallDiskMenu::~HallDiskMenu()
 {
     MenuBm.Destroy();
-    if (pMenuLib && pGfxMain) pGfxMain->ReleaseLib (pMenuLib);
+    if ((pMenuLib != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
+}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -68,24 +74,30 @@ HallDiskMenu::~HallDiskMenu()
 void HallDiskMenu::OnPaint()
 {
     SLONG xOffset []= {79, 104, 126, 155, 187, 225, 255, 301, 350, 386, 446 };
-    SLONG c, d, e;
+    SLONG c;
+    SLONG d;
+    SLONG e;
 
-    if (bActive && MenuBm.Size.x>0)
+    if ((bActive != 0) && MenuBm.Size.x>0)
     {
         PrimaryBm.BlitFrom (MenuBm, 10, 10);
 
-        for (c=0; c<10; c++)
-            for (d=1; d<10; d++)
-                if (d==9 || !bFiles[c+d*10])
+        for (c=0; c<10; c++) {
+            for (d=1; d<10; d++) {
+                if (d==9 || (bFiles[c+d*10] == 0))
                 {
-                    for (e=0; e<7; e++)
+                    for (e=0; e<7; e++) {
                         PrimaryBm.PrimaryBm.Line (xOffset[c]+10, d*9+53+1+e, xOffset[c+1]+10-1, d*9+1+53+e, (DWORD)0xd0d0d0);
+}
                 }
+}
+}
 
         SLONG difflevel = Sim.Difficulty;
-        if (difflevel==DIFF_FREEGAME) difflevel=DIFF_FREEGAMEMAP;
+        if (difflevel==DIFF_FREEGAME) { difflevel=DIFF_FREEGAMEMAP;
+}
 
-        SLONG xOffset = (difflevel>10)*75;
+        SLONG xOffset = static_cast<int>(difflevel>10)*75;
         difflevel%=11;
 
         PrimaryBm.PrimaryBm.Line (10+459+xOffset, 10+162+difflevel*9, 10+459+xOffset, 10+166+difflevel*9, (DWORD)0);
@@ -119,17 +131,28 @@ void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
 
     if (point.x>=76 && point.x<=592)
     {
-        if (point.x>=79  && point.x<=102) x=0;
-        if (point.x>=104 && point.x<=126) x=1;
-        if (point.x>=128 && point.x<=153) x=2;
-        if (point.x>=155 && point.x<=185) x=3;
-        if (point.x>=187 && point.x<=223) x=4;
-        if (point.x>=225 && point.x<=253) x=5;
-        if (point.x>=255 && point.x<=299) x=6;
-        if (point.x>=301 && point.x<=348) x=7;
-        if (point.x>=350 && point.x<=384) x=8;
-        if (point.x>=386 && point.x<=415) x=9;
-        if (point.x>=446 && point.x<=592) x=99;
+        if (point.x>=79  && point.x<=102) { x=0;
+}
+        if (point.x>=104 && point.x<=126) { x=1;
+}
+        if (point.x>=128 && point.x<=153) { x=2;
+}
+        if (point.x>=155 && point.x<=185) { x=3;
+}
+        if (point.x>=187 && point.x<=223) { x=4;
+}
+        if (point.x>=225 && point.x<=253) { x=5;
+}
+        if (point.x>=255 && point.x<=299) { x=6;
+}
+        if (point.x>=301 && point.x<=348) { x=7;
+}
+        if (point.x>=350 && point.x<=384) { x=8;
+}
+        if (point.x>=386 && point.x<=415) { x=9;
+}
+        if (point.x>=446 && point.x<=592) { x=99;
+}
     }
 
     //Im oberen Click-Bereich?
@@ -142,7 +165,8 @@ void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
 
             n = (point.y-53)/9+1;
 
-            if (x>=0 && x<=9 && bFiles[x+n*10]) Airport.Load (1+x, n);
+            if (x>=0 && x<=9 && (bFiles[x+n*10] != 0)) { Airport.Load (1+x, n);
+}
             if (x==99)
             {
                 Editor=FALSE;
@@ -174,30 +198,40 @@ void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
     {
         Sim.Difficulty=UBYTE((point.y-161)/9);
 
-        if (Sim.Difficulty==DIFF_FREEGAMEMAP) Sim.Difficulty=DIFF_FREEGAME;
+        if (Sim.Difficulty==DIFF_FREEGAMEMAP) { Sim.Difficulty=DIFF_FREEGAME;
+}
 
-        SLONG c, d;
+        SLONG c;
+        SLONG d;
 
         memset (bFiles, 0, sizeof (bFiles));
 
         SLONG difflevel = Sim.Difficulty;
-        if (difflevel==DIFF_FREEGAME) difflevel=DIFF_FREEGAMEMAP;
+        if (difflevel==DIFF_FREEGAME) { difflevel=DIFF_FREEGAMEMAP;
+}
 
-        for (c=0; c<10; c++)
-            for (d=0; d<10; d++)
-                if (DoesFileExist (FullFilename (HallFilenames [c+1], MiscPath, 100*difflevel+d))) bFiles[c+d*10]=1;
+        for (c=0; c<10; c++) {
+            for (d=0; d<10; d++) {
+                if (DoesFileExist (FullFilename (HallFilenames [c+1], MiscPath, 100*difflevel+d)) != 0) { bFiles[c+d*10]=1;
+}
+}
+}
     }
     else if (point.x>451+75 && point.x<492+75 && (point.y>161 && point.y<161+99-1))
     {
         Sim.Difficulty=UBYTE((point.y-161)/9)+11;
 
-        SLONG c, d;
+        SLONG c;
+        SLONG d;
 
         memset (bFiles, 0, sizeof (bFiles));
 
-        for (c=0; c<10; c++)
-            for (d=0; d<10; d++)
-                if (DoesFileExist (FullFilename (HallFilenames [c+1], MiscPath, 100*Sim.Difficulty+d))) bFiles[c+d*10]=1;
+        for (c=0; c<10; c++) {
+            for (d=0; d<10; d++) {
+                if (DoesFileExist (FullFilename (HallFilenames [c+1], MiscPath, 100*Sim.Difficulty+d)) != 0) { bFiles[c+d*10]=1;
+}
+}
+}
     }
 
     //ReferTo (nFlags);

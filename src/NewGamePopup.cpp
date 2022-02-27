@@ -46,7 +46,7 @@ extern BOOL gSpawnOnly;
 //static const GUID GuidAT = { 0x7eafe365, 0x9362, 0x11d2, { 0xba, 0x6a, 0x8, 0x0, 0x0, 0x27, 0x87, 0x63 } };
 SBNetwork gNetwork(false);
 
-SLONG bNetworkUnderway = false;
+SLONG bNetworkUnderway = 0;
 
 static bool bNewGamePopupIsOpen = false;
 
@@ -144,13 +144,14 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
 
     if (Sim.Options.OptionAirport == -1)
     {
-        if (gLanguage == LANGUAGE_N) Sim.Options.OptionAirport = Cities.GetIdFromName("Berlijn");
-        else if (gLanguage == LANGUAGE_F) Sim.Options.OptionAirport = Cities.GetIdFromName("Paris");
-        else if (gLanguage == LANGUAGE_I) Sim.Options.OptionAirport = Cities.GetIdFromName("Roma");
-        else if (gLanguage == LANGUAGE_O) Sim.Options.OptionAirport = Cities.GetIdFromName("Madrid");
-        else if (gLanguage == LANGUAGE_S) Sim.Options.OptionAirport = Cities.GetIdFromName("Madrid");
-        else if (gLanguage == LANGUAGE_E) Sim.Options.OptionAirport = Cities.GetIdFromName("London");
-        else Sim.Options.OptionAirport = Cities.GetIdFromName("Berlin");
+        if (gLanguage == LANGUAGE_N) { Sim.Options.OptionAirport = Cities.GetIdFromName("Berlijn");
+        } else if (gLanguage == LANGUAGE_F) { Sim.Options.OptionAirport = Cities.GetIdFromName("Paris");
+        } else if (gLanguage == LANGUAGE_I) { Sim.Options.OptionAirport = Cities.GetIdFromName("Roma");
+        } else if (gLanguage == LANGUAGE_O) { Sim.Options.OptionAirport = Cities.GetIdFromName("Madrid");
+        } else if (gLanguage == LANGUAGE_S) { Sim.Options.OptionAirport = Cities.GetIdFromName("Madrid");
+        } else if (gLanguage == LANGUAGE_E) { Sim.Options.OptionAirport = Cities.GetIdFromName("London");
+        } else { Sim.Options.OptionAirport = Cities.GetIdFromName("Berlin");
+}
     }
 
     Sim.HomeAirportId = Sim.Options.OptionAirport;
@@ -163,15 +164,15 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
     {
         PageNum = MULTIPLAYER_CREATE_SESSION;
         CursorX = 0;
-        Sim.bNetwork = false;
+        Sim.bNetwork = 0;
 
         if (gNetworkSavegameLoading != -1)
         {
             SBNetworkCreation cr;
 
-            Sim.bNetwork = true;
-            NetworkSession = Sim.GetSavegameSessionName(gNetworkSavegameLoading);
-            Sim.bNetwork = false;
+            Sim.bNetwork = 1;
+            NetworkSession = SIM::GetSavegameSessionName(gNetworkSavegameLoading);
+            Sim.bNetwork = 0;
 
             cr.sessionName = NetworkSession;
             cr.maxPlayers = 4;
@@ -188,15 +189,16 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
                 hprintf("This computer is host.");
 
                 BOOL bOld = Sim.bNetwork;
-                Sim.bNetwork = true;
-                Sim.ReadSavegameOwners(gNetworkSavegameLoading);
-                SLONG localPlayer = Sim.GetSavegameLocalPlayer(gNetworkSavegameLoading);
+                Sim.bNetwork = 1;
+                SIM::ReadSavegameOwners(gNetworkSavegameLoading);
+                SLONG localPlayer = SIM::GetSavegameLocalPlayer(gNetworkSavegameLoading);
                 Sim.bNetwork = bOld;
 
                 for (SLONG d = 0; d < 4; d++)
                 {
                     Sim.Players.Players[d].NetworkID = 0;
-                    if (Sim.Players.Players[d].Owner == 2) Sim.Players.Players[d].Owner = 3;
+                    if (Sim.Players.Players[d].Owner == 2) { Sim.Players.Players[d].Owner = 3;
+}
                 }
 
                 Sim.Players.Players[localPlayer].NetworkID = gNetwork.GetLocalPlayerID();
@@ -225,8 +227,9 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
 
     Limit(SLONG(0), Sim.Options.OptionLastPlayer, SLONG(3));
 
-    for (c = 0; c < 4; c++)
+    for (c = 0; c < 4; c++) {
         UnselectedNetworkIDs[c] = 0;
+}
 
     if (NewgameWantsToLoad != 2)
     {
@@ -245,14 +248,17 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
         Sim.Players.Players[c].Airline = Sim.Options.OptionAirlineNames[c];
         Sim.Players.Players[c].Abk = Sim.Options.OptionAirlineAbk[c];
 
-        if (Sim.Players.Players[c].Name.GetLength() == 0)
+        if (Sim.Players.Players[c].Name.GetLength() == 0) {
             Sim.Players.Players[c].Name = bprintf("%-21s", StandardTexte.GetS(TOKEN_NEWGAME, 1000 + c * 10));
+}
 
-        if (Sim.Players.Players[c].Airline.GetLength() == 0)
+        if (Sim.Players.Players[c].Airline.GetLength() == 0) {
             Sim.Players.Players[c].Airline = bprintf("%-21s", StandardTexte.GetS(TOKEN_NEWGAME, 1001 + c * 10));
+}
 
-        if (Sim.Players.Players[c].Abk.GetLength() == 0)
+        if (Sim.Players.Players[c].Abk.GetLength() == 0) {
             Sim.Players.Players[c].Abk = bprintf("%-2s", StandardTexte.GetS(TOKEN_NEWGAME, 1002 + c * 10));
+}
 
         Sim.Players.Players[c].Name.ToUpper();
         Sim.Players.Players[c].Airline.ToUpper();
@@ -260,17 +266,21 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
 
         for (int d = 0; d < Sim.Players.Players[c].Name.GetLength(); d++)
         {
-            if (Sim.Players.Players[c].Name[d] == 'ä') Sim.Players.Players[c].Name.SetAt(d, 'Ä');
-            if (Sim.Players.Players[c].Name[d] == 'ö') Sim.Players.Players[c].Name.SetAt(d, 'Ö');
-            if (Sim.Players.Players[c].Name[d] == 'ü') Sim.Players.Players[c].Name.SetAt(d, 'Ü');
+            if (Sim.Players.Players[c].Name[d] == 'ä') { Sim.Players.Players[c].Name.SetAt(d, 'Ä');
+}
+            if (Sim.Players.Players[c].Name[d] == 'ö') { Sim.Players.Players[c].Name.SetAt(d, 'Ö');
+}
+            if (Sim.Players.Players[c].Name[d] == 'ü') { Sim.Players.Players[c].Name.SetAt(d, 'Ü');
+}
         }
     }
 
     //Nur auf die Schnelle?
-    if (bQuick || gLoadGameNumber > -1)
+    if ((bQuick != 0) || gLoadGameNumber > -1)
     {
-        for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++)
+        for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
             Sim.Players.Players[c].IsOut = 0;
+}
 
         Sim.Gamestate = UBYTE((Sim.Gamestate & (~GAMESTATE_WORKING)) | GAMESTATE_DONE);
 
@@ -278,7 +288,7 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
         Sim.ChooseStartup(bQuick);
 
         Airport.LoadAirport(1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-        Airport.UpdateStaticDoorImage();
+        AIRPORT::UpdateStaticDoorImage();
         Airport.CreateGateMapper();
         return;
     }
@@ -420,8 +430,9 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
 
     //Create a timer to 'klacker'
     TimerId = SDL_AddTimer(50, TimerFunc, this);
-    if (!TimerId) TimerFailure = 1;
-    else TimerFailure = 0;
+    if (TimerId == 0) { TimerFailure = 1;
+    } else { TimerFailure = 0;
+}
 
     DumpAASeedSum(2000);
 }
@@ -432,27 +443,29 @@ void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
 NewGamePopup::~NewGamePopup()
 {
     SLONG c;
-    if (TimerId) SDL_RemoveTimer(TimerId);
+    if (TimerId != 0) { SDL_RemoveTimer(TimerId);
+}
 
     bNewGamePopupIsOpen = false;
 
     gBroadcastBm.Destroy();
     gMouseLButton = 0;
 
-    if (Sim.Difficulty >= DIFF_ATFS)
+    if (Sim.Difficulty >= DIFF_ATFS) {
         Sim.Options.OptionLastMission3 = Sim.Difficulty;
-    else if (Sim.Difficulty >= DIFF_ADDON)
+    } else if (Sim.Difficulty >= DIFF_ADDON) {
         Sim.Options.OptionLastMission2 = Sim.Difficulty;
-    else
+    } else {
         Sim.Options.OptionLastMission = Sim.Difficulty;
+}
 
-    if (Sim.Difficulty == DIFF_TUTORIAL && !bLeaveGameLoop)
+    if (Sim.Difficulty == DIFF_TUTORIAL && (bLeaveGameLoop == 0))
     {
         pGfxMain->LoadLib((char*)(LPCTSTR)FullFilename("glglow.gli", GliPath), &pGlowEffectLib, L_LOCMEM);
         gGlowBms.ReSize(pGlowEffectLib, "TUTMARK1", 5);
     }
 
-    if (!bLeaveGameLoop && Sim.Players.Players.AnzEntries() > 0)
+    if ((bLeaveGameLoop == 0) && Sim.Players.Players.AnzEntries() > 0)
     {
         for (c = 0; c < Sim.Players.AnzPlayers; c++)
         {
@@ -505,7 +518,7 @@ void NewGamePopup::RefreshKlackerField(void)
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 500));
         KlackerTafel.PrintAt(0, 1, "========================");
 
-        if (bFirstClass)
+        if (bFirstClass != 0)
         {
             KlackerTafel.PrintAt(1, 2, StandardTexte.GetS(TOKEN_NEWGAME, 502)); //Neues Spiel
             KlackerTafel.PrintAt(1, 3, StandardTexte.GetS(TOKEN_NEWGAME, 512)); //Nueue Missionen
@@ -521,7 +534,7 @@ void NewGamePopup::RefreshKlackerField(void)
             KlackerTafel.PrintAt(1, 10, StandardTexte.GetS(TOKEN_NEWGAME, 505)); //Intro
             KlackerTafel.PrintAt(1, 11, StandardTexte.GetS(TOKEN_NEWGAME, 508)); //Credits
 
-            if (gSpawnOnly)
+            if (gSpawnOnly != 0)
             {
                 KlackerTafel.LineDisabled[2] = true;
                 KlackerTafel.LineDisabled[3] = true;
@@ -548,7 +561,7 @@ void NewGamePopup::RefreshKlackerField(void)
             KlackerTafel.PrintAt(1, 11, StandardTexte.GetS(TOKEN_NEWGAME, 508)); //Credits
             KlackerTafel.PrintAt(1, 12, StandardTexte.GetS(TOKEN_NEWGAME, 509)); //Highscores
 
-            if (gSpawnOnly)
+            if (gSpawnOnly != 0)
             {
                 KlackerTafel.LineDisabled[2] = true;
                 KlackerTafel.LineDisabled[3] = true;
@@ -557,7 +570,7 @@ void NewGamePopup::RefreshKlackerField(void)
             }
         }
 
-        KlackerTafel.PrintAt(1, bFirstClass ? 13 : 14, StandardTexte.GetS(TOKEN_NEWGAME, 510)); //Beenden
+        KlackerTafel.PrintAt(1, bFirstClass != 0 ? 13 : 14, StandardTexte.GetS(TOKEN_NEWGAME, 510)); //Beenden
     }
     else if (PageNum == 1) //Mission wählen
     {
@@ -570,8 +583,9 @@ void NewGamePopup::RefreshKlackerField(void)
 
         for (c = 0; c <= DIFF_FINAL; c++)
         {
-            if (c == Sim.Difficulty) tmp = "==>";
-            else tmp = "   ";
+            if (c == Sim.Difficulty) { tmp = "==>";
+            } else { tmp = "   ";
+}
 
             tmp += StandardTexte.GetS(TOKEN_NEWGAME, 2000 + c * 100);
             KlackerTafel.PrintAt(1, 2 + c, tmp);
@@ -614,8 +628,9 @@ void NewGamePopup::RefreshKlackerField(void)
 
         for (c = 11; c <= 21; c++)
         {
-            if (c == Sim.Difficulty) tmp = "==>";
-            else tmp = "   ";
+            if (c == Sim.Difficulty) { tmp = "==>";
+            } else { tmp = "   ";
+}
 
             tmp += StandardTexte.GetS(TOKEN_NEWGAME, 3000 + c);
             KlackerTafel.PrintAt(1, 2 + (c - 11), tmp);
@@ -632,8 +647,9 @@ void NewGamePopup::RefreshKlackerField(void)
 
         for (c = 41; c <= 50; c++)
         {
-            if (c == Sim.Difficulty) tmp = "==>";
-            else tmp = "   ";
+            if (c == Sim.Difficulty) { tmp = "==>";
+            } else { tmp = "   ";
+}
 
             tmp += StandardTexte.GetS(TOKEN_NEWGAME, 3000 + c);
             KlackerTafel.PrintAt(1, 2 + (c - 41), tmp);
@@ -643,7 +659,7 @@ void NewGamePopup::RefreshKlackerField(void)
     {
         Sim.bAllowCheating = TRUE;
 
-        if (!bad)
+        if (bad == 0)
         {
             KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 515) + 2);
             KlackerTafel.PrintAt(0, 1, "========================");
@@ -657,43 +673,54 @@ void NewGamePopup::RefreshKlackerField(void)
     }
     else if (PageNum == 2 || PageNum == 14 || PageNum == 18) //Spieler wählen
     {
-        if (PageNum == 18 && pNetworkPlayers) //Auf Mitspieler warten
+        if (PageNum == 18 && (pNetworkPlayers != nullptr)) //Auf Mitspieler warten
         {
-            for (SLONG d = 0; d < 4; d++)
+            for (SLONG d = 0; d < 4; d++) {
                 if (Sim.Players.Players[d].Owner != 3)
                 {
                     Sim.Players.Players[d].Owner = 1;
                     for (c = 0; c < (SLONG)pNetworkPlayers->GetNumberOfElements(); c++)
                     {
-                        if (c == 0) pNetworkPlayers->GetFirst();
+                        if (c == 0) { pNetworkPlayers->GetFirst();
+}
 
-                        if (Sim.Players.Players[d].NetworkID == pNetworkPlayers->GetLastAccessed()->ID)
-                            if (pNetworkPlayers->GetLastAccessed()->ID == gNetwork.GetLocalPlayerID())
+                        if (Sim.Players.Players[d].NetworkID == pNetworkPlayers->GetLastAccessed()->ID) {
+                            if (pNetworkPlayers->GetLastAccessed()->ID == gNetwork.GetLocalPlayerID()) {
                                 Sim.Players.Players[d].Owner = 0;
-                            else
+                            } else {
                                 Sim.Players.Players[d].Owner = 2;
+}
+}
 
-                        if (pNetworkPlayers->IsLast()) break;
+                        if (pNetworkPlayers->IsLast()) { break;
+}
 
                         pNetworkPlayers->GetNext();
                     }
                 }
+}
         }
 
         KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001));  //Zurück
-        if (NamesOK && (PageNum != 18 || (bThisIsSessionMaster && pNetworkPlayers && pNetworkPlayers->GetNumberOfElements() > 1)))
+        if ((NamesOK != 0) && (PageNum != 18 || (bThisIsSessionMaster && (pNetworkPlayers != nullptr) && pNetworkPlayers->GetNumberOfElements() > 1)))
         {
             SLONG c = 4;
 
-            if (gNetworkSavegameLoading != -1)
-                for (c = 0; c < 4; c++)
-                    if (Sim.Players.Players[c].Owner == 3) break;
+            if (gNetworkSavegameLoading != -1) {
+                for (c = 0; c < 4; c++) {
+                    if (Sim.Players.Players[c].Owner == 3) { break;
+}
+}
+}
 
-            if (PageNum == 18 && PlayerReadyAt > timeGetTime()) c = -1;
-            if (PageNum == 18 && (UnselectedNetworkIDs[0] || UnselectedNetworkIDs[1] || UnselectedNetworkIDs[2] || UnselectedNetworkIDs[3]))
+            if (PageNum == 18 && PlayerReadyAt > timeGetTime()) { c = -1;
+}
+            if (PageNum == 18 && ((UnselectedNetworkIDs[0] != 0u) || (UnselectedNetworkIDs[1] != 0u) || (UnselectedNetworkIDs[2] != 0u) || (UnselectedNetworkIDs[3] != 0u))) {
                 c = -1;
+}
 
-            if (c == 4) KlackerTafel.PrintAt(24 - strlen(StandardTexte.GetS(TOKEN_NEWGAME, 4000)), 15, StandardTexte.GetS(TOKEN_NEWGAME, 4000)); //Start
+            if (c == 4) { KlackerTafel.PrintAt(24 - strlen(StandardTexte.GetS(TOKEN_NEWGAME, 4000)), 15, StandardTexte.GetS(TOKEN_NEWGAME, 4000)); //Start
+}
         }
 
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 999)); //Spieler wählen
@@ -701,8 +728,9 @@ void NewGamePopup::RefreshKlackerField(void)
         for (c = 0; c < 4; c++)
         {
             KlackerTafel.Soll[3 + (c * 2 + 2) * 24] = Sim.Players.Players[c].Logo;
-            if (KlackerTafel.Haben[3 + (c * 2 + 2) * 24] < 0 || KlackerTafel.Haben[3 + (c * 2 + 2) * 24] >= LogoBms.AnzEntries())
+            if (KlackerTafel.Haben[3 + (c * 2 + 2) * 24] < 0 || KlackerTafel.Haben[3 + (c * 2 + 2) * 24] >= LogoBms.AnzEntries()) {
                 KlackerTafel.Haben[3 + (c * 2 + 2) * 24] = 0;
+}
 
             KlackerTafel.PrintAt(6, c * 2 + 2, (LPCTSTR)Sim.Players.Players[c].Name);
             KlackerTafel.PrintAt(6, c * 2 + 3, (LPCTSTR)Sim.Players.Players[c].Airline);
@@ -721,7 +749,8 @@ void NewGamePopup::RefreshKlackerField(void)
         NetMediumCount = 0;
         for (c = 0; c < (SLONG)pNetworkConnections->GetNumberOfElements(); c++)
         {
-            if (c == 0) pNetworkConnections->GetFirst();
+            if (c == 0) { pNetworkConnections->GetFirst();
+}
 
             SBStr inter = pNetworkConnections->GetLastAccessed();
             //SLONG id = gNetwork.GetProviderID(inter.c_str());
@@ -732,9 +761,11 @@ void NewGamePopup::RefreshKlackerField(void)
             //}
 
             KlackerTafel.PrintAt(3, 2 + c, (LPCTSTR)inter.c_str());
-            if (c == Selection) KlackerTafel.PrintAt(0, 2 + c, "==>");
+            if (c == Selection) { KlackerTafel.PrintAt(0, 2 + c, "==>");
+}
 
-            if (pNetworkConnections->IsLast()) break;
+            if (pNetworkConnections->IsLast()) { break;
+}
             pNetworkConnections->GetNext();
         }
 
@@ -764,35 +795,42 @@ void NewGamePopup::RefreshKlackerField(void)
         KlackerTafel.PrintAt(0, 0, StandardTexte.GetS(TOKEN_NEWGAME, 701));
         KlackerTafel.PrintAt(0, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4001)); //Zurück
 
-        SLONG NumberOfElements = pNetworkSessions ? pNetworkSessions->GetNumberOfElements() : 0;
+        SLONG NumberOfElements = pNetworkSessions != nullptr ? pNetworkSessions->GetNumberOfElements() : 0;
 
-        if (pNetworkSessions && NumberOfElements > 0)
+        if ((pNetworkSessions != nullptr) && NumberOfElements > 0) {
             KlackerTafel.PrintAt(24 - strlen(StandardTexte.GetS(TOKEN_NEWGAME, 4002)), 15, StandardTexte.GetS(TOKEN_NEWGAME, 4002)); //Weiter
+}
 
-        if (!gSpawnOnly)
+        if (gSpawnOnly == 0)
         {
             KlackerTafel.PrintAt(0, 10, StandardTexte.GetS(TOKEN_NEWGAME, 706)); //Session laden
             KlackerTafel.PrintAt(0, 11, StandardTexte.GetS(TOKEN_NEWGAME, 707)); //Session laden
             KlackerTafel.PrintAt(0, 13, StandardTexte.GetS(TOKEN_NEWGAME, 702)); //Neue Session
         }
 
-        if (Selection < 0) Selection = 0;
-        if (Selection >= (SLONG)NumberOfElements)
+        if (Selection < 0) { Selection = 0;
+}
+        if (Selection >= (SLONG)NumberOfElements) {
             Selection = NumberOfElements - 1;
+}
 
         for (c = 0; c < (SLONG)NumberOfElements && c < 6; c++)
         {
-            if (c == 0) pNetworkSessions->GetFirst();
+            if (c == 0) { pNetworkSessions->GetFirst();
+}
 
             CString Buffer = pNetworkSessions->GetLastAccessed();
 
-            for (SLONG d = 0; d < Buffer.GetLength(); d++)
+            for (SLONG d = 0; d < Buffer.GetLength(); d++) {
                 Buffer.SetAt(d, GerToUpper(Buffer[(int)d]));
+}
 
             KlackerTafel.PrintAt(3, 2 + c, Buffer);
-            if (c == Selection) KlackerTafel.PrintAt(0, 2 + c, "==>");
+            if (c == Selection) { KlackerTafel.PrintAt(0, 2 + c, "==>");
+}
 
-            if (pNetworkSessions->IsLast()) break;
+            if (pNetworkSessions->IsLast()) { break;
+}
 
             pNetworkSessions->GetNext();
         }
@@ -821,19 +859,23 @@ void NewGamePopup::RefreshKlackerField(void)
 
         KlackerTafel.PrintAt(22, 15, StandardTexte.GetS(TOKEN_NEWGAME, 4003));  //OK
 
-        for (SLONG c = PageSub; c < PageSub + 12; c++)
-            if (Cities.IsInAlbum(c))
+        for (SLONG c = PageSub; c < PageSub + 12; c++) {
+            if (Cities.IsInAlbum(c) != 0)
             {
                 char Buffer[80];
 
                 strcpy(Buffer, (LPCTSTR)Cities[c].Name);
 
                 KlackerTafel.PrintAt(3, 2 + c - PageSub, Buffer);
-                if (Cities.GetIdFromIndex(c) == (ULONG)Sim.HomeAirportId) KlackerTafel.PrintAt(0, 2 + c - PageSub, "==>");
+                if (Cities.GetIdFromIndex(c) == (ULONG)Sim.HomeAirportId) { KlackerTafel.PrintAt(0, 2 + c - PageSub, "==>");
+}
             }
+}
 
-        if (PageSub > 0) KlackerTafel.PrintAt(10, 15, "<<");
-        if (PageSub + 12 < SLONG(Cities.AnzEntries()) - 1) KlackerTafel.PrintAt(13, 15, ">>");
+        if (PageSub > 0) { KlackerTafel.PrintAt(10, 15, "<<");
+}
+        if (PageSub + 12 < SLONG(Cities.AnzEntries()) - 1) { KlackerTafel.PrintAt(13, 15, ">>");
+}
     }
     else if (PageNum == MULTIPLAYER_PRE_SESSION)
     {
@@ -856,22 +898,29 @@ void NewGamePopup::RefreshKlackerField(void)
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::CheckNames(void)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     NamesOK = TRUE;
 
     //Jeden mit jedem vergleichen...
-    for (c = 0; c < 4; c++)
-        for (d = c + 1; d < 4; d++)
+    for (c = 0; c < 4; c++) {
+        for (d = c + 1; d < 4; d++) {
             if (Sim.Players.Players[c].Name == Sim.Players.Players[d].Name ||
                     Sim.Players.Players[c].Airline == Sim.Players.Players[d].Airline ||
-                    Sim.Players.Players[c].Abk == Sim.Players.Players[d].Abk) NamesOK = FALSE;
+                    Sim.Players.Players[c].Abk == Sim.Players.Players[d].Abk) { NamesOK = FALSE;
+}
+}
+}
 
     //Und es muß EXAKT einen Human-Player geben:
-    for (c = d = 0; c < 4; c++)
-        if (Sim.Players.Players[c].Owner == 0) d++;
+    for (c = d = 0; c < 4; c++) {
+        if (Sim.Players.Players[c].Owner == 0) { d++;
+}
+}
 
-    if (d != 1) NamesOK = FALSE;
+    if (d != 1) { NamesOK = FALSE;
+}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -882,7 +931,9 @@ void NewGamePopup::CheckNames(void)
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::OnPaint()
 {
-    static SLONG x, y, py; x++;
+    static SLONG x;
+    static SLONG y;
+    static SLONG py; x++;
 
     SLONG Line = (gMousePosition.y - 63) / 22;
     SLONG Column = (gMousePosition.x - 128) / 16;
@@ -890,7 +941,7 @@ void NewGamePopup::OnPaint()
 
     gPhysicalCdRomBitlist.Pump();
 
-    if (TimerFailure)
+    if (TimerFailure != 0)
     {
         KlackerTafel.Klack();  //Tafel notfalls asynchron aktualisieren
     }
@@ -901,111 +952,134 @@ void NewGamePopup::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips();
 
-    if (bActive)
+    if (bActive != 0)
     {
         //Klacker-Felder:
         for (py = 63, y = 0; y < 16; y++, py += 22)
         {
-            for (x = 0; x < 24; x++)
+            for (x = 0; x < 24; x++) {
                 if (y >= 13)
                 {
                     RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24]], x * 16 + 128, py);
                 }
                 else if (PageNum == 1)
                 {
-                    if (KlackerTafel.Haben[x + y * 24])
+                    if (KlackerTafel.Haben[x + y * 24] != 0) {
 #ifndef DEMO
-                        if (y - 2 > Sim.MaxDifficulty && y != 9)
+                        if (y - 2 > Sim.MaxDifficulty && y != 9) {
 #else
                             if (y - 2 > 1 || y - 2 > Sim.MaxDifficulty)
 #endif
                                 RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24] + (73 + 8 + 3 + 3)], x * 16 + 128, py);
-                            else
+                            } else {
                                 RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24]], x * 16 + 128, py);
+}
+}
                 }
                 else if (PageNum == 12)
                 {
-                    if (KlackerTafel.Haben[x + y * 24])
+                    if (KlackerTafel.Haben[x + y * 24] != 0) {
 #ifndef DEMO
-                        if (y - 2 > Sim.MaxDifficulty2 - 11 && Sim.MaxDifficulty2 != DIFF_ADDON10)
+                        if (y - 2 > Sim.MaxDifficulty2 - 11 && Sim.MaxDifficulty2 != DIFF_ADDON10) {
 #else
                             if (y - 2 > 1 || (y - 2 > Sim.MaxDifficulty2 - 11 && Sim.MaxDifficulty2 != DIFF_ADDON10))
 #endif
                                 RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24] + (73 + 8 + 3 + 3)], x * 16 + 128, py);
-                            else
+                            } else {
                                 RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24]], x * 16 + 128, py);
+}
+}
                 }
                 else if (PageNum == 122)
                 {
-                    if (KlackerTafel.Haben[x + y * 24])
+                    if (KlackerTafel.Haben[x + y * 24] != 0) {
 #ifndef DEMO
-                        if (y - 2 > Sim.MaxDifficulty3 - 41 && Sim.MaxDifficulty3 != DIFF_ATFS10)
+                        if (y - 2 > Sim.MaxDifficulty3 - 41 && Sim.MaxDifficulty3 != DIFF_ATFS10) {
 #else
                             if (y - 2 > 1 || (y - 2 > Sim.MaxDifficulty3 - 41 && Sim.MaxDifficulty3 != DIFF_ATFS10))
 #endif
                                 RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24] + (73 + 8 + 3 + 3)], x * 16 + 128, py);
-                            else
+                            } else {
                                 RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24]], x * 16 + 128, py);
+}
+}
                 }
                 else if (PageNum != 2 && PageNum != 14 && PageNum != 18)
                 {
-                    if (KlackerTafel.Haben[x + y * 24] > 0)
-                        if (KlackerTafel.LineDisabled[y])
+                    if (KlackerTafel.Haben[x + y * 24] > 0) {
+                        if (KlackerTafel.LineDisabled[y]) {
                             RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24] + (73 + 8 + 3 + 3)], x * 16 + 128, py);
-                        else
+                        } else {
                             RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24]], x * 16 + 128, py);
+}
+}
                 }
                 else if (x > 5 || y < 2 || ((y - 2) % 2) != 0)
                 {
-                    if (KlackerTafel.Haben[x + y * 24])
-                        if (y < 2 || (y >= 2 && (y - 2) / 2 <= 3 && !Sim.Players.Players[(y - 2) / 2].Owner))
+                    if (KlackerTafel.Haben[x + y * 24] != 0) {
+                        if (y < 2 || (y >= 2 && (y - 2) / 2 <= 3 && (Sim.Players.Players[(y - 2) / 2].Owner == 0u))) {
                             RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24]], x * 16 + 128, py);
-                        else
+                        } else {
                             RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + y * 24] + (73 + 8 + 3 + 3)], x * 16 + 128, py);
+}
+}
                 }
+}
 
-            if ((PageNum == 2 || PageNum == 14 || PageNum == 18) && y == 10) break;
+            if ((PageNum == 2 || PageNum == 14 || PageNum == 18) && y == 10) { break;
+}
 
             if (y == 1 || y == 3 || y == 5 || y == 7)
             {
-                for (x = 0; x < 24; x++)
-                    RoomBm.BlitFrom(KlackerTafel.KlackerBms[0l], 128 + x * 16, py * 22);
+                for (x = 0; x < 24; x++) {
+                    RoomBm.BlitFrom(KlackerTafel.KlackerBms[0L], 128 + x * 16, py * 22);
+}
 
-                if (PageNum == 2 || PageNum == 14 || PageNum == 18) py += 22;
+                if (PageNum == 2 || PageNum == 14 || PageNum == 18) { py += 22;
+}
             }
         }
 
-        if (PageNum == 2 || PageNum == 14 || PageNum == 18)
-            for (x = 0; x < 24; x++)
-                if (KlackerTafel.Haben[x + 15 * 24])
+        if (PageNum == 2 || PageNum == 14 || PageNum == 18) {
+            for (x = 0; x < 24; x++) {
+                if (KlackerTafel.Haben[x + 15 * 24] != 0) {
                     RoomBm.BlitFrom(KlackerTafel.KlackerBms[(long)KlackerTafel.Haben[x + 15 * 24]], x * 16 + 128, 63 + 15 * 22);
+}
+}
+}
 
         if (PageNum == 2 || PageNum == 14 || PageNum == 18)
         {
             //Logo-Felder drüber blitten:
             for (y = 0; y < 4; y++)
             {
-                if (KlackerTafel.Haben[3 + (y * 2 + 2) * 24] < SmallLogoBms.AnzEntries())
+                if (KlackerTafel.Haben[3 + (y * 2 + 2) * 24] < SmallLogoBms.AnzEntries()) {
                     RoomBm.BlitFrom(SmallLogoBms[(long)KlackerTafel.Haben[3 + (y * 2 + 2) * 24]], 215 - 80 + 48, y * 22 * 3 + 199 - 66 - 1);
+}
 
                 //RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)(KlackerTafel.KlackerBms.AnzEntries()-2+Sim.Players.Players[y].Owner)], 160+48, y*22*3+235-18-66);
                 RoomBm.BlitFrom(KlackerTafel.KlackerBms[0], 160 + 48, y * 22 * 3 + 235 - 18 - 66);
 
                 SLONG o = Sim.Players.Players[y].Owner;
-                if (o == 2) o = 0;
-                if (o == 3) if ((timeGetTime() % 1700) > 600) o = 0; else o = 1;
+                if (o == 2) { o = 0;
+}
+                if (o == 3) { if ((timeGetTime() % 1700) > 600) { o = 0; } else { o = 1;
+}
+}
                 if (y + o * 4 < PlayerBms.AnzEntries())
                 {
                     RoomBm.BlitFromT(PlayerBms[y + o * 4], 215 - 80 - 7, y * 22 * 3 + 199 - 66 - 3 + 44 - (PlayerBms[y].Size.y));
 
-                    if (/*Sim.Players.Players[y].Owner==0 ||*/ Sim.Players.Players[y].Owner == 2)
+                    if (/*Sim.Players.Players[y].Owner==0 ||*/ Sim.Players.Players[y].Owner == 2) {
                         RoomBm.BlitFromT(HakenBm, 215 - 80 - 7 + 26 + 4, y * 22 * 3 + 199 - 66 - 3 + 44 - (PlayerBms[y].Size.y) + 26 + 5);
+}
                 }
             }
 
             //Text-Cursor blitten:
-            if (CursorY != -1)
+            if (CursorY != -1) {
                 RoomBm.BlitFromT(KlackerTafel.Cursors[long(BlinkState % 8)], (CursorX + 6) * 16 + 128, (CursorY + 2) * 22 + (CursorY / 2 + 1) * 22 + 63);
+}
         }
         else if (PageNum == 17)
         {
@@ -1015,167 +1089,195 @@ void NewGamePopup::OnPaint()
         //Cursorposition auswerten:
         //SetMouseLook (CURSOR_NORMAL, 0, ROOM_TITLE, 0);
 
-        if (!IsDialogOpen() && !MenuIsOpen())
+        if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
         {
             if (PageNum == 0)
             {
-                if (bFirstClass)
+                if (bFirstClass != 0)
                 {
-                    if (!gSpawnOnly && GridPos.IfIsWithin(1, 2, 20, 2)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);     //Neues Spiel
-                    else if (!gSpawnOnly && GridPos.IfIsWithin(1, 3, 20, 3)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 12);    //Missionen
-                    else if (!gSpawnOnly && GridPos.IfIsWithin(1, 4, 20, 4)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 133);   //Freies Spiel
-                    else if (GridPos.IfIsWithin(1, 5, 20, 5))                SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 13);    //Netz
-                    else if (!gSpawnOnly && GridPos.IfIsWithin(1, 6, 20, 6)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 2);     //Laden
+                    if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 2, 20, 2)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);     //Neues Spiel
+                    } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 3, 20, 3)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 12);    //Missionen
+                    } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 4, 20, 4)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 133);   //Freies Spiel
+                    } else if (GridPos.IfIsWithin(1, 5, 20, 5)) {                SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 13);    //Netz
+                    } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 6, 20, 6)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 2);     //Laden
 
-                    else if (GridPos.IfIsWithin(1, 8, 20, 8)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 3);                    //Startflughafen
-                    else if (GridPos.IfIsWithin(1, 9, 20, 9)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 4);                    //Optionen
-                    else if (!gSpawnOnly && GridPos.IfIsWithin(1, 10, 20, 10)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 5);     //Intro
-                    else if (GridPos.IfIsWithin(1, 11, 20, 11)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 6);                    //Credits
+                    } else if (GridPos.IfIsWithin(1, 8, 20, 8)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 3);                    //Startflughafen
+                    } else if (GridPos.IfIsWithin(1, 9, 20, 9)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 4);                    //Optionen
+                    } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 10, 20, 10)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 5);     //Intro
+                    } else if (GridPos.IfIsWithin(1, 11, 20, 11)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 6);                    //Credits
+}
                 }
                 else
                 {
-                    if (!gSpawnOnly && GridPos.IfIsWithin(1, 2, 20, 2)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 133);   //Freies Spiel
-                    else if (!gSpawnOnly && GridPos.IfIsWithin(1, 3, 20, 3)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 150);   //Kampagnen
+                    if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 2, 20, 2)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 133);   //Freies Spiel
+                    } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 3, 20, 3)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 150);   //Kampagnen
                     //else if (!gSpawnOnly && GridPos.IfIsWithin (1,  2, 20,  2)) SetMouseLook (CURSOR_HOT, 0, ROOM_TITLE, 1);     //Neues Spiel
                     //else if (!gSpawnOnly && GridPos.IfIsWithin (1,  3, 20,  3)) SetMouseLook (CURSOR_HOT, 0, ROOM_TITLE, 12);    //Missionen
                     //else if (!gSpawnOnly && GridPos.IfIsWithin (1,  4, 20,  4)) SetMouseLook (CURSOR_HOT, 0, ROOM_TITLE, 122);   //Missionen2
-                    else if (GridPos.IfIsWithin(1, 4, 20, 4))                SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 13);    //Netz
-                    else if (!gSpawnOnly && GridPos.IfIsWithin(1, 5, 20, 5)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 2);     //Laden
+                    } else if (GridPos.IfIsWithin(1, 4, 20, 4)) {                SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 13);    //Netz
+                    } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 5, 20, 5)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 2);     //Laden
 
-                    else if (GridPos.IfIsWithin(1, 7, 20, 7)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 3);                    //Startflughafen
-                    else if (GridPos.IfIsWithin(1, 8, 20, 8)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 4);                    //Optionen
-                    else if (!gSpawnOnly && GridPos.IfIsWithin(1, 10, 20, 10)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 5);     //Intro
-                    else if (GridPos.IfIsWithin(1, 11, 20, 11)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 6);                    //Credits
-                    else if (GridPos.IfIsWithin(1, 12, 20, 12)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 7);                    //Highscores
+                    } else if (GridPos.IfIsWithin(1, 7, 20, 7)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 3);                    //Startflughafen
+                    } else if (GridPos.IfIsWithin(1, 8, 20, 8)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 4);                    //Optionen
+                    } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 10, 20, 10)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 5);     //Intro
+                    } else if (GridPos.IfIsWithin(1, 11, 20, 11)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 6);                    //Credits
+                    } else if (GridPos.IfIsWithin(1, 12, 20, 12)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 7);                    //Highscores
+}
                 }
 
-                if (GridPos.IfIsWithin(1, bFirstClass ? 13 : 14, 20, bFirstClass ? 13 : 14)) SetMouseLook(CURSOR_EXIT, 0, ROOM_TITLE, 999);
+                if (GridPos.IfIsWithin(1, bFirstClass != 0 ? 13 : 14, 20, bFirstClass != 0 ? 13 : 14)) { SetMouseLook(CURSOR_EXIT, 0, ROOM_TITLE, 999);
+}
             }
             else if (PageNum == 1 || PageNum == 2 || PageNum == 12 || PageNum == 122 || PageNum == 14 || PageNum == 18)
             {
                 //"Abbrechen"
                 if (Line == 15 && Column >= 0 && Column <= 10)
                 {
-                    if ((PageNum >= 0 && PageNum <= 2) || PageNum == 12 || PageNum == 122 || PageNum == 14) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                    if ((PageNum >= 0 && PageNum <= 2) || PageNum == 12 || PageNum == 122 || PageNum == 14) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 }
                 //"Los!"
                 if (Line == 15 && Column >= 14 && Column < 24)
                 {
-                    if (PageNum == 12 || PageNum == 122 || PageNum == 14 || PageNum == 1 || (PageNum == 2 && NamesOK)) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                    if (PageNum == 12 || PageNum == 122 || PageNum == 14 || PageNum == 1 || (PageNum == 2 && (NamesOK != 0))) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                 }
-                else if (PageNum == 1 && Line >= 2 && Line <= 2 + Sim.MaxDifficulty)     SetMouseLook(CURSOR_HOT, 0, -100, 0);
-                else if (PageNum == 12 && Line >= 2 && Line <= 2 + Sim.MaxDifficulty2 - 11) SetMouseLook(CURSOR_HOT, 0, -100, 0);
-                else if (PageNum == 122 && Line >= 2 && Line <= 2 + Sim.MaxDifficulty3 - 41) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                else if (PageNum == 1 && Line >= 2 && Line <= 2 + Sim.MaxDifficulty) {     SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                } else if (PageNum == 12 && Line >= 2 && Line <= 2 + Sim.MaxDifficulty2 - 11) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                } else if (PageNum == 122 && Line >= 2 && Line <= 2 + Sim.MaxDifficulty3 - 41) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
 
-                if (PageNum == 2 || PageNum == 14 || PageNum == 18)
+                if (PageNum == 2 || PageNum == 14 || PageNum == 18) {
                     for (SLONG c = 0; c < 4; c++)
                     {
                         //Check for click at names:
-                        if (gMousePosition.x >= 175 + 48 && gMousePosition.y >= c * 22 * 3 + 129 && gMousePosition.y <= c * 22 * 3 + 129 + 22) SetMouseLook(CURSOR_HOT, 0, -100, 0);
-                        else if (gMousePosition.x >= 175 + 48 && gMousePosition.y >= c * 22 * 3 + 151 && gMousePosition.y <= c * 22 * 3 + 151 + 22) SetMouseLook(CURSOR_HOT, 0, -100, 0);
-                        else if (gMousePosition.x >= 127 + 48 && gMousePosition.x < 160 + 48 && gMousePosition.y >= c * 22 * 3 + 151 && gMousePosition.y <= c * 22 * 3 + 151 + 22) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                        if (gMousePosition.x >= 175 + 48 && gMousePosition.y >= c * 22 * 3 + 129 && gMousePosition.y <= c * 22 * 3 + 129 + 22) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                        } else if (gMousePosition.x >= 175 + 48 && gMousePosition.y >= c * 22 * 3 + 151 && gMousePosition.y <= c * 22 * 3 + 151 + 22) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                        } else if (gMousePosition.x >= 127 + 48 && gMousePosition.x < 160 + 48 && gMousePosition.y >= c * 22 * 3 + 151 && gMousePosition.y <= c * 22 * 3 + 151 + 22) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
 
                         //Check for Click at Persons
-                        if (gMousePosition.x >= 128 && gMousePosition.x <= 128 + 16 * 24 && gMousePosition.y >= c * 22 * 3 + 129 && gMousePosition.y <= c * 22 * 3 + 129 + 44) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                        if (gMousePosition.x >= 128 && gMousePosition.x <= 128 + 16 * 24 && gMousePosition.y >= c * 22 * 3 + 129 && gMousePosition.y <= c * 22 * 3 + 129 + 44) { SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
                     }
+}
             }
             else if (PageNum == 5)
             {
                 if ((PageSub > 0 && Line == 15 && Column >= 10 && Column <= 11) ||
                         (Line == 15 && Column >= 22 && Column < 24) ||
-                        (Line >= 2 && Line < 14 && Cities.IsInAlbum(Line - 2 + PageSub)) ||
-                        (PageSub + 12 < SLONG(Cities.AnzEntries()) - 1 && Line == 15 && Column >= 13 && Column <= 14))
+                        (Line >= 2 && Line < 14 && (Cities.IsInAlbum(Line - 2 + PageSub) != 0)) ||
+                        (PageSub + 12 < SLONG(Cities.AnzEntries()) - 1 && Line == 15 && Column >= 13 && Column <= 14)) {
                     SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
             }
             else if (PageNum == 7) //Highscores
             {
-                if (Line == 15 && Column >= 0 && Column <= 10)
+                if (Line == 15 && Column >= 0 && Column <= 10) {
                     SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
             }
             else if (PageNum == 13)  //Netzwerk: Provider-Medium wählen
             {
-                if (Line >= 2 && Line < 2 + NetMediumCount)
+                if (Line >= 2 && Line < 2 + NetMediumCount) {
                     SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
 
-                if (GridPos.IfIsWithin(1, 15, 7, 15)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
-                else if (GridPos.IfIsWithin(17, 15, 24, 15)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                if (GridPos.IfIsWithin(1, 15, 7, 15)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                } else if (GridPos.IfIsWithin(17, 15, 24, 15)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+}
             }
             else if (PageNum == MULTIPLAYER_SELECT_SESSION)  //Netzwerk: Session wählen
             {
-                if (Line >= 2 && Line < 2 + (SLONG)pNetworkConnections->GetNumberOfElements())
+                if (Line >= 2 && Line < 2 + (SLONG)pNetworkConnections->GetNumberOfElements()) {
                     SetMouseLook(CURSOR_HOT, 0, -100, 0);
+}
 
-                if (GridPos.IfIsWithin(1, 15, 7, 15))   SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
-                else if (GridPos.IfIsWithin(17, 15, 24, 15) && pNetworkSessions && pNetworkSessions->GetNumberOfElements() > 0) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
-                else if (!gSpawnOnly && GridPos.IfIsWithin(1, 13, 20, 13)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
-                else if (!gSpawnOnly && GridPos.IfIsWithin(1, 10, 20, 11)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                if (GridPos.IfIsWithin(1, 15, 7, 15)) {   SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                } else if (GridPos.IfIsWithin(17, 15, 24, 15) && (pNetworkSessions != nullptr) && pNetworkSessions->GetNumberOfElements() > 0) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 13, 20, 13)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 10, 20, 11)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+}
             }
             else if (PageNum == MULTIPLAYER_CREATE_SESSION) //Netzwerk: Session erzeugen
             {
-                if (GridPos.IfIsWithin(1, 15, 7, 15)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
-                else if (GridPos.IfIsWithin(17, 15, 24, 15)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
-                else if (GridPos.IfIsWithin(1, 4, 24, 4)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
-                else if (GridPos.IfIsWithin(1, 6, 24, 7)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                if (GridPos.IfIsWithin(1, 15, 7, 15)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                } else if (GridPos.IfIsWithin(17, 15, 24, 15)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                } else if (GridPos.IfIsWithin(1, 4, 24, 4)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                } else if (GridPos.IfIsWithin(1, 6, 24, 7)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+}
             }
             else if (PageNum == MULTIPLAYER_PRE_SESSION)
             {
                 //Back:
-                if (GridPos.IfIsWithin(1, 15, 7, 15)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                if (GridPos.IfIsWithin(1, 15, 7, 15)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+}
                 //New from Save
-                if (GridPos.IfIsWithin(0, 3, 24, 4)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 999);
-                if (GridPos.IfIsWithin(0, 6, 24, 6)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 999);
+                if (GridPos.IfIsWithin(0, 3, 24, 4)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 999);
+}
+                if (GridPos.IfIsWithin(0, 6, 24, 6)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 999);
+}
 
             }
             else if (PageNum == 150) //Kampagnen
             {
-                if (!gSpawnOnly && GridPos.IfIsWithin(1, 2, 20, 2)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);     //Neues Spiel
-                else if (!gSpawnOnly && GridPos.IfIsWithin(1, 3, 20, 3)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 12);    //Missionen
-                else if (!gSpawnOnly && GridPos.IfIsWithin(1, 4, 20, 4)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 122);   //Missionen2
+                if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 2, 20, 2)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);     //Neues Spiel
+                } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 3, 20, 3)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 12);    //Missionen
+                } else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 4, 20, 4)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 122);   //Missionen2
+}
 
-                if (GridPos.IfIsWithin(1, 6, 20, 6)) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 999);
+                if (GridPos.IfIsWithin(1, 6, 20, 6)) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 999);
+}
             }
             else if (PageNum == 99)
             {
-                if (KlackerTafel.IsFinished())
+                if (KlackerTafel.IsFinished() != 0)
                 {
                     //KlackerTafel.Warp (); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
 
                     if ((PageSub++) == 5)
                     {
-                        for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++)
+                        for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
                             Sim.Players.Players[c].IsOut = 0;
+}
 
                         //Airport.LoadAirport (1,1,1,1,1,1,1,1,1,1);
                         Sim.Gamestate = UBYTE((Sim.Gamestate & (~GAMESTATE_WORKING)) | GAMESTATE_DONE);
 
                         //We load the routes and Sim when recieving the net event to prevent race conditions
-                        if (Sim.bNetwork != true) {
+                        if (!static_cast<bool>(Sim.bNetwork)) {
                             Routen.ReInit("routen.csv", true);
                             Sim.ChooseStartup(bQuick);
                         }
 
                         Airport.LoadAirport(1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                        Airport.UpdateStaticDoorImage();
+                        AIRPORT::UpdateStaticDoorImage();
                         Airport.CreateGateMapper();
                     }
                 }
             }
             if (PageNum == 18)  //Netzwerk: Auf Mitspieler warten
             {
-                if (GridPos.IfIsWithin(1, 15, 7, 15))   SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
-                else if (GridPos.IfIsWithin(17, 15, 24, 15) && bThisIsSessionMaster && pNetworkPlayers && pNetworkPlayers->GetNumberOfElements() > 1)
+                if (GridPos.IfIsWithin(1, 15, 7, 15)) {   SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                } else if (GridPos.IfIsWithin(17, 15, 24, 15) && bThisIsSessionMaster && (pNetworkPlayers != nullptr) && pNetworkPlayers->GetNumberOfElements() > 1)
                 {
                     SLONG c = 4;
 
-                    if (gNetworkSavegameLoading != -1)
-                        for (c = 0; c < 4; c++)
-                            if (Sim.Players.Players[c].Owner == 3) break;
+                    if (gNetworkSavegameLoading != -1) {
+                        for (c = 0; c < 4; c++) {
+                            if (Sim.Players.Players[c].Owner == 3) { break;
+}
+}
+}
 
-                    if (PageNum == 18 && PlayerReadyAt > timeGetTime()) c = -1;
-                    if (PageNum == 18 && (UnselectedNetworkIDs[0] || UnselectedNetworkIDs[1] || UnselectedNetworkIDs[2] || UnselectedNetworkIDs[3]))
+                    if (PageNum == 18 && PlayerReadyAt > timeGetTime()) { c = -1;
+}
+                    if (PageNum == 18 && ((UnselectedNetworkIDs[0] != 0u) || (UnselectedNetworkIDs[1] != 0u) || (UnselectedNetworkIDs[2] != 0u) || (UnselectedNetworkIDs[3] != 0u))) {
                         c = -1;
+}
 
-                    if (c == 4) SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+                    if (c == 4) { SetMouseLook(CURSOR_HOT, 0, ROOM_TITLE, 1);
+}
                 }
             }
         }
@@ -1183,17 +1285,19 @@ void NewGamePopup::OnPaint()
         RoomBm.PrintAt(VersionString, FontSmallRed, TEC_FONT_RIGHT, XY(0, 429), XY(519, 480));
         gKlackerPlanes.PostPaint(RoomBm);
 
-        if (CursorY != -1)
+        if (CursorY != -1) {
             gKlackerPlanes.Pump(XY((CursorX + 3 + 2) * 16 + 128, (CursorY + 2) * 22 + (CursorY / 2 + 1) * 22 + 63));
-        else
+        } else {
             gKlackerPlanes.Pump(gMousePosition);
+}
     }
 
     CStdRaum::PostPaint();
 
-    if (CurrentMenu != MENU_NONE && TopWin)
+    if (CurrentMenu != MENU_NONE && (TopWin != nullptr))
     {
-        if (MenuPos.y < 0) MenuPos.y = 0;
+        if (MenuPos.y < 0) { MenuPos.y = 0;
+}
         PrimaryBm.BlitFrom(OnscreenBitmap, MenuPos);
     }
 
@@ -1211,12 +1315,12 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown();
 
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0)
     {
         if (CurrentMenu == MENU_ENTERTCPIP)
         {
             XY RoomPos;
-            if (!ConvertMousePosition(point, &RoomPos))
+            if (ConvertMousePosition(point, &RoomPos) == 0)
             {
                 CStdRaum::OnLButtonDown(nFlags, point);
                 return;
@@ -1224,11 +1328,12 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point)
 
             PreLButtonDown(point);
         }
-        else MenuStop();
+        else { MenuStop();
+}
         return;
     }
 
-    if (!PreLButtonDown(point))
+    if (PreLButtonDown(point) == 0)
     {
         SLONG Line = (point.y - 63) / 22;
         SLONG Column = (point.x - 128) / 16;
@@ -1238,19 +1343,19 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point)
         if (PageNum == MAIN_MENU)
         {
 #ifndef DEMO
-            if (!gSpawnOnly && MouseClickId == 133) //"Freies Spiel"
+            if ((gSpawnOnly == 0) && MouseClickId == 133) //"Freies Spiel"
             {
                 PageNum = SELECT_PLAYER_SINGLEPLAYER;
                 Sim.Difficulty = DIFF_FREEGAME;
                 RefreshKlackerField();
             }
 #endif
-            else if (!gSpawnOnly && MouseClickId == 150) //"Spiel laden"
+            else if ((gSpawnOnly == 0) && MouseClickId == 150) //"Spiel laden"
             {
                 PageNum = CAMPAIGN_SELECT;
                 RefreshKlackerField();
             }
-            else if (!gSpawnOnly && MouseClickId == 2) //"Spiel laden"
+            else if ((gSpawnOnly == 0) && MouseClickId == 2) //"Spiel laden"
             {
                 NewgameWantsToLoad = TRUE;
                 NewgameToOptions = TRUE;
@@ -1265,8 +1370,10 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point)
 
 again_heimatflughafen:
                 SLONG c;
-                for (c = PageSub; c < PageSub + 12; c++)
-                    if (Cities.IsInAlbum(c) && Cities.GetIdFromIndex(c) == (ULONG)Sim.HomeAirportId) break;
+                for (c = PageSub; c < PageSub + 12; c++) {
+                    if ((Cities.IsInAlbum(c) != 0) && Cities.GetIdFromIndex(c) == (ULONG)Sim.HomeAirportId) { break;
+}
+}
 
                 if (PageSub < 500)
                 {
@@ -1276,7 +1383,8 @@ again_heimatflughafen:
                         goto again_heimatflughafen;
                     }
                 }
-                else PageSub = 0; //Nur zur Sicherheit, damit's keine Endlosschleife gibt
+                else { PageSub = 0; //Nur zur Sicherheit, damit's keine Endlosschleife gibt
+}
 
                 RefreshKlackerField();
             }
@@ -1286,7 +1394,7 @@ again_heimatflughafen:
                 Sim.Gamestate = UBYTE((GAMESTATE_OPTIONS));
                 KeepRoomLib();
             }
-            else if (!gSpawnOnly && MouseClickId == 5) //"Intro"
+            else if ((gSpawnOnly == 0) && MouseClickId == 5) //"Intro"
             {
 #ifndef NO_INTRO
                 KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
@@ -1321,9 +1429,9 @@ again_heimatflughafen:
 #endif
             }
 
-            if (bFirstClass)
+            if (bFirstClass != 0)
             {
-                if (!gSpawnOnly && MouseClickId == 1) //"Neues Spiel"
+                if ((gSpawnOnly == 0) && MouseClickId == 1) //"Neues Spiel"
                 {
                     PageNum = MISSION_SELECT;
                     Sim.Difficulty = UBYTE(Sim.Options.OptionLastMission);
@@ -1335,7 +1443,7 @@ again_heimatflughafen:
 
                     RefreshKlackerField();
                 }
-                else if (!gSpawnOnly && MouseClickId == 12) //"Neue Missionen"
+                else if ((gSpawnOnly == 0) && MouseClickId == 12) //"Neue Missionen"
                 {
                     Sim.Difficulty = UBYTE(Sim.Options.OptionLastMission2);
 
@@ -1351,7 +1459,7 @@ again_heimatflughafen:
         }
         else if (PageNum == CAMPAIGN_SELECT)
         {
-            if (!gSpawnOnly && MouseClickId == 1) //"Neues Spiel"
+            if ((gSpawnOnly == 0) && MouseClickId == 1) //"Neues Spiel"
             {
                 PageNum = MISSION_SELECT;
                 Sim.Difficulty = UBYTE(Sim.Options.OptionLastMission);
@@ -1363,7 +1471,7 @@ again_heimatflughafen:
 
                 RefreshKlackerField();
             }
-            else if (!gSpawnOnly && MouseClickId == 12) //"Neue Missionen"
+            else if ((gSpawnOnly == 0) && MouseClickId == 12) //"Neue Missionen"
             {
                 Sim.Difficulty = UBYTE(Sim.Options.OptionLastMission2);
 
@@ -1375,7 +1483,7 @@ again_heimatflughafen:
                 PageNum = ADDON_MISSION_SELECT;
                 RefreshKlackerField();
             }
-            else if (!gSpawnOnly && MouseClickId == 122) //"Noch mehr Missionen"
+            else if ((gSpawnOnly == 0) && MouseClickId == 122) //"Noch mehr Missionen"
             {
                 Sim.Difficulty = UBYTE(Sim.Options.OptionLastMission3);
 
@@ -1403,7 +1511,7 @@ again_heimatflughafen:
                     Sim.Gamestate = GAMESTATE_BOOT;
                     return;
                 }
-                else if (PageNum == 1 || PageNum == 12 || PageNum == 122)
+                if (PageNum == 1 || PageNum == 12 || PageNum == 122)
                 {
                     PageNum = bFirstClass ? MAIN_MENU : CAMPAIGN_SELECT;
                     RefreshKlackerField();
@@ -1443,7 +1551,7 @@ again_heimatflughafen:
                     RefreshKlackerField();
                     return;
                 }
-                else if (PageNum == 12)
+                if (PageNum == 12)
                 {
                     PageNum = SELECT_PLAYER_CAMPAIGN;
                     RefreshKlackerField();
@@ -1565,7 +1673,8 @@ again_heimatflughafen:
 
             if (PageNum == 2 || PageNum == 14 || PageNum == 18)
             {
-                if (PageNum == 18 && gNetworkSavegameLoading != -1 && !GridPos.IfIsWithin(1, 15, 7, 15)) return;
+                if (PageNum == 18 && gNetworkSavegameLoading != -1 && !GridPos.IfIsWithin(1, 15, 7, 15)) { return;
+}
 
                 for (SLONG c = 0; c < 4; c++)
                 {
@@ -1579,17 +1688,18 @@ again_heimatflughafen:
 
                             CursorX = CursorY = -1;
 
-                            if (Sim.bIsHost)
+                            if (Sim.bIsHost != 0)
                             {
                                 Sim.Players.Players[c].NetworkID = 0;
                                 Sim.Players.Players[c].Owner = 1;
 
-                                for (SLONG d = 0; d < 4; d++)
+                                for (SLONG d = 0; d < 4; d++) {
                                     if (UnselectedNetworkIDs[d] == 0)
                                     {
                                         UnselectedNetworkIDs[d] = gNetwork.GetLocalPlayerID();
                                         break;
                                     }
+}
                                 RefreshKlackerField();
                             }
 
@@ -1603,10 +1713,12 @@ again_heimatflughafen:
                         {
                             CursorX = (point.x - 175 - 48) / 16;
                             CursorY = c * 2;
-                            if (CursorX > 17) CursorX = 17;
+                            if (CursorX > 17) { CursorX = 17;
+}
                         }
-                        else if (point.x >= 175 + 48 && point.y >= c * 22 * 3 + 129 + 22 && point.y <= c * 22 * 3 + 129 + 44)
+                        else if (point.x >= 175 + 48 && point.y >= c * 22 * 3 + 129 + 22 && point.y <= c * 22 * 3 + 129 + 44) {
                             CursorX = CursorY = -1;
+}
 
                         //Check for Click at Persons
                         if (point.x >= 128 && point.x <= 128 + 16 * 24 && point.y >= c * 22 * 3 + 129 && point.y <= c * 22 * 3 + 129 + 44)
@@ -1634,16 +1746,20 @@ again_heimatflughafen:
 
                             Sim.Players.Players[c].Owner = 0;
                             Sim.Players.Players[c].NetworkID = gNetwork.GetLocalPlayerID();
-                            if (!bFound) Sim.SendSimpleMessage(ATNET_SELECTPLAYER, 0, -1, c, gNetwork.GetLocalPlayerID());
+                            if (!bFound) { Sim.SendSimpleMessage(ATNET_SELECTPLAYER, 0, -1, c, gNetwork.GetLocalPlayerID());
+}
 
 
-                            for (SLONG e = 0; e < 4; e++)
-                                if (UnselectedNetworkIDs[e] == gNetwork.GetLocalPlayerID())
+                            for (SLONG e = 0; e < 4; e++) {
+                                if (UnselectedNetworkIDs[e] == gNetwork.GetLocalPlayerID()) {
                                     UnselectedNetworkIDs[e] = 0;
+}
+}
 
                             Sim.Options.OptionLastPlayer = c;
 
-                            if (point.x < 175 + 48) CursorX = CursorY = -1;
+                            if (point.x < 175 + 48) { CursorX = CursorY = -1;
+}
 
                             CheckNames();
                             RefreshKlackerField();
@@ -1658,7 +1774,8 @@ again_heimatflughafen:
             if (PageSub > 0 && Column >= 10 && Column <= 11)
             {
                 PageSub -= 12;
-                if (PageSub < 0) PageSub = 0;
+                if (PageSub < 0) { PageSub = 0;
+}
                 RefreshKlackerField();
             }
 
@@ -1668,7 +1785,7 @@ again_heimatflughafen:
                 RefreshKlackerField();
             }
 
-            if (Line >= 2 && Line < 14 && Cities.IsInAlbum(Line - 2 + PageSub))
+            if (Line >= 2 && Line < 14 && (Cities.IsInAlbum(Line - 2 + PageSub) != 0))
             {
                 Sim.Options.OptionAirport = Cities.GetIdFromIndex(Line - 2 + PageSub);
                 Sim.HomeAirportId = Sim.Options.OptionAirport;
@@ -1697,8 +1814,10 @@ again_heimatflughafen:
             ReisebueroAuftraege.ResetNextId();
             gFrachten.ResetNextId();
 
-            for (c = 0; c < MAX_CITIES; c++) AuslandsAuftraege[c].ResetNextId();
-            for (c = 0; c < MAX_CITIES; c++) AuslandsFrachten[c].ResetNextId();
+            for (c = 0; c < MAX_CITIES; c++) { AuslandsAuftraege[c].ResetNextId();
+}
+            for (c = 0; c < MAX_CITIES; c++) { AuslandsFrachten[c].ResetNextId();
+}
 
             if (Line >= 2 && Line < 2 + NetMediumCount * 2)
             {
@@ -1723,13 +1842,14 @@ again_heimatflughafen:
                 Sim.Options.OptionLastProvider = Selection;
                 Sim.Options.WriteOptions();
 
-                if (Sim.Options.OptionRandomStartday)
+                if (Sim.Options.OptionRandomStartday != 0)
                 {
                     srand(time(NULL));
                     Sim.StartTime = (rand() % 365) * 60 * 60 * 24;
                 }
-                else
+                else {
                     Sim.StartTime = time(NULL);
+}
 
                 SLONG id = gNetwork.GetProviderID((char*)(LPCTSTR)pNetworkConnections->Get(NetMediumMapper[Selection] + 1));
                 gNetwork.SetProvider((SBTypeEnum)id);
@@ -1780,7 +1900,7 @@ again_heimatflughafen:
         }
         else if (PageNum == MULTIPLAYER_SELECT_SESSION) //Netzwerk: Session auswählen / erzeugen
         {
-            if (pNetworkSessions && Line >= 2 && Line <= 2 + (SLONG)pNetworkSessions->GetNumberOfElements())
+            if ((pNetworkSessions != nullptr) && Line >= 2 && Line <= 2 + (SLONG)pNetworkSessions->GetNumberOfElements())
             {
                 Selection = Line - 2;
                 RefreshKlackerField();
@@ -1797,7 +1917,7 @@ again_heimatflughafen:
                 RefreshKlackerField();
             }
             //Weiter:
-            else if (GridPos.IfIsWithin(17, 15, 24, 15) && pNetworkSessions && pNetworkSessions->GetNumberOfElements() > 0)
+            else if (GridPos.IfIsWithin(17, 15, 24, 15) && (pNetworkSessions != nullptr) && pNetworkSessions->GetNumberOfElements() > 0)
             {
                 if (gNetwork.JoinSession(pNetworkSessions->Get(Selection + 1), SBStr("somename")))
                 {
@@ -1808,7 +1928,8 @@ again_heimatflughafen:
 
                     bThisIsSessionMaster = false;
 
-                    for (SLONG d = 0; d < 4; d++) Sim.Players.Players[d].NetworkID = 0;
+                    for (SLONG d = 0; d < 4; d++) { Sim.Players.Players[d].NetworkID = 0;
+}
                     Sim.Players.Players[Sim.Options.OptionLastPlayer].NetworkID = gNetwork.GetLocalPlayerID();
 
                     //"Please let me play with you"
@@ -1825,7 +1946,7 @@ again_heimatflughafen:
                 }
             }
             //Eigene Session erzeugen:
-            else if (!gSpawnOnly && GridPos.IfIsWithin(1, 13, 20, 13))
+            else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 13, 20, 13))
             {
                 PageNum = MULTIPLAYER_CREATE_SESSION;
                 CursorX = 0;
@@ -1833,9 +1954,9 @@ again_heimatflughafen:
                 RefreshKlackerField();
             }
             //Load network savegame:
-            else if (!gSpawnOnly && GridPos.IfIsWithin(1, 10, 16, 11))
+            else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 10, 16, 11))
             {
-                Sim.bNetwork = true;
+                Sim.bNetwork = 1;
                 NewgameWantsToLoad = 2;
                 gNetworkSavegameLoading = -1;
                 NewgameToOptions = TRUE;
@@ -1856,7 +1977,8 @@ again_heimatflughafen:
                     return;
                 }
                 PageNum = MULTIPLAYER_SELECT_SESSION;
-                if (pNetworkConnections == NULL) pNetworkConnections = gNetwork.GetConnectionList();
+                if (pNetworkConnections == NULL) { pNetworkConnections = gNetwork.GetConnectionList();
+}
                 gNetwork.StartGetSessionListAsync();
                 RefreshKlackerField();
             }
@@ -1924,7 +2046,7 @@ again_heimatflughafen:
                 RefreshKlackerField();
             }
             //Eigene Session erzeugen:
-            else if (!gSpawnOnly && GridPos.IfIsWithin(0, 6, 24, 6))
+            else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(0, 6, 24, 6))
             {
                 PageNum = MULTIPLAYER_CREATE_SESSION;
                 CursorX = 0;
@@ -1932,9 +2054,9 @@ again_heimatflughafen:
                 RefreshKlackerField();
             }
             //Load network savegame:
-            else if (!gSpawnOnly && GridPos.IfIsWithin(1, 3, 24, 4))
+            else if ((gSpawnOnly == 0) && GridPos.IfIsWithin(1, 3, 24, 4))
             {
-                Sim.bNetwork = true;
+                Sim.bNetwork = 1;
                 NewgameWantsToLoad = 2;
                 gNetworkSavegameLoading = -1;
                 NewgameToOptions = TRUE;
@@ -1952,12 +2074,13 @@ again_heimatflughafen:
                 gNetwork.CloseSession();
                 if (bThisIsSessionMaster)
                 {
-                    if (gNetworkSavegameLoading == -1)
+                    if (gNetworkSavegameLoading == -1) {
                         PageNum = MULTIPLAYER_CREATE_SESSION;
-                    else
+                    } else
                     {
                         PageNum = MULTIPLAYER_SELECT_SESSION;
-                        if (pNetworkConnections == NULL) pNetworkConnections = gNetwork.GetConnectionList();
+                        if (pNetworkConnections == NULL) { pNetworkConnections = gNetwork.GetConnectionList();
+}
                     }
 
                     CursorX = 0;
@@ -1980,7 +2103,7 @@ again_heimatflughafen:
                 }
             }
             //Start Network game:
-            else if (GridPos.IfIsWithin(17, 15, 24, 15) && pNetworkPlayers && pNetworkPlayers->GetNumberOfElements() > 1)
+            else if (GridPos.IfIsWithin(17, 15, 24, 15) && (pNetworkPlayers != nullptr) && pNetworkPlayers->GetNumberOfElements() > 1)
             {
                 //==>+<==
             }
@@ -1993,7 +2116,7 @@ again_heimatflughafen:
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::OnRButtonDown(UINT nFlags, CPoint point)
 {
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0)
     {
         MenuRightClick(point);
     }
@@ -2026,14 +2149,17 @@ void NewGamePopup::OnRButtonDown(UINT nFlags, CPoint point)
 }
 
 void NewGamePopup::CheckNetEvents() {
-    if (PageNum == 13 || PageNum == MULTIPLAYER_SELECT_SESSION || PageNum == 17 || PageNum == 18)
-        if (gNetwork.IsInitialized() && gNetwork.GetMessageCount())
+    if (PageNum == 13 || PageNum == MULTIPLAYER_SELECT_SESSION || PageNum == 17 || PageNum == 18) {
+        if (gNetwork.IsInitialized() && (gNetwork.GetMessageCount() != 0))
         {
             TEAKFILE Message;
 
             if (Sim.ReceiveMemFile(Message))
             {
-                ULONG MessageType, Par1 = 0, Par2 = 0, Par3 = 0;
+                ULONG MessageType;
+                ULONG Par1 = 0;
+                ULONG Par2 = 0;
+                ULONG Par3 = 0;
                 Message >> MessageType;
 
                 switch (MessageType)
@@ -2059,13 +2185,16 @@ void NewGamePopup::CheckNetEvents() {
                     case ATNET_WANNAJOIN:
                         if (bThisIsSessionMaster)
                         {
-                            SLONG c, AnzHumanPlayers;
+                            SLONG c;
+                            SLONG AnzHumanPlayers;
                             ULONG SenderID;
                             Message >> SenderID;
 
-                            for (c = AnzHumanPlayers = 0; c < 4; c++)
-                                if (Sim.Players.Players[c].Owner == 0 || Sim.Players.Players[c].Owner == 2)
+                            for (c = AnzHumanPlayers = 0; c < 4; c++) {
+                                if (Sim.Players.Players[c].Owner == 0 || Sim.Players.Players[c].Owner == 2) {
                                     AnzHumanPlayers++;
+}
+}
 
                             if (AnzHumanPlayers >= 4)
                             {
@@ -2081,7 +2210,7 @@ void NewGamePopup::CheckNetEvents() {
                                 TEAKFILE Message;
 
                                 Message.Announce(30);
-                                Message << ATNET_SAVGEGAMECHECK << gNetworkSavegameLoading << Sim.GetSavegameUniqueGameId(gNetworkSavegameLoading, true);
+                                Message << ATNET_SAVGEGAMECHECK << gNetworkSavegameLoading << SIM::GetSavegameUniqueGameId(gNetworkSavegameLoading, true);
 
                                 gNetwork.Send(Message.MemBuffer, Message.MemBufferUsed, SenderID, false);
                             }
@@ -2126,13 +2255,14 @@ void NewGamePopup::CheckNetEvents() {
                                 }
                                 else
                                 {
-                                    for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++)
+                                    for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
                                         if (Sim.Players.Players[c].NetworkID == 0)
                                         {
                                             Sim.Players.Players[c].NetworkID = SenderID;
                                             Sim.Players.Players[c].Owner = 2;
                                             break;
                                         }
+}
                                 }
 
                                 PlayerReadyAt = max(PlayerReadyAt, timeGetTime() + READYTIME_JOIN);
@@ -2149,17 +2279,18 @@ void NewGamePopup::CheckNetEvents() {
 
                             Message >> SavegameIndex >> UniqueGameId;
 
-                            if (Sim.GetSavegameUniqueGameId(SavegameIndex, true) == UniqueGameId)
+                            if (SIM::GetSavegameUniqueGameId(SavegameIndex, true) == UniqueGameId)
                             {
                                 BOOL bOld = Sim.bNetwork;
-                                Sim.bNetwork = true;
-                                Sim.SendSimpleMessage(ATNET_WANNAJOIN2, 0, gNetwork.GetLocalPlayerID(), Sim.GetSavegameLocalPlayer(SavegameIndex));
+                                Sim.bNetwork = 1;
+                                Sim.SendSimpleMessage(ATNET_WANNAJOIN2, 0, gNetwork.GetLocalPlayerID(), SIM::GetSavegameLocalPlayer(SavegameIndex));
                                 Sim.bNetwork = bOld;
                             }
                             else
                             {
                                 PageNum = MULTIPLAYER_SELECT_SESSION;
-                                if (pNetworkConnections == NULL) pNetworkConnections = gNetwork.GetConnectionList();
+                                if (pNetworkConnections == NULL) { pNetworkConnections = gNetwork.GetConnectionList();
+}
                                 gNetwork.StartGetSessionListAsync();
                                 RefreshKlackerField();
                                 MenuStart(MENU_REQUEST, MENU_REQUEST_NET_LOADTHIS);
@@ -2169,7 +2300,8 @@ void NewGamePopup::CheckNetEvents() {
 
                     case ATNET_WANNAJOIN2NO:
                         PageNum = MULTIPLAYER_SELECT_SESSION;
-                        if (pNetworkConnections == NULL) pNetworkConnections = gNetwork.GetConnectionList();
+                        if (pNetworkConnections == NULL) { pNetworkConnections = gNetwork.GetConnectionList();
+}
                         gNetwork.StartGetSessionListAsync();
                         RefreshKlackerField();
                         MenuStart(MENU_REQUEST, MENU_REQUEST_NET_LOADTHIS);
@@ -2177,17 +2309,21 @@ void NewGamePopup::CheckNetEvents() {
 
                     case ATNET_SELECTPLAYER:
                         {
-                            SLONG OldIndex, NewIndex;
+                            SLONG OldIndex;
+                            SLONG NewIndex;
                             ULONG PlayerNetworkID;
 
                             Message >> OldIndex >> NewIndex >> PlayerNetworkID;
 
-                            for (SLONG c = 0; c < 4; c++)
-                                if (UnselectedNetworkIDs[c] == PlayerNetworkID)
+                            for (SLONG c = 0; c < 4; c++) {
+                                if (UnselectedNetworkIDs[c] == PlayerNetworkID) {
                                     UnselectedNetworkIDs[c] = 0;
+}
+}
 
-                            if (OldIndex != -1)
+                            if (OldIndex != -1) {
                                 memswap(&Sim.Players.Players[OldIndex].NetworkID, &Sim.Players.Players[NewIndex].NetworkID, sizeof(ULONG));
+}
 
                             PlayerReadyAt = max(PlayerReadyAt, timeGetTime() + READYTIME_CLICK);
                             Sim.Players.Players[NewIndex].Owner = 2;
@@ -2206,12 +2342,13 @@ void NewGamePopup::CheckNetEvents() {
                             Sim.Players.Players[PlayerIndex].NetworkID = 0;
                             Sim.Players.Players[PlayerIndex].Owner = 1;
 
-                            for (SLONG c = 0; c < 4; c++)
+                            for (SLONG c = 0; c < 4; c++) {
                                 if (UnselectedNetworkIDs[c] == 0)
                                 {
                                     UnselectedNetworkIDs[c] = PlayerNetworkID;
                                     break;
                                 }
+}
                             RefreshKlackerField();
                         }
                         break;
@@ -2222,18 +2359,22 @@ void NewGamePopup::CheckNetEvents() {
                             ULONG SenderID;
                             Message >> SenderID;
 
-                            for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++)
+                            for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
                                 if (Sim.Players.Players[c].NetworkID == SenderID)
                                 {
                                     Sim.Players.Players[c].NetworkID = 0;
 
-                                    if (gNetworkSavegameLoading != -1)
+                                    if (gNetworkSavegameLoading != -1) {
                                         Sim.Players.Players[c].Owner = 3;
+}
                                 }
+}
 
-                            for (SLONG c = 0; c < 4; c++)
-                                if (UnselectedNetworkIDs[c] == SenderID)
+                            for (SLONG c = 0; c < 4; c++) {
+                                if (UnselectedNetworkIDs[c] == SenderID) {
                                     UnselectedNetworkIDs[c] = 0;
+}
+}
 
                             PushNames();
                         }
@@ -2255,12 +2396,13 @@ void NewGamePopup::CheckNetEvents() {
                             Sim.Options.OptionAirport = Sim.HomeAirportId;
                             Sim.StartTime = time_t(Time);
 
-                            Sim.bNetwork = true;
-                            bNetworkUnderway = false;
+                            Sim.bNetwork = 1;
+                            bNetworkUnderway = 0;
                             Sim.Difficulty = difficulty;//DIFF_ATFS07;//DIFF_FREEGAME;
                             Sim.bWatchForReady = TRUE;
 
-                            for (SLONG c = 0; c < 4; c++) Sim.Players.Players[c].bReadyForMorning = false;
+                            for (SLONG c = 0; c < 4; c++) { Sim.Players.Players[c].bReadyForMorning = 0;
+}
 
                             Sim.bThisIsSessionMaster = bThisIsSessionMaster;
                             Routen.ReInit("routen.csv", true);
@@ -2279,18 +2421,19 @@ void NewGamePopup::CheckNetEvents() {
                             Sim.Options.OptionAirport = Sim.HomeAirportId;
                             Sim.StartTime = time_t(Time);
 
-                            Sim.bNetwork = true;
-                            bNetworkUnderway = false;
+                            Sim.bNetwork = 1;
+                            bNetworkUnderway = 0;
                             Sim.Difficulty = difficulty;//DIFF_ATFS07;//DIFF_FREEGAME;
                             Sim.bWatchForReady = TRUE;
 
-                            for (SLONG c = 0; c < 4; c++) Sim.Players.Players[c].bReadyForMorning = false;
+                            for (SLONG c = 0; c < 4; c++) { Sim.Players.Players[c].bReadyForMorning = 0;
+}
 
                             Sim.bThisIsSessionMaster = bThisIsSessionMaster;
 
                             RefreshKlackerField();
-                            NewgameWantsToLoad = true;
-                            nWaitingForPlayer += Sim.GetSavegameNumHumans(Index) - 1;
+                            NewgameWantsToLoad = 1;
+                            nWaitingForPlayer += SIM::GetSavegameNumHumans(Index) - 1;
                             SetNetworkBitmap(3, 1); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
                             Sim.LoadGame(Index);
                             Sim.SendSimpleMessage(ATNET_WAITFORPLAYER, 0, -1, Sim.localPlayer);
@@ -2315,8 +2458,9 @@ void NewGamePopup::CheckNetEvents() {
                         Message >> Par1 >> Par2;
                         nWaitingForPlayer += Par1;
                         nPlayerWaiting[(SLONG)Par2] += Par1;
-                        if (nPlayerWaiting[(SLONG)Par2] < 0) nPlayerWaiting[(SLONG)Par2] = 0;
-                        SetNetworkBitmap((nWaitingForPlayer > 0) * 3);
+                        if (nPlayerWaiting[(SLONG)Par2] < 0) { nPlayerWaiting[(SLONG)Par2] = 0;
+}
+                        SetNetworkBitmap(static_cast<int>(nWaitingForPlayer > 0) * 3);
                         break;
 
                     case ATNET_SORRYFULL:
@@ -2343,12 +2487,13 @@ void NewGamePopup::CheckNetEvents() {
                             gNetwork.StartGetSessionListAsync();
                             RefreshKlackerField();
                         }
-                        else bThisIsSessionMaster = true;
+                        else { bThisIsSessionMaster = true;
+}
                         break;
 
                     case ATNET_READYFORMORNING:
                         Message >> Par1;
-                        Sim.Players.Players[SLONG(Par1)].bReadyForMorning = true;
+                        Sim.Players.Players[SLONG(Par1)].bReadyForMorning = 1;
                         break;
 
                         //Microsoft and SBLib internal codes:
@@ -2369,8 +2514,10 @@ void NewGamePopup::CheckNetEvents() {
                         break;
                 }
             }
-            else hprintf("Received no Message!");
+            else { hprintf("Received no Message!");
+}
         }
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2378,28 +2525,35 @@ void NewGamePopup::CheckNetEvents() {
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::OnTimer(UINT nIDEvent)
 {
-    SLONG c, l;
+    SLONG c;
+    SLONG l;
     static int counter = 0;
 
-    if (!bNewGamePopupIsOpen) return;
+    if (!bNewGamePopupIsOpen) { return;
+}
 
     l = strlen(KlackerFntDef);
 
-    if (!bNewGamePopupIsOpen) return;
+    if (!bNewGamePopupIsOpen) { return;
+}
 
     //Mit 10 FPS die Anzeige rotieren lassen:
-    if (nIDEvent == 1) KlackerTafel.Klack();
+    if (nIDEvent == 1) { KlackerTafel.Klack();
+}
 
     //Logo-rotation korrigieren:
-    if (PageNum == 2 || PageNum == 14 || PageNum == 18)
+    if (PageNum == 2 || PageNum == 14 || PageNum == 18) {
         for (c = 0; c < 4; c++)
         {
-            if (KlackerTafel.Haben[3 + (c * 2 + 2) * 24] == l - 1)
+            if (KlackerTafel.Haben[3 + (c * 2 + 2) * 24] == l - 1) {
                 KlackerTafel.Haben[3 + (c * 2 + 2) * 24] = UBYTE(LogoBms.AnzEntries() - 1);
+}
 
-            if (KlackerTafel.Haben[3 + (c * 2 + 2) * 24] >= LogoBms.AnzEntries())
+            if (KlackerTafel.Haben[3 + (c * 2 + 2) * 24] >= LogoBms.AnzEntries()) {
                 KlackerTafel.Haben[3 + (c * 2 + 2) * 24] = 0;
+}
         }
+}
 
     if (PageNum == 13)
     {
@@ -2418,7 +2572,8 @@ void NewGamePopup::OnTimer(UINT nIDEvent)
 
                         bThisIsSessionMaster = false;
 
-                        for (SLONG d = 0; d < 4; d++) Sim.Players.Players[d].NetworkID = 0;
+                        for (SLONG d = 0; d < 4; d++) { Sim.Players.Players[d].NetworkID = 0;
+}
                         Sim.Players.Players[Sim.Options.OptionLastPlayer].NetworkID = gNetwork.GetLocalPlayerID();
 
                         //"Please let me play with you"
@@ -2475,7 +2630,8 @@ void NewGamePopup::OnTimer(UINT nIDEvent)
             RefreshKlackerField();
         }
 
-        if (PageNum == 13 || PageNum == 15) RefreshKlackerField();
+        if (PageNum == 13 || PageNum == 15) { RefreshKlackerField();
+}
     }
 
     BlinkState++;
@@ -2486,13 +2642,18 @@ void NewGamePopup::OnTimer(UINT nIDEvent)
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0) {
         CStdRaum::OnChar(nChar, nRepCnt, nFlags);
+}
 
-    if (nChar >= 'a' && nChar <= 'z') nChar = toupper(nChar);
-    if (nChar == 196 || nChar == 228) nChar = (UINT)'Ä';
-    if (nChar == 214 || nChar == 246) nChar = (UINT)'Ö';
-    if (nChar == 220 || nChar == 252) nChar = (UINT)'Ü';
+    if (nChar >= 'a' && nChar <= 'z') { nChar = toupper(nChar);
+}
+    if (nChar == 196 || nChar == 228) { nChar = (UINT)'Ä';
+}
+    if (nChar == 214 || nChar == 246) { nChar = (UINT)'Ö';
+}
+    if (nChar == 220 || nChar == 252) { nChar = (UINT)'Ü';
+}
 
     if (CursorY != -1 && (PageNum == 2 || PageNum == 14 || PageNum == 18))
     {
@@ -2500,26 +2661,31 @@ void NewGamePopup::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
         {
             if (CursorX < 0)
             {
-                if (nChar != ' ')
+                if (nChar != ' ') {
                     Sim.Players.Players[SLONG(CursorY / 2)].Abk.SetAt(CursorX + 3, UBYTE(nChar));
+}
             }
             else if ((CursorY & 1) == 0)
             {
                 Sim.Players.Players[SLONG(CursorY / 2)].Name.SetAt(CursorX, UBYTE(nChar));
                 PushName(CursorY / 2);
             }
-            else if ((CursorY & 1) == 1) Sim.Players.Players[SLONG(CursorY / 2)].Airline.SetAt(CursorX, UBYTE(nChar));
+            else if ((CursorY & 1) == 1) { Sim.Players.Players[SLONG(CursorY / 2)].Airline.SetAt(CursorX, UBYTE(nChar));
+}
             CheckNames();
             RefreshKlackerField();
 
-            if (CursorX < 17) CursorX++;
-            if (CursorX == -1) CursorX++;
+            if (CursorX < 17) { CursorX++;
+}
+            if (CursorX == -1) { CursorX++;
+}
         }
 
         if (nChar == VK_RETURN)
         {
             CursorX = 0;
-            if (CursorY < 6) CursorY += 2;
+            if (CursorY < 6) { CursorY += 2;
+}
         }
     }
     else if (PageNum == 17)
@@ -2529,7 +2695,8 @@ void NewGamePopup::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
             NetworkSession.SetAt(CursorX, UBYTE(nChar));
             RefreshKlackerField();
 
-            if (CursorX < 23) CursorX++;
+            if (CursorX < 23) { CursorX++;
+}
         }
     }
 }
@@ -2539,16 +2706,18 @@ void NewGamePopup::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
 void NewGamePopup::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0) {
         CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
+}
 
     if (CursorY != -1 && (PageNum == 2 || PageNum == 14 || PageNum == 18))
     {
         if (nChar == VK_LEFT)
         {
-            if (CursorX > 0) CursorX--;
-            else if (CursorX == 0 && (CursorY & 1) == 1) CursorX -= 2;
-            else if (CursorX<-1 && CursorX>-3) CursorX--;
+            if (CursorX > 0) { CursorX--;
+            } else if (CursorX == 0 && (CursorY & 1) == 1) { CursorX -= 2;
+            } else if (CursorX<-1 && CursorX>-3) { CursorX--;
+}
         }
         else if (nChar == VK_BACK)
         {
@@ -2586,12 +2755,14 @@ void NewGamePopup::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
         if (nChar == VK_RIGHT && CursorX < 17)
         {
             CursorX++;
-            if (CursorX == -1) CursorX++;
+            if (CursorX == -1) { CursorX++;
+}
         }
 
         if (nChar == VK_UP && (CursorY > 1 || CursorX >= 0) && !gNetwork.IsInSession())
         {
-            if (CursorY > 0) CursorY -= 2;
+            if (CursorY > 0) { CursorY -= 2;
+}
         }
 
         if (nChar == VK_DOWN && CursorY < 6 && !gNetwork.IsInSession())
@@ -2603,7 +2774,8 @@ void NewGamePopup::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     {
         if (nChar == VK_LEFT)
         {
-            if (CursorX > 0) CursorX--;
+            if (CursorX > 0) { CursorX--;
+}
         }
         else if (nChar == VK_BACK)
         {
@@ -2684,10 +2856,9 @@ bool SIM::SendMemFile(TEAKFILE& file, ULONG target, bool useCompression)
 {
     useCompression = false;
 
-    if ((Sim.bNetwork || bNetworkUnderway) && gNetwork.IsInSession())
+    if (((Sim.bNetwork != 0) || (bNetworkUnderway != 0)) && gNetwork.IsInSession()) {
         return gNetwork.Send(file.MemBuffer, file.MemBufferUsed, target, useCompression);
-    else
-        return (false);
+    }         return (false);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2755,8 +2926,9 @@ bool SIM::SendChatBroadcast(CString Message, bool bSayFromWhom, ULONG target)
     MessageBox.Announce(30);
     MessageBox << ATNET_CHATBROADCAST;
 
-    if (bSayFromWhom) MessageBox << SLONG(Sim.localPlayer);
-    else MessageBox << SLONG(-1);
+    if (bSayFromWhom) { MessageBox << SLONG(Sim.localPlayer);
+    } else { MessageBox << SLONG(-1);
+}
 
     MessageBox << Message;
     return Sim.SendMemFile(MessageBox, target);
@@ -2778,8 +2950,9 @@ bool SIM::ReceiveMemFile(TEAKFILE& file)
     file.MemBufferUsed = Size;
     file.MemPointer = 0;
 
-    if (p && Size)
+    if ((p != nullptr) && (Size != 0u)) {
         file.MemBuffer.ReSize(Size, p);
+}
 
     return (rc);
 }

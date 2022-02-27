@@ -31,7 +31,8 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
     pGfxMain->LoadLib ((char*)(LPCTSTR)FullFilename ("tippl.gli", GliPath), &pMenuLib, L_LOCMEM);
     BlockBm.ReSize (pMenuLib, "BLOC1");
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
 
     MiniPlanes.ReSize (pRoomLib, "MINI0101 MINI0102 MINI0103 MINI0104 MINI0201 MINI0202 MINI0203 MINI0204 MINI0301 MINI0302 MINI0303 MINI0304");
     Sim.UpdateUsedPlanes ();
@@ -124,7 +125,7 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "m
     RotorAnim.ReSize   (pRoomLib, "ROTOR01",  2, NULL, FALSE, ANIMATION_MODE_REPEAT, 0,  1);
 
     //Hintergrundsounds:
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         TriebwerkFx.ReInit ("museum.raw");
         TriebwerkFx.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
@@ -183,12 +184,14 @@ void CMuseum::SellUsedPlane(void)
 //--------------------------------------------------------------------------------------------
 CMuseum::~CMuseum()
 {
-    if (Sim.DialogOvertureFlags&DIALOG_MUSEUM)
+    if ((Sim.DialogOvertureFlags&DIALOG_MUSEUM) != 0u) {
         Sim.DialogOvertureFlags|=DIALOG_MUSEUM2;
+}
 
     BlockBm.Destroy();
     MiniPlanes.Destroy();
-    if (pMenuLib && pGfxMain) pGfxMain->ReleaseLib (pMenuLib);
+    if ((pMenuLib != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
+}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -200,7 +203,8 @@ CMuseum::~CMuseum()
 //--------------------------------------------------------------------------------------------
 void CMuseum::OnPaint()
 {
-    SLONG  c, NewTip;
+    SLONG  c;
+    SLONG  NewTip;
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -212,11 +216,12 @@ void CMuseum::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (0,0,233,227) || gMousePosition.IfIsWithin (533,312,605,352)) SetMouseLook (CURSOR_EXIT, 0, ROOM_MUSEUM, 999);
-        else if (gMousePosition.IfIsWithin (125,226,375-1,330)) SetMouseLook (CURSOR_HOT, 0, ROOM_MUSEUM, 10);
-        else if (gMousePosition.IfIsWithin (408,193,590,430)) SetMouseLook (CURSOR_HOT, 0, ROOM_MUSEUM, 11);
+        if (gMousePosition.IfIsWithin (0,0,233,227) || gMousePosition.IfIsWithin (533,312,605,352)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_MUSEUM, 999);
+        } else if (gMousePosition.IfIsWithin (125,226,375-1,330)) { SetMouseLook (CURSOR_HOT, 0, ROOM_MUSEUM, 10);
+        } else if (gMousePosition.IfIsWithin (408,193,590,430)) { SetMouseLook (CURSOR_HOT, 0, ROOM_MUSEUM, 11);
+}
     }
 
     SP_Skelett.Pump ();
@@ -226,21 +231,24 @@ void CMuseum::OnPaint()
     //SP_SwingPlane.Pump ();
     //SP_SwingPlane.BlitAtT (RoomBm);
 
-    for (c=0; c<3; c++)
+    for (c=0; c<3; c++) {
         if (Sim.UsedPlanes[0x1000000+c].Name.GetLength()>0)
         {
             SLONG Size = (Sim.UsedPlanes[0x1000000+c].ptPassagiere-100)*4/400;
             //SLONG Size = (PlaneTypes[Sim.UsedPlanes[0x1000000+c].TypeId].Passagiere-100)*4/400;
-            if (Size<0) Size=0;
-            if (Size>3) Size=3;
+            if (Size<0) { Size=0;
+}
+            if (Size>3) { Size=3;
+}
 
             RoomBm.BlitFromT (MiniPlanes[c*4+Size], PlanePositions[c]);
         }
+}
 
     CStdRaum::PostPaint ();
 
     //Ggf. Tips einblenden
-    if (gMousePosition.IfIsWithin (125,226,365-1,330) && !IsDialogOpen() && !MenuIsOpen())
+    if (gMousePosition.IfIsWithin (125,226,365-1,330) && (IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         NewTip = (gMousePosition.x-125)*3/(365-125);
 
@@ -248,14 +256,15 @@ void CMuseum::OnPaint()
         {
             if (Sim.UsedPlanes[0x1000000+NewTip].Name.GetLength()>0)
             {
-                if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_FLUGZEUG))
+                if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater (BERATERTYP_FLUGZEUG) != 0)
                 {
-                    if (Sim.UsedPlanes[0x1000000+NewTip].Baujahr<1960) Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4001), MESSAGE_COMMENT);
-                    else if (Sim.UsedPlanes[0x1000000+NewTip].Zustand<20) Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4000), MESSAGE_COMMENT);
-                    else if (Sim.UsedPlanes[0x1000000+NewTip].Zustand<40) Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4002), MESSAGE_COMMENT);
-                    else if (Sim.UsedPlanes[0x1000000+NewTip].Zustand<60) Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4003), MESSAGE_COMMENT);
-                    else if (Sim.UsedPlanes[0x1000000+NewTip].Zustand<80) Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4004), MESSAGE_COMMENT);
-                    else Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4005), MESSAGE_COMMENT);
+                    if (Sim.UsedPlanes[0x1000000+NewTip].Baujahr<1960) { Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4001), MESSAGE_COMMENT);
+                    } else if (Sim.UsedPlanes[0x1000000+NewTip].Zustand<20) { Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4000), MESSAGE_COMMENT);
+                    } else if (Sim.UsedPlanes[0x1000000+NewTip].Zustand<40) { Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4002), MESSAGE_COMMENT);
+                    } else if (Sim.UsedPlanes[0x1000000+NewTip].Zustand<60) { Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4003), MESSAGE_COMMENT);
+                    } else if (Sim.UsedPlanes[0x1000000+NewTip].Zustand<80) { Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4004), MESSAGE_COMMENT);
+                    } else { Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_FLUGZEUG, StandardTexte.GetS (TOKEN_ADVICE, 4005), MESSAGE_COMMENT);
+}
                 }
 
                 DrawPlaneTip (TipBm, &BlockBm, NULL, &Sim.UsedPlanes[0x1000000+NewTip]);
@@ -268,8 +277,9 @@ void CMuseum::OnPaint()
             }
         }
 
-        if (NewTip!=-1)
+        if (NewTip!=-1) {
             PrimaryBm.BlitFromT (TipBm, 245-TipBm.Size.x/2+(NewTip-1)*100, WinP1.y+50);
+}
 
         CurrentTip = NewTip;
     }
@@ -280,7 +290,7 @@ void CMuseum::OnPaint()
         {
             NewTip = (gMousePosition.y-(MenuPos.y+25))/13 + MenuPage;
 
-            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]))
+            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]) != 0))
             {
                 if (NewTip != CurrentTip)
                 {
@@ -290,16 +300,19 @@ void CMuseum::OnPaint()
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack);
                 }
 
-                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums])
+                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums] != 0u) {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontRed, CURSOR_HOT);
-                else
+                } else {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontBlack, CURSOR_HOT);
+}
 
                 CurrentTip = NewTip;
             }
-            else NewTip = -1;
+            else { NewTip = -1;
+}
         }
-        else NewTip = -1;
+        else { NewTip = -1;
+}
 
         if (NewTip != CurrentTip)
         {
@@ -320,16 +333,16 @@ void CMuseum::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_MUSEUM && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_MUSEUM && MouseClickId==10 && point.x>=125 && point.x<=365-1)
+        if (MouseClickArea==ROOM_MUSEUM && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_MUSEUM && MouseClickId==10 && point.x>=125 && point.x<=365-1)
         {
             SLONG NewTip = (point.x-125)*3/(365-125);
             if (Sim.UsedPlanes[0x1000000+NewTip].Name.GetLength()>0)
@@ -338,8 +351,9 @@ void CMuseum::OnLButtonDown(UINT nFlags, CPoint point)
                 StartDialog (TALKER_MUSEUM, MEDIUM_AIR, NewTip);
             }
         }
-        else if (MouseClickArea==ROOM_MUSEUM && MouseClickId==11) StartDialog (TALKER_MUSEUM, MEDIUM_AIR);
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else if (MouseClickArea==ROOM_MUSEUM && MouseClickId==11) { StartDialog (TALKER_MUSEUM, MEDIUM_AIR);
+        } else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -357,14 +371,15 @@ void CMuseum::OnRButtonDown(UINT nFlags, CPoint point)
     }
 
     //Click während ein On-Screen Fenster offen ist?
-    if (MenuIsOpen())
+    if (MenuIsOpen() != 0)
     {
         MenuRightClick (point);
     }
     else if (point.y<440)
     {
-        if (!IsDialogOpen() && point.y<440)
+        if ((IsDialogOpen() == 0) && point.y<440) {
             Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+}
 
         CStdRaum::OnRButtonDown(nFlags, point);
     }

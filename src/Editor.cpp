@@ -655,7 +655,7 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
     Sim.FocusPerson=-1;
 
     //Tabellen exportieren:
-    if (0)
+    if (false)
     {
         std::string str;
 
@@ -689,7 +689,7 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
     }
 
     //Tabellen importieren:
-    if (1)
+    if (true)
     {
         std::string str;
 
@@ -704,7 +704,8 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
                 file >> str;
                 long id=atol(str.c_str());
 
-                if (gPlanePartRelations[c].Id!=id) hprintf (0, "Id mismatch: %li vs %li!", gPlanePartRelations[c].Id, id);
+                if (gPlanePartRelations[c].Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlanePartRelations[c].Id, id);
+}
                 gPlanePartRelations[c].FromString (str);
             }
         }
@@ -720,7 +721,8 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
                 file >> str;
                 long id = atol(str.c_str());
 
-                if (gPlaneBuilds[c].Id!=id) hprintf (0, "Id mismatch: %li vs %li!", gPlaneBuilds[c].Id, id);
+                if (gPlaneBuilds[c].Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlaneBuilds[c].Id, id);
+}
                 gPlaneBuilds[c].FromString (str);
             }
         }
@@ -731,17 +733,19 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
     GripRelation=-1;
     Plane.Parts.PlaneParts.ReSize (100);
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (60);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
 
     GripRelation=-1;
     PartUnderCursor="";
     sel_b=sel_c=sel_h=sel_w=sel_m=0;
-    DragDropMode=false;
+    DragDropMode=0;
 
     Plane.Name = StandardTexte.GetS (TOKEN_MISC, 8210);
 
     PlaneFilename = FullFilename ("data.plane", MyPlanePath);
-    if (DoesFileExist (PlaneFilename)) Plane.Load(PlaneFilename);
+    if (DoesFileExist (PlaneFilename) != 0) { Plane.Load(PlaneFilename);
+}
 
     UpdateButtonState ();
 
@@ -772,7 +776,7 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "e
     FontYellow.Load (lpDD, (char*)(LPCTSTR)FullFilename ("stat_4.mcf", MiscPath));
 
     //Hintergrundsounds:
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         BackFx.ReInit("secure.raw");
         BackFx.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
@@ -798,21 +802,29 @@ void CEditor::UpdateButtonState(void)
     bAllowB=true;
     bAllowC=bAllowH=bAllowW=bAllowM=false;
 
-    for (d=0; d<(long)Plane.Parts.AnzEntries(); d++)
-        if (Plane.Parts.IsInAlbum(d))
+    for (d=0; d<(long)Plane.Parts.AnzEntries(); d++) {
+        if (Plane.Parts.IsInAlbum(d) != 0)
         {
-            if (Plane.Parts[d].Shortname[0]=='B') bAllowC=bAllowH=bAllowW=true;
-            if (Plane.Parts[d].Shortname[0]=='L' || Plane.Parts[d].Shortname[0]=='H') bAllowM=true;
+            if (Plane.Parts[d].Shortname[0]=='B') { bAllowC=bAllowH=bAllowW=true;
+}
+            if (Plane.Parts[d].Shortname[0]=='L' || Plane.Parts[d].Shortname[0]=='H') { bAllowM=true;
+}
         }
+}
 
-    for (d=0; d<(long)Plane.Parts.AnzEntries(); d++)
-        if (Plane.Parts.IsInAlbum(d))
+    for (d=0; d<(long)Plane.Parts.AnzEntries(); d++) {
+        if (Plane.Parts.IsInAlbum(d) != 0)
         {
-            if (Plane.Parts[d].Shortname[0]=='B') bAllowB=false;
-            if (Plane.Parts[d].Shortname[0]=='C') bAllowC=false;
-            if (Plane.Parts[d].Shortname[0]=='H') bAllowH=false;
-            if (Plane.Parts[d].Shortname[0]=='L') bAllowW=false;
+            if (Plane.Parts[d].Shortname[0]=='B') { bAllowB=false;
+}
+            if (Plane.Parts[d].Shortname[0]=='C') { bAllowC=false;
+}
+            if (Plane.Parts[d].Shortname[0]=='H') { bAllowH=false;
+}
+            if (Plane.Parts[d].Shortname[0]=='L') { bAllowW=false;
+}
         }
+}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -824,16 +836,18 @@ void CEditor::UpdateButtonState(void)
 //--------------------------------------------------------------------------------------------
 void CEditor::OnPaint()
 {
-    long c, d;
+    long c;
+    long d;
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_EDITOR, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_EDITOR, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
 
     GripRelation=-1;
     bool bAlsoOutline = false;
-    if (PartUnderCursor!="")
+    if (!PartUnderCursor.empty())
     {
         double BestDist     = 100;
 
@@ -842,12 +856,13 @@ void CEditor::OnPaint()
         GripRelationPart = -1;
         GripAtPos        = gMousePosition-PartBms[GetPlaneBuild(PartUnderCursor).BitmapIndex].Size/SLONG(2);
 
-        if (PartUnderCursorB!="")
+        if (!PartUnderCursorB.empty()) {
             GripAtPosB = GripAtPos+XY(PartBms[GetPlaneBuild(PartUnderCursor).BitmapIndex].Size.x*3/4, -PartBms[GetPlaneBuild(PartUnderCursorB).BitmapIndex].Size.y);
+}
 
         //Für alle Relations:
-        for (c=0; c<sizeof(gPlanePartRelations)/sizeof(gPlanePartRelations[0]); c++)
-            if (gPlanePartRelations[c].ToBuildIndex==GetPlaneBuildIndex(PartUnderCursor))
+        for (c=0; c<sizeof(gPlanePartRelations)/sizeof(gPlanePartRelations[0]); c++) {
+            if (gPlanePartRelations[c].ToBuildIndex==GetPlaneBuildIndex(PartUnderCursor)) {
                 if (Plane.Parts.IsSlotFree (gPlanePartRelations[c].Slot))
                 {
                     XY   GripToSpot   (-9999,-9999);
@@ -879,8 +894,8 @@ void CEditor::OnPaint()
 
                         //Für alle eingebauten Planeparts:
 
-                        for (d=0; d<(long)Plane.Parts.AnzEntries(); d++)
-                            if (Plane.Parts.IsInAlbum(d))
+                        for (d=0; d<(long)Plane.Parts.AnzEntries(); d++) {
+                            if (Plane.Parts.IsInAlbum(d) != 0) {
                                 if (gPlanePartRelations[c].FromBuildIndex==GetPlaneBuildIndex(Plane.Parts[d].Shortname))
                                 {
                                     GripToSpot   = Plane.Parts[d].Pos3d+gPlanePartRelations[c].Offset3d;
@@ -894,19 +909,23 @@ void CEditor::OnPaint()
                                         GripRelation     = c;
                                         GripRelationPart = d;
 
-                                        if (PartUnderCursorB!="")
+                                        if (!PartUnderCursorB.empty())
                                         {
                                             long e=d;
                                             if (Plane.Parts[e].Shortname[0]=='L' || Plane.Parts[e].Shortname[0]=='R')
                                             {
-                                                for (e=0; e<(long)Plane.Parts.AnzEntries(); e++)
-                                                    if (Plane.Parts.IsInAlbum(e))
-                                                        if (d!=e && (Plane.Parts[e].Shortname[0]=='L' || Plane.Parts[e].Shortname[0]=='R'))
+                                                for (e=0; e<(long)Plane.Parts.AnzEntries(); e++) {
+                                                    if (Plane.Parts.IsInAlbum(e) != 0) {
+                                                        if (d!=e && (Plane.Parts[e].Shortname[0]=='L' || Plane.Parts[e].Shortname[0]=='R')) {
                                                             break;
+}
+}
+}
                                             }
 
                                             long add=1;
-                                            if (Plane.Parts[d].Shortname[0]=='L' || (Plane.Parts[d].Shortname[0]=='H' && gPlanePartRelations[c].Slot[1]=='L')) add=-1;
+                                            if (Plane.Parts[d].Shortname[0]=='L' || (Plane.Parts[d].Shortname[0]=='H' && gPlanePartRelations[c].Slot[1]=='L')) { add=-1;
+}
 
                                             GripAtPosB    = Plane.Parts[e].Pos3d+gPlanePartRelations[c+add].Offset3d;
                                             GripAtPosB2d  = Plane.Parts[e].Pos2d+gPlanePartRelations[c+add].Offset2d;
@@ -916,8 +935,12 @@ void CEditor::OnPaint()
                                         bAlsoOutline     = true;
                                     }
                                 }
+}
+}
                     }
                 }
+}
+}
     }
 
     //Die Online-Statistik:
@@ -933,10 +956,11 @@ void CEditor::OnPaint()
 
     //NUR TEMPORÄR:
     long verbrauch2=0;
-    if (verbrauch && speed && passa)
+    if ((verbrauch != 0) && (speed != 0) && (passa != 0)) {
         verbrauch2 = verbrauch*100/speed*100/passa;
-    else
+    } else {
         verbrauch2 = 0;
+}
 
     long index_b = GetPlaneBuild(bprintf("B%li", 1+sel_b)).BitmapIndex;
     long index_c = GetPlaneBuild(bprintf("C%li", 1+sel_c)).BitmapIndex;
@@ -947,7 +971,7 @@ void CEditor::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         //Part tips:
         for (c=0; c<5; c++)
@@ -956,13 +980,19 @@ void CEditor::OnPaint()
             {
                 CString part;
 
-                if ((c==0 && bAllowB==false) || (c==1 && bAllowC==false) || (c==2 && bAllowH==false) || (c==3 && bAllowW==false) || (c==4 && bAllowM==false)) continue;
+                if ((c==0 && !bAllowB) || (c==1 && !bAllowC) || (c==2 && !bAllowH) || (c==3 && !bAllowW) || (c==4 && !bAllowM)) { continue;
+}
 
-                if (c==0) part=bprintf("B%li", 1+sel_b);
-                if (c==1) part=bprintf("C%li", 1+sel_c);
-                if (c==2) part=bprintf("H%li", 1+sel_h);
-                if (c==3) part=bprintf("R%li", 1+sel_w);
-                if (c==4) part=bprintf("M%li", 1+sel_m);
+                if (c==0) { part=bprintf("B%li", 1+sel_b);
+}
+                if (c==1) { part=bprintf("C%li", 1+sel_c);
+}
+                if (c==2) { part=bprintf("H%li", 1+sel_h);
+}
+                if (c==3) { part=bprintf("R%li", 1+sel_w);
+}
+                if (c==4) { part=bprintf("M%li", 1+sel_m);
+}
 
                 CPlaneBuild &qb = GetPlaneBuild(part);
                 weight    = qb.Weight;
@@ -979,22 +1009,36 @@ void CEditor::OnPaint()
     }
 
     CString        loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8400); //sehr leise
-    if (noise>0)   loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8401); //leise
-    if (noise>20)  loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8402); //okay
-    if (noise>40)  loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8403); //noch okay
-    if (noise>60)  loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8404); //halbwegs laut
-    if (noise>80)  loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8405); //laut
-    if (noise>100) loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8406); //sehr laut
+    if (noise>0) {   loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8401); //leise
+}
+    if (noise>20) {  loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8402); //okay
+}
+    if (noise>40) {  loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8403); //noch okay
+}
+    if (noise>60) {  loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8404); //halbwegs laut
+}
+    if (noise>80) {  loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8405); //laut
+}
+    if (noise>100) { loudnesstext = StandardTexte.GetS (TOKEN_MISC, 8406); //sehr laut
+}
 
     CString wartungtext          = StandardTexte.GetS (TOKEN_MISC, 8508); //sehr gut
-    if (wartung>-30) wartungtext = StandardTexte.GetS (TOKEN_MISC, 8507); //recht gut
-    if (wartung>-20) wartungtext = StandardTexte.GetS (TOKEN_MISC, 8506); //gut
-    if (wartung>-10) wartungtext = StandardTexte.GetS (TOKEN_MISC, 8505); //über normal
-    if (wartung>=0)  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8504); //normal
-    if (wartung>20)  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8503); //mäßig
-    if (wartung>50)  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8502); //schlecht
-    if (wartung>80)  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8501); //sehr schlecht
-    if (wartung>110)  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8500); //katastrophal
+    if (wartung>-30) { wartungtext = StandardTexte.GetS (TOKEN_MISC, 8507); //recht gut
+}
+    if (wartung>-20) { wartungtext = StandardTexte.GetS (TOKEN_MISC, 8506); //gut
+}
+    if (wartung>-10) { wartungtext = StandardTexte.GetS (TOKEN_MISC, 8505); //über normal
+}
+    if (wartung>=0) {  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8504); //normal
+}
+    if (wartung>20) {  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8503); //mäßig
+}
+    if (wartung>50) {  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8502); //schlecht
+}
+    if (wartung>80) {  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8501); //sehr schlecht
+}
+    if (wartung>110) {  wartungtext = StandardTexte.GetS (TOKEN_MISC, 8500); //katastrophal
+}
 
     /*   //Die Online-Statistik:
          RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8200), weight), FontSmallBlack, TEC_FONT_LEFT, 480, 20, 640, 200);
@@ -1014,15 +1058,15 @@ void CEditor::OnPaint()
     //Das Flugzeug blitten:
     bool bCursorBlitted=false;
     bool bCursorBlittedB=false;
-    for (d=0; d<(long)Plane.Parts.AnzEntries(); d++)
-        if (Plane.Parts.IsInAlbum(d))
+    for (d=0; d<(long)Plane.Parts.AnzEntries(); d++) {
+        if (Plane.Parts.IsInAlbum(d) != 0)
         {
             BOOL bShift = 0; //(GetAsyncKeyState (VK_SHIFT)/256)!=0;
 
-            SBBM &qBm = bShift?(gEditorPlane2dBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex]):(PartBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex]);
-            XY    p   = bShift?(Plane.Parts[d].Pos2d+XY(320,200)):(Plane.Parts[d].Pos3d);
+            SBBM &qBm = bShift != 0?(gEditorPlane2dBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex]):(PartBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex]);
+            XY    p   = bShift != 0?(Plane.Parts[d].Pos2d+XY(320,200)):(Plane.Parts[d].Pos3d);
 
-            if (PartUnderCursor!="" && bCursorBlitted==false && GetPlaneBuild(PartUnderCursor).zPos+GripAtPos.y+gPlanePartRelations[GripRelation].zAdd<=GetPlaneBuild(Plane.Parts[d].Shortname).zPos+Plane.Parts[d].Pos3d.y)
+            if (!PartUnderCursor.empty() && !bCursorBlitted && GetPlaneBuild(PartUnderCursor).zPos+GripAtPos.y+gPlanePartRelations[GripRelation].zAdd<=GetPlaneBuild(Plane.Parts[d].Shortname).zPos+Plane.Parts[d].Pos3d.y)
             {
                 RoomBm.BlitFromT (PartBms[GetPlaneBuild(PartUnderCursor).BitmapIndex], GripAtPos);
                 bCursorBlitted=true;
@@ -1035,24 +1079,32 @@ void CEditor::OnPaint()
 
             RoomBm.BlitFromT (qBm, p);
         }
+}
 
     if (Plane.Parts.GetNumUsed()>0)
     {
-        for (long cx=-1; cx<=1; cx++)
+        for (long cx=-1; cx<=1; cx++) {
             for (long cy=-1; cy<=1; cy++)
             {
                 //Die Online-Statistik:
                 RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8200), weight), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+cy, 640+cx, 200+cy);
-                if (passa>0)     RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8201), passa, passa/10), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+15+cy, 640+cx, 200+cy);
-                if (verbrauch>0) RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8202), verbrauch), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+30+cy, 640+cx, 200+cy);
-                if (noise!=0)    RoomBm.PrintAt (bprintf(CString(StandardTexte.GetS (TOKEN_MISC, 8204)), loudnesstext.c_str(), abs(noise)), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+45+cy, 640+cx, 200+cy);
+                if (passa>0) {     RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8201), passa, passa/10), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+15+cy, 640+cx, 200+cy);
+}
+                if (verbrauch>0) { RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8202), verbrauch), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+30+cy, 640+cx, 200+cy);
+}
+                if (noise!=0) {    RoomBm.PrintAt (bprintf(CString(StandardTexte.GetS (TOKEN_MISC, 8204)), loudnesstext.c_str(), abs(noise)), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+45+cy, 640+cx, 200+cy);
+}
                 RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8206), wartungtext.c_str()), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+60+cy, 640+cx, 200+cy);
-                if (speed>0)     RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8207), CString(Einheiten[EINH_KMH].bString(speed)).c_str()), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+75+cy, 640+cx, 200+cy);
-                if (tank>0)      RoomBm.PrintAt (CString(StandardTexte.GetS (TOKEN_PLANE, 1008))+": "+ CString(Einheiten[EINH_L].bString (tank)).c_str(), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+75+15+cy, 640+cx, 200+cy);
-                if (reichw>0)    RoomBm.PrintAt (CString(StandardTexte.GetS (TOKEN_PLANE, 1001))+": "+ CString(Einheiten[EINH_KM].bString (reichw)).c_str(), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+75+30+cy, 640+cx, 200+cy);
+                if (speed>0) {     RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8207), CString(Einheiten[EINH_KMH].bString(speed)).c_str()), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+75+cy, 640+cx, 200+cy);
+}
+                if (tank>0) {      RoomBm.PrintAt (CString(StandardTexte.GetS (TOKEN_PLANE, 1008))+": "+ CString(Einheiten[EINH_L].bString (tank)).c_str(), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+75+15+cy, 640+cx, 200+cy);
+}
+                if (reichw>0) {    RoomBm.PrintAt (CString(StandardTexte.GetS (TOKEN_PLANE, 1001))+": "+ CString(Einheiten[EINH_KM].bString (reichw)).c_str(), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+75+30+cy, 640+cx, 200+cy);
+}
                 //if (verbrauch2>0) RoomBm.PrintAt (bprintf("Verbrauch: %li l/100/100", verbrauch2), FontSmallBlack, TEC_FONT_LEFT, 480, 20+75+15, 640, 200);
                 RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8203), CString(Einheiten[EINH_DM].bString (cost)).c_str()), FontSmallBlack, TEC_FONT_LEFT, 480+cx, 20+100+15+15+cy, 640+cx, 200+cy);
             }
+}
     }
 #define FontSmallBlack FontYellow
 
@@ -1060,28 +1112,37 @@ void CEditor::OnPaint()
     if (Plane.Parts.GetNumUsed()>0)
     {
         RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8200), weight), FontSmallBlack, TEC_FONT_LEFT, 480, 20, 640, 200);
-        if (passa>0)     RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8201), passa, passa/10), FontSmallBlack, TEC_FONT_LEFT, 480, 20+15, 640, 200);
-        if (verbrauch>0) RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8202), verbrauch), FontSmallBlack, TEC_FONT_LEFT, 480, 20+30, 640, 200);
-        if (noise!=0)    RoomBm.PrintAt (bprintf(CString(StandardTexte.GetS (TOKEN_MISC, 8204)), loudnesstext.c_str(), abs(noise)), FontSmallBlack, TEC_FONT_LEFT, 480, 20+45, 640, 200);
+        if (passa>0) {     RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8201), passa, passa/10), FontSmallBlack, TEC_FONT_LEFT, 480, 20+15, 640, 200);
+}
+        if (verbrauch>0) { RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8202), verbrauch), FontSmallBlack, TEC_FONT_LEFT, 480, 20+30, 640, 200);
+}
+        if (noise!=0) {    RoomBm.PrintAt (bprintf(CString(StandardTexte.GetS (TOKEN_MISC, 8204)), loudnesstext.c_str(), abs(noise)), FontSmallBlack, TEC_FONT_LEFT, 480, 20+45, 640, 200);
+}
         RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8206), wartungtext.c_str()), FontSmallBlack, TEC_FONT_LEFT, 480, 20+60, 640, 200);
-        if (speed>0)     RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8207), CString(Einheiten[EINH_KMH].bString (speed)).c_str()), FontSmallBlack, TEC_FONT_LEFT, 480, 20+75, 640, 200);
-        if (tank>0)      RoomBm.PrintAt (CString(StandardTexte.GetS (TOKEN_PLANE, 1008))+": "+ CString(Einheiten[EINH_L].bString (tank)).c_str(), FontSmallBlack, TEC_FONT_LEFT, 480, 20+75+15, 640, 200);
-        if (reichw>0)    RoomBm.PrintAt (CString(StandardTexte.GetS (TOKEN_PLANE, 1001))+": "+ CString(Einheiten[EINH_KM].bString (reichw)).c_str(), FontSmallBlack, TEC_FONT_LEFT, 480, 20+75+30, 640, 200);
+        if (speed>0) {     RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8207), CString(Einheiten[EINH_KMH].bString (speed)).c_str()), FontSmallBlack, TEC_FONT_LEFT, 480, 20+75, 640, 200);
+}
+        if (tank>0) {      RoomBm.PrintAt (CString(StandardTexte.GetS (TOKEN_PLANE, 1008))+": "+ CString(Einheiten[EINH_L].bString (tank)).c_str(), FontSmallBlack, TEC_FONT_LEFT, 480, 20+75+15, 640, 200);
+}
+        if (reichw>0) {    RoomBm.PrintAt (CString(StandardTexte.GetS (TOKEN_PLANE, 1001))+": "+ CString(Einheiten[EINH_KM].bString (reichw)).c_str(), FontSmallBlack, TEC_FONT_LEFT, 480, 20+75+30, 640, 200);
+}
         //if (verbrauch2>0) RoomBm.PrintAt (bprintf("Verbrauch: %li l/100/100", verbrauch2), FontSmallBlack, TEC_FONT_LEFT, 480, 20+75+15, 640, 200);
         RoomBm.PrintAt (bprintf(StandardTexte.GetS (TOKEN_MISC, 8203), CString(Einheiten[EINH_DM].bString (cost)).c_str()), FontSmallBlack, TEC_FONT_LEFT, 480, 20+100+15+15, 640, 200);
 
         CString error = Plane.GetError();
-        if (error!="") RoomBm.PrintAt (error, FontNormalRed, TEC_FONT_LEFT, 480, 20+125+15+15, 580, 300);
+        if (!error.empty()) { RoomBm.PrintAt (error, FontNormalRed, TEC_FONT_LEFT, 480, 20+125+15+15, 580, 300);
+}
     }
 
     //BROKEN:
-    if (PartUnderCursor!="" && bCursorBlitted==false)   RoomBm.BlitFromT (PartBms[GetPlaneBuild(PartUnderCursor).BitmapIndex], GripAtPos);
+    if (!PartUnderCursor.empty() && !bCursorBlitted) {   RoomBm.BlitFromT (PartBms[GetPlaneBuild(PartUnderCursor).BitmapIndex], GripAtPos);
+}
     //if (PartUnderCursorB!="" && bCursorBlittedB==false) RoomBm.BlitFromT (PartBms[GetPlaneBuild(PartUnderCursorB).BitmapIndex], GripAtPosB);
 
-    if (bAlsoOutline && !IsDialogOpen() && !MenuIsOpen())
+    if (bAlsoOutline && (IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         ColorFX.BlitOutline (PartBms[GetPlaneBuild(PartUnderCursor).BitmapIndex].pBitmap, RoomBm.pBitmap, GripAtPos, 0xffffff);
-        if (PartUnderCursorB!="") ColorFX.BlitOutline (PartBms[GetPlaneBuild(PartUnderCursorB).BitmapIndex].pBitmap, RoomBm.pBitmap, GripAtPosB, 0xffffff);
+        if (!PartUnderCursorB.empty()) { ColorFX.BlitOutline (PartBms[GetPlaneBuild(PartUnderCursorB).BitmapIndex].pBitmap, RoomBm.pBitmap, GripAtPosB, 0xffffff);
+}
     }
 
     //Die Maske um Überhänge zu verdecken:
@@ -1092,52 +1153,73 @@ void CEditor::OnPaint()
     RoomBm.PrintAt (Plane.Name, FontNormalGreen, TEC_FONT_CENTERED, 193, 4+3, 471, 25+3);
 
     //Die aktuell gewählten Parts:
-    if (bAllowB) RoomBm.BlitFromT (SelPartBms[index_b],  66-SelPartBms[index_b].Size.x/2, 399-SelPartBms[index_b].Size.y/2);
-    else         ColorFX.BlitTrans (SelPartBms[index_b].pBitmap, RoomBm.pBitmap, XY(66-SelPartBms[index_b].Size.x/2, 399-SelPartBms[index_b].Size.y/2), NULL, 5);
-    if (bAllowC) RoomBm.BlitFromT (SelPartBms[index_c], 193-SelPartBms[index_c].Size.x/2, 399-SelPartBms[index_c].Size.y/2);
-    else         ColorFX.BlitTrans (SelPartBms[index_c].pBitmap, RoomBm.pBitmap, XY(193-SelPartBms[index_c].Size.x/2, 399-SelPartBms[index_c].Size.y/2), NULL, 5);
-    if (bAllowH) RoomBm.BlitFromT (SelPartBms[index_h], 320-SelPartBms[index_h].Size.x/2, 399-SelPartBms[index_h].Size.y/2);
-    else         ColorFX.BlitTrans (SelPartBms[index_h].pBitmap, RoomBm.pBitmap, XY(320-SelPartBms[index_h].Size.x/2, 399-SelPartBms[index_h].Size.y/2), NULL, 5);
-    if (bAllowW) RoomBm.BlitFromT (SelPartBms[index_w], 447-SelPartBms[index_w].Size.x/2, 399-SelPartBms[index_w].Size.y/2);
-    else         ColorFX.BlitTrans (SelPartBms[index_w].pBitmap, RoomBm.pBitmap, XY(447-SelPartBms[index_w].Size.x/2, 399-SelPartBms[index_w].Size.y/2), NULL, 5);
-    if (bAllowM) RoomBm.BlitFromT (SelPartBms[index_m], 574-SelPartBms[index_m].Size.x/2, 399-SelPartBms[index_m].Size.y/2);
-    else         ColorFX.BlitTrans (SelPartBms[index_m].pBitmap, RoomBm.pBitmap, XY(574-SelPartBms[index_m].Size.x/2, 399-SelPartBms[index_m].Size.y/2), NULL, 5);
+    if (bAllowB) { RoomBm.BlitFromT (SelPartBms[index_b],  66-SelPartBms[index_b].Size.x/2, 399-SelPartBms[index_b].Size.y/2);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_b].pBitmap, RoomBm.pBitmap, XY(66-SelPartBms[index_b].Size.x/2, 399-SelPartBms[index_b].Size.y/2), NULL, 5);
+}
+    if (bAllowC) { RoomBm.BlitFromT (SelPartBms[index_c], 193-SelPartBms[index_c].Size.x/2, 399-SelPartBms[index_c].Size.y/2);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_c].pBitmap, RoomBm.pBitmap, XY(193-SelPartBms[index_c].Size.x/2, 399-SelPartBms[index_c].Size.y/2), NULL, 5);
+}
+    if (bAllowH) { RoomBm.BlitFromT (SelPartBms[index_h], 320-SelPartBms[index_h].Size.x/2, 399-SelPartBms[index_h].Size.y/2);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_h].pBitmap, RoomBm.pBitmap, XY(320-SelPartBms[index_h].Size.x/2, 399-SelPartBms[index_h].Size.y/2), NULL, 5);
+}
+    if (bAllowW) { RoomBm.BlitFromT (SelPartBms[index_w], 447-SelPartBms[index_w].Size.x/2, 399-SelPartBms[index_w].Size.y/2);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_w].pBitmap, RoomBm.pBitmap, XY(447-SelPartBms[index_w].Size.x/2, 399-SelPartBms[index_w].Size.y/2), NULL, 5);
+}
+    if (bAllowM) { RoomBm.BlitFromT (SelPartBms[index_m], 574-SelPartBms[index_m].Size.x/2, 399-SelPartBms[index_m].Size.y/2);
+    } else {         ColorFX.BlitTrans (SelPartBms[index_m].pBitmap, RoomBm.pBitmap, XY(574-SelPartBms[index_m].Size.x/2, 399-SelPartBms[index_m].Size.y/2), NULL, 5);
+}
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         //Ok, Cancel:
-        if (gMousePosition.IfIsWithin (602, 192, 640, 224)) SetMouseLook (CURSOR_EXIT, 0, ROOM_EDITOR, 998);
-        if (gMousePosition.IfIsWithin (602, 158, 640, 188)) SetMouseLook (CURSOR_EXIT, 0, ROOM_EDITOR, 999);
+        if (gMousePosition.IfIsWithin (602, 192, 640, 224)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_EDITOR, 998);
+}
+        if (gMousePosition.IfIsWithin (602, 158, 640, 188)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_EDITOR, 999);
+}
 
         //Delete, new:
-        if (gMousePosition.IfIsWithin (0, 192, 38, 224)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 900);
-        if (gMousePosition.IfIsWithin (0, 158, 38, 188)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 901);
+        if (gMousePosition.IfIsWithin (0, 192, 38, 224)) { SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 900);
+}
+        if (gMousePosition.IfIsWithin (0, 158, 38, 188)) { SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 901);
+}
 
         //Prev, Next:
-        if (gMousePosition.IfIsWithin (185, 0, 212, 23)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 800);
-        if (gMousePosition.IfIsWithin (438, 0, 465, 23)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 801);
+        if (gMousePosition.IfIsWithin (185, 0, 212, 23)) { SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 800);
+}
+        if (gMousePosition.IfIsWithin (438, 0, 465, 23)) { SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 801);
+}
 
         //Rename:
-        if (gMousePosition.IfIsWithin (212, 0, 438, 15)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 10);
+        if (gMousePosition.IfIsWithin (212, 0, 438, 15)) { SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 10);
+}
 
         //Select Parts:
         for (c=0; c<5; c++)
         {
-            if ((c==0 && bAllowB==false) || (c==1 && bAllowC==false) || (c==2 && bAllowH==false) || (c==3 && bAllowW==false) || (c==4 && bAllowM==false)) continue;
+            if ((c==0 && !bAllowB) || (c==1 && !bAllowC) || (c==2 && !bAllowH) || (c==3 && !bAllowW) || (c==4 && !bAllowM)) { continue;
+}
 
-            if (gMousePosition.IfIsWithin (  4+c*127,370, 27+c*127,426)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, c*100+100);
-            if (gMousePosition.IfIsWithin (101+c*127,370,124+c*127,426)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, c*100+101);
-            if (gMousePosition.IfIsWithin ( 27+c*127,363,101+c*127,436)) SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, c*100+105);
+            if (gMousePosition.IfIsWithin (  4+c*127,370, 27+c*127,426)) { SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, c*100+100);
+}
+            if (gMousePosition.IfIsWithin (101+c*127,370,124+c*127,426)) { SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, c*100+101);
+}
+            if (gMousePosition.IfIsWithin ( 27+c*127,363,101+c*127,436)) { SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, c*100+105);
+}
 
             if (gMousePosition.IfIsWithin (  4+c*127,363,124+c*127,436))
             {
                 CString part;
 
-                if (c==0) part=bprintf("B%li", 1+sel_b);
-                if (c==1) part=bprintf("C%li", 1+sel_c);
-                if (c==2) part=bprintf("H%li", 1+sel_h);
-                if (c==3) part=bprintf("R%li", 1+sel_w);
-                if (c==4) part=bprintf("M%li", 1+sel_m);
+                if (c==0) { part=bprintf("B%li", 1+sel_b);
+}
+                if (c==1) { part=bprintf("C%li", 1+sel_c);
+}
+                if (c==2) { part=bprintf("H%li", 1+sel_h);
+}
+                if (c==3) { part=bprintf("R%li", 1+sel_w);
+}
+                if (c==4) { part=bprintf("M%li", 1+sel_m);
+}
 
                 CPlaneBuild &qb = GetPlaneBuild(part);
                 weight    = qb.Weight;
@@ -1155,41 +1237,46 @@ void CEditor::OnPaint()
     //Select Part Buttons:
     for (c=0; c<5; c++)
     {
-        if ((c==0 && bAllowB==false) || (c==1 && bAllowC==false) || (c==2 && bAllowH==false) || (c==3 && bAllowW==false) || (c==4 && bAllowM==false)) continue;
+        if ((c==0 && !bAllowB) || (c==1 && !bAllowC) || (c==2 && !bAllowH) || (c==3 && !bAllowW) || (c==4 && !bAllowM)) { continue;
+}
 
-        RoomBm.BlitFromT (ButtonPartLRBms[0+(MouseClickId==c*100+100)+(MouseClickId==c*100+100 && gMouseLButton)], 4+c*127, 370);
-        RoomBm.BlitFromT (ButtonPartLRBms[3+(MouseClickId==c*100+101)+(MouseClickId==c*100+101 && gMouseLButton)], 101+c*127, 370);
+        RoomBm.BlitFromT (ButtonPartLRBms[0+static_cast<int>(MouseClickId==c*100+100)+static_cast<int>(MouseClickId==c*100+100 && (gMouseLButton != 0))], 4+c*127, 370);
+        RoomBm.BlitFromT (ButtonPartLRBms[3+static_cast<int>(MouseClickId==c*100+101)+static_cast<int>(MouseClickId==c*100+101 && (gMouseLButton != 0))], 101+c*127, 370);
     }
 
     //Cancel, Delete, New, Ok:
-    RoomBm.BlitFromT (OtherButtonBms[0+(MouseClickId==998)+(MouseClickId==998 && gMouseLButton)], 602, 192);
-    RoomBm.BlitFromT (OtherButtonBms[3+(MouseClickId==900)+(MouseClickId==900 && gMouseLButton)],   0, 192);
-    RoomBm.BlitFromT (OtherButtonBms[6+(MouseClickId==901)+(MouseClickId==901 && gMouseLButton)],   0, 158);
-    RoomBm.BlitFromT (OtherButtonBms[9+(MouseClickId==999)+(MouseClickId==999 && gMouseLButton)], 602, 158);
+    RoomBm.BlitFromT (OtherButtonBms[0+static_cast<int>(MouseClickId==998)+static_cast<int>(MouseClickId==998 && (gMouseLButton != 0))], 602, 192);
+    RoomBm.BlitFromT (OtherButtonBms[3+static_cast<int>(MouseClickId==900)+static_cast<int>(MouseClickId==900 && (gMouseLButton != 0))],   0, 192);
+    RoomBm.BlitFromT (OtherButtonBms[6+static_cast<int>(MouseClickId==901)+static_cast<int>(MouseClickId==901 && (gMouseLButton != 0))],   0, 158);
+    RoomBm.BlitFromT (OtherButtonBms[9+static_cast<int>(MouseClickId==999)+static_cast<int>(MouseClickId==999 && (gMouseLButton != 0))], 602, 158);
 
     //Prev, Next:
-    RoomBm.BlitFromT (ButtonPlaneLRBms[0+(MouseClickId==800)+(MouseClickId==800 && gMouseLButton)], 185, 0);
-    RoomBm.BlitFromT (ButtonPlaneLRBms[3+(MouseClickId==801)+(MouseClickId==801 && gMouseLButton)], 438, 0);
+    RoomBm.BlitFromT (ButtonPlaneLRBms[0+static_cast<int>(MouseClickId==800)+static_cast<int>(MouseClickId==800 && (gMouseLButton != 0))], 185, 0);
+    RoomBm.BlitFromT (ButtonPlaneLRBms[3+static_cast<int>(MouseClickId==801)+static_cast<int>(MouseClickId==801 && (gMouseLButton != 0))], 438, 0);
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         bool bHotPartFound=false;
-        for (long pass=1; pass<=2; pass++)
-            for (d=(long)Plane.Parts.AnzEntries()-1; d>=0; d--)
-                if (Plane.Parts.IsInAlbum(d) && (Plane.Parts[d].Shortname[0]=='M')==(pass==1))
+        for (long pass=1; pass<=2; pass++) {
+            for (d=(long)Plane.Parts.AnzEntries()-1; d>=0; d--) {
+                if ((Plane.Parts.IsInAlbum(d) != 0) && (Plane.Parts[d].Shortname[0]=='M')==(pass==1))
                 {
                     SBBM &qBm = PartBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex];
                     XY    p   = Plane.Parts[d].Pos3d;
 
-                    if (PartUnderCursor=="" && bHotPartFound==false)
-                        if (gMousePosition.x>=p.x && gMousePosition.y>=p.y && gMousePosition.x<p.x+qBm.Size.x && gMousePosition.y<p.y+qBm.Size.y)
+                    if (PartUnderCursor.empty() && !bHotPartFound) {
+                        if (gMousePosition.x>=p.x && gMousePosition.y>=p.y && gMousePosition.x<p.x+qBm.Size.x && gMousePosition.y<p.y+qBm.Size.y) {
                             if (qBm.GetPixel (gMousePosition.x-p.x, gMousePosition.y-p.y)!=0)
                             {
                                 ColorFX.BlitOutline (qBm.pBitmap, RoomBm.pBitmap, p, 0xffffff);
                                 SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 10000+d);
                                 bHotPartFound=true;
                             }
+}
+}
                 }
+}
+}
     }
 
     CStdRaum::PostPaint ();
@@ -1205,24 +1292,26 @@ void CEditor::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
         if (MouseClickArea==ROOM_EDITOR)
         {
             DoLButtonWork (nFlags, point);
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 
-    if (PartUnderCursor!="" && PartUnderCursor[0]=='R') PartUnderCursorB = CString("L") + PartUnderCursor[1];
-    else if (PartUnderCursor!="" && PartUnderCursor[0]=='M') PartUnderCursorB = PartUnderCursor;
-    else                                                     PartUnderCursorB = "";
+    if (!PartUnderCursor.empty() && PartUnderCursor[0]=='R') { PartUnderCursorB = CString("L") + PartUnderCursor[1];
+    } else if (!PartUnderCursor.empty() && PartUnderCursor[0]=='M') { PartUnderCursorB = PartUnderCursor;
+    } else {                                                     PartUnderCursorB = "";
+}
 
     UpdateButtonState ();
 }
@@ -1236,24 +1325,26 @@ void CEditor::OnLButtonDblClk(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDblClk(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
         if (MouseClickArea==ROOM_EDITOR)
         {
             DoLButtonWork (nFlags, point);
         }
-        else CStdRaum::OnLButtonDblClk(nFlags, point);
+        else { CStdRaum::OnLButtonDblClk(nFlags, point);
+}
     }
 
-    if (PartUnderCursor!="" && PartUnderCursor[0]=='R') PartUnderCursorB = CString("L") + PartUnderCursor[1];
-    else if (PartUnderCursor!="" && PartUnderCursor[0]=='M') PartUnderCursorB = PartUnderCursor;
-    else                                                     PartUnderCursorB = "";
+    if (!PartUnderCursor.empty() && PartUnderCursor[0]=='R') { PartUnderCursorB = CString("L") + PartUnderCursor[1];
+    } else if (!PartUnderCursor.empty() && PartUnderCursor[0]=='M') { PartUnderCursorB = PartUnderCursor;
+    } else {                                                     PartUnderCursorB = "";
+}
 
     UpdateButtonState ();
 }
@@ -1263,7 +1354,8 @@ void CEditor::OnLButtonDblClk(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 void CEditor::DoLButtonWork (UINT nFlags, CPoint point)
 {
-    if (MouseClickId==998) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+    if (MouseClickId==998) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+}
     if (MouseClickId==999)
     {
         //Plane.Save (FullFilename (Plane.Name+".plane", MyPlanePath));
@@ -1271,30 +1363,47 @@ void CEditor::DoLButtonWork (UINT nFlags, CPoint point)
 
         Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
     }
-    if (MouseClickId==10)  MenuStart (MENU_RENAMEEDITPLANE);
+    if (MouseClickId==10) {  MenuStart (MENU_RENAMEEDITPLANE);
+}
 
-    if (MouseClickId==100) sel_b = (sel_b-1+NUM_PLANE_BODY)%NUM_PLANE_BODY;
-    if (MouseClickId==101) sel_b = (sel_b+1+NUM_PLANE_BODY)%NUM_PLANE_BODY;
-    if (MouseClickId==105) PartUnderCursor = bprintf("B%li", 1+sel_b);
+    if (MouseClickId==100) { sel_b = (sel_b-1+NUM_PLANE_BODY)%NUM_PLANE_BODY;
+}
+    if (MouseClickId==101) { sel_b = (sel_b+1+NUM_PLANE_BODY)%NUM_PLANE_BODY;
+}
+    if (MouseClickId==105) { PartUnderCursor = bprintf("B%li", 1+sel_b);
+}
 
-    if (MouseClickId==200) sel_c = (sel_c-1+NUM_PLANE_COCKPIT)%NUM_PLANE_COCKPIT;
-    if (MouseClickId==201) sel_c = (sel_c+1+NUM_PLANE_COCKPIT)%NUM_PLANE_COCKPIT;
-    if (MouseClickId==205) PartUnderCursor = bprintf("C%li", 1+sel_c);
+    if (MouseClickId==200) { sel_c = (sel_c-1+NUM_PLANE_COCKPIT)%NUM_PLANE_COCKPIT;
+}
+    if (MouseClickId==201) { sel_c = (sel_c+1+NUM_PLANE_COCKPIT)%NUM_PLANE_COCKPIT;
+}
+    if (MouseClickId==205) { PartUnderCursor = bprintf("C%li", 1+sel_c);
+}
 
-    if (MouseClickId==300) sel_h = (sel_h-1+NUM_PLANE_HECK)%NUM_PLANE_HECK;
-    if (MouseClickId==301) sel_h = (sel_h+1+NUM_PLANE_HECK)%NUM_PLANE_HECK;
-    if (MouseClickId==305) PartUnderCursor = bprintf("H%li", 1+sel_h);
+    if (MouseClickId==300) { sel_h = (sel_h-1+NUM_PLANE_HECK)%NUM_PLANE_HECK;
+}
+    if (MouseClickId==301) { sel_h = (sel_h+1+NUM_PLANE_HECK)%NUM_PLANE_HECK;
+}
+    if (MouseClickId==305) { PartUnderCursor = bprintf("H%li", 1+sel_h);
+}
 
-    if (MouseClickId==400) sel_w = (sel_w-1+NUM_PLANE_LWING)%NUM_PLANE_LWING;
-    if (MouseClickId==401) sel_w = (sel_w+1+NUM_PLANE_LWING)%NUM_PLANE_LWING;
-    if (MouseClickId==405) PartUnderCursor = bprintf("R%li", 1+sel_w);
+    if (MouseClickId==400) { sel_w = (sel_w-1+NUM_PLANE_LWING)%NUM_PLANE_LWING;
+}
+    if (MouseClickId==401) { sel_w = (sel_w+1+NUM_PLANE_LWING)%NUM_PLANE_LWING;
+}
+    if (MouseClickId==405) { PartUnderCursor = bprintf("R%li", 1+sel_w);
+}
 
-    if (MouseClickId==500) sel_m = (sel_m-1+NUM_PLANE_MOT)%NUM_PLANE_MOT;
-    if (MouseClickId==501) sel_m = (sel_m+1+NUM_PLANE_MOT)%NUM_PLANE_MOT;
-    if (MouseClickId==505) PartUnderCursor = bprintf("M%li", 1+sel_m);
+    if (MouseClickId==500) { sel_m = (sel_m-1+NUM_PLANE_MOT)%NUM_PLANE_MOT;
+}
+    if (MouseClickId==501) { sel_m = (sel_m+1+NUM_PLANE_MOT)%NUM_PLANE_MOT;
+}
+    if (MouseClickId==505) { PartUnderCursor = bprintf("M%li", 1+sel_m);
+}
 
-    if (MouseClickId==105 || MouseClickId==205 || MouseClickId==305 || MouseClickId==405 || MouseClickId==505)
-        DragDropMode=true;
+    if (MouseClickId==105 || MouseClickId==205 || MouseClickId==305 || MouseClickId==405 || MouseClickId==505) {
+        DragDropMode=1;
+}
 
     //Delete, new:
     if (MouseClickId==900)
@@ -1305,7 +1414,8 @@ void CEditor::DoLButtonWork (UINT nFlags, CPoint point)
             (*(CStdRaum*)qPlayer.LocationWin).MenuStart (MENU_REQUEST, MENU_REQUEST_KILLPLANE, 77);
             MouseClickId=0;
         }
-        else DeleteCurrent();
+        else { DeleteCurrent();
+}
     }
     if (MouseClickId==901)
     {
@@ -1345,7 +1455,8 @@ void CEditor::DoLButtonWork (UINT nFlags, CPoint point)
         long relnr = Plane.Parts[long(MouseClickId-10000)].ParentRelationId;
         long rel = gPlanePartRelations[relnr].Id;
         PartUnderCursor = Plane.Parts[long(MouseClickId-10000)].Shortname;
-        if (PartUnderCursor[0]=='L') PartUnderCursor.SetAt (0, 'R');
+        if (PartUnderCursor[0]=='L') { PartUnderCursor.SetAt (0, 'R');
+}
 
         DragDropMode=-1;
 
@@ -1359,39 +1470,47 @@ void CEditor::DoLButtonWork (UINT nFlags, CPoint point)
         {
             Plane.Parts-=(MouseClickId-10000);
 
-            while (1)
+            while (true)
             {
                 long c;
-                for (c=0; c<(long)Plane.Parts.AnzEntries(); c++)
-                    if (Plane.Parts.IsInAlbum(c))
+                for (c=0; c<(long)Plane.Parts.AnzEntries(); c++) {
+                    if (Plane.Parts.IsInAlbum(c) != 0) {
                         //if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || (Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && ((gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800))))
-                        if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || ((Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600)) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800) || (PartUnderCursor[0]=='M' && rel>=700 && rel<=1400 && abs(gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id-rel)==10 && abs(relnr-Plane.Parts[c].ParentRelationId)==1)))
+                        if ((!Plane.Parts[c].ParentShortname.empty() && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || ((!Plane.Parts[c].ParentShortname.empty() && PartUnderCursor[0]=='R' && (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600)) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800) || (PartUnderCursor[0]=='M' && rel>=700 && rel<=1400 && abs(gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id-rel)==10 && abs(relnr-Plane.Parts[c].ParentRelationId)==1)))
                         {
                             Plane.Parts-=c;
                             break;
                         }
+}
+}
 
-                if (c>=(long)Plane.Parts.AnzEntries())
+                if (c>=(long)Plane.Parts.AnzEntries()) {
                     break;
+}
             }
         }
     }
 
     CheckUnusablePart ((MouseClickId%100)==0?(-1):(1));
 
-    if ((MouseClickId==100 || MouseClickId==101) && PartUnderCursor.Left(1)=="B") PartUnderCursor = bprintf("B%li", 1+sel_b);
-    if ((MouseClickId==200 || MouseClickId==201) && PartUnderCursor.Left(1)=="C") PartUnderCursor = bprintf("C%li", 1+sel_c);
-    if ((MouseClickId==300 || MouseClickId==301) && PartUnderCursor.Left(1)=="H") PartUnderCursor = bprintf("H%li", 1+sel_h);
-    if ((MouseClickId==400 || MouseClickId==401) && PartUnderCursor.Left(1)=="R") PartUnderCursor = bprintf("R%li", 1+sel_w);
-    if ((MouseClickId==500 || MouseClickId==501) && PartUnderCursor.Left(1)=="M") PartUnderCursor = bprintf("M%li", 1+sel_m);
+    if ((MouseClickId==100 || MouseClickId==101) && PartUnderCursor.Left(1)=="B") { PartUnderCursor = bprintf("B%li", 1+sel_b);
+}
+    if ((MouseClickId==200 || MouseClickId==201) && PartUnderCursor.Left(1)=="C") { PartUnderCursor = bprintf("C%li", 1+sel_c);
+}
+    if ((MouseClickId==300 || MouseClickId==301) && PartUnderCursor.Left(1)=="H") { PartUnderCursor = bprintf("H%li", 1+sel_h);
+}
+    if ((MouseClickId==400 || MouseClickId==401) && PartUnderCursor.Left(1)=="R") { PartUnderCursor = bprintf("R%li", 1+sel_w);
+}
+    if ((MouseClickId==500 || MouseClickId==501) && PartUnderCursor.Left(1)=="M") { PartUnderCursor = bprintf("M%li", 1+sel_m);
+}
 }
 
 //--------------------------------------------------------------------------------------------
 //OnLButtonUp(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CEditor::OnLButtonUp(UINT, CPoint point)
+void CEditor::OnLButtonUp(UINT /*nFlags*/, CPoint point)
 {
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         if (GripRelation!=-1 && DragDropMode!=-1)
         {
@@ -1404,7 +1523,8 @@ void CEditor::OnLButtonUp(UINT, CPoint point)
             Plane.Parts[Id].ParentShortname  = (GripRelationPart==-1)?"":Plane.Parts[GripRelationPart].Shortname;
             Plane.Parts[Id].ParentRelationId = GripRelation;
 
-            if (PartUnderCursor.Left(1)=="B" || PartUnderCursor.Left(1)=="C" || PartUnderCursor.Left(1)=="H" || PartUnderCursor.Left(1)=="L" || PartUnderCursor.Left(1)=="R" || PartUnderCursor.Left(1)=="W") PartUnderCursor="";
+            if (PartUnderCursor.Left(1)=="B" || PartUnderCursor.Left(1)=="C" || PartUnderCursor.Left(1)=="H" || PartUnderCursor.Left(1)=="L" || PartUnderCursor.Left(1)=="R" || PartUnderCursor.Left(1)=="W") { PartUnderCursor="";
+}
 
             if (GripRelationB!=-1)
             {
@@ -1419,17 +1539,19 @@ void CEditor::OnLButtonUp(UINT, CPoint point)
 
                 Plane.Parts.Sort();
 
-                if (PartUnderCursor.Left(1)=="B" || PartUnderCursor.Left(1)=="C" || PartUnderCursor.Left(1)=="H") PartUnderCursor="";
+                if (PartUnderCursor.Left(1)=="B" || PartUnderCursor.Left(1)=="C" || PartUnderCursor.Left(1)=="H") { PartUnderCursor="";
+}
             }
 
             Plane.Parts.Sort();
             UpdateButtonState ();
 
-            if (DragDropMode) PartUnderCursor=PartUnderCursorB="";
+            if (DragDropMode != 0) { PartUnderCursor=PartUnderCursorB="";
+}
         }
     }
 
-    DragDropMode=false;
+    DragDropMode=0;
 
     CheckUnusablePart (1);
 
@@ -1446,11 +1568,16 @@ void CEditor::CheckUnusablePart(long iDirection)
 again_w:
         bool bad=false;
 
-        if (Plane.IstPartVorhanden ("B1") && (sel_w==0 || sel_w==1 || sel_w==2 || sel_w==5)) bad=true;
-        if (Plane.IstPartVorhanden ("B2") && (sel_w==4)) bad=true;
-        if (Plane.IstPartVorhanden ("B3") && (sel_w==2 || sel_w==5)) bad=true;
-        if (Plane.IstPartVorhanden ("B4") && (sel_w==0 || sel_w==2 || sel_w==5)) bad=true;
-        if (Plane.IstPartVorhanden ("B5") && (sel_w==5)) bad=true;
+        if (Plane.IstPartVorhanden ("B1") && (sel_w==0 || sel_w==1 || sel_w==2 || sel_w==5)) { bad=true;
+}
+        if (Plane.IstPartVorhanden ("B2") && (sel_w==4)) { bad=true;
+}
+        if (Plane.IstPartVorhanden ("B3") && (sel_w==2 || sel_w==5)) { bad=true;
+}
+        if (Plane.IstPartVorhanden ("B4") && (sel_w==0 || sel_w==2 || sel_w==5)) { bad=true;
+}
+        if (Plane.IstPartVorhanden ("B5") && (sel_w==5)) { bad=true;
+}
 
         if (bad)
         {
@@ -1471,13 +1598,14 @@ void CEditor::DeleteCurrent(void)
 
     Plane.Clear();
     CString fn = FullFilename (GetMatchingNext (FullFilename ("*.plane", MyPlanePath), GetFilenameFromFullFilename(PlaneFilename), -1), MyPlanePath);
-    if (fn!="" && fn.Right(1)[0] != std::filesystem::path::preferred_separator)
+    if (!fn.empty() && fn.Right(1)[0] != std::filesystem::path::preferred_separator)
     {
         Plane.Load (fn);
         PlaneFilename = fn;
     }
-    else
+    else {
         Plane.Name = StandardTexte.GetS (TOKEN_MISC, 8210);
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1492,9 +1620,8 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -1592,7 +1719,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1604,9 +1731,11 @@ ULONG CPlaneParts::IdFrom (CString ShortName)
 {
     SLONG c;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++)
-        if (IsInAlbum(c) && stricmp (ShortName, PlaneParts[c].Shortname)==0)
+    for (c=0; c<(SLONG)AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && stricmp (ShortName, PlaneParts[c].Shortname)==0) {
             return (GetIdFromIndex(c));
+}
+}
 
     TeakLibW_Exception (FNL, ExcNever);
     return (0);
@@ -1619,9 +1748,11 @@ bool CPlaneParts::IsShortnameInAlbum (CString ShortName)
 {
     SLONG c;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++)
-        if (IsInAlbum(c) && stricmp (ShortName, PlaneParts[c].Shortname)==0)
+    for (c=0; c<(SLONG)AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && stricmp (ShortName, PlaneParts[c].Shortname)==0) {
             return (true);
+}
+}
 
     return (false);
 }
@@ -1631,17 +1762,21 @@ bool CPlaneParts::IsShortnameInAlbum (CString ShortName)
 //--------------------------------------------------------------------------------------------
 bool CPlaneParts::IsSlotFree (CString Slotname)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++)
-        if (IsInAlbum(c))
+    for (c=0; c<(SLONG)AnzEntries(); c++) {
+        if (IsInAlbum(c) != 0)
         {
             CString SlotsUsed = gPlanePartRelations[(*this)[c].ParentRelationId].RulesOutSlots;
 
-            for (d=0; d<SlotsUsed.GetLength(); d+=2)
-                if (*(WORD*)(((LPCTSTR)SlotsUsed)+d)==*(WORD*)(LPCTSTR)Slotname)
+            for (d=0; d<SlotsUsed.GetLength(); d+=2) {
+                if (*(WORD*)(((LPCTSTR)SlotsUsed)+d)==*(WORD*)(LPCTSTR)Slotname) {
                     return (false);
+}
+}
         }
+}
 
     return (true);
 }
@@ -1653,12 +1788,14 @@ void CPlaneParts::Sort (void)
 {
     SLONG c;
 
-    for (c=0; c<long(AnzEntries()-1); c++)
-        if ((!IsInAlbum(c) && IsInAlbum(c+1)) || (IsInAlbum(c) && IsInAlbum(c+1) && GetPlaneBuild((*this)[c].Shortname).zPos+(*this)[c].Pos3d.y+gPlanePartRelations[(*this)[c].ParentRelationId].zAdd > GetPlaneBuild((*this)[SLONG(c+1)].Shortname).zPos+(*this)[SLONG(c+1)].Pos3d.y+gPlanePartRelations[(*this)[SLONG(c+1)].ParentRelationId].zAdd))
+    for (c=0; c<long(AnzEntries()-1); c++) {
+        if (((IsInAlbum(c) == 0) && (IsInAlbum(c+1) != 0)) || ((IsInAlbum(c) != 0) && (IsInAlbum(c+1) != 0) && GetPlaneBuild((*this)[c].Shortname).zPos+(*this)[c].Pos3d.y+gPlanePartRelations[(*this)[c].ParentRelationId].zAdd > GetPlaneBuild((*this)[SLONG(c+1)].Shortname).zPos+(*this)[SLONG(c+1)].Pos3d.y+gPlanePartRelations[(*this)[SLONG(c+1)].ParentRelationId].zAdd))
         {
             Swap (c, c+1);
-            c-=2; if (c<-1) c=-1;
+            c-=2; if (c<-1) { c=-1;
+}
         }
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1688,11 +1825,13 @@ TEAKFILE &operator >> (TEAKFILE &File, CPlaneParts &pp)
 //--------------------------------------------------------------------------------------------
 // Gibt die Bitmap zurück (via das PlaneBuild Array) was dieses Part repräsentiert
 //--------------------------------------------------------------------------------------------
-SBBM &CPlanePart::GetBm (SBBMS &PartBms)
+SBBM &CPlanePart::GetBm (SBBMS &PartBms) const
 {
-    for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++)
-        if (gPlaneBuilds[c].Shortname==Shortname)
+    for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++) {
+        if (gPlaneBuilds[c].Shortname==Shortname) {
             return (PartBms[gPlaneBuilds[c].BitmapIndex]);
+}
+}
 
     TeakLibW_Exception (FNL, ExcNever);
     return (*(SBBM*)NULL);
@@ -1738,9 +1877,11 @@ long CXPlane::CalcCost (void)
 {
     long cost=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c) && Parts[c].Shortname!="")
+    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if ((Parts.IsInAlbum(c) != 0) && !Parts[c].Shortname.empty()) {
             cost+=GetPlaneBuild(Parts[c].Shortname).Cost;
+}
+}
 
     return (cost);
 }
@@ -1752,9 +1893,11 @@ long CXPlane::CalcPassagiere (void)
 {
     long passagiere=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0) {
             passagiere+=GetPlaneBuild(Parts[c].Shortname).Passagiere;
+}
+}
 
     return (passagiere);
 }
@@ -1766,8 +1909,9 @@ long CXPlane::CalcReichweite (void)
 {
     long Reichweite=0;
 
-    if (CalcVerbrauch()>0)
+    if (CalcVerbrauch()>0) {
         Reichweite = CalcTank()/CalcVerbrauch()*CalcSpeed();
+}
 
     return (Reichweite);
 }
@@ -1777,17 +1921,21 @@ long CXPlane::CalcReichweite (void)
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcPiloten (void)
 {
-    long c, piloten=0;
+    long c;
+    long piloten=0;
 
-    for (c=0; c<Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (c=0; c<Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0)
         {
             for (long pass=1; pass<=3; pass++)
             {
                 long note=0;
-                if (pass==1) note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
-                if (pass==2) note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
-                if (pass==3) note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+                if (pass==1) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
+}
+                if (pass==2) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
+}
+                if (pass==3) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+}
 
                 switch (note)
                 {
@@ -1798,8 +1946,9 @@ long CXPlane::CalcPiloten (void)
                 }
             }
         }
+}
 
-    return (std::max(1l,piloten));
+    return (std::max(1L,piloten));
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1807,17 +1956,21 @@ long CXPlane::CalcPiloten (void)
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcBegleiter (void)
 {
-    long c, begleiter=0;
+    long c;
+    long begleiter=0;
 
-    for (c=0; c<Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (c=0; c<Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0)
         {
             for (long pass=1; pass<=3; pass++)
             {
                 long note=0;
-                if (pass==1) note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
-                if (pass==2) note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
-                if (pass==3) note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+                if (pass==1) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
+}
+                if (pass==2) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
+}
+                if (pass==3) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+}
 
                 switch (note)
                 {
@@ -1828,8 +1981,9 @@ long CXPlane::CalcBegleiter (void)
                 }
             }
         }
+}
 
-    return (std::max(1l,begleiter));
+    return (std::max(1L,begleiter));
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1839,17 +1993,21 @@ long CXPlane::CalcTank (bool bFaked)
 {
     long tank=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c) && (Parts[c].Shortname[0]=='L' || Parts[c].Shortname[0]=='R'))
+    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if ((Parts.IsInAlbum(c) != 0) && (Parts[c].Shortname[0]=='L' || Parts[c].Shortname[0]=='R')) {
             tank+=GetPlaneBuild(Parts[c].Shortname).Weight;
+}
+}
     tank*=7;
 
-    if (bFaked) return (tank);
+    if (bFaked) { return (tank);
+}
 
     //Länger als 22 Stunden unterwegs?
     long Verbrauch=CalcVerbrauch();
-    if (Verbrauch>0 && tank>0 && tank/Verbrauch>22)
+    if (Verbrauch>0 && tank>0 && tank/Verbrauch>22) {
         tank=22*Verbrauch;
+}
 
     return (tank);
 }
@@ -1859,21 +2017,27 @@ long CXPlane::CalcTank (bool bFaked)
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcVerbrauch (void)
 {
-    long c, verbrauch=0;
+    long c;
+    long verbrauch=0;
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0) {
             verbrauch+=GetPlaneBuild(Parts[c].Shortname).Verbrauch;
+}
+}
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0)
         {
             for (long pass=1; pass<=3; pass++)
             {
                 long note=0;
-                if (pass==1) note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
-                if (pass==2) note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
-                if (pass==3) note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+                if (pass==1) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
+}
+                if (pass==2) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
+}
+                if (pass==3) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+}
 
                 switch (note)
                 {
@@ -1882,6 +2046,7 @@ long CXPlane::CalcVerbrauch (void)
                 }
             }
         }
+}
 
     /*if (verbrauch>0)
       {
@@ -1900,9 +2065,11 @@ long CXPlane::CalcWeight (void)
 {
     long weight=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0) {
             weight+=GetPlaneBuild(Parts[c].Shortname).Weight;
+}
+}
 
     return (weight);
 }
@@ -1914,9 +2081,11 @@ long CXPlane::CalcPower (void)
 {
     long power=0;
 
-    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (long c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0) {
             power+=GetPlaneBuild(Parts[c].Shortname).Power;
+}
+}
 
     return (power);
 }
@@ -1926,15 +2095,20 @@ long CXPlane::CalcPower (void)
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcNoise (void)
 {
-    long c, noise=0;
+    long c;
+    long noise=0;
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0) {
             noise+=GetPlaneBuild(Parts[c].Shortname).Noise;
+}
+}
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0) {
             noise+=gPlanePartRelations[Parts[c].ParentRelationId].Noise;
+}
+}
 
     return (noise);
 }
@@ -1944,21 +2118,27 @@ long CXPlane::CalcNoise (void)
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcWartung (void)
 {
-    long c, wartung=0;
+    long c;
+    long wartung=0;
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0) {
             wartung+=GetPlaneBuild(Parts[c].Shortname).Wartung;
+}
+}
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0)
         {
             for (long pass=1; pass<=3; pass++)
             {
                 long note=0;
-                if (pass==1) note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
-                if (pass==2) note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
-                if (pass==3) note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+                if (pass==1) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
+}
+                if (pass==2) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
+}
+                if (pass==3) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+}
 
                 switch (note)
                 {
@@ -1967,6 +2147,7 @@ long CXPlane::CalcWartung (void)
                 }
             }
         }
+}
 
     return (wartung);
 }
@@ -1976,33 +2157,45 @@ long CXPlane::CalcWartung (void)
 //--------------------------------------------------------------------------------------------
 long CXPlane::CalcSpeed (void)
 {
-    long c, speed=0;
+    long c;
+    long speed=0;
 
     //Power 6000...50000 wird zu kmh 270..1000
     speed=(CalcPower()-6000)*(1000-270)/(50000-6000)+270;
-    if (CalcPower()==0) speed=0;
+    if (CalcPower()==0) { speed=0;
+}
 
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c))
+    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if (Parts.IsInAlbum(c) != 0)
         {
             for (long pass=1; pass<=3; pass++)
             {
                 long note=0;
-                if (pass==1) note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
-                if (pass==2) note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
-                if (pass==3) note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+                if (pass==1) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note1;
+}
+                if (pass==2) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note2;
+}
+                if (pass==3) { note=gPlanePartRelations[Parts[c].ParentRelationId].Note3;
+}
 
                 switch (note)
                 {
-                    case NOTE_SPEED300: if (speed>300) speed=(speed*2+300)/3; break;
-                    case NOTE_SPEED400: if (speed>400) speed=(speed*2+400)/3; break;
-                    case NOTE_SPEED500: if (speed>500) speed=(speed*2+500)/3; break;
-                    case NOTE_SPEED600: if (speed>600) speed=(speed*2+600)/3; break;
-                    case NOTE_SPEED700: if (speed>700) speed=(speed*2+700)/3; break;
-                    case NOTE_SPEED800: if (speed>800) speed=(speed*2+800)/3; break;
+                    case NOTE_SPEED300: if (speed>300) { speed=(speed*2+300)/3; 
+}break;
+                    case NOTE_SPEED400: if (speed>400) { speed=(speed*2+400)/3; 
+}break;
+                    case NOTE_SPEED500: if (speed>500) { speed=(speed*2+500)/3; 
+}break;
+                    case NOTE_SPEED600: if (speed>600) { speed=(speed*2+600)/3; 
+}break;
+                    case NOTE_SPEED700: if (speed>700) { speed=(speed*2+700)/3; 
+}break;
+                    case NOTE_SPEED800: if (speed>800) { speed=(speed*2+800)/3; 
+}break;
                 }
             }
         }
+}
 
     return (speed);
 }
@@ -2014,22 +2207,23 @@ bool CXPlane::IstPartVorhanden (CString Shortname, bool bOnlyThisType)
 {
     long c;
 
-    if (bOnlyThisType==false)
+    if (!bOnlyThisType)
     {
-        for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-            if (Parts.IsInAlbum(c) && (Parts[c].Shortname==Shortname || (Parts[c].Shortname[0]==Shortname[0] && Shortname[1]=='*')))
+        for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+            if ((Parts.IsInAlbum(c) != 0) && (Parts[c].Shortname==Shortname || (Parts[c].Shortname[0]==Shortname[0] && Shortname[1]=='*'))) {
                 return (true);
+}
+}
 
         return (false);
     }
-    else
-    {
-        for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
+    
+            for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
             if (Parts.IsInAlbum(c) && Parts[c].Shortname!=Shortname && Parts[c].Shortname[0]==Shortname[0])
                 return (false);
 
         return (IstPartVorhanden (Shortname));
-    }
+   
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2037,13 +2231,19 @@ bool CXPlane::IstPartVorhanden (CString Shortname, bool bOnlyThisType)
 //--------------------------------------------------------------------------------------------
 bool CXPlane::IsBuildable (void)
 {
-    if (!IstPartVorhanden ("B*")) return (false);
-    if (!IstPartVorhanden ("C*")) return (false);
-    if (!IstPartVorhanden ("H*")) return (false);
-    if (!IstPartVorhanden ("R*")) return (false);
-    if (!IstPartVorhanden ("M*")) return (false);
+    if (!IstPartVorhanden ("B*")) { return (false);
+}
+    if (!IstPartVorhanden ("C*")) { return (false);
+}
+    if (!IstPartVorhanden ("H*")) { return (false);
+}
+    if (!IstPartVorhanden ("R*")) { return (false);
+}
+    if (!IstPartVorhanden ("M*")) { return (false);
+}
 
-    if (GetError()!="") return(false);
+    if (!GetError().empty()) { return(false);
+}
 
     return (true);
 }
@@ -2053,43 +2253,60 @@ bool CXPlane::IsBuildable (void)
 //--------------------------------------------------------------------------------------------
 CString CXPlane::GetError (void)
 {
-    long c, d;
+    long c;
+    long d;
 
-    if (!IstPartVorhanden ("B*")) return ("");
-    if (!IstPartVorhanden ("C*")) return ("");
-    if (!IstPartVorhanden ("H*")) return ("");
-    if (!IstPartVorhanden ("R*")) return ("");
-    if (!IstPartVorhanden ("M*")) return ("");
+    if (!IstPartVorhanden ("B*")) { return ("");
+}
+    if (!IstPartVorhanden ("C*")) { return ("");
+}
+    if (!IstPartVorhanden ("H*")) { return ("");
+}
+    if (!IstPartVorhanden ("R*")) { return ("");
+}
+    if (!IstPartVorhanden ("M*")) { return ("");
+}
 
     //Symetrisch 1/2?
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c) && Parts[c].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[c].ParentRelationId].FromBuildIndex].Shortname[0]=='R')
+    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if ((Parts.IsInAlbum(c) != 0) && Parts[c].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[c].ParentRelationId].FromBuildIndex].Shortname[0]=='R')
         {
-            for (d=0; d<(SLONG)Parts.AnzEntries(); d++)
-                if (Parts.IsInAlbum(d) && Parts[d].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[d].ParentRelationId].FromBuildIndex].Shortname[0]=='L')
-                    if (gPlanePartRelations[Parts[c].ParentRelationId].Id+10 == gPlanePartRelations[Parts[d].ParentRelationId].Id)
+            for (d=0; d<(SLONG)Parts.AnzEntries(); d++) {
+                if ((Parts.IsInAlbum(d) != 0) && Parts[d].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[d].ParentRelationId].FromBuildIndex].Shortname[0]=='L') {
+                    if (gPlanePartRelations[Parts[c].ParentRelationId].Id+10 == gPlanePartRelations[Parts[d].ParentRelationId].Id) {
                         break;
+}
+}
+}
 
-            if (d==(SLONG)Parts.AnzEntries())
+            if (d==(SLONG)Parts.AnzEntries()) {
                 return (StandardTexte.GetS (TOKEN_MISC, 8300));
+}
         }
+}
 
     //Symetrisch 2/2?
-    for (c=0; c<(SLONG)Parts.AnzEntries(); c++)
-        if (Parts.IsInAlbum(c) && Parts[c].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[c].ParentRelationId].FromBuildIndex].Shortname[0]=='L')
+    for (c=0; c<(SLONG)Parts.AnzEntries(); c++) {
+        if ((Parts.IsInAlbum(c) != 0) && Parts[c].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[c].ParentRelationId].FromBuildIndex].Shortname[0]=='L')
         {
-            for (d=0; d<(SLONG)Parts.AnzEntries(); d++)
-                if (Parts.IsInAlbum(d) && Parts[d].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[d].ParentRelationId].FromBuildIndex].Shortname[0]=='R')
-                    if (gPlanePartRelations[Parts[c].ParentRelationId].Id-10 == gPlanePartRelations[Parts[d].ParentRelationId].Id)
+            for (d=0; d<(SLONG)Parts.AnzEntries(); d++) {
+                if ((Parts.IsInAlbum(d) != 0) && Parts[d].Shortname[0]=='M' && gPlaneBuilds[gPlanePartRelations[Parts[d].ParentRelationId].FromBuildIndex].Shortname[0]=='R') {
+                    if (gPlanePartRelations[Parts[c].ParentRelationId].Id-10 == gPlanePartRelations[Parts[d].ParentRelationId].Id) {
                         break;
+}
+}
+}
 
-            if (d==(SLONG)Parts.AnzEntries())
+            if (d==(SLONG)Parts.AnzEntries()) {
                 return (StandardTexte.GetS (TOKEN_MISC, 8300));
+}
         }
+}
 
     //Triebwerke kräftig genug?
-    if (CalcPower()*4<CalcWeight())
+    if (CalcPower()*4<CalcWeight()) {
         return (StandardTexte.GetS (TOKEN_MISC, 8301));
+}
 
     //Tragflächen groß genug?
     /*if (IstPartVorhanden ("R5"))
@@ -2109,10 +2326,11 @@ void CXPlane::Load (CString Filename)
 {
     TEAKFILE InputFile (Filename, TEAKFILE_READ);
 
-    if (InputFile.GetFileLength()==0)
+    if (InputFile.GetFileLength()==0) {
         Clear();
-    else
+    } else {
         InputFile >> (*this);
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2182,9 +2400,11 @@ TEAKFILE &operator >> (TEAKFILE &File, CXPlane &p)
 //--------------------------------------------------------------------------------------------
 long GetPlaneBuildIndex (CString Shortname)
 {
-    for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++)
-        if (gPlaneBuilds[c].Shortname==Shortname)
+    for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++) {
+        if (gPlaneBuilds[c].Shortname==Shortname) {
             return (c);
+}
+}
 
     TeakLibW_Exception (FNL, ExcNever);
     return (-1);
@@ -2195,9 +2415,11 @@ long GetPlaneBuildIndex (CString Shortname)
 //--------------------------------------------------------------------------------------------
 CPlaneBuild &GetPlaneBuild (CString Shortname)
 {
-    for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++)
-        if (gPlaneBuilds[c].Shortname==Shortname)
+    for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++) {
+        if (gPlaneBuilds[c].Shortname==Shortname) {
             return (gPlaneBuilds[c]);
+}
+}
 
     TeakLibW_Exception (FNL, ExcNever);
     return (*(CPlaneBuild*)NULL);
@@ -2221,14 +2443,15 @@ void CXPlane::BlitPlaneAt (SBPRIMARYBM &TargetBm, SLONG Size, XY Pos, SLONG Owni
         case 2:
             {
                 Parts.IsInAlbum(SLONG(0x01000000));
-                for (long d=0; d<(long)Parts.AnzEntries(); d++)
-                    if (Parts.IsInAlbum(d))
+                for (long d=0; d<(long)Parts.AnzEntries(); d++) {
+                    if (Parts.IsInAlbum(d) != 0)
                     {
                         SBBM &qBm = gEditorPlane2dBms[GetPlaneBuild(Parts[d].Shortname).BitmapIndex];
                         XY    p   = Parts[d].Pos2d;
 
                         TargetBm.BlitFromT (qBm, Pos+p);
                     }
+}
             }
             break;
     }
@@ -2264,9 +2487,11 @@ void CXPlane::operator = (const CXPlane &plane)
 //--------------------------------------------------------------------------------------------
 void ParseTokens (char *String, char *tokens[], long nTokens)
 {
-    long c, n=0;
+    long c;
+    long n=0;
 
-    for (c=0; c<nTokens; c++) tokens[c]=NULL;
+    for (c=0; c<nTokens; c++) { tokens[c]=NULL;
+}
 
     tokens[n]=String;
     while (*String!=0)
@@ -2304,7 +2529,7 @@ void CPlaneBuild::FromString (CString str)
 //--------------------------------------------------------------------------------------------
 // Konvertiert die Daten in einen String
 //--------------------------------------------------------------------------------------------
-CString CPlaneBuild::ToString (void)
+CString CPlaneBuild::ToString (void) const
 {
     return (bprintf ("%li;%s;%li;%li;%li;%li;%li;%li;%li", Id, Shortname, Cost, Weight, Power, Noise, Wartung, Passagiere, Verbrauch));
 }
@@ -2331,13 +2556,15 @@ void CPlanePartRelation::FromString (CString str)
 //--------------------------------------------------------------------------------------------
 // Konvertiert die Daten in einen String
 //--------------------------------------------------------------------------------------------
-CString CPlanePartRelation::ToString (void)
+CString CPlanePartRelation::ToString (void) const
 {
     LPCTSTR n1="-";
     LPCTSTR n2="-";
 
-    if (FromBuildIndex!=-1) n1=gPlaneBuilds[FromBuildIndex].Shortname;
-    if (FromBuildIndex!=-1) n2=gPlaneBuilds[ToBuildIndex].Shortname;
+    if (FromBuildIndex!=-1) { n1=gPlaneBuilds[FromBuildIndex].Shortname;
+}
+    if (FromBuildIndex!=-1) { n2=gPlaneBuilds[ToBuildIndex].Shortname;
+}
 
     return (bprintf ("%li;%s;%s;%li;%li;%li;%li;%li;%li;%li;%li", Id, n1, n2, Offset2d.x, Offset2d.y, Offset3d.x, Offset3d.y, Note1, Note2, Note3, Noise));
 }

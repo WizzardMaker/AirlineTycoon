@@ -26,7 +26,8 @@ CPersonal::CPersonal(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     Sim.FocusPerson=-1;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
 
     KugelBm.ReSize (pRoomLib, "KUGEL");
     WildBm.ReSize (pRoomLib, "ZEITSCHR");
@@ -162,10 +163,11 @@ void CPersonal::OnPaint()
 
     if (PaperOnTable!=-1)
     {
-        if (SP_Frau.GetDesiredMood()==SPM_TALKING || SP_Frau.GetDesiredMood()==SPM_LISTENING)
+        if (SP_Frau.GetDesiredMood()==SPM_TALKING || SP_Frau.GetDesiredMood()==SPM_LISTENING) {
             KommVar=6; //Drehen
-        else
+        } else {
             KommVar=3; //Zeitung lesen
+}
 
         KommVar2=4;
     }
@@ -177,20 +179,25 @@ void CPersonal::OnPaint()
 
     if (FlugbahnType==0)
     {
-        if (rand()%100<95) FlugbahnType=1;
-        else FlugbahnType=2;
+        if (rand()%100<95) { FlugbahnType=1;
+        } else { FlugbahnType=2;
+}
 
         FlugbahnCounter=timeGetTime();
     }
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&4) RoomBm.BlitFrom (NoSaboBm, 276, 0);
+    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&4) != 0u) { RoomBm.BlitFrom (NoSaboBm, 276, 0);
+}
 
     SP_Frau.Pump ();
     SP_Mann.Pump ();
     SP_DroppingPaper.Pump ();
-    if (Zeitung) RoomBm.BlitFromT (WildBm, 483, 225);
-    if (PaperOnTable!=-1) RoomBm.BlitFromT (LetterBm, 342, 224);
-    if (StapelBrief) RoomBm.BlitFromT (StapelBriefBm, 361, 292);
+    if (Zeitung != 0) { RoomBm.BlitFromT (WildBm, 483, 225);
+}
+    if (PaperOnTable!=-1) { RoomBm.BlitFromT (LetterBm, 342, 224);
+}
+    if (StapelBrief != 0) { RoomBm.BlitFromT (StapelBriefBm, 361, 292);
+}
 
     SP_Frau.BlitAtT (RoomBm);
     SP_Mann.BlitAtT (RoomBm);
@@ -206,7 +213,8 @@ void CPersonal::OnPaint()
         {
             Size=5;
             Pos=XY(491+(timeGetTime()-FlugbahnCounter)/2,143-(timeGetTime()-FlugbahnCounter)/10);
-            if (Pos.x>640) FlugbahnType=-1;
+            if (Pos.x>640) { FlugbahnType=-1;
+}
         }
         else if (FlugbahnType==2)
         {
@@ -220,7 +228,8 @@ void CPersonal::OnPaint()
                 Size=100-(timeGetTime()-FlugbahnCounter-400)*95/400;
                 Pos=XY(325-166*(timeGetTime()-FlugbahnCounter-400)/400,163+225*(timeGetTime()-FlugbahnCounter-400)/400);
             }
-            if (Pos.x<159) FlugbahnType=-1;
+            if (Pos.x<159) { FlugbahnType=-1;
+}
         }
 
         if (FlugbahnType>0)
@@ -240,12 +249,13 @@ void CPersonal::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (640-620, 0, 640-457, 293)) SetMouseLook (CURSOR_EXIT, 0, ROOM_PERSONAL_A, 999);
-        else if (gMousePosition.IfIsWithin (640-255, 145, 640-74, 352)) SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 10);
-        else if (gMousePosition.IfIsWithin (640-463, 94, 640-311, 248)) SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 11);
-        else if (gMousePosition.IfIsWithin (394, 378, 446, 425) && !Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_TABLETTEN)) SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 20);
+        if (gMousePosition.IfIsWithin (640-620, 0, 640-457, 293)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_PERSONAL_A, 999);
+        } else if (gMousePosition.IfIsWithin (640-255, 145, 640-74, 352)) { SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 10);
+        } else if (gMousePosition.IfIsWithin (640-463, 94, 640-311, 248)) { SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 11);
+        } else if (gMousePosition.IfIsWithin (394, 378, 446, 425) && (Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_TABLETTEN) == 0)) { SetMouseLook (CURSOR_HOT, 0, ROOM_PERSONAL_A, 20);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -261,17 +271,19 @@ void CPersonal::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0) {
         return;
+}
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==10) StartDialog (TALKER_PERSONAL1a+PlayerNum*2, MEDIUM_AIR);
-        else if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==11) StartDialog (TALKER_PERSONAL1b+PlayerNum*2, MEDIUM_AIR);
-        else if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==20)
+        if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==10) { StartDialog (TALKER_PERSONAL1a+PlayerNum*2, MEDIUM_AIR);
+        } else if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==11) { StartDialog (TALKER_PERSONAL1b+PlayerNum*2, MEDIUM_AIR);
+        } else if (MouseClickArea==ROOM_PERSONAL_A && MouseClickId==20) {
             StartDialog (TALKER_PERSONAL1a+PlayerNum*2, MEDIUM_AIR, 20);
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        } else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -287,9 +299,8 @@ void CPersonal::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -300,7 +311,7 @@ void CPersonal::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }
 
 //============================================================================================
@@ -334,9 +345,10 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
     Workers.ReSize (MAX_WORKERS);
     Num=0;
 
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         TeakStrRemoveEndingCodes (Line, "\xd\xa\x1a\r");
@@ -363,8 +375,10 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
 
         if (Workers[Num].Kommentar.GetLength()>0)
         {
-            if (Workers[Num].Kommentar[0]=='"') Workers[Num].Kommentar = Workers[Num].Kommentar.Right(Workers[Num].Kommentar.GetLength()-1);
-            if (Workers[Num].Kommentar[Workers[Num].Kommentar.GetLength()-1]=='"') Workers[Num].Kommentar = Workers[Num].Kommentar.Left(Workers[Num].Kommentar.GetLength()-1);
+            if (Workers[Num].Kommentar[0]=='"') { Workers[Num].Kommentar = Workers[Num].Kommentar.Right(Workers[Num].Kommentar.GetLength()-1);
+}
+            if (Workers[Num].Kommentar[Workers[Num].Kommentar.GetLength()-1]=='"') { Workers[Num].Kommentar = Workers[Num].Kommentar.Left(Workers[Num].Kommentar.GetLength()-1);
+}
         }
 
         Num++;
@@ -386,22 +400,29 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
     FileP=0;
     FileP=ReadLine (FileData2, FileP, Line, 300);
 
-    SLONG i1=0, i2=0, i3=0;
+    SLONG i1=0;
+    SLONG i2=0;
+    SLONG i3=0;
 
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData2.AnzEntries()) break;
+        if (FileP>=FileData2.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData2, FileP, Line, 300);
 
         TeakStrRemoveEndingCodes (Line, "\xd\xa\x1a\r");
 
         Num = atoi (strtok (Line, TabSeparator));
 
-        if (Num==0) FNames[i1++] = strtok (NULL, TabSeparator);
-        if (Num==1) MNames[i2++] = strtok (NULL, TabSeparator);
-        if (Num==2) LNames[i3++] = strtok (NULL, TabSeparator);
+        if (Num==0) { FNames[i1++] = strtok (NULL, TabSeparator);
+}
+        if (Num==1) { MNames[i2++] = strtok (NULL, TabSeparator);
+}
+        if (Num==2) { LNames[i3++] = strtok (NULL, TabSeparator);
+}
 
-        if (i1>=FNames.AnzEntries() || i2>=MNames.AnzEntries() || i3>=LNames.AnzEntries()) DebugBreak();
+        if (i1>=FNames.AnzEntries() || i2>=MNames.AnzEntries() || i3>=LNames.AnzEntries()) { DebugBreak();
+}
     }
 
     FileData2.FillWith(0);
@@ -416,7 +437,9 @@ void CWorkers::ReInit (const CString &TabFilename, const CString &TabFilename2)
 //--------------------------------------------------------------------------------------------
 void CWorkers::NewDay (void)
 {
-    SLONG c, m, n;
+    SLONG c;
+    SLONG m;
+    SLONG n;
 
     CheckShortage ();
 
@@ -430,23 +453,28 @@ void CWorkers::NewDay (void)
         {
             SLONG Anz=0;
 
-            if (Sim.Players.Players[Workers[c].Employer].Owner==0 && Sim.Players.Players[Workers[c].Employer].Image<500) Anz=1;
-            if (Anz && Sim.Players.Players[Workers[c].Employer].Image<0) Anz++;
-            if (Anz && Sim.Players.Players[Workers[c].Employer].Image<-500) Anz++;
+            if (Sim.Players.Players[Workers[c].Employer].Owner==0 && Sim.Players.Players[Workers[c].Employer].Image<500) { Anz=1;
+}
+            if ((Anz != 0) && Sim.Players.Players[Workers[c].Employer].Image<0) { Anz++;
+}
+            if ((Anz != 0) && Sim.Players.Players[Workers[c].Employer].Image<-500) { Anz++;
+}
 
             //Worker u.U. mehrfach um 1%-Punkt unglücklicher machen
             for (; Anz>0; Anz--)
             {
                 Workers[c].Happyness--;
 
-                if (Workers[c].Gehalt<Workers[c].OriginalGehalt)
+                if (Workers[c].Gehalt<Workers[c].OriginalGehalt) {
                     Workers[c].Happyness-=20;
+}
 
                 if (Workers[c].Happyness<-100)
                 {
                     //Ihm reicht's! Er kündigt:
-                    if (Sim.Players.Players[Workers[c].Employer].Owner==0)
+                    if (Sim.Players.Players[Workers[c].Employer].Owner==0) {
                         Sim.Players.Players[Workers[c].Employer].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2000+Workers[c].Typ+Workers[c].Geschlecht*100), Workers[c].Name.c_str()));
+}
 
                     SLONG ExEmployer=Workers[c].Employer;
                     Workers[c].Employer=WORKER_RESERVE;
@@ -459,9 +487,11 @@ void CWorkers::NewDay (void)
     }
 
     //Arbeitsmarkt reorganisieren:
-    for (c=0; c<Workers.AnzEntries(); c++)
-        if (Workers[c].Employer==WORKER_JOBLESS)
+    for (c=0; c<Workers.AnzEntries(); c++) {
+        if (Workers[c].Employer==WORKER_JOBLESS) {
             Workers[c].Employer=WORKER_RESERVE;
+}
+}
 
     //Rund 15 Bewerber (+/- 5) aussuchen:
     SLONG Anzahl = 10+LocalRand.Rand(10);
@@ -470,12 +500,13 @@ void CWorkers::NewDay (void)
     {
         m=LocalRand.Rand(Workers.AnzEntries());
 
-        for (SLONG d=0; d<100; d++)
+        for (SLONG d=0; d<100; d++) {
             if (Workers[(m+d)%Workers.AnzEntries()].Employer==WORKER_RESERVE)
             {
                 m=(m+d)%Workers.AnzEntries();
                 break;
             }
+}
 
         if (Workers[m].Employer==WORKER_RESERVE)
         {
@@ -492,12 +523,13 @@ void CWorkers::NewDay (void)
     {
         m=LocalRand.Rand(Workers.AnzEntries());
 
-        for (SLONG d=0; d<100; d++)
+        for (SLONG d=0; d<100; d++) {
             if (Workers[(m+d)%Workers.AnzEntries()].Employer==WORKER_RESERVE && Workers[(m+d)%Workers.AnzEntries()].Typ==WORKER_STEWARDESS)
             {
                 m=(m+d)%Workers.AnzEntries();
                 break;
             }
+}
 
         if (Workers[m].Employer==WORKER_RESERVE && Workers[m].Typ==WORKER_STEWARDESS)
         {
@@ -513,15 +545,17 @@ void CWorkers::NewDay (void)
 //--------------------------------------------------------------------------------------------
 void CWorker::Gehaltsaenderung (BOOL Art)
 {
-    if (Art)
+    if (Art != 0)
     {
         //Gehaltserhöhung:
         SLONG OldGehalt=Gehalt;
 
         Gehalt += (Gehalt/100*10);
-        if (Gehalt>1000000) Gehalt=1000000;
+        if (Gehalt>1000000) { Gehalt=1000000;
+}
 
-        if (Gehalt!=OldGehalt) Happyness += 20;
+        if (Gehalt!=OldGehalt) { Happyness += 20;
+}
     }
     else
     {
@@ -531,8 +565,9 @@ void CWorker::Gehaltsaenderung (BOOL Art)
 
         if (Happyness<-100)
         {
-            if (Sim.Players.Players[Employer].Owner==0)
+            if (Sim.Players.Players[Employer].Owner==0) {
                 Sim.Players.Players[Employer].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2000+Typ+Geschlecht*100), Name.c_str()));
+}
 
             SLONG ExEmployer=Employer;
 
@@ -549,10 +584,10 @@ void CWorker::Gehaltsaenderung (BOOL Art)
 //--------------------------------------------------------------------------------------------
 //Erzeugt einen zufälligen Namen
 //--------------------------------------------------------------------------------------------
-CString CWorkers::GetRandomName(BOOL Geschlecht)
+CString CWorkers::GetRandomName(BOOL Geschlecht) const
 {
-    if (Geschlecht) return (MNames[rand()%MNames.AnzEntries()]+" "+LNames[rand()%LNames.AnzEntries()]);
-    else return (FNames[rand()%FNames.AnzEntries()]+" "+LNames[rand()%LNames.AnzEntries()]);
+    if (Geschlecht != 0) { return (MNames[rand()%MNames.AnzEntries()]+" "+LNames[rand()%LNames.AnzEntries()]);
+    } return (FNames[rand()%FNames.AnzEntries()]+" "+LNames[rand()%LNames.AnzEntries()]);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -560,12 +595,15 @@ CString CWorkers::GetRandomName(BOOL Geschlecht)
 //--------------------------------------------------------------------------------------------
 void CWorkers::CheckShortage (void)
 {
-    SLONG    anz, c;
+    SLONG    anz;
+    SLONG    c;
     TEAKRAND LocalRand (Sim.Date+Sim.StartTime);
 
-    for (anz=c=0; c<Workers.AnzEntries(); c++)
-        if ((Workers[c].Employer==WORKER_RESERVE || Workers[c].Employer==WORKER_JOBLESS) && Workers[c].Typ==WORKER_PILOT && Workers[c].Talent>60)
+    for (anz=c=0; c<Workers.AnzEntries(); c++) {
+        if ((Workers[c].Employer==WORKER_RESERVE || Workers[c].Employer==WORKER_JOBLESS) && Workers[c].Typ==WORKER_PILOT && Workers[c].Talent>60) {
             anz++;
+}
+}
 
     if (anz<40)
     {
@@ -573,7 +611,7 @@ void CWorkers::CheckShortage (void)
 
         for (c=Workers.AnzEntries()-10; c<Workers.AnzEntries(); c++)
         {
-            Workers[c].Geschlecht  = ((LocalRand.Rand(100))>20);
+            Workers[c].Geschlecht  = static_cast<BOOL>((LocalRand.Rand(100))>20);
             Workers[c].Name        = GetRandomName(Workers[c].Geschlecht);
             Workers[c].Typ         = WORKER_PILOT;
             Workers[c].Gehalt      = (30+LocalRand.Rand(70))*100;
@@ -588,9 +626,11 @@ void CWorkers::CheckShortage (void)
         }
     }
 
-    for (anz=c=0; c<Workers.AnzEntries(); c++)
-        if ((Workers[c].Employer==WORKER_RESERVE || Workers[c].Employer==WORKER_JOBLESS) && Workers[c].Typ==WORKER_STEWARDESS && Workers[c].Talent>60)
+    for (anz=c=0; c<Workers.AnzEntries(); c++) {
+        if ((Workers[c].Employer==WORKER_RESERVE || Workers[c].Employer==WORKER_JOBLESS) && Workers[c].Typ==WORKER_STEWARDESS && Workers[c].Talent>60) {
             anz++;
+}
+}
 
     if (anz<40)
     {
@@ -598,7 +638,7 @@ void CWorkers::CheckShortage (void)
 
         for (c=Workers.AnzEntries()-10; c<Workers.AnzEntries(); c++)
         {
-            Workers[c].Geschlecht  = ((rand()%100)>80);
+            Workers[c].Geschlecht  = static_cast<BOOL>((rand()%100)>80);
             Workers[c].Name        = GetRandomName(Workers[c].Geschlecht);
             Workers[c].Typ         = WORKER_STEWARDESS;
             Workers[c].Gehalt      = (30+LocalRand.Rand(50))*100;
@@ -619,9 +659,11 @@ void CWorkers::CheckShortage (void)
 //--------------------------------------------------------------------------------------------
 void CWorkers::Gehaltsaenderung (BOOL Art, SLONG PlayerNum)
 {
-    for (SLONG c=0; c<Workers.AnzEntries(); c++)
-        if (Workers[c].Employer==PlayerNum)
+    for (SLONG c=0; c<Workers.AnzEntries(); c++) {
+        if (Workers[c].Employer==PlayerNum) {
             Workers[c].Gehaltsaenderung (Art);
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -629,15 +671,19 @@ void CWorkers::Gehaltsaenderung (BOOL Art, SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetQualityRatio (SLONG prs)
 {
-    SLONG c, p1;
+    SLONG c;
+    SLONG p1;
 
-    for (c=p1=0; c<Workers.AnzEntries(); c++)
-        if (Workers[c].Typ==Workers[prs].Typ)
+    for (c=p1=0; c<Workers.AnzEntries(); c++) {
+        if (Workers[c].Typ==Workers[prs].Typ) {
             if (abs(Workers[c].Talent-Workers[prs].Talent)<15)
             {
-                if (Workers[c].Gehalt>Workers[prs].Gehalt) p1++;
-                else p1--;
+                if (Workers[c].Gehalt>Workers[prs].Gehalt) { p1++;
+                } else { p1--;
+}
             }
+}
+}
 
     return (p1);
 }
@@ -647,12 +693,15 @@ SLONG CWorkers::GetQualityRatio (SLONG prs)
 //--------------------------------------------------------------------------------------------
 void CWorkers::EnsureBerater (SLONG Typ)
 {
-    SLONG c, m;
+    SLONG c;
+    SLONG m;
 
     //Arbeitsmarkt reorganisieren:
-    for (c=0; c<Workers.AnzEntries(); c++)
-        if (Workers[c].Employer==WORKER_JOBLESS && Workers[c].Typ==Typ)
+    for (c=0; c<Workers.AnzEntries(); c++) {
+        if (Workers[c].Employer==WORKER_JOBLESS && Workers[c].Typ==Typ) {
             return;
+}
+}
 
     TEAKRAND LocalRand (Sim.Date+Sim.StartTime);
 
@@ -674,19 +723,21 @@ void CWorkers::EnsureBerater (SLONG Typ)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetAverageHappyness (SLONG PlayerNum)
 {
-    SLONG c, Anz, Value;
+    SLONG c;
+    SLONG Anz;
+    SLONG Value;
 
-    for (c=Anz=Value=0; c<Workers.AnzEntries(); c++)
+    for (c=Anz=Value=0; c<Workers.AnzEntries(); c++) {
         if (Workers[c].Employer==PlayerNum)
         {
             Anz++;
             Value += Workers[c].Happyness;
         }
+}
 
-    if (Anz)
+    if (Anz != 0) {
         return (Value/Anz);
-    else
-        return (100);
+    }         return (100);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -694,16 +745,18 @@ SLONG CWorkers::GetAverageHappyness (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetMaxHappyness (SLONG PlayerNum)
 {
-    SLONG c, Max=-1;
+    SLONG c;
+    SLONG Max=-1;
 
-    for (c=0; c<Workers.AnzEntries(); c++)
-        if (Workers[c].Employer==PlayerNum && Workers[c].Happyness>Max)
+    for (c=0; c<Workers.AnzEntries(); c++) {
+        if (Workers[c].Employer==PlayerNum && Workers[c].Happyness>Max) {
             Max = Workers[c].Happyness;
+}
+}
 
-    if (Max!=-1)
+    if (Max!=-1) {
         return (Max);
-    else
-        return (100);
+    }         return (100);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -711,16 +764,18 @@ SLONG CWorkers::GetMaxHappyness (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetMinHappyness (SLONG PlayerNum)
 {
-    SLONG c, Min=999;
+    SLONG c;
+    SLONG Min=999;
 
-    for (c=0; c<Workers.AnzEntries(); c++)
-        if (Workers[c].Employer==PlayerNum && Workers[c].Happyness<Min)
+    for (c=0; c<Workers.AnzEntries(); c++) {
+        if (Workers[c].Employer==PlayerNum && Workers[c].Happyness<Min) {
             Min = Workers[c].Happyness;
+}
+}
 
-    if (Min!=999)
+    if (Min!=999) {
         return (Min);
-    else
-        return (100);
+    }         return (100);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -730,13 +785,16 @@ void CWorkers::AddHappiness (SLONG PlayerNum, SLONG Value)
 {
     SLONG c;
 
-    for (c=0; c<Workers.AnzEntries(); c++)
+    for (c=0; c<Workers.AnzEntries(); c++) {
         if (Workers[c].Employer==PlayerNum)
         {
             Workers[c].Happyness += Value;
-            if (Workers[c].Happyness<-100) Workers[c].Happyness=-100;
-            if (Workers[c].Happyness>100)  Workers[c].Happyness=100;
+            if (Workers[c].Happyness<-100) { Workers[c].Happyness=-100;
+}
+            if (Workers[c].Happyness>100) {  Workers[c].Happyness=100;
+}
         }
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -744,12 +802,16 @@ void CWorkers::AddHappiness (SLONG PlayerNum, SLONG Value)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetNumJoblessBerater (void)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
-    for (c=d=0; c<Workers.AnzEntries(); c++)
-        if (Workers[c].Employer==WORKER_JOBLESS)
-            if (Workers[c].Typ<WORKER_PILOT)
+    for (c=d=0; c<Workers.AnzEntries(); c++) {
+        if (Workers[c].Employer==WORKER_JOBLESS) {
+            if (Workers[c].Typ<WORKER_PILOT) {
                 d++;
+}
+}
+}
 
     return (d);
 }
@@ -759,12 +821,16 @@ SLONG CWorkers::GetNumJoblessBerater (void)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetNumJoblessPiloten (void)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
-    for (c=d=0; c<Workers.AnzEntries(); c++)
-        if (Workers[c].Employer==WORKER_JOBLESS)
-            if (Workers[c].Typ==WORKER_PILOT)
+    for (c=d=0; c<Workers.AnzEntries(); c++) {
+        if (Workers[c].Employer==WORKER_JOBLESS) {
+            if (Workers[c].Typ==WORKER_PILOT) {
                 d++;
+}
+}
+}
 
     return (d);
 }
@@ -774,12 +840,16 @@ SLONG CWorkers::GetNumJoblessPiloten (void)
 //--------------------------------------------------------------------------------------------
 SLONG CWorkers::GetNumJoblessFlugbegleiter (void)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
-    for (c=d=0; c<Workers.AnzEntries(); c++)
-        if (Workers[c].Employer==WORKER_JOBLESS)
-            if (Workers[c].Typ==WORKER_STEWARDESS)
+    for (c=d=0; c<Workers.AnzEntries(); c++) {
+        if (Workers[c].Employer==WORKER_JOBLESS) {
+            if (Workers[c].Typ==WORKER_STEWARDESS) {
                 d++;
+}
+}
+}
 
     return (d);
 }

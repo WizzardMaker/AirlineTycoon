@@ -40,9 +40,10 @@ void CITIES::ReInit (const CString &TabFilename)
 
     Cities.ReSize (MAX_CITIES);
 
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         //if (!Tab.ReadString (Line, 300)) break;
@@ -52,7 +53,8 @@ void CITIES::ReInit (const CString &TabFilename)
         Id=atol (strtok (Line, ";\x8\""))+0x1000000;
 
         //Hinzufügen (darf noch nicht existieren):
-        if (IsInAlbum (Id)) TeakLibW_Exception (FNL, ExcNever);
+        if (IsInAlbum (Id) != 0) { TeakLibW_Exception (FNL, ExcNever);
+}
         (*this)*=Id;
 
         //SpeedUp durch direkten Zugriff:
@@ -97,12 +99,15 @@ void CITIES::UseRealKuerzel (BOOL Real)
 {
     SLONG c;
 
-    for (c=AnzEntries()-1; c>=0; c--)
-        if (IsInAlbum(c))
-            if (Real)
+    for (c=AnzEntries()-1; c>=0; c--) {
+        if (IsInAlbum(c) != 0) {
+            if (Real != 0) {
                 (*this)[c].Kuerzel=(*this)[c].KuerzelReal;
-            else
+            } else {
                 (*this)[c].Kuerzel=(*this)[c].KuerzelGood;
+}
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -116,18 +121,19 @@ SLONG CITIES::CalcDistance (long CityId1, long CityId2)
         HashTable.FillWith (0);
     }
 
-    if (CityId1>=0x1000000) CityId1=(*this)(CityId1);
-    if (CityId2>=0x1000000) CityId2=(*this)(CityId2);
+    if (CityId1>=0x1000000) { CityId1=(*this)(CityId1);
+}
+    if (CityId2>=0x1000000) { CityId2=(*this)(CityId2);
+}
 
-    if (HashTable[SLONG(CityId1+CityId2*AnzEntries())])
+    if (HashTable[SLONG(CityId1+CityId2*AnzEntries())] != 0)
     {
         SLONG rc = HashTable[SLONG(CityId1+CityId2*AnzEntries())];
 
         return (min(rc, 16440000));
     }
-    else
-    {
-        FXYZ  Vector1;    //Vektor vom Erdmittelpunkt zu City1
+    
+            FXYZ  Vector1;    //Vektor vom Erdmittelpunkt zu City1
         FXYZ  Vector2;    //Vektor vom Erdmittelpunkt zu City2
         float Alpha;      //Winkel in Grad zwischen den Vektoren (für Kreissegment)
 
@@ -158,7 +164,7 @@ SLONG CITIES::CalcDistance (long CityId1, long CityId2)
         SLONG rc = HashTable[SLONG(CityId1+CityId2*AnzEntries())];
 
         return (min(rc, 16440000));
-    }
+   
 }
 
 //--------------------------------------------------------------------------------------------
@@ -168,7 +174,8 @@ SLONG CITIES::CalcFlugdauer (long CityId1, long CityId2, long Speed)
 {
     SLONG d=(CalcDistance (CityId1, CityId2)/Speed+999)/1000+1+2-2;
 
-    if (d<2) d=2;
+    if (d<2) { d=2;
+}
 
     return (d);
 }
@@ -178,21 +185,27 @@ SLONG CITIES::CalcFlugdauer (long CityId1, long CityId2, long Speed)
 //--------------------------------------------------------------------------------------------
 SLONG CITIES::GetRandomUsedIndex (TEAKRAND *pRand)
 {
-    SLONG c, n=0;
+    SLONG c;
+    SLONG n=0;
 
-    for (c=AnzEntries()-1; c>=0; c--)
-        if (IsInAlbum(c))
+    for (c=AnzEntries()-1; c>=0; c--) {
+        if (IsInAlbum(c) != 0) {
             n++;
+}
+}
 
-    if (pRand) n = pRand->Rand(n)+1;
-    else n = (rand()%n)+1;
+    if (pRand != nullptr) { n = pRand->Rand(n)+1;
+    } else { n = (rand()%n)+1;
+}
 
-    for (c=AnzEntries()-1; c>=0; c--)
-        if (IsInAlbum(c))
+    for (c=AnzEntries()-1; c>=0; c--) {
+        if (IsInAlbum(c) != 0)
         {
             n--;
-            if (n==0) return (c);
+            if (n==0) { return (c);
+}
         }
+}
 
     DebugBreak();
     return (0);
@@ -203,21 +216,27 @@ SLONG CITIES::GetRandomUsedIndex (TEAKRAND *pRand)
 //--------------------------------------------------------------------------------------------
 SLONG CITIES::GetRandomUsedIndex (SLONG AreaCode, TEAKRAND *pRand)
 {
-    SLONG c, n=0;
+    SLONG c;
+    SLONG n=0;
 
-    for (c=AnzEntries()-1; c>=0; c--)
-        if (IsInAlbum(c) && (*this)[c].Areacode==AreaCode)
+    for (c=AnzEntries()-1; c>=0; c--) {
+        if ((IsInAlbum(c) != 0) && (*this)[c].Areacode==AreaCode) {
             n++;
+}
+}
 
-    if (pRand) n = pRand->Rand(n)+1;
-    else n = (rand()%n)+1;
+    if (pRand != nullptr) { n = pRand->Rand(n)+1;
+    } else { n = (rand()%n)+1;
+}
 
-    for (c=AnzEntries()-1; c>=0; c--)
-        if (IsInAlbum(c) && (*this)[c].Areacode==AreaCode)
+    for (c=AnzEntries()-1; c>=0; c--) {
+        if ((IsInAlbum(c) != 0) && (*this)[c].Areacode==AreaCode)
         {
             n--;
-            if (n==0) return (c);
+            if (n==0) { return (c);
+}
         }
+}
 
     DebugBreak();
     return (0);
@@ -230,9 +249,11 @@ ULONG CITIES::GetIdFromName (const char *Name)
 {
     SLONG c;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++)
-        if (IsInAlbum(c) && stricmp (Name, (LPCTSTR)Cities[c].Name)==0)
+    for (c=0; c<(SLONG)AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && stricmp (Name, (LPCTSTR)Cities[c].Name)==0) {
             return (GetIdFromIndex(c));
+}
+}
 
     TeakLibW_Exception (FNL, ExcNever);
     return (0);
@@ -257,9 +278,11 @@ ULONG CITIES::GetIdFromNames (const char *Name, ...)
     va_list va_marker;
     foreacharg (va_marker, LPCSTR, Name, NULL)
     {
-        for (c=0; c<(SLONG)AnzEntries(); c++)
-            if (IsInAlbum(c) && stricmp (qLPCSTR, (LPCTSTR)Cities[c].Name)==0)
+        for (c=0; c<(SLONG)AnzEntries(); c++) {
+            if ((IsInAlbum(c) != 0) && stricmp (qLPCSTR, (LPCTSTR)Cities[c].Name)==0) {
                 return (GetIdFromIndex(c));
+}
+}
     }
 
     TeakLibW_Exception (FNL, ExcNever);
@@ -281,13 +304,15 @@ CRentCity::CRentCity ()
 //--------------------------------------------------------------------------------------------
 SLONG CRentCities::GetNumUsed(void)
 {
-    SLONG c, Anz=0;
+    SLONG c;
+    SLONG Anz=0;
 
-    for (c=0; c<(SLONG)Cities.AnzEntries(); c++)
-        if (Cities.IsInAlbum(c) && RentCities[c].Rang!=0)
+    for (c=0; c<(SLONG)Cities.AnzEntries(); c++) {
+        if ((Cities.IsInAlbum(c) != 0) && RentCities[c].Rang!=0)
         {
             Anz++;
         }
+}
 
     return (Anz);
 }

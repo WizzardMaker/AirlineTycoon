@@ -37,7 +37,8 @@ void PaintGlobe (const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const 
     UWORD *map;
     UBYTE *lightmap;
 
-    SLONG  cx, cy;
+    SLONG  cx;
+    SLONG  cy;
 
     static SLONG a; a = (EarthAlpha>>7);
     static ULONG _esp;
@@ -54,8 +55,9 @@ void PaintGlobe (const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const 
         lightmap = GlobeLight[cy];
 
 #ifndef ENABLE_ASM
-        for (cx=anz-1; cx>=0; cx--)
+        for (cx=anz-1; cx>=0; cx--) {
             t[cx]=GlobeMixTab[s[(map[cx]+a)&511]+(lightmap[cx]<<8)];
+}
 #else
         __asm
         {
@@ -110,8 +112,9 @@ void PaintGlobe (const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const 
             lightmap = GlobeLight[368-cy];
 
 #ifndef ENABLE_ASM
-            for (cx=anz-1; cx>=0; cx--)
+            for (cx=anz-1; cx>=0; cx--) {
                 t[cx]=GlobeMixTab[s[(map[cx]+a)&511]+(lightmap[cx]<<8)];
+}
 #else
             __asm
             {
@@ -171,13 +174,15 @@ CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop)
 
     FensterVisible = FALSE;
 
-    for (c=0; c<Sim.Players.AnzPlayers; c++)
-        if ((Sim.Players.Players[(SLONG)PlayerNum].DisplayPlanes[c] && IsLaptop) || (c==(SLONG)PlayerNum && !IsLaptop))
+    for (c=0; c<Sim.Players.AnzPlayers; c++) {
+        if (((Sim.Players.Players[(SLONG)PlayerNum].DisplayPlanes[c] != 0u) && (IsLaptop != 0)) || (c==(SLONG)PlayerNum && (IsLaptop == 0))) {
             Sim.Players.Players[c].Planes.UpdateGlobePos (EarthAlpha);
+}
+}
 
     //Ist inzwischen ein Blockeintrag ungültig geworden?
-    for (c=Sim.Players.Players[(SLONG)PlayerNum].Blocks.AnzEntries()-1; c>=0; c--)
-        if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(ULONG(c)))
+    for (c=Sim.Players.Players[(SLONG)PlayerNum].Blocks.AnzEntries()-1; c>=0; c--) {
+        if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(ULONG(c)) != 0)
         {
             BLOCK &qBlock=Sim.Players.Players[(SLONG)PlayerNum].Blocks[c];
 
@@ -189,7 +194,7 @@ CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop)
             //Flugzeugdetail?
             if (qBlock.BlockType==2 && qBlock.Index!=1)
             {
-                if (!Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(qBlock.SelectedId))
+                if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(qBlock.SelectedId) == 0)
                 {
                     qBlock.Index=1;
                     qBlock.Page=0;
@@ -203,12 +208,12 @@ CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop)
                 qBlock.Page=0;
             }
 
-            if (qBlock.DoubleBlock)
+            if (qBlock.DoubleBlock != 0)
             {
                 //Auftragsdetails:
                 if (qBlock.BlockTypeB==3 && qBlock.IndexB!=1)
                 {
-                    if (!Sim.Players.Players[(SLONG)PlayerNum].Auftraege.IsInAlbum(qBlock.SelectedIdB))
+                    if (Sim.Players.Players[(SLONG)PlayerNum].Auftraege.IsInAlbum(qBlock.SelectedIdB) == 0)
                     {
                         qBlock.IndexB=1;
                         qBlock.PageB=0;
@@ -218,7 +223,7 @@ CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop)
                 //Routendetails:
                 if (qBlock.BlockTypeB==4 && qBlock.IndexB!=1)
                 {
-                    if (!Routen.IsInAlbum(qBlock.SelectedIdB))
+                    if (Routen.IsInAlbum(qBlock.SelectedIdB) == 0)
                     {
                         qBlock.IndexB=1;
                         qBlock.PageB=0;
@@ -231,6 +236,7 @@ CPlaner::CPlaner(BOOL bHandy, ULONG PlayerNum, UWORD &EarthAlpha, BOOL IsLaptop)
                 }
             }
         }
+}
 
     gMouseLButtonDownTimer=0;
 
@@ -262,23 +268,27 @@ void CPlaner::PaintGlobe (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::PaintGlobeRoutes (void)
 {
-    SLONG c, d, e;
+    SLONG c;
+    SLONG d;
+    SLONG e;
 
-    for (c=0; c<Sim.Players.AnzPlayers; c++)
-        if (!Sim.Players.Players[c].IsOut)
+    for (c=0; c<Sim.Players.AnzPlayers; c++) {
+        if (Sim.Players.Players[c].IsOut == 0)
         {
-            if (Sim.Players.Players[PlayerNum].DisplayRoutes[c])
+            if (Sim.Players.Players[PlayerNum].DisplayRoutes[c] != 0u)
             {
                 //Die gemieteten Niederlassungen anzeigen:
-                for (d=0; d<(SLONG)Cities.AnzEntries(); d++)
-                    if (IsLaptop && Sim.Players.Players[c].RentCities.RentCities[d].Rang!=0)
+                for (d=0; d<(SLONG)Cities.AnzEntries(); d++) {
+                    if ((IsLaptop != 0) && Sim.Players.Players[c].RentCities.RentCities[d].Rang!=0)
                     {
-                        XY pxy, tmp = Cities[d].GlobusPosition;
+                        XY pxy;
+                        XY tmp = Cities[d].GlobusPosition;
 
-                        if (!EarthProjectize (tmp, EarthAlpha, &pxy) && e>0)
+                        if ((EarthProjectize (tmp, EarthAlpha, &pxy) == 0) && e>0)
                         {
                             SLONG f=255-abs(32768-(SLONG(((tmp.x+180)*65536/360)-EarthAlpha+16384+65536)&65535))/64;
-                            if (f<=0) f=0;
+                            if (f<=0) { f=0;
+}
 
                             SB_Hardwarecolor color = GlobeBm.pBitmap->GetHardwarecolor (f*65536+f*256); //0xffff00);
 
@@ -293,23 +303,29 @@ void CPlaner::PaintGlobeRoutes (void)
                             GlobeBm.pBitmap->SetPixel (pxy.x-6-1, pxy.y+1, color);
                         }
                     }
+}
 
                 //Die gemieteten Routen anzeigen:
-                for (d=0; d<Sim.Players.Players[c].RentRouten.RentRouten.AnzEntries(); d++)
-                    if (IsLaptop && Sim.Players.Players[c].RentRouten.RentRouten[d].Rang!=0 && Routen[d].Ebene==Sim.Players.Players[PlayerNum].DisplayRoutes[c])
+                for (d=0; d<Sim.Players.Players[c].RentRouten.RentRouten.AnzEntries(); d++) {
+                    if ((IsLaptop != 0) && Sim.Players.Players[c].RentRouten.RentRouten[d].Rang!=0 && Routen[d].Ebene==Sim.Players.Players[PlayerNum].DisplayRoutes[c]) {
                         if (Routen[d].VonCity<Routen[d].NachCity)
                         {
-                            XY  von, nach, pxy, lastpxy;
+                            XY  von;
+                            XY  nach;
+                            XY  pxy;
+                            XY  lastpxy;
                             FXY tmp;
                             //SB_Hardwarecolor red = GlobeBm.pBitmap->GetHardwarecolor (0xff0000);
 
-                            SLONG n, dist=Cities.CalcDistance (Routen[d].VonCity, Routen[d].NachCity);
+                            SLONG n;
+                            SLONG dist=Cities.CalcDistance (Routen[d].VonCity, Routen[d].NachCity);
 
-                            if (dist<500000)        n=256;
-                            else if (dist<1000000)  n=128;
-                            else if (dist<2000000)  n=64;
-                            else if (dist<5000000)  n=32;
-                            else n=16;
+                            if (dist<500000) {        n=256;
+                            } else if (dist<1000000) {  n=128;
+                            } else if (dist<2000000) {  n=64;
+                            } else if (dist<5000000) {  n=32;
+                            } else { n=16;
+}
 
                             von  = Cities[Routen[d].VonCity].GlobusPosition;
                             nach = Cities[Routen[d].NachCity].GlobusPosition;
@@ -318,20 +334,22 @@ void CPlaner::PaintGlobeRoutes (void)
                             {
                                 lastpxy=pxy;
 
-                                if (abs(nach.x-von.x)<180)
+                                if (abs(nach.x-von.x)<180) {
                                     tmp.x = float((von.x*(256-e) + nach.x*e)/256.0);
-                                else
-                                    if (nach.x>von.x)
+                                } else
+                                    if (nach.x>von.x) {
                                         tmp.x = float(von.x+ (-(360-(nach.x-von.x))*e)/256.0);
-                                    else
+                                    } else {
                                         tmp.x = float(von.x+ ((360-(von.x-nach.x))*e)/256.0);
+}
 
                                 tmp.y = float((von.y*(256-e)+ nach.y*e)/256.0);
 
-                                if (!EarthProjectize (tmp, EarthAlpha, &pxy) && e>0)
+                                if ((EarthProjectize (tmp, EarthAlpha, &pxy) == 0) && e>0)
                                 {
                                     SLONG f=255-abs(32768-(SLONG(((tmp.x+180)*65536/360)-EarthAlpha+16384+65536)&65535))/64;
-                                    if (f<=0) f=0;
+                                    if (f<=0) { f=0;
+}
 
                                     SB_Hardwarecolor red = GlobeBm.pBitmap->GetHardwarecolor (f*65536); //0xffff00);
 
@@ -339,13 +357,16 @@ void CPlaner::PaintGlobeRoutes (void)
                                 }
                             }
                         }
+}
+}
             }
         }
+}
 
     for (c=0; c<(SLONG)Sim.Players.Players[(SLONG)PlayerNum].Blocks.AnzEntries(); c++)
     {
-        if (IsLaptop!=0 || FensterVisible)
-            if (Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(c) &&
+        if (IsLaptop!=0 || (FensterVisible != 0)) {
+            if ((Sim.Players.Players[(SLONG)PlayerNum].Blocks.IsInAlbum(c) != 0) &&
                     (c==0) == (IsLaptop==0) &&
                     Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].Index!=1 &&
                     Sim.Players.Players[(SLONG)PlayerNum].Blocks[c].BlockType==2)
@@ -354,19 +375,24 @@ void CPlaner::PaintGlobeRoutes (void)
 
                 for (d=0; d<qPlan.Flug.AnzEntries(); d++)
                 {
-                    if (qPlan.Flug[d].ObjectType)
+                    if (qPlan.Flug[d].ObjectType != 0)
                     {
-                        XY  von, nach, pxy, lastpxy;
+                        XY  von;
+                        XY  nach;
+                        XY  pxy;
+                        XY  lastpxy;
                         FXY tmp;
                         //SB_Hardwarecolor red = GlobeBm.pBitmap->GetHardwarecolor (0xff0000);
 
-                        SLONG n, dist=Cities.CalcDistance (qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity);
+                        SLONG n;
+                        SLONG dist=Cities.CalcDistance (qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity);
 
-                        if (dist<500000)        n=256;
-                        else if (dist<1000000)  n=128;
-                        else if (dist<2000000)  n=64;
-                        else if (dist<5000000)  n=32;
-                        else n=16;
+                        if (dist<500000) {        n=256;
+                        } else if (dist<1000000) {  n=128;
+                        } else if (dist<2000000) {  n=64;
+                        } else if (dist<5000000) {  n=32;
+                        } else { n=16;
+}
 
                         von  = Cities[qPlan.Flug[d].VonCity].GlobusPosition;
                         nach = Cities[qPlan.Flug[d].NachCity].GlobusPosition;
@@ -375,20 +401,22 @@ void CPlaner::PaintGlobeRoutes (void)
                         {
                             lastpxy=pxy;
 
-                            if (abs(nach.x-von.x)<180)
+                            if (abs(nach.x-von.x)<180) {
                                 tmp.x = float((von.x*(256-e) + nach.x*e)/256.0);
-                            else
-                                if (nach.x>von.x)
+                            } else
+                                if (nach.x>von.x) {
                                     tmp.x = float(von.x+ (-(360-(nach.x-von.x))*e)/256.0);
-                                else
+                                } else {
                                     tmp.x = float(von.x+ ((360-(von.x-nach.x))*e)/256.0);
+}
 
                             tmp.y = float((von.y*(255-e)+ nach.y*e) / 256.0);
 
-                            if (!EarthProjectize (tmp, EarthAlpha, &pxy) && e>0)
+                            if ((EarthProjectize (tmp, EarthAlpha, &pxy) == 0) && e>0)
                             {
                                 SLONG f=255-abs(32768-(SLONG(((tmp.x+180)*65536/360)-EarthAlpha+16384+65536)&65535))/64;
-                                if (f<=0) f=0;
+                                if (f<=0) { f=0;
+}
 
                                 GlobeBm.pBitmap->Line (pxy.x-6, pxy.y, lastpxy.x-6, lastpxy.y, f*65536);
                             }
@@ -396,6 +424,7 @@ void CPlaner::PaintGlobeRoutes (void)
                     }
                 }
             }
+}
     }
 }
 
@@ -404,10 +433,16 @@ void CPlaner::PaintGlobeRoutes (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::PaintPostIt ()
 {
-    CString VonCity, NachCity, VonCityKuerzel, NachCityKuerzel;
-    SLONG   VonCityId = 0, NachCityId = 0;
-    SLONG   Dauer, Speed;
-    SLONG   c, i;
+    CString VonCity;
+    CString NachCity;
+    CString VonCityKuerzel;
+    CString NachCityKuerzel;
+    SLONG   VonCityId = 0;
+    SLONG   NachCityId = 0;
+    SLONG   Dauer;
+    SLONG   Speed;
+    SLONG   c;
+    SLONG   i;
 
     if (CurrentPostItType==2) //Auftrag
     {
@@ -425,11 +460,12 @@ void CPlaner::PaintPostIt ()
         NachCityId = Routen[CurrentPostItId].NachCity;
     }
 
-    if (pBlock && (pBlock->Index==0 || pBlock->Index==2) && pBlock->BlockType==2)
+    if ((pBlock != nullptr) && (pBlock->Index==0 || pBlock->Index==2) && pBlock->BlockType==2) {
         Speed=Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].ptGeschwindigkeit;
     //Speed=PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[pBlock->SelectedId].TypeId].Geschwindigkeit;
-    else
+    } else {
         Speed=700;
+}
 
     VonCityKuerzel  = Cities[VonCityId].Kuerzel;
     NachCityKuerzel = Cities[NachCityId].Kuerzel;
@@ -490,21 +526,25 @@ void CPlaner::PaintPostIt ()
         SLONG px = c*6;
         SLONG py = 0;
 
-        if (c==0) i=1;
-        else if (c==1) i=2;
-        else if (c==Dauer-1) i=5;
-        else if (c==Dauer-2) i=4;
-        else i=3;
+        if (c==0) { i=1;
+        } else if (c==1) { i=2;
+        } else if (c==Dauer-1) { i=5;
+        } else if (c==Dauer-2) { i=4;
+        } else { i=3;
+}
 
-        if (CurrentPostItType==2) i+=5;
-        if (CurrentPostItType==4) i+=19;
+        if (CurrentPostItType==2) { i+=5;
+}
+        if (CurrentPostItType==4) { i+=19;
+}
 
         PostItBm.BlitFromT (FlugplanBms[i], XY(px,py));
 
         if (Dauer<=6)
         {
             SB_CFont *pFont;
-            XY        OffsetA(0,0), OffsetB(0,0);
+            XY        OffsetA(0,0);
+            XY        OffsetB(0,0);
 
             if (Dauer-1<4)
             {
@@ -512,15 +552,20 @@ void CPlaner::PaintPostIt ()
                 OffsetA=XY(0,2);
                 OffsetB=XY(2,0);
             }
-            else pFont=&FontSmallBlack;
+            else { pFont=&FontSmallBlack;
+}
 
-            if (c==3 || (c==2 && OffsetB.x)) PostItBm.PrintAt (VonCityKuerzel, *pFont, TEC_FONT_LEFT, OffsetA+XY(-18+px+2+(c==2)*6,1+py), OffsetA+XY(px+16+14+(c==2)*6,py+18));
-            if (c==Dauer-1)                  PostItBm.PrintAt (NachCityKuerzel, *pFont, TEC_FONT_RIGHT, XY(-18-14+px,2+py+8)+OffsetB, XY(px+8-2,py+6+15)+OffsetB);
+            if (c==3 || (c==2 && (OffsetB.x != 0))) { PostItBm.PrintAt (VonCityKuerzel, *pFont, TEC_FONT_LEFT, OffsetA+XY(-18+px+2+static_cast<int>(c==2)*6,1+py), OffsetA+XY(px+16+14+static_cast<int>(c==2)*6,py+18));
+}
+            if (c==Dauer-1) {                  PostItBm.PrintAt (NachCityKuerzel, *pFont, TEC_FONT_RIGHT, XY(-18-14+px,2+py+8)+OffsetB, XY(px+8-2,py+6+15)+OffsetB);
+}
         }
         else
         {
-            if (c==4)       PostItBm.PrintAt (VonCityKuerzel, FontSmallBlack, TEC_FONT_LEFT, XY(-18+px,1+py), XY(px+16+14,py+18));
-            if (c==Dauer-2) PostItBm.PrintAt (NachCityKuerzel, FontSmallBlack, TEC_FONT_RIGHT, XY(-18-14+px,2+py+8), XY(px+8,py+6+15));
+            if (c==4) {       PostItBm.PrintAt (VonCityKuerzel, FontSmallBlack, TEC_FONT_LEFT, XY(-18+px,1+py), XY(px+16+14,py+18));
+}
+            if (c==Dauer-2) { PostItBm.PrintAt (NachCityKuerzel, FontSmallBlack, TEC_FONT_RIGHT, XY(-18-14+px,2+py+8), XY(px+8,py+6+15));
+}
         }
     }
     /*}*/
@@ -532,34 +577,39 @@ void CPlaner::PaintPostIt ()
 void CPlaner::PaintGlobeInScreen (XY TargetPos)
 {
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
-    SLONG   c, d;
+    SLONG   c;
+    SLONG   d;
 
     //Flugzeuge hinter Erde
-    if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0 || Sim.Players.Players[(SLONG)PlayerNum].GetRoom()!=ROOM_LAPTOP)
-        for (d=0; d<Sim.Players.AnzPlayers; d++)
-            if (!Sim.Players.Players[d].IsOut)
-                if ((Sim.Players.Players[PlayerNum].DisplayPlanes[d] && IsLaptop) || (d==PlayerNum && !IsLaptop))
+    if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0 || Sim.Players.Players[(SLONG)PlayerNum].GetRoom()!=ROOM_LAPTOP) {
+        for (d=0; d<Sim.Players.AnzPlayers; d++) {
+            if (Sim.Players.Players[d].IsOut == 0) {
+                if (((Sim.Players.Players[PlayerNum].DisplayPlanes[d] != 0u) && (IsLaptop != 0)) || (d==PlayerNum && (IsLaptop == 0)))
                 {
                     PLAYER &qPlayer = Sim.Players.Players[d];
 
-                    for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--)
-                        if (qPlayer.Planes.IsInAlbum(c))
+                    for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--) {
+                        if (qPlayer.Planes.IsInAlbum(c) != 0)
                             //if ((c==0) == (IsLaptop==0) && FensterVisible)
                         {
                             CPlane &qPlane=qPlayer.Planes[c];
 
-                            if (qPlane.BehindGlobe)
+                            if (qPlane.BehindGlobe != 0)
                             {
                                 //RoomBm.BlitFromT ((MapPlaneBms[d])[SLONG(qPlane.GlobeAngle)], TargetPos+qPlane.GlobePos-XY(9+6,9)-XY(5,5));
                                 RoomBm.BlitFromT ((MapPlaneBms[d])[SLONG(qPlane.GlobeAngle)], TargetPos+qPlane.GlobePos-XY(9,9)-XY(7,10));
                             }
                         }
+}
                 }
+}
+}
+}
 
     //Marker hinter der Erde:
-    for (c=qPlayer.Blocks.AnzEntries()-1; c>=0; c--)
-        if (qPlayer.Blocks.IsInAlbum(c))
-            if ((c==0) == (IsLaptop==0) && FensterVisible)
+    for (c=qPlayer.Blocks.AnzEntries()-1; c>=0; c--) {
+        if (qPlayer.Blocks.IsInAlbum(c) != 0) {
+            if ((c==0) == (IsLaptop==0) && (FensterVisible != 0))
             {
                 BLOCK &qBlock = qPlayer.Blocks[c];
                 if (qBlock.Index==0 && qBlock.BlockType==1)
@@ -575,6 +625,8 @@ void CPlaner::PaintGlobeInScreen (XY TargetPos)
                     }
                 }
             }
+}
+}
 
     //Erde neu berechnen?
     if (UsedToRotate==1)
@@ -589,32 +641,36 @@ void CPlaner::PaintGlobeInScreen (XY TargetPos)
     RoomBm.BlitFromT (GlobeBm, TargetPos-XY(5,5));
 
     //Flugzeuge vor Erde
-    if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0 || Sim.Players.Players[(SLONG)PlayerNum].GetRoom()!=ROOM_LAPTOP)
-        for (d=0; d<Sim.Players.AnzPlayers; d++)
-            if (!Sim.Players.Players[d].IsOut)
-                if ((Sim.Players.Players[PlayerNum].DisplayPlanes[d] && IsLaptop) || (d==PlayerNum && !IsLaptop))
+    if (Sim.Players.Players[(SLONG)PlayerNum].LaptopVirus==0 || Sim.Players.Players[(SLONG)PlayerNum].GetRoom()!=ROOM_LAPTOP) {
+        for (d=0; d<Sim.Players.AnzPlayers; d++) {
+            if (Sim.Players.Players[d].IsOut == 0) {
+                if (((Sim.Players.Players[PlayerNum].DisplayPlanes[d] != 0u) && (IsLaptop != 0)) || (d==PlayerNum && (IsLaptop == 0)))
                 {
                     PLAYER &qPlayer = Sim.Players.Players[d];
 
-                    for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--)
-                        if (qPlayer.Planes.IsInAlbum(c))
+                    for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--) {
+                        if (qPlayer.Planes.IsInAlbum(c) != 0)
                             //if ((c==0) == (IsLaptop==0))
                         {
                             CPlane &qPlane=qPlayer.Planes[c];
                             //qPlane.UpdateGlobePos (EarthAlpha);
 
-                            if (!qPlane.BehindGlobe)
+                            if (qPlane.BehindGlobe == 0)
                             {
                                 //RoomBm.BlitFromT ((MapPlaneBms[d])[SLONG(qPlane.GlobeAngle)], TargetPos+qPlane.GlobePos-XY(9+6,9)-XY(5,5));
                                 RoomBm.BlitFromT ((MapPlaneBms[d])[SLONG(qPlane.GlobeAngle)], TargetPos+qPlane.GlobePos-XY(9,9)-XY(7,10));
                             }
                         }
+}
                 }
+}
+}
+}
 
     //Marker auf der Erde:
-    for (c=qPlayer.Blocks.AnzEntries()-1; c>=0; c--)
-        if (qPlayer.Blocks.IsInAlbum(c))
-            if ((c==0) == (IsLaptop==0) && FensterVisible)
+    for (c=qPlayer.Blocks.AnzEntries()-1; c>=0; c--) {
+        if (qPlayer.Blocks.IsInAlbum(c) != 0) {
+            if ((c==0) == (IsLaptop==0) && (FensterVisible != 0))
             {
                 BLOCK &qBlock = qPlayer.Blocks[c];
                 if (qBlock.Index==0 && qBlock.BlockType==1)
@@ -631,6 +687,8 @@ void CPlaner::PaintGlobeInScreen (XY TargetPos)
                 }
             }
 }
+}
+}
 
 //--------------------------------------------------------------------------------------------
 //Erledigt alles, was regelmäßig abgefragt wird: Tooltips, Verschieben von Flügen...
@@ -641,38 +699,45 @@ void CPlaner::DoPollingStuff (void)
 
     //Geschlossene Blöcke aus dem Array entfernen:
     SLONG c;
-    for (c=0; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++)
-        if (qPlayer.Blocks.IsInAlbum(c) && qPlayer.Blocks[c].Destructing==2)
+    for (c=0; c<(SLONG)qPlayer.Blocks.AnzEntries(); c++) {
+        if ((qPlayer.Blocks.IsInAlbum(c) != 0) && qPlayer.Blocks[c].Destructing==2)
         {
             GlobeWindows [qPlayer.Blocks[c].BlockType-1]=qPlayer.Blocks[c].ScreenPos;
             qPlayer.Blocks[c].Table.Destroy ();
             qPlayer.Blocks[c].Bitmap.Destroy ();
             qPlayer.Blocks -= c;
-            if (CurrentBlock==c) CurrentBlock=-1;
+            if (CurrentBlock==c) { CurrentBlock=-1;
+}
             GlobeBm.Clear (0); PaintGlobe (); PaintGlobeRoutes();
         }
+}
 
-    if (MenuIsOpen()) return;
+    if (MenuIsOpen() != 0) { return;
+}
 
-    for (c=qPlayer.Blocks.AnzEntries(); c>=0; c--)
-        if (qPlayer.Blocks.IsInAlbum(c))
+    for (c=qPlayer.Blocks.AnzEntries(); c>=0; c--) {
+        if (qPlayer.Blocks.IsInAlbum(c) != 0) {
             if (qPlayer.Blocks[c].BlockType==1)
             {
-                if (qPlayer.Blocks[c].Index==1)
+                if (qPlayer.Blocks[c].Index==1) {
                     qPlayer.Blocks[c].SetTip (TIP_NONE, TIP_CITY, 0xffffffff);
-                else
+                } else {
                     qPlayer.Blocks[c].SetTip (TIP_NONE, TIP_CITY, qPlayer.Blocks[c].SelectedId);
+}
             }
-            else qPlayer.Blocks[c].SetTip (TIP_NONE, TIP_NONE, 0);
+            else { qPlayer.Blocks[c].SetTip (TIP_NONE, TIP_NONE, 0);
+}
+}
+}
 
     //Alle Blöcke bei Bedarf neu zeichnen:
-    if (qPlayer.Blocks.RepaintAll)
+    if (qPlayer.Blocks.RepaintAll != 0)
     {
         qPlayer.Blocks.RepaintAll=FALSE;
 
         for (c=qPlayer.Blocks.AnzEntries(); c>=0; c--)
         {
-            if (qPlayer.Blocks.IsInAlbum(c))
+            if (qPlayer.Blocks.IsInAlbum(c) != 0)
             {
                 if (qPlayer.Blocks[c].Index==0 && qPlayer.Blocks[c].BlockType==4 && qPlayer.RentRouten.RentRouten[(SLONG)Routen(qPlayer.Blocks[c].SelectedId)].Rang==0)
                 {
@@ -692,11 +757,11 @@ void CPlaner::DoPollingStuff (void)
     }
 
     //Drag & Drop regeln...
-    if (DragFlightMode && CurrentBlock!=-1)
+    if ((DragFlightMode != 0) && CurrentBlock!=-1)
     {
         BLOCK &qBlock = qPlayer.Blocks[DragFlightPar0];
 
-        if (!(qPlayer.Buttons&1))
+        if ((qPlayer.Buttons&1) == 0)
         {
             DragFlightMode=FALSE;
             qPlayer.Planes[DragFlightPar1].CheckFlugplaene(PlayerNum, FALSE);
@@ -705,7 +770,7 @@ void CPlaner::DoPollingStuff (void)
             qPlayer.Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
             qPlayer.NetUpdateFlightplan (DragFlightPar1);
 
-            if (pBlock)
+            if (pBlock != nullptr)
             {
                 pBlock->RefreshData (PlayerNum);
                 pBlock->Refresh (PlayerNum, IsLaptop);
@@ -716,8 +781,8 @@ void CPlaner::DoPollingStuff (void)
             CFlugplan &qPlan = qPlayer.Planes[DragFlightPar1].Flugplan;
 
             //Bricht die Zeit alles ab?
-            if (qPlan.Flug[DragFlightPar2].Startdate==Sim.Date && Sim.GetHour()>=qPlan.Flug[DragFlightPar2].Startzeit) DragFlightMode=FALSE;
-            else
+            if (qPlan.Flug[DragFlightPar2].Startdate==Sim.Date && Sim.GetHour()>=qPlan.Flug[DragFlightPar2].Startzeit) { DragFlightMode=FALSE;
+            } else
             {
                 if (qBlock.Index==0)
                 {
@@ -734,8 +799,9 @@ void CPlaner::DoPollingStuff (void)
                         }
                     }
 
-                    if (Sim.Date==Date) Limit (SLONG(Sim.GetHour()+2), Time, SLONG(24));
-                    else Limit (SLONG(0), Time, SLONG(24));
+                    if (Sim.Date==Date) { Limit (SLONG(Sim.GetHour()+2), Time, SLONG(24));
+                    } else { Limit (SLONG(0), Time, SLONG(24));
+}
                     Limit ((SLONG)Sim.Date, Date, SLONG(Sim.Date+6));
 
                     if (Time==24)
@@ -747,9 +813,10 @@ void CPlaner::DoPollingStuff (void)
                     SLONG DeltaDate = (Date - qPlan.Flug[DragFlightPar2].Startdate);
                     SLONG DeltaTime = (Time - qPlan.Flug[DragFlightPar2].Startzeit);
 
-                    BUFFER<SLONG> DeltaDates(80), DeltaTimes(80);
+                    BUFFER<SLONG> DeltaDates(80);
+                    BUFFER<SLONG> DeltaTimes(80);
 
-                    if (DeltaDate || DeltaTime)
+                    if ((DeltaDate != 0) || (DeltaTime != 0))
                     {
                         for (c=DragFlightPar2; c<qPlan.Flug.AnzEntries(); c++)
                         {
@@ -776,22 +843,25 @@ void CPlaner::DoPollingStuff (void)
                                     qPlan.Flug[c].PArrived = 0;
                                 }
 
-                                if (qPlan.Flug[c].ObjectType==4) qPlan.Flug[c].Okay = 0;
+                                if (qPlan.Flug[c].ObjectType==4) { qPlan.Flug[c].Okay = 0;
+}
                             }
 
-                            if (!(GetAsyncKeyState (VK_SHIFT)&0xff00)) break;
+                            if ((GetAsyncKeyState (VK_SHIFT)&0xff00) == 0) { break;
+}
                         }
 
                         qPlayer.Planes[DragFlightPar1].CheckFlugplaene(PlayerNum, FALSE);
 
-                        if (GetAsyncKeyState (VK_SHIFT)&0xff00)
+                        if ((GetAsyncKeyState (VK_SHIFT)&0xff00) != 0) {
                             for (c=DragFlightPar2; c<qPlan.Flug.AnzEntries(); c++)
                             {
                                 if (qPlan.Flug[c].ObjectType!=0)
                                 {
                                     if (c+1<qPlan.Flug.AnzEntries() && qPlan.Flug[c+1].ObjectType!=0)
                                     {
-                                        if (qPlan.Flug[c+1].ObjectType==4) qPlan.Flug[c+1].Okay = 0;
+                                        if (qPlan.Flug[c+1].ObjectType==4) { qPlan.Flug[c+1].Okay = 0;
+}
                                         qPlan.Flug[c+1].Startdate = DeltaDates[c]+qPlan.Flug[c].Startdate;
                                         qPlan.Flug[c+1].Startzeit = DeltaTimes[c]+qPlan.Flug[c].Startzeit;
 
@@ -800,6 +870,7 @@ void CPlaner::DoPollingStuff (void)
                                     }
                                 }
                             }
+}
 
                         qPlan.UpdateNextFlight ();
                         qPlan.UpdateNextStart ();
@@ -811,7 +882,7 @@ void CPlaner::DoPollingStuff (void)
                         qPlayer.Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
                     }
 
-                    SetMouseLook (CURSOR_MOVE_H, 0, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 105);
+                    SetMouseLook (CURSOR_MOVE_H, 0, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 105);
                 }
                 else if (qBlock.Index==2)
                 {
@@ -828,8 +899,9 @@ void CPlaner::DoPollingStuff (void)
                         }
                     }
 
-                    if (Sim.Date==Date) Limit (SLONG(Sim.GetHour()+2), Time, SLONG(24));
-                    else Limit (SLONG(0), Time, SLONG(24));
+                    if (Sim.Date==Date) { Limit (SLONG(Sim.GetHour()+2), Time, SLONG(24));
+                    } else { Limit (SLONG(0), Time, SLONG(24));
+}
 
                     if (Time==24)
                     {
@@ -840,9 +912,9 @@ void CPlaner::DoPollingStuff (void)
                     SLONG DeltaDate = (Date - qPlan.Flug[DragFlightPar2].Startdate);
                     SLONG DeltaTime = (Time - qPlan.Flug[DragFlightPar2].Startzeit);
 
-                    if (DeltaDate || DeltaTime)
+                    if ((DeltaDate != 0) || (DeltaTime != 0))
                     {
-                        for (c=DragFlightPar2; c<qPlan.Flug.AnzEntries(); c++)
+                        for (c=DragFlightPar2; c<qPlan.Flug.AnzEntries(); c++) {
                             if (qPlan.Flug[c].ObjectType!=0)
                             {
                                 qPlan.Flug[c].Startdate += DeltaDate;
@@ -860,6 +932,7 @@ void CPlaner::DoPollingStuff (void)
                                     qPlan.Flug[c].PArrived = 0;
                                 }
                             }
+}
 
                         qPlan.UpdateNextFlight ();
                         qPlan.UpdateNextStart ();
@@ -870,7 +943,7 @@ void CPlaner::DoPollingStuff (void)
                         qPlayer.Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
                     }
 
-                    SetMouseLook (CURSOR_MOVE_V, 0, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 105);
+                    SetMouseLook (CURSOR_MOVE_V, 0, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 105);
                 }
             }
         }
@@ -879,30 +952,36 @@ void CPlaner::DoPollingStuff (void)
     //Globus zu einem Zielpunkt drehen...
     if (EarthTargetAlpha!=EarthAlpha)
     {
-        if (abs (EarthTargetAlpha-EarthAlpha)<2000 || (UWORD(EarthTargetAlpha-EarthAlpha))>65336)
+        if (abs (EarthTargetAlpha-EarthAlpha)<2000 || (UWORD(EarthTargetAlpha-EarthAlpha))>65336) {
             EarthAlpha=EarthTargetAlpha;
-        else
-            if (UWORD(EarthTargetAlpha-EarthAlpha)<0x8000) EarthAlpha+=2000;
-            else                                           EarthAlpha-=2000;
+        } else
+            if (UWORD(EarthTargetAlpha-EarthAlpha)<0x8000) { EarthAlpha+=2000;
+            } else {                                           EarthAlpha-=2000;
+}
 
-        for (SLONG c=0; c<Sim.Players.AnzPlayers; c++)
-            if ((qPlayer.DisplayPlanes[c] && IsLaptop) || (c==PlayerNum && !IsLaptop))
+        for (SLONG c=0; c<Sim.Players.AnzPlayers; c++) {
+            if (((qPlayer.DisplayPlanes[c] != 0u) && (IsLaptop != 0)) || (c==PlayerNum && (IsLaptop == 0))) {
                 Sim.Players.Players[c].Planes.UpdateGlobePos (EarthAlpha);
+}
+}
 
-        if (EarthTargetAlpha==EarthAlpha) GlobeBm.Clear (0);
+        if (EarthTargetAlpha==EarthAlpha) { GlobeBm.Clear (0);
+}
         PaintGlobe ();
-        if (EarthTargetAlpha==EarthAlpha) PaintGlobeRoutes();
+        if (EarthTargetAlpha==EarthAlpha) { PaintGlobeRoutes();
+}
     }
 
     //Reguläre Plane/City/.. Tips für die Listen
-    if (IsInClientArea && pBlock && pBlock->IsTopWindow && pBlock->Index==1)
+    if ((IsInClientArea != 0) && (pBlock != nullptr) && (pBlock->IsTopWindow != 0) && pBlock->Index==1)
     {
         if (pBlock->BlockType!=2 && ClientPos.IfIsWithin (0, 0, 174, 170) && ClientPos.y/13+pBlock->Page<pBlock->Table.AnzRows && (qPlayer.Buttons&1)==0)
         {
             SLONG TipType=0;
             UWORD HighlightColor = ColorOfFontBlack;
 
-            if (pBlock->BlockType==1 && !pBlock->Table.ValueFlags[(ClientPos.y/13+pBlock->Page)*pBlock->Table.AnzColums]) HighlightColor = ColorOfFontGrey;
+            if (pBlock->BlockType==1 && (pBlock->Table.ValueFlags[(ClientPos.y/13+pBlock->Page)*pBlock->Table.AnzColums] == 0u)) { HighlightColor = ColorOfFontGrey;
+}
 
             CheckCursorHighlight (ClientPos, CRect (-1, ClientPos.y/13*13-2, 172, ClientPos.y/13*13+12), HighlightColor);
 
@@ -912,14 +991,16 @@ void CPlaner::DoPollingStuff (void)
                 case 1: TipType = TIP_CITY;    break;
             }
 
-            if (TipType) pBlock->SetTip (TIP_NONE, TipType, pBlock->Table.LineIndex[ClientPos.y/13+pBlock->Page]);
+            if (TipType != 0) { pBlock->SetTip (TIP_NONE, TipType, pBlock->Table.LineIndex[ClientPos.y/13+pBlock->Page]);
+}
         }
         else if (pBlock->BlockType==2 && ClientPos.IfIsWithin (0, 0, 174, 170) && ClientPos.y/26+pBlock->Page<pBlock->Table.AnzRows && (qPlayer.Buttons&1)==0)
         {
             SLONG TipType=0;
             UWORD HighlightColor = ColorOfFontBlack;
 
-            if (pBlock->Table.ValueFlags[(ClientPos.y/26+pBlock->Page)*pBlock->Table.AnzColums]) HighlightColor = ColorOfFontRed;
+            if (pBlock->Table.ValueFlags[(ClientPos.y/26+pBlock->Page)*pBlock->Table.AnzColums] != 0u) { HighlightColor = ColorOfFontRed;
+}
 
             CheckCursorHighlight (ClientPos, CRect (-1, ClientPos.y/26*26-2, 172, ClientPos.y/26*26+24), HighlightColor);
 
@@ -929,17 +1010,18 @@ void CPlaner::DoPollingStuff (void)
                 case 1: TipType = TIP_CITY;    break;
             }
 
-            if (TipType) pBlock->SetTip (TIP_NONE, TipType, pBlock->Table.LineIndex[ClientPos.y/26+pBlock->Page]);
+            if (TipType != 0) { pBlock->SetTip (TIP_NONE, TipType, pBlock->Table.LineIndex[ClientPos.y/26+pBlock->Page]);
+}
         }
     }
-    if (pBlock && pBlock->IndexB==1 && (pBlock->BlockTypeB==3 || pBlock->BlockTypeB==4 || pBlock->BlockTypeB==6) && IsInClientAreaB && CurrentPostItType==0) //s.o.
+    if ((pBlock != nullptr) && pBlock->IndexB==1 && (pBlock->BlockTypeB==3 || pBlock->BlockTypeB==4 || pBlock->BlockTypeB==6) && (IsInClientAreaB != 0) && CurrentPostItType==0) //s.o.
     {
         if (ClientPosB.IfIsWithin (3, 0, 13, 155) && ClientPosB.y%26>=10 && ClientPosB.y/26+pBlock->PageB<pBlock->TableB.AnzRows && (qPlayer.Buttons&1)==0)
         {
-            SetMouseLook (CURSOR_HOT, 0, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 0);
+            SetMouseLook (CURSOR_HOT, 0, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 0);
         }
     }
-    if (pBlock && pBlock->IndexB==1 && pBlock->BlockType==2 && IsInClientAreaB && CurrentPostItType==0) //s.o.
+    if ((pBlock != nullptr) && pBlock->IndexB==1 && pBlock->BlockType==2 && (IsInClientAreaB != 0) && CurrentPostItType==0) //s.o.
     {
         if (ClientPosB.IfIsWithin (16, 0, 172-5, 155) && ClientPosB.y/26+pBlock->PageB<pBlock->TableB.AnzRows && (qPlayer.Buttons&1)==0)
         {
@@ -955,40 +1037,50 @@ void CPlaner::DoPollingStuff (void)
     }
 
     //Highlight in die Detailsicht einer Stadt?
-    if (pBlock && IsInClientArea && pBlock->Index==0 && pBlock->BlockType==1 && pBlock->Page==0)
-        if (ClientPos.IfIsWithin (0,66,169,79)) CheckCursorHighlight (ClientPos, CRect (0,64,169,79), ColorOfFontBlack);
+    if ((pBlock != nullptr) && (IsInClientArea != 0) && pBlock->Index==0 && pBlock->BlockType==1 && pBlock->Page==0) {
+        if (ClientPos.IfIsWithin (0,66,169,79)) { CheckCursorHighlight (ClientPos, CRect (0,64,169,79), ColorOfFontBlack);
+}
+}
 
     //Highlight in die Detailsicht eines Auftrags? ("Auftrag wegwerfen")
-    if (pBlock && IsInClientAreaB && pBlock->IndexB==0 && pBlock->BlockTypeB==3 && pBlock->PageB==0)
-        if (ClientPosB.IfIsWithin (0,118,169,134))
-            if (qPlayer.Auftraege[pBlock->SelectedIdB].InPlan==0)
+    if ((pBlock != nullptr) && (IsInClientAreaB != 0) && pBlock->IndexB==0 && pBlock->BlockTypeB==3 && pBlock->PageB==0) {
+        if (ClientPosB.IfIsWithin (0,118,169,134)) {
+            if (qPlayer.Auftraege[pBlock->SelectedIdB].InPlan==0) {
                 CheckCursorHighlight (ClientPosB, CRect (0,117,169,147), ColorOfFontBlack);
+}
+}
+}
 
     //Highlight in die Detailsicht eines Frachtauftrags? ("Frachtauftrag wegwerfen")
-    if (pBlock && IsInClientAreaB && pBlock->IndexB==0 && pBlock->BlockTypeB==6 && pBlock->PageB==0)
-        if (ClientPosB.IfIsWithin (0,118+17,169,134+17))
-            if (qPlayer.Frachten[pBlock->SelectedIdB].InPlan==0 && qPlayer.Frachten[pBlock->SelectedIdB].TonsOpen==qPlayer.Frachten[pBlock->SelectedIdB].TonsLeft)
+    if ((pBlock != nullptr) && (IsInClientAreaB != 0) && pBlock->IndexB==0 && pBlock->BlockTypeB==6 && pBlock->PageB==0) {
+        if (ClientPosB.IfIsWithin (0,118+17,169,134+17)) {
+            if (qPlayer.Frachten[pBlock->SelectedIdB].InPlan==0 && qPlayer.Frachten[pBlock->SelectedIdB].TonsOpen==qPlayer.Frachten[pBlock->SelectedIdB].TonsLeft) {
                 CheckCursorHighlight (ClientPosB, CRect (0,117+17,169,147+17), ColorOfFontBlack);
+}
+}
+}
 
     //Highlight in die Detailsicht eines Flugzeuges (rename plane)?
-    if (pBlock && IsInClientArea && pBlock->Index==0 && pBlock->BlockType==2 && pBlock->Page==1)
-        if (ClientPos.IfIsWithin (0,103+52,169,121+45)) CheckCursorHighlight (ClientPos, CRect (0,101+52,169,123+41), ColorOfFontBlack);
+    if ((pBlock != nullptr) && (IsInClientArea != 0) && pBlock->Index==0 && pBlock->BlockType==2 && pBlock->Page==1) {
+        if (ClientPos.IfIsWithin (0,103+52,169,121+45)) { CheckCursorHighlight (ClientPos, CRect (0,101+52,169,123+41), ColorOfFontBlack);
+}
+}
 
     //Tip für Flüge im Block (und nicht im Index)
-    if (pBlock && pBlock->Index==0 && pBlock->BlockType==2 && pBlock->Page==0 && CurrentPostItType==0 && IsInClientArea)
+    if ((pBlock != nullptr) && pBlock->Index==0 && pBlock->BlockType==2 && pBlock->Page==0 && CurrentPostItType==0 && (IsInClientArea != 0))
     {
-        if (ClientPos.IfIsWithin (22,150,58,164) && pBlock->IsTopWindow) //Flugpläne automatisch erweitern
+        if (ClientPos.IfIsWithin (22,150,58,164) && (pBlock->IsTopWindow != 0)) //Flugpläne automatisch erweitern
         {
-            SetMouseLook (CURSOR_HOT, 3021, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 150);
+            SetMouseLook (CURSOR_HOT, 3021, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 150);
         }
-        else if (ClientPos.IfIsWithin (135,150,170,164) && pBlock->IsTopWindow) //Flugpläne löschen
+        else if (ClientPos.IfIsWithin (135,150,170,164) && (pBlock->IsTopWindow != 0)) //Flugpläne löschen
         {
-            SetMouseLook (CURSOR_HOT, 3022, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 151);
+            SetMouseLook (CURSOR_HOT, 3022, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 151);
         }
         if (ClientPos.IfIsWithin (25,17,168,149) && CurrentPostItType==0)
         {
             //if ((ClientPos.x-25+1)%6<3)
-            if (!DragFlightMode)
+            if (DragFlightMode == 0)
             {
                 SLONG      Date=Sim.Date+(ClientPos.y-17)/19;
                 SLONG      Time=(ClientPos.x-23)/6;
@@ -999,7 +1091,7 @@ void CPlaner::DoPollingStuff (void)
                 {
                     //Drag am Fluganfang:
                     SLONG d;
-                    for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--)
+                    for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--) {
                         if (qPlan.Flug[d].ObjectType==1 || qPlan.Flug[d].ObjectType==2 || qPlan.Flug[d].ObjectType==4)
                         {
                             if (qPlan.Flug[d].Startdate==Date && qPlan.Flug[d].Startzeit==Time)
@@ -1007,14 +1099,16 @@ void CPlaner::DoPollingStuff (void)
                                 DragFlightPar0 = CurrentBlock;
                                 DragFlightPar1 = ActivePlane;
                                 DragFlightPar2 = d;
-                                SetMouseLook (CURSOR_MOVE_H, 0, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 105);
-                                if ((qPlayer.Buttons&1)) DragFlightMode = TRUE;
+                                SetMouseLook (CURSOR_MOVE_H, 0, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 105);
+                                if ((qPlayer.Buttons&1) != 0) { DragFlightMode = TRUE;
+}
                                 break;
                             }
                         }
+}
 
                     //Drag am Flugende:
-                    for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--)
+                    for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--) {
                         if (qPlan.Flug[d].ObjectType==1 || qPlan.Flug[d].ObjectType==2 || qPlan.Flug[d].ObjectType==4)
                         {
                             if (qPlan.Flug[d].Landedate==Date && qPlan.Flug[d].Landezeit==Time && (qPlan.Flug[d].Startdate!=Sim.Date || qPlan.Flug[d].Startzeit>Sim.GetHour()+1))
@@ -1022,16 +1116,18 @@ void CPlaner::DoPollingStuff (void)
                                 DragFlightPar0 = CurrentBlock;
                                 DragFlightPar1 = ActivePlane;
                                 DragFlightPar2 = d;
-                                SetMouseLook (CURSOR_MOVE_H, 0, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 105);
-                                if ((qPlayer.Buttons&1)) DragFlightMode = 2;
+                                SetMouseLook (CURSOR_MOVE_H, 0, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 105);
+                                if ((qPlayer.Buttons&1) != 0) { DragFlightMode = 2;
+}
                                 break;
                             }
                         }
+}
                 }
             }
 
             //Routen und Auftragstips im Scheduler anzeigen
-            if (IsInClientArea && pBlock->IsTopWindow)
+            if ((IsInClientArea != 0) && (pBlock->IsTopWindow != 0))
             {
                 SLONG      ActivePlane = pBlock->SelectedId;
                 CFlugplan &qPlan = qPlayer.Planes[ActivePlane].Flugplan;
@@ -1039,13 +1135,15 @@ void CPlaner::DoPollingStuff (void)
                 SLONG      Time=(ClientPos.x-25)/6;
                 SLONG      d;
 
-                for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--)
-                    if (qPlan.Flug[d].ObjectType)
+                for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--) {
+                    if (qPlan.Flug[d].ObjectType != 0)
                     {
                         if ((qPlan.Flug[d].Startdate<Date || (qPlan.Flug[d].Startdate==Date && qPlan.Flug[d].Startzeit<=Time)) &&
-                                (qPlan.Flug[d].Landedate>Date || (qPlan.Flug[d].Landedate==Date && qPlan.Flug[d].Landezeit>=Time)))
+                                (qPlan.Flug[d].Landedate>Date || (qPlan.Flug[d].Landedate==Date && qPlan.Flug[d].Landezeit>=Time))) {
                             break;
+}
                     }
+}
 
                 if (d>=0)
                 {
@@ -1063,7 +1161,7 @@ void CPlaner::DoPollingStuff (void)
 
                         Kosten+=qPlayer.Auftraege[qPlan.Flug[d].ObjectId].Personen*FoodCosts[qPlayer.Planes[ActivePlane].Essen];
 
-                        pBlock->SetTip (TIP_NONE, TIP_AUFTRAG, qPlan.Flug[d].ObjectId, Kosten, qPlan.Flug[d].Okay, qPlan.Flug[d].Gate, (qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1));
+                        pBlock->SetTip (TIP_NONE, TIP_AUFTRAG, qPlan.Flug[d].ObjectId, Kosten, qPlan.Flug[d].Okay, qPlan.Flug[d].Gate, static_cast<SLONG>((qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1)));
                     }
                     else if (qPlan.Flug[d].ObjectType==4) //Auftrag
                     {
@@ -1083,7 +1181,7 @@ void CPlaner::DoPollingStuff (void)
                                 Kosten,                  //TipPar1 ==> Costs
                                 qPlan.Flug[d].Okay,      //TipPar2 ==> Okay
                                 qPlan.Flug[d].Passagiere,//TipPar3 ==> Fracht (T)
-                                (qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1),            //Unlocked
+                                static_cast<SLONG>((qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1)),            //Unlocked
                                 qPlayer.Frachten[qPlan.Flug[d].ObjectId].Praemie*qPlan.Flug[d].Passagiere/qPlayer.Frachten[qPlan.Flug[d].ObjectId].Tons,
                                 qPlan.Flug[d].ObjectId); //Mit diesem Flug
                     }
@@ -1099,13 +1197,14 @@ void CPlaner::DoPollingStuff (void)
                                     qPlayer.Planes[ActivePlane].ptGeschwindigkeit,
                                     PlayerNum);
 
-                        if (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour()))
+                        if (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) {
                             Kosten+=qPlayer.Planes[ActivePlane].ptPassagiere*FoodCosts[qPlayer.Planes[ActivePlane].Essen];
                         //Kosten+=PlaneTypes[qPlayer.Planes[ActivePlane].TypeId].Passagiere*FoodCosts[qPlayer.Planes[ActivePlane].Essen];
-                        else
+                        } else {
                             Kosten+=qPlan.Flug[d].Passagiere*FoodCosts[qPlayer.Planes[ActivePlane].Essen];
+}
 
-                        pBlock->SetTip (TIP_NONE, TIP_ROUTE, qPlan.Flug[d].ObjectId, (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) ? 0 : qPlan.Flug[d].Passagiere, Kosten, qPlan.Flug[d].Gate, qPlan.Flug[d].Ticketpreis, (qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1), (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) ? 0 : qPlan.Flug[d].PassagiereFC, qPlan.Flug[d].TicketpreisFC);
+                        pBlock->SetTip (TIP_NONE, TIP_ROUTE, qPlan.Flug[d].ObjectId, (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) ? 0 : qPlan.Flug[d].Passagiere, Kosten, qPlan.Flug[d].Gate, qPlan.Flug[d].Ticketpreis, static_cast<SLONG>((qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1)), (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) ? 0 : qPlan.Flug[d].PassagiereFC, qPlan.Flug[d].TicketpreisFC);
                     }
                     else if (qPlan.Flug[d].ObjectType==3) //Automatik
                     {
@@ -1120,24 +1219,24 @@ void CPlaner::DoPollingStuff (void)
                                     PlayerNum);
 
                         //pBlock->SetTip (TIP_NONE, TIP_AUTOFLUG, Kosten, PlaneTypes[qPlayer.Planes[ActivePlane].TypeId].Passagiere, qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity, (qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1));
-                        pBlock->SetTip (TIP_NONE, TIP_AUTOFLUG, Kosten, qPlayer.Planes[ActivePlane].ptPassagiere, qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity, (qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1));
+                        pBlock->SetTip (TIP_NONE, TIP_AUTOFLUG, Kosten, qPlayer.Planes[ActivePlane].ptPassagiere, qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity, static_cast<SLONG>((qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1)));
                     }
                 }
             }
         }
     }
     //Cursor ist in Tagessicht eines Flugplans
-    if (pBlock && pBlock->Index==2 && pBlock->BlockType==2 && CurrentPostItType==0 && IsInClientArea)
+    if ((pBlock != nullptr) && pBlock->Index==2 && pBlock->BlockType==2 && CurrentPostItType==0 && (IsInClientArea != 0))
     {
         if (ClientPos.IfIsWithin (8,152,127,161))
         {
             SLONG i = (ClientPos.x-4)/18;
 
-            SetMouseLook (CURSOR_HOT, 0, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 104, c, i);
+            SetMouseLook (CURSOR_HOT, 0, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 104, c, i);
         }
         else if (ClientPos.IfIsWithin (128,152,170,161))
         {
-            SetMouseLook (CURSOR_HOT, 0, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 104, c, 7);
+            SetMouseLook (CURSOR_HOT, 0, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 104, c, 7);
         }
         else if (ClientPos.IfIsWithin (25,5,169,149) && CurrentPostItType==0)
         {
@@ -1151,7 +1250,7 @@ void CPlaner::DoPollingStuff (void)
 
                 if (Date!=Sim.Date || Time>Sim.GetHour()+1)
                 {
-                    for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--)
+                    for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--) {
                         if (qPlan.Flug[d].ObjectType==1 || qPlan.Flug[d].ObjectType==2)
                         {
                             if (qPlan.Flug[d].Startdate==Date && qPlan.Flug[d].Startzeit==Time)
@@ -1159,14 +1258,16 @@ void CPlaner::DoPollingStuff (void)
                                 DragFlightPar0 = CurrentBlock;
                                 DragFlightPar1 = ActivePlane;
                                 DragFlightPar2 = d;
-                                SetMouseLook (CURSOR_MOVE_V, 0, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 105);
-                                if ((qPlayer.Buttons&1)) DragFlightMode = TRUE;
+                                SetMouseLook (CURSOR_MOVE_V, 0, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 105);
+                                if ((qPlayer.Buttons&1) != 0) { DragFlightMode = TRUE;
+}
                                 break;
                             }
                         }
+}
 
                     //Drag am Flugende:
-                    for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--)
+                    for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--) {
                         if (qPlan.Flug[d].ObjectType==1 || qPlan.Flug[d].ObjectType==2)
                         {
                             if (qPlan.Flug[d].Startdate==Date && qPlan.Flug[d].Landezeit==Time && (qPlan.Flug[d].Startdate!=Sim.Date || qPlan.Flug[d].Startzeit>Sim.GetHour()+1))
@@ -1174,16 +1275,18 @@ void CPlaner::DoPollingStuff (void)
                                 DragFlightPar0 = CurrentBlock;
                                 DragFlightPar1 = ActivePlane;
                                 DragFlightPar2 = d;
-                                SetMouseLook (CURSOR_MOVE_V, 0, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 105);
-                                if ((qPlayer.Buttons&1)) DragFlightMode = 2;
+                                SetMouseLook (CURSOR_MOVE_V, 0, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 105);
+                                if ((qPlayer.Buttons&1) != 0) { DragFlightMode = 2;
+}
                                 break;
                             }
                         }
+}
                 }
             }
 
             //Routen und Auftragstips im Scheduler anzeigen
-            if (MouseLook!=CURSOR_MOVE_V && pBlock->IsTopWindow)
+            if (MouseLook!=CURSOR_MOVE_V && (pBlock->IsTopWindow != 0))
             {
                 SLONG      ActivePlane = pBlock->SelectedId;
                 CFlugplan &qPlan = qPlayer.Planes[ActivePlane].Flugplan;
@@ -1191,13 +1294,15 @@ void CPlaner::DoPollingStuff (void)
                 SLONG      Time=(ClientPos.y-6)/6;
                 SLONG      d;
 
-                for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--)
-                    if (qPlan.Flug[d].ObjectType)
+                for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--) {
+                    if (qPlan.Flug[d].ObjectType != 0)
                     {
                         if ((qPlan.Flug[d].Startdate<Date || (qPlan.Flug[d].Startdate==Date && qPlan.Flug[d].Startzeit<=Time)) &&
-                                (qPlan.Flug[d].Landedate>Date || (qPlan.Flug[d].Landedate==Date && qPlan.Flug[d].Landezeit>=Time)))
+                                (qPlan.Flug[d].Landedate>Date || (qPlan.Flug[d].Landedate==Date && qPlan.Flug[d].Landezeit>=Time))) {
                             break;
+}
                     }
+}
 
                 if (d>=0)
                 {
@@ -1215,7 +1320,7 @@ void CPlaner::DoPollingStuff (void)
 
                         Kosten+=qPlayer.Auftraege[qPlan.Flug[d].ObjectId].Personen*FoodCosts[qPlayer.Planes[ActivePlane].Essen];
 
-                        pBlock->SetTip (TIP_NONE, TIP_AUFTRAG, qPlan.Flug[d].ObjectId, Kosten, qPlan.Flug[d].Okay, qPlan.Flug[d].Gate, (qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1));
+                        pBlock->SetTip (TIP_NONE, TIP_AUFTRAG, qPlan.Flug[d].ObjectId, Kosten, qPlan.Flug[d].Okay, qPlan.Flug[d].Gate, static_cast<SLONG>((qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1)));
                     }
                     else if (qPlan.Flug[d].ObjectType==1) //Route
                     {
@@ -1229,13 +1334,14 @@ void CPlaner::DoPollingStuff (void)
                                     qPlayer.Planes[ActivePlane].ptGeschwindigkeit,
                                     PlayerNum);
 
-                        if (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour()))
+                        if (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) {
                             //Kosten+=PlaneTypes[qPlayer.Planes[ActivePlane].TypeId].Passagiere*FoodCosts[qPlayer.Planes[ActivePlane].Essen];
                             Kosten+=qPlayer.Planes[ActivePlane].ptPassagiere*FoodCosts[qPlayer.Planes[ActivePlane].Essen];
-                        else
+                        } else {
                             Kosten+=qPlan.Flug[d].Passagiere*FoodCosts[qPlayer.Planes[ActivePlane].Essen];
+}
 
-                        pBlock->SetTip (TIP_NONE, TIP_ROUTE, qPlan.Flug[d].ObjectId, (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) ? 0 : qPlan.Flug[d].Passagiere, Kosten, qPlan.Flug[d].Gate, qPlan.Flug[d].Ticketpreis, (qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1), (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) ? 0 : qPlan.Flug[d].PassagiereFC, qPlan.Flug[d].TicketpreisFC);
+                        pBlock->SetTip (TIP_NONE, TIP_ROUTE, qPlan.Flug[d].ObjectId, (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) ? 0 : qPlan.Flug[d].Passagiere, Kosten, qPlan.Flug[d].Gate, qPlan.Flug[d].Ticketpreis, static_cast<SLONG>((qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1)), (qPlan.Flug[d].Startdate>Sim.Date || (qPlan.Flug[d].Startdate==Sim.Date && qPlan.Flug[d].Startzeit>Sim.GetHour())) ? 0 : qPlan.Flug[d].PassagiereFC, qPlan.Flug[d].TicketpreisFC);
                     }
                     else if (qPlan.Flug[d].ObjectType==3) //Automatik-Flug
                     {
@@ -1250,19 +1356,20 @@ void CPlaner::DoPollingStuff (void)
                                     PlayerNum);
 
                         //pBlock->SetTip (TIP_NONE, TIP_AUTOFLUG, Kosten, PlaneTypes[qPlayer.Planes[ActivePlane].TypeId].Passagiere, qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity, (qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1));
-                        pBlock->SetTip (TIP_NONE, TIP_AUTOFLUG, Kosten, qPlayer.Planes[ActivePlane].ptPassagiere, qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity, (qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1));
+                        pBlock->SetTip (TIP_NONE, TIP_AUTOFLUG, Kosten, qPlayer.Planes[ActivePlane].ptPassagiere, qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity, static_cast<SLONG>((qPlan.Flug[d].Startdate>Sim.Date)||(qPlan.Flug[d].Startdate==Sim.Date&&qPlan.Flug[d].Startzeit>Sim.GetHour()+1)));
                     }
                 }
             }
         }
     }
-    if (pBlock && pBlock->IndexB==0 && pBlock->BlockTypeB==4 && CurrentPostItType==0 && IsInClientAreaB)
+    if ((pBlock != nullptr) && pBlock->IndexB==0 && pBlock->BlockTypeB==4 && CurrentPostItType==0 && (IsInClientAreaB != 0))
     {
         if (pBlock->PageB==0)
         {
             //Ticketpreis einstellen:
-            if (ClientPosB.IfIsWithin (2,40+26,169,118))
+            if (ClientPosB.IfIsWithin (2,40+26,169,118)) {
                 CheckCursorHighlight (ClientPosB, CRect (0, (ClientPosB.y-40)/13*13+40-2, 172, (ClientPosB.y-40)/13*13+40-2+14), ColorOfFontBlack);
+}
 
             CheckCursorHighlight (ClientPosB, CRect (148, 40-2, 160, 40-2+14), ColorOfFontBlack);
             CheckCursorHighlight (ClientPosB, CRect (160, 40-2, 172, 40-2+14), ColorOfFontBlack);
@@ -1270,13 +1377,13 @@ void CPlaner::DoPollingStuff (void)
             CheckCursorHighlight (ClientPosB, CRect (160, 40-2-13, 172, 40-2-13+14), ColorOfFontBlack);
 
             //Konkurrenzpreise:
-            if (qPlayer.HasBerater(BERATERTYP_INFO) &&
+            if ((qPlayer.HasBerater(BERATERTYP_INFO) != 0) &&
                     ClientPosB.IfIsWithin (2,128,166,166))
             {
                 SLONG Index = (ClientPosB.y-128)/13;
 
-                if (Sim.Players.Players[Index+(PlayerNum<=Index)].IsOut==0 &&
-                        Sim.Players.Players[Index+(PlayerNum<=Index)].RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)].Rang)
+                if (Sim.Players.Players[Index+static_cast<int>(PlayerNum<=Index)].IsOut==0 &&
+                        (Sim.Players.Players[Index+static_cast<int>(PlayerNum<=Index)].RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)].Rang != 0u))
                 {
                     CheckCursorHighlight (ClientPosB, CRect (2, (ClientPosB.y-128)/13*13+128-2, 172, (ClientPosB.y-128)/13*13+128-2+14), ColorOfFontBlack);
                 }
@@ -1292,15 +1399,18 @@ void CPlaner::DoPollingStuff (void)
     }
 
     //Cursor über Flugzeug?
-    if (CurrentBlock==-1 && (qPlayer.DisplayPlanes[PlayerNum] || IsLaptop==FALSE))
-        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--)
-            if (qPlayer.Planes.IsInAlbum(c))
+    if (CurrentBlock==-1 && ((qPlayer.DisplayPlanes[PlayerNum] != 0u) || IsLaptop==FALSE)) {
+        for (c=qPlayer.Planes.AnzEntries()-1; c>=0; c--) {
+            if (qPlayer.Planes.IsInAlbum(c) != 0)
             {
                 XY p=GlobeOffset[IsLaptop]+qPlayer.Planes[c].GlobePos-XY(9+6,9)-XY(5,5);
 
-                if (gMousePosition.IfIsWithin (p.x, p.y, p.x+19, p.y+19))
-                    SetMouseLook (CURSOR_HOT, c+1, qPlayer.Planes[c].Name, IsLaptop?ROOM_LAPTOP:ROOM_GLOBE, 101, qPlayer.Planes.GetIdFromIndex(c));
+                if (gMousePosition.IfIsWithin (p.x, p.y, p.x+19, p.y+19)) {
+                    SetMouseLook (CURSOR_HOT, c+1, qPlayer.Planes[c].Name, IsLaptop != 0?ROOM_LAPTOP:ROOM_GLOBE, 101, qPlayer.Planes.GetIdFromIndex(c));
+}
             }
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1308,19 +1418,19 @@ void CPlaner::DoPollingStuff (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
 {
-    if (pBlock)
+    if (pBlock != nullptr)
     {
         PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
         FlightPlanPos += pBlock->ScreenPos;
 
         //Grid, zum markieren der Zieltage (Aufträge):
-        if (CurrentPostItType==2 && pBlock->Index!=1 && (pBlock->Page==0 || pBlock->Index==2) && pBlock->BlockType==2 && pBlock->IsTopWindow) //Auftrag
+        if (CurrentPostItType==2 && pBlock->Index!=1 && (pBlock->Page==0 || pBlock->Index==2) && pBlock->BlockType==2 && (pBlock->IsTopWindow != 0)) //Auftrag
         {
-            qPlayer.Auftraege[CurrentPostItId].BlitGridAt (&RoomBm, XY (FlightPlanPos.x, FlightPlanPos.y-(IsLaptop==1)), pBlock->Index==2, pBlock->Page);
+            qPlayer.Auftraege[CurrentPostItId].BlitGridAt (&RoomBm, XY (FlightPlanPos.x, FlightPlanPos.y-static_cast<int>(IsLaptop==1)), static_cast<BOOL>(pBlock->Index==2), pBlock->Page);
         }
 
-        if (pBlock->IndexB==1 && pBlock->BlockType==2 && (pBlock->Page==0 || pBlock->Index==2) && IsInClientAreaB && CurrentPostItType==0) //s.o.
+        if (pBlock->IndexB==1 && pBlock->BlockType==2 && (pBlock->Page==0 || pBlock->Index==2) && (IsInClientAreaB != 0) && CurrentPostItType==0) //s.o.
         {
             if (ClientPosB.IfIsWithin (16, 0, 172-5, 170) && ClientPosB.y/26+pBlock->PageB<pBlock->TableB.AnzRows && (qPlayer.Buttons&1)==0)
             {
@@ -1328,26 +1438,27 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
 
                 if (pBlock->BlockTypeB==4 || pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==0)
                 {
-                    if (pBlock->BlockTypeB==3 && pBlock->Index!=1 && pBlock->IsTopWindow) //Auftrag
+                    if (pBlock->BlockTypeB==3 && pBlock->Index!=1 && (pBlock->IsTopWindow != 0)) //Auftrag
                     {
-                        qPlayer.Auftraege[pBlock->TableB.LineIndex[TableCursor]].BlitGridAt (&RoomBm, XY (FlightPlanPos.x, FlightPlanPos.y-(IsLaptop==1)), pBlock->Index==2, pBlock->Page);
+                        qPlayer.Auftraege[pBlock->TableB.LineIndex[TableCursor]].BlitGridAt (&RoomBm, XY (FlightPlanPos.x, FlightPlanPos.y-static_cast<int>(IsLaptop==1)), static_cast<BOOL>(pBlock->Index==2), pBlock->Page);
                     }
                 }
-                else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]!=0 && pBlock->Index==0 && pBlock->IsTopWindow)
+                else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]!=0 && pBlock->Index==0 && (pBlock->IsTopWindow != 0))
                 {
-                    for (SLONG c=0; c<7; c++)
-                        RoomBm.BlitFromT (FlugplanBms[51], FlightPlanPos.x, FlightPlanPos.y-(IsLaptop==1)+FlugplanBms[51].Size.y*c);
+                    for (SLONG c=0; c<7; c++) {
+                        RoomBm.BlitFromT (FlugplanBms[51], FlightPlanPos.x, FlightPlanPos.y-static_cast<int>(IsLaptop==1)+FlugplanBms[51].Size.y*c);
+}
                 }
             }
         }
 
         //Grid, zum markieren der Zieltage (Frachtaufträge):
-        if (CurrentPostItType==4 && pBlock->Index!=1 && (pBlock->Page==0 || pBlock->Index==2) && pBlock->BlockType==2 && pBlock->IsTopWindow) //Auftrag
+        if (CurrentPostItType==4 && pBlock->Index!=1 && (pBlock->Page==0 || pBlock->Index==2) && pBlock->BlockType==2 && (pBlock->IsTopWindow != 0)) //Auftrag
         {
-            qPlayer.Frachten[CurrentPostItId].BlitGridAt (&RoomBm, XY (FlightPlanPos.x, FlightPlanPos.y-(IsLaptop==1)), pBlock->Index==2, pBlock->Page);
+            qPlayer.Frachten[CurrentPostItId].BlitGridAt (&RoomBm, XY (FlightPlanPos.x, FlightPlanPos.y-static_cast<int>(IsLaptop==1)), static_cast<BOOL>(pBlock->Index==2), pBlock->Page);
         }
 
-        if (pBlock->IndexB==1 && pBlock->BlockType==2 && (pBlock->Page==0 || pBlock->Index==2) && IsInClientAreaB && CurrentPostItType==0) //s.o.
+        if (pBlock->IndexB==1 && pBlock->BlockType==2 && (pBlock->Page==0 || pBlock->Index==2) && (IsInClientAreaB != 0) && CurrentPostItType==0) //s.o.
         {
             if (ClientPosB.IfIsWithin (16, 0, 172-5, 170) && ClientPosB.y/26+pBlock->PageB<pBlock->TableB.AnzRows && (qPlayer.Buttons&1)==0)
             {
@@ -1355,22 +1466,25 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
 
                 if (pBlock->BlockTypeB==4 || pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==0)
                 {
-                    if (pBlock->BlockTypeB==6 && pBlock->Index!=1 && pBlock->IsTopWindow) //Auftrag
+                    if (pBlock->BlockTypeB==6 && pBlock->Index!=1 && (pBlock->IsTopWindow != 0)) //Auftrag
                     {
-                        qPlayer.Frachten[pBlock->TableB.LineIndex[TableCursor]].BlitGridAt (&RoomBm, XY (FlightPlanPos.x, FlightPlanPos.y-(IsLaptop==1)), pBlock->Index==2, pBlock->Page);
+                        qPlayer.Frachten[pBlock->TableB.LineIndex[TableCursor]].BlitGridAt (&RoomBm, XY (FlightPlanPos.x, FlightPlanPos.y-static_cast<int>(IsLaptop==1)), static_cast<BOOL>(pBlock->Index==2), pBlock->Page);
                     }
                 }
-                else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]!=0 && pBlock->Index==0 && pBlock->IsTopWindow)
+                else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]!=0 && pBlock->Index==0 && (pBlock->IsTopWindow != 0))
                 {
-                    for (SLONG c=0; c<7; c++)
-                        RoomBm.BlitFromT (FlugplanBms[51], FlightPlanPos.x, FlightPlanPos.y-(IsLaptop==1)+FlugplanBms[51].Size.y*c);
+                    for (SLONG c=0; c<7; c++) {
+                        RoomBm.BlitFromT (FlugplanBms[51], FlightPlanPos.x, FlightPlanPos.y-static_cast<int>(IsLaptop==1)+FlugplanBms[51].Size.y*c);
+}
                 }
             }
         }
 
         //Grid zum markieren der ungültigen Flugzeuge
-        SLONG CheckVonCityId=-1, CheckNachCityId=-1, MinPass=0;
-        if (CurrentPostItType!=0 && pBlock->Index==1 && pBlock->BlockType==2 && pBlock->IsTopWindow)
+        SLONG CheckVonCityId=-1;
+        SLONG CheckNachCityId=-1;
+        SLONG MinPass=0;
+        if (CurrentPostItType!=0 && pBlock->Index==1 && pBlock->BlockType==2 && (pBlock->IsTopWindow != 0))
         {
             if (CurrentPostItType==2) //Auftrag
             {
@@ -1389,7 +1503,7 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
                 CheckNachCityId = qPlayer.Frachten[CurrentPostItId].NachCity;
             }
         }
-        else if (pBlock->IndexB==1 && pBlock->BlockType==2 && pBlock->Index==1 && IsInClientAreaB && CurrentPostItType==0)
+        else if (pBlock->IndexB==1 && pBlock->BlockType==2 && pBlock->Index==1 && (IsInClientAreaB != 0) && CurrentPostItType==0)
         {
             SLONG TableCursor = pBlock->PageB  + ClientPosB.y/26;
 
@@ -1451,7 +1565,7 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
         }
 
         //Wiederholfunktion für Kerosinpreis erhöhen / verringern
-        if (gMouseLButton && IsInClientAreaB && pBlock->BlockType==2 && pBlock->IndexB==0 && pBlock->BlockTypeB==4 && pBlock->PageB==0)
+        if ((gMouseLButton != 0) && (IsInClientAreaB != 0) && pBlock->BlockType==2 && pBlock->IndexB==0 && pBlock->BlockTypeB==4 && pBlock->PageB==0)
         {
             if (ClientPosB.IfIsWithin (2,40,169,118) && timeGetTime()-gMouseLButtonDownTimer>800)
             {
@@ -1460,14 +1574,16 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
                 SLONG SelectedIdB2;
                 SLONG Cost = CalculateFlightCostRechnerisch (Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1)*3/180*2;
 
-                for (SLONG c=qPlayer.RentRouten.RentRouten.AnzEntries()-1; c>=0; c--)
-                    if (Routen.IsInAlbum(c))
+                for (SLONG c=qPlayer.RentRouten.RentRouten.AnzEntries()-1; c>=0; c--) {
+                    if (Routen.IsInAlbum(c) != 0) {
                         if (Routen[c].VonCity==Routen[pBlock->SelectedIdB].NachCity && Routen[c].NachCity==Routen[pBlock->SelectedIdB].VonCity)
                         {
                             pRRoute      = &qPlayer.RentRouten.RentRouten[c];
                             SelectedIdB2 = c;
                             break;
                         }
+}
+}
 
                 /*switch ((ClientPosB.y-40)/13)
                   {
@@ -1501,11 +1617,12 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
             }
         }
 
-        if (pBlock->IndexB==0 && CurrentPostItType==0 && IsInClientAreaB && pBlock->PageB==pBlock->AnzPagesB-2 && pBlock->IsTopWindow)
+        if (pBlock->IndexB==0 && CurrentPostItType==0 && (IsInClientAreaB != 0) && pBlock->PageB==pBlock->AnzPagesB-2 && (pBlock->IsTopWindow != 0))
         {
             XY Off=pBlock->ScreenPos;
-            if (IsLaptop==0) Off += XY (232+48,72);
-            else Off += XY (187+20,21)+XY(-1,1);
+            if (IsLaptop==0) { Off += XY (232+48,72);
+            } else { Off += XY (187+20,21)+XY(-1,1);
+}
 
             if (pBlock->BlockTypeB==4 && ClientPosB.IfIsWithin (2,144,169,157)) //Route Kündigen?
             {
@@ -1513,13 +1630,16 @@ void CPlaner::DoPostPaintPollingStuff (XY FlightPlanPos)
             }
             if (pBlock->BlockTypeB==3 && ClientPosB.IfIsWithin (0,118,169,134)) //Auftrag kündigen
             {
-                if (qPlayer.Auftraege[pBlock->SelectedIdB].InPlan==0)
+                if (qPlayer.Auftraege[pBlock->SelectedIdB].InPlan==0) {
                     RoomBm.BlitFrom (FlugplanBms[58], Off.x, Off.y+144-26);
+}
             }
             //Highlight in die Detailsicht eines Frachtauftrags? ("Frachtauftrag wegwerfen")
-            if (pBlock->BlockTypeB==6 && qPlayer.Frachten[pBlock->SelectedIdB].InPlan==0)
-                if (ClientPosB.IfIsWithin (0,118+17,169,134+17) && qPlayer.Frachten[pBlock->SelectedIdB].TonsOpen==qPlayer.Frachten[pBlock->SelectedIdB].TonsLeft)
+            if (pBlock->BlockTypeB==6 && qPlayer.Frachten[pBlock->SelectedIdB].InPlan==0) {
+                if (ClientPosB.IfIsWithin (0,118+17,169,134+17) && qPlayer.Frachten[pBlock->SelectedIdB].TonsOpen==qPlayer.Frachten[pBlock->SelectedIdB].TonsLeft) {
                     RoomBm.BlitFrom (FlugplanBms[58], Off.x, Off.y+144-26+17);
+}
+}
         }
     }
 }
@@ -1534,8 +1654,9 @@ void CPlaner::HandleLButtonDown (void)
     DefaultOnLButtonDown ();
     TookUnderCursorWithThisClick=FALSE;
 
-    if (KonstruktorFinished!=2)
+    if (KonstruktorFinished!=2) {
         return;
+}
 
     gMouseLButtonDownTimer = timeGetTime();
 
@@ -1547,22 +1668,24 @@ void CPlaner::HandleLButtonDown (void)
             pBlock->Index      = 0;
             pBlock->Page       = 0;
             pBlock->AnzPages   = 4;
-            if (qPlayer.Planes[pBlock->SelectedId].TypeId!=-1) pBlock->AnzPages   += PlaneTypes[qPlayer.Planes[pBlock->SelectedId].TypeId].AnzPhotos;
+            if (qPlayer.Planes[pBlock->SelectedId].TypeId!=-1) { pBlock->AnzPages   += PlaneTypes[qPlayer.Planes[pBlock->SelectedId].TypeId].AnzPhotos;
+}
             pBlock->RefreshData (PlayerNum);
             pBlock->Refresh (PlayerNum, IsLaptop);
         }
     }
 
     //Click in Client Area?
-    if (IsInClientArea && pBlock)
+    if ((IsInClientArea != 0) && (pBlock != nullptr))
     {
         //in Index Mode?
         if (pBlock->Index==1)
         {
             SLONG TableCursor;
 
-            if (pBlock->BlockType==2) TableCursor=pBlock->Page + ClientPos.y/26;
-            else TableCursor=pBlock->Page + ClientPos.y/13;
+            if (pBlock->BlockType==2) { TableCursor=pBlock->Page + ClientPos.y/26;
+            } else { TableCursor=pBlock->Page + ClientPos.y/13;
+}
 
             if (TableCursor>=0 && TableCursor<pBlock->Table.AnzRows)
             {
@@ -1585,14 +1708,16 @@ void CPlaner::HandleLButtonDown (void)
                         //Flugzeug-Details:
                     case 2:
                         //Tutorial und noch zu früh? Dann abbrechen!
-                        if (Sim.IsTutorial && Sim.Tutorial<1503) return;
+                        if ((Sim.IsTutorial != 0) && Sim.Tutorial<1503) { return;
+}
 
                         pBlock->Index      = 0;
                         pBlock->Page       = 0;
                         pBlock->SelectedId = pBlock->Table.LineIndex[TableCursor];
 
                         pBlock->AnzPages = 4;
-                        if (qPlayer.Planes[pBlock->SelectedId].TypeId!=-1) pBlock->AnzPages += PlaneTypes[qPlayer.Planes[pBlock->SelectedId].TypeId].AnzPhotos;
+                        if (qPlayer.Planes[pBlock->SelectedId].TypeId!=-1) { pBlock->AnzPages += PlaneTypes[qPlayer.Planes[pBlock->SelectedId].TypeId].AnzPhotos;
+}
 
                         pBlock->RefreshData (PlayerNum);
                         pBlock->Refresh (PlayerNum, IsLaptop);
@@ -1600,10 +1725,11 @@ void CPlaner::HandleLButtonDown (void)
                         PaintGlobe ();
                         PaintGlobeRoutes();
 
-                        if (CurrentPostItType!=0) PaintPostIt ();
+                        if (CurrentPostItType!=0) { PaintPostIt ();
+}
 
                         //Tutorium: Spieler betrachtet Flugzeuge:
-                        if (Sim.IsTutorial && Sim.Tutorial==1503)
+                        if ((Sim.IsTutorial != 0) && Sim.Tutorial==1503)
                         {
                             GlowEffects.ReSize(1);
                             GlowBitmapIndices.ReSize(1);
@@ -1623,8 +1749,9 @@ void CPlaner::HandleLButtonDown (void)
                         pBlock->Page       = 0;
                         pBlock->SelectedId = pBlock->Table.LineIndex[TableCursor];
 
-                        if (pBlock->SelectedId==3 || pBlock->SelectedId==1) pBlock->AnzPages=3;
-                        else pBlock->AnzPages=1;
+                        if (pBlock->SelectedId==3 || pBlock->SelectedId==1) { pBlock->AnzPages=3;
+                        } else { pBlock->AnzPages=1;
+}
 
                         pBlock->RefreshData (PlayerNum);
 
@@ -1674,7 +1801,8 @@ void CPlaner::HandleLButtonDown (void)
 
                 //Nachschauen, ob der Flug zu lang ist für das Flugzeug:
                 {
-                    SLONG VonCityId, NachCityId;
+                    SLONG VonCityId;
+                    SLONG NachCityId;
 
                     if (CurrentPostItType==2) //Auftrag
                     {
@@ -1698,9 +1826,8 @@ void CPlaner::HandleLButtonDown (void)
                         qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2310));
                         return;
                     }
-                    else
-                    {
-                        //SLONG Speed = PlaneTypes[qPlayer.Planes[ActivePlane].TypeId].Geschwindigkeit;
+                    
+                                            //SLONG Speed = PlaneTypes[qPlayer.Planes[ActivePlane].TypeId].Geschwindigkeit;
                         SLONG Speed = qPlayer.Planes[ActivePlane].ptGeschwindigkeit;
                         SLONG Dauer = Cities.CalcFlugdauer (VonCityId, NachCityId, Speed);
 
@@ -1709,11 +1836,11 @@ void CPlaner::HandleLButtonDown (void)
                             qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2310));
                             return;
                         }
-                    }
+                   
                 }
 
                 //Tutorium: Spieler hat Auftrag eingesetzt:
-                if (Sim.IsTutorial && Sim.Tutorial==1506)
+                if ((Sim.IsTutorial != 0) && Sim.Tutorial==1506)
                 {
                     Sim.Tutorial=1507;
 
@@ -1725,35 +1852,40 @@ void CPlaner::HandleLButtonDown (void)
                     Time=Sim.GetHour()+2;
                 }
 
-                if (Date==Sim.Date && Time<=Sim.GetHour()+1)
+                if (Date==Sim.Date && Time<=Sim.GetHour()+1) {
                     Time=Sim.GetHour()+2;
+}
 
                 {
                     if (CurrentPostItType==2 && qPlayer.Auftraege[CurrentPostItId].InPlan!=0)
                     {
-                        if (qPlayer.Auftraege[CurrentPostItId].InPlan==-1)
+                        if (qPlayer.Auftraege[CurrentPostItId].InPlan==-1) {
                             qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2311), MESSAGE_COMMENT);
-                        else if (qPlayer.Auftraege[CurrentPostItId].InPlan==1)
+                        } else if (qPlayer.Auftraege[CurrentPostItId].InPlan==1) {
                             qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2312), MESSAGE_COMMENT);
+}
                     }
                     else
                     {
                         SLONG c;
-                        for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--)
-                            if (qPlan.Flug[c].ObjectType)
+                        for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--) {
+                            if (qPlan.Flug[c].ObjectType != 0)
                             {
                                 if ((qPlan.Flug[c].Startdate<ClickDate || (qPlan.Flug[c].Startdate==ClickDate && qPlan.Flug[c].Startzeit<=ClickTime)) &&
                                         (qPlan.Flug[c].Landedate>ClickDate || (qPlan.Flug[c].Landedate==ClickDate && qPlan.Flug[c].Landezeit>=ClickTime)) &&
-                                        qPlan.Flug[c].ObjectType!=3)
+                                        qPlan.Flug[c].ObjectType!=3) {
                                     break;
+}
                             }
+}
 
                         if (c>=0 && (qPlan.Flug[c].Startdate>Sim.Date || (qPlan.Flug[c].Startdate==Sim.Date && qPlan.Flug[c].Startzeit>Sim.GetHour()+1)))
                         {
                             tmpObjectType = qPlan.Flug[c].ObjectType;
                             tmpObjectId   = qPlan.Flug[c].ObjectId;
                         }
-                        else c=qPlan.Flug.AnzEntries()-1;
+                        else { c=qPlan.Flug.AnzEntries()-1;
+}
 
                         qPlan.Flug[c].Okay       = 0;
                         qPlan.Flug[c].Startdate  = Date;
@@ -1761,7 +1893,8 @@ void CPlaner::HandleLButtonDown (void)
                         qPlan.Flug[c].ObjectType = CurrentPostItType;
                         qPlan.Flug[c].ObjectId   = CurrentPostItId;
 
-                        if (qPlan.Flug[c].ObjectType==2 && qPlan.Flug[c].ObjectId<0x100000) DebugBreak();
+                        if (qPlan.Flug[c].ObjectType==2 && qPlan.Flug[c].ObjectId<0x100000) { DebugBreak();
+}
 
                         if (qPlan.Flug[c].ObjectType==1)
                         {
@@ -1783,7 +1916,7 @@ void CPlaner::HandleLButtonDown (void)
                         qPlayer.UpdateFrachtauftragsUsage();
 
                         //Auftrag vom Cursor ersetzen:
-                        if ((CurrentPostItType!=1 || !(GetAsyncKeyState (VK_SHIFT)&0xff00)) && (CurrentPostItType!=4 || qPlayer.Frachten[CurrentPostItId].TonsOpen<=0))
+                        if ((CurrentPostItType!=1 || ((GetAsyncKeyState (VK_SHIFT)&0xff00) == 0)) && (CurrentPostItType!=4 || qPlayer.Frachten[CurrentPostItId].TonsOpen<=0))
                         {
                             CurrentPostItType = tmpObjectType;
                             CurrentPostItId   = tmpObjectId;
@@ -1799,7 +1932,8 @@ void CPlaner::HandleLButtonDown (void)
                         qPlayer.Blocks.RefreshAuftragsBloecke (PlayerNum, IsLaptop);
                         qPlayer.Blocks[CurrentBlock].RefreshData (PlayerNum);
                         qPlayer.Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
-                        if (CurrentPostItType!=0) PaintPostIt ();
+                        if (CurrentPostItType!=0) { PaintPostIt ();
+}
                         GlobeBm.Clear (0); PaintGlobe (); PaintGlobeRoutes();
                     }
                 }
@@ -1815,24 +1949,28 @@ void CPlaner::HandleLButtonDown (void)
 
                 if (Date>Sim.Date || (Date==Sim.Date && Time>Sim.GetHour()+1))
                 {
-                    for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--)
-                        if (qPlan.Flug[c].ObjectType)
+                    for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--) {
+                        if (qPlan.Flug[c].ObjectType != 0)
                         {
                             if ((qPlan.Flug[c].Startdate<Date || (qPlan.Flug[c].Startdate==Date && qPlan.Flug[c].Startzeit<=Time)) &&
                                     (qPlan.Flug[c].Landedate>Date || (qPlan.Flug[c].Landedate==Date && qPlan.Flug[c].Landezeit>=Time)) &&
-                                    qPlan.Flug[c].ObjectType!=3)
+                                    qPlan.Flug[c].ObjectType!=3) {
                                 break;
+}
                         }
+}
 
-                    if (c>=0 && qPlan.Flug[c].ObjectType!=3)
+                    if (c>=0 && qPlan.Flug[c].ObjectType!=3) {
                         if (qPlan.Flug[c].Startdate>Sim.Date || (qPlan.Flug[c].Startdate==Sim.Date && qPlan.Flug[c].Startzeit>Sim.GetHour()+1))
                         {
                             CurrentPostItType = qPlan.Flug[c].ObjectType;
                             CurrentPostItId   = qPlan.Flug[c].ObjectId;
-                            if (CurrentPostItType) TookUnderCursorWithThisClick=TRUE;
+                            if (CurrentPostItType != 0) { TookUnderCursorWithThisClick=TRUE;
+}
 
-                            if (qPlan.Flug[c].ObjectType!=1 || !(GetAsyncKeyState (VK_SHIFT)&0xff00))
+                            if (qPlan.Flug[c].ObjectType!=1 || ((GetAsyncKeyState (VK_SHIFT)&0xff00) == 0)) {
                                 qPlan.Flug[c].ObjectType = 0;
+}
 
                             qPlan.UpdateNextFlight ();
                             qPlan.UpdateNextStart ();
@@ -1843,17 +1981,20 @@ void CPlaner::HandleLButtonDown (void)
                             qPlayer.Blocks.RefreshAuftragsBloecke (PlayerNum, IsLaptop);
                             qPlayer.Blocks[CurrentBlock].RefreshData (PlayerNum);
                             qPlayer.Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
-                            if (CurrentPostItType!=0) PaintPostIt ();
+                            if (CurrentPostItType!=0) { PaintPostIt ();
+}
                             GlobeBm.Clear (0); PaintGlobe (); PaintGlobeRoutes();
                         }
+}
                 }
             }
         }
         //Klick in die Detailsicht eines Flugzeuges?
         else if (pBlock->Index==0 && pBlock->BlockType==2 && pBlock->Page==1)
         {
-            if (ClientPos.IfIsWithin (0,103+52,169,121+45))
+            if (ClientPos.IfIsWithin (0,103+52,169,121+45)) {
                 MenuStart (MENU_RENAMEPLANE, pBlock->SelectedId);
+}
         }
         //Klick in die Tagessicht des Schedulers?
         else if (pBlock->Index==2 && pBlock->BlockType==2)
@@ -1869,12 +2010,14 @@ void CPlaner::HandleLButtonDown (void)
                     SLONG      Date=Sim.Date+pBlock->Page;
                     SLONG      Time=(ClientPos.y-5)/6;
 
-                    if (Date==Sim.Date && Time<=Sim.GetHour()+1)
+                    if (Date==Sim.Date && Time<=Sim.GetHour()+1) {
                         Time=Sim.GetHour()+2;
+}
 
                     //Nachschauen, ob der Flug zu lang ist für das Flugzeug:
                     {
-                        SLONG VonCityId = 0, NachCityId = 0;
+                        SLONG VonCityId = 0;
+                        SLONG NachCityId = 0;
 
                         if (CurrentPostItType==2) //Auftrag
                         {
@@ -1898,9 +2041,8 @@ void CPlaner::HandleLButtonDown (void)
                             qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2310));
                             return;
                         }
-                        else
-                        {
-                            //SLONG Speed = PlaneTypes[qPlayer.Planes[ActivePlane].TypeId].Geschwindigkeit;
+                        
+                                                    //SLONG Speed = PlaneTypes[qPlayer.Planes[ActivePlane].TypeId].Geschwindigkeit;
                             SLONG Speed = qPlayer.Planes[ActivePlane].ptGeschwindigkeit;
                             SLONG Dauer = Cities.CalcFlugdauer (VonCityId, NachCityId, Speed);
                             //SLONG Dauer = (Cities.CalcDistance (VonCityId, NachCityId)/Speed+999)/1000+1+2;
@@ -1910,28 +2052,31 @@ void CPlaner::HandleLButtonDown (void)
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2310));
                                 return;
                             }
-                        }
+                       
                     }
 
                     {
                         if (CurrentPostItType==2 && qPlayer.Auftraege[CurrentPostItId].InPlan!=0)
                         {
-                            if (qPlayer.Auftraege[CurrentPostItId].InPlan==-1)
+                            if (qPlayer.Auftraege[CurrentPostItId].InPlan==-1) {
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2311), MESSAGE_COMMENT);
-                            else if (qPlayer.Auftraege[CurrentPostItId].InPlan==1)
+                            } else if (qPlayer.Auftraege[CurrentPostItId].InPlan==1) {
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2312), MESSAGE_COMMENT);
+}
                         }
                         else
                         {
                             SLONG c;
-                            for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--)
-                                if (qPlan.Flug[c].ObjectType)
+                            for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--) {
+                                if (qPlan.Flug[c].ObjectType != 0)
                                 {
                                     if ((qPlan.Flug[c].Startdate<Date || (qPlan.Flug[c].Startdate==Date && qPlan.Flug[c].Startzeit<=Time)) &&
                                             (qPlan.Flug[c].Landedate>Date || (qPlan.Flug[c].Landedate==Date && qPlan.Flug[c].Landezeit>=Time)) &&
-                                            qPlan.Flug[c].ObjectType!=3)
+                                            qPlan.Flug[c].ObjectType!=3) {
                                         break;
+}
                                 }
+}
 
                             {
                                 tmpObjectType = qPlan.Flug[c].ObjectType;
@@ -1944,7 +2089,8 @@ void CPlaner::HandleLButtonDown (void)
                             qPlan.Flug[c].ObjectType = CurrentPostItType;
                             qPlan.Flug[c].ObjectId   = CurrentPostItId;
 
-                            if (qPlan.Flug[c].ObjectType==2 && qPlan.Flug[c].ObjectId<0x100000) DebugBreak();
+                            if (qPlan.Flug[c].ObjectType==2 && qPlan.Flug[c].ObjectId<0x100000) { DebugBreak();
+}
 
                             if (qPlan.Flug[c].ObjectType==1)
                             {
@@ -1971,13 +2117,15 @@ void CPlaner::HandleLButtonDown (void)
                             CurrentPostItType = tmpObjectType;
                             CurrentPostItId   = tmpObjectId;
 
-                            if (CurrentPostItType==3)
+                            if (CurrentPostItType==3) {
                                 CurrentPostItType=0;
+}
 
                             qPlayer.Blocks.RefreshAuftragsBloecke (PlayerNum, IsLaptop);
                             qPlayer.Blocks[CurrentBlock].RefreshData (PlayerNum);
                             qPlayer.Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
-                            if (CurrentPostItType!=0) PaintPostIt ();
+                            if (CurrentPostItType!=0) { PaintPostIt ();
+}
                             GlobeBm.Clear (0); PaintGlobe (); PaintGlobeRoutes();
                         }
                     }
@@ -1993,16 +2141,18 @@ void CPlaner::HandleLButtonDown (void)
 
                     if (Date>Sim.Date || (Date==Sim.Date && Time>Sim.GetHour()+1))
                     {
-                        for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--)
-                            if (qPlan.Flug[c].ObjectType)
+                        for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--) {
+                            if (qPlan.Flug[c].ObjectType != 0)
                             {
                                 if ((qPlan.Flug[c].Startdate<Date || (qPlan.Flug[c].Startdate==Date && qPlan.Flug[c].Startzeit<=Time)) &&
                                         (qPlan.Flug[c].Landedate>Date || (qPlan.Flug[c].Landedate==Date && qPlan.Flug[c].Landezeit>=Time)) &&
-                                        qPlan.Flug[c].ObjectType!=3)
+                                        qPlan.Flug[c].ObjectType!=3) {
                                     break;
+}
                             }
+}
 
-                        if (c>=0 && qPlan.Flug[c].ObjectType!=3)
+                        if (c>=0 && qPlan.Flug[c].ObjectType!=3) {
                             if (qPlan.Flug[c].Startdate>Sim.Date || (qPlan.Flug[c].Startdate==Sim.Date && qPlan.Flug[c].Startzeit>Sim.GetHour()+1))
                             {
                                 CurrentPostItType = qPlan.Flug[c].ObjectType;
@@ -2018,9 +2168,11 @@ void CPlaner::HandleLButtonDown (void)
                                 qPlayer.Blocks.RefreshAuftragsBloecke (PlayerNum, IsLaptop);
                                 qPlayer.Blocks[CurrentBlock].RefreshData (PlayerNum);
                                 qPlayer.Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
-                                if (CurrentPostItType!=0) PaintPostIt ();
+                                if (CurrentPostItType!=0) { PaintPostIt ();
+}
                                 GlobeBm.Clear (0); PaintGlobe (); PaintGlobeRoutes();
                             }
+}
                     }
                 }
             }
@@ -2030,13 +2182,14 @@ void CPlaner::HandleLButtonDown (void)
         {
             if (ClientPos.IfIsWithin (0,66,169,79))
             {
-                if (Cities.GetIdFromIndex (Cities(pBlock->SelectedId))!=(ULONG)Sim.HomeAirportId)
+                if (Cities.GetIdFromIndex (Cities(pBlock->SelectedId))!=(ULONG)Sim.HomeAirportId) {
                     MenuStart (MENU_REQUEST, MENU_REQUEST_KILLCITY, Cities(pBlock->SelectedId));
+}
             }
         }
     }
     //Click in Client Area B?
-    else if (pBlock && IsInClientAreaB && pBlock->BlockType==2)
+    else if ((pBlock != nullptr) && (IsInClientAreaB != 0) && pBlock->BlockType==2)
     {
         //in Index Mode?
         if (pBlock->IndexB==1)
@@ -2052,7 +2205,7 @@ void CPlaner::HandleLButtonDown (void)
                         if (ClientPosB.IfIsWithin (3, 0, 15, 155) && ClientPosB.y%26>=10 && ClientPosB.y/26+pBlock->PageB<pBlock->TableB.AnzRows)
                         {
                             //Tutorium: Spieler soll Auftrag nehmen:
-                            if (Sim.IsTutorial && Sim.Tutorial==1505)
+                            if ((Sim.IsTutorial != 0) && Sim.Tutorial==1505)
                             {
                                 qPlayer.Messages.NextMessage();
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_TUTORIUM, 1510));
@@ -2078,7 +2231,7 @@ void CPlaner::HandleLButtonDown (void)
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2310));
                                 break;
                             }
-                            else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==1)
+                            if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==1)
                             {
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2312));
                                 break;
@@ -2089,7 +2242,7 @@ void CPlaner::HandleLButtonDown (void)
                                 break;
                             }
 
-                            if (!qPlayer.IsAuftragInUse (pBlock->TableB.LineIndex[TableCursor], &PlaneName))
+                            if (qPlayer.IsAuftragInUse (pBlock->TableB.LineIndex[TableCursor], &PlaneName) == 0)
                             {
                                 CurrentPostItType = 2;
                                 CurrentPostItId   = pBlock->TableB.LineIndex[TableCursor];
@@ -2097,7 +2250,7 @@ void CPlaner::HandleLButtonDown (void)
                                 PaintPostIt ();
 
                                 //Tutorium: Spieler nimmt Auftrag:
-                                if (Sim.IsTutorial && Sim.Tutorial==1505)
+                                if ((Sim.IsTutorial != 0) && Sim.Tutorial==1505)
                                 {
                                     Sim.Tutorial=1506;
 
@@ -2138,7 +2291,7 @@ void CPlaner::HandleLButtonDown (void)
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2310));
                                 break;
                             }
-                            else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==3)
+                            if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==3)
                             {
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2314));
                                 break;
@@ -2163,7 +2316,7 @@ void CPlaner::HandleLButtonDown (void)
                         if (ClientPosB.IfIsWithin (3, 0, 15, 155) && ClientPosB.y%26>=10 && ClientPosB.y/26+pBlock->PageB<pBlock->TableB.AnzRows)
                         {
                             //Tutorium: Spieler soll Auftrag nehmen:
-                            if (Sim.IsTutorial && Sim.Tutorial==1505)
+                            if ((Sim.IsTutorial != 0) && Sim.Tutorial==1505)
                             {
                                 qPlayer.Messages.NextMessage();
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_TUTORIUM, 1510));
@@ -2189,7 +2342,7 @@ void CPlaner::HandleLButtonDown (void)
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2310));
                                 break;
                             }
-                            else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==1)
+                            if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==1)
                             {
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2330));
                                 break;
@@ -2223,14 +2376,16 @@ void CPlaner::HandleLButtonDown (void)
                 SLONG SelectedIdB2;
                 SLONG Cost = CalculateFlightCostRechnerisch (Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1)*3/180*2;
 
-                for (SLONG c=qPlayer.RentRouten.RentRouten.AnzEntries()-1; ; c--)
-                    if (Routen.IsInAlbum(c))
+                for (SLONG c=qPlayer.RentRouten.RentRouten.AnzEntries()-1; ; c--) {
+                    if (Routen.IsInAlbum(c) != 0) {
                         if (Routen[c].VonCity==Routen[pBlock->SelectedIdB].NachCity && Routen[c].NachCity==Routen[pBlock->SelectedIdB].VonCity)
                         {
                             pRRoute = &qPlayer.RentRouten.RentRouten[c];
                             SelectedIdB2 = c;
                             break;
                         }
+}
+}
 
                 switch ((ClientPosB.y-40)/13)
                 {
@@ -2240,10 +2395,14 @@ void CPlaner::HandleLButtonDown (void)
                     case  5: qRRoute.Ticketpreis=Cost*4/10*10; qRRoute.TicketpreisFC=qRRoute.Ticketpreis*2; break;
                 }
 
-                if (ClientPosB.IfIsWithin (148, 40-2, 160, 40-2+14)) qRRoute.TicketpreisFC+=10;
-                if (ClientPosB.IfIsWithin (160, 40-2, 172, 40-2+14)) qRRoute.TicketpreisFC-=10;
-                if (ClientPosB.IfIsWithin (148, 40-2-13, 160, 40-2-13+14)) qRRoute.Ticketpreis+=10;
-                if (ClientPosB.IfIsWithin (160, 40-2-13, 172, 40-2-13+14)) qRRoute.Ticketpreis-=10;
+                if (ClientPosB.IfIsWithin (148, 40-2, 160, 40-2+14)) { qRRoute.TicketpreisFC+=10;
+}
+                if (ClientPosB.IfIsWithin (160, 40-2, 172, 40-2+14)) { qRRoute.TicketpreisFC-=10;
+}
+                if (ClientPosB.IfIsWithin (148, 40-2-13, 160, 40-2-13+14)) { qRRoute.Ticketpreis+=10;
+}
+                if (ClientPosB.IfIsWithin (160, 40-2-13, 172, 40-2-13+14)) { qRRoute.Ticketpreis-=10;
+}
                 /*if ((ClientPosB.y-27)/13==0)
                   {
                   case  0: qRRoute.Ticketpreis+=10; break;
@@ -2268,17 +2427,17 @@ void CPlaner::HandleLButtonDown (void)
             }
 
             //Konkurrenzpreise:
-            if (qPlayer.HasBerater(BERATERTYP_INFO) &&
+            if ((qPlayer.HasBerater(BERATERTYP_INFO) != 0) &&
                     ClientPosB.IfIsWithin (2,128,166,167))
             {
                 CRentRoute &qRRoute  = qPlayer.RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)];
                 SLONG Index = (ClientPosB.y-128)/13;
 
-                if (Sim.Players.Players[Index+(PlayerNum<=Index)].IsOut==0 &&
-                        Sim.Players.Players[Index+(PlayerNum<=Index)].RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)].Rang)
+                if (Sim.Players.Players[Index+static_cast<int>(PlayerNum<=Index)].IsOut==0 &&
+                        (Sim.Players.Players[Index+static_cast<int>(PlayerNum<=Index)].RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)].Rang != 0u))
                 {
-                    qRRoute.Ticketpreis   = Sim.Players.Players[Index+(PlayerNum<=Index)].RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)].Ticketpreis;
-                    qRRoute.TicketpreisFC = Sim.Players.Players[Index+(PlayerNum<=Index)].RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)].TicketpreisFC;
+                    qRRoute.Ticketpreis   = Sim.Players.Players[Index+static_cast<int>(PlayerNum<=Index)].RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)].Ticketpreis;
+                    qRRoute.TicketpreisFC = Sim.Players.Players[Index+static_cast<int>(PlayerNum<=Index)].RentRouten.RentRouten[(SLONG)Routen(pBlock->SelectedIdB)].TicketpreisFC;
 
                     qPlayer.UpdateTicketpreise (pBlock->SelectedIdB, qRRoute.Ticketpreis, qRRoute.TicketpreisFC);
                     qPlayer.NetSynchronizeRoutes();
@@ -2294,30 +2453,35 @@ void CPlaner::HandleLButtonDown (void)
         {
             if (ClientPosB.IfIsWithin (2,144,169,157))
             {
-                SLONG d, RouteB=-1;
+                SLONG d;
+                SLONG RouteB=-1;
 
-                for (d=0; d<Routen.Routen.AnzEntries(); d++)
-                    if (Routen.IsInAlbum(d) && Routen[d].VonCity==Routen[pBlock->SelectedIdB].NachCity && Routen[d].NachCity==Routen[pBlock->SelectedIdB].VonCity)
+                for (d=0; d<Routen.Routen.AnzEntries(); d++) {
+                    if ((Routen.IsInAlbum(d) != 0) && Routen[d].VonCity==Routen[pBlock->SelectedIdB].NachCity && Routen[d].NachCity==Routen[pBlock->SelectedIdB].VonCity)
                     {
                         RouteB=Routen(d);
                         break;
                     }
+}
 
 #ifdef _DEBUG
                 if (RouteB==-1) DebugBreak();
 #endif
 
-                for (SLONG c=qPlayer.Planes.AnzEntries()-1; c>=0; c--)
-                    if (qPlayer.Planes.IsInAlbum(c))
+                for (SLONG c=qPlayer.Planes.AnzEntries()-1; c>=0; c--) {
+                    if (qPlayer.Planes.IsInAlbum(c) != 0)
                     {
-                        for (SLONG d=qPlayer.Planes[c].Flugplan.Flug.AnzEntries()-1; d>=0; d--)
-                            if (qPlayer.Planes[c].Flugplan.Flug[d].ObjectType==1)
+                        for (SLONG d=qPlayer.Planes[c].Flugplan.Flug.AnzEntries()-1; d>=0; d--) {
+                            if (qPlayer.Planes[c].Flugplan.Flug[d].ObjectType==1) {
                                 if (Routen(qPlayer.Planes[c].Flugplan.Flug[d].ObjectId)==Routen (pBlock->SelectedIdB) || SLONG(Routen(qPlayer.Planes[c].Flugplan.Flug[d].ObjectId))==RouteB)
                                 {
                                     qPlayer.Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 2315), (LPCTSTR)qPlayer.Planes[c].Name));
                                     return;
                                 }
+}
+}
                     }
+}
 
                 MenuStart (MENU_REQUEST, MENU_REQUEST_KILLROUTE, Routen (pBlock->SelectedIdB), RouteB);
             }
@@ -2327,11 +2491,13 @@ void CPlaner::HandleLButtonDown (void)
         {
             if (ClientPosB.IfIsWithin (0,118,169,134))
             {
-                if (qPlayer.Auftraege[pBlock->SelectedIdB].InPlan==0)
-                    if (qPlayer.Auftraege[pBlock->SelectedIdB].Strafe)
+                if (qPlayer.Auftraege[pBlock->SelectedIdB].InPlan==0) {
+                    if (qPlayer.Auftraege[pBlock->SelectedIdB].Strafe != 0) {
                         MenuStart (MENU_REQUEST, MENU_REQUEST_KILLAUFTRAG, qPlayer.Auftraege(pBlock->SelectedIdB));
-                    else
+                    } else {
                         MenuStart (MENU_REQUEST, MENU_REQUEST_KILLAUFTRAG0, qPlayer.Auftraege(pBlock->SelectedIdB));
+}
+}
             }
         }
         //Highlight in die Detailsicht eines Frachtauftrags?
@@ -2339,11 +2505,13 @@ void CPlaner::HandleLButtonDown (void)
         {
             if (ClientPosB.IfIsWithin (00,118+17,169,134+17))
             {
-                if (qPlayer.Frachten[pBlock->SelectedIdB].InPlan==0 && qPlayer.Frachten[pBlock->SelectedIdB].TonsOpen==qPlayer.Frachten[pBlock->SelectedIdB].TonsLeft)
-                    if (qPlayer.Frachten[pBlock->SelectedIdB].Strafe)
+                if (qPlayer.Frachten[pBlock->SelectedIdB].InPlan==0 && qPlayer.Frachten[pBlock->SelectedIdB].TonsOpen==qPlayer.Frachten[pBlock->SelectedIdB].TonsLeft) {
+                    if (qPlayer.Frachten[pBlock->SelectedIdB].Strafe != 0) {
                         MenuStart (MENU_REQUEST, MENU_REQUEST_KILLFAUFTRAG, qPlayer.Frachten(pBlock->SelectedIdB));
-                    else
+                    } else {
                         MenuStart (MENU_REQUEST, MENU_REQUEST_KILLFAUFTRAG0, qPlayer.Frachten(pBlock->SelectedIdB));
+}
+}
             }
         }
     }
@@ -2356,8 +2524,9 @@ void CPlaner::HandleRButtonDown (void)
 {
     DefaultOnRButtonDown ();
 
-    if (KonstruktorFinished!=2)
+    if (KonstruktorFinished!=2) {
         return;
+}
 
     if (CurrentPostItType!=0 && (Sim.Players.Players[(SLONG)PlayerNum].LaptopBattery>=0 || IsLaptop==FALSE))
     {
@@ -2367,8 +2536,9 @@ void CPlaner::HandleRButtonDown (void)
     }
     else
     {
-        if (Sim.IsTutorial && Sim.Tutorial<=1506) return;
-        if (MenuIsOpen())
+        if ((Sim.IsTutorial != 0) && Sim.Tutorial<=1506) { return;
+}
+        if (MenuIsOpen() != 0)
         {
             MenuRightClick (gMousePosition);
         }
@@ -2376,19 +2546,21 @@ void CPlaner::HandleRButtonDown (void)
         {
             if (CurrentBlock!=-1)
             {
-                if (pBlock->Index!=1 && IsInClientArea)
+                if (pBlock->Index!=1 && (IsInClientArea != 0))
                 {
-                    if (!IsLaptop) gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+                    if (IsLaptop == 0) { gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+}
                     ButtonIndex ();
                 }
-                else if (pBlock->IndexB!=1 && IsInClientAreaB)
+                else if (pBlock->IndexB!=1 && (IsInClientAreaB != 0))
                 {
-                    if (!IsLaptop) gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+                    if (IsLaptop == 0) { gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+}
                     ButtonIndexB ();
                 }
                 else
                 {
-                    if (IsLaptop)
+                    if (IsLaptop != 0)
                     {
                         //Block schließen:
                         if (pBlock->Destructing==0)
@@ -2400,7 +2572,8 @@ void CPlaner::HandleRButtonDown (void)
                     else
                     {
                         FensterVisible=FALSE;
-                        if (!IsLaptop) gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+                        if (IsLaptop == 0) { gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+}
 
                         GlobeBm.Clear (0);
                         PaintGlobe();
@@ -2408,8 +2581,9 @@ void CPlaner::HandleRButtonDown (void)
                     }
                 }
             }
-            else if (!IsDialogOpen() && gMousePosition.y<440) //Raum verlassen:
+            else if ((IsDialogOpen() == 0) && gMousePosition.y<440) { //Raum verlassen:
                 Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+}
 
             CStdRaum::OnRButtonDown(0, gMousePosition);
         }
@@ -2428,13 +2602,13 @@ void CPlaner::HandleLButtonUp (void)
 
     gMouseLButtonDownTimer = 0;
 
-    if ((gMouseClickPosition-gMousePosition).abs()>10 && TookUnderCursorWithThisClick && CurrentPostItType && !Sim.IsTutorial)
-        if (pBlock)
+    if ((gMouseClickPosition-gMousePosition).abs()>10 && (TookUnderCursorWithThisClick != 0) && (CurrentPostItType != 0) && (Sim.IsTutorial == 0)) {
+        if (pBlock != nullptr)
         {
             CFlugplan &qPlan = Sim.Players.Players[PlayerNum].Planes[pBlock->SelectedId].Flugplan;
 
-            if (pBlock->Index==0 && pBlock->BlockType==2 && pBlock->Page==0)
-                if (IsInClientArea && ClientPos.IfIsWithin (24,17,167,149))
+            if (pBlock->Index==0 && pBlock->BlockType==2 && pBlock->Page==0) {
+                if ((IsInClientArea != 0) && ClientPos.IfIsWithin (24,17,167,149))
                 {
                     SLONG      tmpObjectType=0;
                     SLONG      tmpObjectId = -1;
@@ -2452,7 +2626,8 @@ void CPlaner::HandleLButtonUp (void)
 
                     //Nachschauen, ob der Flug zu lang ist für das Flugzeug:
                     {
-                        SLONG VonCityId = 0, NachCityId = 0;
+                        SLONG VonCityId = 0;
+                        SLONG NachCityId = 0;
 
                         if (CurrentPostItType==2) //Auftrag
                         {
@@ -2476,9 +2651,8 @@ void CPlaner::HandleLButtonUp (void)
                             Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2310));
                             return;
                         }
-                        else
-                        {
-                            //SLONG Speed = PlaneTypes[qPlayer.Planes[pBlock->SelectedId].TypeId].Geschwindigkeit;
+                        
+                                                    //SLONG Speed = PlaneTypes[qPlayer.Planes[pBlock->SelectedId].TypeId].Geschwindigkeit;
                             SLONG Speed = qPlayer.Planes[pBlock->SelectedId].ptGeschwindigkeit;
                             SLONG Dauer = Cities.CalcFlugdauer (VonCityId, NachCityId, Speed);
 
@@ -2487,39 +2661,44 @@ void CPlaner::HandleLButtonUp (void)
                                 Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2310));
                                 return;
                             }
-                        }
+                       
                     }
 
-                    if (Date==Sim.Date && Time<=Sim.GetHour()+1)
+                    if (Date==Sim.Date && Time<=Sim.GetHour()+1) {
                         Time=Sim.GetHour()+2;
+}
 
                     {
                         if (CurrentPostItType==2 && qPlayer.Auftraege[CurrentPostItId].InPlan!=0)
                         {
-                            if (qPlayer.Auftraege[CurrentPostItId].InPlan==-1)
+                            if (qPlayer.Auftraege[CurrentPostItId].InPlan==-1) {
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2311), MESSAGE_COMMENT);
-                            else if (qPlayer.Auftraege[CurrentPostItId].InPlan==1)
+                            } else if (qPlayer.Auftraege[CurrentPostItId].InPlan==1) {
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2312), MESSAGE_COMMENT);
+}
                         }
                         else
                         {
                             SLONG c;
 
-                            for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--)
-                                if (qPlan.Flug[c].ObjectType)
+                            for (c=qPlan.Flug.AnzEntries()-1; c>=0; c--) {
+                                if (qPlan.Flug[c].ObjectType != 0)
                                 {
                                     if ((qPlan.Flug[c].Startdate<ClickDate || (qPlan.Flug[c].Startdate==ClickDate && qPlan.Flug[c].Startzeit<=ClickTime)) &&
                                             (qPlan.Flug[c].Landedate>ClickDate || (qPlan.Flug[c].Landedate==ClickDate && qPlan.Flug[c].Landezeit>=ClickTime)) &&
-                                            qPlan.Flug[c].ObjectType!=3)
+                                            qPlan.Flug[c].ObjectType!=3) {
                                         break;
+}
                                 }
+}
 
                             if (c>=0 && (qPlan.Flug[c].Startdate>Sim.Date || (qPlan.Flug[c].Startdate==Sim.Date && qPlan.Flug[c].Startzeit>Sim.GetHour()+1)))
                             {
                                 tmpObjectType = qPlan.Flug[c].ObjectType;
                                 tmpObjectId   = qPlan.Flug[c].ObjectId;
                             }
-                            else c=qPlan.Flug.AnzEntries()-1;
+                            else { c=qPlan.Flug.AnzEntries()-1;
+}
 
                             qPlan.Flug[c].Okay       = 0;
                             qPlan.Flug[c].Startdate  = Date;
@@ -2527,7 +2706,8 @@ void CPlaner::HandleLButtonUp (void)
                             qPlan.Flug[c].ObjectType = CurrentPostItType;
                             qPlan.Flug[c].ObjectId   = CurrentPostItId;
 
-                            if (qPlan.Flug[c].ObjectType==2 && qPlan.Flug[c].ObjectId<0x100000) DebugBreak();
+                            if (qPlan.Flug[c].ObjectType==2 && qPlan.Flug[c].ObjectId<0x100000) { DebugBreak();
+}
 
                             if (qPlan.Flug[c].ObjectType==1)
                             {
@@ -2549,28 +2729,34 @@ void CPlaner::HandleLButtonUp (void)
                             qPlayer.NetUpdateFlightplan (pBlock->SelectedId);
 
                             //Auftrag vom Cursor ersetzen:
-                            if (CurrentPostItType!=1 || !(GetAsyncKeyState (VK_SHIFT)&0xff00))
+                            if (CurrentPostItType!=1 || ((GetAsyncKeyState (VK_SHIFT)&0xff00) == 0))
                             {
                                 CurrentPostItType = tmpObjectType;
                                 CurrentPostItId   = tmpObjectId;
                             }
 
-                            if (CurrentPostItType==3)
+                            if (CurrentPostItType==3) {
                                 CurrentPostItType=0;
+}
 
                             Sim.Players.Players[PlayerNum].Blocks.RefreshAuftragsBloecke (PlayerNum, IsLaptop);
                             Sim.Players.Players[PlayerNum].Blocks[CurrentBlock].RefreshData (PlayerNum);
                             Sim.Players.Players[PlayerNum].Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
-                            if (CurrentPostItType!=0) PaintPostIt ();
+                            if (CurrentPostItType!=0) { PaintPostIt ();
+}
                             GlobeBm.Clear (0); PaintGlobe (); PaintGlobeRoutes();
                         }
                     }
 
                     TookUnderCursorWithThisClick=FALSE;
                 }
-                else CurrentPostItType=0;
+                else { CurrentPostItType=0;
+}
+}
         }
-        else CurrentPostItType=0;
+        else { CurrentPostItType=0;
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2580,8 +2766,9 @@ void CPlaner::HandleRButtonUp (void)
 {
     DefaultOnRButtonUp();
 
-    if (KonstruktorFinished!=2)
+    if (KonstruktorFinished!=2) {
         return;
+}
 
     CStdRaum::OnRButtonUp(0, gMousePosition);
 }
@@ -2591,18 +2778,21 @@ void CPlaner::HandleRButtonUp (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonNext (void)
 {
-    if (pBlock)
+    if (pBlock != nullptr)
     {
-        if (IsLaptop==0) gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+        if (IsLaptop==0) { gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+}
 
-        if (!pBlock->Index)
+        if (pBlock->Index == 0u) {
             pBlock->Page++;
-        else if (pBlock->BlockType==1) //City
+        } else if (pBlock->BlockType==1) { //City
             pBlock->Page+=13;
-        else
+        } else {
             pBlock->Page+=6;
+}
 
-        if (pBlock->Page<0) pBlock->Page = 0;
+        if (pBlock->Page<0) { pBlock->Page = 0;
+}
 
         //pBlock->Page = (pBlock->Page+1)%pBlock->AnzPages;
         pBlock->Refresh (PlayerNum, IsLaptop);
@@ -2614,16 +2804,18 @@ void CPlaner::ButtonNext (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonNextB (void)
 {
-    if (pBlock)
+    if (pBlock != nullptr)
     {
-        if (IsLaptop==0) gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+        if (IsLaptop==0) { gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+}
 
-        if (!pBlock->IndexB)
+        if (pBlock->IndexB == 0u) {
             pBlock->PageB++;
-        else if (pBlock->BlockTypeB==1) //City
+        } else if (pBlock->BlockTypeB==1) { //City
             pBlock->PageB+=13;
-        else
+        } else {
             pBlock->PageB+=6;
+}
 
         //pBlock->PageB = (pBlock->PageB+1)%pBlock->AnzPagesB;
         pBlock->RefreshData (PlayerNum);
@@ -2636,18 +2828,21 @@ void CPlaner::ButtonNextB (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonPrev (void)
 {
-    if (pBlock)
+    if (pBlock != nullptr)
     {
-        if (IsLaptop==0) gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+        if (IsLaptop==0) { gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+}
 
-        if (!pBlock->Index)
+        if (pBlock->Index == 0u) {
             pBlock->Page--;
-        else if (pBlock->BlockType==1) //City
+        } else if (pBlock->BlockType==1) { //City
             pBlock->Page-=13;
-        else
+        } else {
             pBlock->Page-=6;
+}
 
-        if (pBlock->Page<0) pBlock->Page = 0;
+        if (pBlock->Page<0) { pBlock->Page = 0;
+}
 
         pBlock->Refresh (PlayerNum, IsLaptop);
     }
@@ -2658,20 +2853,23 @@ void CPlaner::ButtonPrev (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonPrevB (void)
 {
-    if (pBlock)
+    if (pBlock != nullptr)
     {
-        if (IsLaptop==0) gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+        if (IsLaptop==0) { gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
+}
 
         //pBlock->PageB = (pBlock->PageB+pBlock->AnzPagesB-1)%pBlock->AnzPagesB;
 
-        if (!pBlock->IndexB)
+        if (pBlock->IndexB == 0u) {
             pBlock->PageB--;
-        else if (pBlock->BlockTypeB==1) //City
+        } else if (pBlock->BlockTypeB==1) { //City
             pBlock->PageB-=13;
-        else
+        } else {
             pBlock->PageB-=6;
+}
 
-        if (pBlock->PageB<0) pBlock->PageB = 0;
+        if (pBlock->PageB<0) { pBlock->PageB = 0;
+}
 
         pBlock->RefreshData (PlayerNum);
         pBlock->Refresh (PlayerNum, IsLaptop);
@@ -2681,9 +2879,9 @@ void CPlaner::ButtonPrevB (void)
 //--------------------------------------------------------------------------------------------
 //Block schließen...
 //--------------------------------------------------------------------------------------------
-void CPlaner::ButtonClose (void)
+void CPlaner::ButtonClose (void) const
 {
-    if (pBlock)
+    if (pBlock != nullptr)
     {
         pBlock->Destructing    = 1;
         pBlock->AnimationStart = Sim.TimeSlice;
@@ -2695,7 +2893,7 @@ void CPlaner::ButtonClose (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonIndex (void)
 {
-    if (pBlock)
+    if (pBlock != nullptr)
     {
         SLONG PostSelected = pBlock->SelectedId;
 
@@ -2707,26 +2905,30 @@ void CPlaner::ButtonIndex (void)
         pBlock->RefreshData (PlayerNum);
         pBlock->Refresh (PlayerNum, IsLaptop);
 
-        for (SLONG c=0; c<pBlock->Table.AnzRows; c++)
+        for (SLONG c=0; c<pBlock->Table.AnzRows; c++) {
             if (pBlock->Table.LineIndex[c]==PostSelected)
             {
                 /*if (pBlock->BlockType==2)
                   pBlock->Page=c-2;
                   else
                   pBlock->Page=c-7;*/
-                if (pBlock->BlockType==2)
+                if (pBlock->BlockType==2) {
                     pBlock->Page=c/6*6;
-                else
+                } else {
                     pBlock->Page=c/13*13;
+}
 
-                if (pBlock->Page<0) pBlock->Page=0;
-                if (pBlock->AnzPages<=1) pBlock->Page=0;
+                if (pBlock->Page<0) { pBlock->Page=0;
+}
+                if (pBlock->AnzPages<=1) { pBlock->Page=0;
+}
 
-                if (bFullscreen)
+                if (bFullscreen != 0)
                 {
                     SLONG cy;
-                    if (pBlock->BlockType!=2) cy=13*(c-pBlock->Page)-6;
-                    else cy=26*(c-pBlock->Page);
+                    if (pBlock->BlockType!=2) { cy=13*(c-pBlock->Page)-6;
+                    } else { cy=26*(c-pBlock->Page);
+}
 
                     //if (IsLaptop) SDL_WarpMouseGlobal(pBlock->ScreenPos.x+48+90-40, pBlock->ScreenPos.y+72+13-50+cy);
                     //else          SDL_WarpMouseGlobal(pBlock->ScreenPos.x+104+90-40-21, pBlock->ScreenPos.y+195+13-50-76+cy);
@@ -2734,6 +2936,7 @@ void CPlaner::ButtonIndex (void)
 
                 pBlock->Refresh (PlayerNum, IsLaptop);
             }
+}
 
         GlobeBm.Clear (0);
         PaintGlobe ();
@@ -2746,7 +2949,7 @@ void CPlaner::ButtonIndex (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::ButtonIndexB (void)
 {
-    if (pBlock)
+    if (pBlock != nullptr)
     {
         SLONG PostSelected = pBlock->SelectedIdB;
 
@@ -2757,16 +2960,19 @@ void CPlaner::ButtonIndexB (void)
         pBlock->RefreshData (PlayerNum);
         pBlock->Refresh (PlayerNum, IsLaptop);
 
-        for (SLONG c=0; c<pBlock->TableB.AnzRows; c++)
+        for (SLONG c=0; c<pBlock->TableB.AnzRows; c++) {
             if (pBlock->TableB.LineIndex[c]==PostSelected)
             {
-                if (IsLaptop) pBlock->PageB=c-2;
-                else pBlock->PageB=c/6*6;
+                if (IsLaptop != 0) { pBlock->PageB=c-2;
+                } else { pBlock->PageB=c/6*6;
+}
 
-                if (pBlock->PageB<0) pBlock->PageB=0;
-                if (pBlock->AnzPagesB<=1) pBlock->PageB=0;
+                if (pBlock->PageB<0) { pBlock->PageB=0;
+}
+                if (pBlock->AnzPagesB<=1) { pBlock->PageB=0;
+}
 
-                if (bFullscreen)
+                if (bFullscreen != 0)
                 {
                     //if (IsLaptop) SDL_WarpMouseGlobal(pBlock->ScreenPos.x+232+48+48+15-40, pBlock->ScreenPos.y+72+13-50+26*(c-pBlock->Page));
                     //else          SDL_WarpMouseGlobal(pBlock->ScreenPos.x+232+104+48+90-40-48-21, pBlock->ScreenPos.y+195+13-50-80+26*(c-pBlock->Page));
@@ -2774,6 +2980,7 @@ void CPlaner::ButtonIndexB (void)
 
                 pBlock->Refresh (PlayerNum, IsLaptop);
             }
+}
 
         pBlock->UpdatePageSize ();
 
@@ -2788,14 +2995,18 @@ void CPlaner::ButtonIndexB (void)
 //--------------------------------------------------------------------------------------------
 void CPlaner::TurnGlobe (SLONG Angle)
 {
-    if (UsedToRotate==0) GlobeBm.Clear (0);
+    if (UsedToRotate==0) { GlobeBm.Clear (0);
+}
     EarthAlpha+=UWORD(Angle);
     EarthTargetAlpha=EarthAlpha;
 
-    for (SLONG c=0; c<Sim.Players.AnzPlayers; c++)
-        if (!Sim.Players.Players[c].IsOut)
-            if ((Sim.Players.Players[PlayerNum].DisplayPlanes[c] && IsLaptop) || (c==PlayerNum && !IsLaptop))
+    for (SLONG c=0; c<Sim.Players.AnzPlayers; c++) {
+        if (Sim.Players.Players[c].IsOut == 0) {
+            if (((Sim.Players.Players[PlayerNum].DisplayPlanes[c] != 0u) && (IsLaptop != 0)) || (c==PlayerNum && (IsLaptop == 0))) {
                 Sim.Players.Players[c].Planes.UpdateGlobePos (EarthAlpha);
+}
+}
+}
 
     PaintGlobe ();
     PaintGlobeRoutes();
@@ -2810,10 +3021,11 @@ void CPlaner::HandleLButtonDouble (void)
 {
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
-    if (Sim.IsTutorial) return;
+    if (Sim.IsTutorial != 0) { return;
+}
 
     //Click in Client Area B?
-    if (pBlock && IsInClientAreaB && pBlock->BlockType==2 && CurrentPostItType!=0)
+    if ((pBlock != nullptr) && (IsInClientAreaB != 0) && pBlock->BlockType==2 && CurrentPostItType!=0) {
         if (pBlock->Index==0 && pBlock->BlockType==2 && pBlock->Page==0)
         {
             //in Index Mode?
@@ -2828,23 +3040,24 @@ void CPlaner::HandleLButtonDouble (void)
                     {
                         //Auftrags-Details:
                         case 3:
-                            if (!(ClientPosB.IfIsWithin (3, 0, 15, 155) && ClientPosB.y%26>=10 && ClientPosB.y/26+pBlock->PageB<pBlock->TableB.AnzRows))
+                            if (!(ClientPosB.IfIsWithin (3, 0, 15, 155) && ClientPosB.y%26>=10 && ClientPosB.y/26+pBlock->PageB<pBlock->TableB.AnzRows)) {
                                 if (ClientPosB.IfIsWithin (0,0,172-5,155))
                                 {
                                     CString PlaneName;
 
-                                    if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==2)
+                                    if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==2) {
                                         break;
-                                    else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==1)
+                                    } if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==1)
                                         break;
                                     else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==4)
                                         break;
 
-                                    if (!Sim.Players.Players[PlayerNum].IsAuftragInUse (pBlock->TableB.LineIndex[TableCursor], &PlaneName))
+                                    if (Sim.Players.Players[PlayerNum].IsAuftragInUse (pBlock->TableB.LineIndex[TableCursor], &PlaneName) == 0)
                                     {
                                         goto add;
                                     }
                                 }
+}
                             break;
 
                             //Routen-Details:
@@ -2862,9 +3075,9 @@ void CPlaner::HandleLButtonDouble (void)
                             }
                             else if (ClientPosB.IfIsWithin (0,0,172-5,155))
                             {
-                                if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==2)
+                                if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==2) {
                                     break;
-                                else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==3)
+                                } if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==3)
                                     Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2314));
                                 else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==4)
                                     Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2301));
@@ -2938,4 +3151,5 @@ add:
                 }
             }
         }
+}
 }

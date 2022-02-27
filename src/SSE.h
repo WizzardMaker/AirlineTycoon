@@ -176,8 +176,8 @@ class SSE
     DllExport SSE(void *hWnd, dword samplesPerSec = 22050, word channels = 2, word bitsPerSample = 16, word maxFX = 8);
     DllExport ~SSE();
 
-    DllExport int	EnableDS ();
-    DllExport int	DisableDS ();
+    DllExport int	EnableDS () const;
+    DllExport static int	DisableDS ();
     DllExport int	CreateFX (FX** ppFX, char* file = 0, dword samplesPerSec = 0, word channels = 0, word bitsPerSample = 0);
     DllExport int	CreateMidi (MIDI** ppMidi, char* file = 0);
     //DllExport int	CreateDigimusic (DIGIMUSIC** ppDigimusic, char* file = 0, dword bufferSecs = 4, dword samplesPerSec = 0, word channels = 0, word bitsPerSample = 0);
@@ -195,7 +195,7 @@ class SSE
     DllExport bool		IsSoundEnabled() { return _fSoundEnabled; }
     DllExport void		SetMaxSound(word fx) { _maxSound = Mix_AllocateChannels(fx - _maxSound); }
     DllExport word		GetMaxSound()		{ return _maxSound; }
-    DllExport word		GetSoundPlaying();
+    DllExport static word		GetSoundPlaying();
     DllExport void		StopSound();
 
     DllExport int	EnableMusic(bool fMusicEnabled	);
@@ -204,17 +204,17 @@ class SSE
 
     // Lautstärkefunktionen
 
-    DllExport int	SetMusicVolume(SLONG volume);
-    DllExport int	GetMusicVolume(SLONG* pVolume);
+    DllExport static int	SetMusicVolume(SLONG volume);
+    DllExport static int	GetMusicVolume(SLONG* pVolume);
 
-    DllExport int	SetSoundVolume(SLONG volume);
-    DllExport int	GetSoundVolume(SLONG* pVolume);
+    DllExport static int	SetSoundVolume(SLONG volume);
+    DllExport static int	GetSoundVolume(SLONG* pVolume);
 
     //DllExport int	SetMixerVolume (char * device, SLONG volume);
     //DllExport int	GetMixerVolume(char * device, SLONG* pVolume, MIXERBOUNDS* pMB = NULL);
 
 
-    DllExport void		SetMusicCallback(void (*callback)());
+    DllExport static void		SetMusicCallback(void (*callback)());
 
     //DllExport bool		SetMusicList(char* path, char* files);
     //DllExport void		ClearMusicList();

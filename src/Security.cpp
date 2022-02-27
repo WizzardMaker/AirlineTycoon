@@ -27,7 +27,8 @@ CSecurity::CSecurity(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     HandyOffset = 320;
     Sim.FocusPerson=-1;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (60);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
 
     Talkers.Talkers[TALKER_SECURITY].IncreaseReference ();
     DefaultDialogPartner=TALKER_SECURITY;
@@ -283,7 +284,7 @@ CSecurity::CSecurity(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 
     //Hintergrundsounds:
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         BackFx.ReInit("secure.raw");
         BackFx.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
@@ -309,7 +310,8 @@ CSecurity::~CSecurity()
 //--------------------------------------------------------------------------------------------
 void CSecurity::OnPaint()
 {
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_SECURITY, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_SECURITY, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -337,10 +339,11 @@ void CSecurity::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (4, 70, 112, 412)) SetMouseLook (CURSOR_EXIT, 0, ROOM_SECURITY, 999);
-        else if (gMousePosition.IfIsWithin (288,144,401,267)) SetMouseLook (CURSOR_HOT, 0, ROOM_SECURITY, 10);
+        if (gMousePosition.IfIsWithin (4, 70, 112, 412)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_SECURITY, 999);
+        } else if (gMousePosition.IfIsWithin (288,144,401,267)) { SetMouseLook (CURSOR_HOT, 0, ROOM_SECURITY, 10);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -356,27 +359,28 @@ void CSecurity::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_SECURITY && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_SECURITY && MouseClickId==10) { StartDialog (TALKER_SECURITY, MEDIUM_AIR, 1000); }
+        if (MouseClickArea==ROOM_SECURITY && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_SECURITY && MouseClickId==10) { StartDialog (TALKER_SECURITY, MEDIUM_AIR, 1000); }
         else if (MouseClickArea==ROOM_SECURITY && MouseClickId==12)
         {
             Sim.Players.Players[(SLONG)PlayerNum].BuyItem (ITEM_GLOVE);
 
-            if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_GLOVE))
+            if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_GLOVE) != 0)
             {
                 Sim.ItemGlove=0;
-                Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLOVE);
+                SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLOVE);
             }
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -392,9 +396,8 @@ void CSecurity::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -405,5 +408,5 @@ void CSecurity::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

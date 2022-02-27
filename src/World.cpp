@@ -53,9 +53,11 @@ CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum (bHandy, P
 
     ::PaintGlobe (EarthBm, &PicBitmap, (UWORD)EarthAlpha, XY(100, 20));
 
-    for (SLONG c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--)
-        if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(c))
+    for (SLONG c=Sim.Players.Players[(SLONG)PlayerNum].Planes.AnzEntries()-1; c>=0; c--) {
+        if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(c) != 0) {
             Sim.Players.Players[(SLONG)PlayerNum].Planes[c].UpdateGlobePos (0);
+}
+}
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -78,7 +80,8 @@ CWorld::~CWorld()
 //--------------------------------------------------------------------------------------------
 void CWorld::OnPaint()
 {
-    if (Sim.Gamestate==GAMESTATE_BOOT) return;
+    if (Sim.Gamestate==GAMESTATE_BOOT) { return;
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -98,11 +101,12 @@ void CWorld::OnLButtonDown(UINT nFlags, CPoint point)
 {
     XY RoomPos;
 
-    if (Sim.Players.Players[Sim.localPlayer].ArabMode==6) return;
+    if (Sim.Players.Players[Sim.localPlayer].ArabMode==6) { return;
+}
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
@@ -115,16 +119,16 @@ void CWorld::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 void CWorld::OnRButtonDown(UINT nFlags, CPoint point)
 {
-    if (Sim.Players.Players[Sim.localPlayer].ArabMode==6) return;
+    if (Sim.Players.Players[Sim.localPlayer].ArabMode==6) { return;
+}
 
     //Auﬂerhalb geklickt? Dann Default-Handler!
     if (point.x<WinP1.x || point.y<WinP1.y || point.x>WinP2.x || point.y>WinP2.y)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -136,5 +140,5 @@ void CWorld::OnRButtonDown(UINT nFlags, CPoint point)
             }
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

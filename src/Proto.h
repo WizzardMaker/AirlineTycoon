@@ -198,8 +198,8 @@ void DrawAutoflugTipContents (SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLO
 void DrawCityTipContents (SBBM &TipBm, ULONG CityId, XY Headline, XY Contents, XY Map, SB_CFont *pHeadFont, SB_CFont *pFont);
 void DrawPlaneTipContents (SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL OwnPlane=FALSE, SLONG OwnedByComputer=FALSE);
 void DrawXPlaneTipContents (SBBM &TipBm, CString Planename, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont);
-void DrawRouteTipContents (SBBM &TipBm, SLONG NumPlayer, ULONG RouteId, SLONG Gate, SLONG Passagiere, SLONG PassagiereFC, SLONG Costs, SLONG Ticketpreis, SLONG TicketpreisFC, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked=TRUE);
-void DrawAuftragTipContents (SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, CAuftrag *Auftrag, SLONG Costs, SLONG Gate, SLONG Okay, XY Headline, XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked=TRUE);
+void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gate, SLONG Passagiere, SLONG PassagiereFC, SLONG Costs, SLONG Ticketpreis, SLONG TicketpreisFC, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked=TRUE);
+void DrawAuftragTipContents (SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, CAuftrag *Auftrag, SLONG Gate, SLONG Costs, SLONG Okay, XY Headline, XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked=TRUE);
 void DrawKursTipContents (SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont);
 void DrawItemTipContents (SBBM &TipBm, SLONG Item, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont);
 void DrawMoneyTipContents (SBBM &TipBm, SLONG PlayerNum, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont);

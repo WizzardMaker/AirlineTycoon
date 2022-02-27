@@ -115,8 +115,8 @@ do_findcd_main:
 
     if (1==0)
 #else
-        if (!DoesFileExist ("C:\\Infos\\identity.txt") /*&& GetKey()!=0x1c4298a0*/)
-            if (!DoesFileExist (FullFilename("data\\cm.txt", AppPath)))
+        if (DoesFileExist ("C:\\Infos\\identity.txt") == 0 /*&& GetKey()!=0x1c4298a0*/) {
+            if (DoesFileExist (FullFilename("data\\cm.txt", AppPath)) == 0)
 #endif
             {
 do_findcd:
@@ -139,6 +139,7 @@ do_findcd:
                 gCDPath    = "-:\\data\\";     //CD not neccessary, because this is Spellbound-Internal
                 gSpawnOnly = FALSE;
             }
+}
 #endif
 #else
     gSpawnOnly = FALSE;
@@ -188,59 +189,63 @@ skip_search_demo_cd:
     VoicePath    = "voice\\%s";
     MyPlanePath  = "myplanes\\%s";
 
-    if (SavegamePath.GetLength()==0) SavegamePath = "Savegame\\%s";
+    if (SavegamePath.GetLength()==0) { SavegamePath = "Savegame\\%s";
+}
 
     //Sind noch Packages auf der CD?
-    if (!DoesFileExist (FullFilename ("dir.txt", GliPath)))
+    if (DoesFileExist (FullFilename ("dir.txt", GliPath)) == 0)
     {
 #ifndef CD_PROTECTION_ANY_TYPE
-        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe"))
+        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe") != 0) {
             GliPath="Y:\\Projekte\\Airlin~1\\betaver\\data\\gli\\%s";
-        else
+        } else
 #endif
         {
-            if (!gCDFound) goto do_findcd;
+            if (gCDFound == 0) { goto do_findcd;
+}
             GliPath=gCDPath+GliPath;
         }
     }
 
-    if (!DoesFileExist (FullFilename ("dir.txt", RoomPath)))
+    if (DoesFileExist (FullFilename ("dir.txt", RoomPath)) == 0)
     {
 #ifndef CD_PROTECTION_ANY_TYPE
-        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe"))
+        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe") != 0) {
             RoomPath="Y:\\Projekte\\Airlin~1\\betaver\\data\\room\\%s";
-        else
+        } else
 #endif
         {
-            if (!gCDFound) goto do_findcd;
+            if (gCDFound == 0) { goto do_findcd;
+}
             RoomPath=gCDPath+RoomPath;
         }
     }
 
 #ifndef NO_INTRO
-    if (!DoesFileExist (FullFilename ("dir.txt", IntroPath)))
+    if (DoesFileExist (FullFilename ("dir.txt", IntroPath)) == 0)
     {
 #ifndef CD_PROTECTION_ANY_TYPE
-        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe"))
+        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe") != 0) {
             IntroPath="Y:\\Projekte\\Airlin~1\\betaver\\data\\intro\\%s";
-        else
+        } else
 #endif
         {
-            if (gCDFound)
+            if (gCDFound != 0) {
                 IntroPath=gCDPath+IntroPath;
-            else
+            } else {
                 IntroPath="";                //IntroPath leer ==> Spawn Version
+}
         }
     }
 #endif
 
 #if !defined(NO_D_VOICES) || !defined(NO_E_VOICES) || !defined(NO_N_VOICES)
-    if (!DoesFileExist (FullFilename ("dir.txt", VoicePath)))
+    if (DoesFileExist (FullFilename ("dir.txt", VoicePath)) == 0)
     {
 #ifndef CD_PROTECTION_ANY_TYPE
-        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe"))
+        if (DoesFileExist ("Y:\\Projekte\\Airlin~1\\betaver\\data\\at.exe") != 0) {
             VoicePath="Y:\\Projekte\\Airlin~1\\betaver\\data\\voice\\%s";
-        else
+        } else
 #endif
         {
 #ifdef VOICES_OPTIONAL
@@ -248,7 +253,8 @@ skip_search_demo_cd:
             Sim.Options.OptionSpeechBubble = TRUE;
             Sim.Options.OptionTalking      = FALSE;
 #else
-            if (!gCDFound) goto do_findcd;
+            if (gCDFound == 0) { goto do_findcd;
+}
             VoicePath=gCDPath+VoicePath;
 #endif
         }
@@ -263,9 +269,10 @@ void InitSoundSystem (SDL_Window *AppWnd)
 {
     gpSSE = new SSE(AppWnd, 44100, 1, 16);
 
-    if (Sim.Options.OptionDigiSound)
+    if (Sim.Options.OptionDigiSound != 0)
     {
-        if (Sim.Options.OptionEnableDigi) gpSSE->EnableDS();
+        if (Sim.Options.OptionEnableDigi != 0) { gpSSE->EnableDS();
+}
 
         gpSSE->CreateFX(&gpClickFx);
         gpClickFx->Load((char*)(LPCTSTR)FullFilename ("click.raw", SoundPath));
@@ -286,8 +293,9 @@ void InitSoundSystem (SDL_Window *AppWnd)
         SetWaveVolume(Sim.Options.OptionMasterVolume);
     }
 
-    if (gpSSE==NULL || !gpSSE->IsSoundEnabled())
+    if (gpSSE==NULL || !gpSSE->IsSoundEnabled()) {
         Sim.Options.OptionMasterVolume=0;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -332,22 +340,32 @@ void InitFonts (void)
 
     //Determine Font colors on this video card:
     SBBM  TestBm (20,20);
-    SLONG x, y;
+    SLONG x;
+    SLONG y;
 
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallBlack, TEC_FONT_LEFT, 0, 0, 20, 20);
-    for (x=0; x<20; x++)
-        for (y=0; y<20; y++) if (TestBm.GetPixel(x,y)) ColorOfFontBlack=(UWORD)TestBm.GetPixel(x,y);
+    for (x=0; x<20; x++) {
+        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontBlack=(UWORD)TestBm.GetPixel(x,y);
+}
+}
+}
 
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallGrey, TEC_FONT_LEFT, 0, 0, 20, 20);
-    for (x=0; x<20; x++)
-        for (y=0; y<20; y++) if (TestBm.GetPixel(x,y)) ColorOfFontGrey=(UWORD)TestBm.GetPixel(x,y);
+    for (x=0; x<20; x++) {
+        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontGrey=(UWORD)TestBm.GetPixel(x,y);
+}
+}
+}
 
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallRed, TEC_FONT_LEFT, 0, 0, 20, 20);
-    for (x=0; x<20; x++)
-        for (y=0; y<20; y++) if (TestBm.GetPixel(x,y)) ColorOfFontRed=(UWORD)TestBm.GetPixel(x,y);
+    for (x=0; x<20; x++) {
+        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontRed=(UWORD)TestBm.GetPixel(x,y);
+}
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -382,7 +400,7 @@ void InitItems (void)
     gStatLineHigh.ReSize (pGLibStd, "TIMEHIGH GELDHIGH");
 
     //Tabellen importieren:
-    if (!bFirstClass)
+    if (bFirstClass == 0)
     {
         CString str;
 
@@ -397,7 +415,8 @@ void InitItems (void)
                 file >> str;
                 long id=atol(str);
 
-                if (gPlanePartRelations[c].Id!=id) hprintf (0, "Id mismatch: %li vs %li!", gPlanePartRelations[c].Id, id);
+                if (gPlanePartRelations[c].Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlanePartRelations[c].Id, id);
+}
                 gPlanePartRelations[c].FromString (str);
             }
         }
@@ -413,7 +432,8 @@ void InitItems (void)
                 file >> str;
                 long id=atol(str);
 
-                if (gPlaneBuilds[c].Id!=id) hprintf (0, "Id mismatch: %li vs %li!", gPlaneBuilds[c].Id, id);
+                if (gPlaneBuilds[c].Id!=id) { hprintf (0, "Id mismatch: %li vs %li!", gPlaneBuilds[c].Id, id);
+}
                 gPlaneBuilds[c].FromString (str);
             }
         }
@@ -441,8 +461,9 @@ void InitTipBms (void)
     gInfoBms.ReSize (pGLibStd, "INFO01", 2);
 
     FlugplanIconBms.ReSize(14);
-    for (c=0; c<14; c++)
+    for (c=0; c<14; c++) {
         FlugplanIconBms[c].ReSize (pGLibStd, bprintf ("I%c_00", "123456789ABCDEF"[c]), 2);
+}
 
     BeraterBms.ReSize (12+4);
     BeraterBms[0].ReSize (pGLibBerater, "BERA1_01", 4);
@@ -484,14 +505,17 @@ void InitTipBms (void)
 //--------------------------------------------------------------------------------------------
 void InitGlobeMapper (void)
 {
-    int x,y, xs;
+    int x;
+    int y;
+    int xs;
     dword Color;
 
     //Dafault-Positionen der Laptop-Fenster:
     GlobeWindows.ReSize (5);
 
-    for (x=0; x<5; x++)
+    for (x=0; x<5; x++) {
         GlobeWindows[x] = XY (IconsPos[(x+1)*2+24]+60, IconsPos[(x+1)*2+1+24]-200/6);
+}
 
     SBBM TmpBm (10,10);
 
@@ -502,7 +526,7 @@ void InitGlobeMapper (void)
 
     GlobeMixTab.ReSize (256*64);
 
-    for (x=0; x<256; x++)
+    for (x=0; x<256; x++) {
         for (y=0; y<64; y++)
         {
             Color  = std::min(EarthPal.Pal[x].b*(y+5)/40,255);
@@ -510,9 +534,11 @@ void InitGlobeMapper (void)
             Color += std::min(EarthPal.Pal[x].g*(y+5)/40+(std::max(EarthPal.Pal[x].b*(y+5)/40-255,0)),255)<<8;
 
             GlobeMixTab [x+(y<<8)] = (UWORD)TmpBm.pBitmap->GetHardwarecolor (Color);
-            if (GlobeMixTab [x+(y<<8)]==0)
+            if (GlobeMixTab [x+(y<<8)]==0) {
                 GlobeMixTab [x+(y<<8)]=(UWORD)TmpBm.pBitmap->GetHardwarecolor (0x000008);
+}
         }
+}
 
     GlobeLight.ReSize (369);
     GlobeMapper.ReSize (185);
@@ -526,7 +552,8 @@ void InitGlobeMapper (void)
         xs = (SLONG)(sqrt (184*184-(y-184)*(y-184)));
 
         GlobeLight[y].ReSize (xs*2+1);
-        if (y<=184) GlobeMapper[y].ReSize (xs*2+1);
+        if (y<=184) { GlobeMapper[y].ReSize (xs*2+1);
+}
         GlobeMapperY[y]=SLONG(asin ((y-184)/184.0)/3.14159*2*250+250);
 
         for (x=-xs; x<=xs; x++)
@@ -534,8 +561,9 @@ void InitGlobeMapper (void)
             (GlobeLight[y])[x+xs]=s[184+x];
             //(GlobeLight[y])[x+xs]=UBYTE(150-sqrt((x+80)*(x+80)+(y-80)*(y-80))/2.8);
 
-            if (y<=184)
+            if (y<=184) {
                 (GlobeMapper[y])[x+xs]=UWORD(asin (x/double(xs))/3.14159*2*128+128);
+}
         }
 
         s+=ShadeKey.lPitch;

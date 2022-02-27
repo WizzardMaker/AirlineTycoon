@@ -60,8 +60,9 @@ SLONG RAKNetNetwork::GetMessageCount() {
 
 
 bool RAKNetNetwork::Connect(const char* host) {
-    if (mMaster == nullptr)
+    if (mMaster == nullptr) {
         return false;
+}
 
     RakNet::SocketDescriptor sd(0, nullptr);
     if (mMaster->Startup(5, &sd, 1) == RAKNET_STARTED) {
@@ -146,7 +147,7 @@ bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool
     BitStream data;
     SerializePacket(&a, &data);
 
-    if (peerID) {
+    if (peerID != 0u) {
         SDL_Log("SEND PRIVATE: SBNETWORK_MESSAGE ID: - ID %x TO: %x", (a.data[3] << 24) | (a.data[2] << 16) | (a.data[1] << 8) | (a.data[0]), peerID);
 
         //    for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext())
@@ -174,8 +175,9 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
         SBNetworkPlayer* master = mPlayers.GetFirst();
         for (mPlayers.GetNext(); !mPlayers.IsLast(); mPlayers.GetNext())
         {
-            if (mPlayers.GetLastAccessed()->ID < master->ID)
+            if (mPlayers.GetLastAccessed()->ID < master->ID) {
                 master = mPlayers.GetLastAccessed();
+}
         }
 
         if (master->ID == mLocalID)
@@ -195,9 +197,10 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
 
 
     Packet* p;
-    if ((p = mMaster->Receive())) { //Game loop network messages:
-        if (p == nullptr)
+    if ((p = mMaster->Receive()) != nullptr) { //Game loop network messages:
+        if (p == nullptr) {
             return false;
+}
 
         switch (p->data[0]) {
             case ID_DISCONNECTION_NOTIFICATION:
@@ -240,17 +243,18 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
                     DeserializePacket(p->data, p->length, &packet);
 
                     //Check if the package was meant for us. 0 for broadcast
-                    if(packet.peerID && packet.peerID != mLocalID) {
+                    if((packet.peerID != 0u) && packet.peerID != mLocalID) {
                         SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d. IGNORED, SEND NOT TO US", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
                         break;
                     }
 
                     *buffer = packet.data;
                     size = packet.dataLength;
-                    if(packet.peerID)
+                    if(packet.peerID != 0u) {
                         SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
-                    else
+                    } else {
                         SDL_Log("RECEIVED: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
+}
 
                     mMaster->DeallocatePacket(p);
                     return true;
@@ -340,8 +344,9 @@ IServerSearchable* RAKNetNetwork::GetServerSearcher() {
 bool RAKNetNetwork::AwaitConnection(RakPeerInterface* peerInterface, bool isAnotherPeer) {
     while (true) {
         Packet* p = peerInterface->Receive();
-        if (p == nullptr)
+        if (p == nullptr) {
             continue;
+}
 
         switch (p->data[0]) {
             case ID_CONNECTION_REQUEST_ACCEPTED:
@@ -350,8 +355,9 @@ bool RAKNetNetwork::AwaitConnection(RakPeerInterface* peerInterface, bool isAnot
                     data.Write((char)SBNETWORK_ESTABLISH_CONNECTION);
                     data.Write(mLocalID);
 
-                    if(isAnotherPeer == false)
+                    if(!isAnotherPeer) {
                         mHost = p->guid; //Only set the host guid if we are actually connecting to the host
+}
 
                     mState = SBNETWORK_SESSION_CLIENT;
                     SDL_Log("Connect(..) successful. We (%s) are now sending our ID: %d", mMaster->GetMyGUID().ToString(), mLocalID);
@@ -467,12 +473,14 @@ bool RAKNetNetwork::StartGetSessionListAsync() {
 bool RAKNetNetwork::JoinSession(const SBStr& session, SBStr nickname) {
     RAKSessionInfo* info = NULL;
     for (mSessionInfo.GetFirst(); !mSessionInfo.IsLast(); mSessionInfo.GetNext()) {
-        if (session == mSessionInfo.GetLastAccessed()->sessionName)
+        if (session == mSessionInfo.GetLastAccessed()->sessionName) {
             info = static_cast<RAKSessionInfo*>(mSessionInfo.GetLastAccessed());
+}
     }
 
-    if (!info)
+    if (info == nullptr) {
         return false;
+}
 
     /* Initiate the connection, allocating the two channels 0 and 1. */
     if (Connect(info->address.ToString())) {

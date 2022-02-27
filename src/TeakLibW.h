@@ -229,19 +229,19 @@ class TEAKFILE
         ~TEAKFILE(void);
 
         void ReadLine(char*, SLONG);
-        int IsEof(void);
+        int IsEof(void) const;
         void Close(void);
-        SLONG GetFileLength(void);
-        SLONG GetPosition(void);
+        SLONG GetFileLength(void) const;
+        SLONG GetPosition(void) const;
         void Open(char const*, SLONG);
-        int IsOpen(void);
+        int IsOpen(void) const;
         unsigned char* Read(SLONG);
         void Read(unsigned char*, SLONG);
         char* ReadLine(void);
-        void ReadTrap(SLONG);
-        void WriteTrap(SLONG);
+        void ReadTrap(SLONG) const;
+        void WriteTrap(SLONG) const;
         void SetPasswort(char*);
-        void SetPosition(SLONG);
+        void SetPosition(SLONG) const;
         void Skip(SLONG);
         void Write(unsigned char*, SLONG);
         void WriteLine(char*);

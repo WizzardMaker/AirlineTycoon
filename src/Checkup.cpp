@@ -105,8 +105,9 @@ bool CRegistryAccess::Open (CString RegistryPath)
 #if USE_JSON
     CString PerfPath = GetPerfPath();
     hKey = json_load_file(PerfPath + "AT.json", 0, NULL);
-    if (!hKey)
+    if (hKey == nullptr) {
         hKey = json_object();
+}
     return IsOpen();
 #else
     if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_CURRENT_USER, RegistryPath, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, &dwDisposition))
@@ -129,7 +130,7 @@ CRegistryAccess::~CRegistryAccess ()
 //--------------------------------------------------------------------------------------------
 void CRegistryAccess::Close (void)
 {
-    if (hKey)
+    if (hKey != nullptr)
     {
 #if USE_JSON
         CString PerfPath = GetPerfPath();
@@ -155,7 +156,8 @@ bool CRegistryAccess::IsOpen (void)
 //--------------------------------------------------------------------------------------------
 bool CRegistryAccess::WriteRegistryKeyEx (const char *Text, CString EntryName)
 {
-    if (!hKey) return (0);
+    if (hKey == nullptr) { return (0) != 0;
+}
 
 #if USE_JSON
     return (json_object_set_new(hKey, EntryName, json_string(Text)) > 0);
@@ -165,7 +167,8 @@ bool CRegistryAccess::WriteRegistryKeyEx (const char *Text, CString EntryName)
 }
 bool CRegistryAccess::WriteRegistryKeyEx_b (const BOOL *Bool, CString EntryName)
 {
-    if (!hKey) return (0);
+    if (hKey == nullptr) { return (0) != 0;
+}
 
 #if USE_JSON
     return (json_object_set_new(hKey, EntryName, json_boolean(*Bool)) > 0);
@@ -182,7 +185,8 @@ bool CRegistryAccess::WriteRegistryKeyEx_b (const BOOL *Bool, CString EntryName)
 }
 bool CRegistryAccess::WriteRegistryKeyEx_l (const SLONG *Long, CString EntryName)
 {
-    if (!hKey) return (0);
+    if (hKey == nullptr) { return (0) != 0;
+}
 
 #if USE_JSON
     return (json_object_set_new(hKey, EntryName, json_integer(*Long)) > 0);
@@ -199,7 +203,8 @@ bool CRegistryAccess::WriteRegistryKeyEx_l (const SLONG *Long, CString EntryName
 }
 bool CRegistryAccess::WriteRegistryKeyEx_d (const double *Double, CString EntryName)
 {
-    if (!hKey) return (0);
+    if (hKey == nullptr) { return (0) != 0;
+}
 
 #if USE_JSON
     return (json_object_set_new(hKey, EntryName, json_real(*Double)) > 0);
@@ -220,12 +225,14 @@ bool CRegistryAccess::WriteRegistryKeyEx_d (const double *Double, CString EntryN
 //--------------------------------------------------------------------------------------------
 bool CRegistryAccess::ReadRegistryKeyEx (char *Text, CString EntryName)
 {
-    if (!hKey) return (0);
+    if (hKey == nullptr) { return (0) != 0;
+}
 
 #if USE_JSON
     json_t* Entry = json_object_get(hKey, EntryName);
-    if (!Entry || !json_is_string(Entry))
+    if ((Entry == nullptr) || !json_is_string(Entry)) {
         return false;
+}
     return (snprintf(Text, json_string_length(Entry)+1, "%s", json_string_value(Entry)) >= 0);
 #else
     unsigned long TempSize=500;
@@ -235,12 +242,14 @@ bool CRegistryAccess::ReadRegistryKeyEx (char *Text, CString EntryName)
 }
 bool CRegistryAccess::ReadRegistryKeyEx_b (BOOL *Bool, CString EntryName)
 {
-    if (!hKey) return (0);
+    if (hKey == nullptr) { return (0) != 0;
+}
 
 #if USE_JSON
     json_t* Entry = json_object_get(hKey, EntryName);
-    if (!Entry || !json_is_boolean(Entry))
+    if ((Entry == nullptr) || !json_is_boolean(Entry)) {
         return false;
+}
 
     *Bool = json_boolean_value(Entry);
     return true;
@@ -256,12 +265,14 @@ bool CRegistryAccess::ReadRegistryKeyEx_b (BOOL *Bool, CString EntryName)
 }
 bool CRegistryAccess::ReadRegistryKeyEx_l (SLONG *Long, CString EntryName)
 {
-    if (!hKey) return (0);
+    if (hKey == nullptr) { return (0) != 0;
+}
 
 #if USE_JSON
     json_t* Entry = json_object_get(hKey, EntryName);
-    if (!Entry || !json_is_integer(Entry))
+    if ((Entry == nullptr) || !json_is_integer(Entry)) {
         return false;
+}
 
     *Long = json_integer_value(Entry);
     return true;
@@ -277,12 +288,14 @@ bool CRegistryAccess::ReadRegistryKeyEx_l (SLONG *Long, CString EntryName)
 }
 bool CRegistryAccess::ReadRegistryKeyEx_d (double *Double, CString EntryName)
 {
-    if (!hKey) return (0);
+    if (hKey == nullptr) { return (0) != 0;
+}
 
 #if USE_JSON
     json_t* Entry = json_object_get(hKey, EntryName);
-    if (!Entry || !json_is_real(Entry))
+    if ((Entry == nullptr) || !json_is_real(Entry)) {
         return false;
+}
 
     *Double = json_real_value(Entry);
     return true;

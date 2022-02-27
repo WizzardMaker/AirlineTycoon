@@ -23,13 +23,13 @@ class GameFrame
     public:
         void Invalidate (void);
         void UpdateWindow ();
-        void UpdateFrameSize();
-        void RePostMessage (CPoint point);
+        void UpdateFrameSize() const;
+        void RePostMessage (CPoint Pos) const;
         void RePostClick (SLONG PlayerNum, UINT message, WPARAM wParam, LPARAM lParam);
-        void PrepareFade (void);
-        bool Pause(bool fPause);	// AG
-        void TranslatePointToGameSpace(CPoint* p);
-        void TranslatePointToScreenSpace(int &x, int &y);
+        static void PrepareFade (void);
+        static bool Pause(bool fPause);	// AG
+        void TranslatePointToGameSpace(CPoint* p) const;
+        void TranslatePointToScreenSpace(int &x, int &y) const;
 
         // Overrides
         // ClassWizard generated virtual function overrides

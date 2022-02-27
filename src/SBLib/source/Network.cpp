@@ -361,7 +361,7 @@ SBList<SBNetworkPlayer>* SBNetwork::GetAllPlayers()
 
 #ifdef RAKNET_NETWORK
 
-SBNetwork::SBNetwork(bool)
+SBNetwork::SBNetwork(bool /*unused*/)
     : mState(SBNETWORK_IDLE)
       , mType(){
 
@@ -381,11 +381,11 @@ SLONG SBNetwork::GetMessageCount() {
     return mNetwork->GetMessageCount();
 }
 
-bool SBNetwork::Connect(SBStr) {
+bool SBNetwork::Connect(SBStr /*unused*/) {
     return false; //No longer used..
 }
 
-bool SBNetwork::Connect(SBStr, const char* ip) {
+bool SBNetwork::Connect(SBStr /*unused*/, const char* ip) {
     return mNetwork->Connect(ip);
 }
 

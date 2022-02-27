@@ -44,14 +44,16 @@ CAbend::CAbend(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, CStr
 
     Sim.Players.Players[(SLONG)PlayerNum].WalkStop ();
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (0);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (0);
+}
 
-    if (Sim.Options.OptionEffekte && Sim.Time<=17*60000)
+    if ((Sim.Options.OptionEffekte != 0) && Sim.Time<=17*60000)
     {
-        if (rand()%3==0) StartupFX.ReInit("birds.raw");
+        if (rand()%3==0) { StartupFX.ReInit("birds.raw");
+}
         StartupFX.Play(0, Sim.Options.OptionEffekte*100/7);
     }
-    else if (Sim.Options.OptionEffekte && rand()%3==0)
+    else if ((Sim.Options.OptionEffekte != 0) && rand()%3==0)
     {
         StartupFX.Stop();
         StartupFX.ReInit("hupe.raw");
@@ -70,17 +72,20 @@ CAbend::CAbend(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, CStr
 
     for (SLONG c=0; c<4; c++)
     {
-        Sim.Players.Players[c].bReadyForBriefing = false;
-        Sim.Players.Players[c].IsStuck           = false;
-        if (CheatTestGame==0) Sim.Players.Players[c].GameSpeed = 0;
+        Sim.Players.Players[c].bReadyForBriefing = 0;
+        Sim.Players.Players[c].IsStuck           = 0;
+        if (CheatTestGame==0) { Sim.Players.Players[c].GameSpeed = 0;
+}
 
-        if (Sim.Players.GetAnzRobotPlayers()==0)
-            Sim.Players.Players[c].bReadyForMorning  = false; //Keine Synchronisierung durch Robots
-        else
-            Sim.Players.Players[c].bReadyForMorning  = true;  //Synchronisierung durch Robots; wird um 18 Uhr auf false gesetzt
+        if (Sim.Players.GetAnzRobotPlayers()==0) {
+            Sim.Players.Players[c].bReadyForMorning  = 0; //Keine Synchronisierung durch Robots
+        } else {
+            Sim.Players.Players[c].bReadyForMorning  = 1;  //Synchronisierung durch Robots; wird um 18 Uhr auf false gesetzt
+}
 
-        if (Sim.Players.Players[c].WaitWorkTill==0)
+        if (Sim.Players.Players[c].WaitWorkTill==0) {
             Sim.Players.Players[c].WaitWorkTill=-1;
+}
     }
 
     StartSeason = Sim.GetSeason();
@@ -165,10 +170,11 @@ void CAbend::OnPaint()
     {
         LastHour=Sim.GetHour();
 
-        if (Sim.Options.OptionEffekte && rand()%5==0)
+        if ((Sim.Options.OptionEffekte != 0) && rand()%5==0)
         {
             dword status=0;
-            if (StartupFX.pFX) StartupFX.pFX->GetStatus (&status);
+            if (StartupFX.pFX != nullptr) { StartupFX.pFX->GetStatus (&status);
+}
             if ((status & DSBSTATUS_PLAYING)==0)
             {
                 if (rand()%3!=0)
@@ -214,10 +220,11 @@ void CAbend::OnPaint()
                 }
             }
         }
-        else if (Sim.Options.OptionEffekte && rand()%3==0 && LastHour==6)
+        else if ((Sim.Options.OptionEffekte != 0) && rand()%3==0 && LastHour==6)
         {
             dword status=0;
-            if (StartupFX.pFX) StartupFX.pFX->GetStatus (&status);
+            if (StartupFX.pFX != nullptr) { StartupFX.pFX->GetStatus (&status);
+}
             if ((status & DSBSTATUS_PLAYING)==0)
             {
                 StartupFX.ReInit("hahn.raw");
@@ -230,11 +237,11 @@ void CAbend::OnPaint()
     CStdRaum::OnPaint ();
 
     PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,440));
-    if (Sim.GetHour()>7 && Sim.GetHour()<20)
+    if (Sim.GetHour()>7 && Sim.GetHour()<20) {
         PrimaryBm.BlitFrom (AirportBm, 0, 0);
-    else if (Sim.GetHour()<5 || Sim.GetHour()>22)
+    } else if (Sim.GetHour()<5 || Sim.GetHour()>22) {
         PrimaryBm.BlitFrom (NightBm, 0, 0);
-    else if (Sim.GetHour()>=5 && Sim.GetHour()<=7)
+    } else if (Sim.GetHour()>=5 && Sim.GetHour()<=7)
     {
         SLONG Level=((Sim.GetHour()-5)*60+Sim.GetMinute())*8/180;
         ColorFX.ApplyOn2 (Level, AirportBm.pBitmap, 8-Level, NightBm.pBitmap, &PrimaryBm.PrimaryBm);
@@ -279,10 +286,12 @@ void CAbend::OnLButtonDown(UINT nFlags, CPoint point)
     DefaultOnLButtonDown ();
 
     //Außerhalb geklickt? Dann Default-Handler!
-    if (point.x<WinP1.x || point.y<WinP1.y || point.x>WinP2.x || point.y>WinP2.y)
+    if (point.x<WinP1.x || point.y<WinP1.y || point.x>WinP2.x || point.y>WinP2.y) {
         return;
+}
 
-    if (Room==1) Ticker=59;
+    if (Room==1) { Ticker=59;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -296,7 +305,8 @@ void CAbend::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
         Sim.DayState=4; //Sequenz beenden
     }
 
-    if (nChar == VK_SPACE && Room==1) Ticker=59;
+    if (nChar == VK_SPACE && Room==1) { Ticker=59;
+}
 
     CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
 }

@@ -26,7 +26,7 @@ namespace RakNet {
             bool HasProfanity(const char *str);
 
             // Removes profanity. Returns number of occurrences of profanity matches (including 0)
-            int FilterProfanity(const char *str, char *output, bool filter = true);
+            int FilterProfanity(const char *input, char *output, bool filter = true);
 
             // Number of profanity words loaded
             int Count();
@@ -35,7 +35,7 @@ namespace RakNet {
         private:
             DataStructures::List<RakNet::RakString> words;
 
-            char RandomBanChar();
+            static char RandomBanChar();
 
             static char BANCHARS[];
             static char WORDCHARS[];

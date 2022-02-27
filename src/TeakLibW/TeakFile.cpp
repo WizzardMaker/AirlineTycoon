@@ -31,67 +31,75 @@ TEAKFILE::~TEAKFILE()
 void TEAKFILE::ReadLine(char* buffer, SLONG size)
 {
     int i;
-    for (i = 0; i < size && !IsEof(); i++)
+    for (i = 0; i < size && (IsEof() == 0); i++)
     {
         char c = SDL_ReadU8(Ctx);
 
-        if (c == '\r')
+        if (c == '\r') {
             continue;
+}
 
-        if (c == '\n')
+        if (c == '\n') {
             break;
+}
 
         buffer[i] = c;
     }
 
-    if (i < size)
+    if (i < size) {
         buffer[i] = '\0';
 }
+}
 
-int TEAKFILE::IsEof() { return SDL_RWtell(Ctx) >= SDL_RWsize(Ctx); }
+int TEAKFILE::IsEof() const { return static_cast<int>(SDL_RWtell(Ctx) >= SDL_RWsize(Ctx)); }
 
 void TEAKFILE::Close()
 {
-    if (Ctx)
+    if (Ctx != nullptr) {
         SDL_RWclose(Ctx);
+}
     Ctx = NULL;
-    if (Path)
+    if (Path != nullptr) {
         SDL_free(Path);
+}
     Path = NULL;
 }
 
-SLONG TEAKFILE::GetFileLength(void) { return (SLONG)SDL_RWsize(Ctx); }
+SLONG TEAKFILE::GetFileLength(void) const { return (SLONG)SDL_RWsize(Ctx); }
 
-SLONG TEAKFILE::GetPosition(void) { return (SLONG)SDL_RWtell(Ctx); }
+SLONG TEAKFILE::GetPosition(void) const { return (SLONG)SDL_RWtell(Ctx); }
 
 void TEAKFILE::Open(char const* path, SLONG mode)
 {
     Ctx = SDL_RWFromFile(path, mode == TEAKFILE_WRITE ? "wb" : "rb");
-    if (!Ctx)
+    if (Ctx == nullptr) {
         TeakLibW_Exception(0, 0, ExcOpen, Path);
+}
 
     Path = SDL_strdup(path);
 
 }
 
-int TEAKFILE::IsOpen() { return Ctx != NULL; }
+int TEAKFILE::IsOpen() const { return static_cast<int>(Ctx != NULL); }
 
 void TEAKFILE::Read(unsigned char* buffer, SLONG size)
 {
     if (MemBuffer.AnzEntries() > 0)
     {
         SLONG anz;
-        if ( size >= MemBufferUsed - MemPointer )
+        if ( size >= MemBufferUsed - MemPointer ) {
             anz = MemBufferUsed - MemPointer;
-        else
+        } else {
             anz = size;
+}
         memcpy(buffer, MemPointer + MemBuffer, anz);
         MemPointer += size;
     }
     else
     {
-        if (SDL_RWread(Ctx, buffer, 1, size) != size)
+        if (SDL_RWread(Ctx, buffer, 1, size) != size) {
             TeakLibW_Exception(0, 0, ExcRead, Path);
+}
     }
 }
 
@@ -110,26 +118,29 @@ void TEAKFILE::Write(unsigned char* buffer, SLONG size)
     }
     else
     {
-        if (SDL_RWwrite(Ctx, buffer, 1, size) != size)
+        if (SDL_RWwrite(Ctx, buffer, 1, size) != size) {
             TeakLibW_Exception(0, 0, ExcWrite, Path);
+}
     }
 }
 
-void TEAKFILE::ReadTrap(SLONG trap)
+void TEAKFILE::ReadTrap(SLONG trap) const
 {
-    if (SDL_ReadLE32(Ctx) != trap)
+    if (SDL_ReadLE32(Ctx) != trap) {
         DebugBreak();
 }
+}
 
-void TEAKFILE::WriteTrap(SLONG trap)
+void TEAKFILE::WriteTrap(SLONG trap) const
 {
     SDL_WriteLE32(Ctx, trap);
 }
 
-void TEAKFILE::SetPosition(SLONG pos)
+void TEAKFILE::SetPosition(SLONG pos) const
 {
-    if (SDL_RWseek(Ctx, pos, RW_SEEK_SET) < 0)
+    if (SDL_RWseek(Ctx, pos, RW_SEEK_SET) < 0) {
         TeakLibW_Exception(0, 0, ExcSeek, Path, pos);
+}
 }
 
 void TEAKFILE::Announce(SLONG size)
@@ -149,18 +160,20 @@ CRLEReader::CRLEReader(const char* path)
       , Path(path)
 {
     Ctx = SDL_RWFromFile(path, "rb");
-    if (Ctx)
+    if (Ctx != nullptr)
     {
         char str[6];
         SDL_RWread(Ctx, str, sizeof(str), 1);
-        if (!strcmp(str, "xtRLE"))
+        if (strcmp(str, "xtRLE") == 0)
         {
             IsRLE = true;
             int version = SDL_ReadLE32(Ctx);
-            if (version >= 0x102)
+            if (version >= 0x102) {
                 Key = 0xA5;
-            if (version >= 0x101)
+}
+            if (version >= 0x101) {
                 Size = SDL_ReadLE32(Ctx);
+}
         }
         else
         {
@@ -177,16 +190,18 @@ CRLEReader::~CRLEReader()
 
 bool CRLEReader::Close()
 {
-    if (!Ctx)
+    if (Ctx == nullptr) {
         return false;
+}
     return SDL_RWclose(Ctx) == 0;
 }
 
 void CRLEReader::SaveAsPlainText()
 {
     printf("FOO\n");
-    if (!Ctx)
+    if (Ctx == nullptr) {
         return;
+}
 
     BUFFER<BYTE> buffer(GetSize());
     if (Read(buffer, buffer.AnzEntries(), true))
@@ -212,43 +227,50 @@ bool CRLEReader::Buffer(void* buffer, SLONG size)
 
 bool CRLEReader::NextSeq()
 {
-    if (!Buffer(&SeqLength, 1))
+    if (!Buffer(&SeqLength, 1)) {
         return false;
+}
 
-    if (SeqLength & 0x80)
+    if ((SeqLength & 0x80) != 0)
     {
-        SeqLength &= 0x7Fu;
+        SeqLength &= 0x7FU;
         SeqUsed = 0;
         IsSeq = true;
-        if (!Buffer(Sequence, SeqLength))
+        if (!Buffer(Sequence, SeqLength)) {
             return false;
-        for (int i = 0; i < SeqLength; i++)
+}
+        for (int i = 0; i < SeqLength; i++) {
             Sequence[i] ^= Key;
+}
     }
     else
     {
         IsSeq = false;
-        if (!Buffer(Sequence, 1))
+        if (!Buffer(Sequence, 1)) {
             return false;
+}
     }
     return true;
 }
 
 bool CRLEReader::Read(BYTE* buffer, SLONG size, bool decode)
 {
-    if (!decode || !IsRLE)
+    if (!decode || !IsRLE) {
         return Buffer(buffer, size);
+}
 
     for (SLONG i = 0; i < size; i++)
     {
-        if (!SeqLength && !NextSeq())
+        if ((SeqLength == 0) && !NextSeq()) {
             return false;
+}
 
         if (IsSeq)
         {
             buffer[i] = Sequence[SeqUsed++];
-            if (SeqUsed == SeqLength)
+            if (SeqUsed == SeqLength) {
                 SeqLength = 0;
+}
         }
         else
         {
@@ -262,15 +284,15 @@ bool CRLEReader::Read(BYTE* buffer, SLONG size, bool decode)
 int DoesFileExist(char const* path)
 {
     SDL_RWops *ctx = SDL_RWFromFile(path, "rb");
-    if (ctx)
+    if (ctx != nullptr)
     {
         SDL_RWclose(ctx);
-        return true;
+        return 1;
     }
 #ifdef _DEBUG
     printf("MP: TeakFile.cpp: File not found: %s\n", path);
 #endif
-    return false;
+    return 0;
 }
 
 BUFFER<BYTE>* LoadCompleteFile(char const* path)

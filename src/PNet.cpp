@@ -11,19 +11,21 @@ extern bool bgIsLoadingSavegame;
 //--------------------------------------------------------------------------------------------
 SLONG PLAYER::NetSynchronizeGetNum (void)
 {
-    if (Sim.bIsHost)
+    if (Sim.bIsHost != 0)
     {
-        SLONG c, n;
+        SLONG c;
+        SLONG n;
 
         n=1;
-        for (c=0; c<4; c++)
-            if (Sim.Players.Players[c].Owner==1 && !Sim.Players.Players[c].IsOut)
+        for (c=0; c<4; c++) {
+            if (Sim.Players.Players[c].Owner==1 && (Sim.Players.Players[c].IsOut == 0)) {
                 n++;
+}
+}
 
         return (n);
     }
-    else
-        return (1);
+            return (1);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -43,20 +45,23 @@ void PLAYER::NetSynchronizeImage (void)
     {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
-        if (qPlayer.Owner==0 || (Sim.bIsHost && qPlayer.Owner==1 && !qPlayer.IsOut))
+        if (qPlayer.Owner==0 || ((Sim.bIsHost != 0) && qPlayer.Owner==1 && (qPlayer.IsOut == 0)))
         {
             SLONG d;
 
             Message << c << qPlayer.Image << qPlayer.ImageGotWorse;
 
-            for (d=0; d<4; d++) Message << qPlayer.Sympathie[d];
+            for (d=0; d<4; d++) { Message << qPlayer.Sympathie[d];
+}
 
-            for (d=Routen.AnzEntries()-1; d>=0; d--) Message << qPlayer.RentRouten.RentRouten[d].Image;
-            for (d=Cities.AnzEntries()-1; d>=0; d--) Message << qPlayer.RentCities.RentCities[d].Image;
+            for (d=Routen.AnzEntries()-1; d>=0; d--) { Message << qPlayer.RentRouten.RentRouten[d].Image;
+}
+            for (d=Cities.AnzEntries()-1; d>=0; d--) { Message << qPlayer.RentCities.RentCities[d].Image;
+}
         }
     }
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -76,7 +81,7 @@ void PLAYER::NetSynchronizeMoney (void)
     {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
-        if (qPlayer.Owner==0 || (Sim.bIsHost && qPlayer.Owner==1 && !qPlayer.IsOut))
+        if (qPlayer.Owner==0 || ((Sim.bIsHost != 0) && qPlayer.Owner==1 && (qPlayer.IsOut == 0)))
         {
             SLONG d;
 
@@ -86,12 +91,14 @@ void PLAYER::NetSynchronizeMoney (void)
                 << qPlayer.AnzAktien << qPlayer.MaxAktien << qPlayer.TrustedDividende
                 << qPlayer.Dividende;
 
-            for (d=0; d<4;  d++) Message << qPlayer.OwnsAktien[d] << qPlayer.AktienWert[d];
-            for (d=0; d<10; d++) Message << qPlayer.Kurse[d];
+            for (d=0; d<4;  d++) { Message << qPlayer.OwnsAktien[d] << qPlayer.AktienWert[d];
+}
+            for (d=0; d<10; d++) { Message << qPlayer.Kurse[d];
+}
         }
     }
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -111,7 +118,7 @@ void PLAYER::NetSynchronizeRoutes (void)
     {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
-        if (qPlayer.Owner==0 || (Sim.bIsHost && qPlayer.Owner==1 && !qPlayer.IsOut))
+        if (qPlayer.Owner==0 || ((Sim.bIsHost != 0) && qPlayer.Owner==1 && (qPlayer.IsOut == 0)))
         {
             Message << c;
 
@@ -125,16 +132,16 @@ void PLAYER::NetSynchronizeRoutes (void)
         }
     }
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 
 //--------------------------------------------------------------------------------------------
 // Läßt einen Spieler die Ticketpreis verändern:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetRouteUpdateTicketpreise (SLONG RouteId, SLONG Ticketpreis, SLONG TicketpreisFC)
+void PLAYER::NetRouteUpdateTicketpreise (SLONG RouteId, SLONG Ticketpreis, SLONG TicketpreisFC) const
 {
-    Sim.SendSimpleMessage (ATNET_SYNCROUTECHANGE, 0, PlayerNum, RouteId, Ticketpreis, TicketpreisFC);
+    SIM::SendSimpleMessage (ATNET_SYNCROUTECHANGE, 0, PlayerNum, RouteId, Ticketpreis, TicketpreisFC);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -154,7 +161,7 @@ void PLAYER::NetSynchronizeFlags (void)
     {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
-        if (qPlayer.Owner==0 || (Sim.bIsHost && qPlayer.Owner==1 && !qPlayer.IsOut))
+        if (qPlayer.Owner==0 || ((Sim.bIsHost != 0) && qPlayer.Owner==1 && (qPlayer.IsOut == 0)))
         {
             Message << c;
 
@@ -167,7 +174,7 @@ void PLAYER::NetSynchronizeFlags (void)
         }
     }
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -187,16 +194,17 @@ void PLAYER::NetSynchronizeItems (void)
     {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
-        if (qPlayer.Owner==0 || (Sim.bIsHost && qPlayer.Owner==1 && !qPlayer.IsOut))
+        if (qPlayer.Owner==0 || ((Sim.bIsHost != 0) && qPlayer.Owner==1 && (qPlayer.IsOut == 0)))
         {
             Message << c;
 
-            for (SLONG d=0; d<6; d++)
+            for (SLONG d=0; d<6; d++) {
                 Message << qPlayer.Items[d];
+}
         }
     }
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -204,7 +212,7 @@ void PLAYER::NetSynchronizeItems (void)
 //--------------------------------------------------------------------------------------------
 void PLAYER::NetSynchronizePlanes (void)
 {
-    if (Sim.bIsHost)
+    if (Sim.bIsHost != 0)
     {
         TEAKFILE Message;
         SLONG    c;
@@ -216,8 +224,9 @@ void PLAYER::NetSynchronizePlanes (void)
         {
             PLAYER &qPlayer = Sim.Players.Players[c];
 
-            if (qPlayer.Owner==1 && !qPlayer.IsOut)
+            if (qPlayer.Owner==1 && (qPlayer.IsOut == 0)) {
                 count++;
+}
         }
 
         Message << ATNET_SYNC_PLANES << count;
@@ -227,14 +236,14 @@ void PLAYER::NetSynchronizePlanes (void)
         {
             PLAYER &qPlayer = Sim.Players.Players[c];
 
-            if (qPlayer.Owner==1 && !qPlayer.IsOut)
+            if (qPlayer.Owner==1 && (qPlayer.IsOut == 0))
             {
                 Message << c;
                 Message << qPlayer.Planes << qPlayer.Auftraege << qPlayer.Frachten << qPlayer.RentCities;
             }
         }
 
-        Sim.SendMemFile (Message);
+        SIM::SendMemFile (Message);
     }
 }
 
@@ -253,8 +262,9 @@ void PLAYER::NetSynchronizeMeeting (void)
     {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
-        if (((Sim.bIsHost && qPlayer.Owner==1) || qPlayer.Owner==0) && !qPlayer.IsOut)
+        if ((((Sim.bIsHost != 0) && qPlayer.Owner==1) || qPlayer.Owner==0) && (qPlayer.IsOut == 0)) {
             count++;
+}
     }
 
     Message << ATNET_SYNC_MEETING << count;
@@ -264,7 +274,7 @@ void PLAYER::NetSynchronizeMeeting (void)
     {
         PLAYER &qPlayer = Sim.Players.Players[c];
 
-        if (((Sim.bIsHost && qPlayer.Owner==1) || qPlayer.Owner==0) && !qPlayer.IsOut)
+        if ((((Sim.bIsHost != 0) && qPlayer.Owner==1) || qPlayer.Owner==0) && (qPlayer.IsOut == 0))
         {
             Message << c;
             Message << qPlayer.ArabTrust << qPlayer.ArabMode   << qPlayer.ArabMode2  << qPlayer.ArabMode3 << qPlayer.ArabActive;
@@ -274,18 +284,18 @@ void PLAYER::NetSynchronizeMeeting (void)
     }
 
     Message << Sim.bIsHost;
-    if (Sim.bIsHost)
+    if (Sim.bIsHost != 0)
     {
         Message << Sim.SabotageActs;
     }
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeSabotage (void)
+void PLAYER::NetSynchronizeSabotage (void) const
 {
     TEAKFILE Message;
 
@@ -296,7 +306,7 @@ void PLAYER::NetSynchronizeSabotage (void)
     Message << ArabOpfer  << ArabMode  << ArabActive << ArabPlane
         << ArabOpfer2 << ArabMode2 << ArabOpfer3 << ArabMode3;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -312,7 +322,7 @@ void PLAYER::NetUpdateFlightplan (SLONG PlaneId)
     Message << PlaneId << PlayerNum;
     Message << Planes[PlaneId].Flugplan;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -323,7 +333,7 @@ void PLAYER::NetUpdateFlightplan (SLONG PlaneId)
 // Type: 4 - Ausland, City = CityIndex
 // This function only handle the blackboard in the room; It does not update the player's data
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetUpdateTook (SLONG Type, SLONG Index, SLONG City)
+void PLAYER::NetUpdateTook (SLONG Type, SLONG Index, SLONG City) const
 {
     TEAKFILE Message;
 
@@ -331,13 +341,13 @@ void PLAYER::NetUpdateTook (SLONG Type, SLONG Index, SLONG City)
 
     Message << ATNET_PLAYER_TOOK << PlayerNum << Type << Index << City;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
 //Let's the player take the order on other computers, too:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetUpdateOrder (const CAuftrag &auftrag)
+void PLAYER::NetUpdateOrder (const CAuftrag &auftrag) const
 {
     TEAKFILE Message;
 
@@ -346,13 +356,13 @@ void PLAYER::NetUpdateOrder (const CAuftrag &auftrag)
     Message << ATNET_TAKE_ORDER;
     Message << PlayerNum << auftrag;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
 //Let's the player take the order on other computers, too:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetUpdateFreightOrder (const CFracht &auftrag)
+void PLAYER::NetUpdateFreightOrder (const CFracht &auftrag) const
 {
     TEAKFILE Message;
 
@@ -361,7 +371,7 @@ void PLAYER::NetUpdateFreightOrder (const CFracht &auftrag)
     Message << ATNET_TAKE_FREIGHT;
     Message << PlayerNum << auftrag;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -379,13 +389,13 @@ void PLAYER::NetUpdateRentRoute (SLONG Route1Id, SLONG Route2Id)
     Message << RentRouten.RentRouten[Route1Id];
     Message << RentRouten.RentRouten[Route2Id];
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
 // Updates the Kooperation status:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSynchronizeKooperation (void)
+void PLAYER::NetSynchronizeKooperation (void) const
 {
     TEAKFILE Message;
 
@@ -395,7 +405,7 @@ void PLAYER::NetSynchronizeKooperation (void)
 
     Message << PlayerNum << Kooperation;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -404,9 +414,12 @@ void PLAYER::NetSynchronizeKooperation (void)
 void PLAYER::NetUpdateWorkers (void)
 {
     TEAKFILE Message;
-    SLONG    m, n, c;
+    SLONG    m;
+    SLONG    n;
+    SLONG    c;
 
-    if (bgIsLoadingSavegame) return;
+    if (bgIsLoadingSavegame) { return;
+}
 
     Message.Announce(128);
 
@@ -419,29 +432,33 @@ void PLAYER::NetUpdateWorkers (void)
 
     Message << PlayerNum << m << n;
 
-    for (c=0; c<(SLONG)Planes.AnzEntries(); c++)
-        if (Planes.IsInAlbum(c))
+    for (c=0; c<(SLONG)Planes.AnzEntries(); c++) {
+        if (Planes.IsInAlbum(c) != 0)
         {
             Message << c;
             Message << Planes[c].AnzPiloten;
             Message << Planes[c].AnzBegleiter;
             Message << Planes[c].PersonalQuality;
         }
+}
 
     c=-1;
     Message << c;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 
     if (Owner==0)
     {
-        SLONG c, d;
+        SLONG c;
+        SLONG d;
 
-        for (c=d=0; c<Workers.Workers.AnzEntries(); c++)
-            if (Workers.Workers[c].Employer==PlayerNum) d+=Workers.Workers[c].Gehalt;
+        for (c=d=0; c<Workers.Workers.AnzEntries(); c++) {
+            if (Workers.Workers[c].Employer==PlayerNum) { d+=Workers.Workers[c].Gehalt;
+}
+}
         Statistiken[STAT_GEHALT].SetAtPastDay (0, -d);
 
-        Sim.SendSimpleMessage (ATNET_SYNCGEHALT, 0, Sim.localPlayer, d);
+        SIM::SendSimpleMessage (ATNET_SYNCGEHALT, 0, Sim.localPlayer, d);
     }
 }
 
@@ -458,7 +475,7 @@ void PLAYER::NetSave (DWORD UniqueGameId, SLONG CursorY, CString Name)
 
     Message << UniqueGameId << CursorY << Name;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -470,7 +487,8 @@ void PLAYER::NetUpdatePlaneProps (SLONG PlaneId)
 
     Message.Announce(128);
 
-    if (bgIsLoadingSavegame) return;
+    if (bgIsLoadingSavegame) { return;
+}
 
     Message << ATNET_PLANEPROPS;
 
@@ -494,13 +512,13 @@ void PLAYER::NetUpdatePlaneProps (SLONG PlaneId)
         Message << qPlane.AnzBegleiter << qPlane.MaxBegleiter;
     }
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
 // Broadcasts a players kerosine state:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetUpdateKerosin (void)
+void PLAYER::NetUpdateKerosin (void) const
 {
     TEAKFILE Message;
 
@@ -509,14 +527,14 @@ void PLAYER::NetUpdateKerosin (void)
     Message << ATNET_SYNCKEROSIN;
     Message << PlayerNum << Tank << TankOpen << TankInhalt << BadKerosin << KerosinKind << TankPreis;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 
 //--------------------------------------------------------------------------------------------
 // Broadcasts a xplane buy:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetBuyXPlane (long Anzahl, CXPlane &plane)
+void PLAYER::NetBuyXPlane (long Anzahl, CXPlane &plane) const
 {
     TEAKFILE Message;
 
@@ -525,5 +543,5 @@ void PLAYER::NetBuyXPlane (long Anzahl, CXPlane &plane)
     Message << ATNET_BUY_NEWX;
     Message << PlayerNum << Anzahl << plane;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }

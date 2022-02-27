@@ -168,14 +168,14 @@ class CStdRaum
         void  RepaintText (BOOL RefreshAll);
         void  PostPaint (void);
         void  CheckHighlight (CPoint point);
-        void  SetTip (SBBM *TipOrigin, void *TipOrigin2, BOOL ForceRedraw, XY Pos, SLONG TipType, SLONG TipId, SLONG TipPar1=0, SLONG TipPar2=0);
+        void  SetTip (SBBM *pBitmapSource, void *pBitmapSource2, BOOL ForceRedraw, XY Pos, SLONG TipType, SLONG TipId, SLONG TipPar1=0, SLONG TipPar2=0);
         void  AnnouceTipDataUpdate (SLONG TipType);
         void  RepaintTip (void);
-        BOOL  ConvertMousePosition (const XY &WindowsBased, XY *RoomBased);
+        BOOL  ConvertMousePosition (const XY &WindowsBased, XY *RoomBased) const;
 
         //Nicht-allgemeine Dialog-Operationen:
         void  StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1=-1, SLONG DialogPar2=-1, SLONG DialogPar3=-1);
-        BOOL  IsDialogOpen (void);
+        BOOL  IsDialogOpen (void) const;
         void  MakeSayWindow (BOOL TextAlign, ULONG SubId, const CString &String, SB_CFont *Normal);
         void  MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubId, SB_CFont *Normal, ...);
         void  MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVon, ULONG SubIdBis, SLONG ParameterIndiziert, SB_CFont *Normal, SB_CFont *Highlight, ...);
@@ -186,13 +186,13 @@ class CStdRaum
 
         //Menü-Operationen:
     public:
-        bool  MenuIsPlain (void);
+        bool  MenuIsPlain (void) const;
         void  MenuStart (SLONG MenuType, SLONG MenuPar1=0, SLONG MenuPar2=0, SLONG MenuPar3=0);
         void  MenuStop (void);
         void  MenuLeftClick (XY Pos);
         void  MenuRightClick (XY Pos);
         void  MenuRepaint (void);
-        BOOL  MenuIsOpen (void);
+        BOOL  MenuIsOpen (void) const;
         void  MenuSetZoomStuff (const XY &MenuStartPos, double MinimumZoom, BOOL ZoomFromAirport, SLONG ZoomSpeed=25);
         void  MenuPostPaint (void);
         void  CalcOpen (XY Position, SLONG Value=0);

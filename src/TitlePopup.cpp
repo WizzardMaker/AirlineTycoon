@@ -32,6 +32,6 @@ void TitlePopup::OnPaint()
 {
 }
 
-void TitlePopup::OnLButtonDown(UINT, CPoint)
+void TitlePopup::OnLButtonDown(UINT /*nFlags*/, CPoint /*point*/)
 {
 }

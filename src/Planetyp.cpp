@@ -54,9 +54,10 @@ void CPlaneTypes::ReInit (const CString &TabFilename)
 
     PlaneTypes.ReSize (MAX_PLANETYPES);
 
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData, FileP, Line, 800);
 
         //if (!Tab.ReadString (Line, 800)) break;
@@ -66,7 +67,8 @@ void CPlaneTypes::ReInit (const CString &TabFilename)
         Id=atol (strtok (Line, ";\x8\""))+0x10000000;
 
         //Hinzufügen (darf noch nicht existieren):
-        if (IsInAlbum (Id)) TeakLibW_Exception (FNL, ExcNever);
+        if (IsInAlbum (Id) != 0) { TeakLibW_Exception (FNL, ExcNever);
+}
         (*this)+=Id;
 
         //SpeedUp durch direkten Zugriff:
@@ -102,23 +104,32 @@ void CPlaneTypes::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 ULONG CPlaneTypes::GetRandomExistingType (TEAKRAND *pRand)
 {
-    SLONG c, Anz, rnd;
+    SLONG c;
+    SLONG Anz;
+    SLONG rnd;
 
-    for (c=Anz=0; c<(SLONG)AnzEntries(); c++)
-        if (IsInAlbum (c))
-            if ((*this)[c].FirstMissions<Sim.Difficulty || (((*this)[c].FirstMissions==Sim.Difficulty || Sim.Difficulty==-1) && (*this)[c].FirstDay<=Sim.Date))
+    for (c=Anz=0; c<(SLONG)AnzEntries(); c++) {
+        if (IsInAlbum (c) != 0) {
+            if ((*this)[c].FirstMissions<Sim.Difficulty || (((*this)[c].FirstMissions==Sim.Difficulty || Sim.Difficulty==-1) && (*this)[c].FirstDay<=Sim.Date)) {
                 Anz++;
+}
+}
+}
 
-    if (pRand) rnd = pRand->Rand(Anz) + 1;
-    else rnd = rand() % Anz + 1;
+    if (pRand != nullptr) { rnd = pRand->Rand(Anz) + 1;
+    } else { rnd = rand() % Anz + 1;
+}
 
-    for (c=0; c<(SLONG)AnzEntries(); c++)
-        if (IsInAlbum (c))
+    for (c=0; c<(SLONG)AnzEntries(); c++) {
+        if (IsInAlbum (c) != 0) {
             if ((*this)[c].FirstMissions<Sim.Difficulty || (((*this)[c].FirstMissions==Sim.Difficulty || Sim.Difficulty==-1) && (*this)[c].FirstDay<=Sim.Date))
             {
                 rnd--;
-                if (!rnd) return (GetIdFromIndex(c));
+                if (rnd == 0) { return (GetIdFromIndex(c));
+}
             }
+}
+}
 
     TeakLibW_Exception (FNL, ExcNever);
     return (0);
@@ -140,7 +151,8 @@ void CPlaneTypes::BlitPlaneAt (SBPRIMARYBM &TargetBm, SLONG PlaneType, SLONG Siz
         case 2:
             {
                 //Breite für's zentrieren berechnen:
-                SLONG c, x=-(gUniversalPlaneBms[9+OwningPlayer*5+0].Size.x+gUniversalPlaneBms[9+OwningPlayer*5+2].Size.x+gUniversalPlaneBms[9+OwningPlayer*5+1].Size.x*((*this)[PlaneType].Passagiere/60))/2;
+                SLONG c;
+                SLONG x=-(gUniversalPlaneBms[9+OwningPlayer*5+0].Size.x+gUniversalPlaneBms[9+OwningPlayer*5+2].Size.x+gUniversalPlaneBms[9+OwningPlayer*5+1].Size.x*((*this)[PlaneType].Passagiere/60))/2;
 
                 //Bug blitten:
                 TargetBm.BlitFromT (gUniversalPlaneBms[9+               0], Pos.x+x, Pos.y-gUniversalPlaneBms[9+0].Size.y);
@@ -275,12 +287,13 @@ void CPlane::RepairReferences (void)
 //--------------------------------------------------------------------------------------------
 //Berechnet den Marktwert des Flugzeuges:
 //--------------------------------------------------------------------------------------------
-SLONG CPlane::CalculatePrice (void)
+SLONG CPlane::CalculatePrice (void) const
 {
     //SLONG rc = SLONG(__int64(PlaneTypes[TypeId].Preis) * Zustand/10000 * Zustand * (Baujahr-1900) / 120);
     SLONG rc = SLONG(__int64(ptPreis) * Zustand/10000 * Zustand * (Baujahr-1900) / 120);
 
-    if (Sponsored) rc/=10;
+    if (Sponsored != 0) { rc/=10;
+}
 
     return (rc);
 }
@@ -296,25 +309,29 @@ void CPlane::DoOneStep (SLONG PlayerNum)
         case -1:
             SkipPlaneCalculation=0;
             AirportPos.x+=6;
-            if (AirportPos.y<22+18) AirportPos.y++;
+            if (AirportPos.y<22+18) { AirportPos.y++;
+}
 
             if (AirportPos.y==21+18)
             {
                 //Durchsage:
-                if (Cities[GetFlugplanEintrag()->VonCity].Name!="-" && !VoiceScheduler.IsVoicePlaying() &&
-                        !Sim.CallItADay && Sim.Time>=9*60000 && Sim.Time<=18*60000 && GetFlugplanEintrag()->ObjectType!=3 && GetFlugplanEintrag()->ObjectType!=4)
+                if (Cities[GetFlugplanEintrag()->VonCity].Name!="-" && (VoiceScheduler.IsVoicePlaying() == 0) &&
+                        (Sim.CallItADay == 0) && Sim.Time>=9*60000 && Sim.Time<=18*60000 && GetFlugplanEintrag()->ObjectType!=3 && GetFlugplanEintrag()->ObjectType!=4)
                 {
                     BOOL Ignore=FALSE;
 
                     if (PlayerNum!=Sim.localPlayer)
                     {
-                        for (SLONG d=0; d<(SLONG)Sim.Players.Players[Sim.localPlayer].Planes.AnzEntries(); d++)
-                            if (Sim.Players.Players[Sim.localPlayer].Planes.IsInAlbum (d))
-                                if (Sim.Players.Players[Sim.localPlayer].Planes[d].Ort==-1)
+                        for (SLONG d=0; d<(SLONG)Sim.Players.Players[Sim.localPlayer].Planes.AnzEntries(); d++) {
+                            if (Sim.Players.Players[Sim.localPlayer].Planes.IsInAlbum (d) != 0) {
+                                if (Sim.Players.Players[Sim.localPlayer].Planes[d].Ort==-1) {
                                     Ignore=TRUE;
+}
+}
+}
                     }
 
-                    if (!Ignore && Cities[GetFlugplanEintrag()->VonCity].Wave!="-" && Cities[GetFlugplanEintrag()->VonCity].Wave!="")
+                    if ((Ignore == 0) && Cities[GetFlugplanEintrag()->VonCity].Wave!="-" && !Cities[GetFlugplanEintrag()->VonCity].Wave.empty())
                     {
                         VoiceScheduler.AddVoice ((CString)bprintf ("der%liflug", PlayerNum));
                         VoiceScheduler.AddVoice (Cities[GetFlugplanEintrag()->VonCity].Wave);
@@ -335,22 +352,26 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                         CRentRoute *pRoute  = NULL;
                         PLAYER     &qPlayer = Sim.Players.Players[PlayerNum];
 
-                        if (GetFlugplanEintrag()->ObjectType==1)
+                        if (GetFlugplanEintrag()->ObjectType==1) {
                             pRoute = &qPlayer.RentRouten.RentRouten[(SLONG)Routen(GetFlugplanEintrag()->ObjectId)];
+}
 
-                        for (SLONG c=GetFlugplanEintrag()->Passagiere/CUSTOMERS_PER_PERSON; c>=0; c--)
+                        for (SLONG c=GetFlugplanEintrag()->Passagiere/CUSTOMERS_PER_PERSON; c>=0; c--) {
                             qPlayer.Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay (0, CUSTOMERS_PER_PERSON);
+}
 
                         Ort = Sim.HomeAirportId;
 
-                        if (Flugplan.NextFlight!=-1) qPlayer.Messages.AddMessage (BERATERTYP_GIRL, bprintf(StandardTexte.GetS (TOKEN_ADVICE, 2354), Name.c_str(), (LPCTSTR)Cities[Flugplan.Flug[Flugplan.NextFlight].NachCity].Name));
+                        if (Flugplan.NextFlight!=-1) { qPlayer.Messages.AddMessage (BERATERTYP_GIRL, bprintf(StandardTexte.GetS (TOKEN_ADVICE, 2354), Name.c_str(), (LPCTSTR)Cities[Flugplan.Flug[Flugplan.NextFlight].NachCity].Name));
+}
                         qPlayer.Image-=2;
                         Limit (SLONG(-1000), qPlayer.Image, SLONG(1000));
 
-                        if (pRoute && (qPlayer.Image)%10==0)
+                        if ((pRoute != nullptr) && (qPlayer.Image)%10==0)
                         {
-                            if (pRoute->Image>1) pRoute->Image-=2;
-                            else pRoute->Image=0;
+                            if (pRoute->Image>1) { pRoute->Image-=2;
+                            } else { pRoute->Image=0;
+}
                         }
 
                         CalculateHappyPassengers(PlayerNum);
@@ -365,8 +386,9 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                         Startzeit = 255; //Kein Start
                     }
                 }
-                else //Leerflug ==> nicht mehr anzeigen
+                else { //Leerflug ==> nicht mehr anzeigen
                     Ort = GetFlugplanEintrag()->NachCity;
+}
             }
             break;
 
@@ -374,10 +396,12 @@ void CPlane::DoOneStep (SLONG PlayerNum)
         case -2:
             SkipPlaneCalculation=0;
             AirportPos.x+=7;
-            if (AirportPos.x*2>(Airport.LeftEnd+Airport.RightEnd*3)/4 && (AirportPos.x&1)==0) AirportPos.y--;
+            if (AirportPos.x*2>(Airport.LeftEnd+Airport.RightEnd*3)/4 && (AirportPos.x&1)==0) { AirportPos.y--;
+}
             if (AirportPos.y<-30)
             {
-                if (Flugplan.NextFlight!=-1) Flugplan.Flug[Flugplan.NextFlight].BookFlight (this, PlayerNum);
+                if (Flugplan.NextFlight!=-1) { Flugplan.Flug[Flugplan.NextFlight].BookFlight (this, PlayerNum);
+}
                 Ort = -5;
             }
             break;
@@ -393,16 +417,20 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
                 //Lautstärke für Flugzeuge berechnen:
                 Temp  = 150-abs(AirportPos.x-320-Sim.Players.Players[Sim.localPlayer].ViewPos.x)/4;
-                if (Temp<0) Temp=0;
+                if (Temp<0) { Temp=0;
+}
 
-                if (Temp>200) Temp=200;
+                if (Temp>200) { Temp=200;
+}
 
                 SLONG RangeDrawn=0;
                 for (SLONG c=1; c<Airport.ClipMarkers.AnzEntries(); c++)
                 {
-                    if (Airport.ClipMarkers[c-1].Type==RUNE_CLIPFULL)
-                        if (AirportPos.x>=RangeDrawn && AirportPos.x<=Airport.ClipMarkers[c].Position)
+                    if (Airport.ClipMarkers[c-1].Type==RUNE_CLIPFULL) {
+                        if (AirportPos.x>=RangeDrawn && AirportPos.x<=Airport.ClipMarkers[c].Position) {
                             Temp = Temp * 170 / (170+min (abs (AirportPos.x-RangeDrawn), abs (AirportPos.x-Airport.ClipMarkers[c].Position)));
+}
+}
 
                     RangeDrawn=Airport.ClipMarkers[c].Position;
                 }
@@ -417,7 +445,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                     if (AirportPos.x<=TargetX) //Ist das Flugzeug angekommen?
                     {
                         AirportPos.x=TargetX;
-                        if (PlayerNum==Sim.localPlayer && Sim.Tutorial==1604 && Sim.IsTutorial)
+                        if (PlayerNum==Sim.localPlayer && Sim.Tutorial==1604 && (Sim.IsTutorial != 0))
                         {
                             Sim.Tutorial=1605;
                             Sim.Players.Players[Sim.localPlayer].Messages.NextMessage();
@@ -426,12 +454,14 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
                         if (Startzeit==255) //Passagiere absetzen?
                         {
-                            SLONG c, Saldo;
+                            SLONG c;
+                            SLONG Saldo;
                             XY    tmp;
 
                             CRentRoute *pRoute = NULL;
-                            if (GetFlugplanEintrag()->ObjectType==1)
+                            if (GetFlugplanEintrag()->ObjectType==1) {
                                 pRoute = &Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(GetFlugplanEintrag()->ObjectId)];
+}
 
                             Saldo = PersonalQuality;
 
@@ -448,11 +478,15 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                                     SLONG Costs1 = pRoute->Ticketpreis;
                                     SLONG Costs2 = CalculateFlightCost (GetFlugplanEintrag()->VonCity, GetFlugplanEintrag()->NachCity, 800, 800, -1)*3/180*2*3;
 
-                                    if (Costs1>Costs2) TooExpensive=Costs1*100/Costs2;
-                                    if (Costs1>Costs2*2) TooExpensive=Costs1*100/(Costs2*2);
+                                    if (Costs1>Costs2) { TooExpensive=Costs1*100/Costs2;
+}
+                                    if (Costs1>Costs2*2) { TooExpensive=Costs1*100/(Costs2*2);
+}
 
-                                    if (TooExpensive>100) TooExpensive=100;
-                                    if (TooExpensiveFC>100) TooExpensiveFC=100;
+                                    if (TooExpensive>100) { TooExpensive=100;
+}
+                                    if (TooExpensiveFC>100) { TooExpensiveFC=100;
+}
                                 }
 
                                 CalculateHappyPassengers(PlayerNum);
@@ -473,15 +507,16 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
                                 localRand.SRand (GetFlugplanEintrag()->Gate + GetFlugplanEintrag()->Startzeit + Sim.GetHour() + Sim.Date);
 
-                                if (GetFlugplanEintrag()->Passagiere>0)
+                                if (GetFlugplanEintrag()->Passagiere>0) {
                                     for (c=GetFlugplanEintrag()->Passagiere/CUSTOMERS_PER_PERSON; c>=0; c--)
                                     {
                                         long pn = PlayerNum;
-                                        if (Sim.Players.Players[PlayerNum].WerbeBroschuere!=-1)
+                                        if (Sim.Players.Players[PlayerNum].WerbeBroschuere!=-1) {
                                             pn=Sim.Players.Players[PlayerNum].WerbeBroschuere;
+}
 
                                         //hprintf ("Adding incomming passengers..");
-                                        if (localRand.Rand(70)>Zustand-30*(PlayerNum==3 && Sim.Players.Players[Sim.localPlayer].Owner==1))
+                                        if (localRand.Rand(70)>Zustand-30*static_cast<int>(PlayerNum==3 && Sim.Players.Players[Sim.localPlayer].Owner==1))
                                         {
                                             //Reparatur notwendig:
                                             Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonRepair);
@@ -501,7 +536,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                                             //schlechte Crew:
                                             Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSick);
                                         }
-                                        else if (TooExpensive && localRand.Rand(130)<TooExpensive)
+                                        else if ((TooExpensive != 0) && localRand.Rand(130)<TooExpensive)
                                         {
                                             //zu teuer:
                                             Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonExpensive);
@@ -511,56 +546,61 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                                             Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSmile);
                                         }
 
-                                        if (GetFlugplanEintrag()->PassagiereFC>0)
+                                        if (GetFlugplanEintrag()->PassagiereFC>0) {
                                             for (c=GetFlugplanEintrag()->PassagiereFC/CUSTOMERS_PER_PERSON; c>=0; c--)
                                             {
                                                 long pn = PlayerNum;
-                                                if (Sim.Players.Players[PlayerNum].WerbeBroschuere!=-1)
+                                                if (Sim.Players.Players[PlayerNum].WerbeBroschuere!=-1) {
                                                     pn=Sim.Players.Players[PlayerNum].WerbeBroschuere;
+}
 
                                                 //hprintf ("Adding incomming passengers..");
-                                                if (localRand.Rand(90)>Zustand-30*(PlayerNum==3 && Sim.Players.Players[Sim.localPlayer].Owner==1))
+                                                if (localRand.Rand(90)>Zustand-30*static_cast<int>(PlayerNum==3 && Sim.Players.Players[Sim.localPlayer].Owner==1))
                                                 {
                                                     //Reparatur notwendig:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonRepairFC, true);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonRepairFC, 1u);
                                                 }
                                                 else if (QualitySum>8 && localRand.Rand(100)<40)
                                                 {
                                                     //recht gut:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPerson2StarsFC, true);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPerson2StarsFC, 1u);
                                                 }
                                                 else if (QualitySum>10 && localRand.Rand(100)<55)
                                                 {
                                                     //sehr gut:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPerson3StarsFC, true);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPerson3StarsFC, 1u);
                                                 }
                                                 else if (localRand.Rand(100)>Saldo)
                                                 {
                                                     //schlechte Crew:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSickFC, true);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSickFC, 1u);
                                                 }
-                                                else if (TooExpensiveFC && localRand.Rand(130)<TooExpensiveFC)
+                                                else if ((TooExpensiveFC != 0) && localRand.Rand(130)<TooExpensiveFC)
                                                 {
                                                     //zu teuer:
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonExpensiveFC, true);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonExpensiveFC, 1u);
                                                 }
                                                 else //okay:
                                                 {
-                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSmileFC, true);
+                                                    Sim.PersonQueue.AddPerson (Clans.GetCustomerId(1, localRand.Rand(2)-1, &localRand), tmp, REASON_LEAVING, (UBYTE)pn, 0, 0, (UBYTE)MoodPersonSmileFC, 1u);
                                                 }
                                             }
+}
                                     }
+}
                             }
-                            else Sim.bReloadAirport=true;
+                            else { Sim.bReloadAirport=1;
+}
                         }
                         else  //nein, abholen
                         {
-                            SLONG c, Gate=GetFlugplanEintrag()->Gate;
+                            SLONG c;
+                            SLONG Gate=GetFlugplanEintrag()->Gate;
 
                             //Personen brauchen nicht mehr warten, sondern können das Flugzeug stürmen:
                             for (c=Sim.Persons.AnzEntries()-1; c>=0; c--)
                             {
-                                if (Sim.Persons.IsInAlbum(c) &&
+                                if ((Sim.Persons.IsInAlbum(c) != 0) &&
                                         ((Sim.Persons[c].State & (~PERSON_WAITFLAG) & (~PERSON_BROWSEFLAG))==PERSON_WAITING || (Sim.Persons[c].State & (~PERSON_WAITFLAG) & (~PERSON_BROWSEFLAG))==PERSON_SITWAITING) &&
                                         Sim.Persons[c].GetFlugplanEintrag()->Gate == Gate)
                                 {
@@ -572,16 +612,19 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                                         ArrayPos.x = (Sim.Persons[c].Position.x+4400)/44-100;
                                         ArrayPos.y = (Sim.Persons[c].Position.y+2200)/22-100;
 
-                                        if (Sim.Persons[c].LookDir==7)
+                                        if (Sim.Persons[c].LookDir==7) {
                                             Airport.SeatsTaken[ArrayPos.x]&=(~(1<<((ArrayPos.y-1)*2+1)));
-                                        else
+                                        } else {
                                             Airport.SeatsTaken[ArrayPos.x]&=(~(1<<((ArrayPos.y+1)*2)));
+}
                                     }
 
                                     //Und an Bord gehen:
-                                    if (Sim.Persons[c].Dir==6) Sim.Persons[c].Dir=4;
-                                    if (Sim.Persons[c].Dir==7) Sim.Persons[c].Dir=1;
-                                    if (bFirstClass)
+                                    if (Sim.Persons[c].Dir==6) { Sim.Persons[c].Dir=4;
+}
+                                    if (Sim.Persons[c].Dir==7) { Sim.Persons[c].Dir=1;
+}
+                                    if (bFirstClass != 0)
                                     {
                                         Sim.Persons[c].State  = PERSON_BOARDING;
                                         Sim.Persons[c].Target = Airport.GetRandomTypedRune (RUNE_WAIT, (UBYTE)Gate);
@@ -602,7 +645,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                     AirportPos.x-=Speed;
                     AirportPos.y = 190;
 
-                    if (PlayerNum==Sim.localPlayer && Speed!=0 && Sim.Tutorial==1605 && Sim.IsTutorial)
+                    if (PlayerNum==Sim.localPlayer && Speed!=0 && Sim.Tutorial==1605 && (Sim.IsTutorial != 0))
                     {
                         Sim.Tutorial=2000;
                         Sim.Players.Players[Sim.localPlayer].Messages.NextMessage();
@@ -637,7 +680,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
             //Am Boden (in einer Stadt) ==> Müssen wir es ausrüsten?
         default:
-            if (PlayerNum>=0 && PlayerNum<=3 && (Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_PLANEPROPS || Sim.CallItADay))
+            if (PlayerNum>=0 && PlayerNum<=3 && (Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_PLANEPROPS || (Sim.CallItADay != 0)))
             {
                 SLONG Costs=0;
                 SLONG Delta;
@@ -649,8 +692,10 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                     //Delta=PlaneTypes[TypeId].Passagiere*(SeatCosts[SitzeTarget]-SeatCosts[Sitze]/2);
                     Delta=ptPassagiere*(SeatCosts[SitzeTarget]-SeatCosts[Sitze]/2);
                     Costs+=Delta;
-                    if (Delta<0) qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
-                    if (Delta>0) qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+                    if (Delta<0) { qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
+}
+                    if (Delta>0) { qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+}
                     Sitze=SitzeTarget;
                 }
                 if (Essen!=EssenTarget)
@@ -662,8 +707,10 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                     //Delta=PlaneTypes[TypeId].Passagiere*(TrayCosts[TablettsTarget]-TrayCosts[Tabletts]/2);
                     Delta=ptPassagiere*(TrayCosts[TablettsTarget]-TrayCosts[Tabletts]/2);
                     Costs+=Delta;
-                    if (Delta<0) qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
-                    if (Delta>0) qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+                    if (Delta<0) { qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
+}
+                    if (Delta>0) { qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+}
                     Tabletts=TablettsTarget;
                 }
                 if (Deco!=DecoTarget)
@@ -671,8 +718,10 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                     //Delta=PlaneTypes[TypeId].Passagiere*(DecoCosts[DecoTarget]-DecoCosts[Deco]/2);
                     Delta=ptPassagiere*(DecoCosts[DecoTarget]-DecoCosts[Deco]/2);
                     Costs+=Delta;
-                    if (Delta<0) qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
-                    if (Delta>0) qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+                    if (Delta<0) { qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
+}
+                    if (Delta>0) { qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+}
                     Deco=DecoTarget;
                 }
 
@@ -680,36 +729,45 @@ void CPlane::DoOneStep (SLONG PlayerNum)
                 {
                     Delta=(TriebwerkCosts[TriebwerkTarget]-TriebwerkCosts[Triebwerk]/2);
                     Costs+=Delta;
-                    if (Delta<0) qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
-                    if (Delta>0) qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+                    if (Delta<0) { qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
+}
+                    if (Delta>0) { qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+}
                     Triebwerk=TriebwerkTarget;
                 }
                 if (Reifen!=ReifenTarget)
                 {
                     Delta=(ReifenCosts[ReifenTarget]-ReifenCosts[Reifen]/2);
                     Costs+=Delta;
-                    if (Delta<0) qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
-                    if (Delta>0) qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+                    if (Delta<0) { qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
+}
+                    if (Delta>0) { qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+}
                     Reifen=ReifenTarget;
                 }
                 if (Elektronik!=ElektronikTarget)
                 {
                     Delta=(ElektronikCosts[ElektronikTarget]-ElektronikCosts[Elektronik]/2);
                     Costs+=Delta;
-                    if (Delta<0) qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
-                    if (Delta>0) qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+                    if (Delta<0) { qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
+}
+                    if (Delta>0) { qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+}
                     Elektronik=ElektronikTarget;
                 }
                 if (Sicherheit!=SicherheitTarget)
                 {
                     Delta=(SicherheitCosts[SicherheitTarget]-SicherheitCosts[Sicherheit]/2);
                     Costs+=Delta;
-                    if (Delta<0) qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
-                    if (Delta>0) qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+                    if (Delta<0) { qPlayer.Statistiken[STAT_E_SONSTIGES].AddAtPastDay (0, -Delta);
+}
+                    if (Delta>0) { qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay (0, -Delta);
+}
                     Sicherheit=SicherheitTarget;
                 }
 
-                if (Costs && (qPlayer.Owner==0 || qPlayer.Owner==2)) qPlayer.ChangeMoney (-Costs, 2110, Name);
+                if ((Costs != 0) && (qPlayer.Owner==0 || qPlayer.Owner==2)) { qPlayer.ChangeMoney (-Costs, 2110, Name);
+}
             }
             break;
     }
@@ -720,13 +778,14 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
 {
-    SLONG c, d;
+    SLONG c;
+    SLONG d;
 
     //Zeitlich sortieren:
-    for (c=Flugplan.Flug.AnzEntries()-1; c>0; c--)
+    for (c=Flugplan.Flug.AnzEntries()-1; c>0; c--) {
         if ((Flugplan.Flug[c-1].ObjectType==0 && Flugplan.Flug[c].ObjectType!=0) ||
-                (Sort && Flugplan.Flug[c-1].ObjectType!=0 && Flugplan.Flug[c].ObjectType!=0 && Flugplan.Flug[c-1].Startdate>Flugplan.Flug[c].Startdate) ||
-                (Sort && Flugplan.Flug[c-1].ObjectType!=0 && Flugplan.Flug[c].ObjectType!=0 && Flugplan.Flug[c-1].Startdate==Flugplan.Flug[c].Startdate && Flugplan.Flug[c-1].Startzeit>Flugplan.Flug[c].Startzeit))
+                ((Sort != 0) && Flugplan.Flug[c-1].ObjectType!=0 && Flugplan.Flug[c].ObjectType!=0 && Flugplan.Flug[c-1].Startdate>Flugplan.Flug[c].Startdate) ||
+                ((Sort != 0) && Flugplan.Flug[c-1].ObjectType!=0 && Flugplan.Flug[c].ObjectType!=0 && Flugplan.Flug[c-1].Startdate==Flugplan.Flug[c].Startdate && Flugplan.Flug[c-1].Startzeit>Flugplan.Flug[c].Startzeit))
         {
             CFlugplanEintrag tmpFPE;
 
@@ -742,18 +801,20 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
 #endif
 
             c+=2;
-            if (c>Flugplan.Flug.AnzEntries()) c=Flugplan.Flug.AnzEntries();
+            if (c>Flugplan.Flug.AnzEntries()) { c=Flugplan.Flug.AnzEntries();
+}
         }
+}
 
     //Automatikflüge löschen, andere ergänzen:
-    for (c=Flugplan.Flug.AnzEntries()-1; c>=0; c--)
+    for (c=Flugplan.Flug.AnzEntries()-1; c>=0; c--) {
         if (Flugplan.Flug[c].Startdate>Sim.Date || (Flugplan.Flug[c].Startdate==Sim.Date && Flugplan.Flug[c].Startzeit>Sim.GetHour()+1))
         {
             if (Flugplan.Flug[c].ObjectType==3)
             {
                 Flugplan.Flug[c].ObjectType=0;
             }
-            else if (Flugplan.Flug[c].ObjectType)
+            else if (Flugplan.Flug[c].ObjectType != 0)
             {
                 if (Flugplan.Flug[c].ObjectType==1) //Typ: Route
                 {
@@ -776,8 +837,9 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
                 Flugplan.Flug[c].Landezeit = (Flugplan.Flug[c].Startzeit+Dauer)%24;
 
                 Flugplan.Flug[c].Landedate=Flugplan.Flug[c].Startdate;
-                if (Flugplan.Flug[c].Landezeit<Flugplan.Flug[c].Startzeit)
+                if (Flugplan.Flug[c].Landezeit<Flugplan.Flug[c].Startzeit) {
                     Flugplan.Flug[c].Landedate++;
+}
 
                 if (Dauer>=24)
                 {
@@ -786,12 +848,13 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
                 }
             }
         }
+}
 
     //Zeitlich sortieren:
-    for (c=Flugplan.Flug.AnzEntries()-1; c>0; c--)
+    for (c=Flugplan.Flug.AnzEntries()-1; c>0; c--) {
         if ((Flugplan.Flug[c-1].ObjectType==0 && Flugplan.Flug[c].ObjectType!=0) ||
-                (Sort && Flugplan.Flug[c-1].ObjectType!=0 && Flugplan.Flug[c].ObjectType!=0 && Flugplan.Flug[c-1].Startdate>Flugplan.Flug[c].Startdate) ||
-                (Sort && Flugplan.Flug[c-1].ObjectType!=0 && Flugplan.Flug[c].ObjectType!=0 && Flugplan.Flug[c-1].Startdate==Flugplan.Flug[c].Startdate && Flugplan.Flug[c-1].Startzeit>Flugplan.Flug[c].Startzeit))
+                ((Sort != 0) && Flugplan.Flug[c-1].ObjectType!=0 && Flugplan.Flug[c].ObjectType!=0 && Flugplan.Flug[c-1].Startdate>Flugplan.Flug[c].Startdate) ||
+                ((Sort != 0) && Flugplan.Flug[c-1].ObjectType!=0 && Flugplan.Flug[c].ObjectType!=0 && Flugplan.Flug[c-1].Startdate==Flugplan.Flug[c].Startdate && Flugplan.Flug[c-1].Startzeit>Flugplan.Flug[c].Startzeit))
         {
             CFlugplanEintrag tmpFPE;
 
@@ -807,15 +870,18 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
 #endif
 
             c+=2;
-            if (c>Flugplan.Flug.AnzEntries()) c=Flugplan.Flug.AnzEntries();
+            if (c>Flugplan.Flug.AnzEntries()) { c=Flugplan.Flug.AnzEntries();
+}
         }
+}
 
     //Nötigenfalls am Anfang automatische Flüge einbauen:
     if (Flugplan.Flug[0].ObjectType!=0 && Cities(Flugplan.Flug[0].VonCity)!=(ULONG)Cities(Flugplan.StartCity))
     {
         //Automatik-Flug einfügen:
-        for (d=Flugplan.Flug.AnzEntries()-1; d>0; d--)
+        for (d=Flugplan.Flug.AnzEntries()-1; d>0; d--) {
             Flugplan.Flug[d]=Flugplan.Flug[d-1];
+}
 
         Flugplan.Flug[0].ObjectType = 3;
         Flugplan.Flug[0].VonCity   = Flugplan.StartCity;
@@ -832,19 +898,23 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
     //Nötigenfalls zwischendurch automatische Flüge einbauen:
     for (c=0; c<Flugplan.Flug.AnzEntries()-1; c++)
     {
-        if (Flugplan.Flug[c+1].ObjectType==0) break;
+        if (Flugplan.Flug[c+1].ObjectType==0) { break;
+}
 
         SLONG VonCity  = Flugplan.Flug[c+1].VonCity;
         SLONG NachCity = Flugplan.Flug[c].NachCity;
 
-        if (VonCity>0x01000000)  VonCity = Cities(VonCity);
-        if (NachCity>0x01000000) NachCity = Cities(NachCity);
+        if (VonCity>0x01000000) {  VonCity = Cities(VonCity);
+}
+        if (NachCity>0x01000000) { NachCity = Cities(NachCity);
+}
 
         if (VonCity!=NachCity)
         {
             //Automatik-Flug einfügen:
-            for (d=Flugplan.Flug.AnzEntries()-1; d>c+1; d--)
+            for (d=Flugplan.Flug.AnzEntries()-1; d>c+1; d--) {
                 Flugplan.Flug[d]=Flugplan.Flug[d-1];
+}
 
             Flugplan.Flug[c+1].ObjectType = 3;
             Flugplan.Flug[c+1].VonCity   = Flugplan.Flug[c+0].NachCity;
@@ -853,8 +923,10 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
             Flugplan.Flug[c+1].Startdate = Flugplan.Flug[c+0].Landedate;
 
             //Prüfen, ob Startzeit- und Datum auch in der Zukunft liegen:
-            if (Flugplan.Flug[c+1].Startdate<Sim.Date) Flugplan.Flug[c+1].Startdate=Sim.Date;
-            if (Flugplan.Flug[c+1].Startdate==Sim.Date && Flugplan.Flug[c+1].Startzeit<=Sim.GetHour()+1) Flugplan.Flug[c+1].Startzeit=Sim.GetHour()+2;
+            if (Flugplan.Flug[c+1].Startdate<Sim.Date) { Flugplan.Flug[c+1].Startdate=Sim.Date;
+}
+            if (Flugplan.Flug[c+1].Startdate==Sim.Date && Flugplan.Flug[c+1].Startzeit<=Sim.GetHour()+1) { Flugplan.Flug[c+1].Startzeit=Sim.GetHour()+2;
+}
 
             //SLONG Dauer = Cities.CalcFlugdauer (Flugplan.Flug[c+1].VonCity, Flugplan.Flug[c+1].NachCity, PlaneTypes[TypeId].Geschwindigkeit);
             SLONG Dauer = Cities.CalcFlugdauer (Flugplan.Flug[c+1].VonCity, Flugplan.Flug[c+1].NachCity, ptGeschwindigkeit);
@@ -866,7 +938,8 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
     //Ggf. verschieben, damit die Zeiten passen:
     for (c=0; c<Flugplan.Flug.AnzEntries()-1; c++)
     {
-        if (Flugplan.Flug[c+1].ObjectType==0) break;
+        if (Flugplan.Flug[c+1].ObjectType==0) { break;
+}
 
         SLONG tTime=(Flugplan.Flug[c].Landezeit+1)%24;
         SLONG tDate=Flugplan.Flug[c].Landedate+(Flugplan.Flug[c].Landezeit+1)/24;
@@ -893,28 +966,32 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
     }
 
     //Überschüssige Flüge abschneiden:
-    if (gMouseLButton==0 || Sim.Players.Players[PlayerNum].Owner!=0 || Sim.Players.Players[PlayerNum].LocationWin==NULL || ((Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_GLOBE && Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_LAPTOP) && ((CPlaner*)Sim.Players.Players[PlayerNum].LocationWin)->DragFlightMode==0))
+    if (gMouseLButton==0 || Sim.Players.Players[PlayerNum].Owner!=0 || Sim.Players.Players[PlayerNum].LocationWin==NULL || ((Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_GLOBE && Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_LAPTOP) && ((CPlaner*)Sim.Players.Players[PlayerNum].LocationWin)->DragFlightMode==0)) {
         for (c=0; c<Flugplan.Flug.AnzEntries(); c++)
         {
-            if (Flugplan.Flug[c].ObjectType==0) break;
+            if (Flugplan.Flug[c].ObjectType==0) { break;
+}
 
             if (Flugplan.Flug[c].Startdate>=Sim.Date+7)
             {
                 Flugplan.Flug[c].ObjectType=0;
-                if (c>0 && Flugplan.Flug[c-1].ObjectType==3)
+                if (c>0 && Flugplan.Flug[c-1].ObjectType==3) {
                     Flugplan.Flug[c-1].ObjectType=0;
+}
             }
         }
+}
 
     //Automatik-Flüge möglichst spät ansetzen:
     for (c=0; c<Flugplan.Flug.AnzEntries()-1; c++)
     {
-        if (Flugplan.Flug[c+1].ObjectType==0) break;
+        if (Flugplan.Flug[c+1].ObjectType==0) { break;
+}
 
         if (Flugplan.Flug[c].ObjectType==3 && (Flugplan.Flug[c].Startdate>Sim.Date || (Flugplan.Flug[c].Startdate==Sim.Date && Flugplan.Flug[c].Startzeit>Sim.GetHour()+1)))
         {
             SLONG tTime=(Flugplan.Flug[c+1].Startzeit-1+24)%24;
-            SLONG tDate=Flugplan.Flug[c+1].Startdate-(Flugplan.Flug[c+1].Startzeit==0);
+            SLONG tDate=Flugplan.Flug[c+1].Startdate-static_cast<int>(Flugplan.Flug[c+1].Startzeit==0);
 
             if (Flugplan.Flug[c].Landedate<tDate)
             {
@@ -938,7 +1015,8 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
         }
     }
 
-    if (PlanGates) Sim.Players.Players[PlayerNum].PlanGates();
+    if (PlanGates != 0) { Sim.Players.Players[PlayerNum].PlanGates();
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -948,15 +1026,21 @@ void CPlane::ExtendFlugplaene (SLONG PlayerNum)
 {
     SLONG c;
     SLONG RapportL;    //Länge des Rapports in Tagen
-    SLONG AnzOkay, AnzSource, SourceStart;
+    SLONG AnzOkay;
+    SLONG AnzSource;
+    SLONG SourceStart;
 
-    for (c=0; c<Flugplan.Flug.AnzEntries(); c++)
-        if (Flugplan.Flug[c].ObjectType==0) break;
+    for (c=0; c<Flugplan.Flug.AnzEntries(); c++) {
+        if (Flugplan.Flug[c].ObjectType==0) { break;
+}
+}
 
     AnzOkay = AnzSource = c;
 
-    for (c=0; c<Flugplan.Flug.AnzEntries(); c++)
-        if (Flugplan.Flug[c].ObjectType==1 && Flugplan.Flug[c].Startdate>=Sim.Date) break;
+    for (c=0; c<Flugplan.Flug.AnzEntries(); c++) {
+        if (Flugplan.Flug[c].ObjectType==1 && Flugplan.Flug[c].Startdate>=Sim.Date) { break;
+}
+}
 
     if (c<Flugplan.Flug.AnzEntries())
     {
@@ -965,8 +1049,9 @@ void CPlane::ExtendFlugplaene (SLONG PlayerNum)
 
         RapportL =  (Flugplan.Flug[SourceStart+AnzSource-1].Landedate*24+Flugplan.Flug[SourceStart+AnzSource-1].Landezeit)
             -(Flugplan.Flug[SourceStart].Startdate*24+Flugplan.Flug[SourceStart].Startzeit)+1;
-        if (Flugplan.Flug[SourceStart+AnzSource-1].NachCity!=Flugplan.Flug[SourceStart].VonCity)
+        if (Flugplan.Flug[SourceStart+AnzSource-1].NachCity!=Flugplan.Flug[SourceStart].VonCity) {
             RapportL += Cities.CalcFlugdauer (Flugplan.Flug[SourceStart+AnzSource-1].VonCity, Flugplan.Flug[SourceStart].NachCity, ptGeschwindigkeit)+1;
+}
         //RapportL += Cities.CalcFlugdauer (Flugplan.Flug[SourceStart+AnzSource-1].VonCity, Flugplan.Flug[SourceStart].NachCity, PlaneTypes[TypeId].Geschwindigkeit)+1;
 
         if (AnzOkay>0)
@@ -976,7 +1061,7 @@ void CPlane::ExtendFlugplaene (SLONG PlayerNum)
             {
                 for (c=0; c<AnzSource; c++)
                 {
-                    if (Flugplan.Flug[AnzOkay+c-AnzSource].ObjectType==1 && Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Flugplan.Flug[AnzOkay+c-AnzSource].ObjectId)].Rang)
+                    if (Flugplan.Flug[AnzOkay+c-AnzSource].ObjectType==1 && (Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Flugplan.Flug[AnzOkay+c-AnzSource].ObjectId)].Rang != 0u))
                     {
                         Flugplan.Flug[AnzOkay+c]=Flugplan.Flug[AnzOkay+c-AnzSource];
                         Flugplan.Flug[AnzOkay+c].Startzeit+=RapportL;
@@ -1004,13 +1089,15 @@ void CPlane::ExtendFlugplaene (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 void CPlane::FlugplaeneFortfuehren (SLONG PlayerNum)
 {
-    SLONG c, d;
-    SLONG LastDate=0, LastTime=0;
+    SLONG c;
+    SLONG d;
+    SLONG LastDate=0;
+    SLONG LastTime=0;
 
     //Den letzten Flug als Maßstab heraussuchen:
     for (c=0; c<Flugplan.Flug.AnzEntries(); c++)
     {
-        if (Flugplan.Flug[c].ObjectType)
+        if (Flugplan.Flug[c].ObjectType != 0) {
             if (Flugplan.Flug[c].Landedate>LastDate || (Flugplan.Flug[c].Landedate==LastDate && Flugplan.Flug[c].Landezeit>LastTime))
             {
                 LastDate=Flugplan.Flug[c].Landedate;
@@ -1018,6 +1105,7 @@ void CPlane::FlugplaeneFortfuehren (SLONG PlayerNum)
 
                 if (LastTime>=24) { LastTime=0; LastDate++; }
             }
+}
     }
 
     for (c=0; c<Flugplan.Flug.AnzEntries(); c++)
@@ -1032,7 +1120,7 @@ void CPlane::FlugplaeneFortfuehren (SLONG PlayerNum)
             }
 
             //Routen in die Zukunft verschieben:
-            if (Flugplan.Flug[c].ObjectType==1 && Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Flugplan.Flug[c].ObjectId)].Rang)
+            if (Flugplan.Flug[c].ObjectType==1 && (Sim.Players.Players[PlayerNum].RentRouten.RentRouten[(SLONG)Routen(Flugplan.Flug[c].ObjectId)].Rang != 0u))
             {
                 Flugplan.StartCity=Flugplan.Flug[c].NachCity;
                 Flugplan.Flug[c].Startdate+=7;
@@ -1070,16 +1158,20 @@ void CPlane::FlugplaeneFortfuehren (SLONG PlayerNum)
     CheckFlugplaene (PlayerNum);
 
     //Autoflüge ggf. durch Routen ersetzen:
-    for (c=0; c<Flugplan.Flug.AnzEntries(); c++)
-        if (Flugplan.Flug[c].ObjectType==3)
-            for (d=0; d<Flugplan.Flug.AnzEntries(); d++)
-                if (Flugplan.Flug[d].ObjectType==1)
+    for (c=0; c<Flugplan.Flug.AnzEntries(); c++) {
+        if (Flugplan.Flug[c].ObjectType==3) {
+            for (d=0; d<Flugplan.Flug.AnzEntries(); d++) {
+                if (Flugplan.Flug[d].ObjectType==1) {
                     if (Flugplan.Flug[c].VonCity==Flugplan.Flug[d].VonCity && Flugplan.Flug[c].NachCity==Flugplan.Flug[d].NachCity)
                     {
                         Flugplan.Flug[c].ObjectType  = Flugplan.Flug[d].ObjectType;
                         Flugplan.Flug[c].ObjectId    = Flugplan.Flug[d].ObjectId;
                         Flugplan.Flug[c].Ticketpreis = Flugplan.Flug[d].Ticketpreis;
                     }
+}
+}
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1091,11 +1183,12 @@ BOOL CPlane::CanBeSold (void)
 
     for (c=Flugplan.Flug.AnzEntries()-1; c>=0; c--)
     {
-        if (Flugplan.Flug[c].ObjectType==1 || Flugplan.Flug[c].ObjectType==2 || Flugplan.Flug[c].ObjectType==4)
+        if (Flugplan.Flug[c].ObjectType==1 || Flugplan.Flug[c].ObjectType==2 || Flugplan.Flug[c].ObjectType==4) {
             if (Flugplan.Flug[c].Landedate>Sim.Date || (Flugplan.Flug[c].Landedate==Sim.Date && Flugplan.Flug[c].Landezeit>Sim.GetHour()-2))
             {
                 return (FALSE);
             }
+}
     }
 
     return (TRUE);
@@ -1107,12 +1200,16 @@ BOOL CPlane::CanBeSold (void)
 void CPlane::UpdateGlobePos (UWORD EarthAlpha)
 {
     BehindGlobe=EarthProjectize (Position, EarthAlpha, &GlobePos);
-    if (strlen(Name)>0) GlobePos.x+=(Name[0]&3)-1;
-    if (strlen(Name)>1) GlobePos.y+=(Name[1]&3)-1;
+    if (strlen(Name)>0) { GlobePos.x+=(Name[0]&3)-1;
+}
+    if (strlen(Name)>1) { GlobePos.y+=(Name[1]&3)-1;
+}
 
     if (Ort==-5 && Flugplan.NextFlight!=-1)
     {
-        XY VonPos, NachPos, Delta;
+        XY VonPos;
+        XY NachPos;
+        XY Delta;
 
         CFlugplanEintrag &qFPE = Flugplan.Flug[Flugplan.NextFlight];
 
@@ -1120,14 +1217,18 @@ void CPlane::UpdateGlobePos (UWORD EarthAlpha)
         NachPos = Cities[qFPE.NachCity].GlobusPosition;
         Delta   = NachPos-VonPos;
 
-        if (Delta.x>180)  Delta.x-=360;
-        if (Delta.x<-180) Delta.x+=360;
+        if (Delta.x>180) {  Delta.x-=360;
+}
+        if (Delta.x<-180) { Delta.x+=360;
+}
 
         //In der Luft:
         GlobeAngle = UBYTE((GetAlphaFromXY (Delta)+22.5)*8/360);
 
-        if (GlobeAngle<0) GlobeAngle=0;
-        if (GlobeAngle>7) GlobeAngle=7;
+        if (GlobeAngle<0) { GlobeAngle=0;
+}
+        if (GlobeAngle>7) { GlobeAngle=7;
+}
 
         GlobeAngle++;
     }
@@ -1143,10 +1244,12 @@ void CPlane::UpdateGlobePos (UWORD EarthAlpha)
 //--------------------------------------------------------------------------------------------
 SLONG CPlane::GetSaldo (void)
 {
-    SLONG c, Summe;
+    SLONG c;
+    SLONG Summe;
 
-    for (c=Summe=0; c<7; c++)
+    for (c=Summe=0; c<7; c++) {
         Summe+=Salden[c];
+}
 
     return (Summe);
 }
@@ -1158,22 +1261,25 @@ SLONG CPlane::GetMaxPassengerOpenFlight (SLONG PlayerNum)
 {
     SLONG rc=0;
 
-    for (SLONG c=0; c<Flugplan.Flug.AnzEntries(); c++)
+    for (SLONG c=0; c<Flugplan.Flug.AnzEntries(); c++) {
         if (Flugplan.Flug[c].Landedate>=Sim.Date)
         {
             CFlugplanEintrag &qFPE=Flugplan.Flug[c];
 
             if (qFPE.ObjectType==2) //Typ: Auftrag
             {
-                if (Sim.Players.Players[PlayerNum].Auftraege[qFPE.ObjectId].Personen>ULONG(rc))
+                if (Sim.Players.Players[PlayerNum].Auftraege[qFPE.ObjectId].Personen>ULONG(rc)) {
                     rc=Sim.Players.Players[PlayerNum].Auftraege[qFPE.ObjectId].Personen;
+}
             }
             else if (qFPE.ObjectType==4) //Typ: Fracht
             {
-                if (Sim.Players.Players[PlayerNum].Frachten[qFPE.ObjectId].Tons*10>rc)
+                if (Sim.Players.Players[PlayerNum].Frachten[qFPE.ObjectId].Tons*10>rc) {
                     rc=Sim.Players.Players[PlayerNum].Frachten[qFPE.ObjectId].Tons*10;
+}
             }
         }
+}
 
     return (rc);
 }
@@ -1193,11 +1299,13 @@ void CPlane::AddPanne (SLONG Code)
 {
     SLONG c;
 
-    if (Pannen.AnzEntries()<10)
+    if (Pannen.AnzEntries()<10) {
         Pannen.ReSize (Pannen.AnzEntries()+1);
+}
 
-    for (c=Pannen.AnzEntries()-1; c>0; c--)
+    for (c=Pannen.AnzEntries()-1; c>0; c--) {
         Pannen[c] = Pannen[c-1];
+}
 
     Pannen[0].Date = Sim.Date;
     Pannen[0].Time = Sim.Time;
@@ -1211,7 +1319,8 @@ void CPlane::AddPanne (SLONG Code)
 //--------------------------------------------------------------------------------------------
 const CFlugplanEintrag *CPlane::GetFlugplanEintrag (void)
 {
-    if (Flugplan.NextFlight==-1) return (NULL);
+    if (Flugplan.NextFlight==-1) { return (NULL);
+}
 
     return (&Flugplan.Flug[Flugplan.NextFlight]);
 }
@@ -1223,7 +1332,8 @@ void CPlane::CalculateHappyPassengers (SLONG PlayerNum)
 {
     //SLONG QualitySum=Sitze+Essen+Tabletts+Deco+AnzBegleiter-PlaneTypes[TypeId].AnzBegleiter;
     SLONG QualitySum=Sitze+Essen+Tabletts+Deco+AnzBegleiter-ptAnzBegleiter;
-    SLONG c, Saldo;
+    SLONG c;
+    SLONG Saldo;
     SLONG TooExpensive=0;
 
     //hprintf ("QualitySum=%li", QualitySum);
@@ -1240,9 +1350,11 @@ void CPlane::CalculateHappyPassengers (SLONG PlayerNum)
         SLONG Costs1 = pRoute->Ticketpreis;
         SLONG Costs2 = CalculateFlightCost (GetFlugplanEintrag()->VonCity, GetFlugplanEintrag()->NachCity, 800, 800, -1)*3/180*2*3;
 
-        if (Costs1>Costs2) TooExpensive=Costs1*100/Costs2;
+        if (Costs1>Costs2) { TooExpensive=Costs1*100/Costs2;
+}
 
-        if (TooExpensive>100) TooExpensive=100;
+        if (TooExpensive>100) { TooExpensive=100;
+}
     }
 
     /*Saldo=0;
@@ -1259,12 +1371,13 @@ void CPlane::CalculateHappyPassengers (SLONG PlayerNum)
     Saldo = PersonalQuality;
 
     long passtotal = GetFlugplanEintrag()->Passagiere+GetFlugplanEintrag()->PassagiereFC;
-    if (GetFlugplanEintrag()->ObjectType==1 || GetFlugplanEintrag()->ObjectType==2)
+    if (GetFlugplanEintrag()->ObjectType==1 || GetFlugplanEintrag()->ObjectType==2) {
         for (c=passtotal/CUSTOMERS_PER_PERSON; c>=0; c--)
         {
             SLONG Anz=CUSTOMERS_PER_PERSON;
 
-            if (c==0) Anz=passtotal-passtotal/CUSTOMERS_PER_PERSON*CUSTOMERS_PER_PERSON;
+            if (c==0) { Anz=passtotal-passtotal/CUSTOMERS_PER_PERSON*CUSTOMERS_PER_PERSON;
+}
 
             if (PlayerNum==3 && Sim.Players.Players[Sim.localPlayer].Owner==1) { QualitySum-=3; Saldo/=2; }
 
@@ -1294,7 +1407,7 @@ void CPlane::CalculateHappyPassengers (SLONG PlayerNum)
                 //hprintf ("Saldo=%li", Saldo);
                 Sim.Players.Players[PlayerNum].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay (0, Anz);
             }
-            else if (TooExpensive && LocalRand.Rand(130)<TooExpensive)
+            else if ((TooExpensive != 0) && LocalRand.Rand(130)<TooExpensive)
             {
                 //zu teuer:
                 //hprintf ("TooExpensive=%li", TooExpensive);
@@ -1307,24 +1420,29 @@ void CPlane::CalculateHappyPassengers (SLONG PlayerNum)
             }
         }
 }
+}
 
 //--------------------------------------------------------------------------------------------
 // Updates the PersonalQuality member variable of this object:
 //--------------------------------------------------------------------------------------------
 void CPlane::UpdatePersonalQuality (SLONG PlayerNum)
 {
-    SLONG Saldo, c, n;
+    SLONG Saldo;
+    SLONG c;
+    SLONG n;
 
     Saldo=0;
 
-    for (c=n=0; c<Workers.Workers.AnzEntries(); c++)
+    for (c=n=0; c<Workers.Workers.AnzEntries(); c++) {
         if (Workers.Workers[c].Employer==PlayerNum && Workers.Workers[c].PlaneId!=-1 && (&Sim.Players.Players[PlayerNum].Planes[Workers.Workers[c].PlaneId])==this)
         {
             Saldo+=Workers.Workers[c].Talent;
             n++;
         }
+}
 
-    if (n) Saldo/=n; else Saldo=60;
+    if (n != 0) { Saldo/=n; } else { Saldo=60;
+}
 
     PersonalQuality = Saldo;
 }
@@ -1502,8 +1620,10 @@ BOOL CPlanes::IsPlaneNameInUse (const CString &PlaneName)
 {
     SLONG c;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++)
-        if (IsInAlbum(c) && Planes[c].Name==PlaneName) return (TRUE);
+    for (c=0; c<(SLONG)AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && Planes[c].Name==PlaneName) { return (TRUE);
+}
+}
 
     return (FALSE);
 }
@@ -1517,9 +1637,11 @@ void CPlanes::RepairReferences (void)
 {
     SLONG c;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++)
-        if (IsInAlbum(c))
+    for (c=0; c<(SLONG)AnzEntries(); c++) {
+        if (IsInAlbum(c) != 0) {
             Planes[c].RepairReferences();
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1529,9 +1651,11 @@ void CPlanes::DoOneStep (SLONG PlayerNum)
 {
     SLONG c;
 
-    for (c=0; c<(SLONG)AnzEntries(); c++)
-        if (IsInAlbum(c))
+    for (c=0; c<(SLONG)AnzEntries(); c++) {
+        if (IsInAlbum(c) != 0) {
             Planes[c].DoOneStep (PlayerNum);
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1539,18 +1663,20 @@ void CPlanes::DoOneStep (SLONG PlayerNum)
 //--------------------------------------------------------------------------------------------
 double CPlanes::GetAvgBegleiter (void)
 {
-    SLONG Anz=0, Max=0;
+    SLONG Anz=0;
+    SLONG Max=0;
 
-    for (SLONG c=this->AnzEntries()-1; c>=0; c--)
-        if (this->IsInAlbum(c))
+    for (SLONG c=this->AnzEntries()-1; c>=0; c--) {
+        if (this->IsInAlbum(c) != 0)
         {
             //Anz+=min ((*this)[c].AnzBegleiter, PlaneTypes[(*this)[c].TypeId].AnzBegleiter);
             Anz+=min ((*this)[c].AnzBegleiter, (*this)[c].ptAnzBegleiter);
             Max+=(*this)[c].MaxBegleiter;
         }
+}
 
-    if (Anz) return (double(Max)/double(Anz));
-    else return (1);
+    if (Anz != 0) { return (double(Max)/double(Anz));
+    } return (1);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1558,11 +1684,12 @@ double CPlanes::GetAvgBegleiter (void)
 //--------------------------------------------------------------------------------------------
 void CPlanes::UpdateGlobePos (UWORD EarthAlpha)
 {
-    for (SLONG c=this->AnzEntries()-1; c>=0; c--)
-        if (this->IsInAlbum(c))
+    for (SLONG c=this->AnzEntries()-1; c>=0; c--) {
+        if (this->IsInAlbum(c) != 0)
         {
             (*this)[c].UpdateGlobePos (EarthAlpha);
         }
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1570,9 +1697,12 @@ void CPlanes::UpdateGlobePos (UWORD EarthAlpha)
 //--------------------------------------------------------------------------------------------
 BOOL CPlanes::HasProblemPlane (void)
 {
-    for (SLONG c=this->AnzEntries()-1; c>=0; c--)
-        if (this->IsInAlbum(c))
-            if ((*this)[c].Problem) return (TRUE);
+    for (SLONG c=this->AnzEntries()-1; c>=0; c--) {
+        if (this->IsInAlbum(c) != 0) {
+            if ((*this)[c].Problem != 0) { return (TRUE);
+}
+}
+}
 
     return (FALSE);
 }
@@ -1609,7 +1739,8 @@ void CPlaneNames::ReInit (const CString &TabFilename)
     //CStdioFile    Tab;
     CString       str;
     BUFFER<char>  Line(300);
-    SLONG         Anz1=0, Anz2=0;
+    SLONG         Anz1=0;
+    SLONG         Anz2=0;
 
     //Load Table header:
     BUFFER<UBYTE> FileData (*LoadCompleteFile (FullFilename (TabFilename, ExcelPath)));
@@ -1621,9 +1752,10 @@ void CPlaneNames::ReInit (const CString &TabFilename)
     NameBuffer1.ReSize (MAX_PNAMES1);
     NameBuffer2.ReSize (MAX_PNAMES1);
 
-    while (1)
+    while (true)
     {
-        if (FileP>=FileData.AnzEntries()) break;
+        if (FileP>=FileData.AnzEntries()) { break;
+}
         FileP=ReadLine (FileData, FileP, Line, 300);
 
         TeakStrRemoveEndingCodes (Line, "\xd\xa\x1a\r");
@@ -1633,12 +1765,14 @@ void CPlaneNames::ReInit (const CString &TabFilename)
 
         if (atoi (strtok (NULL, TabSeparator))==1)
         {
-            if (Anz1>=MAX_PNAMES1) TeakLibW_Exception (FNL, ExcImpossible, "");
+            if (Anz1>=MAX_PNAMES1) { TeakLibW_Exception (FNL, ExcImpossible, "");
+}
             NameBuffer1[Anz1++] = str;
         }
         else
         {
-            if (Anz2>=MAX_PNAMES2) TeakLibW_Exception (FNL, ExcImpossible, "");
+            if (Anz2>=MAX_PNAMES2) { TeakLibW_Exception (FNL, ExcImpossible, "");
+}
             NameBuffer2[Anz2++] = str;
         }
     }
@@ -1653,10 +1787,9 @@ void CPlaneNames::ReInit (const CString &TabFilename)
 //--------------------------------------------------------------------------------------------
 CString CPlaneNames::GetRandom (TEAKRAND *pRnd)
 {
-    if (pRnd)
+    if (pRnd != nullptr) {
         return (NameBuffer1[1+pRnd->Rand((NameBuffer1.AnzEntries()-1))]);
-    else
-        return (NameBuffer1[1+rand()%(NameBuffer1.AnzEntries()-1)]);
+    }         return (NameBuffer1[1+rand()%(NameBuffer1.AnzEntries()-1)]);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -1671,28 +1804,33 @@ CString CPlaneNames::GetUnused (TEAKRAND *pRnd)
     for (c=0; c<NameBuffer1.AnzEntries(); c++)
     {
         Name = GetRandom(pRnd);
-        if (!Sim.Players.IsPlaneNameInUse(Name)) return (Name);
+        if (Sim.Players.IsPlaneNameInUse(Name) == 0) { return (Name);
+}
     }
 
     for (c=1; c<NameBuffer1.AnzEntries(); c++)
     {
-        if (!Sim.Players.IsPlaneNameInUse(NameBuffer1[c])) return (NameBuffer1[c]);
+        if (Sim.Players.IsPlaneNameInUse(NameBuffer1[c]) == 0) { return (NameBuffer1[c]);
+}
     }
 
     //Namen zweiter Qualitätsstufe
     for (c=0; c<NameBuffer2.AnzEntries(); c++)
     {
-        if (pRnd)
+        if (pRnd != nullptr) {
             Name = NameBuffer2[1+pRnd->Rand((NameBuffer2.AnzEntries()-1))];
-        else
+        } else {
             Name = NameBuffer2[1+rand()%(NameBuffer2.AnzEntries()-1)];
+}
 
-        if (!Sim.Players.IsPlaneNameInUse(Name)) return (Name);
+        if (Sim.Players.IsPlaneNameInUse(Name) == 0) { return (Name);
+}
     }
 
     for (c=1; c<NameBuffer2.AnzEntries(); c++)
     {
-        if (!Sim.Players.IsPlaneNameInUse(NameBuffer2[c])) return (NameBuffer2[c]);
+        if (Sim.Players.IsPlaneNameInUse(NameBuffer2[c]) == 0) { return (NameBuffer2[c]);
+}
     }
 
     return ("ohne Name");

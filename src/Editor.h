@@ -33,7 +33,7 @@ class CPlanePartRelation
         { Id=_Id; FromBuildIndex=_FromBuildIndex; ToBuildIndex=_ToBuildIndex; Offset2d=_Offset2d; Offset3d=_Offset3d; Note1=_Note1; Note2=_Note2; Note3=_Note3; zAdd=_zAdd; Noise=_Noise, Slot=_Slot; RulesOutSlots=_RulesOutSlots; }
 
         void    FromString (CString str);
-        CString ToString (void);
+        CString ToString (void) const;
 };
 
 //Das theoretische Teil aus dem Katalog:
@@ -59,7 +59,7 @@ class CPlaneBuild
         { Id=_Id; Shortname=_Shortname; Cost=_Cost; Weight=_Weight; Power=_Power; Noise=_Noise; Wartung=_Wartung; Passagiere=_Passagiere; Verbrauch=_Verbrauch; BitmapIndex=_BitmapIndex; zPos=_zPos; }
 
         void    FromString (CString str);
-        CString ToString (void);
+        CString ToString (void) const;
 };
 
 class CPlaneBuilds : public ALBUM<CPlaneBuild>

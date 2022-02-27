@@ -48,7 +48,8 @@ CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
 
     LastTime = timeGetTime();
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (60);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
 
     //Hintergrundsounds:
     /*if (Sim.Options.OptionEffekte)
@@ -63,8 +64,9 @@ CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
 
     KonstruktorFinished=TRUE;
 
-    for (SLONG c=0; c<4; c++)
+    for (SLONG c=0; c<4; c++) {
         SP_Flags[c].ReSize (1);
+}
 
     SP_Flags[0].Clips[0].ReSize (0, "flagb.smk", "", XY ( 142,  63), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
     SP_Flags[1].Clips[0].ReSize (0, "flagg.smk", "", XY ( 442, 163), SPM_IDLE, CRepeat(9,9), CPostWait(0,0), SMACKER_CLIP_CANCANCEL, NULL, SMACKER_CLIP_SET, 0, NULL, "A9", 0);
@@ -120,16 +122,18 @@ void CWeltAll::OnPaint()
 
     SLONG Time=timeGetTime();
 
-    if (!KonstruktorFinished) return;
+    if (KonstruktorFinished == 0) { return;
+}
 
     static SLONG gMouseScrollSpeed=0;
     XY   &ViewPos = Sim.Players.Players[(SLONG)PlayerNum].IslandViewPos;
 
     SBBM TempBm;
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_INSEL, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_INSEL, 0);
+}
 
-    if (!Sim.UsedTelescope)
+    if (Sim.UsedTelescope == 0)
     {
         BlinkArrowsTimer=timeGetTime();
         Sim.UsedTelescope=TRUE;
@@ -142,21 +146,23 @@ void CWeltAll::OnPaint()
     RoomBm.BlitFrom (SpaceBm, -ViewPos.x, 0);
 
     //Die Sternschnuppen bewegen und zeichnen
-    for (c=0; c<20; c++)
+    for (c=0; c<20; c++) {
         if (Sternschnuppen[c].StartIndex!=-1)
         {
             Sternschnuppen[c].Position+=Sternschnuppen[c].Velocity*(Time-LastTime);
 
-            if ((Sternschnuppen[c].Position.y>>8) < 500)
+            if ((Sternschnuppen[c].Position.y>>8) < 500) {
                 RoomBm.BlitFromT (StarBms[Sternschnuppen[c].StartIndex], (Sternschnuppen[c].Position.x>>8)-150-ViewPos.x, (Sternschnuppen[c].Position.y>>8)-20);
-            else
+            } else {
                 Sternschnuppen[c].StartIndex=-1;
+}
         }
+}
 
     //Evtl. Sternschnuppen hinzufügen:
     if (((Time/1000)!=(LastTime/1000)) && ((rand()%3)==0))
     {
-        for (c=0; c<20; c++)
+        for (c=0; c<20; c++) {
             if (Sternschnuppen[c].StartIndex==-1)
             {
                 Sternschnuppen[c].StartIndex = rand ()%3;
@@ -171,6 +177,7 @@ void CWeltAll::OnPaint()
 
                 break;
             }
+}
     }
 
     //Ufo:
@@ -196,7 +203,8 @@ void CWeltAll::OnPaint()
             do
             {
                 Way = XY(rand()%300-150, rand()%180-90);
-                if (rand()%6==0) Way = XY(0, -500);
+                if (rand()%6==0) { Way = XY(0, -500);
+}
 
                 UfoNumSteps = SLONG(Way.abs()/12);
             }
@@ -224,58 +232,62 @@ void CWeltAll::OnPaint()
         StationPos -= ViewPos;
 
         //Abschnitt 1/3:
-        if (qPlayer.RocketFlags & STATION_RINGC)
+        if ((qPlayer.RocketFlags & STATION_RINGC) != 0)
         {
             RoomBm.BlitFromT (StationBms[2], XY(44,41)+StationPos);
             RoomBm.BlitFromT (Ring3ColorBms[c], XY(44,41)+XY(44,3)+StationPos);
         }
-        if (qPlayer.RocketFlags & STATION_RINGB)
+        if ((qPlayer.RocketFlags & STATION_RINGB) != 0)
         {
             RoomBm.BlitFromT (StationBms[1], XY(49,65)+StationPos);
             RoomBm.BlitFromT (Ring2ColorBms[c], XY(49,65)+XY(45,2)+StationPos);
         }
-        if (qPlayer.RocketFlags & STATION_RINGA)
+        if ((qPlayer.RocketFlags & STATION_RINGA) != 0)
         {
             RoomBm.BlitFromT (StationBms[0], XY(47,82)+StationPos);
             RoomBm.BlitFromT (Ring1ColorBms[c], XY(47,82)+XY(42,2)+StationPos);
         }
 
         //Abschnitt 2/3:
-        if (qPlayer.RocketFlags & STATION_COM)
+        if ((qPlayer.RocketFlags & STATION_COM) != 0)
         {
             RoomBm.BlitFromT (StationBms[4], XY(97,105)+StationPos);
 
-            if ((qPlayer.RocketFlags & STATION_SOLAR) && (qPlayer.RocketFlags & STATION_POWER))
+            if (((qPlayer.RocketFlags & STATION_SOLAR) != 0) && ((qPlayer.RocketFlags & STATION_POWER) != 0)) {
                 RoomBm.BlitFromT (CommL, XY(97,105)+XY(6,11)+StationPos);
+}
         }
-        if (qPlayer.RocketFlags & STATION_OXYGEN)
+        if ((qPlayer.RocketFlags & STATION_OXYGEN) != 0)
         {
             RoomBm.BlitFromT (O2ColorBms[c], XY(50,31)+StationPos);
         }
-        if (qPlayer.RocketFlags & STATION_OFFICE)
+        if ((qPlayer.RocketFlags & STATION_OFFICE) != 0)
         {
             RoomBm.BlitFromT (StationBms[7], XY(90,13)+StationPos);
 
-            if ((qPlayer.RocketFlags & STATION_SOLAR) && (qPlayer.RocketFlags & STATION_POWER))
+            if (((qPlayer.RocketFlags & STATION_SOLAR) != 0) && ((qPlayer.RocketFlags & STATION_POWER) != 0)) {
                 RoomBm.BlitFromT (BusinessL, XY(90,13)+StationPos);
+}
         }
-        if (qPlayer.RocketFlags & STATION_MAIN)
+        if ((qPlayer.RocketFlags & STATION_MAIN) != 0)
         {
             RoomBm.BlitFromT (StationBms[5], XY(5,4)+StationPos);
 
-            if ((qPlayer.RocketFlags & STATION_SOLAR) && (qPlayer.RocketFlags & STATION_POWER))
+            if (((qPlayer.RocketFlags & STATION_SOLAR) != 0) && ((qPlayer.RocketFlags & STATION_POWER) != 0)) {
                 RoomBm.BlitFromT (CentralL, XY(5,4)+XY(25,30)+StationPos);
+}
         }
-        if (qPlayer.RocketFlags & STATION_LIVING)
+        if ((qPlayer.RocketFlags & STATION_LIVING) != 0)
         {
             RoomBm.BlitFromT (StationBms[6], XY(10,114)+StationPos);
 
-            if ((qPlayer.RocketFlags & STATION_SOLAR) && (qPlayer.RocketFlags & STATION_POWER))
+            if (((qPlayer.RocketFlags & STATION_SOLAR) != 0) && ((qPlayer.RocketFlags & STATION_POWER) != 0)) {
                 RoomBm.BlitFromT (LivingL, XY(10,114)+StationPos);
+}
         }
 
         //Abschnitt 3/3:
-        if (qPlayer.RocketFlags & STATION_SOLAR)
+        if ((qPlayer.RocketFlags & STATION_SOLAR) != 0)
         {
             RoomBm.BlitFromT (StationBms[9], XY(65+6,31+5)+StationPos);
         }
@@ -307,7 +319,7 @@ void CWeltAll::OnPaint()
     RoomBm.BlitFrom (FernglasBms[1],   0, 30);
     RoomBm.BlitFrom (FernglasBms[1],   0, 346);
 
-    if (BlinkArrowsTimer && timeGetTime()-BlinkArrowsTimer<5000)
+    if ((BlinkArrowsTimer != 0) && timeGetTime()-BlinkArrowsTimer<5000)
     {
         if ((timeGetTime()-BlinkArrowsTimer)%1000<500)
         {
@@ -320,48 +332,60 @@ void CWeltAll::OnPaint()
     CStdRaum::InitToolTips ();
 
     //Scrolling:
-    if (!IsDialogOpen() && !MenuIsOpen() && !Sim.bPause)
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && (Sim.bPause == 0))
     {
-        if (gMousePosition.x<=10  && ViewPos.x>0)   SetMouseLook (CURSOR_LEFT,  0, ROOM_INSEL, 6010);
-        if (gMousePosition.x>=630 && ViewPos.x<640) SetMouseLook (CURSOR_RIGHT, 0, ROOM_INSEL, 6011);
+        if (gMousePosition.x<=10  && ViewPos.x>0) {   SetMouseLook (CURSOR_LEFT,  0, ROOM_INSEL, 6010);
+}
+        if (gMousePosition.x>=630 && ViewPos.x<640) { SetMouseLook (CURSOR_RIGHT, 0, ROOM_INSEL, 6011);
+}
     }
 
     //Command&Conquer-Scrolling:
     if (MouseClickArea==ROOM_INSEL && MouseClickId==6010)
     {
-        if (gMouseScrollSpeed>-44-(gMouseLButton-1)*30) gMouseScrollSpeed-=2;
-        if (gMouseScrollSpeed<-66) gMouseScrollSpeed=-66;
+        if (gMouseScrollSpeed>-44-(gMouseLButton-1)*30) { gMouseScrollSpeed-=2;
+}
+        if (gMouseScrollSpeed<-66) { gMouseScrollSpeed=-66;
+}
         gMouseScroll=TRUE;
     }
     else if (MouseClickArea==ROOM_INSEL && MouseClickId==6011)
     {
-        if (gMouseScrollSpeed<44+(gMouseLButton-1)*30) gMouseScrollSpeed+=2;
-        if (gMouseScrollSpeed>66) gMouseScrollSpeed=66;
+        if (gMouseScrollSpeed<44+(gMouseLButton-1)*30) { gMouseScrollSpeed+=2;
+}
+        if (gMouseScrollSpeed>66) { gMouseScrollSpeed=66;
+}
         gMouseScroll=TRUE;
     }
 
     //Weiches Scrolling abbremsen
     if ((MouseClickId!=6010 && MouseClickId!=6011) || (gMouseLButton==0 && abs(gMouseScrollSpeed)>8))
     {
-        if (gMouseScrollSpeed>0) gMouseScrollSpeed = max (0, gMouseScrollSpeed-4);
-        if (gMouseScrollSpeed<0) gMouseScrollSpeed = min (0, gMouseScrollSpeed+4);
+        if (gMouseScrollSpeed>0) { gMouseScrollSpeed = max (0, gMouseScrollSpeed-4);
+}
+        if (gMouseScrollSpeed<0) { gMouseScrollSpeed = min (0, gMouseScrollSpeed+4);
+}
     }
 
-    if (gMouseScroll)
+    if (gMouseScroll != 0)
     {
         ViewPos.x+=gMouseScrollSpeed;
-        if (ViewPos.x<0)   ViewPos.x=0;
-        if (ViewPos.x>640) ViewPos.x=640;
+        if (ViewPos.x<0) {   ViewPos.x=0;
+}
+        if (ViewPos.x>640) { ViewPos.x=640;
+}
     }
-    else gMouseScrollSpeed=0;
+    else { gMouseScrollSpeed=0;
+}
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         if (gMousePosition.IfIsWithin (0,0,100,50) ||      gMousePosition.IfIsWithin (0,0,50,100) ||
                 gMousePosition.IfIsWithin (0,390,100,440) ||   gMousePosition.IfIsWithin (0,340,50,440) ||
                 gMousePosition.IfIsWithin (590,0,640,100) ||   gMousePosition.IfIsWithin (540,0,640,50) ||
-                gMousePosition.IfIsWithin (590,340,640,440) || gMousePosition.IfIsWithin (540,390,640,440))
+                gMousePosition.IfIsWithin (590,340,640,440) || gMousePosition.IfIsWithin (540,390,640,440)) {
             SetMouseLook (CURSOR_EXIT, 0, ROOM_INSEL, 999);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -379,16 +403,17 @@ void CWeltAll::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_WELTALL && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        if (MouseClickArea==ROOM_WELTALL && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -404,9 +429,8 @@ void CWeltAll::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -417,5 +441,5 @@ void CWeltAll::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

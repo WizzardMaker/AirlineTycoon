@@ -46,12 +46,13 @@ CCredits::CCredits(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "
 
     ScrollPos=-2;
 
-    for (MaxCredits=0; ;MaxCredits++)
+    for (MaxCredits=0; ;MaxCredits++) {
         if (strcmp (StandardTexte.GetS (TOKEN_CREDITS, 1000+MaxCredits), "EOF")==0)
         {
             MaxCredits--;
             break;
         }
+}
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -66,8 +67,10 @@ CCredits::~CCredits()
     Background.Destroy();
     Left.Destroy();
     Right.Destroy();
-    if (pGfxMain && pGLibCredits) pGfxMain->ReleaseLib (pGLibCredits);
-    if (pCursor) pCursor->SetImage (gCursorBm.pBitmap);
+    if ((pGfxMain != nullptr) && (pGLibCredits != nullptr)) { pGfxMain->ReleaseLib (pGLibCredits);
+}
+    if (pCursor != nullptr) { pCursor->SetImage (gCursorBm.pBitmap);
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -90,12 +93,13 @@ void CCredits::OnPaint()
 
     while (Time-LastTime>0)
     {
-        if (GetAsyncKeyState (VK_CONTROL)/256) LastTime+=10;
-        else LastTime+=60;
+        if ((GetAsyncKeyState (VK_CONTROL)/256) != 0) { LastTime+=10;
+        } else { LastTime+=60;
+}
         OnTimer(0);
     }
 
-    if (bActive)
+    if (bActive != 0)
     {
         PrimaryBm.BlitFrom (Background, 320-Background.Size.x/2, 0);
 
@@ -114,7 +118,7 @@ void CCredits::OnPaint()
 //--------------------------------------------------------------------------------------------
 //CCredits::OnLButtonDown
 //--------------------------------------------------------------------------------------------
-void CCredits::OnLButtonDown(UINT, CPoint)
+void CCredits::OnLButtonDown(UINT /*nFlags*/, CPoint /*point*/)
 {
     //"Abbrechen"
     Sim.Gamestate = GAMESTATE_BOOT;
@@ -123,7 +127,7 @@ void CCredits::OnLButtonDown(UINT, CPoint)
 //--------------------------------------------------------------------------------------------
 //CCredits::OnRButtonDown
 //--------------------------------------------------------------------------------------------
-void CCredits::OnRButtonDown(UINT, CPoint)
+void CCredits::OnRButtonDown(UINT /*nFlags*/, CPoint /*point*/)
 {
     DefaultOnRButtonDown ();
 
@@ -134,7 +138,7 @@ void CCredits::OnRButtonDown(UINT, CPoint)
 //--------------------------------------------------------------------------------------------
 //CCredits::OnTimer
 //--------------------------------------------------------------------------------------------
-void CCredits::OnTimer(UINT)
+void CCredits::OnTimer(UINT /*nIDEvent*/)
 {
     ScrollPos++;
 
@@ -151,19 +155,21 @@ void CCredits::OnTimer(UINT)
 //--------------------------------------------------------------------------------------------
 //CCredits::OnChar
 //--------------------------------------------------------------------------------------------
-void CCredits::OnChar(UINT key, UINT, UINT)
+void CCredits::OnChar(UINT key, UINT /*nRepCnt*/, UINT /*nFlags*/)
 {
     //"Abbrechen"
-    if (key!=VK_CONTROL) Sim.Gamestate = GAMESTATE_BOOT;
+    if (key!=VK_CONTROL) { Sim.Gamestate = GAMESTATE_BOOT;
+}
 }
 
 //--------------------------------------------------------------------------------------------
 //CCredits::OnKeyDown
 //--------------------------------------------------------------------------------------------
-void CCredits::OnKeyDown(UINT key, UINT, UINT)
+void CCredits::OnKeyDown(UINT key, UINT /*nRepCnt*/, UINT /*nFlags*/)
 {
     //"Abbrechen"
-    if (key!=VK_CONTROL) Sim.Gamestate = GAMESTATE_BOOT;
+    if (key!=VK_CONTROL) { Sim.Gamestate = GAMESTATE_BOOT;
+}
 }
 
 //--------------------------------------------------------------------------------------------

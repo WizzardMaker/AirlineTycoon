@@ -54,12 +54,13 @@ CStatistik::CStatistik (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Player
 
     // Umständlich, aber wahr...
     {
-        for (short p = 0 ; p < MAX_GROUP ; p++)
+        for (short p = 0 ; p < MAX_GROUP ; p++) {
             for (short i = 0 ; i < MAX_ITEMS ; i++)
             {
                 _iArray[p][i].visible   = Sim.StatiArray[p][i];
                 _iArray[p][i].typOfItem = TYP_LINEFEED;
             }
+}
 
         // Erste Gruppe
         short c = 0;
@@ -192,16 +193,22 @@ CStatistik::CStatistik (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Player
     // Den entsprechenden Group-Button hilighten
     for (c=StatButtons.AnzEntries()-1; c>=0; c--)
     {
-        if (StatButtons[c].Id == 120 + _group) StatButtons[c].LastClicked=1;
+        if (StatButtons[c].Id == 120 + _group) { StatButtons[c].LastClicked=1;
+}
 
-        if (StatButtons[c].Id == 110 && _playerMask[0]) StatButtons[c].LastClicked=1;
-        if (StatButtons[c].Id == 111 && _playerMask[1]) StatButtons[c].LastClicked=1;
-        if (StatButtons[c].Id == 112 && _playerMask[2]) StatButtons[c].LastClicked=1;
-        if (StatButtons[c].Id == 113 && _playerMask[3]) StatButtons[c].LastClicked=1;
+        if (StatButtons[c].Id == 110 && _playerMask[0]) { StatButtons[c].LastClicked=1;
+}
+        if (StatButtons[c].Id == 111 && _playerMask[1]) { StatButtons[c].LastClicked=1;
+}
+        if (StatButtons[c].Id == 112 && _playerMask[2]) { StatButtons[c].LastClicked=1;
+}
+        if (StatButtons[c].Id == 113 && _playerMask[3]) { StatButtons[c].LastClicked=1;
+}
     }
 
-    if (DropDownPos.y>0)
+    if (DropDownPos.y>0) {
         RepaintGraphWindow();
+}
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -219,14 +226,16 @@ CStatistik::~CStatistik()
     Sim.StatnewDays       = _newDays;
     Sim.DropDownPosY      = DropDownPos.y;
 
-    if (Sim.DropDownPosY<329/2) Sim.DropDownPosY=0;
-    else Sim.DropDownPosY=329;
+    if (Sim.DropDownPosY<329/2) { Sim.DropDownPosY=0;
+    } else { Sim.DropDownPosY=329;
+}
 
-    for (short p = 0 ; p < MAX_GROUP ; p++)
+    for (short p = 0 ; p < MAX_GROUP ; p++) {
         for (short i = 0 ; i < MAX_ITEMS ; i++)
         {
             Sim.StatiArray[p][i]=_iArray[p][i].visible;
         }
+}
 
     HighlightBar.Destroy();
     TopSaver.Destroy();
@@ -265,8 +274,9 @@ void CStatistik::OnPaint()
     DWORD  CurrentTime=timeGetTime();
     static SLONG RefreshStatistics=0;
 
-    if (((++RefreshStatistics)&7)==0)
+    if (((++RefreshStatistics)&7)==0) {
         Sim.Players.UpdateStatistics ();
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -275,7 +285,8 @@ void CStatistik::OnPaint()
     if (DropDownSpeed>0)
     {
         DropDownSpeed+=10;
-        while (Calc1nSum(DropDownSpeed)/3>329-DropDownPos.y) DropDownSpeed--;
+        while (Calc1nSum(DropDownSpeed)/3>329-DropDownPos.y) { DropDownSpeed--;
+}
 
         DropDownPos.y+=DropDownSpeed;
         if (DropDownPos.y>=329)
@@ -290,7 +301,8 @@ void CStatistik::OnPaint()
     else if (DropDownSpeed<0)
     {
         DropDownSpeed-=10;
-        while (Calc1nSum(-DropDownSpeed)/3>DropDownPos.y) DropDownSpeed++;
+        while (Calc1nSum(-DropDownSpeed)/3>DropDownPos.y) { DropDownSpeed++;
+}
 
         DropDownPos.y+=DropDownSpeed;
         if (DropDownPos.y<=0) {DropDownSpeed=0; DropDownPos.y=0; }
@@ -300,18 +312,21 @@ void CStatistik::OnPaint()
     if (_newDays != _days)
     {
         long diff = (_newDays - _days) / 3 * 2;
-        if (diff == 0)
+        if (diff == 0) {
             _days = _newDays;
-        else
+        } else {
             _days = _days + diff;
+}
 
         _fRepaint = true;
 
-        if (DropDownPos.y!=0) CalcGraph();
+        if (DropDownPos.y!=0) { CalcGraph();
+}
     }
 
     //Den Screen bemalen:
-    if (DropDownPos.y!=329) RoomBm.BlitFrom (TextTableBm, 190, 40);
+    if (DropDownPos.y!=329) { RoomBm.BlitFrom (TextTableBm, 190, 40);
+}
     if (DropDownPos.y!=0)
     {
         RoomBm.pBitmap->SetClipRect(CRect(190,10,630,370));
@@ -323,63 +338,71 @@ void CStatistik::OnPaint()
     CStdRaum::InitToolTips ();
 
     //Highlights und ToolTips der Buttons verwalten:
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         for (c=StatButtons.AnzEntries()-1; c>=0; c--)
         {
             XY BlitPos = StatButtons[c].BitmapOffset;
             XY off     = XY(0,0);
 
-            if (StatButtons[c].HelpId<=-1000)
-                if (Sim.Players.Players[-StatButtons[c].HelpId-1000].IsOut) continue;
+            if (StatButtons[c].HelpId<=-1000) {
+                if (Sim.Players.Players[-StatButtons[c].HelpId-1000].IsOut != 0) { continue;
+}
+}
 
             ExitBmPos=BlitPos;
 
-            if (StatButtons[c].BitmapOffset2) { off=*StatButtons[c].BitmapOffset2; BlitPos+=off; }
+            if (StatButtons[c].BitmapOffset2 != nullptr) { off=*StatButtons[c].BitmapOffset2; BlitPos+=off; }
 
-            if (DropDownPos.y!=329 && StatButtons[c].HelpId<0 && !IsDialogOpen() && !MenuIsOpen() && gMousePosition.IfIsWithin (StatButtons[c].HotArea.left, StatButtons[c].HotArea.top, StatButtons[c].HotArea.right, StatButtons[c].HotArea.bottom))
+            if (DropDownPos.y!=329 && StatButtons[c].HelpId<0 && (IsDialogOpen() == 0) && (MenuIsOpen() == 0) && gMousePosition.IfIsWithin (StatButtons[c].HotArea.left, StatButtons[c].HotArea.top, StatButtons[c].HotArea.right, StatButtons[c].HotArea.bottom))
             {
                 SetMouseLook (CURSOR_HOT, -StatButtons[c].HelpId, Sim.Players.Players[-StatButtons[c].HelpId-1000].AirlineX+" ("+Sim.Players.Players[-StatButtons[c].HelpId-1000].NameX+")", ROOM_STATISTICS, -1);
-                if (StatButtons[c].BitmapClicked) RoomBm.BlitFromT (*StatButtons[c].BitmapClicked, BlitPos);
+                if (StatButtons[c].BitmapClicked != nullptr) { RoomBm.BlitFromT (*StatButtons[c].BitmapClicked, BlitPos);
+}
             }
-            else if (!IsDialogOpen() && !MenuIsOpen() && gMousePosition.IfIsWithin (StatButtons[c].HotArea.left+off.x, StatButtons[c].HotArea.top+off.y, StatButtons[c].HotArea.right+off.x, StatButtons[c].HotArea.bottom+off.y))
+            else if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && gMousePosition.IfIsWithin (StatButtons[c].HotArea.left+off.x, StatButtons[c].HotArea.top+off.y, StatButtons[c].HotArea.right+off.x, StatButtons[c].HotArea.bottom+off.y))
             {
                 //Highlight:
-                if (StatButtons[c].IsToggle && StatButtons[c].LastClicked!=0)
+                if ((StatButtons[c].IsToggle != 0) && StatButtons[c].LastClicked!=0)
                 {
-                    if (StatButtons[c].BitmapSuperHi)
+                    if (StatButtons[c].BitmapSuperHi != nullptr)
                     {
-                        if (c==0) ExitBm = StatButtons[c].BitmapSuperHi;
+                        if (c==0) { ExitBm = StatButtons[c].BitmapSuperHi;
+}
                         RoomBm.BlitFromT (*StatButtons[c].BitmapSuperHi, BlitPos);
                     }
                 }
-                else if (StatButtons[c].BitmapHi)
+                else if (StatButtons[c].BitmapHi != nullptr)
                 {
-                    if (c==0) ExitBm = StatButtons[c].BitmapHi;
+                    if (c==0) { ExitBm = StatButtons[c].BitmapHi;
+}
                     RoomBm.BlitFromT (*StatButtons[c].BitmapHi, BlitPos);
                 }
 
-                if (StatButtons[c].HelpId>=0)
+                if (StatButtons[c].HelpId>=0) {
                     SetMouseLook ((c==0)?CURSOR_EXIT:CURSOR_HOT, StatButtons[c].HelpId, ROOM_STATISTICS, StatButtons[c].Id);
-                else
+                } else {
                     SetMouseLook ((c==0)?CURSOR_EXIT:CURSOR_HOT, -StatButtons[c].HelpId, Sim.Players.Players[-StatButtons[c].HelpId-1000].AirlineX+" ("+Sim.Players.Players[-StatButtons[c].HelpId-1000].NameX+")", ROOM_STATISTICS, StatButtons[c].Id);
+}
             }
             else
             {
                 //Kein Highlight, aber vielleicht geklickt?
-                if ((StatButtons[c].IsToggle && StatButtons[c].LastClicked!=0) || (!StatButtons[c].IsToggle && CurrentTime-StatButtons[c].LastClicked<ClickHighlightTime) || (DropDownPos.y!=329 && StatButtons[c].HelpId<0))
+                if (((StatButtons[c].IsToggle != 0) && StatButtons[c].LastClicked!=0) || ((StatButtons[c].IsToggle == 0) && CurrentTime-StatButtons[c].LastClicked<ClickHighlightTime) || (DropDownPos.y!=329 && StatButtons[c].HelpId<0))
                 {
-                    if (StatButtons[c].BitmapClicked || (DropDownPos.y!=329 && StatButtons[c].HelpId<0))
+                    if ((StatButtons[c].BitmapClicked != nullptr) || (DropDownPos.y!=329 && StatButtons[c].HelpId<0))
                     {
-                        if (c==0) ExitBm = StatButtons[c].BitmapClicked;
+                        if (c==0) { ExitBm = StatButtons[c].BitmapClicked;
+}
                         RoomBm.BlitFromT (*StatButtons[c].BitmapClicked, BlitPos);
                     }
                 }
                 else //ganz normal:
                 {
-                    if (StatButtons[c].BitmapNormal)
+                    if (StatButtons[c].BitmapNormal != nullptr)
                     {
-                        if (c==0) ExitBm = StatButtons[c].BitmapNormal;
+                        if (c==0) { ExitBm = StatButtons[c].BitmapNormal;
+}
                         RoomBm.BlitFromT (*StatButtons[c].BitmapNormal, BlitPos);
                     }
                 }
@@ -403,7 +426,7 @@ void CStatistik::OnPaint()
             case DIFF_ADDON06: n = TARGET_DAYS      - Sim.Date; break;
         }
 
-        output = bprintf (StandardTexte.GetS (TOKEN_STAT, 9010+(n==1)), n);
+        output = bprintf (StandardTexte.GetS (TOKEN_STAT, 9010+static_cast<int>(n==1)), n);
     }
     else
     {
@@ -428,17 +451,19 @@ void CStatistik::OnPaint()
         if (_iArray[_group][i].typOfItem != TYP_LINEFEED)
         {
             word group = _iArray[_group][i].typOfItem;
-            if (group >= 20)
+            if (group >= 20) {
                 group = 0;
+}
 
             CString text = StandardTexte.GetS ("STAT", _iArray[_group][i].textId);
-            RoomBm.PrintAt (text, (!group) ? FontSmallBlack : FontSmallPlastic, TEC_FONT_LEFT, rc.left + xOffset[group], rc.top, rc.right, rc.bottom);
+            RoomBm.PrintAt (text, (group == 0u) ? FontSmallBlack : FontSmallPlastic, TEC_FONT_LEFT, rc.left + xOffset[group], rc.top, rc.right, rc.bottom);
 
-            if (_iArray[_group][i].visible == true && group == 0)
+            if (_iArray[_group][i].visible && group == 0) {
                 RoomBm.BlitFromT (Haeckchen, rc.left - 11, rc.top);
+}
 
-            if (_selectedItem == -1)
-                if (!IsDialogOpen() && !MenuIsOpen() && CheckCursorHighlight (gMousePosition, CRect (rc.left + xOffset2[group], rc.top-5, rc.right, rc.bottom+4), ColorOfFontBlack))
+            if (_selectedItem == -1) {
+                if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && (CheckCursorHighlight (gMousePosition, CRect (rc.left + xOffset2[group], rc.top-5, rc.right, rc.bottom+4), ColorOfFontBlack) != 0))
                 {
                     _selectedItem = i;
                     if (_oldSelectedItem != _selectedItem)
@@ -447,8 +472,9 @@ void CStatistik::OnPaint()
                         _fRepaint = true;
                     }
 
-                    if (DropDownPos.y==0)
+                    if (DropDownPos.y==0) {
                         ColorFX.BlitTrans (HighlightBar.pBitmap, RoomBm.pBitmap, XY(190, rc.top-3-4), NULL, 6);
+}
                 }
                 else
                 {
@@ -458,6 +484,7 @@ void CStatistik::OnPaint()
                         _fRepaint = true;
                     }
                 }
+}
         }
 
         rc.top   += LINE_DISTANCE;
@@ -472,17 +499,18 @@ void CStatistik::OnPaint()
         tickers = GetTickCount();
         _fRepaint = false;
 
-        if (DropDownPos.y == 0)				// Ganz oben...
+        if (DropDownPos.y == 0) {				// Ganz oben...
             RepaintTextWindow();
-        else										// Unten
+        } else {										// Unten
             RepaintGraphWindow();
+}
     }
 
     //Statuszeile zeichnen:
     CStdRaum::PostPaint ();
 
     //Ein Patch: Die Exit-Bitmap nach der Statuszeile erneut zeichnen:
-    if (ExitBm)
+    if (ExitBm != nullptr)
     {
         PrimaryBm.PrimaryBm.SetClipRect(CRect(0,0,640,480));
         PrimaryBm.BlitFrom (*ExitBm, ExitBmPos);
@@ -502,16 +530,16 @@ void CStatistik::CalcGraph()
     // Max-Min Werte
     if (_days <= 30)
     {
-        for (short i = 0 ; i < MAX_ITEMS ; i++)
-            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible)
-                for (int p = 0 ; p < 4 ; p++)
-                    if (!Sim.Players.Players[p].IsOut)
-                        if (_playerMask[p])
+        for (short i = 0 ; i < MAX_ITEMS ; i++) {
+            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible) {
+                for (int p = 0 ; p < 4 ; p++) {
+                    if (Sim.Players.Players[p].IsOut == 0) {
+                        if (_playerMask[p]) {
                             for (long d = 0 ; d <= _days ; d++)
                             {
                                 if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                                 {
-                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d))
+                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d) != 0)
                                     {
                                         min = Min (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d)), min);
                                         max = Max (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d)), max);
@@ -523,19 +551,24 @@ void CStatistik::CalcGraph()
                                     max = Max (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)), max);
                                 }
                             }
+}
+}
+}
+}
+}
     }
     else
     {
-        for (short i = 0 ; i < MAX_ITEMS ; i++)
-            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible)
-                for (int p = 0 ; p < 4 ; p++)
-                    if (!Sim.Players.Players[p].IsOut)
-                        if (_playerMask[p])
-                            for (long d = 0 ; d <= Min(11l, ((_days+29)/30)) ; d++)
+        for (short i = 0 ; i < MAX_ITEMS ; i++) {
+            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible) {
+                for (int p = 0 ; p < 4 ; p++) {
+                    if (Sim.Players.Players[p].IsOut == 0) {
+                        if (_playerMask[p]) {
+                            for (long d = 0 ; d <= Min(11L, ((_days+29)/30)) ; d++)
                             {
                                 if (_iArray[_group][i].typOfItem == TYP_PERCENT)
                                 {
-                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d))
+                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d) != 0)
                                     {
                                         min = Min (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d)), min);
                                         max = Max (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d)), max);
@@ -547,6 +580,11 @@ void CStatistik::CalcGraph()
                                     max = Max (__int64(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)), max);
                                 }
                             }
+}
+}
+}
+}
+}
     }
 
     double summe = double(max) + double(-min);
@@ -559,7 +597,10 @@ void CStatistik::CalcGraph()
 //--------------------------------------------------------------------------------------------
 void CStatistik::RepaintGraphWindow (void)
 {
-    long	x1, y1, x2, y2 = -1;
+    long	 x1;
+    long	 y1;
+    long	 x2;
+    long	 y2 = -1;
     long	value;
     bool	fDrawAxis = false;
 
@@ -584,8 +625,9 @@ void CStatistik::RepaintGraphWindow (void)
 
     DropDownBm.PrintAt (output, StatFonts[1], TEC_FONT_LEFT, 263, 12, G_RIGHT, G_BOTTOM);
 
-    if (!Sim.Date)	// Am ersten Tag keine Statistik möglich
+    if (Sim.Date == 0) {	// Am ersten Tag keine Statistik möglich
         return;
+}
 
     // Y-Axis
     long yAxis = (long)(_yAxis * _yGraph);
@@ -594,40 +636,45 @@ void CStatistik::RepaintGraphWindow (void)
 
 
     long days = _days;
-    if (days > (Sim.Date+1))
+    if (days > (Sim.Date+1)) {
         days = Sim.Date+1;
+}
 
     DropDownBm.pBitmap->SetClipRect(CRect(G_LEFT,G_TOP,G_RIGHT,G_BOTTOM+1));
 
     // Max-Min Werte
     if (_days <= 30)
     {
-        for (short i = 0 ; i < MAX_ITEMS ; i++)
-            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible)
-                for (int p = 0 ; p < 4 ; p++)
-                    if (!Sim.Players.Players[p].IsOut)
+        for (short i = 0 ; i < MAX_ITEMS ; i++) {
+            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible) {
+                for (int p = 0 ; p < 4 ; p++) {
+                    if (Sim.Players.Players[p].IsOut == 0) {
                         if (_playerMask[p])
                         {
-                            if (_iArray[_group][i].typOfItem == TYP_PERCENT)
-                                if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0))
+                            if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
+                                if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0) != 0) {
                                     value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(0)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0) * _yGraph);
-                                else
+                                } else {
                                     value = 0;
-                            else
+}
+                            } else {
                                 value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(0)) * _yGraph);
+}
 
                             x2 = G_RIGHT;
                             y2 = G_BOTTOM - yAxis - value;
 
                             for (long d = 1 ; d <= days ; d++)
                             {
-                                if (_iArray[_group][i].typOfItem == TYP_PERCENT)
-                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d))
+                                if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
+                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d) != 0) {
                                         value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(d) * _yGraph);
-                                    else
+                                    } else {
                                         value = 0;
-                                else
+}
+                                } else {
                                     value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastDay(d)) * _yGraph);
+}
 
                                 x1 = G_RIGHT - (long)((double)d * _xGraph);
                                 y1 = G_BOTTOM - yAxis - value;
@@ -649,43 +696,51 @@ void CStatistik::RepaintGraphWindow (void)
                                 fDrawAxis = true;
                             }
                         }
+}
+}
+}
+}
     }
-    else if (days / 30)
+    else if ((days / 30) != 0)
     {
         long month = min (11, (days+29/30));
         _xGraph = (double)G_WIDTH / (((double)_days)/30);
 
-        for (short i = 0 ; i < MAX_ITEMS ; i++)
-            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible)
-                for (int p = 0 ; p < 4 ; p++)
-                    if (!Sim.Players.Players[p].IsOut)
+        for (short i = 0 ; i < MAX_ITEMS ; i++) {
+            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible) {
+                for (int p = 0 ; p < 4 ; p++) {
+                    if (Sim.Players.Players[p].IsOut == 0) {
                         if (_playerMask[p])
                         {
-                            if (_iArray[_group][i].typOfItem == TYP_PERCENT)
-                                if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(0))
+                            if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
+                                if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(0) != 0) {
                                     value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(0)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(0) * _yGraph);
-                                else
+                                } else {
                                     value = 0;
-                            else
+}
+                            } else {
                                 value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(0)) * _yGraph);
+}
 
                             x2 = G_RIGHT;
                             y2 = G_BOTTOM - yAxis - value;
 
                             for (long d = 1 ; d <= month; d++)
                             {
-                                if (_iArray[_group][i].typOfItem == TYP_PERCENT)
-                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d))
+                                if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
+                                    if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d) != 0) {
                                         value = (long)((double)Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)*__int64(100)/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastMonth(d) * _yGraph);
-                                    else
+                                    } else {
                                         value = 0;
-                                else
+}
+                                } else {
                                     value = (long)(double(Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i].define].GetAtPastMonth(d)) * _yGraph);
+}
 
                                 x1 = G_RIGHT - (long)((double)d * _xGraph);
                                 y1 = G_BOTTOM - yAxis - value;
 
-                                if (x1>G_LEFT || x2>G_LEFT)
+                                if (x1>G_LEFT || x2>G_LEFT) {
                                     if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP)
                                     {
                                         DropDownBm.pBitmap->Line (x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(DarkColors[p]));
@@ -694,6 +749,7 @@ void CStatistik::RepaintGraphWindow (void)
                                     {
                                         DropDownBm.pBitmap->Line (x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(AktienKursLineColor[p]));
                                     }
+}
 
                                 DropDownBm.BlitFrom (PobelBms[p], x2-2, y2-2);
                                 DropDownBm.BlitFrom (PobelBms[p], x1-2, y1-2);
@@ -703,6 +759,10 @@ void CStatistik::RepaintGraphWindow (void)
                                 fDrawAxis = true;
                             }
                         }
+}
+}
+}
+}
     }
 
     DropDownBm.pBitmap->InitClipRect();
@@ -724,8 +784,8 @@ void CStatistik::RepaintTextWindow (void)
 
     TextTableBm.BlitFrom (PicBitmap, -191, -40);
 
-    for (p = 0 ; p < 4 ; p++)
-        if (!Sim.Players.Players[p].IsOut)
+    for (p = 0 ; p < 4 ; p++) {
+        if (Sim.Players.Players[p].IsOut == 0)
         {
             CString	    output;
             __int64		summe = 0;
@@ -747,32 +807,37 @@ void CStatistik::RepaintTextWindow (void)
                         case TYP_VALUE:
                             output = bprintf("%I64i", val);
 
-                            if (_iArray[_group][i].visible)
+                            if (_iArray[_group][i].visible) {
                                 summe += val;
+}
                             break;
 
                         case TYP_CURRENCY:
                             output = Einheiten[EINH_DM].bString64 (val);
 
-                            if (_iArray[_group][i].visible)
+                            if (_iArray[_group][i].visible) {
                                 summe += val;
+}
                             break;
 
                         case TYP_SINGLE_PERCENT:
                             output = Einheiten[EINH_P].bString64 (val);
 
-                            if (_iArray[_group][i].visible)
+                            if (_iArray[_group][i].visible) {
                                 summe += val;
+}
                             break;
 
                         case TYP_PERCENT:
-                            if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0))
+                            if (Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0) != 0) {
                                 output = Einheiten[EINH_P].bString64 (val*100/Sim.Players.Players[(int)p].Statistiken[(int)_iArray[_group][i-1].define].GetAtPastDay(0));
-                            else
+                            } else {
                                 output = "0%";
+}
 
-                            if (_iArray[_group][i].visible)
+                            if (_iArray[_group][i].visible) {
                                 summe += val;
+}
                             break;
 
                         case TYP_SUM_CURR:
@@ -793,10 +858,14 @@ void CStatistik::RepaintTextWindow (void)
 
                                 if (_iArray[_group][2].visible)
                                 {
-                                    if (_iArray[_group][3].visible) shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_SA].GetAtPastDay(0) * Sim.Players.Players[(int)0].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
-                                    if (_iArray[_group][4].visible) shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_FL].GetAtPastDay(0) * Sim.Players.Players[(int)1].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
-                                    if (_iArray[_group][5].visible) shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_PT].GetAtPastDay(0) * Sim.Players.Players[(int)2].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
-                                    if (_iArray[_group][6].visible) shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_HA].GetAtPastDay(0) * Sim.Players.Players[(int)3].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
+                                    if (_iArray[_group][3].visible) { shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_SA].GetAtPastDay(0) * Sim.Players.Players[(int)0].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
+}
+                                    if (_iArray[_group][4].visible) { shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_FL].GetAtPastDay(0) * Sim.Players.Players[(int)1].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
+}
+                                    if (_iArray[_group][5].visible) { shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_PT].GetAtPastDay(0) * Sim.Players.Players[(int)2].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
+}
+                                    if (_iArray[_group][6].visible) { shares += Sim.Players.Players[(int)p].Statistiken[STAT_AKTIEN_HA].GetAtPastDay(0) * Sim.Players.Players[(int)3].Statistiken[STAT_AKTIENKURS].GetAtPastDay(0);
+}
                                 }
 
 
@@ -814,6 +883,7 @@ void CStatistik::RepaintTextWindow (void)
             }
         }
 }
+}
 
 //--------------------------------------------------------------------------------------------
 //void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
@@ -826,21 +896,24 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
         if (MouseClickArea==ROOM_STATISTICS)
         {
             //Die Internen Daten des Buttons anpassen:
-            for (c=StatButtons.AnzEntries()-1; c>=0; c--)
-                if (StatButtons[c].Id==MouseClickId)
-                    if (StatButtons[c].IsToggle) StatButtons[c].LastClicked^=1;
-                    else StatButtons[c].LastClicked=timeGetTime();
+            for (c=StatButtons.AnzEntries()-1; c>=0; c--) {
+                if (StatButtons[c].Id==MouseClickId) {
+                    if (StatButtons[c].IsToggle != 0) { StatButtons[c].LastClicked^=1;
+                    } else { StatButtons[c].LastClicked=timeGetTime();
+}
+}
+}
 
             //Hier kann man auf einen Button-Click reagieren:
             switch (MouseClickId)
@@ -871,8 +944,10 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
                 case 120:
                             for (c=StatButtons.AnzEntries()-1; c>=0; c--)
                             {
-                                if (StatButtons[c].Id==120) StatButtons[c].LastClicked=1;
-                                if (StatButtons[c].Id==122 || StatButtons[c].Id==121)	StatButtons[c].LastClicked=0;
+                                if (StatButtons[c].Id==120) { StatButtons[c].LastClicked=1;
+}
+                                if (StatButtons[c].Id==122 || StatButtons[c].Id==121) {	StatButtons[c].LastClicked=0;
+}
                             }
 
                             _group = 0;
@@ -884,8 +959,10 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
                 case 121:
                             for (c=StatButtons.AnzEntries()-1; c>=0; c--)
                             {
-                                if (StatButtons[c].Id==121) StatButtons[c].LastClicked=1;
-                                if (StatButtons[c].Id==120 || StatButtons[c].Id==122)	StatButtons[c].LastClicked=0;
+                                if (StatButtons[c].Id==121) { StatButtons[c].LastClicked=1;
+}
+                                if (StatButtons[c].Id==120 || StatButtons[c].Id==122) {	StatButtons[c].LastClicked=0;
+}
                             }
 
                             _group = 1;
@@ -897,8 +974,10 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
                 case 122:
                             for (c=StatButtons.AnzEntries()-1; c>=0; c--)
                             {
-                                if (StatButtons[c].Id==122) StatButtons[c].LastClicked=1;
-                                if (StatButtons[c].Id==120 || StatButtons[c].Id==121)	StatButtons[c].LastClicked=0;
+                                if (StatButtons[c].Id==122) { StatButtons[c].LastClicked=1;
+}
+                                if (StatButtons[c].Id==120 || StatButtons[c].Id==121) {	StatButtons[c].LastClicked=0;
+}
                             }
 
                             _group = 2;
@@ -910,25 +989,29 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
                             // Zoom out
                 case 130:
                             {
-                                if (_days > days[0])
-                                    for (word i = 0 ; i < (sizeof(days)/sizeof(days[0])) ; i++)
+                                if (_days > days[0]) {
+                                    for (word i = 0 ; i < (sizeof(days)/sizeof(days[0])) ; i++) {
                                         if (days[i] == _days)
                                         {
                                             _newDays = days[i-1];
                                             break;
                                         }
+}
+}
                             }
                             break;
 
                             // Zoom in
                 case 131:
-                            if (_days < days[ (sizeof(days)/sizeof(days[0])) -1 ])
-                                for (word i = 0 ; i < (sizeof(days)/sizeof(days[0])) ; i++)
+                            if (_days < days[ (sizeof(days)/sizeof(days[0])) -1 ]) {
+                                for (word i = 0 ; i < (sizeof(days)/sizeof(days[0])) ; i++) {
                                     if (days[i] == _days)
                                     {
                                         _newDays = days[i+1];
                                         break;
                                     }
+}
+}
                             break;
             }
         }
@@ -940,23 +1023,27 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
             // ein- oder ausschalten.
             if (_iArray[_group][_selectedItem].typOfItem == TYP_GROUP)
             {
-                while (++_selectedItem < MAX_ITEMS && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP)
+                while (++_selectedItem < MAX_ITEMS && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
                     _iArray[_group][_selectedItem].visible = !_iArray[_group][_selectedItem].visible;
+}
             }
             else
             {
-                if ((GetAsyncKeyState (VK_SHIFT)&0xff00))
+                if ((GetAsyncKeyState (VK_SHIFT)&0xff00) != 0)
                 {
                     SLONG c=_selectedItem;
 
-                    while (c>=0 && _iArray[_group][c].typOfItem!=TYP_GROUP) c--;
+                    while (c>=0 && _iArray[_group][c].typOfItem!=TYP_GROUP) { c--;
+}
 
-                    while (++c<MAX_ITEMS && _iArray[_group][c].typOfItem!=TYP_GROUP)
+                    while (++c<MAX_ITEMS && _iArray[_group][c].typOfItem!=TYP_GROUP) {
                         _iArray[_group][c].visible = FALSE;
+}
 
                     _iArray[_group][_selectedItem].visible = TRUE;
                 }
-                else _iArray[_group][_selectedItem].visible = !_iArray[_group][_selectedItem].visible;
+                else { _iArray[_group][_selectedItem].visible = !_iArray[_group][_selectedItem].visible;
+}
             }
 
             _selectedItem = -1;
@@ -965,8 +1052,9 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point)
             CalcGraph();
             RepaintGraphWindow();
         }
-        else
+        else {
             CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -982,9 +1070,8 @@ void CStatistik::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -995,7 +1082,7 @@ void CStatistik::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }
 
 //--------------------------------------------------------------------------------------------

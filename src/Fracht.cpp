@@ -62,7 +62,8 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     KommVar=-1;
     DropItNow=0;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (60);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
     DefaultDialogPartner=TALKER_FRACHT;
 
     Sim.NetRefill (3);
@@ -146,8 +147,9 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     KistenFx[1].ReInit("kiste2.raw");
     WarningFx.ReInit("warning.raw");
 
-    for (SLONG c=0; c<(SLONG)gFrachten.AnzEntries(); c++)
+    for (SLONG c=0; c<(SLONG)gFrachten.AnzEntries(); c++) {
         RepaintZettel (c);
+}
 
     SetBackgroundFx (0, "pap3.raw",     25000);    //Papierrascheln
 
@@ -176,13 +178,16 @@ CFrachtRaum::~CFrachtRaum()
     MapPlaneBms[3].Destroy();
     MapPlaneBms[4].Destroy();
 
-    for (SLONG c=0; c<(SLONG)gFrachten.AnzEntries(); c++)
-        if (gFrachten.Fracht[c].Praemie<-1)
+    for (SLONG c=0; c<(SLONG)gFrachten.AnzEntries(); c++) {
+        if (gFrachten.Fracht[c].Praemie<-1) {
             gFrachten.Fracht[c].Praemie=-1;
+}
+}
 
     Talkers.Talkers[TALKER_ARAB].DecreaseReference ();
 
-    if (pMenuLib && pGfxMain) pGfxMain->ReleaseLib (pMenuLib);
+    if ((pMenuLib != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
+}
 
     Sim.NetRefill (3);
     gFrachten.Refill ();
@@ -197,7 +202,8 @@ CFrachtRaum::~CFrachtRaum()
 //--------------------------------------------------------------------------------------------
 void CFrachtRaum::OnPaint()
 {
-    if (!bCanPaint) return;
+    if (!bCanPaint) { return;
+}
 
     SLONG c;
     XY    RoomPos;
@@ -214,7 +220,8 @@ void CFrachtRaum::OnPaint()
     //Koordinaten für kleine Fenster konvertieren:
     ConvertMousePosition (point, &RoomPos);
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_FRACHT, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_FRACHT, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -225,20 +232,23 @@ void CFrachtRaum::OnPaint()
     SP_Fracht.Pump ();
     SP_Fracht.BlitAtT (RoomBm);
 
-    if (!(Sim.ItemGlue!=2 && !Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_GLUE)))
+    if (!(Sim.ItemGlue!=2 && (Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_GLUE) == 0))) {
         RoomBm.BlitFrom (NoGlueBm, 577, 396);
+}
 
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         if (gMousePosition.IfIsWithin (567,386,630,429))
         {
-            if (Sim.ItemGlue!=2 && !Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_GLUE)) SetMouseLook (CURSOR_HOT, 0, ROOM_FRACHT, 12);
+            if (Sim.ItemGlue!=2 && (Sim.Players.Players[(SLONG)PlayerNum].HasItem(ITEM_GLUE) == 0)) { SetMouseLook (CURSOR_HOT, 0, ROOM_FRACHT, 12);
+}
         }
-        else if (gMousePosition.IfIsWithin (620,0,639,439) || gMousePosition.IfIsWithin (440,357,639,430)) SetMouseLook (CURSOR_EXIT, 0, ROOM_FRACHT, 999);
-        else if (gMousePosition.IfIsWithin (465,0,639,309)) SetMouseLook (CURSOR_HOT, 0, ROOM_FRACHT, 11);
+        else if (gMousePosition.IfIsWithin (620,0,639,439) || gMousePosition.IfIsWithin (440,357,639,430)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_FRACHT, 999);
+        } else if (gMousePosition.IfIsWithin (465,0,639,309)) { SetMouseLook (CURSOR_HOT, 0, ROOM_FRACHT, 11);
+}
         /*if (RoomPos.IfIsWithin (0,0,485,439))
           SetTip (&TipBm, MapPlaneBms, FALSE, XY (400,125), TIP_BUYFRACHT, -1, 0, 0); */
     }
@@ -248,7 +258,7 @@ void CFrachtRaum::OnPaint()
     {
         if (gFrachten.Fracht[c].Praemie>=0)
         {
-            if (!RoomBm.BlitFromT (ZettelBms[c], KistePos[c*2], KistePos[c*2+1]))
+            if (RoomBm.BlitFromT (ZettelBms[c], KistePos[c*2], KistePos[c*2+1]) == 0)
             {
                 RepaintZettel (c);
                 RoomBm.BlitFromT (ZettelBms[c], KistePos[c*2], KistePos[c*2+1]);
@@ -256,7 +266,7 @@ void CFrachtRaum::OnPaint()
             RoomBm.BlitFromT (SeileBms[c/2], KistePos[c*2]+ZettelBms[c].Size.x/2+SeilXOffset[c], KistePos[c*2+1]-SeileBms[c/2].Size.y);
             RoomBm.BlitFromT (SeileBms[c/2], KistePos[c*2]+ZettelBms[c].Size.x/2+SeilXOffset[c], KistePos[c*2+1]-SeileBms[c/2].Size.y*2);
 
-            if (!IsDialogOpen() && !MenuIsOpen())
+            if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0)) {
                 if (RoomPos.IfIsWithin (KistePos[c*2], KistePos[c*2+1]+30, KistePos[c*2]+ZettelBms[c].Size.x, KistePos[c*2+1]+ZettelBms[c].Size.y))
                 {
                     RemoveTip   = FALSE;
@@ -273,12 +283,13 @@ void CFrachtRaum::OnPaint()
                         Sim.Players.Players[(SLONG)PlayerNum].CheckAuftragsBerater (gFrachten.Fracht[c]);
                     }
                 }
+}
         }
         else if (gFrachten.Fracht[c].Praemie<-1)
         {
-            if (gFrachten.Fracht[c].Praemie!=-1000 || DropItNow)
+            if (gFrachten.Fracht[c].Praemie!=-1000 || (DropItNow != 0))
             {
-                if (gFrachten.Fracht[c].Praemie==-1000 && DropItNow)
+                if (gFrachten.Fracht[c].Praemie==-1000 && (DropItNow != 0))
                 {
                     WarningFx.Stop();
                     WarningFx.Play (DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
@@ -286,7 +297,8 @@ void CFrachtRaum::OnPaint()
                 }
 
                 gFrachten.Fracht[c].Praemie+=DeltaTime;
-                if (gFrachten.Fracht[c].Praemie>-1) gFrachten.Fracht[c].Praemie=-1;
+                if (gFrachten.Fracht[c].Praemie>-1) { gFrachten.Fracht[c].Praemie=-1;
+}
 
                 if (gFrachten.Fracht[c].Praemie>=-1)
                 {
@@ -309,16 +321,18 @@ void CFrachtRaum::OnPaint()
             RoomBm.BlitFromT (StempelBm, Pos.x+50+20+3+ZettelOffset[c].x+ZettelBms[c].Size.x-30-90-15, Pos.y+5+10-15+8+ZettelOffset[c].y);
         }
     }
-    if (!IsOverPaper) LastTip=-1;
+    if (IsOverPaper == 0) { LastTip=-1;
+}
 
     RoomBm.BlitFromT (KranMaskeBm, 333, 0);
 
-    DropItNow = false;
+    DropItNow = 0;
 
     RoomBm.pBitmap->SetClipRect (CRect (0,0,640,480));
 
-    if (RemoveTip && !gMousePosition.IfIsWithin (0,0,485,439) && LastMouse.IfIsWithin (0,0,485,439))
+    if ((RemoveTip != 0) && !gMousePosition.IfIsWithin (0,0,485,439) && LastMouse.IfIsWithin (0,0,485,439)) {
         Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
+}
 
     LastMouse=gMousePosition;
 
@@ -337,15 +351,16 @@ void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_FRACHT && MouseClickId==999) qPlayer.LeaveRoom();
+        if (MouseClickArea==ROOM_FRACHT && MouseClickId==999) { qPlayer.LeaveRoom();
+}
         if (MouseClickArea==ROOM_FRACHT && MouseClickId==11)
         {
             StartDialog (TALKER_FRACHT, MEDIUM_AIR, 1000);
@@ -356,11 +371,11 @@ void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point)
             {
                 StartDialog (TALKER_FRACHT, MEDIUM_AIR, 1010);
             }
-            else if (Sim.ItemGlue==1 && qPlayer.HasSpaceForItem ())
+            else if (Sim.ItemGlue==1 && (qPlayer.HasSpaceForItem () != 0))
             {
                 qPlayer.BuyItem (ITEM_GLUE);
 
-                if (qPlayer.HasItem (ITEM_GLUE))
+                if (qPlayer.HasItem (ITEM_GLUE) != 0)
                 {
                     Sim.ItemGlue=2;
                     Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLUE);
@@ -374,8 +389,9 @@ void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point)
             {
                 if (RoomPos.IfIsWithin (KistePos[c*2], KistePos[c*2+1]+30, KistePos[c*2]+ZettelBms[c].Size.x, KistePos[c*2+1]+ZettelBms[c].Size.y))
                 {
-                    if (qPlayer.Frachten.GetNumFree()<3)
+                    if (qPlayer.Frachten.GetNumFree()<3) {
                         qPlayer.Frachten.Fracht.ReSize (qPlayer.Frachten.AnzEntries()+10);
+}
 
                     gUniversalFx.Stop();
                     gUniversalFx.ReInit("paptake.raw");
@@ -412,9 +428,8 @@ void CFrachtRaum::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -425,7 +440,7 @@ void CFrachtRaum::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }
 
 //--------------------------------------------------------------------------------------------
@@ -457,21 +472,25 @@ void CFrachtRaum::RepaintZettel (SLONG n)
 //--------------------------------------------------------------------------------------------
 //Das Raster zum ausgrauen der ungültigen Tage zeichnen:
 //--------------------------------------------------------------------------------------------
-void CFracht::BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page)
+void CFracht::BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page) const
 {
     SLONG c;
 
-    if (Tagesansicht)
+    if (Tagesansicht != 0)
     {
-        if (Sim.Date+Page<Date || Sim.Date+Page>BisDate)
-            for (c=0; c<7; c++)
+        if (Sim.Date+Page<Date || Sim.Date+Page>BisDate) {
+            for (c=0; c<7; c++) {
                 pBitmap->BlitFromT (FlugplanBms[51], Offset.x, Offset.y+FlugplanBms[51].Size.y*c);
+}
+}
     }
     else
     {
-        for (c=0; c<7; c++)
-            if (Sim.Date+c<Date || Sim.Date+c>BisDate)
+        for (c=0; c<7; c++) {
+            if (Sim.Date+c<Date || Sim.Date+c>BisDate) {
                 pBitmap->BlitFromT (FlugplanBms[51], Offset.x, Offset.y+FlugplanBms[51].Size.y*c);
+}
+}
     }
 }
 
@@ -527,10 +546,13 @@ void CFracht::RandomCities (SLONG AreaType, SLONG HomeCity, TEAKRAND *pRand)
 
         TimeOut++;
 
-        if (VonCity<0x1000000)  VonCity  = Cities.GetIdFromIndex(VonCity);
-        if (NachCity<0x1000000) NachCity = Cities.GetIdFromIndex(NachCity);
+        if (VonCity<0x1000000) {  VonCity  = Cities.GetIdFromIndex(VonCity);
+}
+        if (NachCity<0x1000000) { NachCity = Cities.GetIdFromIndex(NachCity);
+}
 
-        if (TimeOut>300 && VonCity!=NachCity) break;
+        if (TimeOut>300 && VonCity!=NachCity) { break;
+}
     }
     while (VonCity==NachCity || (AreaType==4 && Cities.CalcDistance(VonCity, NachCity)>10000000));
 }
@@ -564,8 +586,10 @@ too_large:
 
             VonCity  = Sim.HomeAirportId;
 
-            if (Sim.Difficulty==DIFF_ADDON03 && pRand->Rand(100)>25) NachCity=Sim.KrisenCity;
-            if (Sim.Difficulty==DIFF_ADDON03 && VonCity==ULONG(Sim.KrisenCity)) continue;
+            if (Sim.Difficulty==DIFF_ADDON03 && pRand->Rand(100)>25) { NachCity=Sim.KrisenCity;
+}
+            if (Sim.Difficulty==DIFF_ADDON03 && VonCity==ULONG(Sim.KrisenCity)) { continue;
+}
         }
         while (VonCity==NachCity || Cities.CalcDistance(VonCity, NachCity)>5000000);
     }
@@ -602,9 +626,12 @@ too_large:
         Strafe  = 0;
     }
 
-    if (AreaType==1) Praemie=Praemie*3/2;
-    if (AreaType==2) Praemie=Praemie*8/5;
-    if (Date!=BisDate) Praemie=Praemie*4/5;
+    if (AreaType==1) { Praemie=Praemie*3/2;
+}
+    if (AreaType==2) { Praemie=Praemie*8/5;
+}
+    if (Date!=BisDate) { Praemie=Praemie*4/5;
+}
 
     if (NachCity==ULONG(Sim.KrisenCity) && Sim.Difficulty==DIFF_ADDON03)
     {
@@ -614,11 +641,13 @@ too_large:
 
     TimeOut++;
 
-    if ((Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut<80)
+    if ((Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut<80) {
         goto too_large;
+}
 
-    if ((Cities.CalcDistance(VonCity, NachCity)>PlayerMinLength) && TimeOut<60)
+    if ((Cities.CalcDistance(VonCity, NachCity)>PlayerMinLength) && TimeOut<60) {
         goto too_large;
+}
 
     if ((Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength))
     {
@@ -652,8 +681,9 @@ too_large:
         }
         while (VonCity==ULONG(Sim.KrisenCity));
     }
-    else
+    else {
         RandomCities (AreaType, Sim.HomeAirportId, pRnd);
+}
 
     Tons     = 30;
     Date     = UWORD(Sim.Date+1+pRnd->Rand(3));
@@ -664,7 +694,8 @@ too_large:
     Praemie      = ((CalculateFlightCost (VonCity, NachCity, 8000, 700, -1))+99)/100*105;
     Strafe       = Praemie/2*100/100;
 
-    if (pRnd->Rand(5)==4) BisDate+=((UWORD)(pRnd->Rand(5)));
+    if (pRnd->Rand(5)==4) { BisDate+=((UWORD)(pRnd->Rand(5)));
+}
 
     SLONG Type = pRnd->Rand(100);
 
@@ -731,8 +762,10 @@ too_large:
         Praemie = Praemie*7/4;
     }
 
-    if (AreaType==1) Praemie=Praemie*3/2;
-    if (AreaType==2) Praemie=Praemie*8/5;
+    if (AreaType==1) { Praemie=Praemie*3/2;
+}
+    if (AreaType==2) { Praemie=Praemie*8/5;
+}
     if (Date!=BisDate)
     {
         Date=(UWORD)Sim.Date;
@@ -745,12 +778,14 @@ too_large:
         Strafe/=2;
     }
 
-    if (Tons>80) Praemie*=5;
-    else if (Tons>60) Praemie*=4;
-    else if (Tons>30) Praemie*=3;
+    if (Tons>80) { Praemie*=5;
+    } else if (Tons>60) { Praemie*=4;
+    } else if (Tons>30) { Praemie*=3;
+}
 
-    if ((Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100)
+    if ((Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100) {
         goto too_large;
+}
 
     TonsOpen = TonsLeft = Tons;
 }
@@ -760,13 +795,12 @@ too_large:
 //--------------------------------------------------------------------------------------------
 BOOL CFracht::FitsInPlane (const CPlane &Plane) const
 {
-    if (Cities.CalcDistance (VonCity, NachCity)>Plane.ptReichweite*1000)
+    if (Cities.CalcDistance (VonCity, NachCity)>Plane.ptReichweite*1000) {
         return (FALSE);
-    else
-    {
-        if (Cities.CalcFlugdauer (VonCity, NachCity, Plane.ptGeschwindigkeit)>=24)
+    } 
+            if (Cities.CalcFlugdauer (VonCity, NachCity, Plane.ptGeschwindigkeit)>=24)
             return (FALSE);
-    }
+   
 
     return (TRUE);
 }
@@ -806,12 +840,15 @@ void CFrachten::Fill (void)
 
     Fracht.ReSize (6);
 
-    for (c=0; c<Fracht.AnzEntries(); c++)
+    for (c=0; c<Fracht.AnzEntries(); c++) {
         Fracht[c].Refill (c/2, &Random);
+}
 
-    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=25 && Sim.Date<=35)
-        for (c=0; c<Fracht.AnzEntries(); c++)
+    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=25 && Sim.Date<=35) {
+        for (c=0; c<Fracht.AnzEntries(); c++) {
             Fracht[c].Praemie=-1;
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -830,32 +867,39 @@ void CFrachten::Refill (SLONG Minimum)
     {
         if (Fracht[c].Praemie<0)
         {
-            if (Sim.Date<5 && c<5)  Fracht[c].Refill (4, &Random);
-            else if (Sim.Date<10 && c<3) Fracht[c].Refill (4, &Random);
-            else                         Fracht[c].Refill (c/2, &Random);
+            if (Sim.Date<5 && c<5) {  Fracht[c].Refill (4, &Random);
+            } else if (Sim.Date<10 && c<3) { Fracht[c].Refill (4, &Random);
+            } else {                         Fracht[c].Refill (c/2, &Random);
+}
 
             Anz--;
         }
     }
 
-    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++)
-        if (Fracht[c].Praemie!=-1) Minimum--;
+    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++) {
+        if (Fracht[c].Praemie!=-1) { Minimum--;
+}
+}
 
-    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++)
+    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++) {
         if (Fracht[c].Praemie<0 && Minimum>0)
         {
-            if (Sim.Date<5 && c<5)  Fracht[c].Refill (4, &Random);
-            else if (Sim.Date<10 && c<3) Fracht[c].Refill (4, &Random);
-            else                         Fracht[c].Refill (c/2, &Random);
+            if (Sim.Date<5 && c<5) {  Fracht[c].Refill (4, &Random);
+            } else if (Sim.Date<10 && c<3) { Fracht[c].Refill (4, &Random);
+            } else {                         Fracht[c].Refill (c/2, &Random);
+}
 
             Minimum--;
         }
+}
 
     Sim.TickFrachtRefill = 0;
 
-    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=25 && Sim.Date<=35)
-        for (c=0; c<Fracht.AnzEntries(); c++)
+    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=25 && Sim.Date<=35) {
+        for (c=0; c<Fracht.AnzEntries(); c++) {
             Fracht[c].Praemie=-1;
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -863,12 +907,16 @@ void CFrachten::Refill (SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 SLONG CFrachten::GetNumDueToday (void)
 {
-    SLONG c, Anz=0;
+    SLONG c;
+    SLONG Anz=0;
 
-    for (c=0; c<Fracht.AnzEntries(); c++)
-        if (IsInAlbum(c) && Fracht[c].BisDate>=Sim.Date)
-            if (Fracht[c].TonsOpen>0 && Fracht[c].BisDate==Sim.Date)
+    for (c=0; c<Fracht.AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && Fracht[c].BisDate>=Sim.Date) {
+            if (Fracht[c].TonsOpen>0 && Fracht[c].BisDate==Sim.Date) {
                 Anz++;
+}
+}
+}
 
     return (Anz);
 }
@@ -878,12 +926,16 @@ SLONG CFrachten::GetNumDueToday (void)
 //--------------------------------------------------------------------------------------------
 SLONG CFrachten::GetNumOpen (void)
 {
-    SLONG c, Anz=0;
+    SLONG c;
+    SLONG Anz=0;
 
-    for (c=0; c<Fracht.AnzEntries(); c++)
-        if (IsInAlbum(c) && Fracht[c].BisDate>=Sim.Date)
-            if (Fracht[c].TonsOpen>0)
+    for (c=0; c<Fracht.AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && Fracht[c].BisDate>=Sim.Date) {
+            if (Fracht[c].TonsOpen>0) {
                 Anz++;
+}
+}
+}
 
     return (Anz);
 }
@@ -917,27 +969,30 @@ TEAKFILE &operator >> (TEAKFILE &File, CFrachten &Frachten)
 //============================================================================================
 void PLAYER::CheckAuftragsBerater (const CFracht &Fracht)
 {
-    if (HasBerater(BERATERTYP_AUFTRAG))
+    if (HasBerater(BERATERTYP_AUFTRAG) != 0)
     {
         SLONG Cost=((CalculateFlightCost (Fracht.VonCity, Fracht.NachCity, 8000, 700, -1))+99)/100*100;
-        SLONG d, Okay;
+        SLONG d;
+        SLONG Okay;
 
-        for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++)
-            if (Planes.IsInAlbum(d))
+        for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++) {
+            if (Planes.IsInAlbum(d) != 0) {
                 Okay|=Fracht.FitsInPlane (Planes[d]);
+}
+}
         //Okay|=Fracht.FitsInPlane (PlaneTypes[(SLONG)Planes[d].TypeId]);
 
-        for (d=0; d<(SLONG)Planes.AnzEntries(); d++)
-            if (Planes.IsInAlbum(d))
+        for (d=0; d<(SLONG)Planes.AnzEntries(); d++) {
+            if (Planes.IsInAlbum(d) != 0)
             {
                 CPlane &qPlane = Planes[d];
 
-                for (SLONG e=0; e<qPlane.Flugplan.Flug.AnzEntries(); e++)
+                for (SLONG e=0; e<qPlane.Flugplan.Flug.AnzEntries(); e++) {
                     if (qPlane.Flugplan.Flug[e].ObjectType==3)
                     {
                         CFlugplanEintrag &qFPE = qPlane.Flugplan.Flug[e];
 
-                        if (qFPE.Startdate>Sim.Date || (qFPE.Startdate==Sim.Date && qFPE.Startzeit>Sim.GetHour()+1))
+                        if (qFPE.Startdate>Sim.Date || (qFPE.Startdate==Sim.Date && qFPE.Startzeit>Sim.GetHour()+1)) {
                             if (Fracht.VonCity==qFPE.VonCity && Fracht.NachCity==qFPE.NachCity &&
                                     Fracht.Date<=qFPE.Startdate  && Fracht.BisDate>=qFPE.Startdate)
                             {
@@ -945,8 +1000,11 @@ void PLAYER::CheckAuftragsBerater (const CFracht &Fracht)
                                 Messages.AddMessage (BERATERTYP_AUFTRAG, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 7113), (LPCTSTR)qPlane.Name), MESSAGE_COMMENT, SMILEY_GREAT);
                                 return;
                             }
+}
                     }
+}
             }
+}
 
         if (Okay==0)
         {
@@ -958,20 +1016,22 @@ void PLAYER::CheckAuftragsBerater (const CFracht &Fracht)
             SLONG Cost=((CalculateFlightCost (Fracht.VonCity, Fracht.NachCity, 8000, 700, -1))+99)/100*100;
 
             //Bei den Kosten auch die wahrscheinliche Zahl der Flüge berücksichtigen:
-            if (Fracht.Tons>22) Cost*=Fracht.Tons/22;
+            if (Fracht.Tons>22) { Cost*=Fracht.Tons/22;
+}
 
-            if (Fracht.Praemie==0)
+            if (Fracht.Praemie==0) {
                 Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7105), MESSAGE_COMMENT, SMILEY_GOOD);
-            else if (Fracht.Strafe==0)
+            } else if (Fracht.Strafe==0) {
                 Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7100), MESSAGE_COMMENT, SMILEY_NEUTRAL);
-            else if (Cost <= Fracht.Praemie*5/10)
+            } else if (Cost <= Fracht.Praemie*5/10) {
                 Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7101), MESSAGE_COMMENT, SMILEY_GREAT);
-            else if (Cost <= Fracht.Praemie*9/10)
+            } else if (Cost <= Fracht.Praemie*9/10) {
                 Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7102), MESSAGE_COMMENT, SMILEY_GOOD);
-            else if (Cost <= Fracht.Praemie*14/10)
+            } else if (Cost <= Fracht.Praemie*14/10) {
                 Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7103), MESSAGE_COMMENT, SMILEY_NEUTRAL);
-            else
+            } else {
                 Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7104), MESSAGE_COMMENT, SMILEY_BAD);
+}
         }
     }
 }
@@ -986,7 +1046,8 @@ void CFracht::RefillForAusland (SLONG AreaType, SLONG CityNum, TEAKRAND *pRandom
     InPlan = 0;
     Okay   = 1;
 
-    if (CityNum<0x1000000) CityNum=Cities.GetIdFromIndex(CityNum);
+    if (CityNum<0x1000000) { CityNum=Cities.GetIdFromIndex(CityNum);
+}
 
 too_large:
     do
@@ -1010,7 +1071,8 @@ too_large:
     Praemie      = ((CalculateFlightCost (VonCity, NachCity, 8000, 700, -1))+99)/100*105;
     Strafe       = Praemie/2*100/100;
 
-    if (pRandom->Rand(5)==4) BisDate+=((UWORD)(pRandom->Rand(5)));
+    if (pRandom->Rand(5)==4) { BisDate+=((UWORD)(pRandom->Rand(5)));
+}
 
     SLONG Type = pRandom->Rand(100);
 
@@ -1077,8 +1139,10 @@ too_large:
         Praemie = Praemie*7/4;
     }
 
-    if (AreaType==1) Praemie=Praemie*3/2;
-    if (AreaType==2) Praemie=Praemie*8/5;
+    if (AreaType==1) { Praemie=Praemie*3/2;
+}
+    if (AreaType==2) { Praemie=Praemie*8/5;
+}
     if (Date!=BisDate)
     {
         Date=(UWORD)Sim.Date;
@@ -1091,12 +1155,14 @@ too_large:
         Strafe/=2;
     }
 
-    if (Tons>80) Praemie*=5;
-    else if (Tons>60) Praemie*=4;
-    else if (Tons>30) Praemie*=3;
+    if (Tons>80) { Praemie*=5;
+    } else if (Tons>60) { Praemie*=4;
+    } else if (Tons>30) { Praemie*=3;
+}
 
-    if ((Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100)
+    if ((Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100) {
         goto too_large;
+}
 
     TonsOpen = TonsLeft = Tons;
 }
@@ -1114,28 +1180,34 @@ void CFrachten::RefillForAusland (SLONG CityNum, SLONG Minimum)
     Fracht.ReSize (6);
     IsInAlbum(0xffffffff); //Refresh erzwingen
 
-    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++)
+    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++) {
         if (Fracht[c].Praemie<=0)
         {
-            if (Sim.Date<5 && c<5)  Fracht[c].RefillForAusland (4, CityNum, &Random);
-            else if (Sim.Date<10 && c<3) Fracht[c].RefillForAusland (4, CityNum, &Random);
-            else                         Fracht[c].RefillForAusland (c/2, CityNum, &Random);
+            if (Sim.Date<5 && c<5) {  Fracht[c].RefillForAusland (4, CityNum, &Random);
+            } else if (Sim.Date<10 && c<3) { Fracht[c].RefillForAusland (4, CityNum, &Random);
+            } else {                         Fracht[c].RefillForAusland (c/2, CityNum, &Random);
+}
 
             Anz--;
         }
+}
 
-    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++)
-        if (Fracht[c].Praemie!=0) Minimum--;
+    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++) {
+        if (Fracht[c].Praemie!=0) { Minimum--;
+}
+}
 
-    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++)
+    for (c=0; c<Fracht.AnzEntries() && Anz>0; c++) {
         if (Fracht[c].Praemie<=0 && Minimum>0)
         {
-            if (Sim.Date<5 && c<5)  Fracht[c].RefillForAusland (4, CityNum, &Random);
-            else if (Sim.Date<10 && c<3) Fracht[c].RefillForAusland (4, CityNum, &Random);
-            else                         Fracht[c].RefillForAusland (c/2, CityNum, &Random);
+            if (Sim.Date<5 && c<5) {  Fracht[c].RefillForAusland (4, CityNum, &Random);
+            } else if (Sim.Date<10 && c<3) { Fracht[c].RefillForAusland (4, CityNum, &Random);
+            } else {                         Fracht[c].RefillForAusland (c/2, CityNum, &Random);
+}
 
             Minimum--;
         }
+}
 
     AuslandsFRefill[CityNum] = 0;
 }
@@ -1154,8 +1226,9 @@ void CFrachten::FillForAusland (SLONG CityNum)
 
     for (c=0; c<Fracht.AnzEntries(); c++)
     {
-        if (Sim.Date<5 && c<5)  Fracht[c].RefillForAusland (4, CityNum, &Random);
-        else if (Sim.Date<10 && c<3) Fracht[c].RefillForAusland (4, CityNum, &Random);
-        else                         Fracht[c].RefillForAusland (c/2, CityNum, &Random);
+        if (Sim.Date<5 && c<5) {  Fracht[c].RefillForAusland (4, CityNum, &Random);
+        } else if (Sim.Date<10 && c<3) { Fracht[c].RefillForAusland (4, CityNum, &Random);
+        } else {                         Fracht[c].RefillForAusland (c/2, CityNum, &Random);
+}
     }
 }

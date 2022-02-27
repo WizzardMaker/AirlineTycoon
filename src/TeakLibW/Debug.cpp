@@ -30,15 +30,17 @@ HDU::~HDU()
 
 void HDU::Close()
 {
-    if (Log)
+    if (Log != nullptr) {
         fclose (Log);
+}
     Log = NULL;
 }
 
-void HDU::HercPrintf(int, const char* format, ...)
+void HDU::HercPrintf(int /*unused*/, const char* format, ...)
 {
-    if (!Log)
+    if (Log == nullptr) {
         return;
+}
     va_list args;
     va_start(args, format);
     vfprintf(Log, format, args);
@@ -49,8 +51,9 @@ void HDU::HercPrintf(int, const char* format, ...)
 
 void HDU::HercPrintf(const char* format, ...)
 {
-    if (!Log)
+    if (Log == nullptr) {
         return;
+}
     va_list args;
     va_start(args, format);
     vfprintf(Log, format, args);

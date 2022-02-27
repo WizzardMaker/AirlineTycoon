@@ -32,7 +32,7 @@ class CMuseum : public CStdRaum
 
         // Operations
     public:
-        void ReloadBitmaps(void);
+        static void ReloadBitmaps(void);
         void BuyUsedPlane(void);
         void SellUsedPlane(void);
 

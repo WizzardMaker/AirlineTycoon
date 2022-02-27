@@ -30,7 +30,7 @@ KLACKER::~KLACKER ()
     Cursors.Destroy();
     KlackerBms.Destroy();
 
-    if (pGLib && pGfxMain)
+    if ((pGLib != nullptr) && (pGfxMain != nullptr))
     {
         pGfxMain->ReleaseLib (pGLib);
         pGLib=NULL;
@@ -44,8 +44,9 @@ void KLACKER::Clear (void)
 {
     memset (Soll, 0, 24*16);
 
-    for (SLONG c=0; c<16; c++)
+    for (SLONG c=0; c<16; c++) {
         LineDisabled[c]=false;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -53,13 +54,16 @@ void KLACKER::Clear (void)
 //--------------------------------------------------------------------------------------------
 BOOL KLACKER::Klack (void)
 {
-    SLONG c, d, Anz, OrgAnz;
+    SLONG c;
+    SLONG d;
+    SLONG Anz;
+    SLONG OrgAnz;
     SLONG l = strlen (KlackerFntDef);
     BOOL  rc = FALSE;
 
     SLONG AnzKlack=0;
 
-    for (c=0; c<16*24; c++)
+    for (c=0; c<16*24; c++) {
         if (Soll[c]!=Haben[c])
         {
             rc = TRUE;
@@ -67,25 +71,31 @@ BOOL KLACKER::Klack (void)
             AnzKlack++;
             OrgAnz = Anz = (Soll[c]+l-Haben[c])%l;
 
-            if (Anz>20) Anz=9;
-            else if (Anz>10) Anz=7;
-            else if (Anz>6)  Anz=4;
-            else if (Anz>3)  Anz=2;
-            else             Anz=1;
+            if (Anz>20) { Anz=9;
+            } else if (Anz>10) { Anz=7;
+            } else if (Anz>6) {  Anz=4;
+            } else if (Anz>3) {  Anz=2;
+            } else {             Anz=1;
+}
 
             for (d=0; d<Anz; d++)
             {
                 Haben[c]++;
-                if (!KlackerFntDef[Haben[c]]) Haben[c] = 0;
+                if (KlackerFntDef[Haben[c]] == 0) { Haben[c] = 0;
+}
 
-                if (Haben[c]==27 && Soll[c]<27) Haben[c] = 0;
-                else if (Haben[c]==30 && Soll[c]<30) Haben[c] = 0;
-                else if (Haben[c]==40 && Soll[c]<40) Haben[c] = 0;
-                if (Haben[c]>=l-2) Haben[c] = 0;
+                if (Haben[c]==27 && Soll[c]<27) { Haben[c] = 0;
+                } else if (Haben[c]==30 && Soll[c]<30) { Haben[c] = 0;
+                } else if (Haben[c]==40 && Soll[c]<40) { Haben[c] = 0;
+}
+                if (Haben[c]>=l-2) { Haben[c] = 0;
+}
             }
 
-            if (OrgAnz<(Soll[c]+l-Haben[c])%l) Haben[c]=Soll[c];
+            if (OrgAnz<(Soll[c]+l-Haben[c])%l) { Haben[c]=Soll[c];
+}
         }
+}
 
     if (AnzKlack>0)
     {
@@ -94,7 +104,8 @@ BOOL KLACKER::Klack (void)
         if (AnzKlack>20)
         {
             KlackerFx[1].Play (DSBPLAY_FIRE, Sim.Options.OptionEffekte*100/7);
-            if (AnzKlack>50) KlackerFx[2].Play (DSBPLAY_FIRE, Sim.Options.OptionEffekte*100/7);
+            if (AnzKlack>50) { KlackerFx[2].Play (DSBPLAY_FIRE, Sim.Options.OptionEffekte*100/7);
+}
         }
     }
 
@@ -106,7 +117,7 @@ BOOL KLACKER::Klack (void)
 //--------------------------------------------------------------------------------------------
 BOOL KLACKER::IsFinished (void)
 {
-    return (memcmp (Soll, Haben, 16*24)==0);
+    return static_cast<BOOL>(memcmp (Soll, Haben, 16*24)==0);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -116,8 +127,9 @@ void KLACKER::Warp (void)
 {
     SLONG c;
 
-    for (c=0; c<16*24; c++)
+    for (c=0; c<16*24; c++) {
         Haben[c]=Soll[c];
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -128,61 +140,95 @@ void KLACKER::PrintAt (SLONG x, SLONG y, const char *Text)
     SLONG c;
     char *p;
 
-    for (c=0; c+x<24 && Text[c]; c++)
+    for (c=0; c+x<24 && (Text[c] != 0); c++)
     {
         char ch = Text[c];
 
         ch=GerToUpper(ch);
         if (gLanguage!=LANGUAGE_1 && gLanguage!=LANGUAGE_E)
         {
-            if (ch=='É' || ch=='È' || ch=='Ê' || ch=='é' || ch=='è' || ch=='ê') ch='E';
-            if (ch=='á' || ch=='Á' || ch=='à' || ch=='À' || ch=='ã') ch='A';
-            if (ch=='í' || ch=='Í' || ch=='ì' || ch=='Ì') ch='I';
-            if (ch=='ú' || ch=='Ú') ch='U';
-            if (ch=='ó' || ch=='Ó') ch='O';
-            if (ch=='ç') ch='C';
+            if (ch=='É' || ch=='È' || ch=='Ê' || ch=='é' || ch=='è' || ch=='ê') { ch='E';
+}
+            if (ch=='á' || ch=='Á' || ch=='à' || ch=='À' || ch=='ã') { ch='A';
+}
+            if (ch=='í' || ch=='Í' || ch=='ì' || ch=='Ì') { ch='I';
+}
+            if (ch=='ú' || ch=='Ú') { ch='U';
+}
+            if (ch=='ó' || ch=='Ó') { ch='O';
+}
+            if (ch=='ç') { ch='C';
+}
         }
         if (gLanguage==LANGUAGE_1)
         {
-            if (ch==(char)225) ch=(char)193;
-            if (ch==(char)232) ch=(char)200;
-            if (ch==(char)239) ch=(char)207;
-            if (ch==(char)233) ch=(char)201;
-            if (ch==(char)236) ch=(char)204;
-            if (ch==(char)237) ch=(char)205;
-            if (ch==(char)242) ch=(char)210;
-            if (ch==(char)243) ch=(char)211;
-            if (ch==(char)248) ch=(char)216;
-            if (ch==(char)154) ch=(char)138;
-            if (ch==(char)157) ch=(char)141;
-            if (ch==(char)250) ch=(char)218;
-            if (ch==(char)249) ch=(char)217;
-            if (ch==(char)253) ch=(char)221;
-            if (ch==(char)158) ch=(char)142;
+            if (ch==(char)225) { ch=(char)193;
+}
+            if (ch==(char)232) { ch=(char)200;
+}
+            if (ch==(char)239) { ch=(char)207;
+}
+            if (ch==(char)233) { ch=(char)201;
+}
+            if (ch==(char)236) { ch=(char)204;
+}
+            if (ch==(char)237) { ch=(char)205;
+}
+            if (ch==(char)242) { ch=(char)210;
+}
+            if (ch==(char)243) { ch=(char)211;
+}
+            if (ch==(char)248) { ch=(char)216;
+}
+            if (ch==(char)154) { ch=(char)138;
+}
+            if (ch==(char)157) { ch=(char)141;
+}
+            if (ch==(char)250) { ch=(char)218;
+}
+            if (ch==(char)249) { ch=(char)217;
+}
+            if (ch==(char)253) { ch=(char)221;
+}
+            if (ch==(char)158) { ch=(char)142;
+}
         }
         if (gLanguage==LANGUAGE_E)  //E=Polnisch! Krank!
         {
-            if (ch==(char)185) ch=(char)165;
-            if (ch==(char)230) ch=(char)198;
-            if (ch==(char)234) ch=(char)202;
-            if (ch==(char)179) ch=(char)163;
-            if (ch==(char)241) ch=(char)209;
-            if (ch==(char)243) ch=(char)211;
-            if (ch==(char)156) ch=(char)140;
-            if (ch==(char)159) ch=(char)143;
-            if (ch==(char)191) ch=(char)175;
+            if (ch==(char)185) { ch=(char)165;
+}
+            if (ch==(char)230) { ch=(char)198;
+}
+            if (ch==(char)234) { ch=(char)202;
+}
+            if (ch==(char)179) { ch=(char)163;
+}
+            if (ch==(char)241) { ch=(char)209;
+}
+            if (ch==(char)243) { ch=(char)211;
+}
+            if (ch==(char)156) { ch=(char)140;
+}
+            if (ch==(char)159) { ch=(char)143;
+}
+            if (ch==(char)191) { ch=(char)175;
+}
         }
         if (gLanguage==LANGUAGE_S || gLanguage==LANGUAGE_O)
         {
-            if (ch==(char)164) ch=(char)165;
-            if (ch==(char)227) ch=(char)195;
-            if (ch==(char)165) ch=(char)166; //Fix, weil 165 schon von Tschechen o. Polen belegt ist
+            if (ch==(char)164) { ch=(char)165;
+}
+            if (ch==(char)227) { ch=(char)195;
+}
+            if (ch==(char)165) { ch=(char)166; //Fix, weil 165 schon von Tschechen o. Polen belegt ist
+}
         }
 
         p = (char*)memchr (KlackerFntDef, ch, strlen(KlackerFntDef));
 
-        if (p==NULL) Soll[c+x + y*24] = 0;
-        else Soll[c+x + y*24] = UBYTE(p-KlackerFntDef);
+        if (p==NULL) { Soll[c+x + y*24] = 0;
+        } else { Soll[c+x + y*24] = UBYTE(p-KlackerFntDef);
+}
     }
 }
 
@@ -198,16 +244,18 @@ void KLACKER::PrintVolumeAt (SLONG x, SLONG y, SLONG Maximum, SLONG Current)
     {
         p = strchr (KlackerFntDef, '-');
 
-        if (p==NULL) Soll[c+x + y*24] = 0;
-        else Soll[c+x + y*24] = UBYTE(p-KlackerFntDef);
+        if (p==NULL) { Soll[c+x + y*24] = 0;
+        } else { Soll[c+x + y*24] = UBYTE(p-KlackerFntDef);
+}
     }
 
     if (x+Current<24)
     {
         p = strchr (KlackerFntDef, '|');
 
-        if (p==NULL) Soll[x+Current + y*24] = 0;
-        else Soll[x+Current + y*24] = UBYTE(p-KlackerFntDef);
+        if (p==NULL) { Soll[x+Current + y*24] = 0;
+        } else { Soll[x+Current + y*24] = UBYTE(p-KlackerFntDef);
+}
     }
 }
 
@@ -218,8 +266,9 @@ void CKlackerPlanes::Reset (void)
 {
     KlackerPlanes.ReSize (10);
 
-    for (SLONG c=0; c<KlackerPlanes.AnzEntries(); c++)
+    for (SLONG c=0; c<KlackerPlanes.AnzEntries(); c++) {
         KlackerPlanes[c].Size=-1;
+}
 
     TimeSinceStart=0;
 }
@@ -231,28 +280,33 @@ void CKlackerPlanes::Pump (XY AvoidPoint)
 {
     TimeSinceStart++;
 
-    for (SLONG c=0; c<KlackerPlanes.AnzEntries(); c++)
+    for (SLONG c=0; c<KlackerPlanes.AnzEntries(); c++) {
         if (KlackerPlanes[c].Size!=-1)
         {
             KlackerPlanes[c].ScreenPos.x+=KlackerPlanes[c].Dir;
 
-            if (KlackerPlanes[c].Dir>0 && KlackerPlanes[c].ScreenPos.x>640)  KlackerPlanes[c].Size=-1;
-            if (KlackerPlanes[c].Dir<0 && KlackerPlanes[c].ScreenPos.x<-190-KlackerPlanes[c].Size*35)  KlackerPlanes[c].Size=-1;
+            if (KlackerPlanes[c].Dir>0 && KlackerPlanes[c].ScreenPos.x>640) {  KlackerPlanes[c].Size=-1;
+}
+            if (KlackerPlanes[c].Dir<0 && KlackerPlanes[c].ScreenPos.x<-190-KlackerPlanes[c].Size*35) {  KlackerPlanes[c].Size=-1;
+}
 
             if (AvoidPoint.y>KlackerPlanes[c].ScreenPos.y-100 && AvoidPoint.y<KlackerPlanes[c].ScreenPos.y+20)
             {
-                if (AvoidPoint.y>KlackerPlanes[c].ScreenPos.y-50)
+                if (AvoidPoint.y>KlackerPlanes[c].ScreenPos.y-50) {
                     KlackerPlanes[c].ScreenPos.y-=4;
-                if (AvoidPoint.y<KlackerPlanes[c].ScreenPos.y-50)
+}
+                if (AvoidPoint.y<KlackerPlanes[c].ScreenPos.y-50) {
                     KlackerPlanes[c].ScreenPos.y+=4;
+}
             }
         }
+}
 
     if ((TimeSinceStart>600 && TimeSinceStart%50==0) ||
             (TimeSinceStart>800 && TimeSinceStart%44==0) ||
             (TimeSinceStart>1100 && TimeSinceStart%47==0))
     {
-        for (SLONG c=0; c<KlackerPlanes.AnzEntries(); c++)
+        for (SLONG c=0; c<KlackerPlanes.AnzEntries(); c++) {
             if (KlackerPlanes[c].Size==-1)
             {
                 KlackerPlanes[c].Dir=rand()%2*20-10;
@@ -260,19 +314,21 @@ void CKlackerPlanes::Pump (XY AvoidPoint)
                 KlackerPlanes[c].Size=min(7,rand()%(((TimeSinceStart-580)/30)+1));
                 KlackerPlanes[c].ScreenPos.y=rand()%400+80;
 
-                if (KlackerPlanes[c].Dir<0) KlackerPlanes[c].ScreenPos.x=640;
-                else KlackerPlanes[c].ScreenPos.x=-190-KlackerPlanes[c].Size*35;
+                if (KlackerPlanes[c].Dir<0) { KlackerPlanes[c].ScreenPos.x=640;
+                } else { KlackerPlanes[c].ScreenPos.x=-190-KlackerPlanes[c].Size*35;
+}
                 break;
             }
+}
     }
 }
 
 //--------------------------------------------------------------------------------------------
 //Blittet die Flugzeuge auf den Screen
 //--------------------------------------------------------------------------------------------
-void CKlackerPlanes::PostPaint (SBBM &PrimaryBm)
+void CKlackerPlanes::PostPaint (SBBM &PrimaryBm) const
 {
-    for (SLONG c=0; c<KlackerPlanes.AnzEntries(); c++)
+    for (SLONG c=0; c<KlackerPlanes.AnzEntries(); c++) {
         if (KlackerPlanes[c].Size!=-1)
         {
             SLONG x=KlackerPlanes[c].ScreenPos.x;
@@ -281,21 +337,24 @@ void CKlackerPlanes::PostPaint (SBBM &PrimaryBm)
             {
                 //Bug:
                 PrimaryBm.BlitFromT (gUniversalPlaneBms[30                           ], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+0].Size.y);
-                if (KlackerPlanes[c].Logo>0) PrimaryBm.BlitFromT (gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+0], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+0].Size.y);
+                if (KlackerPlanes[c].Logo>0) { PrimaryBm.BlitFromT (gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+0], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+0].Size.y);
+}
                 x+=gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+0].Size.x;
 
                 //Körper:
                 for (SLONG d=0; d<KlackerPlanes[c].Size; d++)
                 {
                     PrimaryBm.BlitFromT (gUniversalPlaneBms[31                         ], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+1].Size.y);
-                    if (KlackerPlanes[c].Logo) PrimaryBm.BlitFromT (gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+1], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+1].Size.y);
+                    if (KlackerPlanes[c].Logo != 0) { PrimaryBm.BlitFromT (gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+1], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+1].Size.y);
+}
                     x+=gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+1].Size.x;
                 }
 
                 //Heck & Triebwerk:
                 PrimaryBm.BlitFromT (gUniversalPlaneBms[4], x-gUniversalPlaneBms[9+1].Size.x*KlackerPlanes[c].Size/2-gUniversalPlaneBms[4].Size.x/2+20+40, KlackerPlanes[c].ScreenPos.y-20-35-63);
                 PrimaryBm.BlitFromT (gUniversalPlaneBms[29                         ], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+2].Size.y+19);
-                if (KlackerPlanes[c].Logo) PrimaryBm.BlitFromT (gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+2], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+2].Size.y+19);
+                if (KlackerPlanes[c].Logo != 0) { PrimaryBm.BlitFromT (gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+2], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+2].Size.y+19);
+}
                 PrimaryBm.BlitFromT (gUniversalPlaneBms[6], x-gUniversalPlaneBms[9+1].Size.x*KlackerPlanes[c].Size/2-gUniversalPlaneBms[4].Size.x/2+40, KlackerPlanes[c].ScreenPos.y-20-28);
             }
             else
@@ -313,7 +372,8 @@ void CKlackerPlanes::PostPaint (SBBM &PrimaryBm)
                 for (SLONG d=0; d<KlackerPlanes[c].Size; d++)
                 {
                     PrimaryBm.BlitFromT (gUniversalPlaneBms[31                         ], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+1].Size.y);
-                    if (KlackerPlanes[c].Logo) PrimaryBm.BlitFromT (gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+1], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+1].Size.y);
+                    if (KlackerPlanes[c].Logo != 0) { PrimaryBm.BlitFromT (gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+1], x, KlackerPlanes[c].ScreenPos.y-gUniversalPlaneBms[9+1].Size.y);
+}
                     x+=gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+1].Size.x;
                 }
 
@@ -324,6 +384,7 @@ void CKlackerPlanes::PostPaint (SBBM &PrimaryBm)
                 PrimaryBm.BlitFromT (gUniversalPlaneBms[5], xx+gUniversalPlaneBms[9+KlackerPlanes[c].Logo*5+1].Size.x*KlackerPlanes[c].Size/2-20, KlackerPlanes[c].ScreenPos.y-20-26);
             }
         }
+}
 }
 
 //--------------------------------------------------------------------------------------------

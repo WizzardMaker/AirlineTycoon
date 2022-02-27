@@ -25,13 +25,14 @@ CSabotage::CSabotage(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     SetRoomVisited (PlayerNum, ROOM_SABOTAGE);
     HandyOffset = 320;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
     PlayEyeAnim = FALSE;
 
     Sim.FocusPerson=-1;
 
     //Hintergrundsounds:
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         BackFx.ReInit("saboback.raw");
         BackFx.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING, Sim.Options.OptionEffekte*100/7);
@@ -85,8 +86,9 @@ CSabotage::CSabotage(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
     ZischFx.ReInit ("zisch.raw");
     LunteFx.ReInit ("lunte.raw");
 
-    if (rand()%10==0 || CheatAnimNow)
+    if (rand()%10==0 || (CheatAnimNow != 0)) {
         DynamitAnim.ReSize (pRoomLib, "FEUER00", 3, &LunteFx,  FALSE, ANIMATION_MODE_REPEAT, 0,   2);
+}
 
     DampfAnim.ReSize   (pRoomLib, "DAMPF00",  8, &ZischFx, FALSE, ANIMATION_MODE_REPEAT, 300, 3, 300, 1);
     KamelAnim.ReSize   (pRoomLib, "AUGE00",   7, NULL,     TRUE,  ANIMATION_MODE_NEVER,  0  , 7, 300, 1);
@@ -116,8 +118,9 @@ CSabotage::~CSabotage()
     ZangeBm.Destroy();
     Talkers.Talkers[TALKER_SABOTAGE].DecreaseReference ();
 
-    if (Sim.Players.Players[Sim.localPlayer].ArabMode==6)
+    if (Sim.Players.Players[Sim.localPlayer].ArabMode==6) {
         Sim.Players.Players[Sim.localPlayer].EnterRoom (ROOM_WORLD);
+}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,7 +135,8 @@ void CSabotage::OnPaint()
     SLONG   NewTip;
     PLAYER &qPlayer = Sim.Players.Players[(SLONG)PlayerNum];
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_SABOTAGE, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_SABOTAGE, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -142,18 +146,21 @@ void CSabotage::OnPaint()
     KamelAnim.BlitAt   (RoomBm,  20, 37);
     LampeAnim.BlitAt   (RoomBm, 344, 299);
 
-    if (!(!qPlayer.HasItem (ITEM_DART) && !qPlayer.HasItem (ITEM_DISKETTE) && qPlayer.WerbungTrust==FALSE))
+    if (!((qPlayer.HasItem (ITEM_DART) == 0) && (qPlayer.HasItem (ITEM_DISKETTE) == 0) && qPlayer.WerbungTrust==FALSE)) {
         RoomBm.BlitFrom (DartBm, 148, 42);
+}
 
-    if (Sim.ItemZange) RoomBm.BlitFrom (ZangeBm, 369, 188);
+    if (Sim.ItemZange != 0) { RoomBm.BlitFrom (ZangeBm, 369, 188);
+}
 
-    if (SP_Araber.GetClip()!=0 && SP_Araber.GetClip()!=1 && SP_Araber.GetClip()!=-1 && SP_Araber.GetClip()!=10)
+    if (SP_Araber.GetClip()!=0 && SP_Araber.GetClip()!=1 && SP_Araber.GetClip()!=-1 && SP_Araber.GetClip()!=10) {
         RoomBm.BlitFrom (AraberBm, 380-3, 194);
+}
 
     SP_Araber.Pump ();
     SP_Araber.BlitAtT (RoomBm);
 
-    if (PlayEyeAnim)
+    if (PlayEyeAnim != 0)
     {
         PlayEyeAnim=FALSE;
         KamelAnim.StartNow ();
@@ -162,21 +169,24 @@ void CSabotage::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (86, 98, 209, 439)) SetMouseLook (CURSOR_EXIT, 0, ROOM_SABOTAGE, 999);
-        else if (gMousePosition.IfIsWithin (138,9,211,120) && !qPlayer.HasItem (ITEM_DART) && !qPlayer.HasItem (ITEM_DISKETTE) && qPlayer.WerbungTrust==FALSE)
+        if (gMousePosition.IfIsWithin (86, 98, 209, 439)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_SABOTAGE, 999);
+        } else if (gMousePosition.IfIsWithin (138,9,211,120) && (qPlayer.HasItem (ITEM_DART) == 0) && (qPlayer.HasItem (ITEM_DISKETTE) == 0) && qPlayer.WerbungTrust==FALSE) {
             SetMouseLook (CURSOR_HOT, 0, ROOM_SABOTAGE, 800);
-        else
+        } else
         {
             if (SP_Araber.GetClip()!=0 && SP_Araber.GetClip()!=1 && SP_Araber.GetClip()!=-1)
             {
-                if (gMousePosition.IfIsWithin (376,106,546,440)) SetMouseLook (CURSOR_HOT, 0, ROOM_SABOTAGE, 10);
-                if (gMousePosition.IfIsWithin (288,227,631,323)) SetMouseLook (CURSOR_HOT, 0, ROOM_SABOTAGE, 10);
+                if (gMousePosition.IfIsWithin (376,106,546,440)) { SetMouseLook (CURSOR_HOT, 0, ROOM_SABOTAGE, 10);
+}
+                if (gMousePosition.IfIsWithin (288,227,631,323)) { SetMouseLook (CURSOR_HOT, 0, ROOM_SABOTAGE, 10);
+}
             }
             else
             {
-                if (gMousePosition.IfIsWithin (422,265,548,439)) SetMouseLook (CURSOR_HOT, 0, ROOM_SABOTAGE, 10);
+                if (gMousePosition.IfIsWithin (422,265,548,439)) { SetMouseLook (CURSOR_HOT, 0, ROOM_SABOTAGE, 10);
+}
             }
         }
     }
@@ -186,7 +196,7 @@ void CSabotage::OnPaint()
         {
             NewTip = (gMousePosition.y-(MenuPos.y+25))/13 + MenuPage;
 
-            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]))
+            if (NewTip>=0 && NewTip-MenuPage<13 && NewTip<MenuDataTable.LineIndex.AnzEntries() && (Sim.Players.Players[(SLONG)qPlayer.ArabOpfer].Planes.IsInAlbum (MenuDataTable.LineIndex[NewTip]) != 0))
             {
                 if (NewTip != CurrentTip)
                 {
@@ -196,16 +206,19 @@ void CSabotage::OnPaint()
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack, FALSE, TRUE);
                 }
 
-                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums])
+                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums] != 0u) {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontRed, CURSOR_HOT);
-                else
+                } else {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontBlack, CURSOR_HOT);
+}
 
                 CurrentTip = NewTip;
             }
-            else NewTip = -1;
+            else { NewTip = -1;
+}
         }
-        else NewTip = -1;
+        else { NewTip = -1;
+}
 
         if (NewTip != CurrentTip)
         {
@@ -231,34 +244,35 @@ void CSabotage::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==800)
+        if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==800)
         {
             StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, 800);
         }
-        else if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==10) StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, 0);
-        else if (gMousePosition.IfIsWithin (298,395, 337,423)) DynamitAnim.Remove();
-        else if (gMousePosition.IfIsWithin (384,204, 426,263))
+        else if (MouseClickArea==ROOM_SABOTAGE && MouseClickId==10) { StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, 0);
+        } else if (gMousePosition.IfIsWithin (298,395, 337,423)) { DynamitAnim.Remove();
+        } else if (gMousePosition.IfIsWithin (384,204, 426,263))
         {
-            if (Sim.ItemZange)
+            if (Sim.ItemZange != 0)
             {
                 Sim.Players.Players[(SLONG)PlayerNum].BuyItem (ITEM_ZANGE);
-                if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_ZANGE))
+                if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_ZANGE) != 0)
                 {
-                    Sim.ItemZange=false;
-                    Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_ZANGE);
+                    Sim.ItemZange=0;
+                    SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_ZANGE);
                 }
             }
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -274,9 +288,8 @@ void CSabotage::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -288,7 +301,7 @@ void CSabotage::OnRButtonDown(UINT nFlags, CPoint point)
             }
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }
 
 //--------------------------------------------------------------------------------------------

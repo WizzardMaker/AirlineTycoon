@@ -20,7 +20,8 @@ static const char FileId[] = "Bank";
 //--------------------------------------------------------------------------------------------
 Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.gli", GFX_BANK)
 {
-    SLONG OldZins, NewZins;
+    SLONG OldZins;
+    SLONG NewZins;
 
     Sim.FocusPerson=-1;
 
@@ -47,7 +48,8 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
     //Raumanimationen
     MonitorAnim.ReSize (pRoomLib, "MONI01",  5, NULL, FALSE, ANIMATION_MODE_REPEAT, 0, 20*10);
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
 
     CatchFly  = -1;
     FlyCaught = -1;
@@ -149,7 +151,7 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
     CurrentTip   = -1;
     KontoType    = -1;
 
-    if (Sim.Options.OptionAmbiente)
+    if (Sim.Options.OptionAmbiente != 0)
     {
         SetBackgroundFx (0, "tippen.raw",   12000);  //Schreibmaschine
         SetBackgroundFx (1, "printer.raw",  30000);    //Papierrascheln
@@ -179,7 +181,8 @@ Bank::Bank (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, "bank.g
 Bank::~Bank()
 {
     ZettelBm.Destroy();
-    if (pGfxMain && pMenuLib) pGfxMain->ReleaseLib (pMenuLib);
+    if ((pGfxMain != nullptr) && (pMenuLib != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
+}
 
     Talkers.Talkers[TALKER_BANKER1].DecreaseReference ();
     Talkers.Talkers[TALKER_BANKER2].DecreaseReference ();
@@ -209,30 +212,35 @@ void Bank::OnPaint()
 {
     SLONG c;
 
-    if (Sim.Date>5) Sim.GiveHint (HINT_BANK);
+    if (Sim.Date>5) { Sim.GiveHint (HINT_BANK);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
 
-    if (Sim.MoneyInBankTrash)
+    if (Sim.MoneyInBankTrash != 0) {
         RoomBm.BlitFrom (MoneyBm, 281, 368);
+}
 
-    for (c=0; c<Sim.Players.AnzPlayers; c++)
-        if (!Sim.Players.Players[c].IsOut)
+    for (c=0; c<Sim.Players.AnzPlayers; c++) {
+        if (Sim.Players.Players[c].IsOut == 0)
         {
             FBUFFER<SLONG> Kurse(10);
-            SLONG          d, Max;
+            SLONG          d;
+            SLONG          Max;
 
             for (Max=d=0; d<10; d++)
             {
                 Kurse[d]=SLONG(Sim.Players.Players[c].Kurse[9-d]);
 
-                if (Max<Kurse[d]) Max=Kurse[d];
+                if (Max<Kurse[d]) { Max=Kurse[d];
+}
             }
 
             Max=Max+Max/2;
             DrawChart (RoomBm, AktienKursLineColor[c], Kurse, 0, Max, TopLeft[c], TopRight[c], BottomLeft[c], BottomRight[c]);
         }
+}
 
     //Die Raum-Animationen:
     MonitorAnim.BlitAtT (RoomBm, 187, 200);
@@ -256,13 +264,13 @@ void Bank::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<3))
+    if ((Sim.Players.Players[(SLONG)PlayerNum].SecurityFlags&(1<<3)) != 0u)
     {
         SP_Modem.Pump ();
         SP_Modem.BlitAtT (RoomBm);
     }
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         //Ggf. Kontoauszug einbauen:
         if (KontoType==1 || KontoType==2)
@@ -270,10 +278,11 @@ void Bank::OnPaint()
             PrimaryBm.BlitFromT (TipBm, WinP1.x+(WinP2.x-WinP1.y-TipBm.Size.x)/2, WinP1.y+(WinP2.y-WinP1.y-StatusLineSizeY-TipBm.Size.y)/2);
         }
 
-        if (gMousePosition.IfIsWithin (462,207,601,352)) SetMouseLook (CURSOR_HOT, 0, ROOM_BANK, 10);
-        else if (gMousePosition.IfIsWithin (251,155,335,262)) SetMouseLook (CURSOR_HOT, 0, ROOM_BANK, 11);
-        else if (gMousePosition.IfIsWithin (62,64,173,186)) SetMouseLook (CURSOR_EXIT, 0, ROOM_BANK, 999);
-        else if (Sim.MoneyInBankTrash && gMousePosition.IfIsWithin (288,388,326,410)) SetMouseLook (CURSOR_HOT, 0, ROOM_BANK, 20);
+        if (gMousePosition.IfIsWithin (462,207,601,352)) { SetMouseLook (CURSOR_HOT, 0, ROOM_BANK, 10);
+        } else if (gMousePosition.IfIsWithin (251,155,335,262)) { SetMouseLook (CURSOR_HOT, 0, ROOM_BANK, 11);
+        } else if (gMousePosition.IfIsWithin (62,64,173,186)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_BANK, 999);
+        } else if ((Sim.MoneyInBankTrash != 0) && gMousePosition.IfIsWithin (288,388,326,410)) { SetMouseLook (CURSOR_HOT, 0, ROOM_BANK, 20);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -283,7 +292,7 @@ void Bank::OnPaint()
     {
         SLONG NewTip = (gMousePosition.x-378)/30 + (gMousePosition.y-33)/64*2;
 
-        if (!Sim.Players.Players[NewTip].IsOut)
+        if (Sim.Players.Players[NewTip].IsOut == 0)
         {
             if (NewTip != CurrentTip)
             {
@@ -296,7 +305,8 @@ void Bank::OnPaint()
             PrimaryBm.BlitFromT (TipBm, 163, 23);
         }
     }
-    else CurrentTip = -1;
+    else { CurrentTip = -1;
+}
 
     CStdRaum::PumpToolTips ();
 }
@@ -311,27 +321,28 @@ void Bank::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_BANK && MouseClickId==999) qPlayer.LeaveRoom();
-        else if (MouseClickArea==ROOM_BANK && MouseClickId==10) StartDialog (TALKER_BANKER1, MEDIUM_AIR);
-        else if (MouseClickArea==ROOM_BANK && MouseClickId==11) StartDialog (TALKER_BANKER2, MEDIUM_AIR);
-        else if (MouseClickArea==ROOM_BANK && MouseClickId==20)
+        if (MouseClickArea==ROOM_BANK && MouseClickId==999) { qPlayer.LeaveRoom();
+        } else if (MouseClickArea==ROOM_BANK && MouseClickId==10) { StartDialog (TALKER_BANKER1, MEDIUM_AIR);
+        } else if (MouseClickArea==ROOM_BANK && MouseClickId==11) { StartDialog (TALKER_BANKER2, MEDIUM_AIR);
+        } else if (MouseClickArea==ROOM_BANK && MouseClickId==20)
         {
             //Geld gefunden:
             Sim.MoneyInBankTrash=0;
             qPlayer.ChangeMoney (100000, 2006, "");
             qPlayer.NetSynchronizeMoney ();
-            Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_NONE);
+            SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_NONE);
 
             StartDialog (TALKER_BANKER1, MEDIUM_AIR, 20);
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -347,9 +358,8 @@ void Bank::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -360,7 +370,7 @@ void Bank::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }
 
 //============================================================================================
@@ -381,7 +391,7 @@ void  CBilanz::Clear(void)
 //--------------------------------------------------------------------------------------------
 //Gibt den Saldo der Habens-Seite zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CBilanz::GetHaben(void)
+SLONG CBilanz::GetHaben(void) const
 {
     return (HabenZinsen+Tickets+Auftraege+HabenRendite);
 }
@@ -389,7 +399,7 @@ SLONG CBilanz::GetHaben(void)
 //--------------------------------------------------------------------------------------------
 //Gibt den Saldo der Soll-Seite zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CBilanz::GetSoll(void)
+SLONG CBilanz::GetSoll(void) const
 {
     return (SollZinsen+Kerosin+Personal+Vertragsstrafen+Wartung+Gatemiete+Citymiete+Routenmiete+SollRendite);
 }

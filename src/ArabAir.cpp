@@ -27,7 +27,8 @@ CArabAir::CArabAir(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
     HandyOffset = 320;
     Sim.FocusPerson=-1;
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (60);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
 
     //if (gLanguage==LANGUAGE_D) FunkelAnim.ReSize (pRoomLib, "FUNK00", 7, NULL, FALSE, ANIMATION_MODE_REPEAT, 300, 2, 600, 1);
 
@@ -63,7 +64,7 @@ CArabAir::CArabAir(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 
-    if (Sim.Options.OptionEffekte)
+    if (Sim.Options.OptionEffekte != 0)
     {
         RadioFX.ReInit("radio.raw");
 
@@ -71,7 +72,7 @@ CArabAir::CArabAir(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, 
         StartupFX.Play(0, Sim.Options.OptionEffekte*100/7);
     }
 
-    if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_KEROSIN))
+    if (Sim.Players.Players[(SLONG)PlayerNum].HasBerater(BERATERTYP_KEROSIN) != 0)
     {
         if (Sim.Kerosin<400 && Sim.Players.Players[(SLONG)PlayerNum].TankInhalt*2<Sim.Players.Players[(SLONG)PlayerNum].Tank*4 && Sim.Players.Players[(SLONG)PlayerNum].Money>20000)
         {
@@ -105,9 +106,11 @@ CArabAir::~CArabAir()
 //--------------------------------------------------------------------------------------------
 void CArabAir::OnPaint()
 {
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
+}
 
-    if (Sim.Date>5) Sim.GiveHint (HINT_ARABAIR);
+    if (Sim.Date>5) { Sim.GiveHint (HINT_ARABAIR);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -119,23 +122,25 @@ void CArabAir::OnPaint()
 
     //FunkelAnim.BlitAt (RoomBm, 232, 202);
 
-    if (!Sim.Players.Players[PlayerNum].HasItem (ITEM_GLOVE) && Sim.ItemGlove)
+    if ((Sim.Players.Players[PlayerNum].HasItem (ITEM_GLOVE) == 0) && (Sim.ItemGlove != 0)) {
         RoomBm.BlitFromT (GloveBm, 314, 280);
+}
 
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        if (gMousePosition.IfIsWithin (0, 232, 144, 398) || gMousePosition.IfIsWithin (0, 288, 314, 380) || gMousePosition.IfIsWithin (0, 351, 639, 439)) SetMouseLook (CURSOR_EXIT, 0, ROOM_ARAB_AIR, 999);
-        else if (gMousePosition.IfIsWithin (314,280,314+72,280+62) && Sim.ItemGlove && !Sim.Players.Players[PlayerNum].HasItem (ITEM_GLOVE)) SetMouseLook (CURSOR_HOT, 0, ROOM_ARAB_AIR, 12);
-        else if (gMousePosition.IfIsWithin (437,89,600,323)) SetMouseLook (CURSOR_HOT, 0, ROOM_ARAB_AIR, 10);
-        else if (gMousePosition.IfIsWithin (313,136,371,176))
+        if (gMousePosition.IfIsWithin (0, 232, 144, 398) || gMousePosition.IfIsWithin (0, 288, 314, 380) || gMousePosition.IfIsWithin (0, 351, 639, 439)) { SetMouseLook (CURSOR_EXIT, 0, ROOM_ARAB_AIR, 999);
+        } else if (gMousePosition.IfIsWithin (314,280,314+72,280+62) && (Sim.ItemGlove != 0) && (Sim.Players.Players[PlayerNum].HasItem (ITEM_GLOVE) == 0)) { SetMouseLook (CURSOR_HOT, 0, ROOM_ARAB_AIR, 12);
+        } else if (gMousePosition.IfIsWithin (437,89,600,323)) { SetMouseLook (CURSOR_HOT, 0, ROOM_ARAB_AIR, 10);
+        } else if (gMousePosition.IfIsWithin (313,136,371,176))
         {
             SetMouseLook (CURSOR_NORMAL, 5000, bprintf(LPCTSTR(CString(StandardTexte.GetS (TOKEN_TOOLTIP, 4500))),Sim.Kerosin), ROOM_ARAB_AIR, 0);
 
-            if (ToolTipState==FALSE)
+            if (ToolTipState==FALSE) {
                 ToolTipTimer=timeGetTime()-601;
+}
         }
     }
 
@@ -152,29 +157,31 @@ void CArabAir::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (gMousePosition.IfIsWithin (179,215,242,261)) RadioFX.Play (0, Sim.Options.OptionEffekte*100/7);
+        if (gMousePosition.IfIsWithin (179,215,242,261)) { RadioFX.Play (0, Sim.Options.OptionEffekte*100/7);
+}
 
-        if (MouseClickArea==ROOM_ARAB_AIR && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else if (MouseClickArea==ROOM_ARAB_AIR && MouseClickId==10) { StartDialog (TALKER_ARAB, MEDIUM_AIR, 0); }
+        if (MouseClickArea==ROOM_ARAB_AIR && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else if (MouseClickArea==ROOM_ARAB_AIR && MouseClickId==10) { StartDialog (TALKER_ARAB, MEDIUM_AIR, 0); }
         else if (MouseClickArea==ROOM_ARAB_AIR && MouseClickId==12)
         {
             Sim.Players.Players[(SLONG)PlayerNum].BuyItem (ITEM_GLOVE);
 
-            if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_GLOVE))
+            if (Sim.Players.Players[(SLONG)PlayerNum].HasItem (ITEM_GLOVE) != 0)
             {
                 Sim.ItemGlove=0;
-                Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLOVE);
+                SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLOVE);
             }
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -190,9 +197,8 @@ void CArabAir::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -203,5 +209,5 @@ void CArabAir::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

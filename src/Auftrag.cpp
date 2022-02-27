@@ -24,7 +24,8 @@ void CalcPlayerMaximums (bool bForce)
 {
     static SLONG LastHour=-1;
 
-    if (LastHour==Sim.GetHour() && bForce==false) return;
+    if (LastHour==Sim.GetHour() && !bForce) { return;
+}
 
     LastHour=Sim.GetHour();
 
@@ -33,27 +34,33 @@ void CalcPlayerMaximums (bool bForce)
     PlayerMinPassagiere = 2147483647;
     PlayerMinLength     = 2147483647;
 
-    for (long c=0; c<Sim.Players.AnzPlayers; c++)
-        if (!Sim.Players.Players[c].IsOut && (Sim.Players.Players[c].Owner==0 || Sim.Players.Players[c].Owner==2))
+    for (long c=0; c<Sim.Players.AnzPlayers; c++) {
+        if ((Sim.Players.Players[c].IsOut == 0) && (Sim.Players.Players[c].Owner==0 || Sim.Players.Players[c].Owner==2))
         {
             PLAYER &qPlayer=Sim.Players.Players[c];
 
-            for (SLONG d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++)
-                if (qPlayer.Planes.IsInAlbum(d))
+            for (SLONG d=0; d<(SLONG)qPlayer.Planes.AnzEntries(); d++) {
+                if (qPlayer.Planes.IsInAlbum(d) != 0)
                 {
-                    if (qPlayer.Planes[d].MaxPassagiere+qPlayer.Planes[d].MaxPassagiereFC>PlayerMaxPassagiere)
+                    if (qPlayer.Planes[d].MaxPassagiere+qPlayer.Planes[d].MaxPassagiereFC>PlayerMaxPassagiere) {
                         PlayerMaxPassagiere=qPlayer.Planes[d].ptPassagiere;
+}
 
-                    if (qPlayer.Planes[d].ptReichweite>PlayerMaxLength)
+                    if (qPlayer.Planes[d].ptReichweite>PlayerMaxLength) {
                         PlayerMaxLength=qPlayer.Planes[d].ptReichweite;
+}
 
-                    if (qPlayer.Planes[d].MaxPassagiere+qPlayer.Planes[d].MaxPassagiereFC<PlayerMinPassagiere)
+                    if (qPlayer.Planes[d].MaxPassagiere+qPlayer.Planes[d].MaxPassagiereFC<PlayerMinPassagiere) {
                         PlayerMinPassagiere=qPlayer.Planes[d].ptPassagiere;
+}
 
-                    if (qPlayer.Planes[d].ptReichweite<PlayerMinLength)
+                    if (qPlayer.Planes[d].ptReichweite<PlayerMinLength) {
                         PlayerMinLength=qPlayer.Planes[d].ptReichweite;
+}
                 }
+}
         }
+}
 
     PlayerMaxLength *= 1000;
     PlayerMinLength *= 1000;
@@ -64,29 +71,31 @@ void CalcPlayerMaximums (bool bForce)
 //============================================================================================
 void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
 {
-    if (HasBerater(BERATERTYP_AUFTRAG))
+    if (HasBerater(BERATERTYP_AUFTRAG) != 0)
     {
         SLONG Cost=((CalculateFlightCost (Auftrag.VonCity, Auftrag.NachCity, 8000, 700, -1))+99)/100*100;
-        SLONG d, Okay;
+        SLONG d;
+        SLONG Okay;
 
-        for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++)
-            if (Planes.IsInAlbum(d))
+        for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++) {
+            if (Planes.IsInAlbum(d) != 0)
             {
                 Okay|=Auftrag.FitsInPlane (Planes[d]);
                 //Okay|=Auftrag.FitsInPlane (PlaneTypes[(SLONG)Planes[d].TypeId]);
             }
+}
 
-        for (d=0; d<(SLONG)Planes.AnzEntries(); d++)
-            if (Planes.IsInAlbum(d))
+        for (d=0; d<(SLONG)Planes.AnzEntries(); d++) {
+            if (Planes.IsInAlbum(d) != 0)
             {
                 CPlane &qPlane = Planes[d];
 
-                for (SLONG e=0; e<qPlane.Flugplan.Flug.AnzEntries(); e++)
+                for (SLONG e=0; e<qPlane.Flugplan.Flug.AnzEntries(); e++) {
                     if (qPlane.Flugplan.Flug[e].ObjectType==3)
                     {
                         CFlugplanEintrag &qFPE = qPlane.Flugplan.Flug[e];
 
-                        if (qFPE.Startdate>Sim.Date || (qFPE.Startdate==Sim.Date && qFPE.Startzeit>Sim.GetHour()+1))
+                        if (qFPE.Startdate>Sim.Date || (qFPE.Startdate==Sim.Date && qFPE.Startzeit>Sim.GetHour()+1)) {
                             if (Auftrag.VonCity==qFPE.VonCity && Auftrag.NachCity==qFPE.NachCity &&
                                     Auftrag.Date<=qFPE.Startdate  && Auftrag.BisDate>=qFPE.Startdate &&
                                     SLONG(Auftrag.Personen)<=qPlane.MaxPassagiere+qPlane.MaxPassagiereFC)
@@ -95,8 +104,11 @@ void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
                                 Messages.AddMessage (BERATERTYP_AUFTRAG, bprintf (StandardTexte.GetS (TOKEN_ADVICE, 7013), (LPCTSTR)qPlane.Name), MESSAGE_COMMENT, SMILEY_GREAT);
                                 return;
                             }
+}
                     }
+}
             }
+}
 
         if (Okay==0)
         {
@@ -105,11 +117,12 @@ void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
         }
         else
         {
-            for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++)
-                if (Planes.IsInAlbum(d))
+            for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++) {
+                if (Planes.IsInAlbum(d) != 0)
                 {
-                    Okay|=(SLONG(Auftrag.Personen)<=Planes[d].MaxPassagiere+Planes[d].MaxPassagiereFC);
+                    Okay|=static_cast<int>(SLONG(Auftrag.Personen)<=Planes[d].MaxPassagiere+Planes[d].MaxPassagiereFC);
                 }
+}
 
             if (Okay==0)
             {
@@ -118,13 +131,14 @@ void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
             }
             else
             {
-                for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++)
-                    if (Planes.IsInAlbum(d))
+                for (d=0, Okay=FALSE; d<(SLONG)Planes.AnzEntries(); d++) {
+                    if (Planes.IsInAlbum(d) != 0)
                     {
-                        Okay|=( (SLONG(Auftrag.Personen)<=Planes[d].MaxPassagiere+Planes[d].MaxPassagiereFC) &&
-                                Auftrag.FitsInPlane (Planes[d]) );
+                        Okay|=static_cast<int>( (SLONG(Auftrag.Personen)<=Planes[d].MaxPassagiere+Planes[d].MaxPassagiereFC) &&
+                                (Auftrag.FitsInPlane (Planes[d]) != 0) );
                         //Auftrag.FitsInPlane (PlaneTypes[(SLONG)Planes[d].TypeId]) );
                     }
+}
 
                 if (Okay==0)
                 {
@@ -135,16 +149,17 @@ void PLAYER::CheckAuftragsBerater (const CAuftrag &Auftrag)
                 {
                     SLONG Cost=((CalculateFlightCost (Auftrag.VonCity, Auftrag.NachCity, 8000, 700, -1))+99)/100*100;
 
-                    if (Auftrag.Strafe==0)
+                    if (Auftrag.Strafe==0) {
                         Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7000), MESSAGE_COMMENT, SMILEY_NEUTRAL);
-                    else if (Cost <= Auftrag.Praemie*5/10)
+                    } else if (Cost <= Auftrag.Praemie*5/10) {
                         Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7001), MESSAGE_COMMENT, SMILEY_GREAT);
-                    else if (Cost <= Auftrag.Praemie*9/10)
+                    } else if (Cost <= Auftrag.Praemie*9/10) {
                         Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7002), MESSAGE_COMMENT, SMILEY_GOOD);
-                    else if (Cost <= Auftrag.Praemie*14/10)
+                    } else if (Cost <= Auftrag.Praemie*14/10) {
                         Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7003), MESSAGE_COMMENT, SMILEY_NEUTRAL);
-                    else
+                    } else {
                         Messages.AddMessage (BERATERTYP_AUFTRAG, StandardTexte.GetS (TOKEN_ADVICE, 7004), MESSAGE_COMMENT, SMILEY_BAD);
+}
                 }
             }
         }
@@ -265,10 +280,13 @@ void CAuftrag::RandomCities (SLONG AreaType, SLONG HomeCity, TEAKRAND *pRandom)
 
         TimeOut++;
 
-        if (VonCity<0x1000000)  VonCity  = Cities.GetIdFromIndex(VonCity);
-        if (NachCity<0x1000000) NachCity = Cities.GetIdFromIndex(NachCity);
+        if (VonCity<0x1000000) {  VonCity  = Cities.GetIdFromIndex(VonCity);
+}
+        if (NachCity<0x1000000) { NachCity = Cities.GetIdFromIndex(NachCity);
+}
 
-        if (TimeOut>300 && VonCity!=NachCity) break;
+        if (TimeOut>300 && VonCity!=NachCity) { break;
+}
     }
     while (VonCity==NachCity || (AreaType==4 && Cities.CalcDistance(VonCity, NachCity)>10000000));
 }
@@ -359,11 +377,14 @@ too_large:
         Praemie  = Praemie*7/4;
     }
 
-    if (AreaType==1) Praemie=Praemie*3/2;
-    if (AreaType==2) Praemie=Praemie*8/5;
+    if (AreaType==1) { Praemie=Praemie*3/2;
+}
+    if (AreaType==2) { Praemie=Praemie*8/5;
+}
 
-    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100)
+    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100) {
         goto too_large;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -388,7 +409,8 @@ too_large:
     Praemie      = ((CalculateFlightCost (VonCity, NachCity, 8000, 700, -1))+99)/100*105;
     Strafe       = Praemie/2*100/100;
 
-    if (pRandom->Rand (5)==4) BisDate+=((UWORD)(pRandom->Rand(5)));
+    if (pRandom->Rand (5)==4) { BisDate+=((UWORD)(pRandom->Rand(5)));
+}
 
     SLONG Type = pRandom->Rand (100);
 
@@ -455,16 +477,19 @@ too_large:
         Praemie  = Praemie*7/4;
     }
 
-    if (AreaType==1) Praemie=Praemie*3/2;
-    if (AreaType==2) Praemie=Praemie*8/5;
+    if (AreaType==1) { Praemie=Praemie*3/2;
+}
+    if (AreaType==2) { Praemie=Praemie*8/5;
+}
     if (Date!=BisDate)
     {
         Date=(UWORD)Sim.Date;
         Praemie=Praemie*4/5;
     }
 
-    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100)
+    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100) {
         goto too_large;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -518,17 +543,22 @@ too_large:
         Strafe  = 0;
     }
 
-    if (AreaType==1) Praemie=Praemie*3/2;
-    if (AreaType==2) Praemie=Praemie*8/5;
-    if (Date!=BisDate) Praemie=Praemie*4/5;
+    if (AreaType==1) { Praemie=Praemie*3/2;
+}
+    if (AreaType==2) { Praemie=Praemie*8/5;
+}
+    if (Date!=BisDate) { Praemie=Praemie*4/5;
+}
 
     TimeOut++;
 
-    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut<80)
+    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut<80) {
         goto too_large;
+}
 
-    if ((SLONG(Personen)>PlayerMinPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMinLength) && TimeOut<60)
+    if ((SLONG(Personen)>PlayerMinPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMinLength) && TimeOut<60) {
         goto too_large;
+}
 
     if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength))
     {
@@ -561,7 +591,8 @@ too_large:
     Praemie      = ((CalculateFlightCost (VonCity, NachCity, 8000, 700, -1))+99)/100*115;
     Strafe       = Praemie/2*100/100*2;
 
-    if (pRandom->Rand (5)==4) BisDate+=((UWORD)(pRandom->Rand(5)));
+    if (pRandom->Rand (5)==4) { BisDate+=((UWORD)(pRandom->Rand(5)));
+}
 
     SLONG Type = pRandom->Rand (100);
 
@@ -628,16 +659,19 @@ too_large:
         Praemie  = Praemie*7/4;
     }
 
-    if (AreaType==1) Praemie=Praemie*3/2;
-    if (AreaType==2) Praemie=Praemie*8/5;
+    if (AreaType==1) { Praemie=Praemie*3/2;
+}
+    if (AreaType==2) { Praemie=Praemie*8/5;
+}
     if (Date!=BisDate)
     {
         Date=(UWORD)Sim.Date;
         Praemie=Praemie*4/5;
     }
 
-    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100)
+    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100) {
         goto too_large;
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -650,7 +684,8 @@ void CAuftrag::RefillForAusland (SLONG AreaType, SLONG CityNum, TEAKRAND *pRando
     TEAKRAND localRand;
     localRand.SRand (pRandom->Rand());
 
-    if (CityNum<0x1000000) CityNum=Cities.GetIdFromIndex(CityNum);
+    if (CityNum<0x1000000) { CityNum=Cities.GetIdFromIndex(CityNum);
+}
 
 too_large:
 
@@ -675,7 +710,8 @@ too_large:
     Praemie      = ((CalculateFlightCost (VonCity, NachCity, 8000, 700, -1))+99)/100*120;
     Strafe       = Praemie/2*100/100;
 
-    if (localRand.Rand (5)==4) BisDate+=((UWORD)(localRand.Rand(5)));
+    if (localRand.Rand (5)==4) { BisDate+=((UWORD)(localRand.Rand(5)));
+}
 
     SLONG Type = localRand.Rand (100);
 
@@ -743,30 +779,35 @@ too_large:
         Praemie  = Praemie*7/4;
     }
 
-    if (AreaType==1) Praemie=Praemie*3/2;
-    if (AreaType==2) Praemie=Praemie*8/5;
+    if (AreaType==1) { Praemie=Praemie*3/2;
+}
+    if (AreaType==2) { Praemie=Praemie*8/5;
+}
     if (Date!=BisDate)
     {
         Date    = (UWORD)Sim.Date;
         Praemie = Praemie*4/5;
     }
 
-    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100)
+    if ((SLONG(Personen)>PlayerMaxPassagiere || Cities.CalcDistance(VonCity, NachCity)>PlayerMaxLength) && TimeOut++<100) {
         goto too_large;
+}
 }
 
 //--------------------------------------------------------------------------------------------
 //Das Raster zum ausgrauen der ungültigen Tage zeichnen:
 //--------------------------------------------------------------------------------------------
-void CAuftrag::BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page)
+void CAuftrag::BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page) const
 {
     SLONG c;
 
-    if (!Tagesansicht)
+    if (Tagesansicht == 0)
     {
-        for (c=0; c<7; c++)
-            if (Sim.Date+c<Date || Sim.Date+c>BisDate)
+        for (c=0; c<7; c++) {
+            if (Sim.Date+c<Date || Sim.Date+c>BisDate) {
                 pBitmap->BlitFromT (FlugplanBms[51], Offset.x, Offset.y+FlugplanBms[51].Size.y*c);
+}
+}
     }
 }
 
@@ -775,15 +816,14 @@ void CAuftrag::BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Pa
 //--------------------------------------------------------------------------------------------
 BOOL CAuftrag::FitsInPlane (const CPlane &Plane) const
 {
-    if (Cities.CalcDistance (VonCity, NachCity)>Plane.ptReichweite*1000)
+    if (Cities.CalcDistance (VonCity, NachCity)>Plane.ptReichweite*1000) {
         return (FALSE);
-    else
-    {
-        //if ((Cities.CalcDistance (VonCity, NachCity)/PlaneType.Geschwindigkeit+999)/1000+1+2>=24)
+    } 
+            //if ((Cities.CalcDistance (VonCity, NachCity)/PlaneType.Geschwindigkeit+999)/1000+1+2>=24)
         //if (Cities.CalcFlugdauer (VonCity, NachCity, PlaneType.Geschwindigkeit)>=24)
         if (Cities.CalcFlugdauer (VonCity, NachCity, Plane.ptGeschwindigkeit)>=24)
             return (FALSE);
-    }
+   
 
     return (TRUE);
 }
@@ -839,12 +879,15 @@ void CAuftraege::FillForLastMinute (void)
 
     Auftraege.ReSize (6);  //ex:10
 
-    for (c=0; c<Auftraege.AnzEntries(); c++)
+    for (c=0; c<Auftraege.AnzEntries(); c++) {
         Auftraege[c].RefillForLastMinute (c/2, &Random);
+}
 
-    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=20 && Sim.Date<=30)
-        for (c=0; c<Auftraege.AnzEntries(); c++)
+    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=20 && Sim.Date<=30) {
+        for (c=0; c<Auftraege.AnzEntries(); c++) {
             Auftraege[c].Praemie=0;
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -863,28 +906,34 @@ void CAuftraege::RefillForLastMinute (SLONG Minimum)
 
     Auftraege.ReSize (6); //ex:10
 
-    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++)
+    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++) {
         if (Auftraege[c].Praemie==0)
         {
             Auftraege[c].RefillForLastMinute (c/2, &Random);
             Anz--;
         }
+}
 
-    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++)
-        if (Auftraege[c].Praemie!=0) Minimum--;
+    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++) {
+        if (Auftraege[c].Praemie!=0) { Minimum--;
+}
+}
 
-    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++)
+    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++) {
         if (Auftraege[c].Praemie==0 && Minimum>0)
         {
             Auftraege[c].RefillForLastMinute (c/2, &Random);
             Minimum--;
         }
+}
 
     Sim.TickLastMinuteRefill = 0;
 
-    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=20 && Sim.Date<=30)
-        for (c=0; c<Auftraege.AnzEntries(); c++)
+    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=20 && Sim.Date<=30) {
+        for (c=0; c<Auftraege.AnzEntries(); c++) {
             Auftraege[c].Praemie=0;
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -900,14 +949,17 @@ void CAuftraege::FillForReisebuero (void)
 
     for (c=0; c<Auftraege.AnzEntries(); c++)
     {
-        if (Sim.Date<5 && c<5)  Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
-        else if (Sim.Date<10 && c<3) Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
-        else                         Auftraege[c].RefillForAusland (c/2, Sim.HomeAirportId, &Random);
+        if (Sim.Date<5 && c<5) {  Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
+        } else if (Sim.Date<10 && c<3) { Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
+        } else {                         Auftraege[c].RefillForAusland (c/2, Sim.HomeAirportId, &Random);
+}
     }
 
-    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=20 && Sim.Date<=30)
-        for (c=0; c<Auftraege.AnzEntries(); c++)
+    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=20 && Sim.Date<=30) {
+        for (c=0; c<Auftraege.AnzEntries(); c++) {
             Auftraege[c].Praemie=0;
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -925,34 +977,42 @@ void CAuftraege::RefillForReisebuero (SLONG Minimum)
 
     Auftraege.ReSize (6);
 
-    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++)
+    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++) {
         if (Auftraege[c].Praemie==0)
         {
-            if (Sim.Date<5 && c<5)  Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
-            else if (Sim.Date<10 && c<3) Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
-            else                         Auftraege[c].RefillForAusland (c/2, Sim.HomeAirportId, &Random);
+            if (Sim.Date<5 && c<5) {  Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
+            } else if (Sim.Date<10 && c<3) { Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
+            } else {                         Auftraege[c].RefillForAusland (c/2, Sim.HomeAirportId, &Random);
+}
 
             Anz--;
         }
+}
 
-    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++)
-        if (Auftraege[c].Praemie!=0) Minimum--;
+    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++) {
+        if (Auftraege[c].Praemie!=0) { Minimum--;
+}
+}
 
-    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++)
+    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++) {
         if (Auftraege[c].Praemie==0 && Minimum>0)
         {
-            if (Sim.Date<5 && c<5)  Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
-            else if (Sim.Date<10 && c<3) Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
-            else                         Auftraege[c].RefillForAusland (c/2, Sim.HomeAirportId, &Random);
+            if (Sim.Date<5 && c<5) {  Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
+            } else if (Sim.Date<10 && c<3) { Auftraege[c].RefillForAusland (4, Sim.HomeAirportId, &Random);
+            } else {                         Auftraege[c].RefillForAusland (c/2, Sim.HomeAirportId, &Random);
+}
 
             Minimum--;
         }
+}
 
     Sim.TickReisebueroRefill = 0;
 
-    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=20 && Sim.Date<=30)
-        for (c=0; c<Auftraege.AnzEntries(); c++)
+    if (Sim.Difficulty==DIFF_ATFS10 && Sim.Date>=20 && Sim.Date<=30) {
+        for (c=0; c<Auftraege.AnzEntries(); c++) {
             Auftraege[c].Praemie=0;
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -969,9 +1029,10 @@ void CAuftraege::FillForAusland (SLONG CityNum)
 
     for (c=0; c<Auftraege.AnzEntries(); c++)
     {
-        if (Sim.Date<5 && c<5)  Auftraege[c].RefillForAusland (4, CityNum, &Random);
-        else if (Sim.Date<10 && c<3) Auftraege[c].RefillForAusland (4, CityNum, &Random);
-        else                         Auftraege[c].RefillForAusland (c/2, CityNum, &Random);
+        if (Sim.Date<5 && c<5) {  Auftraege[c].RefillForAusland (4, CityNum, &Random);
+        } else if (Sim.Date<10 && c<3) { Auftraege[c].RefillForAusland (4, CityNum, &Random);
+        } else {                         Auftraege[c].RefillForAusland (c/2, CityNum, &Random);
+}
     }
 }
 
@@ -988,28 +1049,34 @@ void CAuftraege::RefillForAusland (SLONG CityNum, SLONG Minimum)
     Auftraege.ReSize (6);
     IsInAlbum(0xffffffff); //Refresh erzwingen
 
-    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++)
+    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++) {
         if (Auftraege[c].Praemie==0)
         {
-            if (Sim.Date<5 && c<5)  Auftraege[c].RefillForAusland (4, CityNum, &Random);
-            else if (Sim.Date<10 && c<3) Auftraege[c].RefillForAusland (4, CityNum, &Random);
-            else                         Auftraege[c].RefillForAusland (c/2, CityNum, &Random);
+            if (Sim.Date<5 && c<5) {  Auftraege[c].RefillForAusland (4, CityNum, &Random);
+            } else if (Sim.Date<10 && c<3) { Auftraege[c].RefillForAusland (4, CityNum, &Random);
+            } else {                         Auftraege[c].RefillForAusland (c/2, CityNum, &Random);
+}
 
             Anz--;
         }
+}
 
-    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++)
-        if (Auftraege[c].Praemie!=0) Minimum--;
+    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++) {
+        if (Auftraege[c].Praemie!=0) { Minimum--;
+}
+}
 
-    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++)
+    for (c=0; c<Auftraege.AnzEntries() && Anz>0; c++) {
         if (Auftraege[c].Praemie==0 && Minimum>0)
         {
-            if (Sim.Date<5 && c<5)  Auftraege[c].RefillForAusland (4, CityNum, &Random);
-            else if (Sim.Date<10 && c<3) Auftraege[c].RefillForAusland (4, CityNum, &Random);
-            else                         Auftraege[c].RefillForAusland (c/2, CityNum, &Random);
+            if (Sim.Date<5 && c<5) {  Auftraege[c].RefillForAusland (4, CityNum, &Random);
+            } else if (Sim.Date<10 && c<3) { Auftraege[c].RefillForAusland (4, CityNum, &Random);
+            } else {                         Auftraege[c].RefillForAusland (c/2, CityNum, &Random);
+}
 
             Minimum--;
         }
+}
 
     AuslandsRefill[CityNum] = 0;
 }
@@ -1019,12 +1086,16 @@ void CAuftraege::RefillForAusland (SLONG CityNum, SLONG Minimum)
 //--------------------------------------------------------------------------------------------
 SLONG CAuftraege::GetNumDueToday (void)
 {
-    SLONG c, Anz=0;
+    SLONG c;
+    SLONG Anz=0;
 
-    for (c=0; c<Auftraege.AnzEntries(); c++)
-        if (IsInAlbum(c) && Auftraege[c].BisDate>=Sim.Date)
-            if (Auftraege[c].InPlan==0 && Auftraege[c].BisDate==Sim.Date)
+    for (c=0; c<Auftraege.AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && Auftraege[c].BisDate>=Sim.Date) {
+            if (Auftraege[c].InPlan==0 && Auftraege[c].BisDate==Sim.Date) {
                 Anz++;
+}
+}
+}
 
     return (Anz);
 }
@@ -1034,12 +1105,16 @@ SLONG CAuftraege::GetNumDueToday (void)
 //--------------------------------------------------------------------------------------------
 SLONG CAuftraege::GetNumOpen (void)
 {
-    SLONG c, Anz=0;
+    SLONG c;
+    SLONG Anz=0;
 
-    for (c=0; c<Auftraege.AnzEntries(); c++)
-        if (IsInAlbum(c) && Auftraege[c].BisDate>=Sim.Date)
-            if (Auftraege[c].InPlan==0)
+    for (c=0; c<Auftraege.AnzEntries(); c++) {
+        if ((IsInAlbum(c) != 0) && Auftraege[c].BisDate>=Sim.Date) {
+            if (Auftraege[c].InPlan==0) {
                 Anz++;
+}
+}
+}
 
     return (Anz);
 }

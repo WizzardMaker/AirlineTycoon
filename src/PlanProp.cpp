@@ -78,18 +78,21 @@ CPlaneProps::CPlaneProps(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
     PlaneIndex=-1;
     PlaneDataTable.FillWithPlanes (&Sim.Players.Players[(SLONG)PlayerNum].Planes, FALSE);
 
-    if (!Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(Sim.PlanePropId) && PlaneDataTable.AnzRows>0)
+    if ((Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(Sim.PlanePropId) == 0) && PlaneDataTable.AnzRows>0)
     {
         PlaneIndex=0;
     }
-    else if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(Sim.PlanePropId))
+    else if (Sim.Players.Players[(SLONG)PlayerNum].Planes.IsInAlbum(Sim.PlanePropId) != 0)
     {
-        for (SLONG c=0; c<PlaneDataTable.AnzRows; c++)
-            if (PlaneDataTable.LineIndex[c]==Sim.PlanePropId)
+        for (SLONG c=0; c<PlaneDataTable.AnzRows; c++) {
+            if (PlaneDataTable.LineIndex[c]==Sim.PlanePropId) {
                 PlaneIndex=c;
+}
+}
     }
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (40);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (40);
+}
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -100,11 +103,13 @@ CPlaneProps::CPlaneProps(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 //--------------------------------------------------------------------------------------------
 CPlaneProps::~CPlaneProps()
 {
-    if (PlaneIndex!=-1)
+    if (PlaneIndex!=-1) {
         Sim.PlanePropId=PlaneDataTable.LineIndex[PlaneIndex];
+}
 
-    if (ActivePage>50) Sim.RFActivePage=100;
-    else Sim.RFActivePage=0;
+    if (ActivePage>50) { Sim.RFActivePage=100;
+    } else { Sim.RFActivePage=0;
+}
 
     Back1.Destroy ();
     Back2.Destroy ();
@@ -147,13 +152,14 @@ void CPlaneProps::OnPaint()
     if (ActivePage>100) { ActivePage=100; ActiveDir=0; }
     LastTimer=Timer;
 
-    if (!Sim.UsedPlaneProp2)
+    if (Sim.UsedPlaneProp2 == 0)
     {
         BlinkArrowsTimer=timeGetTime();
         Sim.UsedPlaneProp2=TRUE;
     }
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_ARAB_AIR, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -175,7 +181,8 @@ void CPlaneProps::OnPaint()
             SBBM   &qCursor = CursorBms[(SLONG)((timeGetTime()/150)%8)];
 
             //Großes Fenster (links):
-            if (qPlane.DecoTarget<2) RoomBm.BlitFrom (Floors[qPlane.DecoTarget], 0+ScrollOffsetX, 27);
+            if (qPlane.DecoTarget<2) { RoomBm.BlitFrom (Floors[qPlane.DecoTarget], 0+ScrollOffsetX, 27);
+}
             RoomBm.BlitFromT (Seats[qPlane.SitzeTarget*3+qPlane.TablettsTarget], SeatOffsets[qPlane.SitzeTarget]+ScrollOffset);
             RoomBm.BlitFromT (Food[qPlane.EssenTarget*2], SeatOffsets[qPlane.SitzeTarget]+FoodOffsets[(qPlane.SitzeTarget*3+qPlane.TablettsTarget)*2]-Food[qPlane.EssenTarget*2].Size/SLONG(2)+ScrollOffset);
             RoomBm.BlitFromT (Food[qPlane.EssenTarget*2+1], SeatOffsets[qPlane.SitzeTarget]+FoodOffsets[(qPlane.SitzeTarget*3+qPlane.TablettsTarget)*2+1]-Food[qPlane.EssenTarget*2+1].Size/SLONG(2)+ScrollOffset);
@@ -187,16 +194,20 @@ void CPlaneProps::OnPaint()
             RoomBm.BlitFrom (StarBms[qPlane.Essen],    StarOffsets[3] + XY(qPlane.Essen*47+ScrollOffsetX, 0));
 
             //Highlights um die Sterne
-            if (qPlane.Sitze!=qPlane.SitzeTarget)       RoomBm.BlitFromT (qCursor, StarOffsets[0] + XY(qPlane.SitzeTarget*47-1, -1)+ScrollOffset);
-            if (qPlane.Tabletts!=qPlane.TablettsTarget) RoomBm.BlitFromT (qCursor, StarOffsets[1] + XY(qPlane.TablettsTarget*47-1, -1)+ScrollOffset);
-            if (qPlane.Deco!=qPlane.DecoTarget)         RoomBm.BlitFromT (qCursor, StarOffsets[2] + XY(qPlane.DecoTarget*47-1, -1)+ScrollOffset);
-            if (qPlane.Essen!=qPlane.EssenTarget)       RoomBm.BlitFromT (qCursor, StarOffsets[3] + XY(qPlane.EssenTarget*47-1, -1)+ScrollOffset);
+            if (qPlane.Sitze!=qPlane.SitzeTarget) {       RoomBm.BlitFromT (qCursor, StarOffsets[0] + XY(qPlane.SitzeTarget*47-1, -1)+ScrollOffset);
+}
+            if (qPlane.Tabletts!=qPlane.TablettsTarget) { RoomBm.BlitFromT (qCursor, StarOffsets[1] + XY(qPlane.TablettsTarget*47-1, -1)+ScrollOffset);
+}
+            if (qPlane.Deco!=qPlane.DecoTarget) {         RoomBm.BlitFromT (qCursor, StarOffsets[2] + XY(qPlane.DecoTarget*47-1, -1)+ScrollOffset);
+}
+            if (qPlane.Essen!=qPlane.EssenTarget) {       RoomBm.BlitFromT (qCursor, StarOffsets[3] + XY(qPlane.EssenTarget*47-1, -1)+ScrollOffset);
+}
 
             //Kosten für aktuelle Auswahl
             UBYTE Backup=0;
-            for (SLONG c=0; c<3; c++)
-                for (SLONG d=0; d<4; d++)
-                    if (gMousePosition.IfIsWithin (StarOffsets[d].x+c*47+ScrollOffsetX,StarOffsets[d].y,StarOffsets[d].x+43+c*47+ScrollOffsetX,StarOffsets[d].y+36))
+            for (SLONG c=0; c<3; c++) {
+                for (SLONG d=0; d<4; d++) {
+                    if (gMousePosition.IfIsWithin (StarOffsets[d].x+c*47+ScrollOffsetX,StarOffsets[d].y,StarOffsets[d].x+43+c*47+ScrollOffsetX,StarOffsets[d].y+36)) {
                         switch (d)
                         {
                             case 0: Backup = qPlane.SitzeTarget;    qPlane.SitzeTarget    = (UBYTE)c; break;
@@ -204,6 +215,9 @@ void CPlaneProps::OnPaint()
                             case 2: Backup = qPlane.DecoTarget;     qPlane.DecoTarget     = (UBYTE)c; break;
                             case 3: Backup = qPlane.EssenTarget;    qPlane.EssenTarget    = (UBYTE)c; break;
                         }
+}
+}
+}
 
             //Kosten rechts:
             //SLONG cost1 = PlaneTypes[qPlane.TypeId].Passagiere*(SeatCosts[qPlane.SitzeTarget]    - SeatCosts[qPlane.Sitze]/2);
@@ -213,17 +227,21 @@ void CPlaneProps::OnPaint()
             //SLONG cost3 = PlaneTypes[qPlane.TypeId].Passagiere*(DecoCosts[qPlane.DecoTarget]     - DecoCosts[qPlane.Deco]/2);
             SLONG cost3 = qPlane.ptPassagiere*(DecoCosts[qPlane.DecoTarget]     - DecoCosts[qPlane.Deco]/2);
 
-            if (qPlane.SitzeTarget!=qPlane.Sitze)       RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost1)), FontSmallBlack, TEC_FONT_RIGHT, XY(502, 58)+ScrollOffset, XY(631,72)+ScrollOffset);   else cost1=0;
-            if (qPlane.TablettsTarget!=qPlane.Tabletts) RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost2)), FontSmallBlack, TEC_FONT_RIGHT, XY(502,138)+ScrollOffset, XY(631,155)+ScrollOffset);  else cost2=0;
-            if (qPlane.DecoTarget!=qPlane.Deco)         RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost3)), FontSmallBlack, TEC_FONT_RIGHT, XY(502,218)+ScrollOffset, XY(631,305)+ScrollOffset);  else cost3=0;
-            if (cost1+cost2+cost3>0)                    RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost1+cost2+cost3)), FontSmallBlack, TEC_FONT_RIGHT, XY(502,252)+ScrollOffset, XY(631,271)+ScrollOffset);
+            if (qPlane.SitzeTarget!=qPlane.Sitze) {       RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost1)), FontSmallBlack, TEC_FONT_RIGHT, XY(502, 58)+ScrollOffset, XY(631,72)+ScrollOffset);   } else { cost1=0;
+}
+            if (qPlane.TablettsTarget!=qPlane.Tabletts) { RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost2)), FontSmallBlack, TEC_FONT_RIGHT, XY(502,138)+ScrollOffset, XY(631,155)+ScrollOffset);  } else { cost2=0;
+}
+            if (qPlane.DecoTarget!=qPlane.Deco) {         RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost3)), FontSmallBlack, TEC_FONT_RIGHT, XY(502,218)+ScrollOffset, XY(631,305)+ScrollOffset);  } else { cost3=0;
+}
+            if (cost1+cost2+cost3>0) {                    RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost1+cost2+cost3)), FontSmallBlack, TEC_FONT_RIGHT, XY(502,252)+ScrollOffset, XY(631,271)+ScrollOffset);
+}
             RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)Einheiten[EINH_DM].bString (qPlane.ptPassagiere*FoodCosts[qPlane.EssenTarget]), (LPCTSTR)StandardTexte.GetS (TOKEN_SCHED, 1801)),    FontSmallBlack, TEC_FONT_RIGHT, XY(502,334)+ScrollOffset, XY(631,353)+ScrollOffset);
             //RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)Einheiten[EINH_DM].bString (PlaneTypes[qPlane.TypeId].Passagiere*FoodCosts[qPlane.EssenTarget]), (LPCTSTR)StandardTexte.GetS (TOKEN_SCHED, 1801)),    FontSmallBlack, TEC_FONT_RIGHT, XY(502,334)+ScrollOffset, XY(631,353)+ScrollOffset);
 
             //Kosten für aktuelle Auswahl
-            for (SLONG c=0; c<3; c++)
-                for (SLONG d=0; d<4; d++)
-                    if (gMousePosition.IfIsWithin (StarOffsets[d].x+c*47+ScrollOffsetX,StarOffsets[d].y,StarOffsets[d].x+43+c*47+ScrollOffsetX,StarOffsets[d].y+36))
+            for (SLONG c=0; c<3; c++) {
+                for (SLONG d=0; d<4; d++) {
+                    if (gMousePosition.IfIsWithin (StarOffsets[d].x+c*47+ScrollOffsetX,StarOffsets[d].y,StarOffsets[d].x+43+c*47+ScrollOffsetX,StarOffsets[d].y+36)) {
                         switch (d)
                         {
                             case 0: qPlane.SitzeTarget    = Backup; break;
@@ -231,8 +249,11 @@ void CPlaneProps::OnPaint()
                             case 2: qPlane.DecoTarget     = Backup; break;
                             case 3: qPlane.EssenTarget    = Backup; break;
                         }
+}
+}
+}
 
-            if (!IsDialogOpen() && !MenuIsOpen() && ActivePage==100)
+            if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && ActivePage==100)
             {
                 /*if (gMousePosition.IfIsWithin (134,26,164,44) && PlaneIndex>0)
                   {
@@ -297,7 +318,7 @@ void CPlaneProps::OnPaint()
                     RoomBm.BlitFromT (MenuBms[6], 592,367);
                 }
 
-                for (SLONG c=0; c<3; c++)
+                for (SLONG c=0; c<3; c++) {
                     for (SLONG d=0; d<4; d++)
                     {
                         if (gMousePosition.IfIsWithin (StarOffsets[d].x+c*47,StarOffsets[d].y,StarOffsets[d].x+43+c*47,StarOffsets[d].y+36))
@@ -306,20 +327,23 @@ void CPlaneProps::OnPaint()
                             RoomBm.BlitFromT (qCursor, StarOffsets[d]+XY(c*47-1, -1));
                         }
                     }
+}
             }
 
             //Badge für die Stewardess:
-            if (qPlayer.SecurityFlags & (1<<6))
+            if ((qPlayer.SecurityFlags & (1<<6)) != 0u) {
                 RoomBm.BlitFrom (BadgeBm, 420+ScrollOffsetX, 352);
+}
 
             //Die Stewardess Anzeige:
             {
                 SLONG px=480-7+ScrollOffsetX; //y=408
-                SLONG m,n;
+                SLONG m;
+                SLONG n;
 
                 //n=min(qPlane.AnzBegleiter, PlaneTypes[qPlane.TypeId].AnzBegleiter);
                 n=min(qPlane.AnzBegleiter, qPlane.ptAnzBegleiter);
-                if (n)
+                if (n != 0)
                 {
                     RoomBm.BlitFromT (StewardessBms[0], px, 408); px+=StewardessBms[0].Size.x;
                     for (; n>1; n--)
@@ -331,7 +355,7 @@ void CPlaneProps::OnPaint()
 
                 //m=n=qPlane.AnzBegleiter-min(qPlane.AnzBegleiter, PlaneTypes[qPlane.TypeId].AnzBegleiter);
                 m=n=qPlane.AnzBegleiter-min(qPlane.AnzBegleiter, qPlane.ptAnzBegleiter);
-                if (n)
+                if (n != 0)
                 {
                     RoomBm.BlitFromT (StewardessBms[3], px, 408); px+=StewardessBms[3].Size.x;
                     for (; n>1; n--)
@@ -342,9 +366,9 @@ void CPlaneProps::OnPaint()
                 }
 
                 n=qPlane.MaxBegleiter-qPlane.AnzBegleiter;
-                if (n)
+                if (n != 0)
                 {
-                    if (m)
+                    if (m != 0)
                     {
                         px-=9;
                         RoomBm.BlitFromT (StewardessBms[6], px, 408); px+=StewardessBms[6].Size.x;
@@ -363,8 +387,9 @@ void CPlaneProps::OnPaint()
 
                 RoomBm.BlitFrom (DigitBms[qPlane.MaxBegleiter%10], 567+ScrollOffsetX, 374);
 
-                if (qPlane.MaxBegleiter>9)
+                if (qPlane.MaxBegleiter>9) {
                     RoomBm.BlitFrom (DigitBms[qPlane.MaxBegleiter/10], 551+ScrollOffsetX, 374);
+}
             }
         }
 
@@ -383,9 +408,11 @@ void CPlaneProps::OnPaint()
 
                     n = 8-(8-(50-(100-ActivePage))*8/50)*((7-c))/7;
 
-                    if (ActivePage>75) n+=(ActivePage-75)/5;
+                    if (ActivePage>75) { n+=(ActivePage-75)/5;
+}
 
-                    if (n>8) n=8;
+                    if (n>8) { n=8;
+}
 
                     ColorFX.Apply (n, RoomBm.pBitmap);
                 }
@@ -407,10 +434,14 @@ void CPlaneProps::OnPaint()
             SBBM   &qCursor = CursorBms[(SLONG)((timeGetTime()/150)%8)];
 
             //Großes Fenster (rechts):
-            if (qPlane.ReifenTarget)     RoomBm.BlitFrom (ReifenBms[qPlane.ReifenTarget-1], 325+ScrollOffsetX, 74);
-            if (qPlane.TriebwerkTarget)  RoomBm.BlitFrom (TurbinenBms[qPlane.TriebwerkTarget-1], 444+ScrollOffsetX, 42);
-            if (qPlane.SicherheitTarget) RoomBm.BlitFrom (SosBms[qPlane.SicherheitTarget-1], 305+ScrollOffsetX, 247);
-            if (qPlane.ElektronikTarget) RoomBm.BlitFrom (CockpitBms[qPlane.ElektronikTarget-1], 442+ScrollOffsetX, 237);
+            if (qPlane.ReifenTarget != 0u) {     RoomBm.BlitFrom (ReifenBms[qPlane.ReifenTarget-1], 325+ScrollOffsetX, 74);
+}
+            if (qPlane.TriebwerkTarget != 0u) {  RoomBm.BlitFrom (TurbinenBms[qPlane.TriebwerkTarget-1], 444+ScrollOffsetX, 42);
+}
+            if (qPlane.SicherheitTarget != 0u) { RoomBm.BlitFrom (SosBms[qPlane.SicherheitTarget-1], 305+ScrollOffsetX, 247);
+}
+            if (qPlane.ElektronikTarget != 0u) { RoomBm.BlitFrom (CockpitBms[qPlane.ElektronikTarget-1], 442+ScrollOffsetX, 237);
+}
 
             //Sterne:
             RoomBm.BlitFrom (StarBms[qPlane.Reifen],     StarOffsets[4] + XY(qPlane.Reifen*47+ScrollOffsetX, 0));
@@ -419,17 +450,21 @@ void CPlaneProps::OnPaint()
             RoomBm.BlitFrom (StarBms[qPlane.Elektronik], StarOffsets[7] + XY(qPlane.Elektronik*47+ScrollOffsetX, 0));
 
             //Highlights um die Sterne
-            if (qPlane.Reifen!=qPlane.ReifenTarget)         RoomBm.BlitFromT (qCursor, StarOffsets[4] + XY(qPlane.ReifenTarget*47-1, -1)+ScrollOffset);
-            if (qPlane.Triebwerk!=qPlane.TriebwerkTarget)   RoomBm.BlitFromT (qCursor, StarOffsets[5] + XY(qPlane.TriebwerkTarget*47-1, -1)+ScrollOffset);
-            if (qPlane.Sicherheit!=qPlane.SicherheitTarget) RoomBm.BlitFromT (qCursor, StarOffsets[6] + XY(qPlane.SicherheitTarget*47-1, -1)+ScrollOffset);
-            if (qPlane.Elektronik!=qPlane.ElektronikTarget) RoomBm.BlitFromT (qCursor, StarOffsets[7] + XY(qPlane.ElektronikTarget*47-1, -1)+ScrollOffset);
+            if (qPlane.Reifen!=qPlane.ReifenTarget) {         RoomBm.BlitFromT (qCursor, StarOffsets[4] + XY(qPlane.ReifenTarget*47-1, -1)+ScrollOffset);
+}
+            if (qPlane.Triebwerk!=qPlane.TriebwerkTarget) {   RoomBm.BlitFromT (qCursor, StarOffsets[5] + XY(qPlane.TriebwerkTarget*47-1, -1)+ScrollOffset);
+}
+            if (qPlane.Sicherheit!=qPlane.SicherheitTarget) { RoomBm.BlitFromT (qCursor, StarOffsets[6] + XY(qPlane.SicherheitTarget*47-1, -1)+ScrollOffset);
+}
+            if (qPlane.Elektronik!=qPlane.ElektronikTarget) { RoomBm.BlitFromT (qCursor, StarOffsets[7] + XY(qPlane.ElektronikTarget*47-1, -1)+ScrollOffset);
+}
 
             //Kosten für aktuelle Auswahl
             UBYTE Backup=0;
-            if (!IsDialogOpen() && !MenuIsOpen() && ActivePage==0)
-                for (SLONG c=0; c<3; c++)
-                    for (SLONG d=0; d<4; d++)
-                        if (gMousePosition.IfIsWithin (StarOffsets[d+4].x+c*47,StarOffsets[d+4].y,StarOffsets[d+4].x+43+c*47,StarOffsets[d+4].y+36))
+            if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && ActivePage==0) {
+                for (SLONG c=0; c<3; c++) {
+                    for (SLONG d=0; d<4; d++) {
+                        if (gMousePosition.IfIsWithin (StarOffsets[d+4].x+c*47,StarOffsets[d+4].y,StarOffsets[d+4].x+43+c*47,StarOffsets[d+4].y+36)) {
                             switch (d)
                             {
                                 case 0: Backup = qPlane.ReifenTarget;      qPlane.ReifenTarget     = (UBYTE)c; break;
@@ -437,9 +472,16 @@ void CPlaneProps::OnPaint()
                                 case 2: Backup = qPlane.SicherheitTarget;  qPlane.SicherheitTarget = (UBYTE)c; break;
                                 case 3: Backup = qPlane.ElektronikTarget;  qPlane.ElektronikTarget = (UBYTE)c; break;
                             }
+}
+}
+}
+}
 
             //Kosten rechts:
-            SLONG cost1=0, cost2=0, cost3=0, cost4=0;
+            SLONG cost1=0;
+            SLONG cost2=0;
+            SLONG cost3=0;
+            SLONG cost4=0;
 
             if (qPlane.Reifen!=qPlane.ReifenTarget)
             {
@@ -462,7 +504,8 @@ void CPlaneProps::OnPaint()
                 RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost4)), FontSmallBlack, TEC_FONT_LEFT, XY(8,295)+ScrollOffset, XY(205,309)+ScrollOffset);
             }
 
-            if (cost1+cost2+cost3+cost4>0) RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost1+cost2+cost3+cost4)), FontSmallBlack, TEC_FONT_LEFT, XY(8,329)+ScrollOffset, XY(205,345)+ScrollOffset);
+            if (cost1+cost2+cost3+cost4>0) { RoomBm.PrintAt (bprintf ("%s %s", (LPCTSTR)(CString)StandardTexte.GetS (TOKEN_SCHED, 1800), (LPCTSTR)(CString)Einheiten[EINH_DM].bString (cost1+cost2+cost3+cost4)), FontSmallBlack, TEC_FONT_LEFT, XY(8,329)+ScrollOffset, XY(205,345)+ScrollOffset);
+}
 
             //Putzcrew-Anzahl blitten:
             /*RoomBm.BlitFrom (DigitBms[qPlane.AnzPutzcrew%10], 133+ScrollOffsetX, 374);
@@ -479,17 +522,19 @@ void CPlaneProps::OnPaint()
                 prozent=(prozent+5)/10*10/10; //Runden
 
                 RoomBm.BlitFrom (DigitBms[prozent%10], 133+ScrollOffsetX, 374);
-                if (prozent>9) RoomBm.BlitFrom (DigitBms[prozent/10], 117+ScrollOffsetX, 374);
+                if (prozent>9) { RoomBm.BlitFrom (DigitBms[prozent/10], 117+ScrollOffsetX, 374);
+}
 
                 RoomBm.BlitFrom (Prozente[prozent], 62+ScrollOffsetX, 408);
             }
 
             //Kosten für aktuelle Auswahl
-            SLONG c, d;
-            if (!IsDialogOpen() && !MenuIsOpen() && ActivePage==0)
-                for (c=0; c<3; c++)
-                    for (d=0; d<4; d++)
-                        if (gMousePosition.IfIsWithin (StarOffsets[d+4].x+c*47,StarOffsets[d+4].y,StarOffsets[d+4].x+43+c*47,StarOffsets[d+4].y+36))
+            SLONG c;
+            SLONG d;
+            if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && ActivePage==0) {
+                for (c=0; c<3; c++) {
+                    for (d=0; d<4; d++) {
+                        if (gMousePosition.IfIsWithin (StarOffsets[d+4].x+c*47,StarOffsets[d+4].y,StarOffsets[d+4].x+43+c*47,StarOffsets[d+4].y+36)) {
                             switch (d)
                             {
                                 case 0: qPlane.ReifenTarget     = Backup; break;
@@ -497,11 +542,15 @@ void CPlaneProps::OnPaint()
                                 case 2: qPlane.SicherheitTarget = Backup; break;
                                 case 3: qPlane.ElektronikTarget = Backup; break;
                             }
+}
+}
+}
+}
 
-            if (!IsDialogOpen() && !MenuIsOpen() && ActivePage==0)
+            if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && ActivePage==0)
             {
                 //Cursorüberwachung bei den Sternen
-                for (c=0; c<3; c++)
+                for (c=0; c<3; c++) {
                     for (d=0; d<4; d++)
                     {
                         if (gMousePosition.IfIsWithin (StarOffsets[d+4].x+c*47,StarOffsets[d+4].y,StarOffsets[d+4].x+43+c*47,StarOffsets[d+4].y+36))
@@ -510,6 +559,7 @@ void CPlaneProps::OnPaint()
                             RoomBm.BlitFromT (qCursor, StarOffsets[d+4]+XY(c*47-1, -1));
                         }
                     }
+}
 
                 //Plusminus:
                 if (gMousePosition.IfIsWithin (161,367,204,402))  //Plus
@@ -540,9 +590,11 @@ void CPlaneProps::OnPaint()
 
                     n = 8-(8-(50-ActivePage)*8/50)*((7-c))/7;
 
-                    if (ActivePage<25) n+=(25-ActivePage)/5;
+                    if (ActivePage<25) { n+=(25-ActivePage)/5;
+}
 
-                    if (n>8) n=8;
+                    if (n>8) { n=8;
+}
 
                     ColorFX.Apply (n, RoomBm.pBitmap);
                 }
@@ -563,7 +615,7 @@ void CPlaneProps::OnPaint()
         RoomBm.PrintAt (qPlane.Name, FontBigGrey, TEC_FONT_CENTERED, XY(20+HeadlineOffset,3), XY(400+HeadlineOffset,20));
     }
 
-    if (!IsDialogOpen() && !MenuIsOpen() && (ActivePage==0 || ActivePage==100))
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && (ActivePage==0 || ActivePage==100))
     {
         gMousePosition.x-=HeadlineOffset;
         if (gMousePosition.IfIsWithin (134,26,164,44) && PlaneIndex>0)
@@ -572,7 +624,7 @@ void CPlaneProps::OnPaint()
             RoomBm.BlitFromT (MenuBms[0], 135+HeadlineOffset, 27);
 
             //Wiederholfunktion für blättern links:
-            if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>800)
+            if ((gMouseLButton != 0) && timeGetTime()-gMouseLButtonDownTimer>800)
             {
                 PlaneIndex--;
                 gMouseLButtonDownTimer=timeGetTime()-400;
@@ -606,10 +658,11 @@ void CPlaneProps::OnPaint()
 
             SLONG Costs=Sim.Players.Players[PlayerNum].CalcPlanePropSum();
 
-            if (Costs>0)
+            if (Costs>0) {
                 Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_SCHED, 1820), Insert1000erDots(Costs).c_str()), MESSAGE_COMMENT);
-            else if (Costs<0)
+            } else if (Costs<0) {
                 Sim.Players.Players[(SLONG)PlayerNum].Messages.AddMessage (BERATERTYP_GIRL, bprintf (StandardTexte.GetS (TOKEN_SCHED, 1821), Insert1000erDots(-Costs).c_str()), MESSAGE_COMMENT);
+}
         }
         else if (gMousePosition.IfIsWithin (226,26,253,50))
         {
@@ -622,7 +675,7 @@ void CPlaneProps::OnPaint()
             RoomBm.BlitFromT (MenuBms[4], 248+HeadlineOffset, 27);
 
             //Wiederholfunktion für blättern rechts:
-            if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>800 && PlaneIndex<PlaneDataTable.AnzRows-1)
+            if ((gMouseLButton != 0) && timeGetTime()-gMouseLButtonDownTimer>800 && PlaneIndex<PlaneDataTable.AnzRows-1)
             {
                 PlaneIndex++;
                 gMouseLButtonDownTimer=timeGetTime()-400;
@@ -631,14 +684,17 @@ void CPlaneProps::OnPaint()
         gMousePosition.x+=HeadlineOffset;
     }
 
-    if (BlinkArrowsTimer && timeGetTime()-BlinkArrowsTimer<5000)
+    if ((BlinkArrowsTimer != 0) && timeGetTime()-BlinkArrowsTimer<5000)
     {
-        if ((timeGetTime()-BlinkArrowsTimer)%1000<500)
+        if ((timeGetTime()-BlinkArrowsTimer)%1000<500) {
             RoomBm.BlitFromT (MenuBms[7], 172+HeadlineOffset, 50);
+}
     }
 
-    if (ActivePage!=100) RoomBm.BlitFromT (MenuBms[9],  172+HeadlineOffset, 50);
-    if (ActivePage!=0)   RoomBm.BlitFromT (MenuBms[10], 210+HeadlineOffset, 50);
+    if (ActivePage!=100) { RoomBm.BlitFromT (MenuBms[9],  172+HeadlineOffset, 50);
+}
+    if (ActivePage!=0) {   RoomBm.BlitFromT (MenuBms[10], 210+HeadlineOffset, 50);
+}
 
 
     CStdRaum::PostPaint ();
@@ -655,21 +711,22 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
         SLONG   PlaneId = PlaneDataTable.LineIndex[PlaneIndex];
         CPlane &qPlane  = qPlayer.Planes[PlaneId];
 
-        if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==999) qPlayer.LeaveRoom();
-        else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==10)
+        if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==999) { qPlayer.LeaveRoom();
+        } else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==10)
         {
-            if (PlaneIndex>0) PlaneIndex--;
+            if (PlaneIndex>0) { PlaneIndex--;
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==11)
         {
@@ -686,8 +743,8 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
             //Sim.RFBegleiterFaktor = float(qPlane.MaxBegleiter*1.0/PlaneTypes[qPlane.TypeId].AnzBegleiter);
             Sim.RFBegleiterFaktor = float(qPlane.MaxBegleiter*1.0/qPlane.ptAnzBegleiter);
         }
-        else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==12) qPlayer.LeaveRoom();
-        else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==13)
+        else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==12) { qPlayer.LeaveRoom();
+        } else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==13)
         {
             UBYTE back1 = qPlane.SitzeTarget;
             UBYTE back2 = qPlane.TablettsTarget;
@@ -717,23 +774,27 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
 
                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_SCHED, 1810), MESSAGE_COMMENT);
             }
-            else qPlayer.NetUpdatePlaneProps (PlaneId);
+            else { qPlayer.NetUpdatePlaneProps (PlaneId);
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==14)
         {
-            if (PlaneIndex<PlaneDataTable.AnzRows-1) PlaneIndex++;
+            if (PlaneIndex<PlaneDataTable.AnzRows-1) { PlaneIndex++;
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==15)
         {
             //if (qPlane.MaxBegleiter>PlaneTypes[qPlane.TypeId].AnzBegleiter) qPlane.MaxBegleiter--;
-            if (qPlane.MaxBegleiter>qPlane.ptAnzBegleiter) qPlane.MaxBegleiter--;
+            if (qPlane.MaxBegleiter>qPlane.ptAnzBegleiter) { qPlane.MaxBegleiter--;
+}
             qPlayer.MapWorkers (FALSE);
             qPlayer.NetUpdatePlaneProps (PlaneId);
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==16)
         {
             //if (qPlane.MaxBegleiter<PlaneTypes[qPlane.TypeId].AnzBegleiter*2) qPlane.MaxBegleiter++;
-            if (qPlane.MaxBegleiter<qPlane.ptAnzBegleiter*2) qPlane.MaxBegleiter++;
+            if (qPlane.MaxBegleiter<qPlane.ptAnzBegleiter*2) { qPlane.MaxBegleiter++;
+}
             qPlayer.MapWorkers (FALSE);
             qPlayer.NetUpdatePlaneProps (PlaneId);
         }
@@ -748,7 +809,8 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
                 qPlane.SitzeTarget = back;
                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_SCHED, 1810), MESSAGE_COMMENT);
             }
-            else qPlayer.NetUpdatePlaneProps (PlaneId);
+            else { qPlayer.NetUpdatePlaneProps (PlaneId);
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId>=50 && MouseClickId<=52)
         {
@@ -761,7 +823,8 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
                 qPlane.TablettsTarget = back;
                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_SCHED, 1810), MESSAGE_COMMENT);
             }
-            else qPlayer.NetUpdatePlaneProps (PlaneId);
+            else { qPlayer.NetUpdatePlaneProps (PlaneId);
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId>=60 && MouseClickId<=62)
         {
@@ -774,7 +837,8 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
                 qPlane.DecoTarget = back;
                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_SCHED, 1810), MESSAGE_COMMENT);
             }
-            else qPlayer.NetUpdatePlaneProps (PlaneId);
+            else { qPlayer.NetUpdatePlaneProps (PlaneId);
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId>=70 && MouseClickId<=72)
         {
@@ -792,7 +856,8 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
                 qPlane.ReifenTarget = back;
                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_SCHED, 1810), MESSAGE_COMMENT);
             }
-            else qPlayer.NetUpdatePlaneProps (PlaneId);
+            else { qPlayer.NetUpdatePlaneProps (PlaneId);
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId>=150 && MouseClickId<=152)
         {
@@ -805,7 +870,8 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
                 qPlane.TriebwerkTarget = back;
                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_SCHED, 1810), MESSAGE_COMMENT);
             }
-            else qPlayer.NetUpdatePlaneProps (PlaneId);
+            else { qPlayer.NetUpdatePlaneProps (PlaneId);
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId>=160 && MouseClickId<=162)
         {
@@ -818,7 +884,8 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
                 qPlane.SicherheitTarget = back;
                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_SCHED, 1810), MESSAGE_COMMENT);
             }
-            else qPlayer.NetUpdatePlaneProps (PlaneId);
+            else { qPlayer.NetUpdatePlaneProps (PlaneId);
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId>=170 && MouseClickId<=172)
         {
@@ -831,7 +898,8 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
                 qPlane.ElektronikTarget = back;
                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_SCHED, 1810), MESSAGE_COMMENT);
             }
-            else qPlayer.NetUpdatePlaneProps (PlaneId);
+            else { qPlayer.NetUpdatePlaneProps (PlaneId);
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==115)
         {
@@ -911,38 +979,43 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point)
             ActiveDir        = 1;
             BlinkArrowsTimer = 0;
         }
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
 //--------------------------------------------------------------------------------------------
 //void CPlaneProps::OnLButtonDblClk(UINT, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CPlaneProps::OnLButtonDblClk(UINT, CPoint point)
+void CPlaneProps::OnLButtonDblClk(UINT /*nFlags*/, CPoint point)
 {
     //Ist das Fenster hier zuständig? Ist der Klick in diesem Fenster?
-    if (point.x>=WinP1.x && point.x<=WinP2.x && point.y>=WinP1.y && point.y<=WinP2.y && !Editor)
+    if (point.x>=WinP1.x && point.x<=WinP2.x && point.y>=WinP1.y && point.y<=WinP2.y && (Editor == 0))
     {
         CPlane &qPlane  = Sim.Players.Players[PlayerNum].Planes[PlaneDataTable.LineIndex[PlaneIndex]];
 
         if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==10)
         {
-            if (PlaneIndex>0) PlaneIndex--;
+            if (PlaneIndex>0) { PlaneIndex--;
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==14)
         {
-            if (PlaneIndex<PlaneDataTable.AnzRows-1) PlaneIndex++;
+            if (PlaneIndex<PlaneDataTable.AnzRows-1) { PlaneIndex++;
+}
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==15)
         {
             //if (qPlane.MaxBegleiter>PlaneTypes[qPlane.TypeId].AnzBegleiter) qPlane.MaxBegleiter--;
-            if (qPlane.MaxBegleiter>qPlane.ptAnzBegleiter) qPlane.MaxBegleiter--;
+            if (qPlane.MaxBegleiter>qPlane.ptAnzBegleiter) { qPlane.MaxBegleiter--;
+}
             Sim.Players.Players[(SLONG)PlayerNum].MapWorkers (FALSE);
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==16)
         {
             //if (qPlane.MaxBegleiter<PlaneTypes[qPlane.TypeId].AnzBegleiter*2) qPlane.MaxBegleiter++;
-            if (qPlane.MaxBegleiter<qPlane.ptAnzBegleiter*2) qPlane.MaxBegleiter++;
+            if (qPlane.MaxBegleiter<qPlane.ptAnzBegleiter*2) { qPlane.MaxBegleiter++;
+}
             Sim.Players.Players[(SLONG)PlayerNum].MapWorkers (FALSE);
         }
         else if (MouseClickArea==ROOM_PLANEPROPS && MouseClickId==115)
@@ -1010,9 +1083,8 @@ void CPlaneProps::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -1023,5 +1095,5 @@ void CPlaneProps::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

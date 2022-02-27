@@ -35,11 +35,12 @@ class CDebugEntryExit
 
 SLONG CUnrepeatedRandom::Rand (SLONG Min, SLONG Max)
 {
-    while (1)
+    while (true)
     {
         SLONG r=Random.Rand(Min,Max);
 
-        if (r==Last[0] || r==Last[1] || r==Last[2]) continue;
+        if (r==Last[0] || r==Last[1] || r==Last[2]) { continue;
+}
 
         Last[0]=Last[1]; Last[1]=Last[2]; Last[2]=r;
 
@@ -54,7 +55,7 @@ CUnrepeatedRandom MidiRandom;
 //--------------------------------------------------------------------------------------------
 void PlayUniversalFx (CString Filename, SLONG Volume)
 {
-    if (Volume)
+    if (Volume != 0)
     {
         gUniversalFx.Stop();
         gUniversalFx.ReInit(Filename);
@@ -67,34 +68,40 @@ void PlayUniversalFx (CString Filename, SLONG Volume)
 //--------------------------------------------------------------------------------------------
 CString RemoveSpeechFilename (CString String)
 {
-    if (String.GetLength()==0) return(String);
+    if (String.GetLength()==0) { return(String);
+}
 
-    while (1)
+    while (true)
     {
         char *pstart = (char*)(LPCTSTR)String;
 
         char *p = strstr (pstart, "[[");
-        if (p==0) break;
+        if (p==0) { break;
+}
 
         char *pp = strstr (p, "]]");
-        if (pp==0) break;
+        if (pp==0) { break;
+}
 
         String = String.Left (p-pstart)+String.Mid (pp-pstart+2);
 
-        if (p==pstart && String[0]==' ') String=String.Mid(1);
+        if (p==pstart && String[0]==' ') { String=String.Mid(1);
+}
     }
 
-    while (1)
+    while (true)
     {
         char *pstart = (char*)(LPCTSTR)String;
 
         char *p = strstr (pstart, "  ");
-        if (p==0) break;
+        if (p==0) { break;
+}
 
         String = String.Left (p-pstart)+String.Mid (p-pstart+1);
     }
 
-    while (String.GetLength()>0 && String[0]==' ') String=String.Mid(1);
+    while (String.GetLength()>0 && String[0]==' ') { String=String.Mid(1);
+}
 
     return (String);
 }
@@ -106,20 +113,24 @@ CString GetSpeechFilename (CString String, SLONG Index, CString *pTextFollows)
 {
     char *pstart = (char*)(LPCTSTR)String;
 
-    while (Index)
+    while (Index != 0)
     {
         pstart = strstr (pstart+1, "[[");
-        if (pstart==0) return ("");
+        if (pstart==0) { return ("");
+}
         Index--;
     }
 
     char *p = strstr (pstart, "[[");
-    if (p==0) return ("");
+    if (p==0) { return ("");
+}
 
     char *pp = strstr (p, "]]");
-    if (pp==0) return ("");
+    if (pp==0) { return ("");
+}
 
-    if (pTextFollows) (*pTextFollows)=String.Mid(pp-(char*)(LPCTSTR)String+2);
+    if (pTextFollows != nullptr) { (*pTextFollows)=String.Mid(pp-(char*)(LPCTSTR)String+2);
+}
 
     return (String.Mid(p-(char*)(LPCTSTR)String+2, pp-p-2));
 }
@@ -129,62 +140,78 @@ CString GetSpeechFilename (CString String, SLONG Index, CString *pTextFollows)
 //--------------------------------------------------------------------------------------------
 BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMissing)
 {
-    CString       str, path, TextFollows;
+    CString       str;
+    CString       path;
+    CString       TextFollows;
     BUFFER<SBFX*> Effects (50);
-    SLONG         c, m, n;
+    SLONG         c;
+    SLONG         m;
+    SLONG         n;
     BOOL          UndoWait=FALSE;
 
-    if (gpSSE==NULL || !gpSSE->IsSoundEnabled()) return (0);
+    if (gpSSE==NULL || !gpSSE->IsSoundEnabled()) { return (0);
+}
 
-    for (n=0; n<50; n++)
+    for (n=0; n<50; n++) {
         Effects[n]=NULL;
+}
 
     for (m=n=0; n<50; n++)
     {
-        if (Effects[m]==NULL) Effects[m]=new SBFX;
+        if (Effects[m]==NULL) { Effects[m]=new SBFX;
+}
 
         str=GetSpeechFilename (String, n, &TextFollows);
-        if (str.GetLength()==0) break;
-        if ((str[0]=='p' || str[0]=='P') && str[1]=='1') str.SetAt (1, char('1'+PlayerNum));
+        if (str.GetLength()==0) { break;
+}
+        if ((str[0]=='p' || str[0]=='P') && str[1]=='1') { str.SetAt (1, char('1'+PlayerNum));
+}
 
         if (strcmp (str, "*")==0)
         {
-            while (TextFollows[0]==32) TextFollows=TextFollows.Mid (1);
+            while (TextFollows[0]==32) { TextFollows=TextFollows.Mid (1);
+}
 
             //Check for airline:
-            for (c=0; c<4; c++)
+            for (c=0; c<4; c++) {
                 if (strnicmp (TextFollows, Sim.Players.Players[c].AirlineX, Sim.Players.Players[c].AirlineX.GetLength())==0)
                 {
                     str=path+"/"+"name"+bitoa (c+1);
                     Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                     CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                    if (pSoundLogFile) fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+                    if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+}
                 }
+}
 
             //Check for city:
-            if (strcmp (str, "*")==0)
-                for (c=0; c<(SLONG)Cities.AnzEntries(); c++)
+            if (strcmp (str, "*")==0) {
+                for (c=0; c<(SLONG)Cities.AnzEntries(); c++) {
                     if (strnicmp (TextFollows, Cities[c].Name, Cities[c].Name.GetLength())==0)
                     {
                         str=path+"/"+Cities[c].KuerzelReal;
                         Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                         CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                        if (pSoundLogFile) fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+                        if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+}
                     }
+}
+}
 
             //Check for plane:
-            if (strcmp (str, "*")==0)
-                for (c=(SLONG)PlaneTypes.AnzEntries()-1; c>=0; c--)
-                    if (PlaneTypes.IsInAlbum(c))
+            if (strcmp (str, "*")==0) {
+                for (c=(SLONG)PlaneTypes.AnzEntries()-1; c>=0; c--) {
+                    if (PlaneTypes.IsInAlbum(c) != 0) {
                         if (strnicmp (TextFollows, PlaneTypes[c].Name, PlaneTypes[c].Name.GetLength())==0)
                         {
                             str=path+"/"+bprintf ("pl%lib", PlaneTypes.GetIdFromIndex(c)-0x10000000);
                             Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                             CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                            if (pSoundLogFile) fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+                            if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+}
                             break;
                         }
                         else if (strnicmp (TextFollows, PlaneTypes[c].Hersteller, PlaneTypes[c].Hersteller.GetLength())==0)
@@ -193,12 +220,16 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
                             Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                             CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                            if (pSoundLogFile) fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+                            if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+}
                             break;
                         }
+}
+}
+}
 
             //Check for number:
-            if (strcmp (str, "*")==0)
+            if (strcmp (str, "*")==0) {
                 if (TextFollows[0]=='-' || (TextFollows[0]>='0' && TextFollows[0]<='9') || strnicmp (TextFollows, "DM", 2)==0)
                 {
                     BOOL DM=FALSE;
@@ -207,23 +238,29 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
                     {
                         DM=TRUE;
                         TextFollows=TextFollows.Mid(2);
-                        while (TextFollows[0]==32) TextFollows=TextFollows.Mid (1);
+                        while (TextFollows[0]==32) { TextFollows=TextFollows.Mid (1);
+}
                     }
 
                     char *p = (char*)(LPCTSTR)TextFollows;
-                    SLONG Number=0, Mult=1;
+                    SLONG Number=0;
+                    SLONG Mult=1;
 
                     while (p[0]=='.' || p[0]=='-' || (p[0]>='0' && p[0]<='9'))
                     {
-                        if (p[0]>='0' && p[0]<='9') Number=Number*10+(p[0]-'0');
-                        if (p[0]=='-') Mult=-1;
+                        if (p[0]>='0' && p[0]<='9') { Number=Number*10+(p[0]-'0');
+}
+                        if (p[0]=='-') { Mult=-1;
+}
 
                         p++;
                     }
 
-                    while (p[0]==32) p++;
+                    while (p[0]==32) { p++;
+}
 
-                    if (strnicmp (p, "DM", 2)==0) DM=TRUE;
+                    if (strnicmp (p, "DM", 2)==0) { DM=TRUE;
+}
 
                     UndoWait=TRUE;
                     pCursor->SetImage (gCursorSandBm.pBitmap);
@@ -235,12 +272,13 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
 
                     //SynthesizeNumber (Effects[m++], path+"\\", Number*Mult, DM);
                 }
+}
         }
         else
         {
             char *p=strchr ((char*)(LPCTSTR)str, '/');
 
-            if (p)
+            if (p != nullptr)
             {
                 path = str.Left (p-(char*)(LPCTSTR)str);
 
@@ -249,7 +287,8 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
                     Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                     CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                    if (pSoundLogFile) fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+                    if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+}
                 }
             }
             else
@@ -257,22 +296,25 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
                 Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);
 
                 CString tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+str+".raw"+"\xd\xa";
-                if (pSoundLogFile) fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+                if (pSoundLogFile != nullptr) { fwrite (tmp, 1, strlen(tmp), pSoundLogFile);
+}
             }
 
-            if (m>0)
+            if (m>0) {
                 if (Effects[m-1]->pFX->GetByteLength()==0)
                 {
-                    if (bAnyMissing) *bAnyMissing=true;
+                    if (bAnyMissing != nullptr) { *bAnyMissing=1;
+}
                     Effects[m-1]->ReInit ("none.raw");
                     hprintf ("No voice for: %s", LPCTSTR(String));
                 }
+}
         }
     }
 
     pFx->Fusion ((const class SBFX **)&Effects[0], m);
 
-    if (UndoWait && MouseWait==0)
+    if ((UndoWait != 0) && MouseWait==0)
     {
         pCursor->SetImage (gCursorBm.pBitmap);
         int _x = gMousePosition.x;
@@ -281,10 +323,12 @@ BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMis
         pCursor->MoveImage(_x, _y);
     }
 
-    for (c=0; c<50; c++)
-        if (Effects[c]) delete Effects[c];
+    for (c=0; c<50; c++) {
+        if (Effects[c] != nullptr) { delete Effects[c];
+}
+}
 
-    return (m>0);
+    return static_cast<BOOL>(m>0);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -308,7 +352,7 @@ void CVoiceScheduler::AddVoice (const CString &str)
 //--------------------------------------------------------------------------------------------
 void CVoiceScheduler::Clear (void)
 {
-    if (AnzEntries())
+    if (AnzEntries() != 0)
     {
         CurrentVoice.Stop();
         CurrentVoice.Destroy();
@@ -329,15 +373,16 @@ SLONG CVoiceScheduler::AnzEntries(void)
 //--------------------------------------------------------------------------------------------
 BOOL CVoiceScheduler::IsVoicePlaying (void)
 {
-    if (gpSSE==NULL || !gpSSE->IsSoundEnabled()) return (0);
+    if (gpSSE==NULL || !gpSSE->IsSoundEnabled()) { return (0);
+}
 
-    if (AnzEntries()>0 && CurrentVoice.pFX)
+    if (AnzEntries()>0 && (CurrentVoice.pFX != nullptr))
     {
         dword status;
         CurrentVoice.pFX->GetStatus (&status);
-        return ((status & DSBSTATUS_PLAYING)!=0);
+        return static_cast<BOOL>((status & DSBSTATUS_PLAYING)!=0);
     }
-    else return (FALSE);
+    return (FALSE);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -345,12 +390,13 @@ BOOL CVoiceScheduler::IsVoicePlaying (void)
 //--------------------------------------------------------------------------------------------
 void CVoiceScheduler::Pump (void)
 {
-    if (AnzEntries()>0 && !IsVoicePlaying())
+    if (AnzEntries()>0 && (IsVoicePlaying() == 0))
     {
         SLONG c;
 
-        for (c=0; c<Voices.AnzEntries()-1; c++)
+        for (c=0; c<Voices.AnzEntries()-1; c++) {
             Voices[c]=Voices[c+1];
+}
 
         Voices.ReSize (Voices.AnzEntries()-1);
 
@@ -359,7 +405,8 @@ void CVoiceScheduler::Pump (void)
             CurrentVoice.ReInit(Voices[0]+".raw");
             CurrentVoice.Play(0, Sim.Options.OptionDurchsagen*100/7*AmbientManager.GlobalVolume/100*AmbientManager.GlobalVolume/100);
         }
-        else CurrentVoice.Destroy();
+        else { CurrentVoice.Destroy();
+}
     }
 }
 
@@ -378,8 +425,10 @@ SLONG Prozent2Dezibel (SLONG Prozent)
 {
     float rc=0;
 
-    if (Prozent<0) Prozent=0;
-    if (Prozent>100) Prozent=100;
+    if (Prozent<0) { Prozent=0;
+}
+    if (Prozent>100) { Prozent=100;
+}
 
     //Quadratische Gleichung 2. Grades:
     //rc = float(-(Prozent-100)*(Prozent-100)*(Prozent-100)*(Prozent-100)/10000*(Prozent-100)*(Prozent-100)/10000);
@@ -394,7 +443,7 @@ SLONG Prozent2Dezibel (SLONG Prozent)
 void SetMidiVolume(SLONG volume)
 {
 
-    gpSSE->SetMusicVolume(volume);
+    SSE::SetMusicVolume(volume);
     /*SLONG       midiVolume;
 
     //CDebugEntryExit ("SetMidiVolume");
@@ -421,7 +470,7 @@ void SetMidiVolume(SLONG volume)
 //--------------------------------------------------------------------------------------------
 void SetWaveVolume(long volume)
 {
-    gpSSE->SetSoundVolume(volume);
+    SSE::SetSoundVolume(volume);
     /*SLONG       waveVolume;
 
     //CDebugEntryExit ("SetMidiVolume");
@@ -450,9 +499,9 @@ void NextMidi (void)
 {
     static BOOL WasHere=0;
 
-    if (Sim.Options.OptionMusik && Sim.Options.OptionMusicType != 0)
+    if ((Sim.Options.OptionMusik != 0) && Sim.Options.OptionMusicType != 0)
     {
-        if (WasHere)
+        if (WasHere != 0) {
             switch ((Sim.Options.OptionLoopMusik==0)?MidiRandom.Rand(0,8):(Sim.Options.OptionLoopMusik-1))
             {
                 /*case 0:  PlayMidi ("swing.mid");    break;
@@ -475,8 +524,9 @@ void NextMidi (void)
                 default:
                         PlayMidi ("funky2.mid");
             }
-        else
+        } else {
             PlayMidi ("funky2.mid");
+}
     }
 
     WasHere=TRUE;
@@ -510,15 +560,16 @@ void PlayMidi (const CString &Filename)
 {
     //CDebugEntryExit ("PlayMidi");
 
-    if (IsMidiAvailable() || AudioMode == 2) {
-        if (!gpMidi)
+    if ((IsMidiAvailable() != 0) || AudioMode == 2) {
+        if (gpMidi == nullptr) {
             return;
+}
 
         gpMidi->Stop();
         gpMidi->Load (FullFilename(Filename, SoundPath));
         gpMidi->Play();
 
-        gpSSE->SetMusicCallback(NextMidi);
+        SSE::SetMusicCallback(NextMidi);
     }
 }
 
@@ -555,10 +606,11 @@ void StopMidi (void)
 {
     //CDebugEntryExit ("StopMidi");
 
-    if (IsMidiAvailable())
+    if (IsMidiAvailable() != 0)
     {
-        gpSSE->SetMusicCallback(NULL);
-        if (gpMidi) gpMidi->Stop();
+        SSE::SetMusicCallback(NULL);
+        if (gpMidi != nullptr) { gpMidi->Stop();
+}
     }
 }
 
@@ -569,9 +621,10 @@ void PauseMidi (void)
 {
     //CDebugEntryExit ("PauseMidi");
 
-    if (IsMidiAvailable())
+    if (IsMidiAvailable() != 0)
     {
-        if (gpMidi) gpMidi->Pause();
+        if (gpMidi != nullptr) { gpMidi->Pause();
+}
     }
 }
 
@@ -582,9 +635,10 @@ void ResumeMidi (void)
 {
     //CDebugEntryExit ("ResumeMidi");
 
-    if (IsMidiAvailable() && Sim.Options.OptionMusik && Sim.Options.OptionMusicType != 0)
+    if ((IsMidiAvailable() != 0) && (Sim.Options.OptionMusik != 0) && Sim.Options.OptionMusicType != 0)
     {
-        if (gpMidi) gpMidi->Resume();
+        if (gpMidi != nullptr) { gpMidi->Resume();
+}
     }
 }
 
@@ -598,7 +652,7 @@ SBFX::SBFX ()
 
 SBFX::~SBFX ()
 {
-    if (pFX)
+    if (pFX != nullptr)
     {
         pFX->Release();
         pFX=NULL;
@@ -607,7 +661,7 @@ SBFX::~SBFX ()
 
 void SBFX::Destroy (void)
 {
-    if (pFX)
+    if (pFX != nullptr)
     {
         pFX->Release();
         pFX=NULL;
@@ -620,10 +674,11 @@ void SBFX::Fusion (const SBFX **Fx, long NumFx)
 
     Destroy();
 
-    for (long c=0; c<min(100,NumFx); c++)
+    for (long c=0; c<min(100,NumFx); c++) {
         Elements[c]=Fx[c]->pFX;
+}
 
-    if (gpSSE)
+    if (gpSSE != nullptr)
     {
         gpSSE->CreateFX (&pFX);
         pFX->Fusion ((const FX**)Elements, NumFx);
@@ -634,27 +689,29 @@ void SBFX::Fusion (const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumF
 {
     Destroy();
 
-    if (gpSSE)
+    if (gpSSE != nullptr)
     {
         gpSSE->CreateFX (&pFX);
         pFX->Fusion (Fx->pFX, (SLONG*)Von, (SLONG*)Bis, NumFx);
     }
 }
 
-void SBFX::Tokenize (BUFFER<SBFX> &Effects)
+void SBFX::Tokenize (BUFFER<SBFX> &Effects) const
 {
-    SLONG  c, Anzahl;
+    SLONG  c;
+    SLONG  Anzahl;
     FX  **ppFx = pFX->Tokenize (0x80007FFF80007FFF, Anzahl);
 
     Effects.ReSize (0);
     Effects.ReSize (Anzahl);
-    for (c=0; c<Anzahl; c++)
+    for (c=0; c<Anzahl; c++) {
         Effects[c].pFX = ppFx[c];
+}
 
     delete ppFx;
 }
 
-void SBFX::Tokenize (BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis)
+void SBFX::Tokenize (BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis) const
 {
     SLONG Anzahl;
 
@@ -673,10 +730,11 @@ void SBFX::ReInit (const CString &Filename, char *Path)
 
     Destroy();
 
-    if (Path==NULL) localPath=SoundPath;
-    else localPath=Path;
+    if (Path==NULL) { localPath=SoundPath;
+    } else { localPath=Path;
+}
 
-    if (gpSSE)
+    if (gpSSE != nullptr)
     {
         gpSSE->CreateFX (&pFX);
         pFX->Load((char*)(LPCTSTR)FullFilename (Filename, localPath));
@@ -685,41 +743,47 @@ void SBFX::ReInit (const CString &Filename, char *Path)
     }
 }
 
-void SBFX::Play(dword dwFlags)
+void SBFX::Play(dword dwFlags) const
 {
-    if (pFX && Sim.Options.OptionDigiSound) pFX->Play (dwFlags);
-
-    if (pSoundLogFile) fwrite (Filename, 1, strlen(Filename), pSoundLogFile);
+    if ((pFX != nullptr) && (Sim.Options.OptionDigiSound != 0)) { pFX->Play (dwFlags);
 }
 
-void SBFX::Play(dword dwFlags, long PercentVolume)
+    if (pSoundLogFile != nullptr) { fwrite (Filename, 1, strlen(Filename), pSoundLogFile);
+}
+}
+
+void SBFX::Play(dword dwFlags, long PercentVolume) const
 {
-    if (pFX && Sim.Options.OptionDigiSound)
+    if ((pFX != nullptr) && (Sim.Options.OptionDigiSound != 0))
     {
         pFX->Play (dwFlags);
         pFX->SetVolume (Prozent2Dezibel(PercentVolume));
     }
 
     CString Tmp = CString(":")+bprintf("%06i", timeGetTime()-SoundLogFileStartTime)+" playing "+Filename+"\xd\xa";
-    if (pSoundLogFile && Filename.GetLength()>1) fwrite (Tmp, 1, strlen(Tmp), pSoundLogFile);
+    if ((pSoundLogFile != nullptr) && Filename.GetLength()>1) { fwrite (Tmp, 1, strlen(Tmp), pSoundLogFile);
+}
 }
 
-void SBFX::Stop(void)
+void SBFX::Stop(void) const
 {
-    if (pFX) pFX->Stop();
+    if (pFX != nullptr) { pFX->Stop();
+}
 }
 
-void SBFX::SetVolume (long volume)
+void SBFX::SetVolume (long volume) const
 {
-    if (pFX) pFX->SetVolume (volume);
+    if (pFX != nullptr) { pFX->SetVolume (volume);
+}
 }
 
 //--------------------------------------------------------------------------------------------
 //Der Ambiente-Manager: Einen Soundeffekt initialisieren
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::SetFx (SLONG FxId, CString Soundeffekt)
+void CAmbienteManager::SetFx (SLONG FxId, CString Soundeffekt) const
 {
-    if (FxId>=AmbientFx.AnzEntries()) return;
+    if (FxId>=AmbientFx.AnzEntries()) { return;
+}
 
     AmbientFx[FxId].Volume        = 0;
     AmbientFx[FxId].CurrentVolume = 0;
@@ -741,35 +805,43 @@ void CAmbienteManager::SetGlobalVolume (SLONG Volume)
 //--------------------------------------------------------------------------------------------
 //Die Lautstärke für einen Effekt setzen:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::SetVolume (SLONG FxId, SLONG Volume)
+void CAmbienteManager::SetVolume (SLONG FxId, SLONG Volume) const
 {
     SLONG NewVolume = Volume*GlobalVolume/100;
 
-    if (FxId>=AmbientFx.AnzEntries()) return;
+    if (FxId>=AmbientFx.AnzEntries()) { return;
+}
 
-    if (NewVolume>100) NewVolume = 100;
-    if (NewVolume<0)   NewVolume = 0;
-    if (Volume>100)    Volume = 100;
-    if (Volume<0)      Volume = 0;
+    if (NewVolume>100) { NewVolume = 100;
+}
+    if (NewVolume<0) {   NewVolume = 0;
+}
+    if (Volume>100) {    Volume = 100;
+}
+    if (Volume<0) {      Volume = 0;
+}
 
     AmbientFx[FxId].Volume = Volume;
 
-    if (!Sim.Options.OptionAmbiente) NewVolume=0;
-    else NewVolume=NewVolume*Sim.Options.OptionAmbiente/8;
+    if (Sim.Options.OptionAmbiente == 0) { NewVolume=0;
+    } else { NewVolume=NewVolume*Sim.Options.OptionAmbiente/8;
+}
 
     if (NewVolume!=AmbientFx[FxId].CurrentVolume)
     {
         //Nötigenfalls überhaupt erst einmal starten:
-        if (AmbientFx[FxId].CurrentVolume==0)
+        if (AmbientFx[FxId].CurrentVolume==0) {
             AmbientFx[FxId].Soundeffekt.Play(DSBPLAY_NOSTOP|DSBPLAY_LOOPING);
+}
 
         AmbientFx[FxId].CurrentVolume = NewVolume;
 
         AmbientFx[FxId].Soundeffekt.SetVolume (Prozent2Dezibel(NewVolume));
 
         //Nötigenfalls ganz anhalten:
-        if (AmbientFx[FxId].CurrentVolume==0)
+        if (AmbientFx[FxId].CurrentVolume==0) {
             AmbientFx[FxId].Soundeffekt.Stop ();
+}
     }
 }
 
@@ -778,21 +850,26 @@ void CAmbienteManager::SetVolume (SLONG FxId, SLONG Volume)
 //--------------------------------------------------------------------------------------------
 void CAmbienteManager::RecalcVolumes (void)
 {
-    for (SLONG c=0; c<AmbientFx.AnzEntries(); c++)
-        if (c==AMBIENT_JET_OUTSIDE || c==AMBIENT_JET_FIELD)
+    for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
+        if (c==AMBIENT_JET_OUTSIDE || c==AMBIENT_JET_FIELD) {
             SetVolume (c, Prozent2Dezibel (Sim.Options.OptionPlaneVolume*100/7*AmbientFx[c].Volume/100));
-        else
+        } else {
             SetVolume (c, AmbientFx[c].Volume);
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
 //Schaltet in den Pause-Modus:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::Pause (void)
+void CAmbienteManager::Pause (void) const
 {
-    for (SLONG c=0; c<AmbientFx.AnzEntries(); c++)
-        if (AmbientFx[c].Soundeffekt.pFX)
-            if (AmbientFx[c].CurrentVolume==0) AmbientFx[c].Soundeffekt.pFX->Pause();
+    for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
+        if (AmbientFx[c].Soundeffekt.pFX != nullptr) {
+            if (AmbientFx[c].CurrentVolume==0) { AmbientFx[c].Soundeffekt.pFX->Pause();
+}
+}
+}
 }
 
 //--------------------------------------------------------------------------------------------
@@ -800,13 +877,15 @@ void CAmbienteManager::Pause (void)
 //--------------------------------------------------------------------------------------------
 void CAmbienteManager::Resume (void)
 {
-    for (SLONG c=0; c<AmbientFx.AnzEntries(); c++)
-        if (AmbientFx[c].Soundeffekt.pFX)
+    for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
+        if (AmbientFx[c].Soundeffekt.pFX != nullptr) {
             if (AmbientFx[c].CurrentVolume>0)
             {
                 SetVolume (c, AmbientFx[c].Volume);
                 AmbientFx[c].Soundeffekt.pFX->Resume();
             }
+}
+}
 }
 #if 0
 void CloseMixer(HMIXER* phMixer)
@@ -824,21 +903,30 @@ SND_TYPE Tokens[] = { 64, 135, 192, 2 , 254, 100 };
 
 BOOL Near (SND_TYPE a, SND_TYPE b)
 {
-    if (abs (SLONG(a)-SLONG(b))<3) return (TRUE);
-    if (b==128) return (FALSE);
-    if ((abs (SLONG(a)-SLONG(b))-3) *256 /(abs(SLONG(a)-128)+abs(SLONG(b)-128))<40) return (TRUE);
+    if (abs (SLONG(a)-SLONG(b))<3) { return (TRUE);
+}
+    if (b==128) { return (FALSE);
+}
+    if ((abs (SLONG(a)-SLONG(b))-3) *256 /(abs(SLONG(a)-128)+abs(SLONG(b)-128))<40) { return (TRUE);
+}
 
     return (FALSE);
 }
 
 void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
 {
-    SLONG c, d, e, o;
+    SLONG c;
+    SLONG d;
+    SLONG e;
+    SLONG o;
     SLONG t;   //toleranz
 
-    for (c=Input.AnzEntries()-1; c>=0; c--)
-        for (d=0; d<sizeof (Tokens); d++)
-            if (Input[c]==Tokens[d]) Input[c]++;
+    for (c=Input.AnzEntries()-1; c>=0; c--) {
+        for (d=0; d<sizeof (Tokens); d++) {
+            if (Input[c]==Tokens[d]) { Input[c]++;
+}
+}
+}
 
     Output.ReSize (Input.AnzEntries());
 
@@ -847,28 +935,31 @@ void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
     {
         if (abs (Input[c]-128)>7)
         {
-            for (d=20; c>d && d<275+255; d++)
+            for (d=20; c>d && d<275+255; d++) {
                 //if (abs(SLONG(Input[c])-SLONG(Input[c-d]))<t && abs(SLONG(Input[c+1])-SLONG(Input[c-d+1]))<t && abs(SLONG(Input[c+2])-SLONG(Input[c-d+2]))<t)
-                if (Near(Input[c],Input[c-d]) && Near(Input[c+1],Input[c-d+1]) && Near(Input[c+2],Input[c-d+2]))
+                if ((Near(Input[c],Input[c-d]) != 0) && (Near(Input[c+1],Input[c-d+1]) != 0) && (Near(Input[c+2],Input[c-d+2]) != 0))
                 {
                     BOOL Equal = TRUE;
 
-                    for (e=1; e<d; e+=2)
-                        if (!Near(Input[c+e],Input[c-d+e]) && !Near(Input[c+e],Input[c-d+e+1]) && !Near(Input[c+e],Input[c-d+e-1]))
+                    for (e=1; e<d; e+=2) {
+                        if ((Near(Input[c+e],Input[c-d+e]) == 0) && (Near(Input[c+e],Input[c-d+e+1]) == 0) && (Near(Input[c+e],Input[c-d+e-1]) == 0))
                         {
                             Equal=FALSE;
                             break;
                         }
+}
 
-                    if (Equal)
-                        for (e=2; e<d; e+=2)
-                            if (!Near(Input[c+e],Input[c-d+e]) && !Near(Input[c+e],Input[c-d+e+1]) && !Near(Input[c+e],Input[c-d+e-1]))
+                    if (Equal != 0) {
+                        for (e=2; e<d; e+=2) {
+                            if ((Near(Input[c+e],Input[c-d+e]) == 0) && (Near(Input[c+e],Input[c-d+e+1]) == 0) && (Near(Input[c+e],Input[c-d+e-1]) == 0))
                             {
                                 Equal=FALSE;
                                 break;
                             }
+}
+}
 
-                    if (Equal)
+                    if (Equal != 0)
                     {
                         if (d-20>=256)
                         {
@@ -885,14 +976,19 @@ void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
                         break;
                     }
                 }
-            if (d!=275+255 && c>d) continue;
+}
+            if (d!=275+255 && c>d) { continue;
+}
         }
 
-        if (abs(Input[c]-128)<4) t=3; else t=2;
+        if (abs(Input[c]-128)<4) { t=3; } else { t=2;
+}
         if (abs(SLONG(Input[c])-SLONG(Input[c+1]))<t && abs(SLONG(Input[c])-SLONG(Input[c+2]))<t && abs(SLONG(Input[c])-SLONG(Input[c+3]))<t)
         {
-            for (d=0; d<255 && c+d<Input.AnzEntries(); d++)
-                if (!(abs(SLONG(Input[c])-SLONG(Input[c+d]))<t)) break;
+            for (d=0; d<255 && c+d<Input.AnzEntries(); d++) {
+                if (!(abs(SLONG(Input[c])-SLONG(Input[c+d]))<t)) { break;
+}
+}
 
             if (d==3)
             {
@@ -933,36 +1029,42 @@ void CompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
 
 void DecompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
 {
-    SLONG c, d, o;
+    SLONG c;
+    SLONG d;
+    SLONG o;
 
     o=0;
     for (c=0; c<Input.AnzEntries(); c++)
     {
         if (Input[c]==Tokens[0])
         {
-            for (d=0; d<Input[c+2]; d++)
+            for (d=0; d<Input[c+2]; d++) {
                 Output[o++]=Input[c+1];
+}
 
             c+=2;
         }
         else if (Input[c]==Tokens[1])
         {
-            for (d=0; d<4; d++)
+            for (d=0; d<4; d++) {
                 Output[o++]=Input[c+1];
+}
 
             c++;
         }
         else if (Input[c]==Tokens[2])
         {
-            for (d=0; d<3; d++)
+            for (d=0; d<3; d++) {
                 Output[o++]=Input[c+1];
+}
 
             c++;
         }
         else if (Input[c]==Tokens[3])
         {
-            for (d=0; d<Input[c+1]; d++)
+            for (d=0; d<Input[c+1]; d++) {
                 Output[o++]=127+rand()%2;
+}
 
             c++;
         }
@@ -986,6 +1088,7 @@ void DecompressWave (BUFFER<SND_TYPE> &Input, BUFFER<SND_TYPE> &Output)
 
             c++;
         }
-        else Output[o++]=Input[c];
+        else { Output[o++]=Input[c];
+}
     }
 }

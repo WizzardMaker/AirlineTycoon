@@ -30,7 +30,8 @@ CRushmore::CRushmore(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum
 
     Sim.Players.Players[(SLONG)PlayerNum].ChangeMoney (-1, 3300, "");
 
-    if (!bHandy) AmbientManager.SetGlobalVolume (60);
+    if (bHandy == 0) { AmbientManager.SetGlobalVolume (60);
+}
 
     //LogoBms initialisieren
 
@@ -60,7 +61,8 @@ void CRushmore::OnPaint()
     SLONG Ratings[4];
     SLONG RatingsB[4];
 
-    if (!bHandy) SetMouseLook (CURSOR_NORMAL, 0, ROOM_SABOTAGE, 0);
+    if (bHandy == 0) { SetMouseLook (CURSOR_NORMAL, 0, ROOM_SABOTAGE, 0);
+}
 
     //Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint ();
@@ -73,46 +75,53 @@ void CRushmore::OnPaint()
         RatingsB[c]=Sim.Players.Players[c].GetMissionRating (true);
 
         //Hack: Damit die Sortierung stimmt, wirde das Vorzeichen verdreht.
-        if (Sim.Difficulty==DIFF_ADDON01) Ratings[c]=-Ratings[c];
+        if (Sim.Difficulty==DIFF_ADDON01) { Ratings[c]=-Ratings[c];
+}
     }
 
-    for (c=0; c<3; c++)
+    for (c=0; c<3; c++) {
         if (Ratings[Remapper[c]]<Ratings[Remapper[c+1]])
         {
             SLONG d;
 
             d=Remapper[c]; Remapper[c]=Remapper[c+1]; Remapper[c+1]=d;
             c-=2;
-            if (c<-1) c=-1;
+            if (c<-1) { c=-1;
+}
         }
+}
 
-    for (c=0; c<4; c++)
-        if (Remapper[c]!=-1 && !Sim.Players.Players[Remapper[c]].IsOut)
+    for (c=0; c<4; c++) {
+        if (Remapper[c]!=-1 && (Sim.Players.Players[Remapper[c]].IsOut == 0))
         {
             RoomBm.BlitFrom (LogoBms[Remapper[c]], 181, LogoBmsYPositions[c]);
 
             SLONG diff=Sim.Difficulty;
-            if (diff==DIFF_FREEGAME) diff=DIFF_FIRST;
+            if (diff==DIFF_FREEGAME) { diff=DIFF_FIRST;
+}
 
             SLONG r =Ratings[Remapper[c]];
             SLONG r2=RatingsB[Remapper[c]];
 
             //Hack: Damit die Sortierung stimmt, wurde vorher das Vorzeichen verdreht. Jetzt machen wir es wieder richtig.
-            if (Sim.Difficulty==DIFF_ADDON01) r=abs(r);
+            if (Sim.Difficulty==DIFF_ADDON01) { r=abs(r);
+}
 
             RoomBm.PrintAt (bprintf (StandardTexte.GetS (TOKEN_MISC, 1200+diff), Insert1000erDots(r).c_str(), Insert1000erDots(r2).c_str()), FontBigGrey, TEC_FONT_LEFT, XY(225,LogoBmsYPositions[c]-1), XY(640,440));
         }
+}
 
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if (!IsDialogOpen() && !MenuIsOpen())
+    if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
         if (gMousePosition.IfIsWithin (0,0,100,50) ||      gMousePosition.IfIsWithin (0,0,50,100) ||
                 gMousePosition.IfIsWithin (0,390,100,440) ||   gMousePosition.IfIsWithin (0,340,50,440) ||
                 gMousePosition.IfIsWithin (590,0,640,100) ||   gMousePosition.IfIsWithin (540,0,640,50) ||
-                gMousePosition.IfIsWithin (590,340,640,440) || gMousePosition.IfIsWithin (540,390,640,440))
+                gMousePosition.IfIsWithin (590,340,640,440) || gMousePosition.IfIsWithin (540,390,640,440)) {
             SetMouseLook (CURSOR_EXIT, 0, ROOM_RUSHMORE, 999);
+}
     }
 
     CStdRaum::PostPaint ();
@@ -128,16 +137,17 @@ void CRushmore::OnLButtonDown(UINT nFlags, CPoint point)
 
     DefaultOnLButtonDown ();
 
-    if (!ConvertMousePosition (point, &RoomPos))
+    if (ConvertMousePosition (point, &RoomPos) == 0)
     {
         CStdRaum::OnLButtonDown(nFlags, point);
         return;
     }
 
-    if (!PreLButtonDown (point))
+    if (PreLButtonDown (point) == 0)
     {
-        if (MouseClickArea==ROOM_RUSHMORE && MouseClickId==999) Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
-        else CStdRaum::OnLButtonDown(nFlags, point);
+        if (MouseClickArea==ROOM_RUSHMORE && MouseClickId==999) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
+        } else { CStdRaum::OnLButtonDown(nFlags, point);
+}
     }
 }
 
@@ -153,9 +163,8 @@ void CRushmore::OnRButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    else
-    {
-        if (MenuIsOpen())
+    
+            if (MenuIsOpen())
         {
             MenuRightClick (point);
         }
@@ -168,5 +177,5 @@ void CRushmore::OnRButtonDown(UINT nFlags, CPoint point)
 
             CStdRaum::OnRButtonDown(nFlags, point);
         }
-    }
+   
 }

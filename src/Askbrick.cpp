@@ -50,7 +50,8 @@ AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStd
 AskBrick::~AskBrick()
 {
     AskBrickBm.Destroy();
-    if (pGfxMain && pMenuLib) pGfxMain->ReleaseLib (pMenuLib);
+    if ((pGfxMain != nullptr) && (pMenuLib != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
+}
 
     TopWin = NULL;
 }
@@ -61,20 +62,23 @@ AskBrick::~AskBrick()
 
 void AskBrick::OnPaint()
 {
-    SLONG g, x, y;
+    SLONG g;
+    SLONG x;
+    SLONG y;
 
-    if (bActive)
+    if (bActive != 0)
     {
         PrimaryBm.BlitFrom (AskBrickBm, 10, 10);
 
         g = Group;
 
-        for (y=0; y<4; y++)
+        for (y=0; y<4; y++) {
             for (x=0; x<5; x++)
             {
-                while (!Bricks.IsInAlbum (g) && g-Group<100) g++;
+                while ((Bricks.IsInAlbum (g) == 0) && g-Group<100) { g++;
+}
 
-                if (Bricks.IsInAlbum (g))
+                if (Bricks.IsInAlbum (g) != 0)
                 {
                     /*if (Bricks[g].GetBitmapDimension().x<120 && Bricks[g].GetBitmapDimension().y<110)
                       { */
@@ -98,28 +102,34 @@ void AskBrick::OnPaint()
 
                 g++;
             }
+}
     }
 }
 
 void AskBrick::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    SLONG g, x, y;
+    SLONG g;
+    SLONG x;
+    SLONG y;
 
     g = Group;
 
-    for (y=0; y<5; y++)
+    for (y=0; y<5; y++) {
         for (x=0; x<5; x++)
         {
-            while (!Bricks.IsInAlbum (g) && g-Group<100) g++;
+            while ((Bricks.IsInAlbum (g) == 0) && g-Group<100) { g++;
+}
 
-            if (Bricks.IsInAlbum (g))
+            if (Bricks.IsInAlbum (g) != 0) {
                 if (point.x>=124*x+10 && point.x<=124*(x+1)+10 && point.y>=112*y+10 && point.y<=112*(y+1)+10)
                 {
                     *rc1 = g;
                 }
+}
 
             g++;
         }
+}
 
     //ReferTo (nFlags);
     //ReferTo (point);
@@ -137,7 +147,7 @@ void AskBrick::OnClose()
     delete this;
 }
 
-void AskBrick::OnKeyDown(UINT nChar, UINT, UINT)
+void AskBrick::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/)
 {
     switch (nChar)
     {

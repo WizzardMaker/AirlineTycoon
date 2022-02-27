@@ -287,7 +287,7 @@ namespace RakNet
         void AddQuery_STRING(const char *columnName, const char *charValue, DataStructures::Table::FilterQueryType op=DataStructures::Table::QF_EQUAL);
         void AddQuery_BINARY(const char *columnName, const char *input, int inputLength, DataStructures::Table::FilterQueryType op=DataStructures::Table::QF_EQUAL);
         void AddQuery_POINTER(const char *columnName, void *ptr, DataStructures::Table::FilterQueryType op=DataStructures::Table::QF_EQUAL);
-        RoomsErrorCode Validate(void);
+        RoomsErrorCode Validate(void) const;
 
         void Serialize(bool writeToBitstream, RakNet::BitStream *bitStream);
 
@@ -359,34 +359,34 @@ namespace RakNet
             RoomsErrorCode AddTitle(GameIdentifier gameIdentifier);
 
             // Get all pending invites to you
-            RoomsErrorCode GetInvitesToParticipant(RoomsParticipant* roomsParticipant, DataStructures::List<InvitedUser*> &invites);
+            RoomsErrorCode GetInvitesToParticipant(RoomsParticipant* roomsParticipant, DataStructures::List<InvitedUser*> &invites) const;
 
-            RoomsErrorCode RemoveUser(RoomsParticipant* roomsParticipant, RemoveUserResult *removeMemberResult);
+            RoomsErrorCode RemoveUser(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult);
 
             // ROOMS OPERATIONS, implicit room
-            RoomsErrorCode SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, RakNet::RakString subject, RakNet::RakString body);
+            static RoomsErrorCode SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, RakNet::RakString subject, RakNet::RakString body);
             RoomsErrorCode AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, RakNet::RakString inviteSender);
-            RoomsErrorCode StartSpectating(RoomsParticipant* roomsParticipant);
-            RoomsErrorCode StopSpectating(RoomsParticipant* roomsParticipant);
-            RoomsErrorCode GrantModerator(RoomsParticipant* roomsParticipant, RoomsParticipant *newModerator, DataStructures::List<InvitedUser> &clearedInvites);
-            RoomsErrorCode ChangeSlotCounts(RoomsParticipant* roomsParticipant, Slots slots);
-            RoomsErrorCode SetCustomRoomProperties(RoomsParticipant* roomsParticipant, DataStructures::Table *table);
-            RoomsErrorCode ChangeRoomName(RoomsParticipant* roomsParticipant, RakNet::RakString newRoomName, ProfanityFilter *profanityFilter);
-            RoomsErrorCode SetHiddenFromSearches(RoomsParticipant* roomsParticipant, bool _hiddenFromSearches);
-            RoomsErrorCode SetDestroyOnModeratorLeave(RoomsParticipant* roomsParticipant, bool destroyOnModeratorLeave);
-            RoomsErrorCode SetReadyStatus(RoomsParticipant* roomsParticipant, bool isReady);
+            static RoomsErrorCode StartSpectating(RoomsParticipant* roomsParticipant);
+            static RoomsErrorCode StopSpectating(RoomsParticipant* roomsParticipant);
+            static RoomsErrorCode GrantModerator(RoomsParticipant* roomsParticipant, RoomsParticipant *newModerator, DataStructures::List<InvitedUser> &clearedInvites);
+            static RoomsErrorCode ChangeSlotCounts(RoomsParticipant* roomsParticipant, Slots slots);
+            RoomsErrorCode SetCustomRoomProperties(RoomsParticipant* roomsParticipant, DataStructures::Table *table) const;
+            RoomsErrorCode ChangeRoomName(RoomsParticipant* roomsParticipant, RakNet::RakString newRoomName, ProfanityFilter *profanityFilter) const;
+            static RoomsErrorCode SetHiddenFromSearches(RoomsParticipant* roomsParticipant, bool _hiddenFromSearches);
+            static RoomsErrorCode SetDestroyOnModeratorLeave(RoomsParticipant* roomsParticipant, bool destroyOnModeratorLeave);
+            static RoomsErrorCode SetReadyStatus(RoomsParticipant* roomsParticipant, bool isReady);
             RoomsErrorCode GetReadyStatus( RoomID roomId, Room **room, DataStructures::List<RoomsParticipant*> &readyUsers, DataStructures::List<RoomsParticipant*> &unreadyUsers);
-            RoomsErrorCode SetRoomLockState(RoomsParticipant* roomsParticipant, RoomLockState _roomLockState);
+            static RoomsErrorCode SetRoomLockState(RoomsParticipant* roomsParticipant, RoomLockState _roomLockState);
             RoomsErrorCode GetRoomLockState(RoomID roomId, Room **room, RoomLockState *roomLockState);
             RoomsErrorCode AreAllMembersReady(RoomID roomId, Room **room, bool *allReady);
-            RoomsErrorCode KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, RakNet::RakString reason);
-            RoomsErrorCode UnbanMember(RoomsParticipant* roomsParticipant, RakNet::RakString name);
+            static RoomsErrorCode KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, RakNet::RakString reason);
+            static RoomsErrorCode UnbanMember(RoomsParticipant* roomsParticipant, RakNet::RakString name);
             RoomsErrorCode GetBanReason( RoomID lobbyRoomId, Room **room, RakNet::RakString name, RakNet::RakString *reason);
-            RoomsErrorCode LeaveRoom(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult);
+            static RoomsErrorCode LeaveRoom(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult);
             //RoomsErrorCode GetKickReason(RoomsParticipant* roomsParticipant, RakNet::RakString *kickReason);
 
 
-            void GetRoomProperties(RoomID roomId, Room **room, DataStructures::Table *table);
+            void GetRoomProperties(RoomID roomId, Room **room, DataStructures::Table *table) const;
 
             // Quick join algorithm:
             //
@@ -426,32 +426,32 @@ namespace RakNet
             // It also ends if timeToWaitMS expires.
             // Returns REC_ADD_TO_QUICK_JOIN_*
             // Passed pointer is stored on REC_SUCCESS, allocate, and do not deallocate unless not successful
-            RoomsErrorCode AddUserToQuickJoin(GameIdentifier gameIdentifier, QuickJoinUser *quickJoinMember);
+            RoomsErrorCode AddUserToQuickJoin(GameIdentifier gameIdentifier, QuickJoinUser *quickJoinMember) const;
 
             // Returns REC_REMOVE_FROM_QUICK_JOIN_*
-            RoomsErrorCode RemoveUserFromQuickJoin(RoomsParticipant* roomsParticipant, QuickJoinUser **qju);
+            RoomsErrorCode RemoveUserFromQuickJoin(RoomsParticipant* roomsParticipant, QuickJoinUser **qju) const;
 
             // Is this user in quick join?
-            bool IsInQuickJoin(RoomsParticipant* roomsParticipant);
+            bool IsInQuickJoin(RoomsParticipant* roomsParticipant) const;
 
             // Get all rooms for a certain title
             static int RoomsSortByName( Room* const &key, Room* const &data );
-            RoomsErrorCode SearchByFilter( GameIdentifier gameIdentifier, RoomsParticipant* roomsParticipant, RoomQuery *roomQuery, DataStructures::OrderedList<Room*, Room*, RoomsSortByName> &roomsOutput, bool onlyJoinable );
+            RoomsErrorCode SearchByFilter( GameIdentifier gameIdentifier, RoomsParticipant* roomsParticipant, RoomQuery *roomQuery, DataStructures::OrderedList<Room*, Room*, RoomsSortByName> &roomsOutput, bool onlyJoinable ) const;
 
             // Deallocate a room
-            void DestroyRoomIfDead(Room *room);
+            void DestroyRoomIfDead(Room *room) const;
 
             // If a handle changes, you have to tell the system here. Otherwise ban and invite names will be out of synch
             // System does not verify that the handle is not currently in use since it does not necessarily know about all online players
             // This is an invariant up to the caller to uphold. Failure to do so will result in the wrong players being banned or invited
-            void ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle);
+            void ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle) const;
 
             unsigned int GetPropertyIndex(RoomID lobbyRoomId, const char *propertyName) const;
 
             DataStructures::Map<GameIdentifier, PerGameRoomsContainer*> perGamesRoomsContainers;
 
-            Room * GetRoomByLobbyRoomID(RoomID lobbyRoomID);
-            Room * GetRoomByName(RakNet::RakString roomName);
+            Room * GetRoomByLobbyRoomID(RoomID lobbyRoomID) const;
+            Room * GetRoomByName(RakNet::RakString roomName) const;
 
         protected:
             RoomID nextRoomId;
@@ -481,19 +481,19 @@ namespace RakNet
             RoomsErrorCode JoinByFilter(RoomMemberMode roomMemberMode, RoomsParticipant* roomsParticipant, RoomID lastRoomJoined, RoomQuery *query, JoinedRoomResult *joinRoomResult);
             RoomsErrorCode AddUserToQuickJoin(QuickJoinUser *quickJoinMember);
             RoomsErrorCode RemoveUserFromQuickJoin(RoomsParticipant* roomsParticipant, QuickJoinUser **qju);
-            bool IsInQuickJoin(RoomsParticipant* roomsParticipant);
-            unsigned int GetQuickJoinIndex(RoomsParticipant* roomsParticipant);
-            void GetRoomNames(DataStructures::List<RakNet::RakString> &roomNames);
-            void GetAllRooms(DataStructures::List<Room*> &rooms);
+            static bool IsInQuickJoin(RoomsParticipant* roomsParticipant);
+            unsigned int GetQuickJoinIndex(RoomsParticipant* roomsParticipant) const;
+            void GetRoomNames(DataStructures::List<RakNet::RakString> &roomNames) const;
+            void GetAllRooms(DataStructures::List<Room*> &rooms) const;
             // Looks for a particular room that has a particular ID
-            Room * GetRoomByLobbyRoomID(RoomID lobbyRoomID);
+            Room * GetRoomByLobbyRoomID(RoomID lobbyRoomID) const;
             Room * GetRoomByName(RakNet::RakString roomName);
             RoomsErrorCode GetInvitesToParticipant(RoomsParticipant* roomsParticipant, DataStructures::List<InvitedUser*> &invites);
             bool DestroyRoomIfDead(Room *room);
             void ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle);
 
             unsigned ProcessQuickJoins( DataStructures::List<QuickJoinUser*> &timeoutExpired,
-                    DataStructures::List<JoinedRoomResult> &joinedRooms,
+                    DataStructures::List<JoinedRoomResult> &joinedRoomMembers,
                     DataStructures::List<QuickJoinUser*> &dereferencedPointers,
                     RakNet::TimeMS elapsedTime,
                     RoomID startingRoomId);
@@ -526,10 +526,10 @@ namespace RakNet
             RoomsErrorCode SetHiddenFromSearches(RoomsParticipant* roomsParticipant, bool _hiddenFromSearches);
             RoomsErrorCode SetDestroyOnModeratorLeave(RoomsParticipant* roomsParticipant, bool destroyOnModeratorLeave);
             RoomsErrorCode SetReadyStatus(RoomsParticipant* roomsParticipant, bool isReady);
-            RoomsErrorCode GetReadyStatus(DataStructures::List<RoomsParticipant*> &readyUsers, DataStructures::List<RoomsParticipant*> &unreadyUsers);
+            RoomsErrorCode GetReadyStatus(DataStructures::List<RoomsParticipant*> &readyUsers, DataStructures::List<RoomsParticipant*> &unreadyUsers) const;
             RoomsErrorCode SetRoomLockState(RoomsParticipant* roomsParticipant, RoomLockState _roomLockState);
             RoomsErrorCode GetRoomLockState(RoomLockState *_roomLockState);
-            RoomsErrorCode AreAllMembersReady(unsigned int exceptThisIndex, bool *allReady);
+            RoomsErrorCode AreAllMembersReady(unsigned int exceptThisIndex, bool *allReady) const;
             RoomsErrorCode KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, RakNet::RakString reason);
             RoomsErrorCode UnbanMember(RoomsParticipant* roomsParticipant, RakNet::RakString name);
             RoomsErrorCode GetBanReason(RakNet::RakString name, RakNet::RakString *reason);
@@ -548,7 +548,7 @@ namespace RakNet
             // Returns true if there are only spectators, or nobody at all
             bool IsRoomDead(void) const;
 
-            RoomsErrorCode GetInvitesToParticipant(RoomsParticipant* roomsParticipant, DataStructures::List<InvitedUser*> &invites);
+            RoomsErrorCode GetInvitesToParticipant(RoomsParticipant* roomsParticipant, DataStructures::List<InvitedUser*> &invites) const;
 
             RoomsParticipant* GetModerator(void) const;
 

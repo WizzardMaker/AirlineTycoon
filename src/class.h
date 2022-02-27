@@ -100,14 +100,14 @@ class /**/SBFX
         ~SBFX ();
         void Destroy (void);
         void ReInit (const CString &Filename, char *Path=NULL);
-        void Play(dword dwFlags = 0);
-        void Play(dword dwFlags, long PercentVolume);
-        void Stop(void);
-        void SetVolume (long volume);
+        void Play(dword dwFlags = 0) const;
+        void Play(dword dwFlags, long PercentVolume) const;
+        void Stop(void) const;
+        void SetVolume (long volume) const;
         void Fusion (const SBFX **Fx, long NumFx);
         void Fusion (const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumFx);
-        void Tokenize (BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis);
-        void Tokenize (BUFFER<SBFX> &Effects);
+        void Tokenize (BUFFER<SLONG> &Von, BUFFER<SLONG> &Bis) const;
+        void Tokenize (BUFFER<SBFX> &Effects) const;
 };
 
 //--------------------------------------------------------------------------------------------
@@ -229,7 +229,7 @@ class /**/CAnimation
         void  StartNow (void);
         void  BlitAt (SBBM &RoomBm, SLONG x, SLONG y);
         void  BlitAtT (SBBM &RoomBm, SLONG x, SLONG y);
-        SLONG GetFrame (void);
+        SLONG GetFrame (void) const;
 };
 
 //--------------------------------------------------------------------------------------------
@@ -283,9 +283,9 @@ class /**/CAmbienteManager
     public:
         void RecalcVolumes (void);
         void SetGlobalVolume (SLONG Volume);
-        void SetFx (SLONG FxId, CString Soundeffekt);
-        void SetVolume (SLONG FxId, SLONG Volume);
-        void Pause (void);
+        void SetFx (SLONG FxId, CString Soundeffekt) const;
+        void SetVolume (SLONG FxId, SLONG Volume) const;
+        void Pause (void) const;
         void Resume (void);
 };
 
@@ -348,8 +348,8 @@ class /**/CEinheit                               // 0 = km
         double  Faktor;                        // 4 = l
         // 5 = l/h
     public:                                   // 6 = DM
-        SLONG   Umrechnung (SLONG Value);
-        __int64 Umrechnung64 (__int64 Value);
+        SLONG   Umrechnung (SLONG Value) const;
+        __int64 Umrechnung64 (__int64 Value) const;
         char   *bString (SLONG Value);
         char   *bString64 (__int64 Value);
 };
@@ -501,7 +501,7 @@ class /**/CAuftrag
         CAuftrag (char *VonCity, char *NachCity, ULONG Personen, UWORD Date, SLONG Praemie, SLONG Strafe);
         CAuftrag (char *VonCity, char *NachCity, ULONG Personen, UWORD Date);
 
-        void  BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page);
+        void  BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page) const;
         void  RandomCities (SLONG AreaType, SLONG HomeCity, TEAKRAND *pRandom);
         void  RefillForLastMinute (SLONG AreaType, TEAKRAND *pRandom);
         void  RefillForReisebuero (SLONG AreaType, TEAKRAND *pRandom);
@@ -559,10 +559,10 @@ class CFracht
         CFracht (char *VonCity, char *NachCity, SLONG Tons, ULONG Personen, UWORD Date, SLONG Praemie, SLONG Strafe);
         CFracht (char *VonCity, char *NachCity, SLONG Tons, ULONG Personen, UWORD Date);
 
-        void  BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page);
+        void  BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page) const;
         void  RandomCities (SLONG AreaType, SLONG HomeCity, TEAKRAND *pRand);
         void  RefillForBegin (SLONG AreaType, TEAKRAND *pRand);
-        void  Refill (SLONG AreaType, TEAKRAND *pRand);
+        void  Refill (SLONG AreaType, TEAKRAND *pRnd);
         void  RefillForAusland (SLONG AreaType, SLONG CityNum, TEAKRAND *pRandom);
         BOOL  FitsInPlane (const CPlane &Plane) const;
 
@@ -605,7 +605,7 @@ class CRoute
         SLONG          Bedarf;              //Soviele Leute wollen heute fliegen
 
     public:
-        SLONG AnzPassagiere(void);          //So viele fliegen (Potentiell) hier
+        SLONG AnzPassagiere(void) const;          //So viele fliegen (Potentiell) hier
 
         BOOL operator > (const CRoute &p) const;
         BOOL operator < (const CRoute &p) const;
@@ -697,9 +697,9 @@ class CFlugplanEintrag
         void  BookFlight (CPlane *Plane, SLONG PlayerNum);
         void  CalcPassengers (SLONG PlayerNum, CPlane &qPlane);
         void  FlightChanged (void);
-        SLONG GetEinnahmen (SLONG PlayerNum, const CPlane &qPlane);
-        SLONG GetAusgaben (SLONG PlayerNum, const CPlane &qPlane);
-        SLONG GetRealAusgaben (SLONG PlayerNum, const CPlane &qPlane, CString Name);
+        SLONG GetEinnahmen (SLONG PlayerNum, const CPlane &qPlane) const;
+        SLONG GetAusgaben (SLONG PlayerNum, const CPlane &qPlane) const;
+        SLONG GetRealAusgaben (SLONG PlayerNum, const CPlane &qPlane, CString Name) const;
 
         friend TEAKFILE &operator << (TEAKFILE &File, const CFlugplanEintrag &Eintrag);
         friend TEAKFILE &operator >> (TEAKFILE &File, CFlugplanEintrag &Eintrag);
@@ -751,7 +751,7 @@ class /**/CPlanePart
         SLONG   ParentRelationId;  // Identifiziert die Relation durch die wir verbunden sind 100
 
     public:
-        SBBM &GetBm(SBBMS &PartBms);
+        SBBM &GetBm(SBBMS &PartBms) const;
 
         friend TEAKFILE &operator << (TEAKFILE &File, const CPlanePart &pp);
         friend TEAKFILE &operator >> (TEAKFILE &File, CPlanePart &pp);
@@ -883,7 +883,7 @@ class /**/CPlane
         CPlane ();
         CPlane (CString Name, ULONG TypeId, UBYTE Zustand, SLONG Baujahr);
         void  AddPanne (SLONG Code);
-        SLONG CalculatePrice (void);        //Berechnet den Marktwert
+        SLONG CalculatePrice (void) const;        //Berechnet den Marktwert
         void  CheckFlugplaene (SLONG PlayerNum, BOOL Sort=TRUE, BOOL PlanGates=TRUE);
         void  ExtendFlugplaene (SLONG PlayerNum);
         void  FlugplaeneFortfuehren (SLONG PlayerNum);
@@ -964,7 +964,7 @@ class /**/CKlackerPlanes
         CKlackerPlanes () { Reset(); }
         void Reset (void);
         void Pump (XY AvoidPoint);
-        void PostPaint (SBBM &PrimaryBm);
+        void PostPaint (SBBM &PrimaryBm) const;
         void PostPaint (SBPRIMARYBM &PrimaryBm);
 };
 
@@ -1467,7 +1467,7 @@ class /**/PERSON
         void PersonReachedTarget (void);
         void LookAt (SLONG Dir);
 
-        const CFlugplanEintrag *GetFlugplanEintrag (void);
+        const CFlugplanEintrag *GetFlugplanEintrag (void) const;
 
         BOOL operator > (const PERSON &p) const { SLONG y=ScreenPos.y+FloorOffset, py=p.ScreenPos.y+p.FloorOffset; if ((y<170) == (py<170)) return (y > py); else return (y < py); }
         BOOL operator < (const PERSON &p) const { SLONG y=ScreenPos.y+FloorOffset, py=p.ScreenPos.y+p.FloorOffset; if ((y<170) == (py<170)) return (y < py); else return (y > py); }
@@ -1702,13 +1702,13 @@ class /**/CWorkers
         CWorkers () {}
         CWorkers (const CString &TabFilename, const CString &TabFilename2);
 
-        CString GetRandomName(BOOL Geschlecht);
+        CString GetRandomName(BOOL Geschlecht) const;
 
         void  CheckShortage (void);
         void  ReInit (const CString &TabFilename, const CString &TabFilename2);
         void  NewDay (void);
         void  Gehaltsaenderung (BOOL Art, SLONG PlayerNum);
-        SLONG GetQualityRatio (SLONG c);
+        SLONG GetQualityRatio (SLONG prs);
         SLONG GetAverageHappyness (SLONG PlayerNum);
         SLONG GetMaxHappyness (SLONG PlayerNum);
         SLONG GetMinHappyness (SLONG PlayerNum);
@@ -1749,8 +1749,8 @@ class CTalker
         void DecreaseReference (void);
         void IncreaseLocking (void);    //Fürs sperren
         void DecreaseLocking (void);
-        BOOL IsBusy (void);
-        BOOL IsTalking (void);
+        BOOL IsBusy (void) const;
+        BOOL IsTalking (void) const;
 
         friend TEAKFILE &operator << (TEAKFILE &File, const CTalker &Talker);
         friend TEAKFILE &operator >> (TEAKFILE &File, CTalker &Talker);
@@ -1796,8 +1796,8 @@ class CBilanz
 
     public:
         void  Clear(void);
-        SLONG GetHaben(void);
-        SLONG GetSoll(void);
+        SLONG GetHaben(void) const;
+        SLONG GetSoll(void) const;
         SLONG GetSumme(void);
 
         friend TEAKFILE &operator << (TEAKFILE &File, const CBilanz &Bilanz);
@@ -2069,9 +2069,9 @@ class PLAYER
         void  BuyPlane (ULONG PlaneTypeId, TEAKRAND *pRnd);
         void  BuyItem (UBYTE Item);
         long  CalcSecurityCosts (bool bFixOnly=false, bool bPlaneOnly=false);
-        void  DisplayAsTelefoning (void);
+        void  DisplayAsTelefoning (void) const;
         bool  DropItem (UBYTE Item);
-        long  CalcCreditLimit (void);
+        long  CalcCreditLimit (void) const;
         void  CalcRoom (void);              //Speed-up für GetRoom
         SLONG CalcPlanePropSum (void);      //Berechnet, was die anstehenden Umrüstungen zusammen kosten werden
         void  ChangeMoney (__int64 Money, SLONG Reason, CString Par1, char *Par2=NULL);  //Ändert Barschaft und Profit
@@ -2083,8 +2083,8 @@ class PLAYER
         void  AddRocketPart(SLONG rocketPart, SLONG price);
         UWORD GetRoom (void);                         //Gibt den aktuellen Raum zurück
         SLONG GetMissionRating (bool bAnderer=false); //Gibt aktuellen Missionserfolg als Zahl zurück
-        SLONG HasBerater (SLONG Berater);
-        BOOL  HasBeraterApplied (SLONG Berater);
+        SLONG HasBerater (SLONG Berater) const;
+        static BOOL  HasBeraterApplied (SLONG Berater);
         BOOL  HasItem (UBYTE Item);
         BOOL  HasSpaceForItem (void);
         BOOL  HasWon (void);
@@ -2109,7 +2109,7 @@ class PLAYER
         void  RobotInit(void);
         void  RobotExecuteAction(void);
         void  RouteWegnehmen (long Routenindex, long NeuerBesitzer=-1);
-        void  SackWorkers (void);
+        void  SackWorkers (void) const;
         void  UpdateAuftragsUsage (void);
         void  UpdateFrachtauftragsUsage (void);
         void  UpdateWalkSpeed (void);
@@ -2126,27 +2126,27 @@ class PLAYER
         void  WalkStopEx (void);
 
     public: //Network-Sachen:
-        SLONG NetSynchronizeGetNum (void);
+        static SLONG NetSynchronizeGetNum (void);
         void  NetSynchronizeImage (void);
         void  NetSynchronizeMoney (void);
         void  NetSynchronizeRoutes (void);
         void  NetSynchronizeFlags (void);
         void  NetSynchronizeItems (void);
-        void  NetSynchronizeSabotage (void);
-        void  NetSynchronizeKooperation (void);
-        void  NetRouteUpdateTicketpreise (SLONG RouteId, SLONG Ticketpreis, SLONG TicketpreisFC);
+        void  NetSynchronizeSabotage (void) const;
+        void  NetSynchronizeKooperation (void) const;
+        void  NetRouteUpdateTicketpreise (SLONG RouteId, SLONG Ticketpreis, SLONG TicketpreisFC) const;
         void  NetUpdateFlightplan (SLONG Plane);
-        void  NetUpdateOrder (const CAuftrag &auftrag);
+        void  NetUpdateOrder (const CAuftrag &auftrag) const;
         void  NetUpdatePlaneProps (SLONG Plane=-1);
-        void  NetUpdateFreightOrder (const CFracht &auftrag);
-        void  NetUpdateTook (SLONG Type, SLONG Index, SLONG City=0);
+        void  NetUpdateFreightOrder (const CFracht &auftrag) const;
+        void  NetUpdateTook (SLONG Type, SLONG Index, SLONG City=0) const;
         void  NetUpdateRentRoute (SLONG Route1Id, SLONG Route2Id);
         void  NetUpdateWorkers (void);
-        void  NetUpdateKerosin (void);
-        void  NetSynchronizePlanes (void);
-        void  NetSynchronizeMeeting (void);
-        void  NetBuyXPlane (long Anzahl, CXPlane &plane);
-        void  NetSave (DWORD UniqueGameId, SLONG CursorY, CString Name);
+        void  NetUpdateKerosin (void) const;
+        static void  NetSynchronizePlanes (void);
+        static void  NetSynchronizeMeeting (void);
+        void  NetBuyXPlane (long Anzahl, CXPlane &plane) const;
+        static void  NetSave (DWORD UniqueGameId, SLONG CursorY, CString Name);
 
         friend TEAKFILE &operator << (TEAKFILE &File, const PLAYER &Player);
         friend TEAKFILE &operator >> (TEAKFILE &File, PLAYER &Player);
@@ -2163,7 +2163,7 @@ class PLAYERS
         SLONG GetAnzHumanPlayers (void);
         SLONG GetAnzRobotPlayers (void);
         SLONG GetIndexOfHumanPlayerNumberX (SLONG x);
-        BOOL  IsLogoInUse (SLONG Player, UBYTE Logo);
+        static BOOL  IsLogoInUse (SLONG Player, UBYTE Logo);
         BOOL  IsPlaneNameInUse (const CString &PlaneName);
         void  WalkToStartingPoint (void);
         void  RobotPump(void);
@@ -2218,17 +2218,17 @@ class AIRPORT
         XY     GetRandomBirthplace (BOOL Type, SLONG PlayerNum=0, TEAKRAND *pRand=NULL);
         XY     GetRandomExit (TEAKRAND *pRand=NULL);
         void   GetRandomShop (XY &ReturnPosition, SLONG &ReturnStatePar, SLONG ClanType, UBYTE *Mood, TEAKRAND *pRand=NULL);
-        XY     GetRandomTypedRune (ULONG BrickId, UBYTE Par=0, bool AcceppError=false, TEAKRAND *pRand=NULL);
+        XY     GetRandomTypedRune (ULONG BrickId, UBYTE Par=0, bool AcceptError=false, TEAKRAND *pRand=NULL);
         XY     GetBestStairs (UBYTE Par, SLONG x1, SLONG x2);
         SLONG  GetNumberOfFreeGates (void);
         SLONG  GetNumberOfShops (ULONG BrickId);
         UBYTE  GetRuneParNear (const XY &Pos, const XY &MaxDist, ULONG RuneType);
-        BUILD *GetBuildNear (const XY &Pos, const XY &MaxDist, ULONG RuneType);
+        BUILD *GetBuildNear (const XY &Pos, const XY &MaxDist, ULONG BrickId);
         SLONG  IsInMarkedArea (const XY &Pos);
         SLONG  CalcPlateXPosition (SLONG BuildIndex, SLONG BrickXOffset, SLONG Alignment);
         SLONG  CalcPlateYPosition (SLONG BuildIndex, SLONG BrickYOffset);
-        SLONG  CalcPlateXPosition (BUILD &qBuild, SLONG BrickXOffset, SLONG Alignment);
-        SLONG  CalcPlateYPosition (BUILD &qBuild, SLONG BrickYOffset);
+        SLONG  CalcPlateXPosition (BUILD &qBuild, SLONG BrickXOffset, SLONG Alignment) const;
+        static SLONG  CalcPlateYPosition (BUILD &qBuild, SLONG BrickYOffset);
         void   CalcPlates (void);
         void   CreateGateMapper (void);
         void   CalcCoordinates (void);
@@ -2245,7 +2245,7 @@ class AIRPORT
         void   LoadAirport (SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Entry, SLONG Shops, SLONG Cafe, SLONG Security, SLONG Suitcase, SLONG WaitZone, SLONG RightEnd);
         void   RepaintTextBricks (void);
         void   SetConditionBlock (SLONG Id, BOOL Blocking);
-        void   UpdateStaticDoorImage (void);
+        static void   UpdateStaticDoorImage (void);
 
         friend class HallDiskMenu;
         friend TEAKFILE &operator << (TEAKFILE &File, const AIRPORT &Airport);
@@ -2478,14 +2478,14 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
         ~SIM();
         void    AddSmacker (CString Filename, long BrickId, XY Offset);
         void    AddNewPassengers (void);
-        void    AddNewShoppers (void);
-        void    AddStenchSabotage (XY Position);
-        bool    AddGlueSabotage (XY Position, SLONG Dir, SLONG NewDir, SLONG Phase);
+        void    AddNewShoppers (void) const;
+        static void    AddStenchSabotage (XY Position);
+        static bool    AddGlueSabotage (XY Position, SLONG Dir, SLONG NewDir, SLONG Phase);
         void    ChooseStartup (BOOL GameModeQuick);
         void    DoTimeStep (void);
-        SLONG   GetWeek (void);
-        SLONG   GetHour (void);
-        SLONG   GetMinute (void);
+        SLONG   GetWeek (void) const;
+        SLONG   GetHour (void) const;
+        SLONG   GetMinute (void) const;
         SLONG   GetWeekday (void);
         CString GetTimeString (void);
         void    NewDay (void);
@@ -2493,43 +2493,43 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
         void    CreateRandomUsedPlanes (void);
         void    UpdateUsedPlanes (void);
         void    ReformGates (void);
-        void    ComputerOnToilet (SLONG ComputerPlayer);
-        void    UpdateRoomUsage (void);
+        static void    ComputerOnToilet (SLONG ComputerPlayer);
+        static void    UpdateRoomUsage (void);
 
         void    CreateMissionCities (void);
         void    CreateEarthquakeCity (void);
 
         BOOL    LoadGame (SLONG Number);
-        void    SaveGame (SLONG Number, const CString &Name);
-        DWORD   GetSavegameUniqueGameId (SLONG Index, bool bForceNetwork=false);
-        SLONG   GetSavegameLocalPlayer (SLONG Index);
-        SLONG   GetSavegameNumHumans (SLONG Index);
-        CString GetSavegameSessionName (SLONG Index);
-        void    ReadSavegameOwners (SLONG Index);
+        void    SaveGame (SLONG Number, const CString &Name) const;
+        static DWORD   GetSavegameUniqueGameId (SLONG Index, bool bForceNetwork=false);
+        static SLONG   GetSavegameLocalPlayer (SLONG Index);
+        static SLONG   GetSavegameNumHumans (SLONG Index);
+        static CString GetSavegameSessionName (SLONG Index);
+        static void    ReadSavegameOwners (SLONG Index);
 
         void    LoadOptions (void);
         void    SaveOptions (void);
 
-        SLONG   GetSeason (void);
+        static SLONG   GetSeason (void);
         void    UpdateSeason (void);
 
         void    GiveHint (SLONG Number);
         void    InvalidateHint (SLONG Number);
 
-        void    NetRefill (SLONG Type, SLONG City=0);
-        void    NetSynchronizeOvertake (void);
+        static void    NetRefill (SLONG Type, SLONG City=0);
+        void    NetSynchronizeOvertake (void) const;
 
         //In NewgamePopup.cpp
-        bool	  SendMemFile (TEAKFILE &file, ULONG target = 0, bool useCompression = true);
-        bool	  ReceiveMemFile (TEAKFILE &file);
-        bool    SendSimpleMessage (ULONG Message, ULONG target=0);
-        bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1);
-        bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2);
-        bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3);
-        bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3, SLONG Par4);
-        bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3, SLONG Par4, SLONG Par5);
-        bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3, SLONG Par4, SLONG Par5, SLONG Par6);
-        bool    SendChatBroadcast (CString Message, bool bSayFromWhom=false, ULONG target=0);
+        static bool	  SendMemFile (TEAKFILE &file, ULONG target = 0, bool useCompression = true);
+        static bool	  ReceiveMemFile (TEAKFILE &file);
+        static bool    SendSimpleMessage (ULONG Message, ULONG target=0);
+        static bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1);
+        static bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2);
+        static bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3);
+        static bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3, SLONG Par4);
+        static bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3, SLONG Par4, SLONG Par5);
+        static bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3, SLONG Par4, SLONG Par5, SLONG Par6);
+        static bool    SendChatBroadcast (CString Message, bool bSayFromWhom=false, ULONG target=0);
 
         void    AddHighscore (CString Name, DWORD UniqueGameId2, __int64 Score);
         void    SaveHighscores (void);
