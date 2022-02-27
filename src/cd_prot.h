@@ -49,4 +49,4 @@
 #endif
 #endif
 
-#define FILLFILE_NAME "intro\\credits.smk"
+#define FILLFILE_NAME "intro/credits.smk"

@@ -4,7 +4,7 @@
 #define _8927734r689234592835_
 
 
-#define FILLFILE_NAME "intro\\credits.smk"
+#define FILLFILE_NAME "intro/credits.smk"
 #define FILLFILE_SIZE "234576440"
 
 #define CHECKCDFILE0001 CheckCDFile( 42, 25282, 101 )

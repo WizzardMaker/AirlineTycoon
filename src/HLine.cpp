@@ -1136,14 +1136,14 @@ void UpdateHLinePool (void)
     BOOL DontSaveSkeletons=FALSE;
 
     SkelettPool.ReSize (bprintf ("skelett.pol", c), NULL, NULL);
-    SkelPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename ("skel_pal.lbm", "CLAN\\LBM\\%s"));
+    SkelPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename ("skel_pal.lbm", "clan\\lbm\\%s"));
 
     for (c=Clans.AnzEntries()-1; c>=0; c--)
         if (Clans.IsInAlbum (c) && Clans[c].UpdateNow)
         {
             hprintf ("Compressing %li", c);
 
-            AnimPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename (Clans[c].PalFilename, "CLAN\\LBM\\%s"));
+            AnimPal.RefreshPalFromLbm((char*)(LPCTSTR)FullFilename (Clans[c].PalFilename, "clan\\lbm\\%s"));
 
             if (c<SLONG(Clans.AnzEntries()-1) && Clans.IsInAlbum(c+1) && Clans[c].PalFilename==Clans[SLONG(c+1)].PalFilename && Clans[c].Type!=30)
             {

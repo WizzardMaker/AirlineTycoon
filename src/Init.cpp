@@ -116,7 +116,7 @@ do_findcd_main:
     if (1==0)
 #else
         if (!DoesFileExist ("C:\\Infos\\identity.txt") /*&& GetKey()!=0x1c4298a0*/)
-            if (!DoesFileExist (CString(AppPath)+"data\\cm.txt"))
+            if (!DoesFileExist (FullFilename("data\\cm.txt", AppPath)))
 #endif
             {
 do_findcd:

@@ -1106,7 +1106,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            //TmpStr+="[[*]] ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
@@ -1222,7 +1222,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            //TmpStr+="[[*]] ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
@@ -1311,7 +1311,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
 
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
@@ -1399,7 +1399,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
 
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
@@ -1488,7 +1488,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
 
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
@@ -1578,7 +1578,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
 
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
@@ -1658,7 +1658,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -1741,7 +1741,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].NumFracht);
@@ -1823,7 +1823,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].NumFrachtFree);
@@ -1905,7 +1905,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].NumMiles);
@@ -1987,7 +1987,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2071,7 +2071,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2155,7 +2155,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2239,7 +2239,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2322,7 +2322,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2407,7 +2407,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2480,7 +2480,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2561,7 +2561,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2645,7 +2645,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2729,7 +2729,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2813,7 +2813,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2894,7 +2894,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -2975,7 +2975,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating())+"/"+Insert1000erDots (Sim.Players.Players[c].GetMissionRating(true));
@@ -3059,7 +3059,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -3140,7 +3140,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
@@ -3221,7 +3221,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                    for (SLONG c=0; c<Sim.Players.Players.AnzEntries(); c++)
                                        if (!Sim.Players.Players[c].IsOut)
                                        {
-                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[BO\\6001]]";
+                                           if (TmpStr.GetLength()>0) TmpStr+=", "; else TmpStr+="[[bo/6001]]";
                                            if (TmpStr2.GetLength()>0) TmpStr2+="µ";
                                            TmpStr+=Sim.Players.Players[c].AirlineX+": ";
                                            TmpStr+=Insert1000erDots (Sim.Players.Players[c].GetMissionRating());
