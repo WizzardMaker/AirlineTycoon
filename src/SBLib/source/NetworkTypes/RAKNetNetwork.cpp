@@ -168,7 +168,6 @@ bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool
     return true;
 }
 
-#pragma optimize("", off)
 bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
     if (isHostMigrating) { //Host migration:
         SDL_Log("MIGRATING HOST");
@@ -325,8 +324,6 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
     }
     return false;
 }
-#pragma optimize("", on)
-
 
 SBList<SBNetworkPlayer*>* RAKNetNetwork::GetAllPlayers() {
     return &mPlayers;

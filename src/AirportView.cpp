@@ -2406,8 +2406,6 @@ void AIRPORT::Save (void) const
 //--------------------------------------------------------------------------------------------
 //Lädt einen kompletten Flughafen indem er ihn aus Einzelteilen zusammensetzt
 //--------------------------------------------------------------------------------------------
-//#pragma optimize("", off)
-#pragma optimize("agptwy", on)
 void AIRPORT::LoadAirport (SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Entry, SLONG Shops, SLONG Cafe, SLONG Security, SLONG Suitcase, SLONG WaitZone, SLONG RightEnd)
 {
     SLONG  c, d, e;
@@ -2539,8 +2537,6 @@ void AIRPORT::LoadAirport (SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Ent
 
     NewDay ();
 }
-#pragma optimize("", off)
-//#pragma optimize("", on)
 
 //--------------------------------------------------------------------------------------------
 //Den Flughafen für einen neuen Tag vorbereiten: Personen entfernen & Spieler hinzufügen

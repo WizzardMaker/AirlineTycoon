@@ -14,7 +14,6 @@ static const UBYTE gDeltaTokenNoDelta = 255;
 //--------------------------------------------------------------------------------------------
 //Dekomprimiert einen Frame mit einem Delta-Verfahren:
 //--------------------------------------------------------------------------------------------
-#pragma optimize("agptwy", on)
 BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapCore &NewFrame, XY OffsetA, XY OffsetB)
 {
     if (OldFrame.GetXSize()!=NewFrame.GetXSize()) return (FALSE);
@@ -119,7 +118,6 @@ BOOL deltaCompressFrame (FILE *TargetFile, SB_CBitmapCore &OldFrame, SB_CBitmapC
     //Erfolg:
     return (TRUE);
 }
-#pragma optimize("agptwy", off)
 
 //--------------------------------------------------------------------------------------------
 //Dekomprimiert einen Frame mit einem Delta-Verfahren:

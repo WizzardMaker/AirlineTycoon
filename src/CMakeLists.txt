@@ -11,7 +11,7 @@ if(MSVC)
     add_compile_options("/MP")
     add_compile_options("-m")
 else()
-    add_compile_options("-fpermissive")
+    add_compile_options("-Wall")
 endif()
 
 # Add source to this project's executable.

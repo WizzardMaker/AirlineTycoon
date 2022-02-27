@@ -495,7 +495,6 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, 
 //--------------------------------------------------------------------------------------------
 //Blitten mit transparenten Whitespaces:
 //--------------------------------------------------------------------------------------------
-#pragma optimize("agptwy", on)
 void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, const CRect *SrcRect, SLONG Grade)
 {
     SLONG  cx, cy;
@@ -671,12 +670,10 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
 
     IsPaintingTextBubble = FALSE;
 }
-#pragma optimize("", off)
 
 //--------------------------------------------------------------------------------------------
 //Blitten mit transparenten Whitespaces:
 //--------------------------------------------------------------------------------------------
-#pragma optimize("agptwy", on)
 void SB_CColorFX::BlitOutline (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, ULONG LineColor)
 {
     SLONG  cx, cy;
@@ -758,12 +755,10 @@ next:;
     //delete Key;
     //delete Key2;
 }
-#pragma optimize("", off)
 
 //--------------------------------------------------------------------------------------------
 //Blitten mit transparenz (=fester Alpha-Wert) und clipping:
 //--------------------------------------------------------------------------------------------
-#pragma optimize("agptwy", on)
 void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos, const CRect *SrcRect, SLONG Grade)
 {
     SLONG  cx, cy;
@@ -877,12 +872,10 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
             memcpy ((((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
         }
 }
-#pragma optimize("", off)
 
 //--------------------------------------------------------------------------------------------
 //Zeichnet einen transparenzen Highlight um einen Text:
 //--------------------------------------------------------------------------------------------
-#pragma optimize("agptwy", on)
 void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD FontColor, ULONG HighlightColor)
 {
     SLONG  x, y;
@@ -960,12 +953,10 @@ void SB_CColorFX::HighlightText (SB_CBitmapCore *pBitmap, const CRect &HighRect,
             }
         }
 }
-#pragma optimize("", off)
 
 //--------------------------------------------------------------------------------------------
 //Blitten mit Alpha-Kanal für Schatten:
 //--------------------------------------------------------------------------------------------
-#pragma optimize("agptwy", on)
 void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos)
 {
     if (SrcBitmap==NULL) return;
@@ -1093,12 +1084,10 @@ void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
             memcpy ((((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
         }
 }
-#pragma optimize("", off)
 
 //--------------------------------------------------------------------------------------------
 //Blitten mit Glow-Effekt fürs Tutorial:
 //--------------------------------------------------------------------------------------------
-//#pragma optimize("agptwy", on)
 void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap, const XY &TargetPos)
 {
     if (TargetPos.x>=640 || TargetPos.x+SrcBitmap->GetXSize()<0) return;
@@ -1187,9 +1176,7 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
             memcpy ((((char*)Key.Bitmap) + t.x*2 + (cy+t.y)*Key.lPitch), PixelBuffer, sizex*2);
         }
 }
-//#pragma optimize("", off)
 
-#pragma optimize("agptwy", on)
 void RemapColor (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontColor, ULONG NewFontColor)
 {
     SLONG  cx, cy;
@@ -1227,4 +1214,3 @@ void RemapColor (SB_CBitmapCore *pBitmap, const CRect &HighRect, UWORD OldFontCo
             }
         }
 }
-#pragma optimize("", off)

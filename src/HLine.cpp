@@ -41,7 +41,6 @@ void CHLObj::Destroy (void)
     HLines.ReSize (0);
 }
 
-#pragma optimize("agptwy", on)
 //--------------------------------------------------------------------------------------------
 //Blittet ein HL-Objekt an eine Stelle, bis jetzt aber ohne Clipping
 //--------------------------------------------------------------------------------------------
@@ -303,8 +302,6 @@ void CHLObj::BlitLargeAt (SB_CBitmapCore *pBitmap, XY Target)
     }
 }
 
-#pragma optimize("agptwy", off)
-
 //--------------------------------------------------------------------------------------------
 //CHLPool::
 //--------------------------------------------------------------------------------------------
@@ -528,7 +525,6 @@ void CHLPool::ReSize (const CString &Filename, CHLPool *pHLBasepool1, CHLPool *p
 // * Quality : Bildqualität der Kompression in % (bis zu 100%)
 // * Speed   : Entpackgeschindigkkeit, 100% ist Maximum
 //--------------------------------------------------------------------------------------------
-//#pragma optimize("agptwy", on)
 void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal, SLONG Quality, SLONG Speed)
 {
     //Zielobjekt vorbereiten:
@@ -839,7 +835,6 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
 
     qObj.HLines.ReSize (AnzObjHLines);
 }
-//#pragma optimize("agptwy", off)
 
 //--------------------------------------------------------------------------------------------
 //Gibt allen Objekten und Unterobjekten eine Basis:

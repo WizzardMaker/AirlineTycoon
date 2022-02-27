@@ -102,7 +102,6 @@ void PrepareReflexionTable (SBBM &ReflexionMaskBm, BUFFER<UBYTE> *pReflexionTabl
 //--------------------------------------------------------------------------------------------
 //Berechnet den Wassereffekt:
 //--------------------------------------------------------------------------------------------
-#pragma optimize("agptwy", on)
 void WaterBlur (SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &ReflexionSourceBm, const BUFFER<UBYTE> &pReflexionTable)
 {
 #ifndef DEMO
@@ -250,7 +249,6 @@ add   edx, ecx
         }
 #endif
 }
-#pragma optimize("", off)
 
 //--------------------------------------------------------------------------------------------
 //Die Raketen Inseln

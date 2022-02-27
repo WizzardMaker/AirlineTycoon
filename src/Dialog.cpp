@@ -5628,4 +5628,3 @@ label_maindialog_players_again:
 
     return (FALSE);
 }
-#pragma optimize("", off)
