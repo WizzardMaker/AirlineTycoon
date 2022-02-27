@@ -332,9 +332,19 @@ int FX::Load(const char *file) {
     }
 
     _digitalData.file = file;
-    auto *buf = static_cast<Uint8 *>(SDL_LoadFile(file, &_fxData.bufferSize));
-    _fxData.pBuffer = Mix_QuickLoad_RAW(buf, _fxData.bufferSize);
-    ChangeFrequency(_fxData.pBuffer, 22050);
+    isRaw = true;
+    auto len = strlen(file);
+    if (len > 3 && 0 == strcmp(file+(len-4), ".ogg")) {
+        isRaw = false;
+    }
+
+    if (isRaw) {
+        auto *buf = static_cast<Uint8 *>(SDL_LoadFile(file, &_fxData.bufferSize));
+        _fxData.pBuffer = Mix_QuickLoad_RAW(buf, _fxData.bufferSize);
+        ChangeFrequency(_fxData.pBuffer, 22050);
+    } else {
+        _fxData.pBuffer = Mix_LoadWAV(file);
+    }
     _fxData.bufferSize = _fxData.pBuffer->alen;
     return SSE_OK;
 }
@@ -434,9 +444,9 @@ FX **FX::Tokenize(__int64 Token, SLONG &rcAnzahl) {
 int FX::Free() {
     if (_fxData.pBuffer != nullptr) {
         Stop();
-        void *buf = _fxData.pBuffer->abuf;
+        // void *buf = _fxData.pBuffer->abuf;
         Mix_FreeChunk(_fxData.pBuffer);
-        SDL_free(buf);
+        // SDL_free(buf);
     }
     _digitalData.file.clear();
     _fxData.bufferSize = 0;

@@ -323,6 +323,7 @@ class FX : public DIGITAL {
 
   protected:
     FXData _fxData{};
+    bool isRaw{false};
 };
 
 /******************************************************************************\

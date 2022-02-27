@@ -32,7 +32,6 @@ char VersionString[] = "VERSION 1.4 PRE-RELEASE"; // (pre-release; build 100)";
 #endif
 
 extern SLONG gLoadGameNumber;
-extern FILE *CreditsSmackerFileHandle;
 extern BOOL gSpawnOnly;
 
 // {7EAFE365-9362-11d2-BA6A-080000278763}

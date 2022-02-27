@@ -3934,6 +3934,8 @@ void SIM::NetRefill(SLONG Type, SLONG City) {
     case 4:
         Delta = AuslandsRefill[City];
         break;
+    case 5:
+        break;
     default:
         printf("cpp: Default case should not be reached.");
         DebugBreak();
@@ -4010,7 +4012,8 @@ void SIM::SaveHighscores() {
     return; // Debug exit for better single installation multiplayer testing
 #endif
     CString str;
-    TEAKFILE OutputFile(AppPath + "misc/xmlmap.fla", TEAKFILE_WRITE);
+    auto path = FullFilename("xmlmap.fla", MiscPath);
+    TEAKFILE OutputFile(path, TEAKFILE_WRITE);
 
     for (auto &Highscore : Highscores) {
         OutputFile.Write((const UBYTE *)(LPCTSTR)Highscore.Name, Highscore.Name.GetLength());
@@ -4055,9 +4058,10 @@ void SIM::SaveHighscores() {
 //--------------------------------------------------------------------------------------------
 void SIM::LoadHighscores() {
     try {
-        if (DoesFileExist(AppPath + "misc/xmlmap.fla") != 0) {
+        auto path = FullFilename("xmlmap.fla", MiscPath);
+        if (DoesFileExist(path) != 0) {
             char Buffer[8192];
-            TEAKFILE OutputFile(AppPath + "misc/xmlmap.fla", TEAKFILE_READ);
+            TEAKFILE OutputFile(path, TEAKFILE_READ);
 
             for (auto &Highscore : Highscores) {
                 OutputFile.ReadLine(Buffer, 8192);

@@ -1,6 +1,7 @@
 //============================================================================================
 // Sound.Cpp - Management von Midi und Wave Routinen
 //============================================================================================
+#include <filesystem>
 #include "StdAfx.h"
 #include "Synthese.h"
 
@@ -140,6 +141,12 @@ CString GetSpeechFilename(const CString &String, SLONG Index, CString *pTextFoll
 BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMissing) {
     CString str;
     CString path;
+    auto sep = std::filesystem::path::preferred_separator;
+#ifdef WIN32
+    CString suffix = ".raw";
+#else
+    CString suffix = ".ogg";
+#endif
     CString TextFollows;
     BUFFER_V<SBFX *> Effects(50);
     SLONG c = 0;
@@ -176,10 +183,10 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
             // Check for airline:
             for (c = 0; c < 4; c++) {
                 if (strnicmp(TextFollows, Sim.Players.Players[c].AirlineX, Sim.Players.Players[c].AirlineX.GetLength()) == 0) {
-                    str = path + "/" + "name" + bitoa(c + 1);
-                    Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
+                    str = path + sep + "name" + bitoa(c + 1);
+                    Effects[m++]->ReInit(str.ToLower() + suffix, const_cast<char *>((LPCTSTR)VoicePath));
 
-                    CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                    CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + suffix + "\xd\xa";
                     if (pSoundLogFile != nullptr) {
                         fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
                     }
@@ -190,10 +197,10 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
             if (strcmp(str, "*") == 0) {
                 for (c = 0; c < Cities.AnzEntries(); c++) {
                     if (strnicmp(TextFollows, Cities[c].Name, Cities[c].Name.GetLength()) == 0) {
-                        str = path + "/" + Cities[c].KuerzelReal;
-                        Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
+                        str = path + sep + Cities[c].KuerzelReal;
+                        Effects[m++]->ReInit(str.ToLower() + suffix, const_cast<char *>((LPCTSTR)VoicePath));
 
-                        CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                        CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + suffix + "\xd\xa";
                         if (pSoundLogFile != nullptr) {
                             fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
                         }
@@ -206,20 +213,20 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
                 for (c = PlaneTypes.AnzEntries() - 1; c >= 0; c--) {
                     if (PlaneTypes.IsInAlbum(c) != 0) {
                         if (strnicmp(TextFollows, PlaneTypes[c].Name, PlaneTypes[c].Name.GetLength()) == 0) {
-                            str = path + "/" + bprintf("pl%lib", PlaneTypes.GetIdFromIndex(c) - 0x10000000);
-                            Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
+                            str = path + sep + bprintf("pl%lib", PlaneTypes.GetIdFromIndex(c) - 0x10000000);
+                            Effects[m++]->ReInit(str.ToLower() + suffix, const_cast<char *>((LPCTSTR)VoicePath));
 
-                            CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                            CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + suffix + "\xd\xa";
                             if (pSoundLogFile != nullptr) {
                                 fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
                             }
                             break;
                         }
                         if (strnicmp(TextFollows, PlaneTypes[c].Hersteller, PlaneTypes[c].Hersteller.GetLength()) == 0) {
-                            str = path + "/" + bprintf("pl%lih", PlaneTypes.GetIdFromIndex(c) - 0x10000000);
-                            Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
+                            str = path + sep + bprintf("pl%lih", PlaneTypes.GetIdFromIndex(c) - 0x10000000);
+                            Effects[m++]->ReInit(str.ToLower() + suffix, const_cast<char *>((LPCTSTR)VoicePath));
 
-                            CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                            CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + suffix + "\xd\xa";
                             if (pSoundLogFile != nullptr) {
                                 fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
                             }
@@ -280,23 +287,24 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
                 }
             }
         } else {
-            char *p = strchr(const_cast<char *>((LPCTSTR)str), '/');
+            char *p = strchr(const_cast<char *>((LPCTSTR)str), '\\');
 
             if (p != nullptr) {
                 path = str.Left(p - const_cast<char *>((LPCTSTR)str));
 
                 if (path.GetLength() != str.GetLength() - 1) {
-                    Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
+                    str.Replace('\\', sep);
+                    Effects[m++]->ReInit(str.ToLower() + suffix, const_cast<char *>((LPCTSTR)VoicePath));
 
-                    CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                    CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + suffix + "\xd\xa";
                     if (pSoundLogFile != nullptr) {
                         fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
                     }
                 }
             } else {
-                Effects[m++]->ReInit(str + ".raw", const_cast<char *>((LPCTSTR)VoicePath));
+                Effects[m++]->ReInit(str.ToLower() + suffix, const_cast<char *>((LPCTSTR)VoicePath));
 
-                CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + ".raw" + "\xd\xa";
+                CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " playing " + str + suffix + "\xd\xa";
                 if (pSoundLogFile != nullptr) {
                     fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
                 }

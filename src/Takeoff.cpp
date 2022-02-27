@@ -82,8 +82,6 @@ void DecompressWave(BUFFER_V<SND_TYPE> &Input, BUFFER_V<SND_TYPE> &Output);
 CString MakeVideoPath, MakeVideoPath2;
 BOOL MakeUnvideoOn555 = FALSE;
 
-FILE *CreditsSmackerFileHandle = nullptr;
-
 SLONG gTimerCorrection = 0; // Is it necessary to adapt the local clock to the server clock?
 
 // StackSaver MySaver;
@@ -626,8 +624,6 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
             LOADING_TEXT("Francais...")
         else
             LOADING_TEXT("Initializing screen...");
-
-        CreditsSmackerFileHandle = fopen("intro/credits.smk", "rb");
 
         TitleBitmap.ReSize(pRoomLib, GFX_TITEL);
         PrimaryBm.BlitFrom(TitleBitmap);

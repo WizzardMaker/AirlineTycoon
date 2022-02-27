@@ -1293,7 +1293,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -1438,7 +1438,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -1531,7 +1531,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                             if (TmpStr.GetLength() > 0) {
                                 TmpStr += ", ";
                             } else {
-                                TmpStr += "[[bo/6001]]";
+                                TmpStr += "[[BO\\6001]]";
                             }
                             if (TmpStr2.GetLength() > 0) {
                                 TmpStr2 += '\xb5';
@@ -1626,7 +1626,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                             if (TmpStr.GetLength() > 0) {
                                 TmpStr += ", ";
                             } else {
-                                TmpStr += "[[bo/6001]]";
+                                TmpStr += "[[BO\\6001]]";
                             }
                             if (TmpStr2.GetLength() > 0) {
                                 TmpStr2 += '\xb5';
@@ -1724,7 +1724,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                             if (TmpStr.GetLength() > 0) {
                                 TmpStr += ", ";
                             } else {
-                                TmpStr += "[[bo/6001]]";
+                                TmpStr += "[[BO\\6001]]";
                             }
                             if (TmpStr2.GetLength() > 0) {
                                 TmpStr2 += '\xb5';
@@ -1821,7 +1821,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                             if (TmpStr.GetLength() > 0) {
                                 TmpStr += ", ";
                             } else {
-                                TmpStr += "[[bo/6001]]";
+                                TmpStr += "[[BO\\6001]]";
                             }
                             if (TmpStr2.GetLength() > 0) {
                                 TmpStr2 += '\xb5';
@@ -1910,7 +1910,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -1996,7 +1996,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2081,7 +2081,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2166,7 +2166,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2251,7 +2251,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2338,7 +2338,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2425,7 +2425,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2512,7 +2512,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2598,7 +2598,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2685,7 +2685,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2764,7 +2764,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2848,7 +2848,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -2938,7 +2938,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -3028,7 +3028,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -3118,7 +3118,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -3202,7 +3202,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -3286,7 +3286,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -3378,7 +3378,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -3462,7 +3462,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
@@ -3546,7 +3546,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         if (TmpStr.GetLength() > 0) {
                             TmpStr += ", ";
                         } else {
-                            TmpStr += "[[bo/6001]]";
+                            TmpStr += "[[BO\\6001]]";
                         }
                         if (TmpStr2.GetLength() > 0) {
                             TmpStr2 += '\xb5';
