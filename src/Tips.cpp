@@ -68,7 +68,7 @@ void DrawCityTip (SBBM &TipBm, ULONG CityId)
     PaintStarAt (TipBm, CityPos);
 
     //Text:
-    TipBm.PrintAt (bprintf ("%s (%s), %s", Cities[CityId].Name, (LPCTSTR)Cities[CityId].Kuerzel, (LPCTSTR)Cities[CityId].Lage), FontSmallWhite, TEC_FONT_LEFT, 16, 4, 265, 82);
+    TipBm.PrintAt (bprintf ("%s (%s), %s", (LPCTSTR)Cities[CityId].Name, (LPCTSTR)Cities[CityId].Kuerzel, (LPCTSTR)Cities[CityId].Lage), FontSmallWhite, TEC_FONT_LEFT, 16, 4, 265, 82);
 
     if (CityPos.y<17+160-60) CityPos.y+=5; else CityPos.y-=60;
     CityPos.x = min (max (17, CityPos.x-60), 80);
