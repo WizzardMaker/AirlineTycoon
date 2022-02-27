@@ -178,7 +178,7 @@ class CStdRaum
         BOOL  IsDialogOpen (void);
         void  MakeSayWindow (BOOL TextAlign, ULONG SubId, const CString &String, SB_CFont *Normal);
         void  MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubId, SB_CFont *Normal, ...);
-        void  MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVon, ULONG SubIdBis, BOOL ParameterIndiziert, SB_CFont *Normal, SB_CFont *Highlight, ...);
+        void  MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVon, ULONG SubIdBis, SLONG ParameterIndiziert, SB_CFont *Normal, SB_CFont *Highlight, ...);
         void  CloseTextWindow (void);
         void  StopDialog (void);
         void  MakeNumberWindow (CString Text);

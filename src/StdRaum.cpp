@@ -664,7 +664,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubId, 
 //--------------------------------------------------------------------------------------------
 //L‰ﬂt ein neues Auswahl Text-Fenster auf dem Schirm erscheinen:
 //--------------------------------------------------------------------------------------------
-void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVon, ULONG SubIdBis, BOOL ParameterIndiziert, SB_CFont *Normal, SB_CFont *Highlight, ...)
+void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVon, ULONG SubIdBis, SLONG ParameterIndiziert, SB_CFont *Normal, SB_CFont *Highlight, ...)
 {
     SLONG c;
     SLONG Rand;
