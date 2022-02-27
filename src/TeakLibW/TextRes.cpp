@@ -197,7 +197,7 @@ char *TEXTRES::GetS(ULONG group, ULONG id) {
 }
 
 void TEXTRES::AddText(const char *groupId, ULONG id, const char *text) {
-    ULONG group = (*(ULONG *)groupId);
+    ULONG group = (*(const ULONG *)groupId);
     auto n = Entries.AnzEntries();
     Entries.ReSize(n + 1);
     Entries[n].Group = group;
@@ -209,7 +209,7 @@ void TEXTRES::AddText(const char *groupId, ULONG id, const char *text) {
 }
 
 void TEXTRES::UpdateText(const char *groupId, ULONG id, const char *newText) {
-    ULONG group = (*(ULONG *)groupId);
+    ULONG group = (*(const ULONG *)groupId);
     SLONG i = 0;
     bool found = false;
     for (; i < Entries.AnzEntries(); ++i) {

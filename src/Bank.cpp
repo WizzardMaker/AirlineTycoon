@@ -378,6 +378,59 @@ __int64 CBilanz::GetSoll() const {
 __int64 CBilanz::GetSumme() const { return (GetHaben() - GetSoll()); }
 
 //--------------------------------------------------------------------------------------------
+// Addiert eine Bilanz
+//--------------------------------------------------------------------------------------------
+void CBilanz::operator+=(const CBilanz &Bilanz) {
+    Tickets += Bilanz.Tickets;
+    Auftraege += Bilanz.Auftraege;
+    KerosinVorrat += Bilanz.KerosinVorrat;
+    KerosinFlug += Bilanz.KerosinFlug;
+    Essen += Bilanz.Essen;
+    Vertragsstrafen += Bilanz.Vertragsstrafen;
+    Wartung += Bilanz.Wartung;
+    FlugzeugUmbau += Bilanz.FlugzeugUmbau;
+    Personal += Bilanz.Personal;
+    Gatemiete += Bilanz.Gatemiete;
+    Citymiete += Bilanz.Citymiete;
+    Routenmiete += Bilanz.Routenmiete;
+    HabenZinsen += Bilanz.HabenZinsen;
+    HabenRendite += Bilanz.HabenRendite;
+    KreditNeu += Bilanz.KreditNeu;
+    SollZinsen += Bilanz.SollZinsen;
+    SollRendite += Bilanz.SollRendite;
+    KreditTilgung += Bilanz.KreditTilgung;
+    Steuer += Bilanz.Steuer;
+    Aktienverkauf += Bilanz.Aktienverkauf;
+    AktienEmission += Bilanz.AktienEmission;
+    AktienEmissionKompErh += Bilanz.AktienEmissionKompErh;
+    AktienEmissionKompGez += Bilanz.AktienEmissionKompGez;
+    Aktienkauf += Bilanz.Aktienkauf;
+    AktienEmissionFee += Bilanz.AktienEmissionFee;
+    FlugzeugVerkauf += Bilanz.FlugzeugVerkauf;
+    Takeovers += Bilanz.Takeovers;
+    FlugzeugKauf += Bilanz.FlugzeugKauf;
+    FlugzeugUpgrades += Bilanz.FlugzeugUpgrades;
+    ExpansionCity += Bilanz.ExpansionCity;
+    ExpansionRouten += Bilanz.ExpansionRouten;
+    ExpansionGates += Bilanz.ExpansionGates;
+    ExpansionTanks += Bilanz.ExpansionTanks;
+    SabotageGeklaut += Bilanz.SabotageGeklaut;
+    SabotageKomp += Bilanz.SabotageKomp;
+    Sabotage += Bilanz.Sabotage;
+    SabotageStrafe += Bilanz.SabotageStrafe;
+    SabotageSchaden += Bilanz.SabotageSchaden;
+    BodyguardRabatt += Bilanz.BodyguardRabatt;
+    GeldErhalten += Bilanz.GeldErhalten;
+    SonstigeEinnahmen += Bilanz.SonstigeEinnahmen;
+    PanneSchaden += Bilanz.PanneSchaden;
+    SecurityKosten += Bilanz.SecurityKosten;
+    WerbeKosten += Bilanz.WerbeKosten;
+    GeldGeschickt += Bilanz.GeldGeschickt;
+    SonstigeAusgaben += Bilanz.SonstigeAusgaben;
+    KerosinGespart += Bilanz.KerosinGespart;
+}
+
+//--------------------------------------------------------------------------------------------
 // Speichert einen Bilanz-Datensatz:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CBilanz &Bilanz) {

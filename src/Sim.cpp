@@ -470,9 +470,6 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
             qPlayer.bReadyForBriefing = 0;
         }
 
-        qPlayer.Bilanz.Clear();
-        qPlayer.BilanzGestern.Clear();
-
         qPlayer.LaptopBattery = 0;
         qPlayer.LaptopQuality = 0;
         qPlayer.ReferencePlane = -1;
@@ -828,6 +825,10 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
 
         qPlayer.History.ReInit();
         qPlayer.History.HistoricMoney = qPlayer.Money;
+
+        qPlayer.Bilanz.Clear();
+        qPlayer.BilanzGestern.Clear();
+        qPlayer.BilanzGesamt.Clear();
 
         for (d = 0; d < STAT_ANZ; d++) {
             qPlayer.Statistiken[d].Init();
@@ -2810,6 +2811,7 @@ void SIM::NewDay() {
         Players.Players[c].History.AddEntry(0, "-------------------------------------");
         Players.Players[c].CallItADay = FALSE;
 
+        Players.Players[c].BilanzGesamt += Players.Players[c].Bilanz;
         Players.Players[c].BilanzGestern = Players.Players[c].Bilanz;
         Players.Players[c].Bilanz.Clear();
     }

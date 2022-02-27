@@ -11,6 +11,7 @@ typedef BUFFER_V<UBYTE> BUFFER_UBYTE;
 class CPlane;
 class CPlaner;
 class CStdRaum;
+class CBilanz;
 
 extern SLONG MouseWait;
 // SLONG  ReadTimeStampCounter (void);
@@ -1182,8 +1183,8 @@ class /**/ BLOCK {
   private:
     int PrintLine(XY ClientArea, SLONG rowID, SLONG textID);
     int PrintLine(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
-    SLONG PrintList(XY ClientArea, const std::vector< std::pair<SLONG, __int64> >& list, SLONG idx);
-    void ZeigeTagesBilanz(XY ClientArea);
+    SLONG PrintList(XY ClientArea, const std::vector<std::pair<SLONG, __int64>> &list, SLONG idx);
+    void ZeigeTagesBilanz(XY ClientArea, const CBilanz &ref);
 };
 
 class BLOCKS : public ALBUM_V<BLOCK> {
@@ -1813,6 +1814,8 @@ class CBilanz {
     __int64 GetSoll(void) const;
     __int64 GetSumme(void) const;
 
+    void operator+=(const CBilanz &Bilanz);
+
     friend TEAKFILE &operator<<(TEAKFILE &File, const CBilanz &Bilanz);
     friend TEAKFILE &operator>>(TEAKFILE &File, CBilanz &Bilanz);
 };
@@ -1982,7 +1985,9 @@ class PLAYER {
   public:
     UBYTE SollZins{};  // Zins für Schulden
     UBYTE HabenZins{}; // Zins für Guthaben
-    CBilanz Bilanz{}, BilanzGestern{};
+    CBilanz Bilanz{};
+    CBilanz BilanzGestern{};
+    CBilanz BilanzGesamt{};
     SLONG AnzAktien{};                   // Zahl der emmitierten Aktien
     SLONG MaxAktien{};                   // Zahl der emmitierbaren Aktien
     std::array<SLONG, 4> OwnsAktien{};   // Soviele Aktien besitzt der Spieler jeweils von der Sorte

@@ -2179,6 +2179,11 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
 
     StandardTexte.UpdateText(TOKEN_AKTIE, 3030, "Neuer Kontostand (inkl. Geb\xFChr)");
 
+    StandardTexte.UpdateText(TOKEN_EXPERT, 2001, "Tagesbilanz");
+    StandardTexte.UpdateText(TOKEN_EXPERT, 2002, "Gesamtbilanz");
+    StandardTexte.UpdateText(TOKEN_EXPERT, 2003, "Flugzeugeinnahmen");
+    StandardTexte.AddText(TOKEN_EXPERT, 2004, "Konkurrenz");
+
     StandardTexte.UpdateText(TOKEN_EXPERT, 3404, "Auftr\xE4ge");
     StandardTexte.AddText(TOKEN_EXPERT, 10000, "Kerosinkauf Flugzeug");
     StandardTexte.AddText(TOKEN_EXPERT, 10001, "Kerosinkauf Vorrat");
