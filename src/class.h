@@ -1360,12 +1360,12 @@ class /**/ BRICKS : public ALBUM<BRICK> {
 class /**/ BUILD // Die Verwendung eines Bodenteils
 {
   private:
-    SLONG BrickId; // Verweis in Brick-Tabelle
+    SLONG BrickId{}; // Verweis in Brick-Tabelle
     XY ScreenPos;  // Position im Flughafen
-    UBYTE Par;     // Parameter, z.B. für die Raumnummer
+    UBYTE Par{};     // Parameter, z.B. für die Raumnummer
 
   public:
-    BUILD() {}
+    BUILD() = default;
     BUILD(long BrickId, const XY &ScreenPos, BOOL Ansatz);
     friend TEAKFILE &operator<<(TEAKFILE &File, const BUILD &Build);
     friend TEAKFILE &operator>>(TEAKFILE &File, BUILD &Build);
@@ -1415,9 +1415,9 @@ class /**/ CLAN {
     CString PalFilename; // Hierdrin ist die Palette zu finden
     SLONG GimmickArt1{}; // Art des Gimmicks (LookDir) wenn Person läuft
     SLONG GimmickArt2{}; // Art des Gimmicks (LookDir) wenn Person wartet
-    SBBMS Phasen[14];    // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
-    SBBMS Shadow[14];    // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
-    SBBMS Skelett[14];   // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
+    std::array<SBBMS, 14> Phasen;    // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
+    std::array<SBBMS, 14> Shadow;    // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
+    std::array<SBBMS, 14> Skelett;   // N,O,S,W,Gimmick,Winken,SitzenN, SitzenS, Stehen(in4Richtungen), Stehen-Gimmick, RunN, RunO, RunS, RunW
     SLONG HasSuitcase{}; // 0=Nein, <0: Kann einen haben; >0 hat einen Koffer
 
     SLONG FloorOffset{}; // Z-Distanz
@@ -1459,7 +1459,7 @@ class /**/ CLAN {
 class /**/ CLANS : public ALBUM_V<CLAN> {
   public:
     CLANS() : ALBUM_V<CLAN>("Clans") {}
-    CLANS(const CString &TabFilename);
+    CLANS(const CString &TabFilename) : ALBUM_V<CLAN>("Clans") { ReInit(TabFilename); }
     void ReInit(const CString &TabFilename);
     void LoadBitmaps(void);
     void ReloadBitmaps(void);
@@ -1823,22 +1823,22 @@ class CTalkers {
 class CBilanz {
     // Die Habensseite:
   public:
-    SLONG HabenZinsen;
-    SLONG HabenRendite;
-    SLONG Tickets;
-    SLONG Auftraege;
+    SLONG HabenZinsen{};
+    SLONG HabenRendite{};
+    SLONG Tickets{};
+    SLONG Auftraege{};
 
     // Die Sollseite:
   public:
-    SLONG SollZinsen;
-    SLONG SollRendite;
-    SLONG Kerosin;
-    SLONG Personal;
-    SLONG Vertragsstrafen;
-    SLONG Wartung;
-    SLONG Gatemiete;
-    SLONG Citymiete;
-    SLONG Routenmiete;
+    SLONG SollZinsen{};
+    SLONG SollRendite{};
+    SLONG Kerosin{};
+    SLONG Personal{};
+    SLONG Vertragsstrafen{};
+    SLONG Wartung{};
+    SLONG Gatemiete{};
+    SLONG Citymiete{};
+    SLONG Routenmiete{};
 
   public:
     void Clear(void);
@@ -2229,9 +2229,9 @@ class AIRPORT {
   public:
     BUILDS Builds;
     BUFFER_V<BUILDS> HashBuilds;
-    SLONG LeftEnd, RightEnd;
+    SLONG LeftEnd{}, RightEnd{};
     BUFFER_V<SLONG> GateMapper;
-    SLONG NumBeltSpots; // Zahl der Stehplätze beim Gepäckband
+    SLONG NumBeltSpots{}; // Zahl der Stehplätze beim Gepäckband
 
     // Die Spezialinformationen (Positionsidiciert):
   public:
@@ -2251,8 +2251,8 @@ class AIRPORT {
 
   private:
     // Die Bauteile des Flughafens:
-    SLONG HallNum;       // Diese Halle (oder evtl. alle) ist geladen
-    SLONG HallLevel[10]; //(ggf) die Ausbaustufe(n) der Halle
+    SLONG HallNum{};       // Diese Halle (oder evtl. alle) ist geladen
+    std::array<SLONG, 10> HallLevel{}; //(ggf) die Ausbaustufe(n) der Halle
 
   public:
     BOOL DoesRuneExist(ULONG BrickId, UBYTE Par);

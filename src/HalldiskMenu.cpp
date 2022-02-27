@@ -181,14 +181,14 @@ void HallDiskMenu::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
     // Im unteren Click-Bereich?
     else if (x != -1 && x != 99 && point.x >= 76 && point.y >= 161) {
         if (((point.y - 161) % 9) < 8) {
-            SLONG localLevel[10];
+            std::array<SLONG, 10> localLevel;
 
             // Sicherheitshalber alle Personen entfernen & Links freigeben:
             Sim.Persons.ClearAlbum();
 
             n = (point.y - 161) / 9 + 1;
 
-            memcpy(localLevel, Airport.HallLevel, sizeof(Airport.HallLevel));
+            localLevel = Airport.HallLevel;
 
             localLevel[x] = n;
             Airport.LoadAirport(localLevel[0], localLevel[1], localLevel[2], localLevel[3], localLevel[4], localLevel[5], localLevel[6], localLevel[7],
