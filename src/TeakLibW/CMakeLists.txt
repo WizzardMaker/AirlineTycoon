@@ -14,7 +14,8 @@ add_library (TeakLibW
     TextRes.cpp
 )
 
-target_link_libraries(TeakLibW
+target_link_libraries(TeakLibW PRIVATE
+    common
     SDL2::SDL2_ttf
     SDL2::SDL2_image
     SDL2::SDL2_mixer

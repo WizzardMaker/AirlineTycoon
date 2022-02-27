@@ -1,5 +1,9 @@
 #include "StdAfx.h"
 
+Uint16 get_pixel16(SDL_Surface *surface, int x, int y);
+
+void put_pixel16(SDL_Surface *surface, int x, int y, Uint16 pixel);
+
 SB_CBitmapMain::SB_CBitmapMain(SDL_Renderer *render) : Renderer(render) {}
 
 SB_CBitmapMain::~SB_CBitmapMain() {
@@ -247,7 +251,7 @@ ULONG SB_CBitmapCore::GetPixel(SLONG x, SLONG y) {
     if (SDL_MUSTLOCK(lpDDSurface)) {
         SDL_UnlockSurface(lpDDSurface);
     }
-    return result & (1 << bits) - 1;
+    return result & ( (1 << bits) - 1);
 }
 
 Uint16 get_pixel16(SDL_Surface *surface, int x, int y) {

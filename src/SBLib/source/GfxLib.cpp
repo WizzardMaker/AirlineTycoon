@@ -20,37 +20,37 @@ using GfxLibHeader = struct _GfxLibHeader {
 
 using GfxChunkHeader = struct _GfxChunkHeader {
     union {
-        char Name[8];
+        char Name[8]{};
         __int64 Id;
     };
-    dword Offset;
+    dword Offset{};
 };
 
 using GfxChunkInfo = struct _GfxChunkInfo {
-    dword Size;
-    char Type;
+    dword Size{};
+    char Type{};
 };
 
 using GfxChunkImage = struct GfxChunkImage {
-    dword Length; // 76 bytes
-    dword Size;
-    dword Width;
-    dword Height;
-    dword Unknown0;
-    dword Flags;
-    dword BitDepth;
-    dword PlaneSize;
-    dword Rmask;
-    dword Gmask;
-    dword Bmask;
-    dword OffsetColor;
-    dword OffsetAlpha;
-    dword OffsetZ;
-    dword Unknown1;
-    dword Unknown2;
-    dword Unknown3;
-    dword Unknown4;
-    dword Unknown5;
+    dword Length{}; // 76 bytes
+    dword Size{};
+    dword Width{};
+    dword Height{};
+    dword Unknown0{};
+    dword Flags{};
+    dword BitDepth{};
+    dword PlaneSize{};
+    dword Rmask{};
+    dword Gmask{};
+    dword Bmask{};
+    dword OffsetColor{};
+    dword OffsetAlpha{};
+    dword OffsetZ{};
+    dword Unknown1{};
+    dword Unknown2{};
+    dword Unknown3{};
+    dword Unknown4{};
+    dword Unknown5{};
 };
 #pragma pack(pop)
 
@@ -128,12 +128,12 @@ SLONG GfxLib::Load(SDL_RWops *file, GfxLibHeader *header) {
     for (SLONG i = 0; i < header->Files; i++) {
         __int64 pos = SDL_RWtell(file);
 
-        GfxChunkInfo info = {0};
+        GfxChunkInfo info{};
         if (SDL_RWread(file, &info, sizeof(info), 1) != 1) {
             return -3;
         }
 
-        GfxChunkHeader chunk = {{{0}}};
+        GfxChunkHeader chunk{};
         switch (info.Type) {
         case CHUNK_GFX:
             if (SDL_RWread(file, &chunk, sizeof(chunk), 1) != 1) {
@@ -147,6 +147,8 @@ SLONG GfxLib::Load(SDL_RWops *file, GfxLibHeader *header) {
         case CHUNK_PALETTE:
             DebugBreak();
             break;
+        default:
+            break;
         }
 
         SDL_RWseek(file, pos + info.Size, RW_SEEK_SET);
@@ -155,17 +157,17 @@ SLONG GfxLib::Load(SDL_RWops *file, GfxLibHeader *header) {
     return 0;
 }
 
-void ODS() {}
+void ODS(char const * /*unused*/, ...) {}
 
 SLONG GfxLib::ReadGfxChunk(SDL_RWops *file, GfxChunkHeader header, SLONG /*unused*/, SLONG /*unused*/) {
     SDL_RWseek(file, header.Offset, RW_SEEK_SET);
 
-    GfxChunkImage image = {0};
+    GfxChunkImage image = {};
     if (SDL_RWread(file, &image, sizeof(image), 1) != 1) {
         return -1;
     }
 
-    word bpp = image.BitDepth / 8;
+    // word bpp = image.BitDepth / 8;
     char *pixels = new char[image.Size];
     SDL_RWread(file, pixels, 1, image.Size);
     SDL_Surface *surface =

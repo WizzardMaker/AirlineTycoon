@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <vector>
 
+int ChangeFrequency(Mix_Chunk *chunk, int freq);
+
 SSE::SSE(void *hWnd, dword samplesPerSec, word channels, word bitsPerSample, word maxFX)
     : _hWnd(static_cast<SDL_Window *>(hWnd)), _samplesPerSec(samplesPerSec), _channels(channels), _bitsPerSample(bitsPerSample), _maxSound(maxFX),
       _fSoundEnabled(true), _fMusicEnabled(true) {}
@@ -113,10 +115,6 @@ int SSE::GetSoundVolume(SLONG *pVolume) {
 void SSE::SetMusicCallback(void (*callback)()) { Mix_HookMusicFinished(callback); }
 
 word SSE::GetSoundPlaying() { return Mix_Playing(-1); }
-
-FX::FX() { memset(&_fxData, 0, sizeof(_fxData)); }
-
-FX::~FX() = default;
 
 int FX::Create(SSE *pSSE, char *file, dword samplesPerSec, word channels, word bitsPerSample) {
     _digitalData.pSSE = pSSE;

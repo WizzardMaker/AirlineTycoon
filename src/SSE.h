@@ -257,7 +257,7 @@ class DIGITAL {
     friend class SSE;
 
   protected:
-    DIGITAL() { ZeroMemory(&_digitalData, sizeof(_digitalData)); }
+    DIGITAL() = default;
     virtual word GetInternalState() { return _digitalData.state; }
     virtual bool StopPriority(dword flags) = 0;
 
@@ -280,7 +280,7 @@ class DIGITAL {
     virtual void SetFormat(dword samplesPerSec, word channels, word bitsPerSample) = 0;
 
   protected:
-    DigitalData _digitalData;
+    DigitalData _digitalData{};
 };
 
 /******************************************************************************\
@@ -292,12 +292,12 @@ class FX : public DIGITAL {
     friend class SSE;
 
   protected:
-    FX();
+    FX() = default;
     int Create(SSE *pSSE, char *file, dword samplesPerSec, word channels, word bitsPerSample);
     virtual bool StopPriority(dword flags);
 
   public:
-    virtual ~FX();
+    virtual ~FX() = default;
     virtual SLONG Release();
     virtual int Play(dword dwFlags = 0, SLONG pan = 0);
     virtual int Stop();
@@ -335,7 +335,7 @@ class MUSIC {
     friend class SSE;
 
   protected:
-    MUSIC() { ZeroMemory(&_musicData, sizeof(_musicData)); }
+    MUSIC() = default;
     virtual word GetInternalState() { return _musicData.state; }
     virtual bool StopPriority(dword flags) = 0;
 
@@ -357,7 +357,7 @@ class MUSIC {
     virtual word CountPlaying() = 0;
 
   protected:
-    MusicData _musicData;
+    MusicData _musicData{};
 };
 
 /******************************************************************************\

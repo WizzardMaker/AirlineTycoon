@@ -51,6 +51,8 @@ unsigned char GerToLower(unsigned char c) {
         return 0xF6U;
     case 0x4E:
         return 0xFCU;
+    default:
+        return c;
     }
     return c;
 }
@@ -70,6 +72,8 @@ unsigned char GerToUpper(unsigned char c) {
         return 0xD6U; // Ö
     case 0xFCU:
         return 0xDCU; // Ü
+    default:
+        return c;
     }
     return c;
 }

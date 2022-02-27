@@ -13,7 +13,7 @@ class HallDiskMenu : public CStdRaum {
   public:
     SBBM MenuBm;
     GfxLib *pMenuLib{};
-    BOOL bFiles[10 * 10]{};
+    std::array<BOOL, 10 * 10> bFiles{};
 
     // Operations
   public:

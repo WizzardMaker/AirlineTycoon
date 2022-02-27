@@ -645,7 +645,7 @@ typedef wchar_t OLECHAR;
 // member functions to deal with COM types & compiler support classes e.g.
 // _bstr_t
 
-#if SS_WIN32 && defined(_MSC_VER) && (_MSC_VER >= 1100)
+#if defined(SS_WIN32) && SS_WIN32 && defined(_MSC_VER) && (_MSC_VER >= 1100)
 #include <comdef.h>
 #define SS_INC_COMDEF // signal that we #included MS comdef.h file
 #define STDSTRING_INC_COMDEF
@@ -812,7 +812,7 @@ inline PWSTR StdCodeCvt(PWSTR pDstW, int nDst, PCSTR pSrcA, int nSrc, const std:
         PWSTR pNextDstW = pDstW;
         SSCodeCvt::result res = SSCodeCvt::ok;
         const SSCodeCvt &conv = SS_USE_FACET(loc, SSCodeCvt);
-        SSCodeCvt::state_type st = {0};
+        SSCodeCvt::state_type st = {};
         res = conv.in(st, pSrcA, pSrcA + nSrc, pNextSrcA, pDstW, pDstW + nDst, pNextDstW);
 
         ASSERT(SSCodeCvt::ok == res);
@@ -844,7 +844,7 @@ inline PSTR StdCodeCvt(PSTR pDstA, int nDst, PCWSTR pSrcW, int nSrc, const std::
         PCWSTR pNextSrcW = pSrcW;
         SSCodeCvt::result res = SSCodeCvt::ok;
         const SSCodeCvt &conv = SS_USE_FACET(loc, SSCodeCvt);
-        SSCodeCvt::state_type st = {0};
+        SSCodeCvt::state_type st = {};
         res = conv.out(st, pSrcW, pSrcW + nSrc, pNextSrcW, pDstA, pDstA + nDst, pNextDstA);
 
         ASSERT(SSCodeCvt::error != res);

@@ -7,7 +7,8 @@ add_library (SSE
     SSE.cpp
 )
 
-target_link_libraries(SSE
+target_link_libraries(SSE PRIVATE
+    common
     SDL2::SDL2_ttf
     SDL2::SDL2_image
     SDL2::SDL2_mixer

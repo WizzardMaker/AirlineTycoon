@@ -1461,7 +1461,6 @@ class /**/ PERSON {
     friend class CStdRaum;
     friend class CBuero;
     friend class CDutyFree;
-    friend class CBuero;
     friend class CMakler;
     friend class CRouteBox;
     friend class SIM;

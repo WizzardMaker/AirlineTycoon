@@ -150,6 +150,8 @@ void SB_CFont::DrawTextWithTabs(class SB_CBitmapCore *bmp, SLONG x, SLONG y, con
                 case 4:
                     this->Pos.x = this->Tabulator[i].Width - GetWidthAt(str, length - 1, '\t');
                     break;
+                default:
+                    break;
                 }
                 i++;
             }
@@ -265,6 +267,8 @@ SLONG SB_CFont::GetWidthAt(const char *str, SLONG /*offset*/, char ch) {
         case '\n':
         case '\r':
             return i;
+        default:
+            break;
         }
         if (*str == ch) {
             break;

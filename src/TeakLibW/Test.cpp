@@ -69,7 +69,7 @@ template <typename T> void expect_nonexist_func(ALBUM_V<T> &list, int id, int tx
     bool exception = false;
     try {
         list[id] = T(99);
-    } catch (std::runtime_error e) {
+    } catch (const std::runtime_error& e) {
         exception = true;
     }
     if (!exception) {

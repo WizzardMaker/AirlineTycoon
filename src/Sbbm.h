@@ -299,7 +299,7 @@ class SBPRIMARYBM {
     SBPRIMARYBM() = default;
     void ReSize(SDL_Window *Wnd, BOOL Fullscreen, const XY &Resolution);
 
-    void ReSizePartB(SDL_Window *Wnd, BOOL Fullscreen, const XY &Resolution) {
+    void ReSizePartB(SDL_Window * /*Wnd*/, BOOL /*Fullscreen*/, const XY &/*Resolution*/) {
         // if (!Fullscreen) Offscreen.ReSize (Resolution);
     }
     void Flip(SLONG WindowX, SLONG WindowsY, BOOL ShowFPS = FALSE) { Flip(XY(WindowX, WindowsY), ShowFPS); }

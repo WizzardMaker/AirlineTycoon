@@ -1,46 +1,47 @@
-
 project (AT)
+
+add_library(common INTERFACE)
+
+if(MSVC)
+    add_compile_options("/MP")
+    add_compile_options("-m")
+else()
+    target_compile_options(common INTERFACE "-Wall")
+    target_compile_options(common INTERFACE "-Wextra")
+    #target_compile_options(common INTERFACE "-Wno-invalid-source-encoding")
+    target_compile_options(common INTERFACE "-Wno-sign-compare")
+    target_compile_options(common INTERFACE "-Wno-type-limits")
+
+    target_compile_options(common INTERFACE "-Wcast-align")
+    target_compile_options(common INTERFACE "-Wcast-qual")
+    target_compile_options(common INTERFACE "-Wctor-dtor-privacy")
+    target_compile_options(common INTERFACE "-Wdisabled-optimization")
+    target_compile_options(common INTERFACE "-Wfloat-equal")
+    target_compile_options(common INTERFACE "-Wformat=2")
+    target_compile_options(common INTERFACE "-Winit-self")
+    target_compile_options(common INTERFACE "-Winline")
+    target_compile_options(common INTERFACE "-Wlogical-op")
+    target_compile_options(common INTERFACE "-Wmissing-declarations")
+    target_compile_options(common INTERFACE "-Wmissing-include-dirs")
+    target_compile_options(common INTERFACE "-Wnoexcept")
+    #target_compile_options(common INTERFACE "-Wold-style-cast")
+    target_compile_options(common INTERFACE "-Woverloaded-virtual")
+    target_compile_options(common INTERFACE "-Wredundant-decls")
+    #target_compile_options(common INTERFACE "-Wshadow")
+    #target_compile_options(common INTERFACE "-Wsign-conversion")
+    target_compile_options(common INTERFACE "-Wsign-promo")
+    target_compile_options(common INTERFACE "-Wstrict-null-sentinel")
+    target_compile_options(common INTERFACE "-Wstrict-overflow=2")
+    target_compile_options(common INTERFACE "-Wswitch-default")
+    target_compile_options(common INTERFACE "-Wundef")
+    target_compile_options(common INTERFACE "-Wunsafe-loop-optimizations")
+endif()
 
 add_subdirectory (TeakLibW)
 add_subdirectory (SBLib)
 add_subdirectory (SSE)
 
 include_directories(${PROJECT_SOURCE_DIR})
-
-if(MSVC)
-    add_compile_options("/MP")
-    add_compile_options("-m")
-else()
-    add_compile_options("-Wall")
-    add_compile_options("-Wextra")
-    #add_compile_options("-Wno-invalid-source-encoding")
-    add_compile_options("-Wno-sign-compare")
-    add_compile_options("-Wno-type-limits")
-
-    add_compile_options("-Wcast-align")
-    add_compile_options("-Wcast-qual")
-    add_compile_options("-Wctor-dtor-privacy")
-    add_compile_options("-Wdisabled-optimization")
-    add_compile_options("-Wfloat-equal")
-    add_compile_options("-Wformat=2")
-    add_compile_options("-Winit-self")
-    add_compile_options("-Winline")
-    add_compile_options("-Wlogical-op")
-    add_compile_options("-Wmissing-declarations")
-    add_compile_options("-Wmissing-include-dirs")
-    add_compile_options("-Wnoexcept")
-    #add_compile_options("-Wold-style-cast")
-    add_compile_options("-Woverloaded-virtual")
-    add_compile_options("-Wredundant-decls")
-    #add_compile_options("-Wshadow")
-    #add_compile_options("-Wsign-conversion")
-    add_compile_options("-Wsign-promo")
-    add_compile_options("-Wstrict-null-sentinel")
-    add_compile_options("-Wstrict-overflow=2")
-    add_compile_options("-Wswitch-default")
-    add_compile_options("-Wundef")
-    add_compile_options("-Wunsafe-loop-optimizations")
-endif()
 
 # Add source to this project's executable.
 add_executable (AT
@@ -142,7 +143,8 @@ if(NOT ${CMAKE_VERSION} VERSION_LESS "3.16.0")
     target_precompile_headers(AT PUBLIC StdAfx.h)
 endif()
 
-target_link_libraries(AT
+target_link_libraries(AT PRIVATE
+    common
     TeakLibW
     SSE
     SBLib
@@ -156,9 +158,9 @@ target_link_libraries(AT
 )
 
 if (WIN32)
-  target_link_libraries(AT ws2_32 Winmm)
+    target_link_libraries(AT PRIVATE ws2_32 Winmm)
 else()
-  target_link_libraries(AT jansson)
+    target_link_libraries(AT PRIVATE jansson)
 endif()
 
 add_custom_command(TARGET AT POST_BUILD 

@@ -974,7 +974,7 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define GetRValue(rgb) ((unsigned char)((rgb)&0xFF))
 #define GetGValue(rgb) ((unsigned char)(((rgb) >> 8) & 0xFF))
 #define GetBValue(rgb) ((unsigned char)(((rgb) >> 16) & 0xFF))
-#define ZeroMemory(ptr, size) memset(ptr, 0, size)
+//#define ZeroMemory(ptr, size) memset(ptr, 0, size)
 #define stricmp strcasecmp
 #define strnicmp strncasecmp
 

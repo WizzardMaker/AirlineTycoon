@@ -165,9 +165,11 @@ void CRLEReader::SaveAsPlainText() {
 bool CRLEReader::Buffer(void *buffer, SLONG size) { return SDL_RWread(Ctx, buffer, size, 1) > 0; }
 
 bool CRLEReader::NextSeq() {
-    if (!Buffer(&SeqLength, 1)) {
+    char buf;
+    if (!Buffer(&buf, 1)) {
         return false;
     }
+    SeqLength = buf;
 
     if ((SeqLength & 0x80) != 0) {
         SeqLength &= 0x7FU;

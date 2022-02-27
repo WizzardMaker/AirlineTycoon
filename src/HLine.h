@@ -26,7 +26,7 @@ class CHLGene {
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CHLGene &gene) {
         File << gene.Offset << gene.Anz;
-        File.Write((UBYTE *)&gene.pPixel, 4);
+        File.Write((const UBYTE *)&gene.pPixel, 4);
         return (File);
     }
     friend TEAKFILE &operator>>(TEAKFILE &File, CHLGene &gene) {
@@ -66,7 +66,7 @@ class CHLObj {
     void BlitLargeAt(SB_CBitmapCore *pBitmap, SLONG tx, SLONG ty) { BlitLargeAt(pBitmap, XY(tx, ty)); }
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CHLObj &obj) {
-        File.Write((UBYTE *)&obj.graphicID, 8);
+        File.Write((const UBYTE *)&obj.graphicID, 8);
         File << obj.Size << obj.HLines << obj.HLineEntries;
         return (File);
     }

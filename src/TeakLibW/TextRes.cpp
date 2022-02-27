@@ -7,6 +7,8 @@ const char *ExcTextResNotFound = "TextRes not found: %lx:%lx";
 
 SLONG gLanguage;
 
+void LanguageSpecifyString(char *Dst);
+
 void LanguageSpecifyString(char *Dst) {
     int i = 0;
     int j = 0;

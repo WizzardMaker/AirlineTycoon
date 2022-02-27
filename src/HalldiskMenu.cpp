@@ -34,7 +34,7 @@ HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, Play
       }
       if (bFullscreen) SetWindowPos (&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOREDRAW|SWP_NOSIZE);*/
 
-    memset(bFiles, 0, sizeof(bFiles));
+    bFiles.fill(0);
 
     SLONG difflevel = Sim.Difficulty;
     if (difflevel == DIFF_FREEGAME) {
@@ -206,7 +206,7 @@ void HallDiskMenu::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
         SLONG c = 0;
         SLONG d = 0;
 
-        memset(bFiles, 0, sizeof(bFiles));
+        bFiles.fill(0);
 
         SLONG difflevel = Sim.Difficulty;
         if (difflevel == DIFF_FREEGAME) {
@@ -226,7 +226,7 @@ void HallDiskMenu::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
         SLONG c = 0;
         SLONG d = 0;
 
-        memset(bFiles, 0, sizeof(bFiles));
+        bFiles.fill(0);
 
         for (c = 0; c < 10; c++) {
             for (d = 0; d < 10; d++) {
