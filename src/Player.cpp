@@ -5552,7 +5552,7 @@ void PLAYER::RobotExecuteAction() {
             SLONG Cheapest = 0;
 
             for (c = 0; c < 7; c++) {
-                if ((TafelData.Gate[c].ZettelId != 0) && TafelData.Gate[c].Player != PlayerNum) {
+                if ((TafelData.Gate[c].ZettelId > -1) && TafelData.Gate[c].Player != PlayerNum) {
                     break;
                 }
             }
@@ -5561,7 +5561,7 @@ void PLAYER::RobotExecuteAction() {
                 SLONG n = -1;
                 Cheapest = 99999999;
                 for (c = 0; c < 7; c++) {
-                    if ((TafelData.Gate[c].ZettelId != 0) && TafelData.Gate[c].Player != PlayerNum &&
+                    if ((TafelData.Gate[c].ZettelId > -1) && TafelData.Gate[c].Player != PlayerNum &&
                         (TafelData.Gate[c].Preis < Cheapest || TafelData.Gate[c].Player == dislike || PlayerNum == 0)) {
                         Cheapest = TafelData.Gate[c].Preis;
                         n = c;
@@ -5582,7 +5582,7 @@ void PLAYER::RobotExecuteAction() {
         // Niederlassung erwerben:
         if (((SavesForPlane == 0) && (SavesForRocket == 0)) || Sim.Date < 5 || LocalRandom.Rand(25) == 0 || (PlayerNum == 0 && LocalRandom.Rand(3) == 0)) {
             for (c = 0; c < 7; c++) {
-                if (TafelData.City[c].Player != PlayerNum && TafelData.City[c].ZettelId != -1 &&
+                if (TafelData.City[c].Player != PlayerNum && TafelData.City[c].ZettelId > -1 &&
                     RentCities.RentCities[Cities(TafelData.City[c].ZettelId)].Rang == 0) {
                     if (((TafelData.City[c].Player != -1 && (Sympathie[TafelData.City[c].Player] < 40 || PlayerNum == 0 || LocalRandom.Rand(10) == 0 ||
                                                              (Sim.Date > 10 && LocalRandom.Rand(5) == 0))) ||

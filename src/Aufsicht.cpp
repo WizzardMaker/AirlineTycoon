@@ -771,15 +771,15 @@ void CAufsicht::OnPaint() {
         Painted++;
         for (SLONG c = 0; c < 7; c++) {
             // Zettel malen:
-            if ((TafelData.Route[c].ZettelId != 0) && qPlayer.RentRouten.RentRouten[TafelData.Route[c].ZettelId].Rang == 0) {
+            if ((TafelData.Route[c].ZettelId > 0) && qPlayer.RentRouten.RentRouten[TafelData.Route[c].ZettelId].Rang == 0) {
                 RoomBm.BlitFromT(LeereZettelBms[c % 3], (ZettelPos[c * 2] - 91) * 74 / 441 + 274, (ZettelPos[c * 2 + 1] - 20) * 68 / 366 + 55);
             }
 
-            if ((TafelData.City[c].ZettelId != 0) && qPlayer.RentCities.RentCities[TafelData.City[c].ZettelId].Rang == 0) {
+            if ((TafelData.City[c].ZettelId > 0) && qPlayer.RentCities.RentCities[TafelData.City[c].ZettelId].Rang == 0) {
                 RoomBm.BlitFromT(LeereZettelBms[c % 3], (ZettelPos[(c + 7) * 2] - 91) * 74 / 441 + 274, (ZettelPos[(c + 7) * 2 + 1] - 20) * 68 / 366 + 55);
             }
 
-            if (TafelData.Gate[c].ZettelId != -1) {
+            if (TafelData.Gate[c].ZettelId > -1) {
                 RoomBm.BlitFromT(LeereZettelBms[c % 3], (ZettelPos[(c + 14) * 2] - 91) * 74 / 441 + 274, (ZettelPos[(c + 14) * 2 + 1] - 20) * 68 / 366 + 55);
             }
         }

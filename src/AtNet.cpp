@@ -1086,7 +1086,7 @@ void PumpNetwork() {
                             qPlayer.Messages.AddMessage(
                                 BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9001), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX));
                         }
-                        if (Generic1 >= 7 && Generic1 < 14) {
+                        if (Generic1 >= 7 && Generic1 < 14 && TafelData.City[Generic1 - 7].ZettelId > -1) {
                             qPlayer.Messages.AddMessage(BERATERTYP_INFO,
                                                         bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9002), (LPCTSTR)qFromPlayer.NameX,
                                                                 (LPCTSTR)qFromPlayer.AirlineX, (LPCTSTR)Cities[TafelData.City[Generic1 - 7].ZettelId].Name));

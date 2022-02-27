@@ -109,14 +109,14 @@ void CTafel::OnPaint() {
 
     for (c = 0; c < 7; c++) {
         // Zettel malen:
-        if (TafelData.City[c].ZettelId != -1 && Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[TafelData.City[c].ZettelId].Rang == 0) {
+        if (TafelData.City[c].ZettelId > -1 && Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[TafelData.City[c].ZettelId].Rang == 0) {
             if (RoomBm.BlitFromT(ZettelBms[c + 7], ZettelPos[(c + 7) * 2], ZettelPos[(c + 7) * 2 + 1]) == 0) {
                 RepaintZettel(c + 7);
                 RoomBm.BlitFromT(ZettelBms[c + 7], ZettelPos[(c + 7) * 2], ZettelPos[(c + 7) * 2 + 1]);
             }
         }
 
-        if (TafelData.Gate[c].ZettelId != -1) {
+        if (TafelData.Gate[c].ZettelId > -1) {
             if (RoomBm.BlitFromT(ZettelBms[c + 14], ZettelPos[(c + 14) * 2], ZettelPos[(c + 14) * 2 + 1]) == 0) {
                 RepaintZettel(c + 14);
                 RoomBm.BlitFromT(ZettelBms[c + 14], ZettelPos[(c + 14) * 2], ZettelPos[(c + 14) * 2 + 1]);
@@ -151,8 +151,8 @@ void CTafel::OnPaint() {
         if (!(MouseClickArea == ROOM_TAFEL && MouseClickId == 999)) {
             // Auf einen der Zettel geklickt?
             for (c = 0; c < 21; c++) {
-                if (gMousePosition.y < 440 && ((c < 7 && (TafelData.Route[c].ZettelId != 0)) || (c >= 7 && c < 14 && (TafelData.City[c - 7].ZettelId != 0)) ||
-                                               (c >= 14 && TafelData.Gate[c - 14].ZettelId != -1))) {
+                if (gMousePosition.y < 440 && ((c < 7 && (TafelData.Route[c].ZettelId > 0)) || (c >= 7 && c < 14 && (TafelData.City[c - 7].ZettelId > 0)) ||
+                                               (c >= 14 && TafelData.Gate[c - 14].ZettelId > -1))) {
                     if (XY(gMousePosition)
                             .IfIsWithin(ZettelPos[c * 2], ZettelPos[c * 2 + 1], ZettelPos[c * 2] + LeereZettelBms[c % 3].Size.x,
                                         ZettelPos[c * 2 + 1] + LeereZettelBms[c % 3].Size.y)) {
@@ -180,7 +180,7 @@ void CTafel::RepaintZettel(SLONG n) {
 
     if (n < 7) // Route
     {
-        if (TafelData.Route[n].ZettelId == 0) {
+        if (TafelData.Route[n].ZettelId <= 0) {
             ZettelBms[n].Destroy();
         } else {
             ZettelBms[n].ReSize(LeereZettelBms[n % 3].Size);
@@ -206,7 +206,7 @@ void CTafel::RepaintZettel(SLONG n) {
         }
     } else if (n < 14) // City
     {
-        if (TafelData.City[n - 7].ZettelId == -1) {
+        if (TafelData.City[n - 7].ZettelId <= -1) {
             ZettelBms[n].Destroy();
         } else {
             ZettelBms[n].ReSize(LeereZettelBms[n % 3].Size);
@@ -226,7 +226,7 @@ void CTafel::RepaintZettel(SLONG n) {
         }
     } else if (n >= 14) // Gate
     {
-        if (TafelData.Gate[n - 14].ZettelId == -1) {
+        if (TafelData.Gate[n - 14].ZettelId <= -1) {
             ZettelBms[n].Destroy();
         } else {
             ZettelBms[n].ReSize(LeereZettelBms[n % 3].Size);
@@ -276,7 +276,7 @@ void CTafel::OnLButtonDown(UINT nFlags, CPoint point) {
         } else {
             // Auf einen der Zettel geklickt?
             for (c = 0; c < 21; c++) {
-                if (point.y < 440 && ((c < 7 && (TafelData.Route[c].ZettelId != 0)) || (c >= 7 && c < 14 && TafelData.City[c - 7].ZettelId != -1) ||
+                if (point.y < 440 && ((c < 7 && (TafelData.Route[c].ZettelId > 0)) || (c >= 7 && c < 14 && TafelData.City[c - 7].ZettelId != -1) ||
                                       (c >= 14 && TafelData.Gate[c - 14].ZettelId != -1))) {
                     if (XY(point).IfIsWithin(ZettelPos[c * 2], ZettelPos[c * 2 + 1], ZettelPos[c * 2] + LeereZettelBms[c % 3].Size.x,
                                              ZettelPos[c * 2 + 1] + LeereZettelBms[c % 3].Size.y)) {

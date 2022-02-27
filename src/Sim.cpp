@@ -2610,7 +2610,7 @@ void SIM::NewDay() {
 
         for (c = 0; c < 7; c++) {
             // City:
-            if (TafelData.City[c].ZettelId != -1 && TafelData.City[c].Player != -1) {
+            if (TafelData.City[c].ZettelId > -1 && TafelData.City[c].Player != -1) {
                 CRentCity &NewCity = Players.Players[TafelData.City[c].Player].RentCities.RentCities[TafelData.City[c].ZettelId];
 
                 if (TafelData.City[c].WasInterested != 0) {
@@ -2637,7 +2637,7 @@ void SIM::NewDay() {
             }
 
             // Route:
-            if ((TafelData.Route[c].ZettelId != 0) && TafelData.Route[c].Player != -1) {
+            if ((TafelData.Route[c].ZettelId > 0) && TafelData.Route[c].Player != -1) {
                 PLAYER &qPlayer = Players.Players[TafelData.Route[c].Player];
 
                 if (TafelData.Route[c].WasInterested != 0) {
@@ -2664,7 +2664,7 @@ void SIM::NewDay() {
             }
 
             // Gate:
-            if (TafelData.Gate[c].ZettelId != -1 && TafelData.Gate[c].Player != -1) {
+            if (TafelData.Gate[c].ZettelId > -1 && TafelData.Gate[c].Player != -1) {
                 PLAYER &qPlayer = Players.Players[TafelData.Gate[c].Player];
 
                 if (TafelData.Gate[c].WasInterested != 0) {
@@ -3475,7 +3475,7 @@ BOOL SIM::LoadGame(SLONG Number) {
                 }
 
                 for (c = 0; c < 7; c++) {
-                    if (TafelData.City[c].ZettelId != -1 && TafelData.City[c].ZettelId >= d) {
+                    if (TafelData.City[c].ZettelId >= d) {
                         TafelData.City[c].ZettelId++;
                     }
                 }
