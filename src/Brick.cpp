@@ -473,10 +473,9 @@ BUILD::BUILD(long BrickId, const XY &ScreenPos, BOOL Ansatz) {
     }
 }
 
-//--------------------------------------------------------------------------------------------
-// Initialisiert allgemein:
-//--------------------------------------------------------------------------------------------
-BUILDS::BUILDS() : ALBUM<BUILD>(Builds, "Builds") {}
+SLONG BUILD::SortIndex1() const { return Bricks[BrickId].Layer; }
+SLONG BUILD::SortIndex2() const { return ScreenPos.y + Bricks[BrickId].GetBitmapDimension().y + Bricks[BrickId].FloorOffset; }
+SLONG BUILD::SortIndex3() const { return ScreenPos.x; }
 
 //--------------------------------------------------------------------------------------------
 // Speichert einen Build-Eintrag:
@@ -498,8 +497,7 @@ TEAKFILE &operator>>(TEAKFILE &File, BUILD &Build) {
 // Speichert einen Builds-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const BUILDS &Builds) {
-    File << Builds.Builds;
-    File << *((const ALBUM<BUILD> *)&Builds);
+    File << *((const ALBUM_V<BUILD> *)&Builds);
 
     return (File);
 }
@@ -508,8 +506,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const BUILDS &Builds) {
 // Lädt einen Builds-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, BUILDS &Builds) {
-    File >> Builds.Builds;
-    File >> *((ALBUM<BUILD> *)&Builds);
+    File >> *((ALBUM_V<BUILD> *)&Builds);
 
     return (File);
 }
@@ -539,10 +536,8 @@ void BUILDS::Load(SLONG Hall, SLONG Level) {
     if (DoesFileExist(Filename) != 0) {
         TEAKFILE File(Filename, TEAKFILE_READ);
 
-        File >> Builds;
-
-        // Etwas tricky: Den geerbeten shifting-operator der ALBUM-Klasse aufrufen:
-        File >> *((ALBUM<BUILD> *)this);
+        // Etwas tricky: Den geerbeten shifting-operator der ALBUM_V-Klasse aufrufen:
+        File >> *((ALBUM_V<BUILD> *)this);
     } else {
         Clear();
 #ifdef _DEBUG
@@ -567,10 +562,8 @@ void BUILDS::Save(SLONG Hall, SLONG Level) const {
 
         TEAKFILE File(Filename, TEAKFILE_WRITE);
 
-        File << Builds;
-
-        // Etwas tricky: Den geerbten shifting-operator der ALBUM-Klasse aufrufen:
-        File << *((const ALBUM<BUILD> *)this);
+        // Etwas tricky: Den geerbten shifting-operator der ALBUM_V-Klasse aufrufen:
+        File << *((const ALBUM_V<BUILD> *)this);
     }
 }
 
@@ -578,25 +571,5 @@ void BUILDS::Save(SLONG Hall, SLONG Level) const {
 // Sortiert alle Elemente des Flughafens gemäß ihrer Z-Position:
 //--------------------------------------------------------------------------------------------
 void BUILDS::Sort() {
-    SLONG c = 0;
-
-    for (c = 0; c < long(AnzEntries() - 1); c++) {
-        if (((IsInAlbum(c) == 0) && (IsInAlbum(c + 1) != 0)) ||
-            ((IsInAlbum(c) != 0) && (IsInAlbum(c + 1) != 0) && Bricks[(*this)[c].BrickId].Layer > Bricks[(*this)[static_cast<SLONG>(c + 1)].BrickId].Layer) ||
-            ((IsInAlbum(c) != 0) && (IsInAlbum(c + 1) != 0) && Bricks[(*this)[c].BrickId].Layer == Bricks[(*this)[static_cast<SLONG>(c + 1)].BrickId].Layer &&
-             (*this)[c].ScreenPos.y + Bricks[(*this)[c].BrickId].GetBitmapDimension().y + Bricks[(*this)[c].BrickId].FloorOffset >
-                 (*this)[static_cast<SLONG>(c + 1)].ScreenPos.y + Bricks[(*this)[static_cast<SLONG>(c + 1)].BrickId].GetBitmapDimension().y +
-                     Bricks[(*this)[static_cast<SLONG>(c + 1)].BrickId].FloorOffset) ||
-            ((IsInAlbum(c) != 0) && (IsInAlbum(c + 1) != 0) && Bricks[(*this)[c].BrickId].Layer == Bricks[(*this)[static_cast<SLONG>(c + 1)].BrickId].Layer &&
-             (*this)[c].ScreenPos.y + Bricks[(*this)[c].BrickId].GetBitmapDimension().y + Bricks[(*this)[c].BrickId].FloorOffset ==
-                 (*this)[static_cast<SLONG>(c + 1)].ScreenPos.y + Bricks[(*this)[static_cast<SLONG>(c + 1)].BrickId].GetBitmapDimension().y +
-                     Bricks[(*this)[static_cast<SLONG>(c + 1)].BrickId].FloorOffset &&
-             (*this)[c].ScreenPos.x > (*this)[static_cast<SLONG>(c + 1)].ScreenPos.x)) {
-            Swap(c, c + 1);
-            c -= 2;
-            if (c < -1) {
-                c = -1;
-            }
-        }
-    }
+    ALBUM_V<BUILD>::Sort();
 }

@@ -1746,7 +1746,7 @@ void AirportView::OnLButtonDown(UINT nFlags, CPoint point) {
                     XY &ViewPos = Sim.Players.Players[PlayerNum].ViewPos;
 
                     if (Airport.Builds.GetNumFree() < 2) {
-                        Airport.Builds.Builds.ReSize(Airport.Builds.AnzEntries() + 10);
+                        Airport.Builds.ReSize(Airport.Builds.AnzEntries() + 10);
                     }
 
                     if (Bricks.IsInAlbum(EditObject) != 0) {
@@ -2811,11 +2811,7 @@ void AIRPORT::LoadAirport(SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Entr
     }
 
     // Alloc Memory for complete Airport:
-    Builds.Builds.ReSize(TotalMem);
-
-    for (c = 0; c < TotalMem; c++) {
-        Builds += Builds.GetUniqueId();
-    }
+    Builds.ReSize(TotalMem);
 
     // Und alles zusammensetzen: (Vorbereitung)
     for (c = 0; c < 10; c++) {
@@ -2832,7 +2828,6 @@ void AIRPORT::LoadAirport(SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Entr
     }
 
     d = 0; // localBuilds (0..4) Index
-    e = 0; // Destination (main Build) index
 
     // Und alles zusammensetzen: (Jetzt im Ernst)
     while (true) {
@@ -2866,7 +2861,7 @@ void AIRPORT::LoadAirport(SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Entr
             break;
         }
 
-        Builds[e++] = localBuilds[BestD][Count[BestD]];
+        Builds *= localBuilds[BestD][Count[BestD]];
 
         // Advance Thread of the rope:
         Count[BestD]++;
@@ -4147,7 +4142,7 @@ void AIRPORT::DoHashBuilds() {
     HashBuilds.ReSize((RightEnd - LeftEnd) / BUILDHASHSIZE);
 
     for (c = 0; c < HashBuilds.AnzEntries(); c++) {
-        HashBuilds[c].Builds.ReSize(Builds.AnzEntries());
+        HashBuilds[c].ReSize(Builds.AnzEntries());
 
         for (d = 0; d < Builds.AnzEntries(); d++) {
             if (Builds.IsInAlbum(d) != 0) {
@@ -4158,7 +4153,7 @@ void AIRPORT::DoHashBuilds() {
             }
         }
 
-        HashBuilds[c].Builds.ReSize(HashBuilds[c].GetNumUsed());
+        HashBuilds[c].ReSize(HashBuilds[c].GetNumUsed());
     }
 }
 

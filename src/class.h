@@ -1328,7 +1328,7 @@ class /**/ BRICK // Ein einzelnes Bodenteil eines bestimmten Zeitalters
 
     friend class BRICKS;
     friend class PLAYER;
-    friend class BUILDS;
+    friend class BUILD;
     friend class AIRPORT;
     friend class AirportView;
 };
@@ -1356,9 +1356,24 @@ class /**/ BUILD // Die Verwendung eines Bodenteils
     XY ScreenPos;  // Position im Flughafen
     UBYTE Par{};     // Parameter, z.B. für die Raumnummer
 
+    SLONG SortIndex1() const;
+    SLONG SortIndex2() const;
+    SLONG SortIndex3() const;
+
   public:
     BUILD() = default;
     BUILD(long BrickId, const XY &ScreenPos, BOOL Ansatz);
+
+    inline bool operator<(const BUILD &i) const {
+        auto s1 = SortIndex1();
+        auto s2 = SortIndex2();
+        auto s3 = SortIndex3();
+        auto i1 = i.SortIndex1();
+        auto i2 = i.SortIndex2();
+        auto i3 = i.SortIndex3();
+        return (s1 < i1) || (s1 == i1 && s2 < i2) || (s1 == i1 && s2 == i2 && s3 < i3);
+    }
+
     friend TEAKFILE &operator<<(TEAKFILE &File, const BUILD &Build);
     friend TEAKFILE &operator>>(TEAKFILE &File, BUILD &Build);
 
@@ -1370,12 +1385,9 @@ class /**/ BUILD // Die Verwendung eines Bodenteils
 };
 static_assert(sizeof(BUILD) == 16);
 
-class /**/ BUILDS : public ALBUM<BUILD> {
+class /**/ BUILDS : public ALBUM_V<BUILD> {
   public:
-    BUFFER<BUILD> Builds;
-
-  public:
-    BUILDS();
+    BUILDS() : ALBUM_V<BUILD>("Builds") {}
     void Clear();
     void ReInit(SLONG Hall, SLONG Level) { Load(Hall, Level); }
     void Load(SLONG Hall, SLONG Level);
