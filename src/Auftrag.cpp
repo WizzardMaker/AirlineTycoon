@@ -797,7 +797,7 @@ too_large:
 //--------------------------------------------------------------------------------------------
 //Das Raster zum ausgrauen der ungültigen Tage zeichnen:
 //--------------------------------------------------------------------------------------------
-void CAuftrag::BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG Page) const
+void CAuftrag::BlitGridAt (SBBM *pBitmap, XY Offset, BOOL Tagesansicht, SLONG  /*Page*/) const
 {
     SLONG c = 0;
 

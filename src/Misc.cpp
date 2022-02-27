@@ -560,7 +560,7 @@ SLONG CalculateFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG
 //--------------------------------------------------------------------------------------------
 //Berechnet, wieviel ein Flug WIRKLICH kostet: (Kerosin aus Tank)
 //--------------------------------------------------------------------------------------------
-SLONG CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum, const CString& PlaneName)
+SLONG CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum, const CString&  /*PlaneName*/)
 {
     SLONG Kerosin = CalculateFlightKerosin (VonCity, NachCity, Verbrauch, Geschwindigkeit);
     SLONG Kosten=0;

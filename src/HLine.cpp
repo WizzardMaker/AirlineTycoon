@@ -548,7 +548,7 @@ void CHLPool::ReSize (const CString &Filename, CHLPool *pHLBasepool1, CHLPool *p
 // * Quality : Bildqualität der Kompression in % (bis zu 100%)
 // * Speed   : Entpackgeschindigkkeit, 100% ist Maximum
 //--------------------------------------------------------------------------------------------
-void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal, SLONG Quality, SLONG Speed)
+void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pal, SLONG Quality, SLONG  /*Speed*/)
 {
     //Zielobjekt vorbereiten:
     HLObjects.ReSize (HLObjects.AnzEntries()+1);

@@ -900,7 +900,7 @@ void GameFrame::OnPaint()
 //--------------------------------------------------------------------------------------------
 //GameFrame::OnEraseBkgnd(CDC* pDC):
 //--------------------------------------------------------------------------------------------
-BOOL GameFrame::OnEraseBkgnd(void* pDC)
+BOOL GameFrame::OnEraseBkgnd(void*  /*pDC*/)
 {
     //ReferTo (pDC);
     return FALSE;
@@ -909,7 +909,7 @@ BOOL GameFrame::OnEraseBkgnd(void* pDC)
 //--------------------------------------------------------------------------------------------
 //Wird beim Taskwechsel aufgerufen:
 //--------------------------------------------------------------------------------------------
-void GameFrame::OnActivateApp(BOOL bActive, DWORD hTask)
+void GameFrame::OnActivateApp(BOOL bActive, DWORD  /*hTask*/)
 {
     if (::bActive != bActive)
     {
@@ -977,7 +977,7 @@ void GameFrame::OnActivateApp(BOOL bActive, DWORD hTask)
 //--------------------------------------------------------------------------------------------
 //BOOL GameFrame::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) :
 //--------------------------------------------------------------------------------------------
-BOOL GameFrame::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
+BOOL GameFrame::OnSetCursor(void*  /*pWnd*/, UINT nHitTest, UINT  /*message*/)
 {
     if (gUseWindowsMouse == 0)
     {
@@ -1006,7 +1006,7 @@ BOOL GameFrame::OnSetCursor(void* pWnd, UINT nHitTest, UINT message)
 //--------------------------------------------------------------------------------------------
 //void GameFrame::OnMouseMove(UINT nFlags, CPoint point):
 //--------------------------------------------------------------------------------------------
-void GameFrame::OnMouseMove(UINT nFlags, CPoint point)
+void GameFrame::OnMouseMove(UINT  /*nFlags*/, CPoint point)
 {
     gMousePosition = point;
 
@@ -2378,7 +2378,7 @@ void GameFrame::OnKeyUp(UINT /*unused*/, UINT /*unused*/, UINT /*unused*/)
 //--------------------------------------------------------------------------------------------
 //void GameFrame::OnLButtonDown(UINT nFlags, CPoint point):
 //--------------------------------------------------------------------------------------------
-void GameFrame::OnLButtonDown(UINT nFlags, CPoint point)
+void GameFrame::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
 {
     //Alles blockieren, wenn im Optionsmenü:
     if ((nOptionsOpen != 0) && (Sim.bNetwork != 0) && Sim.localPlayer<Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom()!=0) { return;
@@ -2393,7 +2393,7 @@ void GameFrame::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //Reposting some stuff to player windows
 //--------------------------------------------------------------------------------------------
-void GameFrame::OnLButtonDblClk(UINT nFlags, CPoint point)
+void GameFrame::OnLButtonDblClk(UINT  /*nFlags*/, CPoint point)
 {
     //Alles blockieren, wenn im Optionsmenü:
     if ((nOptionsOpen != 0) && (Sim.bNetwork != 0) && Sim.localPlayer < Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom() != ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom() != 0) { return;
@@ -2403,7 +2403,7 @@ void GameFrame::OnLButtonDblClk(UINT nFlags, CPoint point)
     //ReferTo (nFlags, point);
 
 }
-void GameFrame::OnLButtonUp(UINT nFlags, CPoint point)
+void GameFrame::OnLButtonUp(UINT  /*nFlags*/, CPoint point)
 {
     //Alles blockieren, wenn im Optionsmenü:
     if ((nOptionsOpen != 0) && (Sim.bNetwork != 0) && Sim.localPlayer < Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom() != ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom() != 0) { return;
@@ -2412,7 +2412,7 @@ void GameFrame::OnLButtonUp(UINT nFlags, CPoint point)
     RePostMessage(point);
     //ReferTo (nFlags, point);
 }
-void GameFrame::OnRButtonDown(UINT nFlags, CPoint point)
+void GameFrame::OnRButtonDown(UINT  /*nFlags*/, CPoint point)
 {
     //Alles blockieren, wenn im Optionsmenü:
     if ((nOptionsOpen != 0) && (Sim.bNetwork != 0) && Sim.localPlayer < Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom() != ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom() != 0) { return;
@@ -2421,7 +2421,7 @@ void GameFrame::OnRButtonDown(UINT nFlags, CPoint point)
     RePostMessage (point);
     //ReferTo (nFlags, point);
 }
-void GameFrame::OnRButtonUp(UINT nFlags, CPoint point)
+void GameFrame::OnRButtonUp(UINT  /*nFlags*/, CPoint point)
 {
     //Alles blockieren, wenn im Optionsmenü:
     if ((nOptionsOpen != 0) && (Sim.bNetwork != 0) && Sim.localPlayer < Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom() != ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom() != 0) { return;
@@ -2476,7 +2476,7 @@ void GameFrame::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/)
 //--------------------------------------------------------------------------------------------
 //BOOL GameFrame::OnCommand(WPARAM wParam, LPARAM lParam):
 //--------------------------------------------------------------------------------------------
-BOOL GameFrame::OnCommand(WPARAM wParam, LPARAM lParam)
+BOOL GameFrame::OnCommand(WPARAM  /*wParam*/, LPARAM  /*lParam*/)
 {
     return FALSE;
 }

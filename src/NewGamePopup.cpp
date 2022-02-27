@@ -90,7 +90,7 @@ NewGamePopup::NewGamePopup(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, Play
     Sim.LoadHighscores();
 }
 
-void NewGamePopup::Konstruktor(BOOL bHandy, SLONG PlayerNum)
+void NewGamePopup::Konstruktor(BOOL  /*bHandy*/, SLONG  /*PlayerNum*/)
 {
     SLONG c = 0;
 
@@ -2114,7 +2114,7 @@ again_heimatflughafen:
 //--------------------------------------------------------------------------------------------
 //NewGamePopup::OnRButtonDown
 //--------------------------------------------------------------------------------------------
-void NewGamePopup::OnRButtonDown(UINT nFlags, CPoint point)
+void NewGamePopup::OnRButtonDown(UINT  /*nFlags*/, CPoint point)
 {
     if (MenuIsOpen() != 0)
     {

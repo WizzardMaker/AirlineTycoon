@@ -31,7 +31,7 @@ SB_CFont::~SB_CFont()
 }
 }
 
-bool SB_CFont::Load(SDL_Renderer* renderer, const char* path, struct HPALETTE__* /*unused*/)
+bool SB_CFont::Load(SDL_Renderer*  /*renderer*/, const char* path, struct HPALETTE__* /*unused*/)
 {
     SDL_RWops* file = SDL_RWFromFile(path, "rb");
     if (SDL_RWread(file, &Header, sizeof(Header), 1) != 1) {
@@ -277,7 +277,7 @@ SLONG SB_CFont::PreviewTextBlock(class SB_CBitmapCore* bmp, SLONG l, SLONG t, SL
     return PreviewTextBlock(bmp, &rect, str, length, offset, hidden);
 }
 
-SLONG SB_CFont::GetWidthAt(const char* str, SLONG offset, char ch)
+SLONG SB_CFont::GetWidthAt(const char* str, SLONG  /*offset*/, char ch)
 {
     int i = 0;
     while (true) {

@@ -1803,7 +1803,7 @@ void AirportView::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //void AirportView::OnLButtonUp(UINT nFlags, CPoint point):
 //--------------------------------------------------------------------------------------------
-void AirportView::OnLButtonUp(UINT nFlags, CPoint point)
+void AirportView::OnLButtonUp(UINT  /*nFlags*/, CPoint point)
 {
     if (Sim.Time<=9*60000) { return;
 }

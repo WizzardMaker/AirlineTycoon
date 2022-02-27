@@ -4003,7 +4003,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point)
 //--------------------------------------------------------------------------------------------
 //OnLButtonUp(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnLButtonUp(UINT /*unused*/, CPoint point)
+void CStdRaum::OnLButtonUp(UINT /*unused*/, CPoint  /*point*/)
 {
     if ((nOptionsOpen != 0) && (Sim.bNetwork != 0) && Sim.localPlayer<Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom()!=0) { return;
 }
@@ -4013,7 +4013,7 @@ void CStdRaum::OnLButtonUp(UINT /*unused*/, CPoint point)
 //--------------------------------------------------------------------------------------------
 //OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnRButtonDown(UINT nFlags, CPoint point)
+void CStdRaum::OnRButtonDown(UINT  /*nFlags*/, CPoint point)
 {
     if ((nOptionsOpen != 0) && (Sim.bNetwork != 0) && Sim.localPlayer<Sim.Players.Players.AnzEntries() && Sim.Players.Players[Sim.localPlayer].GetRoom()!=ROOM_OPTIONS && Sim.Players.Players[Sim.localPlayer].GetRoom()!=0) { return;
 }
@@ -4107,7 +4107,7 @@ void CStdRaum::OnPaint()
 {
     OnPaint (FALSE);
 }
-void CStdRaum::OnPaint(BOOL bHandyDialog)
+void CStdRaum::OnPaint(BOOL  /*bHandyDialog*/)
 {
     ReferenceCursorPos = gMousePosition;
 
@@ -8642,7 +8642,7 @@ void CStdRaum::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/)
 //--------------------------------------------------------------------------------------------
 //Hotkeys:
 //--------------------------------------------------------------------------------------------
-void CStdRaum::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+void CStdRaum::OnKeyDown(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
 {
     if ((CalculatorIsOpen != 0) && nChar==VK_DELETE)
     {

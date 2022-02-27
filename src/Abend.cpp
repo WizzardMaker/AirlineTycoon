@@ -281,7 +281,7 @@ void CAbend::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //void CAbend::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CAbend::OnLButtonDown(UINT nFlags, CPoint point)
+void CAbend::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
 {
     DefaultOnLButtonDown ();
 

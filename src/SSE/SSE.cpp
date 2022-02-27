@@ -329,7 +329,7 @@ int FX::GetPan(SLONG* pPan)
     return SSE_OK;
 }
 
-int FX::SetPan(SLONG pan)
+int FX::SetPan(SLONG  /*pan*/)
 {
     return SSE_OK;
 }
@@ -618,7 +618,7 @@ void MIDI::SetMode(int mode) {
     _mode = mode;
 }
 
-bool MIDI::StopPriority(dword flags)
+bool MIDI::StopPriority(dword  /*flags*/)
 {
     return false;
 }
@@ -685,12 +685,12 @@ int MIDI::SetVolume(SLONG volume)
     return SSE_OK;
 }
 
-int MIDI::GetPan(SLONG* pPan)
+int MIDI::GetPan(SLONG*  /*pPan*/)
 {
     return SSE_OK;
 }
 
-int MIDI::SetPan(SLONG pan)
+int MIDI::SetPan(SLONG  /*pan*/)
 {
     return SSE_OK;
 }
@@ -726,7 +726,7 @@ int MIDI::Free()
     return SSE_OK;
 }
 
-int MIDI::GetStatus(dword* pStatus)
+int MIDI::GetStatus(dword*  /*pStatus*/)
 {
     return SSE_OK;
 }

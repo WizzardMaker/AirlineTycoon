@@ -517,7 +517,7 @@ void Options::OnPaint()
 //--------------------------------------------------------------------------------------------
 //void Options::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void Options::OnLButtonDown(UINT nFlags, CPoint point)
+void Options::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
 {
     if (CursorY != -1 && PageNum != 6) { return;
 }
@@ -899,7 +899,7 @@ void Options::OnTimer(UINT nIDEvent)
 //--------------------------------------------------------------------------------------------
 //void Options::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
-void Options::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+void Options::OnChar(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
 {
     if (CursorY != -1)
     {
@@ -960,7 +960,7 @@ void Options::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
 //void Options::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
-void Options::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+void Options::OnKeyDown(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
 {
     if (CursorY != -1)
     {

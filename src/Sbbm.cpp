@@ -346,7 +346,7 @@ BOOL  SBPRIMARYBM::BlitFromT (SBBM &TecBitmap, const CRect &r1, const XY &dest)
 //============================================================================================
 //Klasse für meine Bitmaps:
 //============================================================================================
-BOOL  SBBM::BlitFrom (SBBM &TecBitmap, XY p1, XY p2)
+BOOL  SBBM::BlitFrom (SBBM & /*TecBitmap*/, XY  /*p1*/, XY  /*p2*/)
 {
     /*Bench.BlitTime.Start();
 
@@ -356,15 +356,15 @@ BOOL  SBBM::BlitFrom (SBBM &TecBitmap, XY p1, XY p2)
       return (TRUE);   */
     return 0;
 }
-BOOL  SBBM::BlitFrom (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2)
+BOOL  SBBM::BlitFrom (SBBM & /*TecBitmap*/, SLONG  /*tx*/, SLONG  /*ty*/, SLONG  /*tx2*/, SLONG  /*ty2*/)
 {
     return 0;
 }
-BOOL  SBBM::BlitFromT (SBBM &TecBitmap, XY p1, XY p2)
+BOOL  SBBM::BlitFromT (SBBM & /*TecBitmap*/, XY  /*p1*/, XY  /*p2*/)
 {
     return 0;
 }
-BOOL  SBBM::BlitFromT (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2)
+BOOL  SBBM::BlitFromT (SBBM & /*TecBitmap*/, SLONG  /*tx*/, SLONG  /*ty*/, SLONG  /*tx2*/, SLONG  /*ty2*/)
 {
     return 0;
 }
@@ -438,7 +438,7 @@ SLONG SBBM::PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1,
     }
 }
 
-SLONG SBBM::TryPrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1, const XY &p2) const
+SLONG SBBM::TryPrintAt (const char *Str, SB_CFont &Font, SLONG  /*Flags*/, const XY &p1, const XY &p2) const
 {
     Bench.TextTime.Start();
     SLONG rc=Font.PreviewTextBlock(pBitmap, p1.x, p1.y, p2.x, p2.y, (char*)Str);
@@ -527,12 +527,12 @@ BOOL  SBPRIMARYBM::TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, con
     return 0;
 }
 
-BOOL  SBPRIMARYBM::BlitFrom (SBBM &TecBitmap, XY p1, XY p2) { return 0; }
-BOOL  SBPRIMARYBM::BlitFrom (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2) { return 0; }
-BOOL  SBPRIMARYBM::BlitFromT (SBBM &TecBitmap, XY p1, XY p2) { return 0; }
-BOOL  SBPRIMARYBM::BlitFromT (SBBM &TecBitmap, SLONG tx, SLONG ty, SLONG tx2, SLONG ty2) { return 0; }
+BOOL  SBPRIMARYBM::BlitFrom (SBBM & /*TecBitmap*/, XY  /*p1*/, XY  /*p2*/) { return 0; }
+BOOL  SBPRIMARYBM::BlitFrom (SBBM & /*TecBitmap*/, SLONG  /*tx*/, SLONG  /*ty*/, SLONG  /*tx2*/, SLONG  /*ty2*/) { return 0; }
+BOOL  SBPRIMARYBM::BlitFromT (SBBM & /*TecBitmap*/, XY  /*p1*/, XY  /*p2*/) { return 0; }
+BOOL  SBPRIMARYBM::BlitFromT (SBBM & /*TecBitmap*/, SLONG  /*tx*/, SLONG  /*ty*/, SLONG  /*tx2*/, SLONG  /*ty2*/) { return 0; }
 
-void  SBPRIMARYBM::Flip (XY WindowPos, BOOL ShowFPS)
+void  SBPRIMARYBM::Flip (XY WindowPos, BOOL  /*ShowFPS*/)
 {
     if (gFramesToDrawBeforeFirstBlend==0 && gBlendState!=-1 && (Sim.Options.OptionBlenden != 0) && (bLeaveGameLoop == 0))
     {

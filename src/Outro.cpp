@@ -177,7 +177,7 @@ void COutro::OnMouseMove(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //void COutro::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
-void COutro::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+void COutro::OnKeyDown(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
 {
     if (nChar == VK_ESCAPE)
     {

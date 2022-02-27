@@ -373,7 +373,7 @@ bool SIM::AddGlueSabotage (XY Position, SLONG Dir, SLONG NewDir, SLONG Phase)
 //------------------------------------------------------------------------------
 //L‰ﬂt den Benutzer Schwierigkeit, Anfangsjahr und Spieler w‰hlen:
 //------------------------------------------------------------------------------
-void SIM::ChooseStartup (BOOL GameModeQuick)
+void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
 {
     SLONG c = 0;
     SLONG d = 0;

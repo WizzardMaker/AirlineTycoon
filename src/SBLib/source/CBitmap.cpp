@@ -543,7 +543,7 @@ void SB_CPrimaryBitmap::SetPos(POINT /*unused*/)
 {
 }
 
-SLONG SB_CPrimaryBitmap::Create(SDL_Renderer** out, SDL_Window* Wnd, unsigned short flags, SLONG w, SLONG h, unsigned char /*unused*/, unsigned short /*unused*/)
+SLONG SB_CPrimaryBitmap::Create(SDL_Renderer** out, SDL_Window* Wnd, unsigned short  /*flags*/, SLONG w, SLONG h, unsigned char /*unused*/, unsigned short /*unused*/)
 {
     Window = Wnd;
     lpDD = SDL_CreateRenderer(Window, -1, SDL_RENDERER_PRESENTVSYNC);

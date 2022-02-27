@@ -264,7 +264,7 @@ void CIntro::OnMouseMove(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //void CIntro::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
-void CIntro::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+void CIntro::OnKeyDown(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
 {
     if (nChar == VK_ESCAPE)
     {

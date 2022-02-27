@@ -137,7 +137,7 @@ bool RAKNetNetwork::IsInSession() {
     return mState == SBNETWORK_SESSION_MASTER || mState == SBNETWORK_SESSION_CLIENT;
 }
 
-bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool compression) {
+bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool  /*compression*/) {
     ATPacket a{};
     a.messageType = SBNETWORK_MESSAGE;
     a.dataLength = length;
@@ -470,7 +470,7 @@ bool RAKNetNetwork::StartGetSessionListAsync() {
     return true;
 }
 
-bool RAKNetNetwork::JoinSession(const SBStr& session, SBStr nickname) {
+bool RAKNetNetwork::JoinSession(const SBStr& session, SBStr  /*nickname*/) {
     RAKSessionInfo* info = nullptr;
     for (mSessionInfo.GetFirst(); !mSessionInfo.IsLast(); mSessionInfo.GetNext()) {
         if (session == mSessionInfo.GetLastAccessed()->sessionName) {

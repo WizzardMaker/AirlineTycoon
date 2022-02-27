@@ -14,7 +14,6 @@
 namespace fs = std::experimental::filesystem;
 #else
 #include <filesystem>
-namespace fs = std::filesystem;
 #endif
 
 #include <algorithm>
@@ -1352,7 +1351,7 @@ void CEditor::OnLButtonDblClk(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 // Erledigt die eigentliche Arbeit bei einem L-Click
 //--------------------------------------------------------------------------------------------
-void CEditor::DoLButtonWork (UINT nFlags, const CPoint& point)
+void CEditor::DoLButtonWork (UINT  /*nFlags*/, const CPoint&  /*point*/)
 {
     if (MouseClickId==998) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
 }
@@ -1508,7 +1507,7 @@ void CEditor::DoLButtonWork (UINT nFlags, const CPoint& point)
 //--------------------------------------------------------------------------------------------
 //OnLButtonUp(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CEditor::OnLButtonUp(UINT /*nFlags*/, CPoint point)
+void CEditor::OnLButtonUp(UINT /*nFlags*/, CPoint  /*point*/)
 {
     if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {

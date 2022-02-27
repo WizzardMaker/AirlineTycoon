@@ -106,7 +106,7 @@ void AskBrick::OnPaint()
     }
 }
 
-void AskBrick::OnLButtonDown(UINT nFlags, CPoint point)
+void AskBrick::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
 {
     SLONG g = 0;
     SLONG x = 0;

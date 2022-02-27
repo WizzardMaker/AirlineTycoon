@@ -59,7 +59,7 @@ void TECBM::ReSize(CString const& path, void* flags)
 }
 }
 
-void TECBM::ReSizeLbm(CString const& path, void* flags)
+void TECBM::ReSizeLbm(CString const& path, void*  /*flags*/)
 {
     SDL_RWops* file = SDL_RWFromFile(path, "rb");
     if (file == nullptr) {
@@ -82,7 +82,7 @@ void TECBM::ReSizeLbm(CString const& path, void* flags)
     Size.y = Surface->h;
 }
 
-void TECBM::ReSizePcx(CString const& path, void* flags)
+void TECBM::ReSizePcx(CString const& path, void*  /*flags*/)
 {
     SDL_RWops* file = SDL_RWFromFile(path, "rb");
     if (file == nullptr) {

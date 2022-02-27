@@ -968,7 +968,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //void CGlobe::OnLButtonUp(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CGlobe::OnLButtonUp(UINT nFlags, CPoint point)
+void CGlobe::OnLButtonUp(UINT  /*nFlags*/, CPoint  /*point*/)
 {
     DefaultOnLButtonUp();
 

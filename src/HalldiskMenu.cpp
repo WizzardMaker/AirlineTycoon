@@ -121,7 +121,7 @@ void HallDiskMenu::OnClose()
 //--------------------------------------------------------------------------------------------
 // HallDiskMenu::OnLButtonDown()
 //--------------------------------------------------------------------------------------------
-void HallDiskMenu::OnLButtonDown(UINT nFlags, CPoint point)
+void HallDiskMenu::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
 {
     SLONG n = 0;
 

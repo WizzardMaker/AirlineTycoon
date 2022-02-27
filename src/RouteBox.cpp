@@ -810,7 +810,7 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 //void CRouteBox::OnLButtonDblClk(UINT, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CRouteBox::OnLButtonDblClk(UINT /*nFlags*/, CPoint point)
+void CRouteBox::OnLButtonDblClk(UINT /*nFlags*/, CPoint  /*point*/)
 {
     if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {

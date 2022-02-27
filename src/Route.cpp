@@ -59,7 +59,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CRoute &r)
 //============================================================================================
 //Konstruktor:
 //============================================================================================
-CRouten::CRouten (const CString &TabFilename) : ALBUM<CRoute> (Routen, "Routen")
+CRouten::CRouten (const CString & /*TabFilename*/) : ALBUM<CRoute> (Routen, "Routen")
 {
     //ReInit (TabFilename);
     DebugBreak();

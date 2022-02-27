@@ -96,7 +96,7 @@ CRegistryAccess::CRegistryAccess (const CString& RegistryPath)
 //--------------------------------------------------------------------------------------------
 // Öffnet den Zugriff auf einen Bereich der Registry; Gibt FALSE im Fehlerfall zurück:
 //--------------------------------------------------------------------------------------------
-bool CRegistryAccess::Open (const CString& RegistryPath)
+bool CRegistryAccess::Open (const CString&  /*RegistryPath*/)
 {
     Close ();   //Alten Zugriff schließen
 
