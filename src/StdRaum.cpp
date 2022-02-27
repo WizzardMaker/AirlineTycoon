@@ -668,7 +668,6 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVo
 {
     SLONG c;
     SLONG Rand;
-    ULONG tmp;
 
     CanCancelEmpty = FALSE;
     TimeAtStart = timeGetTime();
@@ -714,20 +713,27 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVo
         if (c-CurrentTextSubIdVon<0 || c-CurrentTextSubIdVon>=10) DebugBreak();
 
         //Sind die Paramter eine Liste für die Antworten oder jeweils alle für alle?
-        if (ParameterIndiziert==TRUE)
+        if (ParameterIndiziert==1)
         {
-            //Paramterindiziert (4-Byte Parameter, das ist wichtig):
-            LPCSTR tmp1 = va_arg (Vars, LPCSTR);
+            // MP: 1 string pro Antwort
+            LPCTSTR tmp = va_arg (Vars, LPCTSTR);
 
-            sprintf (TmpString, DialogTexte.GetS (CurrentTextGroupId, c), tmp1);
+            sprintf (TmpString, DialogTexte.GetS (CurrentTextGroupId, c), tmp);
         }
         else if (ParameterIndiziert==2)
         {
-            //Paramterindiziert (4-Byte Parameter, das ist wichtig):
-            LPCSTR tmp1        = va_arg (Vars, LPCSTR);
-            LPCSTR tmp2 = va_arg (Vars, LPCSTR);
+            // MP: 2 string pro Antwort
+            LPCTSTR tmp1 = va_arg (Vars, LPCTSTR);
+            LPCTSTR tmp2 = va_arg (Vars, LPCTSTR);
 
             sprintf (TmpString, DialogTexte.GetS (CurrentTextGroupId, c), tmp1, tmp2);
+        }
+        else if (ParameterIndiziert==3)
+        {
+            // MP: 1 int pro Antwort
+            SLONG tmp = va_arg (Vars, SLONG);
+
+            sprintf (TmpString, DialogTexte.GetS (CurrentTextGroupId, c), tmp);
         }
         else
         {
@@ -1840,8 +1846,10 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             if (Sim.Players.Players[PlayerNum].CalledCities[MouseClickPar2]==0)
             {
                 //Haben wir ein Sample dafür?
-                if (Cities[DialogPar2].Wave!="-" && Cities[DialogPar2].Wave!="") MakeSayWindow (0, TOKEN_WELT, 1000, pFontPartner, Sim.Players.Players[DialogPar1].AirlineX, (LPCTSTR)Cities[DialogPar2].Name);
-                else                                                             MakeSayWindow (1, TOKEN_WELT, 2000, 2000, FALSE, &FontDialog, &FontDialogLight, (LPCTSTR)Sim.Players.Players[DialogPar1].AirlineX);
+                if (Cities[DialogPar2].Wave!="-" && Cities[DialogPar2].Wave!="")
+                    MakeSayWindow (0, TOKEN_WELT, 1000, pFontPartner, (LPCTSTR)Sim.Players.Players[DialogPar1].AirlineX, (LPCTSTR)Cities[DialogPar2].Name);
+                else
+                    MakeSayWindow (1, TOKEN_WELT, 2000, 2000, FALSE, &FontDialog, &FontDialogLight, (LPCTSTR)Sim.Players.Players[DialogPar1].AirlineX);
             }
             else
             {

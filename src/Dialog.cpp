@@ -187,7 +187,8 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                         }
                         break;
                     case 300:
-                        MakeSayWindow (1, TOKEN_ARAB, 400, 403, TRUE, &FontDialog, &FontDialogLight, Sim.Kerosin*2, Sim.Kerosin, Sim.Kerosin/2);
+                        MakeSayWindow (1, TOKEN_ARAB, 400, 403, 3, &FontDialog, &FontDialogLight,
+                                Sim.Kerosin*2, Sim.Kerosin, Sim.Kerosin/2);
                         break;
 
                     case 400: //Spieler kann sich für Kerosinpreis entschieden:
@@ -241,7 +242,8 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                         {
                             SLONG tmp=TankInfo[(DialogPar1-900)*2+1];
 
-                            MakeSayWindow (1, TOKEN_ARAB, 690, 695, TRUE, &FontDialog, &FontDialogLight, "", (LPCTSTR)Insert1000erDots64 (tmp), (LPCTSTR)Insert1000erDots (tmp*2), (LPCTSTR)Insert1000erDots (tmp*3), (LPCTSTR)Insert1000erDots (tmp*5), (LPCTSTR)Insert1000erDots (tmp*10));
+                            MakeSayWindow (1, TOKEN_ARAB, 690, 695, 1, &FontDialog, &FontDialogLight,
+                                    "", (LPCTSTR)Insert1000erDots64 (tmp), (LPCTSTR)Insert1000erDots (tmp*2), (LPCTSTR)Insert1000erDots (tmp*3), (LPCTSTR)Insert1000erDots (tmp*5), (LPCTSTR)Insert1000erDots (tmp*10));
                         }
                         break;
 
@@ -289,7 +291,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                     case 1020: case 1022:
                     case 1045:
                     case 1500:
-                        MakeSayWindow (1, TOKEN_SABOTAGE, 1030, 1033, TRUE, &FontDialog, &FontDialogLight,
+                        MakeSayWindow (1, TOKEN_SABOTAGE, 1030, 1033, 1, &FontDialog, &FontDialogLight,
                                 CString(bprintf ("%s (%s)", (LPCTSTR)Sim.Players.Players[0+(PlayerNum<=0)].AirlineX, (LPCTSTR)Sim.Players.Players[0+(PlayerNum<=0)].NameX)).c_str(),
                                 CString(bprintf ("%s (%s)", (LPCTSTR)Sim.Players.Players[1+(PlayerNum<=1)].AirlineX, (LPCTSTR)Sim.Players.Players[1+(PlayerNum<=1)].NameX)).c_str(),
                                 CString(bprintf ("%s (%s)", (LPCTSTR)Sim.Players.Players[2+(PlayerNum<=2)].AirlineX, (LPCTSTR)Sim.Players.Players[2+(PlayerNum<=2)].NameX)).c_str(),
@@ -623,7 +625,8 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                 for (c=4; c>=0; c--)
                                     if (qPlayer.Money-tmp*"\x1\x2\x3\x5\xa"[c]>=DEBT_LIMIT)
                                     {
-                                        MakeSayWindow (1, TOKEN_DESIGNER, 6010, 6010+c+1, TRUE, &FontDialog, &FontDialogLight, "", (LPCTSTR)Insert1000erDots (tmp), (LPCTSTR)Insert1000erDots (tmp*2), (LPCTSTR)Insert1000erDots (tmp*3), (LPCTSTR)Insert1000erDots (tmp*5), (LPCTSTR)Insert1000erDots (tmp*10));
+                                        MakeSayWindow (1, TOKEN_DESIGNER, 6010, 6010+c+1, 1, &FontDialog, &FontDialogLight,
+                                                "", (LPCTSTR)Insert1000erDots (tmp), (LPCTSTR)Insert1000erDots (tmp*2), (LPCTSTR)Insert1000erDots (tmp*3), (LPCTSTR)Insert1000erDots (tmp*5), (LPCTSTR)Insert1000erDots (tmp*10));
                                         break;
                                     }
                             }
@@ -929,7 +932,8 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                         break;
                     case 3002:
                         tmp = (qPlayer.MaxAktien-qPlayer.AnzAktien)/100*100;
-                        MakeSayWindow (1, TOKEN_BANK, 3010, 3015, TRUE, &FontDialog, &FontDialogLight, tmp/10, tmp/4, tmp/2, tmp*3/4, tmp);
+                        MakeSayWindow (1, TOKEN_BANK, 3010, 3015, 1, &FontDialog, &FontDialogLight,
+                                tmp/10, tmp/4, tmp/2, tmp*3/4, tmp);
                         break;
                     case 3010: //10%
                     case 3011: //25%
@@ -949,7 +953,8 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
                                break;
                     case 3022:
                                tmp=SLONG(qPlayer.Kurse[0]);
-                               MakeSayWindow (1, TOKEN_BANK, 3030, 3033, TRUE, &FontDialog, &FontDialogLight, tmp-5, tmp-3, tmp-1);
+                               MakeSayWindow (1, TOKEN_BANK, 3030, 3033, 1, &FontDialog, &FontDialogLight,
+                                       tmp-5, tmp-3, tmp-1);
                                break;
                     case 3030: case 3031: case 3032: //Sicherheitsabfrage:
                                {
@@ -4151,7 +4156,8 @@ _ehemals_2080:
                         for (c=4; c>=0; c--)
                             if (qPlayer.Money-tmp*"\x1\x2\x3\x5\xa"[c]>=DEBT_LIMIT)
                             {
-                                MakeSayWindow (1, TOKEN_MAKLER, 140, 141+c, TRUE, &FontDialog, &FontDialogLight, "", (LPCTSTR)Insert1000erDots (tmp), (LPCTSTR)Insert1000erDots (tmp*2), (LPCTSTR)Insert1000erDots (tmp*3), (LPCTSTR)Insert1000erDots (tmp*5), (LPCTSTR)Insert1000erDots (tmp*10));
+                                MakeSayWindow (1, TOKEN_MAKLER, 140, 141+c, 1, &FontDialog, &FontDialogLight,
+                                        "", (LPCTSTR)Insert1000erDots (tmp), (LPCTSTR)Insert1000erDots (tmp*2), (LPCTSTR)Insert1000erDots (tmp*3), (LPCTSTR)Insert1000erDots (tmp*5), (LPCTSTR)Insert1000erDots (tmp*10));
                                 break;
                             }
                         break;
@@ -4350,7 +4356,8 @@ _ehemals_2080:
                                     else n1++;
                                 }
 
-                            MakeSayWindow (1, TOKEN_JOBS, 200, 203, TRUE, &FontDialog, &FontDialogLight, n1, n2, n3);
+                            MakeSayWindow (1, TOKEN_JOBS, 200, 203, 3, &FontDialog, &FontDialogLight,
+                                    n1, n2, n3);
                         }
                         break;
 
@@ -4383,7 +4390,8 @@ _ehemals_2080:
                                     else n1++;
                                 }
 
-                            MakeSayWindow (1, TOKEN_JOBS, 200, 203, TRUE, &FontDialog, &FontDialogLight, LPCTSTR(CString(bitoa(n1))), LPCTSTR(CString(bitoa(n2))), LPCTSTR(CString(bitoa(n3))));
+                            MakeSayWindow (1, TOKEN_JOBS, 200, 203, 3, &FontDialog, &FontDialogLight,
+                                    n1, n2, n3);
                         }
                         break;
 
@@ -4575,7 +4583,8 @@ _ehemals_2080:
                         MakeSayWindow (0, TOKEN_WERBUNG, 3001, pFontPartner);
                         break;
                     case 3001:
-                        MakeSayWindow (1, TOKEN_WERBUNG, 4000, 4006, TRUE, &FontDialog, &FontDialogLight, (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+0]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+1]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+2]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+3]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+4]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+5]));
+                        MakeSayWindow (1, TOKEN_WERBUNG, 4000, 4006, 1, &FontDialog, &FontDialogLight,
+                                (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+0]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+1]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+2]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+3]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+4]), (LPCTSTR)Insert1000erDots (gWerbePrice[DialogPar1*6+5]));
                         break;
 
                     case 4000: case 4001: case 4002: case 4003: case 4004: case 4005:
@@ -4784,16 +4793,19 @@ _ehemals_2080:
                 switch (id)
                 {
                     case 1000:
-                        MakeSayWindow (1, TOKEN_WELT, 2000, 2000, FALSE, &FontDialog, &FontDialogLight, (LPCTSTR)qPlayer.AirlineX);
+                        MakeSayWindow (1, TOKEN_WELT, 2000, 2000, 0, &FontDialog, &FontDialogLight,
+                                (LPCTSTR)qPlayer.AirlineX);
                         break;
 
                     case 2000:
-                        MakeSayWindow (1, TOKEN_WELT, 3000, 3002, TRUE, &FontDialog, &FontDialogLight, (LPCTSTR)Cities[DialogPar2].Name, (LPCTSTR)Cities[DialogPar2].Name, NULL);
+                        MakeSayWindow (1, TOKEN_WELT, 3000, 3002, 1, &FontDialog, &FontDialogLight,
+                                (LPCTSTR)Cities[DialogPar2].Name, (LPCTSTR)Cities[DialogPar2].Name, NULL);
                         break;
 
                     case 5000:
                         qPlayer.CalledCities[DialogPar2]=1;
-                        MakeSayWindow (1, TOKEN_WELT, 3001, 3002, TRUE, &FontDialog, &FontDialogLight, (LPCTSTR)Cities[DialogPar2].Name, (LPCTSTR)Cities[DialogPar2].Name, NULL);
+                        MakeSayWindow (1, TOKEN_WELT, 3001, 3002, 1, &FontDialog, &FontDialogLight,
+                                (LPCTSTR)Cities[DialogPar2].Name, (LPCTSTR)Cities[DialogPar2].Name, NULL);
                         break;
 
                     case 3000:
@@ -4801,7 +4813,8 @@ _ehemals_2080:
                         break;
 
                     case 4000: case 4001: case 4002: case 4003:
-                        MakeSayWindow (1, TOKEN_WELT, 3001, 3002, TRUE, &FontDialog, &FontDialogLight, (LPCTSTR)Cities[DialogPar2].Name, (LPCTSTR)Cities[DialogPar2].Name, NULL);
+                        MakeSayWindow (1, TOKEN_WELT, 3001, 3002, 1, &FontDialog, &FontDialogLight,
+                                (LPCTSTR)Cities[DialogPar2].Name, (LPCTSTR)Cities[DialogPar2].Name, NULL);
                         break;
 
                     case 3001:
@@ -4841,7 +4854,8 @@ _ehemals_2080:
                         case 1000:
                             DialogPar2^=1;
                             if (DialogPar2)
-                                MakeSayWindow (1, TOKEN_PLAYER, 1200, 1200, FALSE, &FontDialog, &FontDialogLight, (LPCTSTR)qPlayer.AirlineX);
+                                MakeSayWindow (1, TOKEN_PLAYER, 1200, 1200, 0, &FontDialog, &FontDialogLight,
+                                        (LPCTSTR)qPlayer.AirlineX);
                             else
                                 MakeSayWindow (0, TOKEN_PLAYER, 1200, pFontPartner, (LPCTSTR)qOther.AirlineX);
                             break;
