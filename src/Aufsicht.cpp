@@ -384,11 +384,7 @@ CAufsicht::CAufsicht(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
         }
 
         if (Sim.Date == 0 || Sim.Options.OptionBriefBriefing == 0) {
-            if (Sim.ProtectionState < 0) {
-                StartDialog(TALKER_BOSS, MEDIUM_AIR, 30);
-            } else {
-                StartDialog(TALKER_BOSS, MEDIUM_AIR, 1);
-            }
+            StartDialog(TALKER_BOSS, MEDIUM_AIR, 1);
             DontDisplayPlayer = Sim.localPlayer;
         } else {
             MenuStart(MENU_BRIEFING);
@@ -972,15 +968,8 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point) {
     if ((MenuIsOpen() != 0) && CurrentMenu == MENU_BRIEFING) {
         MenuStop();
 
-        if (Sim.ProtectionState < 0) {
-            StartDialog(TALKER_BOSS, MEDIUM_AIR, 30);
-            return;
-        }
         StartDialog(TALKER_BOSS, MEDIUM_AIR, 1);
         DontDisplayPlayer = Sim.localPlayer;
-    }
-    if (Sim.ProtectionState < 0) {
-        return;
     }
 
     if (Sim.GetHour() == 9 && Sim.GetMinute() == 0) {

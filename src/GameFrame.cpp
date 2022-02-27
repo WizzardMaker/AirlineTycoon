@@ -1959,23 +1959,6 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
             CheatSound();
         }
 
-        // PROTECTOR
-        /*if (TypeBuffer[21]=='P' &&
-          TypeBuffer[22]=='R' &&
-          TypeBuffer[23]=='O' &&
-          TypeBuffer[24]=='T' &&
-          TypeBuffer[25]=='E' &&
-          TypeBuffer[26]=='C' &&
-          TypeBuffer[27]=='T' &&
-          TypeBuffer[28]=='O' &&
-          TypeBuffer[29]=='R')
-          {
-          PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
-
-          qPlayer.WalkStop();
-          ((CStdRaum*)qPlayer.LocationWin)->MenuStart (MENU_ENTERPROTECT, 8, false);
-          }*/
-
         // ATWINNING:
         if (TypeBuffer[21] == 'A' && TypeBuffer[22] == 'T' && TypeBuffer[23] == 'W' && TypeBuffer[24] == 'I' && TypeBuffer[25] == 'N' &&
             TypeBuffer[26] == 'N' && TypeBuffer[27] == 'I' && TypeBuffer[28] == 'N' && TypeBuffer[29] == 'G') {

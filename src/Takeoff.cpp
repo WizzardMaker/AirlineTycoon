@@ -60,7 +60,6 @@ static char THIS_FILE[] = __FILE__;
 
 void Unvideo(const CString &Filename, const CString &TargetFilename);
 
-CJumpingVar<ULONG> gPhysicalCdRomBitlist = 0;
 CJumpingVar<CString> gCDPath;
 
 extern char VersionString[];
@@ -157,84 +156,6 @@ LONG UnhandledExceptionCallback(_EXCEPTION_POINTERS *exceptionInfo) {
 }
 #endif
 
-#ifdef CD_PROTECTION
-#define SCRAMBLE_ADD_XOR 0xa0febff4
-
-struct protectedValue {
-    union charint {
-        int iValue;
-        char acValue[4];
-    };
-
-    // methods
-    __forceinline protectedValue();
-    __forceinline void SetValue(int iValue);
-    __forceinline void AddValue(int iAdd);
-    [[nodiscard]] __forceinline int GetValue() const;
-
-    // Operators
-    bool operator>(const protectedValue &cmp) const { return GetValue() > cmp.GetValue(); };
-    bool operator<(const protectedValue &cmp) const { return GetValue() < cmp.GetValue(); };
-
-    // read access
-    [[nodiscard]] __forceinline int GetValueRaw() const { return mcharintScore.iValue; }
-    [[nodiscard]] __forceinline unsigned GetScrambleRaw() const { return muScramble; }
-
-  public:
-    // Methods
-    [[nodiscard]] __forceinline int Descramble() const;
-    __forceinline void SetScrambled(int iValue);
-
-    // Members
-    charint mcharintScore{};
-    unsigned muScramble;
-};
-
-protectedValue::protectedValue() : muScramble(GetTickCount() + static_cast<unsigned>(rand())) { SetValue(0); };
-
-void protectedValue::SetValue(int iValue) {
-    iValue += (muScramble ^ SCRAMBLE_ADD_XOR);
-    SetScrambled(iValue);
-}
-
-void protectedValue::AddValue(const int iAdd) {
-    int iScore = 0;
-    iScore = Descramble();
-    iScore += iAdd;
-    SetScrambled(iScore);
-}
-
-int protectedValue::GetValue() const {
-    int iValue = Descramble();
-    iValue -= (muScramble ^ SCRAMBLE_ADD_XOR);
-
-    return iValue;
-}
-
-int protectedValue::Descramble() const {
-    charint iScore{};
-
-    // descramble
-    iScore.acValue[0] = mcharintScore.acValue[2] ^ static_cast<unsigned char>(muScramble);
-    iScore.acValue[1] = mcharintScore.acValue[0] ^ static_cast<unsigned char>(muScramble);
-    iScore.acValue[2] = mcharintScore.acValue[3] ^ mcharintScore.acValue[2];
-    iScore.acValue[3] = mcharintScore.acValue[1] ^ mcharintScore.acValue[0];
-
-    return iScore.iValue;
-}
-
-void protectedValue::SetScrambled(const int iValue) {
-    // make pointer
-    auto *pcharintVar = (charint *)&iValue;
-
-    // scramble
-    mcharintScore.acValue[2] = pcharintVar->acValue[0] ^ static_cast<unsigned char>(muScramble);
-    mcharintScore.acValue[0] = pcharintVar->acValue[1] ^ static_cast<unsigned char>(muScramble);
-    mcharintScore.acValue[3] = pcharintVar->acValue[2] ^ mcharintScore.acValue[2];
-    mcharintScore.acValue[1] = pcharintVar->acValue[3] ^ mcharintScore.acValue[0];
-}
-#endif
-
 #ifdef __cplusplus
 extern "C"
 #endif
@@ -243,32 +164,6 @@ extern "C"
 
 #ifdef WIN32
     SetUnhandledExceptionFilter(UnhandledExceptionCallback);
-#endif
-
-#ifdef CD_PROTECTION
-    protectedValue v;
-
-    v.mcharintScore.iValue = 792628216;
-    v.muScramble = 3556112065;
-
-    const char *pText = "Hallo, ich bin ein Text";
-
-    // eigentlich wurde UCharToReadableAnsi ja geschaffen um Daten-Streams zu konvertieren, aber man kann es natürlich auch mit einem String machen!
-    char *pEncoded = UCharToReadableAnsi((unsigned char *)pText, strlen(pText) + 1);
-    char *pEncoded2 = UCharToReadableAnsi((unsigned char *)pEncoded, strlen(pEncoded) + 1);
-
-    char *pDecodeBack = (char *)ReadableAnsiToUChar(pEncoded2, strlen(pEncoded2) + 1);
-    char *pDecodeBack2 = (char *)ReadableAnsiToUChar(pDecodeBack, strlen(pDecodeBack) + 1);
-
-    const char *pText2 =
-        "DMCPRCZ5F5Y3D4XV1OHFY4B3HLIQJBP4LIS6STCBSQUUOKL3KSONUPTOGF2BZLXGAZGXEYLSORUW3CIHIR1W3Z3SMVXW3IGOHMAAAAIJL6STTMVMQFBKDYBGC5VP5MMWV5QJQ";
-    char *pDecodeBack3 = (char *)ReadableAnsiToUChar((char *)pText2, strlen(pText2));
-
-    delete[] pEncoded;
-    delete[] pEncoded2;
-    delete[] pDecodeBack;
-    delete[] pDecodeBack2;
-    delete[] pDecodeBack3;
 #endif
 
     if (!run_regression()) {
@@ -409,11 +304,6 @@ CTakeOffApp::~CTakeOffApp() {
 // CTakeOffApp initialization:
 //--------------------------------------------------------------------------------------------
 BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
-    gPhysicalCdRomBitlist.Pump();
-
-    if (2 > 6) {
-        // MySaver.Restore ("crash.dat");
-    }
 
     char localVersionString[80];
     strcpy(localVersionString, VersionString);
@@ -427,12 +317,6 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
     Hdu.HercPrintf(0, "TakeOff.Cpp was compiled at %s at %s", __DATE__, __TIME__);
     Hdu.HercPrintf(0, "===============================================================================");
     Hdu.HercPrintf(0, "logging starts %s", asctime(localtime(&t)));
-    // gCDPath.Pump();
-
-#ifdef CD_PROTECTION
-    gPhysicalCdRomBitlist = GetPhysicalCdRomBitlist();
-#endif
-    // gCDPath.Pump(); gCDPath.Pump(); gCDPath.Pump(); gCDPath.Pump(); gCDPath.Pump();
 
     pTakeOffApp = this;
 
@@ -472,7 +356,6 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
         ifil.close();
     }
 
-    gPhysicalCdRomBitlist.Pump();
     // gUpdatingPools = TRUE; //Zum testen; für Release auskommentieren
 
     // Flag-Ersatzstücke aus der Registry lesen:
@@ -506,7 +389,6 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
     // Schneller Mode zum Debuggen?
     for (int i = 0; i < argc; i++) {
         char *Argument = argv[i];
-        gPhysicalCdRomBitlist.Pump();
 
         if (stricmp(Argument, "/fc") == 0) {
             bFirstClass = TRUE;
@@ -577,9 +459,6 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
             DoAppPath();
             InitPathVars();
 
-            if (InitDirectX() == 0) {
-                return (FALSE);
-            }
             FrameWnd = new GameFrame;
 
             gUpdatingPools = TRUE;
@@ -599,55 +478,12 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
 
     Sim.Options.ReadOptions();
 
-    gPhysicalCdRomBitlist.Pump();
-
     DoAppPath();
     InitPathVars();
     // UpdateSavegames ();
 
     bFirstClass |=
         static_cast<int>((DoesFileExist(FullFilename("builds.csv", ExcelPath)) == 0) && (DoesFileExist(FullFilename("relation.csv", ExcelPath))) == 0);
-
-    gPhysicalCdRomBitlist.Pump();
-
-    if (InitDirectX() == 0) {
-        return (FALSE);
-    }
-
-    // Computername archivieren:
-#ifdef _DEBUG
-    /*{
-      char name[100];
-
-      DWORD size=100;
-      size=100; GetComputerName (name, &size);
-
-      CFile File (FullFilename ("names.dat", MiscPath), CFile::modeWrite | CFile::modeCreate | CFile::modeNoTruncate);
-
-      File.SeekToEnd();
-      File.Write (name, strlen (name)+1);
-      File.Write ("(", 1);
-      size=100; GetUserName (name, &size);
-      File.Write (name, strlen (name)+1);
-      File.Write (")", 1);
-      File.Write ("\xd\xa", 2);
-
-      size=100; GetComputerName (name, &size);
-      if (stricmp (name, "thomas")!=0 && AppPath[0]!='J' && AppPath[0]!='\\' && AppPath[0]!='j' && !gCDFound)
-      {
-      CFile File ("i:\\thomas\\copier.dat", CFile::modeWrite | CFile::modeCreate | CFile::modeNoTruncate);
-
-      File.SeekToEnd();
-      size=100; GetComputerName (name, &size);
-      File.Write (name, strlen (name)+1);
-      File.Write ("(", 1);
-      size=100; GetUserName (name, &size);
-      File.Write (name, strlen (name)+1);
-      File.Write (")", 1);
-      File.Write ("\xd\xa", 2);
-      }
-      }  */
-#endif
 
     FrameWnd = new GameFrame;
 
@@ -662,8 +498,6 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
     PrimaryBm.Clear();
     FrameWnd->Invalidate();
     MessagePump();
-
-    gPhysicalCdRomBitlist.Pump();
 
     MessagePump();
     InitFonts();
@@ -2360,29 +2194,6 @@ void CTakeOffApp::CheckSystem(void) {
     }
 }
 #endif
-
-//--------------------------------------------------------------------------------------------
-// Initilisiert alle benötigten DirectX-Schnittstellen:
-//--------------------------------------------------------------------------------------------
-BOOL InitDirectX() {
-    // HRESULT ddrval;
-
-    gPhysicalCdRomBitlist.Pump();
-
-    // create the main DirectDraw object:
-    /*ddrval = DirectDrawCreate (NULL, &lpDD, NULL);
-      if (ddrval != DD_OK)
-      {
-      ddrval = DirectDrawCreate ((GUID FAR *)DDCREATE_EMULATIONONLY, &lpDD, NULL);
-      if (ddrval != DD_OK)
-      {
-      ::MessageBox (NULL, "Can't init DirectDraw! Is DirectX installed?", "ERROR", MB_OK );
-      return (FALSE);
-      }
-      }*/
-
-    return (TRUE);
-}
 
 //--------------------------------------------------------------------------------------------
 // Ruft das Help-File auf:

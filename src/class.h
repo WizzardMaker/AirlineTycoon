@@ -2452,7 +2452,6 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
 
     BUFFER_V<SLONG> MissionCities; // Die Zielstädte für die Missionen
     SLONG KrisenCity{};          // Id der Stadt, wo das Erdbeben ist
-    long ProtectionState{};      // 0: unchecked, 1=check & okay, -x Countdown till quit
 
     // Referenzflugzeug:
   public:

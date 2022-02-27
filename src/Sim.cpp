@@ -410,7 +410,6 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
     ItemZange = 1;
 
     ItemPostcard = 1;
-    ProtectionState = 0;
 
     for (c = 0; c < 5; c++) {
         Smokers[c].Smoke.ReSize(0);
@@ -1900,32 +1899,6 @@ void SIM::DoTimeStep() {
                 }
             }
         }
-
-        // Das Handling des Kopierschutzes:
-        if (ProtectionState == 0 && !static_cast<bool>(bNetwork) && (CallItADay == 0)) {
-            if (OldHour >= 9 && OldHour < 18 && Minute >= 2 && Date % 30 == 29) {
-
-                if (DoesFileExist(FullFilename(CString("S") + "a" + "b" + "b" + "e" + "l" + "." + "d" + "o" + "t", MiscPath)) == 0) {
-                    /*PLAYER &qPlayer = Players.Players[localPlayer];
-                      CStdRaum &qRaum = *(qPlayer.LocationWin);
-                      if (GetHour()==17)
-                      {
-                      if (qRaum.IsDialogOpen()) qRaum.StopDialog ();
-                      if (qRaum.MenuIsOpen() && qRaum.CurrentMenu!=MENU_ENTERPROTECT) qRaum.MenuStop();
-                      }
-
-                      if (!qRaum.IsDialogOpen())
-                      if (!qRaum.MenuIsOpen())
-                      {
-                      if ((OldHour+Minute)%42>=long(Date)%42)
-                      {
-                      qPlayer.WalkStop();
-                      qRaum.MenuStart (MENU_ENTERPROTECT, 8, false);
-                      }
-                      }*/
-                }
-            }
-        }
     }
 
     // Warnung wegen Tagesende:
@@ -3193,8 +3166,6 @@ TEAKFILE &operator>>(TEAKFILE &File, SIM &Sim) {
 
     Sim.NumRestored++;
     Sim.TicksSinceLoad = 0;
-
-    Sim.ProtectionState = 0;
 
     return (File);
 }

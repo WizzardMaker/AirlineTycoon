@@ -25,64 +25,6 @@ extern char chRegKeyOld[];
 DWORD GetKey();
 
 //--------------------------------------------------------------------------------------------
-// Programm läuft nicht direkt von CD:
-//--------------------------------------------------------------------------------------------
-#ifdef CD_PROTECTION
-void DontRunFromCD(void) {
-    char laufwerk[4];
-
-    laufwerk[0] = AppPath[0];
-    laufwerk[1] = ':';
-    laufwerk[2] = '\\';
-    laufwerk[3] = 0;
-
-    if ((GetDriveType(laufwerk)) == DRIVE_CDROM) {
-        ::MessageBox(NULL,
-                     "Please start SETUP.EXE to install Airline Tycoon.\n\n"
-                     "Bitte verwenden Sie SETUP.EXE um Airline Tycoon zu installieren.\n\n"
-                     "Veuillez s´il vous plait utiliser SETUP.EXE pour installer Airline Tycoon.",
-                     "Airline Tycoon : Error!", MB_OK);
-
-        exit(0);
-    }
-}
-#endif
-
-//--------------------------------------------------------------------------------------------
-// Copy the savegame from the basic version?
-//--------------------------------------------------------------------------------------------
-void UpdateSavegames() {
-    /*if (Sim.Options.OptionViewedIntro==FALSE)
-      {
-      char *Text;
-
-      if (gLanguage==LANGUAGE_D) Text = "Möchten Sie Ihre alten Spielstände aus dem 'Airline Tycoon' Verzeichnis in das Verzeichnis von 'Airline Tycoon First
-      Class' kopieren?"; else Text = "Would you like to copy your old savegames from the 'Airline Tycoon' directory into the directory of 'Airline Tycoon First
-      Class' ?";
-
-      char OldAppPath [1000];
-      CRegistryAccess reg (chRegKeyOld);
-
-      reg.ReadRegistryKeyEx (OldAppPath, "&AppPath");
-
-      for (SLONG c=0; c<12; c++)
-      if (DoesFileExist (CString(OldAppPath)+bprintf ("Savegame\\game%li.dat", c)))
-      break;
-
-      if (c<12)
-      {
-      if (IDYES==MessageBox (NULL, Text, "Airline Tycoon First Class", MB_YESNO))
-      {
-      DoAppPath ();
-
-      for (SLONG c=0; c<12; c++)
-      CopyFile (CString(OldAppPath)+CString(bprintf("Savegame\\game%li.dat", c)), AppPath+CString(bprintf("Savegame\\game%li.dat", c)), true);
-      }
-      }
-      }*/
-}
-
-//--------------------------------------------------------------------------------------------
 // Initialisierung der Pfade:
 //--------------------------------------------------------------------------------------------
 void InitPathVars() {
@@ -166,10 +108,6 @@ do_findcd:
     gCDFound = TRUE;
 skip_search_demo_cd:
 #endif
-#endif
-
-#ifdef CD_PROTECTION
-DontRunFromCD();
 #endif
 
 BitmapPath = "bitmaps\\%s";

@@ -659,7 +659,6 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define MENU_BROADCAST 37       // Der Screen zum broadcasten
 #define MENU_CALLITADAY 38      // Ein Spieler will Feierabend machen
 #define MENU_ENTERTCPIP 39      // Host für's Internet eingeben
-#define MENU_ENTERPROTECT 40    // Den Code für den Kopierschutz eingeben
 #define MENU_SECURITY 41        // Die Security-Features
 #define MENU_RENAMEEDITPLANE 42 // Ein Flugzeug im Editor umbennen
 #define MENU_SABOTAGEROUTE 43   // Welche Route will man übernehmen

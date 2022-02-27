@@ -2446,12 +2446,6 @@ void CStdRaum::InitToolTips() {
                 }
                 break;
 
-            case MENU_ENTERPROTECT:
-                if (CursorPos.IfIsWithin(100, 160, 190, 200)) {
-                    SetMouseLook(CURSOR_HOT, 0, -101, MENU_ENTERPROTECT, 1);
-                }
-                break;
-
             case MENU_BROADCAST:
                 if (CursorPos.IfIsWithin(0, 160, 100, 200) && Optionen[0].GetLength() > 0) {
                     SetMouseLook(CURSOR_HOT, 0, -101, MENU_RENAMEPLANE, 1);
@@ -2854,7 +2848,6 @@ void CStdRaum::PostPaint() {
                 LastMoney = qPlayer.Money;
                 LastTime = Sim.Time;
 
-                // if (Sim.ProtectionState>=0)
                 {
                     // Money:
                     if (LastMoney < 1000000000) {
@@ -3894,9 +3887,6 @@ void CStdRaum::OnRButtonDown(UINT /*nFlags*/, CPoint point) {
         if (CurrentMenu == MENU_WC_M || CurrentMenu == MENU_WC_F) {
             return;
         }
-        if (CurrentMenu == MENU_ENTERPROTECT) {
-            return;
-        }
 
         if (CurrentMenu == MENU_LETTERS && (Sim.Options.OptionEffekte != 0)) {
             PaperFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
@@ -4118,19 +4108,6 @@ BOOL CStdRaum::ConvertMousePosition(const XY &WindowsBased, XY *RoomBased) const
 void CStdRaum::MenuStart(SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG MenuPar3) {
     SLONG c = 0;
 
-    if (MenuType == MENU_ENTERPROTECT && (DoesFileExist(FullFilename(CString("S") + "a" + "b" + "b" + "e" + "l" + "." + "d" + "o" + "t", MiscPath)) != 0)) {
-        return;
-    }
-
-    /*if (MenuType==MENU_REQUEST && MenuPar1==MENU_REQUEST_CALLITADAY && Sim.ProtectionState==0 && Sim.bNetwork==false && !Sim.CallItADay && Sim.Date%30==29 &&
-      !DoesFileExist(FullFilename (CString("S")+"a"+"b"+"b"+"e"+"l"+"."+"d"+"o"+"t", MiscPath)))
-      {
-      MenuType = MENU_ENTERPROTECT;
-      MenuPar1 = 8;
-      MenuPar2 = false;
-      Sim.Players.Players[Sim.localPlayer].WalkStopEx ();
-      }*/
-
     CWaitCursorNow wc; // CD-Cursor anzeigen
     TimeAtStart = timeGetTime();
 
@@ -4316,19 +4293,6 @@ void CStdRaum::MenuStart(SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG M
         }
         OnscreenBitmap.ReSize(MenuBms[0].Size);
     } break;
-
-    case MENU_ENTERPROTECT:
-        pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("rename.gli", GliPath)), &pMenuLib1, L_LOCMEM);
-        MenuBms.ReSize(pMenuLib1, "MENU");
-        Optionen[0] = "";
-        MenuInfo2 = 0;
-        GetProtectionString("names.csv", &MenuInfo, &Optionen[1]);
-        if (Optionen[1] == "compagne") {
-            Optionen[1] = "compagnie";
-        }
-        Optionen[1] = RemoveAccents(Optionen[1]);
-        OnscreenBitmap.ReSize(MenuBms[0].Size);
-        break;
 
     case MENU_ENTERTCPIP:
         pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("rename.gli", GliPath)), &pMenuLib1, L_LOCMEM);
@@ -5133,14 +5097,6 @@ void CStdRaum::MenuRepaint() {
         OnscreenBitmap.PrintAt(StandardTexte.GetS(TOKEN_MISC, 3002), FontBigGrey, TEC_FONT_CENTERED, 16, 160, 274, 190);
         OnscreenBitmap.PrintAt(Optionen[0] + "_", FontSmallBlack, TEC_FONT_LEFT, 26, 141, 268, 155);
         break;
-
-    case MENU_ENTERPROTECT: {
-        OnscreenBitmap.BlitFrom(MenuBms[0]);
-        OnscreenBitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_MISC, 3090), (MenuInfo / 10000) % 100, (MenuInfo / 100) % 100, MenuInfo % 100), FontBigGrey,
-                               TEC_FONT_LEFT, 10, 10, 280, 190);
-        OnscreenBitmap.PrintAt(StandardTexte.GetS(TOKEN_MISC, 3002), FontBigGrey, TEC_FONT_CENTERED, 16, 160, 274, 190);
-        OnscreenBitmap.PrintAt(Optionen[0] + "_", FontSmallBlack, TEC_FONT_LEFT, 26, 141, 268, 155);
-    } break;
 
     case MENU_BROADCAST: {
         OnscreenBitmap.BlitFrom(MenuBms[0]);
@@ -7611,26 +7567,6 @@ void CStdRaum::MenuLeftClick(XY Pos) {
         }
         break;
 
-    case MENU_ENTERPROTECT:
-        if (MouseClickArea == -101 && MouseClickId == MENU_ENTERPROTECT && MouseClickPar1 == 1) {
-            MenuInfo2++;
-
-            if (stricmp(Optionen[0], Optionen[1]) == 0) {
-                Sim.ProtectionState = 1;
-                MenuStop();
-            } else {
-                Optionen[0] = "";
-                MenuRepaint();
-                if (MenuInfo2 == 3) {
-                    qPlayer.CallItADay = TRUE;
-                    Sim.DayState = 2;
-                    Sim.ProtectionState = -1;
-                    MenuStop();
-                }
-            }
-        }
-        break;
-
     case MENU_ENTERTCPIP:
         if (MouseClickArea == -101 && MouseClickId == MENU_ENTERTCPIP && MouseClickPar1 == 1) {
             MenuStop();
@@ -7856,23 +7792,14 @@ void CStdRaum::MenuLeftClick(XY Pos) {
     case MENU_BRIEFING:
         if (MouseClickArea == -101 && MouseClickId == MENU_BRIEFING && MouseClickPar1 == 1) {
             MenuStop();
-            if (Sim.ProtectionState < 0) {
-                StartDialog(TALKER_BOSS, MEDIUM_AIR, 30);
-            } else {
-                StartDialog(TALKER_BOSS, MEDIUM_AIR, 1);
-            }
+            StartDialog(TALKER_BOSS, MEDIUM_AIR, 1);
             DontDisplayPlayer = Sim.localPlayer;
         }
         if (MouseClickArea == -101 && MouseClickId == MENU_BRIEFING && MouseClickPar1 == 2 && MenuPar1 == 0) {
             Sim.bNoTime = FALSE;
             Sim.DayState = 2;
 
-            if (Sim.ProtectionState < 0) {
-                MenuStop();
-                StartDialog(TALKER_BOSS, MEDIUM_AIR, 30);
-            } else {
-                (dynamic_cast<CAufsicht *>(this))->TryLeaveAufsicht();
-            }
+            (dynamic_cast<CAufsicht *>(this))->TryLeaveAufsicht();
         }
         break;
     default:
@@ -7956,10 +7883,6 @@ void CStdRaum::MenuRightClick(XY /*unused*/) {
     if (CurrentMenu == MENU_REQUEST && (MenuPar1 == MENU_REQUEST_THROWNOUT || MenuPar1 == MENU_REQUEST_THROWNOUT2)) {
         qPlayer.WaitForRoom = 0;
         qPlayer.ThrownOutOfRoom = 0;
-    }
-
-    if (CurrentMenu == MENU_ENTERPROTECT) {
-        return;
     }
 
     if (CurrentMenu == MENU_GAMEOVER) {
@@ -8332,7 +8255,7 @@ void CStdRaum::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/) {
     if (CalculatorIsOpen != 0) {
         CalcKey(nChar);
     } else if ((MenuIsOpen() != 0) && (CurrentMenu == MENU_RENAMEPLANE || CurrentMenu == MENU_RENAMEEDITPLANE || CurrentMenu == MENU_ENTERTCPIP ||
-                                       CurrentMenu == MENU_ENTERPROTECT || CurrentMenu == MENU_BROADCAST || CurrentMenu == MENU_CHAT)) {
+                                       CurrentMenu == MENU_BROADCAST || CurrentMenu == MENU_CHAT)) {
         if (nChar == ' ' || nChar == ':' || nChar == ',' || nChar == ';' || nChar == '!' || nChar == '?' || nChar == '\'' || nChar == '-' || nChar == '+' ||
             nChar == '(' || nChar == ')' || (nChar >= '0' && nChar <= '9') || (nChar >= 'A' && nChar <= 'Z') || (nChar >= 'a' && nChar <= 'z') ||
             nChar == UBYTE('\xC4') || nChar == UBYTE('\xD6') || nChar == UBYTE('\xDC') || nChar == UBYTE('\xE4') || nChar == UBYTE('\xF6') ||
@@ -8386,7 +8309,7 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     }
 
     if ((MenuIsOpen() != 0) && (CurrentMenu == MENU_RENAMEPLANE || CurrentMenu == MENU_RENAMEEDITPLANE || CurrentMenu == MENU_ENTERTCPIP ||
-                                CurrentMenu == MENU_ENTERPROTECT || CurrentMenu == MENU_BROADCAST || CurrentMenu == MENU_CHAT)) {
+                                CurrentMenu == MENU_BROADCAST || CurrentMenu == MENU_CHAT)) {
         if (nChar == VK_BACK && Optionen[0].GetLength() > 0) {
             Optionen[0] = Optionen[0].Left(Optionen[0].GetLength() - 1);
             MenuRepaint();
@@ -8396,23 +8319,6 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
             if (CurrentMenu == MENU_ENTERTCPIP) {
                 gHostIP = Optionen[0];
                 MenuStop();
-            } else if (CurrentMenu == MENU_ENTERPROTECT) {
-                MenuInfo2++;
-
-                if (stricmp(Optionen[0], Optionen[1]) == 0) {
-                    Sim.ProtectionState = 1;
-                    MenuStop();
-                } else {
-                    Optionen[0] = "";
-                    MenuRepaint();
-                    if (MenuInfo2 == 3) {
-                        PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
-                        qPlayer.CallItADay = TRUE;
-                        Sim.DayState = 2;
-                        Sim.ProtectionState = -1;
-                        MenuStop();
-                    }
-                }
             } else if (Optionen[0].GetLength() > 0) {
                 PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
