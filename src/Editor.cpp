@@ -1352,7 +1352,7 @@ void CEditor::OnLButtonDblClk(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 // Erledigt die eigentliche Arbeit bei einem L-Click
 //--------------------------------------------------------------------------------------------
-void CEditor::DoLButtonWork (UINT nFlags, CPoint point)
+void CEditor::DoLButtonWork (UINT nFlags, const CPoint& point)
 {
     if (MouseClickId==998) { Sim.Players.Players[(SLONG)PlayerNum].LeaveRoom();
 }
@@ -1727,7 +1727,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
 // Sucht einen Id eines Planeparts anhand seines Shortnames raus:
 //--------------------------------------------------------------------------------------------
-ULONG CPlaneParts::IdFrom (CString ShortName)
+ULONG CPlaneParts::IdFrom (const CString& ShortName)
 {
     SLONG c;
 
@@ -1744,7 +1744,7 @@ ULONG CPlaneParts::IdFrom (CString ShortName)
 //--------------------------------------------------------------------------------------------
 // Gibt an, ob dieses Part im Flugzeug ist:
 //--------------------------------------------------------------------------------------------
-bool CPlaneParts::IsShortnameInAlbum (CString ShortName)
+bool CPlaneParts::IsShortnameInAlbum (const CString& ShortName)
 {
     SLONG c;
 
@@ -1760,7 +1760,7 @@ bool CPlaneParts::IsShortnameInAlbum (CString ShortName)
 //--------------------------------------------------------------------------------------------
 // Gibt true zurück, falls der Slot noch von keinem Part belegt ist:
 //--------------------------------------------------------------------------------------------
-bool CPlaneParts::IsSlotFree (CString Slotname)
+bool CPlaneParts::IsSlotFree (const CString& Slotname)
 {
     SLONG c;
     SLONG d;
@@ -2322,7 +2322,7 @@ CString CXPlane::GetError (void)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void CXPlane::Load (CString Filename)
+void CXPlane::Load (const CString& Filename)
 {
     TEAKFILE InputFile (Filename, TEAKFILE_READ);
 
@@ -2336,7 +2336,7 @@ void CXPlane::Load (CString Filename)
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void CXPlane::Save (CString Filename)
+void CXPlane::Save (const CString& Filename)
 {
     TEAKFILE OutputFile (Filename, TEAKFILE_WRITE);
 
@@ -2398,7 +2398,7 @@ TEAKFILE &operator >> (TEAKFILE &File, CXPlane &p)
 //--------------------------------------------------------------------------------------------
 // Gibt das passende Build zum Shortname zurück:
 //--------------------------------------------------------------------------------------------
-long GetPlaneBuildIndex (CString Shortname)
+long GetPlaneBuildIndex (const CString& Shortname)
 {
     for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++) {
         if (gPlaneBuilds[c].Shortname==Shortname) {
@@ -2413,7 +2413,7 @@ long GetPlaneBuildIndex (CString Shortname)
 //--------------------------------------------------------------------------------------------
 // Gibt das passende Build zum Shortname zurück:
 //--------------------------------------------------------------------------------------------
-CPlaneBuild &GetPlaneBuild (CString Shortname)
+CPlaneBuild &GetPlaneBuild (const CString& Shortname)
 {
     for (long c=0; c<(sizeof(gPlaneBuilds)/sizeof(gPlaneBuilds[0])); c++) {
         if (gPlaneBuilds[c].Shortname==Shortname) {
@@ -2511,7 +2511,7 @@ void ParseTokens (char *String, char *tokens[], long nTokens)
 //--------------------------------------------------------------------------------------------
 // Konvertiert die Daten aus dem String
 //--------------------------------------------------------------------------------------------
-void CPlaneBuild::FromString (CString str)
+void CPlaneBuild::FromString (const CString& str)
 {
     char *tokens[9];
 
@@ -2537,7 +2537,7 @@ CString CPlaneBuild::ToString (void) const
 //--------------------------------------------------------------------------------------------
 // Konvertiert die Daten aus dem String
 //--------------------------------------------------------------------------------------------
-void CPlanePartRelation::FromString (CString str)
+void CPlanePartRelation::FromString (const CString& str)
 {
     char *tokens[11];
 

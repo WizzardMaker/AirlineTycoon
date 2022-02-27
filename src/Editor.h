@@ -32,7 +32,7 @@ class CPlanePartRelation
         CPlanePartRelation (long _Id, ULONG _FromBuildIndex, ULONG _ToBuildIndex, XY _Offset2d, XY _Offset3d, long _Note1, long _Note2, long _Note3, long _zAdd, long _Noise, const char *_Slot, const char *_RulesOutSlots)
         { Id=_Id; FromBuildIndex=_FromBuildIndex; ToBuildIndex=_ToBuildIndex; Offset2d=_Offset2d; Offset3d=_Offset3d; Note1=_Note1; Note2=_Note2; Note3=_Note3; zAdd=_zAdd; Noise=_Noise, Slot=_Slot; RulesOutSlots=_RulesOutSlots; }
 
-        void    FromString (CString str);
+        void    FromString (const CString& str);
         CString ToString (void) const;
 };
 
@@ -58,7 +58,7 @@ class CPlaneBuild
         CPlaneBuild (long _Id, const char *_Shortname, long _Cost, long _Weight, long _Power, long _Noise, long _Wartung, long _Passagiere, long _Verbrauch, long _BitmapIndex, long _zPos)
         { Id=_Id; Shortname=_Shortname; Cost=_Cost; Weight=_Weight; Power=_Power; Noise=_Noise; Wartung=_Wartung; Passagiere=_Passagiere; Verbrauch=_Verbrauch; BitmapIndex=_BitmapIndex; zPos=_zPos; }
 
-        void    FromString (CString str);
+        void    FromString (const CString& str);
         CString ToString (void) const;
 };
 
@@ -161,7 +161,7 @@ class CEditor : public CStdRaum
         void CheckUnusablePart(long iDirection);
         void DeleteCurrent(void);
         void UpdateButtonState(void);
-        void DoLButtonWork (UINT nFlags, CPoint point);
+        void DoLButtonWork (UINT nFlags, const CPoint& point);
         virtual ~CEditor();
 
         // Generated message map functions
@@ -176,7 +176,7 @@ class CEditor : public CStdRaum
         //DECLARE_MESSAGE_MAP()
 };
 
-CPlaneBuild &GetPlaneBuild (CString Shortname);
-long         GetPlaneBuildIndex (CString Shortname);
+CPlaneBuild &GetPlaneBuild (const CString& Shortname);
+long         GetPlaneBuildIndex (const CString& Shortname);
 
 /////////////////////////////////////////////////////////////////////////////

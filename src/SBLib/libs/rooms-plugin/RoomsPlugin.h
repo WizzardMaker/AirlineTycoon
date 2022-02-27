@@ -880,32 +880,32 @@ namespace RakNet
             /// \param[in] roomsParticipantAddress The address of the user
             /// \param[in] guid The guid of the user
             /// \param[in] loginServerAddress The server adding this user. Use RakNet::UNASSIGNED_SYSTEM_ADDRESS for not applicable. Otherwise, the address must previously have been added using AddLoginServerAddress() or the function will fail.
-            bool LoginRoomsParticipant(RakNet::RakString userName, SystemAddress roomsParticipantAddress, RakNetGUID guid, SystemAddress loginServerAddress);
+            bool LoginRoomsParticipant(const RakNet::RakString& userName, SystemAddress roomsParticipantAddress, RakNetGUID guid, SystemAddress loginServerAddress);
 
             /// \brief Removes a participant from the system
             /// \param[in] userName A unique string identifying the user
             /// \param[in] loginServerAddress The server removing. Use RakNet::UNASSIGNED_SYSTEM_ADDRESS for not applicable. Otherwise, the address must previously have been added using AddLoginServerAddress() or the function will fail.
-            bool LogoffRoomsParticipant(RakNet::RakString userName, SystemAddress loginServerAddress);
+            bool LogoffRoomsParticipant(const RakNet::RakString& userName, SystemAddress loginServerAddress);
 
             /// \brief Clear all users
             void ClearRoomMembers();
 
             /// \brief Used for Lobby2. Serializes the same data that the plugin itself uses to login
             /// \internal
-            static void SerializeLogin(RakNet::RakString userName, SystemAddress userAddress, RakNetGUID guid, RakNet::BitStream *bs);
+            static void SerializeLogin(const RakNet::RakString& userName, SystemAddress userAddress, RakNetGUID guid, RakNet::BitStream *bs);
 
             /// \brief Used for Lobby2. Serializes the same data that the plugin itself uses to logoff
             /// \internal
-            static void SerializeLogoff(RakNet::RakString userName, RakNet::BitStream *bs);
+            static void SerializeLogoff(const RakNet::RakString& userName, RakNet::BitStream *bs);
 
             /// \brief Used for Lobby2. Serializes the same data that the plugin itself uses to change handles
             /// \internal
-            static void SerializeChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle, RakNet::BitStream *bs);
+            static void SerializeChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakString& newHandle, RakNet::BitStream *bs);
 
             /// \brief Change the handle a user
             /// \param[in] oldHandle The handle previously known by the system
             /// \param[in] newHandle The new handle to use
-            void ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle);
+            void ChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakString& newHandle);
 
             /// \brief Add a SystemAddress to a list that will be checked when LoginRoomsParticipant() and LogoffRoomsParticipant() is called
             /// \param[in] systemAddress The address to add
@@ -975,7 +975,7 @@ namespace RakNet
             static int RoomsPluginParticipantCompByRakString( const RakNet::RakString &key, RoomsPluginParticipant* const &data );
             DataStructures::OrderedList<RakNet::RakString, RoomsPluginParticipant*, RoomsPluginParticipantCompByRakString> roomsParticipants;
 
-            RoomsPluginParticipant* GetParticipantByHandle(RakNet::RakString handle, const SystemAddress &senderAddress);
+            RoomsPluginParticipant* GetParticipantByHandle(const RakNet::RakString& handle, const SystemAddress &senderAddress);
             RoomsPluginParticipant* ValidateUserHandle(RoomsPluginFunc* func, const SystemAddress &systemAddress);
             void ProcessRemoveUserResult(RemoveUserResult *removeUserResult);
 

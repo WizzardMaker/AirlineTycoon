@@ -1010,7 +1010,7 @@ SLONG CFlugplanEintrag::GetAusgaben (SLONG PlayerNum, const CPlane &qPlane) cons
 //--------------------------------------------------------------------------------------------
 //Sagt, wieviel der Flug kosten wird und verbucht das Kerosin:
 //--------------------------------------------------------------------------------------------
-SLONG CFlugplanEintrag::GetRealAusgaben (SLONG PlayerNum, const CPlane &qPlane, CString Name) const
+SLONG CFlugplanEintrag::GetRealAusgaben (SLONG PlayerNum, const CPlane &qPlane, const CString& Name) const
 {
     return (CalculateRealFlightCost (
                 VonCity,

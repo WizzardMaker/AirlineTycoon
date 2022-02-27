@@ -87,7 +87,7 @@ CRegistryAccess::CRegistryAccess ()
 //--------------------------------------------------------------------------------------------
 // Konstruktor+Open:
 //--------------------------------------------------------------------------------------------
-CRegistryAccess::CRegistryAccess (CString RegistryPath)
+CRegistryAccess::CRegistryAccess (const CString& RegistryPath)
 {
     hKey = NULL;
     Open (RegistryPath);
@@ -96,7 +96,7 @@ CRegistryAccess::CRegistryAccess (CString RegistryPath)
 //--------------------------------------------------------------------------------------------
 // Öffnet den Zugriff auf einen Bereich der Registry; Gibt FALSE im Fehlerfall zurück:
 //--------------------------------------------------------------------------------------------
-bool CRegistryAccess::Open (CString RegistryPath)
+bool CRegistryAccess::Open (const CString& RegistryPath)
 {
     Close ();   //Alten Zugriff schließen
 
@@ -154,7 +154,7 @@ bool CRegistryAccess::IsOpen (void)
 //--------------------------------------------------------------------------------------------
 // Schreibt einen Registry-Key; Gibt FALSE im Fehlerfall zurück, sonst TRUE
 //--------------------------------------------------------------------------------------------
-bool CRegistryAccess::WriteRegistryKeyEx (const char *Text, CString EntryName)
+bool CRegistryAccess::WriteRegistryKeyEx (const char *Text, const CString& EntryName)
 {
     if (hKey == nullptr) { return (0) != 0;
 }
@@ -165,7 +165,7 @@ bool CRegistryAccess::WriteRegistryKeyEx (const char *Text, CString EntryName)
     return (ERROR_SUCCESS == RegSetValueEx (hKey, EntryName, 0, REG_SZ, (UBYTE*)Text, strlen(Text)+1));
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx_b (const BOOL *Bool, CString EntryName)
+bool CRegistryAccess::WriteRegistryKeyEx_b (const BOOL *Bool, const CString& EntryName)
 {
     if (hKey == nullptr) { return (0) != 0;
 }
@@ -183,7 +183,7 @@ bool CRegistryAccess::WriteRegistryKeyEx_b (const BOOL *Bool, CString EntryName)
     return (rc);
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx_l (const SLONG *Long, CString EntryName)
+bool CRegistryAccess::WriteRegistryKeyEx_l (const SLONG *Long, const CString& EntryName)
 {
     if (hKey == nullptr) { return (0) != 0;
 }
@@ -201,7 +201,7 @@ bool CRegistryAccess::WriteRegistryKeyEx_l (const SLONG *Long, CString EntryName
     return (rc);
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx_d (const double *Double, CString EntryName)
+bool CRegistryAccess::WriteRegistryKeyEx_d (const double *Double, const CString& EntryName)
 {
     if (hKey == nullptr) { return (0) != 0;
 }
@@ -223,7 +223,7 @@ bool CRegistryAccess::WriteRegistryKeyEx_d (const double *Double, CString EntryN
 //--------------------------------------------------------------------------------------------
 // Ließt einen Registry-Key; Gibt FALSE im Fehlerfall zurück, sonst TRUE
 //--------------------------------------------------------------------------------------------
-bool CRegistryAccess::ReadRegistryKeyEx (char *Text, CString EntryName)
+bool CRegistryAccess::ReadRegistryKeyEx (char *Text, const CString& EntryName)
 {
     if (hKey == nullptr) { return (0) != 0;
 }
@@ -240,7 +240,7 @@ bool CRegistryAccess::ReadRegistryKeyEx (char *Text, CString EntryName)
     return (ERROR_SUCCESS == RegQueryValueEx (hKey, EntryName, NULL, NULL, (UBYTE*)Text, &TempSize));
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx_b (BOOL *Bool, CString EntryName)
+bool CRegistryAccess::ReadRegistryKeyEx_b (BOOL *Bool, const CString& EntryName)
 {
     if (hKey == nullptr) { return (0) != 0;
 }
@@ -263,7 +263,7 @@ bool CRegistryAccess::ReadRegistryKeyEx_b (BOOL *Bool, CString EntryName)
     return (rc);
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx_l (SLONG *Long, CString EntryName)
+bool CRegistryAccess::ReadRegistryKeyEx_l (SLONG *Long, const CString& EntryName)
 {
     if (hKey == nullptr) { return (0) != 0;
 }
@@ -286,7 +286,7 @@ bool CRegistryAccess::ReadRegistryKeyEx_l (SLONG *Long, CString EntryName)
     return (rc);
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx_d (double *Double, CString EntryName)
+bool CRegistryAccess::ReadRegistryKeyEx_d (double *Double, const CString& EntryName)
 {
     if (hKey == nullptr) { return (0) != 0;
 }

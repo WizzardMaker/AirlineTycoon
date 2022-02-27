@@ -2,7 +2,7 @@
 // Synthese.h : Die Sprachsynthese!
 //============================================================================================
 
-void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehrung);
+void SynthesizeNumber (SBFX *TargetFx, const CString& Talker, SLONG Number, BOOL Waehrung);
 void FlushTalkers (void);
 
 //Die Stellung der Laute im NumberString:

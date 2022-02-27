@@ -2920,7 +2920,7 @@ bool SIM::SendSimpleMessage(ULONG MessageId, ULONG target, SLONG Par1, SLONG Par
     Message << MessageId << Par1 << Par2 << Par3 << Par4 << Par5 << Par6;
     return Sim.SendMemFile(Message, target);
 }
-bool SIM::SendChatBroadcast(CString Message, bool bSayFromWhom, ULONG target)
+bool SIM::SendChatBroadcast(const CString& Message, bool bSayFromWhom, ULONG target)
 {
     TEAKFILE MessageBox;
     MessageBox.Announce(30);

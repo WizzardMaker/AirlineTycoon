@@ -283,7 +283,7 @@ class /**/CAmbienteManager
     public:
         void RecalcVolumes (void);
         void SetGlobalVolume (SLONG Volume);
-        void SetFx (SLONG FxId, CString Soundeffekt) const;
+        void SetFx (SLONG FxId, const CString& Soundeffekt) const;
         void SetVolume (SLONG FxId, SLONG Volume) const;
         void Pause (void) const;
         void Resume (void);
@@ -699,7 +699,7 @@ class CFlugplanEintrag
         void  FlightChanged (void);
         SLONG GetEinnahmen (SLONG PlayerNum, const CPlane &qPlane) const;
         SLONG GetAusgaben (SLONG PlayerNum, const CPlane &qPlane) const;
-        SLONG GetRealAusgaben (SLONG PlayerNum, const CPlane &qPlane, CString Name) const;
+        SLONG GetRealAusgaben (SLONG PlayerNum, const CPlane &qPlane, const CString& Name) const;
 
         friend TEAKFILE &operator << (TEAKFILE &File, const CFlugplanEintrag &Eintrag);
         friend TEAKFILE &operator >> (TEAKFILE &File, CFlugplanEintrag &Eintrag);
@@ -766,9 +766,9 @@ class /**/CPlaneParts : public ALBUM<CPlanePart>
         CPlaneParts() : ALBUM<CPlanePart> (PlaneParts, "PlaneParts") {}
 
         void  Sort (void);
-        bool  IsShortnameInAlbum (CString ShortName);
-        ULONG IdFrom (CString ShortName);
-        bool  IsSlotFree (CString Slotname);
+        bool  IsShortnameInAlbum (const CString& ShortName);
+        ULONG IdFrom (const CString& ShortName);
+        bool  IsSlotFree (const CString& Slotname);
 
         friend TEAKFILE &operator << (TEAKFILE &File, const CPlaneParts &pp);
         friend TEAKFILE &operator >> (TEAKFILE &File, CPlaneParts &pp);
@@ -799,8 +799,8 @@ class /**/CXPlane
         long CalcSpeed (void);
         long CalcPiloten (void);
         long CalcBegleiter (void);
-        void Load (CString Filename);
-        void Save (CString Filename);
+        void Load (const CString& Filename);
+        void Save (const CString& Filename);
         bool IsBuildable (void);
         bool IstPartVorhanden (CString Shortname, bool bOnlyThisType=false);
         CString GetError (void);
@@ -881,7 +881,7 @@ class /**/CPlane
 
     public:
         CPlane ();
-        CPlane (CString Name, ULONG TypeId, UBYTE Zustand, SLONG Baujahr);
+        CPlane (const CString& Name, ULONG TypeId, UBYTE Zustand, SLONG Baujahr);
         void  AddPanne (SLONG Code);
         SLONG CalculatePrice (void) const;        //Berechnet den Marktwert
         void  CheckFlugplaene (SLONG PlayerNum, BOOL Sort=TRUE, BOOL PlanGates=TRUE);
@@ -1027,7 +1027,7 @@ class /**/HEADLINES
         CHeadline GetHeadline (long Newspaper, SLONG Index);
         void      Init (void);
         void      SetHeadline (long Newspaper, const CString &Headlinetext);
-        void      BlitHeadline (long Newspaper, SBBM &Offscreen, CPoint p1, CPoint p2, BYTE Color);
+        void      BlitHeadline (long Newspaper, SBBM &Offscreen, const CPoint& p1, const CPoint& p2, BYTE Color);
         void      ReloadHeadline (void);
         void      InterpolateHeadline (void);
         void      ComparisonHeadlines (void);
@@ -1595,7 +1595,7 @@ class /**/HISTORY
     public:
         HISTORY ();
         void ReInit ();
-        void AddEntry (__int64 Money, CString Description);
+        void AddEntry (__int64 Money, const CString& Description);
         void AddNewCall (SLONG Type);                         //Bit 0: Handy, Bit 1+2: Ortgespräch, Ferngespräch, Auslandsgespräch
         void AddCallCost (long Money);
 
@@ -1653,7 +1653,7 @@ class /**/CMessages
         BOOL IsSilent (void);
         void NewDay (void);
         void NoComments (void);
-        void AddMessage (SLONG BeraterTyp, CString Message, SLONG Urgent=MESSAGE_NORMAL, SLONG Mood=-1);
+        void AddMessage (SLONG BeraterTyp, const CString& Message, SLONG Urgent=MESSAGE_NORMAL, SLONG Mood=-1);
         void NextMessage (void);
         void PaintMessage (void);
         void Pump (void);
@@ -1822,7 +1822,7 @@ class CSmack16
     public:
         CSmack16 ();
         ~CSmack16 ();
-        void Open (CString Filename);
+        void Open (const CString& Filename);
         BOOL Next (SBBM *pTargetBm);
         void Close (void);
 };
@@ -2074,7 +2074,7 @@ class PLAYER
         long  CalcCreditLimit (void) const;
         void  CalcRoom (void);              //Speed-up für GetRoom
         SLONG CalcPlanePropSum (void);      //Berechnet, was die anstehenden Umrüstungen zusammen kosten werden
-        void  ChangeMoney (__int64 Money, SLONG Reason, CString Par1, char *Par2=NULL);  //Ändert Barschaft und Profit
+        void  ChangeMoney (__int64 Money, SLONG Reason, const CString& Par1, char *Par2=NULL);  //Ändert Barschaft und Profit
         void  CheckAuftragsBerater (const CAuftrag &Auftrag); //in Auftrag.cpp
         void  CheckAuftragsBerater (const CFracht &Fracht);   //in Fracht.cpp
         void  DelayFlightsIfNecessary (void);
@@ -2146,7 +2146,7 @@ class PLAYER
         static void  NetSynchronizePlanes (void);
         static void  NetSynchronizeMeeting (void);
         void  NetBuyXPlane (long Anzahl, CXPlane &plane) const;
-        static void  NetSave (DWORD UniqueGameId, SLONG CursorY, CString Name);
+        static void  NetSave (DWORD UniqueGameId, SLONG CursorY, const CString& Name);
 
         friend TEAKFILE &operator << (TEAKFILE &File, const PLAYER &Player);
         friend TEAKFILE &operator >> (TEAKFILE &File, PLAYER &Player);
@@ -2476,7 +2476,7 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
     public:
         SIM();
         ~SIM();
-        void    AddSmacker (CString Filename, long BrickId, XY Offset);
+        void    AddSmacker (const CString& Filename, long BrickId, XY Offset);
         void    AddNewPassengers (void);
         void    AddNewShoppers (void) const;
         static void    AddStenchSabotage (XY Position);
@@ -2529,9 +2529,9 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
         static bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3, SLONG Par4);
         static bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3, SLONG Par4, SLONG Par5);
         static bool    SendSimpleMessage (ULONG Message, ULONG target, SLONG Par1, SLONG Par2, SLONG Par3, SLONG Par4, SLONG Par5, SLONG Par6);
-        static bool    SendChatBroadcast (CString Message, bool bSayFromWhom=false, ULONG target=0);
+        static bool    SendChatBroadcast (const CString& Message, bool bSayFromWhom=false, ULONG target=0);
 
-        void    AddHighscore (CString Name, DWORD UniqueGameId2, __int64 Score);
+        void    AddHighscore (const CString& Name, DWORD UniqueGameId2, __int64 Score);
         void    SaveHighscores (void);
         void    LoadHighscores (void);
 

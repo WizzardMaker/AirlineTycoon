@@ -381,11 +381,11 @@ SLONG SBNetwork::GetMessageCount() {
     return mNetwork->GetMessageCount();
 }
 
-bool SBNetwork::Connect(SBStr /*unused*/) {
+bool SBNetwork::Connect(const SBStr& /*unused*/) {
     return false; //No longer used..
 }
 
-bool SBNetwork::Connect(SBStr /*unused*/, const char* ip) {
+bool SBNetwork::Connect(const SBStr& /*unused*/, const char* ip) {
     return mNetwork->Connect(ip);
 }
 
@@ -397,7 +397,7 @@ void SBNetwork::DisConnect() {
     }
 }
 
-bool SBNetwork::CreateSession(SBStr name, SBNetworkCreation* settings) {
+bool SBNetwork::CreateSession(const SBStr& name, SBNetworkCreation* settings) {
     return mNetwork->CreateSession(settings);
 }
 
@@ -475,7 +475,7 @@ SBList<SBNetworkPlayer*>* SBNetwork::GetAllPlayers() {
 }
 
 
-bool SBNetwork::JoinSession(const SBStr& name, SBStr user) {
+bool SBNetwork::JoinSession(const SBStr& name, const SBStr& user) {
     if (mNetwork->IsServerSearchable()) {
         return mNetwork->GetServerSearcher()->JoinSession(name, user);
     }

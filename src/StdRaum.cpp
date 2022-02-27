@@ -267,7 +267,7 @@ BOOL WasRoomVisited (SLONG PlayerNum, UBYTE RoomId)
 //--------------------------------------------------------------------------------------------
 //Ein Standardfenster mit optionaler Raumbildverwaltung wird erzeugt:
 //--------------------------------------------------------------------------------------------
-CStdRaum::CStdRaum (BOOL bHandy, ULONG PlayerNum, CString GfxLibName, __int64 graficId)
+CStdRaum::CStdRaum (BOOL bHandy, ULONG PlayerNum, const CString& GfxLibName, __int64 graficId)
 {
     gFramesToDrawBeforeFirstBlend=0;
 
@@ -467,7 +467,7 @@ UTF8Toisolat1(unsigned char* out, int outlen, unsigned char* in, int inlen)
     return out - outstart;
 }
 
-void CStdRaum::ProcessEvent(const SDL_Event& event, CPoint position)
+void CStdRaum::ProcessEvent(const SDL_Event& event, const CPoint& position)
 {
     //SDL_Log("%d",event.type);
     switch (event.type)
@@ -525,7 +525,7 @@ void CStdRaum::ProcessEvent(const SDL_Event& event, CPoint position)
 //--------------------------------------------------------------------------------------------
 //Ein neues Hintergrundbild einbinden:
 //--------------------------------------------------------------------------------------------
-void CStdRaum::ReSize (CString GfxLibName, __int64 graficId)
+void CStdRaum::ReSize (const CString& GfxLibName, __int64 graficId)
 {
     PicBitmap.Destroy();
 
@@ -3305,7 +3305,7 @@ void CStdRaum::PostPaint (void)
 //--------------------------------------------------------------------------------------------
 //Überprüft, ob der Cursor mitlerweile auf einem anderem Highlight steht:
 //--------------------------------------------------------------------------------------------
-void CStdRaum::CheckHighlight (CPoint point)
+void CStdRaum::CheckHighlight (const CPoint& point)
 {
     //Außerhalb geklickt? Dann finden wir eh' nichts!
     if (point.x<WinP1.x || point.y<WinP1.y || point.x>WinP2.x || point.y>WinP2.y)

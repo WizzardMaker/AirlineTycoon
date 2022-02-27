@@ -8,7 +8,7 @@ class CStdRaum
 {
     // Construction
     public:
-        CStdRaum(BOOL bHandy, ULONG PlayerNum, CString GfxLibName, __int64 graficId);
+        CStdRaum(BOOL bHandy, ULONG PlayerNum, const CString& GfxLibName, __int64 graficId);
 
         BOOL       IsInBuro;             //RTTI: Is this the buro?
 
@@ -167,7 +167,7 @@ class CStdRaum
         BOOL  PreLButtonDown (CPoint point);
         void  RepaintText (BOOL RefreshAll);
         void  PostPaint (void);
-        void  CheckHighlight (CPoint point);
+        void  CheckHighlight (const CPoint& point);
         void  SetTip (SBBM *pBitmapSource, void *pBitmapSource2, BOOL ForceRedraw, XY Pos, SLONG TipType, SLONG TipId, SLONG TipPar1=0, SLONG TipPar2=0);
         void  AnnouceTipDataUpdate (SLONG TipType);
         void  RepaintTip (void);
@@ -203,7 +203,7 @@ class CStdRaum
 
         // Operations
     public:
-        void  ReSize (CString GfxLibName, __int64 graficId);
+        void  ReSize (const CString& GfxLibName, __int64 graficId);
         void  ReSize (__int64 graficId);
         void  InitToolTips (void);
         void  PumpToolTips (void);
@@ -220,7 +220,7 @@ class CStdRaum
     public:
         virtual ~CStdRaum();
 
-        void ProcessEvent(const SDL_Event& event, CPoint position);
+        void ProcessEvent(const SDL_Event& event, const CPoint& position);
 
         // Generated message map functions
     protected:

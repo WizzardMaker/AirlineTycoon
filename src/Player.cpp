@@ -202,7 +202,7 @@ void PLAYER::BuyPlane (CXPlane &plane, TEAKRAND *pRnd)
 //--------------------------------------------------------------------------------------------
 //Geld mit Grund verbuchen:
 //--------------------------------------------------------------------------------------------
-void PLAYER::ChangeMoney (__int64 Money, SLONG Reason, CString Par1, char *Par2)
+void PLAYER::ChangeMoney (__int64 Money, SLONG Reason, const CString& Par1, char *Par2)
 {
     __int64 AbsMoney = abs64(Money);
 
@@ -6988,7 +6988,7 @@ void HISTORY::ReInit (void)
 //--------------------------------------------------------------------------------------------
 //Einen Eintrag loggen:
 //--------------------------------------------------------------------------------------------
-void HISTORY::AddEntry (__int64 Money, CString Description)
+void HISTORY::AddEntry (__int64 Money, const CString& Description)
 {
     SLONG c;
 

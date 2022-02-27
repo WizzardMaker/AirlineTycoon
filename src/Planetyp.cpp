@@ -215,7 +215,7 @@ CPlane::CPlane ()
 //--------------------------------------------------------------------------------------------
 //Konstruktor:
 //--------------------------------------------------------------------------------------------
-CPlane::CPlane (CString Name, ULONG TypeId, UBYTE Zustand, SLONG Baujahr)
+CPlane::CPlane (const CString& Name, ULONG TypeId, UBYTE Zustand, SLONG Baujahr)
 {
     CPlane::Name         = Name;
     CPlane::WorstZustand = Zustand;

@@ -129,10 +129,10 @@ class SBNetwork
         SBNetwork(bool);
 
         SLONG GetMessageCount();
-        static bool Connect(SBStr);
-        bool Connect(SBStr, const char*);
+        static bool Connect(const SBStr&);
+        bool Connect(const SBStr&, const char*);
         void DisConnect();
-        bool CreateSession(SBStr, SBNetworkCreation*);
+        bool CreateSession(const SBStr&, SBNetworkCreation*);
         void CloseSession();
         ULONG GetLocalPlayerID();
         SBList<SBStr>* GetConnectionList();
@@ -145,7 +145,7 @@ class SBNetwork
         bool IsInitialized() const;
         bool Send(BUFFER<UBYTE>&, ULONG, ULONG, bool);
         bool Receive(UBYTE**, ULONG&);
-        bool JoinSession(const SBStr&, SBStr);
+        bool JoinSession(const SBStr&, const SBStr&);
         SBList<SBNetworkPlayer*>* GetAllPlayers();
 
     private:

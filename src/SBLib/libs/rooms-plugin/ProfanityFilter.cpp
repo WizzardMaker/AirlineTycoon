@@ -102,7 +102,7 @@ int ProfanityFilter::Count()
 {
     return words.Size();
 }
-void ProfanityFilter::AddWord(RakNet::RakString newWord)
+void ProfanityFilter::AddWord(const RakNet::RakString& newWord)
 {
     words.Insert(newWord, _FILE_AND_LINE_ );
 }

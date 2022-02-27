@@ -353,10 +353,10 @@ namespace RakNet
 
             // Attempts to join a room by search query filters
             // Returns REC_JOIN_BY_FILTER_*
-            RoomsErrorCode JoinByFilter(GameIdentifier gameIdentifier, RoomMemberMode roomMemberMode, RoomsParticipant* roomsParticipant, RoomID lastRoomJoined, RoomQuery *query, JoinedRoomResult *joinRoomResult);
+            RoomsErrorCode JoinByFilter(const GameIdentifier& gameIdentifier, RoomMemberMode roomMemberMode, RoomsParticipant* roomsParticipant, RoomID lastRoomJoined, RoomQuery *query, JoinedRoomResult *joinRoomResult);
 
             // Add a new title to host games with
-            RoomsErrorCode AddTitle(GameIdentifier gameIdentifier);
+            RoomsErrorCode AddTitle(const GameIdentifier& gameIdentifier);
 
             // Get all pending invites to you
             RoomsErrorCode GetInvitesToParticipant(RoomsParticipant* roomsParticipant, DataStructures::List<InvitedUser*> &invites) const;
@@ -364,14 +364,14 @@ namespace RakNet
             RoomsErrorCode RemoveUser(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult);
 
             // ROOMS OPERATIONS, implicit room
-            static RoomsErrorCode SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, RakNet::RakString subject, RakNet::RakString body);
-            RoomsErrorCode AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, RakNet::RakString inviteSender);
+            static RoomsErrorCode SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, const RakNet::RakString& subject, const RakNet::RakString& body);
+            RoomsErrorCode AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, const RakNet::RakString& inviteSender);
             static RoomsErrorCode StartSpectating(RoomsParticipant* roomsParticipant);
             static RoomsErrorCode StopSpectating(RoomsParticipant* roomsParticipant);
             static RoomsErrorCode GrantModerator(RoomsParticipant* roomsParticipant, RoomsParticipant *newModerator, DataStructures::List<InvitedUser> &clearedInvites);
-            static RoomsErrorCode ChangeSlotCounts(RoomsParticipant* roomsParticipant, Slots slots);
+            static RoomsErrorCode ChangeSlotCounts(RoomsParticipant* roomsParticipant, const Slots& slots);
             RoomsErrorCode SetCustomRoomProperties(RoomsParticipant* roomsParticipant, DataStructures::Table *table) const;
-            RoomsErrorCode ChangeRoomName(RoomsParticipant* roomsParticipant, RakNet::RakString newRoomName, ProfanityFilter *profanityFilter) const;
+            RoomsErrorCode ChangeRoomName(RoomsParticipant* roomsParticipant, const RakNet::RakString& newRoomName, ProfanityFilter *profanityFilter) const;
             static RoomsErrorCode SetHiddenFromSearches(RoomsParticipant* roomsParticipant, bool _hiddenFromSearches);
             static RoomsErrorCode SetDestroyOnModeratorLeave(RoomsParticipant* roomsParticipant, bool destroyOnModeratorLeave);
             static RoomsErrorCode SetReadyStatus(RoomsParticipant* roomsParticipant, bool isReady);
@@ -379,9 +379,9 @@ namespace RakNet
             static RoomsErrorCode SetRoomLockState(RoomsParticipant* roomsParticipant, RoomLockState _roomLockState);
             RoomsErrorCode GetRoomLockState(RoomID roomId, Room **room, RoomLockState *roomLockState);
             RoomsErrorCode AreAllMembersReady(RoomID roomId, Room **room, bool *allReady);
-            static RoomsErrorCode KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, RakNet::RakString reason);
-            static RoomsErrorCode UnbanMember(RoomsParticipant* roomsParticipant, RakNet::RakString name);
-            RoomsErrorCode GetBanReason( RoomID lobbyRoomId, Room **room, RakNet::RakString name, RakNet::RakString *reason);
+            static RoomsErrorCode KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, const RakNet::RakString& reason);
+            static RoomsErrorCode UnbanMember(RoomsParticipant* roomsParticipant, const RakNet::RakString& name);
+            RoomsErrorCode GetBanReason( RoomID lobbyRoomId, Room **room, const RakNet::RakString& name, RakNet::RakString *reason);
             static RoomsErrorCode LeaveRoom(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult);
             //RoomsErrorCode GetKickReason(RoomsParticipant* roomsParticipant, RakNet::RakString *kickReason);
 
@@ -426,7 +426,7 @@ namespace RakNet
             // It also ends if timeToWaitMS expires.
             // Returns REC_ADD_TO_QUICK_JOIN_*
             // Passed pointer is stored on REC_SUCCESS, allocate, and do not deallocate unless not successful
-            RoomsErrorCode AddUserToQuickJoin(GameIdentifier gameIdentifier, QuickJoinUser *quickJoinMember) const;
+            RoomsErrorCode AddUserToQuickJoin(const GameIdentifier& gameIdentifier, QuickJoinUser *quickJoinMember) const;
 
             // Returns REC_REMOVE_FROM_QUICK_JOIN_*
             RoomsErrorCode RemoveUserFromQuickJoin(RoomsParticipant* roomsParticipant, QuickJoinUser **qju) const;
@@ -436,7 +436,7 @@ namespace RakNet
 
             // Get all rooms for a certain title
             static int RoomsSortByName( Room* const &key, Room* const &data );
-            RoomsErrorCode SearchByFilter( GameIdentifier gameIdentifier, RoomsParticipant* roomsParticipant, RoomQuery *roomQuery, DataStructures::OrderedList<Room*, Room*, RoomsSortByName> &roomsOutput, bool onlyJoinable ) const;
+            RoomsErrorCode SearchByFilter( const GameIdentifier& gameIdentifier, RoomsParticipant* roomsParticipant, RoomQuery *roomQuery, DataStructures::OrderedList<Room*, Room*, RoomsSortByName> &roomsOutput, bool onlyJoinable ) const;
 
             // Deallocate a room
             void DestroyRoomIfDead(Room *room) const;
@@ -444,14 +444,14 @@ namespace RakNet
             // If a handle changes, you have to tell the system here. Otherwise ban and invite names will be out of synch
             // System does not verify that the handle is not currently in use since it does not necessarily know about all online players
             // This is an invariant up to the caller to uphold. Failure to do so will result in the wrong players being banned or invited
-            void ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle) const;
+            void ChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakString& newHandle) const;
 
             unsigned int GetPropertyIndex(RoomID lobbyRoomId, const char *propertyName) const;
 
             DataStructures::Map<GameIdentifier, PerGameRoomsContainer*> perGamesRoomsContainers;
 
             Room * GetRoomByLobbyRoomID(RoomID lobbyRoomID) const;
-            Room * GetRoomByName(RakNet::RakString roomName) const;
+            Room * GetRoomByName(const RakNet::RakString& roomName) const;
 
         protected:
             RoomID nextRoomId;
@@ -487,10 +487,10 @@ namespace RakNet
             void GetAllRooms(DataStructures::List<Room*> &rooms) const;
             // Looks for a particular room that has a particular ID
             Room * GetRoomByLobbyRoomID(RoomID lobbyRoomID) const;
-            Room * GetRoomByName(RakNet::RakString roomName);
+            Room * GetRoomByName(const RakNet::RakString& roomName);
             RoomsErrorCode GetInvitesToParticipant(RoomsParticipant* roomsParticipant, DataStructures::List<InvitedUser*> &invites);
             bool DestroyRoomIfDead(Room *room);
-            void ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle);
+            void ChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakString& newHandle);
 
             unsigned ProcessQuickJoins( DataStructures::List<QuickJoinUser*> &timeoutExpired,
                     DataStructures::List<JoinedRoomResult> &joinedRoomMembers,
@@ -515,14 +515,14 @@ namespace RakNet
         public:
             Room( RoomID _roomId, RoomCreationParameters *roomCreationParameters, DataStructures::Table::Row *_row, RoomsParticipant* roomsParticipant );
             ~Room();
-            RoomsErrorCode SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, RakNet::RakString subject, RakNet::RakString body);
-            RoomsErrorCode AcceptInvite(RoomsParticipant* roomsParticipant, RakNet::RakString inviteSender);
+            RoomsErrorCode SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, const RakNet::RakString& subject, const RakNet::RakString& body);
+            RoomsErrorCode AcceptInvite(RoomsParticipant* roomsParticipant, const RakNet::RakString& inviteSender);
             RoomsErrorCode StartSpectating(RoomsParticipant* roomsParticipant);
             RoomsErrorCode StopSpectating(RoomsParticipant* roomsParticipant);
             RoomsErrorCode GrantModerator(RoomsParticipant* roomsParticipant, RoomsParticipant *newModerator, DataStructures::List<InvitedUser> &clearedInvites);
             RoomsErrorCode ChangeSlotCounts(RoomsParticipant* roomsParticipant, Slots slots);
             RoomsErrorCode SetCustomRoomProperties(RoomsParticipant* roomsParticipant, DataStructures::Table *table);
-            RoomsErrorCode ChangeRoomName(RoomsParticipant* roomsParticipant, RakNet::RakString newRoomName, ProfanityFilter *profanityFilter);
+            RoomsErrorCode ChangeRoomName(RoomsParticipant* roomsParticipant, const RakNet::RakString& newRoomName, ProfanityFilter *profanityFilter);
             RoomsErrorCode SetHiddenFromSearches(RoomsParticipant* roomsParticipant, bool _hiddenFromSearches);
             RoomsErrorCode SetDestroyOnModeratorLeave(RoomsParticipant* roomsParticipant, bool destroyOnModeratorLeave);
             RoomsErrorCode SetReadyStatus(RoomsParticipant* roomsParticipant, bool isReady);
@@ -530,9 +530,9 @@ namespace RakNet
             RoomsErrorCode SetRoomLockState(RoomsParticipant* roomsParticipant, RoomLockState _roomLockState);
             RoomsErrorCode GetRoomLockState(RoomLockState *_roomLockState);
             RoomsErrorCode AreAllMembersReady(unsigned int exceptThisIndex, bool *allReady) const;
-            RoomsErrorCode KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, RakNet::RakString reason);
-            RoomsErrorCode UnbanMember(RoomsParticipant* roomsParticipant, RakNet::RakString name);
-            RoomsErrorCode GetBanReason(RakNet::RakString name, RakNet::RakString *reason);
+            RoomsErrorCode KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, const RakNet::RakString& reason);
+            RoomsErrorCode UnbanMember(RoomsParticipant* roomsParticipant, const RakNet::RakString& name);
+            RoomsErrorCode GetBanReason(const RakNet::RakString& name, RakNet::RakString *reason);
             RoomsErrorCode LeaveRoom(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult);
             //RoomsErrorCode GetKickReason(RoomsParticipant* roomsParticipant, RakNet::RakString *kickReason);
 
@@ -577,7 +577,7 @@ namespace RakNet
 
             static void UpdateRowSlots( DataStructures::Table::Row* row, Slots *totalSlots, Slots *usedSlots);
 
-            void ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle);
+            void ChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakString& newHandle);
         protected:
             Room();
 
@@ -588,11 +588,11 @@ namespace RakNet
             bool IsRoomLockedToPlayers(void) const;
 
             bool IsInRoom(RoomsParticipant* roomsParticipant) const;
-            bool HasInvite(RakNet::RakString roomsParticipant);
+            bool HasInvite(const RakNet::RakString& roomsParticipant);
             unsigned int GetRoomIndex(RoomsParticipant* roomsParticipant) const;
-            unsigned int GetBannedIndex(RakNet::RakString username) const;
-            unsigned int GetInviteIndex(RakNet::RakString invitee, RakNet::RakString invitor) const;
-            unsigned int GetFirstInviteIndex(RakNet::RakString invitee) const;
+            unsigned int GetBannedIndex(const RakNet::RakString& username) const;
+            unsigned int GetInviteIndex(const RakNet::RakString& invitee, const RakNet::RakString& invitor) const;
+            unsigned int GetFirstInviteIndex(const RakNet::RakString& invitee) const;
             bool AreAllPlayableSlotsFilled(void) const;
             bool HasOpenPublicSlots(void) const;
             bool HasOpenReservedSlots(void) const;

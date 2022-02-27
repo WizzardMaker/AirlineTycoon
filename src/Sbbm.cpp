@@ -468,7 +468,7 @@ BOOL  SBBM::TextOut (SLONG x, SLONG y, COLORREF Back, COLORREF Front, const CStr
     return 0;
 }
 
-void SBBM::ReSize (CHLPool *pHLPool, CString graphicID)
+void SBBM::ReSize (CHLPool *pHLPool, const CString& graphicID)
 {
     Destroy();
 

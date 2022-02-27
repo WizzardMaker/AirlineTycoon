@@ -37,21 +37,21 @@ class CRegistryAccess
 
     public:
         CRegistryAccess ();
-        CRegistryAccess (CString RegistryPath);
+        CRegistryAccess (const CString& RegistryPath);
         ~CRegistryAccess ();
-        bool Open (CString RegistryPath);
+        bool Open (const CString& RegistryPath);
         void Close (void);
 
         bool IsOpen (void);
 
-        bool ReadRegistryKeyEx (char *Text, CString EntryName);
-        bool ReadRegistryKeyEx_b (BOOL *Bool, CString EntryName);
-        bool ReadRegistryKeyEx_l (SLONG *Long, CString EntryName);
-        bool ReadRegistryKeyEx_d (double *Double, CString EntryName);
-        bool WriteRegistryKeyEx (const char *Text, CString EntryName);
-        bool WriteRegistryKeyEx_b (const BOOL *Bool, CString EntryName);
-        bool WriteRegistryKeyEx_l (const SLONG *Long, CString EntryName);
-        bool WriteRegistryKeyEx_d (const double *Double, CString EntryName);
+        bool ReadRegistryKeyEx (char *Text, const CString& EntryName);
+        bool ReadRegistryKeyEx_b (BOOL *Bool, const CString& EntryName);
+        bool ReadRegistryKeyEx_l (SLONG *Long, const CString& EntryName);
+        bool ReadRegistryKeyEx_d (double *Double, const CString& EntryName);
+        bool WriteRegistryKeyEx (const char *Text, const CString& EntryName);
+        bool WriteRegistryKeyEx_b (const BOOL *Bool, const CString& EntryName);
+        bool WriteRegistryKeyEx_l (const SLONG *Long, const CString& EntryName);
+        bool WriteRegistryKeyEx_d (const double *Double, const CString& EntryName);
 };
 
 //Pfad in der Registry; Eintrag ist von der Versionummer abhängig

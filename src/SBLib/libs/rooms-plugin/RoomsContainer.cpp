@@ -526,7 +526,7 @@ RoomsErrorCode AllGamesRoomsContainer::EnterRoom(RoomCreationParameters *roomCre
     }
     return roomsErrorCode;
 }
-RoomsErrorCode AllGamesRoomsContainer::JoinByFilter(GameIdentifier gameIdentifier, RoomMemberMode roomMemberMode, RoomsParticipant* roomsParticipant, RoomID lastRoomJoined, RoomQuery *query, JoinedRoomResult *joinRoomResult)
+RoomsErrorCode AllGamesRoomsContainer::JoinByFilter(const GameIdentifier& gameIdentifier, RoomMemberMode roomMemberMode, RoomsParticipant* roomsParticipant, RoomID lastRoomJoined, RoomQuery *query, JoinedRoomResult *joinRoomResult)
 {
     (void) lastRoomJoined;
 
@@ -557,7 +557,7 @@ RoomsErrorCode AllGamesRoomsContainer::LeaveRoom(RoomsParticipant* roomsParticip
     return roomsErrorCode;
 }
 
-RoomsErrorCode AllGamesRoomsContainer::AddUserToQuickJoin(GameIdentifier gameIdentifier, QuickJoinUser *quickJoinMember) const
+RoomsErrorCode AllGamesRoomsContainer::AddUserToQuickJoin(const GameIdentifier& gameIdentifier, QuickJoinUser *quickJoinMember) const
 {
     if (quickJoinMember->roomsParticipant->GetRoom() != nullptr) {
         return REC_ADD_TO_QUICK_JOIN_CURRENTLY_IN_A_ROOM;
@@ -604,7 +604,7 @@ bool AllGamesRoomsContainer::IsInQuickJoin(RoomsParticipant* roomsParticipant) c
 }
     return false;
 }
-RoomsErrorCode AllGamesRoomsContainer::SearchByFilter( GameIdentifier gameIdentifier, RoomsParticipant* roomsParticipant, RoomQuery *roomQuery, DataStructures::OrderedList<Room*, Room*, RoomsSortByName> &roomsOutput, bool onlyJoinable ) const
+RoomsErrorCode AllGamesRoomsContainer::SearchByFilter( const GameIdentifier& gameIdentifier, RoomsParticipant* roomsParticipant, RoomQuery *roomQuery, DataStructures::OrderedList<Room*, Room*, RoomsSortByName> &roomsOutput, bool onlyJoinable ) const
 {
     roomsOutput.Clear(false, _FILE_AND_LINE_);
     if (!perGamesRoomsContainers.Has(gameIdentifier)) {
@@ -626,7 +626,7 @@ void AllGamesRoomsContainer::DestroyRoomIfDead(Room *room) const
 }
     }
 }
-void AllGamesRoomsContainer::ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle) const
+void AllGamesRoomsContainer::ChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakString& newHandle) const
 {
     unsigned int i;
     for (i=0; i < perGamesRoomsContainers.Size(); i++) {
@@ -674,7 +674,7 @@ RoomsErrorCode AllGamesRoomsContainer::RemoveUser(RoomsParticipant* roomsPartici
     removeUserResult->removedFromQuickJoin=true;
     return REC_SUCCESS;
 }
-RoomsErrorCode AllGamesRoomsContainer::SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, RakNet::RakString subject, RakNet::RakString body)
+RoomsErrorCode AllGamesRoomsContainer::SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, const RakNet::RakString& subject, const RakNet::RakString& body)
 {
     if (roomsParticipant->GetRoom()==0) {
         return REC_SEND_INVITE_UNKNOWN_ROOM_ID;
@@ -682,7 +682,7 @@ RoomsErrorCode AllGamesRoomsContainer::SendInvite(RoomsParticipant* roomsPartici
 
     return roomsParticipant->GetRoom()->SendInvite(roomsParticipant, inviteeId, inviteToSpectatorSlot, subject, body);
 }
-RoomsErrorCode AllGamesRoomsContainer::AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, RakNet::RakString inviteSender)
+RoomsErrorCode AllGamesRoomsContainer::AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, const RakNet::RakString& inviteSender)
 {
     *room = GetRoomByLobbyRoomID(roomId);
     if (*room==0) {
@@ -720,7 +720,7 @@ RoomsErrorCode AllGamesRoomsContainer::GrantModerator(RoomsParticipant* roomsPar
 
     return roomsParticipant->GetRoom()->GrantModerator(roomsParticipant, newModerator, clearedInvites);
 }
-RoomsErrorCode AllGamesRoomsContainer::ChangeSlotCounts(RoomsParticipant* roomsParticipant, Slots slots)
+RoomsErrorCode AllGamesRoomsContainer::ChangeSlotCounts(RoomsParticipant* roomsParticipant, const Slots& slots)
 {
     if (roomsParticipant->GetRoom()==0) {
         return REC_CHANGE_SLOT_COUNTS_UNKNOWN_ROOM_ID;
@@ -793,7 +793,7 @@ void AllGamesRoomsContainer::GetRoomProperties(RoomID roomId, Room **room, DataS
 }
     table->AddRow(roomId, oldTable->GetRowByID(roomId)->cells, true);
 }
-RoomsErrorCode AllGamesRoomsContainer::ChangeRoomName(RoomsParticipant* roomsParticipant, RakNet::RakString newRoomName, ProfanityFilter *profanityFilter) const
+RoomsErrorCode AllGamesRoomsContainer::ChangeRoomName(RoomsParticipant* roomsParticipant, const RakNet::RakString& newRoomName, ProfanityFilter *profanityFilter) const
 {
     if (roomsParticipant->GetRoom()==0) {
         return REC_CHANGE_ROOM_NAME_UNKNOWN_ROOM_ID;
@@ -873,7 +873,7 @@ RoomsErrorCode AllGamesRoomsContainer::AreAllMembersReady(RoomID roomId, Room **
 
     return (RoomsErrorCode) (*room)->AreAllMembersReady((unsigned int) -1, allReady);
 }
-RoomsErrorCode AllGamesRoomsContainer::KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, RakNet::RakString reason)
+RoomsErrorCode AllGamesRoomsContainer::KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, const RakNet::RakString& reason)
 {
     if (roomsParticipant->GetRoom()==0) {
         return REC_KICK_MEMBER_UNKNOWN_ROOM_ID;
@@ -881,7 +881,7 @@ RoomsErrorCode AllGamesRoomsContainer::KickMember(RoomsParticipant* roomsPartici
 
     return roomsParticipant->GetRoom()->KickMember(roomsParticipant, kickedParticipant, reason);
 }
-RoomsErrorCode AllGamesRoomsContainer::UnbanMember(RoomsParticipant* roomsParticipant, RakNet::RakString name)
+RoomsErrorCode AllGamesRoomsContainer::UnbanMember(RoomsParticipant* roomsParticipant, const RakNet::RakString& name)
 {
     if (roomsParticipant->GetRoom()==0) {
         return REC_UNBAN_MEMBER_UNKNOWN_ROOM_ID;
@@ -889,7 +889,7 @@ RoomsErrorCode AllGamesRoomsContainer::UnbanMember(RoomsParticipant* roomsPartic
 
     return roomsParticipant->GetRoom()->UnbanMember(roomsParticipant, name);
 }
-RoomsErrorCode AllGamesRoomsContainer::GetBanReason( RoomID lobbyRoomId, Room **room, RakNet::RakString name, RakNet::RakString *reason)
+RoomsErrorCode AllGamesRoomsContainer::GetBanReason( RoomID lobbyRoomId, Room **room, const RakNet::RakString& name, RakNet::RakString *reason)
 {
     *room = GetRoomByLobbyRoomID(lobbyRoomId);
     if (*room==0) {
@@ -919,7 +919,7 @@ Room * AllGamesRoomsContainer::GetRoomByLobbyRoomID(RoomID lobbyRoomID) const
     }
     return 0;
 }
-Room * AllGamesRoomsContainer::GetRoomByName(RakNet::RakString roomName) const
+Room * AllGamesRoomsContainer::GetRoomByName(const RakNet::RakString& roomName) const
 {
     unsigned int i;
     Room *room;
@@ -953,7 +953,7 @@ RoomsErrorCode AllGamesRoomsContainer::ProcessQuickJoins(
 }
     return REC_SUCCESS;
 }
-RoomsErrorCode AllGamesRoomsContainer::AddTitle(GameIdentifier gameIdentifier)
+RoomsErrorCode AllGamesRoomsContainer::AddTitle(const GameIdentifier& gameIdentifier)
 {
     if (perGamesRoomsContainers.Has(gameIdentifier)) {
         return REC_ADD_TITLE_ALREADY_IN_USE;
@@ -1306,7 +1306,7 @@ bool PerGameRoomsContainer::DestroyRoomIfDead(Room *room)
     }
     return false;
 }
-void PerGameRoomsContainer::ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle)
+void PerGameRoomsContainer::ChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakString& newHandle)
 {
     DataStructures::List<Room*> rooms;
     GetAllRooms(rooms);
@@ -1400,7 +1400,7 @@ Room* PerGameRoomsContainer::GetRoomByLobbyRoomID(RoomID lobbyRoomID) const
 
     return (Room*) roomsTable.GetRowByID(lobbyRoomID)->cells[DefaultRoomColumns::TC_LOBBY_ROOM_PTR]->ptr;
 }
-Room * PerGameRoomsContainer::GetRoomByName(RakNet::RakString roomName)
+Room * PerGameRoomsContainer::GetRoomByName(const RakNet::RakString& roomName)
 {
     DataStructures::List<Room*> rooms;
     GetAllRooms(rooms);
@@ -1553,7 +1553,7 @@ Slots Room::GetUsedSlots(void) const
     }
     return usedSlots;
 }
-RoomsErrorCode Room::SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, RakNet::RakString subject, RakNet::RakString body)
+RoomsErrorCode Room::SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, const RakNet::RakString& subject, const RakNet::RakString& body)
 {
     RakAssert(roomDestroyed==false);
 
@@ -1637,7 +1637,7 @@ RoomsErrorCode Room::SendInvite(RoomsParticipant* roomsParticipant, RoomsPartici
     inviteList.Insert(invitedUser, _FILE_AND_LINE_ );
     return REC_SUCCESS;
 }
-RoomsErrorCode Room::AcceptInvite(RoomsParticipant* roomsParticipant, RakNet::RakString inviteSender)
+RoomsErrorCode Room::AcceptInvite(RoomsParticipant* roomsParticipant, const RakNet::RakString& inviteSender)
 {
     RakAssert(roomDestroyed==false);
 
@@ -1843,7 +1843,7 @@ RoomsErrorCode Room::SetCustomRoomProperties(RoomsParticipant* roomsParticipant,
 
     return REC_SUCCESS;
 }
-RoomsErrorCode Room::ChangeRoomName(RoomsParticipant* roomsParticipant, RakNet::RakString newRoomName, ProfanityFilter *profanityFilter)
+RoomsErrorCode Room::ChangeRoomName(RoomsParticipant* roomsParticipant, const RakNet::RakString& newRoomName, ProfanityFilter *profanityFilter)
 {
     RakAssert(roomDestroyed==false);
 
@@ -1997,7 +1997,7 @@ RoomsErrorCode Room::AreAllMembersReady(unsigned int exceptThisIndex, bool *allR
     *allReady=true;
     return REC_SUCCESS;
 }
-RoomsErrorCode Room::KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, RakNet::RakString reason )
+RoomsErrorCode Room::KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, const RakNet::RakString& reason )
 {
     RakAssert(roomDestroyed==false);
 
@@ -2033,7 +2033,7 @@ RoomsErrorCode Room::KickMember(RoomsParticipant* roomsParticipant, RoomsPartici
 
     return REC_SUCCESS;
 }
-RoomsErrorCode Room::UnbanMember(RoomsParticipant* roomsParticipant, RakNet::RakString name)
+RoomsErrorCode Room::UnbanMember(RoomsParticipant* roomsParticipant, const RakNet::RakString& name)
 {
     RakAssert(roomDestroyed==false);
 
@@ -2056,7 +2056,7 @@ RoomsErrorCode Room::UnbanMember(RoomsParticipant* roomsParticipant, RakNet::Rak
 
     return REC_SUCCESS;
 }
-RoomsErrorCode Room::GetBanReason(RakNet::RakString name, RakNet::RakString *reason)
+RoomsErrorCode Room::GetBanReason(const RakNet::RakString& name, RakNet::RakString *reason)
 {
     RakAssert(roomDestroyed==false);
     unsigned int banIndex = GetBannedIndex(name);
@@ -2369,7 +2369,7 @@ bool Room::IsInRoom(RoomsParticipant* roomsParticipant) const
 {
     return GetRoomIndex(roomsParticipant)!=-1;
 }
-bool Room::HasInvite(RakNet::RakString roomsParticipant)
+bool Room::HasInvite(const RakNet::RakString& roomsParticipant)
 {
     return GetFirstInviteIndex(roomsParticipant)!=-1;
 }
@@ -2393,7 +2393,7 @@ unsigned int Room::GetRoomIndex(RoomsParticipant* roomsParticipant) const
    return -1;
    }
    */
-unsigned int Room::GetBannedIndex(RakNet::RakString username) const
+unsigned int Room::GetBannedIndex(const RakNet::RakString& username) const
 {
     unsigned int i;
     for (i=0; i < banList.Size(); i++) {
@@ -2403,7 +2403,7 @@ unsigned int Room::GetBannedIndex(RakNet::RakString username) const
 }
     return (unsigned int) -1;
 }
-unsigned int Room::GetInviteIndex(RakNet::RakString invitee, RakNet::RakString invitor) const
+unsigned int Room::GetInviteIndex(const RakNet::RakString& invitee, const RakNet::RakString& invitor) const
 {
     unsigned int i;
     for (i=0; i < inviteList.Size(); i++) {
@@ -2413,7 +2413,7 @@ unsigned int Room::GetInviteIndex(RakNet::RakString invitee, RakNet::RakString i
 }
     return (unsigned int) -1;
 }
-unsigned int Room::GetFirstInviteIndex(RakNet::RakString invitee) const
+unsigned int Room::GetFirstInviteIndex(const RakNet::RakString& invitee) const
 {
     unsigned int i;
     for (i=0; i < inviteList.Size(); i++) {
@@ -2452,7 +2452,7 @@ bool Room::IsHiddenToParticipant(RoomsParticipant* roomsParticipant) const
 }
     return true;
 }
-void Room::ChangeHandle(RakNet::RakString oldHandle, RakNet::RakString newHandle)
+void Room::ChangeHandle(const RakNet::RakString& oldHandle, const RakNet::RakString& newHandle)
 {
     if (oldHandle==newHandle) {
         return;

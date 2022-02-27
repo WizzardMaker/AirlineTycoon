@@ -567,7 +567,7 @@ void GameFrame::Invalidate(void)
 //--------------------------------------------------------------------------------------------
 //Die Nachricht an alle Sub-Fenster weiterleiten::
 //--------------------------------------------------------------------------------------------
-void GameFrame::RePostMessage (CPoint Pos) const
+void GameFrame::RePostMessage (const CPoint& Pos) const
 {
     CStdRaum *w;
     SLONG     c;

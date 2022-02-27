@@ -55,7 +55,7 @@ CSmack16::~CSmack16 ()
 //--------------------------------------------------------------------------------------------
 //Öffnet ein Smacker-Filmchen:
 //--------------------------------------------------------------------------------------------
-void CSmack16::Open (CString Filename)
+void CSmack16::Open (const CString& Filename)
 {
     pSmack = smk_open_file(FullFilename (Filename, SmackerPath), SMK_MODE_MEMORY);
     smk_enable_video(pSmack, 1u);
@@ -213,7 +213,7 @@ void CSmackerClip::ReSize (SLONG          ClipId,
 
         const SLONG   *DecisionVar,            //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
 
-        CString        SuccessorTokens,        //z.B. "A2X8"...
+        const CString&        SuccessorTokens,        //z.B. "A2X8"...
         SLONG          SuccessorIds, ...)
 {
     SLONG c;
@@ -354,7 +354,7 @@ void CSmackerPerson::ReSize (SLONG NumberOfClips)
 //--------------------------------------------------------------------------------------------
 //Legt fest, wie die Person labert:
 //--------------------------------------------------------------------------------------------
-void CSmackerPerson::SetSpeakFx (CString Filename)
+void CSmackerPerson::SetSpeakFx (const CString& Filename)
 {
     SpeakFx.ReInit (Filename, (char*)(LPCTSTR)SmackerPath);
 }

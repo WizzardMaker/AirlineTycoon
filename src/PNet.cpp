@@ -465,7 +465,7 @@ void PLAYER::NetUpdateWorkers (void)
 //--------------------------------------------------------------------------------------------
 // Organizes saving in the network:
 //--------------------------------------------------------------------------------------------
-void PLAYER::NetSave (DWORD UniqueGameId, SLONG CursorY, CString Name)
+void PLAYER::NetSave (DWORD UniqueGameId, SLONG CursorY, const CString& Name)
 {
     TEAKFILE Message;
 

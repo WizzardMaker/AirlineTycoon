@@ -214,7 +214,7 @@ BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitma
 //--------------------------------------------------------------------------------------------
 //Dekomprimiert ein komplettes Video
 //--------------------------------------------------------------------------------------------
-void Unvideo (CString Filename, CString TargetFilename)
+void Unvideo (const CString& Filename, const CString& TargetFilename)
 {
     SLONG cy;
     FILE  *pFile = fopen (Filename, "rb");

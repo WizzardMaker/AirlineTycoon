@@ -558,7 +558,7 @@ SLONG CalculateFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG
 //--------------------------------------------------------------------------------------------
 //Berechnet, wieviel ein Flug WIRKLICH kostet: (Kerosin aus Tank)
 //--------------------------------------------------------------------------------------------
-SLONG CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum, CString PlaneName)
+SLONG CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum, const CString& PlaneName)
 {
     SLONG Kerosin = CalculateFlightKerosin (VonCity, NachCity, Verbrauch, Geschwindigkeit);
     SLONG Kosten=0;
@@ -664,7 +664,7 @@ CHeadline HEADLINES::GetHeadline (long Newspaper, SLONG Index)
 //--------------------------------------------------------------------------------------------
 //Schreibt die Headline auf den Schirm:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::BlitHeadline (long Newspaper, SBBM &Offscreen, CPoint p1, CPoint p2, BYTE Color)
+void HEADLINES::BlitHeadline (long Newspaper, SBBM &Offscreen, const CPoint& p1, const CPoint& p2, BYTE Color)
 {
 }
 
@@ -1352,7 +1352,7 @@ void CMessages::NoComments (void)
 //--------------------------------------------------------------------------------------------
 //Eine Nachricht in die Warteschlange hinzufügen:
 //--------------------------------------------------------------------------------------------
-void CMessages::AddMessage (SLONG BeraterTyp, CString Message, SLONG Urgent, SLONG Mood)
+void CMessages::AddMessage (SLONG BeraterTyp, const CString& Message, SLONG Urgent, SLONG Mood)
 {
     SLONG c;
 
@@ -2093,7 +2093,7 @@ TEAKFILE& operator >> (TEAKFILE &File, TEAKRAND &r)
 //--------------------------------------------------------------------------------------------
 // Zählt mit Verzeichnisundwildcard String die Dateinamen:
 //--------------------------------------------------------------------------------------------
-long CountMatchingFilelist (CString DirAndWildcards)
+long CountMatchingFilelist (const CString& DirAndWildcards)
 {
     int Pos = DirAndWildcards.Find('*');
     CString Dir = DirAndWildcards.Left(Pos);
@@ -2104,7 +2104,7 @@ long CountMatchingFilelist (CString DirAndWildcards)
     //Liste holen:
     for (const auto& file : std::filesystem::directory_iterator((std::string)Dir))
     {
-        std::filesystem::path path = file.path();
+        const std::filesystem::path& path = file.path();
         if (!file.is_directory() && path.extension() == (std::string)Ext) {
             n++;
 }
@@ -2116,7 +2116,7 @@ long CountMatchingFilelist (CString DirAndWildcards)
 //--------------------------------------------------------------------------------------------
 // Erzeugt aus Verzeichnisundwildcard String ein Array mit Dateinamen:
 //--------------------------------------------------------------------------------------------
-void GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array)
+void GetMatchingFilelist (const CString& DirAndWildcards, BUFFER<CString> &Array)
 {
     int Pos = DirAndWildcards.Find("*");
     CString Dir = DirAndWildcards.Left(Pos);
@@ -2127,7 +2127,7 @@ void GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array)
     //Liste holen:
     for (const auto& file : std::filesystem::directory_iterator((std::string)Dir))
     {
-        std::filesystem::path path = file.path();
+        const std::filesystem::path& path = file.path();
         if (!file.is_directory() && path.extension() == (std::string)Ext)
         {
             Array.ReSize(Array.AnzEntries() + 1);
@@ -2149,7 +2149,7 @@ void GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array)
 //--------------------------------------------------------------------------------------------
 // Erzeugt aus Verzeichnisundwildcard String ein Array mit Dateinamen:
 //--------------------------------------------------------------------------------------------
-CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, long Add)
+CString GetMatchingNext (const CString& DirAndWildcards, const CString& CurrentFilename, long Add)
 {
     BUFFER<CString> Array;
 
@@ -2171,7 +2171,7 @@ CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, long 
 //--------------------------------------------------------------------------------------------
 //Gibt den nächstbesten, notfalls numerierten freien Dateinamen zurück (Input mit %s)
 //--------------------------------------------------------------------------------------------
-CString CreateNumeratedFreeFilename (CString DirAndFilename)
+CString CreateNumeratedFreeFilename (const CString& DirAndFilename)
 {
     long c;
 

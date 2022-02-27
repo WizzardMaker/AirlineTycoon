@@ -31,7 +31,7 @@ namespace RakNet {
             // Number of profanity words loaded
             int Count();
 
-            void AddWord(RakNet::RakString newWord);
+            void AddWord(const RakNet::RakString& newWord);
         private:
             DataStructures::List<RakNet::RakString> words;
 

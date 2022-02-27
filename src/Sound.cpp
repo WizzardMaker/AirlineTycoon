@@ -53,7 +53,7 @@ CUnrepeatedRandom MidiRandom;
 //--------------------------------------------------------------------------------------------
 //Spielt einen Soundeffekt auf dem Universal Soundkanal:
 //--------------------------------------------------------------------------------------------
-void PlayUniversalFx (CString Filename, SLONG Volume)
+void PlayUniversalFx (const CString& Filename, SLONG Volume)
 {
     if (Volume != 0)
     {
@@ -109,7 +109,7 @@ CString RemoveSpeechFilename (CString String)
 //--------------------------------------------------------------------------------------------
 //Sucht einen SubString wie "[[arab3200.wav]]" aus einem String:
 //--------------------------------------------------------------------------------------------
-CString GetSpeechFilename (CString String, SLONG Index, CString *pTextFollows)
+CString GetSpeechFilename (const CString& String, SLONG Index, CString *pTextFollows)
 {
     char *pstart = (char*)(LPCTSTR)String;
 
@@ -138,7 +138,7 @@ CString GetSpeechFilename (CString String, SLONG Index, CString *pTextFollows)
 //--------------------------------------------------------------------------------------------
 //Erzeugt ein (zusammengesetztes) Wave, was dem Text entspricht:
 //--------------------------------------------------------------------------------------------
-BOOL CreateSpeechSBFX (CString String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMissing)
+BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMissing)
 {
     CString       str;
     CString       path;
@@ -780,7 +780,7 @@ void SBFX::SetVolume (long volume) const
 //--------------------------------------------------------------------------------------------
 //Der Ambiente-Manager: Einen Soundeffekt initialisieren
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::SetFx (SLONG FxId, CString Soundeffekt) const
+void CAmbienteManager::SetFx (SLONG FxId, const CString& Soundeffekt) const
 {
     if (FxId>=AmbientFx.AnzEntries()) { return;
 }

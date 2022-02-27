@@ -293,7 +293,7 @@ void DrawPlaneTipContents (SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY
 //--------------------------------------------------------------------------------------------
 //Zeichnet die Infos über ein Flugzeug in die Bitmap:
 //--------------------------------------------------------------------------------------------
-void DrawXPlaneTipContents (SBBM &TipBm, CString Planename, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont)
+void DrawXPlaneTipContents (SBBM &TipBm, const CString& Planename, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont)
 {
     XY Max;
 

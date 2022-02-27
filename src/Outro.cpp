@@ -14,7 +14,7 @@ static char THIS_FILE[] = __FILE__;
 //--------------------------------------------------------------------------------------------
 //ULONG PlayerNum
 //--------------------------------------------------------------------------------------------
-COutro::COutro(BOOL bHandy, SLONG PlayerNum, CString SmackName) : CStdRaum(bHandy, PlayerNum, "", 0)
+COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRaum(bHandy, PlayerNum, "", 0)
 {
     RoomBm.ReSize(640, 480);
     RoomBm.FillWith(0);

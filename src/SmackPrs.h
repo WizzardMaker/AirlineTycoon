@@ -128,7 +128,7 @@ class CSmackerClip
 
                 const SLONG   *DecisionVar,            //wenn !=NULL, legt sie fest, welche Folgeanimation gespielt wird...
 
-                CString        SuccessorTokens,        //z.B. "A2X8"...
+                const CString&        SuccessorTokens,        //z.B. "A2X8"...
                 SLONG          SuccessorIds, ...);
 
         void NextSyllable (void);
@@ -158,7 +158,7 @@ class CSmackerPerson
         CSmackerPerson ();
         ~CSmackerPerson ();
         void  ReSize (SLONG NumberOfClips);
-        void  SetSpeakFx (CString Filename);
+        void  SetSpeakFx (const CString& Filename);
         void  SetDesiredMood (SLONG DesiredMood, SLONG AcceptedMood1=-1, SLONG AcceptedMood2=-1);
         SLONG GetDesiredMood (void);
         SLONG GetMood (void);

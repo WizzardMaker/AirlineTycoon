@@ -7,7 +7,7 @@ class COutro : public CStdRaum
 {
     // Construction
     public:
-        COutro(BOOL bHandy, SLONG PlayerNum, CString SmackName);
+        COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName);
 
         // Attributes
     public:

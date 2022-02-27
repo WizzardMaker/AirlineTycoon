@@ -24,7 +24,7 @@ class GameFrame
         void Invalidate (void);
         void UpdateWindow ();
         void UpdateFrameSize() const;
-        void RePostMessage (CPoint Pos) const;
+        void RePostMessage (const CPoint& Pos) const;
         void RePostClick (SLONG PlayerNum, UINT message, WPARAM wParam, LPARAM lParam);
         static void PrepareFade (void);
         static bool Pause(bool fPause);	// AG

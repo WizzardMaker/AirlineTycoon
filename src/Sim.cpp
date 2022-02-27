@@ -148,7 +148,7 @@ SIM::~SIM()
 //--------------------------------------------------------------------------------------------
 // Fügt einen Smacker im Flughafen hinzu:
 //--------------------------------------------------------------------------------------------
-void SIM::AddSmacker (CString Filename, long BrickId, XY Offset)
+void SIM::AddSmacker (const CString& Filename, long BrickId, XY Offset)
 {
     AirportSmacks.ReSize(AirportSmacks.AnzEntries()+1);
     AirportSmacks[AirportSmacks.AnzEntries()-1].Open (Filename);
@@ -4082,7 +4082,7 @@ void SIM::NetSynchronizeOvertake (void) const
 //--------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------
-void SIM::AddHighscore (CString Name, DWORD UniqueGameId2, __int64 Score)
+void SIM::AddHighscore (const CString& Name, DWORD UniqueGameId2, __int64 Score)
 {
     long c;
     long d;

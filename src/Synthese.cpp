@@ -23,7 +23,7 @@ static SLONG         TalkerLastLoaded=0;
 //--------------------------------------------------------------------------------------------
 //Rahmenfunktion:
 //--------------------------------------------------------------------------------------------
-void SynthesizeNumber (SBFX *TargetFx, CString Talker, SLONG Number, BOOL Waehrung)
+void SynthesizeNumber (SBFX *TargetFx, const CString& Talker, SLONG Number, BOOL Waehrung)
 {
     SLONG LocalVon[100];
     SLONG LocalBis[100];

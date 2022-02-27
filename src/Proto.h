@@ -75,7 +75,7 @@ CString FullFilename (const CString &Filename, const CString &PathString);
 CString FullFilename (const CString &Filename, const CString &PathString, SLONG Num);
 SLONG   CalculateFlightKerosin (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit);
 SLONG   CalculateFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG Player);
-SLONG   CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG Player, CString PlaneName);
+SLONG   CalculateRealFlightCost (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG Player, const CString& PlaneName);
 SLONG   CalculateFlightCostRechnerisch (SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum);
 void    InitEinheiten (const CString &Filename);
 CString Insert1000erDots (long Value);
@@ -84,10 +84,10 @@ CRect   PaintTextBubble (SBBM &OffscreenBm, const XY &p1, const XY &p2, const XY
 BOOL    CheckCursorHighlight (const CRect &rect, UWORD FontColor, SLONG Look=CURSOR_HOT, SLONG TipId=0, SLONG ClickArea=0, SLONG ClickId=0, SLONG ClickPar1=0, SLONG ClickPar2=0);
 BOOL    CheckCursorHighlight (const XY &CursorPos, const CRect &rect, UWORD FontColor, SLONG Look=CURSOR_HOT, SLONG TipId=0, SLONG ClickArea=0, SLONG ClickId=0, SLONG ClickPar1=0, SLONG ClickPar2=0);
 void    CheckCString (CString *String);
-void    GetMatchingFilelist (CString DirAndWildcards, BUFFER<CString> &Array);
-CString GetMatchingNext (CString DirAndWildcards, CString CurrentFilename, long Add=1);
-long    CountMatchingFilelist (CString DirAndWildcards);
-CString CreateNumeratedFreeFilename (CString DirAndFilename);
+void    GetMatchingFilelist (const CString& DirAndWildcards, BUFFER<CString> &Array);
+CString GetMatchingNext (const CString& DirAndWildcards, const CString& CurrentFilename, long Add=1);
+long    CountMatchingFilelist (const CString& DirAndWildcards);
+CString CreateNumeratedFreeFilename (const CString& DirAndFilename);
 CString GetFilenameFromFullFilename (CString FullFilename);
 #ifndef WIN32
 DWORD   timeGetTime(void);
@@ -154,10 +154,10 @@ UBYTE GetRoomIdFromNumber (SLONG PlayerNum, SLONG Number);
 //Sound.Cpp:
 //--------------------------------------------------------------------------------------------
 CString RemoveSpeechFilename (CString String);
-CString GetSpeechFilename (CString String, SLONG Index=0, CString *pTextFollows=NULL);
-BOOL    CreateSpeechSBFX (CString String, SBFX *pFx, SLONG Player, BOOL *bAnyMissing=NULL);
+CString GetSpeechFilename (const CString& String, SLONG Index=0, CString *pTextFollows=NULL);
+BOOL    CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG Player, BOOL *bAnyMissing=NULL);
 
-void  PlayUniversalFx (CString Filename, SLONG Volume);
+void  PlayUniversalFx (const CString& Filename, SLONG Volume);
 void  PlayFanfare (void);
 SLONG Prozent2Dezibel (SLONG Prozent);
 void  SetMidiVolume(SLONG volume);
@@ -197,7 +197,7 @@ void DrawFrachtTipContents (SLONG PlayerNum, SBBM &TipBm, SBBMS *pPlaneTips, CFr
 void DrawAutoflugTipContents (SBBM &TipBm, SLONG Costs, SLONG NotPassengers, SLONG VonCity, SLONG NachCity, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked);
 void DrawCityTipContents (SBBM &TipBm, ULONG CityId, XY Headline, XY Contents, XY Map, SB_CFont *pHeadFont, SB_CFont *pFont);
 void DrawPlaneTipContents (SBBM &TipBm, CPlaneType *PlaneType, CPlane *Plane, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL OwnPlane=FALSE, SLONG OwnedByComputer=FALSE);
-void DrawXPlaneTipContents (SBBM &TipBm, CString Planename, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont);
+void DrawXPlaneTipContents (SBBM &TipBm, const CString& Planename, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont);
 void DrawRouteTipContents (SBBM &TipBm, SLONG PlayerNum, ULONG RouteId, SLONG Gate, SLONG Passagiere, SLONG PassagiereFC, SLONG Costs, SLONG Ticketpreis, SLONG TicketpreisFC, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked=TRUE);
 void DrawAuftragTipContents (SLONG Player, SBBM &TipBm, SBBMS *pPlaneTips, CAuftrag *Auftrag, SLONG Gate, SLONG Costs, SLONG Okay, XY Headline, XY Contents, XY MapOffset, SB_CFont *pHeadFont, SB_CFont *pFont, BOOL Unlocked=TRUE);
 void DrawKursTipContents (SBBM &TipBm, SLONG PlayerView, SLONG PlayerAktie, XY Headline, XY Contents, SB_CFont *pHeadFont, SB_CFont *pFont);
