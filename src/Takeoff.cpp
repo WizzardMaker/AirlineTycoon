@@ -504,10 +504,10 @@ BOOL CTakeOffApp::InitInstance(int argc, char* argv[])
         SLONG bConfigWinMouse      = false;
         SLONG bConfigNoDigiSound   = false;
 
-        reg.ReadRegistryKey (&bConfigNoVgaRam);
-        reg.ReadRegistryKey (&bConfigNoSpeedyMouse);
-        reg.ReadRegistryKey (&bConfigWinMouse);
-        reg.ReadRegistryKey (&bConfigNoDigiSound);
+        reg.ReadRegistryKey_l (&bConfigNoVgaRam);
+        reg.ReadRegistryKey_l (&bConfigNoSpeedyMouse);
+        reg.ReadRegistryKey_l (&bConfigWinMouse);
+        reg.ReadRegistryKey_l (&bConfigNoDigiSound);
 
         if (bConfigNoVgaRam)       bNoVgaRam        = TRUE;
         if (bConfigNoSpeedyMouse)  bNoQuickMouse    = TRUE;

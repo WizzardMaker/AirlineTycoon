@@ -2268,11 +2268,11 @@ class COptions
         SLONG       OptionMusik;
         SLONG       OptionMasterVolume;
         SLONG       OptionLoopMusik;
-        BOOL        OptionEffekte;
-        BOOL        OptionAmbiente;
-        BOOL        OptionDurchsagen;
-        BOOL        OptionTalking;
-        BOOL        OptionPlaneVolume;
+        SLONG       OptionEffekte;
+        SLONG       OptionAmbiente;
+        SLONG       OptionDurchsagen;
+        SLONG       OptionTalking;
+        SLONG       OptionPlaneVolume;
         BOOL        OptionGirl;
         BOOL        OptionBerater;
         BOOL        OptionBriefBriefing;

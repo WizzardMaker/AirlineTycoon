@@ -3932,41 +3932,41 @@ void COptions::ReadOptions (void)
     CRegistryAccess reg (chRegKey);
 
     //New Settings:
-    if (!reg.ReadRegistryKey(&OptionFullscreen))       OptionFullscreen = 0;
-    if (!reg.ReadRegistryKey(&OptionKeepAspectRatio))  OptionKeepAspectRatio = true;
+    if (!reg.ReadRegistryKey_l(&OptionFullscreen))       OptionFullscreen = 0;
+    if (!reg.ReadRegistryKey_b(&OptionKeepAspectRatio))  OptionKeepAspectRatio = true;
 
     // Falls Setup nicht geladen wurde dann Standard-Parameter initialisieren
-    if (!reg.ReadRegistryKey (&OptionPlanes))          OptionPlanes          = TRUE;
-    if (!reg.ReadRegistryKey (&OptionPassengers))      OptionPassengers      = TRUE;
-    if (!reg.ReadRegistryKey (&OptionMusicType))       OptionMusicType       = 2;
-    if (!reg.ReadRegistryKey (&OptionEnableDigi))      OptionEnableDigi      = TRUE;
-    if (!reg.ReadRegistryKey (&OptionMusik))           OptionMusik           = 3;
-    if (!reg.ReadRegistryKey (&OptionMasterVolume))    OptionMasterVolume    = 7;
-    if (!reg.ReadRegistryKey (&OptionLoopMusik))       OptionLoopMusik       = 0;
-    if (!reg.ReadRegistryKey (&OptionAmbiente))        OptionAmbiente        = 3;
-    if (!reg.ReadRegistryKey (&OptionRealKuerzel))     OptionRealKuerzel     = TRUE;
-    if (!reg.ReadRegistryKey (&OptionDurchsagen))      OptionDurchsagen      = 3;
-    if (!reg.ReadRegistryKey (&OptionTalking))         OptionTalking         = 7;
-    if (!reg.ReadRegistryKey (&OptionPlaneVolume))     OptionPlaneVolume     = 3;
-    if (!reg.ReadRegistryKey (&OptionEffekte))         OptionEffekte         = 3;
-    if (!reg.ReadRegistryKey (&OptionGirl))            OptionGirl            = TRUE;
-    if (!reg.ReadRegistryKey (&OptionBerater))         OptionBerater         = TRUE;
-    if (!reg.ReadRegistryKey (&OptionBriefBriefing))   OptionBriefBriefing   = TRUE;
-    if (!reg.ReadRegistryKey (&OptionBlenden))         OptionBlenden         = TRUE;
-    if (!reg.ReadRegistryKey (&OptionTransparenz))     OptionTransparenz     = TRUE;
-    if (!reg.ReadRegistryKey (&OptionSchatten))        OptionSchatten        = TRUE;
-    if (!reg.ReadRegistryKey (&OptionAirport))         OptionAirport         = -1;
-    if (!reg.ReadRegistryKey (&OptionThinkBubbles))    OptionThinkBubbles    = TRUE;
-    if (!reg.ReadRegistryKey (&OptionFlipping))        OptionFlipping        = FALSE;
-    if (!reg.ReadRegistryKey (&Sim.MaxDifficulty))     Sim.MaxDifficulty     = 0;
-    if (!reg.ReadRegistryKey (&Sim.MaxDifficulty2))    Sim.MaxDifficulty2    = 11;
-    if (!reg.ReadRegistryKey (&Sim.MaxDifficulty3))    Sim.MaxDifficulty3    = 41;
-    if (!reg.ReadRegistryKey (&OptionAutosave))        OptionAutosave        = TRUE;
-    if (!reg.ReadRegistryKey (&OptionFax))             OptionFax             = TRUE;
-    if (!reg.ReadRegistryKey (&OptionRoundNumber))     OptionRoundNumber     = TRUE;
-    if (!reg.ReadRegistryKey (&OptionRandomStartday))  OptionRandomStartday  = TRUE;
-    if (!reg.ReadRegistryKey (&OptionViewedIntro))     OptionViewedIntro     = FALSE;
-    if (!reg.ReadRegistryKey (&OptionSpeechBubble))
+    if (!reg.ReadRegistryKey_b (&OptionPlanes))          OptionPlanes          = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionPassengers))      OptionPassengers      = TRUE;
+    if (!reg.ReadRegistryKey_l (&OptionMusicType))       OptionMusicType       = 2;
+    if (!reg.ReadRegistryKey_b (&OptionEnableDigi))      OptionEnableDigi      = TRUE;
+    if (!reg.ReadRegistryKey_l (&OptionMusik))           OptionMusik           = 3;
+    if (!reg.ReadRegistryKey_l (&OptionMasterVolume))    OptionMasterVolume    = 7;
+    if (!reg.ReadRegistryKey_l (&OptionLoopMusik))       OptionLoopMusik       = 0;
+    if (!reg.ReadRegistryKey_l (&OptionAmbiente))        OptionAmbiente        = 3;
+    if (!reg.ReadRegistryKey_b (&OptionRealKuerzel))     OptionRealKuerzel     = TRUE;
+    if (!reg.ReadRegistryKey_l (&OptionDurchsagen))      OptionDurchsagen      = 3;
+    if (!reg.ReadRegistryKey_l (&OptionTalking))         OptionTalking         = 7;
+    if (!reg.ReadRegistryKey_l (&OptionPlaneVolume))     OptionPlaneVolume     = 3;
+    if (!reg.ReadRegistryKey_l (&OptionEffekte))         OptionEffekte         = 3;
+    if (!reg.ReadRegistryKey_b (&OptionGirl))            OptionGirl            = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionBerater))         OptionBerater         = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionBriefBriefing))   OptionBriefBriefing   = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionBlenden))         OptionBlenden         = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionTransparenz))     OptionTransparenz     = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionSchatten))        OptionSchatten        = TRUE;
+    if (!reg.ReadRegistryKey_l (&OptionAirport))         OptionAirport         = -1;
+    if (!reg.ReadRegistryKey_b (&OptionThinkBubbles))    OptionThinkBubbles    = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionFlipping))        OptionFlipping        = FALSE;
+    if (!reg.ReadRegistryKey_l (&Sim.MaxDifficulty))     Sim.MaxDifficulty     = 0;
+    if (!reg.ReadRegistryKey_l (&Sim.MaxDifficulty2))    Sim.MaxDifficulty2    = 11;
+    if (!reg.ReadRegistryKey_l (&Sim.MaxDifficulty3))    Sim.MaxDifficulty3    = 41;
+    if (!reg.ReadRegistryKey_b (&OptionAutosave))        OptionAutosave        = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionFax))             OptionFax             = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionRoundNumber))     OptionRoundNumber     = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionRandomStartday))  OptionRandomStartday  = TRUE;
+    if (!reg.ReadRegistryKey_b (&OptionViewedIntro))     OptionViewedIntro     = FALSE;
+    if (!reg.ReadRegistryKey_b (&OptionSpeechBubble))
     {
         if (gLanguage==LANGUAGE_O) OptionSpeechBubble = TRUE;
         else                       OptionSpeechBubble = TRUE;
@@ -4006,15 +4006,15 @@ void COptions::ReadOptions (void)
     OptionViewedIntro  = TRUE;
 #endif
 
-    if (!reg.ReadRegistryKey (&OptionRoomDescription)) OptionRoomDescription = 0;
-    if (!reg.ReadRegistryKey (&OptionLastPlayer))      OptionLastPlayer      = 0;
-    if (!reg.ReadRegistryKey (&OptionLastMission))     OptionLastMission     = 0;
-    if (!reg.ReadRegistryKey (&OptionLastMission2))    OptionLastMission2    = 11;
-    if (!reg.ReadRegistryKey (&OptionLastMission3))    OptionLastMission3    = 41;
-    if (!reg.ReadRegistryKey (&OptionLastProvider))    OptionLastProvider    = 0;
+    if (!reg.ReadRegistryKey_l (&OptionRoomDescription)) OptionRoomDescription = 0;
+    if (!reg.ReadRegistryKey_l (&OptionLastPlayer))      OptionLastPlayer      = 0;
+    if (!reg.ReadRegistryKey_l (&OptionLastMission))     OptionLastMission     = 0;
+    if (!reg.ReadRegistryKey_l (&OptionLastMission2))    OptionLastMission2    = 11;
+    if (!reg.ReadRegistryKey_l (&OptionLastMission3))    OptionLastMission3    = 41;
+    if (!reg.ReadRegistryKey_l (&OptionLastProvider))    OptionLastProvider    = 0;
 
-    if (!reg.ReadRegistryKeyEx ((int*)&Sim.KeyHints[0], "&KeyHints1"))       Sim.KeyHints[0]           = 0;
-    if (!reg.ReadRegistryKeyEx ((int*)&Sim.KeyHints[2], "&KeyHints2"))       Sim.KeyHints[2]           = 0;
+    if (!reg.ReadRegistryKeyEx_l ((int*)&Sim.KeyHints[0], "&KeyHints1"))       Sim.KeyHints[0]           = 0;
+    if (!reg.ReadRegistryKeyEx_l ((int*)&Sim.KeyHints[2], "&KeyHints2"))       Sim.KeyHints[2]           = 0;
     Sim.KeyHints[1] = 0;
 
     //Namen der Spieler
@@ -4107,42 +4107,42 @@ void COptions::WriteOptions (void)
 
     CRegistryAccess reg (chRegKey);
 
-    reg.WriteRegistryKey (&OptionFullscreen);
-    reg.WriteRegistryKey (&OptionKeepAspectRatio);
-    reg.WriteRegistryKey (&OptionPlanes);
-    reg.WriteRegistryKey (&OptionPassengers);
-    reg.WriteRegistryKey (&OptionMusicType);
-    reg.WriteRegistryKey (&OptionEnableDigi);
-    reg.WriteRegistryKey (&OptionMusik);
-    reg.WriteRegistryKey (&OptionLoopMusik);
-    reg.WriteRegistryKey (&OptionAmbiente);
-    reg.WriteRegistryKey (&OptionRealKuerzel);
-    reg.WriteRegistryKey (&OptionDurchsagen);
-    reg.WriteRegistryKey (&OptionPlaneVolume);
-    reg.WriteRegistryKey (&OptionEffekte);
-    reg.WriteRegistryKey (&OptionGirl);
-    reg.WriteRegistryKey (&OptionBerater);
-    reg.WriteRegistryKey (&OptionBriefBriefing);
-    reg.WriteRegistryKey (&OptionBlenden);
-    reg.WriteRegistryKey (&OptionTransparenz);
-    reg.WriteRegistryKey (&OptionSchatten);
-    reg.WriteRegistryKey (&OptionAirport);
-    reg.WriteRegistryKey (&OptionThinkBubbles);
-    reg.WriteRegistryKey (&OptionFlipping);
-    reg.WriteRegistryKey (&Sim.MaxDifficulty);
-    reg.WriteRegistryKey (&Sim.MaxDifficulty2);
-    reg.WriteRegistryKey (&Sim.MaxDifficulty3);
-    reg.WriteRegistryKey (&OptionAutosave);
-    reg.WriteRegistryKey (&OptionFax);
-    reg.WriteRegistryKey (&OptionRoundNumber);
+    reg.WriteRegistryKey_l (&OptionFullscreen);
+    reg.WriteRegistryKey_b (&OptionKeepAspectRatio);
+    reg.WriteRegistryKey_b (&OptionPlanes);
+    reg.WriteRegistryKey_b (&OptionPassengers);
+    reg.WriteRegistryKey_b (&OptionMusicType);
+    reg.WriteRegistryKey_b (&OptionEnableDigi);
+    reg.WriteRegistryKey_l (&OptionMusik);
+    reg.WriteRegistryKey_l (&OptionLoopMusik);
+    reg.WriteRegistryKey_l (&OptionAmbiente);
+    reg.WriteRegistryKey_b (&OptionRealKuerzel);
+    reg.WriteRegistryKey_l (&OptionDurchsagen);
+    reg.WriteRegistryKey_l (&OptionPlaneVolume);
+    reg.WriteRegistryKey_l (&OptionEffekte);
+    reg.WriteRegistryKey_b (&OptionGirl);
+    reg.WriteRegistryKey_b (&OptionBerater);
+    reg.WriteRegistryKey_b (&OptionBriefBriefing);
+    reg.WriteRegistryKey_b (&OptionBlenden);
+    reg.WriteRegistryKey_b (&OptionTransparenz);
+    reg.WriteRegistryKey_b (&OptionSchatten);
+    reg.WriteRegistryKey_l (&OptionAirport);
+    reg.WriteRegistryKey_b (&OptionThinkBubbles);
+    reg.WriteRegistryKey_b (&OptionFlipping);
+    reg.WriteRegistryKey_l (&Sim.MaxDifficulty);
+    reg.WriteRegistryKey_l (&Sim.MaxDifficulty2);
+    reg.WriteRegistryKey_l (&Sim.MaxDifficulty3);
+    reg.WriteRegistryKey_b (&OptionAutosave);
+    reg.WriteRegistryKey_b (&OptionFax);
+    reg.WriteRegistryKey_b (&OptionRoundNumber);
 
     if (gpSSE && gpSSE->IsSoundEnabled())
-        reg.WriteRegistryKey (&OptionMasterVolume);
+        reg.WriteRegistryKey_l (&OptionMasterVolume);
 
     //Den Intro-Eintrag nur schreiben, wenn wir keine Demo haben. Sonst schaut sich jemand eine
     //Demo ohne Intro an. Und wenn er dann das richtige Spiel kauft gäbe es keinen Intro.
 #ifndef NO_INTRO
-    reg.WriteRegistryKey (&OptionViewedIntro);
+    reg.WriteRegistryKey_b (&OptionViewedIntro);
 #endif
 
     //Und fast das gleiche für die Sprechblasen
@@ -4155,9 +4155,9 @@ void COptions::WriteOptions (void)
 #ifdef NO_N_VOICES
     if (gLanguage==LANGUAGE_N) goto dont_save_talking;
 #endif
-    reg.WriteRegistryKey (&OptionTalking);
-    reg.WriteRegistryKey (&OptionSpeechBubble);
-    reg.WriteRegistryKey (&OptionRandomStartday);
+    reg.WriteRegistryKey_l (&OptionTalking);
+    reg.WriteRegistryKey_b (&OptionSpeechBubble);
+    reg.WriteRegistryKey_b (&OptionRandomStartday);
 
 #ifdef NO_D_VOICES
 dont_save_talking:
@@ -4169,19 +4169,19 @@ dont_save_talking:
 dont_save_talking:
 #endif
 
-    reg.WriteRegistryKey (&OptionRoomDescription);
+    reg.WriteRegistryKey_l (&OptionRoomDescription);
     reg.WriteRegistryKeyEx ((char*)(LPCTSTR)AppPath, "&AppPath");
-    reg.WriteRegistryKey (&OptionLastPlayer);
+    reg.WriteRegistryKey_l (&OptionLastPlayer);
 
-    reg.WriteRegistryKeyEx ((int*)&Sim.KeyHints[0], "&KeyHints1");
-    reg.WriteRegistryKeyEx ((int*)&Sim.KeyHints[2], "&KeyHints2");
+    reg.WriteRegistryKeyEx_l ((int*)&Sim.KeyHints[0], "&KeyHints1");
+    reg.WriteRegistryKeyEx_l ((int*)&Sim.KeyHints[2], "&KeyHints2");
 
     if (OptionLastMission!=DIFF_FREEGAME)
-        reg.WriteRegistryKey (&OptionLastMission);
+        reg.WriteRegistryKey_l (&OptionLastMission);
 
-    reg.WriteRegistryKey (&OptionLastMission3);
-    reg.WriteRegistryKey (&OptionLastMission2);
-    reg.WriteRegistryKey (&OptionLastProvider);
+    reg.WriteRegistryKey_l (&OptionLastMission3);
+    reg.WriteRegistryKey_l (&OptionLastMission2);
+    reg.WriteRegistryKey_l (&OptionLastProvider);
 
     //Namen der Spieler
     for (c=0; c<4; c++)

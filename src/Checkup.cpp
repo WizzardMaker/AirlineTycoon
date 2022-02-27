@@ -163,7 +163,7 @@ bool CRegistryAccess::WriteRegistryKeyEx (const char *Text, CString EntryName)
     return (ERROR_SUCCESS == RegSetValueEx (hKey, EntryName, 0, REG_SZ, (UBYTE*)Text, strlen(Text)+1));
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx (const BOOL *Bool, CString EntryName)
+bool CRegistryAccess::WriteRegistryKeyEx_b (const BOOL *Bool, CString EntryName)
 {
     if (!hKey) return (0);
 
@@ -180,7 +180,7 @@ bool CRegistryAccess::WriteRegistryKeyEx (const BOOL *Bool, CString EntryName)
     return (rc);
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx (const long *Long, CString EntryName)
+bool CRegistryAccess::WriteRegistryKeyEx_l (const SLONG *Long, CString EntryName)
 {
     if (!hKey) return (0);
 
@@ -197,7 +197,7 @@ bool CRegistryAccess::WriteRegistryKeyEx (const long *Long, CString EntryName)
     return (rc);
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx (const double *Double, CString EntryName)
+bool CRegistryAccess::WriteRegistryKeyEx_d (const double *Double, CString EntryName)
 {
     if (!hKey) return (0);
 
@@ -226,14 +226,14 @@ bool CRegistryAccess::ReadRegistryKeyEx (char *Text, CString EntryName)
     json_t* Entry = json_object_get(hKey, EntryName);
     if (!Entry || !json_is_string(Entry))
         return false;
-    return (snprintf(Text, json_string_length(Entry), "%s", json_string_value(Entry)) >= 0);
+    return (snprintf(Text, json_string_length(Entry)+1, "%s", json_string_value(Entry)) >= 0);
 #else
     unsigned long TempSize=500;
 
     return (ERROR_SUCCESS == RegQueryValueEx (hKey, EntryName, NULL, NULL, (UBYTE*)Text, &TempSize));
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx (BOOL *Bool, CString EntryName)
+bool CRegistryAccess::ReadRegistryKeyEx_b (BOOL *Bool, CString EntryName)
 {
     if (!hKey) return (0);
 
@@ -254,7 +254,7 @@ bool CRegistryAccess::ReadRegistryKeyEx (BOOL *Bool, CString EntryName)
     return (rc);
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx (long *Long, CString EntryName)
+bool CRegistryAccess::ReadRegistryKeyEx_l (SLONG *Long, CString EntryName)
 {
     if (!hKey) return (0);
 
@@ -275,7 +275,7 @@ bool CRegistryAccess::ReadRegistryKeyEx (long *Long, CString EntryName)
     return (rc);
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx (double *Double, CString EntryName)
+bool CRegistryAccess::ReadRegistryKeyEx_d (double *Double, CString EntryName)
 {
     if (!hKey) return (0);
 
