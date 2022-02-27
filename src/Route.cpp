@@ -58,7 +58,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CRoute &r) {
 //============================================================================================
 // Konstruktor:
 //============================================================================================
-CRouten::CRouten(const CString & /*TabFilename*/) : ALBUM<CRoute>(Routen, "Routen") {
+CRouten::CRouten(const CString & /*TabFilename*/) : ALBUM_V<CRoute>("Routen") {
     // ReInit (TabFilename);
     DebugBreak();
 }
@@ -69,8 +69,6 @@ CRouten::CRouten(const CString & /*TabFilename*/) : ALBUM<CRoute>(Routen, "Route
 void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
     // CStdioFile    Tab;
     BUFFER<char> Line(300);
-    long Id = 0;
-    long Id2 = 0;
 
     // Load Table header:
     BUFFER<UBYTE> FileData(*LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
@@ -79,9 +77,8 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
     // Die erste Zeile einlesen
     FileP = ReadLine(FileData, FileP, Line, 300);
 
-    Routen.ReSize(0);
-    IsInAlbum(0x11000000);
-    Routen.ReSize(MAX_ROUTES);
+    ReSize(0);
+    ReSize(MAX_ROUTES);
 
     while (true) {
         if (FileP >= FileData.AnzEntries()) {
@@ -99,43 +96,31 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
         ULONG NachCity = Cities.GetIdFromName(const_cast<char *>((LPCTSTR)KorrigiereUmlaute(Helper2)));
 
         // Looking for doubles (may be turned off for compatibility)
+        bool skip = false;
         if (bNoDoublettes) {
             for (SLONG c = 0; c < AnzEntries(); c++) {
                 if ((IsInAlbum(c) != 0) && (*this)[c].VonCity == VonCity && (*this)[c].NachCity == NachCity) {
-                    goto skip_this_city_because_it_exists_twice;
+                    skip = true;
                 }
             }
         }
 
-        // Tabellenzeile hinzufügen:
-        Id = GetUniqueId();
-        (*this) += Id;
+        if (!skip) {
+            CRoute routeHin;
+            routeHin.Ebene = HelperEbene;
+            routeHin.VonCity = VonCity;
+            routeHin.NachCity = NachCity;
+            routeHin.Miete = atol(strtok(nullptr, TabSeparator));
+            routeHin.Faktor = atof(strtok(nullptr, TabSeparator));
+            routeHin.Bedarf = 0;
+            routeHin.bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn == 2 || Cities[NachCity].bNewInAddOn == 2);
 
-        // SpeedUp durch direkten Zugriff:
-        Id = (*this)(Id);
-        (*this)[Id].Ebene = HelperEbene;
-        (*this)[Id].VonCity = VonCity;
-        (*this)[Id].NachCity = NachCity;
-        (*this)[Id].Miete = atol(strtok(nullptr, TabSeparator));
-        (*this)[Id].Faktor = atof(strtok(nullptr, TabSeparator));
-        (*this)[Id].Bedarf = 0;
-        (*this)[Id].bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn == 2 || Cities[NachCity].bNewInAddOn == 2);
+            CRoute routeHer = routeHin;
+            std::swap(routeHer.VonCity, routeHer.NachCity);
 
-        // Tabellenzeile hinzufügen:
-        Id2 = GetUniqueId();
-        (*this) += Id2;
-
-        // SpeedUp durch direkten Zugriff:
-        Id2 = (*this)(Id2);
-        (*this)[Id2].Ebene = (*this)[Id].Ebene;
-        (*this)[Id2].VonCity = (*this)[Id].NachCity;
-        (*this)[Id2].NachCity = (*this)[Id].VonCity;
-        (*this)[Id2].Miete = (*this)[Id].Miete;
-        (*this)[Id2].Faktor = (*this)[Id].Faktor;
-        (*this)[Id2].Bedarf = 0;
-        (*this)[Id2].bNewInDeluxe = (*this)[Id].bNewInDeluxe;
-
-    skip_this_city_because_it_exists_twice:;
+            (*this) += std::move(routeHin);
+            (*this) += std::move(routeHer);
+        }
     }
 
     this->Sort();
@@ -147,8 +132,6 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
 void CRouten::ReInitExtend(const CString &TabFilename) {
     // CStdioFile    Tab;
     BUFFER<char> Line(300);
-    long Id = 0;
-    long Id2 = 0;
     long linenumber = 0;
 
     // Load Table header:
@@ -158,7 +141,7 @@ void CRouten::ReInitExtend(const CString &TabFilename) {
     // Die erste Zeile einlesen
     FileP = ReadLine(FileData, FileP, Line, 300);
 
-    Routen.ReSize(MAX_ROUTES);
+    ReSize(MAX_ROUTES);
     auto NumUsed = GetNumUsed();
 
     while (true) {
@@ -181,33 +164,20 @@ void CRouten::ReInitExtend(const CString &TabFilename) {
         ULONG VonCity = Cities.GetIdFromName(const_cast<char *>((LPCTSTR)KorrigiereUmlaute(Helper1)));
         ULONG NachCity = Cities.GetIdFromName(const_cast<char *>((LPCTSTR)KorrigiereUmlaute(Helper2)));
 
-        // Tabellenzeile hinzufügen:
-        Id = GetUniqueId();
-        (*this) += Id;
+        CRoute routeHin;
+        routeHin.Ebene = HelperEbene;
+        routeHin.VonCity = VonCity;
+        routeHin.NachCity = NachCity;
+        routeHin.Miete = atol(strtok(nullptr, TabSeparator));
+        routeHin.Faktor = atof(strtok(nullptr, TabSeparator));
+        routeHin.Bedarf = 0;
+        routeHin.bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn == 2 || Cities[NachCity].bNewInAddOn == 2);
 
-        // SpeedUp durch direkten Zugriff:
-        Id = (*this)(Id);
-        (*this)[Id].Ebene = HelperEbene;
-        (*this)[Id].VonCity = VonCity;
-        (*this)[Id].NachCity = NachCity;
-        (*this)[Id].Miete = atol(strtok(nullptr, TabSeparator));
-        (*this)[Id].Faktor = atof(strtok(nullptr, TabSeparator));
-        (*this)[Id].Bedarf = 0;
-        (*this)[Id].bNewInDeluxe = static_cast<BOOL>(Cities[VonCity].bNewInAddOn == 2 || Cities[NachCity].bNewInAddOn == 2);
+        CRoute routeHer = routeHin;
+        std::swap(routeHer.VonCity, routeHer.NachCity);
 
-        // Tabellenzeile hinzufügen:
-        Id2 = GetUniqueId();
-        (*this) += Id2;
-
-        // SpeedUp durch direkten Zugriff:
-        Id2 = (*this)(Id2);
-        (*this)[Id2].Ebene = (*this)[Id].Ebene;
-        (*this)[Id2].VonCity = (*this)[Id].NachCity;
-        (*this)[Id2].NachCity = (*this)[Id].VonCity;
-        (*this)[Id2].Miete = (*this)[Id].Miete;
-        (*this)[Id2].Faktor = (*this)[Id].Faktor;
-        (*this)[Id2].Bedarf = 0;
-        (*this)[Id2].bNewInDeluxe = (*this)[Id].bNewInDeluxe;
+        (*this) += std::move(routeHin);
+        (*this) += std::move(routeHer);
     }
 
     this->Sort();
@@ -238,12 +208,7 @@ void CRouten::NewDay() {
 // Speichert ein CRouten Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CRouten &r) {
-    if (SaveVersion == 1 && SaveVersionSub < 12) {
-        File << r.Routen;
-    } else {
-        File << r.Routen;
-        File << *((const ALBUM<CRoute> *)&r);
-    }
+    File << *((const ALBUM_V<CRoute> *)&r);
 
     return (File);
 }
@@ -252,12 +217,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CRouten &r) {
 // Lädt ein CRouten Datum:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CRouten &r) {
-    if (SaveVersion == 1 && SaveVersionSub < 12) {
-        File >> r.Routen;
-    } else {
-        File >> r.Routen;
-        File >> *((ALBUM<CRoute> *)&r);
-    }
+    File >> *((ALBUM_V<CRoute> *)&r);
 
     return (File);
 }

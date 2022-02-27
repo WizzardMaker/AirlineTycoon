@@ -641,13 +641,13 @@ class CFrachten : public ALBUM_V<CFracht> {
 //--------------------------------------------------------------------------------------------
 class CRoute {
   public:
-    BOOL bNewInDeluxe; // wird nicht serialisiert
-    SLONG Ebene;       // 1=fein; 2=grob
-    ULONG VonCity;     // bezeichnet eine Stadt
-    ULONG NachCity;    // bezeichnet eine Stadt
-    SLONG Miete;
-    double Faktor; // Attraktivität der Route
-    SLONG Bedarf;  // Soviele Leute wollen heute fliegen
+    BOOL bNewInDeluxe{}; // wird nicht serialisiert
+    SLONG Ebene{};       // 1=fein; 2=grob
+    ULONG VonCity{};     // bezeichnet eine Stadt
+    ULONG NachCity{};    // bezeichnet eine Stadt
+    SLONG Miete{};
+    double Faktor{}; // Attraktivität der Route
+    SLONG Bedarf{};  // Soviele Leute wollen heute fliegen
 
   public:
     SLONG AnzPassagiere(void) const; // So viele fliegen (Potentiell) hier
@@ -659,12 +659,9 @@ class CRoute {
     friend TEAKFILE &operator>>(TEAKFILE &File, CRoute &r);
 };
 
-class CRouten : public ALBUM<CRoute> {
+class CRouten : public ALBUM_V<CRoute> {
   public:
-    FBUFFER<CRoute> Routen;
-
-  public:
-    CRouten() : ALBUM<CRoute>(Routen, "Routen") {}
+    CRouten() : ALBUM_V<CRoute>("Routen") {}
     CRouten(const CString &TabFilename);
     void ReInit(const CString &TabFilename, bool bNoDoublettes);
     void ReInitExtend(const CString &TabFilename);

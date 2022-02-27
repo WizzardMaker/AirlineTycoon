@@ -10,6 +10,7 @@ add_library (TeakLibW
     Math.cpp
     TeakFile.cpp
     TeakStr.cpp
+    Test.cpp
     TextRes.cpp
 )
 

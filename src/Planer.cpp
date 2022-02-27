@@ -2365,7 +2365,7 @@ void CPlaner::HandleLButtonDown() {
                 SLONG d = 0;
                 SLONG RouteB = -1;
 
-                for (d = 0; d < Routen.Routen.AnzEntries(); d++) {
+                for (d = 0; d < Routen.AnzEntries(); d++) {
                     if ((Routen.IsInAlbum(d) != 0) && Routen[d].VonCity == Routen[pBlock->SelectedIdB].NachCity &&
                         Routen[d].NachCity == Routen[pBlock->SelectedIdB].VonCity) {
                         RouteB = Routen(d);

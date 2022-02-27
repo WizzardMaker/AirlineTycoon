@@ -617,7 +617,7 @@ CAufsicht::~CAufsicht() {
                         qPlayer.ArabHints += 70;
                         qOpfer.RouteWegnehmen(Routen(qPlayer.ArabPlane), qPlayer.PlayerNum);
                         {
-                            for (long d = 0; d < Routen.Routen.AnzEntries(); d++) {
+                            for (long d = 0; d < Routen.AnzEntries(); d++) {
                                 if ((Routen.IsInAlbum(d) != 0) && Routen[d].VonCity == Routen[qPlayer.ArabPlane].NachCity &&
                                     Routen[d].NachCity == Routen[qPlayer.ArabPlane].VonCity) {
                                     qOpfer.RouteWegnehmen(d, qPlayer.PlayerNum);

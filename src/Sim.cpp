@@ -97,8 +97,7 @@ void DumpAASeedSum(long CallerId) {
     Hdu.HercPrintf("Summe for %li is %li\n", CallerId, sum);
 }
 #else
-void DumpAASeedSum(long /*CallerId*/) {
-}
+void DumpAASeedSum(long /*CallerId*/) {}
 #endif
 
 //--------------------------------------------------------------------------------------------
@@ -1248,33 +1247,19 @@ void SIM::CreateMissionCities() {
         }
 
         if (d < 0) {
-            long Id = 0;
-            long Id2 = 0;
+            CRoute routeHin;
+            routeHin.Ebene = 1;
+            routeHin.VonCity = Sim.HomeAirportId;
+            routeHin.NachCity = MissionCities[c];
+            routeHin.Miete = 6000;
+            routeHin.Faktor = 1;
+            routeHin.Bedarf = 0;
 
-            Id = Routen.GetUniqueId();
-            Routen += Id;
+            CRoute routeHer = routeHin;
+            std::swap(routeHer.VonCity, routeHer.NachCity);
 
-            // SpeedUp durch direkten Zugriff:
-            Id = Routen(Id);
-            Routen[Id].Ebene = 1;
-            Routen[Id].VonCity = Sim.HomeAirportId;
-            Routen[Id].NachCity = MissionCities[c];
-            Routen[Id].Miete = 6000;
-            Routen[Id].Faktor = 1;
-            Routen[Id].Bedarf = 0;
-
-            // Tabellenzeile hinzufügen:
-            Id2 = Routen.GetUniqueId();
-            Routen += Id2;
-
-            // SpeedUp durch direkten Zugriff:
-            Id2 = Routen(Id2);
-            Routen[Id2].Ebene = Routen[Id].Ebene;
-            Routen[Id2].VonCity = Routen[Id].NachCity;
-            Routen[Id2].NachCity = Routen[Id].VonCity;
-            Routen[Id2].Miete = Routen[Id].Miete;
-            Routen[Id2].Faktor = Routen[Id].Faktor;
-            Routen[Id2].Bedarf = 0;
+            Routen += std::move(routeHin);
+            Routen += std::move(routeHer);
         }
     }
 }
@@ -3939,7 +3924,8 @@ void SIM::UpdateRoomUsage() {
                     case ROOM_WERBUNG:
                         Talkers.Talkers[TALKER_WERBUNG].IncreaseLocking();
                         break;
-                    default: break;
+                    default:
+                        break;
                     }
                 }
             }

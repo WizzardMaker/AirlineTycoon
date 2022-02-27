@@ -18,6 +18,7 @@ extern const char *ExcAlbumInsert;
 extern const char *ExcAlbumFind;
 extern const char *ExcAlbumDelete;
 extern const char *ExcXIDUnrecoverable;
+extern const char *ExcAlbumNotConsistent;
 
 extern SLONG TeakLibW_Exception(char *, SLONG, const char *, ...);
 extern char *TeakStrRemoveCppComment(char *);
@@ -923,11 +924,80 @@ extern BUFFER<BYTE> *LoadCompleteFile(char const *);
 extern SLONG CalcInertiaVelocity(SLONG, SLONG);
 extern SLONG Calc1nSum(SLONG);
 
+extern bool run_regression();
+
 template <typename T> class ALBUM_V {
   public:
-    ALBUM_V(CString str) : Name(str) {}
+    class Iter {
+      public:
+        using difference_type = int;
+        using value_type = T;
+        using pointer = T *;
+        using reference = T &;
+        using iterator_category = std::random_access_iterator_tag;
 
-    void Repair(BUFFER<T> & /*buffer*/) {}
+        Iter(typename std::vector<T>::iterator it, std::vector<int>::iterator it2, std::unordered_map<ULONG, int> *h) : It(it), It2(it2), Hash(h) {}
+        inline Iter &operator++() {
+            It++;
+            It2++;
+            return (*this);
+        }
+        inline Iter &operator--() {
+            It--;
+            It2--;
+            return (*this);
+        }
+        inline Iter &operator+=(int i) {
+            It += i;
+            It2 += i;
+            return (*this);
+        }
+        inline Iter &operator-=(int i) {
+            It -= i;
+            It2 -= i;
+            return (*this);
+        }
+        friend Iter operator+(Iter it, int i) { return Iter(it.It + i, it.It2 + i, it.Hash); }
+        friend Iter operator-(Iter it, int i) { return Iter(it.It - i, it.It2 - i, it.Hash); }
+        friend Iter operator+(int i, Iter it) { return Iter(it.It + i, it.It2 + i, it.Hash); }
+        friend Iter operator-(int i, Iter it) { return Iter(it.It - i, it.It2 - i, it.Hash); }
+        inline difference_type operator-(Iter it) { return It - it.It; }
+        inline reference operator*() const { return *It; }
+        inline bool operator==(const Iter &i) const { return It == i.It; }
+        inline bool operator!=(const Iter &i) const { return It != i.It; }
+
+        inline bool operator<(const Iter &i) const { return It < i.It; }
+        inline bool operator<=(const Iter &i) const { return It <= i.It; }
+        inline bool operator>(const Iter &i) const { return It > i.It; }
+        inline bool operator>=(const Iter &i) const { return It >= i.It; }
+
+        friend void swap(Iter &a, Iter &b) {
+            if (a == b) {
+                return;
+            }
+            assert(a.Hash == b.Hash);
+            auto *h = a.Hash;
+            if (h->end() != h->find(*a.It2)) {
+                h->at(*a.It2) += (b.It2 - a.It2);
+            }
+            if (h->end() != h->find(*b.It2)) {
+                h->at(*b.It2) -= (b.It2 - a.It2);
+            }
+            std::iter_swap(a.It, b.It);
+            std::iter_swap(a.It2, b.It2);
+        }
+
+        bool IsInAlbum() const { return (*It2) != 0; }
+
+      private:
+        typename std::vector<T>::iterator It;
+        std::vector<int>::iterator It2;
+        std::unordered_map<ULONG, int> *Hash;
+    };
+    Iter begin() { return Iter(List.begin(), ListInit.begin(), &Hash); }
+    Iter end() { return Iter(List.end(), ListInit.end(), &Hash); }
+
+    ALBUM_V(CString str) : Name(str) {}
 
     int IsInAlbum(ULONG id) const {
         if (id >= 0x1000000) {
@@ -938,13 +1008,23 @@ template <typename T> class ALBUM_V {
         return 0;
     }
 
-    SLONG AnzEntries() const { assert(List.size() == ListInit.size()); return List.size(); }
+    SLONG AnzEntries() const {
+        assert(List.size() == ListInit.size());
+        return List.size();
+    }
     SLONG GetNumFree() const { return std::count(ListInit.begin(), ListInit.end(), 0); }
     SLONG GetNumUsed() const { return AnzEntries() - GetNumFree(); }
 
-    void ReSize(SLONG anz) { List.resize(anz); ListInit.resize(anz); }
+    void ReSize(SLONG anz) {
+        for (int i = anz; i < AnzEntries(); i++) {
+            Hash.erase(ListInit[i]);
+            ListInit[i] = 0;
+        }
+        List.resize(anz);
+        ListInit.resize(anz);
+    }
 
-    SLONG GetRandomUsedIndex(TEAKRAND *random = NULL) {
+    SLONG GetRandomUsedIndex(TEAKRAND *random = NULL) const {
         SLONG used = GetNumUsed();
         if (used == 0) {
             TeakLibW_Exception(nullptr, 0, ExcAlbumFind, Name.c_str());
@@ -964,11 +1044,12 @@ template <typename T> class ALBUM_V {
         return 0;
     }
 
-    SLONG GetUniqueId() { return ++LastId; }
+    ULONG GetIdFromIndex(SLONG i) const { return ListInit[i]; }
 
-    ULONG GetIdFromIndex(SLONG i) { return ListInit[i]; }
-
-    void ClearAlbum() { ListInit = std::vector<int>(AnzEntries()); }
+    void ClearAlbum() {
+        ListInit = std::vector<int>(AnzEntries(), 0);
+        Hash = {};
+    }
 
     /*
     void Swap(SLONG a, SLONG b) {
@@ -985,30 +1066,52 @@ template <typename T> class ALBUM_V {
 
     void ResetNextId() { LastId = 0xFFFFFF; }
 
-    /*
     void Sort() {
-        TeakAlbumRefresh(Ids, Values->AnzEntries());
-        for (SLONG i = 0; i < Values->AnzEntries() - 1; i++) {
-            if (Ids[i] && Ids[i + 1] && Values->MemPointer[i] > Values->MemPointer[i + 1]) {
-                ::Swap(Ids[i], Ids[i + 1]);
-                ::Swap(Values->MemPointer[i], Values->MemPointer[i + 1]);
-                i -= 2;
-                if (i < -1)
-                    i = -1;
-            } else if (!Ids[i]) {
-                if (Ids[i + 1]) {
-                    ::Swap(Ids[i], Ids[i + 1]);
-                    ::Swap(Values->MemPointer[i], Values->MemPointer[i + 1]);
-                    i -= 2;
-                    if (i < -1)
-                        i = -1;
-                }
+        auto a = begin();
+        auto b = end() - 1;
+        while (true) {
+            while (a.IsInAlbum() && a < b) {
+                ++a;
             }
+            while (!b.IsInAlbum() && a < b) {
+                --b;
+            }
+            if (a >= b) {
+                break;
+            }
+            swap(a, b);
         }
+        assert(a == b);
+        qSort(begin(), a - 1);
     }
 
-    ULONG operator*=(ULONG id) { return TeakAlbumFrontAddT(Ids, Values->AnzEntries(), Name, id); }
+  private:
+    void qSort(Iter start, Iter end) {
+        if (start >= end)
+            return;
+        Iter pivotIter = (end - start) / 2 + start;
+        Iter i = start - 1;
+        Iter j = end + 1;
+        while (true) {
+            do {
+                ++i;
+            } while (*i < *pivotIter);
+            do {
+                --j;
+            } while (*pivotIter < *j);
+            if (i < j) {
+                swap(i, j);
+            } else {
+                break;
+            }
+        }
+        qSort(start, j);
+        qSort(j + 1, end);
+    }
 
+  public:
+    /*
+    ULONG operator*=(ULONG id) { return TeakAlbumFrontAddT(Ids, Values->AnzEntries(), Name, id); }
     ULONG operator+=(ULONG id) { return TeakAlbumAddT(Ids, Values->AnzEntries(), Name, id); }
     */
 
@@ -1018,7 +1121,10 @@ template <typename T> class ALBUM_V {
             if (it != Hash.end()) {
                 ListInit[it->second] = 0;
             }
+            Hash.erase(id);
+            return;
         } else if (id < AnzEntries() && (ListInit[id] != 0)) {
+            Hash.erase(ListInit[id]);
             ListInit[id] = 0;
             return;
         }
@@ -1067,30 +1173,44 @@ template <typename T> class ALBUM_V {
         return 0;
     }
 
-    SLONG operator()(ULONG id) { return find(id); }
-    SLONG find(ULONG id) {
+    SLONG operator()(ULONG id) const { return find(id); }
+    SLONG find(ULONG id) const {
         if (id >= 0x1000000) {
             auto it = Hash.find(id);
             if (it != Hash.end()) {
                 return it->second;
             }
-        } else if (id < AnzEntries() && (ListInit[id] != 0)) {
+        } else if (id < AnzEntries()) {
             return id;
         }
         TeakLibW_Exception(nullptr, 0, ExcAlbumFind, Name.c_str());
         return 0;
     }
 
-    T &operator[](ULONG id) { return at(id); }
-    T &at(ULONG id) {
-        if (id >= 0x1000000) {
-            return List[find(id)];
-        }
-        return List[id];
-    }
+    T &operator[](ULONG id) { return List.at(find(id)); }
+    T &at(ULONG id) { return List.at(find(id)); }
 
-    typename std::vector<T>::iterator begin() { return List.begin(); }
-    typename std::vector<T>::iterator end() { return List.end(); }
+    bool operator==(const ALBUM_V<T> &l) const {
+        return (LastId == l.LastId) && (Name == l.Name) && (List == l.List) && (ListInit == l.ListInit) && (Hash == l.Hash);
+    }
+    bool operator!=(const ALBUM_V<T> &l) const { return !operator==(l); }
+
+    bool operator==(const std::vector<T> &l) const {
+        if (AnzEntries() != l.size()) {
+            return false;
+        }
+        return std::equal(List.begin(), List.end(), l.begin());
+    }
+    bool operator!=(const std::vector<T> &l) const { return !operator==(l); }
+
+    void check_consistent_index() {
+        for (int i = 0; i < AnzEntries(); i++) {
+            auto id = GetIdFromIndex(i);
+            if ((id != 0) && find(id) != i) {
+                TeakLibW_Exception(nullptr, 0, ExcAlbumNotConsistent, Name.c_str());
+            }
+        }
+    }
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const ALBUM_V<T> &buffer) {
         File << buffer.LastId;
@@ -1141,13 +1261,7 @@ template <typename T> class ALBUM_V {
     }
 
   private:
-    /*
-    FBUFFER<ULONG> Ids;
-
-    // This self-reference could be stored as an offset to survive reallocations,
-    // but instead Spellbound implemented a Repair() function.
-    FBUFFER<T> *Values;
-    */
+    SLONG GetUniqueId() { return ++LastId; }
 
     ULONG LastId{0xFFFFFF};
     std::vector<T> List;

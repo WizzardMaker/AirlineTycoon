@@ -4,6 +4,7 @@ const char *ExcAlbumInsert = "Album: %s += failed!";
 const char *ExcAlbumFind = "Album: %s [] failed!";
 const char *ExcAlbumDelete = "Album: %s -= failed!";
 const char *ExcXIDUnrecoverable = "XID-Access for %li (%s) failed (unrecoverable)!";
+const char *ExcAlbumNotConsistent = "Album %s index is corrupted!";
 
 XID::XID() : Value(0), Index(0) {}
 

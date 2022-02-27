@@ -747,7 +747,7 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point) {
                     SLONG d = 0;
                     SLONG RouteB = -1;
 
-                    for (d = 0; d < Routen.Routen.AnzEntries(); d++) {
+                    for (d = 0; d < Routen.AnzEntries(); d++) {
                         if ((Routen.IsInAlbum(d) != 0) && Routen[d].VonCity == Routen[CurrentTip].NachCity &&
                             Routen[d].NachCity == Routen[CurrentTip].VonCity) {
                             RouteB = Routen(d);
@@ -791,7 +791,7 @@ void CRouteBox::OnLButtonDown(UINT nFlags, CPoint point) {
                         }
                     }
 
-                    for (d = 0; d < Routen.Routen.AnzEntries(); d++) {
+                    for (d = 0; d < Routen.AnzEntries(); d++) {
                         if ((Routen.IsInAlbum(d) != 0) && Routen[d].VonCity == Routen[CurrentTip].NachCity &&
                             Routen[d].NachCity == Routen[CurrentTip].VonCity) {
                             RouteB = Routen(d);
