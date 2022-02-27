@@ -35,7 +35,7 @@ typedef struct _GfxChunkInfo
     char Type;
 } GfxChunkInfo;
 
-typedef struct _GfxChunkImage
+typedef struct GfxChunkImage
 {
     dword Length; // 76 bytes
     dword Size;
@@ -153,7 +153,7 @@ SLONG GfxLib::Load(SDL_RWops* file, GfxLibHeader* header)
             return -3;
         }
 
-        GfxChunkHeader chunk = { {0} };
+        GfxChunkHeader chunk = { {{0}} };
         switch (info.Type)
         {
             case CHUNK_GFX:

@@ -245,7 +245,7 @@ ULONG CITIES::GetIdFromName (const char *Name)
 #define foreacharg(marker, type, firstargname, finalvalue) \
     for (long arghelper1=0, arghelper2=0, arghelper3=0; arghelper1==0; arghelper1=1) \
     for (type q##type=firstargname; arghelper2==0; arghelper2=1) \
-    for (va_start (marker, firstargname); q##type!=finalvalue; q##type=va_arg(va_marker, type))
+    for (va_start (marker, firstargname); q##type!=(finalvalue); q##type=va_arg(va_marker, type))
 
 //--------------------------------------------------------------------------------------------
 //Gibt die Nummer der Stadt mit dem angegebnen Namen zurück:

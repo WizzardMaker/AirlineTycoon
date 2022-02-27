@@ -143,7 +143,7 @@ BOOL deltaDecompressFrame (FILE *SourceFile, SB_CBitmapCore &OldFrame, SB_CBitma
     fread (&Offsets[2], 1, sizeof (XY), SourceFile);
 
     //Prüfen, ob der Header stimmt:
-    if (strcmp (Header, gDeltaHeader)) return (FALSE);
+    if (strcmp (Header, gDeltaHeader) != 0) return (FALSE);
 
     //Die Daten lesen:
     fread (&x,      1, sizeof (SLONG), SourceFile);

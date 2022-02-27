@@ -26,7 +26,7 @@ static char THIS_FILE[] = __FILE__;
 
 extern SB_CColorFX ColorFX;
 
-#define DSBVOLUME_MIN               -10000
+#define DSBVOLUME_MIN               (-10000)
 #define DSBVOLUME_MAX               0
 
 //Zum debuggen:
@@ -82,124 +82,124 @@ CPlaneBuild gPlaneBuilds[37]=
 
 #undef _C2
 
-static long _B1=GetPlaneBuildIndex("B1");
-static long _B2=GetPlaneBuildIndex("B2");
-static long _B3=GetPlaneBuildIndex("B3");
-static long _B4=GetPlaneBuildIndex("B4");
-static long _B5=GetPlaneBuildIndex("B5");
-static long _C1=GetPlaneBuildIndex("C1");
-static long _C2=GetPlaneBuildIndex("C2");
-static long _C3=GetPlaneBuildIndex("C3");
-static long _C4=GetPlaneBuildIndex("C4");
-static long _C5=GetPlaneBuildIndex("C5");
-static long _H1=GetPlaneBuildIndex("H1");
-static long _H2=GetPlaneBuildIndex("H2");
-static long _H3=GetPlaneBuildIndex("H3");
-static long _H4=GetPlaneBuildIndex("H4");
-static long _H5=GetPlaneBuildIndex("H5");
-static long _H6=GetPlaneBuildIndex("H6");
-static long _H7=GetPlaneBuildIndex("H7");
-static long _L1=GetPlaneBuildIndex("L1");
-static long _L2=GetPlaneBuildIndex("L2");
-static long _L3=GetPlaneBuildIndex("L3");
-static long _L4=GetPlaneBuildIndex("L4");
-static long _L5=GetPlaneBuildIndex("L5");
-static long _L6=GetPlaneBuildIndex("L6");
-static long _M1=GetPlaneBuildIndex("M1");
-static long _M2=GetPlaneBuildIndex("M2");
-static long _M3=GetPlaneBuildIndex("M3");
-static long _M4=GetPlaneBuildIndex("M4");
-static long _M5=GetPlaneBuildIndex("M5");
-static long _M6=GetPlaneBuildIndex("M6");
-static long _M7=GetPlaneBuildIndex("M7");
-static long _M8=GetPlaneBuildIndex("M8");
-static long _R1=GetPlaneBuildIndex("R1");
-static long _R2=GetPlaneBuildIndex("R2");
-static long _R3=GetPlaneBuildIndex("R3");
-static long _R4=GetPlaneBuildIndex("R4");
-static long _R5=GetPlaneBuildIndex("R5");
-static long _R6=GetPlaneBuildIndex("R6");
+static long B1=GetPlaneBuildIndex("B1");
+static long B2=GetPlaneBuildIndex("B2");
+static long B3=GetPlaneBuildIndex("B3");
+static long B4=GetPlaneBuildIndex("B4");
+static long B5=GetPlaneBuildIndex("B5");
+static long C1=GetPlaneBuildIndex("C1");
+static long C2=GetPlaneBuildIndex("C2");
+static long C3=GetPlaneBuildIndex("C3");
+static long C4=GetPlaneBuildIndex("C4");
+static long C5=GetPlaneBuildIndex("C5");
+static long H1=GetPlaneBuildIndex("H1");
+static long H2=GetPlaneBuildIndex("H2");
+static long H3=GetPlaneBuildIndex("H3");
+static long H4=GetPlaneBuildIndex("H4");
+static long H5=GetPlaneBuildIndex("H5");
+static long H6=GetPlaneBuildIndex("H6");
+static long H7=GetPlaneBuildIndex("H7");
+static long L1=GetPlaneBuildIndex("L1");
+static long L2=GetPlaneBuildIndex("L2");
+static long L3=GetPlaneBuildIndex("L3");
+static long L4=GetPlaneBuildIndex("L4");
+static long L5=GetPlaneBuildIndex("L5");
+static long L6=GetPlaneBuildIndex("L6");
+static long M1=GetPlaneBuildIndex("M1");
+static long M2=GetPlaneBuildIndex("M2");
+static long M3=GetPlaneBuildIndex("M3");
+static long M4=GetPlaneBuildIndex("M4");
+static long M5=GetPlaneBuildIndex("M5");
+static long M6=GetPlaneBuildIndex("M6");
+static long M7=GetPlaneBuildIndex("M7");
+static long M8=GetPlaneBuildIndex("M8");
+static long R1=GetPlaneBuildIndex("R1");
+static long R2=GetPlaneBuildIndex("R2");
+static long R3=GetPlaneBuildIndex("R3");
+static long R4=GetPlaneBuildIndex("R4");
+static long R5=GetPlaneBuildIndex("R5");
+static long R6=GetPlaneBuildIndex("R6");
 
 //Für das Anhängen der Tragflächen:
-static XY _rbody2a( 66,79);
-static XY _rbody2b(118,91);
-static XY _rbody2c(169,105);
-static XY _rbody2d(139,138);
-static XY _lbody2a( 66+29,79-30);
-static XY _lbody2b(118+29,91-30);
-static XY _lbody2c(169+29,105-30);
-static XY _lbody2d(139+29,138-30);
+static XY rbody2a( 66,79);
+static XY rbody2b(118,91);
+static XY rbody2c(169,105);
+static XY rbody2d(139,138);
+static XY lbody2a( 66+29,79-30);
+static XY lbody2b(118+29,91-30);
+static XY lbody2c(169+29,105-30);
+static XY lbody2d(139+29,138-30);
 
-static XY _rbody3(82,77);
-static XY _lbody3(118,44);
+static XY rbody3(82,77);
+static XY lbody3(118,44);
 
-static XY _rbody4(114,113);
-static XY _lbody4(160,42);
+static XY rbody4(114,113);
+static XY lbody4(160,42);
 
-static XY _rbody5(107,94);
-static XY _lbody5(120+36,33+15);
+static XY rbody5(107,94);
+static XY lbody5(120+36,33+15);
 
-static XY _rwing1(182,14);
-static XY _lwing1( 80,166);
+static XY rwing1(182,14);
+static XY lwing1( 80,166);
 
-static XY _rwing2(206,11);
-static XY _lwing2( 68,141);
+static XY rwing2(206,11);
+static XY lwing2( 68,141);
 
-static XY _rwing3(202,20);
-static XY _lwing3(110,129);
+static XY rwing3(202,20);
+static XY lwing3(110,129);
 
-static XY _rwing4(202,20);
-static XY _lwing4( 57,135);
+static XY rwing4(202,20);
+static XY lwing4( 57,135);
 
-static XY _rwing5(121,10);
-static XY _lwing5( 62,86);
+static XY rwing5(121,10);
+static XY lwing5( 62,86);
 
-static XY _rwing6(200,21);
-static XY _lwing6(111,100);
+static XY rwing6(200,21);
+static XY lwing6(111,100);
 
 //Für das Anhängen der Triebwerke:
-static XY _motor1(45, 6);
-static XY _motor2(33, 4);
-static XY _motor3(44,13);
-static XY _motor4(42, 4);
-static XY _motor5(49,12);
-static XY _motor6(79,30);
-static XY _motor7(87,31);
-static XY _motor8(91, 4);
+static XY motor1(45, 6);
+static XY motor2(33, 4);
+static XY motor3(44,13);
+static XY motor4(42, 4);
+static XY motor5(49,12);
+static XY motor6(79,30);
+static XY motor7(87,31);
+static XY motor8(91, 4);
 
-static XY _m_rwing1a(224,41);
-static XY _m_rwing1b(150,58);
-static XY _m_rwing1c( 80,81);
-static XY _m_lwing1a(138,163);
-static XY _m_lwing1b(146,112);
-static XY _m_lwing1c(154, 60);
+static XY m_rwing1a(224,41);
+static XY m_rwing1b(150,58);
+static XY m_rwing1c( 80,81);
+static XY m_lwing1a(138,163);
+static XY m_lwing1b(146,112);
+static XY m_lwing1c(154, 60);
 
-static XY _m_rwing2a(221, 29);
-static XY _m_rwing2b(156, 45);
-static XY _m_rwing2c( 57, 61);
-static XY _m_lwing2a(106,129);
-static XY _m_lwing2b(108, 90);
-static XY _m_lwing2c( 98, 23);
+static XY m_rwing2a(221, 29);
+static XY m_rwing2b(156, 45);
+static XY m_rwing2c( 57, 61);
+static XY m_lwing2a(106,129);
+static XY m_lwing2b(108, 90);
+static XY m_lwing2c( 98, 23);
 
-static XY _m_rwing3a(235, 61);
-static XY _m_rwing3b(181, 76);
-static XY _m_rwing3c( 81, 97);
-static XY _m_lwing3a(195,118);
-static XY _m_lwing3b(190, 88);
-static XY _m_lwing3c(185, 34);
+static XY m_rwing3a(235, 61);
+static XY m_rwing3b(181, 76);
+static XY m_rwing3c( 81, 97);
+static XY m_lwing3a(195,118);
+static XY m_lwing3b(190, 88);
+static XY m_lwing3c(185, 34);
 
-static XY _m_rwing4a(166, 43);
-static XY _m_rwing4b(103, 83);
-static XY _m_lwing4a(111, 92);
-static XY _m_lwing4b(151, 45);
+static XY m_rwing4a(166, 43);
+static XY m_rwing4b(103, 83);
+static XY m_lwing4a(111, 92);
+static XY m_lwing4b(151, 45);
 
-static XY _m_rwing5(100, 54);
-static XY _m_lwing5(128, 42);
+static XY m_rwing5(100, 54);
+static XY m_lwing5(128, 42);
 
-static XY _m_rwing6a(217, 64);
-static XY _m_rwing6b(117,105);
-static XY _m_lwing6a(178, 87);
-static XY _m_lwing6b(177, 43);
+static XY m_rwing6a(217, 64);
+static XY m_rwing6b(117,105);
+static XY m_lwing6a(178, 87);
+static XY m_lwing6b(177, 43);
 
 //2d: Zum anhängen des Cockpits:
 static XY _2d_cbody1(  0,0);
@@ -300,349 +300,349 @@ static XY _2d_m_lwing6b(97,8);
 CPlanePartRelation gPlanePartRelations[307]=
 {
     //Bug             // Id,  From, To, Offset2d,     Offset3d,     Note1,            Note1,           Note1,    zAdd, Slot, RulesOutSlots
-    CPlanePartRelation ( 100,  -1, _B1, XY(-44, -75), XY(320, 220-30), NOTE_BEGLEITER4,  NOTE_STD,        NOTE_STD, 0,    0,     "B*", "B*" ),
-    CPlanePartRelation ( 101,  -1, _B2, XY(-107,-120),XY(320, 220-30), NOTE_BEGLEITER8,  NOTE_BEGLEITER4, NOTE_STD, 0,    0,     "B*", "B*" ),
-    CPlanePartRelation ( 102,  -1, _B3, XY(-67, -76), XY(320, 220-30), NOTE_BEGLEITER6,  NOTE_STD,        NOTE_STD, 0,    0,     "B*", "B*" ),
-    CPlanePartRelation ( 103,  -1, _B4, XY(-80, -99), XY(320, 220-30), NOTE_BEGLEITER6,  NOTE_BEGLEITER4, NOTE_STD, 0,    0,     "B*", "B*" ),
-    CPlanePartRelation ( 104,  -1, _B5, XY(-80, -94), XY(320, 220-30), NOTE_BEGLEITER8,  NOTE_STD,        NOTE_STD, 0,    0,     "B*", "B*" ),
+    CPlanePartRelation ( 100,  -1, B1, XY(-44, -75), XY(320, 220-30), NOTE_BEGLEITER4,  NOTE_STD,        NOTE_STD, 0,    0,     "B*", "B*" ),
+    CPlanePartRelation ( 101,  -1, B2, XY(-107,-120),XY(320, 220-30), NOTE_BEGLEITER8,  NOTE_BEGLEITER4, NOTE_STD, 0,    0,     "B*", "B*" ),
+    CPlanePartRelation ( 102,  -1, B3, XY(-67, -76), XY(320, 220-30), NOTE_BEGLEITER6,  NOTE_STD,        NOTE_STD, 0,    0,     "B*", "B*" ),
+    CPlanePartRelation ( 103,  -1, B4, XY(-80, -99), XY(320, 220-30), NOTE_BEGLEITER6,  NOTE_BEGLEITER4, NOTE_STD, 0,    0,     "B*", "B*" ),
+    CPlanePartRelation ( 104,  -1, B5, XY(-80, -94), XY(320, 220-30), NOTE_BEGLEITER8,  NOTE_STD,        NOTE_STD, 0,    0,     "B*", "B*" ),
 
     //Bug->Cockpit    // Id,  From, To, Offset2d,             Offset3d,     Note1,       Note1,       Note1,         zAdd, Noise, Slot, RulesOutSlots
-    CPlanePartRelation ( 200, _B1, _C1, _2d_cbody1-_2d_cpit1, XY(103,  30), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 201, _B1, _C2, _2d_cbody1-_2d_cpit2, XY(104,  30), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 202, _B1, _C3, _2d_cbody1-_2d_cpit3, XY(104,  30), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 203, _B1, _C4, _2d_cbody1-_2d_cpit4, XY(104,  31), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 204, _B1, _C5, _2d_cbody1-_2d_cpit5, XY(104,  31), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 210, _B2, _C1, _2d_cbody2-_2d_cpit1, XY(249, 105), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 211, _B2, _C2, _2d_cbody2-_2d_cpit2, XY(250, 105), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 212, _B2, _C3, _2d_cbody2-_2d_cpit3, XY(250, 105), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 213, _B2, _C4, _2d_cbody2-_2d_cpit4, XY(250, 106), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 214, _B2, _C5, _2d_cbody2-_2d_cpit5, XY(250, 106), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 220, _B3, _C1, _2d_cbody3-_2d_cpit1, XY(157,  46), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 221, _B3, _C2, _2d_cbody3-_2d_cpit2, XY(157,  46), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 222, _B3, _C3, _2d_cbody3-_2d_cpit3, XY(158,  46), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 223, _B3, _C4, _2d_cbody3-_2d_cpit4, XY(158,  47), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 224, _B3, _C5, _2d_cbody3-_2d_cpit5, XY(158,  47), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 230, _B4, _C1, _2d_cbody4-_2d_cpit1, XY(208,  60), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 231, _B4, _C2, _2d_cbody4-_2d_cpit2, XY(209,  60), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 232, _B4, _C3, _2d_cbody4-_2d_cpit3, XY(209,  60), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 233, _B4, _C4, _2d_cbody4-_2d_cpit4, XY(209,  61), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 234, _B4, _C5, _2d_cbody4-_2d_cpit5, XY(209,  61), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 240, _B5, _C1, _2d_cbody5-_2d_cpit1, XY(207,  60), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 241, _B5, _C2, _2d_cbody5-_2d_cpit2, XY(208,  60), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 242, _B5, _C3, _2d_cbody5-_2d_cpit3, XY(208,  60), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 243, _B5, _C4, _2d_cbody5-_2d_cpit4, XY(208,  61), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
-    CPlanePartRelation ( 244, _B5, _C5, _2d_cbody5-_2d_cpit5, XY(208,  61), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 200, B1, C1, _2d_cbody1-_2d_cpit1, XY(103,  30), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 201, B1, C2, _2d_cbody1-_2d_cpit2, XY(104,  30), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 202, B1, C3, _2d_cbody1-_2d_cpit3, XY(104,  30), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 203, B1, C4, _2d_cbody1-_2d_cpit4, XY(104,  31), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 204, B1, C5, _2d_cbody1-_2d_cpit5, XY(104,  31), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 210, B2, C1, _2d_cbody2-_2d_cpit1, XY(249, 105), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 211, B2, C2, _2d_cbody2-_2d_cpit2, XY(250, 105), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 212, B2, C3, _2d_cbody2-_2d_cpit3, XY(250, 105), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 213, B2, C4, _2d_cbody2-_2d_cpit4, XY(250, 106), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 214, B2, C5, _2d_cbody2-_2d_cpit5, XY(250, 106), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 220, B3, C1, _2d_cbody3-_2d_cpit1, XY(157,  46), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 221, B3, C2, _2d_cbody3-_2d_cpit2, XY(157,  46), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 222, B3, C3, _2d_cbody3-_2d_cpit3, XY(158,  46), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 223, B3, C4, _2d_cbody3-_2d_cpit4, XY(158,  47), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 224, B3, C5, _2d_cbody3-_2d_cpit5, XY(158,  47), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 230, B4, C1, _2d_cbody4-_2d_cpit1, XY(208,  60), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 231, B4, C2, _2d_cbody4-_2d_cpit2, XY(209,  60), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 232, B4, C3, _2d_cbody4-_2d_cpit3, XY(209,  60), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 233, B4, C4, _2d_cbody4-_2d_cpit4, XY(209,  61), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 234, B4, C5, _2d_cbody4-_2d_cpit5, XY(209,  61), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 240, B5, C1, _2d_cbody5-_2d_cpit1, XY(207,  60), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED400, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 241, B5, C2, _2d_cbody5-_2d_cpit2, XY(208,  60), NOTE_PILOT3, NOTE_STD,    NOTE_SPEED500, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 242, B5, C3, _2d_cbody5-_2d_cpit3, XY(208,  60), NOTE_PILOT4, NOTE_STD,    NOTE_SPEED800, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 243, B5, C4, _2d_cbody5-_2d_cpit4, XY(208,  61), NOTE_PILOT2, NOTE_STD,    NOTE_SPEED300, 0,    0,     "C0", "C0" ),
+    CPlanePartRelation ( 244, B5, C5, _2d_cbody5-_2d_cpit5, XY(208,  61), NOTE_PILOT4, NOTE_PILOT3, NOTE_STD,      0,    0,     "C0", "C0" ),
 
     //Bug->Heck       // Id,  From, To, Offset2d,     Offset3d,        Note1,    Note1,    Note1,         zAdd, Noise, Slot, RulesOutSlots
-    CPlanePartRelation ( 300, _B1, _H1, _2d_hbody1-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 301, _B1, _H2, _2d_hbody1-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 302, _B1, _H3, _2d_hbody1-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 303, _B1, _H4, _2d_hbody1-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_STD, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 304, _B1, _H5, _2d_hbody1-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 305, _B1, _H6, _2d_hbody1-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 306, _B1, _H7, _2d_hbody1-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 310, _B2, _H1, _2d_hbody2-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 311, _B2, _H2, _2d_hbody2-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 312, _B2, _H3, _2d_hbody2-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 313, _B2, _H4, _2d_hbody2-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_KAPUTTXL, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 314, _B2, _H5, _2d_hbody2-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 315, _B2, _H6, _2d_hbody2-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 316, _B2, _H7, _2d_hbody2-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 320, _B3, _H1, _2d_hbody3-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 321, _B3, _H2, _2d_hbody3-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 322, _B3, _H3, _2d_hbody3-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 323, _B3, _H4, _2d_hbody3-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_STD, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 324, _B3, _H5, _2d_hbody3-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 325, _B3, _H6, _2d_hbody3-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 326, _B3, _H7, _2d_hbody3-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 330, _B4, _H1, _2d_hbody4-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 331, _B4, _H2, _2d_hbody4-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 332, _B4, _H3, _2d_hbody4-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 333, _B4, _H4, _2d_hbody4-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_STD, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 334, _B4, _H5, _2d_hbody4-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 335, _B4, _H6, _2d_hbody4-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 336, _B4, _H7, _2d_hbody4-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 340, _B5, _H1, _2d_hbody5-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 341, _B5, _H2, _2d_hbody5-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 342, _B5, _H3, _2d_hbody5-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 343, _B5, _H4, _2d_hbody5-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_STD, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 344, _B5, _H5, _2d_hbody5-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 345, _B5, _H6, _2d_hbody5-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
-    CPlanePartRelation ( 346, _B5, _H7, _2d_hbody5-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 300, B1, H1, _2d_hbody1-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 301, B1, H2, _2d_hbody1-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 302, B1, H3, _2d_hbody1-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 303, B1, H4, _2d_hbody1-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_STD, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 304, B1, H5, _2d_hbody1-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 305, B1, H6, _2d_hbody1-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 306, B1, H7, _2d_hbody1-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 310, B2, H1, _2d_hbody2-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 311, B2, H2, _2d_hbody2-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 312, B2, H3, _2d_hbody2-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 313, B2, H4, _2d_hbody2-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_KAPUTTXL, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 314, B2, H5, _2d_hbody2-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 315, B2, H6, _2d_hbody2-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 316, B2, H7, _2d_hbody2-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 320, B3, H1, _2d_hbody3-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 321, B3, H2, _2d_hbody3-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 322, B3, H3, _2d_hbody3-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 323, B3, H4, _2d_hbody3-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_STD, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 324, B3, H5, _2d_hbody3-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 325, B3, H6, _2d_hbody3-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 326, B3, H7, _2d_hbody3-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 330, B4, H1, _2d_hbody4-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 331, B4, H2, _2d_hbody4-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 332, B4, H3, _2d_hbody4-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 333, B4, H4, _2d_hbody4-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_STD, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 334, B4, H5, _2d_hbody4-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 335, B4, H6, _2d_hbody4-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 336, B4, H7, _2d_hbody4-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 340, B5, H1, _2d_hbody5-_2d_heck1, XY(-130, -121),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 341, B5, H2, _2d_hbody5-_2d_heck2, XY(-126,  -91),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 342, B5, H3, _2d_hbody5-_2d_heck3, XY(-110,  -90),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 343, B5, H4, _2d_hbody5-_2d_heck4, XY( -78,  -85),  NOTE_STD, NOTE_STD, NOTE_SPEED500, 0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 344, B5, H5, _2d_hbody5-_2d_heck5, XY(-111,  -87),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 345, B5, H6, _2d_hbody5-_2d_heck6, XY( -98,  -59),  NOTE_STD, NOTE_STD, NOTE_STD,      0,    0,     "H0", "H0" ),
+    CPlanePartRelation ( 346, B5, H7, _2d_hbody5-_2d_heck7, XY(-136, -113),  NOTE_STD, NOTE_STD, NOTE_SPEED800, 0,    0,     "H0", "H0" ),
 
     //Bug->Flügel     // Id,  From, To, Offset2d,     Offset3d,        Note1,    Note1,    Note1,    zAdd, Noise, Slot, RulesOutSlots
-    CPlanePartRelation ( 400, _B1, _R4, _2d_tbody1-_2d_rght4, XY(-128,   59),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
-    CPlanePartRelation ( 600, _B1, _L4, _2d_tbody1-_2d_left4, XY(  42,  -93),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2L3" ),
-    CPlanePartRelation ( 401, _B1, _R5, _2d_tbody1-_2d_rght5, XY( -66,   58),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
-    CPlanePartRelation ( 601, _B1, _L5, _2d_tbody1-_2d_left5, XY(  35,  -46),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2L3" ),
+    CPlanePartRelation ( 400, B1, R4, _2d_tbody1-_2d_rght4, XY(-128,   59),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
+    CPlanePartRelation ( 600, B1, L4, _2d_tbody1-_2d_left4, XY(  42,  -93),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2L3" ),
+    CPlanePartRelation ( 401, B1, R5, _2d_tbody1-_2d_rght5, XY( -66,   58),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
+    CPlanePartRelation ( 601, B1, L5, _2d_tbody1-_2d_left5, XY(  35,  -46),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2L3" ),
 
-    CPlanePartRelation ( 411, _B2, _R1, _2d_tbody2b-_2d_rght1, _rbody2b-_rwing1, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
-    CPlanePartRelation ( 611, _B2, _L1, _2d_tbody2b-_2d_left1, _lbody2b-_lwing1, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2R5" ),
-    CPlanePartRelation ( 413, _B2, _R1, _2d_tbody2d-_2d_rght1, _rbody2d-_rwing1, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR4" ),
-    CPlanePartRelation ( 613, _B2, _L1, _2d_tbody2d-_2d_left1, _lbody2d-_lwing1, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL4" ),
+    CPlanePartRelation ( 411, B2, R1, _2d_tbody2b-_2d_rght1, rbody2b-rwing1, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
+    CPlanePartRelation ( 611, B2, L1, _2d_tbody2b-_2d_left1, lbody2b-lwing1, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2R5" ),
+    CPlanePartRelation ( 413, B2, R1, _2d_tbody2d-_2d_rght1, rbody2d-rwing1, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR4" ),
+    CPlanePartRelation ( 613, B2, L1, _2d_tbody2d-_2d_left1, lbody2d-lwing1, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL4" ),
 
-    CPlanePartRelation ( 420, _B2, _R2, _2d_tbody2a-_2d_rght2, _rbody2a-_rwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2" ),
-    CPlanePartRelation ( 620, _B2, _L2, _2d_tbody2a-_2d_left2, _lbody2a-_lwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2" ),
-    CPlanePartRelation ( 421, _B2, _R2, _2d_tbody2b-_2d_rght2, _rbody2b-_rwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
-    CPlanePartRelation ( 621, _B2, _L2, _2d_tbody2b-_2d_left2, _lbody2b-_lwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2R5" ),
-    CPlanePartRelation ( 422, _B2, _R2, _2d_tbody2c-_2d_rght2, _rbody2c-_rwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR2R3" ),
-    CPlanePartRelation ( 622, _B2, _L2, _2d_tbody2c-_2d_left2, _lbody2c-_lwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL2L3" ),
-    CPlanePartRelation ( 423, _B2, _R2, _2d_tbody2d-_2d_rght2, _rbody2d-_rwing2, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR4" ),
-    CPlanePartRelation ( 623, _B2, _L2, _2d_tbody2d-_2d_left2, _lbody2d-_lwing2, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL4" ),
+    CPlanePartRelation ( 420, B2, R2, _2d_tbody2a-_2d_rght2, rbody2a-rwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2" ),
+    CPlanePartRelation ( 620, B2, L2, _2d_tbody2a-_2d_left2, lbody2a-lwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2" ),
+    CPlanePartRelation ( 421, B2, R2, _2d_tbody2b-_2d_rght2, rbody2b-rwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
+    CPlanePartRelation ( 621, B2, L2, _2d_tbody2b-_2d_left2, lbody2b-lwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2R5" ),
+    CPlanePartRelation ( 422, B2, R2, _2d_tbody2c-_2d_rght2, rbody2c-rwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR2R3" ),
+    CPlanePartRelation ( 622, B2, L2, _2d_tbody2c-_2d_left2, lbody2c-lwing2, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL2L3" ),
+    CPlanePartRelation ( 423, B2, R2, _2d_tbody2d-_2d_rght2, rbody2d-rwing2, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR4" ),
+    CPlanePartRelation ( 623, B2, L2, _2d_tbody2d-_2d_left2, lbody2d-lwing2, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL4" ),
 
-    CPlanePartRelation ( 424, _B2, _R3, _2d_tbody2b-_2d_rght3, _rbody2b-_rwing3, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR1R2R3" ),
-    CPlanePartRelation ( 624, _B2, _L3, _2d_tbody2b-_2d_left3, _lbody2b-_lwing3, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL1L2R5" ),
+    CPlanePartRelation ( 424, B2, R3, _2d_tbody2b-_2d_rght3, rbody2b-rwing3, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR1R2R3" ),
+    CPlanePartRelation ( 624, B2, L3, _2d_tbody2b-_2d_left3, lbody2b-lwing3, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL1L2R5" ),
 
-    CPlanePartRelation ( 430, _B2, _R4, _2d_tbody2a-_2d_rght4, _rbody2a-_rwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2" ),
-    CPlanePartRelation ( 630, _B2, _L4, _2d_tbody2a-_2d_left4, _lbody2a-_lwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2" ),
-    CPlanePartRelation ( 431, _B2, _R4, _2d_tbody2b-_2d_rght4, _rbody2b-_rwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
-    CPlanePartRelation ( 631, _B2, _L4, _2d_tbody2b-_2d_left4, _lbody2b-_lwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2R5" ),
-    CPlanePartRelation ( 432, _B2, _R4, _2d_tbody2c-_2d_rght4, _rbody2c-_rwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR2R3" ),
-    CPlanePartRelation ( 632, _B2, _L4, _2d_tbody2c-_2d_left2, _lbody2c-_lwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL2L3" ),
-    CPlanePartRelation ( 433, _B2, _R4, _2d_tbody2d-_2d_rght4, _rbody2d-_rwing4, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR4" ),
-    CPlanePartRelation ( 633, _B2, _L4, _2d_tbody2d-_2d_left4, _lbody2d-_lwing4, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL4" ),
+    CPlanePartRelation ( 430, B2, R4, _2d_tbody2a-_2d_rght4, rbody2a-rwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2" ),
+    CPlanePartRelation ( 630, B2, L4, _2d_tbody2a-_2d_left4, lbody2a-lwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2" ),
+    CPlanePartRelation ( 431, B2, R4, _2d_tbody2b-_2d_rght4, rbody2b-rwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR1R2R3" ),
+    CPlanePartRelation ( 631, B2, L4, _2d_tbody2b-_2d_left4, lbody2b-lwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL1L2R5" ),
+    CPlanePartRelation ( 432, B2, R4, _2d_tbody2c-_2d_rght4, rbody2c-rwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "RxR2R3" ),
+    CPlanePartRelation ( 632, B2, L4, _2d_tbody2c-_2d_left2, lbody2c-lwing4, NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "LxL2L3" ),
+    CPlanePartRelation ( 433, B2, R4, _2d_tbody2d-_2d_rght4, rbody2d-rwing4, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR4" ),
+    CPlanePartRelation ( 633, B2, L4, _2d_tbody2d-_2d_left4, lbody2d-lwing4, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL4" ),
 
-    CPlanePartRelation ( 444, _B2, _R6, _2d_tbody2b-_2d_rght6, _rbody2b-_rwing6, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR1R2R3" ),
-    CPlanePartRelation ( 644, _B2, _L6, _2d_tbody2b-_2d_left6, _lbody2b-_lwing6, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL1L2R5" ),
+    CPlanePartRelation ( 444, B2, R6, _2d_tbody2b-_2d_rght6, rbody2b-rwing6, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Rx", "RxR1R2R3" ),
+    CPlanePartRelation ( 644, B2, L6, _2d_tbody2b-_2d_left6, lbody2b-lwing6, NOTE_STD, NOTE_STD, NOTE_STD, -400, 0,     "Lx", "LxL1L2R5" ),
 
-    CPlanePartRelation ( 450, _B3, _R1, _2d_tbody3-_2d_rght1, _rbody3-_rwing1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 650, _B3, _L1, _2d_tbody3-_2d_left1, _lbody3-_lwing1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
-    CPlanePartRelation ( 451, _B3, _R2, _2d_tbody3-_2d_rght2, _rbody3-_rwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 651, _B3, _L2, _2d_tbody3-_2d_left2, _lbody3-_lwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
-    CPlanePartRelation ( 452, _B3, _R4, _2d_tbody3-_2d_rght4, _rbody3-_rwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 652, _B3, _L4, _2d_tbody3-_2d_left4, _lbody3-_lwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
-    CPlanePartRelation ( 453, _B3, _R5, _2d_tbody3-_2d_rght5, _rbody3-_rwing5,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 653, _B3, _L5, _2d_tbody3-_2d_left5, _lbody3-_lwing5,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 450, B3, R1, _2d_tbody3-_2d_rght1, rbody3-rwing1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 650, B3, L1, _2d_tbody3-_2d_left1, lbody3-lwing1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 451, B3, R2, _2d_tbody3-_2d_rght2, rbody3-rwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 651, B3, L2, _2d_tbody3-_2d_left2, lbody3-lwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 452, B3, R4, _2d_tbody3-_2d_rght4, rbody3-rwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 652, B3, L4, _2d_tbody3-_2d_left4, lbody3-lwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 453, B3, R5, _2d_tbody3-_2d_rght5, rbody3-rwing5,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 653, B3, L5, _2d_tbody3-_2d_left5, lbody3-lwing5,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
 
-    CPlanePartRelation ( 460, _B4, _R2, _2d_tbody4-_2d_rght2, _rbody4-_rwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 660, _B4, _L2, _2d_tbody4-_2d_left2, _lbody4-_lwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
-    CPlanePartRelation ( 461, _B4, _R4, _2d_tbody4-_2d_rght4, _rbody4-_rwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 661, _B4, _L4, _2d_tbody4-_2d_left4, _lbody4-_lwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
-    CPlanePartRelation ( 462, _B4, _R5, _2d_tbody4-_2d_rght5, _rbody4-_rwing5-XY(14,5),  NOTE_STD, NOTE_STD, NOTE_STD, 0,  0, "Rx", "Rx" ),
-    CPlanePartRelation ( 662, _B4, _L5, _2d_tbody4-_2d_left5, _lbody4-_lwing5,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 460, B4, R2, _2d_tbody4-_2d_rght2, rbody4-rwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 660, B4, L2, _2d_tbody4-_2d_left2, lbody4-lwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 461, B4, R4, _2d_tbody4-_2d_rght4, rbody4-rwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 661, B4, L4, _2d_tbody4-_2d_left4, lbody4-lwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 462, B4, R5, _2d_tbody4-_2d_rght5, rbody4-rwing5-XY(14,5),  NOTE_STD, NOTE_STD, NOTE_STD, 0,  0, "Rx", "Rx" ),
+    CPlanePartRelation ( 662, B4, L5, _2d_tbody4-_2d_left5, lbody4-lwing5,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
 
-    CPlanePartRelation ( 470, _B5, _R1, _2d_tbody5-_2d_rght1, _rbody5-_rwing1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 670, _B5, _L1, _2d_tbody5-_2d_left1, _lbody5-_lwing1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
-    CPlanePartRelation ( 471, _B5, _R2, _2d_tbody5-_2d_rght2, _rbody5-_rwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 671, _B5, _L2, _2d_tbody5-_2d_left2, _lbody5-_lwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
-    CPlanePartRelation ( 472, _B5, _R3, _2d_tbody5-_2d_rght3, _rbody5-_rwing3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 672, _B5, _L3, _2d_tbody5-_2d_left3, _lbody5-_lwing3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
-    CPlanePartRelation ( 473, _B5, _R4, _2d_tbody5-_2d_rght4, _rbody5-_rwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 673, _B5, _L4, _2d_tbody5-_2d_left4, _lbody5-_lwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
-    CPlanePartRelation ( 474, _B5, _R5, _2d_tbody5-_2d_rght5, _rbody5-_rwing5,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
-    CPlanePartRelation ( 674, _B5, _L5, _2d_tbody5-_2d_left5, _lbody5-_lwing5+XY(45,15),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 470, B5, R1, _2d_tbody5-_2d_rght1, rbody5-rwing1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 670, B5, L1, _2d_tbody5-_2d_left1, lbody5-lwing1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 471, B5, R2, _2d_tbody5-_2d_rght2, rbody5-rwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 671, B5, L2, _2d_tbody5-_2d_left2, lbody5-lwing2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 472, B5, R3, _2d_tbody5-_2d_rght3, rbody5-rwing3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 672, B5, L3, _2d_tbody5-_2d_left3, lbody5-lwing3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 473, B5, R4, _2d_tbody5-_2d_rght4, rbody5-rwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 673, B5, L4, _2d_tbody5-_2d_left4, lbody5-lwing4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
+    CPlanePartRelation ( 474, B5, R5, _2d_tbody5-_2d_rght5, rbody5-rwing5,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Rx", "Rx" ),
+    CPlanePartRelation ( 674, B5, L5, _2d_tbody5-_2d_left5, lbody5-lwing5+XY(45,15),  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "Lx", "Lx" ),
 
     //Flügel->Motor   // Id,  From, To, Offset2d,                  Offset3d,            Note1,    Note1,    Note1,    zAdd, Noise, Slot, RulesOutSlots
-    CPlanePartRelation ( 700, _R1, _M1, _2d_m_rwing1a-_2d_motor1, _m_rwing1a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M1", "M1" ),
-    CPlanePartRelation ( 710, _L1, _M1, _2d_m_lwing1a-_2d_motor1, _m_lwing1a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M4", "M4" ),
-    CPlanePartRelation ( 701, _R1, _M2, _2d_m_rwing1a-_2d_motor2, _m_rwing1a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M1", "M1" ),
-    CPlanePartRelation ( 711, _L1, _M2, _2d_m_lwing1a-_2d_motor2, _m_lwing1a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M4", "M4" ),
-    CPlanePartRelation ( 704, _R1, _M5, XY(90, 22),               XY(-33, 40),         NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
-    CPlanePartRelation ( 714, _L1, _M5, XY(64, -14),              XY(102, -27),        NOTE_STD, NOTE_STD, NOTE_STD, 1000, 0,     "ML", "ML" ),
-    CPlanePartRelation ( 707, _R1, _M8, _2d_m_rwing1a-_2d_motor8, _m_rwing1a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 8,     "M1", "M1M2" ),
-    CPlanePartRelation ( 717, _L1, _M8, _2d_m_lwing1a-_2d_motor8, _m_lwing1a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    8,     "M4", "M4M5" ),
+    CPlanePartRelation ( 700, R1, M1, _2d_m_rwing1a-_2d_motor1, m_rwing1a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M1", "M1" ),
+    CPlanePartRelation ( 710, L1, M1, _2d_m_lwing1a-_2d_motor1, m_lwing1a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M4", "M4" ),
+    CPlanePartRelation ( 701, R1, M2, _2d_m_rwing1a-_2d_motor2, m_rwing1a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M1", "M1" ),
+    CPlanePartRelation ( 711, L1, M2, _2d_m_lwing1a-_2d_motor2, m_lwing1a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M4", "M4" ),
+    CPlanePartRelation ( 704, R1, M5, XY(90, 22),               XY(-33, 40),         NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
+    CPlanePartRelation ( 714, L1, M5, XY(64, -14),              XY(102, -27),        NOTE_STD, NOTE_STD, NOTE_STD, 1000, 0,     "ML", "ML" ),
+    CPlanePartRelation ( 707, R1, M8, _2d_m_rwing1a-_2d_motor8, m_rwing1a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 8,     "M1", "M1M2" ),
+    CPlanePartRelation ( 717, L1, M8, _2d_m_lwing1a-_2d_motor8, m_lwing1a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    8,     "M4", "M4M5" ),
 
-    CPlanePartRelation ( 720, _R1, _M1, _2d_m_rwing1b-_2d_motor1, _m_rwing1b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 730, _L1, _M1, _2d_m_lwing1b-_2d_motor1, _m_lwing1b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 721, _R1, _M2, _2d_m_rwing1b-_2d_motor2, _m_rwing1b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 731, _L1, _M2, _2d_m_lwing1b-_2d_motor2, _m_lwing1b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 722, _R1, _M3, _2d_m_rwing1b-_2d_motor3, _m_rwing1b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 732, _L1, _M3, _2d_m_lwing1b-_2d_motor3, _m_lwing1b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 723, _R1, _M4, _2d_m_rwing1b-_2d_motor4, _m_rwing1b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 733, _L1, _M4, _2d_m_lwing1b-_2d_motor4, _m_lwing1b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 725, _R1, _M6, _2d_m_rwing1b-_2d_motor6, _m_rwing1b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
-    CPlanePartRelation ( 735, _L1, _M6, _2d_m_lwing1b-_2d_motor6, _m_lwing1b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
-    CPlanePartRelation ( 726, _R1, _M7, _2d_m_rwing1b-_2d_motor7, _m_rwing1b-_motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
-    CPlanePartRelation ( 736, _L1, _M7, _2d_m_lwing1b-_2d_motor7, _m_lwing1b-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
-    CPlanePartRelation ( 727, _R1, _M8, _2d_m_rwing1b-_2d_motor8, _m_rwing1b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
-    CPlanePartRelation ( 737, _L1, _M8, _2d_m_lwing1b-_2d_motor8, _m_lwing1b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
+    CPlanePartRelation ( 720, R1, M1, _2d_m_rwing1b-_2d_motor1, m_rwing1b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 730, L1, M1, _2d_m_lwing1b-_2d_motor1, m_lwing1b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 721, R1, M2, _2d_m_rwing1b-_2d_motor2, m_rwing1b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 731, L1, M2, _2d_m_lwing1b-_2d_motor2, m_lwing1b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 722, R1, M3, _2d_m_rwing1b-_2d_motor3, m_rwing1b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 732, L1, M3, _2d_m_lwing1b-_2d_motor3, m_lwing1b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 723, R1, M4, _2d_m_rwing1b-_2d_motor4, m_rwing1b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 733, L1, M4, _2d_m_lwing1b-_2d_motor4, m_lwing1b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 725, R1, M6, _2d_m_rwing1b-_2d_motor6, m_rwing1b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
+    CPlanePartRelation ( 735, L1, M6, _2d_m_lwing1b-_2d_motor6, m_lwing1b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
+    CPlanePartRelation ( 726, R1, M7, _2d_m_rwing1b-_2d_motor7, m_rwing1b-motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
+    CPlanePartRelation ( 736, L1, M7, _2d_m_lwing1b-_2d_motor7, m_lwing1b-motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
+    CPlanePartRelation ( 727, R1, M8, _2d_m_rwing1b-_2d_motor8, m_rwing1b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
+    CPlanePartRelation ( 737, L1, M8, _2d_m_lwing1b-_2d_motor8, m_lwing1b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
 
-    CPlanePartRelation ( 740, _R1, _M1, _2d_m_rwing1c-_2d_motor1, _m_rwing1c-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 750, _L1, _M1, _2d_m_lwing1c-_2d_motor1, _m_lwing1c-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 741, _R1, _M2, _2d_m_rwing1c-_2d_motor2, _m_rwing1c-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 751, _L1, _M2, _2d_m_lwing1c-_2d_motor2, _m_lwing1c-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 742, _R1, _M3, _2d_m_rwing1c-_2d_motor3, _m_rwing1c-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 752, _L1, _M3, _2d_m_lwing1c-_2d_motor3, _m_lwing1c-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 743, _R1, _M4, _2d_m_rwing1c-_2d_motor4, _m_rwing1c-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 753, _L1, _M4, _2d_m_lwing1c-_2d_motor4, _m_lwing1c-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 745, _R1, _M6, _2d_m_rwing1c-_2d_motor6, _m_rwing1c-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
-    CPlanePartRelation ( 755, _L1, _M6, _2d_m_lwing1c-_2d_motor6, _m_lwing1c-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
-    CPlanePartRelation ( 746, _R1, _M7, _2d_m_rwing1c-_2d_motor7, _m_rwing1c-_motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
-    CPlanePartRelation ( 756, _L1, _M7, _2d_m_lwing1c-_2d_motor7, _m_lwing1c-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
-    CPlanePartRelation ( 747, _R1, _M8, _2d_m_rwing1c-_2d_motor8, _m_rwing1c-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
-    CPlanePartRelation ( 757, _L1, _M8, _2d_m_lwing1c-_2d_motor8, _m_lwing1c-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
+    CPlanePartRelation ( 740, R1, M1, _2d_m_rwing1c-_2d_motor1, m_rwing1c-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 750, L1, M1, _2d_m_lwing1c-_2d_motor1, m_lwing1c-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 741, R1, M2, _2d_m_rwing1c-_2d_motor2, m_rwing1c-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 751, L1, M2, _2d_m_lwing1c-_2d_motor2, m_lwing1c-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 742, R1, M3, _2d_m_rwing1c-_2d_motor3, m_rwing1c-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 752, L1, M3, _2d_m_lwing1c-_2d_motor3, m_lwing1c-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 743, R1, M4, _2d_m_rwing1c-_2d_motor4, m_rwing1c-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 753, L1, M4, _2d_m_lwing1c-_2d_motor4, m_lwing1c-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 745, R1, M6, _2d_m_rwing1c-_2d_motor6, m_rwing1c-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
+    CPlanePartRelation ( 755, L1, M6, _2d_m_lwing1c-_2d_motor6, m_lwing1c-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
+    CPlanePartRelation ( 746, R1, M7, _2d_m_rwing1c-_2d_motor7, m_rwing1c-motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
+    CPlanePartRelation ( 756, L1, M7, _2d_m_lwing1c-_2d_motor7, m_lwing1c-motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
+    CPlanePartRelation ( 747, R1, M8, _2d_m_rwing1c-_2d_motor8, m_rwing1c-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
+    CPlanePartRelation ( 757, L1, M8, _2d_m_lwing1c-_2d_motor8, m_lwing1c-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
 
     //Flügel2->Motor  // Id,  From, To, Offset2d,                 Offset3d,            Note1,    Note1,    Note1,    zAdd, Slot, RulesOutSlots
-    CPlanePartRelation ( 800, _R2, _M1, _2d_m_rwing2a-_2d_motor1, _m_rwing2a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M1", "M1" ),
-    CPlanePartRelation ( 810, _L2, _M1, _2d_m_lwing2a-_2d_motor1, _m_lwing2a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M4", "M4" ),
-    CPlanePartRelation ( 801, _R2, _M2, _2d_m_rwing2a-_2d_motor2, _m_rwing2a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M1", "M1" ),
-    CPlanePartRelation ( 811, _L2, _M2, _2d_m_lwing2a-_2d_motor2, _m_lwing2a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M4", "M4" ),
-    CPlanePartRelation ( 807, _R2, _M8, _2d_m_rwing2a-_2d_motor8, _m_rwing2a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 8,     "M1", "M1M2" ),
-    CPlanePartRelation ( 817, _L2, _M8, _2d_m_lwing2a-_2d_motor8, _m_lwing2a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    8,     "M4", "M4M5" ),
+    CPlanePartRelation ( 800, R2, M1, _2d_m_rwing2a-_2d_motor1, m_rwing2a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M1", "M1" ),
+    CPlanePartRelation ( 810, L2, M1, _2d_m_lwing2a-_2d_motor1, m_lwing2a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M4", "M4" ),
+    CPlanePartRelation ( 801, R2, M2, _2d_m_rwing2a-_2d_motor2, m_rwing2a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M1", "M1" ),
+    CPlanePartRelation ( 811, L2, M2, _2d_m_lwing2a-_2d_motor2, m_lwing2a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M4", "M4" ),
+    CPlanePartRelation ( 807, R2, M8, _2d_m_rwing2a-_2d_motor8, m_rwing2a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 8,     "M1", "M1M2" ),
+    CPlanePartRelation ( 817, L2, M8, _2d_m_lwing2a-_2d_motor8, m_lwing2a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    8,     "M4", "M4M5" ),
 
-    CPlanePartRelation ( 820, _R2, _M1, _2d_m_rwing2b-_2d_motor1, _m_rwing2b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 830, _L2, _M1, _2d_m_lwing2b-_2d_motor1, _m_lwing2b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 821, _R2, _M2, _2d_m_rwing2b-_2d_motor2, _m_rwing2b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 831, _L2, _M2, _2d_m_lwing2b-_2d_motor2, _m_lwing2b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 822, _R2, _M3, _2d_m_rwing2b-_2d_motor3, _m_rwing2b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 832, _L2, _M3, _2d_m_lwing2b-_2d_motor3, _m_lwing2b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 823, _R2, _M4, _2d_m_rwing2b-_2d_motor4, _m_rwing2b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 833, _L2, _M4, _2d_m_lwing2b-_2d_motor4, _m_lwing2b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 824, _R2, _M5, XY(87, 33),               XY(-37, 43),         NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
-    CPlanePartRelation ( 834, _L2, _M5, XY(86, -14),              XY(52, -23),         NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "ML", "ML" ),
-    CPlanePartRelation ( 825, _R2, _M6, _2d_m_rwing2b-_2d_motor6, _m_rwing2b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
-    CPlanePartRelation ( 835, _L2, _M6, _2d_m_lwing2b-_2d_motor6, _m_lwing2b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
-    CPlanePartRelation ( 826, _R2, _M7, _2d_m_rwing2b-_2d_motor7, _m_rwing2b-_motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
-    CPlanePartRelation ( 836, _L2, _M7, _2d_m_lwing2b-_2d_motor7, _m_lwing2b-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
-    CPlanePartRelation ( 827, _R2, _M8, _2d_m_rwing2b-_2d_motor8, _m_rwing2b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
-    CPlanePartRelation ( 837, _L2, _M8, _2d_m_lwing2b-_2d_motor8, _m_lwing2b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
+    CPlanePartRelation ( 820, R2, M1, _2d_m_rwing2b-_2d_motor1, m_rwing2b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 830, L2, M1, _2d_m_lwing2b-_2d_motor1, m_lwing2b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 821, R2, M2, _2d_m_rwing2b-_2d_motor2, m_rwing2b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 831, L2, M2, _2d_m_lwing2b-_2d_motor2, m_lwing2b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 822, R2, M3, _2d_m_rwing2b-_2d_motor3, m_rwing2b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 832, L2, M3, _2d_m_lwing2b-_2d_motor3, m_lwing2b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 823, R2, M4, _2d_m_rwing2b-_2d_motor4, m_rwing2b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 833, L2, M4, _2d_m_lwing2b-_2d_motor4, m_lwing2b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 824, R2, M5, XY(87, 33),               XY(-37, 43),         NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
+    CPlanePartRelation ( 834, L2, M5, XY(86, -14),              XY(52, -23),         NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "ML", "ML" ),
+    CPlanePartRelation ( 825, R2, M6, _2d_m_rwing2b-_2d_motor6, m_rwing2b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
+    CPlanePartRelation ( 835, L2, M6, _2d_m_lwing2b-_2d_motor6, m_lwing2b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
+    CPlanePartRelation ( 826, R2, M7, _2d_m_rwing2b-_2d_motor7, m_rwing2b-motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
+    CPlanePartRelation ( 836, L2, M7, _2d_m_lwing2b-_2d_motor7, m_lwing2b-motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
+    CPlanePartRelation ( 827, R2, M8, _2d_m_rwing2b-_2d_motor8, m_rwing2b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
+    CPlanePartRelation ( 837, L2, M8, _2d_m_lwing2b-_2d_motor8, m_lwing2b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
 
-    CPlanePartRelation ( 840, _R2, _M1, _2d_m_rwing2c-_2d_motor1, _m_rwing2c-_motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 850, _L2, _M1, _2d_m_lwing2c-_2d_motor1, _m_lwing2c-_motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 841, _R2, _M2, _2d_m_rwing2c-_2d_motor2, _m_rwing2c-_motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 851, _L2, _M2, _2d_m_lwing2c-_2d_motor2, _m_lwing2c-_motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 842, _R2, _M3, _2d_m_rwing2c-_2d_motor3, _m_rwing2c-_motor3,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 852, _L2, _M3, _2d_m_lwing2c-_2d_motor3, _m_lwing2c-_motor3,  NOTE_STD,    NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 843, _R2, _M4, _2d_m_rwing2c-_2d_motor4, _m_rwing2c-_motor4,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 853, _L2, _M4, _2d_m_lwing2c-_2d_motor4, _m_lwing2c-_motor4,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 845, _R2, _M6, _2d_m_rwing2c-_2d_motor6, _m_rwing2c-_motor6,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
-    CPlanePartRelation ( 855, _L2, _M6, _2d_m_lwing2c-_2d_motor6, _m_lwing2c-_motor6,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
-    CPlanePartRelation ( 846, _R2, _M7, _2d_m_rwing2c-_2d_motor7, _m_rwing2c-_motor7,  NOTE_KAPUTTXL, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
-    CPlanePartRelation ( 856, _L2, _M7, _2d_m_lwing2c-_2d_motor7, _m_lwing2c-_motor7,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
-    CPlanePartRelation ( 847, _R2, _M8, _2d_m_rwing2c-_2d_motor8, _m_rwing2c-_motor8,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
-    CPlanePartRelation ( 857, _L2, _M8, _2d_m_lwing2c-_2d_motor8, _m_lwing2c-_motor8,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
+    CPlanePartRelation ( 840, R2, M1, _2d_m_rwing2c-_2d_motor1, m_rwing2c-motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 850, L2, M1, _2d_m_lwing2c-_2d_motor1, m_lwing2c-motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 841, R2, M2, _2d_m_rwing2c-_2d_motor2, m_rwing2c-motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 851, L2, M2, _2d_m_lwing2c-_2d_motor2, m_lwing2c-motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 842, R2, M3, _2d_m_rwing2c-_2d_motor3, m_rwing2c-motor3,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 852, L2, M3, _2d_m_lwing2c-_2d_motor3, m_lwing2c-motor3,  NOTE_STD,    NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 843, R2, M4, _2d_m_rwing2c-_2d_motor4, m_rwing2c-motor4,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 853, L2, M4, _2d_m_lwing2c-_2d_motor4, m_lwing2c-motor4,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 845, R2, M6, _2d_m_rwing2c-_2d_motor6, m_rwing2c-motor6,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
+    CPlanePartRelation ( 855, L2, M6, _2d_m_lwing2c-_2d_motor6, m_lwing2c-motor6,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
+    CPlanePartRelation ( 846, R2, M7, _2d_m_rwing2c-_2d_motor7, m_rwing2c-motor7,  NOTE_KAPUTTXL, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
+    CPlanePartRelation ( 856, L2, M7, _2d_m_lwing2c-_2d_motor7, m_lwing2c-motor7,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
+    CPlanePartRelation ( 847, R2, M8, _2d_m_rwing2c-_2d_motor8, m_rwing2c-motor8,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
+    CPlanePartRelation ( 857, L2, M8, _2d_m_lwing2c-_2d_motor8, m_lwing2c-motor8,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
 
     //Flügel2->Motor  // Id,  From, To, Offset2d,                 Offset3d,            Note1,    Note1,    Note1,    zAdd, Noise, Slot, RulesOutSlots
-    CPlanePartRelation ( 900, _R3, _M1, _2d_m_rwing3a-_2d_motor1, _m_rwing3a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M1", "M1" ),
-    CPlanePartRelation ( 910, _L3, _M1, _2d_m_lwing3a-_2d_motor1, _m_lwing3a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M4", "M4" ),
-    CPlanePartRelation ( 901, _R3, _M2, _2d_m_rwing3a-_2d_motor2, _m_rwing3a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M1", "M1" ),
-    CPlanePartRelation ( 911, _L3, _M2, _2d_m_lwing3a-_2d_motor2, _m_lwing3a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M4", "M4" ),
-    CPlanePartRelation ( 904, _R3, _M5, XY(115, 54),              XY(-19, 81),         NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
-    CPlanePartRelation ( 914, _L3, _M5, XY(111, -13),             XY(126, -18),        NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "ML", "ML" ),
-    CPlanePartRelation ( 907, _R3, _M8, _2d_m_rwing3a-_2d_motor8, _m_rwing3a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M1", "M1M2" ),
-    CPlanePartRelation ( 917, _L3, _M8, _2d_m_lwing3a-_2d_motor8, _m_lwing3a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M4", "M4M5" ),
+    CPlanePartRelation ( 900, R3, M1, _2d_m_rwing3a-_2d_motor1, m_rwing3a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M1", "M1" ),
+    CPlanePartRelation ( 910, L3, M1, _2d_m_lwing3a-_2d_motor1, m_lwing3a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M4", "M4" ),
+    CPlanePartRelation ( 901, R3, M2, _2d_m_rwing3a-_2d_motor2, m_rwing3a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M1", "M1" ),
+    CPlanePartRelation ( 911, L3, M2, _2d_m_lwing3a-_2d_motor2, m_lwing3a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M4", "M4" ),
+    CPlanePartRelation ( 904, R3, M5, XY(115, 54),              XY(-19, 81),         NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
+    CPlanePartRelation ( 914, L3, M5, XY(111, -13),             XY(126, -18),        NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "ML", "ML" ),
+    CPlanePartRelation ( 907, R3, M8, _2d_m_rwing3a-_2d_motor8, m_rwing3a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M1", "M1M2" ),
+    CPlanePartRelation ( 917, L3, M8, _2d_m_lwing3a-_2d_motor8, m_lwing3a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M4", "M4M5" ),
 
-    CPlanePartRelation ( 920, _R3, _M1, _2d_m_rwing3b-_2d_motor1, _m_rwing3b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 930, _L3, _M1, _2d_m_lwing3b-_2d_motor1, _m_lwing3b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 921, _R3, _M2, _2d_m_rwing3b-_2d_motor2, _m_rwing3b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 931, _L3, _M2, _2d_m_lwing3b-_2d_motor2, _m_lwing3b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 922, _R3, _M3, _2d_m_rwing3b-_2d_motor3, _m_rwing3b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 932, _L3, _M3, _2d_m_lwing3b-_2d_motor3, _m_lwing3b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 923, _R3, _M4, _2d_m_rwing3b-_2d_motor4, _m_rwing3b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation ( 933, _L3, _M4, _2d_m_lwing3b-_2d_motor4, _m_lwing3b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation ( 925, _R3, _M6, _2d_m_rwing3b-_2d_motor6, _m_rwing3b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
-    CPlanePartRelation ( 935, _L3, _M6, _2d_m_lwing3b-_2d_motor6, _m_lwing3b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
-    CPlanePartRelation ( 926, _R3, _M7, _2d_m_rwing3b-_2d_motor7, _m_rwing3b-_motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
-    CPlanePartRelation ( 936, _L3, _M7, _2d_m_lwing3b-_2d_motor7, _m_lwing3b-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
-    CPlanePartRelation ( 927, _R3, _M8, _2d_m_rwing3b-_2d_motor8, _m_rwing3b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
-    CPlanePartRelation ( 937, _L3, _M8, _2d_m_lwing3b-_2d_motor8, _m_lwing3b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
+    CPlanePartRelation ( 920, R3, M1, _2d_m_rwing3b-_2d_motor1, m_rwing3b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 930, L3, M1, _2d_m_lwing3b-_2d_motor1, m_lwing3b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 921, R3, M2, _2d_m_rwing3b-_2d_motor2, m_rwing3b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 931, L3, M2, _2d_m_lwing3b-_2d_motor2, m_lwing3b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 922, R3, M3, _2d_m_rwing3b-_2d_motor3, m_rwing3b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 932, L3, M3, _2d_m_lwing3b-_2d_motor3, m_lwing3b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 923, R3, M4, _2d_m_rwing3b-_2d_motor4, m_rwing3b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation ( 933, L3, M4, _2d_m_lwing3b-_2d_motor4, m_lwing3b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 925, R3, M6, _2d_m_rwing3b-_2d_motor6, m_rwing3b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
+    CPlanePartRelation ( 935, L3, M6, _2d_m_lwing3b-_2d_motor6, m_lwing3b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
+    CPlanePartRelation ( 926, R3, M7, _2d_m_rwing3b-_2d_motor7, m_rwing3b-motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
+    CPlanePartRelation ( 936, L3, M7, _2d_m_lwing3b-_2d_motor7, m_lwing3b-motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
+    CPlanePartRelation ( 927, R3, M8, _2d_m_rwing3b-_2d_motor8, m_rwing3b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M1M2M3" ),
+    CPlanePartRelation ( 937, L3, M8, _2d_m_lwing3b-_2d_motor8, m_lwing3b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M4M5M6" ),
 
-    CPlanePartRelation ( 940, _R3, _M1, _2d_m_rwing3c-_2d_motor1, _m_rwing3c-_motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 950, _L3, _M1, _2d_m_lwing3c-_2d_motor1, _m_lwing3c-_motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 941, _R3, _M2, _2d_m_rwing3c-_2d_motor2, _m_rwing3c-_motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 951, _L3, _M2, _2d_m_lwing3c-_2d_motor2, _m_lwing3c-_motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 942, _R3, _M3, _2d_m_rwing3c-_2d_motor3, _m_rwing3c-_motor3,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 952, _L3, _M3, _2d_m_lwing3c-_2d_motor3, _m_lwing3c-_motor3,  NOTE_STD,    NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 943, _R3, _M4, _2d_m_rwing3c-_2d_motor4, _m_rwing3c-_motor4,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
-    CPlanePartRelation ( 953, _L3, _M4, _2d_m_lwing3c-_2d_motor4, _m_lwing3c-_motor4,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
-    CPlanePartRelation ( 945, _R3, _M6, _2d_m_rwing3c-_2d_motor6, _m_rwing3c-_motor6,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
-    CPlanePartRelation ( 955, _L3, _M6, _2d_m_lwing3c-_2d_motor6, _m_lwing3c-_motor6,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
-    CPlanePartRelation ( 946, _R3, _M7, _2d_m_rwing3c-_2d_motor7, _m_rwing3c-_motor7,  NOTE_KAPUTTXL, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
-    CPlanePartRelation ( 956, _L3, _M7, _2d_m_lwing3c-_2d_motor7, _m_lwing3c-_motor7,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
-    CPlanePartRelation ( 947, _R3, _M8, _2d_m_rwing3c-_2d_motor8, _m_rwing3c-_motor8,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
-    CPlanePartRelation ( 957, _L3, _M8, _2d_m_lwing3c-_2d_motor8, _m_lwing3c-_motor8,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
-
-    //Flügel4->Motor  // Id,  From, To, Offset2d,                 Offset3d,            Note1,    Note1,    Note1,    zAdd, Slot, RulesOutSlots
-    CPlanePartRelation (1000, _R4, _M1, _2d_m_rwing4a-_2d_motor1, _m_rwing4a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M3", "M3" ),
-    CPlanePartRelation (1010, _L4, _M1, _2d_m_lwing4a-_2d_motor1, _m_lwing4a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M6", "M6" ),
-    CPlanePartRelation (1001, _R4, _M2, _2d_m_rwing4a-_2d_motor2, _m_rwing4a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M3", "M3" ),
-    CPlanePartRelation (1011, _L4, _M2, _2d_m_lwing4a-_2d_motor2, _m_lwing4a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
-    CPlanePartRelation (1002, _R4, _M3, _2d_m_rwing4a-_2d_motor3, _m_rwing4a-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M3", "M3" ),
-    CPlanePartRelation (1012, _L4, _M3, _2d_m_lwing4a-_2d_motor3, _m_lwing4a-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
-    CPlanePartRelation (1003, _R4, _M4, _2d_m_rwing4a-_2d_motor4, _m_rwing4a-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 6,     "M3", "M3" ),
-    CPlanePartRelation (1013, _L4, _M4, _2d_m_lwing4a-_2d_motor4, _m_lwing4a-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    6,     "M6", "M6" ),
-    CPlanePartRelation (1004, _R4, _M5, XY(22, 61),               XY(-24, 107),        NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
-    CPlanePartRelation (1014, _L4, _M5, XY(18, -13),              XY(137, -24),        NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "ML", "ML" ),
-    CPlanePartRelation (1005, _R4, _M6, _2d_m_rwing4a-_2d_motor6, _m_rwing4a-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 14,    "ML", "M3" ),
-    CPlanePartRelation (1015, _L4, _M6, _2d_m_lwing4a-_2d_motor6, _m_lwing4a-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    14,    "M6", "M6" ),
-    CPlanePartRelation (1006, _R4, _M7, _2d_m_rwing4a-_2d_motor7, _m_rwing4a-_motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 20,    "M3", "M3" ),
-    CPlanePartRelation (1016, _L4, _M7, _2d_m_lwing4a-_2d_motor7, _m_lwing4a-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
-    CPlanePartRelation (1007, _R4, _M8, _2d_m_rwing4a-_2d_motor8, _m_rwing4a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M3", "M3" ),
-    CPlanePartRelation (1017, _L4, _M8, _2d_m_lwing4a-_2d_motor8, _m_lwing4a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M6", "M6" ),
-
-    CPlanePartRelation (1020, _R4, _M1, _2d_m_rwing4b-_2d_motor1, _m_rwing4b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1030, _L4, _M1, _2d_m_lwing4b-_2d_motor1, _m_lwing4b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1021, _R4, _M2, _2d_m_rwing4b-_2d_motor2, _m_rwing4b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1031, _L4, _M2, _2d_m_lwing4b-_2d_motor2, _m_lwing4b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1022, _R4, _M3, _2d_m_rwing4b-_2d_motor3, _m_rwing4b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1032, _L4, _M3, _2d_m_lwing4b-_2d_motor3, _m_lwing4b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1023, _R4, _M4, _2d_m_rwing4b-_2d_motor4, _m_rwing4b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1033, _L4, _M4, _2d_m_lwing4b-_2d_motor4, _m_lwing4b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1025, _R4, _M6, _2d_m_rwing4b-_2d_motor6, _m_rwing4b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1035, _L4, _M6, _2d_m_lwing4b-_2d_motor6, _m_lwing4b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1026, _R4, _M7, _2d_m_rwing4b-_2d_motor7, _m_rwing4b-_motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1036, _L4, _M7, _2d_m_lwing4b-_2d_motor7, _m_lwing4b-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1027, _R4, _M8, _2d_m_rwing4b-_2d_motor8, _m_rwing4b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1037, _L4, _M8, _2d_m_lwing4b-_2d_motor8, _m_lwing4b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation ( 940, R3, M1, _2d_m_rwing3c-_2d_motor1, m_rwing3c-motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 950, L3, M1, _2d_m_lwing3c-_2d_motor1, m_lwing3c-motor1,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 941, R3, M2, _2d_m_rwing3c-_2d_motor2, m_rwing3c-motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 951, L3, M2, _2d_m_lwing3c-_2d_motor2, m_lwing3c-motor2,  NOTE_STD,    NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 942, R3, M3, _2d_m_rwing3c-_2d_motor3, m_rwing3c-motor3,  NOTE_STD,    NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 952, L3, M3, _2d_m_lwing3c-_2d_motor3, m_lwing3c-motor3,  NOTE_STD,    NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 943, R3, M4, _2d_m_rwing3c-_2d_motor4, m_rwing3c-motor4,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M3" ),
+    CPlanePartRelation ( 953, L3, M4, _2d_m_lwing3c-_2d_motor4, m_lwing3c-motor4,  NOTE_KAPUTT, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M6" ),
+    CPlanePartRelation ( 945, R3, M6, _2d_m_rwing3c-_2d_motor6, m_rwing3c-motor6,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
+    CPlanePartRelation ( 955, L3, M6, _2d_m_lwing3c-_2d_motor6, m_lwing3c-motor6,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
+    CPlanePartRelation ( 946, R3, M7, _2d_m_rwing3c-_2d_motor7, m_rwing3c-motor7,  NOTE_KAPUTTXL, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
+    CPlanePartRelation ( 956, L3, M7, _2d_m_lwing3c-_2d_motor7, m_lwing3c-motor7,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
+    CPlanePartRelation ( 947, R3, M8, _2d_m_rwing3c-_2d_motor8, m_rwing3c-motor8,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 3000, 0,     "M3", "M2M3" ),
+    CPlanePartRelation ( 957, L3, M8, _2d_m_lwing3c-_2d_motor8, m_lwing3c-motor8,  NOTE_KAPUTTXL, NOTE_STD, NOTE_STD, 0,    0,     "M6", "M5M6" ),
 
     //Flügel4->Motor  // Id,  From, To, Offset2d,                 Offset3d,            Note1,    Note1,    Note1,    zAdd, Slot, RulesOutSlots
-    CPlanePartRelation (1100, _R5, _M1, _2d_m_rwing5-_2d_motor1, _m_rwing5-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  2,    "M3", "M3" ),
-    CPlanePartRelation (1110, _L5, _M1, _2d_m_lwing5-_2d_motor1, _m_lwing5-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     2,    "M6", "M6" ),
-    CPlanePartRelation (1101, _R5, _M2, _2d_m_rwing5-_2d_motor2, _m_rwing5-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  20,   "M3", "M3" ),
-    CPlanePartRelation (1111, _L5, _M2, _2d_m_lwing5-_2d_motor2, _m_lwing5-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     20,   "M6", "M6" ),
-    CPlanePartRelation (1102, _R5, _M3, _2d_m_rwing5-_2d_motor3, _m_rwing5-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  20,   "M3", "M3" ),
-    CPlanePartRelation (1112, _L5, _M3, _2d_m_lwing5-_2d_motor3, _m_lwing5-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     20,   "M6", "M6" ),
-    CPlanePartRelation (1103, _R5, _M4, _2d_m_rwing5-_2d_motor4, _m_rwing5-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  6,    "M3", "M3" ),
-    CPlanePartRelation (1113, _L5, _M4, _2d_m_lwing5-_2d_motor4, _m_lwing5-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     6,    "M6", "M6" ),
-    CPlanePartRelation (1104, _R5, _M5, XY(13,37),               XY(-16, 67),        NOTE_STD, NOTE_STD, NOTE_STD, 5000,  0,    "MR", "MR" ),
-    CPlanePartRelation (1114, _L5, _M5, XY(13, -13),             XY(103, -22),       NOTE_STD, NOTE_STD, NOTE_STD, 0,     0,    "ML", "ML" ),
-    CPlanePartRelation (1105, _R5, _M6, _2d_m_rwing5-_2d_motor6, _m_rwing5-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  14,   "M3", "M2M3" ),
-    CPlanePartRelation (1115, _L5, _M6, _2d_m_lwing5-_2d_motor6, _m_lwing5-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     14,   "M6", "M5M6" ),
-    CPlanePartRelation (1106, _R5, _M7, _2d_m_rwing5-_2d_motor7, _m_rwing5-_motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000,  20,   "M3", "M2M3" ),
-    CPlanePartRelation (1116, _L5, _M7, _2d_m_lwing5-_2d_motor7, _m_lwing5-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     20,   "M6", "M5M6" ),
-    CPlanePartRelation (1107, _R5, _M8, _2d_m_rwing5-_2d_motor8, _m_rwing5-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  15,   "M3", "M2M3" ),
-    CPlanePartRelation (1117, _L5, _M8, _2d_m_lwing5-_2d_motor8, _m_lwing5-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     15,   "M6", "M5M6" ),
+    CPlanePartRelation (1000, R4, M1, _2d_m_rwing4a-_2d_motor1, m_rwing4a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M3", "M3" ),
+    CPlanePartRelation (1010, L4, M1, _2d_m_lwing4a-_2d_motor1, m_lwing4a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M6", "M6" ),
+    CPlanePartRelation (1001, R4, M2, _2d_m_rwing4a-_2d_motor2, m_rwing4a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M3", "M3" ),
+    CPlanePartRelation (1011, L4, M2, _2d_m_lwing4a-_2d_motor2, m_lwing4a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
+    CPlanePartRelation (1002, R4, M3, _2d_m_rwing4a-_2d_motor3, m_rwing4a-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M3", "M3" ),
+    CPlanePartRelation (1012, L4, M3, _2d_m_lwing4a-_2d_motor3, m_lwing4a-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
+    CPlanePartRelation (1003, R4, M4, _2d_m_rwing4a-_2d_motor4, m_rwing4a-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 6,     "M3", "M3" ),
+    CPlanePartRelation (1013, L4, M4, _2d_m_lwing4a-_2d_motor4, m_lwing4a-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    6,     "M6", "M6" ),
+    CPlanePartRelation (1004, R4, M5, XY(22, 61),               XY(-24, 107),        NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
+    CPlanePartRelation (1014, L4, M5, XY(18, -13),              XY(137, -24),        NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "ML", "ML" ),
+    CPlanePartRelation (1005, R4, M6, _2d_m_rwing4a-_2d_motor6, m_rwing4a-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 14,    "ML", "M3" ),
+    CPlanePartRelation (1015, L4, M6, _2d_m_lwing4a-_2d_motor6, m_lwing4a-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    14,    "M6", "M6" ),
+    CPlanePartRelation (1006, R4, M7, _2d_m_rwing4a-_2d_motor7, m_rwing4a-motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 20,    "M3", "M3" ),
+    CPlanePartRelation (1016, L4, M7, _2d_m_lwing4a-_2d_motor7, m_lwing4a-motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
+    CPlanePartRelation (1007, R4, M8, _2d_m_rwing4a-_2d_motor8, m_rwing4a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M3", "M3" ),
+    CPlanePartRelation (1017, L4, M8, _2d_m_lwing4a-_2d_motor8, m_lwing4a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M6", "M6" ),
+
+    CPlanePartRelation (1020, R4, M1, _2d_m_rwing4b-_2d_motor1, m_rwing4b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1030, L4, M1, _2d_m_lwing4b-_2d_motor1, m_lwing4b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1021, R4, M2, _2d_m_rwing4b-_2d_motor2, m_rwing4b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1031, L4, M2, _2d_m_lwing4b-_2d_motor2, m_lwing4b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1022, R4, M3, _2d_m_rwing4b-_2d_motor3, m_rwing4b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1032, L4, M3, _2d_m_lwing4b-_2d_motor3, m_lwing4b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1023, R4, M4, _2d_m_rwing4b-_2d_motor4, m_rwing4b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1033, L4, M4, _2d_m_lwing4b-_2d_motor4, m_lwing4b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1025, R4, M6, _2d_m_rwing4b-_2d_motor6, m_rwing4b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1035, L4, M6, _2d_m_lwing4b-_2d_motor6, m_lwing4b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1026, R4, M7, _2d_m_rwing4b-_2d_motor7, m_rwing4b-motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1036, L4, M7, _2d_m_lwing4b-_2d_motor7, m_lwing4b-motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1027, R4, M8, _2d_m_rwing4b-_2d_motor8, m_rwing4b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1037, L4, M8, _2d_m_lwing4b-_2d_motor8, m_lwing4b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+
+    //Flügel4->Motor  // Id,  From, To, Offset2d,                 Offset3d,            Note1,    Note1,    Note1,    zAdd, Slot, RulesOutSlots
+    CPlanePartRelation (1100, R5, M1, _2d_m_rwing5-_2d_motor1, m_rwing5-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  2,    "M3", "M3" ),
+    CPlanePartRelation (1110, L5, M1, _2d_m_lwing5-_2d_motor1, m_lwing5-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     2,    "M6", "M6" ),
+    CPlanePartRelation (1101, R5, M2, _2d_m_rwing5-_2d_motor2, m_rwing5-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  20,   "M3", "M3" ),
+    CPlanePartRelation (1111, L5, M2, _2d_m_lwing5-_2d_motor2, m_lwing5-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     20,   "M6", "M6" ),
+    CPlanePartRelation (1102, R5, M3, _2d_m_rwing5-_2d_motor3, m_rwing5-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  20,   "M3", "M3" ),
+    CPlanePartRelation (1112, L5, M3, _2d_m_lwing5-_2d_motor3, m_lwing5-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     20,   "M6", "M6" ),
+    CPlanePartRelation (1103, R5, M4, _2d_m_rwing5-_2d_motor4, m_rwing5-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  6,    "M3", "M3" ),
+    CPlanePartRelation (1113, L5, M4, _2d_m_lwing5-_2d_motor4, m_lwing5-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     6,    "M6", "M6" ),
+    CPlanePartRelation (1104, R5, M5, XY(13,37),               XY(-16, 67),        NOTE_STD, NOTE_STD, NOTE_STD, 5000,  0,    "MR", "MR" ),
+    CPlanePartRelation (1114, L5, M5, XY(13, -13),             XY(103, -22),       NOTE_STD, NOTE_STD, NOTE_STD, 0,     0,    "ML", "ML" ),
+    CPlanePartRelation (1105, R5, M6, _2d_m_rwing5-_2d_motor6, m_rwing5-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  14,   "M3", "M2M3" ),
+    CPlanePartRelation (1115, L5, M6, _2d_m_lwing5-_2d_motor6, m_lwing5-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     14,   "M6", "M5M6" ),
+    CPlanePartRelation (1106, R5, M7, _2d_m_rwing5-_2d_motor7, m_rwing5-motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000,  20,   "M3", "M2M3" ),
+    CPlanePartRelation (1116, L5, M7, _2d_m_lwing5-_2d_motor7, m_lwing5-motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     20,   "M6", "M5M6" ),
+    CPlanePartRelation (1107, R5, M8, _2d_m_rwing5-_2d_motor8, m_rwing5-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000,  15,   "M3", "M2M3" ),
+    CPlanePartRelation (1117, L5, M8, _2d_m_lwing5-_2d_motor8, m_lwing5-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,     15,   "M6", "M5M6" ),
 
     //Flügel6->Motor  // Id,  From, To, Offset2d,                 Offset3d,            Note1,    Note1,    Note1,    zAdd, Noise, Slot, RulesOutSlots
-    CPlanePartRelation (1200, _R6, _M1, _2d_m_rwing6a-_2d_motor1, _m_rwing6a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M3", "M3" ),
-    CPlanePartRelation (1210, _L6, _M1, _2d_m_lwing6a-_2d_motor1, _m_lwing6a-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M6", "M6" ),
-    CPlanePartRelation (1201, _R6, _M2, _2d_m_rwing6a-_2d_motor2, _m_rwing6a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M3", "M3" ),
-    CPlanePartRelation (1211, _L6, _M2, _2d_m_lwing6a-_2d_motor2, _m_lwing6a-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
-    CPlanePartRelation (1202, _R6, _M3, _2d_m_rwing6a-_2d_motor3, _m_rwing6a-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M3", "M3" ),
-    CPlanePartRelation (1212, _L6, _M3, _2d_m_lwing6a-_2d_motor3, _m_lwing6a-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
-    CPlanePartRelation (1203, _R6, _M4, _2d_m_rwing6a-_2d_motor4, _m_rwing6a-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 6,     "M3", "M3" ),
-    CPlanePartRelation (1213, _L6, _M4, _2d_m_lwing6a-_2d_motor4, _m_lwing6a-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    6,     "M6", "M6" ),
-    CPlanePartRelation (1204, _R6, _M5, XY(116, 76),              XY(-19, 112),        NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
-    CPlanePartRelation (1214, _L6, _M5, XY(104, -15),             XY(124, -19),        NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "ML", "ML" ),
-    CPlanePartRelation (1205, _R6, _M6, _2d_m_rwing6a-_2d_motor6, _m_rwing6a-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 14,    "M3", "M3" ),
-    CPlanePartRelation (1215, _L6, _M6, _2d_m_lwing6a-_2d_motor6, _m_lwing6a-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    14,    "M6", "M6" ),
-    CPlanePartRelation (1206, _R6, _M7, _2d_m_rwing6a-_2d_motor7, _m_rwing6a-_motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 20,    "M3", "M3" ),
-    CPlanePartRelation (1216, _L6, _M7, _2d_m_lwing6a-_2d_motor7, _m_lwing6a-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
-    CPlanePartRelation (1207, _R6, _M8, _2d_m_rwing6a-_2d_motor8, _m_rwing6a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M3", "M3" ),
-    CPlanePartRelation (1217, _L6, _M8, _2d_m_lwing6a-_2d_motor8, _m_lwing6a-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M6", "M6" ),
+    CPlanePartRelation (1200, R6, M1, _2d_m_rwing6a-_2d_motor1, m_rwing6a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 2,     "M3", "M3" ),
+    CPlanePartRelation (1210, L6, M1, _2d_m_lwing6a-_2d_motor1, m_lwing6a-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    2,     "M6", "M6" ),
+    CPlanePartRelation (1201, R6, M2, _2d_m_rwing6a-_2d_motor2, m_rwing6a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M3", "M3" ),
+    CPlanePartRelation (1211, L6, M2, _2d_m_lwing6a-_2d_motor2, m_lwing6a-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
+    CPlanePartRelation (1202, R6, M3, _2d_m_rwing6a-_2d_motor3, m_rwing6a-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 20,    "M3", "M3" ),
+    CPlanePartRelation (1212, L6, M3, _2d_m_lwing6a-_2d_motor3, m_lwing6a-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
+    CPlanePartRelation (1203, R6, M4, _2d_m_rwing6a-_2d_motor4, m_rwing6a-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 6,     "M3", "M3" ),
+    CPlanePartRelation (1213, L6, M4, _2d_m_lwing6a-_2d_motor4, m_lwing6a-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    6,     "M6", "M6" ),
+    CPlanePartRelation (1204, R6, M5, XY(116, 76),              XY(-19, 112),        NOTE_STD, NOTE_STD, NOTE_STD, 5000, 0,     "MR", "MR" ),
+    CPlanePartRelation (1214, L6, M5, XY(104, -15),             XY(124, -19),        NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "ML", "ML" ),
+    CPlanePartRelation (1205, R6, M6, _2d_m_rwing6a-_2d_motor6, m_rwing6a-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 14,    "M3", "M3" ),
+    CPlanePartRelation (1215, L6, M6, _2d_m_lwing6a-_2d_motor6, m_lwing6a-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    14,    "M6", "M6" ),
+    CPlanePartRelation (1206, R6, M7, _2d_m_rwing6a-_2d_motor7, m_rwing6a-motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 20,    "M3", "M3" ),
+    CPlanePartRelation (1216, L6, M7, _2d_m_lwing6a-_2d_motor7, m_lwing6a-motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    20,    "M6", "M6" ),
+    CPlanePartRelation (1207, R6, M8, _2d_m_rwing6a-_2d_motor8, m_rwing6a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 15,    "M3", "M3" ),
+    CPlanePartRelation (1217, L6, M8, _2d_m_lwing6a-_2d_motor8, m_lwing6a-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    15,    "M6", "M6" ),
 
-    CPlanePartRelation (1220, _R6, _M1, _2d_m_rwing6b-_2d_motor1, _m_rwing6b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1230, _L6, _M1, _2d_m_lwing6b-_2d_motor1, _m_lwing6b-_motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1221, _R6, _M2, _2d_m_rwing6b-_2d_motor2, _m_rwing6b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1231, _L6, _M2, _2d_m_lwing6b-_2d_motor2, _m_lwing6b-_motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1222, _R6, _M3, _2d_m_rwing6b-_2d_motor3, _m_rwing6b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1232, _L6, _M3, _2d_m_lwing6b-_2d_motor3, _m_lwing6b-_motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1223, _R6, _M4, _2d_m_rwing6b-_2d_motor4, _m_rwing6b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1233, _L6, _M4, _2d_m_lwing6b-_2d_motor4, _m_lwing6b-_motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1225, _R6, _M6, _2d_m_rwing6b-_2d_motor6, _m_rwing6b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1235, _L6, _M6, _2d_m_lwing6b-_2d_motor6, _m_lwing6b-_motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1226, _R6, _M7, _2d_m_rwing6b-_2d_motor7, _m_rwing6b-_motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1236, _L6, _M7, _2d_m_lwing6b-_2d_motor7, _m_lwing6b-_motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
-    CPlanePartRelation (1227, _R6, _M8, _2d_m_rwing6b-_2d_motor8, _m_rwing6b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
-    CPlanePartRelation (1237, _L6, _M8, _2d_m_lwing6b-_2d_motor8, _m_lwing6b-_motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1220, R6, M1, _2d_m_rwing6b-_2d_motor1, m_rwing6b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1230, L6, M1, _2d_m_lwing6b-_2d_motor1, m_lwing6b-motor1,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1221, R6, M2, _2d_m_rwing6b-_2d_motor2, m_rwing6b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1231, L6, M2, _2d_m_lwing6b-_2d_motor2, m_lwing6b-motor2,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1222, R6, M3, _2d_m_rwing6b-_2d_motor3, m_rwing6b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1232, L6, M3, _2d_m_lwing6b-_2d_motor3, m_lwing6b-motor3,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1223, R6, M4, _2d_m_rwing6b-_2d_motor4, m_rwing6b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1233, L6, M4, _2d_m_lwing6b-_2d_motor4, m_lwing6b-motor4,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1225, R6, M6, _2d_m_rwing6b-_2d_motor6, m_rwing6b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1235, L6, M6, _2d_m_lwing6b-_2d_motor6, m_lwing6b-motor6,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1226, R6, M7, _2d_m_rwing6b-_2d_motor7, m_rwing6b-motor7,  NOTE_STD, NOTE_PILOT1, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1236, L6, M7, _2d_m_lwing6b-_2d_motor7, m_lwing6b-motor7,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
+    CPlanePartRelation (1227, R6, M8, _2d_m_rwing6b-_2d_motor8, m_rwing6b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 3000, 0,     "M2", "M2" ),
+    CPlanePartRelation (1237, L6, M8, _2d_m_lwing6b-_2d_motor8, m_lwing6b-motor8,  NOTE_STD, NOTE_STD, NOTE_STD, 0,    0,     "M5", "M5" ),
 
     //Heck => Triebwerk  Id,  From, To, Offset2d,                 Offset3d,            Note1,       Note1,    Note1,    zAdd, Noise, Slot, RulesOutSlots
-    CPlanePartRelation (1304, _H2, _M5, XY(40, 68),               XY(-47, 99),         NOTE_PILOT1, NOTE_STD, NOTE_STD, 1550, 0,     "Mr", "Mr" ),
-    CPlanePartRelation (1314, _H2, _M5, XY(40, 25),               XY(69, 11),          NOTE_STD,    NOTE_STD, NOTE_STD, 1450, 0,     "Ml", "Ml" ),
-    CPlanePartRelation (1305, _H5, _M5, XY(24, 71),               XY(-34, 106),        NOTE_PILOT1, NOTE_STD, NOTE_STD, 1550, 0,     "Mr", "Mr" ),
-    CPlanePartRelation (1315, _H5, _M5, XY(24, 40),               XY(76, 13),          NOTE_STD,    NOTE_STD, NOTE_STD, 1450, 0,     "Ml", "Ml" ),
-    CPlanePartRelation (1306, _H7, _M5, XY(72, 21),               XY(-33, 33),         NOTE_PILOT1, NOTE_STD, NOTE_STD, 1550, 0,     "Mr", "Mr" ),
-    CPlanePartRelation (1316, _H7, _M5, XY(72, -11),              XY(34, -24),         NOTE_STD,    NOTE_STD, NOTE_STD, 1450, 0,     "Ml", "Ml" ),
+    CPlanePartRelation (1304, H2, M5, XY(40, 68),               XY(-47, 99),         NOTE_PILOT1, NOTE_STD, NOTE_STD, 1550, 0,     "Mr", "Mr" ),
+    CPlanePartRelation (1314, H2, M5, XY(40, 25),               XY(69, 11),          NOTE_STD,    NOTE_STD, NOTE_STD, 1450, 0,     "Ml", "Ml" ),
+    CPlanePartRelation (1305, H5, M5, XY(24, 71),               XY(-34, 106),        NOTE_PILOT1, NOTE_STD, NOTE_STD, 1550, 0,     "Mr", "Mr" ),
+    CPlanePartRelation (1315, H5, M5, XY(24, 40),               XY(76, 13),          NOTE_STD,    NOTE_STD, NOTE_STD, 1450, 0,     "Ml", "Ml" ),
+    CPlanePartRelation (1306, H7, M5, XY(72, 21),               XY(-33, 33),         NOTE_PILOT1, NOTE_STD, NOTE_STD, 1550, 0,     "Mr", "Mr" ),
+    CPlanePartRelation (1316, H7, M5, XY(72, -11),              XY(34, -24),         NOTE_STD,    NOTE_STD, NOTE_STD, 1450, 0,     "Ml", "Ml" ),
 };
 
 //--------------------------------------------------------------------------------------------

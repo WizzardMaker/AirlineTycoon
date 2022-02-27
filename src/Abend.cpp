@@ -13,7 +13,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#define DSBVOLUME_MIN               -10000
+#define DSBVOLUME_MIN               (-10000)
 #define DSBVOLUME_MAX               0
 
 //Zum debuggen:

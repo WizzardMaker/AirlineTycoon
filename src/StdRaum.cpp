@@ -6651,13 +6651,13 @@ phone_busy:
                 {
                     MenuPar1 = MenuDataTable.LineIndex[n];
 
-                    long _MenuDialogReEntryB = MenuDialogReEntryB;
+                    long MenuDialogReEntryB = MenuDialogReEntryB;
 
                     MenuStop ();
 
                     qPlayer.ArabPlane=MenuPar1;
 
-                    StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, _MenuDialogReEntryB);
+                    StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, MenuDialogReEntryB);
                 }
             }
             break;
@@ -6690,13 +6690,13 @@ phone_busy:
                 {
                     MenuPar1 = MenuDataTable.LineIndex[n];
 
-                    long _MenuDialogReEntryB = MenuDialogReEntryB;
+                    long MenuDialogReEntryB = MenuDialogReEntryB;
 
                     MenuStop ();
 
                     qPlayer.ArabPlane=MenuPar1;
 
-                    StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, _MenuDialogReEntryB);
+                    StartDialog (TALKER_SABOTAGE, MEDIUM_AIR, MenuDialogReEntryB);
                 }
             }
             break;

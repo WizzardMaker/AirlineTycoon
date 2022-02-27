@@ -1822,22 +1822,22 @@ void PumpNetwork (void)
 
                 case ATNET_SYNCKEROSIN:
                     {
-                        SLONG  localPlayer, _TankOpen, _TankInhalt, _BadKerosin, _KerosinKind;
-                        BOOL   _Tank;
-                        double _TankPreis;
+                        SLONG  localPlayer, TankOpen, TankInhalt, BadKerosin, KerosinKind;
+                        BOOL   Tank;
+                        double TankPreis;
 
-                        Message >> localPlayer >> _Tank >> _TankOpen >> _TankInhalt >> _BadKerosin >> _KerosinKind >> _TankPreis;
+                        Message >> localPlayer >> Tank >> TankOpen >> TankInhalt >> BadKerosin >> KerosinKind >> TankPreis;
 
                         if (localPlayer!=Sim.localPlayer)
                         {
                             PLAYER &qPlayer = Sim.Players.Players[localPlayer];
 
-                            qPlayer.Tank        = _Tank;
-                            qPlayer.TankOpen    = _TankOpen;
-                            qPlayer.TankInhalt  = _TankInhalt;
-                            qPlayer.BadKerosin  = _BadKerosin;
-                            qPlayer.KerosinKind = _KerosinKind;
-                            qPlayer.TankPreis   = _TankPreis;
+                            qPlayer.Tank        = Tank;
+                            qPlayer.TankOpen    = TankOpen;
+                            qPlayer.TankInhalt  = TankInhalt;
+                            qPlayer.BadKerosin  = BadKerosin;
+                            qPlayer.KerosinKind = KerosinKind;
+                            qPlayer.TankPreis   = TankPreis;
                         }
                     }
                     break;

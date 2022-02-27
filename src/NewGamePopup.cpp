@@ -19,7 +19,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 #ifndef WIN32
-#define _countof(array) (sizeof(array) / sizeof(array[0]))
+#define countof(array) (sizeof(array) / sizeof((array)[0]))
 #endif
 
 static const char FileId[] = "NewG";
@@ -1902,7 +1902,7 @@ again_heimatflughafen:
             else if (GridPos.IfIsWithin(1, 6, 24, 7))
             {
                 SessionMissionID++;
-                if (SessionMissionID >= _countof(MissionValues)) {
+                if (SessionMissionID >= countof(MissionValues)) {
                     SessionMissionID = 0;
                 }
 
@@ -2015,7 +2015,7 @@ void NewGamePopup::OnRButtonDown(UINT nFlags, CPoint point)
             {
                 SessionMissionID--;
                 if (SessionMissionID < 0) {
-                    SessionMissionID = _countof(MissionValues) - 1;
+                    SessionMissionID = countof(MissionValues) - 1;
                 }
 
                 Sim.Difficulty = MissionValues[SessionMissionID];

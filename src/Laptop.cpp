@@ -23,7 +23,7 @@ static XY GlobeOffset [] = { XY( 141, 16 ), XY( 177, 29 ) };
 
 static const char FileId[] = "Lapt";
 
-extern double _a;
+extern double a;
 
 class CWaitCursorNow
 {

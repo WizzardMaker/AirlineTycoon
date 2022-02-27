@@ -4,7 +4,7 @@
 #include "StdAfx.h"
 #include "AtNet.h"
 
-#define forall(c,object) for (c=0; c<SLONG(object.AnzEntries()); c++)
+#define forall(c,object) for ((c)=0; (c)<SLONG((object).AnzEntries()); (c)++)
 
 extern SLONG RocketPrices [];
 extern SLONG StationPrices [];

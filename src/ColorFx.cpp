@@ -307,7 +307,7 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *DestBitmap, SLONG Step2,
     UWORD *p, *pp;
     UWORD *Table = BlendTables+(Step<<9);
     UWORD *Table2 = BlendTables+(Step2<<9);
-    static ULONG _ESP;
+    static ULONG ESP;
     static SLONG sizex;
     BUFFER<UWORD> PixelBuffer(640);
 
@@ -408,7 +408,7 @@ void SB_CColorFX::ApplyOn2 (SLONG Step, SB_CBitmapCore *SrcBitmap, SLONG Step2, 
     UWORD *p, *pp, *ppp;
     UWORD *Table = BlendTables+(Step<<9);
     UWORD *Table2 = BlendTables+(Step2<<9);
-    static ULONG _ESP;
+    static ULONG ESP;
     static SLONG sizex;
 
     if (SrcBitmap==NULL || SrcBitmap2==NULL || TgtBitmap==NULL) return;
@@ -502,7 +502,7 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
     static UWORD *Table1 = BlendTables+(2<<9);
     static UWORD *Table2 = BlendTables+(6<<9);
     static SLONG  sizex;
-    static ULONG _ESP;
+    static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
 
     IsPaintingTextBubble = TRUE;
@@ -965,7 +965,7 @@ void SB_CColorFX::BlitAlpha (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
     SLONG  cx, cy;
     UWORD *p, *pp;
     static SLONG sizex;
-    static ULONG _ESP;
+    static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
 
     XY t=TargetPos;
@@ -1095,7 +1095,7 @@ void SB_CColorFX::BlitGlow (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap
     SLONG  cx, cy;
     UWORD *p, *pp;
     static SLONG sizex;
-    static ULONG _ESP;
+    static ULONG ESP;
     BUFFER<UWORD> PixelBuffer(640);
 
     XY t=TargetPos;

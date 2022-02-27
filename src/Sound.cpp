@@ -19,17 +19,17 @@ extern SLONG   SoundLogFileStartTime;
 class CDebugEntryExit
 {
     private:
-        CString _Text;
+        CString Text;
 
     public:
         CDebugEntryExit (CString Text)
         {
-            _Text = Text;
-            hprintf ("Entry: %s",(LPCTSTR)_Text);
+            Text = Text;
+            hprintf ("Entry: %s",(LPCTSTR)Text);
         }
         ~CDebugEntryExit ()
         {
-            hprintf ("Exit:  %s",(LPCTSTR)_Text);
+            hprintf ("Exit:  %s",(LPCTSTR)Text);
         }
 };
 

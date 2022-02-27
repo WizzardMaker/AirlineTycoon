@@ -17,7 +17,7 @@ static char THIS_FILE[] = __FILE__;
 //Zum debuggen:
 static const char FileId[] = "Plan";
 
-double _a=2.65;
+double a=2.65;
 static XY GlobeOffset [] = { XY( 141, 16 ), XY( 177, 29 ) };
 
 extern SLONG FoodCosts[];
@@ -568,7 +568,7 @@ void CPlaner::PaintGlobeInScreen (XY TargetPos)
 
                     if (!(xx>16386 && xx<49152))
                     {
-                        SLONG py = SLONG(sin((Cities[qBlock.SelectedId].GlobusPosition.y*_a)/240.0*(3.14159/2))*185+190);
+                        SLONG py = SLONG(sin((Cities[qBlock.SelectedId].GlobusPosition.y*a)/240.0*(3.14159/2))*185+190);
                         SLONG px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
 
                         RoomBm.BlitFromT (gCityMarkerBm, TargetPos+XY(px-18,py-18));
@@ -623,7 +623,7 @@ void CPlaner::PaintGlobeInScreen (XY TargetPos)
 
                     if (xx>16386 && xx<49152)
                     {
-                        SLONG py = SLONG(sin((Cities[qBlock.SelectedId].GlobusPosition.y*_a)/240.0*(3.14159/2))*185+190);
+                        SLONG py = SLONG(sin((Cities[qBlock.SelectedId].GlobusPosition.y*a)/240.0*(3.14159/2))*185+190);
                         SLONG px = SLONG(sin((xx/32768.0-1)*(3.14159))*sqrt (184*184-(py-190)*(py-190))+190);
 
                         RoomBm.BlitFromT (gCityMarkerBm, TargetPos+XY(px-18,py-18));
