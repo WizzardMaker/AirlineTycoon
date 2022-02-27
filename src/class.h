@@ -865,47 +865,47 @@ class /**/ CXPlane {
 class /**/ CPlane {
     // Basisdaten:
   public:
-    CString Name;            // Der Name des Flugzeuges
+    CString Name{"noname"};            // Der Name des Flugzeuges
     SLONG Ort{};             //-1=Landend; -2=Startend; -5 in der Luft; sonst Stadt
     XY Position;             // Position am Flughafen oder in der Luft
     XY GlobePos;             // Position auf der Kugel im Scheduler
     BOOL BehindGlobe{};      // Ist das Flugzeug auf der Rückseite der Erde
-    UBYTE GlobeAngle;        // Der Winkel des Flugzeuges auf dem Globus
+    UBYTE GlobeAngle{};        // Der Winkel des Flugzeuges auf dem Globus
     XY AirportPos;           // Position am Flughafen
     SLONG TargetX{};         // Speicherung der Zielposition als Speed-up
     UBYTE Startzeit{};       // Speicherung als Speed-up oder 255 falls nach Landung
     ULONG TypeId{};          // referenziert CPlaneType oder ist -1
     CFlugplan Flugplan;      // Der Flugplan
-    UBYTE WorstZustand;      // Der schlimmste Zustand
-    UBYTE Zustand;           // Reparaturzustand: 0%-100%
-    UBYTE TargetZustand;     // So soll es aussehen
+    UBYTE WorstZustand{100};      // Der schlimmste Zustand
+    UBYTE Zustand{100};           // Reparaturzustand: 0%-100%
+    UBYTE TargetZustand{100};     // So soll es aussehen
     BUFFER_V<ULONG> Salden;  // Die täglichen Einnahmen-Ausgaben des Flugzeuges der letzten Woche
     SLONG Baujahr{};         // Das Baujahr dieses Flugzeuges
-    SLONG AnzPiloten;        // Aktuelle Zahl: Piloten und Co-Piloten
-    SLONG AnzBegleiter;      // Aktuelle Zahl: Zahl der Stewardessen
+    SLONG AnzPiloten{};        // Aktuelle Zahl: Piloten und Co-Piloten
+    SLONG AnzBegleiter{};      // Aktuelle Zahl: Zahl der Stewardessen
     SLONG MaxBegleiter{};    // Ziel: Zahl der Stewardessen
     SLONG PersonalQuality{}; // So gut sind diese Leute im Schnitt
-    SLONG Wartungskosten;    // Soviel kostet das Flugzeug pro Tag an Wartung
-    UBYTE Sitze, SitzeTarget;
-    UBYTE Essen, EssenTarget;
-    UBYTE Tabletts, TablettsTarget;
-    UBYTE Deco, DecoTarget;
-    UBYTE Triebwerk, TriebwerkTarget;
-    UBYTE Reifen, ReifenTarget;
-    UBYTE Elektronik, ElektronikTarget;
-    UBYTE Sicherheit, SicherheitTarget;
+    SLONG Wartungskosten{};    // Soviel kostet das Flugzeug pro Tag an Wartung
+    UBYTE Sitze{}, SitzeTarget{};
+    UBYTE Essen{}, EssenTarget{};
+    UBYTE Tabletts{}, TablettsTarget{};
+    UBYTE Deco{}, DecoTarget{};
+    UBYTE Triebwerk{}, TriebwerkTarget{};
+    UBYTE Reifen{}, ReifenTarget{};
+    UBYTE Elektronik{}, ElektronikTarget{};
+    UBYTE Sicherheit{}, SicherheitTarget{};
     SLONG MaxPassagiereTarget{}, MaxPassagiereTargetFC{}; // Soviele Leute passen bei der derzeiten Konfiguration rein
     // SLONG          AnzPutzcrew;
-    SLONG Auslastung;                         // Zu soviel % ist es gefüllt
-    SLONG AuslastungFC;                       // Zu soviel % ist es gefüllt
-    SLONG Kilometer;                          // Soviele Kilometer ist es schon geflogen
-    SLONG SummePassagiere;                    // Soviele Passagiere hat es schon befördert
+    SLONG Auslastung{};                         // Zu soviel % ist es gefüllt
+    SLONG AuslastungFC{};                       // Zu soviel % ist es gefüllt
+    SLONG Kilometer{};                          // Soviele Kilometer ist es schon geflogen
+    SLONG SummePassagiere{};                    // Soviele Passagiere hat es schon befördert
     SLONG MaxPassagiere{}, MaxPassagiereFC{}; // Soviele Leute passen bei der derzeiten Konfiguration rein
-    BOOL Sponsored;                           // Wenn TRUE, dann ist es staatlich gefördert und schnlecht zu verkaufen
+    BOOL Sponsored{FALSE};                           // Wenn TRUE, dann ist es staatlich gefördert und schnlecht zu verkaufen
     BOOL OhneSitze{};                         // Wenn TRUE, dann wurden die Sitze zum transportieren von Fracht ausgebaut (Umrüstkosten)
-    SLONG NumPannen;                          // Anzahl der Pannen insgesamt
-    SLONG Problem;                            // 0 oder Anzahl der Stunden bis das Flugzeug kein Problem mehr hat
-    SLONG PseudoProblem;                      // 0 oder Anzahl der Stunden wie das Flugzeug noch festgehalten wird
+    SLONG NumPannen{};                          // Anzahl der Pannen insgesamt
+    SLONG Problem{};                            // 0 oder Anzahl der Stunden bis das Flugzeug kein Problem mehr hat
+    SLONG PseudoProblem{};                      // 0 oder Anzahl der Stunden wie das Flugzeug noch festgehalten wird
     BUFFER_V<CPanne> Pannen;                  // Die letzten 10 Pannen
 
     // Kopien aus CPlaneType
@@ -928,7 +928,10 @@ class /**/ CPlane {
     CXPlane XPlane; // Selbstgebautes Flugzeug falls TypeId==-1
 
   public:
-    CPlane();
+    CPlane() {
+        Salden.ReSize(7);
+        ClearSaldo();
+    }
     CPlane(const CString &Name, ULONG TypeId, UBYTE Zustand, SLONG Baujahr);
     void AddPanne(SLONG Code);
     SLONG CalculatePrice(void) const; // Berechnet den Marktwert
@@ -977,9 +980,8 @@ class /**/ CPlaneNames {
     BUFFER_V<CString> NameBuffer2;
 
   public:
-    CPlaneNames();
+    CPlaneNames() = default;
     CPlaneNames(const CString &TabFilename);
-    ~CPlaneNames();
     void ReInit(const CString &TabFilename);
     CString GetRandom(TEAKRAND *pRnd);
     CString GetUnused(TEAKRAND *pRnd);
@@ -991,15 +993,15 @@ class /**/ CPlaneNames {
 class /**/ CKlackerPlane {
   public:
     XY ScreenPos;
-    SLONG Size;
-    SLONG Dir;
-    SLONG Logo;
+    SLONG Size{};
+    SLONG Dir{};
+    SLONG Logo{};
 };
 
 class /**/ CKlackerPlanes {
   public:
     BUFFER_V<CKlackerPlane> KlackerPlanes;
-    SLONG TimeSinceStart;
+    SLONG TimeSinceStart{};
 
   public:
     CKlackerPlanes() { Reset(); }
@@ -1014,11 +1016,11 @@ class /**/ KLACKER {
     SBBMS Cursors;
     SBBMS KlackerBms;
     SLONG NewScreen{};
-    GfxLib *pGLib{};
-    bool LineDisabled[16]{};
-    uint8_t Soll[24 * 16]{};  // So sollen die Plättchen zur Zeit sein
-    uint8_t Haben[24 * 16]{}; // So sind die Plättchen zur Zeit (Indices auf FontDef)
-    SBFX KlackerFx[3];
+    GfxLib *pGLib{nullptr};
+    std::array<bool, 16> LineDisabled{};
+    std::array<uint8_t, 24 * 16> Soll{};  // So sollen die Plättchen zur Zeit sein
+    std::array<uint8_t, 24 * 16> Haben{}; // So sind die Plättchen zur Zeit (Indices auf FontDef)
+    std::array<SBFX, 3> KlackerFx;
 
   public:
     KLACKER();

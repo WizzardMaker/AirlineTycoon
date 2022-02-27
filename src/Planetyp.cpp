@@ -184,32 +184,6 @@ void CPlaneTypes::BlitPlaneAt(SBPRIMARYBM &TargetBm, SLONG PlaneType, SLONG Size
 //============================================================================================
 // CPlane::
 //============================================================================================
-// Konstruktor:
-//============================================================================================
-CPlane::CPlane() {
-    Name = "noname";
-    WorstZustand = TargetZustand = Zustand = 100;
-    AnzPiloten = AnzBegleiter = 0;
-    Salden.ReSize(7);
-    ClearSaldo();
-    Wartungskosten = 0;
-    Sitze = SitzeTarget = 0;
-    Essen = EssenTarget = 0;
-    Tabletts = TablettsTarget = 0;
-    Deco = DecoTarget = 0;
-    Triebwerk = TriebwerkTarget = 0;
-    Reifen = ReifenTarget = 0;
-    Elektronik = ElektronikTarget = 0;
-    Sicherheit = SicherheitTarget = 0;
-    GlobeAngle = 0;
-    Auslastung = Kilometer = SummePassagiere = 0;
-    AuslastungFC = 0;
-    Sponsored = FALSE;
-    NumPannen = 0;
-    Problem = 0;
-    PseudoProblem = 0;
-}
-
 //--------------------------------------------------------------------------------------------
 // Konstruktor:
 //--------------------------------------------------------------------------------------------
@@ -1636,22 +1610,10 @@ BOOL CPlanes::HasProblemPlane() {
     return (FALSE);
 }
 
-//============================================================================================
-// CPlaneNames::
-//============================================================================================
-// Konstruktor:
-//============================================================================================
-CPlaneNames::CPlaneNames() = default;
-
 //--------------------------------------------------------------------------------------------
 // Konstruktor:
 //--------------------------------------------------------------------------------------------
 CPlaneNames::CPlaneNames(const CString &TabFilename) { ReInit(TabFilename); }
-
-//--------------------------------------------------------------------------------------------
-// Destruktor:
-//--------------------------------------------------------------------------------------------
-CPlaneNames::~CPlaneNames() = default;
 
 //--------------------------------------------------------------------------------------------
 // Konstruktor:

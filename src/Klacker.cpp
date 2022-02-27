@@ -9,7 +9,7 @@
 KLACKER::KLACKER() {
     // Klacker-Tafel initialisieren:
     Clear();
-    memset(Haben, 0, 24 * 16);
+    Haben.fill(0);
 
     pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("klacker.gli", RoomPath)), &pGLib, L_LOCMEM);
     Cursors.ReSize(pGLib, "KL_K1", 8); // 8 neue Chars für die Polen........................... //3 neue Chars füt SL //3 Neue für ES
@@ -45,7 +45,7 @@ KLACKER::~KLACKER() {
 // Löscht alle Inhalte:
 //--------------------------------------------------------------------------------------------
 void KLACKER::Clear() {
-    memset(Soll, 0, 24 * 16);
+    Soll.fill(0);
 
     for (bool &c : LineDisabled) {
         c = false;
@@ -125,7 +125,7 @@ BOOL KLACKER::Klack() {
 //--------------------------------------------------------------------------------------------
 // Gibt TRUE zurück, wenn nichts mehr zu klackern ist:
 //--------------------------------------------------------------------------------------------
-BOOL KLACKER::IsFinished() { return static_cast<BOOL>(memcmp(Soll, Haben, 16 * 24) == 0); }
+BOOL KLACKER::IsFinished() { return Soll == Haben; }
 
 //--------------------------------------------------------------------------------------------
 // Bringt alle Felder sofort auf den Soll-Stand:
