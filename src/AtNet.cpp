@@ -1804,7 +1804,7 @@ void PumpNetwork() {
                 Message >> rPersonRandCreate >> rPersonRandMisc >> rHeadlineRand;
                 Message >> rLMA >> rRBA >> rFrachen >> rGeneric;
 
-                for (unsigned int &c : rAA) {
+                for (auto &c : rAA) {
                     Message >> c;
                 }
                 for (c = 0; c < 20; c++) {

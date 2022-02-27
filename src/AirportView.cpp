@@ -4350,7 +4350,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const AIRPORT &Airport) {
         File << Airport.iPlateDir;
     }
 
-    for (int c : Airport.HallLevel) {
+    for (auto c : Airport.HallLevel) {
         File << c;
     }
 
@@ -4378,7 +4378,7 @@ TEAKFILE &operator>>(TEAKFILE &File, AIRPORT &Airport) {
         Airport.iPlateDir.incIter(20 * 16);
     }
 
-    for (int &c : Airport.HallLevel) {
+    for (auto &c : Airport.HallLevel) {
         File >> c;
     }
 

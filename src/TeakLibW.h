@@ -1327,20 +1327,21 @@ template <typename T> class ALBUM_V {
         if (start >= end)
             return;
         Iter pivotIter = (end - start) / 2 + start;
-        Iter i = start - 1;
-        Iter j = end + 1;
-        while (true) {
-            do {
+        Iter i = start;
+        Iter j = end;
+        while (i < j) {
+            while (*i < *pivotIter) {
                 ++i;
-            } while (*i < *pivotIter);
-            do {
+            }
+            while (*pivotIter < *j) {
                 --j;
-            } while (*pivotIter < *j);
-            if (i < j) {
-                Iter::swap(i, j);
-            } else {
+            }
+            if (i >= j) {
                 break;
             }
+            Iter::swap(i, j);
+            ++i;
+            --j;
         }
         qSort(start, j);
         qSort(j + 1, end);

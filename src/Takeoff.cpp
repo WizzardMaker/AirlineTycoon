@@ -50,6 +50,10 @@ extern SBNetwork gNetwork;
 #include <filesystem>
 #include <fstream>
 
+#ifdef WIN32
+#include <DbgHelp.h>
+#endif
+
 CHLPool HLPool;
 
 #ifdef _DEBUG
@@ -86,67 +90,13 @@ SLONG gTimerCorrection = 0; // Is it necessary to adapt the local clock to the s
 
 // StackSaver MySaver;
 
-//--------------------------------------------------------------------------------------------
-// BetaIds zeigen, an wen das Produkt gegeben wurde
-//--------------------------------------------------------------------------------------------
-// 223372036854775808-922337203685477580  ??.?.98-??.?.98 : Intern; wurde an Attic rausgegeben
-// 891234620498163549-214920573141261048  ??.?.98-17.3.98 : Intern; an Bomico gegeben
-// 284059172374591027-385018361440193713  17.3.98-25.3.98 : Intern; wurde nicht rausgegeben
-// 967182349034787628-198472839471673899  25.3.98-26.3.98 : Intern; an Bomico gegeben
-// 942134127836527725-423987123498074234  26.3.98- 7.4.98 : Intern; wurde nicht rausgegeben
-// 423149786259875324-231768098574398743   7.4.98-10.4.98 : Intern; wurde nicht rausgegeben
-// 987234619283842039-423098123784239874  10.4.98-20.4.98 : Intern; Betatester waren hier; an Ravensburger
-// 132518462572847204-810542742871364297  20.4.98-21.4.98 : Intern; Microsoft
-// 132518462572847204-810542742871364297  21.4.98-23.4.98 : Intern; Person in den USA (Buzz Software)
-// 227419893784723849-827418324729347824  23.4.98-26.4.98 : Intern; Jan Sjovall
-// 423764298736123753-423987205843284902  26.4.98-30.4.98 : Intern; Pressetour
-// 789427184592174332-204502824319384324  30.4.98-12.5.98 : Intern;
-// 921364237861692844-987412312764239874  12.5.98-13.5.98 : Intern; Interplay
-// 342197861237648912-423412786123612394  13.5.98-18.5.98 : Intern;
-// 987243896123742334-423984724987650954  18.5.98- 5.6.98 : Intern; Bomico
-// 432897342156432198-423554835218452549   5.6.98-??.?.98 : Intern; Bomico; Trinode
-// 883610937218917328-719273618973427422  ??.?.98-25.6.98 : Intern; Bomico
-// 936249237874523734-224238234810878542  25.6.98- 8.7.98 : Intern; Bomico
-// 195236205634827322-964583412397724543   8.7.98- 8.7.98 : Intern; Taiwain (Englisch, mit Markierung in Hauptmenü-Bitmap)
-// 889132557179123773-104993427823467831   8.7.98- 9.7.98 : Intern; Jon Benton, Buzz Software
-// 883125133229672333-712487216511248790   9.7.98- 9.7.98 : Intern; Via Bomico auch an die Presse
-// 321612656732266231-237856732144345622   9.7.98-16.7.98 : Intern; Via Bomico auch an die Presse
-// 897893125667432312-922026623427828832  16.7.98-19.7.98 : Intern; Ascaron
-// 989423123113267672-123012311723475355  19.7.98-31.7.98 : Intern;
-// 123453273129043612-893121723114389453  31.7.98- 7.8.98 : Intern; Mitgenommen nach Mülheim
-// 723162316723632131-908090896239016302   7.8.98- 8.9.98 : Intern; An Bomico gegeben
-// 423423787892349122-783120312831231255   8.9.98-12.9.98 : Release-Version (erster Versuch)
-// 423123479031289074-978789786786122322  12.9.98-15.9.98 : Release-Version
-// 312573126784237983-423423789897233332  15.9.98-29.10.98 : Englische Version für Buzz-Software
-// 676786789767891234-234534534534563232 29.10.98-  7.4.99 : Englische Version für Buzz-Software
-// 234234239467423422-423098146284923443   7.4.99- 19.4.98 : Betatest Version (offiziell)
-// 993621834926654222-986294432529344524  19.4.99- 19.4.98 : PC Games
-// 312312312397889777-777312893743282949  19.4.99- 19.4.98 : GameStar
-// 882638264836778892-992265266635274828  19.4.99-   . .98 : Powerplay
-// 999666555423198743-423423423488888222  19.4.99- 21.4.98 : Betatest Version (offiziell)
-// 423987402389743333-988437373399993784  21.4.99- 21.4.98 : Version für Petra Maueröder
-// 423874612978367654-423423467897689766  21.4.99- 22.4.98 : Betatest Version (offiziell)
-// 455675675567567656-423423423244444543  22.4.99- 22.4.98 : Version für Joe Nettelbeck
-// 787878787889879433-654445373848292349  22.4.99-  5.6.98 : Betatest Version (offiziell)
-// 765423432423432676-432987774377733433   5.6.99-   .4.98 : Release-Version
-//--------------------------------------------------------------------------------------------
-__int64 betaId[3] = {123456789876543210, 765423432423432676, 432987774377733433};
-
 char *UCharToReadableAnsi(const unsigned char *pData, unsigned uLen);
 unsigned char *ReadableAnsiToUChar(const char *pData, unsigned uLen);
 
 #ifdef WIN32
-LONG UnhandledExceptionCallback(_EXCEPTION_POINTERS *exceptionInfo) {
-
-    _MINIDUMP_EXCEPTION_INFORMATION info = {GetCurrentThreadId(), exceptionInfo, TRUE};
-
-    HANDLE dump = CreateFile("last_crash.dmp", GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
-    MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), dump, MiniDumpNormal, &info, nullptr, nullptr);
-
-    CloseHandle(dump);
-
-    return EXCEPTION_EXECUTE_HANDLER;
+int __cdecl CrtDbgHook(int nReportType, char *szMsg, int *pnRet) {
+    return TRUE;  // Return true - Abort,Retry,Ignore dialog will *not* be displayed
+    //return FALSE; // Return false - Abort,Retry,Ignore dialog *will be displayed*
 }
 #endif
 
@@ -157,7 +107,7 @@ extern "C"
     main(int argc, char *argv[]) {
 
 #ifdef WIN32
-    SetUnhandledExceptionFilter(UnhandledExceptionCallback);
+    _CrtSetReportHook2(_CRT_RPTHOOK_INSTALL, CrtDbgHook);
 #endif
 
     if (!run_regression()) {
@@ -168,9 +118,6 @@ extern "C"
     theApp.InitInstance(argc, argv);
     return 0;
 }
-
-void RunLengthCompression(UCHAR *in, UCHAR *out, ULONG &size);
-void RunLengthDeCompression(UCHAR *in, UCHAR *out, ULONG &size);
 
 //--------------------------------------------------------------------------------------------
 // CTakeOffApp construction:
@@ -187,77 +134,6 @@ CTakeOffApp::CTakeOffApp() {
     if (Mix_Init(MIX_INIT_OGG) < 0) {
         printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", TTF_GetError());
     }
-
-    //_tmain();
-
-    /*srand(timeGetTime());
-
-      UBYTE Buffer [60000], Buffer2[60000];
-      SLONG c, d;
-      ULONG n, m;
-
-      while (1)
-      {
-      n=rand()%30000;
-
-      for (c=0; c<n; c++)
-      Buffer[c]=rand()%256;
-
-      m=(n*3/4)+(rand()%n);
-
-      for (c=0; c<m; c++)
-      {
-      Buffer[rand()%n]=0;
-      }
-
-    //Chk:
-    SLONG Chk=0;
-    for (c=0; c<n; c++)
-    Chk=Chk*3+Buffer[c];
-
-    m=n;
-    RunLengthCompression (Buffer, Buffer2, m);
-    memset (Buffer, 0, 60000);
-    RunLengthDeCompression (Buffer2, Buffer, m);
-
-    if (m!=n) DebugBreak();
-
-    SLONG Chk2=0;
-    for (c=0; c<n; c++)
-    Chk2=Chk2*3+Buffer[c];
-
-    if (Chk!=Chk2) DebugBreak();
-    }   */
-
-    /*BUFFER_V<UBYTE> JapData (*LoadCompleteFile ("C:\\WINDOWS\\Desktop\\incub.zif\\incub.txt"));
-      BUFFER_V<UWORD> Bits(65536);
-
-      SLONG c,d;
-
-      Bits.FillWith (0);
-
-      for (c=0; c<JapData.AnzEntries(); c++)
-      if (JapData[c]>=128)
-      {
-      Bits[(SLONG)*(UWORD*)(JapData+c)]=TRUE;
-      c++;
-      }
-
-      for (c=d=0; c<Bits.AnzEntries(); c++)
-      if (Bits[c]) d++;
-
-      hprintvar (d); */
-
-    /*BUFFER_V<UBYTE> FileData (*LoadCompleteFile ("test.raw"));
-      BUFFER_V<UBYTE> Compressed;
-
-      CompressWave (FileData, Compressed);
-      DecompressWave (Compressed, FileData);
-
-      TEAKFILE OutputFile ("test2.raw", TEAKFILE_WRITE);
-
-      OutputFile.Write (FileData, FileData.AnzEntries());
-      exit (-1); */
 }
 
 //--------------------------------------------------------------------------------------------
@@ -361,10 +237,10 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
         SLONG bConfigWinMouse = 0;
         SLONG bConfigNoDigiSound = 0;
 
-        reg.ReadRegistryKey_l(&bConfigNoVgaRam);
-        reg.ReadRegistryKey_l(&bConfigNoSpeedyMouse);
-        reg.ReadRegistryKey_l(&bConfigWinMouse);
-        reg.ReadRegistryKey_l(&bConfigNoDigiSound);
+        reg.ReadRegistryKey_l(bConfigNoVgaRam);
+        reg.ReadRegistryKey_l(bConfigNoSpeedyMouse);
+        reg.ReadRegistryKey_l(bConfigWinMouse);
+        reg.ReadRegistryKey_l(bConfigNoDigiSound);
 
         if (bConfigNoVgaRam != 0) {
             bNoVgaRam = TRUE;

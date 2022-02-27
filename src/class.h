@@ -4,6 +4,7 @@
 // CAuftrag CFlugplan CPlane PLAYER
 //============================================================================================
 #include "HLine.h"
+#include <array>
 
 typedef BUFFER_V<UBYTE> BUFFER_UBYTE;
 

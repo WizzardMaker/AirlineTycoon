@@ -141,11 +141,12 @@ CString GetSpeechFilename(const CString &String, SLONG Index, CString *pTextFoll
 BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *bAnyMissing) {
     CString str;
     CString path;
-    auto sep = std::filesystem::path::preferred_separator;
 #ifdef WIN32
     CString suffix = ".raw";
+    auto sep = '\\';
 #else
     CString suffix = ".ogg";
+    auto sep = std::filesystem::path::preferred_separator;
 #endif
     CString TextFollows;
     BUFFER_V<SBFX *> Effects(50);

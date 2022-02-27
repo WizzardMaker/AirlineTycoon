@@ -1368,7 +1368,7 @@ void SIM::DoTimeStep() {
                 Message << rChkPersonRandCreate << rChkPersonRandMisc << rChkHeadlineRand;
                 Message << rChkLMA << rChkRBA << rChkFrachen << rChkGeneric;
 
-                for (unsigned int &c : rChkAA) {
+                for (auto &c : rChkAA) {
                     Message << c;
                 }
                 for (c = 0; c < 4; c++) {
@@ -4100,105 +4100,105 @@ void COptions::ReadOptions() {
     CRegistryAccess reg(chRegKey);
 
     // New Settings:
-    if (!reg.ReadRegistryKey_l(&OptionFullscreen)) {
+    if (!reg.ReadRegistryKey_l(OptionFullscreen)) {
         OptionFullscreen = 0;
     }
-    if (!reg.ReadRegistryKey_b(&OptionKeepAspectRatio)) {
+    if (!reg.ReadRegistryKey_b(OptionKeepAspectRatio)) {
         OptionKeepAspectRatio = 1;
     }
 
     // Falls Setup nicht geladen wurde dann Standard-Parameter initialisieren
-    if (!reg.ReadRegistryKey_b(&OptionPlanes)) {
+    if (!reg.ReadRegistryKey_b(OptionPlanes)) {
         OptionPlanes = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionPassengers)) {
+    if (!reg.ReadRegistryKey_b(OptionPassengers)) {
         OptionPassengers = TRUE;
     }
-    if (!reg.ReadRegistryKey_l(&OptionMusicType)) {
+    if (!reg.ReadRegistryKey_l(OptionMusicType)) {
         OptionMusicType = 2;
     }
-    if (!reg.ReadRegistryKey_b(&OptionEnableDigi)) {
+    if (!reg.ReadRegistryKey_b(OptionEnableDigi)) {
         OptionEnableDigi = TRUE;
     }
-    if (!reg.ReadRegistryKey_l(&OptionMusik)) {
+    if (!reg.ReadRegistryKey_l(OptionMusik)) {
         OptionMusik = 3;
     }
-    if (!reg.ReadRegistryKey_l(&OptionMasterVolume)) {
+    if (!reg.ReadRegistryKey_l(OptionMasterVolume)) {
         OptionMasterVolume = 7;
     }
-    if (!reg.ReadRegistryKey_l(&OptionLoopMusik)) {
+    if (!reg.ReadRegistryKey_l(OptionLoopMusik)) {
         OptionLoopMusik = 0;
     }
-    if (!reg.ReadRegistryKey_l(&OptionAmbiente)) {
+    if (!reg.ReadRegistryKey_l(OptionAmbiente)) {
         OptionAmbiente = 3;
     }
-    if (!reg.ReadRegistryKey_b(&OptionRealKuerzel)) {
+    if (!reg.ReadRegistryKey_b(OptionRealKuerzel)) {
         OptionRealKuerzel = TRUE;
     }
-    if (!reg.ReadRegistryKey_l(&OptionDurchsagen)) {
+    if (!reg.ReadRegistryKey_l(OptionDurchsagen)) {
         OptionDurchsagen = 3;
     }
-    if (!reg.ReadRegistryKey_l(&OptionTalking)) {
+    if (!reg.ReadRegistryKey_l(OptionTalking)) {
         OptionTalking = 7;
     }
-    if (!reg.ReadRegistryKey_l(&OptionPlaneVolume)) {
+    if (!reg.ReadRegistryKey_l(OptionPlaneVolume)) {
         OptionPlaneVolume = 3;
     }
-    if (!reg.ReadRegistryKey_l(&OptionEffekte)) {
+    if (!reg.ReadRegistryKey_l(OptionEffekte)) {
         OptionEffekte = 3;
     }
-    if (!reg.ReadRegistryKey_b(&OptionGirl)) {
+    if (!reg.ReadRegistryKey_b(OptionGirl)) {
         OptionGirl = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionBerater)) {
+    if (!reg.ReadRegistryKey_b(OptionBerater)) {
         OptionBerater = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionBriefBriefing)) {
+    if (!reg.ReadRegistryKey_b(OptionBriefBriefing)) {
         OptionBriefBriefing = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionBlenden)) {
+    if (!reg.ReadRegistryKey_b(OptionBlenden)) {
         OptionBlenden = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionTransparenz)) {
+    if (!reg.ReadRegistryKey_b(OptionTransparenz)) {
         OptionTransparenz = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionSchatten)) {
+    if (!reg.ReadRegistryKey_b(OptionSchatten)) {
         OptionSchatten = TRUE;
     }
-    if (!reg.ReadRegistryKey_l(&OptionAirport)) {
+    if (!reg.ReadRegistryKey_l(OptionAirport)) {
         OptionAirport = -1;
     }
-    if (!reg.ReadRegistryKey_b(&OptionThinkBubbles)) {
+    if (!reg.ReadRegistryKey_b(OptionThinkBubbles)) {
         OptionThinkBubbles = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionFlipping)) {
+    if (!reg.ReadRegistryKey_b(OptionFlipping)) {
         OptionFlipping = FALSE;
     }
-    if (!reg.ReadRegistryKey_l(&Sim.MaxDifficulty)) {
+    if (!reg.ReadRegistryKey_l(Sim.MaxDifficulty)) {
         Sim.MaxDifficulty = 0;
     }
-    if (!reg.ReadRegistryKey_l(&Sim.MaxDifficulty2)) {
+    if (!reg.ReadRegistryKey_l(Sim.MaxDifficulty2)) {
         Sim.MaxDifficulty2 = 11;
     }
-    if (!reg.ReadRegistryKey_l(&Sim.MaxDifficulty3)) {
+    if (!reg.ReadRegistryKey_l(Sim.MaxDifficulty3)) {
         Sim.MaxDifficulty3 = 41;
     }
-    if (!reg.ReadRegistryKey_b(&OptionAutosave)) {
+    if (!reg.ReadRegistryKey_b(OptionAutosave)) {
         OptionAutosave = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionFax)) {
+    if (!reg.ReadRegistryKey_b(OptionFax)) {
         OptionFax = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionRoundNumber)) {
+    if (!reg.ReadRegistryKey_b(OptionRoundNumber)) {
         OptionRoundNumber = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionRandomStartday)) {
+    if (!reg.ReadRegistryKey_b(OptionRandomStartday)) {
         OptionRandomStartday = TRUE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionViewedIntro)) {
+    if (!reg.ReadRegistryKey_b(OptionViewedIntro)) {
         OptionViewedIntro = FALSE;
     }
-    if (!reg.ReadRegistryKey_b(&OptionSpeechBubble)) {
+    if (!reg.ReadRegistryKey_b(OptionSpeechBubble)) {
         if (gLanguage == LANGUAGE_O) {
             OptionSpeechBubble = TRUE;
         } else {
@@ -4238,29 +4238,29 @@ void COptions::ReadOptions() {
     OptionViewedIntro = TRUE;
 #endif
 
-    if (!reg.ReadRegistryKey_l(&OptionRoomDescription)) {
+    if (!reg.ReadRegistryKey_l(OptionRoomDescription)) {
         OptionRoomDescription = 0;
     }
-    if (!reg.ReadRegistryKey_l(&OptionLastPlayer)) {
+    if (!reg.ReadRegistryKey_l(OptionLastPlayer)) {
         OptionLastPlayer = 0;
     }
-    if (!reg.ReadRegistryKey_l(&OptionLastMission)) {
+    if (!reg.ReadRegistryKey_l(OptionLastMission)) {
         OptionLastMission = 0;
     }
-    if (!reg.ReadRegistryKey_l(&OptionLastMission2)) {
+    if (!reg.ReadRegistryKey_l(OptionLastMission2)) {
         OptionLastMission2 = 11;
     }
-    if (!reg.ReadRegistryKey_l(&OptionLastMission3)) {
+    if (!reg.ReadRegistryKey_l(OptionLastMission3)) {
         OptionLastMission3 = 41;
     }
-    if (!reg.ReadRegistryKey_l(&OptionLastProvider)) {
+    if (!reg.ReadRegistryKey_l(OptionLastProvider)) {
         OptionLastProvider = 0;
     }
 
-    if (!reg.ReadRegistryKeyEx_l(reinterpret_cast<int *>(&Sim.KeyHints[0]), "&KeyHints1")) {
+    if (!reg.ReadRegistryKeyEx_u(Sim.KeyHints[0], "KeyHints1")) {
         Sim.KeyHints[0] = 0;
     }
-    if (!reg.ReadRegistryKeyEx_l(reinterpret_cast<int *>(&Sim.KeyHints[2]), "&KeyHints2")) {
+    if (!reg.ReadRegistryKeyEx_u(Sim.KeyHints[2], "KeyHints2")) {
         Sim.KeyHints[2] = 0;
     }
     Sim.KeyHints[1] = 0;
@@ -4360,43 +4360,43 @@ void COptions::WriteOptions() {
 
     CRegistryAccess reg(chRegKey);
 
-    reg.WriteRegistryKey_l(&OptionFullscreen);
-    reg.WriteRegistryKey_b(&OptionKeepAspectRatio);
-    reg.WriteRegistryKey_b(&OptionPlanes);
-    reg.WriteRegistryKey_b(&OptionPassengers);
-    reg.WriteRegistryKey_b(&OptionMusicType);
-    reg.WriteRegistryKey_b(&OptionEnableDigi);
-    reg.WriteRegistryKey_l(&OptionMusik);
-    reg.WriteRegistryKey_l(&OptionLoopMusik);
-    reg.WriteRegistryKey_l(&OptionAmbiente);
-    reg.WriteRegistryKey_b(&OptionRealKuerzel);
-    reg.WriteRegistryKey_l(&OptionDurchsagen);
-    reg.WriteRegistryKey_l(&OptionPlaneVolume);
-    reg.WriteRegistryKey_l(&OptionEffekte);
-    reg.WriteRegistryKey_b(&OptionGirl);
-    reg.WriteRegistryKey_b(&OptionBerater);
-    reg.WriteRegistryKey_b(&OptionBriefBriefing);
-    reg.WriteRegistryKey_b(&OptionBlenden);
-    reg.WriteRegistryKey_b(&OptionTransparenz);
-    reg.WriteRegistryKey_b(&OptionSchatten);
-    reg.WriteRegistryKey_l(&OptionAirport);
-    reg.WriteRegistryKey_b(&OptionThinkBubbles);
-    reg.WriteRegistryKey_b(&OptionFlipping);
-    reg.WriteRegistryKey_l(&Sim.MaxDifficulty);
-    reg.WriteRegistryKey_l(&Sim.MaxDifficulty2);
-    reg.WriteRegistryKey_l(&Sim.MaxDifficulty3);
-    reg.WriteRegistryKey_b(&OptionAutosave);
-    reg.WriteRegistryKey_b(&OptionFax);
-    reg.WriteRegistryKey_b(&OptionRoundNumber);
+    reg.WriteRegistryKey_l(OptionFullscreen);
+    reg.WriteRegistryKey_b(OptionKeepAspectRatio);
+    reg.WriteRegistryKey_b(OptionPlanes);
+    reg.WriteRegistryKey_b(OptionPassengers);
+    reg.WriteRegistryKey_l(OptionMusicType);
+    reg.WriteRegistryKey_b(OptionEnableDigi);
+    reg.WriteRegistryKey_l(OptionMusik);
+    reg.WriteRegistryKey_l(OptionLoopMusik);
+    reg.WriteRegistryKey_l(OptionAmbiente);
+    reg.WriteRegistryKey_b(OptionRealKuerzel);
+    reg.WriteRegistryKey_l(OptionDurchsagen);
+    reg.WriteRegistryKey_l(OptionPlaneVolume);
+    reg.WriteRegistryKey_l(OptionEffekte);
+    reg.WriteRegistryKey_b(OptionGirl);
+    reg.WriteRegistryKey_b(OptionBerater);
+    reg.WriteRegistryKey_b(OptionBriefBriefing);
+    reg.WriteRegistryKey_b(OptionBlenden);
+    reg.WriteRegistryKey_b(OptionTransparenz);
+    reg.WriteRegistryKey_b(OptionSchatten);
+    reg.WriteRegistryKey_l(OptionAirport);
+    reg.WriteRegistryKey_b(OptionThinkBubbles);
+    reg.WriteRegistryKey_b(OptionFlipping);
+    reg.WriteRegistryKey_l(Sim.MaxDifficulty);
+    reg.WriteRegistryKey_l(Sim.MaxDifficulty2);
+    reg.WriteRegistryKey_l(Sim.MaxDifficulty3);
+    reg.WriteRegistryKey_b(OptionAutosave);
+    reg.WriteRegistryKey_b(OptionFax);
+    reg.WriteRegistryKey_b(OptionRoundNumber);
 
     if ((gpSSE != nullptr) && gpSSE->IsSoundEnabled()) {
-        reg.WriteRegistryKey_l(&OptionMasterVolume);
+        reg.WriteRegistryKey_l(OptionMasterVolume);
     }
 
     // Den Intro-Eintrag nur schreiben, wenn wir keine Demo haben. Sonst schaut sich jemand eine
     // Demo ohne Intro an. Und wenn er dann das richtige Spiel kauft gäbe es keinen Intro.
 #ifndef NO_INTRO
-    reg.WriteRegistryKey_b(&OptionViewedIntro);
+    reg.WriteRegistryKey_b(OptionViewedIntro);
 #endif
 
     // Und fast das gleiche für die Sprechblasen
@@ -4412,9 +4412,9 @@ void COptions::WriteOptions() {
     if (gLanguage == LANGUAGE_N)
         goto dont_save_talking;
 #endif
-    reg.WriteRegistryKey_l(&OptionTalking);
-    reg.WriteRegistryKey_b(&OptionSpeechBubble);
-    reg.WriteRegistryKey_b(&OptionRandomStartday);
+    reg.WriteRegistryKey_l(OptionTalking);
+    reg.WriteRegistryKey_b(OptionSpeechBubble);
+    reg.WriteRegistryKey_b(OptionRandomStartday);
 
 #ifdef NO_D_VOICES
 dont_save_talking:
@@ -4426,20 +4426,20 @@ dont_save_talking:
 dont_save_talking:
 #endif
 
-    reg.WriteRegistryKey_l(&OptionRoomDescription);
+    reg.WriteRegistryKey_l(OptionRoomDescription);
     reg.WriteRegistryKeyEx(const_cast<char *>((LPCTSTR)AppPath), "&AppPath");
-    reg.WriteRegistryKey_l(&OptionLastPlayer);
+    reg.WriteRegistryKey_l(OptionLastPlayer);
 
-    reg.WriteRegistryKeyEx_l(reinterpret_cast<int *>(&Sim.KeyHints[0]), "&KeyHints1");
-    reg.WriteRegistryKeyEx_l(reinterpret_cast<int *>(&Sim.KeyHints[2]), "&KeyHints2");
+    reg.WriteRegistryKeyEx_u(Sim.KeyHints[0], "KeyHints1");
+    reg.WriteRegistryKeyEx_u(Sim.KeyHints[2], "KeyHints2");
 
     if (OptionLastMission != DIFF_FREEGAME) {
-        reg.WriteRegistryKey_l(&OptionLastMission);
+        reg.WriteRegistryKey_l(OptionLastMission);
     }
 
-    reg.WriteRegistryKey_l(&OptionLastMission3);
-    reg.WriteRegistryKey_l(&OptionLastMission2);
-    reg.WriteRegistryKey_l(&OptionLastProvider);
+    reg.WriteRegistryKey_l(OptionLastMission3);
+    reg.WriteRegistryKey_l(OptionLastMission2);
+    reg.WriteRegistryKey_l(OptionLastProvider);
 
     // Namen der Spieler
     for (c = 0; c < 4; c++) {

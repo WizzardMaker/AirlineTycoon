@@ -99,25 +99,29 @@ CRegistryAccess::CRegistryAccess(const CString &RegistryPath) {
 //--------------------------------------------------------------------------------------------
 // Öffnet den Zugriff auf einen Bereich der Registry; Gibt FALSE im Fehlerfall zurück:
 //--------------------------------------------------------------------------------------------
+#if USE_JSON
 bool CRegistryAccess::Open(const CString & /*RegistryPath*/) {
     Close(); // Alten Zugriff schließen
 
-#if USE_JSON
     CString PerfPath = GetPerfPath();
     hKey = json_load_file(PerfPath + "AT.json", 0, nullptr);
     if (hKey == nullptr) {
         hKey = json_object();
     }
     return IsOpen();
+}
 #else
+bool CRegistryAccess::Open(const CString &RegistryPath) {
+    Close(); // Alten Zugriff schließen
+
     DWORD dwDisposition = 0;
 
     if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_CURRENT_USER, RegistryPath, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, &dwDisposition))
         return (1); // Erfolg
     else
         return (0); // Geht nicht
-#endif
 }
+#endif
 
 //--------------------------------------------------------------------------------------------
 // Destruktor:
@@ -159,17 +163,18 @@ bool CRegistryAccess::WriteRegistryKeyEx(const char *Text, const CString &EntryN
     return (ERROR_SUCCESS == RegSetValueEx(hKey, EntryName, 0, REG_SZ, (UBYTE *)Text, strlen(Text) + 1));
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx_b(const BOOL *Bool, const CString &EntryName) {
+
+bool CRegistryAccess::WriteRegistryKeyEx_b(const BOOL& Bool, const CString &EntryName) {
     if (hKey == nullptr) {
         return (0) != 0;
     }
 
 #if USE_JSON
-    return (json_object_set_new(hKey, EntryName, json_boolean(*Bool)) > 0);
+    return (json_object_set_new(hKey, EntryName, json_boolean(Bool)) > 0);
 #else
     char *Temp = new char[500];
 
-    sprintf(Temp, "%li", (long)*Bool);
+    sprintf(Temp, "%li", (long)Bool);
 
     bool rc = WriteRegistryKeyEx(Temp, EntryName);
 
@@ -177,17 +182,18 @@ bool CRegistryAccess::WriteRegistryKeyEx_b(const BOOL *Bool, const CString &Entr
     return (rc);
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx_l(const SLONG *Long, const CString &EntryName) {
+
+bool CRegistryAccess::WriteRegistryKeyEx_l(const SLONG &Long, const CString &EntryName) {
     if (hKey == nullptr) {
         return (0) != 0;
     }
 
 #if USE_JSON
-    return (json_object_set_new(hKey, EntryName, json_integer(*Long)) > 0);
+    return (json_object_set_new(hKey, EntryName, json_integer(Long)) > 0);
 #else
     char *Temp = new char[500];
 
-    sprintf(Temp, "%li", *Long);
+    sprintf(Temp, "%li", Long);
 
     bool rc = WriteRegistryKeyEx(Temp, EntryName);
 
@@ -195,17 +201,18 @@ bool CRegistryAccess::WriteRegistryKeyEx_l(const SLONG *Long, const CString &Ent
     return (rc);
 #endif
 }
-bool CRegistryAccess::WriteRegistryKeyEx_d(const double *Double, const CString &EntryName) {
+
+bool CRegistryAccess::WriteRegistryKeyEx_u(const ULONG &Long, const CString &EntryName) {
     if (hKey == nullptr) {
         return (0) != 0;
     }
 
 #if USE_JSON
-    return (json_object_set_new(hKey, EntryName, json_real(*Double)) > 0);
+    return (json_object_set_new(hKey, EntryName, json_integer(Long)) > 0);
 #else
     char *Temp = new char[500];
 
-    sprintf(Temp, "%f", *Double);
+    sprintf(Temp, "%lu", Long);
 
     bool rc = WriteRegistryKeyEx(Temp, EntryName);
 
@@ -234,7 +241,8 @@ bool CRegistryAccess::ReadRegistryKeyEx(char *Text, const CString &EntryName) {
     return (ERROR_SUCCESS == RegQueryValueEx(hKey, EntryName, NULL, NULL, (UBYTE *)Text, &TempSize));
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx_b(BOOL *Bool, const CString &EntryName) {
+
+bool CRegistryAccess::ReadRegistryKeyEx_b(BOOL& Bool, const CString &EntryName) {
     if (hKey == nullptr) {
         return (0) != 0;
     }
@@ -245,20 +253,21 @@ bool CRegistryAccess::ReadRegistryKeyEx_b(BOOL *Bool, const CString &EntryName) 
         return false;
     }
 
-    *Bool = json_boolean_value(Entry);
+    Bool = json_boolean_value(Entry);
     return true;
 #else
     char *Temp = new char[500];
     bool rc = ReadRegistryKeyEx(Temp, EntryName);
 
     if (rc)
-        *Bool = (BOOL)atoi(Temp);
+        Bool = (BOOL)atoi(Temp);
 
     delete[] Temp;
     return (rc);
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx_l(SLONG *Long, const CString &EntryName) {
+
+bool CRegistryAccess::ReadRegistryKeyEx_l(SLONG &Long, const CString &EntryName) {
     if (hKey == nullptr) {
         return (0) != 0;
     }
@@ -269,43 +278,45 @@ bool CRegistryAccess::ReadRegistryKeyEx_l(SLONG *Long, const CString &EntryName)
         return false;
     }
 
-    *Long = json_integer_value(Entry);
+    Long = json_integer_value(Entry);
     return true;
 #else
     char *Temp = new char[500];
     bool rc = ReadRegistryKeyEx(Temp, EntryName);
 
     if (rc)
-        *Long = atoi(Temp);
+        Long = atoi(Temp);
 
     delete[] Temp;
     return (rc);
 #endif
 }
-bool CRegistryAccess::ReadRegistryKeyEx_d(double *Double, const CString &EntryName) {
+
+bool CRegistryAccess::ReadRegistryKeyEx_u(ULONG &Long, const CString &EntryName) {
     if (hKey == nullptr) {
         return (0) != 0;
     }
 
 #if USE_JSON
     json_t *Entry = json_object_get(hKey, EntryName);
-    if ((Entry == nullptr) || !json_is_real(Entry)) {
+    if ((Entry == nullptr) || !json_is_integer(Entry)) {
         return false;
     }
 
-    *Double = json_real_value(Entry);
+    Long = json_integer_value(Entry);
     return true;
 #else
     char *Temp = new char[500];
     bool rc = ReadRegistryKeyEx(Temp, EntryName);
 
     if (rc)
-        *Double = atof(Temp);
+        Long = strtoul(Temp, nullptr, 10);
 
     delete[] Temp;
     return (rc);
 #endif
 }
+
 #ifdef SYSTEM_CHECKUP
 //--------------------------------------------------------------------------------------------
 // CSystemCheckup::

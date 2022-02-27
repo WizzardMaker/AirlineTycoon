@@ -19,6 +19,8 @@
 #define WriteRegistryKey_b(vp) WriteRegistryKeyEx_b(vp, #vp)
 #define ReadRegistryKey_l(vp) ReadRegistryKeyEx_l(vp, #vp)
 #define WriteRegistryKey_l(vp) WriteRegistryKeyEx_l(vp, #vp)
+#define ReadRegistryKey_u(vp) ReadRegistryKeyEx_u(vp, #vp)
+#define WriteRegistryKey_u(vp) WriteRegistryKeyEx_u(vp, #vp)
 
 #ifdef WIN32
 #define USE_JSON 0
@@ -44,13 +46,13 @@ class CRegistryAccess {
     bool IsOpen(void);
 
     bool ReadRegistryKeyEx(char *Text, const CString &EntryName);
-    bool ReadRegistryKeyEx_b(BOOL *Bool, const CString &EntryName);
-    bool ReadRegistryKeyEx_l(SLONG *Long, const CString &EntryName);
-    bool ReadRegistryKeyEx_d(double *Double, const CString &EntryName);
+    bool ReadRegistryKeyEx_b(BOOL& Bool, const CString &EntryName);
+    bool ReadRegistryKeyEx_l(SLONG& Long, const CString &EntryName);
+    bool ReadRegistryKeyEx_u(ULONG& Long, const CString &EntryName);
     bool WriteRegistryKeyEx(const char *Text, const CString &EntryName);
-    bool WriteRegistryKeyEx_b(const BOOL *Bool, const CString &EntryName);
-    bool WriteRegistryKeyEx_l(const SLONG *Long, const CString &EntryName);
-    bool WriteRegistryKeyEx_d(const double *Double, const CString &EntryName);
+    bool WriteRegistryKeyEx_b(const BOOL& Bool, const CString &EntryName);
+    bool WriteRegistryKeyEx_l(const SLONG& Long, const CString &EntryName);
+    bool WriteRegistryKeyEx_u(const ULONG& Long, const CString &EntryName);
 };
 
 // Pfad in der Registry; Eintrag ist von der Versionummer abhängig

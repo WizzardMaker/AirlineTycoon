@@ -80,7 +80,7 @@ class CHLObj {
     friend class CHLPool;
     friend class CHLBm;
 };
-static_assert(sizeof(CHLObj) == 52);
+//static_assert(sizeof(CHLObj) == 52);
 
 //--------------------------------------------------------------------------------------------
 // Ein Pool mit HLines:

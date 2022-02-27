@@ -15,9 +15,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#ifndef WIN32
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
-#endif
 
 const char TOKEN_NEWGAME[] = "NewG";
 
@@ -1522,7 +1520,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                                 Sim.Players.Players[c].NetworkID = 0;
                                 Sim.Players.Players[c].Owner = 1;
 
-                                for (unsigned int &UnselectedNetworkID : UnselectedNetworkIDs) {
+                                for (auto &UnselectedNetworkID : UnselectedNetworkIDs) {
                                     if (UnselectedNetworkID == 0) {
                                         UnselectedNetworkID = gNetwork.GetLocalPlayerID();
                                         break;
@@ -1571,7 +1569,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                                 SIM::SendSimpleMessage(ATNET_SELECTPLAYER, 0, -1, c, gNetwork.GetLocalPlayerID());
                             }
 
-                            for (unsigned int &UnselectedNetworkID : UnselectedNetworkIDs) {
+                            for (auto &UnselectedNetworkID : UnselectedNetworkIDs) {
                                 if (UnselectedNetworkID == gNetwork.GetLocalPlayerID()) {
                                     UnselectedNetworkID = 0;
                                 }
@@ -2081,7 +2079,7 @@ void NewGamePopup::CheckNetEvents() {
 
                     Message >> OldIndex >> NewIndex >> PlayerNetworkID;
 
-                    for (unsigned int &UnselectedNetworkID : UnselectedNetworkIDs) {
+                    for (auto &UnselectedNetworkID : UnselectedNetworkIDs) {
                         if (UnselectedNetworkID == PlayerNetworkID) {
                             UnselectedNetworkID = 0;
                         }
@@ -2106,7 +2104,7 @@ void NewGamePopup::CheckNetEvents() {
                     Sim.Players.Players[PlayerIndex].NetworkID = 0;
                     Sim.Players.Players[PlayerIndex].Owner = 1;
 
-                    for (unsigned int &UnselectedNetworkID : UnselectedNetworkIDs) {
+                    for (auto &UnselectedNetworkID : UnselectedNetworkIDs) {
                         if (UnselectedNetworkID == 0) {
                             UnselectedNetworkID = PlayerNetworkID;
                             break;
@@ -2130,7 +2128,7 @@ void NewGamePopup::CheckNetEvents() {
                             }
                         }
 
-                        for (unsigned int &UnselectedNetworkID : UnselectedNetworkIDs) {
+                        for (auto &UnselectedNetworkID : UnselectedNetworkIDs) {
                             if (UnselectedNetworkID == SenderID) {
                                 UnselectedNetworkID = 0;
                             }
