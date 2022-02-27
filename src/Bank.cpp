@@ -264,7 +264,7 @@ void Bank::OnPaint()
     //Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips ();
 
-    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<3)) != 0u)
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<3)) != 0U)
     {
         SP_Modem.Pump ();
         SP_Modem.BlitAtT (RoomBm);
@@ -359,13 +359,13 @@ void Bank::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440) {
+            if ((IsDialogOpen() == 0) && point.y<440) {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 
@@ -408,7 +408,7 @@ SLONG CBilanz::GetSoll() const
 //--------------------------------------------------------------------------------------------
 //Gibt den Saldo zurück:
 //--------------------------------------------------------------------------------------------
-SLONG CBilanz::GetSumme()
+SLONG CBilanz::GetSumme() const
 {
     return (GetHaben()-GetSoll());
 }

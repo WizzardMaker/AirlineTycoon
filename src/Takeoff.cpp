@@ -1165,7 +1165,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                         if ((Sim.Players.Players[c].Buttons&2) != 0) { NumSimSteps *= 20; Faktor*=20; }
                     }
 
-                    if ((Sim.Players.Players[c].WaitForRoom != 0u) && (IsRoomBusy(Sim.Players.Players[c].WaitForRoom,c) == 0))
+                    if ((Sim.Players.Players[c].WaitForRoom != 0U) && (IsRoomBusy(Sim.Players.Players[c].WaitForRoom,c) == 0))
                     {
                         Sim.Players.Players[c].WalkToRoom (UBYTE(Sim.Players.Players[c].WaitForRoom));
                     }
@@ -1369,7 +1369,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                 }
 }
 
-                            if (NumSimSteps != 0u)
+                            if (NumSimSteps != 0U)
                             {
                                 Sim.bWatchForReady=FALSE;
                                 SetNetworkBitmap (0);
@@ -1452,7 +1452,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                 }
 
                 //Im Netzwerk die Zeit aufgrund der ATNET_TIMEPING Nachricht fliessend anpassen
-                if ((Sim.bNetwork != 0) && (NumSimSteps != 0u) && (gTimerCorrection != 0))
+                if ((Sim.bNetwork != 0) && (NumSimSteps != 0U) && (gTimerCorrection != 0))
                 {
                     static UBYTE MyPrivateRandom=0;
 
@@ -1551,7 +1551,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                                     if ((Sim.Options.OptionBlenden != 0) && qPlayer.Locations[d]!=ROOM_LAPTOP && (Sim.GetHour()>9 || Sim.Date==0))
                                                     {
                                                         gBlendState=-1;
-                                                        if (FrameWnd != nullptr) { FrameWnd->PrepareFade();
+                                                        if (FrameWnd != nullptr) { GameFrame::PrepareFade();
 }
                                                         FrameWnd->Invalidate(); MessagePump();
                                                         if (Sim.Players.Players.AnzEntries()==0) { break;
@@ -1593,7 +1593,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                                     if ((JustLeftRoom == 0) && (Sim.Options.OptionBlenden != 0) && qPlayer.Locations[d]!=ROOM_LAPTOP && qPlayer.Locations[d]!=ROOM_GLOBE && (Sim.GetHour()>9 || Sim.Date==0))
                                                     {
                                                         gBlendState=-1;
-                                                        if (FrameWnd != nullptr) { FrameWnd->PrepareFade();
+                                                        if (FrameWnd != nullptr) { GameFrame::PrepareFade();
 }
                                                         FrameWnd->Invalidate(); MessagePump();
                                                         if (Sim.Players.Players.AnzEntries()==0) { break; //Spiel beendet
@@ -1706,7 +1706,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                                 if ((JustLeftRoom == 0) && qPlayer.Locations[d]==ROOM_GLOBE && (Sim.GetHour()>9 || Sim.Date==0))
                                                 {
                                                     gBlendState=-1;
-                                                    if ((FrameWnd != nullptr) && gBlendBm.Size.y==0) { FrameWnd->PrepareFade();
+                                                    if ((FrameWnd != nullptr) && gBlendBm.Size.y==0) { GameFrame::PrepareFade();
 }
                                                     FrameWnd->Invalidate(); MessagePump();
                                                 }
@@ -1807,7 +1807,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
 
                                                 SLONG RoomLeft = qPlayer.Locations[d]&255;
 
-                                                if (Sim.RoomBusy[RoomLeft] != 0u) { Sim.RoomBusy[RoomLeft]--;
+                                                if (Sim.RoomBusy[RoomLeft] != 0U) { Sim.RoomBusy[RoomLeft]--;
 }
 
                                                 qPlayer.Locations[d] = 0;
@@ -1952,7 +1952,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                                     for (c=0; c<Sim.Players.AnzPlayers; c++)
                                     {
                                         //Raum verlassen:
-                                        if (Sim.Players.Players[c].Owner!=1 && (Sim.Players.Players[c].Locations[0] != 0u) && Sim.Players.Players[c].GetRoom()!=ROOM_ABEND)
+                                        if (Sim.Players.Players[c].Owner!=1 && (Sim.Players.Players[c].Locations[0] != 0U) && Sim.Players.Players[c].GetRoom()!=ROOM_ABEND)
                                         {
                                             Sim.Players.Players[c].LeaveRoom ();
                                             now=FALSE;
@@ -2092,7 +2092,7 @@ void CTakeOffApp::GameLoop(void* /*unused*/)
                         if (Sim.Gamestate==(GAMESTATE_QUIT|GAMESTATE_WORKING))
                         {
                             Sim.QuitCountDown--;
-                            while (Sim.QuitCountDown == 0u) { Sim.QuitCountDown--;
+                            while (Sim.QuitCountDown == 0U) { Sim.QuitCountDown--;
 }
                         }
 

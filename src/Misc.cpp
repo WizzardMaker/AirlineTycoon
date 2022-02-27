@@ -2,7 +2,7 @@
 // Misc.cpp : Diverse Sachen
 //============================================================================================
 #include "StdAfx.h"
-#include <math.h>
+#include <cmath>
 
 #include <algorithm>
 #include <cassert>
@@ -64,7 +64,7 @@ SLONG GetAnzBits (ULONG Flags)
     SLONG rc = 0;
 
     for (c=rc=0; c<32; c++) {
-        if ((Flags & (1<<c)) != 0u) { rc++;
+        if ((Flags & (1<<c)) != 0U) { rc++;
 }
 }
 
@@ -331,7 +331,7 @@ void MyMessageBox (LPCTSTR Title, LPCTSTR String, ...)
     char Buffer[256];
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
-    va_list  Vars = nullptr;
+    va_list  Vars;
 
     //Tabelle initialisieren:
     va_start (Vars, String);
@@ -620,7 +620,7 @@ __int64 CEinheit::Umrechnung64 (__int64 Value) const
 //--------------------------------------------------------------------------------------------
 //Rechnet in String um:
 //--------------------------------------------------------------------------------------------
-char *CEinheit::bString (SLONG Value)
+char *CEinheit::bString (SLONG Value) const
 {
     return (bprintf (Name, (LPCTSTR)Insert1000erDots (Umrechnung (Value))));
 }
@@ -628,7 +628,7 @@ char *CEinheit::bString (SLONG Value)
 //--------------------------------------------------------------------------------------------
 //Rechnet in String um:
 //--------------------------------------------------------------------------------------------
-char *CEinheit::bString64 (__int64 Value)
+char *CEinheit::bString64 (__int64 Value) const
 {
     if (Value>=1000000000 && Name==ETexte.GetS (1000, 1000+EINH_DM)) {
         return (Einheiten[EINH_MIODM].bString64(Value));

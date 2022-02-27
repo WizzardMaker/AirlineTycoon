@@ -147,7 +147,7 @@ void CWerbung::OnPaint()
 
     if (qPlayer.HasItem (ITEM_DISKETTE) != 0) { RoomBm.BlitFrom (DiskBm, 82, 281);
 }
-    if ((qPlayer.SecurityFlags&32) != 0u) { RoomBm.BlitFromT (NoSaboBm, 139, 241);
+    if ((qPlayer.SecurityFlags&32) != 0U) { RoomBm.BlitFromT (NoSaboBm, 139, 241);
 }
 
 
@@ -174,7 +174,7 @@ void CWerbung::OnPaint()
 
             if (NewTip>=0 && NewTip<MenuDataTable.LineIndex.AnzEntries() &&
                     qPlayer.RentRouten.RentRouten.AnzEntries()>(MenuDataTable.LineIndex[NewTip]) &&
-                    (qPlayer.RentRouten.RentRouten[MenuDataTable.LineIndex[NewTip]].Rang != 0u))
+                    (qPlayer.RentRouten.RentRouten[MenuDataTable.LineIndex[NewTip]].Rang != 0U))
             {
                 if (NewTip != CurrentTip)
                 {
@@ -261,13 +261,13 @@ void CWerbung::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440) {
+            if ((IsDialogOpen() == 0) && point.y<440) {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 

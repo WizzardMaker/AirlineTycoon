@@ -1039,7 +1039,7 @@ void DrawPlanesNotepad (SBBM &NotepadBm, CDataTable *Table, SLONG CountFrom, SBB
         SB_CFont *pFont1 = nullptr;
         CString   Text2;
 
-        if (Table->ValueFlags[0+c*Table->AnzColums] != 0u) { pFont1=&FontSmallRed;
+        if (Table->ValueFlags[0+c*Table->AnzColums] != 0U) { pFont1=&FontSmallRed;
         } else { pFont1=&FontSmallBlack;
 }
         if (DisplayWartungskosten != 0) { Text2=Table->Values[1+c*Table->AnzColums];

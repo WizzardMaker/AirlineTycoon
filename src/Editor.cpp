@@ -1139,8 +1139,8 @@ void CEditor::OnPaint()
 
     if (bAlsoOutline && (IsDialogOpen() == 0) && (MenuIsOpen() == 0))
     {
-        ColorFX.BlitOutline (PartBms[GetPlaneBuild(PartUnderCursor).BitmapIndex].pBitmap, RoomBm.pBitmap, GripAtPos, 0xffffff);
-        if (!PartUnderCursorB.empty()) { ColorFX.BlitOutline (PartBms[GetPlaneBuild(PartUnderCursorB).BitmapIndex].pBitmap, RoomBm.pBitmap, GripAtPosB, 0xffffff);
+        SB_CColorFX::BlitOutline (PartBms[GetPlaneBuild(PartUnderCursor).BitmapIndex].pBitmap, RoomBm.pBitmap, GripAtPos, 0xffffff);
+        if (!PartUnderCursorB.empty()) { SB_CColorFX::BlitOutline (PartBms[GetPlaneBuild(PartUnderCursorB).BitmapIndex].pBitmap, RoomBm.pBitmap, GripAtPosB, 0xffffff);
 }
     }
 
@@ -1267,7 +1267,7 @@ void CEditor::OnPaint()
                         if (gMousePosition.x>=p.x && gMousePosition.y>=p.y && gMousePosition.x<p.x+qBm.Size.x && gMousePosition.y<p.y+qBm.Size.y) {
                             if (qBm.GetPixel (gMousePosition.x-p.x, gMousePosition.y-p.y)!=0)
                             {
-                                ColorFX.BlitOutline (qBm.pBitmap, RoomBm.pBitmap, p, 0xffffff);
+                                SB_CColorFX::BlitOutline (qBm.pBitmap, RoomBm.pBitmap, p, 0xffffff);
                                 SetMouseLook (CURSOR_HOT, 0, ROOM_EDITOR, 10000+d);
                                 bHotPartFound=true;
                             }
@@ -1620,13 +1620,13 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (PartUnderCursor!="")
+            if (!PartUnderCursor.empty())
             {
                 PartUnderCursor  = "";
                 PartUnderCursorB = "";
@@ -1637,7 +1637,8 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                 long relnr = Plane.Parts[long(MouseClickId-10000)].ParentRelationId;
                 long rel   = gPlanePartRelations[relnr].Id;
                 PartUnderCursor = Plane.Parts[long(MouseClickId-10000)].Shortname;
-                if (PartUnderCursor[0]=='L') PartUnderCursor.SetAt (0, 'R');
+                if (PartUnderCursor[0]=='L') { PartUnderCursor.SetAt (0, 'R');
+}
 
                 if (PartUnderCursor[0]=='B' && Plane.Parts.GetNumUsed()>1)
                 {
@@ -1646,9 +1647,8 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                     PartUnderCursor="";
                     return;
                 }
-                else
-                {
-                    Plane.Parts-=(MouseClickId-10000);
+                
+                                    Plane.Parts-=(MouseClickId-10000);
 
                     while (true)
                     {
@@ -1667,14 +1667,15 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                             break;
 }
                     }
-                }
+               
 
                 PartUnderCursor="";
                 UpdateButtonState();
             }
             else
             {
-                long c = 0, MouseClickId=0;
+                long c = 0;
+                long MouseClickId=0;
 
                 for (c=0; c<5; c++) {
                     if (gMousePosition.IfIsWithin ( 27+c*127,363,101+c*127,436)) {
@@ -1693,8 +1694,8 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                 {
                     long c = 0;
                     for (c=0; c<static_cast<long>(Plane.Parts.AnzEntries()); c++) {
-                        if (Plane.Parts.IsInAlbum(c)) {
-                            if (Plane.Parts[c].Shortname!="")
+                        if (Plane.Parts.IsInAlbum(c) != 0) {
+                            if (!Plane.Parts[c].Shortname.empty())
                             {
                                 char typ=Plane.Parts[c].Shortname[0];
 
@@ -1703,7 +1704,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                                     Plane.Parts-=c;
                                     break;
                                 }
-                                else if (Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname))
+                                if (Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname))
                                 {
                                     Plane.Parts-=c;
                                     break;
@@ -2226,7 +2227,7 @@ bool CXPlane::IstPartVorhanden (CString Shortname, bool bOnlyThisType)
     }
     
             for (c=0; c<Parts.AnzEntries(); c++) {
-            if (Parts.IsInAlbum(c) && Parts[c].Shortname!=Shortname && Parts[c].Shortname[0]==Shortname[0]) {
+            if ((Parts.IsInAlbum(c) != 0) && Parts[c].Shortname!=Shortname && Parts[c].Shortname[0]==Shortname[0]) {
                 return (false);
 }
 }

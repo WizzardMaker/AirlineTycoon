@@ -346,7 +346,7 @@ void InitFonts ()
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallBlack, TEC_FONT_LEFT, 0, 0, 20, 20);
     for (x=0; x<20; x++) {
-        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontBlack=static_cast<UWORD>(TestBm.GetPixel(x,y));
+        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0U) { ColorOfFontBlack=static_cast<UWORD>(TestBm.GetPixel(x,y));
 }
 }
 }
@@ -354,7 +354,7 @@ void InitFonts ()
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallGrey, TEC_FONT_LEFT, 0, 0, 20, 20);
     for (x=0; x<20; x++) {
-        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontGrey=static_cast<UWORD>(TestBm.GetPixel(x,y));
+        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0U) { ColorOfFontGrey=static_cast<UWORD>(TestBm.GetPixel(x,y));
 }
 }
 }
@@ -362,7 +362,7 @@ void InitFonts ()
     TestBm.Clear();
     TestBm.PrintAt ("X",FontSmallRed, TEC_FONT_LEFT, 0, 0, 20, 20);
     for (x=0; x<20; x++) {
-        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0u) { ColorOfFontRed=static_cast<UWORD>(TestBm.GetPixel(x,y));
+        for (y=0; y<20; y++) { if (TestBm.GetPixel(x,y) != 0U) { ColorOfFontRed=static_cast<UWORD>(TestBm.GetPixel(x,y));
 }
 }
 }

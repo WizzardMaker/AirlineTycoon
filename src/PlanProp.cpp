@@ -331,7 +331,7 @@ void CPlaneProps::OnPaint()
             }
 
             //Badge für die Stewardess:
-            if ((qPlayer.SecurityFlags & (1<<6)) != 0u) {
+            if ((qPlayer.SecurityFlags & (1<<6)) != 0U) {
                 RoomBm.BlitFrom (BadgeBm, 420+ScrollOffsetX, 352);
 }
 
@@ -434,13 +434,13 @@ void CPlaneProps::OnPaint()
             SBBM   &qCursor = CursorBms[static_cast<SLONG>((timeGetTime()/150)%8)];
 
             //Großes Fenster (rechts):
-            if (qPlane.ReifenTarget != 0u) {     RoomBm.BlitFrom (ReifenBms[qPlane.ReifenTarget-1], 325+ScrollOffsetX, 74);
+            if (qPlane.ReifenTarget != 0U) {     RoomBm.BlitFrom (ReifenBms[qPlane.ReifenTarget-1], 325+ScrollOffsetX, 74);
 }
-            if (qPlane.TriebwerkTarget != 0u) {  RoomBm.BlitFrom (TurbinenBms[qPlane.TriebwerkTarget-1], 444+ScrollOffsetX, 42);
+            if (qPlane.TriebwerkTarget != 0U) {  RoomBm.BlitFrom (TurbinenBms[qPlane.TriebwerkTarget-1], 444+ScrollOffsetX, 42);
 }
-            if (qPlane.SicherheitTarget != 0u) { RoomBm.BlitFrom (SosBms[qPlane.SicherheitTarget-1], 305+ScrollOffsetX, 247);
+            if (qPlane.SicherheitTarget != 0U) { RoomBm.BlitFrom (SosBms[qPlane.SicherheitTarget-1], 305+ScrollOffsetX, 247);
 }
-            if (qPlane.ElektronikTarget != 0u) { RoomBm.BlitFrom (CockpitBms[qPlane.ElektronikTarget-1], 442+ScrollOffsetX, 237);
+            if (qPlane.ElektronikTarget != 0U) { RoomBm.BlitFrom (CockpitBms[qPlane.ElektronikTarget-1], 442+ScrollOffsetX, 237);
 }
 
             //Sterne:
@@ -1084,13 +1084,13 @@ void CPlaneProps::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440) {
+            if ((IsDialogOpen() == 0) && point.y<440) {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 

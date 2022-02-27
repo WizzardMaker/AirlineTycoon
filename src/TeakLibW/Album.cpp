@@ -51,7 +51,7 @@ void TeakAlbumRemoveT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULONG
             }
         }
     }
-    else if (ids.AnzEntries() > id && (ids[id] != 0u))
+    else if (ids.AnzEntries() > id && (ids[id] != 0U))
     {
         ids[id] = 0;
         return;
@@ -86,7 +86,7 @@ SLONG TeakAlbumSearchT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULON
 }
         }
     }
-    else if (ids.AnzEntries() > id && (ids[id] != 0u))
+    else if (ids.AnzEntries() > id && (ids[id] != 0U))
     {
         return id;
     }
@@ -105,7 +105,7 @@ SLONG TeakAlbumXIdSearchT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, X
         id.Index = TeakAlbumSearchT(ids, anz, name, id.Value);
         return id.Index;
     }
-    if (ids[id.Index] >= 0x1000000u)
+    if (ids[id.Index] >= 0x1000000U)
     {
         TeakLibW_Exception(nullptr, 0, ExcXIDUnrecoverable, name.c_str());
         return 0;
@@ -128,7 +128,7 @@ int TeakAlbumIsInAlbum(FBUFFER<ULONG>& ids, ULONG anz, ULONG id)
 }
         }
     }
-    else if (ids.AnzEntries() > id && (ids[id] != 0u))
+    else if (ids.AnzEntries() > id && (ids[id] != 0U))
     {
         return 1;
     }
@@ -140,7 +140,7 @@ ULONG TeakAlbumAddT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, ULONG i
     TeakAlbumRefresh(ids, anz);
     for (int i = ids.AnzEntries() - 1; i >= 0; --i)
     {
-        if (ids[i] == 0u)
+        if (ids[i] == 0U)
         {
             ids[i] = id;
             return id;
@@ -155,7 +155,7 @@ ULONG TeakAlbumFrontAddT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, UL
     TeakAlbumRefresh(ids, anz);
     for (int i = 0; i < ids.AnzEntries(); ++i)
     {
-        if (ids[i] == 0u)
+        if (ids[i] == 0U)
         {
             ids[i] = id;
             return id;
@@ -171,7 +171,7 @@ ULONG TeakAlbumGetNumFree(FBUFFER<ULONG>& ids, ULONG anz)
     TeakAlbumRefresh(ids, anz);
     for (int i = ids.AnzEntries() - 1; i >= 0; --i)
     {
-        if (ids[i] == 0u) {
+        if (ids[i] == 0U) {
             ++num;
 }
     }
@@ -184,7 +184,7 @@ ULONG TeakAlbumGetNumUsed(FBUFFER<ULONG>& ids, ULONG anz)
     TeakAlbumRefresh(ids, anz);
     for (int i = ids.AnzEntries() - 1; i >= 0; --i)
     {
-        if (ids[i] != 0u) {
+        if (ids[i] != 0U) {
             ++num;
 }
     }
@@ -195,7 +195,7 @@ ULONG TeakAlbumRandom(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, TEAKR
 {
     TeakAlbumRefresh(ids, anz);
     ULONG used = TeakAlbumGetNumUsed(ids, anz);
-    if (used == 0u) {
+    if (used == 0U) {
         TeakLibW_Exception(nullptr, 0, ExcAlbumFind, name.c_str());
 }
 

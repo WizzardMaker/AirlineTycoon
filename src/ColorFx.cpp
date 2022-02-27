@@ -653,7 +653,7 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
             {
                 for (cx=sizex; cx>0; cx--)
                 {
-                    if (*pp != 0u)
+                    if (*pp != 0U)
                     {
                         if (*pp==static_cast<UWORD>(static_cast<int>(White)))
                         {
@@ -675,7 +675,7 @@ void SB_CColorFX::BlitWhiteTrans (BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap,
             {
                 for (cx=sizex; cx>0; cx--)
                 {
-                    if (*pp != 0u)
+                    if (*pp != 0U)
                     {
                         if (*pp==static_cast<UWORD>(static_cast<int>(White))) {
                             *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]+
@@ -759,30 +759,30 @@ void SB_CColorFX::BlitOutline (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBit
                     //Dann in der Umgebung nach transparenten Pixeln suchen:
                     if (cx>1)
                     {
-                        if (pp[1] != 0u) { goto draw;
+                        if (pp[1] != 0U) { goto draw;
 }
-                        if (cy>0 && (pp[1-Key2.lPitch/2] != 0u)) { goto draw;
+                        if (cy>0 && (pp[1-Key2.lPitch/2] != 0U)) { goto draw;
 }
-                        if (cy<sizey-1 && (pp[1+Key2.lPitch/2] != 0u)) { goto draw;
+                        if (cy<sizey-1 && (pp[1+Key2.lPitch/2] != 0U)) { goto draw;
 }
-                        if (cx>2 && (pp[2] != 0u)) { goto draw;
+                        if (cx>2 && (pp[2] != 0U)) { goto draw;
 }
                     }
                     if (cx<sizex)
                     {
-                        if (pp[-1] != 0u) { goto draw;
+                        if (pp[-1] != 0U) { goto draw;
 }
-                        if (cy>0 && (pp[-1-Key2.lPitch/2] != 0u)) { goto draw;
+                        if (cy>0 && (pp[-1-Key2.lPitch/2] != 0U)) { goto draw;
 }
-                        if (cy<sizey-1 && (pp[-1+Key2.lPitch/2] != 0u)) { goto draw;
+                        if (cy<sizey-1 && (pp[-1+Key2.lPitch/2] != 0U)) { goto draw;
 }
-                        if (cx<sizex-1 && (pp[-2] != 0u)) { goto draw;
+                        if (cx<sizex-1 && (pp[-2] != 0U)) { goto draw;
 }
                     }
 
-                    if (cy>1 && (pp[-Key2.lPitch] != 0u)) {      goto draw;
+                    if (cy>1 && (pp[-Key2.lPitch] != 0U)) {      goto draw;
 }
-                    if (cy<sizey-2 && (pp[Key2.lPitch] != 0u)) { goto draw;
+                    if (cy<sizey-2 && (pp[Key2.lPitch] != 0U)) { goto draw;
 }
 
                     goto next;
@@ -893,7 +893,7 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
             {
                 for (cx=sizex; cx>0; cx--)
                 {
-                    if (*pp != 0u)
+                    if (*pp != 0U)
                     {
                         *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]+
                                 Table1[(reinterpret_cast<UBYTE*>(pp))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(pp))[1]]);
@@ -907,7 +907,7 @@ void SB_CColorFX::BlitTrans (SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitma
             {
                 for (cx=sizex; cx>0; cx--)
                 {
-                    if (*pp != 0u)
+                    if (*pp != 0U)
                     {
                         *p = UWORD(Table1[(reinterpret_cast<UBYTE*>(p))[0]]+Table1[256+(reinterpret_cast<UBYTE*>(p))[1]]+
                                 Table2[(reinterpret_cast<UBYTE*>(pp))[0]]+Table2[256+(reinterpret_cast<UBYTE*>(pp))[1]]);

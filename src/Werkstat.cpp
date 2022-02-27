@@ -433,7 +433,7 @@ void CWerkstatt::OnPaint()
     CStdRaum::InitToolTips ();
 
     //Der Mann im Flugzeug:
-    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<7)) != 0u)
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<7)) != 0U)
     {
         SP_Hund.Pump ();
         SP_Hund.BlitAtT (RoomBm);
@@ -455,7 +455,7 @@ void CWerkstatt::OnPaint()
         }
 }
 
-    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<7)) == 0u) {
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<7)) == 0U) {
         RoomBm.BlitFromT (DoorBm, 534, 73);
 }
 
@@ -500,7 +500,7 @@ void CWerkstatt::OnPaint()
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack, TRUE);
                 }
 
-                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums] != 0u) {
+                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums] != 0U) {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontRed, CURSOR_HOT);
                 } else {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontBlack, CURSOR_HOT);
@@ -578,13 +578,13 @@ void CWerkstatt::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440) {
+            if ((IsDialogOpen() == 0) && point.y<440) {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 

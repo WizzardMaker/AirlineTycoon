@@ -216,7 +216,7 @@ void CBuero::OnPaint()
     RoomBm.BlitFromT (DoorOpaqueBm, 521, 53);
     ColorFX.BlitTrans (DoorTransBm.pBitmap, RoomBm.pBitmap, XY(542,67), nullptr, 2);
 
-    if ((Sim.Players.Players[PlayerNum].SecurityFlags&32) != 0u) { RoomBm.BlitFrom (NoSaboBm, 390, 309);
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&32) != 0U) { RoomBm.BlitFrom (NoSaboBm, 390, 309);
 }
 
     if (Sim.Players.Players[PlayerNum].Letters.AnzLetters() != 0) {
@@ -364,13 +364,13 @@ void CBuero::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
+            if ((IsDialogOpen() == 0) && point.y<440)
             {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
             }

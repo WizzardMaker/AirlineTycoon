@@ -15,7 +15,7 @@
 #include "ProfanityFilter.h"
 #include "RakAssert.h"
 #include "TableSerializer.h"
-#include <math.h>
+#include <cmath>
 
 static const RakNet::TimeMS MINIMUM_QUICK_JOIN_TIMEOUT=5000;
 static const RakNet::TimeMS MAXIMUM_QUICK_JOIN_TIMEOUT=60000 * 5;
@@ -103,12 +103,12 @@ void NetworkedQuickJoinUser::Serialize(bool writeToBitstream, RakNet::BitStream 
 // ----------------------------  RoomMember  ----------------------------
 
 RoomMember::RoomMember() {isReady=false; newMemberNotificationProcessed=false; joinTime=0; roomMemberMode=RMM_PUBLIC; roomsParticipant=nullptr;}
-RoomMember::~RoomMember() = default;
+
 
 // ----------------------------  Slots  ----------------------------
 
 Slots::Slots() {publicSlots=reservedSlots=spectatorSlots=0;}
-Slots::~Slots() = default;
+
 RoomsErrorCode Slots::Validate() const
 {
     if (publicSlots+reservedSlots < 1) {
@@ -409,7 +409,7 @@ RoomsErrorCode RoomCreationParameters::Validate(const DataStructures::List<RakNe
 // ----------------------------  RoomQuery  ----------------------------
 
 RoomQuery::RoomQuery() {queries=nullptr; numQueries=0; queriesAllocated=false; SetQueriesToStatic();}
-RoomQuery::~RoomQuery() = default;
+
 void RoomQuery::AddQuery_NUMERIC(const char *columnName, double numericValue, DataStructures::Table::FilterQueryType op)
 {
     SetupNextQuery(columnName,op);
@@ -656,7 +656,7 @@ RoomsErrorCode AllGamesRoomsContainer::GetInvitesToParticipant(RoomsParticipant*
     return REC_SUCCESS;
 }
 // userLocation is optional, but will speed up the function if it's pre-known
-RoomsErrorCode AllGamesRoomsContainer::RemoveUser(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult)
+RoomsErrorCode AllGamesRoomsContainer::RemoveUser(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult) const
 {
     if (RemoveUserFromQuickJoin(roomsParticipant, &removeUserResult->qju)!=REC_SUCCESS)
     {
@@ -682,7 +682,7 @@ RoomsErrorCode AllGamesRoomsContainer::SendInvite(RoomsParticipant* roomsPartici
 
     return roomsParticipant->GetRoom()->SendInvite(roomsParticipant, inviteeId, inviteToSpectatorSlot, subject, body);
 }
-RoomsErrorCode AllGamesRoomsContainer::AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, const RakNet::RakString& inviteSender)
+RoomsErrorCode AllGamesRoomsContainer::AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, const RakNet::RakString& inviteSender) const
 {
     *room = GetRoomByLobbyRoomID(roomId);
     if (*room==nullptr) {
@@ -835,7 +835,7 @@ RoomsErrorCode AllGamesRoomsContainer::SetReadyStatus(RoomsParticipant* roomsPar
 
     return roomsParticipant->GetRoom()->SetReadyStatus(roomsParticipant, isReady);
 }
-RoomsErrorCode AllGamesRoomsContainer::GetReadyStatus( RoomID roomId, Room **room, DataStructures::List<RoomsParticipant*> &readyUsers, DataStructures::List<RoomsParticipant*> &unreadyUsers)
+RoomsErrorCode AllGamesRoomsContainer::GetReadyStatus( RoomID roomId, Room **room, DataStructures::List<RoomsParticipant*> &readyUsers, DataStructures::List<RoomsParticipant*> &unreadyUsers) const
 {
     *room = GetRoomByLobbyRoomID(roomId);
 
@@ -853,7 +853,7 @@ RoomsErrorCode AllGamesRoomsContainer::SetRoomLockState(RoomsParticipant* roomsP
 
     return roomsParticipant->GetRoom()->SetRoomLockState(roomsParticipant, _roomLockState);
 }
-RoomsErrorCode AllGamesRoomsContainer::GetRoomLockState(RoomID roomId, Room **room, RoomLockState *roomLockState)
+RoomsErrorCode AllGamesRoomsContainer::GetRoomLockState(RoomID roomId, Room **room, RoomLockState *roomLockState) const
 {
     *room = GetRoomByLobbyRoomID(roomId);
 
@@ -863,7 +863,7 @@ RoomsErrorCode AllGamesRoomsContainer::GetRoomLockState(RoomID roomId, Room **ro
 
     return (*room)->GetRoomLockState( roomLockState);
 }
-RoomsErrorCode AllGamesRoomsContainer::AreAllMembersReady(RoomID roomId, Room **room, bool *allReady)
+RoomsErrorCode AllGamesRoomsContainer::AreAllMembersReady(RoomID roomId, Room **room, bool *allReady) const
 {
     *room = GetRoomByLobbyRoomID(roomId);
 
@@ -889,7 +889,7 @@ RoomsErrorCode AllGamesRoomsContainer::UnbanMember(RoomsParticipant* roomsPartic
 
     return roomsParticipant->GetRoom()->UnbanMember(roomsParticipant, name);
 }
-RoomsErrorCode AllGamesRoomsContainer::GetBanReason( RoomID lobbyRoomId, Room **room, const RakNet::RakString& name, RakNet::RakString *reason)
+RoomsErrorCode AllGamesRoomsContainer::GetBanReason( RoomID lobbyRoomId, Room **room, const RakNet::RakString& name, RakNet::RakString *reason) const
 {
     *room = GetRoomByLobbyRoomID(lobbyRoomId);
     if (*room==nullptr) {
@@ -1595,7 +1595,7 @@ RoomsErrorCode Room::SendInvite(RoomsParticipant* roomsParticipant, RoomsPartici
     else
     {
         NetworkedRoomCreationParameters::SendInvitePermission relevantPermission = NetworkedRoomCreationParameters::INVITE_MODE_ANYONE_CAN_INVITE;
-        if (inviteToSpectatorSlotPermission != 0u) {
+        if (inviteToSpectatorSlotPermission != 0U) {
             relevantPermission=inviteToSpectatorSlotPermission;
         } else {
             relevantPermission=inviteToRoomPermission;

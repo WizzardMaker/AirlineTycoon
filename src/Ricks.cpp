@@ -192,13 +192,13 @@ void CRicks::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440) {
+            if ((IsDialogOpen() == 0) && point.y<440) {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 

@@ -7,7 +7,7 @@
 #include "AtNet.h"
 
 #include "Buero.h"
-#include <math.h>
+#include <cmath>
 
 #include "SbLib.h"
 #include "network.h"
@@ -204,7 +204,7 @@ void PumpNetwork ()
 
         if (timeGetTime()-LastTime>1000)
         {
-            Sim.SendSimpleMessage (ATNET_TIMEPING, 0, Sim.TimeSlice);
+            SIM::SendSimpleMessage (ATNET_TIMEPING, 0, Sim.TimeSlice);
             LastTime = timeGetTime();
         }
     }
@@ -214,7 +214,7 @@ void PumpNetwork ()
     {
         TEAKFILE Message;
 
-        if (Sim.ReceiveMemFile (Message))
+        if (SIM::ReceiveMemFile (Message))
         {
             ULONG MessageType = 0;
             ULONG Par1=0;
@@ -253,12 +253,12 @@ void PumpNetwork ()
                     break;
 
                 case ATNET_PAUSE:
-                    FrameWnd->Pause(Sim.bPause == 0);
+                    GameFrame::Pause(Sim.bPause == 0);
                     break;
 
                 case ATNET_WANNAJOIN:
                     if (Sim.bIsHost != 0) {
-                        Sim.SendSimpleMessage (ATNET_SORRYFULL, 0);
+                        SIM::SendSimpleMessage (ATNET_SORRYFULL, 0);
 }
                     break;
 
@@ -557,14 +557,14 @@ void PumpNetwork ()
                         }
 
                         qPlayer.CalcRoom ();
-                        Sim.UpdateRoomUsage ();
+                        SIM::UpdateRoomUsage ();
 
                         //Bei menschlichen nicht-lokalen Mitspielern eine Fehlerbehandlung:
                         if (qPlayer.Owner==2 && Sim.Time>9*60000) {
                             for (c=9; c>=0; c--) {
                                 if (qPlayer.GetRoom()==Sim.Players.Players[Sim.localPlayer].Locations[c]) {
                                     if (qPlayer.GetRoom()!=ROOM_STATISTICS && qPlayer.GetRoom()!=ROOM_GLOBE && qPlayer.GetRoom()!=ROOM_LAPTOP && qPlayer.GetRoom()!=ROOM_PLANEPROPS && qPlayer.GetRoom()!=ROOM_WC_F && qPlayer.GetRoom()!=ROOM_WC_M) {
-                                        Sim.SendSimpleMessage (ATNET_ENTERROOMBAD, qPlayer.NetworkID);
+                                        SIM::SendSimpleMessage (ATNET_ENTERROOMBAD, qPlayer.NetworkID);
 }
 }
 }
@@ -602,7 +602,7 @@ void PumpNetwork ()
                                 case ROOM_WERBUNG:   Talkers.Talkers[TALKER_WERBUNG].DecreaseLocking ();    break;
                             }
 
-                            if (Sim.RoomBusy[RoomLeft] != 0u) { Sim.RoomBusy[RoomLeft]--;
+                            if (Sim.RoomBusy[RoomLeft] != 0U) { Sim.RoomBusy[RoomLeft]--;
 }
                         }
                         //if (qPlayer.Owner!=1) hprintf ("Received Message ATNET_LEAVEROOM (%li)", PlayerNum);
@@ -614,7 +614,7 @@ void PumpNetwork ()
                         }
 
                         qPlayer.CalcRoom ();
-                        Sim.UpdateRoomUsage ();
+                        SIM::UpdateRoomUsage ();
                     }
                     break;
 
@@ -1289,8 +1289,8 @@ void PumpNetwork ()
                             qPerson.Dir     = 8;
                             qPerson.LookDir = 8;
 
-                            Sim.SendSimpleMessage (ATNET_PLAYERLOOK, Sim.Players.Players[RequestingPlayer].NetworkID, qPerson.State, qPerson.Phase);
-                            Sim.SendSimpleMessage (ATNET_DIALOG_YES, Sim.Players.Players[RequestingPlayer].NetworkID, Sim.localPlayer, qPerson.Phase);
+                            SIM::SendSimpleMessage (ATNET_PLAYERLOOK, Sim.Players.Players[RequestingPlayer].NetworkID, qPerson.State, qPerson.Phase);
+                            SIM::SendSimpleMessage (ATNET_DIALOG_YES, Sim.Players.Players[RequestingPlayer].NetworkID, Sim.localPlayer, qPerson.Phase);
                         }
                         else
                         {
@@ -1301,7 +1301,7 @@ void PumpNetwork ()
                                 >> Dummy2.x >> Dummy2.y;
 
                             //Nein! Keine Interviews!
-                            Sim.SendSimpleMessage (ATNET_DIALOG_NO, Sim.Players.Players[RequestingPlayer].NetworkID);
+                            SIM::SendSimpleMessage (ATNET_DIALOG_NO, Sim.Players.Players[RequestingPlayer].NetworkID);
                         }
                     }
                     break;
@@ -1356,7 +1356,7 @@ void PumpNetwork ()
                             Message >> DummyX >> DummyY >> DummyPhase >> DummyLookDir;
 
                             //Nein! Keine Interviews!
-                            Sim.SendSimpleMessage (ATNET_DIALOG_NO, Sim.Players.Players[OtherPlayerNum].NetworkID);
+                            SIM::SendSimpleMessage (ATNET_DIALOG_NO, Sim.Players.Players[OtherPlayerNum].NetworkID);
                         }
                     }
                     break;
@@ -1402,7 +1402,7 @@ void PumpNetwork ()
 
                         Message >> TextAlign >> id >> Answer;
 
-                        if (qPlayer.LocationWin != nullptr) { (qPlayer.LocationWin)->MakeSayWindow (static_cast<BOOL>(TextAlign) == 0, id, Answer, (qPlayer.LocationWin)->pFontNormal);
+                        if (qPlayer.LocationWin != nullptr) { (qPlayer.LocationWin)->MakeSayWindow (static_cast<BOOL>(static_cast<BOOL>(TextAlign) == 0), id, Answer, (qPlayer.LocationWin)->pFontNormal);
 }
                     }
                     break;
@@ -1503,17 +1503,17 @@ void PumpNetwork ()
                             if (qRoom.IsDialogOpen()==0 && qRoom.MenuIsOpen()==0 && !bImpossible && Sim.Persons[Sim.Persons.GetPlayerIndex(Sim.localPlayer)].StatePar==0 && qPlayer.TelephoneDown==FALSE)
                             {
                                 if (bHandy==0 && qPlayer.GetRoom()!=ROOM_BURO_A+Sim.localPlayer*10) {
-                                    Sim.SendSimpleMessage (ATNET_PHONE_NOTHOME, Sim.Players.Players[OtherPlayerNum].NetworkID);
+                                    SIM::SendSimpleMessage (ATNET_PHONE_NOTHOME, Sim.Players.Players[OtherPlayerNum].NetworkID);
                                 } else
                                 {
-                                    Sim.SendSimpleMessage (ATNET_PHONE_ACCEPT, Sim.Players.Players[OtherPlayerNum].NetworkID, Sim.localPlayer, bHandy);
+                                    SIM::SendSimpleMessage (ATNET_PHONE_ACCEPT, Sim.Players.Players[OtherPlayerNum].NetworkID, Sim.localPlayer, bHandy);
 
                                     gUniversalFx.Stop();
                                     gUniversalFx.ReInit("phone.raw");
                                     gUniversalFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
 
                                     qPlayer.GameSpeed = 0;
-                                    Sim.SendSimpleMessage (ATNET_SETSPEED, 0, Sim.localPlayer, qPlayer.GameSpeed);
+                                    SIM::SendSimpleMessage (ATNET_SETSPEED, 0, Sim.localPlayer, qPlayer.GameSpeed);
 
                                     qRoom.StartDialog (TALKER_COMPETITOR, MEDIUM_HANDY, OtherPlayerNum, 1);
                                     qRoom.PayingForCall=FALSE;
@@ -1522,10 +1522,10 @@ void PumpNetwork ()
                                     Sim.Players.Players[OtherPlayerNum].DisplayAsTelefoning();
                                 }
                             }
-                            else { Sim.SendSimpleMessage (ATNET_PHONE_BUSY, Sim.Players.Players[OtherPlayerNum].NetworkID);
+                            else { SIM::SendSimpleMessage (ATNET_PHONE_BUSY, Sim.Players.Players[OtherPlayerNum].NetworkID);
 }
                         }
-                        else { Sim.SendSimpleMessage (ATNET_PHONE_BUSY, Sim.Players.Players[OtherPlayerNum].NetworkID);
+                        else { SIM::SendSimpleMessage (ATNET_PHONE_BUSY, Sim.Players.Players[OtherPlayerNum].NetworkID);
 }
                     }
                     break;
@@ -1543,7 +1543,7 @@ void PumpNetwork ()
 }
 
                         qPlayer.GameSpeed = 0;
-                        Sim.SendSimpleMessage (ATNET_SETSPEED, 0, Sim.localPlayer, qPlayer.GameSpeed);
+                        SIM::SendSimpleMessage (ATNET_SETSPEED, 0, Sim.localPlayer, qPlayer.GameSpeed);
 
                         qPlayer.DisplayAsTelefoning();
                         Sim.Players.Players[OtherPlayerNum].DisplayAsTelefoning();
@@ -1651,7 +1651,7 @@ void PumpNetwork ()
 
                         if (Type==ITEM_STINKBOMBE) //Stinkbombe
                         {
-                            Sim.AddStenchSabotage (XY(Position.x,Position.y));
+                            SIM::AddStenchSabotage (XY(Position.x,Position.y));
                         }
                         else if (Type==ITEM_GLUE) //Klebstoff
                         {
@@ -1661,7 +1661,7 @@ void PumpNetwork ()
 
                             Message >> Dir >> NewDir >> Phase;
 
-                            Sim.AddGlueSabotage (Position, Dir, NewDir, Phase);
+                            SIM::AddGlueSabotage (Position, Dir, NewDir, Phase);
                         }
                     }
                     break;
@@ -1749,8 +1749,8 @@ void PumpNetwork ()
 
                         if (qPlayer.CallItADay==0)
                         {
-                            Sim.SendSimpleMessage (ATNET_DAYFINISH, 0, Sim.localPlayer);
-                            Sim.SendSimpleMessage (ATNET_DAYFINISH, qPlayer.NetworkID, Sim.localPlayer);
+                            SIM::SendSimpleMessage (ATNET_DAYFINISH, 0, Sim.localPlayer);
+                            SIM::SendSimpleMessage (ATNET_DAYFINISH, qPlayer.NetworkID, Sim.localPlayer);
                         }
                     }
                     break;
@@ -1788,11 +1788,11 @@ void PumpNetwork ()
 
                         Message >> FromPlayer >> Index >> UniqueGameId;
 
-                        if (Sim.GetSavegameUniqueGameId(Index, true)==UniqueGameId) {
-                            Sim.SendSimpleMessage (ATNET_IO_LOADREQUEST_OK, Sim.Players.Players[FromPlayer].NetworkID, Sim.localPlayer, Index);
+                        if (SIM::GetSavegameUniqueGameId(Index, true)==UniqueGameId) {
+                            SIM::SendSimpleMessage (ATNET_IO_LOADREQUEST_OK, Sim.Players.Players[FromPlayer].NetworkID, Sim.localPlayer, Index);
                         } else
                         {
-                            Sim.SendSimpleMessage (ATNET_IO_LOADREQUEST_BAD, Sim.Players.Players[FromPlayer].NetworkID, Sim.localPlayer);
+                            SIM::SendSimpleMessage (ATNET_IO_LOADREQUEST_BAD, Sim.Players.Players[FromPlayer].NetworkID, Sim.localPlayer);
 
                             if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
                                 (Sim.Players.Players[Sim.localPlayer].LocationWin)->MenuStart (MENU_REQUEST, MENU_REQUEST_NET_LOADTHIS);
@@ -1821,8 +1821,8 @@ void PumpNetwork ()
                         if (c==4)
                         {
                             nOptionsOpen--;
-                            Sim.SendSimpleMessage (ATNET_OPTIONS, 0, -1, Sim.localPlayer);
-                            Sim.SendSimpleMessage (ATNET_IO_LOADREQUEST_DOIT, 0, Index);
+                            SIM::SendSimpleMessage (ATNET_OPTIONS, 0, -1, Sim.localPlayer);
+                            SIM::SendSimpleMessage (ATNET_IO_LOADREQUEST_DOIT, 0, Index);
                             Sim.LoadGame (Index);
                         }
                     }
@@ -1832,7 +1832,7 @@ void PumpNetwork ()
                     if (!static_cast<bool>(Sim.Players.Players[Sim.localPlayer].bReadyForBriefing))
                     {
                         nOptionsOpen--;
-                        Sim.SendSimpleMessage (ATNET_OPTIONS, 0, -1, Sim.localPlayer);
+                        SIM::SendSimpleMessage (ATNET_OPTIONS, 0, -1, Sim.localPlayer);
                         Sim.Players.Players[Sim.localPlayer].bReadyForBriefing=1;
 
                         if (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr) {
@@ -2055,7 +2055,7 @@ void NetGenericSync (long SyncId)
     if (Sim.localPlayer<0 || Sim.localPlayer>3) { return;
 }
 
-    Sim.SendSimpleMessage (ATNET_GENERICSYNC, 0, Sim.localPlayer, SyncId);  //Requesting Sync
+    SIM::SendSimpleMessage (ATNET_GENERICSYNC, 0, Sim.localPlayer, SyncId);  //Requesting Sync
 
     GenericSyncIds[Sim.localPlayer]=SyncId;
 

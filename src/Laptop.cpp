@@ -486,7 +486,7 @@ void CLaptop::OnPaint()
         SP_Lampe.BlitAtT (RoomBm);
     }
 
-    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<1)) != 0u)
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&(1<<1)) != 0U)
     {
         SP_Antivir.Pump ();
         SP_Antivir.BlitAtT (RoomBm);
@@ -854,21 +854,21 @@ void CLaptop::OnPaint()
                 RoomBm.BlitFromT (PlaneRouteBms[9], 91+1, 346+2);
 
                 //Highlight, wenn gedrückt:
-                if (qPlayer.DisplayPlanes[0] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[2], 66, 277);
+                if (qPlayer.DisplayPlanes[0] != 0U) { RoomBm.BlitFromT (PlaneRouteBms[2], 66, 277);
 }
-                if (qPlayer.DisplayPlanes[1] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[4], 66, 277+23);
+                if (qPlayer.DisplayPlanes[1] != 0U) { RoomBm.BlitFromT (PlaneRouteBms[4], 66, 277+23);
 }
-                if (qPlayer.DisplayPlanes[2] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[6], 66+23, 277);
+                if (qPlayer.DisplayPlanes[2] != 0U) { RoomBm.BlitFromT (PlaneRouteBms[6], 66+23, 277);
 }
-                if (qPlayer.DisplayPlanes[3] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[8], 66+23, 277+23);
+                if (qPlayer.DisplayPlanes[3] != 0U) { RoomBm.BlitFromT (PlaneRouteBms[8], 66+23, 277+23);
 }
-                if (qPlayer.DisplayRoutes[0] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[10+qPlayer.DisplayRoutes[0]], 91+1, 346+2);
+                if (qPlayer.DisplayRoutes[0] != 0U) { RoomBm.BlitFromT (PlaneRouteBms[10+qPlayer.DisplayRoutes[0]], 91+1, 346+2);
 }
-                if (qPlayer.DisplayRoutes[1] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[13+qPlayer.DisplayRoutes[1]], 91+1, 346+2+23);
+                if (qPlayer.DisplayRoutes[1] != 0U) { RoomBm.BlitFromT (PlaneRouteBms[13+qPlayer.DisplayRoutes[1]], 91+1, 346+2+23);
 }
-                if (qPlayer.DisplayRoutes[2] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[16+qPlayer.DisplayRoutes[2]], 91+1+24, 346+2);
+                if (qPlayer.DisplayRoutes[2] != 0U) { RoomBm.BlitFromT (PlaneRouteBms[16+qPlayer.DisplayRoutes[2]], 91+1+24, 346+2);
 }
-                if (qPlayer.DisplayRoutes[3] != 0u) { RoomBm.BlitFromT (PlaneRouteBms[19+qPlayer.DisplayRoutes[3]], 91+1+24, 346+2+23);
+                if (qPlayer.DisplayRoutes[3] != 0U) { RoomBm.BlitFromT (PlaneRouteBms[19+qPlayer.DisplayRoutes[3]], 91+1+24, 346+2+23);
 }
 
                 //Highlight, wenn Cursor drüber
@@ -1344,7 +1344,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point)
 }
 
             if (MouseClickPar1>=70 && MouseClickPar1<=73) {
-                if (Sim.Players.Players[PlayerNum].DisplayPlanes[MouseClickPar1-70] != 0u) {
+                if (Sim.Players.Players[PlayerNum].DisplayPlanes[MouseClickPar1-70] != 0U) {
                     Sim.Players.Players[MouseClickPar1-70].Planes.UpdateGlobePos (EarthAlpha);
 }
 }

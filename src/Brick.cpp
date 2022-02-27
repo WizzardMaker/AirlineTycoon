@@ -47,7 +47,7 @@ void BRICK::BlitAt (SBBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SLONG Pha
     //Normalfall:
     else
     {
-        if (AnimSpeed != 0u)
+        if (AnimSpeed != 0U)
         {
             if (Triggered==0 || (Editor != 0)) {
                 if (Phase==-1) { Phase=(Sim.TickerTime/AnimSpeed)%Bitmap.AnzEntries();
@@ -94,17 +94,17 @@ void BRICK::BlitAt (SBBM &Offscreen, BOOL Ansatz, const XY &p1, const XY &p2)
     if (Ansatz != 0)
     {
         if (NonTrans==1) {
-            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+            SBBM::BlitFrom (Bitmap[0L], p1, p2);
         } else {
-            Offscreen.BlitFromT (Bitmap[0L], p1, p2);
+            SBBM::BlitFromT (Bitmap[0L], p1, p2);
 }
     }
     else
     {
         if (NonTrans==1) {
-            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+            SBBM::BlitFrom (Bitmap[0L], p1, p2);
         } else {
-            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+            SBBM::BlitFrom (Bitmap[0L], p1, p2);
 }
     }
 }
@@ -131,7 +131,7 @@ void BRICK::BlitAt (SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &ScreenPos, SL
     //Normalfall:
     else
     {
-        if (AnimSpeed != 0u)
+        if (AnimSpeed != 0U)
         {
             if (Triggered==0 || (Editor != 0)) {
                 if (Phase==-1) { Phase=(Sim.TickerTime/AnimSpeed)%Bitmap.AnzEntries();
@@ -183,17 +183,17 @@ void BRICK::BlitAt (SBPRIMARYBM &Offscreen, BOOL Ansatz, const XY &p1, const XY 
     if (Ansatz != 0)
     {
         if (NonTrans==1) {
-            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+            SBPRIMARYBM::BlitFrom (Bitmap[0L], p1, p2);
         } else {
-            Offscreen.BlitFromT (Bitmap[0L], p1, p2);
+            SBPRIMARYBM::BlitFromT (Bitmap[0L], p1, p2);
 }
     }
     else
     {
         if (NonTrans==1) {
-            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+            SBPRIMARYBM::BlitFrom (Bitmap[0L], p1, p2);
         } else {
-            Offscreen.BlitFrom (Bitmap[0L], p1, p2);
+            SBPRIMARYBM::BlitFrom (Bitmap[0L], p1, p2);
 }
     }
 }

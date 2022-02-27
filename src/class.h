@@ -281,12 +281,12 @@ class /**/CAmbienteManager
         BUFFER<CAmbientFx>    AmbientFx;
 
     public:
-        void RecalcVolumes (void);
+        void RecalcVolumes (void) const;
         void SetGlobalVolume (SLONG Volume);
         void SetFx (SLONG FxId, const CString& Soundeffekt) const;
         void SetVolume (SLONG FxId, SLONG Volume) const;
         void Pause (void) const;
-        void Resume (void);
+        void Resume (void) const;
 };
 
 //--------------------------------------------------------------------------------------------
@@ -350,8 +350,8 @@ class /**/CEinheit                               // 0 = km
     public:                                   // 6 = DM
         SLONG   Umrechnung (SLONG Value) const;
         __int64 Umrechnung64 (__int64 Value) const;
-        char   *bString (SLONG Value);
-        char   *bString64 (__int64 Value);
+        char   *bString (SLONG Value) const;
+        char   *bString64 (__int64 Value) const;
 };
 
 //--------------------------------------------------------------------------------------------
@@ -1798,7 +1798,7 @@ class CBilanz
         void  Clear(void);
         SLONG GetHaben(void) const;
         SLONG GetSoll(void) const;
-        SLONG GetSumme(void);
+        SLONG GetSumme(void) const;
 
         friend TEAKFILE &operator << (TEAKFILE &File, const CBilanz &Bilanz);
         friend TEAKFILE &operator >> (TEAKFILE &File, CBilanz &Bilanz);
@@ -2127,11 +2127,11 @@ class PLAYER
 
     public: //Network-Sachen:
         static SLONG NetSynchronizeGetNum (void);
-        void  NetSynchronizeImage (void);
-        void  NetSynchronizeMoney (void);
-        void  NetSynchronizeRoutes (void);
-        void  NetSynchronizeFlags (void);
-        void  NetSynchronizeItems (void);
+        static void  NetSynchronizeImage (void);
+        static void  NetSynchronizeMoney (void);
+        static void  NetSynchronizeRoutes (void);
+        static void  NetSynchronizeFlags (void);
+        static void  NetSynchronizeItems (void);
         void  NetSynchronizeSabotage (void) const;
         void  NetSynchronizeKooperation (void) const;
         void  NetRouteUpdateTicketpreise (SLONG RouteId, SLONG Ticketpreis, SLONG TicketpreisFC) const;
@@ -2487,7 +2487,7 @@ class SIM //Die Simulationswelt; alles was zur aktuellen Partie gehört
         SLONG   GetHour (void) const;
         SLONG   GetMinute (void) const;
         SLONG   GetWeekday (void);
-        CString GetTimeString (void);
+        CString GetTimeString (void) const;
         void    NewDay (void);
         void    CreateRandomUsedPlane (SLONG Index);
         void    CreateRandomUsedPlanes (void);

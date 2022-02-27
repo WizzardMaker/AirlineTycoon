@@ -478,7 +478,7 @@ void CTafelData::Randomize (SLONG Day)
                     PlayerUsed=0;
 
                     for (PlayerIndex=0; PlayerIndex<Sim.Players.AnzPlayers; PlayerIndex++) {
-                        if (Sim.Players.Players[PlayerIndex].RentCities.RentCities[ObjId].Rang != 0u) {
+                        if (Sim.Players.Players[PlayerIndex].RentCities.RentCities[ObjId].Rang != 0U) {
                             PlayerUsed++;
 }
 }
@@ -521,7 +521,7 @@ void CTafelData::Randomize (SLONG Day)
                     PlayerUsed=0;
 
                     for (PlayerIndex=0; PlayerIndex<Sim.Players.AnzPlayers; PlayerIndex++) {
-                        if (Sim.Players.Players[PlayerIndex].RentCities.RentCities[ObjId].Rang != 0u) {
+                        if (Sim.Players.Players[PlayerIndex].RentCities.RentCities[ObjId].Rang != 0U) {
                             PlayerUsed++;
 }
 }

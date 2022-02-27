@@ -234,7 +234,7 @@ class SB_CPrimaryBitmap : public SB_CBitmapCore
 {
     public:
         SB_CPrimaryBitmap(void);
-        ~SB_CPrimaryBitmap(void);
+        ~SB_CPrimaryBitmap(void) = default;
 
         SLONG Create(SDL_Renderer**, SDL_Window*, unsigned short, SLONG, SLONG, unsigned char, unsigned short);
         virtual ULONG Release(void);

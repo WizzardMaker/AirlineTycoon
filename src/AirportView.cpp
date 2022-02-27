@@ -426,7 +426,7 @@ void AirportView::MoveCamera ()
                 if (abs((Sim.Persons[PlayerIndex].ScreenPos.x-ViewPos.x))>640 && (Sim.Options.OptionBlenden != 0))
                 {
                     ViewPos.x=Sim.Persons[PlayerIndex].ScreenPos.x-320;
-                    if (FrameWnd != nullptr) { FrameWnd->PrepareFade();
+                    if (FrameWnd != nullptr) { GameFrame::PrepareFade();
 }
                     FrameWnd->Invalidate(); MessagePump();
                     gBlendState=-2;
@@ -920,10 +920,10 @@ void AirportView::OnPaint()
                                 if ((qClan.Type<CLAN_PLAYER1 && (qPerson.LookDir==6 || qPerson.LookDir==7)) || qClan.Group>30) {
                                     qClan.BlitAt (PrimaryBm, qPerson.LookDir, qPerson.Phase, qPerson.ScreenPos-ViewPos+WinP1-XY(8-1,0-1), qPerson.Running);
                                 } else {
-                                    qClan.BlitAt (PrimaryBm, qPerson.LookDir, qPerson.Phase, qPerson.ScreenPos-ViewPos+WinP1-XY(8-1,0-1)+XY(qPerson.FlightPlaneIndex&3, (qPerson.FlightPlaneIndex>>2)&3), (static_cast<UBYTE>(qPerson.Running != 0u) && (qPerson.Position.y/22+5!=13 || (Airport.iPlate[(qPerson.Position.y/22+5)+((qPerson.Position.x/44)<<4)] & 240)!=80)));
+                                    qClan.BlitAt (PrimaryBm, qPerson.LookDir, qPerson.Phase, qPerson.ScreenPos-ViewPos+WinP1-XY(8-1,0-1)+XY(qPerson.FlightPlaneIndex&3, (qPerson.FlightPlaneIndex>>2)&3), static_cast<UBYTE>((static_cast<UBYTE>(qPerson.Running != 0U) != 0u) && (qPerson.Position.y/22+5!=13 || (Airport.iPlate[(qPerson.Position.y/22+5)+((qPerson.Position.x/44)<<4)] & 240)!=80)));
 }
 
-                                if ((Sim.Options.OptionThinkBubbles != 0) && (qPerson.MoodCountdown != 0u))
+                                if ((Sim.Options.OptionThinkBubbles != 0) && (qPerson.MoodCountdown != 0U))
                                 {
                                     SLONG Grade=3;
 
@@ -1177,7 +1177,7 @@ void AirportView::OnPaint()
                                 qBrick.BlitAt (PrimaryBm, 0, qBuild.ScreenPos-ViewPos+WinP1, Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags&(1<<0));
                             } else if (Editor!=EDITOR_BUILDS && BrickId>=GateSmackMin && BrickId<=GateSmackMax)
                             {
-                                if ((Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags&(1<<8)) != 0u) {
+                                if ((Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags&(1<<8)) != 0U) {
                                     qBrick.BlitAt (PrimaryBm, 0, qBuild.ScreenPos-ViewPos+WinP1, 0); //Ggf erweitertes Gate
 }
                             }
@@ -1187,9 +1187,9 @@ void AirportView::OnPaint()
                                 {
                                     long phase = 0;
 
-                                    if ((Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags&(1<<8)) != 0u) {  phase=1;
+                                    if ((Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags&(1<<8)) != 0U) {  phase=1;
 }
-                                    if ((Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags&(1<<10)) != 0u) { phase=2;
+                                    if ((Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags&(1<<10)) != 0U) { phase=2;
 }
                                     Bricks[BrickId].BlitAt (PrimaryBm, 0, qBuild.ScreenPos-ViewPos+WinP1, phase);
                                 }
@@ -1418,7 +1418,7 @@ void AirportView::OnPaint()
                             SetMouseLook (CURSOR_HOT, 5000+c, CString (bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 5000+c), (LPCTSTR)Sim.Players.Players[SLONG(c/10-1)].AirlineX))+" (P)", ROOM_AIRPORT, 10);
                         } else if (c>=ROOM_BURO_A && c<=ROOM_PERSONAL_D) {
                             SetMouseLook (CURSOR_HOT, 5000+c, CString (bprintf (StandardTexte.GetS (TOKEN_TOOLTIP, 5000+c), (LPCTSTR)Sim.Players.Players[SLONG(c/10-1)].AirlineX)), ROOM_AIRPORT, 10);
-                        } else if (c != 0u) { SetMouseLook (CURSOR_HOT, 5000+c, ROOM_AIRPORT, 10);
+                        } else if (c != 0U) { SetMouseLook (CURSOR_HOT, 5000+c, ROOM_AIRPORT, 10);
 }
                     }
                     if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && (Sim.bPause == 0) && gMousePosition.y<440)
@@ -1686,9 +1686,9 @@ void AirportView::OnLButtonDown(UINT nFlags, CPoint point)
 
                                                                         if (Sim.bNetwork != 0)
                                                                         {
-                                                                            Sim.SendSimpleMessage (ATNET_DIALOG_LOCK, 0, qPlayer.PlayerNum);
-                                                                            Sim.SendSimpleMessage (ATNET_DIALOG_LOCK, 0, Sim.Players.Players[Sim.localPlayer].PlayerNum);
-                                                                            Sim.SendSimpleMessage (ATNET_PLAYERLOOK, 0, qPerson.State, Phase);
+                                                                            SIM::SendSimpleMessage (ATNET_DIALOG_LOCK, 0, qPlayer.PlayerNum);
+                                                                            SIM::SendSimpleMessage (ATNET_DIALOG_LOCK, 0, Sim.Players.Players[Sim.localPlayer].PlayerNum);
+                                                                            SIM::SendSimpleMessage (ATNET_PLAYERLOOK, 0, qPerson.State, Phase);
                                                                             qPlayer.BroadcastPosition ();
                                                                             Sim.Players.Players[Sim.localPlayer].BroadcastPosition ();
                                                                         }
@@ -1705,7 +1705,7 @@ void AirportView::OnLButtonDown(UINT nFlags, CPoint point)
                                                                         Message << Phase              << PlayerNum
                                                                             << qPerson.Position.x << qPerson.Position.y;
 
-                                                                        Sim.SendMemFile (Message, qPlayer.NetworkID);
+                                                                        SIM::SendMemFile (Message, qPlayer.NetworkID);
 
                                                                         qPlayer.PlayerDialogState = PlayerNum; //im Aufbau
                                                                     }
@@ -1926,7 +1926,7 @@ void AirportView::OnRButtonDown(UINT nFlags, CPoint point)
 
             if (Sim.Options.OptionBlenden != 0)
             {
-                if (FrameWnd != nullptr) { FrameWnd->PrepareFade();
+                if (FrameWnd != nullptr) { GameFrame::PrepareFade();
 }
                 FrameWnd->Invalidate(); MessagePump();
                 gBlendState=-2;
@@ -3684,7 +3684,7 @@ void AIRPORT::TryDoor (XY ArrayPos, BOOL Player, SLONG PlayerNum)
                                         SetConditionBlock (20+OfficeNum, 1);
 
                                         if ((Sim.bNetwork != 0) && qPlayer.Owner==0) {
-                                            Sim.SendSimpleMessage (ATNET_ADD_EXPLOSION, 0, OfficeNum);
+                                            SIM::SendSimpleMessage (ATNET_ADD_EXPLOSION, 0, OfficeNum);
 }
 
                                         for (SLONG d=Sim.Persons.AnzEntries()-1; d>=0; d--) {

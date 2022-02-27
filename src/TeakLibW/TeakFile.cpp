@@ -28,7 +28,7 @@ TEAKFILE::~TEAKFILE()
     Close();
 }
 
-void TEAKFILE::ReadLine(char* buffer, SLONG size)
+void TEAKFILE::ReadLine(char* buffer, SLONG size) const
 {
     int i = 0;
     for (i = 0; i < size && (IsEof() == 0); i++)

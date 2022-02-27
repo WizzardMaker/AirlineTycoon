@@ -228,7 +228,7 @@ class TEAKFILE
         TEAKFILE(char const*, SLONG);
         ~TEAKFILE(void);
 
-        void ReadLine(char*, SLONG);
+        void ReadLine(char*, SLONG) const;
         int IsEof(void) const;
         void Close(void);
         SLONG GetFileLength(void) const;

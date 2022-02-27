@@ -310,7 +310,7 @@ void PLAYER::LeaveRoom ()
     SLONG c = 0;
 
     for (c=9; c>=0; c--) {
-        if (Locations[c] != 0u)
+        if (Locations[c] != 0U)
         {
             Locations[c] |= ROOM_LEAVING;
             return;
@@ -329,7 +329,7 @@ void PLAYER::LeaveAllRooms ()
     SLONG c = 0;
 
     for (c=9; c>=0; c--) {
-        if ((Locations[c] != 0u) && Locations[c]!=ROOM_AIRPORT) {
+        if ((Locations[c] != 0U) && Locations[c]!=ROOM_AIRPORT) {
             Locations[c] = UWORD(Locations[c] | ROOM_LEAVING);
 }
 }
@@ -356,7 +356,7 @@ void PLAYER::CalcRoom ()
 
     //Zählen, wie lange wir in diesem Raum schon sind:
     for (c=9; c>=0; c--) {
-        if (Locations[c] != 0u)
+        if (Locations[c] != 0U)
         {
             SLONG l = (Locations[c]&255);
 
@@ -385,7 +385,7 @@ void PLAYER::CalcRoom ()
                 if (Locations[c]==Room)
                 {
                     for (; c<10; c++) {
-                        if (Locations[c] != 0u) { Locations[c]|=ROOM_LEAVING;
+                        if (Locations[c] != 0U) { Locations[c]|=ROOM_LEAVING;
 }
 }
                     break;
@@ -401,7 +401,7 @@ void PLAYER::CalcRoom ()
 
     //Top-Location berechnen:
     for (c=9; c>=0; c--) {
-        if (Locations[c] != 0u)
+        if (Locations[c] != 0U)
         {
             TopLocation = UWORD(Locations[c] & ~(ROOM_LEAVING|ROOM_ENTERING));
             return;
@@ -486,28 +486,28 @@ long PLAYER::CalcSecurityCosts (bool bFixOnly, bool bPlaneOnly)
     long costfix=0;
     long costplane=0;
 
-    if ((SecurityFlags & 0x0001) != 0u) { costfix   +=   25000; //Büro
+    if ((SecurityFlags & 0x0001) != 0U) { costfix   +=   25000; //Büro
 }
-    if ((SecurityFlags & 0x0002) != 0u) { costfix   +=   20000; //Laptop
+    if ((SecurityFlags & 0x0002) != 0U) { costfix   +=   20000; //Laptop
 }
-    if ((SecurityFlags & 0x0004) != 0u) { costfix   +=   25000; //Personbüro
+    if ((SecurityFlags & 0x0004) != 0U) { costfix   +=   25000; //Personbüro
 }
-    if ((SecurityFlags & 0x0008) != 0u) { costfix   +=   30000; //Bank
+    if ((SecurityFlags & 0x0008) != 0U) { costfix   +=   30000; //Bank
 }
-    if ((SecurityFlags & 0x0010) != 0u) { costfix   +=   30000; //Routentafel
+    if ((SecurityFlags & 0x0010) != 0U) { costfix   +=   30000; //Routentafel
 }
-    if ((SecurityFlags & 0x0020) != 0u) { costfix   +=   30000; //Verwaltung
+    if ((SecurityFlags & 0x0020) != 0U) { costfix   +=   30000; //Verwaltung
 }
-    if ((SecurityFlags & 0x0040) != 0u) { costplane +=   30000; //Flugzeuge von innen
+    if ((SecurityFlags & 0x0040) != 0U) { costplane +=   30000; //Flugzeuge von innen
 }
-    if ((SecurityFlags & 0x0080) != 0u) { costplane +=   30000; //Flugzeuge von aussen
+    if ((SecurityFlags & 0x0080) != 0U) { costplane +=   30000; //Flugzeuge von aussen
 }
-    if ((SecurityFlags & 0x0100) != 0u) { costplane +=   40000; //Gateupdatedate
+    if ((SecurityFlags & 0x0100) != 0U) { costplane +=   40000; //Gateupdatedate
 }
 
-    if ((SecurityFlags & 0x0400) != 0u) { costplane +=   50000; //Gateupdatedate II
+    if ((SecurityFlags & 0x0400) != 0U) { costplane +=   50000; //Gateupdatedate II
 }
-    if ((SecurityFlags & 0x0800) != 0u) { costplane +=   50000; //Gateupdatedate III
+    if ((SecurityFlags & 0x0800) != 0U) { costplane +=   50000; //Gateupdatedate III
 }
 
     if (bFixOnly) {   return (costfix);
@@ -537,7 +537,7 @@ void PLAYER::BookBuroRent ()
 
     //Dann die Niederlassungs Mieten
     for (c=Gebuehr=0; c<Cities.AnzEntries(); c++) {
-        if ((Cities.IsInAlbum(c) != 0) && (RentCities.RentCities[c].Rang != 0u)) {
+        if ((Cities.IsInAlbum(c) != 0) && (RentCities.RentCities[c].Rang != 0U)) {
             Gebuehr-=RentCities.RentCities[c].Miete/30;
 }
 }
@@ -547,7 +547,7 @@ void PLAYER::BookBuroRent ()
 
     //Und zuletzt die Routen Mieten
     for (c=Gebuehr=0; c<Routen.AnzEntries(); c++) {
-        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u)) {
+        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U)) {
             Gebuehr-=RentRouten.RentRouten[c].Miete/30;
 }
 }
@@ -648,7 +648,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                     NumServicePoints=0;
 
                     for (SLONG c=Planes.AnzEntries()-1; c>=0; c--) {
-                        if (Planes.IsInAlbum (c))
+                        if (Planes.IsInAlbum (c) != 0)
                         {
                             CPlane &qPlane=Planes[c];
 
@@ -666,7 +666,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                     {
                         //Computerspieler simuliert Personal:
                         for (SLONG c=Planes.AnzEntries()-1; c>=0; c--) {
-                            if (Planes.IsInAlbum (c))
+                            if (Planes.IsInAlbum (c) != 0)
                             {
                                 CPlane &qPlane=Planes[c];
 
@@ -710,16 +710,19 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
             case DIFF_ADDON07:
                 {
                     //Äußerung zu den Flugzeugen:
-                    SLONG d = 0, tmp = 0, anz = 0;
+                    SLONG d = 0;
+                    SLONG tmp = 0;
+                    SLONG anz = 0;
                     for (d=tmp=anz=0; d<Planes.AnzEntries(); d++) {
-                        if (Planes.IsInAlbum(d))
+                        if (Planes.IsInAlbum(d) != 0)
                         {
                             tmp+=Planes[d].Zustand;
                             anz++;
                         }
 }
 
-                    if (anz) return (tmp/anz); return (0);
+                    if (anz != 0) { return (tmp/anz); 
+}return (0);
                 }
                 break;
 
@@ -742,9 +745,10 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
             case DIFF_ATFS02:
                 {
                     //Äußerung zu den Flugzeugen:
-                    SLONG d = 0, anz = 0;
+                    SLONG d = 0;
+                    SLONG anz = 0;
                     for (d=anz=0; d<Planes.AnzEntries(); d++) {
-                        if (Planes.IsInAlbum(d))
+                        if (Planes.IsInAlbum(d) != 0)
                         {
                             if (Planes[d].Zustand>=BTARGET_ZUSTAND && Planes[d].Reifen==2 && Planes[d].Triebwerk==2 && Planes[d].Sicherheit==2 && Planes[d].Elektronik==2) {
                                 anz++;
@@ -767,7 +771,8 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                         f += Statistiken[STAT_FLUGZEUGE].GetAtPastDay(c+1);
 }
 
-                    if (f) return (SLONG(p/f)); return (0);
+                    if (f != 0) { return (SLONG(p/f)); 
+}return (0);
                 }
                 break;
 
@@ -779,8 +784,9 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                 {
                     long n=0;
                     for (SLONG d=0; d<Planes.AnzEntries(); d++) {
-                        if (Planes.IsInAlbum(d)) {
-                            if (Planes[d].ptPassagiere>=BTARGET_PLANESIZE && Planes[d].TypeId==-1) n++;
+                        if (Planes.IsInAlbum(d) != 0) {
+                            if (Planes[d].ptPassagiere>=BTARGET_PLANESIZE && Planes[d].TypeId==-1) { n++;
+}
 }
 }
 
@@ -796,7 +802,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                 {
                     long sum=0;
 
-                    if (bAnderer==0)
+                    if (static_cast<int>(bAnderer)==0)
                     {
                         long anz=0;
                         for (long c=1; c<=min(29, (SLONG)Sim.Date); c++)
@@ -805,11 +811,11 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                             anz++;
                         }
 
-                        if (anz) return (sum/anz); return (0);
+                        if (anz != 0) { return (sum/anz); 
+}return (0);
                     }
-                    else
-                    {
-                        for (long c=0; c<=29; c++) {
+                    
+                                            for (long c=0; c<=29; c++) {
                             if (SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c))>0) {
                                 if (SLONG(Statistiken[STAT_AKTIEN_SA+PlayerNum].GetAtPastDay(c))*100/SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c)) <= BTARGET_MEINANTEIL) {
                                     sum++;
@@ -818,7 +824,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 }
 
                         return (sum);
-                    }
+                   
                 }
                 break;
 
@@ -826,7 +832,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                 {
                     long n=0;
                     for (SLONG d=0; d<Planes.AnzEntries(); d++) {
-                        if (Planes.IsInAlbum(d)) {
+                        if (Planes.IsInAlbum(d) != 0) {
                             if (Planes[d].TypeId==-1 && Planes[d].ptPassagiere>0 && Planes[d].ptGeschwindigkeit>0)
                             {
                                 //long Verbrauch = Planes[d].ptVerbrauch/Planes[d].ptPassagiere;
@@ -836,7 +842,8 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
 
                                 long Verbrauch = Planes[d].ptVerbrauch*100/Planes[d].ptGeschwindigkeit;
 
-                                if (Verbrauch<=BTARGET_VERBRAUCH) n++;
+                                if (Verbrauch<=BTARGET_VERBRAUCH) { n++;
+}
                             }
 }
 }
@@ -1103,7 +1110,7 @@ void PLAYER::NewDay ()
 
     //LastFlown-Feld bei den Routen aktualisieren:
     for (c=0; c<Routen.AnzEntries(); c++) {
-        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u))
+        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U))
         {
             if (RentRouten.RentRouten[c].LastFlown<99) {
                 RentRouten.RentRouten[c].LastFlown++;
@@ -1706,7 +1713,7 @@ void PLAYER::RentRoute (SLONG City1, SLONG City2, SLONG Miete)
                 n=1;
 
                 for (d=0; d<Sim.Players.AnzPlayers; d++) {
-                    if (Sim.Players.Players[d].RentRouten.RentRouten[c].Rang != 0u) { n++;
+                    if (Sim.Players.Players[d].RentRouten.RentRouten[c].Rang != 0U) { n++;
 }
 }
 
@@ -2710,7 +2717,7 @@ void PLAYER::RobotPump()
 
                                         qOpfer.PlayerSmoking = 99;
                                         qOpfer.BroadcastPosition ();
-                                        qOpfer.NetSynchronizeFlags ();
+                                        PLAYER::NetSynchronizeFlags ();
                                     }
                                 }
                             }
@@ -3197,7 +3204,7 @@ void PLAYER::RobotPlanRoutes()
 
     //Sind einige Routen in Gefahr? Dann mindestens 4 Flugzeuge darauf ansetzen:
     forall (c, Routen)
-        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u) && RentRouten.RentRouten[c].TageMitGering>=15)
+        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U) && RentRouten.RentRouten[c].TageMitGering>=15)
         {
             SLONG PlanesFound=0;
 
@@ -3260,7 +3267,7 @@ void PLAYER::RobotPlanRoutes()
     //Test: Haben wir für jede Route ein Flugzeug, was groß genug ist?
     BuyBigPlane=0;
     for (c=0; c<SLONG(Routen.AnzEntries()); c++) {
-        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u)) {
+        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U)) {
             if (Cities.CalcDistance (Routen[c].VonCity, Routen[c].NachCity)/1000>BuyBigPlane) {
                 BuyBigPlane=Cities.CalcDistance (Routen[c].VonCity, Routen[c].NachCity)/1000;
 }
@@ -3281,7 +3288,7 @@ void PLAYER::RobotPlanRoutes()
         //Beste Route aussuchen:
         BestC=-1;
         for (c=0; c<SLONG(Routen.AnzEntries()); c++) {
-            if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u) && PlanesOnRoute[c]!=99999)
+            if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U) && PlanesOnRoute[c]!=99999)
             {
                 if (BestC==-1 || (Routen[c].Bedarf/(PlanesOnRoute[c]+1)>Routen[BestC].Bedarf/(PlanesOnRoute[c]+1))) {
                     BestC=c;
@@ -3390,7 +3397,7 @@ void PLAYER::RobotPlanRoutes()
                 if (qPlan.Flug[e].ObjectType==3)
                 {
                     forall (c, Routen)
-                        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u)) {
+                        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U)) {
                             if (Routen[c].VonCity==qPlan.Flug[e].VonCity && Routen[c].NachCity==qPlan.Flug[e].NachCity)
                             {
                                 qPlan.Flug[e].ObjectType = 1;
@@ -3418,14 +3425,14 @@ void PLAYER::RobotPlanRoutes()
 
     //Und jetzt die Ticketpreise:
     for (c=0; c<SLONG(Routen.AnzEntries()); c++) {
-        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u))
+        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U))
         {
             CRoute &qRoute = Routen[c];
             SLONG OldPrice = RentRouten.RentRouten[c].Ticketpreis;
 
             //Welche Konkurrenten haben die Route auch?
             for (d=e=0; d<4; d++) {
-                if ((Sim.Players.Players[d].IsOut == 0) && (Sim.Players.Players[d].RentRouten.RentRouten[c].Rang != 0u) && RentRouten.RentRouten[c].LastFlown<5) {
+                if ((Sim.Players.Players[d].IsOut == 0) && (Sim.Players.Players[d].RentRouten.RentRouten[c].Rang != 0U) && RentRouten.RentRouten[c].LastFlown<5) {
                     e++;
 }
 }
@@ -3438,7 +3445,7 @@ void PLAYER::RobotPlanRoutes()
             if (e>1)
             {
                 for (d=e=0; d<4; d++) { //Nicht viel teuerer als die Freunde:
-                    if ((Sim.Players.Players[d].IsOut == 0) && (Sim.Players.Players[d].RentRouten.RentRouten[c].Rang != 0u) && RentRouten.RentRouten[c].LastFlown<5)
+                    if ((Sim.Players.Players[d].IsOut == 0) && (Sim.Players.Players[d].RentRouten.RentRouten[c].Rang != 0U) && RentRouten.RentRouten[c].LastFlown<5)
                     {
                         RentRouten.RentRouten[c].Ticketpreis   = min (RentRouten.RentRouten[c].Ticketpreis, Sim.Players.Players[d].RentRouten.RentRouten[c].Ticketpreis*2/10*10);
                         RentRouten.RentRouten[c].TicketpreisFC = min (RentRouten.RentRouten[c].TicketpreisFC, Sim.Players.Players[d].RentRouten.RentRouten[c].TicketpreisFC*2/10*10);
@@ -3446,7 +3453,7 @@ void PLAYER::RobotPlanRoutes()
 }
 
                 for (d=e=0; d<4; d++) { //Billiger als die Feinde:
-                    if ((Sim.Players.Players[d].IsOut == 0) && (Sim.Players.Players[d].RentRouten.RentRouten[c].Rang != 0u) && RentRouten.RentRouten[c].LastFlown<5 && Sympathie[d]<-40)
+                    if ((Sim.Players.Players[d].IsOut == 0) && (Sim.Players.Players[d].RentRouten.RentRouten[c].Rang != 0U) && RentRouten.RentRouten[c].LastFlown<5 && Sympathie[d]<-40)
                     {
                         RentRouten.RentRouten[c].Ticketpreis   = min(RentRouten.RentRouten[c].Ticketpreis, Sim.Players.Players[d].RentRouten.RentRouten[c].Ticketpreis/10*10-10);
                         RentRouten.RentRouten[c].TicketpreisFC = min(RentRouten.RentRouten[c].TicketpreisFC, Sim.Players.Players[d].RentRouten.RentRouten[c].TicketpreisFC/10*10-10);
@@ -3741,7 +3748,7 @@ void PLAYER::RobotExecuteAction()
                     SLONG Anz=0;
 
                     for (c=RentRouten.RentRouten.AnzEntries()-1; c>=0; c--) {
-                        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0u)) { Anz++;
+                        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U)) { Anz++;
 }
 }
 
@@ -3800,11 +3807,11 @@ void PLAYER::RobotExecuteAction()
                         continue; //Skip it, because Player is just phoning it.
 }
 
-                    if (RentCities.RentCities[n].Rang != 0u) { goto okay_we_have_that_city;
+                    if (RentCities.RentCities[n].Rang != 0U) { goto okay_we_have_that_city;
 }
 
                     for (c=0; c<4; c++) {
-                        if ((Sim.Players.Players[c].IsOut == 0) && (Kooperation[c] != 0) && (Sim.Players.Players[c].RentCities.RentCities[n].Rang != 0u)) {
+                        if ((Sim.Players.Players[c].IsOut == 0) && (Kooperation[c] != 0) && (Sim.Players.Players[c].RentCities.RentCities[n].Rang != 0U)) {
                             goto okay_we_have_that_city;
 }
 }
@@ -4342,21 +4349,21 @@ okay_we_have_that_city:
                         }
 
                         //Wegen Security-Office:
-                        if (ArabMode==1 && ((Sim.Players.Players[ArabOpfer].SecurityFlags&(1<<6)) != 0u)) { ArabMode=0; SecurityAnnoiance++; }
-                        if (ArabMode==2 && ((Sim.Players.Players[ArabOpfer].SecurityFlags&(1<<6)) != 0u)) { ArabMode=0; SecurityAnnoiance++; }
-                        if (ArabMode==3 && ((Sim.Players.Players[ArabOpfer].SecurityFlags&(1<<7)) != 0u)) { ArabMode=0; SecurityAnnoiance++; }
-                        if (ArabMode==4 && ((Sim.Players.Players[ArabOpfer].SecurityFlags&(1<<7)) != 0u)) { ArabMode=0; SecurityAnnoiance++; }
+                        if (ArabMode==1 && ((Sim.Players.Players[ArabOpfer].SecurityFlags&(1<<6)) != 0U)) { ArabMode=0; SecurityAnnoiance++; }
+                        if (ArabMode==2 && ((Sim.Players.Players[ArabOpfer].SecurityFlags&(1<<6)) != 0U)) { ArabMode=0; SecurityAnnoiance++; }
+                        if (ArabMode==3 && ((Sim.Players.Players[ArabOpfer].SecurityFlags&(1<<7)) != 0U)) { ArabMode=0; SecurityAnnoiance++; }
+                        if (ArabMode==4 && ((Sim.Players.Players[ArabOpfer].SecurityFlags&(1<<7)) != 0U)) { ArabMode=0; SecurityAnnoiance++; }
 
-                        if (ArabMode2==1 && ((Sim.Players.Players[ArabOpfer2].SecurityFlags&(1<<0)) != 0u)) { ArabMode2=0; SecurityAnnoiance++; }
-                        if (ArabMode2==2 && ((Sim.Players.Players[ArabOpfer2].SecurityFlags&(1<<1)) != 0u)) { ArabMode2=0; SecurityAnnoiance++; }
-                        if (ArabMode2==3 && ((Sim.Players.Players[ArabOpfer2].SecurityFlags&(1<<0)) != 0u)) { ArabMode2=0; SecurityAnnoiance++; }
-                        if (ArabMode2==4 && ((Sim.Players.Players[ArabOpfer2].SecurityFlags&(1<<2)) != 0u)) { ArabMode2=0; SecurityAnnoiance++; }
+                        if (ArabMode2==1 && ((Sim.Players.Players[ArabOpfer2].SecurityFlags&(1<<0)) != 0U)) { ArabMode2=0; SecurityAnnoiance++; }
+                        if (ArabMode2==2 && ((Sim.Players.Players[ArabOpfer2].SecurityFlags&(1<<1)) != 0U)) { ArabMode2=0; SecurityAnnoiance++; }
+                        if (ArabMode2==3 && ((Sim.Players.Players[ArabOpfer2].SecurityFlags&(1<<0)) != 0U)) { ArabMode2=0; SecurityAnnoiance++; }
+                        if (ArabMode2==4 && ((Sim.Players.Players[ArabOpfer2].SecurityFlags&(1<<2)) != 0U)) { ArabMode2=0; SecurityAnnoiance++; }
 
-                        if (ArabMode3==1 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<8)) != 0u)) { ArabMode3=0; SecurityAnnoiance++; }
-                        if (ArabMode3==2 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<5)) != 0u)) { ArabMode3=0; SecurityAnnoiance++; }
-                        if (ArabMode3==3 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<5)) != 0u)) { ArabMode3=0; SecurityAnnoiance++; }
-                        if (ArabMode3==4 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<3)) != 0u)) { ArabMode3=0; SecurityAnnoiance++; }
-                        if (ArabMode3==5 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<8)) != 0u)) { ArabMode3=0; SecurityAnnoiance++; }
+                        if (ArabMode3==1 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<8)) != 0U)) { ArabMode3=0; SecurityAnnoiance++; }
+                        if (ArabMode3==2 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<5)) != 0U)) { ArabMode3=0; SecurityAnnoiance++; }
+                        if (ArabMode3==3 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<5)) != 0U)) { ArabMode3=0; SecurityAnnoiance++; }
+                        if (ArabMode3==4 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<3)) != 0U)) { ArabMode3=0; SecurityAnnoiance++; }
+                        if (ArabMode3==5 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags&(1<<8)) != 0U)) { ArabMode3=0; SecurityAnnoiance++; }
 
                         //Wegen Security-Office II:
                         if (ArabMode==1) { Sim.Players.Players[ArabOpfer].SecurityNeeded|=(1<<6);
@@ -5397,7 +5404,7 @@ okay_we_have_that_city:
                 for (c=0; c<RentRouten.RentRouten.AnzEntries(); c++) {
                     if (Routen.IsInAlbum(c) != 0)
                     {
-                        if (RentRouten.RentRouten[c].Rang != 0u)
+                        if (RentRouten.RentRouten[c].Rang != 0U)
                         {
                             Anz++;
                             if (RentRouten.RentRouten[c].TageMitGering>1) { break;
@@ -5515,7 +5522,7 @@ okay_we_have_that_city:
                     {
                         ULONG newflag = (1<<LocalRandom.Rand(9));
 
-                        if ((SecurityNeeded&newflag) != 0u) {
+                        if ((SecurityNeeded&newflag) != 0U) {
                             SecurityFlags|=newflag;
 }
                     }
@@ -5578,7 +5585,7 @@ okay_we_have_that_city:
                 if (((DoRoutes != 0) || (WantToDoRoutes != 0)) && Money>500000)
                 {
                     for (SLONG c=0; c<RentRouten.RentRouten.AnzEntries(); c++) {
-                        if (RentRouten.RentRouten[c].Rang != 0u) {
+                        if (RentRouten.RentRouten[c].Rang != 0U) {
                             if (RentRouten.RentRouten[c].Image<70 || (RentRouten.RentRouten[c].Image<80 && (SavesForPlane == 0) && (SavesForRocket == 0)) || (Money>2000000 && RentRouten.RentRouten[c].Image<100 && (SavesForPlane == 0) && (SavesForRocket == 0)))
                             {
                                 RentRouten.RentRouten[c].Image+=UBYTE(gWerbePrice[6+3]/2000);
@@ -6575,14 +6582,14 @@ void PLAYER::UpdateStatistics ()
 
     //STAT_NIEDERLASSUNGEN:
     for (c=d=0; c<RentCities.RentCities.AnzEntries(); c++) {
-        if (RentCities.RentCities[c].Rang != 0u) { d++;
+        if (RentCities.RentCities[c].Rang != 0U) { d++;
 }
 }
     Statistiken[STAT_NIEDERLASSUNGEN].SetAtPastDay (0, d);
 
     //STAT_ROUTEN:
     for (c=d=0; c<RentRouten.RentRouten.AnzEntries(); c++) {
-        if (RentRouten.RentRouten[c].Rang != 0u) { d++;
+        if (RentRouten.RentRouten[c].Rang != 0U) { d++;
 }
 }
     Statistiken[STAT_ROUTEN].SetAtPastDay (0, d);
@@ -6909,7 +6916,7 @@ void PLAYERS::RobotPump()
     for (c=0; c<AnzPlayers; c++)
     {
         if ((Sim.Players.Players[c].IsOut == 0) && (DoIt != 0)) {
-            if ((Sim.Players.Players[c].Locations[1] != 0u) || (Sim.Players.Players[c].DialogWin != nullptr) || (Sim.CallItADay==0 && (Sim.Persons[Sim.Persons.GetPlayerIndex(c)].StatePar != 0))) {
+            if ((Sim.Players.Players[c].Locations[1] != 0U) || (Sim.Players.Players[c].DialogWin != nullptr) || (Sim.CallItADay==0 && (Sim.Persons[Sim.Persons.GetPlayerIndex(c)].StatePar != 0))) {
                 DoIt=FALSE;
 }
 }

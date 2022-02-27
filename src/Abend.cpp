@@ -26,7 +26,7 @@ SLONG bCAbendOpen=0;
 //--------------------------------------------------------------------------------------------
 //Der Feierabend beginnt
 //--------------------------------------------------------------------------------------------
-CAbend::CAbend(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, CString(bprintf("abend%li.gli", Sim.GetSeason())), 0)
+CAbend::CAbend(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, CString(bprintf("abend%li.gli", SIM::GetSeason())), 0)
 {
     LastTime = 0xffffffff;
 
@@ -88,7 +88,7 @@ CAbend::CAbend(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNum, CStr
 }
     }
 
-    StartSeason = Sim.GetSeason();
+    StartSeason = SIM::GetSeason();
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -147,7 +147,7 @@ void CAbend::OnPaint()
     }
 
     //Jahrezeit wechseln?
-    if (StartSeason != Sim.GetSeason())
+    if (StartSeason != SIM::GetSeason())
     {
         //Ja!
         SBBM TempBm (NightBm.Size);
@@ -162,7 +162,7 @@ void CAbend::OnPaint()
 
         pGfxMain->ReleaseLib (pRoomLib);
 
-        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename (CString(bprintf("abend%li.gli", Sim.GetSeason())), RoomPath)), &pRoomLib, L_LOCMEM);
+        pGfxMain->LoadLib (const_cast<char*>((LPCTSTR)FullFilename (CString(bprintf("abend%li.gli", SIM::GetSeason())), RoomPath)), &pRoomLib, L_LOCMEM);
         AirportBm.ReSize (pRoomLib, GFX_AIRPORT);
     }
 

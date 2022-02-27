@@ -258,7 +258,7 @@ bool ENetNetwork::IsInSession() {
 bool ENetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool  /*compression*/) {
     ENetPacket* packet = enet_packet_create(buffer, length, ENET_PACKET_FLAG_RELIABLE);
 
-    if (peerID != 0u)
+    if (peerID != 0U)
     {
         for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext()) {
             if (mPlayers.GetLastAccessed()->ID == peerID && static_cast<ENetNetworkPlayer*>(mPlayers.GetLastAccessed())->peer != nullptr) {

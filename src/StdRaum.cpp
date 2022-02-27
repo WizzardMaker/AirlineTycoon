@@ -595,7 +595,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, ULONG SubId, const CString &String
     CStdRaum::TextAlign = TextAlign;
 
     TimeBubbleDisplayed = timeGetTime();
-    DisplayThisBubble   = (static_cast<BOOL>(Sim.Options.OptionSpeechBubble != 0) || Sim.Options.OptionTalking*Sim.Options.OptionMasterVolume==0 || Sim.Options.OptionDigiSound==0 || Sim.Options.OptionEnableDigi==0);
+    DisplayThisBubble   = static_cast<BOOL>((static_cast<BOOL>(Sim.Options.OptionSpeechBubble != 0) != 0) || Sim.Options.OptionTalking*Sim.Options.OptionMasterVolume==0 || Sim.Options.OptionDigiSound==0 || Sim.Options.OptionEnableDigi==0);
 
     if (TalkingSpeechFx != 0)
     {
@@ -668,7 +668,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubId, 
     CanCancelEmpty = FALSE;
     TimeAtStart = timeGetTime();
 
-    DisplayThisBubble  = (static_cast<BOOL>(Sim.Options.OptionSpeechBubble != 0) || (Sim.Options.OptionTalking*Sim.Options.OptionMasterVolume==0 || Sim.Options.OptionDigiSound==0));
+    DisplayThisBubble  = static_cast<BOOL>((static_cast<BOOL>(Sim.Options.OptionSpeechBubble != 0) != 0) || (Sim.Options.OptionTalking*Sim.Options.OptionMasterVolume==0 || Sim.Options.OptionDigiSound==0));
 
     if (TalkingSpeechFx != 0)
     {
@@ -679,7 +679,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubId, 
     TimeBubbleDisplayed = timeGetTime();
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
-    va_list  Vars = nullptr;
+    va_list  Vars;
 
     //Tabelle initialisieren:
     va_start (Vars, Normal);
@@ -706,7 +706,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVo
     CanCancelEmpty = FALSE;
     TimeAtStart = timeGetTime();
 
-    DisplayThisBubble = (static_cast<BOOL>(Sim.Options.OptionSpeechBubble != 0) || (SubIdVon!=SubIdBis && SubIdBis!=0) || (Sim.Options.OptionTalking*Sim.Options.OptionMasterVolume==0 || Sim.Options.OptionDigiSound==0));
+    DisplayThisBubble = static_cast<BOOL>((static_cast<BOOL>(Sim.Options.OptionSpeechBubble != 0) != 0) || (SubIdVon!=SubIdBis && SubIdBis!=0) || (Sim.Options.OptionTalking*Sim.Options.OptionMasterVolume==0 || Sim.Options.OptionDigiSound==0));
 
     if (TalkingSpeechFx != 0)
     {
@@ -734,7 +734,7 @@ void CStdRaum::MakeSayWindow (BOOL TextAlign, const char *GroupId, ULONG SubIdVo
     BUFFER<char> TmpString(4096);
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
-    va_list  Vars = nullptr;
+    va_list  Vars;
 
     //Tabelle initialisieren:
     va_start (Vars, Highlight);
@@ -906,7 +906,7 @@ void CStdRaum::MakeNumberWindow (const char *GroupId, ULONG SubId, ...)
     BUFFER<char> TmpString(4096);
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
-    va_list  Vars = nullptr;
+    va_list  Vars;
 
     //Tabelle initialisieren:
     va_start (Vars, SubId);
@@ -934,7 +934,7 @@ void CStdRaum::RepaintText (BOOL RefreshAll)
         RefreshAll=1;
     }
 
-    if (CurrentTextGroupId != 0u)
+    if (CurrentTextGroupId != 0U)
     {
         if (RefreshAll != 0)
         {
@@ -1505,7 +1505,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                     MakeSayWindow (0, TOKEN_MAKLER, 82, pFontPartner);
                 } else if (TalkedToA != 0) {
                     MakeSayWindow (0, TOKEN_MAKLER, 83, pFontPartner);
-                } else if ((Sim.DialogOvertureFlags&DIALOG_MAKLER) != 0u) {
+                } else if ((Sim.DialogOvertureFlags&DIALOG_MAKLER) != 0U) {
                     MakeSayWindow (0, TOKEN_MAKLER, 81, pFontPartner);
                 } else {
                     MakeSayWindow (0, TOKEN_MAKLER, 80, pFontPartner);
@@ -1606,7 +1606,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
             {
                 if (DialogMedium==MEDIUM_HANDY) {
                     MakeSayWindow (0, TOKEN_MUSEUM, 101, pFontPartner);
-                } else if ((Sim.DialogOvertureFlags&DIALOG_MUSEUM) != 0u) {
+                } else if ((Sim.DialogOvertureFlags&DIALOG_MUSEUM) != 0U) {
                     MakeSayWindow (0, TOKEN_MUSEUM, 102, pFontPartner);
                 } else {
                     MakeSayWindow (0, TOKEN_MUSEUM, 100, pFontPartner);
@@ -1770,7 +1770,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                 MakeSayWindow (0, TOKEN_WERBUNG, 1001, pFontPartner);
             } else if (TalkedToA != 0) {
                 MakeSayWindow (0, TOKEN_WERBUNG, 1003, pFontPartner);
-            } else if ((Sim.DialogOvertureFlags&DIALOG_WERBUNG) != 0u) {
+            } else if ((Sim.DialogOvertureFlags&DIALOG_WERBUNG) != 0U) {
                 MakeSayWindow (0, TOKEN_WERBUNG, 1002, pFontPartner);
             } else {
                 MakeSayWindow (0, TOKEN_WERBUNG, 1000, pFontPartner);
@@ -1809,7 +1809,7 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                     MakeSayWindow (0, TOKEN_NASA, 1001, pFontPartner);
                 } else if (TalkedToA != 0) {
                     MakeSayWindow (0, TOKEN_NASA, 1003, pFontPartner);
-                } else if ((Sim.DialogOvertureFlags&DIALOG_NASA) != 0u) {
+                } else if ((Sim.DialogOvertureFlags&DIALOG_NASA) != 0U) {
                     MakeSayWindow (0, TOKEN_NASA, 1002, pFontPartner);
                 } else {
                     MakeSayWindow (0, TOKEN_NASA, 1000, pFontPartner);
@@ -1969,9 +1969,9 @@ void CStdRaum::StartDialog (SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, 
                 MakeSayWindow (0, TOKEN_RICK, DialogPar1, pFontPartner);
             } else
             {
-                if ((Sim.DialogOvertureFlags&DIALOG_RICK) != 0u)
+                if ((Sim.DialogOvertureFlags&DIALOG_RICK) != 0U)
                 {
-                    if ((Sim.DialogOvertureFlags&DIALOG_RICK_TODAY) != 0u) {
+                    if ((Sim.DialogOvertureFlags&DIALOG_RICK_TODAY) != 0U) {
                         MakeSayWindow (0, TOKEN_RICK, 3000, pFontPartner);
                     } else {
                         MakeSayWindow (1, TOKEN_RICK, 2000, 2000, TRUE, &FontDialog, &FontDialogLight);
@@ -2356,7 +2356,7 @@ void CStdRaum::InitToolTips ()
 
                         if (n>=0 && n<MenuDataTable.LineIndex.AnzEntries() && n-MenuPage<13)
                         {
-                            if (MenuDataTable.ValueFlags[0+n*MenuDataTable.AnzColums] != 0u) {
+                            if (MenuDataTable.ValueFlags[0+n*MenuDataTable.AnzColums] != 0U) {
                                 CheckCursorHighlight (CursorPos, CRect (32+180, (n-MenuPage)*13+23, 204+180, (n-MenuPage)*13+23+14), ColorOfFontRed);
                             } else {
                                 CheckCursorHighlight (CursorPos, CRect (32+180, (n-MenuPage)*13+23, 204+180, (n-MenuPage)*13+23+14), ColorOfFontBlack);
@@ -2653,7 +2653,7 @@ void CStdRaum::PumpToolTips ()
     if (Sim.Players.Players.AnzEntries()==0) { return;
 }
 
-    if (gHighlightFontColor != 0u)
+    if (gHighlightFontColor != 0U)
     {
         if (gHighlightFontColor==ColorOfFontBlack) { ColorFX.HighlightText (&PrimaryBm.PrimaryBm, gHighlightArea, gHighlightFontColor, 0x20ff64);
         } else if (gHighlightFontColor==ColorOfFontGrey) { ColorFX.HighlightText (&PrimaryBm.PrimaryBm, gHighlightArea, gHighlightFontColor, 0x305030); //0x108030);
@@ -2762,7 +2762,7 @@ void CStdRaum::PostPaint ()
     if (bHandy==FALSE)
     {
         //Die Texte organisieren:
-        if ((bActive != 0) && (CurrentTextGroupId != 0u) && (bHandy==FALSE || TempScreenScrollV==0))
+        if ((bActive != 0) && (CurrentTextGroupId != 0U) && (bHandy==FALSE || TempScreenScrollV==0))
         {
             dword status=0;
             if (TalkingSpeechFx != 0) {
@@ -2789,7 +2789,7 @@ void CStdRaum::PostPaint ()
                 SmackerTimeToTalk = timeGetTime()+Optionen[0].GetLength()*2*50;
             }
 
-            if (pSmackerPartner==nullptr || TextAlign!=0 || (pSmackerPartner->GetMood()==SPM_TALKING || (pSmackerPartner->GetMood()==SPM_LISTENING && TextAlign==0 && ((status & DSBSTATUS_PLAYING) != 0u) && (TalkingSpeechFx != 0))) || timeGetTime()>DWORD(SmackerTimeToTalk))
+            if (pSmackerPartner==nullptr || TextAlign!=0 || (pSmackerPartner->GetMood()==SPM_TALKING || (pSmackerPartner->GetMood()==SPM_LISTENING && TextAlign==0 && ((status & DSBSTATUS_PLAYING) != 0U) && (TalkingSpeechFx != 0))) || timeGetTime()>DWORD(SmackerTimeToTalk))
             {
                 if ((NumberBitmap.Size.x != 0) && (RoomBm.pBitmap != nullptr)) {
                     RoomBm.BlitFrom (NumberBitmap, NumberBitmapPos);
@@ -2814,7 +2814,7 @@ void CStdRaum::PostPaint ()
             {
                 dword status = 0;
                 SpeechFx.pFX->GetStatus (&status);
-                if ((status & DSBSTATUS_PLAYING) != 0u) {
+                if ((status & DSBSTATUS_PLAYING) != 0U) {
                     SmackerTimeToTalk = timeGetTime()+Optionen[0].GetLength()*2*50;
                 } else {
                     SmackerTimeToTalk = timeGetTime()-1;
@@ -3310,7 +3310,7 @@ void CStdRaum::CheckHighlight (const CPoint& point)
     //Außerhalb geklickt? Dann finden wir eh' nichts!
     if (point.x<WinP1.x || point.y<WinP1.y || point.x>WinP2.x || point.y>WinP2.y)
     {
-        if (CurrentHighlight != 0u)
+        if (CurrentHighlight != 0U)
         {
             CurrentHighlight = 0;
             RepaintText (FALSE);
@@ -3319,7 +3319,7 @@ void CStdRaum::CheckHighlight (const CPoint& point)
     }
 
     //Falls wir hier ein Auswahlmenü haben:
-    if ((CurrentTextSubIdBis != 0u) && CurrentTextSubIdVon!=CurrentTextSubIdBis)
+    if ((CurrentTextSubIdBis != 0U) && CurrentTextSubIdVon!=CurrentTextSubIdBis)
     {
         ULONG c = 0;
         ULONG Summe=1;
@@ -3359,7 +3359,7 @@ void CStdRaum::CheckHighlight (const CPoint& point)
         }
 
         //Kein Text unter dem Cursor! War das schon vorher so?
-        if (CurrentHighlight != 0u)
+        if (CurrentHighlight != 0U)
         {
             CurrentHighlight = 0;
             RepaintText (FALSE);
@@ -3396,7 +3396,7 @@ void CStdRaum::OnLButtonDblClk(UINT /*unused*/, CPoint point)
                         if (MouseClickPar1==-1 && MenuPage>0) { MenuPage--; gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7); }
                         else if (MouseClickPar1==-2 && MenuPage<MenuPageMax) { MenuPage++; gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7); }
 
-                        if (MenuPar2==1 && Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_PERSONAL) && MenuPage>0 && (MouseClickPar1==-1 || MouseClickPar1==-2))
+                        if (MenuPar2==1 && (Sim.Players.Players[PlayerNum].HasBerater (BERATERTYP_PERSONAL) != 0) && MenuPage>0 && (MouseClickPar1==-1 || MouseClickPar1==-2))
                         {
                             if (Workers.Workers[MenuRemapper[MenuPage-1]].Employer==WORKER_RESERVE)
                             {
@@ -3405,7 +3405,7 @@ void CStdRaum::OnLButtonDblClk(UINT /*unused*/, CPoint point)
                             }
                             else if (Workers.Workers[MenuRemapper[MenuPage-1]].Employer==WORKER_JOBLESS)
                             {
-                                if (Workers.Workers[MenuRemapper[MenuPage-1]].Typ<=BERATERTYP_SICHERHEIT && Sim.Players.Players[PlayerNum].HasBerater (Workers.Workers[MenuRemapper[MenuPage-1]].Typ))
+                                if (Workers.Workers[MenuRemapper[MenuPage-1]].Typ<=BERATERTYP_SICHERHEIT && (Sim.Players.Players[PlayerNum].HasBerater (Workers.Workers[MenuRemapper[MenuPage-1]].Typ) != 0))
                                 {
                                     if (Workers.Workers[MenuRemapper[MenuPage-1]].Typ==BERATERTYP_PERSONAL) {
                                         Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_PERSONAL, StandardTexte.GetS (TOKEN_ADVICE, 1272), MESSAGE_COMMENT);
@@ -3845,7 +3845,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point)
                         qPlayer.Items[ItemIndex]=0xff;
                         qPlayer.ReformIcons();
                         qPlayer.Koffein+=20*120;
-                        qPlayer.NetSynchronizeFlags();
+                        PLAYER::NetSynchronizeFlags();
                         SIM::SendSimpleMessage (ATNET_CAFFEINE, 0, PlayerNum, qPlayer.Koffein);
                     }
                     break;
@@ -3939,7 +3939,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point)
                         if (ROOM_SECURITY==Airport.GetRuneParNear (XY(Position.x,Position.y), XY(22,22), RUNE_2SHOP))
                         {
                             qPlayer.DropItem (ITEM_ZANGE);
-                            qPlayer.NetSynchronizeItems ();
+                            PLAYER::NetSynchronizeItems ();
                             qPlayer.WalkStopEx ();
                             Sim.nSecOutDays=3;
 
@@ -3975,7 +3975,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point)
                     {
                         qPlayer.PlayerStinking = 2000;
                         qPlayer.DropItem (ITEM_XPARFUEM);
-                        qPlayer.NetSynchronizeFlags ();
+                        PLAYER::NetSynchronizeFlags ();
                     }
                     break;
 
@@ -4891,7 +4891,7 @@ void CStdRaum::MenuRepaint ()
                         SLONG coop=0;
 
                         for (d=0; d<4; d++) {
-                            if ((d==Sim.localPlayer || (Sim.Players.Players[d].Kooperation[Sim.localPlayer] != 0)) && (Sim.Players.Players[d].RentCities.RentCities[c].Rang != 0u) && Sim.Players.Players[d].IsOut==0) {
+                            if ((d==Sim.localPlayer || (Sim.Players.Players[d].Kooperation[Sim.localPlayer] != 0)) && (Sim.Players.Players[d].RentCities.RentCities[c].Rang != 0U) && Sim.Players.Players[d].IsOut==0) {
                                 coop=1;
 }
 }
@@ -4910,7 +4910,7 @@ void CStdRaum::MenuRepaint ()
                         SLONG coop=0;
 
                         for (d=0; d<4; d++) {
-                            if ((d==Sim.localPlayer || (Sim.Players.Players[d].Kooperation[Sim.localPlayer] != 0)) && (Sim.Players.Players[d].RentCities.RentCities[c].Rang != 0u) && Sim.Players.Players[d].IsOut==0) {
+                            if ((d==Sim.localPlayer || (Sim.Players.Players[d].Kooperation[Sim.localPlayer] != 0)) && (Sim.Players.Players[d].RentCities.RentCities[c].Rang != 0U) && Sim.Players.Players[d].IsOut==0) {
                                 coop=1;
 }
 }
@@ -4932,12 +4932,12 @@ void CStdRaum::MenuRepaint ()
             {
                 SLONG line=c-MenuPage*15;
 
-                if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[MenuRemapper[c]].Rang != 0u) {
+                if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[MenuRemapper[c]].Rang != 0U) {
                     OnscreenBitmap.PrintAt (Cities[MenuRemapper[c]].Name, FontSmallBlack, TEC_FONT_LEFT, 34, 7+line*13, 204, 210);
                 } else
                 {
                     for (SLONG d=0; d<4; d++) {
-                        if ((Sim.Players.Players[d].Kooperation[Sim.localPlayer] != 0) && (Sim.Players.Players[d].RentCities.RentCities[MenuRemapper[c]].Rang != 0u) && Sim.Players.Players[d].IsOut==0)
+                        if ((Sim.Players.Players[d].Kooperation[Sim.localPlayer] != 0) && (Sim.Players.Players[d].RentCities.RentCities[MenuRemapper[c]].Rang != 0U) && Sim.Players.Players[d].IsOut==0)
                         {
                             OnscreenBitmap.PrintAt (Cities[MenuRemapper[c]].Name+" ("+Sim.Players.Players[d].Abk+")", FontSmallBlack, TEC_FONT_LEFT, 34, 7+line*13, 204, 210);
                             break;
@@ -5114,14 +5114,14 @@ void CStdRaum::MenuRepaint ()
                 //Die verschiedenen Posten:
                 for (c=0; c<9; c++)
                 {
-                    CString prefix = (qPlayer.SecurityFlags&(1<<c)) != 0u?bprintf("%li x ", c<6?1:qPlayer.Planes.GetNumUsed()):"";
+                    CString prefix = (qPlayer.SecurityFlags&(1<<c)) != 0U?bprintf("%li x ", c<6?1:qPlayer.Planes.GetNumUsed()):"";
 
                     if (c!=1 || (qPlayer.HasItem (ITEM_LAPTOP) != 0))
                     {
                         if (c==8)
                         {
-                            if ((qPlayer.SecurityFlags&(1<<11)) != 0u) { OnscreenBitmap.PrintAt (bprintf("%s%s", (LPCTSTR)prefix, StandardTexte.GetS (TOKEN_MISC, 8011)), FontSmallBlack, TEC_FONT_LEFT, XY(63, 55+c*12), XY(346,226));
-                            } else if ((qPlayer.SecurityFlags&(1<<10)) != 0u) { OnscreenBitmap.PrintAt (bprintf("%s%s", (LPCTSTR)prefix, StandardTexte.GetS (TOKEN_MISC, 8010)), FontSmallBlack, TEC_FONT_LEFT, XY(63, 55+c*12), XY(346,226));
+                            if ((qPlayer.SecurityFlags&(1<<11)) != 0U) { OnscreenBitmap.PrintAt (bprintf("%s%s", (LPCTSTR)prefix, StandardTexte.GetS (TOKEN_MISC, 8011)), FontSmallBlack, TEC_FONT_LEFT, XY(63, 55+c*12), XY(346,226));
+                            } else if ((qPlayer.SecurityFlags&(1<<10)) != 0U) { OnscreenBitmap.PrintAt (bprintf("%s%s", (LPCTSTR)prefix, StandardTexte.GetS (TOKEN_MISC, 8010)), FontSmallBlack, TEC_FONT_LEFT, XY(63, 55+c*12), XY(346,226));
                             } else {                                    OnscreenBitmap.PrintAt (bprintf("%s%s", (LPCTSTR)prefix, StandardTexte.GetS (TOKEN_MISC, 8000+c)), FontSmallBlack, TEC_FONT_LEFT, XY(63, 55+c*12), XY(346,226));
 }
                         }
@@ -5361,7 +5361,7 @@ void CStdRaum::MenuRepaint ()
             break;
 
         case MENU_GAMEOVER:
-            OnscreenBitmap.BlitFromT (MenuBms[static_cast<int>(MenuPar1) == 0], 320-MenuBms[static_cast<int>(MenuPar1) == 0].Size.x/2, 330);
+            OnscreenBitmap.BlitFromT (MenuBms[static_cast<int>(static_cast<int>(MenuPar1) == 0)], 320-MenuBms[static_cast<int>(static_cast<int>(MenuPar1) == 0)].Size.x/2, 330);
             break;
 
         case MENU_SABOTAGEFAX:
@@ -6197,7 +6197,7 @@ void CStdRaum::MenuLeftClick (XY Pos)
                     {
                         qPlayer.Credit += MenuPar1;
                         qPlayer.ChangeMoney (MenuPar1, 2003, "");
-                        qPlayer.NetSynchronizeMoney();
+                        PLAYER::NetSynchronizeMoney();
                         MenuStop ();
                         StartDialog (TALKER_BANKER2, MEDIUM_AIR, 101);
                     }
@@ -6217,7 +6217,7 @@ void CStdRaum::MenuLeftClick (XY Pos)
                 {
                     qPlayer.Credit -= MenuPar1;
                     qPlayer.ChangeMoney (-MenuPar1, 2004, "");
-                    qPlayer.NetSynchronizeMoney();
+                    PLAYER::NetSynchronizeMoney();
                     MenuStop ();
                     StartDialog (TALKER_BANKER2, MEDIUM_AIR, 102);
                 }
@@ -6329,7 +6329,7 @@ void CStdRaum::MenuLeftClick (XY Pos)
                     if ((qPlayer.IsLocationInQueue(HandyRoomRemapper[MouseClickPar2]) == 0) && (qPlayer.TelephoneDown == 0))
                     {
                         if (HandyRoomRemapper[MouseClickPar2]!=ROOM_PERSONAL_A) {
-                            if (Sim.RoomBusy[static_cast<SLONG>(HandyRoomRemapper[MouseClickPar2])] != 0u) { goto phone_busy;
+                            if (Sim.RoomBusy[static_cast<SLONG>(HandyRoomRemapper[MouseClickPar2])] != 0U) { goto phone_busy;
 }
 }
 
@@ -6550,12 +6550,12 @@ phone_busy:
                 LetzteEinheit = Sim.Time;
 
                 for (c=0; c<4; c++) {
-                    if ((Sim.Players.Players[c].Kooperation[Sim.localPlayer] != 0) && (Sim.Players.Players[c].RentCities.RentCities[MouseClickPar2].Rang != 0u) && (Sim.Players.Players[c].IsOut == 0)) {
+                    if ((Sim.Players.Players[c].Kooperation[Sim.localPlayer] != 0) && (Sim.Players.Players[c].RentCities.RentCities[MouseClickPar2].Rang != 0U) && (Sim.Players.Players[c].IsOut == 0)) {
                         break;
 }
 }
 
-                if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[MouseClickPar2].Rang != 0u) {
+                if (Sim.Players.Players[Sim.localPlayer].RentCities.RentCities[MouseClickPar2].Rang != 0U) {
                     c=Sim.localPlayer;
 }
 
@@ -7000,16 +7000,16 @@ phone_busy:
                     {
                         if (MouseClickPar2==8)
                         {
-                            if ((qPlayer.SecurityFlags & (1<<11)) != 0u) { qPlayer.SecurityFlags=qPlayer.SecurityFlags&~(1<<8)&~(1<<10)&~(1<<11);
-                            } else if ((qPlayer.SecurityFlags & (1<<10)) != 0u) { qPlayer.SecurityFlags=qPlayer.SecurityFlags|(1<<11);
-                            } else if ((qPlayer.SecurityFlags & (1<<8)) != 0u) {  qPlayer.SecurityFlags=qPlayer.SecurityFlags|(1<<10);
+                            if ((qPlayer.SecurityFlags & (1<<11)) != 0U) { qPlayer.SecurityFlags=qPlayer.SecurityFlags&~(1<<8)&~(1<<10)&~(1<<11);
+                            } else if ((qPlayer.SecurityFlags & (1<<10)) != 0U) { qPlayer.SecurityFlags=qPlayer.SecurityFlags|(1<<11);
+                            } else if ((qPlayer.SecurityFlags & (1<<8)) != 0U) {  qPlayer.SecurityFlags=qPlayer.SecurityFlags|(1<<10);
                             } else {                                      qPlayer.SecurityFlags=qPlayer.SecurityFlags|(1<<8);
 }
                         }
                         else { qPlayer.SecurityFlags ^= (1<<MouseClickPar2);
 }
 
-                        qPlayer.NetSynchronizeFlags();
+                        PLAYER::NetSynchronizeFlags();
                     }
                 }
 
@@ -7763,7 +7763,7 @@ phone_busy:
             {
                 SLONG n = (Pos.y-25)/13 + MenuPage;
 
-                if (n>=0 && n<SLONG(MenuDataTable.AnzRows) && (Routen.IsInAlbum(MenuDataTable.LineIndex[n]) != 0) && qPlayer.RentRouten.RentRouten.AnzEntries()>SLONG(Routen(MenuDataTable.LineIndex[n])) && (qPlayer.RentRouten.RentRouten[Routen(MenuDataTable.LineIndex[n])].Rang != 0u))
+                if (n>=0 && n<SLONG(MenuDataTable.AnzRows) && (Routen.IsInAlbum(MenuDataTable.LineIndex[n]) != 0) && qPlayer.RentRouten.RentRouten.AnzEntries()>SLONG(Routen(MenuDataTable.LineIndex[n])) && (qPlayer.RentRouten.RentRouten[Routen(MenuDataTable.LineIndex[n])].Rang != 0U))
                 {
                     MenuPar1 = Routen(MenuDataTable.LineIndex[n]);
                     MenuStop ();
@@ -7857,7 +7857,7 @@ phone_busy:
                 MenuStop ();
 
                 for (SLONG c=0; c<4; c++) {
-                    if (((MenuPar1&(1<<c)) != 0) && Sim.Players.Players[c].Owner==2 && (strlen(Optionen[0]) != 0u))
+                    if (((MenuPar1&(1<<c)) != 0) && Sim.Players.Players[c].Owner==2 && (strlen(Optionen[0]) != 0U))
                     {
                         TEAKFILE Message;
                         SLONG c=Sim.localPlayer;
@@ -7900,7 +7900,7 @@ phone_busy:
             if (MouseClickArea==-102 && MouseClickId==MENU_SETRENDITE && MouseClickPar1==10)
             {
                 qPlayer.Dividende=MenuInfo;
-                qPlayer.NetSynchronizeMoney ();
+                PLAYER::NetSynchronizeMoney ();
                 if (Sim.Options.OptionEffekte != 0) { PaperTearFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte*100/7);
 }
                 MenuStop ();
@@ -7965,7 +7965,7 @@ phone_busy:
 }
                         }
 
-                        qPlayer.NetSynchronizeMoney();
+                        PLAYER::NetSynchronizeMoney();
                     }
                 }
                 else if (MenuPar2==1) //verkaufen
@@ -7997,7 +7997,7 @@ phone_busy:
 }
                     }
 
-                    qPlayer.NetSynchronizeMoney();
+                    PLAYER::NetSynchronizeMoney();
                 }
             }
 
@@ -8134,7 +8134,7 @@ void CStdRaum::MenuRightClick (XY /*unused*/)
     {
         MenuDialogReEntryB=5000;
     }
-    if (CurrentMenu==MENU_AUSLANDSAUFTRAG && (qPlayer.CalledCities[MenuPar1] != 0u))
+    if (CurrentMenu==MENU_AUSLANDSAUFTRAG && (qPlayer.CalledCities[MenuPar1] != 0U))
     {
         if (IsDialogOpen() != 0) { StopDialog ();
 }
@@ -8263,7 +8263,7 @@ void CStdRaum::MenuStop ()
 
     if (CurrentMenu==MENU_AUSLANDSAUFTRAG && qPlayer.CalledCities[MenuPar1]==0) { MenuDialogReEntryB=5000;
 }
-    if (CurrentMenu==MENU_AUSLANDSAUFTRAG && (qPlayer.CalledCities[MenuPar1] != 0u)) { StopDialog();
+    if (CurrentMenu==MENU_AUSLANDSAUFTRAG && (qPlayer.CalledCities[MenuPar1] != 0U)) { StopDialog();
 }
 
     CurrentMenu      = MENU_NONE;
@@ -8719,7 +8719,7 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT  /*nRepCnt*/, UINT  /*nFlags*/)
                 else if (CurrentMenu == MENU_BROADCAST)
                 {
                     for (SLONG c = 0; c < 4; c++) {
-                        if (((MenuPar1 & (1 << c)) != 0) && Sim.Players.Players[c].Owner == 2 && (strlen(Optionen[0]) != 0u))
+                        if (((MenuPar1 & (1 << c)) != 0) && Sim.Players.Players[c].Owner == 2 && (strlen(Optionen[0]) != 0U))
                         {
                             TEAKFILE Message;
                             SLONG d = Sim.localPlayer;

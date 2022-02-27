@@ -394,7 +394,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 }
 
             //Schloss bei Routen:
-            if (BlockTypeB==4 && ((qPlayer.SecurityFlags&(1<<4)) != 0u)) {
+            if (BlockTypeB==4 && ((qPlayer.SecurityFlags&(1<<4)) != 0U)) {
                 Bitmap.BlitFrom (pGlobe->LockBm, 441, 55);
 }
 
@@ -471,7 +471,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 }
 
         //Schloss bei Routen:
-        if (BlockTypeB==4 && IndexB==1 && ((qPlayer.SecurityFlags&(1<<4)) != 0u)) {
+        if (BlockTypeB==4 && IndexB==1 && ((qPlayer.SecurityFlags&(1<<4)) != 0U)) {
             Bitmap.BlitFrom (pLaptop->LockBm, 156+185, 4+2);
 }
 
@@ -501,7 +501,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
 
                     for (c=Page; c<Page+13 && c<Table.AnzRows; c++)
                     {
-                        if (Table.ValueFlags[0+c*Table.AnzColums] != 0u) {
+                        if (Table.ValueFlags[0+c*Table.AnzColums] != 0U) {
                             Bitmap.PrintAt (Table.Values[0+c*Table.AnzColums], FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(0,  (c-Page)*13), Bitmap.Size);
                         } else {
                             Bitmap.PrintAt (Table.Values[0+c*Table.AnzColums], FontSmallGrey, TEC_FONT_LEFT, ClientArea+XY(0,  (c-Page)*13), Bitmap.Size);
@@ -518,7 +518,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                     {
                         SB_CFont *f = nullptr;
 
-                        if (Table.ValueFlags[0+c*Table.AnzColums] != 0u) { f=&FontSmallRed;
+                        if (Table.ValueFlags[0+c*Table.AnzColums] != 0U) { f=&FontSmallRed;
                         } else {                                       f=&FontSmallBlack;
 }
 
@@ -687,16 +687,16 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                                             if (d>0 && d==(Plan.Flug[c].Startzeit+1)%24 && !(Plan.Flug[c].Startdate>Sim.Date || Plan.Flug[c].Startzeit>Sim.GetHour()+1)) {
                                                 Bitmap.BlitFromT (FlugplanBms[17], ClientArea+XY(24-8+px,py+4));
 }
-                                            if (Plan.Flug[c].VonCity==static_cast<ULONG>(Sim.HomeAirportId) && d==Plan.Flug[c].Startzeit && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0u)) {
+                                            if (Plan.Flug[c].VonCity==static_cast<ULONG>(Sim.HomeAirportId) && d==Plan.Flug[c].Startzeit && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0U)) {
                                                 Bitmap.BlitFromT (FlugplanBms[18], ClientArea+XY(24+px,py+4));
 }
-                                            if (Plan.Flug[c].VonCity==static_cast<ULONG>(Sim.HomeAirportId) && d>0 && d==(Plan.Flug[c].Startzeit+1)%24 && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0u)) {
+                                            if (Plan.Flug[c].VonCity==static_cast<ULONG>(Sim.HomeAirportId) && d>0 && d==(Plan.Flug[c].Startzeit+1)%24 && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0U)) {
                                                 Bitmap.BlitFromT (FlugplanBms[18], ClientArea+XY(24-6+px,py+4));
 }
-                                            if (d==Plan.Flug[c].Landezeit && Plan.Flug[c].NachCity==static_cast<ULONG>(Sim.HomeAirportId) && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0u)) {
+                                            if (d==Plan.Flug[c].Landezeit && Plan.Flug[c].NachCity==static_cast<ULONG>(Sim.HomeAirportId) && (Plan.Flug[c].ObjectType==1 || Plan.Flug[c].ObjectType==2) && (Plan.Flug[c].GateWarning != 0U)) {
                                                 Bitmap.BlitFromT (FlugplanBms[18], ClientArea+XY(24+px,py+4));
 }
-                                            if (d==Plan.Flug[c].Landezeit && Plan.Flug[c].ObjectType==4 && (Plan.Flug[c].GateWarning != 0u)) {
+                                            if (d==Plan.Flug[c].Landezeit && Plan.Flug[c].ObjectType==4 && (Plan.Flug[c].GateWarning != 0U)) {
                                                 Bitmap.BlitFromT (FlugplanBms[18], ClientArea+XY(24+px,py+4));
 }
 
@@ -1033,7 +1033,7 @@ void BLOCK::Refresh (SLONG PlayerNum, BOOL StyleType)
                                     {
                                         SB_CFont *pFont = nullptr;
 
-                                        if (Table.ValueFlags[0+c*Table.AnzColums] != 0u) { pFont=&FontSmallRed;
+                                        if (Table.ValueFlags[0+c*Table.AnzColums] != 0U) { pFont=&FontSmallRed;
                                         } else { pFont=&FontSmallBlack;
 }
 
@@ -1241,7 +1241,7 @@ switch_again:
                             }
                         }
 
-                        if (TableB.ValueFlags[0+c*TableB.AnzColums] != 0u) { s=&FontSmallGrey;
+                        if (TableB.ValueFlags[0+c*TableB.AnzColums] != 0U) { s=&FontSmallGrey;
 }
 
                         if (Bitmap.TryPrintAt (bprintf ("%s - %s", (LPCTSTR)TableB.Values[0+c*TableB.AnzColums], (LPCTSTR)TableB.Values[1+c*TableB.AnzColums]), *s, TEC_FONT_LEFT, ClientAreaB+XY(gPostItBms[0].Size.x+2, (c-PageB)*26), ClientAreaB+XY(XY(172,170).x, (c-PageB)*26+14))<12) {
@@ -1282,7 +1282,7 @@ switch_again:
                         } else { s=&FontSmallBlack;
 }
 
-                        if (TableB.ValueFlags[1+c*TableB.AnzColums] == 0u) {
+                        if (TableB.ValueFlags[1+c*TableB.AnzColums] == 0U) {
                             Bitmap.BlitFromT (gPostItBms[5], ClientAreaB+XY(1, (c-PageB)*26)); //Okay==0 ==> roter Rahmen ==> Etwas mit dem Flug stimmt nicht...
                         } else {
                             Bitmap.BlitFromT (gPostItBms[4], ClientAreaB+XY(1, (c-PageB)*26));
@@ -1432,7 +1432,7 @@ switch_again:
                                     {
                                         Bitmap.PrintAt (Sim.Players.Players[c+static_cast<int>(PlayerNum<=c)].AirlineX, FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,128+c*13), ClientAreaB+XY(172,170));
 
-                                        if (Sim.Players.Players[c+static_cast<int>(PlayerNum<=c)].RentRouten.RentRouten[Routen(SelectedIdB)].Rang != 0u) {
+                                        if (Sim.Players.Players[c+static_cast<int>(PlayerNum<=c)].RentRouten.RentRouten[Routen(SelectedIdB)].Rang != 0U) {
                                             Bitmap.PrintAt (Einheiten[EINH_DM].bString (Sim.Players.Players[c+static_cast<int>(PlayerNum<=c)].RentRouten.RentRouten[Routen(SelectedIdB)].Ticketpreis), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(100,128+c*13), ClientAreaB+XY(172,170));
                                         } else {
                                             Bitmap.PrintAt ("-", FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(100,128+c*13), ClientAreaB+XY(172,170));
@@ -1658,7 +1658,7 @@ void BLOCK::RefreshData (SLONG PlayerNum)
         //Aufträge:
         case 3:
             TableB.FillWithAuftraege (&Sim.Players.Players[PlayerNum].Auftraege);
-            if (IndexB != 0u) {
+            if (IndexB != 0U) {
                 AnzPagesB = max (0, (TableB.AnzRows-1)/6)+1;
             } else {
                 AnzPagesB = 2;
@@ -1669,7 +1669,7 @@ void BLOCK::RefreshData (SLONG PlayerNum)
         case 4:
             TableB.FillWithRouten (&::Routen, &Sim.Players.Players[PlayerNum].RentRouten/*, &Sim.Players.Players[(SLONG)PlayerNum].RentCities*/);
 
-            if (IndexB != 0u) {
+            if (IndexB != 0U) {
                 AnzPagesB = max (0, (TableB.AnzRows-1)/6)+1;
             } else {
                 AnzPagesB = 3;
@@ -1679,7 +1679,7 @@ void BLOCK::RefreshData (SLONG PlayerNum)
             //Frachtaufträge:
         case 6:
             TableB.FillWithFracht (&Sim.Players.Players[PlayerNum].Frachten);
-            if (IndexB != 0u) {
+            if (IndexB != 0U) {
                 AnzPagesB = max (0, (TableB.AnzRows-1)/6)+1;
             } else {
                 AnzPagesB = 2;
@@ -1788,7 +1788,7 @@ TEAKFILE &operator >> (TEAKFILE &File, BLOCK &b)
         File.Read (reinterpret_cast<UBYTE*>(b.SelectedIds), sizeof (b.SelectedIds[0])*5);
         File.Read (reinterpret_cast<UBYTE*>(b.Pages), sizeof (b.Pages[0])*5);
 
-        b.Indexes[5]=1u;
+        b.Indexes[5]=1U;
     }
     else
     {

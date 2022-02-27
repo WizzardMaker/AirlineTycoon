@@ -24,7 +24,8 @@ extern SLONG SaveVersionSub;
 SLONG sign (SLONG Value)
 {
     if (Value>0) { return (1);
-    } if (Value<0) return (-1);
+    } if (Value<0) { return (-1);
+}
     return (0);
 }
 
@@ -309,7 +310,7 @@ void CLAN::BlitAt (SBPRIMARYBM &Offscreen, SLONG Dir, SLONG Phase, XY ScreenPos,
         ScreenPos+=GimmickOffset;
     }
 
-    if (Dir<8 && (Running != 0u))
+    if (Dir<8 && (Running != 0U))
     {
         localDir=Dir+10;
         localFaktor=Faktor*2;
@@ -533,8 +534,10 @@ UBYTE CLANS::GetCustomerId (SLONG Browned, SLONG Koffer, TEAKRAND *pRand)
     if (CheatMoreNuns != 0)
     {
         if (CheatMoreNuns==1) { return (UBYTE(AnzEntries()-1));
-        } if (CheatMoreNuns==2) return (GetCustomerIdByGroup (10));
-        if (CheatMoreNuns==3) return (GetCustomerIdByGroup (11));
+        } if (CheatMoreNuns==2) { return (GetCustomerIdByGroup (10));
+}
+        if (CheatMoreNuns==3) { return (GetCustomerIdByGroup (11));
+}
     }
 
     Num = 0;
@@ -1077,7 +1080,7 @@ void PERSON::DoOneCustomerStep ()
                     return;
                 }
 
-                if (WaitCount != 0u)
+                if (WaitCount != 0U)
                 {
                     if (Dir!=8) {
                         Phase   = UBYTE((Phase+1)%(qClan.Phasen[static_cast<SLONG>(LookDir)].AnzEntries()*qClan.Faktor));
@@ -1099,7 +1102,7 @@ void PERSON::DoOneCustomerStep ()
         {
             Mood=UBYTE(MoodPersonStenchDog);
 
-            if (MoodCountdown != 0u) { MoodCountdown=max(MoodCountdown,MOODCOUNT_START-16);
+            if (MoodCountdown != 0U) { MoodCountdown=max(MoodCountdown,MOODCOUNT_START-16);
             } else {               MoodCountdown=MOODCOUNT_START+rand()%7;
 }
         }
@@ -1107,7 +1110,7 @@ void PERSON::DoOneCustomerStep ()
         {
             Mood=UBYTE(MoodPersonStench);
 
-            if (MoodCountdown != 0u) { MoodCountdown=max(MoodCountdown,MOODCOUNT_START-16);
+            if (MoodCountdown != 0U) { MoodCountdown=max(MoodCountdown,MOODCOUNT_START-16);
             } else {               MoodCountdown=MOODCOUNT_START+rand()%7;
 }
         }
@@ -1421,7 +1424,7 @@ waiting_again:
                         if (Position.x<Target.x) //nach rechts
                         {
                             BOOL  bFast          = static_cast<BOOL>(StepSize.y>4);
-                            BOOL  bAussenErlaubt = (static_cast<BOOL>((Airport.iPlate[14+(ArrayPos.x<<4)]&64) != 0) && ((Airport.iPlate[14+((ArrayPos.x+1)<<4)]&64) != 0) && ((Airport.iPlate[14+((ArrayPos.x-1)<<4)]&64)) != 0);
+                            BOOL  bAussenErlaubt = static_cast<BOOL>((static_cast<BOOL>((Airport.iPlate[14+(ArrayPos.x<<4)]&64) != 0) != 0) && ((Airport.iPlate[14+((ArrayPos.x+1)<<4)]&64) != 0) && ((Airport.iPlate[14+((ArrayPos.x-1)<<4)]&64)) != 0);
 
                             if ((bFast != 0) && (bAussenErlaubt != 0) && (ArrayPos.y+5==14 || (((Airport.iPlate[13+((ArrayPos.x+1)<<4)]&2) != 0) && Target.x-Position.x>88))) {
                                 ty = 209;    //Schnelle Clans überholen außen, wenn jemand vor ihnen ist...
@@ -1475,7 +1478,7 @@ waiting_again:
                         else if (Position.x>Target.x) //nach links
                         {
                             BOOL  bFast          = static_cast<BOOL>(StepSize.y>4);
-                            BOOL  bAussenErlaubt = (static_cast<BOOL>((Airport.iPlate[10+(ArrayPos.x<<4)]&64) != 0) && ((Airport.iPlate[10+((ArrayPos.x-1)<<4)]&64) != 0) && ((Airport.iPlate[10+((ArrayPos.x+1)<<4)]&64)) != 0);
+                            BOOL  bAussenErlaubt = static_cast<BOOL>((static_cast<BOOL>((Airport.iPlate[10+(ArrayPos.x<<4)]&64) != 0) != 0) && ((Airport.iPlate[10+((ArrayPos.x-1)<<4)]&64) != 0) && ((Airport.iPlate[10+((ArrayPos.x+1)<<4)]&64)) != 0);
 
                             if ((bFast != 0) && (bAussenErlaubt != 0) && (ArrayPos.y+5==10 || (((Airport.iPlate[11+((ArrayPos.x-1)<<4)]&2) != 0) && Position.x-Target.x>88))) {
                                 ty = 121;    //Schnelle Clans überholen außen, wenn jemand vor ihnen ist...
@@ -1857,7 +1860,7 @@ void PERSON::DoOnePlayerStep ()
     {
         qPlayer.IsStuck--;
 
-        Running = 0u;
+        Running = 0U;
         Phase   = UBYTE((Phase+1)%(Clans[static_cast<SLONG>(ClanId)].Phasen[static_cast<SLONG>(LookDir)].AnzEntries()*Clans[static_cast<SLONG>(ClanId)].Faktor));
         LookDir = 5; //Gimmick beibehalten
 
@@ -1868,7 +1871,8 @@ void PERSON::DoOnePlayerStep ()
             LookDir = 2;
             Phase   = 0;
 
-            if (qPlayer.Owner!=1) Mood = UBYTE(0);
+            if (qPlayer.Owner!=1) { Mood = UBYTE(0);
+}
        
     }
 
@@ -1914,7 +1918,7 @@ void PERSON::DoOnePlayerStep ()
         Dir=8;
         LookDir=UBYTE(qClan.GimmickArt2);
         Phase=0;
-        Sim.SendSimpleMessage (ATNET_GIMMICK, 0, qPlayer.PlayerNum, 0);
+        SIM::SendSimpleMessage (ATNET_GIMMICK, 0, qPlayer.PlayerNum, 0);
     }
 
     if (StatePar == 0)
@@ -1987,14 +1991,14 @@ void PERSON::DoOnePlayerStep ()
                 Sim.Persons.RemoveAnimationNear (Position+XY(0,5000));
 
                 Mood=static_cast<UBYTE>(MoodPersonStuck);
-                if (MoodCountdown != 0u) { MoodCountdown = MOODCOUNT_START-16;
+                if (MoodCountdown != 0U) { MoodCountdown = MOODCOUNT_START-16;
                 } else {               MoodCountdown = MOODCOUNT_START+rand()%15;
 }
 
                 State   = State & ~PERSON_WAITFLAG;
                 LookDir = 5; //Klebe-Gimmick starten (ehem. Winken)
                 Phase   = 0;
-                Running = 0u;
+                Running = 0U;
 
                 qPlayer.IsStuck=20*30;
                 Position.y += 5000;
@@ -2203,10 +2207,10 @@ void PERSON::DoOnePlayerStep ()
 
                     p.y = (Position.y+2200)/22-100;
 
-                    if (Dir==2 && (((128>>2) & NewPossibleDirs) != 0) && (UBYTE(Airport.iPlate[ArrayPos.y+1+(ArrayPos.x<<4)] & (128>>1)) != 0u)) { Dir=4;
-                    } else if (Dir==2 && (((128>>0) & NewPossibleDirs) != 0) && (UBYTE(Airport.iPlate[ArrayPos.y-1+(ArrayPos.x<<4)] & (128>>1)) != 0u)) { Dir=0;
-                    } else if (Dir==6 && (((128>>2) & NewPossibleDirs) != 0) && (UBYTE(Airport.iPlate[ArrayPos.y+1+(ArrayPos.x<<4)] & (128>>3)) != 0u)) { Dir=4;
-                    } else if (Dir==6 && (((128>>0) & NewPossibleDirs) != 0) && (UBYTE(Airport.iPlate[ArrayPos.y-1+(ArrayPos.x<<4)] & (128>>3)) != 0u)) { Dir=0;
+                    if (Dir==2 && (((128>>2) & NewPossibleDirs) != 0) && (UBYTE(Airport.iPlate[ArrayPos.y+1+(ArrayPos.x<<4)] & (128>>1)) != 0U)) { Dir=4;
+                    } else if (Dir==2 && (((128>>0) & NewPossibleDirs) != 0) && (UBYTE(Airport.iPlate[ArrayPos.y-1+(ArrayPos.x<<4)] & (128>>1)) != 0U)) { Dir=0;
+                    } else if (Dir==6 && (((128>>2) & NewPossibleDirs) != 0) && (UBYTE(Airport.iPlate[ArrayPos.y+1+(ArrayPos.x<<4)] & (128>>3)) != 0U)) { Dir=4;
+                    } else if (Dir==6 && (((128>>0) & NewPossibleDirs) != 0) && (UBYTE(Airport.iPlate[ArrayPos.y-1+(ArrayPos.x<<4)] & (128>>3)) != 0U)) { Dir=0;
                     } else if (p.y>qPlayer.TertiaryTarget.y && (((128>>0) & NewPossibleDirs) != 0)) { Dir=0;
                     } else if (p.y<qPlayer.TertiaryTarget.y && (((128>>2) & NewPossibleDirs) != 0)) { Dir=4; if (StatePar==-1) { StatePar=0; 
 }}
@@ -2805,7 +2809,7 @@ void PERSON::DoOnePlayerStep ()
     }
 
     if (Dir!=8) {
-        if ((Running != 0u) && Dir<8 && (Position.y/22+5!=13 || (Airport.iPlate[(Position.y/22+5)+((Position.x/44)<<4)] & 240)!=80)) {
+        if ((Running != 0U) && Dir<8 && (Position.y/22+5!=13 || (Airport.iPlate[(Position.y/22+5)+((Position.x/44)<<4)] & 240)!=80)) {
             Phase = UBYTE((Phase+1)%(Clans[static_cast<SLONG>(ClanId)].Phasen[static_cast<SLONG>(LookDir+10)].AnzEntries()*Clans[static_cast<SLONG>(ClanId)].Faktor*2));
         } else {
             Phase = UBYTE((Phase+1)%(Clans[static_cast<SLONG>(ClanId)].Phasen[static_cast<SLONG>(LookDir)].AnzEntries()*Clans[static_cast<SLONG>(ClanId)].Faktor));
@@ -3047,7 +3051,7 @@ void PERSON::PersonReachedTarget ()
 
                         //Hat in Sekundenschnelle ein Ticket erhalten:
                     case PERSON_CHECKINGIN:
-                        Mood   = static_cast<UBYTE>(FirstClass != 0u?MoodPersonFlyingFC:MoodPersonFlying);
+                        Mood   = static_cast<UBYTE>(FirstClass != 0U?MoodPersonFlyingFC:MoodPersonFlying);
                         Dir    = 1;
 
                         if (Clans[static_cast<SLONG>(ClanId)].HasSuitcase>0)
@@ -3131,7 +3135,7 @@ void PERSON::PersonReachedTarget ()
                             else if (fpe==nullptr || (fpe->Startzeit==Sim.GetHour() && Sim.GetMinute()>=55) || fpe->Startzeit<Sim.GetHour())
                             {
                                 //Flugzeug ist schon weg:
-                                Mood   = static_cast<UBYTE>(FirstClass != 0u?MoodPersonMissedFC:MoodPersonMissed);
+                                Mood   = static_cast<UBYTE>(FirstClass != 0U?MoodPersonMissedFC:MoodPersonMissed);
                                 State  = PERSON_2EXIT;
                                 Target = Airport.GetRandomExit(&PersonalRand);
                             }
@@ -3148,15 +3152,15 @@ void PERSON::PersonReachedTarget ()
                         State  = PERSON_BOARDING;
                         Target = Airport.GetRandomTypedRune (RUNE_WAIT, static_cast<UBYTE>(fpe->Gate), false, &PersonalRand);
 
-                        if ((Sim.Players.Players[static_cast<SLONG>(FlightAirline)].SecurityFlags&(1<<8)) != 0u)
+                        if ((Sim.Players.Players[static_cast<SLONG>(FlightAirline)].SecurityFlags&(1<<8)) != 0U)
                         {
-                            if ((Sim.Players.Players[static_cast<SLONG>(FlightAirline)].SecurityFlags&(1<<11)) != 0u)
+                            if ((Sim.Players.Players[static_cast<SLONG>(FlightAirline)].SecurityFlags&(1<<11)) != 0U)
                             {
                                 State    |= PERSON_WAITFLAG;
                                 WaitCount = 240;
                                 Sim.AddSmacker ("gate-shw.smk", 768+fpe->Gate, XY(2,0));
                             }
-                            else if ((Sim.Players.Players[static_cast<SLONG>(FlightAirline)].SecurityFlags&(1<<10)) != 0u)
+                            else if ((Sim.Players.Players[static_cast<SLONG>(FlightAirline)].SecurityFlags&(1<<10)) != 0U)
                             {
                                 State    |= PERSON_WAITFLAG;
                                 WaitCount = 240;
@@ -3191,7 +3195,7 @@ void PERSON::PersonReachedTarget ()
                         else
                         {
                             //Nö!
-                            Mood   = static_cast<UBYTE>(FirstClass != 0u?MoodPersonMissedFC:MoodPersonMissed);
+                            Mood   = static_cast<UBYTE>(FirstClass != 0U?MoodPersonMissedFC:MoodPersonMissed);
                             State  = PERSON_2EXIT;
                             Target = Airport.GetRandomExit(&PersonalRand);
                         }
@@ -3328,7 +3332,7 @@ void PERSONS::DoOneStep ()
     if (Sim.CallItADay != 0)
     {
         for (c=0; c<Sim.Players.Players.AnzEntries(); c++) {
-            if ((Sim.Players.Players[c].SpeedCount != 0) && (Sim.Players.Players[c].IsOut == 0) && (Sim.Players.Players[c].Owner != 0u))
+            if ((Sim.Players.Players[c].SpeedCount != 0) && (Sim.Players.Players[c].IsOut == 0) && (Sim.Players.Players[c].Owner != 0U))
             {
                 Sim.Players.Players[c].SpeedCount--;
 
@@ -3376,7 +3380,7 @@ void PERSONS::DoOneStep ()
                 {
                     PERSON &qPerson = (*this)[c];
 
-                    if (qPerson.MoodCountdown != 0u)
+                    if (qPerson.MoodCountdown != 0U)
                     {
                         qPerson.MoodCountdown--;
                         if (qPerson.MoodCountdown==(MOODCOUNT_START>>1)) {
@@ -3421,7 +3425,7 @@ void PERSONS::DoOneStep ()
                                             {
                                                 qPerson.DoOneCustomerStep();
 
-                                                if (qPerson.Running != 0u) {
+                                                if (qPerson.Running != 0U) {
                                                     qPerson.DoOneCustomerStep();
 }
                                             }
@@ -3457,7 +3461,7 @@ void PERSONS::DoOneStep ()
                                         {
                                             qPerson.DoOnePlayerStep();
 
-                                            if (qPlayer.IsStuck==0 && (qPerson.Running != 0u) && (qPerson.Position.y/22+5!=13 || (Airport.iPlate[(qPerson.Position.y/22+5)+((qPerson.Position.x/44)<<4)] & 240)!=80)) {
+                                            if (qPlayer.IsStuck==0 && (qPerson.Running != 0U) && (qPerson.Position.y/22+5!=13 || (Airport.iPlate[(qPerson.Position.y/22+5)+((qPerson.Position.x/44)<<4)] & 240)!=80)) {
                                                 if (qPlayer.GetRoom()==ROOM_AIRPORT)
                                                 {
                                                     qPlayer.UpdateWaypointWalkingDirection ();
@@ -3625,7 +3629,7 @@ void PERSONS::TryMoods ()
                             {
                                 (*this)[Indexes[c]].Mood=static_cast<UBYTE>(MoodPersonStuck);
 
-                                if ((*this)[Indexes[c]].MoodCountdown != 0u) {
+                                if ((*this)[Indexes[c]].MoodCountdown != 0U) {
                                     (*this)[Indexes[c]].MoodCountdown=MOODCOUNT_START-16;
                                 } else {
                                     (*this)[Indexes[c]].MoodCountdown=MOODCOUNT_START+rand()%15;
@@ -3646,7 +3650,7 @@ void PERSONS::TryMoods ()
                                     (*this)[Indexes[c]].Mood = static_cast<UBYTE>(MoodPersonToilet);
 }
 
-                                if ((*this)[Indexes[c]].MoodCountdown != 0u) {
+                                if ((*this)[Indexes[c]].MoodCountdown != 0U) {
                                     (*this)[Indexes[c]].MoodCountdown=MOODCOUNT_START-16;
                                 } else {
                                     (*this)[Indexes[c]].MoodCountdown=MOODCOUNT_START+rand()%15;
@@ -3677,7 +3681,7 @@ void PERSONS::TryMoods ()
                         {
                             qPerson.Mood=static_cast<UBYTE>(MoodPersonStuck);
 
-                            if (qPerson.MoodCountdown != 0u) {
+                            if (qPerson.MoodCountdown != 0U) {
                                 qPerson.MoodCountdown=MOODCOUNT_START-16;
                             } else {
                                 qPerson.MoodCountdown=MOODCOUNT_START+rand()%15;
@@ -3698,7 +3702,7 @@ void PERSONS::TryMoods ()
                                 qPerson.Mood = static_cast<UBYTE>(MoodPersonToilet);
 }
 
-                            if (qPerson.MoodCountdown != 0u)
+                            if (qPerson.MoodCountdown != 0U)
                             {
                                 if (qPerson.MoodCountdown<16) {
                                     qPerson.MoodCountdown=MOODCOUNT_START-qPerson.MoodCountdown;
@@ -3713,8 +3717,8 @@ void PERSONS::TryMoods ()
                     }
                     else if ((Clans[static_cast<SLONG>(qPerson.ClanId)].Type<30 && Clans[static_cast<SLONG>(qPerson.ClanId)].Group<30) || Clans[static_cast<SLONG>(qPerson.ClanId)].Group==240)
                     {
-                        if (qPerson.Mood != 0u) {
-                            if (qPerson.MoodCountdown != 0u)
+                        if (qPerson.Mood != 0U) {
+                            if (qPerson.MoodCountdown != 0U)
                             {
                                 if (qPerson.MoodCountdown<16) {
                                     qPerson.MoodCountdown=MOODCOUNT_START-qPerson.MoodCountdown;

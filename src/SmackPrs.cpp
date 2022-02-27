@@ -2,7 +2,7 @@
 // SmackPrs.cpp : Wrapper-Klasse für den Smacker für 16Bit Farben bei 8-Bit Videos:
 //============================================================================================
 #include "StdAfx.h"
-#include <math.h>
+#include <cmath>
 #include <smacker.h>
 
 //Zum debuggen:
@@ -59,7 +59,7 @@ CSmack16::~CSmack16 ()
 void CSmack16::Open (const CString& Filename)
 {
     pSmack = smk_open_file(FullFilename (Filename, SmackerPath), SMK_MODE_MEMORY);
-    smk_enable_video(pSmack, 1u);
+    smk_enable_video(pSmack, 1U);
     smk_info_video(pSmack, &Width, &Height, nullptr);
     FrameNext = 0;
     State = smk_first(pSmack);
@@ -142,7 +142,7 @@ void CSmackerClip::Start ()
     if (Filename.GetLength()>0)
     {
         pSmack = smk_open_file(FullFilename (Filename, SmackerPath), SMK_MODE_MEMORY);
-        smk_enable_video(pSmack, 1u);
+        smk_enable_video(pSmack, 1U);
         smk_info_all(pSmack, &FrameNum, &Frames, nullptr);
         smk_info_video(pSmack, &Width, &Height, nullptr);
         smk_first(pSmack);
@@ -252,7 +252,7 @@ void CSmackerClip::ReSize (SLONG          ClipId,
 
     //Hilfskonstruktion für beliebige viele Argumente deklarieren:
     {
-        va_list  Vars = nullptr;
+        va_list  Vars;
 
         //Tabelle initialisieren:
         va_start (Vars, SuccessorIds);

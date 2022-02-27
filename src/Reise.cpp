@@ -84,7 +84,7 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 
     AmbientManager.SetGlobalVolume (60);
 
-    Sim.NetRefill (2);
+    SIM::NetRefill (2);
     ReisebueroAuftraege.RefillForReisebuero ();
 
     SP_Girl.ReSize (4);
@@ -209,7 +209,7 @@ CReisebuero::~CReisebuero()
 
     Sim.Players.Players[PlayerNum].Messages.AddMessage (BERATERTYP_AUFTRAG, "", MESSAGE_COMMENT);
 
-    Sim.NetRefill (2);
+    SIM::NetRefill (2);
     ReisebueroAuftraege.RefillForReisebuero ();
 }
 
@@ -430,7 +430,7 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point)
                     //Für den Statistikscreen:
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay (0, 1);
 
-                    Sim.SendSimpleMessage (ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, static_cast<long>(qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0)), static_cast<long>(qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0)));
+                    SIM::SendSimpleMessage (ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, static_cast<long>(qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay (0)), static_cast<long>(qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay (0)));
 
                     ReisebueroAuftraege.Auftraege[c].Praemie=-1000;
                     qPlayer.NetUpdateTook (2, c);
@@ -455,13 +455,13 @@ void CReisebuero::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440) {
+            if ((IsDialogOpen() == 0) && point.y<440) {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 

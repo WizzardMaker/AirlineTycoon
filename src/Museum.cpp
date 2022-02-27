@@ -184,7 +184,7 @@ void CMuseum::SellUsedPlane()
 //--------------------------------------------------------------------------------------------
 CMuseum::~CMuseum()
 {
-    if ((Sim.DialogOvertureFlags&DIALOG_MUSEUM) != 0u) {
+    if ((Sim.DialogOvertureFlags&DIALOG_MUSEUM) != 0U) {
         Sim.DialogOvertureFlags|=DIALOG_MUSEUM2;
 }
 
@@ -300,7 +300,7 @@ void CMuseum::OnPaint()
                             XY(6,6), XY(6,28), &FontSmallBlack, &FontSmallBlack);
                 }
 
-                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums] != 0u) {
+                if (MenuDataTable.ValueFlags[0+NewTip*MenuDataTable.AnzColums] != 0U) {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontRed, CURSOR_HOT);
                 } else {
                     CheckCursorHighlight (ReferenceCursorPos, CRect (MenuPos.x+216, MenuPos.y+(NewTip-MenuPage)*13+25-2, MenuPos.x+387, MenuPos.y+(NewTip-MenuPage)*13+25+12), ColorOfFontBlack, CURSOR_HOT);

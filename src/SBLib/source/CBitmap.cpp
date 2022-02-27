@@ -21,11 +21,11 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, GfxLib* lib, __int64 na
     {
         core->lpDD = Renderer;
         core->lpDDSurface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB565, 0);
-        if ((flags & CREATE_USECOLORKEY) != 0u) {
+        if ((flags & CREATE_USECOLORKEY) != 0U) {
             core->SetColorKey(0);
 }
 
-        core->lpTexture = (Renderer != nullptr) && ((flags & CREATE_VIDMEM) != 0u) ?
+        core->lpTexture = (Renderer != nullptr) && ((flags & CREATE_VIDMEM) != 0U) ?
             SDL_CreateTextureFromSurface(Renderer, core->lpDDSurface) : nullptr;
         core->Size.x = core->lpDDSurface->w;
         core->Size.y = core->lpDDSurface->h;
@@ -51,19 +51,19 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, SLONG w, SLONG h, ULONG
     Bitmaps.emplace_back();
     SB_CBitmapCore* core = &Bitmaps.back();
     core->lpDD = Renderer;
-    if ((flags & CREATE_INDEXED) != 0u) {
+    if ((flags & CREATE_INDEXED) != 0U) {
         core->lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 8, SDL_PIXELFORMAT_INDEX8);
-    } else if ((flags & CREATE_USEALPHA) != 0u) {
+    } else if ((flags & CREATE_USEALPHA) != 0U) {
         core->lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_RGBA8888);
     } else {
         core->lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 16, SDL_PIXELFORMAT_RGB565);
 }
-    if ((flags & CREATE_USECOLORKEY) != 0u) {
+    if ((flags & CREATE_USECOLORKEY) != 0U) {
         core->SetColorKey(0);
 }
-    core->lpTexture = (Renderer != nullptr) && ((flags & CREATE_VIDMEM) != 0u) ?
+    core->lpTexture = (Renderer != nullptr) && ((flags & CREATE_VIDMEM) != 0U) ?
         SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h) : nullptr;
-    if ((core->lpTexture != nullptr) && ((flags & (CREATE_USEALPHA | CREATE_USECOLORKEY)) != 0u)) {
+    if ((core->lpTexture != nullptr) && ((flags & (CREATE_USEALPHA | CREATE_USECOLORKEY)) != 0U)) {
         SDL_SetTextureBlendMode(core->lpTexture, SDL_BLENDMODE_BLEND);
 }
     core->Size.x = w;
@@ -265,7 +265,7 @@ ULONG SB_CBitmapCore::Clear(SB_Hardwarecolor hwcolor, const RECT* pRect)
         return SDL_FillRect(lpDDSurface, &dst, color);
     }
     
-            if (lpTexture) {
+            if (lpTexture != nullptr) {
             SDL_RenderFillRect(lpDD, nullptr);
 }
         return SDL_FillRect(lpDDSurface, nullptr, color);
@@ -436,8 +436,7 @@ ULONG SB_CBitmapCore::Release()
 SB_CPrimaryBitmap::SB_CPrimaryBitmap()
 = default;
 
-SB_CPrimaryBitmap::~SB_CPrimaryBitmap()
-= default;
+
 
 bool SB_CPrimaryBitmap::FastClip(CRect clipRect, POINT* pPoint, RECT* pRect)
 {

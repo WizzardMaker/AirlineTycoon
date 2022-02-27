@@ -456,7 +456,7 @@ void CStatistik::OnPaint()
 }
 
             CString text = StandardTexte.GetS ("STAT", _iArray[_group][i].textId);
-            RoomBm.PrintAt (text, (group == 0u) ? FontSmallBlack : FontSmallPlastic, TEC_FONT_LEFT, rc.left + xOffset[group], rc.top, rc.right, rc.bottom);
+            RoomBm.PrintAt (text, (group == 0U) ? FontSmallBlack : FontSmallPlastic, TEC_FONT_LEFT, rc.left + xOffset[group], rc.top, rc.right, rc.bottom);
 
             if (_iArray[_group][i].visible && group == 0) {
                 RoomBm.BlitFromT (Haeckchen, rc.left - 11, rc.top);
@@ -1071,13 +1071,13 @@ void CStatistik::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440) {
+            if ((IsDialogOpen() == 0) && point.y<440) {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 

@@ -66,7 +66,7 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, Playe
 }
     DefaultDialogPartner=TALKER_FRACHT;
 
-    Sim.NetRefill (3);
+    SIM::NetRefill (3);
     gFrachten.Refill ();
 
     SP_Fracht.ReSize (13);
@@ -189,7 +189,7 @@ CFrachtRaum::~CFrachtRaum()
     if ((pMenuLib != nullptr) && (pGfxMain != nullptr)) { pGfxMain->ReleaseLib (pMenuLib);
 }
 
-    Sim.NetRefill (3);
+    SIM::NetRefill (3);
     gFrachten.Refill ();
 }
 
@@ -378,7 +378,7 @@ void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point)
                 if (qPlayer.HasItem (ITEM_GLUE) != 0)
                 {
                     Sim.ItemGlue=2;
-                    Sim.SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLUE);
+                    SIM::SendSimpleMessage (ATNET_TAKETHING, 0, ITEM_GLUE);
                 }
             }
         }
@@ -429,13 +429,13 @@ void CFrachtRaum::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440) {
+            if ((IsDialogOpen() == 0) && point.y<440) {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 

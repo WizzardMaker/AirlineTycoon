@@ -186,7 +186,7 @@ void CPersonal::OnPaint()
         FlugbahnCounter=timeGetTime();
     }
 
-    if ((Sim.Players.Players[PlayerNum].SecurityFlags&4) != 0u) { RoomBm.BlitFrom (NoSaboBm, 276, 0);
+    if ((Sim.Players.Players[PlayerNum].SecurityFlags&4) != 0U) { RoomBm.BlitFrom (NoSaboBm, 276, 0);
 }
 
     SP_Frau.Pump ();
@@ -300,13 +300,13 @@ void CPersonal::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440) {
+            if ((IsDialogOpen() == 0) && point.y<440) {
                 Sim.Players.Players[PlayerNum].LeaveRoom();
 }
 

@@ -112,11 +112,11 @@ void MessagePump ()
 {
 
     SDL_StartTextInput();
-    bool help = SDL_IsTextInputActive() != 0u;
+    bool help = SDL_IsTextInputActive() != 0U;
     while (SDL_PollEvent(&FrameWnd->Mess) != 0) {
         FrameWnd->ProcessEvent(FrameWnd->Mess);
 }
-    help = (SDL_IsTextInputActive() != 0u);
+    help = (SDL_IsTextInputActive() != 0U);
 }
 
 //LPDIRECTDRAWSURFACE FrontSurf=NULL;
@@ -153,7 +153,7 @@ else Sleep(1000);
 }
 }*/
 
-void GameFrame::UpdateWindow() {
+void GameFrame::UpdateWindow() const {
     //windowed size:
     int width = 640;
     int height = 480;
@@ -445,7 +445,7 @@ void GameFrame::TranslatePointToScreenSpace(int& x, int& y) const {
     y = static_cast<LONG>(_y);
 }
 
-void GameFrame::ProcessEvent(const SDL_Event& event)
+void GameFrame::ProcessEvent(const SDL_Event& event) const
 {
     switch (event.type)
     {

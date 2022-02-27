@@ -44,7 +44,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
         PLAYER &qLocalPlayer = Sim.Players.Players[Sim.localPlayer];
 
         NetGenericSync(0x4211014);
-        qLocalPlayer.NetSynchronizeMeeting();
+        PLAYER::NetSynchronizeMeeting();
         NetGenericSync(0x4211015);
     }
 
@@ -62,7 +62,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
 }
 
     Sim.Players.Players[Sim.localPlayer].bReadyForBriefing=1;
-    Sim.SendSimpleMessage (ATNET_READYFORBRIEFING, 0, Sim.localPlayer);
+    SIM::SendSimpleMessage (ATNET_READYFORBRIEFING, 0, Sim.localPlayer);
 
     //DaysWithoutSabotage aktualisieren:
     for (c=0; c<Sim.SabotageActs.AnzEntries(); c++)
@@ -98,7 +98,7 @@ CAufsicht::CAufsicht (BOOL bHandy, ULONG PlayerNum) : CStdRaum (bHandy, PlayerNu
                         for (e=qPlan.Flug.AnzEntries()-1; e>=0; e--)
                         {
                             if (qPlan.Flug[e].ObjectType==1) {
-                                if (qPlayer.RentRouten.RentRouten[Routen(qPlan.Flug[e].ObjectId)].Rang != 0u) {
+                                if (qPlayer.RentRouten.RentRouten[Routen(qPlan.Flug[e].ObjectId)].Rang != 0U) {
                                     if (qPlayer.RentRouten.RentRouten[Routen(qPlan.Flug[e].ObjectId)].Auslastung>20)
                                     {
                                         ULONG a=Routen[qPlan.Flug[e].ObjectId].VonCity;
@@ -1073,13 +1073,14 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
-            if (CanCancel) MenuRightClick (point);
+            if (CanCancel != 0) { MenuRightClick (point);
+}
         }
         else
         {
-            if (!IsDialogOpen() && (Sim.IsTutorial==FALSE || Sim.Tutorial>1310))
+            if ((IsDialogOpen() == 0) && (Sim.IsTutorial==FALSE || Sim.Tutorial>1310))
             {
                 if (point.y<440)
                 {
@@ -1089,9 +1090,9 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
                 }
             }
 
-            if (CanCancel && (Sim.IsTutorial==FALSE || Sim.Tutorial>1310))
+            if ((CanCancel != 0) && (Sim.IsTutorial==FALSE || Sim.Tutorial>1310))
             {
-                if (Sim.bNoTime)
+                if (Sim.bNoTime != 0)
                 {
                     Sim.bNoTime  = FALSE;
                     Sim.DayState = 2;
@@ -1099,7 +1100,7 @@ void CAufsicht::OnRButtonDown(UINT nFlags, CPoint point)
                 }
             }
 
-            if (!(IsDialogOpen() && Sim.IsTutorial) && CanCancel) {
+            if (!((IsDialogOpen() != 0) && (Sim.IsTutorial != 0)) && (CanCancel != 0)) {
                 CStdRaum::OnRButtonDown(nFlags, point);
 }
         }
@@ -1115,7 +1116,7 @@ void CAufsicht::TryLeaveAufsicht ()
     {
         bExitASAP = true;
         Sim.bWatchForReady=TRUE;
-        Sim.SendSimpleMessage (ATNET_READYFORMORNING, 0, Sim.localPlayer);
+        SIM::SendSimpleMessage (ATNET_READYFORMORNING, 0, Sim.localPlayer);
         Sim.Players.Players[Sim.localPlayer].bReadyForMorning=1;
         SetNetworkBitmap (3, 1);
         FrameWnd->Invalidate(); MessagePump();

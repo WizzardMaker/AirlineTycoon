@@ -848,7 +848,7 @@ void CAmbienteManager::SetVolume (SLONG FxId, SLONG Volume) const
 //--------------------------------------------------------------------------------------------
 //Die Lautstärke neu berechnen:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::RecalcVolumes ()
+void CAmbienteManager::RecalcVolumes () const
 {
     for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
         if (c==AMBIENT_JET_OUTSIDE || c==AMBIENT_JET_FIELD) {
@@ -875,7 +875,7 @@ void CAmbienteManager::Pause () const
 //--------------------------------------------------------------------------------------------
 //Setzt das Ambiente fort:
 //--------------------------------------------------------------------------------------------
-void CAmbienteManager::Resume ()
+void CAmbienteManager::Resume () const
 {
     for (SLONG c=0; c<AmbientFx.AnzEntries(); c++) {
         if (AmbientFx[c].Soundeffekt.pFX != nullptr) {

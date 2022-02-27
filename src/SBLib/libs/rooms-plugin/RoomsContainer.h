@@ -86,7 +86,7 @@ namespace RakNet
     struct Slots
     {
         Slots();
-        ~Slots();
+        ~Slots() = default;
         unsigned int publicSlots;
         unsigned int reservedSlots;
         unsigned int spectatorSlots;
@@ -255,7 +255,7 @@ namespace RakNet
     struct RoomMember
     {
         RoomMember();
-        ~RoomMember();
+        ~RoomMember() = default;
         RoomsParticipant* roomsParticipant;
         RoomMemberMode roomMemberMode;
         RakNet::TimeMS joinTime;
@@ -272,7 +272,7 @@ namespace RakNet
     struct RoomQuery
     {
         RoomQuery();
-        ~RoomQuery();
+        ~RoomQuery() = default;
 
         // Point to an externally allocated array of FilterQuery, or use the helper functions below to use a static array (not threadsafe to use the static array)
         DataStructures::Table::FilterQuery *queries;
@@ -361,11 +361,11 @@ namespace RakNet
             // Get all pending invites to you
             RoomsErrorCode GetInvitesToParticipant(RoomsParticipant* roomsParticipant, DataStructures::List<InvitedUser*> &invites) const;
 
-            RoomsErrorCode RemoveUser(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult);
+            RoomsErrorCode RemoveUser(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult) const;
 
             // ROOMS OPERATIONS, implicit room
             static RoomsErrorCode SendInvite(RoomsParticipant* roomsParticipant, RoomsParticipant* inviteeId, bool inviteToSpectatorSlot, const RakNet::RakString& subject, const RakNet::RakString& body);
-            RoomsErrorCode AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, const RakNet::RakString& inviteSender);
+            RoomsErrorCode AcceptInvite(RoomID roomId, Room **room, RoomsParticipant* roomsParticipant, const RakNet::RakString& inviteSender) const;
             static RoomsErrorCode StartSpectating(RoomsParticipant* roomsParticipant);
             static RoomsErrorCode StopSpectating(RoomsParticipant* roomsParticipant);
             static RoomsErrorCode GrantModerator(RoomsParticipant* roomsParticipant, RoomsParticipant *newModerator, DataStructures::List<InvitedUser> &clearedInvites);
@@ -375,13 +375,13 @@ namespace RakNet
             static RoomsErrorCode SetHiddenFromSearches(RoomsParticipant* roomsParticipant, bool _hiddenFromSearches);
             static RoomsErrorCode SetDestroyOnModeratorLeave(RoomsParticipant* roomsParticipant, bool destroyOnModeratorLeave);
             static RoomsErrorCode SetReadyStatus(RoomsParticipant* roomsParticipant, bool isReady);
-            RoomsErrorCode GetReadyStatus( RoomID roomId, Room **room, DataStructures::List<RoomsParticipant*> &readyUsers, DataStructures::List<RoomsParticipant*> &unreadyUsers);
+            RoomsErrorCode GetReadyStatus( RoomID roomId, Room **room, DataStructures::List<RoomsParticipant*> &readyUsers, DataStructures::List<RoomsParticipant*> &unreadyUsers) const;
             static RoomsErrorCode SetRoomLockState(RoomsParticipant* roomsParticipant, RoomLockState _roomLockState);
-            RoomsErrorCode GetRoomLockState(RoomID roomId, Room **room, RoomLockState *roomLockState);
-            RoomsErrorCode AreAllMembersReady(RoomID roomId, Room **room, bool *allReady);
+            RoomsErrorCode GetRoomLockState(RoomID roomId, Room **room, RoomLockState *roomLockState) const;
+            RoomsErrorCode AreAllMembersReady(RoomID roomId, Room **room, bool *allReady) const;
             static RoomsErrorCode KickMember(RoomsParticipant* roomsParticipant, RoomsParticipant *kickedParticipant, const RakNet::RakString& reason);
             static RoomsErrorCode UnbanMember(RoomsParticipant* roomsParticipant, const RakNet::RakString& name);
-            RoomsErrorCode GetBanReason( RoomID lobbyRoomId, Room **room, const RakNet::RakString& name, RakNet::RakString *reason);
+            RoomsErrorCode GetBanReason( RoomID lobbyRoomId, Room **room, const RakNet::RakString& name, RakNet::RakString *reason) const;
             static RoomsErrorCode LeaveRoom(RoomsParticipant* roomsParticipant, RemoveUserResult *removeUserResult);
             //RoomsErrorCode GetKickReason(RoomsParticipant* roomsParticipant, RakNet::RakString *kickReason);
 

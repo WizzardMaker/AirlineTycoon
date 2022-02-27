@@ -1,7 +1,7 @@
 //============================================================================================
 // City.Cpp - Routinen zur Verwaltung von Städten
 //============================================================================================
-#include <math.h>
+#include <cmath>
 
 #include "StdAfx.h"
 
@@ -277,7 +277,7 @@ ULONG CITIES::GetIdFromNames (const char *Name, ...)
 {
     SLONG c = 0;
 
-    va_list va_marker = nullptr;
+    va_list va_marker;
     foreacharg (va_marker, LPCSTR, Name, NULL)
     {
         for (c=0; c<AnzEntries(); c++) {

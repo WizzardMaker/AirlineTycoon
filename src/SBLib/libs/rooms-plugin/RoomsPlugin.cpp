@@ -2433,7 +2433,7 @@ void RoomsPlugin::Chat_Callback( const SystemAddress &senderAddress, Chat_Func *
         return;
     }
     
-            if (callResult->chatDirectedToRoom==false)
+            if (!callResult->chatDirectedToRoom)
         {
             // Chat not directed to room, and no recipients.
             callResult->resultCode=REC_CHAT_RECIPIENT_NOT_ONLINE;
@@ -2495,7 +2495,7 @@ void RoomsPlugin::Bitstream_Callback( const SystemAddress &senderAddress, Bitstr
         return;
     }
     
-            if (callResult->directedToRoom==false)
+            if (!callResult->directedToRoom)
         {
             // Chat not directed to room, and no recipients.
             callResult->resultCode=REC_BITSTREAM_RECIPIENT_NOT_ONLINE;

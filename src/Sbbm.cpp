@@ -752,7 +752,7 @@ void SBBMS::ReSize (GfxLib* gfxLibrary, __int64 graphicID, ...)
 {
     SLONG           count=0;
     __int64         i=graphicID;
-    va_list         marker = nullptr;
+    va_list         marker;
     BUFFER<__int64> graphicIds;
 
     //Anzahl ermitteln:

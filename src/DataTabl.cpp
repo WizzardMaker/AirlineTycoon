@@ -270,7 +270,7 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
     Title=StandardTexte.GetS (TOKEN_SCHED, 1100);
 
     for (c=Routen->AnzEntries()-1, d=0; c>=0; c--) {
-        if ((Routen->IsInAlbum(c) != 0) && (RentRouten->RentRouten[c].Rang != 0u)) { d++;
+        if ((Routen->IsInAlbum(c) != 0) && (RentRouten->RentRouten[c].Rang != 0U)) { d++;
 }
 }
 
@@ -290,7 +290,7 @@ void CDataTable::FillWithRouten (CRouten *Routen, CRentRouten *RentRouten, BOOL 
       ColTitle[c]=StandardTexte.GetS (TOKEN_SCHED, 1100+c+1); */
 
     for (c=d=0; c<Routen->AnzEntries(); c++) {
-        if ((Routen->IsInAlbum(c) != 0) && (RentRouten->RentRouten[c].Rang != 0u) && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity))
+        if ((Routen->IsInAlbum(c) != 0) && (RentRouten->RentRouten[c].Rang != 0U) && (UniqueOnly==0 || (*Routen)[c].VonCity<(*Routen)[c].NachCity))
         {
             LineIndex[d]          = Routen->GetIdFromIndex(c);
             Values[d*AnzColums+0] = Cities[(*Routen)[c].VonCity].Name;
@@ -575,7 +575,7 @@ void CDataTable::FillWithCities (CRentCities *RentCities)
     for (c=d=0; c<Cities.AnzEntries(); c++) {
         if (Cities.IsInAlbum(c) != 0)
         {
-            if ((RentCities != nullptr) && (RentCities->RentCities[c].Rang != 0u)) {
+            if ((RentCities != nullptr) && (RentCities->RentCities[c].Rang != 0U)) {
                 ValueFlags[d*3+0]=TRUE;
             } else {
                 ValueFlags[d*3+0]=FALSE;

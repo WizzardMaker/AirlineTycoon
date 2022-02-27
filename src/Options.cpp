@@ -580,7 +580,7 @@ void Options::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
                     if (Sim.Options.OptionBlenden != 0)
                     {
                         gBlendState = -2;
-                        if (FrameWnd != nullptr) { FrameWnd->PrepareFade();
+                        if (FrameWnd != nullptr) { GameFrame::PrepareFade();
 }
                     }
                 }
@@ -603,7 +603,7 @@ void Options::OnLButtonDown(UINT  /*nFlags*/, CPoint point)
                 } //Fullscreen Option
 
                 if (Line == 11) {
-                    Sim.Options.OptionKeepAspectRatio = static_cast<BOOL>(Sim.Options.OptionKeepAspectRatio) == 0;
+                    Sim.Options.OptionKeepAspectRatio = static_cast<BOOL>(static_cast<BOOL>(Sim.Options.OptionKeepAspectRatio) == 0);
                     FrameWnd->UpdateFrameSize();
                 } //Aspect Ratio Option
 
@@ -865,12 +865,12 @@ void Options::OnRButtonDown(UINT /*nFlags*/, CPoint point)
         }
         else
         {
-            if (PageNum == 5 && NewgameWantsToLoad)
+            if (PageNum == 5 && (NewgameWantsToLoad != 0))
             {
                 KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
                 Sim.Gamestate = GAMESTATE_BOOT;
             }
-            else if (OptionsShortcut && (PageNum == 5 || PageNum == 6))
+            else if ((OptionsShortcut != 0) && (PageNum == 5 || PageNum == 6))
             {
                 KlackerTafel.Warp(); FrameWnd->Invalidate(); MessagePump(); FrameWnd->Invalidate(); MessagePump();
                 Sim.Players.Players[static_cast<SLONG>(PlayerNum)].LeaveRoom();

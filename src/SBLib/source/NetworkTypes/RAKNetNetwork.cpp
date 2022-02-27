@@ -147,7 +147,7 @@ bool RAKNetNetwork::Send(BUFFER<UBYTE>& buffer, ULONG length, ULONG peerID, bool
     BitStream data;
     SerializePacket(&a, &data);
 
-    if (peerID != 0u) {
+    if (peerID != 0U) {
         SDL_Log("SEND PRIVATE: SBNETWORK_MESSAGE ID: - ID %x TO: %x", (a.data[3] << 24) | (a.data[2] << 16) | (a.data[1] << 8) | (a.data[0]), peerID);
 
         //    for (mPlayers.GetFirst(); !mPlayers.IsLast(); mPlayers.GetNext())
@@ -243,14 +243,14 @@ bool RAKNetNetwork::Receive(UBYTE** buffer, ULONG& size) {
                     DeserializePacket(p->data, p->length, &packet);
 
                     //Check if the package was meant for us. 0 for broadcast
-                    if((packet.peerID != 0u) && packet.peerID != mLocalID) {
+                    if((packet.peerID != 0U) && packet.peerID != mLocalID) {
                         SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d. IGNORED, SEND NOT TO US", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
                         break;
                     }
 
                     *buffer = packet.data;
                     size = packet.dataLength;
-                    if(packet.peerID != 0u) {
+                    if(packet.peerID != 0U) {
                         SDL_Log("RECEIVED PRIVATE: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);
                     } else {
                         SDL_Log("RECEIVED: SBNETWORK_MESSAGE - ID: %d", packet.data[3] << 24 | packet.data[2] << 16 | packet.data[1] << 8 | packet.data[0]);

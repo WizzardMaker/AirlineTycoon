@@ -211,13 +211,13 @@ void CNasa::OnRButtonDown(UINT nFlags, CPoint point)
         return;
     }
     
-            if (MenuIsOpen())
+            if (MenuIsOpen() != 0)
         {
             MenuRightClick (point);
         }
         else
         {
-            if (!IsDialogOpen() && point.y<440)
+            if ((IsDialogOpen() == 0) && point.y<440)
             {
                 if (Sim.Players.Players[PlayerNum].TalkedToNasa==FALSE)
                 {
@@ -231,7 +231,8 @@ void CNasa::OnRButtonDown(UINT nFlags, CPoint point)
                     CStdRaum::OnRButtonDown(nFlags, point);
                 }
             }
-            else CStdRaum::OnRButtonDown(nFlags, point);
+            else { CStdRaum::OnRButtonDown(nFlags, point);
+}
         }
    
 #endif

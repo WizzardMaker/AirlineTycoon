@@ -3,7 +3,7 @@
 //============================================================================================
 #include "StdAfx.h"
 #include "Outro.h"
-#include <math.h>
+#include <cmath>
 #include <smacker.h>
 
 #ifdef _DEBUG
@@ -30,7 +30,7 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
     gMouseStartup = TRUE;
 
     pSmack = smk_open_file(FullFilename(SmackName, IntroPath), SMK_MODE_MEMORY);
-    smk_enable_video(pSmack, 1u);
+    smk_enable_video(pSmack, 1U);
     smk_info_video(pSmack, &Width, &Height, &Scale);
     if (Scale != SMK_FLAG_Y_NONE) {
         Height *= 2;
@@ -40,7 +40,7 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
     unsigned char channels[7];
     unsigned char depth[7];
     unsigned long rate[7];
-    smk_enable_audio(pSmack, 0, 1u);
+    smk_enable_audio(pSmack, 0, 1U);
     smk_info_audio(pSmack, &tracks, channels, depth, rate);
 
     SDL_AudioSpec desired;
@@ -51,7 +51,7 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
     desired.callback = nullptr;
     desired.userdata = nullptr;
     audioDevice = SDL_OpenAudioDevice(nullptr, 0, &desired, nullptr, 0);
-    if (audioDevice == 0u) { Hdu.HercPrintf(SDL_GetError());
+    if (audioDevice == 0U) { Hdu.HercPrintf(SDL_GetError());
 }
 
     State = smk_first(pSmack);
@@ -78,7 +78,7 @@ COutro::COutro(BOOL bHandy, SLONG PlayerNum, const CString& SmackName) : CStdRau
 //--------------------------------------------------------------------------------------------
 COutro::~COutro()
 {
-    if (audioDevice != 0u) { SDL_CloseAudioDevice(audioDevice);
+    if (audioDevice != 0U) { SDL_CloseAudioDevice(audioDevice);
 }
     audioDevice = 0;
 

@@ -165,7 +165,7 @@ int	FX::Create(SSE* pSSE, char* file, dword samplesPerSec, word channels, word b
 
 bool FX::StopPriority(dword flags)
 {
-    if (((flags & DSBPLAY_PRIORITY) == 0u) && ((flags & DSBPLAY_HIGHPRIORITY) == 0u)) {
+    if (((flags & DSBPLAY_PRIORITY) == 0U) && ((flags & DSBPLAY_HIGHPRIORITY) == 0U)) {
         return false;
 }
 
@@ -174,7 +174,7 @@ bool FX::StopPriority(dword flags)
     {
         dword status = 0;
         fx.GetStatus(&status);
-        if ((status & DSBSTATUS_PLAYING) != 0u)
+        if ((status & DSBSTATUS_PLAYING) != 0U)
         {
             if (!fx._digitalData.fNoStop)
             {
@@ -187,7 +187,7 @@ bool FX::StopPriority(dword flags)
         }
     }
 
-    if ((playing != nullptr) && ((flags & DSBPLAY_HIGHPRIORITY) != 0u))
+    if ((playing != nullptr) && ((flags & DSBPLAY_HIGHPRIORITY) != 0U))
     {
         playing->Stop();
         return true;
@@ -221,7 +221,7 @@ int FX::Play(dword dwFlags, SLONG pan)
 }
 
     // TODO(merten): Panning
-    if ((dwFlags & DSBPLAY_SETPAN) != 0u) {
+    if ((dwFlags & DSBPLAY_SETPAN) != 0U) {
         SetPan(pan);
 }
 
@@ -234,13 +234,13 @@ int FX::Play(dword dwFlags, SLONG pan)
     {
         dword status = 0;
         GetStatus(&status);
-        if ((status & DSBSTATUS_PLAYING) != 0u) {
+        if ((status & DSBSTATUS_PLAYING) != 0U) {
             return SSE_OK;
 }
     }
-    _digitalData.fNoStop = ((dwFlags & DSBPLAY_NOSTOP) != 0u);
+    _digitalData.fNoStop = ((dwFlags & DSBPLAY_NOSTOP) != 0U);
 
-    if ((dwFlags & DSBPLAY_FIRE) == 0u) {
+    if ((dwFlags & DSBPLAY_FIRE) == 0U) {
         Stop();
 }
 
@@ -538,7 +538,7 @@ int FX::GetStatus(dword* pStatus)
 
 bool FX::IsMouthOpen(SLONG PreTime)
 {
-    if ((_fxData.pBuffer == nullptr) || (_digitalData.time == 0u)) {
+    if ((_fxData.pBuffer == nullptr) || (_digitalData.time == 0U)) {
         return false;
 }
 
@@ -581,9 +581,9 @@ void FX::SetFormat(dword samplesPerSec, word channels, word bitsPerSample)
     word lastChannels = _fxData.channels;
     word lastBitsPerSample = _fxData.bitsPerSample;
 
-    _fxData.samplesPerSec = samplesPerSec != 0u ? samplesPerSec : _digitalData.pSSE->_samplesPerSec;
-    _fxData.channels = channels != 0u ? channels : 1;
-    _fxData.bitsPerSample = bitsPerSample != 0u ? bitsPerSample : _digitalData.pSSE->_bitsPerSample;
+    _fxData.samplesPerSec = samplesPerSec != 0U ? samplesPerSec : _digitalData.pSSE->_samplesPerSec;
+    _fxData.channels = channels != 0U ? channels : 1;
+    _fxData.bitsPerSample = bitsPerSample != 0U ? bitsPerSample : _digitalData.pSSE->_bitsPerSample;
 
     if ((_fxData.pBuffer != nullptr) && (_fxData.samplesPerSec != lastSamplesPerSec ||
                 _fxData.channels != lastChannels || _fxData.bitsPerSample != lastBitsPerSample))
@@ -649,7 +649,7 @@ int MIDI::Play(dword dwFlags, SLONG pan)
 }
 
     // TODO(merten): Panning
-    if ((dwFlags & DSBPLAY_SETPAN) != 0u) {
+    if ((dwFlags & DSBPLAY_SETPAN) != 0U) {
         SetPan(pan);
 }
 

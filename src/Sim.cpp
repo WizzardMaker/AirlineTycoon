@@ -669,9 +669,9 @@ void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
         Sim.DropDownPosY      = 0;
 
         for (auto & p : Sim.StatiArray) {
-            for (short i = 0 ; i < 16; i++)
+            for (bool & i : p)
             {
-                p[i]=true;
+                i=true;
             }
 }
     }
@@ -1058,7 +1058,7 @@ void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
 
                                         SLONG Anz=1;
                                         for (f=0; f<4; f++) {
-                                            if (f!=c && (Players.Players[f].RentCities.RentCities[Cities(Routen[d].VonCity)].Rang != 0u)) { Anz++;
+                                            if (f!=c && (Players.Players[f].RentCities.RentCities[Cities(Routen[d].VonCity)].Rang != 0U)) { Anz++;
 }
 }
 
@@ -1072,7 +1072,7 @@ void SIM::ChooseStartup (BOOL  /*GameModeQuick*/)
 
                                         SLONG Anz=1;
                                         for (f=0; f<4; f++) {
-                                            if (f!=c && (Players.Players[f].RentCities.RentCities[Cities(Routen[d].NachCity)].Rang != 0u)) { Anz++;
+                                            if (f!=c && (Players.Players[f].RentCities.RentCities[Cities(Routen[d].NachCity)].Rang != 0U)) { Anz++;
 }
 }
 
@@ -1131,7 +1131,7 @@ leave_loop: ;
                         SLONG f = 0;
                         SLONG Anz=1;
                         for (f=0; f<4; f++) {
-                            if (f!=c && (Players.Players[f].RentCities.RentCities[NearCities[(c+d)%4]].Rang != 0u)) { Anz++;
+                            if (f!=c && (Players.Players[f].RentCities.RentCities[NearCities[(c+d)%4]].Rang != 0U)) { Anz++;
 }
 }
 
@@ -1453,7 +1453,7 @@ void SIM::DoTimeStep ()
 }
 }
 
-                Sim.SendMemFile (Message);
+                SIM::SendMemFile (Message);
             }
         }
 
@@ -2121,7 +2121,7 @@ void SIM::DoTimeStep ()
                                             Cities[qFPE.NachCity].GlobusPosition.y*Advance) /256;
 
                                     if (DoCalc != 0) {
-                                        if ((qLocalPlayer.GetRoom()==ROOM_LAPTOP && (qLocalPlayer.DisplayPlanes[c] != 0u)) || (qLocalPlayer.GetRoom()==ROOM_GLOBE && c==Sim.localPlayer)) {
+                                        if ((qLocalPlayer.GetRoom()==ROOM_LAPTOP && (qLocalPlayer.DisplayPlanes[c] != 0U)) || (qLocalPlayer.GetRoom()==ROOM_GLOBE && c==Sim.localPlayer)) {
                                             qPlane.UpdateGlobePos (qLocalPlayer.EarthAlpha);
 }
 }
@@ -2491,7 +2491,7 @@ SLONG SIM::GetMinute () const
 //------------------------------------------------------------------------------
 //Gibt die aktuelle Zeit als String zurück:
 //------------------------------------------------------------------------------
-CString SIM::GetTimeString ()
+CString SIM::GetTimeString () const
 {
     return (bprintf ("%2li:%02li", GetHour(), GetMinute()));
 }
@@ -2864,33 +2864,33 @@ void SIM::NewDay ()
 }
 
                         //Wegen Security-Office:
-                        if (qPlayer.ArabMode==-1 && ((qOpfer.SecurityFlags&(1<<6)) != 0u)) { qPlayer.ArabMode=0;
+                        if (qPlayer.ArabMode==-1 && ((qOpfer.SecurityFlags&(1<<6)) != 0U)) { qPlayer.ArabMode=0;
 }
-                        if (qPlayer.ArabMode==-2 && ((qOpfer.SecurityFlags&(1<<6)) != 0u)) { qPlayer.ArabMode=0;
+                        if (qPlayer.ArabMode==-2 && ((qOpfer.SecurityFlags&(1<<6)) != 0U)) { qPlayer.ArabMode=0;
 }
-                        if (qPlayer.ArabMode==-3 && ((qOpfer.SecurityFlags&(1<<7)) != 0u)) { qPlayer.ArabMode=0;
+                        if (qPlayer.ArabMode==-3 && ((qOpfer.SecurityFlags&(1<<7)) != 0U)) { qPlayer.ArabMode=0;
 }
-                        if (qPlayer.ArabMode==-4 && ((qOpfer.SecurityFlags&(1<<7)) != 0u)) { qPlayer.ArabMode=0;
-}
-
-                        if (qPlayer.ArabMode2==-1 && ((qOpfer.SecurityFlags&(1<<0)) != 0u)) { qPlayer.ArabMode2=0;
-}
-                        if (qPlayer.ArabMode2==-2 && ((qOpfer.SecurityFlags&(1<<1)) != 0u)) { qPlayer.ArabMode2=0;
-}
-                        if (qPlayer.ArabMode2==-3 && ((qOpfer.SecurityFlags&(1<<0)) != 0u)) { qPlayer.ArabMode2=0;
-}
-                        if (qPlayer.ArabMode2==-4 && ((qOpfer.SecurityFlags&(1<<2)) != 0u)) { qPlayer.ArabMode2=0;
+                        if (qPlayer.ArabMode==-4 && ((qOpfer.SecurityFlags&(1<<7)) != 0U)) { qPlayer.ArabMode=0;
 }
 
-                        if (qPlayer.ArabMode3==-1 && ((qOpfer.SecurityFlags&(1<<8)) != 0u)) { qPlayer.ArabMode3=0;
+                        if (qPlayer.ArabMode2==-1 && ((qOpfer.SecurityFlags&(1<<0)) != 0U)) { qPlayer.ArabMode2=0;
 }
-                        if (qPlayer.ArabMode3==-2 && ((qOpfer.SecurityFlags&(1<<5)) != 0u)) { qPlayer.ArabMode3=0;
+                        if (qPlayer.ArabMode2==-2 && ((qOpfer.SecurityFlags&(1<<1)) != 0U)) { qPlayer.ArabMode2=0;
 }
-                        if (qPlayer.ArabMode3==-3 && ((qOpfer.SecurityFlags&(1<<5)) != 0u)) { qPlayer.ArabMode3=0;
+                        if (qPlayer.ArabMode2==-3 && ((qOpfer.SecurityFlags&(1<<0)) != 0U)) { qPlayer.ArabMode2=0;
 }
-                        if (qPlayer.ArabMode3==-4 && ((qOpfer.SecurityFlags&(1<<3)) != 0u)) { qPlayer.ArabMode3=0;
+                        if (qPlayer.ArabMode2==-4 && ((qOpfer.SecurityFlags&(1<<2)) != 0U)) { qPlayer.ArabMode2=0;
 }
-                        if (qPlayer.ArabMode3==-5 && ((qOpfer.SecurityFlags&(1<<8)) != 0u)) { qPlayer.ArabMode3=0;
+
+                        if (qPlayer.ArabMode3==-1 && ((qOpfer.SecurityFlags&(1<<8)) != 0U)) { qPlayer.ArabMode3=0;
+}
+                        if (qPlayer.ArabMode3==-2 && ((qOpfer.SecurityFlags&(1<<5)) != 0U)) { qPlayer.ArabMode3=0;
+}
+                        if (qPlayer.ArabMode3==-3 && ((qOpfer.SecurityFlags&(1<<5)) != 0U)) { qPlayer.ArabMode3=0;
+}
+                        if (qPlayer.ArabMode3==-4 && ((qOpfer.SecurityFlags&(1<<3)) != 0U)) { qPlayer.ArabMode3=0;
+}
+                        if (qPlayer.ArabMode3==-5 && ((qOpfer.SecurityFlags&(1<<8)) != 0U)) { qPlayer.ArabMode3=0;
 }
                     }
                 }
@@ -3618,7 +3618,7 @@ void SIM::SaveGame (SLONG Number, const CString &Name) const
     if (OutputFile.IsOpen() == 0) { return;
 }
 
-    Sim.SendSimpleMessage (ATNET_WAITFORPLAYER, 0, 1, Sim.localPlayer);
+    SIM::SendSimpleMessage (ATNET_WAITFORPLAYER, 0, 1, Sim.localPlayer);
 
     //Names des Spielstandes:
     OutputFile << Name;
@@ -3706,7 +3706,7 @@ void SIM::SaveGame (SLONG Number, const CString &Name) const
 
     if (Sim.bNetwork != 0)
     {
-        Sim.SendSimpleMessage (ATNET_WAITFORPLAYER, 0, -1, Sim.localPlayer);
+        SIM::SendSimpleMessage (ATNET_WAITFORPLAYER, 0, -1, Sim.localPlayer);
 
         DisplayBroadcastMessage (StandardTexte.GetS (TOKEN_MISC, 7003));
     }
@@ -3792,7 +3792,7 @@ DWORD SIM::GetSavegameUniqueGameId (SLONG Index, bool bForceNetwork)
 
             return (UniqueGameId);
         }
-        return (false);
+        return static_cast<DWORD>(false);
     }
     return static_cast<DWORD>(false);
 }
@@ -4065,7 +4065,7 @@ void SIM::NetRefill (SLONG Type, SLONG City)
 
     Message << Delta << Time;
 
-    Sim.SendMemFile (Message);
+    SIM::SendMemFile (Message);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -4073,7 +4073,7 @@ void SIM::NetRefill (SLONG Type, SLONG City)
 //--------------------------------------------------------------------------------------------
 void SIM::NetSynchronizeOvertake () const
 {
-    Sim.SendSimpleMessage (ATNET_OVERTAKE, 0, OvertakenAirline, OvertakerAirline, Overtake);
+    SIM::SendSimpleMessage (ATNET_OVERTAKE, 0, OvertakenAirline, OvertakerAirline, Overtake);
 }
 
 //--------------------------------------------------------------------------------------------

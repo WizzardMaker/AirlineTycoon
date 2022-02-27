@@ -689,7 +689,7 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                 qObj.HLineEntries[y]++; //Erhöhe, die Zahl der Gen-Strings für diese Zeile
 
                 //Suchen, wie weit die nicht-transparente HLine geht...
-                for (cx=0; cx+x<pBitmap->GetXSize() && (bm[cx+x] != 0u); cx++) {;
+                for (cx=0; cx+x<pBitmap->GetXSize() && (bm[cx+x] != 0U); cx++) {;
 }
 
                 if (cx<=4)
@@ -1078,7 +1078,7 @@ void CHLBms::ReSize (CHLPool *pHLPool, __int64 graphicID, ...)
 {
     SLONG           count=0;
     __int64         i=graphicID;
-    va_list         marker = nullptr;
+    va_list         marker;
     BUFFER<__int64> graphicIds;
 
     //Anzahl ermitteln:
@@ -1201,7 +1201,7 @@ void UpdateHLinePool ()
     SkelPal.RefreshPalFromLbm(const_cast<char*>((LPCTSTR)FullFilename ("skel_pal.lbm", "clan\\lbm\\%s")));
 
     for (c=Clans.AnzEntries()-1; c>=0; c--) {
-        if ((Clans.IsInAlbum (c) != 0) && (Clans[c].UpdateNow != 0u))
+        if ((Clans.IsInAlbum (c) != 0) && (Clans[c].UpdateNow != 0U))
         {
             hprintf ("Compressing %li", c);
 
