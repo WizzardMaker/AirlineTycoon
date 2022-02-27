@@ -646,10 +646,6 @@ typedef wchar_t			OLECHAR;
 
 #endif // #ifdef SS_ANSI
 
-#ifndef UNUSED
-#define UNUSED(x) x
-#endif
-
 #endif // #ifndef W32BASE_H
 
 // Standard headers needed
@@ -1314,7 +1310,7 @@ inline void	ssasn(std::string& sDst, const std::wstring& sSrc)
 #ifdef SS_MBCS
         sDst.resize(sslen(szCvt));
 #else
-        szCvt;
+        (void)szCvt;
         sDst.resize(sSrc.size());
 #endif
     }
@@ -1344,7 +1340,7 @@ inline void	ssasn(std::string& sDst, PCWSTR pW)
         sDst.resize(sslen(szCvt));
 #else
         sDst.resize(nDst);
-        szCvt;
+        (void)szCvt;
 #endif
     }
     else
@@ -1354,7 +1350,7 @@ inline void	ssasn(std::string& sDst, PCWSTR pW)
 }
 inline void ssasn(std::string& sDst, const int nNull)
 {
-    UNUSED(nNull);
+    (void)nNull;
     ASSERT(nNull==0);
     sDst.assign("");
 }
@@ -1431,7 +1427,7 @@ inline void	ssasn(std::wstring& sDst, PCSTR pA)
 }
 inline void ssasn(std::wstring& sDst, const int nNull)
 {
-    UNUSED(nNull);
+    (void)nNull;
     ASSERT(nNull==0);
     sDst.assign(L"");
 }
@@ -1464,7 +1460,7 @@ inline void	ssadd(std::string& sDst, const std::wstring& sSrc)
         sDst.resize(nDst + sslen(szCvt));
 #else
         sDst.resize(nDst + nAdd);
-        szCvt;
+        (void)szCvt;
 #endif
     }
 }
@@ -1492,7 +1488,7 @@ inline void	ssadd(std::string& sDst, PCWSTR pW)
         sDst.resize(nDst + sslen(szCvt));
 #else
         sDst.resize(nDst + nSrc);
-        szCvt;
+        (void)szCvt;
 #endif
     }
 }
@@ -1537,7 +1533,7 @@ inline void	ssadd(std::wstring& sDst, const std::string& sSrc)
         sDst.resize(nDst + sslen(szCvt));
 #else
         sDst.resize(nDst + nSrc);
-        szCvt;
+        (void)szCvt;
 #endif
     }
 }
@@ -1557,7 +1553,7 @@ inline void	ssadd(std::wstring& sDst, PCSTR pA)
         sDst.resize(nDst + sslen(szCvt));
 #else
         sDst.resize(nDst + nSrc);
-        szCvt;
+        (void)szCvt;
 #endif
     }
 }

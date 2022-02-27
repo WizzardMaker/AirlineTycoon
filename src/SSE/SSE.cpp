@@ -501,16 +501,16 @@ bool FX::IsMouthOpen(SLONG PreTime)
         return false;
 
     Uint16* sampleBuf = ((Uint16*)_fxData.pBuffer->abuf) + pos;
-    return abs(*sampleBuf) > 512
-        || abs(sampleBuf[100]) > 512
-        || abs(sampleBuf[200]) > 512
-        || abs(sampleBuf[400]) > 512
-        || abs(sampleBuf[560]) > 512
-        || abs(sampleBuf[620]) > 512
-        || abs(sampleBuf[700]) > 512
-        || abs(sampleBuf[800]) > 512
-        || abs(sampleBuf[900]) > 512
-        || abs(sampleBuf[999]) > 512;
+    return (*sampleBuf) > 512
+        || (sampleBuf[100]) > 512
+        || (sampleBuf[200]) > 512
+        || (sampleBuf[400]) > 512
+        || (sampleBuf[560]) > 512
+        || (sampleBuf[620]) > 512
+        || (sampleBuf[700]) > 512
+        || (sampleBuf[800]) > 512
+        || (sampleBuf[900]) > 512
+        || (sampleBuf[999]) > 512;
 }
 
 word FX::CountPlaying()

@@ -59,7 +59,7 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore** out, SLONG w, SLONG h, ULONG
         core->SetColorKey(0);
     core->lpTexture = Renderer && flags & CREATE_VIDMEM ?
         SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h) : NULL;
-    if (core->lpTexture && flags & (CREATE_USEALPHA || CREATE_USECOLORKEY))
+    if (core->lpTexture && flags & (CREATE_USEALPHA | CREATE_USECOLORKEY))
         SDL_SetTextureBlendMode(core->lpTexture, SDL_BLENDMODE_BLEND);
     core->Size.x = w;
     core->Size.y = h;

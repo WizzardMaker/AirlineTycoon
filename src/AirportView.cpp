@@ -1298,7 +1298,7 @@ void AirportView::OnPaint()
 //--------------------------------------------------------------------------------------------
 void AirportView::AnnouceTipDataUpdate (SLONG TipType)
 {
-    AnnouceTipDataUpdate (TipType);
+    CStdRaum::AnnouceTipDataUpdate (TipType);
 }
 
 //--------------------------------------------------------------------------------------------

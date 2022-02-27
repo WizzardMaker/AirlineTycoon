@@ -111,7 +111,7 @@ GfxLib::GfxLib(void*, SDL_Renderer*, char* path, SLONG, SLONG, SLONG*)
         }
         SDL_RWclose(file);
     }else {
-        SDL_Log(SDL_GetError());
+        SDL_Log("%s\n", SDL_GetError());
     }
 }
 
@@ -129,7 +129,6 @@ GfxLibHeader* GfxLib::LoadHeader(SDL_RWops* file)
     header->Length = SDL_ReadLE32(file);
     if (SDL_RWread(file, &header->Unknown0, 1, header->Length - 4) != header->Length - 4)
     {
-        printf("MP: Cannot read gfx header: %s\n", file);
         delete header;
         return NULL;
     }
@@ -151,7 +150,6 @@ SLONG GfxLib::Load(SDL_RWops* file, GfxLibHeader* header)
         GfxChunkInfo info = { 0 };
         if (SDL_RWread(file, &info, sizeof(info), 1) != 1)
         {
-            printf("MP: Cannot load file: %s\n", file);
             return -3;
         }
 
@@ -161,7 +159,6 @@ SLONG GfxLib::Load(SDL_RWops* file, GfxLibHeader* header)
             case CHUNK_GFX:
                 if (SDL_RWread(file, &chunk, sizeof(chunk), 1) != 1)
                 {
-                    printf("MP: Cannot gfx chunk: %s\n", file);
                     return -4;
                 }
                 ReadGfxChunk(file, chunk, 0, 0);
@@ -189,7 +186,6 @@ SLONG GfxLib::ReadGfxChunk(SDL_RWops* file, GfxChunkHeader header, SLONG, SLONG)
     GfxChunkImage image = { 0 };
     if (SDL_RWread(file, &image, sizeof(image), 1) != 1)
     {
-        printf("MP: Cannot read gfx chunk: %s\n", file);
         return -1;
     }
 

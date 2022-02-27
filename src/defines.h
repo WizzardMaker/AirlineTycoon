@@ -141,7 +141,7 @@ inline CRect operator-(CRect r, const CPoint& p)
 
 inline bool operator==(const CPoint& lhs, const CPoint& rhs)
 {
-    return lhs.x == rhs.x && lhs.y == lhs.y;
+    return lhs.x == rhs.x && lhs.y == rhs.y;
 }
 
 inline bool operator!=(const CPoint& lhs, const CPoint& rhs)
