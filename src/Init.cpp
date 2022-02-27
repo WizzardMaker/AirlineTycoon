@@ -3,10 +3,10 @@
 //============================================================================================
 #include "StdAfx.h"
 #include "Checkup.h"
-#include "cd_prot.h"
 #include "Editor.h"
-#include <fstream>
+#include "cd_prot.h"
 #include <algorithm>
+#include <fstream>
 
 extern SLONG IconsPos[];  //Referenziert globe.cpp
 

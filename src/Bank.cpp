@@ -2,9 +2,9 @@
 // Bank.cpp : Der Bankraum
 //============================================================================================
 #include "StdAfx.h"
-#include "glbank.h"
-#include "Bank.h"
 #include "AtNet.h"
+#include "Bank.h"
+#include "glbank.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

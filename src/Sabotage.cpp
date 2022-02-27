@@ -4,9 +4,9 @@
 // Link: "Sabotage.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "glsabo.h"
-#include "Sabotage.h"
 #include "AtNet.h"
+#include "Sabotage.h"
+#include "glsabo.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

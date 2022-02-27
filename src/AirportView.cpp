@@ -4,11 +4,11 @@
 // Links: "AirportView.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "HLine.h"
 #include "AskBrick.h"
+#include "AtNet.h"
+#include "HLine.h"
 #include "HalldiskMenu.h"
 #include "Synthese.h"
-#include "AtNet.h"
 
 extern CHLPool HLPool;
 
@@ -2512,8 +2512,7 @@ XY AIRPORT::GetRandomTypedRune (ULONG BrickId, UBYTE Par, bool AcceptError, TEAK
 
     if (Anz==0) {
         if (AcceptError) { return (XY(-9999, -9999));
-        } else {             TeakLibW_Exception (FNL, ExcNever);
-}
+        }             TeakLibW_Exception (FNL, ExcNever);
 }
 
     if (Anz==1) {

@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 SSE::SSE(void* hWnd, dword samplesPerSec, word channels, word bitsPerSample, word maxFX)
     : _hWnd((SDL_Window*)hWnd)

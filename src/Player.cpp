@@ -714,7 +714,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                             anz++;
                         }
 
-                    if (anz) return (tmp/anz); else return (0);
+                    if (anz) return (tmp/anz); return (0);
                 }
                 break;
 
@@ -759,7 +759,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                     for (c=0; c<min((SLONG)Sim.Date, 5); c++)
                         f += Statistiken[STAT_FLUGZEUGE].GetAtPastDay(c+1);
 
-                    if (f) return (SLONG(p/f)); else return (0);
+                    if (f) return (SLONG(p/f)); return (0);
                 }
                 break;
 
@@ -795,7 +795,7 @@ SLONG PLAYER::GetMissionRating (bool bAnderer)
                             anz++;
                         }
 
-                        if (anz) return (sum/anz); else return (0);
+                        if (anz) return (sum/anz); return (0);
                     }
                     else
                     {

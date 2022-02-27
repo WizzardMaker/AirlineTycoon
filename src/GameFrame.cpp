@@ -4,13 +4,13 @@
 // Link: "Gameframe.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "glpause.h"
-#include "Synthese.h"
-#include "Intro.h"
-#include "Outro.h"
-#include "NewGamePopup.h"  //Fenster zum Wahl der Gegner und der Spielstärke
-#include "cd_prot.h"
 #include "AtNet.h"
+#include "Intro.h"
+#include "NewGamePopup.h"  //Fenster zum Wahl der Gegner und der Spielstärke
+#include "Outro.h"
+#include "Synthese.h"
+#include "cd_prot.h"
+#include "glpause.h"
 
 #include "SbLib.h"
 #include "network.h"

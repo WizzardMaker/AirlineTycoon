@@ -8,6 +8,9 @@ typedef struct fd_set fd_set;
 #endif
 #include <enet/enet.h>
 
+#include "network.h"
+#include "SbLib.h"
+
 #define ENET_TYPE "ENET"
 
 typedef DWORD DPID;

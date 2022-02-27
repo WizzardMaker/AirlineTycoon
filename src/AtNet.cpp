@@ -6,8 +6,8 @@
 #include "StdAfx.h"
 #include "AtNet.h"
 
-#include <math.h>
 #include "Buero.h"
+#include <math.h>
 
 #include "SbLib.h"
 #include "network.h"

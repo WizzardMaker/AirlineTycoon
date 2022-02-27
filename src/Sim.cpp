@@ -2,9 +2,9 @@
 // Sim.cpp : Routinen zur allgemeinen Simulationsverwaltung:
 //============================================================================================
 #include "StdAfx.h"
+#include "AtNet.h"
 #include "Checkup.h"
 #include "Sabotage.h"
-#include "AtNet.h"
 #include <filesystem>
 
 //Für Menschen     Für Computer
@@ -3754,8 +3754,7 @@ SLONG SIM::GetSavegameLocalPlayer (SLONG Index)
         }
         return (-1);
     }
-    else { return (-1);
-}
+    return (-1);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -3795,8 +3794,7 @@ DWORD SIM::GetSavegameUniqueGameId (SLONG Index, bool bForceNetwork)
         }
         return (false);
     }
-    else { return static_cast<DWORD>(false);
-}
+    return static_cast<DWORD>(false);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -3839,8 +3837,7 @@ SLONG SIM::GetSavegameNumHumans (SLONG Index)
         }
         return (0);
     }
-    else { return (0);
-}
+    return (0);
 }
 
 //--------------------------------------------------------------------------------------------

@@ -4,14 +4,14 @@
 // Link to: "NewGamePopup.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "glstart.h"
-#include "SecurityManager.h"
+#include "AtNet.h"
 #include "NewGamePopup.h"  //Fenster zum Wahl der Gegner und der Spielstärke
+#include "SecurityManager.h"
 #include "cd_prot.h"
 #include "fillfile.h"
-#include "AtNet.h"
-#include <cstdlib>
+#include "glstart.h"
 #include <cstdio>
+#include <cstdlib>
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -1517,7 +1517,7 @@ again_heimatflughafen:
                     RefreshKlackerField();
                     return;
                 }
-                else if (PageNum == SELECT_PLAYER_SINGLEPLAYER)
+                if (PageNum == SELECT_PLAYER_SINGLEPLAYER)
                 {
                     PageNum = MISSION_SELECT;
                     if (Sim.Difficulty == DIFF_FREEGAME)
@@ -1557,7 +1557,7 @@ again_heimatflughafen:
                     RefreshKlackerField();
                     return;
                 }
-                else if (PageNum == 122)
+                if (PageNum == 122)
                 {
                     PageNum = SELECT_PLAYER_CAMPAIGN;
                     RefreshKlackerField();

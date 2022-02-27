@@ -15,10 +15,9 @@ SLONG CalcInertiaVelocity(SLONG a, SLONG b)
             return 0;
         }             return -(SLONG)sqrt((double)(b - a + 1) / 2.0 + 0.5);
     }
-    else
-    {
-        return (SLONG)sqrt((double)(a - b + 1) / 2.0 + 0.5);
-    }
+    
+            return (SLONG)sqrt((double)(a - b + 1) / 2.0 + 0.5);
+   
 }
 
 SLONG Calc1nSum(SLONG a)

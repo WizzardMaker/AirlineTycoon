@@ -4,8 +4,8 @@
 // Link: "LastMin.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "gllast.h"
 #include "AtNet.h"
+#include "gllast.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

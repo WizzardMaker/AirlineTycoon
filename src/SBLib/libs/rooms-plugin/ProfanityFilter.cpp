@@ -9,9 +9,9 @@
  */
 
 #include "ProfanityFilter.h"
-#include "Rand.h"
-#include "RakAssert.h"
 #include "LinuxStrings.h"
+#include "RakAssert.h"
+#include "Rand.h"
 
 #if defined(_WIN32)
 #include <malloc.h> // alloca

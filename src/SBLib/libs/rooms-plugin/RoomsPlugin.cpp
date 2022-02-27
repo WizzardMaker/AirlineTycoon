@@ -10,13 +10,13 @@
 
 #include "RoomsPlugin.h"
 #include "BitStream.h"
+#include "GetTime.h"
+#include "MessageIdentifiers.h"
+#include "ProfanityFilter.h"
+#include "RakAssert.h"
+#include "RakPeerInterface.h"
 #include "RoomsErrorCodes.h"
 #include "TableSerializer.h"
-#include "RakAssert.h"
-#include "MessageIdentifiers.h"
-#include "RakPeerInterface.h"
-#include "ProfanityFilter.h"
-#include "GetTime.h"
 
 using namespace RakNet;
 

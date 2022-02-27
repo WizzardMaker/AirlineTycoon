@@ -110,11 +110,10 @@ SLONG TeakAlbumXIdSearchT(FBUFFER<ULONG>& ids, ULONG anz, CString const& name, X
         TeakLibW_Exception(nullptr, 0, ExcXIDUnrecoverable, name.c_str());
         return 0;
     }
-    else
-    {
-        id.Value = ids[id.Index];
+    
+            id.Value = ids[id.Index];
         return id.Index;
-    }
+   
 }
 
 int TeakAlbumIsInAlbum(FBUFFER<ULONG>& ids, ULONG anz, ULONG id)

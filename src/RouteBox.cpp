@@ -4,9 +4,9 @@
 #include "StdAfx.h"
 #include "RouteBox.h"
 
-#include <math.h>
-#include "glrb.h"
 #include "AtNet.h"
+#include "glrb.h"
+#include <math.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -1,10 +1,10 @@
 #include "StdAfx.h"
+#include "BaseNetworkType.hpp"
+#include "BitStream.h"
+#include "ENetNetwork.hpp"
+#include "RAKNetNetwork.hpp"
 #include "SbLib.h"
 #include "network.h"
-#include "BitStream.h"
-#include "BaseNetworkType.hpp"
-#include "RAKNetNetwork.hpp"
-#include "ENetNetwork.hpp"
 
 #ifdef ENET_NETWORK
 SBNetwork::SBNetwork(bool)

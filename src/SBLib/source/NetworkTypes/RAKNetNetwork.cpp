@@ -1,8 +1,8 @@
 #include "StdAfx.h"
-#include "SbLib.h"
-#include "network.h"
 #include "BitStream.h"
 #include "RAKNetNetwork.hpp"
+#include "SbLib.h"
+#include "network.h"
 
 using namespace RakNet;
 

@@ -2,8 +2,8 @@
 // PlaneProps.cpp : Der Schalter und das Hinterzimmer von PlaneProps!
 //============================================================================================
 #include "StdAfx.h"
-#include "glplanpr.h"
 #include "PlanProp.h"
+#include "glplanpr.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

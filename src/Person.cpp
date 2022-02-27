@@ -25,7 +25,7 @@ SLONG sign (SLONG Value)
 {
     if (Value>0) { return (1);
     } if (Value<0) return (-1);
-    else return (0);
+    return (0);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -534,7 +534,7 @@ UBYTE CLANS::GetCustomerId (SLONG Browned, SLONG Koffer, TEAKRAND *pRand)
     {
         if (CheatMoreNuns==1) { return (UBYTE(AnzEntries()-1));
         } if (CheatMoreNuns==2) return (GetCustomerIdByGroup (10));
-        else if (CheatMoreNuns==3) return (GetCustomerIdByGroup (11));
+        if (CheatMoreNuns==3) return (GetCustomerIdByGroup (11));
     }
 
     Num = 0;

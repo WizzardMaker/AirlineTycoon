@@ -1,9 +1,11 @@
 #pragma once
 
+#include "network.h"
 #include "RakPeerInterface.h"
 #include "RakNetTypes.h"
-#include "rooms-plugin/RoomsPlugin.h"
 #include "RAKNetRoomCallbacks.hpp"
+#include "rooms-plugin/RoomsPlugin.h"
+#include "SbLib.h"
 
 #define RAKNET_TYPE_DIRECT_JOIN "Direct-IP  Join"
 #define RAKNET_TYPE_DIRECT_HOST "Direct-IP  Host"

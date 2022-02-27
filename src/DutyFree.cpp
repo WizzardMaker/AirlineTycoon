@@ -4,9 +4,9 @@
 // Link: "DutyFree.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "glduty.h"
-#include "DutyFree.h"
 #include "AtNet.h"
+#include "DutyFree.h"
+#include "glduty.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

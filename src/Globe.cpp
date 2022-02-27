@@ -4,8 +4,8 @@
 // Link: "Globe.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "glglobea.h"
 #include "glglobe.h"
+#include "glglobea.h"
 
 #define GFX_GLOBE			 (0x00000045424f4c47)
 #define GFX_GLASS			 (0x0000005353414c47)

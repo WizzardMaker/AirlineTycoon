@@ -2236,7 +2236,7 @@ void CPlaner::HandleLButtonDown ()
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2312));
                                 break;
                             }
-                            else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==4)
+                            if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==4)
                             {
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2316));
                                 break;
@@ -2296,7 +2296,7 @@ void CPlaner::HandleLButtonDown ()
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2314));
                                 break;
                             }
-                            else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==4)
+                            if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==4)
                             {
                                 qPlayer.Messages.AddMessage (BERATERTYP_GIRL, StandardTexte.GetS (TOKEN_ADVICE, 2301));
                                 break;
@@ -3049,7 +3049,7 @@ void CPlaner::HandleLButtonDouble ()
                                         break;
                                     } if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==1)
                                         break;
-                                    else if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==4)
+                                    if (pBlock->TableB.ValueFlags[TableCursor*pBlock->TableB.AnzColums]==4)
                                         break;
 
                                     if (Sim.Players.Players[PlayerNum].IsAuftragInUse (pBlock->TableB.LineIndex[TableCursor], &PlaneName) == 0)

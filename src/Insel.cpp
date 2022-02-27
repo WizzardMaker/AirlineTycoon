@@ -4,9 +4,9 @@
 // Link: "Insel.h"
 //============================================================================================
 #include "StdAfx.h"
+#include "Insel.h"
 #include "glinsel.h"
 #include "glnoinsl.h"
-#include "Insel.h"
 
 #define ROOM_LIMIT DIFF_NORMAL
 

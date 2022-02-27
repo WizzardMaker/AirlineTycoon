@@ -4,11 +4,11 @@
 #include "StdAfx.h"
 #include <math.h>
 
+#include <algorithm>
 #include <cassert>
 #include <chrono>
 #include <filesystem>
 #include <locale>
-#include <algorithm>
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -81,9 +81,8 @@ double GetAlphaFromXY (XY Delta)
         if (Delta.y>0) { return (180);
         } return (0);
     }
-    else
-    {
-        double rc = NAN;
+    
+            double rc = NAN;
 
         if (Delta.x>0) { rc=atan2 (Delta.y, Delta.x)*180/3.14159275+90;
         } else { rc=180-atan2 (Delta.y, -Delta.x)*180/3.14159275+90;
@@ -92,7 +91,7 @@ double GetAlphaFromXY (XY Delta)
         if (rc>360) { rc-=360;
 }
         return (rc);
-    }
+   
 }
 
 //--------------------------------------------------------------------------------------------

@@ -430,12 +430,11 @@ SLONG SBBM::PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1,
         Bench.TextTime.Stop();
         return (0);
     }
-    else
-    {
-        SLONG rc=Font.DrawTextBlock(pBitmap, p1.x, p1.y, p2.x, p2.y, (char*)Str);
+    
+            SLONG rc=Font.DrawTextBlock(pBitmap, p1.x, p1.y, p2.x, p2.y, (char*)Str);
         Bench.TextTime.Stop();
         return (rc);
-    }
+   
 }
 
 SLONG SBBM::TryPrintAt (const char *Str, SB_CFont &Font, SLONG  /*Flags*/, const XY &p1, const XY &p2) const

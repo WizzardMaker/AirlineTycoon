@@ -4,9 +4,9 @@
 // Link: "Options.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "glstart.h"
 #include "AtNet.h"
 #include "SbLib.h"
+#include "glstart.h"
 #include "network.h"
 
 #ifdef _DEBUG

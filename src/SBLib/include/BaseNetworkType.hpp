@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MessageIdentifiers.h"
+#include "SbLib.h"
 
 //Direct play identifiers
 constexpr auto  DPPLAYERTYPE_GROUP = 0x0000;

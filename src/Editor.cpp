@@ -2,11 +2,11 @@
 // Editor.cpp : Der Flugzeugeditor
 //============================================================================================
 #include "StdAfx.h"
+#include "AtNet.h"
 #include "Editor.h"
 #include "gleditor.h"
-#include "AtNet.h"
-#include <string>
 #include <fstream>
+#include <string>
 
 #if __cplusplus < 201703L // If the version of C++ is less than 17
 #include <experimental/filesystem>
@@ -1632,7 +1632,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                 PartUnderCursorB = "";
                 return;
             }
-            else if (MouseClickId>=10000)
+            if (MouseClickId>=10000)
             {
                 long relnr = Plane.Parts[long(MouseClickId-10000)].ParentRelationId;
                 long rel   = gPlanePartRelations[relnr].Id;

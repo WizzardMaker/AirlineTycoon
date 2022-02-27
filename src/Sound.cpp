@@ -214,7 +214,7 @@ BOOL CreateSpeechSBFX (const CString& String, SBFX *pFx, SLONG PlayerNum, BOOL *
 }
                             break;
                         }
-                        else if (strnicmp (TextFollows, PlaneTypes[c].Hersteller, PlaneTypes[c].Hersteller.GetLength())==0)
+                        if (strnicmp (TextFollows, PlaneTypes[c].Hersteller, PlaneTypes[c].Hersteller.GetLength())==0)
                         {
                             str=path+"/"+bprintf ("pl%lih", PlaneTypes.GetIdFromIndex(c)-0x10000000);
                             Effects[m++]->ReInit (str+".raw", (char*)(LPCTSTR)VoicePath);

@@ -743,12 +743,11 @@ void CHLPool::AddBitmap (__int64 graphicID, SB_CBitmapCore *pBitmap, PALETTE *Pa
                                     for (cmp=cx-1; cmp>=0; cmp--) {
                                         if (Equal[p[cmp]+(bm[x+cmp]<<8)]>=255) {
                                             break;
-                                        } else
-                                        {
-                                            Dist=max(Dist, Equal[p[cmp]+(bm[x+cmp]<<8)]);
+                                        } 
+                                                                                    Dist=max(Dist, Equal[p[cmp]+(bm[x+cmp]<<8)]);
                                             if (Dist>=BestDist) { break;
 }
-                                        }
+                                       
 }
 
                                     //Haben wir eine bessere Alternative gefunden?

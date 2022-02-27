@@ -1,7 +1,7 @@
 #include "StdAfx.h"
+#include "ENetNetwork.hpp"
 #include "SbLib.h"
 #include "network.h"
-#include "ENetNetwork.hpp"
 
 
 ENetNetwork::ENetNetwork()

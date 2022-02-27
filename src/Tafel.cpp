@@ -4,9 +4,9 @@
 // Link: "Tafel.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "gltafel.h"
-#include "Tafel.h"         //Die Tafel bei der Flughafenaufsicht
 #include "AtNet.h"
+#include "Tafel.h"         //Die Tafel bei der Flughafenaufsicht
+#include "gltafel.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

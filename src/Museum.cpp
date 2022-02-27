@@ -2,8 +2,8 @@
 // Museum.cpp : Das Museum mit den alten Flugzeugen
 //============================================================================================
 #include "StdAfx.h"
-#include "glmuseum.h"
 #include "Museum.h"
+#include "glmuseum.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

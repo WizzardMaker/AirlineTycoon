@@ -4,8 +4,8 @@
 // Link: "Abend.h"
 //============================================================================================
 #include "StdAfx.h"
-#include "glabend.h"
 #include "Abend.h"
+#include "glabend.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

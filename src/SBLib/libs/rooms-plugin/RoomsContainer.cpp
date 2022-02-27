@@ -10,12 +10,12 @@
 
 #include "RoomsContainer.h"
 
-#include <math.h>
+#include "BitStream.h"
+#include "GetTime.h"
 #include "ProfanityFilter.h"
 #include "RakAssert.h"
-#include "GetTime.h"
-#include "BitStream.h"
 #include "TableSerializer.h"
+#include <math.h>
 
 static const RakNet::TimeMS MINIMUM_QUICK_JOIN_TIMEOUT=5000;
 static const RakNet::TimeMS MAXIMUM_QUICK_JOIN_TIMEOUT=60000 * 5;
