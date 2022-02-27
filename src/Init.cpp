@@ -10,10 +10,7 @@
 
 extern SLONG IconsPos[]; // Referenziert globe.cpp
 
-extern BOOL gCDFound;
 extern BOOL gSpawnOnly;
-
-extern CJumpingVar<CString> gCDPath;
 
 extern CPlaneBuild gPlaneBuilds[37];
 extern CPlanePartRelation gPlanePartRelations[307];
@@ -28,175 +25,27 @@ DWORD GetKey();
 // Initialisierung der Pfade:
 //--------------------------------------------------------------------------------------------
 void InitPathVars() {
-    CString str;
-
-#ifndef DEMO
-    // Keine Demo, sondern Vollversion:
-#ifdef CD_PROTECTION_ANY_TYPE
-    // Kopierschutz der AddOn-Version ist nett: Wir probieren erst einmal, die CD zu finden.
-    // Ist sie nicht da, dann schränken wir das Hauptmenü nur ein.
-do_findcd_main:
-    if (CDProtection(&str)) {
-        gCDPath = str;
-        gCDFound = TRUE;
-        gSpawnOnly = FALSE;
-    }
-
-    // Prüfen, ob es die AddOn-CD ist und nicht die Basis-CD
-    /*if (DoesFileExist (gCDPath+"intro\\credits.smk"))
-      {
-      if (MessageBox (NULL, "Please insert the Deluxe CD.\n\n"
-      "Bitte legen Sie die Deluxe CD ein.\n\n"
-      "Veuillez insérer le CD de Deluxe.\n\n" , "Airline Tycoon : Error!",  MB_RETRYCANCEL)==IDCANCEL)
-      exit(-1);
-
-      goto do_findcd_main;
-      }*/
-
-    if (1 == 0)
-#else
-    if (DoesFileExist("C:\\Infos\\identity.txt") == 0 /*&& GetKey()!=0x1c4298a0*/) {
-        if (DoesFileExist(FullFilename("data\\cm.txt", AppPath)) == 0)
-#endif
-    {
-    do_findcd:
-#ifdef CD_PROTECTION_ANY_TYPE
-        while (!CDProtection(&str)) {
-            if (::MessageBox(NULL,
-                             "Please insert the Deluxe CD.\n\n"
-                             "Bitte legen Sie die Deluxe CD ein.\n\n"
-                             "Veuillez insérer le CD de Deluxe.\n\n",
-                             "Airline Tycoon : Error!", MB_RETRYCANCEL) == IDCANCEL)
-                exit(-1);
-        }
-#endif
-        gCDPath = str;
-        gCDFound = TRUE;
-        gSpawnOnly = FALSE;
-    }
-#ifndef CD_PROTECTION_ANY_TYPE
-    else {
-        gCDPath = "-:\\data\\"; // CD not neccessary, because this is Spellbound-Internal
-        gSpawnOnly = FALSE;
-    }
-}
-#endif
-#else
     gSpawnOnly = FALSE;
 
-    // Demo Version:
-#if defined(NO_D_VOICES) && defined(NO_E_VOICES) && defined(NO_N_VOICES)
-do_findcd:
-    gCDPath = "z:\\";
-#else
-    // Demo-CD mit Voices. Erst einmal ohne CD probieren. Wenn dann aber Verzeichnisse
-    // Fehlen (z.B. Voices), dann müssen wir doch nach der CD suchen:
-    goto skip_search_demo_cd;
+    BitmapPath = "bitmaps\\%s";
+    BrickPath = "brick\\%s";
+    CityPath = "city\\%s";
+    ClanPath = "clan\\%s";
+    ExcelPath = "data\\%s";
+    GliPath = "gli\\%s";
+    MiscPath = "misc\\%s";
+    ScanPath = "scans\\%s";
+    SoundPath = "sound\\%s";
+    RoomPath = "room\\%s";
+    PlanePath = "planes\\%s";
+    SmackerPath = "video\\%s";
+    IntroPath = "intro\\%s";
+    VoicePath = "voice\\%s";
+    MyPlanePath = "myplanes\\%s";
 
-do_findcd:
-
-    while (!CDProtection(&str)) {
-        if (::MessageBox(NULL,
-                         "CD not found! Please insert the Demo-CD containing 'Airline Tycoon Deluxe' in your CD-Drive.\n\n"
-                         "CD wurde nicht gefunden! Bitte legen Sie eine Demo-CD mit Airline Tycoon Deluxe in das CD-Rom Laufwerk ein.\n\n"
-                         "CD non trouvé ! Inserez s'il vous plait le CD dans votre lecteur de CD-Rom.",
-                         "Airline Tycoon : Error!", MB_RETRYCANCEL) == IDCANCEL)
-            exit(-1);
+    if (SavegamePath.GetLength() == 0) {
+        SavegamePath = "Savegame\\%s";
     }
-
-    gCDPath = str;
-    gCDFound = TRUE;
-skip_search_demo_cd:
-#endif
-#endif
-
-BitmapPath = "bitmaps\\%s";
-BrickPath = "brick\\%s";
-CityPath = "city\\%s";
-ClanPath = "clan\\%s";
-ExcelPath = "data\\%s";
-GliPath = "gli\\%s";
-MiscPath = "misc\\%s";
-ScanPath = "scans\\%s";
-SoundPath = "sound\\%s";
-RoomPath = "room\\%s";
-PlanePath = "planes\\%s";
-SmackerPath = "video\\%s";
-IntroPath = "intro\\%s";
-VoicePath = "voice\\%s";
-MyPlanePath = "myplanes\\%s";
-
-if (SavegamePath.GetLength() == 0) {
-    SavegamePath = "Savegame\\%s";
-}
-
-// Sind noch Packages auf der CD?
-if (DoesFileExist(FullFilename("dir.txt", GliPath)) == 0) {
-#ifndef CD_PROTECTION_ANY_TYPE
-    if (DoesFileExist(R"(Y:\Projekte\Airlin~1\betaver\data\at.exe)") != 0) {
-        GliPath = R"(Y:\Projekte\Airlin~1\betaver\data\gli\%s)";
-    } else
-#endif
-    {
-        if (gCDFound == 0) {
-            goto do_findcd;
-        }
-        GliPath = gCDPath + GliPath;
-    }
-}
-
-if (DoesFileExist(FullFilename("dir.txt", RoomPath)) == 0) {
-#ifndef CD_PROTECTION_ANY_TYPE
-    if (DoesFileExist(R"(Y:\Projekte\Airlin~1\betaver\data\at.exe)") != 0) {
-        RoomPath = R"(Y:\Projekte\Airlin~1\betaver\data\room\%s)";
-    } else
-#endif
-    {
-        if (gCDFound == 0) {
-            goto do_findcd;
-        }
-        RoomPath = gCDPath + RoomPath;
-    }
-}
-
-#ifndef NO_INTRO
-if (DoesFileExist(FullFilename("dir.txt", IntroPath)) == 0) {
-#ifndef CD_PROTECTION_ANY_TYPE
-    if (DoesFileExist(R"(Y:\Projekte\Airlin~1\betaver\data\at.exe)") != 0) {
-        IntroPath = R"(Y:\Projekte\Airlin~1\betaver\data\intro\%s)";
-    } else
-#endif
-    {
-        if (gCDFound != 0) {
-            IntroPath = gCDPath + IntroPath;
-        } else {
-            IntroPath = ""; // IntroPath leer ==> Spawn Version
-        }
-    }
-}
-#endif
-
-#if !defined(NO_D_VOICES) || !defined(NO_E_VOICES) || !defined(NO_N_VOICES)
-if (DoesFileExist(FullFilename("dir.txt", VoicePath)) == 0) {
-#ifndef CD_PROTECTION_ANY_TYPE
-    if (DoesFileExist(R"(Y:\Projekte\Airlin~1\betaver\data\at.exe)") != 0) {
-        VoicePath = R"(Y:\Projekte\Airlin~1\betaver\data\voice\%s)";
-    } else
-#endif
-    {
-#ifdef VOICES_OPTIONAL
-        bVoicesNotFound = true;
-        Sim.Options.OptionSpeechBubble = TRUE;
-        Sim.Options.OptionTalking = FALSE;
-#else
-                if (gCDFound == 0) {
-                    goto do_findcd;
-                }
-                VoicePath = gCDPath + VoicePath;
-#endif
-    }
-}
-#endif
 }
 
 //--------------------------------------------------------------------------------------------

@@ -60,15 +60,12 @@ static char THIS_FILE[] = __FILE__;
 
 void Unvideo(const CString &Filename, const CString &TargetFilename);
 
-CJumpingVar<CString> gCDPath;
-
 extern char VersionString[];
 extern SLONG bCAbendOpen;
 extern SLONG SkipPlaneCalculation;
 
 static CString PlaneSounds[] = {"prop.raw", "flyby.raw", "flyby2.raw", "flyby3.raw", "flyby4.raw", "flyby5.raw"};
 
-BOOL gCDFound = FALSE;
 BOOL gSpawnOnly = TRUE;
 
 extern char chRegKey[];
@@ -641,7 +638,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
         else
             LOADING_TEXT("Initializing screen...");
 
-        CreditsSmackerFileHandle = fopen(gCDPath + FILLFILE_NAME, "rb");
+        CreditsSmackerFileHandle = fopen(FILLFILE_NAME, "rb");
 
         TitleBitmap.ReSize(pRoomLib, GFX_TITEL);
         PrimaryBm.BlitFrom(TitleBitmap);

@@ -25,94 +25,6 @@ class /**/ CSmoke {
 };
 
 //--------------------------------------------------------------------------------------------
-// Variablen, die immer im Speicher herumspringen und daher nicht gefaßt werden können:
-//--------------------------------------------------------------------------------------------
-template <class T> class /**/ CJumpingVar {
-  private:
-    T *t;
-
-  public:
-    CJumpingVar() { t = new T; }
-    CJumpingVar(const T &_t) {
-        t = new T;
-        *t = _t;
-    }
-    ~CJumpingVar() { delete t; }
-
-    operator T() const { return (*t); }
-    T &operator=(const T &_t) {
-        *t = _t;
-        return *t;
-    }
-
-    T &operator++() { return ++(*t); }
-    T operator++(int) { return (*t)++; }
-    T &operator--() { return --(*t); }
-    T operator--(int) { return (*t)--; }
-
-    void Pump(void) {
-        T *tmp = new T;
-        char *help = new char[sizeof(T)];
-
-        memcpy(help, tmp, sizeof(T));
-        memcpy(tmp, t, sizeof(T));
-        memcpy(t, help, sizeof(T));
-
-        delete[] help;
-        delete t;
-
-        t = tmp;
-    }
-};
-
-//--------------------------------------------------------------------------------------------
-// Hack-Sichere Variablen:
-//--------------------------------------------------------------------------------------------
-template <class T, T code1, T code2> class /**/ CCodedVar {
-  private:
-    T var;
-
-  public:
-    CCodedVar() {}
-    CCodedVar(T _var) { var = (_var + code1) ^ code2; }
-
-    operator T() const { return ((var ^ code2) - code1); }
-
-    T operator++() {
-        var = (((var ^ code2) - code1) + 1 + code1) ^ code2;
-        return T(var);
-    }
-    T operator--() {
-        var = (((var ^ code2) - code1) - 1 + code1) ^ code2;
-        return T(var);
-    }
-    T operator++(int) {
-        var = (((var ^ code2) - code1) + 1 + code1) ^ code2;
-        return T(var) - 1;
-    }
-    T operator--(int) {
-        var = (((var ^ code2) - code1) - 1 + code1) ^ code2;
-        return T(var) + 1;
-    }
-    T operator+=(T Number) {
-        var = (((var ^ code2) - code1) + Number + code1) ^ code2;
-        return T(var);
-    }
-    T operator-=(T Number) {
-        var = (((var ^ code2) - code1) - Number + code1) ^ code2;
-        return T(var);
-    }
-    T operator*=(T Number) {
-        var = (((var ^ code2) - code1) * Number + code1) ^ code2;
-        return T(var);
-    }
-    T operator/=(T Number) {
-        var = (((var ^ code2) - code1) / Number + code1) ^ code2;
-        return T(var);
-    }
-};
-
-//--------------------------------------------------------------------------------------------
 // Ein Soundeffekt:
 //--------------------------------------------------------------------------------------------
 class /**/ SBFX {
@@ -2481,7 +2393,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
 
     // Datum und Zeit:
   public:
-    CCodedVar<SLONG, 0x7ab8077f, 0x6c931a93> Date; // Tage seit Spielbeginn
+    SLONG Date; // Tage seit Spielbeginn
     ULONG Time;                                    // Die Simulationszeit
     SLONG Month{}, MonthDay{};                     // Zur Vereinfachung gespeichert
     UBYTE QuitCountDown;                           // Zähler, die lange die Leute bis zum Quit winken

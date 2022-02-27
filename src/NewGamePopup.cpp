@@ -28,8 +28,6 @@ SLONG NewgameWantsToLoad = FALSE;
 SLONG NewgameToOptions = FALSE;
 SLONG gNetworkSavegameLoading = -1; // Komm-Variable, über die der Options-Screen mitteilt, welcher Spielstand für's Netzwerk geladen werden soll
 
-extern CJumpingVar<CString> gCDPath;
-
 #ifdef _DEBUG
 char VersionString[] = "VERSION 1.4 DEBUG"; // (pre-release; build 100)";
 #else

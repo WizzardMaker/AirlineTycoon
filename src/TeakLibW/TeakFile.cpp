@@ -143,7 +143,6 @@ bool CRLEReader::Close() {
 }
 
 void CRLEReader::SaveAsPlainText() {
-    printf("FOO\n");
     if (Ctx == nullptr) {
         return;
     }
