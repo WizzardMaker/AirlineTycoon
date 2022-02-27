@@ -35,10 +35,6 @@ SLONG timeReisClose = 17 * 60000;
 SLONG timeMaklClose = 16 * 60000;
 SLONG timeWerbOpen = 12 * 60000;
 
-#ifdef CD_PROTECTION
-extern BOOL CreditsFilesAreMissing;
-#endif
-
 // Daten des aktuellen Savegames beim laden:
 extern SLONG SaveVersion;
 extern SLONG SaveVersionSub;
@@ -93,11 +89,6 @@ AirportView::AirportView(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
     if (Sim.GetHour() == 9 && Sim.GetMinute() == 0) {
         bgJustDidLotsOfWork = TRUE;
     }
-
-#ifdef CD_PROTECTION
-    if (CreditsFilesAreMissing && Sim.Time > 9 * 60000)
-        MenuStart(MENU_CLOSED, MENU_CLOSED_PROTECTION);
-#endif
 
     FlushTalkers();
 }

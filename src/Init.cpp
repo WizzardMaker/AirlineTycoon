@@ -4,7 +4,6 @@
 #include "StdAfx.h"
 #include "Checkup.h"
 #include "Editor.h"
-#include "cd_prot.h"
 #include <algorithm>
 #include <fstream>
 

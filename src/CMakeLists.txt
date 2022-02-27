@@ -95,7 +95,6 @@ add_executable (AT
     PlanProp.cpp
     Player.cpp
     PNet.cpp
-    Protect.cpp
     Reise.cpp
     Ricks.cpp
     RouteBox.cpp
@@ -104,7 +103,6 @@ add_executable (AT
     Sbbm.cpp
     Schedule.cpp
     Security.cpp
-    SecurityManager.cpp
     Sim.cpp
     SmackPrs.cpp
     Sound.cpp

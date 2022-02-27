@@ -110,28 +110,6 @@ void PaintGlobe(const TECBM &SourceBm, SBBM *TargetBm, UWORD EarthAlpha, const X
 bool RobotUse(SLONG FeatureId);
 
 //--------------------------------------------------------------------------------------------
-// Protect.Cpp:
-//--------------------------------------------------------------------------------------------
-#ifdef CD_PROTECTION
-#define GetPhysicalCdRomBitlist ApplyColors
-#define CDProtection CheckCursorOutline
-#define GetFileChecksum UpdateCursorPosAndColor
-#define CheckMainFile OverrideMidi
-#define CheckSomeCdFileLength BlitDeltaChannel
-#define CheckCDFile DoStrangeStrings
-#define CheckComputerLicense ConvertToOctal
-
-bool Protect_CheckFileSize(char *_fname, char *_length);
-ULONG GetPhysicalCdRomBitlist(void);
-bool CDProtection(CString *pCdDrive);
-ULONG GetFileChecksum(const CString &Filename);
-BOOL CheckMainFile(const CString &Filename);
-bool CheckCDFile(int _filepos, int _filesize, int _code);
-void CheckSomeCdFileLength(void);
-bool CheckComputerLicense(void);
-#endif
-
-//--------------------------------------------------------------------------------------------
 // SBBM.Cpp:
 //--------------------------------------------------------------------------------------------
 __int64 GetIdFromString(CString Texts);

@@ -169,8 +169,6 @@ extern SLONG timeMuseOpen;
 extern SLONG timeMaklClose;
 extern SLONG timeWerbOpen;
 
-void GetProtectionString(const CString &TabFilename, SLONG *pPageAndWord, CString *pRightWord);
-
 class CWaitCursorNow {
   public:
     CWaitCursorNow() {

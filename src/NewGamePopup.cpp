@@ -6,9 +6,6 @@
 #include "StdAfx.h"
 #include "AtNet.h"
 #include "NewGamePopup.h" //Fenster zum Wahl der Gegner und der Spielstärke
-#include "SecurityManager.h"
-#include "cd_prot.h"
-#include "fillfile.h"
 #include "glstart.h"
 #include <cstdio>
 #include <cstdlib>
