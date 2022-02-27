@@ -316,7 +316,7 @@ void CPlane::DoOneStep (SLONG PlayerNum)
 
                     if (!Ignore && Cities[GetFlugplanEintrag()->VonCity].Wave!="-" && Cities[GetFlugplanEintrag()->VonCity].Wave!="")
                     {
-                        VoiceScheduler.AddVoice ((CString)bprintf ("Der%liFlug", PlayerNum));
+                        VoiceScheduler.AddVoice ((CString)bprintf ("der%liflug", PlayerNum));
                         VoiceScheduler.AddVoice (Cities[GetFlugplanEintrag()->VonCity].Wave);
 
                         VoiceScheduler.AddVoice ("gelande2");
