@@ -410,7 +410,7 @@ void Options::OnPaint()
 
                     if (Column >= 15 && Column < 23 && Line >= 3 && Line <= 15)
                     {
-                        if ((Line >= 8 && Line <= 13) || Line == 3 && !usesMidi && usesMusic) SetMouseLook(CURSOR_HOT, 0, -100, 0);
+                        if ((Line >= 8 && Line <= 13) || (Line == 3 && !usesMidi && usesMusic)) SetMouseLook(CURSOR_HOT, 0, -100, 0);
                     }
                     if (Line == 2 || (Line == 4 + musicShift && usesMusic) || Line == 15) SetMouseLook(CURSOR_HOT, 0, -100, 0);
                     if (Line == 5 + musicShift && Sim.Options.OptionLoopMusik == 0 && usesMusic) SetMouseLook(CURSOR_HOT, 0, -100, 0);

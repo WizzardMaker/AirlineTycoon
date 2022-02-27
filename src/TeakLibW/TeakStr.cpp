@@ -74,7 +74,7 @@ unsigned char* RecapizalizeString(unsigned char* str)
 {
     for (int i = 0; str[i]; ++i)
     {
-        if (i && (i <= 0 || str[i - 1] != ' ' && str[i - 1] != '-'))
+        if (i && (i <= 0 || (str[i - 1] != ' ' && str[i - 1] != '-')))
             str[i] = GerToLower(str[i]);
         else
             str[i] = GerToUpper(str[i]);

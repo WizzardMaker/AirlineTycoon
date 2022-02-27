@@ -3896,7 +3896,7 @@ void SIM::LoadHighscores (void)
 
                 if (*Buffer==';')
                 {
-                    sprintf (Buffer, bprintf(" %s", Buffer));
+                    sprintf (Buffer, "%s", bprintf(" %s", Buffer));
                 }
 
                 Highscores[c].Name = strtok (Buffer, ";");

@@ -616,9 +616,9 @@ void AirportView::OnPaint()
 
                 if (sizes[4]>0)
                 {
-                    gScrollOffsetB.x += LastViewPosB.x-(100000-(ViewPos.x*56)>>6)%sizes[4];
+                    gScrollOffsetB.x += LastViewPosB.x-((100000-(ViewPos.x*56))>>6)%sizes[4];
                     gScrollOffsetB.y += 0;
-                    LastViewPosB.x    = (100000-(ViewPos.x*56)>>6)%sizes[4];
+                    LastViewPosB.x    = ((100000-(ViewPos.x*56))>>6)%sizes[4];
                 }
 
                 for (c=1; c<Airport.ClipMarkers.AnzEntries(); c++)
@@ -645,8 +645,8 @@ void AirportView::OnPaint()
                             for (d=640/(sizes[0]+sizes[1])+2; d>=0; d--)
                             {
                                 BrickWait[ParallaxIndex[0]].Start();
-                                Bricks[ParallaxIndex[0]].BlitAt (PrimaryBm, 0, (100000-(ViewPos.x*16)>>6)%(sizes[0]+sizes[1])-(sizes[0]+sizes[1])+d*(sizes[0]+sizes[1]), WinP1.y-18+18);
-                                Bricks[ParallaxIndex[1]].BlitAt (PrimaryBm, 0, (100000-(ViewPos.x*16)>>6)%(sizes[0]+sizes[1])-(sizes[0]+sizes[1])+sizes[0]+d*(sizes[0]+sizes[1]), WinP1.y-18+18);
+                                Bricks[ParallaxIndex[0]].BlitAt (PrimaryBm, 0, ((100000-(ViewPos.x*16))>>6)%(sizes[0]+sizes[1])-(sizes[0]+sizes[1])+d*(sizes[0]+sizes[1]), WinP1.y-18+18);
+                                Bricks[ParallaxIndex[1]].BlitAt (PrimaryBm, 0, ((100000-(ViewPos.x*16))>>6)%(sizes[0]+sizes[1])-(sizes[0]+sizes[1])+sizes[0]+d*(sizes[0]+sizes[1]), WinP1.y-18+18);
                                 BrickWait[ParallaxIndex[0]].Stop();
                                 AnzElements++;
                             }
@@ -655,7 +655,7 @@ void AirportView::OnPaint()
                             for (d=640/sizes[2]+2; d>=0; d--)
                             {
                                 BrickWait[ParallaxIndex[2]].Start();
-                                Bricks[ParallaxIndex[2]].BlitAt (PrimaryBm, 0, (100000-(ViewPos.x*30)>>6)%sizes[2]-sizes[2]+d*sizes[2], WinP1.y-18+18+34);
+                                Bricks[ParallaxIndex[2]].BlitAt (PrimaryBm, 0, ((100000-(ViewPos.x*30))>>6)%sizes[2]-sizes[2]+d*sizes[2], WinP1.y-18+18+34);
                                 BrickWait[ParallaxIndex[2]].Stop();
                                 AnzElements++;
                             }
@@ -664,7 +664,7 @@ void AirportView::OnPaint()
                             for (d=640/sizes[3]+2; d>=0; d--)
                             {
                                 BrickWait[ParallaxIndex[3]].Start();
-                                Bricks[ParallaxIndex[3]].BlitAt (PrimaryBm, 0, (100000-(ViewPos.x*42)>>6)%sizes[3]-sizes[3]+d*sizes[3], WinP1.y-18+18+34+44);
+                                Bricks[ParallaxIndex[3]].BlitAt (PrimaryBm, 0, ((100000-(ViewPos.x*42))>>6)%sizes[3]-sizes[3]+d*sizes[3], WinP1.y-18+18+34+44);
                                 BrickWait[ParallaxIndex[3]].Stop();
                                 AnzElements++;
                             }
@@ -673,7 +673,7 @@ void AirportView::OnPaint()
                             for (d=640/sizes[4]+2; d>=0; d--)
                             {
                                 BrickWait[ParallaxIndex[4]].Start();
-                                Bricks[ParallaxIndex[4]].BlitAt (PrimaryBm, 0, (100000-(ViewPos.x*56)>>6)%sizes[4]-sizes[4]+d*sizes[4], WinP1.y-18+18+34+44+72);
+                                Bricks[ParallaxIndex[4]].BlitAt (PrimaryBm, 0, ((100000-(ViewPos.x*56))>>6)%sizes[4]-sizes[4]+d*sizes[4], WinP1.y-18+18+34+44+72);
                                 BrickWait[ParallaxIndex[4]].Stop();
                                 AnzElements++;
                             }
@@ -831,7 +831,7 @@ void AirportView::OnPaint()
 
                                         if (Grade>=-1 && Grade<=8)
                                         {
-                                            if ((qPerson.Mood>=MoodPersonBase2 && qPerson.Mood<=MoodPersonBase3) || qPerson.Mood>=MoodPersonRepairFC && qPerson.Mood<=MoodPerson3StarsFC)
+                                            if ((qPerson.Mood>=MoodPersonBase2 && qPerson.Mood<=MoodPersonBase3) || (qPerson.Mood>=MoodPersonRepairFC && qPerson.Mood<=MoodPerson3StarsFC))
                                                 MoodBms[qPerson.Mood].BlitFrom (SmallLogoBms[qPerson.FlightAirline], XY(8,10));
 
                                             ColorFX.BlitTrans (MoodBms[qPerson.Mood].pBitmap, &PrimaryBm.PrimaryBm, qPerson.ScreenPos-ViewPos+XY(8-1-MoodBms[qPerson.Mood].Size.x*4/5,-MoodBms[qPerson.Mood].Size.y-qClan.Phasen[0][0].Size.y-1), NULL, Grade);
@@ -3079,8 +3079,8 @@ void AIRPORT::CalcPlates (void)
                             case RUNE_LEFTUP:     iPlate[y+(x<<4)] &= (~96);  break;
 
                                                   //Laufband Direction Runes:
-                            case RUNE_BELT_RIGHT: iPlate[y+(x<<4)] = UBYTE(iPlate[y+(x<<4)] & (~176) | 1); break;
-                            case RUNE_BELT_LEFT:  iPlate[y+(x<<4)] = UBYTE(iPlate[y+(x<<4)] & (~224) | 1); break;
+                            case RUNE_BELT_RIGHT: iPlate[y+(x<<4)] = UBYTE((iPlate[y+(x<<4)] & (~176)) | 1); break;
+                            case RUNE_BELT_LEFT:  iPlate[y+(x<<4)] = UBYTE((iPlate[y+(x<<4)] & (~224)) | 1); break;
 
                             case RUNE_WESTEAST:   iPlate[y+(x<<4)] &= (~160); break;
                             case RUNE_NORTHSOUTH: iPlate[y+(x<<4)] &= (~80);  break;

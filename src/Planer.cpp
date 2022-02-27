@@ -405,7 +405,7 @@ void CPlaner::PaintGlobeRoutes (void)
 void CPlaner::PaintPostIt ()
 {
     CString VonCity, NachCity, VonCityKuerzel, NachCityKuerzel;
-    SLONG   VonCityId, NachCityId;
+    SLONG   VonCityId = 0, NachCityId = 0;
     SLONG   Dauer, Speed;
     SLONG   c, i;
 
@@ -696,7 +696,7 @@ void CPlaner::DoPollingStuff (void)
     {
         BLOCK &qBlock = qPlayer.Blocks[DragFlightPar0];
 
-        if (!qPlayer.Buttons&1)
+        if (!(qPlayer.Buttons&1))
         {
             DragFlightMode=FALSE;
             qPlayer.Planes[DragFlightPar1].CheckFlugplaene(PlayerNum, FALSE);
@@ -879,7 +879,7 @@ void CPlaner::DoPollingStuff (void)
     //Globus zu einem Zielpunkt drehen...
     if (EarthTargetAlpha!=EarthAlpha)
     {
-        if (abs (EarthTargetAlpha-EarthAlpha)<2000 || abs (UWORD(EarthTargetAlpha-EarthAlpha))>65336)
+        if (abs (EarthTargetAlpha-EarthAlpha)<2000 || (UWORD(EarthTargetAlpha-EarthAlpha))>65336)
             EarthAlpha=EarthTargetAlpha;
         else
             if (UWORD(EarthTargetAlpha-EarthAlpha)<0x8000) EarthAlpha+=2000;
@@ -1865,7 +1865,7 @@ void CPlaner::HandleLButtonDown (void)
                     SLONG      ActivePlane = pBlock->SelectedId;
                     CFlugplan &qPlan = qPlayer.Planes[ActivePlane].Flugplan;
                     SLONG      tmpObjectType=0;
-                    SLONG      tmpObjectId;
+                    SLONG      tmpObjectId = 0;
                     SLONG      Date=Sim.Date+pBlock->Page;
                     SLONG      Time=(ClientPos.y-5)/6;
 
@@ -1874,7 +1874,7 @@ void CPlaner::HandleLButtonDown (void)
 
                     //Nachschauen, ob der Flug zu lang ist für das Flugzeug:
                     {
-                        SLONG VonCityId, NachCityId;
+                        SLONG VonCityId = 0, NachCityId = 0;
 
                         if (CurrentPostItType==2) //Auftrag
                         {
@@ -1933,12 +1933,10 @@ void CPlaner::HandleLButtonDown (void)
                                         break;
                                 }
 
-                            if (c>=0 && (qPlan.Flug[c].Startdate>Sim.Date || (qPlan.Flug[c].Startdate==Sim.Date && qPlan.Flug[c].Startzeit>Sim.GetHour()+1)))
                             {
                                 tmpObjectType = qPlan.Flug[c].ObjectType;
                                 tmpObjectId   = qPlan.Flug[c].ObjectId;
-                            }
-                            else c=qPlan.Flug.AnzEntries()-1;
+                            };
 
                             qPlan.Flug[c].Okay       = 0;
                             qPlan.Flug[c].Startdate  = Date;
@@ -2225,7 +2223,7 @@ void CPlaner::HandleLButtonDown (void)
                 SLONG SelectedIdB2;
                 SLONG Cost = CalculateFlightCostRechnerisch (Routen[pBlock->SelectedIdB].VonCity, Routen[pBlock->SelectedIdB].NachCity, 800, 800, -1)*3/180*2;
 
-                for (SLONG c=qPlayer.RentRouten.RentRouten.AnzEntries()-1; c>=0; c--)
+                for (SLONG c=qPlayer.RentRouten.RentRouten.AnzEntries()-1; ; c--)
                     if (Routen.IsInAlbum(c))
                         if (Routen[c].VonCity==Routen[pBlock->SelectedIdB].NachCity && Routen[c].NachCity==Routen[pBlock->SelectedIdB].VonCity)
                         {
@@ -2454,7 +2452,7 @@ void CPlaner::HandleLButtonUp (void)
 
                     //Nachschauen, ob der Flug zu lang ist für das Flugzeug:
                     {
-                        SLONG VonCityId, NachCityId;
+                        SLONG VonCityId = 0, NachCityId = 0;
 
                         if (CurrentPostItType==2) //Auftrag
                         {

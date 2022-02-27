@@ -1317,7 +1317,7 @@ waiting_again:
                             BOOL  bFast          = StepSize.y>4;
                             BOOL  bAussenErlaubt = (Airport.iPlate[14+(ArrayPos.x<<4)]&64) && (Airport.iPlate[14+((ArrayPos.x+1)<<4)]&64) && (Airport.iPlate[14+((ArrayPos.x-1)<<4)]&64);
 
-                            if (bFast && bAussenErlaubt && (ArrayPos.y+5==14 || (Airport.iPlate[13+((ArrayPos.x+1)<<4)]&2) && Target.x-Position.x>88))
+                            if (bFast && bAussenErlaubt && (ArrayPos.y+5==14 || ((Airport.iPlate[13+((ArrayPos.x+1)<<4)]&2) && Target.x-Position.x>88)))
                                 ty = 209;    //Schnelle Clans überholen außen, wenn jemand vor ihnen ist...
                             else
                             {
@@ -1364,7 +1364,7 @@ waiting_again:
                             BOOL  bFast          = StepSize.y>4;
                             BOOL  bAussenErlaubt = (Airport.iPlate[10+(ArrayPos.x<<4)]&64) && (Airport.iPlate[10+((ArrayPos.x-1)<<4)]&64) && (Airport.iPlate[10+((ArrayPos.x+1)<<4)]&64);
 
-                            if (bFast && bAussenErlaubt && (ArrayPos.y+5==10 || (Airport.iPlate[11+((ArrayPos.x-1)<<4)]&2) && Position.x-Target.x>88))
+                            if (bFast && bAussenErlaubt && (ArrayPos.y+5==10 || ((Airport.iPlate[11+((ArrayPos.x-1)<<4)]&2) && Position.x-Target.x>88)))
                                 ty = 121;    //Schnelle Clans überholen außen, wenn jemand vor ihnen ist...
                             else
                             {
@@ -2067,7 +2067,7 @@ void PERSON::DoOnePlayerStep (void)
 
             if (c>=ROOM_PHONE1 && c<=ROOM_PHONE4)
             {
-                if (qPlayer.Owner!=1 && qPlayer.DirectToRoom==c && (qPlayer.Owner==2 || !(*(CStdRaum*)qPlayer.LocationWin).MenuIsOpen() && !(*(CStdRaum*)qPlayer.LocationWin).IsDialogOpen()))
+                if (qPlayer.Owner!=1 && qPlayer.DirectToRoom==c && (qPlayer.Owner==2 || (!(*(CStdRaum*)qPlayer.LocationWin).MenuIsOpen() && !(*(CStdRaum*)qPlayer.LocationWin).IsDialogOpen())))
                 {
                     if (qPlayer.Owner==0)
                     {
@@ -2082,7 +2082,7 @@ void PERSON::DoOnePlayerStep (void)
             }
             else if (c>=ROOM_MONITOR7 && c<=ROOM_MONITOR9)
             {
-                if (qPlayer.Owner!=1 && qPlayer.DirectToRoom==c && (qPlayer.Owner==2 || !(*(CStdRaum*)qPlayer.LocationWin).MenuIsOpen() && !(*(CStdRaum*)qPlayer.LocationWin).IsDialogOpen()))
+                if (qPlayer.Owner!=1 && qPlayer.DirectToRoom==c && (qPlayer.Owner==2 || (!(*(CStdRaum*)qPlayer.LocationWin).MenuIsOpen() && !(*(CStdRaum*)qPlayer.LocationWin).IsDialogOpen())))
                 {
                     if (c==qPlayer.DirectToRoom)
                     {
@@ -2098,7 +2098,7 @@ void PERSON::DoOnePlayerStep (void)
             }
             else if (c==ROOM_ELECTRO)
             {
-                if (qPlayer.Owner!=1 && qPlayer.DirectToRoom==c && (qPlayer.Owner==2 || !(*(CStdRaum*)qPlayer.LocationWin).MenuIsOpen() && !(*(CStdRaum*)qPlayer.LocationWin).IsDialogOpen()))
+                if (qPlayer.Owner!=1 && qPlayer.DirectToRoom==c && (qPlayer.Owner==2 || (!(*(CStdRaum*)qPlayer.LocationWin).MenuIsOpen() && !(*(CStdRaum*)qPlayer.LocationWin).IsDialogOpen())))
                 {
                     if (c==qPlayer.DirectToRoom)
                     {

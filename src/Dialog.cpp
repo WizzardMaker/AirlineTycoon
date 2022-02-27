@@ -975,7 +975,7 @@ BOOL CStdRaum::PreLButtonDown (CPoint point)
 
                                    if (DialogPar3==5) MarktAktien=DialogPar1;
                                    else if (DialogPar3==3) MarktAktien=DialogPar1*8/10;
-                                   else if (DialogPar3==1) MarktAktien=DialogPar1*6/10;
+                                   else MarktAktien=DialogPar1*6/10;
 
                                    qPlayer.ChangeMoney (MarktAktien*DialogPar2, 3162, "");
                                    qPlayer.ChangeMoney (-DialogPar1*DialogPar2/10/100*100, 3160, "");

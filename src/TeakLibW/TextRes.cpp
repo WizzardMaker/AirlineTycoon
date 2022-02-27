@@ -9,7 +9,7 @@ SLONG gLanguage;
 
 void LanguageSpecifyString(char *Dst)
 {
-    int i, j;
+    int i, j = 0;
     char langs[24];
 
     strcpy(langs, "DEFTPNISOBJKLMNQRTUV");

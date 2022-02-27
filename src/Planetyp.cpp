@@ -893,7 +893,7 @@ void CPlane::CheckFlugplaene (SLONG PlayerNum, BOOL Sort, BOOL PlanGates)
     }
 
     //Überschüssige Flüge abschneiden:
-    if (gMouseLButton==0 || Sim.Players.Players[PlayerNum].Owner!=0 || Sim.Players.Players[PlayerNum].LocationWin==NULL || (Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_GLOBE && Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_LAPTOP) && ((CPlaner*)Sim.Players.Players[PlayerNum].LocationWin)->DragFlightMode==0)
+    if (gMouseLButton==0 || Sim.Players.Players[PlayerNum].Owner!=0 || Sim.Players.Players[PlayerNum].LocationWin==NULL || ((Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_GLOBE && Sim.Players.Players[PlayerNum].GetRoom()!=ROOM_LAPTOP) && ((CPlaner*)Sim.Players.Players[PlayerNum].LocationWin)->DragFlightMode==0))
         for (c=0; c<Flugplan.Flug.AnzEntries(); c++)
         {
             if (Flugplan.Flug[c].ObjectType==0) break;

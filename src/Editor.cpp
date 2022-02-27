@@ -1151,7 +1151,6 @@ void CEditor::OnPaint()
         }
     }
 
-test:
 
     //Select Part Buttons:
     for (c=0; c<5; c++)
@@ -1366,7 +1365,7 @@ void CEditor::DoLButtonWork (UINT nFlags, CPoint point)
                 for (c=0; c<(long)Plane.Parts.AnzEntries(); c++)
                     if (Plane.Parts.IsInAlbum(c))
                         //if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || (Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && ((gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800))))
-                        if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || (Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800) || (PartUnderCursor[0]=='M' && rel>=700 && rel<=1400 && abs(gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id-rel)==10 && abs(relnr-Plane.Parts[c].ParentRelationId)==1)))
+                        if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || ((Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600)) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800) || (PartUnderCursor[0]=='M' && rel>=700 && rel<=1400 && abs(gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id-rel)==10 && abs(relnr-Plane.Parts[c].ParentRelationId)==1)))
                         {
                             Plane.Parts-=c;
                             break;
@@ -1530,7 +1529,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point)
                         long c;
                         for (c=0; c<(long)Plane.Parts.AnzEntries(); c++)
                             if (Plane.Parts.IsInAlbum(c))
-                                if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || (Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800) || (PartUnderCursor[0]=='M' && rel>=700 && rel<=1400 && abs(gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id-rel)==10 && abs(relnr-Plane.Parts[c].ParentRelationId)==1)))
+                                if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) || ((Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200 && rel>=400 && rel<600)) || (gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel-200 && rel>=600 && rel<800) || (PartUnderCursor[0]=='M' && rel>=700 && rel<=1400 && abs(gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id-rel)==10 && abs(relnr-Plane.Parts[c].ParentRelationId)==1)))
                                 {
                                     Plane.Parts-=c;
                                     break;

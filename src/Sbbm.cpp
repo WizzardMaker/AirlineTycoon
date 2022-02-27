@@ -377,7 +377,7 @@ SLONG SBBM::PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1,
     if ((Flags&3)==TEC_FONT_RIGHT)
     {
         auto x = (dword)p2.x;
-        TABS t1[] = { TAB_STYLE_RIGHT, x-2 };
+        TABS t1[] = { {TAB_STYLE_RIGHT, x-2} };
         Font.SetTabulator (t1, sizeof(t1));
         Font.DrawTextWithTabs(pBitmap, p1.x, p1.y, (char*)(LPCTSTR)(CString("\t")+Str));
         Bench.TextTime.Stop();
@@ -387,7 +387,7 @@ SLONG SBBM::PrintAt (const char *Str, SB_CFont &Font, SLONG Flags, const XY &p1,
     {
         auto x1 = (dword)p1.x;
         auto x2 = (dword)p2.x;
-        TABS t1[] = { TAB_STYLE_CENTER, (x2+x1)/2 };
+        TABS t1[] = { {TAB_STYLE_CENTER, (x2+x1)/2} };
         Font.SetTabulator (t1, sizeof(t1));
         Font.DrawTextWithTabs(pBitmap, p1.x, p1.y, (char*)(LPCTSTR)(CString("\t")+Str));
         Bench.TextTime.Stop();

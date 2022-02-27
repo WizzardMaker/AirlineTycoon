@@ -260,8 +260,8 @@ CRect                   gHighlightArea;          //Für das Text-Highlighting
 UWORD                   gHighlightFontColor;
 CRect                   gLastHighlightArea;
 
-TABS                    TABLeft[] = { TAB_STYLE_LEFT };
-TABS                    TABRight[] = { TAB_STYLE_RIGHT };
+TABS                    TABLeft[] = { {TAB_STYLE_LEFT} };
+TABS                    TABRight[] = { {TAB_STYLE_RIGHT} };
 
 //--------------------------------------------------------------------------------------------
 //Die Statuszeilen und Textzeilen: normal+Editoren

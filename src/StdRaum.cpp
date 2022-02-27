@@ -2179,7 +2179,7 @@ void CStdRaum::InitToolTips (void)
                     c=(CursorPos.y-7-26)/13;
                     if (CursorPos.y-7-26<0) c=-1;
 
-                    if (CursorPos.y-7-26>=0 && CursorPos.x>=216 && CursorPos.x<=387 && (c>=0 && c<6 && AuslandsAuftraege[MenuPar1].Auftraege[c].Praemie) || (c>=7 && c<7+6 && AuslandsFrachten[MenuPar1].Fracht[c-7].Praemie) || c==7+7)
+                    if ((CursorPos.y-7-26>=0 && CursorPos.x>=216 && CursorPos.x<=387 && (c>=0 && c<6 && AuslandsAuftraege[MenuPar1].Auftraege[c].Praemie)) || (c>=7 && c<7+6 && AuslandsFrachten[MenuPar1].Fracht[c-7].Praemie) || c==7+7)
                     {
                         CheckCursorHighlight (CursorPos, CRect (32+180, c*13+7+26, 204+180, c*13+7+15+26), ColorOfFontBlack);
                         SetMouseLook (CURSOR_HOT, 0, -101, MENU_AUSLANDSAUFTRAG, CursorPos.x, c);

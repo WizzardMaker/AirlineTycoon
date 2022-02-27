@@ -207,11 +207,11 @@ void CFlugplan::Dump (bool bHercules)
                 break;
 
             case 3:
-                sprintf (Buffer, "[%02d] %02d/%02li-%02d/%02d Auto    %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit, Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
+                sprintf (Buffer, "[%02d] %02d/%02i-%02d/%02d Auto    %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit, Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
                 break;
 
             case 4:
-                sprintf (Buffer, "[%02d] %02d/%02li-%02d/%02d Fracht  %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit, Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
+                sprintf (Buffer, "[%02d] %02d/%02i-%02d/%02d Fracht  %s-%s", e, Flug[e].Startzeit, Flug[e].Startdate, Flug[e].Landezeit, Flug[e].Landedate, (LPCTSTR)Cities[Flug[e].VonCity].Name, (LPCTSTR)Cities[Flug[e].NachCity].Name);
                 break;
 
             default:

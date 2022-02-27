@@ -2504,7 +2504,7 @@ void PLAYER::RobotPump()
         SLONG LastLastActionId = LastActionId;
         LastActionId=RobotActions[0].ActionId;
 
-        BOOL rc;
+        BOOL rc = 0;
         switch (RobotActions[0].ActionId)
         {
             case ACTION_STARTDAY:
@@ -3337,7 +3337,7 @@ void PLAYER::RobotExecuteAction(void)
                             n++;
                     }
 
-                if (!SavesForRocket && n>=3 || (n>=2 && PlayerNum==2) || (n>=1 && PlayerNum==0))
+                if ((!SavesForRocket && n>=3) || (n>=2 && PlayerNum==2) || (n>=1 && PlayerNum==0))
                     SavesForPlane=TRUE;
 
                 if (!SavesForRocket && dislike!=-1 && Planes.GetNumUsed()+2<=Sim.Players.Players[dislike].Planes.GetNumUsed())
@@ -6665,16 +6665,16 @@ TEAKFILE &operator >> (TEAKFILE &File, PLAYERS &Players)
 //--------------------------------------------------------------------------------------------
 bool RobotUse (SLONG FeatureId)
 {
-    SLONG Level;
+    SLONG Level = 0;
 
     //Die verschiedenen Levelstrukturen in eine Reihe bringen:
     if (Sim.Difficulty>=DIFF_TUTORIAL && Sim.Difficulty<=DIFF_FINAL) Level = Sim.Difficulty;
     else if (Sim.Difficulty==DIFF_FREEGAME || Sim.Difficulty==DIFF_FREEGAMEMAP) Level = 6;
     else if (Sim.Difficulty>=DIFF_ADDON01 && Sim.Difficulty<=DIFF_ADDON10) Level = Sim.Difficulty-DIFF_ADDON01+7;
-    else if (Sim.Difficulty>=DIFF_ATFS01 && Sim.Difficulty<=DIFF_ATFS10) Level = Sim.Difficulty-DIFF_ATFS01+7+10;
+    else Level = Sim.Difficulty-DIFF_ATFS01+7+10;
 
     //Tabelle ermitteln für welche Level ein Feature ermittelt wird:
-    const char *pFeatureDesc;
+    const char *pFeatureDesc = nullptr;
     switch (FeatureId)
     {
         //0-5 : Level im Basisspiel

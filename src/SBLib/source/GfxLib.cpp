@@ -153,7 +153,7 @@ SLONG GfxLib::Load(SDL_RWops* file, GfxLibHeader* header)
             return -3;
         }
 
-        GfxChunkHeader chunk = { 0 };
+        GfxChunkHeader chunk = { {0} };
         switch (info.Type)
         {
             case CHUNK_GFX:
