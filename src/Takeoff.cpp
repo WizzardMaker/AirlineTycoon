@@ -2149,6 +2149,7 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     const char TOKEN_STAT[] = "STAT";
     const char TOKEN_MONEY[] = "Mony";
     const char TOKEN_AKTIE[] = "Akti";
+    const char TOKEN_JOBS[] = "Jobs";
 
     StandardTexte.AddText(TOKEN_STAT, 10000, "Bodyguard-Rabatt");
     StandardTexte.AddText(TOKEN_STAT, 10001, "Zinsen");
@@ -2237,4 +2238,6 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_EXPERT, 10150, "davon operatives Gesch\xE4""ft");
     StandardTexte.AddText(TOKEN_EXPERT, 10151, "Wochenbilanz (1000 \x80)");
     StandardTexte.AddText(TOKEN_EXPERT, 10152, "Verpflichtungen (1000 \x80)");
+
+    StandardTexte.AddText(TOKEN_JOBS, 2003, "Routenberaterin");
 }

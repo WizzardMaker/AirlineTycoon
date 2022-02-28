@@ -12,8 +12,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-static const SLONG zielAnzahlKompetent = 80;
-
 SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
 //--------------------------------------------------------------------------------------------
@@ -596,7 +594,23 @@ CString CWorkers::GetRandomName(BOOL Geschlecht) const {
 //--------------------------------------------------------------------------------------------
 // Verhindert, dass es zu wenig Piloten oder Stewardessen gibt:
 //--------------------------------------------------------------------------------------------
-CWorker CWorkers::createPilot(TEAKRAND& LocalRand) {
+CWorker CWorkers::createBerater(TEAKRAND &LocalRand) {
+    CWorker worker;
+    worker.Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
+    worker.Name = GetRandomName(worker.Geschlecht);
+    worker.Typ = LocalRand.Rand(1, 9);
+    worker.Gehalt = (30 + LocalRand.Rand(80)) * 100;
+    worker.Talent = std::min(100, worker.Gehalt / 200 + LocalRand.Rand(30) + 20);
+    worker.Alter = (19 + LocalRand.Rand(50));
+    worker.Kommentar = "";
+    worker.Employer = WORKER_RESERVE;
+    worker.Happyness = 100;
+    worker.WarnedToday = 0;
+    worker.TimeInPool = 0;
+    worker.OriginalGehalt = worker.Gehalt;
+    return worker;
+}
+CWorker CWorkers::createPilot(TEAKRAND &LocalRand) {
     CWorker worker;
     worker.Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
     worker.Name = GetRandomName(worker.Geschlecht);
@@ -612,7 +626,7 @@ CWorker CWorkers::createPilot(TEAKRAND& LocalRand) {
     worker.OriginalGehalt = worker.Gehalt;
     return worker;
 }
-CWorker CWorkers::createStewardess(TEAKRAND& LocalRand) {
+CWorker CWorkers::createStewardess(TEAKRAND &LocalRand) {
     CWorker worker;
     worker.Geschlecht = static_cast<BOOL>((rand() % 100) > 80);
     worker.Name = GetRandomName(worker.Geschlecht);
@@ -628,7 +642,7 @@ CWorker CWorkers::createStewardess(TEAKRAND& LocalRand) {
     worker.OriginalGehalt = worker.Gehalt;
     return worker;
 }
-void CWorkers::AddToPool(SLONG typ, TEAKRAND& LocalRand) {
+void CWorkers::AddToPool(SLONG typ, TEAKRAND &LocalRand, SLONG zielAnzahlKompetent) {
     SLONG nExpired = 0;
     SLONG anz = 0;
     for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
@@ -659,7 +673,9 @@ void CWorkers::AddToPool(SLONG typ, TEAKRAND& LocalRand) {
                 continue;
             }
 
-            if (typ == WORKER_STEWARDESS) {
+            if (typ == -1) {
+                Workers[c] = createBerater(LocalRand);
+            } else if (typ == WORKER_STEWARDESS) {
                 Workers[c] = createStewardess(LocalRand);
             } else if (typ == WORKER_PILOT) {
                 Workers[c] = createPilot(LocalRand);
@@ -679,10 +695,9 @@ void CWorkers::AddToPool(SLONG typ, TEAKRAND& LocalRand) {
 void CWorkers::CheckShortage() {
     TEAKRAND LocalRand(Sim.Date + Sim.StartTime);
 
-    // Zähle Anzahl an deaktivierten Piloten und kompetenten Piloten
-    AddToPool(WORKER_PILOT, LocalRand);
-    // das gleiche für Stewardessen
-    AddToPool(WORKER_PILOT, LocalRand);
+    AddToPool(-1, LocalRand, 40); // Berater
+    AddToPool(WORKER_PILOT, LocalRand, 80);
+    AddToPool(WORKER_PILOT, LocalRand, 80);
 }
 
 //--------------------------------------------------------------------------------------------
