@@ -2182,7 +2182,8 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.UpdateText(TOKEN_EXPERT, 2001, "Tagesbilanz");
     StandardTexte.UpdateText(TOKEN_EXPERT, 2002, "Gesamtbilanz");
     StandardTexte.UpdateText(TOKEN_EXPERT, 2003, "Flugzeugeinnahmen");
-    StandardTexte.AddText(TOKEN_EXPERT, 2004, "Konkurrenz");
+    StandardTexte.AddText(TOKEN_EXPERT, 2004, "Gesch\xE4""ftsbericht");
+    StandardTexte.AddText(TOKEN_EXPERT, 2005, "Konkurrenz");
 
     StandardTexte.UpdateText(TOKEN_EXPERT, 3404, "Auftr\xE4ge");
     StandardTexte.AddText(TOKEN_EXPERT, 10000, "Kerosinkauf Flugzeug");
@@ -2228,4 +2229,12 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_EXPERT, 10054, "Expansion (1000 \x80)");
     StandardTexte.AddText(TOKEN_EXPERT, 10055, "Sabotage (1000 \x80)");
     StandardTexte.AddText(TOKEN_EXPERT, 10056, "Sonstiges (1000 \x80)");
+
+    StandardTexte.AddText(TOKEN_EXPERT, 10100, "Operativer Gewinn");
+    StandardTexte.AddText(TOKEN_EXPERT, 10101, "Operativer Verlust");
+    StandardTexte.AddText(TOKEN_EXPERT, 10102, "Operatives Saldo");
+    StandardTexte.AddText(TOKEN_EXPERT, 10103, "Anteil an op. Gewinn");
+    StandardTexte.AddText(TOKEN_EXPERT, 10150, "davon operatives Gesch\xE4""ft");
+    StandardTexte.AddText(TOKEN_EXPERT, 10151, "Wochenbilanz (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10152, "Verpflichtungen (1000 \x80)");
 }

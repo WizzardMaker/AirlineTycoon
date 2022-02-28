@@ -1694,6 +1694,8 @@ void CPlaner::HandleLButtonDown() {
                     if (pBlock->SelectedId == 1 || pBlock->SelectedId == 2) {
                         pBlock->AnzPages = 7;
                     } else if (pBlock->SelectedId == 4) {
+                        pBlock->AnzPages = 2;
+                    } else if (pBlock->SelectedId == 5) {
                         pBlock->AnzPages = 3;
                     } else {
                         pBlock->AnzPages = 1;

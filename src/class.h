@@ -1181,9 +1181,12 @@ class /**/ BLOCK {
     friend TEAKFILE &operator>>(TEAKFILE &File, BLOCK &b);
 
   private:
-    int PrintLine(XY ClientArea, SLONG rowID, SLONG textID);
-    int PrintLine(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
+    SLONG PrintLine(XY ClientArea, SLONG rowID, SLONG textID);
+    SLONG PrintLineWithValue(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
+    SLONG PrintLineWithPercentage(XY ClientArea, SLONG rowID, SLONG textID, __int64 value, __int64 div);
     SLONG PrintList(XY ClientArea, const std::vector<std::pair<SLONG, __int64>> &list, SLONG idx);
+    SLONG PrintList(XY ClientArea, const std::vector<std::tuple<SLONG, __int64, __int64>> &list, SLONG idx);
+    void ZeigeFinanzBericht(XY ClientArea, const CBilanz &ref);
     void ZeigeTagesBilanz(XY ClientArea, const CBilanz &ref);
 };
 
@@ -1813,11 +1816,42 @@ class CBilanz {
     __int64 GetHaben(void) const;
     __int64 GetSoll(void) const;
     __int64 GetSumme(void) const;
+    __int64 GetOpGewinn() const;
+    __int64 GetOpVerlust() const;
+    __int64 GetOpSaldo() const;
 
     void operator+=(const CBilanz &Bilanz);
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CBilanz &Bilanz);
     friend TEAKFILE &operator>>(TEAKFILE &File, CBilanz &Bilanz);
+};
+
+class CBilanzWoche {
+  public:
+    void NeuerTag(const CBilanz &b) {
+        for (SLONG d = 6; d >= 1; d--) {
+            LetzteSieben[d] = LetzteSieben[d - 1];
+        }
+        LetzteSieben[0] = b;
+    }
+    void Clear(void) {
+        for (auto &b : LetzteSieben) {
+            b.Clear();
+        }
+    }
+    CBilanz Hole() const {
+        CBilanz bilanz;
+        for (auto &b : LetzteSieben) {
+            bilanz += b;
+        }
+        return bilanz;
+    }
+
+    friend TEAKFILE &operator<<(TEAKFILE &File, const CBilanzWoche &Bilanz);
+    friend TEAKFILE &operator>>(TEAKFILE &File, CBilanzWoche &Bilanz);
+
+  private:
+    std::array<CBilanz, 7> LetzteSieben;
 };
 
 typedef struct smk_t *smk;
@@ -1988,6 +2022,7 @@ class PLAYER {
     CBilanz Bilanz{};
     CBilanz BilanzGestern{};
     CBilanz BilanzGesamt{};
+    CBilanzWoche BilanzWoche{};
     SLONG AnzAktien{};                   // Zahl der emmitierten Aktien
     SLONG MaxAktien{};                   // Zahl der emmitierbaren Aktien
     std::array<SLONG, 4> OwnsAktien{};   // Soviele Aktien besitzt der Spieler jeweils von der Sorte

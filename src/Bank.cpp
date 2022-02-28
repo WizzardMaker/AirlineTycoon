@@ -373,9 +373,25 @@ __int64 CBilanz::GetSoll() const {
 }
 
 //--------------------------------------------------------------------------------------------
+// Gibt den operativen Gewinn zurück
+//--------------------------------------------------------------------------------------------
+__int64 CBilanz::GetOpGewinn() const {
+    return Tickets + Auftraege;
+}
+__int64 CBilanz::GetOpVerlust() const {
+    auto summe = KerosinVorrat + KerosinFlug + Essen + Vertragsstrafen + Wartung;
+    summe += FlugzeugUmbau + Personal + Gatemiete + Citymiete + Routenmiete;
+    summe += PanneSchaden + SecurityKosten;
+    return summe;
+}
+__int64 CBilanz::GetOpSaldo() const {
+    return GetOpGewinn() + GetOpVerlust();
+}
+
+//--------------------------------------------------------------------------------------------
 // Gibt den Saldo zurück:
 //--------------------------------------------------------------------------------------------
-__int64 CBilanz::GetSumme() const { return (GetHaben() - GetSoll()); }
+__int64 CBilanz::GetSumme() const { return (GetHaben() + GetSoll()); }
 
 //--------------------------------------------------------------------------------------------
 // Addiert eine Bilanz
@@ -479,5 +495,25 @@ TEAKFILE &operator>>(TEAKFILE &File, CBilanz &Bilanz) {
     File >> Bilanz.SonstigeAusgaben >> Bilanz.KerosinGespart;
     File >> Bilanz.AktienEmissionKompErh;
 
+    return (File);
+}
+
+//--------------------------------------------------------------------------------------------
+// Speichert einen Wochenbilanz-Datensatz:
+//--------------------------------------------------------------------------------------------
+TEAKFILE &operator<<(TEAKFILE &File, const CBilanzWoche &Bilanz) {
+    for (auto &b : Bilanz.LetzteSieben) {
+        File << b;
+    }
+    return (File);
+}
+
+//--------------------------------------------------------------------------------------------
+// Lädt einen Wochenbilanz-Datensatz:
+//--------------------------------------------------------------------------------------------
+TEAKFILE &operator>>(TEAKFILE &File, CBilanzWoche &Bilanz) {
+    for (auto &b : Bilanz.LetzteSieben) {
+        File >> b;
+    }
     return (File);
 }

@@ -7551,6 +7551,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player) {
 
     // Aktien & Geld:
     File << Player.Bilanz << Player.BilanzGestern << Player.BilanzGesamt;
+    File << Player.BilanzWoche;
     File << Player.SollZins << Player.HabenZins;
     File << Player.MaxAktien;
     File << Player.AnzAktien << Player.Dividende << Player.TrustedDividende;
@@ -7721,6 +7722,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
 
     // Aktien & Geld:
     File >> Player.Bilanz >> Player.BilanzGestern >> Player.BilanzGesamt;
+    File >> Player.BilanzWoche;
     File >> Player.SollZins >> Player.HabenZins;
     File >> Player.MaxAktien;
     File >> Player.AnzAktien >> Player.Dividende >> Player.TrustedDividende;

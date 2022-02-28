@@ -3,6 +3,8 @@
 //============================================================================================
 #include "StdAfx.h"
 
+#include <climits>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -16,6 +18,24 @@ extern SLONG SaveVersion;
 extern SLONG SaveVersionSub;
 
 extern SB_CFont FontVerySmall;
+
+static __int64 AufTausenderRunden(__int64 val) {
+    if (val >= 0) {
+        return (val+500) / 1000;
+    } else {
+        return (val-500) / 1000;
+    }
+}
+
+static char* CalcPercentage(__int64 val, __int64 div) {
+    static char buffer[20];
+    if (div == 0) {
+        strncpy(buffer, "---", sizeof(buffer));
+    } else {
+        snprintf(buffer, sizeof(buffer), "%.1f %%", double(val) * 100.0 / double(div));
+    }
+    return buffer;
+}
 
 //--------------------------------------------------------------------------------------------
 // Blittet den Block an eine bestimmte Stelle:
@@ -293,8 +313,14 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                 Page = 0;
             }
 
+            // Geschäftsbericht
+            if (SelectedId == 4 && (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_GELD) == 0)) {
+                AnzPages = 1;
+                Page = 0;
+            }
+
             // Konkurrenz:
-            if (SelectedId == 4 && (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) == 0)) {
+            if (SelectedId == 5 && (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) == 0)) {
                 AnzPages = 1;
                 Page = 0;
             }
@@ -1020,8 +1046,13 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                     }
                     break;
 
-                    // Konkurrenz:
+                    // Geschäftsbericht
                 case 4:
+                    ZeigeFinanzBericht(ClientArea, Sim.Players.Players[PlayerNum].BilanzWoche.Hole());
+                    break;
+
+                    // Konkurrenz:
+                case 5:
                     if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) == 0) {
                         Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3002), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                                        ClientArea + XY(172, 170));
@@ -1716,121 +1747,178 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
 //--------------------------------------------------------------------------------------------
 // Zeigt die Informationen vom Finanzberater / Informant
 //--------------------------------------------------------------------------------------------
-int BLOCK::PrintLine(XY ClientArea, SLONG rowID, SLONG textID) {
+SLONG BLOCK::PrintLine(XY ClientArea, SLONG rowID, SLONG textID) {
+    if (textID == -1) {
+        return 0;
+    }
     const char *str = StandardTexte.GetS(TOKEN_EXPERT, textID);
     Bitmap.PrintAt(str, FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
     return strlen(str);
 }
-int BLOCK::PrintLine(XY ClientArea, SLONG rowID, SLONG textID, __int64 value) {
-    int ret = PrintLine(ClientArea, rowID, textID);
-    Bitmap.PrintAt(bitoa(value / 1000), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
+SLONG BLOCK::PrintLineWithValue(XY ClientArea, SLONG rowID, SLONG textID, __int64 value) {
+    SLONG ret = PrintLine(ClientArea, rowID, textID);
+    Bitmap.PrintAt(bitoa(AufTausenderRunden(value)), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
     return ret;
 }
-SLONG BLOCK::PrintList(XY ClientArea, const std::vector<std::pair<SLONG, __int64>> &list, SLONG idx) {
+SLONG BLOCK::PrintLineWithPercentage(XY ClientArea, SLONG rowID, SLONG textID, __int64 value, __int64 div) {
+    SLONG ret = PrintLine(ClientArea, rowID, textID);
+    Bitmap.PrintAt(CalcPercentage(value, div), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
+    return ret;
+}
+SLONG BLOCK::PrintList(XY ClientArea, const std::vector< std::pair<SLONG, __int64> > &list, SLONG idx) {
     SLONG summe = 0;
     for (auto &i : list) {
-        auto length = PrintLine(ClientArea, idx++, i.first, i.second);
+        SLONG length = PrintLineWithValue(ClientArea, idx++, i.first, i.second);
         if (length > 30) {
             ++idx;
         }
         summe += i.second;
     }
     ++idx;
-    PrintLine(ClientArea, idx++, 3604, summe);
+    PrintLineWithValue(ClientArea, idx++, 3604, summe);
     return idx;
+}
+SLONG BLOCK::PrintList(XY ClientArea, const std::vector< std::tuple<SLONG, __int64, __int64> > &list, SLONG idx) {
+    for (auto &i : list) {
+        SLONG length;
+        auto div = std::get<2>(i);
+        if (div == INT_MIN) {
+            length = PrintLineWithValue(ClientArea, idx++, std::get<0>(i), std::get<1>(i));
+        } else {
+            length = PrintLineWithPercentage(ClientArea, idx++, std::get<0>(i), std::get<1>(i), div);
+        }
+        if (length > 30) {
+            ++idx;
+        }
+    }
+    return idx;
+}
+
+void BLOCK::ZeigeFinanzBericht(XY ClientArea, const CBilanz &ref) {
+    if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_GELD) == 0) {
+        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3000), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
+        return;
+    }
+    if (Page == 0) {
+        std::vector< std::tuple<SLONG, __int64, __int64> > tmp =
+                                                {{3601, ref.GetHaben(), INT_MIN},
+                                                {3602, ref.GetSoll(), INT_MIN},
+                                                {3604, ref.GetSumme(), INT_MIN}};
+        std::vector< std::tuple<SLONG, __int64, __int64> > tmp2 =
+                                                {{10100, ref.GetOpGewinn(), INT_MIN},
+                                                {-1, ref.GetOpGewinn(), ref.GetHaben()},
+                                                {10101, ref.GetOpVerlust(), INT_MIN},
+                                                {-1, ref.GetOpVerlust(), ref.GetSoll()},
+                                                {10102, ref.GetOpSaldo(), INT_MIN},
+                                                {-1, ref.GetOpSaldo(), ref.GetSumme()}};
+        SLONG idx = 0;
+        PrintLine(ClientArea, idx++, 10151);
+        idx = PrintList(ClientArea, tmp, idx);
+        ++idx;
+        PrintLine(ClientArea, idx++, 10150);
+        idx = PrintList(ClientArea, tmp2, idx);
+    } else if (Page == 1) {
+        auto summe = ref.HabenZinsen + ref.HabenRendite + ref.SollZinsen + ref.SollRendite + ref.Steuer;
+        std::vector< std::tuple<SLONG, __int64, __int64> > tmp =
+                                                {{3401, ref.HabenZinsen, INT_MIN},
+                                                {3402, ref.HabenRendite, INT_MIN},
+                                                {3501, ref.SollZinsen, INT_MIN},
+                                                {3502, ref.SollRendite, INT_MIN},
+                                                {10006, ref.Steuer, INT_MIN}};
+        SLONG idx = 0;
+        PrintLine(ClientArea, idx++, 10152);
+        idx = PrintList(ClientArea, tmp, idx);
+
+        tmp = {{3604, summe, INT_MIN}, {10103, -summe, ref.GetOpGewinn()}};
+        ++idx;
+        idx = PrintList(ClientArea, tmp, idx);
+    }
 }
 
 void BLOCK::ZeigeTagesBilanz(XY ClientArea, const CBilanz &ref) {
     if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_GELD) == 0) {
         Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3000), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
-    } else {
-        if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_GELD) < 80) {
-            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3001), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
-        } else {
-        }
-        // TODO: KerosinGespart
-        if (Page == 0) {
-            std::vector< std::pair<SLONG, __int64> > tmp = {{3403, ref.Tickets},
-                                                {3404, ref.Auftraege},
-                                                {10000, ref.KerosinFlug},
-                                                {10001, ref.KerosinVorrat},
-                                                {10002, ref.Essen},
-                                                {3505, ref.Vertragsstrafen},
-                                                {3506, ref.Wartung},
-                                                {10003, ref.FlugzeugUmbau}};
-            SLONG idx = 0;
-            PrintLine(ClientArea, idx++, 10050);
-            idx = PrintList(ClientArea, tmp, idx);
-            idx++;
-        } else if (Page == 1) {
-            std::vector< std::pair<SLONG, __int64> > tmp = {{3504, ref.Personal},
-                                                {3507, ref.Gatemiete},
-                                                {3508, ref.Citymiete},
-                                                {3509, ref.Routenmiete}};
-            SLONG idx = 0;
-            PrintLine(ClientArea, idx++, 10051);
-            idx = PrintList(ClientArea, tmp, idx);
-            idx++;
-        } else if (Page == 2) {
-            std::vector< std::pair<SLONG, __int64> > tmp = {{3401, ref.HabenZinsen},
-                                                {3402, ref.HabenRendite},
-                                                {10004, ref.KreditNeu},
-                                                {3501, ref.SollZinsen},
-                                                {3502, ref.SollRendite},
-                                                {10005, ref.KreditTilgung},
-                                                {10006, ref.Steuer}};
-            SLONG idx = 0;
-            PrintLine(ClientArea, idx++, 10052);
-            idx = PrintList(ClientArea, tmp, idx);
-            idx++;
-        } else if (Page == 3) {
-            std::vector< std::pair<SLONG, __int64> > tmp = {{10020, ref.Aktienverkauf},
-                                                {10021, ref.AktienEmission},
-                                                {10022, ref.AktienEmissionKompErh},
-                                                {10023, ref.Aktienkauf},
-                                                {10024, ref.AktienEmissionFee},
-                                                {10025, ref.AktienEmissionKompGez}};
-            SLONG idx = 0;
-            PrintLine(ClientArea, idx++, 10053);
-            idx = PrintList(ClientArea, tmp, idx);
-            idx++;
-        } else if (Page == 4) {
-            std::vector< std::pair<SLONG, __int64> > tmp = {{10026, ref.FlugzeugVerkauf},
-                                                {10027, ref.Takeovers},
-                                                {10028, ref.FlugzeugKauf},
-                                                {10029, ref.FlugzeugUpgrades},
-                                                {10030, ref.ExpansionCity},
-                                                {10031, ref.ExpansionRouten},
-                                                {10032, ref.ExpansionGates},
-                                                {10033, ref.ExpansionTanks}};
-            SLONG idx = 0;
-            PrintLine(ClientArea, idx++, 10054);
-            idx = PrintList(ClientArea, tmp, idx);
-            idx++;
-        } else if (Page == 5) {
-            std::vector< std::pair<SLONG, __int64> > tmp = {{10007, ref.SabotageGeklaut},
-                                                {10008, ref.SabotageKomp},
-                                                {10009, ref.Sabotage},
-                                                {10010, ref.SabotageStrafe},
-                                                {10011, ref.SabotageSchaden}};
-            SLONG idx = 0;
-            PrintLine(ClientArea, idx++, 10055);
-            idx = PrintList(ClientArea, tmp, idx);
-            idx++;
-        } else if (Page == 6) {
-            std::vector< std::pair<SLONG, __int64> > tmp = {{10012, ref.BodyguardRabatt},
-                                                {10013, ref.GeldErhalten},
-                                                {10014, ref.SonstigeEinnahmen},
-                                                {10015, ref.PanneSchaden},
-                                                {10016, ref.SecurityKosten},
-                                                {10017, ref.WerbeKosten},
-                                                {10018, ref.GeldGeschickt},
-                                                {10019, ref.SonstigeAusgaben}};
-            SLONG idx = 0;
-            PrintLine(ClientArea, idx++, 10056);
-            idx = PrintList(ClientArea, tmp, idx);
-            idx++;
-        }
+        return;
+    }
+
+    if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_GELD) < 80) {
+        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3001), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
+    }
+    // TODO: KerosinGespart
+    if (Page == 0) {
+        std::vector< std::pair<SLONG, __int64> > tmp = {{3403, ref.Tickets},
+                                            {3404, ref.Auftraege},
+                                            {10000, ref.KerosinFlug},
+                                            {10001, ref.KerosinVorrat},
+                                            {10002, ref.Essen},
+                                            {3505, ref.Vertragsstrafen},
+                                            {3506, ref.Wartung},
+                                            {10003, ref.FlugzeugUmbau}};
+        SLONG idx = 0;
+        PrintLine(ClientArea, idx++, 10050);
+        idx = PrintList(ClientArea, tmp, idx);
+    } else if (Page == 1) {
+        std::vector< std::pair<SLONG, __int64> > tmp = {{3504, ref.Personal},
+                                            {3507, ref.Gatemiete},
+                                            {3508, ref.Citymiete},
+                                            {3509, ref.Routenmiete}};
+        SLONG idx = 0;
+        PrintLine(ClientArea, idx++, 10051);
+        idx = PrintList(ClientArea, tmp, idx);
+    } else if (Page == 2) {
+        std::vector< std::pair<SLONG, __int64> > tmp = {{3401, ref.HabenZinsen},
+                                            {3402, ref.HabenRendite},
+                                            {10004, ref.KreditNeu},
+                                            {3501, ref.SollZinsen},
+                                            {3502, ref.SollRendite},
+                                            {10005, ref.KreditTilgung},
+                                            {10006, ref.Steuer}};
+        SLONG idx = 0;
+        PrintLine(ClientArea, idx++, 10052);
+        idx = PrintList(ClientArea, tmp, idx);
+    } else if (Page == 3) {
+        std::vector< std::pair<SLONG, __int64> > tmp = {{10020, ref.Aktienverkauf},
+                                            {10021, ref.AktienEmission},
+                                            {10022, ref.AktienEmissionKompErh},
+                                            {10023, ref.Aktienkauf},
+                                            {10024, ref.AktienEmissionFee},
+                                            {10025, ref.AktienEmissionKompGez}};
+        SLONG idx = 0;
+        PrintLine(ClientArea, idx++, 10053);
+        idx = PrintList(ClientArea, tmp, idx);
+    } else if (Page == 4) {
+        std::vector< std::pair<SLONG, __int64> > tmp = {{10026, ref.FlugzeugVerkauf},
+                                            {10027, ref.Takeovers},
+                                            {10028, ref.FlugzeugKauf},
+                                            {10029, ref.FlugzeugUpgrades},
+                                            {10030, ref.ExpansionCity},
+                                            {10031, ref.ExpansionRouten},
+                                            {10032, ref.ExpansionGates},
+                                            {10033, ref.ExpansionTanks}};
+        SLONG idx = 0;
+        PrintLine(ClientArea, idx++, 10054);
+        idx = PrintList(ClientArea, tmp, idx);
+    } else if (Page == 5) {
+        std::vector< std::pair<SLONG, __int64> > tmp = {{10007, ref.SabotageGeklaut},
+                                            {10008, ref.SabotageKomp},
+                                            {10009, ref.Sabotage},
+                                            {10010, ref.SabotageStrafe},
+                                            {10011, ref.SabotageSchaden}};
+        SLONG idx = 0;
+        PrintLine(ClientArea, idx++, 10055);
+        idx = PrintList(ClientArea, tmp, idx);
+    } else if (Page == 6) {
+        std::vector< std::pair<SLONG, __int64> > tmp = {{10012, ref.BodyguardRabatt},
+                                            {10013, ref.GeldErhalten},
+                                            {10014, ref.SonstigeEinnahmen},
+                                            {10015, ref.PanneSchaden},
+                                            {10016, ref.SecurityKosten},
+                                            {10017, ref.WerbeKosten},
+                                            {10018, ref.GeldGeschickt},
+                                            {10019, ref.SonstigeAusgaben}};
+        SLONG idx = 0;
+        PrintLine(ClientArea, idx++, 10056);
+        idx = PrintList(ClientArea, tmp, idx);
     }
 }
 

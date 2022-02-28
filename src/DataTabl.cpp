@@ -667,7 +667,7 @@ void CDataTable::FillWithExperts(SLONG /*PlayerNum*/) {
     Title = StandardTexte.GetS(TOKEN_EXPERT, 1000);
 
     AnzColums = 1;
-    AnzRows = 5;
+    AnzRows = 6;
     Values.ReSize(0);
     Values.ReSize(AnzColums * AnzRows);
     ValueFlags.ReSize(0);
@@ -677,7 +677,7 @@ void CDataTable::FillWithExperts(SLONG /*PlayerNum*/) {
 
     ColTitle[0] = StandardTexte.GetS(TOKEN_EXPERT, 1000);
 
-    for (c = d = 0; c < 5; c++) {
+    for (c = d = 0; c < AnzRows; c++) {
         LineIndex[c] = c;
         Values[d * AnzColums + 0] = StandardTexte.GetS(TOKEN_EXPERT, 2000 + c);
         d++;
