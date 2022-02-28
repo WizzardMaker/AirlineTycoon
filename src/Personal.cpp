@@ -355,7 +355,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
         Workers[Num].Happyness = 100;
 
         Workers[Num].WarnedToday = 0;
-        Workers[Num].TimeInPool = 0;
+        Workers[Num].TimeInPool = -1;
         Workers[Num].OriginalGehalt = Workers[Num].Gehalt;
 
         if (Workers[Num].Kommentar.GetLength() > 0) {
@@ -428,7 +428,6 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
 void CWorkers::NewDay() {
     SLONG c = 0;
     SLONG m = 0;
-    SLONG n = 0;
 
     // Entferne Bewerber aus dem Pool, die zu lange nicht eingestellt wurden
     for (c = 0; c < Workers.AnzEntries(); c++) {
@@ -439,7 +438,7 @@ void CWorkers::NewDay() {
             if (Workers[c].TimeInPool >= 30) {
                 Workers[c].Employer = WORKER_EXPIRED;
                 printf("Removing %s from pool\n", (const char *)Workers[c].Name);
-            } else {
+            } else if (Workers[c].TimeInPool >= 0) {
                 Workers[c].TimeInPool++;
             }
         }
@@ -483,7 +482,9 @@ void CWorkers::NewDay() {
 
                     SLONG ExEmployer = Workers[c].Employer;
                     Workers[c].Employer = WORKER_RESERVE;
-                    Workers[c].TimeInPool = 0;
+                    if (Workers[c].TimeInPool > 0) {
+                        Workers[c].TimeInPool = 0;
+                    }
 
                     Sim.Players.Players[ExEmployer].MapWorkers(FALSE);
                     break;
@@ -570,7 +571,9 @@ void CWorker::Gehaltsaenderung(BOOL Art) {
             Employer = WORKER_RESERVE;
             Gehalt = OriginalGehalt;
             Happyness = 100;
-            TimeInPool = 0;
+            if (TimeInPool > 0) {
+                TimeInPool = 0;
+            }
 
             Sim.Players.Players[ExEmployer].UpdateWalkSpeed();
             Sim.Players.Players[ExEmployer].MapWorkers(FALSE);

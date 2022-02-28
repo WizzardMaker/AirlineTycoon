@@ -6644,7 +6644,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 qPlayer.UpdateWalkSpeed();
             } else if (MouseClickPar1 == -4) {
                 Workers.Workers[MenuRemapper[MenuPage - 1]].Employer = WORKER_JOBLESS;
-                Workers.Workers[MenuRemapper[MenuPage - 1]].TimeInPool = 0;
+                if (Workers.Workers[MenuRemapper[MenuPage - 1]].TimeInPool > 0) {
+                    Workers.Workers[MenuRemapper[MenuPage - 1]].TimeInPool = 0;
+                }
                 qPlayer.MapWorkers(TRUE);
                 qPlayer.UpdateWalkSpeed();
             }
