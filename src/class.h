@@ -1641,6 +1641,7 @@ class /**/ CWorker {
     SLONG PlaneId{};    // Auf diesem Flugzeug wird die Prs ggf. eingesetzt
     SLONG Happyness{};  //-100 bis 100
     BOOL WarnedToday{}; // Heute schon gemeckert?
+    SLONG TimeInPool{}; // Wie lange existiert der Arbeiter bereits?
 
   public:
     void Gehaltsaenderung(BOOL Art);

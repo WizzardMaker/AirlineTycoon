@@ -355,6 +355,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
         Workers[Num].Happyness = 100;
 
         Workers[Num].WarnedToday = 0;
+        Workers[Num].TimeInPool = 0;
         Workers[Num].OriginalGehalt = Workers[Num].Gehalt;
 
         if (Workers[Num].Kommentar.GetLength() > 0) {
@@ -429,6 +430,19 @@ void CWorkers::NewDay() {
     SLONG m = 0;
     SLONG n = 0;
 
+    // Entferne Bewerber aus dem Pool, die zu lange nicht eingestellt wurden
+    for (c = 0; c < Workers.AnzEntries(); c++) {
+        if (Workers[c].Typ != WORKER_PILOT && Workers[c].Typ != WORKER_STEWARDESS)
+            continue;
+        if (Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) {
+            if (Workers[c].TimeInPool >= 30) {
+                Workers[c].Employer = WORKER_EXPIRED;
+                printf("Removing %s from pool\n", (const char *)Workers[c].Name);
+            } else
+                Workers[c].TimeInPool++;
+        }
+    }
+
     CheckShortage();
 
     TEAKRAND LocalRand(Sim.Date + Sim.StartTime);
@@ -467,6 +481,7 @@ void CWorkers::NewDay() {
 
                     SLONG ExEmployer = Workers[c].Employer;
                     Workers[c].Employer = WORKER_RESERVE;
+                    Workers[c].TimeInPool = 0;
 
                     Sim.Players.Players[ExEmployer].MapWorkers(FALSE);
                     break;
@@ -482,44 +497,39 @@ void CWorkers::NewDay() {
         }
     }
 
-    // Rund 15 Bewerber (+/- 5) aussuchen:
-    SLONG Anzahl = 10 + LocalRand.Rand(10);
+    SLONG AnzahlBerater = 5 + LocalRand.Rand(2);
+    SLONG AnzahlPiloten = 10 + LocalRand.Rand(3);
+    SLONG AnzahlStewardessen = 25 + LocalRand.Rand(5);
 
-    for (c = n = 0; c < 100 && n < Anzahl; c++) {
+    while (AnzahlBerater > 0 || AnzahlPiloten > 0 || AnzahlStewardessen > 0) {
         m = LocalRand.Rand(Workers.AnzEntries());
 
-        for (SLONG d = 0; d < 100; d++) {
-            if (Workers[(m + d) % Workers.AnzEntries()].Employer == WORKER_RESERVE) {
-                m = (m + d) % Workers.AnzEntries();
+        SLONG d;
+        for (d = 0; d < 100; d++) {
+            if (Workers[(m + d) % Workers.AnzEntries()].Employer != WORKER_RESERVE)
+                continue;
+
+            m = (m + d) % Workers.AnzEntries();
+            if (Workers[m].Typ == WORKER_PILOT && AnzahlPiloten > 0) {
+                AnzahlPiloten--;
+                Workers[m].Employer = WORKER_JOBLESS;
+                Workers[m].Gehalt = Workers[m].OriginalGehalt;
+                break;
+            } else if (Workers[m].Typ == WORKER_STEWARDESS && AnzahlStewardessen > 0) {
+                AnzahlStewardessen--;
+                Workers[m].Employer = WORKER_JOBLESS;
+                Workers[m].Gehalt = Workers[m].OriginalGehalt;
+                break;
+            } else if (AnzahlBerater > 0) {
+                AnzahlBerater--;
+                Workers[m].Employer = WORKER_JOBLESS;
+                Workers[m].Gehalt = Workers[m].OriginalGehalt;
                 break;
             }
         }
 
-        if (Workers[m].Employer == WORKER_RESERVE) {
-            Workers[m].Employer = WORKER_JOBLESS;
-            Workers[m].Gehalt = Workers[m].OriginalGehalt;
-            n++;
-        }
-    }
-
-    // Und dazu noch 5 Stewardessen (+/- 2) aussuchen:
-    Anzahl = 5 + LocalRand.Rand(2);
-
-    for (c = n = 0; c < 100 && n < Anzahl; c++) {
-        m = LocalRand.Rand(Workers.AnzEntries());
-
-        for (SLONG d = 0; d < 100; d++) {
-            if (Workers[(m + d) % Workers.AnzEntries()].Employer == WORKER_RESERVE && Workers[(m + d) % Workers.AnzEntries()].Typ == WORKER_STEWARDESS) {
-                m = (m + d) % Workers.AnzEntries();
-                break;
-            }
-        }
-
-        if (Workers[m].Employer == WORKER_RESERVE && Workers[m].Typ == WORKER_STEWARDESS) {
-            Workers[m].Employer = WORKER_JOBLESS;
-            Workers[m].Gehalt = Workers[m].OriginalGehalt;
-            n++;
-        }
+        if (d >= 100)
+            break;
     }
 }
 
@@ -555,6 +565,7 @@ void CWorker::Gehaltsaenderung(BOOL Art) {
             Employer = WORKER_RESERVE;
             Gehalt = OriginalGehalt;
             Happyness = 100;
+            TimeInPool = 0;
 
             Sim.Players.Players[ExEmployer].UpdateWalkSpeed();
             Sim.Players.Players[ExEmployer].MapWorkers(FALSE);
@@ -576,57 +587,102 @@ CString CWorkers::GetRandomName(BOOL Geschlecht) const {
 // Verhindert, daÃŸ es zu wenig Piloten oder Stewardessen gibt:
 //--------------------------------------------------------------------------------------------
 void CWorkers::CheckShortage() {
-    SLONG anz = 0;
-    SLONG c = 0;
     TEAKRAND LocalRand(Sim.Date + Sim.StartTime);
 
-    for (anz = c = 0; c < Workers.AnzEntries(); c++) {
-        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Typ == WORKER_PILOT && Workers[c].Talent > 60) {
+    const SLONG zielAnzahlKompetent = 80;
+
+    // Zähle Anzahl an deaktivierten Piloten und kompetenten Piloten
+    SLONG nExpired = 0;
+    SLONG anz = 0;
+    for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
+        if (Workers[c].Typ != WORKER_PILOT)
+            continue;
+        if (Workers[c].Employer == WORKER_EXPIRED)
+            nExpired++;
+        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Talent > 60)
             anz++;
-        }
     }
 
-    if (anz < 40) {
-        Workers.ReSize(Workers.AnzEntries() + 10);
+    if (anz < zielAnzahlKompetent || nExpired > 0) {
+        // Zielwert ist 80 kompetente Leute, aber generiere nie mehr als 10 pro Tag
+        SLONG delta = std::min(10, (zielAnzahlKompetent - anz));
+        // Berechne, um wie viel wir die Liste vergr<F6><DF>ern m<FC>ssen. Ber<FC>cksichtige, dass wir Karteileichen ersetzen k<F6>nnen
+        delta = std::max(0, delta - nExpired);
+        if (delta > 0)
+            Workers.ReSize(Workers.AnzEntries() + delta);
 
-        for (c = Workers.AnzEntries() - 10; c < Workers.AnzEntries(); c++) {
+        for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
+            BOOL isNew = (c >= Workers.AnzEntries() - delta);
+            BOOL canReplace = (Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == WORKER_PILOT);
+            if (!isNew && !canReplace)
+                continue;
+
             Workers[c].Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
             Workers[c].Name = GetRandomName(Workers[c].Geschlecht);
             Workers[c].Typ = WORKER_PILOT;
-            Workers[c].Gehalt = (30 + LocalRand.Rand(70)) * 100;
-            Workers[c].Talent = Workers[c].Gehalt / 200 + LocalRand.Rand(30) + 20;
+            Workers[c].Gehalt = (30 + LocalRand.Rand(80)) * 100;
+            Workers[c].Talent = std::min(100, Workers[c].Gehalt / 200 + LocalRand.Rand(30) + 20);
             Workers[c].Alter = (19 + LocalRand.Rand(50));
             Workers[c].Kommentar = "";
             Workers[c].Employer = WORKER_RESERVE;
             Workers[c].Happyness = 100;
             Workers[c].WarnedToday = 0;
+            Workers[c].TimeInPool = 0;
 
             Workers[c].OriginalGehalt = Workers[c].Gehalt;
+
+            if (canReplace)
+                printf("Replacing expired worker: %s\n", (const char *)Workers[c].Name);
+            else
+                printf("Adding new worker: %s\n", (const char *)Workers[c].Name);
         }
     }
 
-    for (anz = c = 0; c < Workers.AnzEntries(); c++) {
-        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Typ == WORKER_STEWARDESS && Workers[c].Talent > 60) {
+    // das gleiche für Stewardessen
+
+    nExpired = 0;
+    anz = 0;
+    for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
+        if (Workers[c].Typ != WORKER_STEWARDESS)
+            continue;
+        if (Workers[c].Employer == WORKER_EXPIRED)
+            nExpired++;
+        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Talent > 60)
             anz++;
-        }
     }
 
-    if (anz < 40) {
-        Workers.ReSize(Workers.AnzEntries() + 10);
+    if (anz < zielAnzahlKompetent || nExpired > 0) {
+        // Zielwert ist 80 kompetente Leute, aber generiere nie mehr als 10 pro Tag
+        SLONG delta = std::min(10, (zielAnzahlKompetent - anz));
+        // Berechne, um wie viel wir die Liste vergr<F6><DF>ern m<FC>ssen. Ber<FC>cksichtige, dass wir Karteileichen ersetzen k<F6>nnen
+        delta = std::max(0, delta - nExpired);
+        if (delta > 0)
+            Workers.ReSize(Workers.AnzEntries() + delta);
 
-        for (c = Workers.AnzEntries() - 10; c < Workers.AnzEntries(); c++) {
+        for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
+            BOOL isNew = (c >= Workers.AnzEntries() - delta);
+            BOOL canReplace = (Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == WORKER_STEWARDESS);
+            if (!isNew && !canReplace)
+                continue;
+
             Workers[c].Geschlecht = static_cast<BOOL>((rand() % 100) > 80);
             Workers[c].Name = GetRandomName(Workers[c].Geschlecht);
             Workers[c].Typ = WORKER_STEWARDESS;
-            Workers[c].Gehalt = (30 + LocalRand.Rand(50)) * 100;
-            Workers[c].Talent = Workers[c].Gehalt * 100 / 80 / 200 + LocalRand.Rand(30) + 20;
+            Workers[c].Gehalt = (30 + LocalRand.Rand(60)) * 100;
+            Workers[c].Talent = std::min(100, Workers[c].Gehalt * 100 / 80 / 200 + LocalRand.Rand(30) + 20);
             Workers[c].Alter = (19 + LocalRand.Rand(40));
             Workers[c].Kommentar = "";
             Workers[c].Employer = WORKER_RESERVE;
             Workers[c].Happyness = 100;
             Workers[c].WarnedToday = 0;
+            Workers[c].TimeInPool = 0;
 
             Workers[c].OriginalGehalt = Workers[c].Gehalt;
+
+            if (canReplace)
+                printf("Replacing expired worker: %s\n", (const char *)Workers[c].Name);
+            else
+                printf("Adding new worker: %s\n", (const char *)Workers[c].Name);
         }
     }
 }
@@ -839,6 +895,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CWorker &Worker) {
     File << Worker.PlaneId;
     File << Worker.Happyness;
     File << Worker.WarnedToday;
+    File << Worker.TimeInPool;
 
     return (File);
 }
@@ -859,6 +916,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CWorker &Worker) {
     File >> Worker.PlaneId;
     File >> Worker.Happyness;
     File >> Worker.WarnedToday;
+    File >> Worker.TimeInPool;
 
     return (File);
 }

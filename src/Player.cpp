@@ -6568,6 +6568,7 @@ void PLAYER::SackWorkers() const {
     for (c = 0; c < Workers.Workers.AnzEntries(); c++) {
         if (Workers.Workers[c].Employer == PlayerNum) {
             Workers.Workers[c].Employer = WORKER_RESERVE;
+            Workers.Workers[c].TimeInPool = 0;
         }
     }
 }
