@@ -1689,6 +1689,11 @@ class /**/ CWorkers {
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CWorkers &Workers);
     friend TEAKFILE &operator>>(TEAKFILE &File, CWorkers &Workers);
+
+  private:
+    CWorker createPilot(TEAKRAND& LocalRand);
+    CWorker createStewardess(TEAKRAND& LocalRand);
+    void AddToPool(SLONG typ, TEAKRAND& LocalRand);
 };
 
 //--------------------------------------------------------------------------------------------

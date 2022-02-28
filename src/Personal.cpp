@@ -1,5 +1,5 @@
 //============================================================================================
-// Personal.Cpp - Das Personalbüro des Spielers
+// Personal.Cpp - Das PersonalbÃ¼ro des Spielers
 //============================================================================================
 // Link: "Personal.h"
 //============================================================================================
@@ -11,6 +11,8 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
+
+static const SLONG zielAnzahlKompetent = 80;
 
 SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG LineLength);
 
@@ -70,7 +72,7 @@ CPersonal::CPersonal(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
                             0, nullptr, // Labern
                             "A9E1E1", 7, 8, 9);
     SP_Frau.Clips[8].ReSize(8, "pfturnw.smk", "", XY(340, 113), SPM_LISTENING, CRepeat(1, 1), CPostWait(20, 20), SMACKER_CLIP_CANCANCEL, nullptr,
-                            SMACKER_CLIP_SET, 0, nullptr, // Zuhören
+                            SMACKER_CLIP_SET, 0, nullptr, // ZuhÃ¶ren
                             "A9A1E1E1", 8, 10, 7, 9);
     SP_Frau.Clips[9].ReSize(9, "pfturnz.smk", "", XY(340, 113), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, nullptr, SMACKER_CLIP_SET, 0,
                             nullptr, // Warten
@@ -144,7 +146,7 @@ CPersonal::~CPersonal() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-// Personalbüro message handlers
+// PersonalbÃ¼ro message handlers
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------------------------------------
@@ -287,7 +289,7 @@ void CPersonal::OnLButtonDown(UINT nFlags, CPoint point) {
 void CPersonal::OnRButtonDown(UINT nFlags, CPoint point) {
     DefaultOnRButtonDown();
 
-    // Außerhalb geklickt? Dann Default-Handler!
+    // AuÃŸerhalb geklickt? Dann Default-Handler!
     if (point.x < WinP1.x || point.y < WinP1.y || point.x > WinP2.x || point.y > WinP2.y) {
         return;
     }
@@ -311,7 +313,7 @@ void CPersonal::OnRButtonDown(UINT nFlags, CPoint point) {
 CWorkers::CWorkers(const CString &TabFilename, const CString &TabFilename2) { ReInit(TabFilename, TabFilename2); }
 
 //--------------------------------------------------------------------------------------------
-// Lädt die Tabelle von der Platte
+// LÃ¤dt die Tabelle von der Platte
 //--------------------------------------------------------------------------------------------
 void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
     // CStdioFile    Tab;
@@ -423,7 +425,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Neuer Tag, die Leute sind etwas unglücklicher und der Arbeitsmarkt ändert sich:
+// Neuer Tag, die Leute sind etwas unglÃ¼cklicher und der Arbeitsmarkt Ã¤ndert sich:
 //--------------------------------------------------------------------------------------------
 void CWorkers::NewDay() {
     SLONG c = 0;
@@ -448,7 +450,7 @@ void CWorkers::NewDay() {
 
     TEAKRAND LocalRand(Sim.Date + Sim.StartTime);
 
-    // Eingestellte Leute bei Mensch-Spielern unglücklich machen:
+    // Eingestellte Leute bei Mensch-Spielern unglÃ¼cklich machen:
     for (c = 0; c < Workers.AnzEntries(); c++) {
         Workers[c].WarnedToday = FALSE;
         if (Workers[c].Employer >= 0 && Workers[c].Employer <= 3) {
@@ -464,7 +466,7 @@ void CWorkers::NewDay() {
                 Anz++;
             }
 
-            // Worker u.U. mehrfach um 1%-Punkt unglücklicher machen
+            // Worker u.U. mehrfach um 1%-Punkt unglÃ¼cklicher machen
             for (; Anz > 0; Anz--) {
                 Workers[c].Happyness--;
 
@@ -473,7 +475,7 @@ void CWorkers::NewDay() {
                 }
 
                 if (Workers[c].Happyness < -100) {
-                    // Ihm reicht's! Er kündigt:
+                    // Ihm reicht's! Er kÃ¼ndigt:
                     if (Sim.Players.Players[Workers[c].Employer].Owner == 0) {
                         Sim.Players.Players[Workers[c].Employer].Messages.AddMessage(
                             BERATERTYP_GIRL,
@@ -540,11 +542,11 @@ void CWorkers::NewDay() {
 }
 
 //--------------------------------------------------------------------------------------------
-// Erhöht oder erniedrigt einer Personen das Gehalt
+// ErhÃ¶ht oder erniedrigt einer Personen das Gehalt
 //--------------------------------------------------------------------------------------------
 void CWorker::Gehaltsaenderung(BOOL Art) {
     if (Art != 0) {
-        // Gehaltserhöhung:
+        // GehaltserhÃ¶hung:
         SLONG OldGehalt = Gehalt;
 
         Gehalt += (Gehalt / 100 * 10);
@@ -556,7 +558,7 @@ void CWorker::Gehaltsaenderung(BOOL Art) {
             Happyness += 20;
         }
     } else {
-        // Gehaltskürzung:
+        // GehaltskÃ¼rzung:
         Gehalt -= (Gehalt / 100 * 10);
         Happyness -= 25;
 
@@ -582,7 +584,7 @@ void CWorker::Gehaltsaenderung(BOOL Art) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Erzeugt einen zufälligen Namen
+// Erzeugt einen zufÃ¤lligen Namen
 //--------------------------------------------------------------------------------------------
 CString CWorkers::GetRandomName(BOOL Geschlecht) const {
     if (Geschlecht != 0) {
@@ -594,16 +596,43 @@ CString CWorkers::GetRandomName(BOOL Geschlecht) const {
 //--------------------------------------------------------------------------------------------
 // Verhindert, dass es zu wenig Piloten oder Stewardessen gibt:
 //--------------------------------------------------------------------------------------------
-void CWorkers::CheckShortage() {
-    TEAKRAND LocalRand(Sim.Date + Sim.StartTime);
-
-    const SLONG zielAnzahlKompetent = 80;
-
-    // Zähle Anzahl an deaktivierten Piloten und kompetenten Piloten
+CWorker CWorkers::createPilot(TEAKRAND& LocalRand) {
+    CWorker worker;
+    worker.Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
+    worker.Name = GetRandomName(worker.Geschlecht);
+    worker.Typ = WORKER_PILOT;
+    worker.Gehalt = (30 + LocalRand.Rand(80)) * 100;
+    worker.Talent = std::min(100, worker.Gehalt / 200 + LocalRand.Rand(30) + 20);
+    worker.Alter = (19 + LocalRand.Rand(50));
+    worker.Kommentar = "";
+    worker.Employer = WORKER_RESERVE;
+    worker.Happyness = 100;
+    worker.WarnedToday = 0;
+    worker.TimeInPool = 0;
+    worker.OriginalGehalt = worker.Gehalt;
+    return worker;
+}
+CWorker CWorkers::createStewardess(TEAKRAND& LocalRand) {
+    CWorker worker;
+    worker.Geschlecht = static_cast<BOOL>((rand() % 100) > 80);
+    worker.Name = GetRandomName(worker.Geschlecht);
+    worker.Typ = WORKER_STEWARDESS;
+    worker.Gehalt = (30 + LocalRand.Rand(60)) * 100;
+    worker.Talent = std::min(100, worker.Gehalt * 100 / 80 / 200 + LocalRand.Rand(30) + 20);
+    worker.Alter = (19 + LocalRand.Rand(40));
+    worker.Kommentar = "";
+    worker.Employer = WORKER_RESERVE;
+    worker.Happyness = 100;
+    worker.WarnedToday = 0;
+    worker.TimeInPool = 0;
+    worker.OriginalGehalt = worker.Gehalt;
+    return worker;
+}
+void CWorkers::AddToPool(SLONG typ, TEAKRAND& LocalRand) {
     SLONG nExpired = 0;
     SLONG anz = 0;
     for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
-        if (Workers[c].Typ != WORKER_PILOT) {
+        if (Workers[c].Typ != typ) {
             continue;
         }
         if (Workers[c].Employer == WORKER_EXPIRED) {
@@ -617,7 +646,7 @@ void CWorkers::CheckShortage() {
     if (anz < zielAnzahlKompetent || nExpired > 0) {
         // Zielwert ist 80 kompetente Leute, aber generiere nie mehr als 10 pro Tag
         SLONG delta = std::min(10, (zielAnzahlKompetent - anz));
-        // Berechne, um wie viel wir die Liste vergr<F6><DF>ern m<FC>ssen. Ber<FC>cksichtige, dass wir Karteileichen ersetzen k<F6>nnen
+        // Berechne, um wie viel wir die Liste vergrÃ¶ÃŸern mÃ¼ssen. BerÃ¼cksichtige, dass wir Karteileichen ersetzen kÃ¶nnen
         delta = std::max(0, delta - nExpired);
         if (delta > 0) {
             Workers.ReSize(Workers.AnzEntries() + delta);
@@ -625,78 +654,19 @@ void CWorkers::CheckShortage() {
 
         for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
             BOOL isNew = static_cast<BOOL>(c >= Workers.AnzEntries() - delta);
-            BOOL canReplace = static_cast<BOOL>(Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == WORKER_PILOT);
+            BOOL canReplace = static_cast<BOOL>(Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == typ);
             if ((isNew == 0) && (canReplace == 0)) {
                 continue;
             }
 
-            Workers[c].Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
-            Workers[c].Name = GetRandomName(Workers[c].Geschlecht);
-            Workers[c].Typ = WORKER_PILOT;
-            Workers[c].Gehalt = (30 + LocalRand.Rand(80)) * 100;
-            Workers[c].Talent = std::min(100, Workers[c].Gehalt / 200 + LocalRand.Rand(30) + 20);
-            Workers[c].Alter = (19 + LocalRand.Rand(50));
-            Workers[c].Kommentar = "";
-            Workers[c].Employer = WORKER_RESERVE;
-            Workers[c].Happyness = 100;
-            Workers[c].WarnedToday = 0;
-            Workers[c].TimeInPool = 0;
-
-            Workers[c].OriginalGehalt = Workers[c].Gehalt;
-
-            if (canReplace != 0) {
-                printf("Replacing expired worker: %s\n", (const char *)Workers[c].Name);
+            if (typ == WORKER_STEWARDESS) {
+                Workers[c] = createStewardess(LocalRand);
+            } else if (typ == WORKER_PILOT) {
+                Workers[c] = createPilot(LocalRand);
             } else {
-                printf("Adding new worker: %s\n", (const char *)Workers[c].Name);
+                TeakLibW_Exception(FNL, ExcNever);
+                return;
             }
-        }
-    }
-
-    // das gleiche für Stewardessen
-
-    nExpired = 0;
-    anz = 0;
-    for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
-        if (Workers[c].Typ != WORKER_STEWARDESS) {
-            continue;
-        }
-        if (Workers[c].Employer == WORKER_EXPIRED) {
-            nExpired++;
-        }
-        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Talent > 60) {
-            anz++;
-        }
-    }
-
-    if (anz < zielAnzahlKompetent || nExpired > 0) {
-        // Zielwert ist 80 kompetente Leute, aber generiere nie mehr als 10 pro Tag
-        SLONG delta = std::min(10, (zielAnzahlKompetent - anz));
-        // Berechne, um wie viel wir die Liste vergr<F6><DF>ern m<FC>ssen. Ber<FC>cksichtige, dass wir Karteileichen ersetzen k<F6>nnen
-        delta = std::max(0, delta - nExpired);
-        if (delta > 0) {
-            Workers.ReSize(Workers.AnzEntries() + delta);
-        }
-
-        for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
-            BOOL isNew = static_cast<BOOL>(c >= Workers.AnzEntries() - delta);
-            BOOL canReplace = static_cast<BOOL>(Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == WORKER_STEWARDESS);
-            if ((isNew == 0) && (canReplace == 0)) {
-                continue;
-            }
-
-            Workers[c].Geschlecht = static_cast<BOOL>((rand() % 100) > 80);
-            Workers[c].Name = GetRandomName(Workers[c].Geschlecht);
-            Workers[c].Typ = WORKER_STEWARDESS;
-            Workers[c].Gehalt = (30 + LocalRand.Rand(60)) * 100;
-            Workers[c].Talent = std::min(100, Workers[c].Gehalt * 100 / 80 / 200 + LocalRand.Rand(30) + 20);
-            Workers[c].Alter = (19 + LocalRand.Rand(40));
-            Workers[c].Kommentar = "";
-            Workers[c].Employer = WORKER_RESERVE;
-            Workers[c].Happyness = 100;
-            Workers[c].WarnedToday = 0;
-            Workers[c].TimeInPool = 0;
-
-            Workers[c].OriginalGehalt = Workers[c].Gehalt;
 
             if (canReplace != 0) {
                 printf("Replacing expired worker: %s\n", (const char *)Workers[c].Name);
@@ -706,9 +676,17 @@ void CWorkers::CheckShortage() {
         }
     }
 }
+void CWorkers::CheckShortage() {
+    TEAKRAND LocalRand(Sim.Date + Sim.StartTime);
+
+    // ZÃ¤hle Anzahl an deaktivierten Piloten und kompetenten Piloten
+    AddToPool(WORKER_PILOT, LocalRand);
+    // das gleiche fÃ¼r Stewardessen
+    AddToPool(WORKER_PILOT, LocalRand);
+}
 
 //--------------------------------------------------------------------------------------------
-// Erhöht oder erniedrigt allen Personen das Gehalt
+// ErhÃ¶ht oder erniedrigt allen Personen das Gehalt
 //--------------------------------------------------------------------------------------------
 void CWorkers::Gehaltsaenderung(BOOL Art, SLONG PlayerNum) {
     for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
@@ -741,7 +719,7 @@ SLONG CWorkers::GetQualityRatio(SLONG prs) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Stellt sicher, dass der gewünschte Berater heute im Angebot ist:
+// Stellt sicher, dass der gewÃ¼nschte Berater heute im Angebot ist:
 //--------------------------------------------------------------------------------------------
 void CWorkers::EnsureBerater(SLONG Typ) {
     SLONG c = 0;
@@ -827,7 +805,7 @@ SLONG CWorkers::GetMinHappyness(SLONG PlayerNum) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Verändert die Happiness aller Worker um den angegebenen Betrag:
+// VerÃ¤ndert die Happiness aller Worker um den angegebenen Betrag:
 //--------------------------------------------------------------------------------------------
 void CWorkers::AddHappiness(SLONG PlayerNum, SLONG Value) {
     SLONG c = 0;
@@ -921,7 +899,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CWorker &Worker) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein Worker-Objekt:
+// LÃ¤dt ein Worker-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CWorker &Worker) {
     File >> Worker.Name;
@@ -951,7 +929,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CWorkers &Workers) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Lädt ein Workers-Objekt:
+// LÃ¤dt ein Workers-Objekt:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CWorkers &Workers) {
     File >> Workers.Workers;
