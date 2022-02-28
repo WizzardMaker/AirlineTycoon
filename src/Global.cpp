@@ -26,7 +26,7 @@ BOOL CheatMoreGimmicks = FALSE;
 BOOL CheatBubbles = FALSE;
 BOOL CheatShowAll = FALSE;
 BOOL CheatMissions = FALSE;
-BOOL CheatBerater = FALSE;
+SLONG CheatBerater = 0;
 BOOL CheatAnimNow = FALSE;
 BOOL CheatTestGame = FALSE;
 

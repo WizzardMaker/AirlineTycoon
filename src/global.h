@@ -29,7 +29,7 @@ extern BOOL CheatMoreGimmicks;
 extern BOOL CheatBubbles;
 extern BOOL CheatShowAll;
 extern BOOL CheatMissions;
-extern BOOL CheatBerater;
+extern SLONG CheatBerater;
 extern BOOL CheatAnimNow;
 extern BOOL CheatTestGame;
 

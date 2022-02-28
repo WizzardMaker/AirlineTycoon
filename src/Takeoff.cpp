@@ -2185,6 +2185,7 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.UpdateText(TOKEN_EXPERT, 2003, "Flugzeugeinnahmen");
     StandardTexte.AddText(TOKEN_EXPERT, 2004, "Gesch\xE4""ftsbericht");
     StandardTexte.AddText(TOKEN_EXPERT, 2005, "Konkurrenz");
+    StandardTexte.AddText(TOKEN_EXPERT, 3003, "Sie brauchen einen h\xF6her qualifizierteren Informanten um diesen Bericht zu erhalten.");
 
     StandardTexte.UpdateText(TOKEN_EXPERT, 3404, "Auftr\xE4ge");
     StandardTexte.AddText(TOKEN_EXPERT, 10000, "Kerosinkauf Flugzeug");
@@ -2237,7 +2238,10 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_EXPERT, 10103, "Anteil an op. Gewinn");
     StandardTexte.AddText(TOKEN_EXPERT, 10150, "davon operatives Gesch\xE4""ft");
     StandardTexte.AddText(TOKEN_EXPERT, 10151, "Wochenbilanz (1000 \x80)");
-    StandardTexte.AddText(TOKEN_EXPERT, 10152, "Verpflichtungen (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10152, "Verpflichtungen");
+    StandardTexte.AddText(TOKEN_EXPERT, 10153, "je Woche (1000 \x80)");
+
+    StandardTexte.AddText(TOKEN_EXPERT, 10200, "Konkurrent existiert nicht mehr");
 
     StandardTexte.AddText(TOKEN_JOBS, 2003, "Routenberaterin");
 }

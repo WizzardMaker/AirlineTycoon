@@ -12,6 +12,7 @@ class CPlane;
 class CPlaner;
 class CStdRaum;
 class CBilanz;
+class PLAYER;
 
 extern SLONG MouseWait;
 // SLONG  ReadTimeStampCounter (void);
@@ -1183,11 +1184,13 @@ class /**/ BLOCK {
   private:
     SLONG PrintLine(XY ClientArea, SLONG rowID, SLONG textID);
     SLONG PrintLineWithValue(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
+    SLONG PrintLineWithValueMio(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
     SLONG PrintLineWithPercentage(XY ClientArea, SLONG rowID, SLONG textID, __int64 value, __int64 div);
     SLONG PrintList(XY ClientArea, const std::vector<std::pair<SLONG, __int64>> &list, SLONG idx);
     SLONG PrintList(XY ClientArea, const std::vector<std::tuple<SLONG, __int64, __int64>> &list, SLONG idx);
-    void ZeigeFinanzBericht(XY ClientArea, const CBilanz &ref);
-    void ZeigeTagesBilanz(XY ClientArea, const CBilanz &ref);
+    void ZeigeFinanzBericht(XY ClientArea, const PLAYER &player, const CBilanz &ref, bool info, SLONG page);
+    void ZeigeTagesBilanz(XY ClientArea, const PLAYER &player, const CBilanz &ref, bool info, SLONG page);
+    void ZeigeInformantenInfos(XY ClientArea, SLONG page);
 };
 
 class BLOCKS : public ALBUM_V<BLOCK> {

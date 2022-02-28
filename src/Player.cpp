@@ -2148,7 +2148,7 @@ SLONG PLAYER::HasBerater(SLONG Berater) const {
     SLONG Max = 0;
 
     if (CheatBerater != 0) {
-        Max = 100;
+        Max = CheatBerater;
     }
 
     for (c = 0; c < Workers.Workers.AnzEntries(); c++) {
