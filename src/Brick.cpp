@@ -261,7 +261,7 @@ void BRICKS::ReInit(const CString &TabFilename) {
     long AnzTimePointer = 0;
 
     // Load Table header:
-    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
     SLONG FileP = 0;
 
     /*if (!Tab.Open (FullFilename (TabFilename, ExcelPath), CFile::modeRead))

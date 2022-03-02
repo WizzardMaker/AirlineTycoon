@@ -43,7 +43,7 @@ void CLANS::ReInit(const CString &TabFilename) {
     SLONG PhaseListsNumbers[10 + 4];
     SLONG c = 0;
 
-    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
     SLONG FileP = 0;
 
     // Load Table header:

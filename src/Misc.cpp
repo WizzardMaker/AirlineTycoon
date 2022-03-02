@@ -683,7 +683,7 @@ void HEADLINES::ReloadHeadline() {
     SLONG Kette = 0;
     SLONG LastKette = 0;
 
-    auto FileData = *(LoadCompleteFile(FullFilename(HeadlineFile, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(HeadlineFile, ExcelPath));
     SLONG FileP = 0;
 
     for (c = 0; c < 30; c++) {
@@ -1148,7 +1148,7 @@ void HEADLINES::ReInit(const CString &TabFilename) {
 
     // Load Table header:
     // Tab.Open (FullFilename (HeadlineFile, ExcelPath), TEAKFILE_READ);
-    auto FileData = *(LoadCompleteFile(FullFilename(HeadlineFile, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(HeadlineFile, ExcelPath));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen

@@ -71,7 +71,7 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
     BUFFER_V<char> Line(300);
 
     // Load Table header:
-    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
@@ -135,7 +135,7 @@ void CRouten::ReInitExtend(const CString &TabFilename) {
     long linenumber = 0;
 
     // Load Table header:
-    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen

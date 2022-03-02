@@ -225,12 +225,11 @@ int DoesFileExist(char const *path) {
     return 0;
 }
 
-BUFFER_V<BYTE> *LoadCompleteFile(char const *path) {
+BUFFER_V<BYTE> LoadCompleteFile(char const *path) {
     CRLEReader reader(path);
-    auto *buffer = new BUFFER_V<BYTE>(reader.GetSize());
-    if (!reader.Read(buffer->getData(), buffer->AnzEntries(), true)) {
-        delete buffer;
-        return nullptr;
+    BUFFER_V<BYTE> buffer(reader.GetSize());
+    if (!reader.Read(buffer.getData(), buffer.AnzEntries(), true)) {
+        return buffer;
     }
 
     if (reader.getIsRLE()) {

@@ -320,7 +320,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
     CString TmpStr;
 
     // Load Table header:
-    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
@@ -372,7 +372,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
     Workers.ReSize(Num);
 
     // Load Table header:
-    auto FileData2 = *(LoadCompleteFile(FullFilename(TabFilename2, ExcelPath)));
+    auto FileData2 = LoadCompleteFile(FullFilename(TabFilename2, ExcelPath));
 
     FNames.ReSize(0);
     MNames.ReSize(0);

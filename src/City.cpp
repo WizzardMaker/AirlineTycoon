@@ -28,7 +28,7 @@ void CITIES::ReInit(const CString &TabFilename) {
     SLONG Anz = 0;
 
     // Load Table header:
-    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen

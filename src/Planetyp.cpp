@@ -40,7 +40,7 @@ void CPlaneTypes::ReInit(const CString &TabFilename) {
     long Id = 0;
 
     // Load Table header:
-    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen
@@ -1626,7 +1626,7 @@ void CPlaneNames::ReInit(const CString &TabFilename) {
     SLONG Anz2 = 0;
 
     // Load Table header:
-    auto FileData = *(LoadCompleteFile(FullFilename(TabFilename, ExcelPath)));
+    auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
     SLONG FileP = 0;
 
     // Die erste Zeile einlesen

@@ -63,8 +63,7 @@ void TEXTRES::Open(char const *source, void *cached) {
         SLONG Group = -1;
         SLONG Identifier = -1;
 
-        // FIXME: Memory leak!
-        auto FileBuffer = *LoadCompleteFile(source);
+        auto FileBuffer = LoadCompleteFile(source);
         char *String = new char[0x400U];
         if (String == nullptr) {
             TeakLibW_Exception(nullptr, 0, ExcOutOfMem);
