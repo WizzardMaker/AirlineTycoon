@@ -22,8 +22,6 @@ class CStatButton {
                 SBBM *BitmapSuperHi, BOOL IsToggle);
 };
 
-#define MAX_GROUP 3      // Anzahl der Gruppen
-#define MAX_ITEMS 29     // Anzahl der Einträge je Gruppe
 #define LINE_DISTANCE 10 // Abstand der Zeilen
 
 #define TYP_LINEFEED 0   // Leerzeile
@@ -37,12 +35,15 @@ class CStatButton {
 #define TYP_CURRENCY 21       // Währung
 #define TYP_PERCENT 22        // Prozent
 #define TYP_SINGLE_PERCENT 23 // Prozent, aber nicht in Abhängigkeit von der Vorvariable
+#define TYP_UNAVAILABLE 24    // ???, weil der Berater fehlt
 
 typedef struct tagItem {
     bool visible{};
     short textId{};
     short define{};
     short typOfItem{};
+    short beraterSkill{};
+    short beraterSkillInfo{};
 
 } ITEM;
 
@@ -85,7 +86,7 @@ class CStatistik : public CStdRaum {
     BYTE _group;                          // Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
     long _days;                           // Anzahl der darzustellenden Tage
     long _newDays;                        // Für eine Animation
-    ITEM _iArray[MAX_GROUP][MAX_ITEMS]{}; // Merkt sich für jede Gruppe welche Einträge selektiert sind.
+    std::array<std::array<ITEM, STAT_MAX_ITEMS>, STAT_MAX_GROUPS> _iArray{};
 
     // Temporäre Werte
     short _selectedItem;

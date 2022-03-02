@@ -1,4 +1,4 @@
-
+#pragma once
 //============================================================================================
 // Defines.h - globale Konstanten:
 //============================================================================================
@@ -830,6 +830,9 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define STAT_A_SONSTIGES 49 // Essen, Zinsen, Dividenden, Telefon ** +STRAFEN **
 
 #define STAT_FRACHTEN 50 // Gesammtanzahl der angenommen (nicht geflogenen!) Frachtaufträge
+
+#define STAT_MAX_GROUPS 3      // Anzahl der Gruppen
+#define STAT_MAX_ITEMS 30     // Anzahl der Einträge je Gruppe
 
 // Eröffnungen für die Dialoge:
 #define DIALOG_WERBUNG 1

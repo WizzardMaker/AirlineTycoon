@@ -50,8 +50,8 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
 
     // Umständlich, aber wahr...
     {
-        for (short p = 0; p < MAX_GROUP; p++) {
-            for (short i = 0; i < MAX_ITEMS; i++) {
+        for (short p = 0; p < STAT_MAX_GROUPS; p++) {
+            for (short i = 0; i < STAT_MAX_ITEMS; i++) {
                 _iArray[p][i].visible = Sim.StatiArray[p][i];
                 _iArray[p][i].typOfItem = TYP_LINEFEED;
             }
@@ -66,39 +66,49 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8003;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_E_ROUTEN;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8004;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_E_AUFTRAEGE;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
-        _iArray[g][c].textId = 10000;
-        _iArray[g][c++].define = STAT_E_RABATT;
-
-        _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10001;
+        _iArray[g][c].beraterSkill = 40;
         _iArray[g][c++].define = STAT_E_ZINS;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10002;
+        _iArray[g][c].beraterSkill = 40;
         _iArray[g][c++].define = STAT_E_KREDIT;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
-        _iArray[g][c].textId = 10003;
-        _iArray[g][c++].define = STAT_E_FLUGZEUGE;
-
-        _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10004;
+        _iArray[g][c].beraterSkill = 50;
         _iArray[g][c++].define = STAT_E_AKTIEN;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10003;
+        _iArray[g][c].beraterSkill = 60;
+        _iArray[g][c++].define = STAT_E_FLUGZEUGE;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10000;
+        _iArray[g][c].beraterSkill = 70;
+        _iArray[g][c++].define = STAT_E_RABATT;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8006;
+        _iArray[g][c].beraterSkill = 70;
         _iArray[g][c++].define = STAT_E_SONSTIGES;
 
         _iArray[g][c].typOfItem = TYP_SUM_CURR;
         _iArray[g][c].textId = 8014;
+        _iArray[g][c].beraterSkill = 0;
         _iArray[g][c++].define = 0;
+        c++;
         c++;
 
         _iArray[g][c].typOfItem = TYP_GROUP;
@@ -106,71 +116,88 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         c++;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
-        _iArray[g][c].textId = 8008;
-        _iArray[g][c++].define = STAT_A_MIETEN;
-
-        _iArray[g][c].typOfItem = TYP_CURRENCY;
-        _iArray[g][c].textId = 8009;
-        _iArray[g][c++].define = STAT_A_GEHAELTER;
-
-        _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8010;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_A_KEROSIN;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8011;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_A_WARTUNG;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8012;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_A_STRAFEN;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
-        _iArray[g][c].textId = 10010;
-        _iArray[g][c++].define = STAT_A_FLUGZEUGE;
+        _iArray[g][c].textId = 10013;
+        _iArray[g][c].beraterSkillInfo = 1;
+        _iArray[g][c++].define = STAT_A_ESSEN;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 8008;
+        _iArray[g][c].beraterSkill = 30;
+        _iArray[g][c++].define = STAT_A_MIETEN;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 8009;
+        _iArray[g][c].beraterSkill = 30;
+        _iArray[g][c++].define = STAT_A_GEHAELTER;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10011;
+        _iArray[g][c].beraterSkill = 40;
         _iArray[g][c++].define = STAT_A_ZINS;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10012;
+        _iArray[g][c].beraterSkill = 40;
         _iArray[g][c++].define = STAT_A_KREDIT;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
-        _iArray[g][c].textId = 10013;
-        _iArray[g][c++].define = STAT_A_ESSEN;
+        _iArray[g][c].textId = 10016;
+        _iArray[g][c].beraterSkill = 50;
+        _iArray[g][c++].define = STAT_A_AKTIEN;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10010;
+        _iArray[g][c].beraterSkill = 60;
+        _iArray[g][c++].define = STAT_A_FLUGZEUGE;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10014;
+        _iArray[g][c].beraterSkill = 60;
         _iArray[g][c++].define = STAT_A_EXPANSION;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10015;
+        _iArray[g][c].beraterSkill = 70;
         _iArray[g][c++].define = STAT_A_SABOTAGE;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
-        _iArray[g][c].textId = 10016;
-        _iArray[g][c++].define = STAT_A_AKTIEN;
-
-        _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10017;
+        _iArray[g][c].beraterSkill = 70;
         _iArray[g][c++].define = STAT_A_AGENTUREN;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8006;
+        _iArray[g][c].beraterSkill = 70;
         _iArray[g][c++].define = STAT_A_SONSTIGES;
 
         _iArray[g][c].typOfItem = TYP_SUM_CURR;
         _iArray[g][c].textId = 8014;
+        _iArray[g][c].beraterSkill = 0;
         _iArray[g][c++].define = 0;
         c++;
 
         _iArray[g][c].typOfItem = TYP_SUM_DIFF;
         _iArray[g][c].textId = 8015;
-        _iArray[g][c++].define = 0;
+        _iArray[g][c].beraterSkill = 0;
+        _iArray[g][c].define = 0;
 
         // Zweite Seite
+        assert(c < STAT_MAX_ITEMS);
         c = 0;
         g = 1;
         _iArray[g][c].typOfItem = TYP_GROUP;
@@ -179,31 +206,39 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8101;
+        _iArray[g][c].beraterSkill = 50;
         _iArray[g][c++].define = STAT_AKTIEN_ANZAHL;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8102;
+        _iArray[g][c].beraterSkill = 0;
         _iArray[g][c++].define = STAT_AKTIENKURS;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8103;
+        _iArray[g][c].beraterSkill = 50;
         _iArray[g][c++].define = STAT_AKTIEN_SA;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8104;
+        _iArray[g][c].beraterSkill = 50;
         _iArray[g][c++].define = STAT_AKTIEN_FL;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8105;
+        _iArray[g][c].beraterSkill = 50;
         _iArray[g][c++].define = STAT_AKTIEN_PT;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8106;
+        _iArray[g][c].beraterSkill = 50;
         _iArray[g][c++].define = STAT_AKTIEN_HA;
 
         _iArray[g][c].typOfItem = TYP_SHAREVALUE;
         _iArray[g][c].textId = 8107;
+        _iArray[g][c].beraterSkill = 60;
         _iArray[g][c++].define = 0;
+        c++;
         c++;
 
         _iArray[g][c].typOfItem = TYP_GROUP;
@@ -212,21 +247,26 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8114;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_KONTO;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8116;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_KREDIT;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8115;
+        _iArray[g][c].beraterSkill = 80;
         _iArray[g][c++].define = STAT_FIRMENWERT;
 
         _iArray[g][c].typOfItem = TYP_SINGLE_PERCENT;
         _iArray[g][c].textId = 8113;
-        _iArray[g][c++].define = STAT_BEKANNTHEIT;
+        _iArray[g][c].beraterSkill = 50;
+        _iArray[g][c].define = STAT_BEKANNTHEIT;
 
         // Dritte Seite
+        assert(c < STAT_MAX_ITEMS);
         c = 0;
         g = 2;
         _iArray[g][c].typOfItem = TYP_GROUP;
@@ -234,40 +274,50 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         c++;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
-        _iArray[g][c].textId = 8201;
-        _iArray[g][c++].define = STAT_FLUGZEUGE;
-
-        _iArray[g][c].typOfItem = TYP_VALUE;
-        _iArray[g][c].textId = 8202;
-        _iArray[g][c++].define = STAT_ROUTEN;
-
-        _iArray[g][c].typOfItem = TYP_VALUE;
-        _iArray[g][c].textId = 8221;
-        _iArray[g][c++].define = STAT_NIEDERLASSUNGEN;
-
-        _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8203;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_FLUEGE;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8204;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_AUFTRAEGE;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8205;
+        _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_LMAUFTRAEGE;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
+        _iArray[g][c].textId = 8201;
+        _iArray[g][c].beraterSkillInfo = 30;
+        _iArray[g][c++].define = STAT_FLUGZEUGE;
+
+        _iArray[g][c].typOfItem = TYP_VALUE;
+        _iArray[g][c].textId = 8202;
+        _iArray[g][c].beraterSkillInfo = 40;
+        _iArray[g][c++].define = STAT_ROUTEN;
+
+        _iArray[g][c].typOfItem = TYP_VALUE;
+        _iArray[g][c].textId = 8221;
+        _iArray[g][c].beraterSkillInfo = 50;
+        _iArray[g][c++].define = STAT_NIEDERLASSUNGEN;
+
+        _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8206;
+        _iArray[g][c].beraterSkillInfo = 60;
         _iArray[g][c++].define = STAT_VERSPAETUNG;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8207;
+        _iArray[g][c].beraterSkillInfo = 60;
         _iArray[g][c++].define = STAT_UNFAELLE;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8208;
+        _iArray[g][c].beraterSkillInfo = 70;
         _iArray[g][c++].define = STAT_SABOTIERT;
+        c++;
         c++;
 
         _iArray[g][c].typOfItem = TYP_GROUP;
@@ -276,19 +326,25 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8211;
+        _iArray[g][c].beraterSkillInfo = 70;
         _iArray[g][c++].define = STAT_PASSAGIERE;
 
         _iArray[g][c].typOfItem = TYP_PERCENT;
         _iArray[g][c].textId = 8212;
+        _iArray[g][c].beraterSkillInfo = 80;
         _iArray[g][c++].define = STAT_ZUFR_PASSAGIERE;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8111;
+        _iArray[g][c].beraterSkillInfo = 20;
         _iArray[g][c++].define = STAT_MITARBEITER;
 
         _iArray[g][c].typOfItem = TYP_PERCENT;
         _iArray[g][c].textId = 8112;
-        _iArray[g][c++].define = STAT_ZUFR_PERSONAL;
+        _iArray[g][c].beraterSkillInfo = 80;
+        _iArray[g][c].define = STAT_ZUFR_PERSONAL;
+
+        assert(c < STAT_MAX_ITEMS);
     }
 
     // Temporäre Dinge
@@ -403,8 +459,8 @@ CStatistik::~CStatistik() {
         Sim.DropDownPosY = 329;
     }
 
-    for (short p = 0; p < MAX_GROUP; p++) {
-        for (short i = 0; i < MAX_ITEMS; i++) {
+    for (short p = 0; p < STAT_MAX_GROUPS; p++) {
+        for (short i = 0; i < STAT_MAX_ITEMS; i++) {
             Sim.StatiArray[p][i] = _iArray[p][i].visible;
         }
     }
@@ -629,7 +685,7 @@ void CStatistik::OnPaint() {
     _selectedItem = -1;
     rc.top += LINE_DISTANCE / 2;
     rc.bottom += LINE_DISTANCE / 2;
-    for (short i = 0; i < MAX_ITEMS; i++) {
+    for (short i = 0; i < STAT_MAX_ITEMS; i++) {
         if (_iArray[_group][i].typOfItem != TYP_LINEFEED) {
             word group = _iArray[_group][i].typOfItem;
             if (group >= 20) {
@@ -665,14 +721,6 @@ void CStatistik::OnPaint() {
         }
         rc.top += LINE_DISTANCE;
         rc.bottom = rc.top + 10;
-        if (_iArray[_group][i].typOfItem == TYP_LINEFEED) {
-            rc.top += LINE_DISTANCE;
-            rc.bottom = rc.top + 10;
-            if (i % 2 != 0) {
-                rc.top += LINE_DISTANCE;
-                rc.bottom = rc.top + 10;
-            }
-        }
     }
 
     // Die Werte sollten gelegentlich neu gezeichnet werden
@@ -709,60 +757,74 @@ void CStatistik::CalcGraph() {
 
     // Max-Min Werte
     if (_days <= 30) {
-        for (short i = 0; i < MAX_ITEMS; i++) {
-            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible) {
-                for (int p = 0; p < 4; p++) {
-                    if (Sim.Players.Players[p].IsOut == 0) {
-                        if (_playerMask[p]) {
-                            for (long d = 0; d <= _days; d++) {
-                                if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                    if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastDay(d) != 0) {
-                                        min = Min(__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d) *
-                                                          __int64(100) /
-                                                          Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastDay(d)),
-                                                  min);
-                                        max = Max(__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d) *
-                                                          __int64(100) /
-                                                          Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastDay(d)),
-                                                  max);
-                                    }
-                                } else {
-                                    min = Min(__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d)), min);
-                                    max = Max(__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d)), max);
-                                }
-                            }
+        for (auto& item : _iArray[_group]) {
+            if (item.typOfItem < TYP_VALUE || !item.visible) {
+                continue;
+            }
+            __int64 prevVal[4] = {};
+            for (int p = 0; p < 4; p++) {
+                if (Sim.Players.Players[p].IsOut != 0) {
+                    continue;
+                }
+                if (!_playerMask[p]) {
+                    continue;
+                }
+                auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
+                if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
+                    continue;
+                }
+                if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
+                    continue;
+                }
+
+                for (long d = 0; d <= _days; d++) {
+                    __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
+                    if (item.typOfItem == TYP_PERCENT) {
+                        if (prevVal[p] != 0) {
+                            min = Min(val * __int64(100) / prevVal[p], min);
+                            max = Max(val * __int64(100) / prevVal[p], max);
                         }
+                    } else {
+                        min = Min(val, min);
+                        max = Max(val, max);
                     }
+                    prevVal[p] = val;
                 }
             }
         }
     } else {
-        for (short i = 0; i < MAX_ITEMS; i++) {
-            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible) {
-                for (int p = 0; p < 4; p++) {
-                    if (Sim.Players.Players[p].IsOut == 0) {
-                        if (_playerMask[p]) {
-                            for (long d = 0; d <= Min(11L, ((_days + 29) / 30)); d++) {
-                                if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                    if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastMonth(d) != 0) {
-                                        min =
-                                            Min(__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d) *
-                                                        __int64(100) /
-                                                        Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastMonth(d)),
-                                                min);
-                                        max =
-                                            Max(__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d) *
-                                                        __int64(100) /
-                                                        Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastMonth(d)),
-                                                max);
-                                    }
-                                } else {
-                                    min = Min(__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d)), min);
-                                    max = Max(__int64(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d)), max);
-                                }
-                            }
+        for (auto& item : _iArray[_group]) {
+            if (item.typOfItem < TYP_VALUE || !item.visible) {
+                continue;
+            }
+            __int64 prevVal[4] = {};
+            for (int p = 0; p < 4; p++) {
+                if (Sim.Players.Players[p].IsOut != 0) {
+                    continue;
+                }
+                if (!_playerMask[p]) {
+                    continue;
+                }
+                auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
+                if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
+                    continue;
+                }
+                if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
+                    continue;
+                }
+
+                for (long d = 0; d <= Min(11L, ((_days + 29) / 30)); d++) {
+                    __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
+                    if (item.typOfItem == TYP_PERCENT) {
+                        if (prevVal[p] != 0) {
+                            min = Min(val * __int64(100) / prevVal[p], min);
+                            max = Max(val * __int64(100) / prevVal[p], max);
                         }
+                    } else {
+                        min = Min(val, min);
+                        max = Max(val, max);
                     }
+                    prevVal[p] = val;
                 }
             }
         }
@@ -818,62 +880,62 @@ void CStatistik::RepaintGraphWindow() {
 
     // Max-Min Werte
     if (_days <= 30) {
-        for (short i = 0; i < MAX_ITEMS; i++) {
-            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible) {
-                for (int p = 0; p < 4; p++) {
-                    if (Sim.Players.Players[p].IsOut == 0) {
-                        if (_playerMask[p]) {
-                            if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastDay(0) != 0) {
-                                    value = static_cast<long>(
-                                        static_cast<double>(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(0)) *
-                                        __int64(100) / Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastDay(0) *
-                                        _yGraph);
-                                } else {
-                                    value = 0;
-                                }
-                            } else {
-                                value = static_cast<long>(
-                                    double(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(0)) * _yGraph);
-                            }
+        for (short i = 0; i < STAT_MAX_ITEMS; i++) {
+            auto item = _iArray[_group][i];
+            if (item.typOfItem < TYP_VALUE || !item.visible) {
+                continue;
+            }
+            double prevVal[4] = {};
+            for (int p = 0; p < 4; p++) {
+                if (Sim.Players.Players[p].IsOut != 0) {
+                    continue;
+                }
+                if (!_playerMask[p]) {
+                    continue;
+                }
+                auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
+                if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
+                    continue;
+                }
+                if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
+                    continue;
+                }
 
-                            x2 = G_RIGHT;
-                            y2 = G_BOTTOM - yAxis - value;
-
-                            for (long d = 1; d <= days; d++) {
-                                if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                    if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastDay(d) != 0) {
-                                        value = static_cast<long>(
-                                            static_cast<double>(
-                                                Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d)) *
-                                            __int64(100) / Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastDay(d) *
-                                            _yGraph);
-                                    } else {
-                                        value = 0;
-                                    }
-                                } else {
-                                    value = static_cast<long>(
-                                        double(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(d)) * _yGraph);
-                                }
-
-                                x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
-                                y1 = G_BOTTOM - yAxis - value;
-
-                                if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
-                                    DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(DarkColors[p]));
-                                } else {
-                                    DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(AktienKursLineColor[p]));
-                                }
-
-                                DropDownBm.BlitFrom(PobelBms[p], x2 - 2, y2 - 2);
-                                DropDownBm.BlitFrom(PobelBms[p], x1 - 2, y1 - 2);
-
-                                x2 = x1;
-                                y2 = y1;
-                                fDrawAxis = true;
-                            }
+                for (long d = 0; d <= days; d++) {
+                    double val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
+                    if (item.typOfItem == TYP_PERCENT) {
+                        if (prevVal[p] != 0) {
+                            value = static_cast<long>(val * __int64(100) / prevVal[p] * _yGraph);
+                        } else {
+                            value = 0;
                         }
+                    } else {
+                        value = static_cast<long>(val * _yGraph);
                     }
+
+                    if (d == 0) {
+                        prevVal[p] = val;
+                        x2 = G_RIGHT;
+                        y2 = G_BOTTOM - yAxis - value;
+                        continue;
+                    }
+
+                    x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
+                    y1 = G_BOTTOM - yAxis - value;
+
+                    if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
+                        DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(DarkColors[p]));
+                    } else {
+                        DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(AktienKursLineColor[p]));
+                    }
+
+                    DropDownBm.BlitFrom(PobelBms[p], x2 - 2, y2 - 2);
+                    DropDownBm.BlitFrom(PobelBms[p], x1 - 2, y1 - 2);
+
+                    prevVal[p] = val;
+                    x2 = x1;
+                    y2 = y1;
+                    fDrawAxis = true;
                 }
             }
         }
@@ -881,64 +943,64 @@ void CStatistik::RepaintGraphWindow() {
         long month = min(11, (days + 29 / 30));
         _xGraph = static_cast<double> G_WIDTH / ((static_cast<double>(_days)) / 30);
 
-        for (short i = 0; i < MAX_ITEMS; i++) {
-            if (_iArray[_group][i].typOfItem >= TYP_VALUE && _iArray[_group][i].visible) {
-                for (int p = 0; p < 4; p++) {
-                    if (Sim.Players.Players[p].IsOut == 0) {
-                        if (_playerMask[p]) {
-                            if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastMonth(0) != 0) {
-                                    value = static_cast<long>(
-                                        static_cast<double>(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(0)) *
-                                        __int64(100) / Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastMonth(0) *
-                                        _yGraph);
-                                } else {
-                                    value = 0;
-                                }
-                            } else {
-                                value = static_cast<long>(
-                                    double(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(0)) * _yGraph);
-                            }
+        for (short i = 0; i < STAT_MAX_ITEMS; i++) {
+            auto item = _iArray[_group][i];
+            if (item.typOfItem < TYP_VALUE || !item.visible) {
+                continue;
+            }
+            double prevVal[4] = {};
+            for (int p = 0; p < 4; p++) {
+                if (Sim.Players.Players[p].IsOut != 0) {
+                    continue;
+                }
+                if (!_playerMask[p]) {
+                    continue;
+                }
+                auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
+                if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
+                    continue;
+                }
+                if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
+                    continue;
+                }
 
-                            x2 = G_RIGHT;
-                            y2 = G_BOTTOM - yAxis - value;
+                for (long d = 0; d <= month; d++) {
+                    double val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
+                    if (item.typOfItem == TYP_PERCENT) {
+                        if (prevVal[p] != 0) {
+                            value = static_cast<long>(val * __int64(100) / prevVal[p] * _yGraph);
+                        } else {
+                            value = 0;
+                        }
+                    } else {
+                        value = static_cast<long>(val * _yGraph);
+                    }
 
-                            for (long d = 1; d <= month; d++) {
-                                if (_iArray[_group][i].typOfItem == TYP_PERCENT) {
-                                    if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastMonth(d) != 0) {
-                                        value = static_cast<long>(
-                                            static_cast<double>(
-                                                Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d)) *
-                                            __int64(100) /
-                                            Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastMonth(d) * _yGraph);
-                                    } else {
-                                        value = 0;
-                                    }
-                                } else {
-                                    value = static_cast<long>(
-                                        double(Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastMonth(d)) * _yGraph);
-                                }
+                    if (d == 0) {
+                        prevVal[p] = val;
+                        x2 = G_RIGHT;
+                        y2 = G_BOTTOM - yAxis - value;
+                        continue;
+                    }
 
-                                x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
-                                y1 = G_BOTTOM - yAxis - value;
+                    x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
+                    y1 = G_BOTTOM - yAxis - value;
 
-                                if (x1 > G_LEFT || x2 > G_LEFT) {
-                                    if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
-                                        DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(DarkColors[p]));
-                                    } else {
-                                        DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(AktienKursLineColor[p]));
-                                    }
-                                }
-
-                                DropDownBm.BlitFrom(PobelBms[p], x2 - 2, y2 - 2);
-                                DropDownBm.BlitFrom(PobelBms[p], x1 - 2, y1 - 2);
-
-                                x2 = x1;
-                                y2 = y1;
-                                fDrawAxis = true;
-                            }
+                    if (x1 > G_LEFT || x2 > G_LEFT) {
+                        if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
+                            DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(DarkColors[p]));
+                        } else {
+                            DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(AktienKursLineColor[p]));
                         }
                     }
+
+                    DropDownBm.BlitFrom(PobelBms[p], x2 - 2, y2 - 2);
+                    DropDownBm.BlitFrom(PobelBms[p], x1 - 2, y1 - 2);
+
+                    prevVal[p] = val;
+                    x2 = x1;
+                    y2 = y1;
+                    fDrawAxis = true;
                 }
             }
         }
@@ -975,14 +1037,29 @@ void CStatistik::RepaintTextWindow() {
 
             rc.top += LINE_DISTANCE / 2;
             rc.bottom += LINE_DISTANCE / 2;
-            for (short i = 0; i < MAX_ITEMS; i++) {
-                if (_iArray[_group][i].typOfItem > TYP_GROUP) {
-                    __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i].define)].GetAtPastDay(0);
-                    switch (_iArray[_group][i].typOfItem) {
+            __int64 prevVal = 0;
+            for (short i = 0; i < STAT_MAX_ITEMS; i++) {
+                auto item = _iArray[_group][i];
+                if (item.typOfItem > TYP_GROUP) {
+                    __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(0);
+
+                    auto type = item.typOfItem;
+                    auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
+                    if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
+                        type = TYP_UNAVAILABLE;
+                    }
+                    if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
+                        type = TYP_UNAVAILABLE;
+                    }
+                    switch (type) {
+                    case TYP_UNAVAILABLE:
+                        output = CString("???");
+                        break;
+
                     case TYP_VALUE:
                         output = bprintf("%I64i", val);
 
-                        if (_iArray[_group][i].visible) {
+                        if (item.visible) {
                             summe += val;
                         }
                         break;
@@ -990,7 +1067,7 @@ void CStatistik::RepaintTextWindow() {
                     case TYP_CURRENCY:
                         output = Einheiten[EINH_DM].bString64(val);
 
-                        if (_iArray[_group][i].visible) {
+                        if (item.visible) {
                             summe += val;
                         }
                         break;
@@ -998,20 +1075,20 @@ void CStatistik::RepaintTextWindow() {
                     case TYP_SINGLE_PERCENT:
                         output = Einheiten[EINH_P].bString64(val);
 
-                        if (_iArray[_group][i].visible) {
+                        if (item.visible) {
                             summe += val;
                         }
                         break;
 
                     case TYP_PERCENT:
-                        if (Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastDay(0) != 0) {
+                        if (prevVal != 0) {
                             output = Einheiten[EINH_P].bString64(
-                                val * 100 / Sim.Players.Players[p].Statistiken[static_cast<int>(_iArray[_group][i - 1].define)].GetAtPastDay(0));
+                                val * 100 / prevVal);
                         } else {
                             output = "0%";
                         }
 
-                        if (_iArray[_group][i].visible) {
+                        if (item.visible) {
                             summe += val;
                         }
                         break;
@@ -1060,18 +1137,11 @@ void CStatistik::RepaintTextWindow() {
                     }
 
                     TextTableBm.PrintAt(output, StatFonts[p], TEC_FONT_RIGHT, rc.left, rc.top, rc.right - 5, rc.bottom);
+                    prevVal = val;
                 }
 
                 rc.top += LINE_DISTANCE;
                 rc.bottom = rc.top + 10;
-                if (_iArray[_group][i].typOfItem == TYP_LINEFEED) {
-                    rc.top += LINE_DISTANCE;
-                    rc.bottom = rc.top + 10;
-                    if (i % 2 != 0) {
-                        rc.top += LINE_DISTANCE;
-                        rc.bottom = rc.top + 10;
-                    }
-                }
             }
         }
     }
@@ -1226,7 +1296,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point) {
             // Falls das gewählte Icon eine Gruppe war diese komplett
             // ein- oder ausschalten.
             if (_iArray[_group][_selectedItem].typOfItem == TYP_GROUP) {
-                while (++_selectedItem < MAX_ITEMS && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
+                while (++_selectedItem < STAT_MAX_ITEMS && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
                     _iArray[_group][_selectedItem].visible = !_iArray[_group][_selectedItem].visible;
                 }
             } else {
@@ -1237,7 +1307,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point) {
                         c--;
                     }
 
-                    while (++c < MAX_ITEMS && _iArray[_group][c].typOfItem != TYP_GROUP) {
+                    while (++c < STAT_MAX_ITEMS && _iArray[_group][c].typOfItem != TYP_GROUP) {
                         _iArray[_group][c].visible = FALSE;
                     }
 

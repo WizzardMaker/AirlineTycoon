@@ -916,7 +916,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
             case 5:
                 if (SelectedId == 2) {
                     Bitmap.PrintAt(CString(StandardTexte.GetS(TOKEN_EXPERT, 2100)) + " " +
-                                       CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (Sim.Date + Sim.StartWeekday) % 7)),
+                                       CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (Sim.Date + Sim.StartWeekday - 1) % 7)),
                                    TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
                 } else if (SelectedId >= 8 && SelectedId <= 10) {
                     SLONG i = SelectedId - 8;
@@ -1848,7 +1848,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {10003, ref.FlugzeugUmbau}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 1) {
-        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 20) {
+        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 30) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
             return;
@@ -1859,7 +1859,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {3509, ref.Routenmiete}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 2) {
-        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 30) {
+        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 40) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
             return;
@@ -1873,7 +1873,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {10006, ref.Steuer}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 3) {
-        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 40) {
+        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 50) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
             return;
@@ -1886,7 +1886,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {10025, ref.AktienEmissionKompGez}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 4) {
-        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 50) {
+        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 60) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
             return;
@@ -1901,7 +1901,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {10033, ref.ExpansionTanks}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 5) {
-        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 60) {
+        if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 70) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
             return;
@@ -1962,7 +1962,7 @@ void BLOCK::ZeigeInformantenBilanz(XY ClientArea, SLONG playerId, SLONG page) {
     ZeigeTagesBilanz(ClientArea, Sim.Players.Players[playerId], Sim.Players.Players[playerId].BilanzWoche.Hole(), true, page);
 }
 
-void BLOCK::ZeigeInformantenInfos(XY ClientArea, SLONG page) {
+void BLOCK::ZeigeInformantenInfos(XY ClientArea, SLONG /*page*/) {
     if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) == 0) {
         Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3002), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
         return;

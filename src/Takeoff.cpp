@@ -2159,7 +2159,7 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_STAT, 10010, "Flugzeugk\xE4ufe");
     StandardTexte.AddText(TOKEN_STAT, 10011, "Zinsen");
     StandardTexte.AddText(TOKEN_STAT, 10012, "Kredite");
-    StandardTexte.AddText(TOKEN_STAT, 10013, "Essen f\xFCr Passagiere");
+    StandardTexte.AddText(TOKEN_STAT, 10013, "Essen f. Passagiere");
     StandardTexte.AddText(TOKEN_STAT, 10014, "Expansion");
     StandardTexte.AddText(TOKEN_STAT, 10015, "Sabotageauftr\xE4ge");
     StandardTexte.AddText(TOKEN_STAT, 10016, "Aktiengesch\xE4\x66te");

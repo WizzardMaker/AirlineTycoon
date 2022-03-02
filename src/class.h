@@ -3,6 +3,7 @@
 //============================================================================================
 // CAuftrag CFlugplan CPlane PLAYER
 //============================================================================================
+#include "defines.h"
 #include "HLine.h"
 #include <array>
 
@@ -2492,7 +2493,8 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     BYTE Statgroup{};                                 // Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
     SLONG Statdays{};                                 // Anzahl der darzustellenden Tage
     SLONG StatnewDays{};                              // Für eine Animation
-    std::array<std::array<bool, 16>, 3> StatiArray{}; // Merkt sich für jede Gruppe welche Einträge selektiert sind.
+    // Merkt sich für jede Gruppe welche Einträge selektiert sind.
+    std::array<std::array<bool, STAT_MAX_ITEMS>, STAT_MAX_GROUPS> StatiArray{};
     SLONG DropDownPosY{};
 
     // Datum und Zeit:
