@@ -956,6 +956,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
         qPlayer.SavesForPlane = FALSE;
         qPlayer.BuyBigPlane = 0;
         qPlayer.SavesForRocket = FALSE;
+        qPlayer.TargetedPlayer = -1;
         qPlayer.PlayerDialog = -1;
         qPlayer.bDialogStartSent = FALSE;
         qPlayer.PlayerDialogState = -1;

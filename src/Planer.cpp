@@ -1691,12 +1691,16 @@ void CPlaner::HandleLButtonDown() {
                     pBlock->Page = 0;
                     pBlock->SelectedId = pBlock->Table.LineIndex[TableCursor];
 
-                    if (pBlock->SelectedId == 1 || pBlock->SelectedId == 2) {
-                        pBlock->AnzPages = 7;
-                    } else if (pBlock->SelectedId == 4) {
+                    if (pBlock->SelectedId == 1) {
                         pBlock->AnzPages = 2;
-                    } else if (pBlock->SelectedId == 5) {
-                        pBlock->AnzPages = 2*4;
+                    } else if (pBlock->SelectedId >= 2 && pBlock->SelectedId <= 4) {
+                        pBlock->AnzPages = 7;
+                    } else if (pBlock->SelectedId == 6) {
+                        pBlock->AnzPages = 1;
+                    } else if (pBlock->SelectedId == 7) {
+                        pBlock->AnzPages = 2 * 3;
+                    } else if (pBlock->SelectedId >= 8 && pBlock->SelectedId <= 10) {
+                        pBlock->AnzPages = 7;
                     } else {
                         pBlock->AnzPages = 1;
                     }

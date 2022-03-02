@@ -3955,6 +3955,7 @@ void PLAYER::RobotExecuteAction() {
     } else {
         LocalRandom.Rand(2); // Sicherheitshalber, damit wir immer genau ein Random ausführen
     }
+    TargetedPlayer = dislike;
 
     // NetGenericSync (100, LocalRandom.GetSeed());
     // NetGenericSync (101, RobotActions[0].ActionId);
@@ -4614,6 +4615,8 @@ void PLAYER::RobotExecuteAction() {
                 dislike = -1;
             }
         }
+
+        TargetedPlayer = dislike;
 
         if (ArabHints < 100 && Image > -500 && ArabMode == 0 && ArabMode2 == 0 && ArabMode3 == 0) {
             if (((Sim.Date + PlayerNum) % 3 != 0 || RobotUse(ROBOT_USE_EXTREME_SABOTAGE) || LocalRandom.Rand(4) == 0 ||
@@ -5732,7 +5735,8 @@ void PLAYER::RobotExecuteAction() {
                          (TafelData.City[c].Player == -1 && LocalRandom.Rand(3) == 0)) &&
                         BilanzGestern.GetSumme() > TafelData.City[c].Preis * 10 && Credit * 2 < Money * 3 && Money > 0 &&
                         ((TafelData.Route[c].Player == dislike || PlayerNum == 0 || RobotUse(ROBOT_USE_ABROAD)))) {
-                        if (TafelData.City[c].Player == Sim.localPlayer && (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100))) {
+                        if (TafelData.City[c].Player == Sim.localPlayer &&
+                            (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100))) {
                             Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(
                                 BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9002), (LPCSTR)NameX, (LPCSTR)AirlineX,
                                                          (LPCTSTR)Cities[TafelData.City[c].ZettelId].Name));
@@ -7607,6 +7611,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player) {
     File << Player.Sympathie << Player.DoRoutes << Player.SavesForPlane;
     File << Player.WantToDoRoutes;
     File << Player.BuyBigPlane << Player.SavesForRocket;
+    File << Player.TargetedPlayer;
     File << Player.PlayerDialog << Player.PlayerDialogState;
     File << Player.CalledPlayer << Player.BoredOfPlayer;
     File << Player.IsTalking << Player.IsWalking2Player;
@@ -7789,6 +7794,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
     File >> Player.Sympathie >> Player.DoRoutes >> Player.SavesForPlane;
     File >> Player.WantToDoRoutes;
     File >> Player.BuyBigPlane >> Player.SavesForRocket;
+    File >> Player.TargetedPlayer;
     File >> Player.PlayerDialog >> Player.PlayerDialogState;
     File >> Player.CalledPlayer >> Player.BoredOfPlayer;
     File >> Player.IsTalking >> Player.IsWalking2Player;

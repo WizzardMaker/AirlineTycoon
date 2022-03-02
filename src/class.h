@@ -1190,6 +1190,8 @@ class /**/ BLOCK {
     SLONG PrintList(XY ClientArea, const std::vector<std::tuple<SLONG, __int64, __int64>> &list, SLONG idx);
     void ZeigeFinanzBericht(XY ClientArea, const PLAYER &player, const CBilanz &ref, bool info, SLONG page);
     void ZeigeTagesBilanz(XY ClientArea, const PLAYER &player, const CBilanz &ref, bool info, SLONG page);
+    void ZeigeInformantenFinanzBericht(XY ClientArea, SLONG page);
+    void ZeigeInformantenBilanz(XY ClientArea, SLONG playerId, SLONG page);
     void ZeigeInformantenInfos(XY ClientArea, SLONG page);
 };
 
@@ -2104,6 +2106,7 @@ class PLAYER {
     BOOL SavesForPlane{};        // Spart auf ein Flugzeug
     SLONG BuyBigPlane{};         // Wenn != 0 dann brauchen wir unbedingt ein Flugzeug mit mindestens dieser Reichweite
     BOOL SavesForRocket{};       // Spart auf ein Raketenteil
+    SLONG TargetedPlayer{};      // Spieler, den der Computer aktuell auf dem Kieker hat
     SLONG PlayerDialog{};        // Spricht er mit einem Spieler
     SLONG PlayerDialogState{};   //-1 = kein Dialog, oder im Dialog; 0-3 Dialog mit Spieler x wird aufgebaut
     bool bDialogStartSent{};     // Wurde ATNET_DIALOG_START schon verschickt?

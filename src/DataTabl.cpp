@@ -660,14 +660,13 @@ void CDataTable::FillWithCities(CRentCities *RentCities) {
 //--------------------------------------------------------------------------------------------
 // Füllt die Datentabelle mit allen verfügbaren Expertenmeinungen:
 //--------------------------------------------------------------------------------------------
-void CDataTable::FillWithExperts(SLONG /*PlayerNum*/) {
+void CDataTable::FillWithExperts(SLONG PlayerNum) {
     SLONG c = 0;
-    SLONG d = 0;
 
     Title = StandardTexte.GetS(TOKEN_EXPERT, 1000);
 
     AnzColums = 1;
-    AnzRows = 6;
+    AnzRows = 11;
     Values.ReSize(0);
     Values.ReSize(AnzColums * AnzRows);
     ValueFlags.ReSize(0);
@@ -677,10 +676,16 @@ void CDataTable::FillWithExperts(SLONG /*PlayerNum*/) {
 
     ColTitle[0] = StandardTexte.GetS(TOKEN_EXPERT, 1000);
 
-    for (c = d = 0; c < AnzRows; c++) {
+    for (c = 0; c < AnzRows; c++) {
         LineIndex[c] = c;
-        Values[d * AnzColums + 0] = StandardTexte.GetS(TOKEN_EXPERT, 2000 + c);
-        d++;
+        if (c >= 8 && c <= 10) {
+            SLONG i = c - 8;
+            i += (PlayerNum <= i);
+            auto &qPlayer = Sim.Players.Players[i];
+            Values[c * AnzColums + 0] = bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + c), (LPCSTR)qPlayer.Abk);
+        } else {
+            Values[c * AnzColums + 0] = StandardTexte.GetS(TOKEN_EXPERT, 2000 + c);
+        }
     }
 }
 

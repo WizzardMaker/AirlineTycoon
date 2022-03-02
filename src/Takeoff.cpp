@@ -2180,11 +2180,16 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
 
     StandardTexte.UpdateText(TOKEN_AKTIE, 3030, "Neuer Kontostand (inkl. Geb\xFChr)");
 
-    StandardTexte.UpdateText(TOKEN_EXPERT, 2001, "Tagesbilanz");
-    StandardTexte.UpdateText(TOKEN_EXPERT, 2002, "Gesamtbilanz");
-    StandardTexte.UpdateText(TOKEN_EXPERT, 2003, "Flugzeugeinnahmen");
-    StandardTexte.AddText(TOKEN_EXPERT, 2004, "Gesch\xE4""ftsbericht");
-    StandardTexte.AddText(TOKEN_EXPERT, 2005, "Konkurrenz");
+    StandardTexte.UpdateText(TOKEN_EXPERT, 2001, "Zusammenfassung");
+    StandardTexte.UpdateText(TOKEN_EXPERT, 2002, "Tagesbilanz");
+    StandardTexte.UpdateText(TOKEN_EXPERT, 2003, "Wochenbilanz");
+    StandardTexte.AddText(TOKEN_EXPERT, 2004, "Gesamtbilanz");
+    StandardTexte.AddText(TOKEN_EXPERT, 2005, "Flugzeugeinnahmen");
+    StandardTexte.AddText(TOKEN_EXPERT, 2006, "Konkurrenz (\xDC""bersicht)");
+    StandardTexte.AddText(TOKEN_EXPERT, 2007, " Zusammenfassungen");
+    StandardTexte.AddText(TOKEN_EXPERT, 2008, " Wochenbilanz von %s");
+    StandardTexte.AddText(TOKEN_EXPERT, 2009, " Wochenbilanz von %s");
+    StandardTexte.AddText(TOKEN_EXPERT, 2010, " Wochenbilanz von %s");
     StandardTexte.AddText(TOKEN_EXPERT, 3003, "Sie brauchen einen h\xF6her qualifizierteren Informanten um diesen Bericht zu erhalten.");
 
     StandardTexte.UpdateText(TOKEN_EXPERT, 3404, "Auftr\xE4ge");
@@ -2242,6 +2247,10 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_EXPERT, 10153, "je Woche (1000 \x80)");
 
     StandardTexte.AddText(TOKEN_EXPERT, 10200, "Konkurrent existiert nicht mehr");
+    StandardTexte.AddText(TOKEN_EXPERT, 10201, "%s sieht uns als gr\xF6\xDFten Konkurrenten!");
+    StandardTexte.AddText(TOKEN_EXPERT, 10202, "%s hat nicht gen\xFCgend Gates!");
+    StandardTexte.AddText(TOKEN_EXPERT, 10203, "%s spart aktuell auf ein Flugzeug.");
+    StandardTexte.AddText(TOKEN_EXPERT, 10204, "%s will anfangen, Routen zu fliegen.");
 
     StandardTexte.AddText(TOKEN_JOBS, 2003, "Routenberaterin");
 }
