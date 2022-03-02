@@ -315,6 +315,7 @@ int ChangeFrequency(Mix_Chunk *chunk, int freq) {
         }
 
         // If it was sucessfull put it on the original Mix_Chunk
+        SDL_free(chunk->abuf);
         chunk->abuf = cvt.buf;
         chunk->alen = cvt.len_cvt;
 
@@ -442,9 +443,10 @@ FX **FX::Tokenize(__int64 Token, SLONG &rcAnzahl) {
 int FX::Free() {
     if (_fxData.pBuffer != nullptr) {
         Stop();
-        // void *buf = _fxData.pBuffer->abuf;
+        SDL_free(_fxData.pBuffer->abuf);
+        _fxData.pBuffer->abuf = nullptr;
         Mix_FreeChunk(_fxData.pBuffer);
-        // SDL_free(buf);
+        _fxData.pBuffer = nullptr;
     }
     _digitalData.file.clear();
     _fxData.bufferSize = 0;
@@ -516,10 +518,6 @@ void FX::SetFormat(dword samplesPerSec, word channels, word bitsPerSample) {
         }
     }
 }
-
-MIDI::MIDI() { _music = nullptr; }
-
-MIDI::~MIDI() = default;
 
 int MIDI::Create(SSE *pSSE, char *file) {
     _musicData.pSSE = pSSE;

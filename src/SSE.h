@@ -297,7 +297,7 @@ class FX : public DIGITAL {
     virtual bool StopPriority(dword flags);
 
   public:
-    virtual ~FX() = default;
+    virtual ~FX() { Free(); }
     virtual SLONG Release();
     virtual int Play(dword dwFlags = 0, SLONG pan = 0);
     virtual int Stop();
@@ -369,12 +369,12 @@ class MIDI : public MUSIC {
     friend class SSE;
 
   protected:
-    MIDI();
+    MIDI() = default;
     int Create(SSE *pSSE, char *file);
     virtual bool StopPriority(dword flags);
 
   public:
-    virtual ~MIDI();
+    virtual ~MIDI() { Free(); }
     virtual SLONG Release();
     DllExport virtual int Play(dword dwFlags = 0, SLONG pan = 0);
     virtual int Stop();
