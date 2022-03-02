@@ -1073,6 +1073,7 @@ void PumpNetwork() {
                 SLONG From = 0;
                 SLONG Generic1 = 0;
                 PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
+                TEAKRAND rnd;
 
                 Message >> Art >> From >> Generic1;
 
@@ -1081,7 +1082,7 @@ void PumpNetwork() {
                 switch (Art) {
                 // Tafel: Jemand hat einen überboten
                 case 0:
-                    if (qPlayer.HasBerater(BERATERTYP_INFO) != 0) {
+                    if (qPlayer.HasBerater(BERATERTYP_INFO) >= rnd.Rand(100)) {
                         if (Generic1 >= 14) {
                             qPlayer.Messages.AddMessage(
                                 BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9001), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX));
@@ -1096,7 +1097,7 @@ void PumpNetwork() {
 
                     // Jemand kauft gebrauchtes Flugzeug:
                 case 1:
-                    if (qPlayer.HasBerater(BERATERTYP_INFO) != 0) {
+                    if (qPlayer.HasBerater(BERATERTYP_INFO) >= rnd.Rand(100)) {
                         qPlayer.Messages.AddMessage(BERATERTYP_INFO,
                                                     bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9000), (LPCTSTR)qFromPlayer.NameX, (LPCTSTR)qFromPlayer.AirlineX,
                                                             Sim.UsedPlanes[0x1000000 + Generic1].CalculatePrice()));
@@ -1105,7 +1106,7 @@ void PumpNetwork() {
 
                     // Jemand gibt Aktien aus:
                 case 3:
-                    if (qPlayer.HasBerater(BERATERTYP_INFO) != 0) {
+                    if (qPlayer.HasBerater(BERATERTYP_INFO) >= rnd.Rand(100)) {
                         qPlayer.Messages.AddMessage(BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9004), (LPCTSTR)qFromPlayer.NameX,
                                                                              (LPCTSTR)qFromPlayer.AirlineX, Generic1));
                     }
@@ -1113,7 +1114,7 @@ void PumpNetwork() {
 
                     // Jemand kauft Aktien vom localPlayer:
                 case 4:
-                    if (qPlayer.HasBerater(BERATERTYP_INFO) != 0) {
+                    if (qPlayer.HasBerater(BERATERTYP_INFO) >= rnd.Rand(100)) {
                         qPlayer.Messages.AddMessage(BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9005), (LPCTSTR)qFromPlayer.NameX,
                                                                              (LPCTSTR)qFromPlayer.AirlineX, Generic1));
                     }

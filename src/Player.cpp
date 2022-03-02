@@ -3789,7 +3789,8 @@ void PLAYER::RobotPlanRoutes() {
 
                 if (RentRouten.RentRouten[c].TageMitVerlust > 10 && !RobotUse(ROBOT_USE_NEVERGIVEROUTEUP)) {
                     // Spieler hat die Faxen dicke und will die Route nicht mehr:
-                    if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) != 0) {
+                    TEAKRAND rnd;
+                    if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100)) {
                         Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(
                             BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9006), (LPCSTR)NameX, (LPCSTR)AirlineX,
                                                      (LPCTSTR)Cities[Routen[c].VonCity].Name, (LPCTSTR)Cities[Routen[c].NachCity].Name));
@@ -3817,6 +3818,7 @@ void PLAYER::RobotExecuteAction() {
     SLONG n = 0;
     SLONG dislike = 0;
     SLONG level = 0;
+    TEAKRAND rnd;
 
     if (Owner != 1 || (IsOut != 0)) {
         return; // War Irtum, kein Computerspieler
@@ -4899,7 +4901,7 @@ void PLAYER::RobotExecuteAction() {
                 if (Anz != 0) {
                     TradeStock(dislike, Anz);
 
-                    if (dislike == Sim.localPlayer && (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) != 0)) {
+                    if (dislike == Sim.localPlayer && (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100))) {
                         Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(
                             BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9005), (LPCSTR)NameX, (LPCSTR)AirlineX, Anz));
                     }
@@ -5029,7 +5031,7 @@ void PLAYER::RobotExecuteAction() {
                     // if (Sim.UsedPlanes[0x1000000+c].Name.GetLength()>0 && Sim.UsedPlanes[0x1000000+c].Baujahr>1960 && Sim.UsedPlanes[0x1000000+c].Zustand>40
                     // && Sim.UsedPlanes[0x1000000+c].CalculatePrice()<Money+1000000 && PlaneTypes[Sim.UsedPlanes[0x1000000+c].TypeId].Reichweite>=BuyBigPlane)
                     {
-                        if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) != 0) {
+                        if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100)) {
                             Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(BERATERTYP_INFO,
                                                                                      bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9000), (LPCSTR)NameX,
                                                                                              (LPCSTR)AirlineX, Sim.UsedPlanes[0x1000000 + c].CalculatePrice()));
@@ -5116,7 +5118,7 @@ void PLAYER::RobotExecuteAction() {
         AnzAktien += NeueAktien;
         OwnsAktien[PlayerNum] += (NeueAktien - MarktAktien);
 
-        if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) != 0) {
+        if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100)) {
             Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(
                 BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9004), (LPCSTR)NameX, (LPCSTR)AirlineX, NeueAktien));
         }
@@ -5649,7 +5651,7 @@ void PLAYER::RobotExecuteAction() {
             for (c = 0; c < 3; c++) {
                 if (Sim.UsedPlanes[0x1000000 + c].Name.GetLength() > 0 && Sim.UsedPlanes[0x1000000 + c].Baujahr > 1950 &&
                     Sim.UsedPlanes[0x1000000 + c].Zustand > 65 && Sim.UsedPlanes[0x1000000 + c].CalculatePrice() < Money - 1000000) {
-                    if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) != 0) {
+                    if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100)) {
                         Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(
                             BERATERTYP_INFO,
                             bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9000), (LPCSTR)NameX, (LPCSTR)AirlineX, Sim.UsedPlanes[0x1000000 + c].CalculatePrice()));
@@ -5710,7 +5712,7 @@ void PLAYER::RobotExecuteAction() {
                 }
 
                 if (n != -1) {
-                    if (TafelData.Gate[n].Player == Sim.localPlayer && (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) != 0)) {
+                    if (TafelData.Gate[n].Player == Sim.localPlayer && (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100))) {
                         Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(
                             BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9001), (LPCSTR)NameX, (LPCSTR)AirlineX));
                     }
@@ -5730,7 +5732,7 @@ void PLAYER::RobotExecuteAction() {
                          (TafelData.City[c].Player == -1 && LocalRandom.Rand(3) == 0)) &&
                         BilanzGestern.GetSumme() > TafelData.City[c].Preis * 10 && Credit * 2 < Money * 3 && Money > 0 &&
                         ((TafelData.Route[c].Player == dislike || PlayerNum == 0 || RobotUse(ROBOT_USE_ABROAD)))) {
-                        if (TafelData.City[c].Player == Sim.localPlayer && (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) != 0)) {
+                        if (TafelData.City[c].Player == Sim.localPlayer && (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100))) {
                             Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(
                                 BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9002), (LPCSTR)NameX, (LPCSTR)AirlineX,
                                                          (LPCTSTR)Cities[TafelData.City[c].ZettelId].Name));
