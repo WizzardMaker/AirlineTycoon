@@ -19,6 +19,7 @@ HDU::HDU() : Log(nullptr) {
     strcpy(path.data(), base);
     strcat(path.data(), file);
     Log = fopen(path.data(), "w");
+    SDL_free(base);
 }
 
 HDU::~HDU() { Close(); }

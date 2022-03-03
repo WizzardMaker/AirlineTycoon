@@ -25,8 +25,6 @@
 #include <jansson.h>
 #endif
 
-#define GetPerfPath() SDL_GetPrefPath("Spellbound", "Airline Tycoon Deluxe")
-
 #ifdef SYSTEM_CHECKUP
 #include <fcntl.h>
 #include <stdio.h>
@@ -98,8 +96,7 @@ CRegistryAccess::CRegistryAccess(const CString &RegistryPath) {
 bool CRegistryAccess::Open(const CString & /*RegistryPath*/) {
     Close(); // Alten Zugriff schließen
 
-    CString PerfPath = GetPerfPath();
-    hKey = json_load_file(PerfPath + "AT.json", 0, nullptr);
+    hKey = json_load_file(AppPrefPath + "AT.json", 0, nullptr);
     if (hKey == nullptr) {
         hKey = json_object();
     }
@@ -129,8 +126,7 @@ CRegistryAccess::~CRegistryAccess() { Close(); }
 void CRegistryAccess::Close() {
     if (hKey != nullptr) {
 #if USE_JSON
-        CString PerfPath = GetPerfPath();
-        json_dump_file(hKey, PerfPath + "AT.json", 0);
+        json_dump_file(hKey, AppPrefPath + "AT.json", 0);
         json_decref(hKey);
 #else
         RegCloseKey(hKey);

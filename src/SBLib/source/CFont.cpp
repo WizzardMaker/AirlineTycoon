@@ -20,16 +20,19 @@ SB_CFont::~SB_CFont() {
 bool SB_CFont::Load(SDL_Renderer * /*renderer*/, const char *path, struct HPALETTE__ * /*unused*/) {
     SDL_RWops *file = SDL_RWFromFile(path, "rb");
     if (SDL_RWread(file, &Header, sizeof(Header), 1) != 1) {
+        SDL_RWclose(file);
         return false;
     }
 
     BYTE *pixels = new BYTE[Header.szPixels];
     if (SDL_RWread(file, pixels, 1, Header.szPixels) != Header.szPixels) {
+        SDL_RWclose(file);
         return false;
     }
 
     auto *colors = new SDL_Color[Header.NumColors + 1];
     if (SDL_RWread(file, colors, 1, Header.szColors) != Header.szColors) {
+        SDL_RWclose(file);
         return false;
     }
 
@@ -38,11 +41,13 @@ bool SB_CFont::Load(SDL_Renderer * /*renderer*/, const char *path, struct HPALET
 
     VarWidth = new BYTE[0x100];
     if (SDL_RWread(file, VarWidth, 0x100, 1) != 1) {
+        SDL_RWclose(file);
         return false;
     }
 
     VarHeight = new BYTE[0x100];
     if (SDL_RWread(file, VarHeight, 0x100, 1) != 1) {
+        SDL_RWclose(file);
         return false;
     }
 
@@ -57,6 +62,7 @@ bool SB_CFont::Load(SDL_Renderer * /*renderer*/, const char *path, struct HPALET
     SDL_FreeSurface(surf);
     delete[] colors;
     delete[] pixels;
+    SDL_RWclose(file);
     return true;
 }
 

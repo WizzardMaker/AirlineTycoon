@@ -319,7 +319,6 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
             MakeVideoPath2 = strtok(nullptr, " ");
         }
         if (stricmp(Argument, "/updatepools") == 0) {
-            DoAppPath();
             InitPathVars();
 
             FrameWnd = new GameFrame;
@@ -338,7 +337,6 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
 
     Sim.Options.ReadOptions();
 
-    DoAppPath();
     InitPathVars();
     // UpdateSavegames ();
 

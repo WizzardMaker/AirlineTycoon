@@ -405,7 +405,7 @@ UWORD ConvertString2Date(char *String) {
 //--------------------------------------------------------------------------------------------
 void DoAppPath() {
     // Vollen Programmnamen anfordern:
-    char *buffer = SDL_strdup(SDL_GetBasePath());
+    char *buffer = SDL_GetBasePath();
 
     // eigentlichen Programmteil löschen:
     // while (strlen(buffer)>0 && buffer[(SLONG)(strlen(buffer)-1)]!='\\') buffer[(SLONG)(strlen(buffer)-1)]=0;
@@ -414,8 +414,12 @@ void DoAppPath() {
     // if (strlen(buffer) > 6 && strnicmp(buffer + strlen(buffer) - 6, "debug\\", 6) == 0) buffer[(SLONG)(strlen(buffer) - 6)] = 0;
     // if (strlen(buffer) > 8 && strnicmp(buffer + strlen(buffer) - 8, "release\\", 8) == 0) buffer[(SLONG)(strlen(buffer) - 8)] = 0;
 
-    AppPath = buffer;
+    AppPath = CString(buffer);
     SDL_free(buffer);
+
+    char *bufPrefPath = SDL_GetPrefPath("Spellbound", "Airline Tycoon Deluxe");
+    AppPrefPath = CString(bufPrefPath);
+    SDL_free(bufPrefPath);
 }
 
 //--------------------------------------------------------------------------------------------
