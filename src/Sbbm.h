@@ -139,6 +139,7 @@ class SBBM {
     void Destroy() {
         if (pBitmap && bitmapMain) {
             bitmapMain->ReleaseBitmap(pBitmap);
+            pBitmap = nullptr;
         }
         pHLObj = NULL;
         pBitmap = 0;

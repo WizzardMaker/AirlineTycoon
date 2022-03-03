@@ -142,6 +142,7 @@ class SB_CBitmapCore {
     SDL_PixelFormat *GetPixelFormat(void) { return lpDDSurface->format; }
     SDL_Texture *GetTexture() { return lpTexture; }
 
+    SLONG GetRef() const { return RefCounter; }
     void IncRef() { ++RefCounter; }
     bool DecRef() { assert(RefCounter > 0); return (0 == --RefCounter); }
     SLONG getId() const { return Id; }
@@ -197,6 +198,7 @@ class SB_CCursor {
 class SB_CPrimaryBitmap : public SB_CBitmapCore {
   public:
     SB_CPrimaryBitmap() = default;
+    ~SB_CPrimaryBitmap() { Release(); }
 
     SLONG Create(SDL_Renderer **, SDL_Window *, unsigned short, SLONG, SLONG, unsigned char, unsigned short);
     virtual ULONG Release(void);

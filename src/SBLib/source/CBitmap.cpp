@@ -510,18 +510,28 @@ SLONG SB_CPrimaryBitmap::Create(SDL_Renderer **out, SDL_Window *Wnd, unsigned sh
 }
 
 ULONG SB_CPrimaryBitmap::Release() {
-    if (lpTexture != nullptr) {
-        SDL_DestroyTexture(lpTexture);
-    }
-    if (lpDD != nullptr) {
+    if (lpDD == nullptr) {
+        if (lpDDSurface != nullptr) {
+            SDL_FreeSurface(lpDDSurface);
+            lpDDSurface = nullptr;
+        }
+        assert(lpTexture == nullptr);
+    } else {
+        if (lpTexture != nullptr) {
+            SDL_DestroyTexture(lpTexture);
+            lpTexture = nullptr;
+        }
         SDL_DestroyRenderer(lpDD);
-    } else if (lpDDSurface != nullptr) {
-        SDL_FreeSurface(lpDDSurface);
+        lpDD = nullptr;
+        lpDDSurface = nullptr;
     }
     return 0;
 }
 
 SB_CBitmapKey::SB_CBitmapKey(class SB_CBitmapCore &core) : Surface(core.lpDDSurface) {
+    if (!Surface) {
+        return;
+    }
     if (SDL_MUSTLOCK(Surface)) {
         SDL_LockSurface(Surface);
     }
@@ -530,6 +540,9 @@ SB_CBitmapKey::SB_CBitmapKey(class SB_CBitmapCore &core) : Surface(core.lpDDSurf
 }
 
 SB_CBitmapKey::~SB_CBitmapKey() {
+    if (!Surface) {
+        return;
+    }
     if (SDL_MUSTLOCK(Surface)) {
         SDL_UnlockSurface(Surface);
     }
