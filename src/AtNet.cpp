@@ -1901,12 +1901,12 @@ void PumpNetwork() {
                 SLONG localPlayer = 0;
                 SLONG TankOpen = 0;
                 SLONG TankInhalt = 0;
-                SLONG BadKerosin = 0;
+                double KerosinQuali = 0;
                 SLONG KerosinKind = 0;
                 BOOL Tank = 0;
                 double TankPreis = NAN;
 
-                Message >> localPlayer >> Tank >> TankOpen >> TankInhalt >> BadKerosin >> KerosinKind >> TankPreis;
+                Message >> localPlayer >> Tank >> TankOpen >> TankInhalt >> KerosinQuali >> KerosinKind >> TankPreis;
 
                 if (localPlayer != Sim.localPlayer) {
                     PLAYER &qPlayer = Sim.Players.Players[localPlayer];
@@ -1914,7 +1914,7 @@ void PumpNetwork() {
                     qPlayer.Tank = Tank;
                     qPlayer.TankOpen = TankOpen;
                     qPlayer.TankInhalt = TankInhalt;
-                    qPlayer.BadKerosin = BadKerosin;
+                    qPlayer.KerosinQuali = KerosinQuali;
                     qPlayer.KerosinKind = KerosinKind;
                     qPlayer.TankPreis = TankPreis;
                 }

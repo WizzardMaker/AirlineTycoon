@@ -7490,7 +7490,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player) {
     File << Player.Airline << Player.AirlineX << Player.Abk;
     File << Player.Owner << Player.Logo << Player.Money;
     File << Player.MoneyPast << Player.Credit;
-    File << Player.Image << Player.BadKerosin << Player.KerosinKind;
+    File << Player.Image << Player.KerosinQuali << Player.KerosinKind;
     File << Player.Tank << Player.TankOpen << Player.TankInhalt;
     File << Player.TankPreis << Player.GameSpeed << Player.ArabTrust;
     File << Player.ArabMode << Player.ArabOpfer << Player.ArabHints;
@@ -7631,7 +7631,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
     File >> Player.Airline >> Player.AirlineX >> Player.Abk;
     File >> Player.Owner >> Player.Logo >> Player.Money;
     File >> Player.MoneyPast >> Player.Credit;
-    File >> Player.Image >> Player.BadKerosin >> Player.KerosinKind;
+    File >> Player.Image >> Player.KerosinQuali >> Player.KerosinKind;
     File >> Player.Tank >> Player.TankOpen >> Player.TankInhalt;
     File >> Player.TankPreis >> Player.GameSpeed >> Player.ArabTrust;
     File >> Player.ArabMode >> Player.ArabOpfer >> Player.ArabHints;

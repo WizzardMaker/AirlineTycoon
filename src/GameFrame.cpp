@@ -1682,7 +1682,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
         if (memcmp(TypeBuffer + 30 - 6, strCheatMentat + 1, 6) == 0) {
             if ((Sim.bAllowCheating != 0) || (Sim.bNetwork == 0)) {
-                CheatBerater += 10;
+                CheatBerater += 100;
                 CheatSound();
 
                 SIM::SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7010), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX));

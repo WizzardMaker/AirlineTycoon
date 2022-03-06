@@ -182,14 +182,15 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 201: // Hauptauswahl Kerosinmarkt:
                 if (DialogMedium == MEDIUM_AIR) {
                     MakeSayWindow(0, TOKEN_ARAB, 300, pFontPartner);
-                    MakeNumberWindow(TOKEN_ARAB, 9990300, Sim.Kerosin * 2, Sim.Kerosin, Sim.Kerosin / 2);
+                    MakeNumberWindow(TOKEN_ARAB, 9990300, Sim.HoleKerosinPreis(0), Sim.HoleKerosinPreis(1), Sim.HoleKerosinPreis(2));
                 } else {
                     MakeSayWindow(0, TOKEN_ARAB, 301, pFontPartner);
-                    MakeNumberWindow(TOKEN_ARAB, 9990301, Sim.Kerosin * 2, Sim.Kerosin, Sim.Kerosin / 2);
+                    MakeNumberWindow(TOKEN_ARAB, 9990301, Sim.HoleKerosinPreis(0), Sim.HoleKerosinPreis(1), Sim.HoleKerosinPreis(2));
                 }
                 break;
             case 300:
-                MakeSayWindow(1, TOKEN_ARAB, 400, 403, 3, &FontDialog, &FontDialogLight, Sim.Kerosin * 2, Sim.Kerosin, Sim.Kerosin / 2);
+                MakeSayWindow(1, TOKEN_ARAB, 400, 403, 3, &FontDialog, &FontDialogLight, Sim.HoleKerosinPreis(0), Sim.HoleKerosinPreis(1),
+                              Sim.HoleKerosinPreis(2));
                 break;
 
             case 400: // Spieler kann sich für Kerosinpreis entschieden:

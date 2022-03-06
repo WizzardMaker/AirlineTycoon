@@ -1184,7 +1184,7 @@ class /**/ BLOCK {
 
   private:
     SLONG PrintLine(XY ClientArea, SLONG rowID, SLONG textID);
-    SLONG PrintLineWithValue(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
+    SLONG PrintLineWithValueT(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
     SLONG PrintLineWithValueMio(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
     SLONG PrintLineWithPercentage(XY ClientArea, SLONG rowID, SLONG textID, __int64 value, __int64 div);
     SLONG PrintList(XY ClientArea, const std::vector<std::pair<SLONG, __int64>> &list, SLONG idx);
@@ -1194,6 +1194,7 @@ class /**/ BLOCK {
     void ZeigeInformantenFinanzBericht(XY ClientArea, SLONG page);
     void ZeigeInformantenBilanz(XY ClientArea, SLONG playerId, SLONG page);
     void ZeigeInformantenInfos(XY ClientArea, SLONG page);
+    void ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page);
 };
 
 class BLOCKS : public ALBUM_V<BLOCK> {
@@ -1929,7 +1930,7 @@ class PLAYER {
     BUFFER_V<__int64> MoneyPast; // Vergangenheitslinie des Geldes
     __int64 Credit{};            // Seine Schulden
     SLONG Image{};               // Firmenimage generell [-1000..1000]
-    SLONG BadKerosin{};          // Soviel Liter schlechtes Kerosin wurde gekauft
+    double KerosinQuali{};       // Qualität des Kerosins
     SLONG KerosinKind{};         // Diese Art wird getankt
     SLONG Tank{};                // Soviel kann man auf Reserve Bunkern
     BOOL TankOpen{};             // Tanks sind zur Verwendung freigegeben
@@ -2488,11 +2489,11 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
 
     // Statistik:
   public:
-    bool StatfGraphVisible{};                         // true -> Der Graph ist sichtbar, ansonsten die schnöden Zahlen
-    std::array<bool, 4> StatplayerMask{};             // Diese Spieler wurden zur Ansicht ausgewählt
-    BYTE Statgroup{};                                 // Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
-    SLONG Statdays{};                                 // Anzahl der darzustellenden Tage
-    SLONG StatnewDays{};                              // Für eine Animation
+    bool StatfGraphVisible{};             // true -> Der Graph ist sichtbar, ansonsten die schnöden Zahlen
+    std::array<bool, 4> StatplayerMask{}; // Diese Spieler wurden zur Ansicht ausgewählt
+    BYTE Statgroup{};                     // Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
+    SLONG Statdays{};                     // Anzahl der darzustellenden Tage
+    SLONG StatnewDays{};                  // Für eine Animation
     // Merkt sich für jede Gruppe welche Einträge selektiert sind.
     std::array<std::array<bool, STAT_MAX_ITEMS>, STAT_MAX_GROUPS> StatiArray{};
     SLONG DropDownPosY{};
@@ -2593,6 +2594,8 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     void AddHighscore(const CString &Name, DWORD UniqueGameId2, __int64 Score);
     void SaveHighscores(void);
     void LoadHighscores(void);
+
+    SLONG HoleKerosinPreis(SLONG typ) const;
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const SIM &Sim);
     friend TEAKFILE &operator>>(TEAKFILE &File, SIM &Sim);

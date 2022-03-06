@@ -571,6 +571,10 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
 void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     __int64 Saldo = 0;
     SLONG Einnahmen = 0;
+    SLONG Kerosin = 0;
+    SLONG KerosinGekauft = 0;
+    SLONG KerosinAusTank = 0;
+    double KerosinGesamtQuali = 2;
     SLONG AusgabenKerosin = 0;
     SLONG AusgabenKerosinOhneTank = 0;
     SLONG AusgabenEssen = 0;
@@ -581,14 +585,6 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     // NetGenericAsync (90000+ObjectId+Sim.Date*100+PlayerNum*1000, Startzeit);
     // if (ObjectType==1)
     //   NetGenericAsync (80000+ObjectId+Sim.Date*100+PlayerNum*1000, qPlayer.RentRouten.RentRouten[(SLONG)Routen(ObjectId)].Image);
-
-    SLONG BadKerosinFaktor = 1; // Wird bei schlechtem Kerosin erhöht
-
-    if ((qPlayer.TankOpen != 0) && qPlayer.TankInhalt > 0 && qPlayer.BadKerosin * 100 / qPlayer.TankInhalt > 50) {
-        BadKerosinFaktor = 3;
-    } else if ((qPlayer.TankOpen == 0 || qPlayer.TankInhalt == 0) && qPlayer.KerosinKind == 2) {
-        BadKerosinFaktor = 3;
-    }
 
     if (qPlayer.Owner == 0 && ObjectType == 1) {
         qPlayer.DoRoutes++;
@@ -671,8 +667,30 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
         Einnahmen = 0;
     }
 
-    AusgabenKerosin = CalculateRealFlightCost(VonCity, NachCity, Plane->ptVerbrauch, Plane->ptGeschwindigkeit, PlayerNum);
-    AusgabenKerosinOhneTank = CalculateFlightCostNoTank(VonCity, NachCity, Plane->ptVerbrauch, Plane->ptGeschwindigkeit, PlayerNum);
+    // Gesamtmenge an benötigten Kerosin
+    Kerosin = CalculateFlightKerosin(VonCity, NachCity, Plane->ptVerbrauch, Plane->ptGeschwindigkeit);
+
+    // Kerosin aus dem Vorrat:
+    if (Sim.Players.Players[PlayerNum].TankOpen != 0) {
+        KerosinAusTank = std::min(Sim.Players.Players[PlayerNum].TankInhalt, Kerosin);
+
+        qPlayer.TankInhalt -= KerosinAusTank;
+
+        if (qPlayer.TankInhalt == 0 && KerosinAusTank > 0 && (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) != 0)) {
+            Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_KEROSIN, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 3030), (LPCTSTR)Plane->Name));
+        }
+
+        auto kosten = SLONG(KerosinAusTank * qPlayer.TankPreis);
+        Plane->Salden[0] -= kosten;
+    }
+
+    // Rest kaufen
+    KerosinGekauft = Kerosin - KerosinAusTank;
+    KerosinGesamtQuali = (KerosinAusTank * qPlayer.KerosinQuali + KerosinGekauft * qPlayer.KerosinKind) / Kerosin;
+
+    AusgabenKerosin = KerosinGekauft * Sim.HoleKerosinPreis(Sim.Players.Players[PlayerNum].KerosinKind);
+    AusgabenKerosinOhneTank = Kerosin * Sim.HoleKerosinPreis(Sim.Players.Players[PlayerNum].KerosinKind);
+
     qPlayer.Bilanz.KerosinGespart += (AusgabenKerosinOhneTank - AusgabenKerosin);
 
     if (ObjectType == 1 || ObjectType == 2) {
@@ -710,24 +728,6 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
             Plane->OhneSitze = static_cast<BOOL>(ObjectType == 4);
             qPlayer.ChangeMoney(-15000, 2111, Plane->Name);
         }
-    }
-
-    // Kerosin aus dem Vorrat verbuchen:
-    if (Sim.Players.Players[PlayerNum].TankOpen != 0) {
-        SLONG Kerosin = CalculateFlightKerosin(VonCity, NachCity, Plane->ptVerbrauch, Plane->ptGeschwindigkeit);
-        SLONG tmp = min(qPlayer.TankInhalt, Kerosin);
-        qPlayer.TankInhalt -= tmp;
-        qPlayer.BadKerosin -= tmp;
-        if (qPlayer.BadKerosin < 0) {
-            qPlayer.BadKerosin = 0;
-        }
-
-        if (qPlayer.TankInhalt == 0 && tmp > 0 && (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) != 0)) {
-            Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_KEROSIN, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 3030), (LPCTSTR)Plane->Name));
-        }
-
-        auto kosten = SLONG(tmp * qPlayer.TankPreis);
-        Plane->Salden[0] -= kosten;
     }
 
     // Bei Routen den Bedarf bei den Leuten entsprechend verringern und die Bekanntheit verbessern:
@@ -930,7 +930,13 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     }
 
     // Flugzeugabnutzung verbuchen:
-    Plane->Zustand = UBYTE(Plane->Zustand - (1 + Cities.CalcDistance(VonCity, NachCity) * 10 / 40040174) * (2015 - Plane->Baujahr) * BadKerosinFaktor / 15);
+    auto faktorDistanz = (1 + Cities.CalcDistance(VonCity, NachCity) * 10 / 40040174);
+    auto faktorBaujahr = (2015 - Plane->Baujahr);
+    auto faktorKerosin = 1;
+    if (KerosinGesamtQuali > 1.0) {
+        faktorKerosin = 3 * (KerosinGesamtQuali - 1.0);
+    }
+    Plane->Zustand = UBYTE(Plane->Zustand - faktorDistanz * faktorBaujahr * faktorKerosin / 15);
     if (Plane->Zustand > 200) {
         Plane->Zustand = 0;
     }

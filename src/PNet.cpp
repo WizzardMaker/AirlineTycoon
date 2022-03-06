@@ -479,7 +479,7 @@ void PLAYER::NetUpdateKerosin() const {
     Message.Announce(128);
 
     Message << ATNET_SYNCKEROSIN;
-    Message << PlayerNum << Tank << TankOpen << TankInhalt << BadKerosin << KerosinKind << TankPreis;
+    Message << PlayerNum << Tank << TankOpen << TankInhalt << KerosinQuali << KerosinKind << TankPreis;
 
     SIM::SendMemFile(Message);
 }

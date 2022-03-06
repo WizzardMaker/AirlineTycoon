@@ -495,20 +495,7 @@ SLONG CalculateFlightCostRechnerisch(SLONG VonCity, SLONG NachCity, SLONG Verbra
 
     // Restliches Kerosin kaufen:
     if (PlayerNum != -1) {
-        switch (Sim.Players.Players[PlayerNum].KerosinKind) {
-        case 0:
-            Kosten += Kerosin * Sim.Kerosin * 2;
-            break;
-        case 1:
-            Kosten += Kerosin * Sim.Kerosin;
-            break;
-        case 2:
-            Kosten += Kerosin * Sim.Kerosin / 2;
-            break;
-        default:
-            printf("Misc.cpp: Default case should not be reached.");
-            DebugBreak();
-        }
+        Kosten += Kerosin * Sim.HoleKerosinPreis(Sim.Players.Players[PlayerNum].KerosinKind);
     } else {
         Kosten += Kerosin * Sim.Kerosin;
     }
@@ -524,19 +511,6 @@ SLONG CalculateFlightCostRechnerisch(SLONG VonCity, SLONG NachCity, SLONG Verbra
 // Berechnet, wieviel ein Flug kostet (min. 1000)
 //--------------------------------------------------------------------------------------------
 SLONG CalculateFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum) {
-    SLONG Kosten = CalculateRealFlightCost(VonCity, NachCity, Verbrauch, Geschwindigkeit, PlayerNum);
-
-    if (Kosten < 1000) {
-        Kosten = 1000;
-    }
-
-    return (Kosten);
-}
-
-//--------------------------------------------------------------------------------------------
-// Berechnet, wieviel ein Flug WIRKLICH kostet
-//--------------------------------------------------------------------------------------------
-SLONG CalculateRealFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum) {
     SLONG Kerosin = CalculateFlightKerosin(VonCity, NachCity, Verbrauch, Geschwindigkeit);
     SLONG Kosten = 0;
 
@@ -549,52 +523,13 @@ SLONG CalculateRealFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SL
 
     // Restliches Kerosin kaufen:
     if (PlayerNum != -1) {
-        switch (Sim.Players.Players[PlayerNum].KerosinKind) {
-        case 0:
-            Kosten += Kerosin * Sim.Kerosin * 2;
-            break;
-        case 1:
-            Kosten += Kerosin * Sim.Kerosin;
-            break;
-        case 2:
-            Kosten += Kerosin * Sim.Kerosin / 2;
-            break;
-        default:
-            printf("Misc.cpp: Default case should not be reached.");
-            DebugBreak();
-        }
+        Kosten += Kerosin * Sim.HoleKerosinPreis(Sim.Players.Players[PlayerNum].KerosinKind);
     } else {
         Kosten += Kerosin * Sim.Kerosin;
     }
 
-    return (Kosten);
-}
-
-//--------------------------------------------------------------------------------------------
-// Berechnet, wieviel ein Flug kostet (ohne Tank)
-//--------------------------------------------------------------------------------------------
-SLONG CalculateFlightCostNoTank(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum) {
-    SLONG Kerosin = CalculateFlightKerosin(VonCity, NachCity, Verbrauch, Geschwindigkeit);
-    SLONG Kosten = 0;
-
-    // Restliches Kerosin kaufen:
-    if (PlayerNum != -1) {
-        switch (Sim.Players.Players[PlayerNum].KerosinKind) {
-        case 0:
-            Kosten += Kerosin * Sim.Kerosin * 2;
-            break;
-        case 1:
-            Kosten += Kerosin * Sim.Kerosin;
-            break;
-        case 2:
-            Kosten += Kerosin * Sim.Kerosin / 2;
-            break;
-        default:
-            printf("Misc.cpp: Default case should not be reached.");
-            DebugBreak();
-        }
-    } else {
-        Kosten += Kerosin * Sim.Kerosin;
+    if (Kosten < 1000) {
+        Kosten = 1000;
     }
 
     return (Kosten);

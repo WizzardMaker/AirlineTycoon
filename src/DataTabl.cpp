@@ -666,7 +666,7 @@ void CDataTable::FillWithExperts(SLONG PlayerNum) {
     Title = StandardTexte.GetS(TOKEN_EXPERT, 1000);
 
     AnzColums = 1;
-    AnzRows = 11;
+    AnzRows = 12;
     Values.ReSize(0);
     Values.ReSize(AnzColums * AnzRows);
     ValueFlags.ReSize(0);

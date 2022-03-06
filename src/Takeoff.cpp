@@ -2190,7 +2190,9 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_EXPERT, 2008, " Wochenbilanz von %s");
     StandardTexte.AddText(TOKEN_EXPERT, 2009, " Wochenbilanz von %s");
     StandardTexte.AddText(TOKEN_EXPERT, 2010, " Wochenbilanz von %s");
+    StandardTexte.AddText(TOKEN_EXPERT, 2011, "Kerosinberater");
     StandardTexte.AddText(TOKEN_EXPERT, 3003, "Sie brauchen einen h\xF6her qualifizierteren Informanten um diesen Bericht zu erhalten.");
+    StandardTexte.AddText(TOKEN_EXPERT, 3004, "Sie brauchen einen h\xF6her qualifizierteren Kerosinberater um diesen Bericht zu erhalten.");
 
     StandardTexte.UpdateText(TOKEN_EXPERT, 3404, "Auftr\xE4ge");
     StandardTexte.AddText(TOKEN_EXPERT, 10000, "Kerosinkauf Flugzeug");
@@ -2251,6 +2253,31 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_EXPERT, 10202, "%s hat nicht gen\xFCgend Gates!");
     StandardTexte.AddText(TOKEN_EXPERT, 10203, "%s spart aktuell auf ein Flugzeug.");
     StandardTexte.AddText(TOKEN_EXPERT, 10204, "%s will anfangen, Routen zu fliegen.");
+
+    StandardTexte.AddText(TOKEN_EXPERT, 10300, "Tank");
+    StandardTexte.AddText(TOKEN_EXPERT, 10301, "Preis/Barrel (Markt)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10302, "Preis/Barrel (Tank)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10303, "Tankwert (Mio.)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10304, "Kerosinqualit\xE4t");
+    StandardTexte.AddText(TOKEN_EXPERT, 10305, "Mega-Ultra");
+    StandardTexte.AddText(TOKEN_EXPERT, 10306, "sehr hoch");
+    StandardTexte.AddText(TOKEN_EXPERT, 10307, "hoch");
+    StandardTexte.AddText(TOKEN_EXPERT, 10308, "normal");
+    StandardTexte.AddText(TOKEN_EXPERT, 10309, "m\xE4\xDFig");
+    StandardTexte.AddText(TOKEN_EXPERT, 10310, "schlecht");
+    StandardTexte.AddText(TOKEN_EXPERT, 10311, "sehr schlecht");
+    StandardTexte.AddText(TOKEN_EXPERT, 10312, "Einkaufsqualit\xE4t");
+    StandardTexte.AddText(TOKEN_EXPERT, 10313, "billig");
+    StandardTexte.AddText(TOKEN_EXPERT, 10314, "Geld gespart (gestern)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10315, "Geld gespart (Woche)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10316, "Geld gespart (gesamt)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10317, "Die Kerosinqualit\xE4t ist katastrohpal! Wir sollten hochwertiges Kerosin kaufen.");
+    StandardTexte.AddText(TOKEN_EXPERT, 10318, "Die Kerosinqualit\xE4t ist katastrohpal! Wir sollten %li Barrel hochwertiges Kerosin kaufen.");
+    StandardTexte.AddText(TOKEN_EXPERT, 10319, "Die Kerosinqualit\xE4t ist schlecht. Wir sollten hochwertiges Kerosin kaufen.");
+    StandardTexte.AddText(TOKEN_EXPERT, 10320, "Die Kerosinqualit\xE4t ist schlecht. Wir sollten %li Barrel hochwertiges Kerosin kaufen.");
+    StandardTexte.AddText(TOKEN_EXPERT, 10321, "Die Kerosinqualit\xE4t ist viel zu gut. Wir sollten Geld sparen und billiges Kerosin kaufen.");
+    StandardTexte.AddText(TOKEN_EXPERT, 10322, "Die Kerosinqualit\xE4t ist viel zu gut. Wir sollten Geld sparen und %li Barrel billiges Kerosin kaufen.");
+    StandardTexte.AddText(TOKEN_EXPERT, 10350, "Kerosinbericht");
 
     StandardTexte.AddText(TOKEN_JOBS, 2003, "Routenberaterin");
 }

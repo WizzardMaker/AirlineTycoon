@@ -5203,13 +5203,7 @@ void CStdRaum::MenuRepaint() {
 
     case MENU_BUYKEROSIN:
         if (Sim.Players.Players[PlayerNum].GetRoom() == ROOM_ARAB_AIR) {
-            SLONG Kerosinpreis = Sim.Kerosin;
-            if (MenuPar1 == 0) {
-                Kerosinpreis *= 2;
-            }
-            if (MenuPar1 == 2) {
-                Kerosinpreis /= 2;
-            }
+            SLONG Kerosinpreis = Sim.HoleKerosinPreis(MenuPar1);
 
             __int64 Rabatt = 0;
             __int64 Kosten = 0;
@@ -6099,27 +6093,23 @@ void CStdRaum::MenuLeftClick(XY Pos) {
             MenuStop();
         }
         if (MouseClickArea == -102 && MouseClickId == MENU_BUYKEROSIN && MouseClickPar1 == 10) {
-            if ((MenuInfo != 0) && qPlayer.Money - MenuInfo < DEBT_LIMIT) {
+            auto preis = MenuInfo;
+            auto menge = MenuPar2;
+            if ((preis != 0) && qPlayer.Money - preis < DEBT_LIMIT) {
                 MenuStop();
                 MakeSayWindow(0, TOKEN_ARAB, 6000, pFontPartner);
-            } else if (MenuInfo != 0) {
+            } else if (preis != 0) {
                 SLONG OldInhalt = qPlayer.TankInhalt;
+                qPlayer.TankInhalt += menge;
 
-                qPlayer.TankInhalt += MenuPar2;
-                if (qPlayer.KerosinKind == 2) {
-                    qPlayer.BadKerosin += MenuPar2;
-                }
-                if (qPlayer.KerosinKind == 0) {
-                    qPlayer.BadKerosin = max(0, qPlayer.BadKerosin - MenuPar2);
-                }
-
-                qPlayer.TankPreis = (OldInhalt * qPlayer.TankPreis + MenuInfo) / (OldInhalt + MenuPar2);
+                qPlayer.TankPreis = (OldInhalt * qPlayer.TankPreis + preis) / qPlayer.TankInhalt;
+                qPlayer.KerosinQuali = (OldInhalt * qPlayer.KerosinQuali + menge * qPlayer.KerosinKind) / qPlayer.TankInhalt;
                 qPlayer.NetUpdateKerosin();
 
-                qPlayer.ChangeMoney(-MenuInfo, 2020, "");
-                SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -MenuInfo, -1);
+                qPlayer.ChangeMoney(-preis, 2020, "");
+                SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -preis, -1);
 
-                qPlayer.DoBodyguardRabatt(MenuInfo);
+                qPlayer.DoBodyguardRabatt(preis);
 
                 MakeSayWindow(0, TOKEN_ARAB, 700, pFontPartner);
             }
@@ -8092,14 +8082,7 @@ void CStdRaum::CalcStop(BOOL Cancel) {
                 MenuPar2 = CalculatorValue * Sim.Players.Players[PlayerNum].Tank / 100;
             }
             if (MenuInfo2 == 2) {
-                SLONG Kerosinpreis = Sim.Kerosin;
-                if (MenuPar1 == 0) {
-                    Kerosinpreis *= 2;
-                }
-                if (MenuPar1 == 2) {
-                    Kerosinpreis /= 2;
-                }
-
+                SLONG Kerosinpreis = Sim.HoleKerosinPreis(MenuPar1);
                 MenuPar2 = CalculatorValue / Kerosinpreis;
             }
 
