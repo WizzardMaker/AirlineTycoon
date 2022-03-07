@@ -525,8 +525,8 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                 Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1500), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
 
                 for (c = Page; c < Page + 13 && c < Table.AnzRows; c++) {
-                    Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], GetColor(c, PlayerNum) ? FontSmallGrey : FontSmallBlack,
-                            TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
+                    Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], GetColor(c, PlayerNum) ? FontSmallGrey : FontSmallBlack, TEC_FONT_LEFT,
+                                   ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
                 }
                 break;
             default:
@@ -2012,30 +2012,27 @@ void BLOCK::ZeigeInformantenInfos(XY ClientArea, SLONG /*page*/) {
 }
 
 void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page) {
-    const auto& ref = Sim.Players.Players[playerId];
+    const auto &ref = Sim.Players.Players[playerId];
 
     PrintLine(ClientArea, 0, 10350);
 
     SLONG idx = 1;
     if (page == 0) {
         PrintLine(ClientArea, idx, 10300);
-        Bitmap.PrintAt(bprintf("%li / %li", ref.TankInhalt, ref.Tank), FontSmallBlack, TEC_FONT_RIGHT,
-                ClientArea + XY(2, idx++ * 13), ClientArea + XY(172, 170));
-        Bitmap.PrintAt(CalcPercentage(ref.TankInhalt, ref.Tank), FontSmallBlack, TEC_FONT_RIGHT,
-                ClientArea + XY(2, idx++ * 13), ClientArea + XY(172, 170));
+        Bitmap.PrintAt(bprintf("%li / %li", ref.TankInhalt, ref.Tank), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, idx++ * 13),
+                       ClientArea + XY(172, 170));
+        Bitmap.PrintAt(CalcPercentage(ref.TankInhalt, ref.Tank), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, idx++ * 13), ClientArea + XY(172, 170));
 
         PrintLineWithValueMio(ClientArea, idx++, 10303, ref.TankInhalt * ref.TankPreis);
 
         PrintLine(ClientArea, idx, 10302);
-        Bitmap.PrintAt(bitoa(SLONG(std::round(ref.TankPreis))), FontSmallBlack, TEC_FONT_RIGHT,
-                ClientArea + XY(2, idx++ * 13), ClientArea + XY(172, 170));
+        Bitmap.PrintAt(bitoa(SLONG(std::round(ref.TankPreis))), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, idx++ * 13), ClientArea + XY(172, 170));
 
         PrintLine(ClientArea, idx, 10301);
         Bitmap.PrintAt(bitoa(Sim.Kerosin), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, idx++ * 13), ClientArea + XY(172, 170));
 
         if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < 30) {
-            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3004), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                    ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3004), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
             return;
         }
 
@@ -2048,17 +2045,16 @@ void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page) {
             // Qualität im Tank
             PrintLine(ClientArea, idx, 10304);
             auto quali = SLONG(std::floor(ref.KerosinQuali * 3.0));
-            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10305 + quali), FontSmallBlack, TEC_FONT_RIGHT,
-                    ClientArea + XY(2, idx++ * 13), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10305 + quali), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, idx++ * 13),
+                           ClientArea + XY(172, 170));
         }
     } else if (page == 1) {
         const CBilanz stat[3] = {ref.BilanzGestern, ref.BilanzWoche.Hole(), ref.BilanzGesamt};
         for (SLONG i = 0; i < 3; i++) {
             PrintLineWithValueT(ClientArea, idx++, 10314 + i, stat[i].KerosinGespart);
 
-            if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < 40 + 10*i) {
-                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3004), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                        ClientArea + XY(172, 170));
+            if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < 40 + 10 * i) {
+                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3004), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
                 return;
             }
             ++idx;
@@ -2066,29 +2062,29 @@ void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page) {
 
         ++idx;
         if (ref.KerosinQuali > 1.66) {
-            // Kaufe x Barrel teuer, um Qualität auf 1.66 zu erhöhen  
-            auto menge = SLONG(std::ceil((ref.TankInhalt * (ref.KerosinQuali - 1.66))/1.66));
+            // Kaufe x Barrel teuer, um Qualität auf 1.66 zu erhöhen
+            auto menge = SLONG(std::ceil((ref.TankInhalt * (ref.KerosinQuali - 1.66)) / 1.66));
             menge = std::min(menge, ref.Tank - ref.TankInhalt);
             if (menge > 0) {
                 if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < 70) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10317), FontSmallBlack, TEC_FONT_LEFT,
-                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10317), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
+                                   ClientArea + XY(172, 170));
                 } else {
-                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10318), menge), FontSmallBlack, TEC_FONT_LEFT,
-                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
+                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10318), menge), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
+                                   ClientArea + XY(172, 170));
                 }
             }
         } else if (ref.KerosinQuali > 1.33) {
-            // Kaufe x Barrel teuer, um Qualität auf 1.33 zu erhöhen  
-            auto menge = SLONG(std::ceil((ref.TankInhalt * (ref.KerosinQuali - 1.33))/1.33));
+            // Kaufe x Barrel teuer, um Qualität auf 1.33 zu erhöhen
+            auto menge = SLONG(std::ceil((ref.TankInhalt * (ref.KerosinQuali - 1.33)) / 1.33));
             menge = std::min(menge, ref.Tank - ref.TankInhalt);
             if (menge > 0) {
                 if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < 80) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10319), FontSmallBlack, TEC_FONT_LEFT,
-                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10319), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
+                                   ClientArea + XY(172, 170));
                 } else {
-                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10320), menge), FontSmallBlack, TEC_FONT_LEFT,
-                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
+                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10320), menge), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
+                                   ClientArea + XY(172, 170));
                 }
             }
         } else if (ref.KerosinQuali < 1.0) {
@@ -2097,11 +2093,11 @@ void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page) {
             menge = std::min(menge, ref.Tank - ref.TankInhalt);
             if (menge > 0) {
                 if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < 90) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10321), FontSmallBlack, TEC_FONT_LEFT,
-                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10321), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
+                                   ClientArea + XY(172, 170));
                 } else {
-                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10322), menge), FontSmallBlack, TEC_FONT_LEFT,
-                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
+                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10322), menge), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
+                                   ClientArea + XY(172, 170));
                 }
             }
         }
