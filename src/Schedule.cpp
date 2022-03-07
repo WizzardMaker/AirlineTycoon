@@ -686,10 +686,10 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
     // Rest kaufen
     KerosinGekauft = Kerosin - KerosinAusTank;
-    KerosinGesamtQuali = (KerosinAusTank * qPlayer.KerosinQuali + KerosinGekauft * qPlayer.KerosinKind) / Kerosin;
+    KerosinGesamtQuali = (KerosinAusTank * qPlayer.KerosinQuali + KerosinGekauft * 1) / Kerosin;
 
-    AusgabenKerosin = KerosinGekauft * Sim.HoleKerosinPreis(Sim.Players.Players[PlayerNum].KerosinKind);
-    AusgabenKerosinOhneTank = Kerosin * Sim.HoleKerosinPreis(Sim.Players.Players[PlayerNum].KerosinKind);
+    AusgabenKerosin = KerosinGekauft * Sim.HoleKerosinPreis(1);
+    AusgabenKerosinOhneTank = Kerosin * Sim.HoleKerosinPreis(1);
 
     qPlayer.Bilanz.KerosinGespart += (AusgabenKerosinOhneTank - AusgabenKerosin);
 
@@ -934,7 +934,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     auto faktorBaujahr = (2015 - Plane->Baujahr);
     auto faktorKerosin = 1;
     if (KerosinGesamtQuali > 1.0) {
-        faktorKerosin = 3 * (KerosinGesamtQuali - 1.0);
+        faktorKerosin = 3 * (KerosinGesamtQuali - 1.0) * (KerosinGesamtQuali - 1.0);
     }
     Plane->Zustand = UBYTE(Plane->Zustand - faktorDistanz * faktorBaujahr * faktorKerosin / 15);
     if (Plane->Zustand > 200) {

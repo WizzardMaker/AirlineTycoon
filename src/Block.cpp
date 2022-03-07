@@ -2050,12 +2050,6 @@ void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page) {
             auto quali = SLONG(std::floor(ref.KerosinQuali * 3.0));
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10305 + quali), FontSmallBlack, TEC_FONT_RIGHT,
                     ClientArea + XY(2, idx++ * 13), ClientArea + XY(172, 170));
-
-            // Qualität die aktuell gekauft wird
-            PrintLine(ClientArea, idx, 10312);
-            quali = ref.KerosinKind * 3;
-            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10305 + quali), FontSmallBlack, TEC_FONT_RIGHT,
-                    ClientArea + XY(2, idx++ * 13), ClientArea + XY(172, 170));
         }
     } else if (page == 1) {
         const CBilanz stat[3] = {ref.BilanzGestern, ref.BilanzWoche.Hole(), ref.BilanzGesamt};

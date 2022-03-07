@@ -494,11 +494,7 @@ SLONG CalculateFlightCostRechnerisch(SLONG VonCity, SLONG NachCity, SLONG Verbra
     }
 
     // Restliches Kerosin kaufen:
-    if (PlayerNum != -1) {
-        Kosten += Kerosin * Sim.HoleKerosinPreis(Sim.Players.Players[PlayerNum].KerosinKind);
-    } else {
-        Kosten += Kerosin * Sim.Kerosin;
-    }
+    Kosten += Kerosin * Sim.Kerosin;
 
     if (Kosten < 1000) {
         Kosten = 1000;
@@ -522,11 +518,7 @@ SLONG CalculateFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG 
     }
 
     // Restliches Kerosin kaufen:
-    if (PlayerNum != -1) {
-        Kosten += Kerosin * Sim.HoleKerosinPreis(Sim.Players.Players[PlayerNum].KerosinKind);
-    } else {
-        Kosten += Kerosin * Sim.Kerosin;
-    }
+    Kosten += Kerosin * Sim.Kerosin;
 
     if (Kosten < 1000) {
         Kosten = 1000;

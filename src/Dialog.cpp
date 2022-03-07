@@ -198,9 +198,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 402: // Arab-Mann fragt Menge:
                 MakeSayWindow(0, TOKEN_ARAB, 500, pFontPartner);
                 qPlayer.KerosinKind = id - 400;
-                if (qPlayer.HasBerater(BERATERTYP_KEROSIN) != 0) {
-                    qPlayer.Messages.AddMessage(BERATERTYP_KEROSIN, StandardTexte.GetS(TOKEN_ADVICE, 3020 + qPlayer.KerosinKind));
-                }
                 break;
 
             case 202: // etwas über die Tanks erzählen
