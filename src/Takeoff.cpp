@@ -66,6 +66,8 @@ void Unvideo(const CString &Filename, const CString &TargetFilename);
 extern char VersionString[];
 extern SLONG bCAbendOpen;
 extern SLONG SkipPlaneCalculation;
+extern SLONG TankSize[];
+extern SLONG TankPrice[];
 
 static CString PlaneSounds[] = {"prop.raw", "flyby.raw", "flyby2.raw", "flyby3.raw", "flyby4.raw", "flyby5.raw"};
 
@@ -2150,6 +2152,7 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     const char TOKEN_MONEY[] = "Mony";
     const char TOKEN_AKTIE[] = "Akti";
     const char TOKEN_JOBS[] = "Jobs";
+    const char TOKEN_ARAB[] = "Arab";
 
     StandardTexte.AddText(TOKEN_STAT, 10000, "Bodyguard-Rabatt");
     StandardTexte.AddText(TOKEN_STAT, 10001, "Zinsen");
@@ -2278,6 +2281,14 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_EXPERT, 10321, "Die Kerosinqualit\xE4t ist viel zu gut. Wir sollten Geld sparen und billiges Kerosin kaufen.");
     StandardTexte.AddText(TOKEN_EXPERT, 10322, "Die Kerosinqualit\xE4t ist viel zu gut. Wir sollten Geld sparen und %li Barrel billiges Kerosin kaufen.");
     StandardTexte.AddText(TOKEN_EXPERT, 10350, "Kerosinbericht");
+
+    /*SLONG tmpList[5] = {1, 2, 3, 5, 10};
+    for (SLONG i = 0; i < 5; ++i) {
+        DialogTexte.UpdateText(TOKEN_ARAB, 691+i, bprintf("[[P1\\MA\\141]]%li St\xFC""ck (=%%s \x80)", tmpList[i]));
+    }*/
+    for (SLONG i = 0; i < 4; ++i) {
+        DialogTexte.UpdateText(TOKEN_ARAB, 900+i, bprintf("[[P1\\AA\\900]]Ich nehme den mit %lil (%li \x80).", TankSize[i], TankPrice[i]));
+    }
 
     StandardTexte.AddText(TOKEN_JOBS, 2003, "Routenberaterin");
 }

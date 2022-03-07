@@ -8,7 +8,8 @@
 #include "Aufsicht.h"
 #include "Nasa.h"
 
-static SLONG TankInfo[] = {10000, 10000, 30000, 20000, 50000, 40000, 100000, 60000};
+SLONG TankSize[] = {100000, 1000000, 10000000, 100000000};
+SLONG TankPrice[] = {100000, 800000, 70000000, 60000000};
 
 static SLONG SabotagePrice[] = {1000, 5000, 10000, 50000, 100000};
 static SLONG SabotagePrice2[] = {10000, 25000, 50000, 250000};
@@ -239,7 +240,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 break;
 
             case 680: {
-                SLONG tmp = TankInfo[(DialogPar1 - 900) * 2 + 1];
+                SLONG tmp = TankPrice[(DialogPar1 - 900)];
 
                 MakeSayWindow(1, TOKEN_ARAB, 690, 695, 1, &FontDialog, &FontDialogLight, "", (LPCTSTR)Insert1000erDots64(tmp),
                               (LPCTSTR)Insert1000erDots(tmp * 2), (LPCTSTR)Insert1000erDots(tmp * 3), (LPCTSTR)Insert1000erDots(tmp * 5),
@@ -255,19 +256,21 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 693:
             case 694:
             case 695: {
-                SLONG Anzahl = "\x1\x2\x3\x5\xa"[id - 691];
+                SLONG tmpList[5] = {1, 2, 3, 5, 10};
+                SLONG Anzahl = tmpList[id - 691];
+                SLONG Preis = TankPrice[(DialogPar1 - 900)];
+                SLONG Size = TankSize[(DialogPar1 - 900)];
 
-                if (qPlayer.Money - TankInfo[(DialogPar1 - 900) * 2 + 1] * Anzahl < DEBT_LIMIT) {
+                if (qPlayer.Money - Preis * Anzahl < DEBT_LIMIT) {
                     MakeSayWindow(0, TOKEN_ARAB, 6000, pFontPartner);
                 } else {
-                    qPlayer.Tank += TankInfo[(DialogPar1 - 900) * 2] / 1000 * Anzahl;
+                    qPlayer.Tank += Size / 1000 * Anzahl;
                     qPlayer.NetUpdateKerosin();
 
-                    qPlayer.ChangeMoney(-TankInfo[(DialogPar1 - 900) * 2 + 1] * Anzahl, 2091, CString(bitoa(TankInfo[(DialogPar1 - 900) * 2])),
-                                        const_cast<char *>((LPCTSTR)CString(bitoa(Anzahl))));
-                    SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -TankInfo[(DialogPar1 - 900) * 2 + 1] * Anzahl, -1);
+                    qPlayer.ChangeMoney(-Preis * Anzahl, 2091, CString(bitoa(Size)), const_cast<char *>((LPCTSTR)CString(bitoa(Anzahl))));
+                    SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -Preis * Anzahl, -1);
 
-                    qPlayer.DoBodyguardRabatt(TankInfo[(DialogPar1 - 900) * 2 + 1] * Anzahl);
+                    qPlayer.DoBodyguardRabatt(Preis * Anzahl);
                     MakeSayWindow(0, TOKEN_ARAB, 700, pFontPartner);
                 }
             } break;
