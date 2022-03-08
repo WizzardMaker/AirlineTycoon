@@ -938,7 +938,9 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define NET_MEDIUM_IPX 4
 #define NET_MEDIUM_SIMTCPIP 5
 
-#ifndef WIN32
+#ifdef WIN32
+#define VK_RETURN2 SDLK_KP_ENTER
+#else
 
 #define MAX_PATH 256
 

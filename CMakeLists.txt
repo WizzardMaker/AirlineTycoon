@@ -10,13 +10,10 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
-find_package(SDL2 REQUIRED)
-
-find_package(SDL2-mixer REQUIRED)
-
-find_package(SDL2-image REQUIRED)
-
-find_package(SDL2-ttf REQUIRED)
+find_package(SDL2main REQUIRED)
+find_package(SDL2_mixer REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
 # Include external libs.
 add_subdirectory (libs)

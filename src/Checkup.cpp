@@ -165,7 +165,7 @@ bool CRegistryAccess::WriteRegistryKeyEx_b(const BOOL &Bool, const CString &Entr
 #else
     char Temp[500];
     snprintf(Temp, sizeof(Temp), "%li", (long)Bool);
-    bool rc = WriteRegistryKeyEx(&Temp, EntryName);
+    bool rc = WriteRegistryKeyEx(Temp, EntryName);
     return (rc);
 #endif
 }
@@ -179,8 +179,8 @@ bool CRegistryAccess::WriteRegistryKeyEx_l(const SLONG &Long, const CString &Ent
     return (json_object_set_new(hKey, EntryName, json_integer(Long)) > 0);
 #else
     char Temp[500];
-    snprintf(Temp, sizeof(Temp), "%li", (long)Bool);
-    bool rc = WriteRegistryKeyEx(&Temp, EntryName);
+    snprintf(Temp, sizeof(Temp), "%li", (long)Long);
+    bool rc = WriteRegistryKeyEx(Temp, EntryName);
     return (rc);
 #endif
 }
@@ -194,8 +194,8 @@ bool CRegistryAccess::WriteRegistryKeyEx_u(const ULONG &Long, const CString &Ent
     return (json_object_set_new(hKey, EntryName, json_integer(Long)) > 0);
 #else
     char Temp[500];
-    snprintf(Temp, sizeof(Temp), "%lu", (long)Bool);
-    bool rc = WriteRegistryKeyEx(&Temp, EntryName);
+    snprintf(Temp, sizeof(Temp), "%lu", (long)Long);
+    bool rc = WriteRegistryKeyEx(Temp, EntryName);
     return (rc);
 #endif
 }

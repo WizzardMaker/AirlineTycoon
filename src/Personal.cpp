@@ -600,7 +600,7 @@ CWorker CWorkers::createBerater(TEAKRAND &LocalRand) {
     worker.Name = GetRandomName(worker.Geschlecht);
     worker.Typ = LocalRand.Rand(1, 9);
     worker.Gehalt = (30 + LocalRand.Rand(80)) * 100;
-    worker.Talent = std::min(100, worker.Gehalt / 200 + LocalRand.Rand(30) + 20);
+    worker.Talent = std::min(SLONG(100), worker.Gehalt / 200 + LocalRand.Rand(30) + 20);
     worker.Alter = (19 + LocalRand.Rand(50));
     worker.Kommentar = "";
     worker.Employer = WORKER_RESERVE;
@@ -616,7 +616,7 @@ CWorker CWorkers::createPilot(TEAKRAND &LocalRand) {
     worker.Name = GetRandomName(worker.Geschlecht);
     worker.Typ = WORKER_PILOT;
     worker.Gehalt = (30 + LocalRand.Rand(80)) * 100;
-    worker.Talent = std::min(100, worker.Gehalt / 200 + LocalRand.Rand(30) + 20);
+    worker.Talent = std::min(SLONG(100), worker.Gehalt / 200 + LocalRand.Rand(30) + 20);
     worker.Alter = (19 + LocalRand.Rand(50));
     worker.Kommentar = "";
     worker.Employer = WORKER_RESERVE;
@@ -632,7 +632,7 @@ CWorker CWorkers::createStewardess(TEAKRAND &LocalRand) {
     worker.Name = GetRandomName(worker.Geschlecht);
     worker.Typ = WORKER_STEWARDESS;
     worker.Gehalt = (30 + LocalRand.Rand(60)) * 100;
-    worker.Talent = std::min(100, worker.Gehalt * 100 / 80 / 200 + LocalRand.Rand(30) + 20);
+    worker.Talent = std::min(SLONG(100), worker.Gehalt * 100 / 80 / 200 + LocalRand.Rand(30) + 20);
     worker.Alter = (19 + LocalRand.Rand(40));
     worker.Kommentar = "";
     worker.Employer = WORKER_RESERVE;
@@ -659,9 +659,9 @@ void CWorkers::AddToPool(SLONG typ, TEAKRAND &LocalRand, SLONG zielAnzahlKompete
 
     if (anz < zielAnzahlKompetent || nExpired > 0) {
         // Zielwert ist 80 kompetente Leute, aber generiere nie mehr als 10 pro Tag
-        SLONG delta = std::min(10, (zielAnzahlKompetent - anz));
+        SLONG delta = std::min(SLONG(10), (zielAnzahlKompetent - anz));
         // Berechne, um wie viel wir die Liste vergrößern müssen. Berücksichtige, dass wir Karteileichen ersetzen können
-        delta = std::max(0, delta - nExpired);
+        delta = std::max(SLONG(0), delta - nExpired);
         if (delta > 0) {
             Workers.ReSize(Workers.AnzEntries() + delta);
         }

@@ -31,10 +31,14 @@ target_link_libraries(SBLibNet
     PUBLIC raknet enet
     PRIVATE
     # no strict compiler warnings for network code enabled yet
-    SDL2::SDL2)
+    SDL2::SDL2
+    SDL2::SDL2_mixer
+    SDL2::SDL2_ttf)
 
 target_link_libraries(SBLib
     PUBLIC SBLibNet
     PRIVATE
     common # interface that enables strict compiler warnings 
-    SDL2::SDL2)
+    SDL2::SDL2
+    SDL2::SDL2_mixer
+    SDL2::SDL2_ttf)
