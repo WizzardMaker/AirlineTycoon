@@ -42,7 +42,7 @@ CAufsicht::CAufsicht(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
     }
 
     KonstruktorFinished = 0;
-    LeereZettelBms.ReSize(pRoomLib, "ZETTELK04", 3);
+    LeereZettelBms.ReSize(pRoomLib, "ZETTELK0", 3);
     PostcardBm.ReSize(pRoomLib, "NOCARD");
 
     // Morgends verhindern, daß jemand rausgeht, noch bevor alle da sind:
