@@ -496,8 +496,8 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 }
                 break;
             case 1086:
-                if ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 5)) != 0U) {
-                    MakeSayWindow(0, TOKEN_SABOTAGE, 2095, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer3].AirlineX);
+                if ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 4)) != 0U) {
+                    MakeSayWindow(0, TOKEN_SABOTAGE, 2094, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer3].AirlineX);
                 } else {
                     MenuDialogReEntryB = 1091;
                     MenuStart(MENU_SABOTAGEROUTE);

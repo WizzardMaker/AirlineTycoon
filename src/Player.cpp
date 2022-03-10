@@ -4763,7 +4763,7 @@ void PLAYER::RobotExecuteAction() {
                         ArabMode3 = 0;
                         SecurityAnnoiance++;
                     }
-                    if (ArabMode3 == 6 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags & (1 << 5)) != 0U)) {
+                    if (ArabMode3 == 6 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags & (1 << 4)) != 0U)) {
                         ArabMode3 = 0;
                         SecurityAnnoiance++;
                     }
@@ -4814,7 +4814,7 @@ void PLAYER::RobotExecuteAction() {
                         Sim.Players.Players[ArabOpfer3].SecurityNeeded |= (1 << 8);
                     }
                     if (ArabMode3 == 6) {
-                        Sim.Players.Players[ArabOpfer3].SecurityNeeded |= (1 << 5);
+                        Sim.Players.Players[ArabOpfer3].SecurityNeeded |= (1 << 4);
                     }
 
                     if ((ArabMode != 0) || (ArabMode2 != 0) || (ArabMode3 != 0)) {
