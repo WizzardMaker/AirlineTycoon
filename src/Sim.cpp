@@ -1814,6 +1814,7 @@ void SIM::DoTimeStep() {
                                             Players.Players[c].ArabHints += 100;
                                         }
                                         qOpfer.ChangeMoney(-70000, 3500, "");
+                                        qOpfer.Kurse[0] *= 0.70;
                                         qOpfer.TrustedDividende -= 5;
                                         qOpfer.Sympathie[c] -= 200;
                                         if (qOpfer.TrustedDividende < 0) {
