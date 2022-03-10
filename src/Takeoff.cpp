@@ -2280,6 +2280,8 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_EXPERT, 10320, "Die Kerosinqualit\xE4t ist schlecht. Wir sollten %li Barrel hochwertiges Kerosin kaufen.");
     StandardTexte.AddText(TOKEN_EXPERT, 10321, "Die Kerosinqualit\xE4t ist viel zu gut. Wir sollten Geld sparen und billiges Kerosin kaufen.");
     StandardTexte.AddText(TOKEN_EXPERT, 10322, "Die Kerosinqualit\xE4t ist viel zu gut. Wir sollten Geld sparen und %li Barrel billiges Kerosin kaufen.");
+    StandardTexte.AddText(TOKEN_EXPERT, 10323, "Die Kerosinqualit\xE4t ist okay. Wir k\xF6nnten Geld sparen und billiges Kerosin kaufen, wenn unsere Flugzeuge das noch vertragen.");
+    StandardTexte.AddText(TOKEN_EXPERT, 10324, "Die Kerosinqualit\xE4t ist okay. Wir k\xF6nnten Geld sparen und %li Barrel billiges Kerosin kaufen, wenn unsere Flugzeuge das noch vertragen.");
     StandardTexte.AddText(TOKEN_EXPERT, 10350, "Kerosinbericht");
 
     /*SLONG tmpList[5] = {1, 2, 3, 5, 10};

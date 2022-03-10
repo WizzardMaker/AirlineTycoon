@@ -1194,7 +1194,8 @@ class /**/ BLOCK {
     void ZeigeInformantenFinanzBericht(XY ClientArea, SLONG page);
     void ZeigeInformantenBilanz(XY ClientArea, SLONG playerId, SLONG page);
     void ZeigeInformantenInfos(XY ClientArea, SLONG page);
-    void ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page);
+    void KerosinQualiOptimierung(XY ClientArea, SLONG idx, double qualiZiel, SLONG txtId, SLONG txtId2, SLONG beraterSchwelle);
+    void ZeigeKerosinberater(XY ClientArea, SLONG page);
 };
 
 class BLOCKS : public ALBUM_V<BLOCK> {

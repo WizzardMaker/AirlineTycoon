@@ -1086,7 +1086,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                     break;
 
                 case 11:
-                    ZeigeKerosinberater(ClientArea, PlayerNum, Page);
+                    ZeigeKerosinberater(ClientArea, Page);
                     break;
 
                 default:
@@ -2011,8 +2011,30 @@ void BLOCK::ZeigeInformantenInfos(XY ClientArea, SLONG /*page*/) {
     }
 }
 
-void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page) {
-    const auto &ref = Sim.Players.Players[playerId];
+void BLOCK::KerosinQualiOptimierung(XY ClientArea, SLONG idx, double qualiZiel, SLONG txtId, SLONG txtId2, SLONG beraterSchwelle) {
+    const auto &ref = Sim.Players.Players[PlayerNum];
+    SLONG menge = 0;
+    if (ref.KerosinQuali > qualiZiel) {
+        assert(qualiZiel > 0);
+        menge = SLONG(std::ceil((ref.TankInhalt * (ref.KerosinQuali - qualiZiel)) / qualiZiel));
+    } else {
+        assert(qualiZiel < 2);
+        menge = SLONG(std::ceil((ref.TankInhalt * (qualiZiel - ref.KerosinQuali)) / (2.0 - qualiZiel)));
+    }
+    menge = std::min(menge, ref.Tank - ref.TankInhalt);
+    if (menge > 0) {
+        if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < beraterSchwelle) {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, txtId), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
+                    ClientArea + XY(172, 170));
+        } else {
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, txtId2), menge), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
+                    ClientArea + XY(172, 170));
+        }
+    }
+}
+void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG page) {
+    const auto &ref = Sim.Players.Players[PlayerNum];
+    auto quali = SLONG(std::floor(ref.KerosinQuali * 3.0));
 
     PrintLine(ClientArea, 0, 10350);
 
@@ -2044,7 +2066,6 @@ void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page) {
         } else {
             // Qualität im Tank
             PrintLine(ClientArea, idx, 10304);
-            auto quali = SLONG(std::floor(ref.KerosinQuali * 3.0));
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10305 + quali), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, idx++ * 13),
                            ClientArea + XY(172, 170));
         }
@@ -2061,45 +2082,18 @@ void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG playerId, SLONG page) {
         }
 
         ++idx;
-        if (ref.KerosinQuali > 1.66) {
-            // Kaufe x Barrel teuer, um Qualität auf 1.66 zu erhöhen
-            auto menge = SLONG(std::ceil((ref.TankInhalt * (ref.KerosinQuali - 1.66)) / 1.66));
-            menge = std::min(menge, ref.Tank - ref.TankInhalt);
-            if (menge > 0) {
-                if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < 70) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10317), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                                   ClientArea + XY(172, 170));
-                } else {
-                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10318), menge), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                                   ClientArea + XY(172, 170));
-                }
-            }
-        } else if (ref.KerosinQuali > 1.33) {
-            // Kaufe x Barrel teuer, um Qualität auf 1.33 zu erhöhen
-            auto menge = SLONG(std::ceil((ref.TankInhalt * (ref.KerosinQuali - 1.33)) / 1.33));
-            menge = std::min(menge, ref.Tank - ref.TankInhalt);
-            if (menge > 0) {
-                if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < 80) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10319), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                                   ClientArea + XY(172, 170));
-                } else {
-                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10320), menge), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                                   ClientArea + XY(172, 170));
-                }
-            }
+        if (ref.KerosinQuali > 5.0/3.0) {
+            // Kaufe x Barrel teuer, um Qualität zu erhöhen
+            KerosinQualiOptimierung(ClientArea, idx, 5.0/3.0, 10317, 10318, 70);
+        } else if (ref.KerosinQuali > 4.0/3.0) {
+            // Kaufe x Barrel teuer, um Qualität zu erhöhen
+            KerosinQualiOptimierung(ClientArea, idx, 4.0/3.0, 10319, 10320, 80);
         } else if (ref.KerosinQuali < 1.0) {
-            // Kaufe x Barrel billig, um Qualität auf 1.0 zu reduzieren
-            auto menge = SLONG(std::ceil((ref.TankInhalt * (1.0 - ref.KerosinQuali)) / (2.0 - 1.0)));
-            menge = std::min(menge, ref.Tank - ref.TankInhalt);
-            if (menge > 0) {
-                if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < 90) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10321), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                                   ClientArea + XY(172, 170));
-                } else {
-                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10322), menge), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                                   ClientArea + XY(172, 170));
-                }
-            }
+            // Kaufe x Barrel billig, um Qualität auf reduzieren
+            KerosinQualiOptimierung(ClientArea, idx, 1.0, 10321, 10322, 90);
+        } else if (ref.KerosinQuali < 4.0/3.0) {
+            // Kaufe x Barrel billig, um Qualität auf reduzieren
+            KerosinQualiOptimierung(ClientArea, idx, 4.0/3.0, 10323, 10324, 100);
         }
     }
 }
