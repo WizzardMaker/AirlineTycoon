@@ -2360,7 +2360,7 @@ void NewGamePopup::OnTimer(UINT nIDEvent) {
 
                 break;
             default:
-                printf("NewGamePopup.cpp: Default case should not be reached.");
+                hprintf("NewGamePopup.cpp: Default case should not be reached.");
                 DebugBreak();
             }
 

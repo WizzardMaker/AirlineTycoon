@@ -180,7 +180,7 @@ template <typename T> bool run_test() {
     expect_val(list, id3, 12);
     expect_list(list, std::vector<T>({11, 4, 2, 1, 12, 3, 5, 22, 23, T(), 21, 20}), 12, 1);
 
-    printf("Errors: %d \n", errors);
+    hprintf("Errors: %d", errors);
     return (errors == 0);
 }
 

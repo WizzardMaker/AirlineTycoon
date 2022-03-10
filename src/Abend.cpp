@@ -186,7 +186,7 @@ void CAbend::OnPaint() {
                         StartupFX.ReInit("flyby5.raw");
                         break;
                     default:
-                        printf("Abend.cpp: Default case should not be reached.");
+                        hprintf("Abend.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
                     StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
@@ -203,7 +203,7 @@ void CAbend::OnPaint() {
                             StartupFX.ReInit("bark.raw");
                             break;
                         default:
-                            printf("Abend.cpp: Default case should not be reached.");
+                            hprintf("Abend.cpp: Default case should not be reached.");
                             DebugBreak();
                         }
                         StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
@@ -219,7 +219,7 @@ void CAbend::OnPaint() {
                             StartupFX.ReInit("zirpen.raw");
                             break;
                         default:
-                            printf("Abend.cpp: Default case should not be reached.");
+                            hprintf("Abend.cpp: Default case should not be reached.");
                             DebugBreak();
                         }
                         StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);

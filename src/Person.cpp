@@ -2882,7 +2882,7 @@ void PERSON::PersonReachedTarget() {
             State = PERSON_LEAVING;
             break;
         default:
-            printf("Person.cpp: Default case should not be reached.");
+            hprintf("Person.cpp: Default case should not be reached.");
             DebugBreak();
         }
         break;
@@ -2981,7 +2981,7 @@ void PERSON::PersonReachedTarget() {
             State = PERSON_LEAVING;
             break;
         default:
-            printf("Person.cpp: Default case should not be reached.");
+            hprintf("Person.cpp: Default case should not be reached.");
             DebugBreak();
         }
         break;
@@ -3177,7 +3177,7 @@ void PERSON::PersonReachedTarget() {
             break;
 
         default:
-            printf("Person.cpp: Default case should not be reached.");
+            hprintf("Person.cpp: Default case should not be reached.");
             DebugBreak();
         }
     } break;
@@ -3199,7 +3199,7 @@ void PERSON::PersonReachedTarget() {
         }
         break;
     default:
-        printf("Person.cpp: Default case should not be reached.");
+        hprintf("Person.cpp: Default case should not be reached.");
         DebugBreak();
     }
 }
@@ -3424,7 +3424,7 @@ void PERSONS::DoOneStep() {
                         }
                         break;
                     default:
-                        printf("Person.cpp: Default case should not be reached.");
+                        hprintf("Person.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
                 } else {

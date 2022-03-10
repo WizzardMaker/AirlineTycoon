@@ -937,7 +937,7 @@ void AirportView::OnPaint() {
 
                                         if (Grade >= -1 && Grade <= 8) {
                                             if ((qPerson.Mood >= MoodPersonBase2 && qPerson.Mood <= MoodPersonBase3) ||
-                                                (qPerson.Mood >= MoodPersonRepairFC && qPerson.Mood <= MoodPerson3StarsFC)) {
+                                                (qPerson.Mood >= MoodPersonTicketFC && qPerson.Mood <= MoodPerson3StarsFC)) {
                                                 MoodBms[qPerson.Mood].BlitFrom(SmallLogoBms[qPerson.FlightAirline], XY(8, 10));
                                             }
 

@@ -567,7 +567,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         Bilanz.SonstigeAusgaben += Money;
         break;
     default:
-        printf("ChangeMoney: Keine Kategorie für %d\n", Reason);
+        hprintf("ChangeMoney: Keine Kategorie für %d", Reason);
     }
 
     if (LocationWin != nullptr) {
@@ -1157,7 +1157,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     default:
-        printf("Player.cpp: Default case should not be reached.");
+        hprintf("Player.cpp: Default case should not be reached.");
         DebugBreak();
     }
 
@@ -1436,7 +1436,7 @@ void PLAYER::NewDay() {
         LaptopBattery = 1440;
         break;
     default:
-        printf("Player.cpp: Default case should not be reached.");
+        hprintf("Player.cpp: Default case should not be reached.");
         DebugBreak();
     }
 
@@ -1660,7 +1660,7 @@ void PLAYER::NewDay() {
                         }
                         break;
                     default:
-                        printf("Player.cpp: Default case should not be reached.");
+                        hprintf("Player.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 
@@ -4526,7 +4526,7 @@ void PLAYER::RobotExecuteAction() {
                                 qPlane.SicherheitTarget++;
                                 break;
                             default:
-                                printf("Player.cpp: Default case should not be reached.");
+                                hprintf("Player.cpp: Default case should not be reached.");
                                 DebugBreak();
                             }
 
@@ -4571,7 +4571,7 @@ void PLAYER::RobotExecuteAction() {
                     qPlane.SicherheitTarget = min(2, qPlane.SicherheitTarget + 1);
                     break;
                 default:
-                    printf("Player.cpp: Default case should not be reached.");
+                    hprintf("Player.cpp: Default case should not be reached.");
                     DebugBreak();
                 }
             }
@@ -4690,7 +4690,7 @@ void PLAYER::RobotExecuteAction() {
                         }
                         break;
                     default:
-                        printf("Player.cpp: Default case should not be reached.");
+                        hprintf("Player.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 
@@ -7219,7 +7219,7 @@ void PLAYERS::CheckFlighplans() {
                             break;
 
                         default:
-                            printf("Player.cpp: Default case should not be reached.");
+                            hprintf("Player.cpp: Default case should not be reached.");
                             DebugBreak();
                         }
                     }

@@ -743,7 +743,7 @@ void CGlobe::OnLButtonDown(UINT nFlags, CPoint point) {
                                 }
                                 break;
                             default:
-                                printf("Globe.cpp: Default case should not be reached.");
+                                hprintf("Globe.cpp: Default case should not be reached.");
                                 DebugBreak();
                             }
                         }

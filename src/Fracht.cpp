@@ -474,7 +474,7 @@ void CFracht::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRand) {
                 NachCity = HomeCity;
                 break;
             default:
-                printf("Fracht.cpp: Default case should not be reached.");
+                hprintf("Fracht.cpp: Default case should not be reached.");
                 DebugBreak();
             }
             break;
@@ -497,12 +497,12 @@ void CFracht::RandomCities(SLONG AreaType, SLONG HomeCity, TEAKRAND *pRand) {
                 NachCity = HomeCity;
                 break;
             default:
-                printf("Fracht.cpp: Default case should not be reached.");
+                hprintf("Fracht.cpp: Default case should not be reached.");
                 DebugBreak();
             }
             break;
         default:
-            printf("Fracht.cpp: Default case should not be reached.");
+            hprintf("Fracht.cpp: Default case should not be reached.");
             DebugBreak();
         }
 
@@ -990,7 +990,7 @@ too_large:
             NachCity = CityNum;
             break;
         default:
-            printf("Fracht.cpp: Default case should not be reached.");
+            hprintf("Fracht.cpp: Default case should not be reached.");
             DebugBreak();
         }
     } while (VonCity == NachCity || (AreaType == 4 && Cities.CalcDistance(VonCity, NachCity) > 10000000));

@@ -519,7 +519,7 @@ CAufsicht::~CAufsicht() {
                         qOpfer.StrikePlanned = TRUE;
                         break;
                     default:
-                        printf("Aufsicht.cpp: Default case should not be reached.");
+                        hprintf("Aufsicht.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 
@@ -626,7 +626,7 @@ CAufsicht::~CAufsicht() {
                         }
                         break;
                     default:
-                        printf("Aufsicht.cpp: Default case should not be reached.");
+                        hprintf("Aufsicht.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 

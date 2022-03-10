@@ -178,7 +178,7 @@ void CWeltAll::OnPaint() {
                     Sternschnuppen[c].Velocity = XY(18, 12) * SLONG(4);
                     break;
                 default:
-                    printf("Weltall.cpp: Default case should not be reached.");
+                    hprintf("Weltall.cpp: Default case should not be reached.");
                     DebugBreak();
                 }
 
@@ -237,7 +237,7 @@ void CWeltAll::OnPaint() {
             StationPos = XY(1000, 100);
             break;
         default:
-            printf("Weltall.cpp: Default case should not be reached.");
+            hprintf("Weltall.cpp: Default case should not be reached.");
             DebugBreak();
         }
 

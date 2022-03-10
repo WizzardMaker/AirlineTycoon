@@ -243,7 +243,7 @@ void CDutyFree::OnPaint() {
             // no tip
             break;
         default:
-            printf("DutyFree.cpp: Default case should not be reached.");
+            hprintf("DutyFree.cpp: Default case should not be reached.");
             DebugBreak();
         }
     }
@@ -330,7 +330,7 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point) {
                             qPlayer.LaptopBattery = 1440;
                             break;
                         default:
-                            printf("DutyFree.cpp: Default case should not be reached.");
+                            hprintf("DutyFree.cpp: Default case should not be reached.");
                             DebugBreak();
                         }
 

@@ -180,7 +180,7 @@ void GameFrame::UpdateWindow() const {
         Sim.Options.OptionKeepAspectRatio = 0;
         break;
     default:
-        printf("GameFrame.cpp: Default case should not be reached.");
+        hprintf("GameFrame.cpp: Default case should not be reached.");
         DebugBreak();
     }
 
@@ -245,7 +245,7 @@ GameFrame::GameFrame() {
         h = SDL_CreateWindow("Airline Tycoon", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, rect.Width(), rect.Height(), SDL_WINDOW_BORDERLESS);
         break;
     default:
-        printf("GameFrame.cpp: Default case should not be reached.");
+        hprintf("GameFrame.cpp: Default case should not be reached.");
         DebugBreak();
     }
 

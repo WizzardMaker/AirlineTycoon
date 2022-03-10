@@ -151,7 +151,7 @@ void CRLEReader::SaveAsPlainText() {
     if (Read(buffer.getData(), buffer.AnzEntries(), true)) {
         char fn[255];
         snprintf(fn, 255, "%s.txt", Path);
-        printf("Write to %s\n", fn);
+        hprintf("Write to %s", fn);
 
         // TEAKFILE file(fn, TEAKFILE_WRITE);
         FILE *fp = fopen(fn, "w");
@@ -220,7 +220,7 @@ int DoesFileExist(char const *path) {
         return 1;
     }
 #ifdef _DEBUG
-    printf("TeakFile.cpp: File not found: %s\n", path);
+    hprintf("TeakFile.cpp: File not found: %s", path);
 #endif
     return 0;
 }

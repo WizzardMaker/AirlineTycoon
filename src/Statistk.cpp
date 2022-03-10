@@ -1132,7 +1132,7 @@ void CStatistik::RepaintTextWindow() {
                         break;
                     }
                     default:
-                        printf("Statistik.cpp: Default case should not be reached.");
+                        hprintf("Statistik.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 

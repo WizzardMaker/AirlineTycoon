@@ -18,7 +18,8 @@ HDU::HDU() : Log(nullptr) {
     BUFFER_V<char> path(strlen(base) + strlen(file) + 1);
     strcpy(path.data(), base);
     strcat(path.data(), file);
-    Log = fopen(path.data(), "w");
+    //Log = fopen(path.data(), "w");
+    Log = stdout;
     SDL_free(base);
 }
 
@@ -70,7 +71,7 @@ SLONG TeakLibW_Exception(char *file, SLONG line, const char *format, ...) {
     Hdu.HercPrintf(0, buffer);
     Hdu.HercPrintf(1, "====================================================================");
     Hdu.HercPrintf(0, "C++ Exception thrown. Programm will probably be terminated.");
-    Hdu.Close();
+    // Hdu.Close();
     // DebugBreak();
     throw std::runtime_error(buffer);
 }

@@ -530,7 +530,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                 }
                 break;
             default:
-                printf("Block.cpp: Default case should not be reached.");
+                hprintf("Block.cpp: Default case should not be reached.");
                 DebugBreak();
             }
         } else if (Index == 0) {
@@ -1090,12 +1090,12 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                     break;
 
                 default:
-                    printf("Block.cpp: Default case should not be reached.");
+                    hprintf("Block.cpp: Default case should not be reached.");
                     DebugBreak();
                 }
                 break;
             default:
-                printf("Block.cpp: Default case should not be reached.");
+                hprintf("Block.cpp: Default case should not be reached.");
                 DebugBreak();
             }
         }
@@ -1318,7 +1318,7 @@ switch_again:
                 }
                 break;
             default:
-                printf("Block.cpp: Default case should not be reached.");
+                hprintf("Block.cpp: Default case should not be reached.");
                 DebugBreak();
             }
         } else if (IndexB == 0 && (DoubleBlock != 0) && BlockType == 2) {
@@ -1584,7 +1584,7 @@ switch_again:
                 }
             } break;
             default:
-                printf("Block.cpp: Default case should not be reached.");
+                hprintf("Block.cpp: Default case should not be reached.");
                 DebugBreak();
             }
         }
@@ -1668,7 +1668,7 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
         }
         break;
     default:
-        printf("Block.cpp: Default case should not be reached.");
+        hprintf("Block.cpp: Default case should not be reached.");
         DebugBreak();
     }
 
@@ -1704,7 +1704,7 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
         }
         break;
     default:
-        printf("Block.cpp: Default case should not be reached.");
+        hprintf("Block.cpp: Default case should not be reached.");
         DebugBreak();
     }
 }

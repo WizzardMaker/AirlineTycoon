@@ -437,7 +437,7 @@ void CWorkers::NewDay() {
         if (Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) {
             if (Workers[c].TimeInPool >= 30) {
                 Workers[c].Employer = WORKER_EXPIRED;
-                printf("Removing %s from pool\n", (const char *)Workers[c].Name);
+                hprintf("Removing %s from pool", (const char *)Workers[c].Name);
             } else if (Workers[c].TimeInPool >= 0) {
                 Workers[c].TimeInPool++;
             }
@@ -685,9 +685,9 @@ void CWorkers::AddToPool(SLONG typ, TEAKRAND &LocalRand, SLONG zielAnzahlKompete
             }
 
             if (canReplace != 0) {
-                printf("Replacing expired worker: %s\n", (const char *)Workers[c].Name);
+                hprintf("Replacing expired worker: %s", (const char *)Workers[c].Name);
             } else {
-                printf("Adding new worker: %s\n", (const char *)Workers[c].Name);
+                hprintf("Adding new worker: %s", (const char *)Workers[c].Name);
             }
         }
     }

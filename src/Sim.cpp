@@ -1822,7 +1822,7 @@ void SIM::DoTimeStep() {
                                         PictureId = GetIdFromString("SUPERMAN");
                                         break;
                                     default:
-                                        printf("Sim.cpp: Default case should not be reached.");
+                                        hprintf("Sim.cpp: Default case should not be reached.");
                                         DebugBreak();
                                     }
                                     if (qOpfer.Kurse[0] < 0) {
@@ -1989,7 +1989,7 @@ void SIM::DoTimeStep() {
                                         }
                                         break;
                                     default:
-                                        printf("Sim.cpp: Default case should not be reached.");
+                                        hprintf("Sim.cpp: Default case should not be reached.");
                                         DebugBreak();
                                     }
 
@@ -2747,7 +2747,7 @@ void SIM::NewDay() {
                             qPlayer.ArabMode3 = -(SaboRand.Rand(5) + 1);
                             break;
                         default:
-                            printf("Sim.cpp: Default case should not be reached.");
+                            hprintf("Sim.cpp: Default case should not be reached.");
                             DebugBreak();
                         }
 
@@ -3942,7 +3942,7 @@ void SIM::NetRefill(SLONG Type, SLONG City) const {
     case 5:
         break;
     default:
-        printf("Sim.cpp: Default case should not be reached.");
+        hprintf("Sim.cpp: Default case should not be reached.");
         DebugBreak();
     }
 
@@ -4104,7 +4104,7 @@ SLONG SIM::HoleKerosinPreis(SLONG typ) const {
     case 2:
         return Kerosin / 2;
     default:
-        printf("Sim.cpp: Default case should not be reached.");
+        hprintf("Sim.cpp: Default case should not be reached.");
         DebugBreak();
     }
     return 0;

@@ -1006,7 +1006,7 @@ void HEADLINES::ComparisonHeadlines() {
             }
             break;
         default:
-            printf("Misc.cpp: Default case should not be reached.");
+            hprintf("Misc.cpp: Default case should not be reached.");
             DebugBreak();
         }
     }

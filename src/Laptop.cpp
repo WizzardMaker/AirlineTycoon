@@ -288,7 +288,7 @@ CLaptop::CLaptop(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.
             IconBms[3].ReSize(pGLibIcons[c], "INFO_000", 51);
             break;
         default:
-            printf("Laptop.cpp: Default case should not be reached.");
+            hprintf("Laptop.cpp: Default case should not be reached.");
             DebugBreak();
         }
     }
@@ -824,7 +824,7 @@ void CLaptop::OnPaint() {
                                 IconBms[5].ReSize(pGLibIcons[c], "INFO_000", 51);
                                 break;
                             default:
-                                printf("Laptop.cpp: Default case should not be reached.");
+                                hprintf("Laptop.cpp: Default case should not be reached.");
                                 DebugBreak();
                             }
                         }
@@ -1201,7 +1201,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
                         PaintGlobeRoutes();
                         break;
                     default:
-                        printf("Laptop.cpp: Default case should not be reached.");
+                        hprintf("Laptop.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 
@@ -1245,7 +1245,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
                         pBlock->AnzPagesB = 2;
                         break;
                     default:
-                        printf("Laptop.cpp: Default case should not be reached.");
+                        hprintf("Laptop.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 

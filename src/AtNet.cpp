@@ -918,7 +918,7 @@ void PumpNetwork() {
                     AuslandsFrachten[City].RefillForAusland(City);
                     break;
                 default:
-                    printf("AtNet.cpp: Default case should not be reached.");
+                    hprintf("AtNet.cpp: Default case should not be reached.");
                     DebugBreak();
                 }
             } break;
@@ -948,7 +948,7 @@ void PumpNetwork() {
                     AuslandsFrachten[City][Index].Praemie = 0;
                     break;
                 default:
-                    printf("AtNet.cpp: Default case should not be reached.");
+                    hprintf("AtNet.cpp: Default case should not be reached.");
                     DebugBreak();
                 }
             } break;
@@ -1120,7 +1120,7 @@ void PumpNetwork() {
                     }
                     break;
                 default:
-                    printf("AtNet.cpp: Default case should not be reached.");
+                    hprintf("AtNet.cpp: Default case should not be reached.");
                     DebugBreak();
                 }
             } break;
@@ -1655,7 +1655,7 @@ void PumpNetwork() {
                     Sim.ItemZange = 0;
                     break;
                 default:
-                    printf("AtNet.cpp: Default case should not be reached.");
+                    hprintf("AtNet.cpp: Default case should not be reached.");
                     DebugBreak();
                 }
             } break;

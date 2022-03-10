@@ -691,7 +691,7 @@ void CRouteBox::UpdateDataTable() {
         Table.AnzRows = d;
     } break;
     default:
-        printf("RouteBox.cpp: Default case should not be reached.");
+        hprintf("RouteBox.cpp: Default case should not be reached.");
         DebugBreak();
     }
     RoutePageMax = (Table.AnzRows - 1) / ListSize + 1;

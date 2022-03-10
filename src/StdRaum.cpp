@@ -1868,7 +1868,7 @@ void CStdRaum::StartDialog(SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, S
         }
         break;
     default:
-        printf("StdRaum.cpp: Default case should not be reached.");
+        hprintf("StdRaum.cpp: Default case should not be reached.");
         DebugBreak();
     }
 }
@@ -4074,7 +4074,7 @@ void CStdRaum::RepaintTip() {
     case TIP_ITEM:
         break;
     default:
-        printf("StdRaum.cpp: Default case should not be reached.");
+        hprintf("StdRaum.cpp: Default case should not be reached.");
         DebugBreak();
     }
 
@@ -6275,7 +6275,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                         MenuRepaint();
                         break;
                     default:
-                        printf("StdRaum.cpp: Default case should not be reached.");
+                        hprintf("StdRaum.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 

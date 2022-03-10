@@ -511,7 +511,7 @@ void Options::OnPaint() {
             }
             break;
         default:
-            printf("Options.cpp: Default case should not be reached.");
+            hprintf("Options.cpp: Default case should not be reached.");
             DebugBreak();
         }
 
@@ -900,7 +900,7 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
             }
             break;
         default:
-            printf("Options.cpp: Default case should not be reached.");
+            hprintf("Options.cpp: Default case should not be reached.");
             DebugBreak();
         }
     }
