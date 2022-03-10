@@ -2221,7 +2221,7 @@ void SIM::DoTimeStep() {
                             count -= 105 + LocalRand.Rand(30);
                         } else {
                             if (qPlane.GetFlugplanEintrag()->ObjectType != 3 && qPlane.GetFlugplanEintrag()->ObjectType != 4) {
-                                qPlane.CalculateHappyPassengers(c);
+                                qPlane.CalculateHappyPassengers(c, 0);
                             }
 
                             qPlane.Ort = City;

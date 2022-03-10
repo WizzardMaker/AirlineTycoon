@@ -860,7 +860,7 @@ class /**/ CPlane {
     SLONG GetSaldo(void);
     SLONG GetMaxPassengerOpenFlight(SLONG PlayerNum);
     void ClearSaldo(void);
-    void CalculateHappyPassengers(SLONG PlayerNum);
+    void CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueue = false, XY pos = XY());
     void UpdatePersonalQuality(SLONG PlayerNum);
     void RepairReferences(void);
 
