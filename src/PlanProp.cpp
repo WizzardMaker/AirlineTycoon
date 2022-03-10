@@ -811,6 +811,7 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
             UBYTE back5 = qPlane.ReifenTarget;
             UBYTE back6 = qPlane.ElektronikTarget;
             UBYTE back7 = qPlane.SicherheitTarget;
+            SLONG back8 = qPlane.MaxBegleiter;
 
             qPlane.SitzeTarget = Sim.RFSitzeRF;
             qPlane.EssenTarget = Sim.RFEssen;
@@ -821,6 +822,7 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
             qPlane.ElektronikTarget = Sim.RFElektronik;
             qPlane.SicherheitTarget = Sim.RFSicherheit;
             // qPlane.AnzPutzcrew      = long(Sim.RFPutzFaktor*qPlane.ptAnzBegleiter);
+            qPlane.MaxBegleiter = SLONG(std::round(Sim.RFBegleiterFaktor*qPlane.ptAnzBegleiter));
 
             if (qPlayer.CalcPlanePropSum() > qPlayer.Money) {
                 qPlane.SitzeTarget = back0;
@@ -831,6 +833,7 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
                 qPlane.ReifenTarget = back5;
                 qPlane.ElektronikTarget = back6;
                 qPlane.SicherheitTarget = back7;
+                qPlane.MaxBegleiter = back8;
 
                 qPlayer.Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_SCHED, 1810), MESSAGE_COMMENT);
             } else {
