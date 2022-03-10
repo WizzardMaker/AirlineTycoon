@@ -803,15 +803,19 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 12) {
             qPlayer.LeaveRoom();
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 13) {
-            UBYTE back1 = qPlane.SitzeTarget;
+            UBYTE back0 = qPlane.SitzeTarget;
+            UBYTE back1 = qPlane.EssenTarget;
             UBYTE back2 = qPlane.TablettsTarget;
             UBYTE back3 = qPlane.DecoTarget;
-
             UBYTE back4 = qPlane.TriebwerkTarget;
             UBYTE back5 = qPlane.ReifenTarget;
             UBYTE back6 = qPlane.ElektronikTarget;
             UBYTE back7 = qPlane.SicherheitTarget;
 
+            qPlane.SitzeTarget = Sim.RFSitzeRF;
+            qPlane.EssenTarget = Sim.RFEssen;
+            qPlane.TablettsTarget = Sim.RFTabletts;
+            qPlane.DecoTarget = Sim.RFDeco;
             qPlane.TriebwerkTarget = Sim.RFTriebwerk;
             qPlane.ReifenTarget = Sim.RFReifen;
             qPlane.ElektronikTarget = Sim.RFElektronik;
@@ -819,10 +823,10 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
             // qPlane.AnzPutzcrew      = long(Sim.RFPutzFaktor*qPlane.ptAnzBegleiter);
 
             if (qPlayer.CalcPlanePropSum() > qPlayer.Money) {
-                qPlane.SitzeTarget = back1;
+                qPlane.SitzeTarget = back0;
+                qPlane.EssenTarget = back1;
                 qPlane.TablettsTarget = back2;
                 qPlane.DecoTarget = back3;
-
                 qPlane.TriebwerkTarget = back4;
                 qPlane.ReifenTarget = back5;
                 qPlane.ElektronikTarget = back6;
