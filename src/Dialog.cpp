@@ -11,9 +11,9 @@
 SLONG TankSize[] = {100000, 1000000, 10000000, 100000000};
 SLONG TankPrice[] = {100000, 800000, 70000000, 60000000};
 
-static SLONG SabotagePrice[] = {1000, 5000, 10000, 50000, 100000};
-static SLONG SabotagePrice2[] = {10000, 25000, 50000, 250000};
-static SLONG SabotagePrice3[] = {100000, 500000, 1000000, 2000000, 5000000, 8000000};
+SLONG SabotagePrice[] = {1000, 5000, 10000, 50000, 100000};
+SLONG SabotagePrice2[] = {10000, 25000, 50000, 250000};
+SLONG SabotagePrice3[] = {100000, 500000, 1000000, 2000000, 5000000, 8000000};
 
 SLONG RocketPrices[] = {200000, 400000, 600000, 5000000, 8000000, 10000000, 20000000, 25000000, 50000000, 85000000};
 
@@ -435,7 +435,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         }
 
                         qPlayer.ArabMode2 = id - 1250;
-                        qPlayer.ArabTrust = max(qPlayer.ArabTrust, id - 1250 + 1);
+                        qPlayer.ArabTrust = min(6, qPlayer.ArabMode2 + 1);
 
                         qPlayer.ChangeMoney(-SabotagePrice2[id - 1251], 2080, "");
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SabotagePrice2[id - 1251], -1);
@@ -476,7 +476,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     }
 
                     qPlayer.ArabMode3 = id - 1080;
-                    qPlayer.ArabTrust = max(qPlayer.ArabTrust, id - 1080 + 1);
+                    qPlayer.ArabTrust = min(6, qPlayer.ArabMode3 + 1);
 
                     qPlayer.ChangeMoney(-SabotagePrice3[id - 1081], 2080, "");
                     SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SabotagePrice2[id - 1081], -1);
@@ -491,7 +491,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 if ((Sim.Players.Players[qPlayer.ArabOpfer3].SecurityFlags & (1 << 8)) != 0U) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 2098, pFontPartner, (LPCTSTR)Sim.Players.Players[qPlayer.ArabOpfer3].AirlineX);
                 } else {
-                    qPlayer.ArabTrust = max(qPlayer.ArabTrust, id - 1280 + 1);
                     MenuDialogReEntryB = 1090;
                     MenuStart(MENU_SABOTAGEPLANE);
                 }
@@ -515,7 +514,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 qPlayer.ArabActive = FALSE;
                 qPlayer.ChangeMoney(-SabotagePrice[qPlayer.ArabMode - 1], 2080, "");
                 qPlayer.DoBodyguardRabatt(SabotagePrice[qPlayer.ArabMode - 1]);
-                qPlayer.ArabTrust = min(5, qPlayer.ArabTrust + 1);
+                qPlayer.ArabTrust = min(6, qPlayer.ArabMode + 1);
                 qPlayer.NetSynchronizeSabotage();
                 StopDialog();
 
@@ -524,7 +523,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
             case 1090:
                 qPlayer.ArabMode3 = 5;
-                qPlayer.ArabTrust = max(qPlayer.ArabTrust, id - 1280 + 1);
+                qPlayer.ArabTrust = min(6, qPlayer.ArabMode3 + 1);
 
                 qPlayer.ChangeMoney(-SabotagePrice3[4], 2080, "");
                 SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SabotagePrice3[4], -1);
@@ -537,7 +536,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
             case 1091:
                 qPlayer.ArabMode3 = 6;
-                qPlayer.ArabTrust = max(qPlayer.ArabTrust, id - 1280 + 1);
 
                 qPlayer.ChangeMoney(-SabotagePrice3[5], 2080, "");
                 SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -SabotagePrice3[5], -1);

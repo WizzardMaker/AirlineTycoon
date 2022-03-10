@@ -6,6 +6,10 @@
 
 #define forall(c, object) for ((c) = 0; (c) < SLONG((object).AnzEntries()); (c)++)
 
+extern SLONG SabotagePrice[];
+extern SLONG SabotagePrice2[];
+extern SLONG SabotagePrice3[];
+
 extern SLONG RocketPrices[];
 extern SLONG StationPrices[];
 
@@ -4626,8 +4630,6 @@ void PLAYER::RobotExecuteAction() {
                 (Sim.Players.Players[dislike].Owner == 1 || RobotUse(ROBOT_USE_MUCH_SABOTAGE))) {
                 long SecurityAnnoiance = 0;
 
-                ArabTrust = min(4, ArabTrust + 1);
-
                 for (long pass = 1; pass <= 2 + 3 * static_cast<int>(RobotUse(ROBOT_USE_EXTREME_SABOTAGE)); pass++) {
                     switch (Sim.GetHour() % 3) {
                     case 0:
@@ -4638,10 +4640,10 @@ void PLAYER::RobotExecuteAction() {
                                 ArabMode = LocalRandom.Rand(ArabMode);
                             }
 
-                            if (PlayerNum == 0 && LocalRandom.Rand(3) != 0) {
+                            if (PlayerNum == 0 && ArabTrust >= 2 && LocalRandom.Rand(3) != 0) {
                                 ArabMode = min(ArabMode, 2);
                             }
-                            if (PlayerNum == 2 && LocalRandom.Rand(3) != 0) {
+                            if (PlayerNum == 2 && ArabTrust >= 3 && LocalRandom.Rand(3) != 0) {
                                 ArabMode = min(ArabMode, 3);
                             }
 
@@ -4660,10 +4662,10 @@ void PLAYER::RobotExecuteAction() {
                         if (PlayerNum == 0 && LocalRandom.Rand(3) != 0) {
                             ArabMode2 = 1;
                         }
-                        if (PlayerNum == 2 && LocalRandom.Rand(3) != 0) {
+                        if (PlayerNum == 2 && ArabTrust >= 3 && LocalRandom.Rand(3) != 0) {
                             ArabMode2 = min(ArabMode2, 3);
                         }
-                        if (ArabMode2 == 1 && rand() % 2 == 0) {
+                        if (ArabMode2 == 1 && ArabTrust > ArabMode2 && rand() % 2 == 0) {
                             ArabMode2++;
                         }
                         if (ArabMode2 == 2 && (Sim.Players.Players[ArabOpfer2].HasItem(ITEM_LAPTOP) == 0)) {
@@ -4692,6 +4694,16 @@ void PLAYER::RobotExecuteAction() {
                         DebugBreak();
                     }
 
+                    if (ArabMode != 0 && Money - SabotagePrice[ArabMode] < DEBT_LIMIT) {
+                        ArabMode = 0;
+                    }
+                    if (ArabMode2 != 0 && Money - SabotagePrice2[ArabMode2] < DEBT_LIMIT) {
+                        ArabMode2 = 0;
+                    }
+                    if (ArabMode3 != 0 && Money - SabotagePrice3[ArabMode3] < DEBT_LIMIT) {
+                        ArabMode3 = 0;
+                    }
+
                     // Wegen Security-Office:
                     if (ArabMode == 1 && ((Sim.Players.Players[ArabOpfer].SecurityFlags & (1 << 6)) != 0U)) {
                         ArabMode = 0;
@@ -4706,6 +4718,10 @@ void PLAYER::RobotExecuteAction() {
                         SecurityAnnoiance++;
                     }
                     if (ArabMode == 4 && ((Sim.Players.Players[ArabOpfer].SecurityFlags & (1 << 7)) != 0U)) {
+                        ArabMode = 0;
+                        SecurityAnnoiance++;
+                    }
+                    if (ArabMode == 5 && ((Sim.Players.Players[ArabOpfer].SecurityFlags & (1 << 6)) != 0U)) {
                         ArabMode = 0;
                         SecurityAnnoiance++;
                     }
@@ -4747,6 +4763,10 @@ void PLAYER::RobotExecuteAction() {
                         ArabMode3 = 0;
                         SecurityAnnoiance++;
                     }
+                    if (ArabMode3 == 6 && ((Sim.Players.Players[ArabOpfer3].SecurityFlags & (1 << 5)) != 0U)) {
+                        ArabMode3 = 0;
+                        SecurityAnnoiance++;
+                    }
 
                     // Wegen Security-Office II:
                     if (ArabMode == 1) {
@@ -4760,6 +4780,9 @@ void PLAYER::RobotExecuteAction() {
                     }
                     if (ArabMode == 4) {
                         Sim.Players.Players[ArabOpfer].SecurityNeeded |= (1 << 7);
+                    }
+                    if (ArabMode == 5) {
+                        Sim.Players.Players[ArabOpfer].SecurityNeeded |= (1 << 6);
                     }
 
                     if (ArabMode2 == 1) {
@@ -4790,6 +4813,9 @@ void PLAYER::RobotExecuteAction() {
                     if (ArabMode3 == 5) {
                         Sim.Players.Players[ArabOpfer3].SecurityNeeded |= (1 << 8);
                     }
+                    if (ArabMode3 == 6) {
+                        Sim.Players.Players[ArabOpfer3].SecurityNeeded |= (1 << 5);
+                    }
 
                     if ((ArabMode != 0) || (ArabMode2 != 0) || (ArabMode3 != 0)) {
                         break;
@@ -4805,6 +4831,25 @@ void PLAYER::RobotExecuteAction() {
                         SIM::SendSimpleMessage(ATNET_TAKETHING, 0, ITEM_ZANGE);
                         RobotActions[1].ActionId = ACTION_VISITSECURITY2;
                     }
+                }
+
+                // Kosten verbuchen
+                SLONG mode = 0;
+                SLONG preis = 0;
+                if (ArabMode != 0) {
+                    mode = ArabMode;
+                    preis = SabotagePrice[mode - 1];
+                } else if (ArabMode2 != 0) {
+                    mode = ArabMode2;
+                    preis = SabotagePrice2[mode - 1];
+                } else if (ArabMode3 != 0) {
+                    mode = ArabMode3;
+                    preis = SabotagePrice3[mode - 1];
+                }
+                if (mode != 0) {
+                    ChangeMoney(-preis, 2080, "");
+                    DoBodyguardRabatt(preis);
+                    ArabTrust = min(6, mode + 1);
                 }
 
                 WorkCountdown = 20 * 10;
