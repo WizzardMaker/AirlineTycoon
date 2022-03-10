@@ -1146,14 +1146,14 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
         Saldo /= 2;
     }
 
+    long pn = PlayerNum;
+    if (Sim.Players.Players[PlayerNum].WerbeBroschuere != -1) {
+        pn = Sim.Players.Players[PlayerNum].WerbeBroschuere;
+    }
+
     SLONG passtotal = GetFlugplanEintrag()->Passagiere;
     if (passtotal > 0) {
         for (c = passtotal / CUSTOMERS_PER_PERSON; c >= 0; c--) {
-            long pn = PlayerNum;
-            if (Sim.Players.Players[PlayerNum].WerbeBroschuere != -1) {
-                pn = Sim.Players.Players[PlayerNum].WerbeBroschuere;
-            }
-
             SLONG Anz = CUSTOMERS_PER_PERSON;
             if (c == 0) {
                 Anz = passtotal - passtotal / CUSTOMERS_PER_PERSON * CUSTOMERS_PER_PERSON;
@@ -1169,7 +1169,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
                     Zustand - 30 * static_cast<int>(PlayerNum == 3 && Sim.Players.Players[Sim.localPlayer].Owner == 1)) {
                 // Reparatur notwendig:
                 hprintf ("Zustand=%li", Zustand);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonRepair));
@@ -1177,7 +1177,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if (LocalRand.Rand(65) > Saldo) {
                 // schlechte Crew:
                 hprintf ("Saldo=%li", Saldo);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSick));
@@ -1185,7 +1185,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if ((TooExpensive != 0) && LocalRand.Rand(130) < TooExpensive) {
                 // zu teuer:
                 hprintf ("TooExpensive=%li", TooExpensive);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonExpensive));
@@ -1193,7 +1193,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if (quali > 8) {
                 // sehr gut:
                 hprintf ("3 star, quali=%li", quali);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson3Stars));
@@ -1201,7 +1201,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if (quali > 4) {
                 // recht gut:
                 hprintf ("2 star, quali=%li", quali);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson2Stars));
@@ -1209,7 +1209,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if (quali >= 0) {
                 // okay:
                 hprintf ("okay, quali=%li", quali);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSmile));
@@ -1217,7 +1217,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else {
                 // schlecht
                 hprintf ("schlecht, quali=%li", quali);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSick));
@@ -1229,11 +1229,6 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
     passtotal = GetFlugplanEintrag()->PassagiereFC;
     if (passtotal > 0) {
         for (c = passtotal / CUSTOMERS_PER_PERSON; c >= 0; c--) {
-            long pn = PlayerNum;
-            if (Sim.Players.Players[PlayerNum].WerbeBroschuere != -1) {
-                pn = Sim.Players.Players[PlayerNum].WerbeBroschuere;
-            }
-
             SLONG Anz = CUSTOMERS_PER_PERSON;
             if (c == 0) {
                 Anz = passtotal - passtotal / CUSTOMERS_PER_PERSON * CUSTOMERS_PER_PERSON;
@@ -1249,7 +1244,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
                     Zustand - 30 * static_cast<int>(PlayerNum == 3 && Sim.Players.Players[Sim.localPlayer].Owner == 1)) {
                 // Reparatur notwendig:
                 hprintf ("FC Zustand=%li", Zustand);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonRepairFC), 1U);
@@ -1257,7 +1252,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if (LocalRand.Rand(100) > Saldo) {
                 // schlechte Crew:
                 hprintf ("FC Saldo=%li", Saldo);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSickFC), 1U);
@@ -1265,7 +1260,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if ((TooExpensive != 0) && LocalRand.Rand(130) < TooExpensive) {
                 // zu teuer:
                 hprintf ("FC TooExpensive=%li", TooExpensive);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonExpensiveFC), 1U);
@@ -1273,7 +1268,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if (quali > 10) {
                 // sehr gut:
                 hprintf ("FC 3 star, quali=%li", quali);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson3StarsFC), 1U);
@@ -1281,7 +1276,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if (quali > 8) {
                 // recht gut:
                 hprintf ("FC 2 star, quali=%li", quali);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson2StarsFC), 1U);
@@ -1289,7 +1284,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else if (quali >= 4) {
                 // okay:
                 hprintf ("FC okay, quali=%li", quali);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSmileFC), 1U);
@@ -1297,7 +1292,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             } else {
                 // schlecht
                 hprintf ("schlecht, quali=%li", quali);
-                Sim.Players.Players[PlayerNum].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
+                Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSickFC), 1U);
