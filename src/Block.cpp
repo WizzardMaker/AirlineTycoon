@@ -1718,47 +1718,60 @@ SLONG BLOCK::PrintLine(XY ClientArea, SLONG rowID, SLONG textID) {
     }
     const char *str = StandardTexte.GetS(TOKEN_EXPERT, textID);
     Bitmap.PrintAt(str, FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
-    return strlen(str);
+
+    int count = 0;
+    for (int i = 0; str[i]; i++) {
+        if(str[i] == '\n') {
+            ++count;
+        }
+    }
+    return count;
+}
+void BLOCK::PrintLineHeading(XY ClientArea, SLONG rowID, SLONG textID) {
+    if (textID == -1) {
+        return;
+    }
+    const char *str = StandardTexte.GetS(TOKEN_EXPERT, textID);
+    Bitmap.PrintAt(str, FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
 }
 SLONG BLOCK::PrintLineWithValueT(XY ClientArea, SLONG rowID, SLONG textID, __int64 value) {
     SLONG ret = PrintLine(ClientArea, rowID, textID);
-    Bitmap.PrintAt(bitoa(AufTausenderRunden(value)), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
+    SLONG center = 5 * ret;
+    Bitmap.PrintAt(bitoa(AufTausenderRunden(value)), FontSmallBlack, TEC_FONT_RIGHT,
+            ClientArea + XY(2, rowID * 13 + center), ClientArea + XY(172, 170));
     return ret;
 }
 SLONG BLOCK::PrintLineWithValueMio(XY ClientArea, SLONG rowID, SLONG textID, __int64 value) {
     SLONG ret = PrintLine(ClientArea, rowID, textID);
-    Bitmap.PrintAt(CalcMillionen(value), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
+    SLONG center = 5 * ret;
+    Bitmap.PrintAt(CalcMillionen(value), FontSmallBlack, TEC_FONT_RIGHT,
+            ClientArea + XY(2, rowID * 13 + center), ClientArea + XY(172, 170));
     return ret;
 }
 SLONG BLOCK::PrintLineWithPercentage(XY ClientArea, SLONG rowID, SLONG textID, __int64 value, __int64 div) {
     SLONG ret = PrintLine(ClientArea, rowID, textID);
-    Bitmap.PrintAt(CalcPercentage(value, div), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
+    SLONG center = 5 * ret;
+    Bitmap.PrintAt(CalcPercentage(value, div), FontSmallBlack, TEC_FONT_RIGHT,
+            ClientArea + XY(2, rowID * 13 + center), ClientArea + XY(172, 170));
     return ret;
 }
 SLONG BLOCK::PrintList(XY ClientArea, const std::vector<std::pair<SLONG, __int64>> &list, SLONG idx) {
     SLONG summe = 0;
     for (auto &i : list) {
-        SLONG length = PrintLineWithValueT(ClientArea, idx++, i.first, i.second);
-        if (length > 30) {
-            ++idx;
-        }
+        idx += 1 + PrintLineWithValueT(ClientArea, idx, i.first, i.second);
         summe += i.second;
     }
     ++idx;
-    PrintLineWithValueT(ClientArea, idx++, 3604, summe);
+    idx += 1 + PrintLineWithValueT(ClientArea, idx, 3604, summe);
     return idx;
 }
 SLONG BLOCK::PrintList(XY ClientArea, const std::vector<std::tuple<SLONG, __int64, __int64>> &list, SLONG idx) {
     for (auto &i : list) {
-        SLONG length;
         auto div = std::get<2>(i);
         if (div == 0) {
-            length = PrintLineWithValueT(ClientArea, idx++, std::get<0>(i), std::get<1>(i));
+            idx += 1 + PrintLineWithValueT(ClientArea, idx, std::get<0>(i), std::get<1>(i));
         } else {
-            length = PrintLineWithPercentage(ClientArea, idx++, std::get<0>(i), std::get<1>(i), div);
-        }
-        if (length > 30) {
-            ++idx;
+            idx += 1 + PrintLineWithPercentage(ClientArea, idx, std::get<0>(i), std::get<1>(i), div);
         }
     }
     return idx;
@@ -1784,7 +1797,7 @@ void BLOCK::ZeigeFinanzBericht(XY ClientArea, const PLAYER &player, const CBilan
                                                 {3602, ref.GetSoll(), 0},
                                                 {3604, ref.GetSumme(), 0}};
         if (!info) {
-            PrintLine(ClientArea, 0, 10151);
+            PrintLineHeading(ClientArea, 0, 10151);
         }
         SLONG idx = 1;
         idx = PrintList(ClientArea, tmp, idx);
@@ -1803,11 +1816,11 @@ void BLOCK::ZeigeFinanzBericht(XY ClientArea, const PLAYER &player, const CBilan
                                                 {-1, ref.GetOpVerlust(), ref.GetSoll()},
                                                 {10102, ref.GetOpSaldo(), 0},
                                                 {-1, ref.GetOpSaldo(), ref.GetSumme()}};
-        PrintLine(ClientArea, idx++, 10150);
+        PrintLineHeading(ClientArea, idx++, 10150);
         idx = PrintList(ClientArea, tmp2, idx);
     } else if (page == 1) {
         if (!info) {
-            PrintLine(ClientArea, 0, 10152);
+            PrintLineHeading(ClientArea, 0, 10152);
         }
         SLONG idx = 1;
         PrintLineWithValueMio(ClientArea, idx++, 3300, player.Money);
@@ -1826,7 +1839,7 @@ void BLOCK::ZeigeFinanzBericht(XY ClientArea, const PLAYER &player, const CBilan
                                                 {3501, ref.SollZinsen, 0},
                                                 {3502, ref.SollRendite, 0},
                                                 {10006, ref.Steuer, 0}};
-        PrintLine(ClientArea, idx++, 10153);
+        PrintLineHeading(ClientArea, idx++, 10153);
         idx = PrintList(ClientArea, tmp, idx);
 
         ++idx;
@@ -1851,9 +1864,8 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
         return;
     }
 
-    // TODO: KerosinGespart
     if (!info) {
-        PrintLine(ClientArea, 0, 10050 + page);
+        PrintLineHeading(ClientArea, 0, 10050 + page);
     }
     if (page == 0) {
         std::vector< std::pair<SLONG, __int64> > tmp = {{3403, ref.Tickets},
@@ -2036,7 +2048,7 @@ void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG page) {
     const auto &ref = Sim.Players.Players[PlayerNum];
     auto quali = SLONG(std::floor(ref.KerosinQuali * 3.0));
 
-    PrintLine(ClientArea, 0, 10350);
+    PrintLineHeading(ClientArea, 0, 10350);
 
     SLONG idx = 1;
     if (page == 0) {

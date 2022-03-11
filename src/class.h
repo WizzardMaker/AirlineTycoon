@@ -1184,6 +1184,7 @@ class /**/ BLOCK {
 
   private:
     SLONG PrintLine(XY ClientArea, SLONG rowID, SLONG textID);
+    void PrintLineHeading(XY ClientArea, SLONG rowID, SLONG textID);
     SLONG PrintLineWithValueT(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
     SLONG PrintLineWithValueMio(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
     SLONG PrintLineWithPercentage(XY ClientArea, SLONG rowID, SLONG textID, __int64 value, __int64 div);
