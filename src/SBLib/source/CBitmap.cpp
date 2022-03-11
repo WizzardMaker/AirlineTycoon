@@ -109,6 +109,7 @@ ULONG SB_CBitmapCore::Line(SLONG x1, SLONG y1, SLONG x2, SLONG y2, SB_Hardwareco
         SDL_GetColorKey(lpDDSurface, &key);
         SDL_SetRenderDrawColor(lpDD, (color & 0xFF0000) >> 16, (color & 0xFF00) >> 8, color & 0xFF, color == key ? SDL_ALPHA_TRANSPARENT : SDL_ALPHA_OPAQUE);
         SDL_RenderDrawLine(lpDD, x1, y1, x2, y2);
+        return 0;
     }
 
     // Bresenham's Line Algorithm
@@ -250,7 +251,15 @@ ULONG SB_CBitmapCore::SetPixel(SLONG x, SLONG y, SB_Hardwarecolor hwcolor) {
     }
     Uint8 bpp = lpDDSurface->format->BytesPerPixel;
     Uint8 *p = static_cast<Uint8 *>(lpDDSurface->pixels) + y * lpDDSurface->pitch + x * bpp;
-    *reinterpret_cast<Uint32 *>(p) = (dword)hwcolor;
+
+    if (lpDDSurface->format->format == SDL_PIXELFORMAT_INDEX8) {
+        *(uint8_t *)(p) = (uint8_t)hwcolor;
+    } else if (lpDDSurface->format->format == SDL_PIXELFORMAT_RGBA8888) {
+        *(uint32_t *)(p) = (uint32_t)hwcolor;
+    } else if (lpDDSurface->format->format == SDL_PIXELFORMAT_RGB565) {
+        *(uint16_t *)(p) = (uint16_t)hwcolor;
+    }
+
     if (SDL_MUSTLOCK(lpDDSurface)) {
         SDL_UnlockSurface(lpDDSurface);
     }
