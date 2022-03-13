@@ -903,7 +903,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
         }
 
         // Piloten und Flugbegleiter einstellen (nur bei Menschen):
-        if (qPlayer.Owner != 1) {
+        if (qPlayer.Owner != 1 || !RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
             SLONG Anzahl = 0;
             TEAKRAND LocalRand(StartTime + c);
 
@@ -1559,7 +1559,8 @@ void SIM::DoTimeStep() {
                     } else if (qPlayer.StrikeHours != 0) {
                         qPlayer.StrikeHours--;
 
-                        if (qPlayer.StrikeHours == 0 && qPlayer.Owner == 0) {
+                        if (qPlayer.StrikeHours == 0 && (qPlayer.Owner == 0 ||
+                                    (qPlayer.Owner == 1 && !RobotUse(ROBOT_USE_FAKE_PERSONAL)))) {
                             qPlayer.StrikeNotified = FALSE; // Dem Spieler bei nächster Gelegenheit bescheid sagen
                             qPlayer.StrikeEndType = 3;      // Streik beendet durch abwarten
 
@@ -2095,24 +2096,25 @@ void SIM::DoTimeStep() {
 
                     for (e = qPlane.Flugplan.Flug.AnzEntries() - 1; e >= 0; e--) {
                         // Müssen wir den Flug evtl. verschieben?
-                        if (Players.Players[c].Owner != 1 && qPlane.Flugplan.Flug[e].ObjectType != 0 &&
-                            (qPlane.Flugplan.Flug[e].Startdate * 24 + qPlane.Flugplan.Flug[e].Startzeit - 1 == Date * 24 + GetHour())) {
+                        if ((Players.Players[c].Owner != 1 || !RobotUse(ROBOT_USE_FAKE_PERSONAL))
+                                && qPlane.Flugplan.Flug[e].ObjectType != 0 &&
+                                (qPlane.Flugplan.Flug[e].Startdate * 24 + qPlane.Flugplan.Flug[e].Startzeit - 1 == Date * 24 + GetHour())) {
                             BOOL Delay = FALSE;
 
                             if (qPlane.PseudoProblem != 0) {
                                 Delay = TRUE;
                                 if (Players.Players[c].Owner == 0) {
                                     Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                           bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2358), (LPCTSTR)qPlane.Name,
-                                                                                   (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
+                                            bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2358), (LPCTSTR)qPlane.Name,
+                                                (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                 }
                             }
                             if (Players.Players[c].StrikeHours != 0) {
                                 Delay = TRUE;
                                 if (Players.Players[c].Owner == 0) {
                                     Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                           bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2356), (LPCTSTR)qPlane.Name,
-                                                                                   (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
+                                            bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2356), (LPCTSTR)qPlane.Name,
+                                                (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                 }
                             }
                             // else if (qPlane.AnzPiloten<PlaneTypes[qPlane.TypeId].AnzPiloten || qPlane.AnzBegleiter<PlaneTypes[qPlane.TypeId].AnzBegleiter)
@@ -2120,14 +2122,14 @@ void SIM::DoTimeStep() {
                                 Delay = TRUE;
                                 if (Players.Players[c].Owner == 0) {
                                     Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                           bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2350), (LPCTSTR)qPlane.Name,
-                                                                                   (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
+                                            bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2350), (LPCTSTR)qPlane.Name,
+                                                (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                 }
                             } else if (qPlane.Zustand < 15) {
                                 Delay = TRUE;
                                 if (Players.Players[c].Owner == 0) {
                                     Players.Players[c].Messages.AddMessage(BERATERTYP_GIRL,
-                                                                           bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2351), (LPCTSTR)qPlane.Name,
+                                            bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2351), (LPCTSTR)qPlane.Name,
                                                                                    (LPCTSTR)Cities[qPlane.Flugplan.Flug[e].VonCity].Name));
                                 }
                             } else if (qPlane.Flugplan.Flug[e].ObjectType == 2 && qPlane.Flugplan.Flug[e].Okay == 1) {

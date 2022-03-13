@@ -929,6 +929,12 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define ROBOT_USE_TANKS 51            // Spieler verwendet die Tanks um günstig Kerosin zu horten
 #define ROBOT_USE_DESIGNER 52         // Spieler verwendet Flugzeugeditor
 #define ROBOT_USE_DESIGNER_BUY 53     // Spieler verwendet Flugzeugeditor und kauft nur dort Flugzeuge
+#define ROBOT_USE_BONUS 54            // Spieler bekomment Bonus-Einkommen für Aufträge
+#define ROBOT_USE_ROUTE_BONUS 55      // Routen haben 25% mehr Passagiere
+#define ROBOT_USE_FAKE_PERSONAL 56    // Spieler emuliert nur Personal
+#define ROBOT_USE_NO_FINE 57          // Spieler erhält keine Strafen
+#define ROBOT_USE_NO_CHECK_FLIGHT 58  // Aufträge des Spielers werden nicht geprüft (korrekter Tag / genügend Sitzplätze)
+#define ROBOT_USE_NO_CHECK_FFLIGHT 59 // Frachtaufträge des Spielers werden nicht geprüft (korrekter Tag / Tonnen offen)
 
 // Die Netzwerk-Medien
 #define NET_MEDIUM_UNKNOWN 0

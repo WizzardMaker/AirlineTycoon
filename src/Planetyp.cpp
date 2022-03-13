@@ -1141,11 +1141,6 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
 
     Saldo = PersonalQuality;
 
-    if (PlayerNum == 3 && Sim.Players.Players[Sim.localPlayer].Owner == 1) {
-        QualitySum -= 3;
-        Saldo /= 2;
-    }
-
     long pn = PlayerNum;
     if (Sim.Players.Players[PlayerNum].WerbeBroschuere != -1) {
         pn = Sim.Players.Players[PlayerNum].WerbeBroschuere;
@@ -1165,8 +1160,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
                 quali += (LocalRand.Rand(3) - 1);
             }
 
-            if (LocalRand.Rand(70) >
-                    Zustand - 30 * static_cast<int>(PlayerNum == 3 && Sim.Players.Players[Sim.localPlayer].Owner == 1)) {
+            if (LocalRand.Rand(70) > Zustand) {
                 // Reparatur notwendig:
                 hprintf ("Zustand=%li", Zustand);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
@@ -1240,8 +1234,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
                 quali += (LocalRand.Rand(3) - 1);
             }
 
-            if (LocalRand.Rand(90) >
-                    Zustand - 30 * static_cast<int>(PlayerNum == 3 && Sim.Players.Players[Sim.localPlayer].Owner == 1)) {
+            if (LocalRand.Rand(90) > Zustand) {
                 // Reparatur notwendig:
                 hprintf ("FC Zustand=%li", Zustand);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);

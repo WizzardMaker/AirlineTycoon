@@ -272,7 +272,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                     }
 
                     // 25% Bonus für den Computer
-                    if (qPlayer.Owner == 1) {
+                    if (qPlayer.Owner == 1 && RobotUse(ROBOT_USE_ROUTE_BONUS)) {
                         Gewichte[c] += Gewichte[c] / 4;
                     }
                 } else {
@@ -448,7 +448,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                     }
 
                     // 25% Bonus für den Computer
-                    if (qPlayer.Owner == 1) {
+                    if (qPlayer.Owner == 1 && RobotUse(ROBOT_USE_ROUTE_BONUS)) {
                         Gewichte[c] += Gewichte[c] / 4;
                     }
                 } else {
@@ -704,8 +704,9 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     Saldo = Einnahmen - AusgabenKerosin - AusgabenEssen;
 
     // Versteckter Bonus für Computerspieler:
-    Saldo += min64(qPlayer.Bonus, abs64(Saldo) / 10);
-    qPlayer.Bonus -= min64(qPlayer.Bonus, abs64(Saldo) / 10);
+    __int64 delta = min64(qPlayer.Bonus, abs64(Saldo) / 10);
+    Saldo += delta;
+    qPlayer.Bonus -= delta;
     Einnahmen = Saldo + AusgabenKerosin + AusgabenEssen;
 
     CityString = Cities[VonCity].Kuerzel + "-" + Cities[NachCity].Kuerzel;
@@ -820,7 +821,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
         PLAYER &qPlayerX = Sim.Players.Players[pn];
 
-        if (qPlayer.Owner != 1) {
+        if (qPlayer.Owner != 1 || !RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
             // ObjectId wirkt als deterministisches Random
             // log: hprintf ("Player[%li].Image now (deter) = %li", PlayerNum, qPlayer.Image);
             if (Plane->PersonalQuality < 50 && (ObjectId) % 10 == 0) {
@@ -880,7 +881,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
         // Wieviel Personal haben wir an Bord?
 
-        if (qPlayer.Owner != 1) { // Nur für reale Spieler:
+        if (qPlayer.Owner != 1 || !RobotUse(ROBOT_USE_FAKE_PERSONAL)) { // Nur für reale Spieler:
             Add += (3 * Plane->AnzBegleiter / Plane->ptAnzBegleiter);
         }
         // Add+=(3*Plane->AnzBegleiter/PlaneTypes[Plane->TypeId].AnzBegleiter);
@@ -890,11 +891,6 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
         if (ObjectType == 1) {
             SLONG Costs1 = Ticketpreis;
             SLONG Costs2 = CalculateFlightCost(VonCity, NachCity, 800, 800, -1) * 3 / 180 * 2 * 3;
-
-            // Computerspieler erhalten Ihre 10% Kerosinrabatt hier, statt im Araber-Menü
-            if (qPlayer.Owner == 1) {
-                Costs2 = Costs2 * 9 / 10;
-            }
 
             if (Costs1 < Costs2 / 2) {
                 Add += 10;

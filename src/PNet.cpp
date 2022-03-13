@@ -409,7 +409,7 @@ void PLAYER::NetUpdateWorkers() {
 
     SIM::SendMemFile(Message);
 
-    if (Owner == 0) {
+    if ((Sim.bIsHost != 0 && Owner == 1 && !RobotUse(ROBOT_USE_FAKE_PERSONAL)) || Owner == 0) {
         SLONG c = 0;
         SLONG d = 0;
 

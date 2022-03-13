@@ -878,7 +878,7 @@ void PLAYER::BookSalary() {
     SLONG c = 0;
     SLONG Money = 0;
 
-    if (Owner == 0) {
+    if (Owner == 0 || (Owner == 1 && !RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
         for (c = 0; c < Workers.Workers.AnzEntries(); c++) {
             if (Workers.Workers[c].Employer == PlayerNum) {
                 // Gehaltssumme berechnen:
@@ -972,7 +972,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
             }
         }
 
-        if (Owner == 1) {
+        if (Owner == 1 && RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
             // Computerspieler simuliert Personal:
             for (SLONG c = Planes.AnzEntries() - 1; c >= 0; c--) {
                 if (Planes.IsInAlbum(c) != 0) {
@@ -1349,31 +1349,35 @@ void PLAYER::NewDay() {
         Limit(SLONG(-1000), Image, SLONG(1000));
     }
 
-    if (Owner == 1 && Bonus == 0) {
-        SLONG neg = 1; // Vorzeichen verdrehen, weil: wenig ist gut
-        if (Sim.Difficulty == DIFF_ADDON01) {
-            neg = -1;
-        }
+    if (Owner == 1 && RobotUse(ROBOT_USE_BONUS)) {
+        if(Bonus == 0) {
+            SLONG neg = 1; // Vorzeichen verdrehen, weil: wenig ist gut
+            if (Sim.Difficulty == DIFF_ADDON01) {
+                neg = -1;
+            }
 
-        if (Sim.Players.Players[Sim.localPlayer].GetMissionRating() * neg > GetMissionRating() * neg) {
-            Bonus += 100000;
-        }
-        if (Sim.Players.Players[Sim.localPlayer].GetMissionRating() * neg * 2 / 3 > GetMissionRating() * neg) {
-            Bonus += 100000;
-        }
-        if (Sim.Players.Players[Sim.localPlayer].GetMissionRating() * neg / 2 > GetMissionRating() * neg) {
-            Bonus += 100000;
-        }
+            if (Sim.Players.Players[Sim.localPlayer].GetMissionRating() * neg > GetMissionRating() * neg) {
+                Bonus += 100000;
+            }
+            if (Sim.Players.Players[Sim.localPlayer].GetMissionRating() * neg * 2 / 3 > GetMissionRating() * neg) {
+                Bonus += 100000;
+            }
+            if (Sim.Players.Players[Sim.localPlayer].GetMissionRating() * neg / 2 > GetMissionRating() * neg) {
+                Bonus += 100000;
+            }
 
-        if (RobotUse(ROBOT_USE_BONUS_X2)) {
-            Bonus *= 2;
+            if (RobotUse(ROBOT_USE_BONUS_X2)) {
+                Bonus *= 2;
+            }
+            if (RobotUse(ROBOT_USE_BONUS_X4)) {
+                Bonus *= 4;
+            }
+            if (RobotUse(ROBOT_USE_BONUS_X8)) {
+                Bonus *= 8;
+            }
         }
-        if (RobotUse(ROBOT_USE_BONUS_X4)) {
-            Bonus *= 4;
-        }
-        if (RobotUse(ROBOT_USE_BONUS_X8)) {
-            Bonus *= 8;
-        }
+    } else {
+        Bonus = 0;
     }
 
     // Laptop wird über Nacht repariert:
@@ -1854,7 +1858,7 @@ void PLAYER::UpdateAuftraege() {
     for (c = 0; c < Auftraege.AnzEntries(); c++) {
         if (Auftraege.IsInAlbum(c) != 0) {
             if (Auftraege[c].BisDate == Sim.Date - 1) {
-                if (Auftraege[c].InPlan != -1 && (Owner == 0 || Owner == 2)) { // ex: nur Owner==0
+                if (Auftraege[c].InPlan != -1 && (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_FINE))) { // ex: nur Owner==0
                     if (!(Auftraege[c].InPlan == 1 && Auftraege[c].Okay == 1)) {
                         if (Auftraege[c].Strafe > 0) {
                             ChangeMoney(-Auftraege[c].Strafe, 2060,
@@ -1922,7 +1926,7 @@ void PLAYER::UpdateAuftraege() {
     for (c = 0; c < Frachten.AnzEntries(); c++) {
         if (Frachten.IsInAlbum(c) != 0) {
             if (Frachten[c].BisDate == Sim.Date - 1) {
-                if (Frachten[c].InPlan != -1 && (Owner == 0 || Owner == 2)) { // ex: nur Owner==0
+                if (Frachten[c].InPlan != -1 && (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_FINE))) { // ex: nur Owner==0
                     if (!(Frachten[c].InPlan == 1 && Frachten[c].Okay == 1)) {
                         if (Frachten[c].Strafe > 0) {
                             ChangeMoney(-Frachten[c].Strafe, 2065,
@@ -2221,7 +2225,7 @@ void PLAYER::UpdateAuftragsUsage() {
 
             for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
                 // Nur bei Aufträgen von menschlichen Spielern
-                if (Plan->Flug[d].ObjectType == 2 && (Owner == 0 || Owner == 2)) // ex: Nur Owner==0
+                if (Plan->Flug[d].ObjectType == 2 && (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_CHECK_FLIGHT))) // ex: Nur Owner==0
                 {
                     // if ((PlaneTypes[Planes[c].TypeId].Passagiere>=SLONG(Auftraege[Plan->Flug[d].ObjectId].Personen) &&
                     // Plan->Flug[d].Startdate<=Auftraege[Plan->Flug[d].ObjectId].BisDate) ||
@@ -2263,7 +2267,7 @@ void PLAYER::UpdateFrachtauftragsUsage() {
     SLONG d = 0;
 
     // Nur bei Aufträgen von menschlichen Spielern
-    if (Owner == 1) {
+    if (Owner == 1 && RobotUse(ROBOT_USE_NO_CHECK_FFLIGHT)) {
         return;
     }
 
@@ -6830,7 +6834,7 @@ void PLAYER::UpdateStatistics() {
     // STAT_SABOTIERT: in Sim::NewDay()
 
     // STAT_MITARBEITER:
-    if (Owner == 0) {
+    if (Owner == 0 || (Owner == 1 && !RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
         for (c = d = 0; c < Workers.Workers.AnzEntries(); c++) {
             if (Workers.Workers[c].Employer == PlayerNum) {
                 d++;
@@ -6851,7 +6855,7 @@ void PLAYER::UpdateStatistics() {
     // Owner==2 über Network
 
     // STAT_ZUFR_PERSONAL:
-    if (Owner == 0) {
+    if (Owner == 0 || (Owner == 1 && !RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
         SLONG Anz = 0;
 
         for (c = d = 0; c < Workers.Workers.AnzEntries(); c++) {
@@ -6976,7 +6980,7 @@ void PLAYER::UpdateStatistics() {
         }
         Statistiken[STAT_GEHALT].SetAtPastDay(0, -d);
         */
-    } else if (Owner == 1) {
+    } else if (Owner == 1 && RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
         e = 0;
         SLONG NumIgnore = PlayerNum * 2;
 
@@ -8212,6 +8216,42 @@ bool RobotUse(SLONG FeatureId) {
                        "."
                        "----------"
                        "----X--X--";
+        break;
+    case ROBOT_USE_BONUS:
+        pFeatureDesc = "XXXXXX"
+                       "X"
+                       "XXXXXXXXXX"
+                       "XXXXXXXXXX";
+        break;
+    case ROBOT_USE_ROUTE_BONUS:
+        pFeatureDesc = "XXXXXX"
+                       "X"
+                       "XXXXXXXXXX"
+                       "XXXXXXXXXX";
+        break;
+    case ROBOT_USE_FAKE_PERSONAL:
+        pFeatureDesc = "XXXXXX"
+                       "X"
+                       "XXXXXXXXXX"
+                       "XXXXXXXXXX";
+        break;
+    case ROBOT_USE_NO_FINE:
+        pFeatureDesc = "XXXXXX"
+                       "X"
+                       "XXXXXXXXXX"
+                       "XXXXXXXXXX";
+        break;
+    case ROBOT_USE_NO_CHECK_FLIGHT:
+        pFeatureDesc = "XXXXXX"
+                       "X"
+                       "XXXXXXXXXX"
+                       "XXXXXXXXXX";
+        break;
+    case ROBOT_USE_NO_CHECK_FFLIGHT:
+        pFeatureDesc = "XXXXXX"
+                       "X"
+                       "XXXXXXXXXX"
+                       "XXXXXXXXXX";
         break;
 
     default:

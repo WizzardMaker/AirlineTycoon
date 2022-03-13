@@ -453,14 +453,17 @@ void CWorkers::NewDay() {
         Workers[c].WarnedToday = FALSE;
         if (Workers[c].Employer >= 0 && Workers[c].Employer <= 3) {
             SLONG Anz = 0;
+            auto& qPlayer = Sim.Players.Players[Workers[c].Employer];
 
-            if (Sim.Players.Players[Workers[c].Employer].Owner == 0 && Sim.Players.Players[Workers[c].Employer].Image < 500) {
-                Anz = 1;
+            if (qPlayer.Owner == 0 || (qPlayer.Owner == 1 && !RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
+                if (qPlayer.Image < 500) {
+                    Anz = 1;
+                }
             }
-            if ((Anz != 0) && Sim.Players.Players[Workers[c].Employer].Image < 0) {
+            if ((Anz != 0) && qPlayer.Image < 0) {
                 Anz++;
             }
-            if ((Anz != 0) && Sim.Players.Players[Workers[c].Employer].Image < -500) {
+            if ((Anz != 0) && qPlayer.Image < -500) {
                 Anz++;
             }
 
@@ -474,8 +477,8 @@ void CWorkers::NewDay() {
 
                 if (Workers[c].Happyness < -100) {
                     // Ihm reicht's! Er kündigt:
-                    if (Sim.Players.Players[Workers[c].Employer].Owner == 0) {
-                        Sim.Players.Players[Workers[c].Employer].Messages.AddMessage(
+                    if (qPlayer.Owner == 0) {
+                        qPlayer.Messages.AddMessage(
                             BERATERTYP_GIRL,
                             bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2000 + Workers[c].Typ + Workers[c].Geschlecht * 100), Workers[c].Name.c_str()));
                     }
