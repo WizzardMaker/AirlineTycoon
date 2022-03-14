@@ -1405,6 +1405,7 @@ class /**/ PERSON {
 
     TEAKRAND PersonalRand;     // Der private Zufallsgenerator, wenn es darum geht ein neues Ziel zu bestimmen
     TEAKRAND PersonalRandWalk; // Der private Zufallsgenerator für Laufangelegenheiten
+    SLONG SortIndex{};
 
   public:
     XY Target;    // Hier will die Person hin
@@ -1423,18 +1424,28 @@ class /**/ PERSON {
     const CFlugplanEintrag *GetFlugplanEintrag(void) const;
 
     BOOL operator>(const PERSON &p) const {
-        SLONG y = ScreenPos.y + FloorOffset, py = p.ScreenPos.y + p.FloorOffset;
-        if ((y < 170) == (py < 170))
+        SLONG y = ScreenPos.y + FloorOffset;
+        SLONG py = p.ScreenPos.y + p.FloorOffset;
+        if (y == py) {
+            return (SortIndex < p.SortIndex);
+        }
+        if ((y < 170) == (py < 170)) {
             return (y > py);
-        else
+        } else {
             return (y < py);
+        }
     }
     BOOL operator<(const PERSON &p) const {
-        SLONG y = ScreenPos.y + FloorOffset, py = p.ScreenPos.y + p.FloorOffset;
-        if ((y < 170) == (py < 170))
+        SLONG y = ScreenPos.y + FloorOffset;
+        SLONG py = p.ScreenPos.y + p.FloorOffset;
+        if (y == py) {
+            return (SortIndex < p.SortIndex);
+        }
+        if ((y < 170) == (py < 170)) {
             return (y < py);
-        else
+        } else {
             return (y > py);
+        }
     }
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const PERSON &Person);
