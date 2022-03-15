@@ -629,7 +629,7 @@ void AirportView::OnPaint() {
         DoorOpenTab[6] = 256;
     }
 
-    if (RobotUse(ROBOT_USE_TRAVELHOLDING)) {
+    if (GlobalUse(USE_TRAVELHOLDING)) {
         // LastMinute
         if (SLONG(Sim.Time) > timeLastClose + 2000 || Sim.Weekday == 5) {
             DoorOpenTab[2] = 0;

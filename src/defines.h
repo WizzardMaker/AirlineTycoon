@@ -875,6 +875,8 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define HINT_RICK 20
 #define HINT_FRACHT 21
 
+#define USE_TRAVELHOLDING 0    // Gibt es die Holdinggesellschaft für die Reisebüros
+
 // Die Fahigkeiten des Computerspielers: Hiermit kann man abfragen, ob sie aktiviert sind:
 #define ROBOT_USE_SABOTAGE 1          // Sabotage betreiben
 #define ROBOT_USE_FRACHT 2            // Frachtaufträge annehmen
@@ -903,7 +905,6 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define ROBOT_USE_FREE_FRACHT 25      // Frachtaufträge ohne Gewinn sind sehr attraktiv
 #define ROBOT_USE_RUN_FRACHT 26       // Spieler rennt morgens zu Fracht-Aufträgen
 #define ROBOT_USE_LUXERY 27           // Robots setzen auf Luxus
-#define ROBOT_USE_TRAVELHOLDING 28    // Gibt es die Holdinggesellschaft für die Reisebüros
 #define ROBOT_USE_IMAGEBONUS 29       // Robots erhälten täglich einen Imagebonus
 #define ROBOT_USE_GOODPLANES 30       // Robots reparieren immer alles und sofort
 #define ROBOT_USE_REPAIRPLANES 31     // Flugzeug ist kaputt und muß vorsichtig repariert werden

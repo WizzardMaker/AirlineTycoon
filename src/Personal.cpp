@@ -455,7 +455,7 @@ void CWorkers::NewDay() {
             SLONG Anz = 0;
             auto& qPlayer = Sim.Players.Players[Workers[c].Employer];
 
-            if (qPlayer.Owner == 0 || (qPlayer.Owner == 1 && !RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
+            if (qPlayer.Owner == 0 || (qPlayer.Owner == 1 && !qPlayer.RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
                 if (qPlayer.Image < 500) {
                     Anz = 1;
                 }

@@ -2192,6 +2192,7 @@ class PLAYER {
     void WalkToPlate(XY Plate);
     void WalkStop(void);
     void WalkStopEx(void);
+    bool RobotUse(SLONG FeatureId);
 
   public: // Network-Sachen:
     static SLONG NetSynchronizeGetNum(void);

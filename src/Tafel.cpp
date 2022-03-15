@@ -394,7 +394,7 @@ void CTafelData::Randomize(SLONG Day) {
 
     TEAKRAND localRand(Sim.Date + Sim.StartTime);
 
-    if (RobotUse(ROBOT_USE_TRAVELHOLDING)) {
+    if (GlobalUse(USE_TRAVELHOLDING)) {
         // Dann die Orte:
         for (c = 0; c < min(Day, 10); c++) {
             if ((localRand.Rand(100)) < 30 && NumCities < 3) {

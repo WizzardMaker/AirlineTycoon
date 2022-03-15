@@ -272,7 +272,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                     }
 
                     // 25% Bonus für den Computer
-                    if (qPlayer.Owner == 1 && RobotUse(ROBOT_USE_ROUTE_BONUS)) {
+                    if (qPlayer.Owner == 1 && qPlayer.RobotUse(ROBOT_USE_ROUTE_BONUS)) {
                         Gewichte[c] += Gewichte[c] / 4;
                     }
                 } else {
@@ -448,7 +448,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                     }
 
                     // 25% Bonus für den Computer
-                    if (qPlayer.Owner == 1 && RobotUse(ROBOT_USE_ROUTE_BONUS)) {
+                    if (qPlayer.Owner == 1 && qPlayer.RobotUse(ROBOT_USE_ROUTE_BONUS)) {
                         Gewichte[c] += Gewichte[c] / 4;
                     }
                 } else {
@@ -821,7 +821,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
         PLAYER &qPlayerX = Sim.Players.Players[pn];
 
-        if (qPlayer.Owner != 1 || !RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
+        if (qPlayer.Owner != 1 || !qPlayer.RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
             // ObjectId wirkt als deterministisches Random
             // log: hprintf ("Player[%li].Image now (deter) = %li", PlayerNum, qPlayer.Image);
             if (Plane->PersonalQuality < 50 && (ObjectId) % 10 == 0) {
@@ -881,7 +881,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
         // Wieviel Personal haben wir an Bord?
 
-        if (qPlayer.Owner != 1 || !RobotUse(ROBOT_USE_FAKE_PERSONAL)) { // Nur für reale Spieler:
+        if (qPlayer.Owner != 1 || !qPlayer.RobotUse(ROBOT_USE_FAKE_PERSONAL)) { // Nur für reale Spieler:
             Add += (3 * Plane->AnzBegleiter / Plane->ptAnzBegleiter);
         }
         // Add+=(3*Plane->AnzBegleiter/PlaneTypes[Plane->TypeId].AnzBegleiter);

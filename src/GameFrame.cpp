@@ -1288,7 +1288,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                                     if (qPlayer.IsWalking2Player == -1) {
                                         switch (nTargetRoom) {
                                         case ROOM_REISEBUERO: // AirTravel
-                                            if (RobotUse(ROBOT_USE_TRAVELHOLDING)) {
+                                            if (GlobalUse(USE_TRAVELHOLDING)) {
                                                 Sim.InvalidateHint(HINT_AIRTRAVEL);
                                                 if (qPlayer.IsLocationInQueue(ROOM_REISEBUERO) == 0) {
                                                     qPlayer.WalkToRoom(ROOM_REISEBUERO);
@@ -1376,7 +1376,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                                             break;
 
                                         case ROOM_LAST_MINUTE: // LastMinute
-                                            if (RobotUse(ROBOT_USE_TRAVELHOLDING)) {
+                                            if (GlobalUse(USE_TRAVELHOLDING)) {
                                                 Sim.InvalidateHint(HINT_LASTMINUTE);
                                                 if (qPlayer.IsLocationInQueue(ROOM_LAST_MINUTE) == 0) {
                                                     qPlayer.WalkToRoom(ROOM_LAST_MINUTE);

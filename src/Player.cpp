@@ -3250,7 +3250,7 @@ void PLAYER::RobotInit() {
     RobotActions[2].ActionId = ACTION_PERSONAL;
 
     if (DoRoutes == 0) {
-        if (RobotUse(ROBOT_USE_TRAVELHOLDING)) {
+        if (GlobalUse(USE_TRAVELHOLDING)) {
             if (((PlayerNum + Sim.Date) & 1) != 0) {
                 RobotActions[3].ActionId = ACTION_CHECKAGENT1;
                 RobotActions[4].ActionId = ACTION_CHECKAGENT2;
@@ -3375,7 +3375,7 @@ void PLAYER::RobotPlan() {
                 (HasFlownRoutes != 0) && (Sim.Time & 15) != 0) {
                 goto again;
             }
-            if ((RobotActions[1].ActionId == ACTION_CHECKAGENT1 || RobotActions[1].ActionId == ACTION_CHECKAGENT2) && !RobotUse(ROBOT_USE_TRAVELHOLDING)) {
+            if ((RobotActions[1].ActionId == ACTION_CHECKAGENT1 || RobotActions[1].ActionId == ACTION_CHECKAGENT2) && !GlobalUse(USE_TRAVELHOLDING)) {
                 goto again;
             }
 
@@ -3411,7 +3411,7 @@ void PLAYER::RobotPlan() {
             if (RobotActions[1].ActionId == ACTION_VISITNASA && !RobotUse(ROBOT_USE_NASA)) {
                 goto again2;
             }
-            if ((RobotActions[1].ActionId == ACTION_CHECKAGENT1 || RobotActions[1].ActionId == ACTION_CHECKAGENT2) && !RobotUse(ROBOT_USE_TRAVELHOLDING)) {
+            if ((RobotActions[1].ActionId == ACTION_CHECKAGENT1 || RobotActions[1].ActionId == ACTION_CHECKAGENT2) && !GlobalUse(USE_TRAVELHOLDING)) {
                 goto again2;
             }
 
@@ -4549,7 +4549,7 @@ void PLAYER::RobotExecuteAction() {
 
     case ACTION_VISITMAKLER:
         if (Planes.GetNumUsed() > 0) {
-            if (!RobotUse(ROBOT_USE_TRAVELHOLDING) && LocalRandom.Rand(8) == 0) {
+            if (!GlobalUse(USE_TRAVELHOLDING) && LocalRandom.Rand(8) == 0) {
                 CPlane &qPlane = Planes[Planes.GetRandomUsedIndex(&LocalRandom)];
 
                 switch (LocalRandom.Rand(7)) {
@@ -7872,7 +7872,17 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYERS &Players) {
 //--------------------------------------------------------------------------------------------
 // Unterstützen die Roboter im aktuellen die Level ein bestimmtes Feature?:
 //--------------------------------------------------------------------------------------------
-bool RobotUse(SLONG FeatureId) {
+bool GlobalUse(SLONG FeatureId) {
+    switch (FeatureId) {
+    case USE_TRAVELHOLDING:
+        return (Sim.Difficulty != DIFF_ADDON06);
+    default:
+        TeakLibW_Exception(FNL, ExcNever);
+    }
+    return false;
+}
+
+bool PLAYER::RobotUse(SLONG FeatureId) {
     SLONG Level = 0;
 
     // Die verschiedenen Levelstrukturen in eine Reihe bringen:
@@ -8060,12 +8070,6 @@ bool RobotUse(SLONG FeatureId) {
                        "."
                        "----X-----"
                        "-X--------";
-        break;
-    case ROBOT_USE_TRAVELHOLDING:
-        pFeatureDesc = "XXXXXX"
-                       "X"
-                       "XXXXX-XXXX"
-                       "XXXXXXXXXX";
         break;
     case ROBOT_USE_IMAGEBONUS:
         pFeatureDesc = "------"

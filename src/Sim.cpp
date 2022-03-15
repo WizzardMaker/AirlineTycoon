@@ -794,7 +794,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
         qPlayer.Auftraege.ClearAlbum();
         qPlayer.Frachten.ClearAlbum();
 
-        if (RobotUse(ROBOT_USE_TRAVELHOLDING) && Difficulty != DIFF_ADDON09) {
+        if (GlobalUse(USE_TRAVELHOLDING) && Difficulty != DIFF_ADDON09) {
             if (bNetwork == 0) {
                 qPlayer.Auftraege.Random.SRand(timeGetTime());
             }
@@ -903,7 +903,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
         }
 
         // Piloten und Flugbegleiter einstellen (nur bei Menschen):
-        if (qPlayer.Owner != 1 || !RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
+        if (qPlayer.Owner != 1 || !qPlayer.RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
             SLONG Anzahl = 0;
             TEAKRAND LocalRand(StartTime + c);
 
@@ -1008,7 +1008,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
 
                                 // hprintf ("Player %li rents %s-%s", c, (LPCTSTR)Cities[Routen[d].VonCity].Name, (LPCTSTR)Cities[Routen[d].NachCity].Name);
 
-                                if (RobotUse(ROBOT_USE_TRAVELHOLDING)) {
+                                if (GlobalUse(USE_TRAVELHOLDING)) {
                                     CRentCity *pRentCity = nullptr;
 
                                     if (Routen[d].VonCity != ULONG(HomeAirportId)) {
@@ -1075,7 +1075,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
             NearCities[c] = DistD;
         }
 
-        if (RobotUse(ROBOT_USE_TRAVELHOLDING)) {
+        if (GlobalUse(USE_TRAVELHOLDING)) {
             for (c = 0; c < 4; c++) {
                 for (d = 0; d < 4; d++) {
                     if (Players.Players[c].RentCities.RentCities[NearCities[(c + d) % 4]].Rang == 0) {
@@ -1560,7 +1560,7 @@ void SIM::DoTimeStep() {
                         qPlayer.StrikeHours--;
 
                         if (qPlayer.StrikeHours == 0 && (qPlayer.Owner == 0 ||
-                                    (qPlayer.Owner == 1 && !RobotUse(ROBOT_USE_FAKE_PERSONAL)))) {
+                                    (qPlayer.Owner == 1 && !qPlayer.RobotUse(ROBOT_USE_FAKE_PERSONAL)))) {
                             qPlayer.StrikeNotified = FALSE; // Dem Spieler bei nächster Gelegenheit bescheid sagen
                             qPlayer.StrikeEndType = 3;      // Streik beendet durch abwarten
 
@@ -2096,7 +2096,7 @@ void SIM::DoTimeStep() {
 
                     for (e = qPlane.Flugplan.Flug.AnzEntries() - 1; e >= 0; e--) {
                         // Müssen wir den Flug evtl. verschieben?
-                        if ((Players.Players[c].Owner != 1 || !RobotUse(ROBOT_USE_FAKE_PERSONAL))
+                        if ((Players.Players[c].Owner != 1 || !Players.Players[c].RobotUse(ROBOT_USE_FAKE_PERSONAL))
                                 && qPlane.Flugplan.Flug[e].ObjectType != 0 &&
                                 (qPlane.Flugplan.Flug[e].Startdate * 24 + qPlane.Flugplan.Flug[e].Startzeit - 1 == Date * 24 + GetHour())) {
                             BOOL Delay = FALSE;
