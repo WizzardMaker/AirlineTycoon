@@ -117,22 +117,22 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8010;
-        _iArray[g][c].beraterSkillInfo = 1;
+        _iArray[g][c].beraterSkill = 1;
         _iArray[g][c++].define = STAT_A_KEROSIN;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8011;
-        _iArray[g][c].beraterSkillInfo = 1;
+        _iArray[g][c].beraterSkill = 1;
         _iArray[g][c++].define = STAT_A_WARTUNG;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 8012;
-        _iArray[g][c].beraterSkillInfo = 1;
+        _iArray[g][c].beraterSkill = 1;
         _iArray[g][c++].define = STAT_A_STRAFEN;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10013;
-        _iArray[g][c].beraterSkillInfo = 1;
+        _iArray[g][c].beraterSkill = 1;
         _iArray[g][c++].define = STAT_A_ESSEN;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;

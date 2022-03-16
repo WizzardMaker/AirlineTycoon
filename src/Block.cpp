@@ -50,9 +50,6 @@ static bool GetColor(SLONG SelectedId, SLONG PlayerNum) {
     if (SelectedId >= 6 && SelectedId <= 10 && Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) == 0) {
         return true;
     }
-    if (SelectedId == 11 && Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) == 0) {
-        return true;
-    }
     return false;
 }
 
@@ -1968,7 +1965,7 @@ void BLOCK::ZeigeInformantenFinanzBericht(XY ClientArea, SLONG page) {
     }
 
     SLONG c = page / 2;
-    c += (c <= PlayerNum);
+    c += (c >= PlayerNum);
     if (Sim.Players.Players[c].IsOut != 0) {
         Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10200), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
         return;
