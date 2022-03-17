@@ -1610,13 +1610,6 @@ void PLAYER::NewDay() {
 
                 // Reparaturkosten auch in die Salden (aber nur wenn etwas repariert werden soll)
                 if (Planes[c].Zustand < Planes[c].TargetZustand + 2) {
-                    Planes[c].Salden[0] -= gRepairPrice[MechMode] / 30;
-
-                    for (d = 6; d >= 1; d--) {
-                        Planes[c].Salden[d] = Planes[c].Salden[d - 1];
-                    }
-                    Planes[c].Salden[0] = 0;
-
                     SLONG OldZustand = Planes[c].Zustand;
 
                     if (Planes[c].Zustand < Planes[c].WorstZustand) {
@@ -1684,27 +1677,29 @@ void PLAYER::NewDay() {
                     }
 
                     // Wartungskosten berechnen:
-                    Planes[c].Wartungskosten += gRepairPrice[MechMode] / 30;
-                    if (Planes[c].Zustand > OldZustand) {
-                        // Summe                    += Improvement * PlaneTypes[Planes[c].TypeId].Preis/110;
-                        Summe += Improvement * Planes[c].ptPreis / 110;
-                        // Planes[c].Wartungskosten += Improvement * PlaneTypes[Planes[c].TypeId].Preis/110;
-                        Planes[c].Wartungskosten += Improvement * Planes[c].ptPreis / 110;
+                    SLONG delta = gRepairPrice[MechMode] / 30;
 
+                    if (Planes[c].Zustand > OldZustand) {
                         Planes[c].WorstZustand = max(Planes[c].WorstZustand, Planes[c].Zustand - 20);
 
-                        // Summe                    +=
-                        // SLONG((Planes[c].Zustand-OldZustand)*10*PlaneTypes[Planes[c].TypeId].Wartungsfaktor*(2100-Planes[c].Baujahr)/100*(200-Planes[c].Zustand)/100);
-                        Summe += SLONG((Planes[c].Zustand - OldZustand) * 10 * Planes[c].ptWartungsfaktor * (2100 - Planes[c].Baujahr) / 100 *
+                        delta += Improvement * Planes[c].ptPreis / 110;
+
+                        delta += SLONG((Planes[c].Zustand - OldZustand) * 10 * Planes[c].ptWartungsfaktor * (2100 - Planes[c].Baujahr) / 100 *
                                        (200 - Planes[c].Zustand) / 100);
-                        // Planes[c].Wartungskosten +=
-                        // SLONG((Planes[c].Zustand-OldZustand)*10*PlaneTypes[Planes[c].TypeId].Wartungsfaktor*(2100-Planes[c].Baujahr)/100*(200-Planes[c].Zustand)/100);
-                        Planes[c].Wartungskosten += SLONG((Planes[c].Zustand - OldZustand) * 10 * Planes[c].ptWartungsfaktor * (2100 - Planes[c].Baujahr) /
-                                                          100 * (200 - Planes[c].Zustand) / 100);
                     }
+
+                    Summe += delta;
+                    Planes[c].Salden[0] -= delta;
+                    Planes[c].Wartungskosten += delta;
                 }
+
+                for (d = 6; d >= 1; d--) {
+                    Planes[c].Salden[d] = Planes[c].Salden[d - 1];
+                }
+                Planes[c].Salden[0] = 0;
             }
         }
+        ChangeMoney(-Summe, 3110, "");
     }
 
     if (Sim.Difficulty == DIFF_ATFS10) {
@@ -1736,8 +1731,6 @@ void PLAYER::NewDay() {
             Workers.AddHappiness(PlayerNum, -45);
         }
     }
-
-    ChangeMoney(-Summe - gRepairPrice[MechMode] * SLONG(Planes.GetNumUsed()) / 30, 3110, "");
 
     // Den Flugplan für die Routen updaten:
     if (DoRoutes != 0) {
