@@ -2355,129 +2355,142 @@ void PLAYER::PlanGates() {
 
     // Alle Flugzeuge durchgehen:
     for (c = 0; c < Planes.AnzEntries(); c++) {
-        if (Planes.IsInAlbum(c) != 0) {
-            Plan = &Planes[c].Flugplan;
+        if (Planes.IsInAlbum(c) == 0) {
+            continue;
+        }
 
-            for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
-                Planes[c].Flugplan.Flug[d].GateWarning = FALSE;
-            }
+        Plan = &Planes[c].Flugplan;
+        for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
+            Planes[c].Flugplan.Flug[d].GateWarning = FALSE;
         }
     }
 
     // Alle Flugzeuge durchgehen:
     for (c = 0; c < Planes.AnzEntries(); c++) {
-        if (Planes.IsInAlbum(c) != 0) {
-            Plan = &Planes[c].Flugplan;
+        if (Planes.IsInAlbum(c) == 0) {
+            continue;
+        }
 
-            for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
-                if (Plan->Flug[d].ObjectType == 1 || Plan->Flug[d].ObjectType == 2) {
-                    // Ggf. Gate nehmen:
-                    if (Plan->Flug[d].VonCity == static_cast<ULONG>(Sim.HomeAirportId) || Plan->Flug[d].NachCity == static_cast<ULONG>(Sim.HomeAirportId)) {
-                        // Erst einmal mit Default-Wert initialisieren:
-                        if (Plan->Flug[d].Startdate > Sim.Date || (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
-                            Plan->Flug[d].Gate = -1; // Kein Gate frei
+        Plan = &Planes[c].Flugplan;
+        for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
+            if (Plan->Flug[d].ObjectType != 1 && Plan->Flug[d].ObjectType != 2) {
+                continue;
+            }
+
+            // Ggf. Gate nehmen:
+            if (Plan->Flug[d].VonCity != static_cast<ULONG>(Sim.HomeAirportId) && Plan->Flug[d].NachCity != static_cast<ULONG>(Sim.HomeAirportId)) {
+                // Flug hat nichts mit Heimatflughafen zu tun:
+                Plan->Flug[d].Gate = -2; // Null Problemo
+                continue;
+            }
+
+            // Erst einmal mit Default-Wert initialisieren:
+            if (Plan->Flug[d].Startdate > Sim.Date || (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
+                Plan->Flug[d].Gate = -1; // Kein Gate frei
+            }
+
+            if (Plan->Flug[d].VonCity == static_cast<ULONG>(Sim.HomeAirportId)) {
+                tmp = Plan->Flug[d].Startzeit + (Plan->Flug[d].Startdate - Sim.Date) * 24;
+            } else {
+                tmp = Plan->Flug[d].Landezeit - 1 + (Plan->Flug[d].Landedate - Sim.Date) * 24;
+            }
+
+            if (tmp <= 1 || tmp >= 24 * 7 - 1) {
+                continue;
+            }
+
+            // Abflug oder Ankunft?
+            if (Plan->Flug[d].VonCity == ULONG(Sim.HomeAirportId)) {
+                // Abflug!
+                if (Gates.Auslastung[tmp] < Gates.NumRented && Gates.Auslastung[tmp - 1] < Gates.NumRented) {
+                    // Gate wird für Flug veranschlagt:
+                    if (Plan->Flug[d].Startdate > Sim.Date ||
+                        (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
+                        Plan->Flug[d].Gate = Gates.Gates[static_cast<SLONG>(max(Gates.Auslastung[tmp], Gates.Auslastung[tmp - 1]))].Nummer;
+                    }
+
+                    // Dieses Modell verplant die Gates etwas verschwenderisch. Aber
+                    // es verhindert auch Konflikte
+                    Gates.Auslastung[tmp - 1] = Gates.Auslastung[tmp] =
+                        static_cast<UBYTE>(max(Gates.Auslastung[tmp], Gates.Auslastung[tmp - 1]) + 1);
+                } else {
+                    // Kein Gate mehr frei:
+                    if (Plan->Flug[d].Startdate > Sim.Date ||
+                        (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
+                        Plan->Flug[d].Gate = -1;
+                    }
+
+                    Gates.Auslastung[tmp] = static_cast<UBYTE>(Gates.NumRented + 1);
+                    Gates.Auslastung[tmp - 1] = static_cast<UBYTE>(Gates.NumRented + 1);
+
+                    // Andere Flüge warnen:
+                    if (Owner != 0) {
+                        continue;
+                    }
+                    for (SLONG e = 0; e < Planes.AnzEntries(); e++) {
+                        if (Planes.IsInAlbum(e) == 0) {
+                            continue;
                         }
 
-                        if (Plan->Flug[d].VonCity == static_cast<ULONG>(Sim.HomeAirportId)) {
-                            tmp = Plan->Flug[d].Startzeit + (Plan->Flug[d].Startdate - Sim.Date) * 24;
-                        } else {
-                            tmp = Plan->Flug[d].Landezeit - 1 + (Plan->Flug[d].Landedate - Sim.Date) * 24;
-                        }
-
-                        if (tmp > 1 && tmp < 24 * 7 - 1) {
-                            // Abflug oder Ankunft?
-                            if (Plan->Flug[d].VonCity == ULONG(Sim.HomeAirportId)) {
-                                // Abflug!
-                                if (Gates.Auslastung[tmp] < Gates.NumRented && Gates.Auslastung[tmp - 1] < Gates.NumRented) {
-                                    // Gate wird für Flug veranschlagt:
-                                    if (Plan->Flug[d].Startdate > Sim.Date ||
-                                        (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
-                                        Plan->Flug[d].Gate = Gates.Gates[static_cast<SLONG>(max(Gates.Auslastung[tmp], Gates.Auslastung[tmp - 1]))].Nummer;
-                                    }
-
-                                    // Dieses Modell verplant die Gates etwas verschwenderisch. Aber
-                                    // es verhindert auch Konflikte
-                                    Gates.Auslastung[tmp - 1] = Gates.Auslastung[tmp] =
-                                        static_cast<UBYTE>(max(Gates.Auslastung[tmp], Gates.Auslastung[tmp - 1]) + 1);
-                                } else {
-                                    // Kein Gate mehr frei:
-                                    if (Plan->Flug[d].Startdate > Sim.Date ||
-                                        (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
-                                        Plan->Flug[d].Gate = -1;
-                                    }
-
-                                    Gates.Auslastung[tmp] = static_cast<UBYTE>(Gates.NumRented + 1);
-                                    Gates.Auslastung[tmp - 1] = static_cast<UBYTE>(Gates.NumRented + 1);
-
-                                    // Andere Flüge warnen:
-                                    if (Owner == 0) {
-                                        for (SLONG e = 0; e < Planes.AnzEntries(); e++) {
-                                            if (Planes.IsInAlbum(e) != 0) {
-                                                CFlugplan &qPlan = Planes[e].Flugplan;
-
-                                                for (SLONG f = qPlan.Flug.AnzEntries() - 1; f >= 0; f--) {
-                                                    if (qPlan.Flug[f].ObjectType == 1 || qPlan.Flug[f].ObjectType == 2) {
-                                                        if (qPlan.Flug[f].VonCity == ULONG(Sim.HomeAirportId) &&
-                                                            abs(qPlan.Flug[f].Startzeit + (qPlan.Flug[f].Startdate - Sim.Date) * 24 - tmp) < 2) {
-                                                            qPlan.Flug[f].GateWarning = TRUE;
-                                                        } else if (qPlan.Flug[f].NachCity == ULONG(Sim.HomeAirportId) &&
-                                                                   (qPlan.Flug[f].Landezeit + (qPlan.Flug[f].Landedate - Sim.Date) * 24 == tmp ||
-                                                                    qPlan.Flug[f].Landezeit + (qPlan.Flug[f].Landedate - Sim.Date) * 24 == tmp + 1)) {
-                                                            qPlan.Flug[f].GateWarning = TRUE;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            } else // Ankunft!
-                            {
-                                // ex: if (Gates.Auslastung[tmp] < Gates.GetNumUsed() && Gates.Auslastung[tmp-1] < Gates.GetNumUsed())
-                                if (Gates.Auslastung[tmp] < Gates.NumRented) {
-                                    // Gate wird für Flug veranschlagt:
-                                    if (Plan->Flug[d].Startdate > Sim.Date ||
-                                        (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
-                                        Plan->Flug[d].Gate = Gates.Gates[static_cast<SLONG>(Gates.Auslastung[tmp])].Nummer;
-                                    }
-
-                                    Gates.Auslastung[tmp]++;
-                                } else {
-                                    // Kein Gate mehr frei:
-                                    if (Plan->Flug[d].Startdate > Sim.Date ||
-                                        (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
-                                        Plan->Flug[d].Gate = -1; // kein Platz!
-                                    }
-
-                                    Gates.Auslastung[tmp] = static_cast<UBYTE>(Gates.NumRented + 1);
-
-                                    // Andere Flüge warnen:
-                                    if (Owner == 0) {
-                                        for (SLONG e = 0; e < Planes.AnzEntries(); e++) {
-                                            if (Planes.IsInAlbum(e) != 0) {
-                                                CFlugplan &qPlan = Planes[e].Flugplan;
-
-                                                for (SLONG f = qPlan.Flug.AnzEntries() - 1; f >= 0; f--) {
-                                                    if (qPlan.Flug[f].ObjectType == 1 || qPlan.Flug[f].ObjectType == 2) {
-                                                        if (qPlan.Flug[f].VonCity == ULONG(Sim.HomeAirportId) &&
-                                                            (qPlan.Flug[f].Startzeit + (qPlan.Flug[f].Startdate - Sim.Date) * 24 == tmp ||
-                                                             qPlan.Flug[f].Startzeit + (qPlan.Flug[f].Startdate - Sim.Date) * 24 == tmp + 1)) {
-                                                            qPlan.Flug[f].GateWarning = TRUE;
-                                                        } else if (qPlan.Flug[f].NachCity == ULONG(Sim.HomeAirportId) &&
-                                                                   qPlan.Flug[f].Landezeit - 1 + (qPlan.Flug[f].Landedate - Sim.Date) * 24 == tmp) {
-                                                            qPlan.Flug[f].GateWarning = TRUE;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                        CFlugplan &qPlan = Planes[e].Flugplan;
+                        for (SLONG f = qPlan.Flug.AnzEntries() - 1; f >= 0; f--) {
+                            if (qPlan.Flug[f].ObjectType != 1 && qPlan.Flug[f].ObjectType != 2) {
+                                continue;
+                            }
+                            if (qPlan.Flug[f].VonCity == ULONG(Sim.HomeAirportId) &&
+                                abs(qPlan.Flug[f].Startzeit + (qPlan.Flug[f].Startdate - Sim.Date) * 24 - tmp) < 2) {
+                                qPlan.Flug[f].GateWarning = TRUE;
+                            } else if (qPlan.Flug[f].NachCity == ULONG(Sim.HomeAirportId) &&
+                                       (qPlan.Flug[f].Landezeit + (qPlan.Flug[f].Landedate - Sim.Date) * 24 == tmp ||
+                                        qPlan.Flug[f].Landezeit + (qPlan.Flug[f].Landedate - Sim.Date) * 24 == tmp + 1)) {
+                                qPlan.Flug[f].GateWarning = TRUE;
                             }
                         }
-                    } else {
-                        // Flug hat nichts mit Heimatflughafen zu tun:
-                        Plan->Flug[d].Gate = -2; // Null Problemo
+                    }
+                }
+            } else // Ankunft!
+            {
+                // ex: if (Gates.Auslastung[tmp] < Gates.GetNumUsed() && Gates.Auslastung[tmp-1] < Gates.GetNumUsed())
+                if (Gates.Auslastung[tmp] < Gates.NumRented) {
+                    // Gate wird für Flug veranschlagt:
+                    if (Plan->Flug[d].Startdate > Sim.Date ||
+                        (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
+                        Plan->Flug[d].Gate = Gates.Gates[static_cast<SLONG>(Gates.Auslastung[tmp])].Nummer;
+                    }
+
+                    Gates.Auslastung[tmp]++;
+                } else {
+                    // Kein Gate mehr frei:
+                    if (Plan->Flug[d].Startdate > Sim.Date ||
+                        (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour() + 1)) {
+                        Plan->Flug[d].Gate = -1; // kein Platz!
+                    }
+
+                    Gates.Auslastung[tmp] = static_cast<UBYTE>(Gates.NumRented + 1);
+
+                    // Andere Flüge warnen:
+                    if (Owner != 0) {
+                        continue;
+                    }
+                    for (SLONG e = 0; e < Planes.AnzEntries(); e++) {
+                        if (Planes.IsInAlbum(e) == 0) {
+                            continue;
+                        }
+
+                        CFlugplan &qPlan = Planes[e].Flugplan;
+                        for (SLONG f = qPlan.Flug.AnzEntries() - 1; f >= 0; f--) {
+                            if (qPlan.Flug[f].ObjectType != 1 && qPlan.Flug[f].ObjectType != 2) {
+                                continue;
+                            }
+                            if (qPlan.Flug[f].VonCity == ULONG(Sim.HomeAirportId) &&
+                                (qPlan.Flug[f].Startzeit + (qPlan.Flug[f].Startdate - Sim.Date) * 24 == tmp ||
+                                 qPlan.Flug[f].Startzeit + (qPlan.Flug[f].Startdate - Sim.Date) * 24 == tmp + 1)) {
+                                qPlan.Flug[f].GateWarning = TRUE;
+                            } else if (qPlan.Flug[f].NachCity == ULONG(Sim.HomeAirportId) &&
+                                       qPlan.Flug[f].Landezeit - 1 + (qPlan.Flug[f].Landedate - Sim.Date) * 24 == tmp) {
+                                qPlan.Flug[f].GateWarning = TRUE;
+                            }
+                        }
                     }
                 }
             }
