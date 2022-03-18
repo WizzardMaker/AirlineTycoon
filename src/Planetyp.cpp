@@ -1104,6 +1104,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
     SLONG c = 0;
     SLONG Saldo = 0;
     SLONG TooExpensive = 0;
+    SLONG TooExpensiveFC = 0;
 
     // hprintf ("QualitySum=%li", QualitySum);
 
@@ -1120,11 +1121,14 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
 
         if (Costs1 > Costs2) {
             TooExpensive = Costs1 * 100 / Costs2;
+            TooExpensiveFC = Costs1 * 100 / Costs2;
         }
 
-        if (TooExpensive > 100) {
-            TooExpensive = 100;
-        }
+        TooExpensive -= 15 * std::max(0, QualitySum - 4);
+        TooExpensiveFC -= 15 * std::max(0, QualitySum - 8);
+
+        TooExpensive = std::min(100, TooExpensive);
+        TooExpensiveFC = std::min(100, TooExpensiveFC);
     }
 
     /*Saldo=0;
@@ -1250,9 +1254,9 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
                             static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSickFC), 1U);
                 }
-            } else if ((TooExpensive != 0) && LocalRand.Rand(130) < TooExpensive) {
+            } else if ((TooExpensiveFC != 0) && LocalRand.Rand(130) < TooExpensiveFC) {
                 // zu teuer:
-                hprintf ("FC TooExpensive=%li", TooExpensive);
+                hprintf ("FC TooExpensiveFC=%li", TooExpensiveFC);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
