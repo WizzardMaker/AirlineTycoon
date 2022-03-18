@@ -888,9 +888,9 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define ROBOT_USE_SUGGESTROUTES 8     // Routen bevorzugt verwenden (Routenmission)
 #define ROBOT_USE_FORCEROUTES 9       // Routen immer verwenden (Ohne-Aufträge Mission)
 #define ROBOT_USE_HARDWERBUNG 10      // Viel Geld für Werbung ausgeben?
-#define ROBOT_USE_SELLSHARES 11       // Computerspieler 2 kann schon frühzeitig Aktien verkaufen
+#define ROBOT_USE_SELLSHARES 11       // Computerspieler 2 kann schon frühzeitig Aktien verkaufen (nur wirksam bei PT)
 #define ROBOT_USE_BUYOWNSHARES 12     // Computerspieler kann eigene Aktien zurückkaufen
-#define ROBOT_USE_REBUYSHARES 13      // Teil der eigenen Aktien nach Emission zurückkaufen
+#define ROBOT_USE_REBUYSHARES 13      // Teil der eigenen Aktien nach Emission zurückkaufen (SA, FL, PT sowieso immer)
 #define ROBOT_USE_TUTORIALLIMIT 14    // Zahl der Aufträge anhand des Tutoriallimits begrenzen
 #define ROBOT_USE_ROUTEMISSION 15     // Levelziel: bestimmte Routen
 #define ROBOT_USE_MUCHWERBUNG 16      // Der Werbung einen hohen Stellenwert einräumen? (z.B. für Image-Mission)
@@ -908,7 +908,7 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define ROBOT_USE_IMAGEBONUS 29       // Robots erhälten täglich einen Imagebonus
 #define ROBOT_USE_GOODPLANES 30       // Robots reparieren immer alles und sofort
 #define ROBOT_USE_REPAIRPLANES 31     // Flugzeug ist kaputt und muß vorsichtig repariert werden
-#define ROBOT_USE_HIGHSHAREPRICE 32   // Robots verwenden hohen Aktienzielkurs
+#define ROBOT_USE_HIGHSHAREPRICE 32   // Robots verwenden hohen Aktienzielkurs (FL immer)
 #define ROBOT_USE_WORKQUICK 33        // Robots sind in den Räumen sehr schnell fertig
 #define ROBOT_USE_GROSSESKONTO 34     // Robots sparen viel auf dem Konto an
 #define ROBOT_USE_EMITMUCHSHARES 35   // Robots geben Aktien aus wann immer sie können
@@ -936,6 +936,22 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define ROBOT_USE_NO_FINE 57          // Spieler erhält keine Strafen
 #define ROBOT_USE_NO_CHECK_FLIGHT 58  // Aufträge des Spielers werden nicht geprüft (korrekter Tag / genügend Sitzplätze)
 #define ROBOT_USE_NO_CHECK_FFLIGHT 59 // Frachtaufträge des Spielers werden nicht geprüft (korrekter Tag / Tonnen offen)
+#define ROBOT_USE_WORKQUICK_2 60      // Extra Geschwindigkeitsbonus für (PT)
+#define ROBOT_USE_EXTRA_SABOTAGE 61   // Öfters zum Saboteur (SA)
+#define ROBOT_USE_SABO_AFFORD_FINE 62 // Ignoriert mögliche Strafe beim Sabotieren, wenn genügend Geld (FL)
+#define ROBOT_USE_MILD_SABOTAGE 63    // Begrenzt stärke der Sabotage (PT)
+#define ROBOT_USE_MILDER_SABOTAGE 64  // Begrenzt stärke der Sabotage noch mehr (SA)
+#define ROBOT_USE_EXTRA_BANK 65       // Öfters zur Bank (FL)
+#define ROBOT_USE_MORE_PLANES 66      // Kauft aggressiver neue Flugzeuge (PT)
+#define ROBOT_USE_MORE_PLANES_2 67    // Kauft aggressiver neue Flugzeuge (SA)
+#define ROBOT_USE_MUCH_FRACHT_BONUS 68// Nimmt fast jeden Frachtauftrag (PT)
+#define ROBOT_USE_END_STRIKE_RAND 69  // Strike kann zufällig beendet werden (Cheat)
+#define ROBOT_USE_ALT_KREDIT 70       // Alternative Kredit-Strategie (FL)
+#define ROBOT_USE_EAGER_SELLSHARES 71 // Verkauft schon früher Aktien (FL)
+#define ROBOT_USE_BARELY_REPAIR 72    // Repariert Flugzeuge nur auf 70% (HA)
+#define ROBOT_USE_UPGRADE_KOMFORT 73  // Kauft Komfort-Upgrade bei gebrauchten Flugzeugen (SA)
+#define ROBOT_USE_UPGRADE_TECH 74     // Kauft Tech-Upgrade bei gebrauchten Flugzeugen (FL)
+#define ROBOT_USE_BUY_MORE_ABROAD 75  // Kauft mehr Niederlassungen (SA)
 
 // Die Netzwerk-Medien
 #define NET_MEDIUM_UNKNOWN 0
