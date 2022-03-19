@@ -1865,6 +1865,11 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
         PrintLineHeading(ClientArea, 0, 10050 + page);
     }
     if (page == 0) {
+        std::vector< std::pair<SLONG, __int64> > tmp =
+                                                {{3601, ref.GetHaben()},
+                                                {3602, ref.GetSoll()}};
+        PrintList(ClientArea, tmp, 1);
+    } else if (page == 1) {
         std::vector< std::pair<SLONG, __int64> > tmp = {{3403, ref.Tickets},
                                             {3404, ref.Auftraege},
                                             {10000, ref.KerosinFlug},
@@ -1874,7 +1879,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {3506, ref.Wartung},
                                             {10003, ref.FlugzeugUmbau}};
         PrintList(ClientArea, tmp, 1);
-    } else if (page == 1) {
+    } else if (page == 2) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 30) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
@@ -1885,7 +1890,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {3508, ref.Citymiete},
                                             {3509, ref.Routenmiete}};
         PrintList(ClientArea, tmp, 1);
-    } else if (page == 2) {
+    } else if (page == 3) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 40) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
@@ -1899,7 +1904,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {10005, ref.KreditTilgung},
                                             {10006, ref.Steuer}};
         PrintList(ClientArea, tmp, 1);
-    } else if (page == 3) {
+    } else if (page == 4) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 50) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
@@ -1912,7 +1917,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {10024, ref.AktienEmissionFee},
                                             {10025, ref.AktienEmissionKompGez}};
         PrintList(ClientArea, tmp, 1);
-    } else if (page == 4) {
+    } else if (page == 5) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 60) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
@@ -1927,7 +1932,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {10032, ref.ExpansionGates},
                                             {10033, ref.ExpansionTanks}};
         PrintList(ClientArea, tmp, 1);
-    } else if (page == 5) {
+    } else if (page == 6) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 70) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
@@ -1939,7 +1944,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                                             {10010, ref.SabotageStrafe},
                                             {10011, ref.SabotageSchaden}};
         PrintList(ClientArea, tmp, 1);
-    } else if (page == 6) {
+    } else if (page == 7) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 70) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, textBeraterZuSchlecht), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                            ClientArea + XY(172, 170));
@@ -1975,7 +1980,7 @@ void BLOCK::ZeigeInformantenFinanzBericht(XY ClientArea, SLONG page) {
 }
 
 void BLOCK::ZeigeInformantenBilanz(XY ClientArea, SLONG playerId, SLONG page) {
-    assert(page >= 0 && page < 7);
+    assert(page >= 0 && page < 8);
     if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) == 0) {
         Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3002), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
         return;

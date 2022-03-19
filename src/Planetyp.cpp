@@ -1106,7 +1106,8 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
     SLONG TooExpensive = 0;
     SLONG TooExpensiveFC = 0;
 
-    // hprintf ("QualitySum=%li", QualitySum);
+    hprintf ("--- enter CalculateHappyPassengers for player %li ", PlayerNum);
+    hprintf ("QualitySum=%li", QualitySum);
 
     // TEAKRAND LocalRand (PlayerNum+Sim.Date+Sim.GetHour()+TypeId+QualitySum+GetFlugplanEintrag()->VonCity);
     TEAKRAND LocalRand(PlayerNum + Sim.Date + Sim.GetHour() + QualitySum + GetFlugplanEintrag()->VonCity);
@@ -1288,7 +1289,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
                 }
             } else {
                 // schlecht
-                hprintf ("schlecht, quali=%li", quali);
+                hprintf ("FC schlecht, quali=%li", quali);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(0, Anz);
                 if (addToQueue) {
                     Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
@@ -1297,6 +1298,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
             }
         }
     }
+    hprintf ("--- leave CalculateHappyPassengers for player %li ", PlayerNum);
 }
 
 //--------------------------------------------------------------------------------------------

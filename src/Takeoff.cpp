@@ -2234,13 +2234,14 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_EXPERT, 10032, "Kauf von Gates");
     StandardTexte.AddText(TOKEN_EXPERT, 10033, "Kerosintanks");
 
-    StandardTexte.AddText(TOKEN_EXPERT, 10050, "Operatives Gesch\xE4""ft (1000 \x80)");
-    StandardTexte.AddText(TOKEN_EXPERT, 10051, "Personal und Miete (1000 \x80)");
-    StandardTexte.AddText(TOKEN_EXPERT, 10052, "Zinsen und Kredite (1000 \x80)");
-    StandardTexte.AddText(TOKEN_EXPERT, 10053, "Aktiengesch\xE4""fte (1000 \x80)");
-    StandardTexte.AddText(TOKEN_EXPERT, 10054, "Expansion (1000 \x80)");
-    StandardTexte.AddText(TOKEN_EXPERT, 10055, "Sabotage (1000 \x80)");
-    StandardTexte.AddText(TOKEN_EXPERT, 10056, "Sonstiges (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10050, "Bilanzsumme (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10051, "Operatives Gesch\xE4""ft (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10052, "Personal und Miete (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10053, "Zinsen und Kredite (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10054, "Aktiengesch\xE4""fte (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10055, "Expansion (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10056, "Sabotage (1000 \x80)");
+    StandardTexte.AddText(TOKEN_EXPERT, 10057, "Sonstiges (1000 \x80)");
 
     StandardTexte.AddText(TOKEN_EXPERT, 10100, "Operativer Gewinn");
     StandardTexte.AddText(TOKEN_EXPERT, 10101, "Operativer Verlust");

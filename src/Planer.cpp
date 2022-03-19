@@ -1694,13 +1694,13 @@ void CPlaner::HandleLButtonDown() {
                     if (pBlock->SelectedId == 1) {
                         pBlock->AnzPages = 2;
                     } else if (pBlock->SelectedId >= 2 && pBlock->SelectedId <= 4) {
-                        pBlock->AnzPages = 7;
+                        pBlock->AnzPages = 8;
                     } else if (pBlock->SelectedId == 6) {
                         pBlock->AnzPages = 1;
                     } else if (pBlock->SelectedId == 7) {
                         pBlock->AnzPages = 2 * 3;
                     } else if (pBlock->SelectedId >= 8 && pBlock->SelectedId <= 10) {
-                        pBlock->AnzPages = 7;
+                        pBlock->AnzPages = 8;
                     } else if (pBlock->SelectedId == 11) {
                         pBlock->AnzPages = 2;
                     } else {
