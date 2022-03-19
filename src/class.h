@@ -1662,6 +1662,16 @@ class /**/ CWorker {
     SLONG TimeInPool{-1}; // Wie lange existiert der Arbeiter bereits?
                           // -1: Bleibt für immer im Pool
 
+    inline bool operator<(const CWorker &i) const {
+        if (Employer != i.Employer) {
+            return (Employer < i.Employer);
+        }
+        if (Typ != i.Typ) {
+            return (Typ < i.Typ);
+        }
+        return Talent > i.Talent;
+    }
+
   public:
     void Gehaltsaenderung(BOOL Art);
 
@@ -1682,7 +1692,7 @@ class /**/ CWorkers {
 
     CString GetRandomName(BOOL Geschlecht) const;
 
-    void CheckShortage(void);
+    void CheckShortageAndSort(void);
     void ReInit(const CString &TabFilename, const CString &TabFilename2);
     void NewDay(void);
     void Gehaltsaenderung(BOOL Art, SLONG PlayerNum);
@@ -1700,10 +1710,10 @@ class /**/ CWorkers {
     friend TEAKFILE &operator>>(TEAKFILE &File, CWorkers &Workers);
 
   private:
-    CWorker createBerater(TEAKRAND &LocalRand);
+    CWorker createBerater(TEAKRAND &LocalRand, SLONG typ);
     CWorker createPilot(TEAKRAND &LocalRand);
     CWorker createStewardess(TEAKRAND &LocalRand);
-    void AddToPool(SLONG typ, TEAKRAND &LocalRand, SLONG zielAnzahlKompetent);
+    SLONG AddToPool(SLONG typ, TEAKRAND &LocalRand, SLONG zielAnzahlKompetent);
 };
 
 //--------------------------------------------------------------------------------------------

@@ -431,11 +431,8 @@ void CWorkers::NewDay() {
 
     // Entferne Bewerber aus dem Pool, die zu lange nicht eingestellt wurden
     for (c = 0; c < Workers.AnzEntries(); c++) {
-        if (Workers[c].Typ != WORKER_PILOT && Workers[c].Typ != WORKER_STEWARDESS) {
-            continue;
-        }
         if (Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) {
-            if (Workers[c].TimeInPool >= 30) {
+            if (Workers[c].TimeInPool >= 7) {
                 Workers[c].Employer = WORKER_EXPIRED;
                 hprintf("Removing %s from pool", (const char *)Workers[c].Name);
             } else if (Workers[c].TimeInPool >= 0) {
@@ -444,7 +441,7 @@ void CWorkers::NewDay() {
         }
     }
 
-    CheckShortage();
+    CheckShortageAndSort();
 
     TEAKRAND LocalRand(Sim.Date + Sim.StartTime);
 
@@ -511,32 +508,32 @@ void CWorkers::NewDay() {
         m = LocalRand.Rand(Workers.AnzEntries());
 
         SLONG d = 0;
-        for (d = 0; d < 100; d++) {
-            if (Workers[(m + d) % Workers.AnzEntries()].Employer != WORKER_RESERVE) {
+        for (d = 0; d < Workers.AnzEntries(); d++) {
+            SLONG idx = (m + d) % Workers.AnzEntries();
+            if (Workers[idx].Employer != WORKER_RESERVE) {
                 continue;
             }
 
-            m = (m + d) % Workers.AnzEntries();
-            if (Workers[m].Typ == WORKER_PILOT && AnzahlPiloten > 0) {
+            if (Workers[idx].Typ == WORKER_PILOT && AnzahlPiloten > 0) {
                 AnzahlPiloten--;
-                Workers[m].Employer = WORKER_JOBLESS;
-                Workers[m].Gehalt = Workers[m].OriginalGehalt;
+                Workers[idx].Employer = WORKER_JOBLESS;
+                Workers[idx].Gehalt = Workers[idx].OriginalGehalt;
                 break;
             }
-            if (Workers[m].Typ == WORKER_STEWARDESS && AnzahlStewardessen > 0) {
+            if (Workers[idx].Typ == WORKER_STEWARDESS && AnzahlStewardessen > 0) {
                 AnzahlStewardessen--;
-                Workers[m].Employer = WORKER_JOBLESS;
-                Workers[m].Gehalt = Workers[m].OriginalGehalt;
+                Workers[idx].Employer = WORKER_JOBLESS;
+                Workers[idx].Gehalt = Workers[idx].OriginalGehalt;
                 break;
             } else if (AnzahlBerater > 0) {
                 AnzahlBerater--;
-                Workers[m].Employer = WORKER_JOBLESS;
-                Workers[m].Gehalt = Workers[m].OriginalGehalt;
+                Workers[idx].Employer = WORKER_JOBLESS;
+                Workers[idx].Gehalt = Workers[idx].OriginalGehalt;
                 break;
             }
         }
 
-        if (d >= 100) {
+        if (d >= Workers.AnzEntries()) {
             break;
         }
     }
@@ -597,11 +594,11 @@ CString CWorkers::GetRandomName(BOOL Geschlecht) const {
 //--------------------------------------------------------------------------------------------
 // Verhindert, dass es zu wenig Piloten oder Stewardessen gibt:
 //--------------------------------------------------------------------------------------------
-CWorker CWorkers::createBerater(TEAKRAND &LocalRand) {
+CWorker CWorkers::createBerater(TEAKRAND &LocalRand, SLONG typ) {
     CWorker worker;
     worker.Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
     worker.Name = GetRandomName(worker.Geschlecht);
-    worker.Typ = LocalRand.Rand(1, 9);
+    worker.Typ = typ;
     worker.Gehalt = (30 + LocalRand.Rand(80)) * 100;
     worker.Talent = std::min(SLONG(100), worker.Gehalt / 200 + LocalRand.Rand(30) + 20);
     worker.Alter = (19 + LocalRand.Rand(50));
@@ -645,62 +642,87 @@ CWorker CWorkers::createStewardess(TEAKRAND &LocalRand) {
     worker.OriginalGehalt = worker.Gehalt;
     return worker;
 }
-void CWorkers::AddToPool(SLONG typ, TEAKRAND &LocalRand, SLONG zielAnzahlKompetent) {
+SLONG CWorkers::AddToPool(SLONG typ, TEAKRAND &LocalRand, SLONG zielAnzahlKompetent) {
     SLONG nExpired = 0;
     SLONG anz = 0;
+    SLONG anzKompetent = 0;
     for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
         if (Workers[c].Typ != typ) {
             continue;
         }
         if (Workers[c].Employer == WORKER_EXPIRED) {
             nExpired++;
-        }
-        if ((Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) && Workers[c].Talent > 60) {
+        } else if (Workers[c].Employer == WORKER_RESERVE || Workers[c].Employer == WORKER_JOBLESS) {
+            if (Workers[c].Talent > 60) {
+                anzKompetent++;
+            }
             anz++;
         }
     }
 
-    if (anz < zielAnzahlKompetent || nExpired > 0) {
+    hprintf("Num expired workers: %li (Typ: %li)", nExpired, typ);
+    hprintf("Num competent workers: %li / %li (Typ: %li)", anzKompetent, anz, typ);
+
+    if (anzKompetent < zielAnzahlKompetent) {
         // Zielwert ist 80 kompetente Leute, aber generiere nie mehr als 10 pro Tag
-        SLONG delta = std::min(SLONG(10), (zielAnzahlKompetent - anz));
+        SLONG toCreate = std::min(SLONG(10), (zielAnzahlKompetent - anzKompetent));
         // Berechne, um wie viel wir die Liste vergrößern müssen. Berücksichtige, dass wir Karteileichen ersetzen können
-        delta = std::max(SLONG(0), delta - nExpired);
+        SLONG delta = std::max(SLONG(0), toCreate - nExpired);
         if (delta > 0) {
             Workers.ReSize(Workers.AnzEntries() + delta);
         }
 
-        for (SLONG c = 0; c < Workers.AnzEntries(); c++) {
+        for (SLONG c = 0; c < Workers.AnzEntries() && toCreate > 0; c++) {
             BOOL isNew = static_cast<BOOL>(c >= Workers.AnzEntries() - delta);
             BOOL canReplace = static_cast<BOOL>(Workers[c].Employer == WORKER_EXPIRED && Workers[c].Typ == typ);
             if ((isNew == 0) && (canReplace == 0)) {
                 continue;
             }
 
-            if (typ == -1) {
-                Workers[c] = createBerater(LocalRand);
+            if (typ >= BERATERTYP_PERSONAL && typ <= BERATERTYP_SICHERHEIT) {
+                Workers[c] = createBerater(LocalRand, typ);
             } else if (typ == WORKER_STEWARDESS) {
                 Workers[c] = createStewardess(LocalRand);
             } else if (typ == WORKER_PILOT) {
                 Workers[c] = createPilot(LocalRand);
             } else {
                 TeakLibW_Exception(FNL, ExcNever);
-                return;
+                return nExpired;
             }
 
-            if (canReplace != 0) {
-                hprintf("Replacing expired worker: %s", (const char *)Workers[c].Name);
+            if (isNew != 0) {
+                hprintf("Adding new worker: %s (Typ: %li)", (const char *)Workers[c].Name, Workers[c].Typ);
             } else {
-                hprintf("Adding new worker: %s", (const char *)Workers[c].Name);
+                hprintf("Replacing expired worker: %s (Typ: %li)", (const char *)Workers[c].Name, Workers[c].Typ);
+                --nExpired;
             }
+
+            --toCreate;
         }
     }
+    return nExpired;
 }
-void CWorkers::CheckShortage() {
+void CWorkers::CheckShortageAndSort() {
     TEAKRAND LocalRand(Sim.Date + Sim.StartTime);
 
-    AddToPool(-1, LocalRand, 40); // Berater
-    AddToPool(WORKER_PILOT, LocalRand, 80);
-    AddToPool(WORKER_PILOT, LocalRand, 80);
+    hprintf("Worker pool size: %li", Workers.AnzEntries());
+
+    SLONG nExpired = 0;
+    for (SLONG i = BERATERTYP_PERSONAL; i <= BERATERTYP_SICHERHEIT; i++) {
+        nExpired += AddToPool(i, LocalRand, 5);
+    }
+    nExpired += AddToPool(WORKER_PILOT, LocalRand, 80);
+    nExpired += AddToPool(WORKER_STEWARDESS, LocalRand, 80);
+
+    std::sort(Workers.begin(), Workers.end());
+
+    hprintf("Still %li expired Workers in pool", nExpired);
+    if (nExpired > 100) {
+        int i = Workers.AnzEntries() - 1;
+        while (Workers[i].Employer == WORKER_EXPIRED) { --i; }
+        hprintf("Shrinking pool from %li to %li", Workers.AnzEntries(), i+1);
+        Workers.ReSize(i + 1);
+    }
 }
 
 //--------------------------------------------------------------------------------------------
