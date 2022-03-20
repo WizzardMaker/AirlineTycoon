@@ -1333,6 +1333,7 @@ void PLAYER::NewDay() {
     HasAlkohol = TRUE;
     Koffein = 0;
     bWasInMuseumToday = FALSE;
+    bHasPlanesUpgradedToday = FALSE;
     DaysWithoutStrike++;
     DaysWithoutSabotage++;
 
@@ -4446,7 +4447,7 @@ void PLAYER::RobotExecuteAction() {
             Sim.Players.Players[PlayerNum].StrikeHours = 0;
         }
 
-        if (RobotUse(ROBOT_USE_LUXERY) && Planes.GetNumUsed() > 0 && Money > 200000) {
+        if (RobotUse(ROBOT_USE_LUXERY) && Planes.GetNumUsed() > 0 && Money > 200000 && !bHasPlanesUpgradedToday) {
             long prob = 5;
 
             if (Money > 2500000) {
@@ -4459,64 +4460,69 @@ void PLAYER::RobotExecuteAction() {
                 prob = 1;
             }
             if (LocalRandom.Rand(prob) == 0) {
-                long Anzahl = 1;
-                if (Money > 10000000) {
-                    Anzahl += long(Money / 10000000);
-                }
-                for (SLONG count = 0; count < Anzahl; count++) {
+                bHasPlanesUpgradedToday = TRUE;
+                __int64 moneyAvailable = (Money - 200000);
+                SLONG anzahl = 4;
+                while (moneyAvailable > 0 && anzahl-- > 0) {
                     for (SLONG bpass = 0; bpass < 3; bpass++) {
                         CPlane &qPlane = Planes[Planes.GetRandomUsedIndex(&LocalRandom)];
 
                         for (SLONG pass = 0; pass < 4; pass++) {
                             switch (LocalRandom.Rand(7)) {
                             case 0:
-                                if (qPlane.SitzeTarget == 2) {
+                                if (qPlane.SitzeTarget == 2 || SeatCosts[qPlane.SitzeTarget+1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.SitzeTarget++;
+                                moneyAvailable -= SeatCosts[qPlane.SitzeTarget];
                                 break;
                             case 1:
-                                if (qPlane.TablettsTarget == 2) {
+                                if (qPlane.TablettsTarget == 2 || TrayCosts[qPlane.TablettsTarget+1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.TablettsTarget++;
+                                moneyAvailable -= TrayCosts[qPlane.TablettsTarget];
                                 break;
                             case 2:
-                                if (qPlane.DecoTarget == 2) {
+                                if (qPlane.DecoTarget == 2 || DecoCosts[qPlane.DecoTarget+1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.DecoTarget++;
+                                moneyAvailable -= DecoCosts[qPlane.DecoTarget];
                                 break;
                             case 3:
-                                if (qPlane.TriebwerkTarget == 2) {
+                                if (qPlane.TriebwerkTarget == 2 || TriebwerkCosts[qPlane.TriebwerkTarget+1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.TriebwerkTarget++;
+                                moneyAvailable -= TriebwerkCosts[qPlane.TriebwerkTarget];
                                 break;
                             case 4:
-                                if (qPlane.ReifenTarget == 2) {
+                                if (qPlane.ReifenTarget == 2 || ReifenCosts[qPlane.ReifenTarget+1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.ReifenTarget++;
+                                moneyAvailable -= ReifenCosts[qPlane.ReifenTarget];
                                 break;
                             case 5:
-                                if (qPlane.ElektronikTarget == 2) {
+                                if (qPlane.ElektronikTarget == 2 || ElektronikCosts[qPlane.ElektronikTarget+1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.ElektronikTarget++;
+                                moneyAvailable -= ElektronikCosts[qPlane.ElektronikTarget];
                                 break;
                             case 6:
-                                if (qPlane.SicherheitTarget == 2) {
+                                if (qPlane.SicherheitTarget == 2 || SicherheitCosts[qPlane.SicherheitTarget+1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.SicherheitTarget++;
+                                moneyAvailable -= SicherheitCosts[qPlane.SicherheitTarget];
                                 break;
                             default:
                                 hprintf("Player.cpp: Default case should not be reached.");
                                 DebugBreak();
                             }
 
-                            ChangeMoney(-170000, 2110, (LPCTSTR)qPlane.Name);
                             bpass = 4;
                             break;
                         }
@@ -7555,7 +7561,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player) {
 
                     File << Player.NumFracht << Player.NumFrachtFree;
                     File << Player.NumMiles << Player.NumServicePoints;
-                    File << Player.bWasInMuseumToday;
+                    File << Player.bWasInMuseumToday << Player.bHasPlanesUpgradedToday;
                     File << Player.NumOrderFlights << Player.NumOrderFlightsToday;
                     File << Player.NumOrderFlightsToday2 << Player.IsStuck;
 
@@ -7696,7 +7702,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
 
                     File >> Player.NumFracht >> Player.NumFrachtFree;
                     File >> Player.NumMiles >> Player.NumServicePoints;
-                    File >> Player.bWasInMuseumToday;
+                    File >> Player.bWasInMuseumToday >> Player.bHasPlanesUpgradedToday;
                     File >> Player.NumOrderFlights >> Player.NumOrderFlightsToday;
                     File >> Player.NumOrderFlightsToday2 >> Player.IsStuck;
 

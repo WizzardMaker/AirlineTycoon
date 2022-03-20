@@ -554,7 +554,7 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
                 Sicherheit = SicherheitTarget;
             }
 
-            if ((Costs != 0) && (qPlayer.Owner == 0 || qPlayer.Owner == 2)) {
+            if (Costs != 0) {
                 qPlayer.ChangeMoney(-Costs, 2110, Name);
             }
         }

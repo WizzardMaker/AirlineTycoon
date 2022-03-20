@@ -2126,6 +2126,7 @@ class PLAYER {
     BOOL bWasInMuseumToday{};
     TEAKRAND PlayerWalkRandom;
     TEAKRAND PlayerExtraRandom;
+    BOOL bHasPlanesUpgradedToday{};
 
   public:
     PLAYER();

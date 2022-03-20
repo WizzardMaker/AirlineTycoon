@@ -739,6 +739,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
         qPlayer.LastRocketFlags = 0;
         qPlayer.SpeedCount = 0;
         qPlayer.bWasInMuseumToday = FALSE;
+        qPlayer.bHasPlanesUpgradedToday = FALSE;
         qPlayer.NumFracht = 0;
         qPlayer.NumFrachtFree = 0;
         qPlayer.NumMiles = 0;
