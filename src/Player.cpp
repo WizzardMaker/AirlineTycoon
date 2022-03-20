@@ -2426,7 +2426,7 @@ void PLAYER::PlanGates() {
                 auslastungProGate[n][i.zeit + 1] = true;
                 ++Gates.Auslastung[i.zeit + 1];
             }
-            
+
             found = true;
         }
 
@@ -4012,7 +4012,8 @@ void PLAYER::RobotExecuteAction() {
     // Die exakte Zeit des Ausführens auf dem Server simulieren
     SLONG RealLocalTime = Sim.Time;
 
-    Hdu.HercPrintf("Player %li: %li, %li at %li/%li\n", PlayerNum, RobotActions[0].ActionId, RobotActions[1].ActionId, WaitWorkTill, WaitWorkTill2);
+    Hdu.HercPrintf("Player %li: %s, %s at %li/%li\n",
+            PlayerNum, getRobotActionName(RobotActions[0].ActionId), getRobotActionName(RobotActions[1].ActionId), WaitWorkTill, WaitWorkTill2);
     NetGenericSync(770 + PlayerNum, RobotActions[0].ActionId);
     NetGenericSync(740 + PlayerNum, RobotActions[1].ActionId);
 

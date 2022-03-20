@@ -67,7 +67,7 @@ GfxMain::~GfxMain() {
 SLONG GfxMain::LoadLib(char *path, class GfxLib **out, SLONG /*unused*/) {
     Libs.emplace_back(this, nullptr, path, 0, 0, nullptr);
     *out = &Libs.back();
-    hprintf("MP: GfxMain list size: %d", Libs.size());
+    // hprintf("MP: GfxMain list size: %d", Libs.size());
     return 0;
 }
 
@@ -80,7 +80,7 @@ SLONG GfxMain::ReleaseLib(class GfxLib *lib) {
             break;
         }
     }
-    hprintf("MP: GfxMain list size: %d", Libs.size());
+    // hprintf("MP: GfxMain list size: %d", Libs.size());
     return 0;
 }
 

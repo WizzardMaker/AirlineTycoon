@@ -97,6 +97,7 @@ void DebugBreak(void);
 SHORT GetAsyncKeyState(int vKey);
 DWORD GetTickCount(void);
 #endif
+const char* getRobotActionName(SLONG a);
 
 //--------------------------------------------------------------------------------------------
 // Planer.Cpp:
