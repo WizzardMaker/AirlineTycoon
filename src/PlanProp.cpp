@@ -29,10 +29,10 @@ SLONG TrayCosts[] = {100, 800, 3400};
 SLONG DecoCosts[] = {500, 1500, 6000};
 
 // Preise pro Flugzeuge:
-SLONG TriebwerkCosts[] = {100000, 750000, 3500000};
-SLONG ReifenCosts[] = {50000, 300000, 900000};
-SLONG ElektronikCosts[] = {600000, 1500000, 8000000};
-SLONG SicherheitCosts[] = {0, 2000000, 6000000};
+SLONG TriebwerkCosts[] = {50000, 400000, 1800000};
+SLONG ReifenCosts[] = {30000, 200000, 500000};
+SLONG ElektronikCosts[] = {300000, 800000, 4000000};
+SLONG SicherheitCosts[] = {0, 1000000, 3000000};
 
 //--------------------------------------------------------------------------------------------
 // Die Schalter wird eröffnet:
