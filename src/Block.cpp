@@ -1001,7 +1001,11 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
 
                     // Gesamtbilanz:
                 case 4:
-                    ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], Sim.Players.Players[PlayerNum].BilanzGesamt, false, Page);
+                    {
+                        auto bilanz = Sim.Players.Players[PlayerNum].BilanzGesamt;
+                        bilanz += Sim.Players.Players[PlayerNum].Bilanz;
+                        ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], bilanz, false, Page);
+                    }
                     break;
 
                     // Wocheneinnamen der Flugzeuge:
@@ -1753,7 +1757,7 @@ SLONG BLOCK::PrintLineWithPercentage(XY ClientArea, SLONG rowID, SLONG textID, _
     return ret;
 }
 SLONG BLOCK::PrintList(XY ClientArea, const std::vector<std::pair<SLONG, __int64>> &list, SLONG idx) {
-    SLONG summe = 0;
+    __int64 summe = 0;
     for (auto &i : list) {
         idx += 1 + PrintLineWithValueT(ClientArea, idx, i.first, i.second);
         summe += i.second;

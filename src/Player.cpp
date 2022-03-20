@@ -284,7 +284,6 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 2030:
         /* D::Ticketeinnahmen */
-        Bilanz.Tickets += Money;
         Statistiken[STAT_E_ROUTEN].AddAtPastDay(0, Money);
         Bilanz.Tickets += Money;
         break;
