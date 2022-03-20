@@ -4617,6 +4617,8 @@ void PLAYER::RobotExecuteAction() {
 
         TargetedPlayer = dislike;
 
+        ArabTrust = max(1, ArabTrust); // Computerspieler müssen Araber nicht bestechen
+
         if (ArabHints < 100 && Image > -500 && ArabMode == 0 && ArabMode2 == 0 && ArabMode3 == 0) {
             if (((Sim.Date + PlayerNum) % 3 != 0 || RobotUse(ROBOT_USE_EXTREME_SABOTAGE) || LocalRandom.Rand(4) == 0 ||
                  (RobotUse(ROBOT_USE_EXTRA_SABOTAGE) && LocalRandom.Rand(2) == 0)) &&
