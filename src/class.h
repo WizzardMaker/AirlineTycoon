@@ -112,47 +112,41 @@ class /**/ CUnrepeatedRandom {
 class /**/ SValue {
   private:
     BUFFER_V<__int64> Days;
-    BUFFER_V<__int64> Months;
 
   public:
     SValue();
     void Init(void);
 
     // Funktionen zum Erzeugen der Daten:
-    void SetAtPastDay(SLONG Day, __int64 Value) { Days[Day] = Value; }
-    void AddAtPastDay(SLONG Day, __int64 Value) {
-        if (Value > 0 && Days[Day] + Value < Days[Day])
-            Days[Day] = 0x7fffffffffffffff;
-        else if (Value < 0 && Days[Day] + Value > Days[Day])
-            Days[Day] = -0x7fffffffffffffff;
+    void SetAtPastDay(__int64 Value) { Days.back() = Value; }
+    void AddAtPastDay(__int64 Value) {
+        if (Value > 0 && Days.back() + Value < Days.back())
+            Days.back() = 0x7fffffffffffffff;
+        else if (Value < 0 && Days.back() + Value > Days.back())
+            Days.back() = -0x7fffffffffffffff;
         else
-            Days[Day] += Value;
+            Days.back() += Value;
     }
 
     void NewDay(void);
-    void NewMonth(BOOL MonthIsSumOfDays);
 
     // Funktionen zum Abfragen der Daten:
     __int64 GetAtPastDay(SLONG Day) // 0=Heute, 1=Gestern, ... 29=letzer Eintrag
     {
-        return Days[Day];
-    }
-    __int64 GetAtPastMonth(SLONG Month) // 0=Heute, 0=Vor einem Monat, ... 11=letzer Eintrag
-    {
-        return Months[Month];
+        if (Day >= Days.AnzEntries()) {
+            return 0;
+        }
+        return *(Days.rbegin() + Day);
     }
 
-    __int64 GetMin(void);
-    __int64 GetAvg(void);
-    __int64 GetMax(void);
     __int64 GetSum(void);
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const SValue &Value) {
-        File << Value.Days << Value.Months;
+        File << Value.Days;
         return (File);
     }
     friend TEAKFILE &operator>>(TEAKFILE &File, SValue &Value) {
-        File >> Value.Days >> Value.Months;
+        File >> Value.Days;
         return (File);
     }
 

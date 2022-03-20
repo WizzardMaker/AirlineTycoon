@@ -374,7 +374,7 @@ CAufsicht::CAufsicht(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
                     }
 
                     qPlayer.NumOrderFlightsToday2 = qPlayer.NumOrderFlightsToday;
-                    qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 5);
+                    qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(5);
 
                     if (qPlayer.Owner != 1) {
                         qPlayer.Add5UhrigFlights();
@@ -483,7 +483,7 @@ CAufsicht::~CAufsicht() {
                     PLAYER &qOpfer = Sim.Players.Players[qPlayer.ArabOpfer2];
 
                     if (!bFremdsabotage) {
-                        Sim.Players.Players[c].Statistiken[STAT_SABOTIERT].AddAtPastDay(0, 1);
+                        Sim.Players.Players[c].Statistiken[STAT_SABOTIERT].AddAtPastDay(1);
                     }
 
                     switch (qPlayer.ArabMode2) {
@@ -541,7 +541,7 @@ CAufsicht::~CAufsicht() {
                 if (qPlayer.ArabMode3 != 0) {
                     PLAYER &qOpfer = Sim.Players.Players[qPlayer.ArabOpfer3];
 
-                    Sim.Players.Players[c].Statistiken[STAT_SABOTIERT].AddAtPastDay(0, 1);
+                    Sim.Players.Players[c].Statistiken[STAT_SABOTIERT].AddAtPastDay(1);
 
                     switch (qPlayer.ArabMode3) {
                     case 1: // Fremde Broschüren

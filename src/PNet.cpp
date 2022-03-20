@@ -418,7 +418,7 @@ void PLAYER::NetUpdateWorkers() {
                 d += Workers.Workers[c].Gehalt;
             }
         }
-        Statistiken[STAT_GEHALT].SetAtPastDay(0, -d);
+        Statistiken[STAT_GEHALT].SetAtPastDay(-d);
 
         SIM::SendSimpleMessage(ATNET_SYNCGEHALT, 0, Sim.localPlayer, d);
     }

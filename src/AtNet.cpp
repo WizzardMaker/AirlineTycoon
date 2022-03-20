@@ -1200,8 +1200,8 @@ void PumpNetwork() {
                 if (PlayerNum >= 0 && PlayerNum < Sim.Players.Players.AnzEntries()) {
                     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
-                    qPlayer.Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(0, m);
-                    qPlayer.Statistiken[STAT_MITARBEITER].SetAtPastDay(0, n);
+                    qPlayer.Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(m);
+                    qPlayer.Statistiken[STAT_MITARBEITER].SetAtPastDay(n);
 
                     SLONG c = 0;
                     while (true) {
@@ -1893,7 +1893,7 @@ void PumpNetwork() {
 
                 Sim.Players.Players[localPlayer].ChangeMoney(delta, 9999, "");
                 if (statistikid != -1) {
-                    Sim.Players.Players[localPlayer].Statistiken[statistikid].AddAtPastDay(0, delta);
+                    Sim.Players.Players[localPlayer].Statistiken[statistikid].AddAtPastDay(delta);
                 }
             } break;
 
@@ -1926,7 +1926,7 @@ void PumpNetwork() {
 
                 Message >> localPlayer >> gehalt;
 
-                Sim.Players.Players[localPlayer].Statistiken[STAT_GEHALT].SetAtPastDay(0, -gehalt);
+                Sim.Players.Players[localPlayer].Statistiken[STAT_GEHALT].SetAtPastDay(-gehalt);
             } break;
 
             case ATNET_SYNCNUMFLUEGE: {
@@ -1936,8 +1936,8 @@ void PumpNetwork() {
 
                 Message >> localPlayer >> auftrag >> lm;
 
-                Sim.Players.Players[localPlayer].Statistiken[STAT_AUFTRAEGE].SetAtPastDay(0, auftrag);
-                Sim.Players.Players[localPlayer].Statistiken[STAT_LMAUFTRAEGE].SetAtPastDay(0, lm);
+                Sim.Players.Players[localPlayer].Statistiken[STAT_AUFTRAEGE].SetAtPastDay(auftrag);
+                Sim.Players.Players[localPlayer].Statistiken[STAT_LMAUFTRAEGE].SetAtPastDay(lm);
             } break;
 
                 //--------------------------------------------------------------------------------------------

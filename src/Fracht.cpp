@@ -372,7 +372,7 @@ void CFrachtRaum::OnLButtonDown(UINT nFlags, CPoint point) {
                     KommVar = 3;
 
                     // Für den Statistikscreen:
-                    qPlayer.Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
+                    qPlayer.Statistiken[STAT_FRACHTEN].AddAtPastDay(1);
 
                     gFrachten[c].Praemie = -1000;
                     qPlayer.NetUpdateTook(3, c);

@@ -6,6 +6,7 @@
 #include "Checkup.h"
 #include "Sabotage.h"
 #include <filesystem>
+#include <numeric>
 
 // Für Menschen     Für Computer
 // Money   Credit   Money    Credit
@@ -803,7 +804,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
             qPlayer.Auftraege += a;
             a.RefillForBegin(0, &qPlayer.Auftraege.Random);
             qPlayer.Auftraege += a;
-            qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 2);
+            qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(2);
         }
 
         if (Difficulty >= DIFF_ATFS01 && Difficulty <= DIFF_ATFS10) {
@@ -1705,8 +1706,8 @@ void SIM::DoTimeStep() {
                                 __int64 PictureId = 0;
                                 CPlane &qPlane = qOpfer.Planes[Players.Players[c].ArabPlane];
 
-                                qOpfer.Statistiken[STAT_UNFAELLE].AddAtPastDay(0, 1);
-                                Players.Players[c].Statistiken[STAT_SABOTIERT].AddAtPastDay(0, 1);
+                                qOpfer.Statistiken[STAT_UNFAELLE].AddAtPastDay(1);
+                                Players.Players[c].Statistiken[STAT_SABOTIERT].AddAtPastDay(1);
 
                                 if (qPlane.Flugplan.NextFlight != -1) {
                                     CFlugplanEintrag &qFPE = qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight];
@@ -1778,7 +1779,7 @@ void SIM::DoTimeStep() {
                                         qPlane.Flugplan.UpdateNextFlight();
                                         qPlane.Flugplan.UpdateNextStart();
                                         if (!bFremdsabotage) {
-                                            Players.Players[c].Statistiken[STAT_VERSPAETUNG].AddAtPastDay(0, 1);
+                                            Players.Players[c].Statistiken[STAT_VERSPAETUNG].AddAtPastDay(1);
                                         }
 
                                         if (qPlane.Flugplan.Flug[e].Startzeit == 24) {
@@ -2153,7 +2154,7 @@ void SIM::DoTimeStep() {
 
                             if (Delay != 0) {
                                 qPlane.Flugplan.Flug[e].Startzeit++;
-                                Players.Players[c].Statistiken[STAT_VERSPAETUNG].AddAtPastDay(0, 1);
+                                Players.Players[c].Statistiken[STAT_VERSPAETUNG].AddAtPastDay(1);
 
                                 if (qPlane.Flugplan.Flug[e].Startzeit >= 24) {
                                     qPlane.Flugplan.Flug[e].Startzeit -= 24;
@@ -4488,86 +4489,21 @@ SValue::SValue() { Init(); }
 // Init:
 //--------------------------------------------------------------------------------------------
 void SValue::Init() {
-    Days.ReSize(31);
+    Days.ReSize(1);
     Days.FillWith(0);
-    Months.ReSize(12);
-    Months.FillWith(0);
 }
 
 //--------------------------------------------------------------------------------------------
 // Verwaltung für den neuen Tag:
 //--------------------------------------------------------------------------------------------
-void SValue::NewDay() { memmove(Days.getData() + 1, Days.getData(), 30 * sizeof(Days[0])); }
-
-//--------------------------------------------------------------------------------------------
-// Verwaltung für den neuen Monat:
-//--------------------------------------------------------------------------------------------
-void SValue::NewMonth(BOOL MonthIsSumOfDays) {
-    memmove(Months.getData() + 1, Months.getData(), 11 * sizeof(Months[0]));
-
-    if (MonthIsSumOfDays != 0) {
-        Months[0] = GetSum();
-    } else {
-        Months[0] = Days[0];
-    }
-}
-
-//--------------------------------------------------------------------------------------------
-// Gibt das Minimum aus dem letzten Monat aus:
-//--------------------------------------------------------------------------------------------
-__int64 SValue::GetMin() {
-    __int64 rc = Days[0];
-
-    for (int c = 0; c < 30; c++) {
-        if (c <= Sim.Date && rc < Days[c]) {
-            rc = Days[c];
-        }
-    }
-
-    return (rc);
-}
-
-//--------------------------------------------------------------------------------------------
-// Gibt den Durchschnitt (Average) aus dem letzten Monat aus:
-//--------------------------------------------------------------------------------------------
-__int64 SValue::GetAvg() {
-    __int64 rc = 0;
-
-    for (int c = 0; c < 30; c++) {
-        if (c >= Sim.Date) {
-            rc += Days[c];
-        }
-    }
-
-    return (rc / (Sim.Date + 1));
-}
-
-//--------------------------------------------------------------------------------------------
-// Gibt das Maximum aus dem letzten Monat aus:
-//--------------------------------------------------------------------------------------------
-__int64 SValue::GetMax() {
-    __int64 rc = Days[0];
-
-    for (int c = 0; c < 30; c++) {
-        if (c <= Sim.Date && rc > Days[c]) {
-            rc = Days[c];
-        }
-    }
-
-    return (rc);
+void SValue::NewDay() {
+    Days.ReSize(Days.AnzEntries() + 1);
+    Days.back() = *(Days.rbegin() + 1);
 }
 
 //--------------------------------------------------------------------------------------------
 // Gibt die Summe aus dem letzten Monat aus:
 //--------------------------------------------------------------------------------------------
 __int64 SValue::GetSum() {
-    __int64 rc = 0;
-
-    for (int c = 0; c < 30; c++) {
-        if (c <= Sim.Date) {
-            rc += Days[c];
-        }
-    }
-
-    return (rc);
+    return std::accumulate(Days.begin(), Days.end(), 0);
 }

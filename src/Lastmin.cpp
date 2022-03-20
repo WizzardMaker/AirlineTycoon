@@ -335,8 +335,8 @@ void CLastMinute::OnLButtonDown(UINT nFlags, CPoint point) {
                     qPlayer.NetUpdateOrder(LastMinuteAuftraege[c]);
 
                     // Für den Statistikscreen:
-                    qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
-                    qPlayer.Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(0, 1);
+                    qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
+                    qPlayer.Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(1);
 
                     SIM::SendSimpleMessage(ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, static_cast<long>(qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0)),
                                            static_cast<long>(qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay(0)));

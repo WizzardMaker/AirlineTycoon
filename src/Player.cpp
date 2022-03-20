@@ -229,97 +229,97 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
     switch (Reason) {
     case 2000:
         /* D::Kreditzinsen */
-        Statistiken[STAT_A_ZINS].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_ZINS].AddAtPastDay(Money);
         Bilanz.SollZinsen += Money;
         break;
     case 2002:
         /* D::Überziehungszinsen */
-        Statistiken[STAT_A_ZINS].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_ZINS].AddAtPastDay(Money);
         Bilanz.SollZinsen += Money;
         break;
     case 2001:
         /* D::Guthabenszinsen */
-        Statistiken[STAT_E_ZINS].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_ZINS].AddAtPastDay(Money);
         Bilanz.HabenZinsen += Money;
         break;
     case 2003:
         /* D::Kredit Neuaufnahme */
-        Statistiken[STAT_E_KREDIT].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_KREDIT].AddAtPastDay(Money);
         Bilanz.KreditNeu += Money;
         break;
     case 2004:
         /* D::Kredit Tilgung */
-        Statistiken[STAT_A_KREDIT].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_KREDIT].AddAtPastDay(Money);
         Bilanz.KreditTilgung += Money;
         break;
     case 2006:
         /* D::Fundsache (Geld im Papierkorb) */
-        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(Money);
         Bilanz.SonstigeEinnahmen += Money;
         break;
     case 2010:
         /* D::Kauf des Flugzeuges %s */
-        Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(Money);
         Bilanz.FlugzeugKauf += Money;
         break;
     case 2011:
         /* D::Verkauf des Flugzeuges %s */
-        Statistiken[STAT_E_FLUGZEUGE].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_FLUGZEUGE].AddAtPastDay(Money);
         Bilanz.FlugzeugVerkauf += Money;
         break;
     case 2020:
         /* D::Kauf von Kerosin auf Vorrat */
-        Statistiken[STAT_A_KEROSIN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_KEROSIN].AddAtPastDay(Money);
         Bilanz.KerosinVorrat += Money;
         break;
     case 2021:
         /* D::Kauf von Kerosin für Flugzeug */
-        Statistiken[STAT_A_KEROSIN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_KEROSIN].AddAtPastDay(Money);
         Bilanz.KerosinFlug += Money;
         break;
     case 2022:
         /* Kauf von Essen für Fluggäste */
-        Statistiken[STAT_A_ESSEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_ESSEN].AddAtPastDay(Money);
         Bilanz.Essen += Money;
         break;
     case 2030:
         /* D::Ticketeinnahmen */
-        Statistiken[STAT_E_ROUTEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_ROUTEN].AddAtPastDay(Money);
         Bilanz.Tickets += Money;
         break;
     case 2040:
         /* Ersteigerung einer Niederlassung in %s */
-        Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_EXPANSION].AddAtPastDay(Money);
         Bilanz.ExpansionCity += Money;
         break;
     case 2041:
         /* Ersteigerung der Route %s */
-        Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_EXPANSION].AddAtPastDay(Money);
         Bilanz.ExpansionRouten += Money;
         break;
     case 2042:
         /* Ersteigerung eines Gates */
-        Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_EXPANSION].AddAtPastDay(Money);
         Bilanz.ExpansionGates += Money;
         break;
     case 2050:
         /* D::Miete für Gates im Heimatflughäfen */
-        Statistiken[STAT_A_MIETEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_MIETEN].AddAtPastDay(Money);
         Bilanz.Gatemiete += Money;
         break;
     case 2051:
         /* D::Miete für Niederlassungen */
-        Statistiken[STAT_A_MIETEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_MIETEN].AddAtPastDay(Money);
         Bilanz.Citymiete += Money;
         break;
     case 2052:
         /* D::Miete für Routen */
-        Statistiken[STAT_A_MIETEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_MIETEN].AddAtPastDay(Money);
         Bilanz.Routenmiete += Money;
         break;
     case 2060:
         /* D::Strafe für Auftrag %s */
-        Statistiken[STAT_A_STRAFEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_STRAFEN].AddAtPastDay(Money);
         Bilanz.Vertragsstrafen += Money;
 
         // Für die Gewinn-Mission:
@@ -327,13 +327,13 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 2061:
         /* D::Prämie für Auftrag %s */
-        Statistiken[STAT_E_AUFTRAEGE].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_AUFTRAEGE].AddAtPastDay(Money);
         Bilanz.Auftraege += Money;
         NumAuftraege++;
         break;
     case 2065:
         /* D::Strafe für Frachtauftrag %s */
-        Statistiken[STAT_A_STRAFEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_STRAFEN].AddAtPastDay(Money);
         Bilanz.Vertragsstrafen += Money;
 
         // Für die Gewinn-Mission:
@@ -341,17 +341,17 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 2066:
         /* D::Prämie für Frachtauftrag %s */
-        Statistiken[STAT_E_AUFTRAEGE].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_AUFTRAEGE].AddAtPastDay(Money);
         Bilanz.Auftraege += Money;
         break;
     case 2070:
         /* D::Löhne & Gehälter */
-        Statistiken[STAT_A_GEHAELTER].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_GEHAELTER].AddAtPastDay(Money);
         Bilanz.Personal += Money;
         break;
     case 2080:
         /* D::Sabotage */
-        Statistiken[STAT_A_SABOTAGE].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SABOTAGE].AddAtPastDay(Money);
         Bilanz.Sabotage += Money;
         break;
     case 2090:
@@ -361,7 +361,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 2091:
         /* D::Kerosintanks, %sl x %s */
-        Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_EXPANSION].AddAtPastDay(Money);
         Bilanz.ExpansionTanks += Money;
         break;
     case 2100:
@@ -383,32 +383,32 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
     case 2110:
         /* D::Flugzeugumrüstung der %s */
         if (Money < 0) {
-            Statistiken[STAT_E_FLUGZEUGE].AddAtPastDay(0, -Money);
+            Statistiken[STAT_E_FLUGZEUGE].AddAtPastDay(-Money);
             Bilanz.FlugzeugUpgrades += Money;
         }
         if (Money > 0) {
-            Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(0, Money);
+            Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(Money);
             Bilanz.FlugzeugUpgrades += Money;
         }
         break;
     case 2111:
         /* D::Umbau der Sitze der %s */
-        Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(Money);
         Bilanz.FlugzeugUmbau += Money;
         break;
     case 2200:
         /* D::Strafe wegen Sabotage */
-        Statistiken[STAT_A_SABOTAGE].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SABOTAGE].AddAtPastDay(Money);
         Bilanz.SabotageStrafe += Money;
         break;
     case 2201:
         /* D::Entschädigung wegen Sabotage */
-        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(Money);
         Bilanz.SabotageKomp += Money;
         break;
     case 3110:
         /* D::Flugzeugwartung */
-        Statistiken[STAT_A_WARTUNG].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_WARTUNG].AddAtPastDay(Money);
         Bilanz.Wartung += Money;
         break;
     case 3120:
@@ -418,67 +418,67 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
     case 3124:
     case 3125:
         /* Kosten für versch. Werbe-Kampagnen */
-        Statistiken[STAT_A_AGENTUREN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_AGENTUREN].AddAtPastDay(Money);
         Bilanz.WerbeKosten += Money;
         break;
     case 3130:
         /* D::Bodyguard-Rabatt */
-        Statistiken[STAT_E_RABATT].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_RABATT].AddAtPastDay(Money);
         Bilanz.BodyguardRabatt += Money;
         break;
     case 3140:
         /* D::Rendite-Ausschüttung */
-        Statistiken[STAT_A_AKTIEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_AKTIEN].AddAtPastDay(Money);
         Bilanz.SollRendite += Money;
         break;
     case 3141:
         /* D::Rendite-Einnahmen */
-        Statistiken[STAT_E_AKTIEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_AKTIEN].AddAtPastDay(Money);
         Bilanz.HabenRendite += Money;
         break;
     case 3150:
         /* D::Aktien-Kauf */
-        Statistiken[STAT_A_AKTIEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_AKTIEN].AddAtPastDay(Money);
         Bilanz.Aktienkauf += Money;
         break;
     case 3151:
         /* D::Aktien-Verkauf */
-        Statistiken[STAT_E_AKTIEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_AKTIEN].AddAtPastDay(Money);
         Bilanz.Aktienverkauf += Money;
         break;
     case 3160:
         /* D::Emissions-Gebühr */
-        Statistiken[STAT_A_AKTIEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_AKTIEN].AddAtPastDay(Money);
         Bilanz.AktienEmissionFee += Money;
         break;
     case 3161:
         /* D::Emissions-Entschädigung (gezahlt) */
-        Statistiken[STAT_A_AKTIEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_AKTIEN].AddAtPastDay(Money);
         Bilanz.AktienEmissionKompGez += Money;
         break;
     case 3162:
         /* D::Emissions-Einnahmen */
-        Statistiken[STAT_E_AKTIEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_AKTIEN].AddAtPastDay(Money);
         Bilanz.AktienEmission += Money;
         break;
     case 3163:
         /* D::Emissions-Entschädigung (erhalten) */
-        Statistiken[STAT_E_AKTIEN].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_AKTIEN].AddAtPastDay(Money);
         Bilanz.AktienEmissionKompErh += Money;
         break;
     case 3170:
         /* D::Flughafenausbau */
-        Statistiken[STAT_A_EXPANSION].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_EXPANSION].AddAtPastDay(Money);
         Bilanz.ExpansionGates += Money;
         break;
     case 3180:
         /* D::Vermögen von Übernahmen */
-        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(Money);
         Bilanz.Takeovers += Money;
         break;
     case 3181:
         /* D::Liquidierung von %s */
-        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(Money);
         Bilanz.Takeovers += Money;
         break;
     case 3200:
@@ -513,27 +513,27 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 3300:
         /* D::Münze für Fernglas */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         Bilanz.SonstigeAusgaben += Money;
         break;
     case 3400:
         /* D::Raketenteil */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         Bilanz.SonstigeAusgaben += Money;
         break;
     case 3500:
         /* D::Schaden durch Sabotage */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         Bilanz.SabotageSchaden += Money;
         break;
     case 3501:
         /* D::Schaden durch Unfall */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         Bilanz.PanneSchaden += Money;
         break;
     case 3502:
         /* D::Obskuras Services GmbH, Novosibirsk (Gewinn/Verlust durch Sabotage (Hacking eines Bankkontos)) */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         if (Money > 0) {
             Bilanz.SabotageGeklaut += Money;
         } else {
@@ -542,27 +542,27 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 3503:
         /* D::Rechnung von Security Incorporated */
-        Statistiken[STAT_A_AGENTUREN].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_AGENTUREN].AddAtPastDay(Money);
         Bilanz.SecurityKosten += Money;
         break;
     case 3600:
         /* D::Vermögenssteuer */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         Bilanz.Steuer += Money;
         break;
     case 3700:
         /* D::Überweisung von %s */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         Bilanz.GeldErhalten += Money;
         break;
     case 3701:
         /* D::Überweisung an %s */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         Bilanz.GeldGeschickt += Money;
         break;
     case 9999:
         /* shoppen im DutyFree */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, Money);
+        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         Bilanz.SonstigeAusgaben += Money;
         break;
     default:
@@ -1403,15 +1403,6 @@ void PLAYER::NewDay() {
     LocationForbiddenTime = -1;
 
     ArabHints -= min(3, ArabHints);
-
-    if ((Sim.Date % 30) == 0) {
-        for (c = 0; c < STAT_ANZ; c++) {
-            Statistiken[c].NewMonth(static_cast<BOOL>((c == STAT_PASSAGIERE) || (c == STAT_PASSAGIERE_HOME) || (c == STAT_FLUEGE) || (c == STAT_AUFTRAEGE) ||
-                                                      (c == STAT_LMAUFTRAEGE) || (c == STAT_STRAFE) || (c == STAT_ZUFR_PASSAGIERE) ||
-                                                      (c == STAT_UNZUFR_PASSAGIERE) || (c == STAT_ZUFR_PERSONAL) || (c == STAT_VERSPAETUNG) ||
-                                                      (c == STAT_UNFAELLE) || (c == STAT_WARTUNG) || (c == STAT_GEHALT)));
-        }
-    }
 
     for (c = 0; c < STAT_ANZ; c++) {
         Statistiken[c].NewDay();
@@ -4164,7 +4155,7 @@ void PLAYER::RobotExecuteAction() {
                                                 SLONG ObjectId = (Auftraege += qAuftraege[e]);
 
                                                 if (Sim.Difficulty != DIFF_ADDON09 || NumOrderFlightsToday2 >= 5) {
-                                                    Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
+                                                    Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
                                                 }
 
                                                 NumOrderFlightsToday2++;
@@ -4233,7 +4224,7 @@ void PLAYER::RobotExecuteAction() {
                                             qAuftraege[e].Praemie = 0;
 
                                             if (Sim.Difficulty != DIFF_ADDON09 || NumOrderFlightsToday2 >= 5) {
-                                                Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
+                                                Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
                                             }
 
                                             NumOrderFlightsToday2++;
@@ -4329,7 +4320,7 @@ void PLAYER::RobotExecuteAction() {
                                                     if (Frachten.GetNumFree() < 2) {
                                                         Frachten.ReSize(Frachten.AnzEntries() + 1);
                                                     }
-                                                    Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
+                                                    Statistiken[STAT_FRACHTEN].AddAtPastDay(1);
                                                     SLONG ObjectId = (Frachten += qFracht);
                                                     qFracht.Praemie = -1;
 
@@ -4404,7 +4395,7 @@ void PLAYER::RobotExecuteAction() {
                                                     if (Frachten.GetNumFree() < 2) {
                                                         Frachten.ReSize(Frachten.AnzEntries() + 1);
                                                     }
-                                                    Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
+                                                    Statistiken[STAT_FRACHTEN].AddAtPastDay(1);
                                                     SLONG ObjectId = (Frachten += qFracht);
                                                     qFracht.Praemie = -1;
 
@@ -5245,8 +5236,8 @@ void PLAYER::RobotExecuteAction() {
                                                     Auftraege.ReSize(Auftraege.AnzEntries() + 1);
                                                 }
                                                 SLONG ObjectId = (Auftraege += LastMinuteAuftraege[e]);
-                                                Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
-                                                Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(0, 1);
+                                                Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
+                                                Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(1);
                                                 LastMinuteAuftraege[e].Praemie = 0;
 
                                                 CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
@@ -5306,8 +5297,8 @@ void PLAYER::RobotExecuteAction() {
                                                 Auftraege.ReSize(Auftraege.AnzEntries() + 1);
                                             }
                                             SLONG ObjectId = (Auftraege += LastMinuteAuftraege[e]);
-                                            Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
-                                            Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(0, 1);
+                                            Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
+                                            Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(1);
                                             LastMinuteAuftraege[e].Praemie = 0;
 
                                             if (Auftraege.IsInAlbum(ObjectId) == 0) {
@@ -5401,7 +5392,7 @@ void PLAYER::RobotExecuteAction() {
                                                 ReisebueroAuftraege[e].Praemie = 0;
 
                                                 if (Sim.Difficulty != DIFF_ADDON09 || NumOrderFlightsToday2 >= 5) {
-                                                    Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
+                                                    Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
                                                 }
 
                                                 NumOrderFlightsToday2++;
@@ -5471,7 +5462,7 @@ void PLAYER::RobotExecuteAction() {
                                             ReisebueroAuftraege[e].Praemie = 0;
 
                                             if (Sim.Difficulty != DIFF_ADDON09 || NumOrderFlightsToday2 >= 5) {
-                                                Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
+                                                Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
                                             }
 
                                             NumOrderFlightsToday2++;
@@ -5571,7 +5562,7 @@ void PLAYER::RobotExecuteAction() {
                                             if (Frachten.GetNumFree() < 2) {
                                                 Frachten.ReSize(Frachten.AnzEntries() + 1);
                                             }
-                                            Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
+                                            Statistiken[STAT_FRACHTEN].AddAtPastDay(1);
                                             SLONG ObjectId = (Frachten += qFracht);
                                             qFracht.Praemie = -1;
 
@@ -5646,7 +5637,7 @@ void PLAYER::RobotExecuteAction() {
                                             if (Frachten.GetNumFree() < 2) {
                                                 Frachten.ReSize(Frachten.AnzEntries() + 1);
                                             }
-                                            Statistiken[STAT_FRACHTEN].AddAtPastDay(0, 1);
+                                            Statistiken[STAT_FRACHTEN].AddAtPastDay(1);
                                             SLONG ObjectId = (Frachten += qFracht);
                                             qFracht.Praemie = -1;
 
@@ -6775,23 +6766,23 @@ void PLAYER::UpdateStatistics() {
     __int64 value = 0;
 
     // STAT_KONTO:
-    Statistiken[STAT_KONTO].SetAtPastDay(0, Money);
+    Statistiken[STAT_KONTO].SetAtPastDay(Money);
 
     // STAT_KREDIT:
     if (Money > 0) {
-        Statistiken[STAT_KREDIT].SetAtPastDay(0, Credit); // Nur Kredit
+        Statistiken[STAT_KREDIT].SetAtPastDay(Credit); // Nur Kredit
     } else {
-        Statistiken[STAT_KREDIT].SetAtPastDay(0, Credit - Money); // Kredit + Überziehungskredit
+        Statistiken[STAT_KREDIT].SetAtPastDay(Credit - Money); // Kredit + Überziehungskredit
     }
 
     // STAT_FLUGZEUGE:
-    Statistiken[STAT_FLUGZEUGE].SetAtPastDay(0, Planes.GetNumUsed());
+    Statistiken[STAT_FLUGZEUGE].SetAtPastDay(Planes.GetNumUsed());
 
     // STAT_PASSAGIERE: in CFlugplanEintrag::BookFlight (...
     // STAT_PASSAGIERE_HOME: in CFlugplanEintrag::BookFlight (...
 
     // STAT_AKTIENKURS:
-    Statistiken[STAT_AKTIENKURS].SetAtPastDay(0, long(Kurse[0]));
+    Statistiken[STAT_AKTIENKURS].SetAtPastDay(long(Kurse[0]));
 
     // STAT_FLUEGE: in CFlugplanEintrag::BookFlight (...
     // STAT_AUFTRAEGE: in CReisebuero::OnLButtonDown (... und CLastMinute::OnLButtonDown(...
@@ -6816,7 +6807,7 @@ void PLAYER::UpdateStatistics() {
     value += Money - Credit;
     // if (value>2147483647) value=2147483647;    //Overflow verhindern
 
-    Statistiken[STAT_FIRMENWERT].SetAtPastDay(0, value);
+    Statistiken[STAT_FIRMENWERT].SetAtPastDay(value);
     // Statistiken[STAT_FIRMENWERT].SetAtPastDay (0, SLONG(value));
 
     // STAT_UNZUFR_PASSAGIERE: in PlaneTyp.cpp
@@ -6834,7 +6825,7 @@ void PLAYER::UpdateStatistics() {
                 d++;
             }
         }
-        Statistiken[STAT_MITARBEITER].SetAtPastDay(0, d);
+        Statistiken[STAT_MITARBEITER].SetAtPastDay(d);
     } else if (Owner == 1) {
         for (c = d = 0; c < Planes.AnzEntries(); c++) {
             if (Planes.IsInAlbum(c) != 0) {
@@ -6844,7 +6835,7 @@ void PLAYER::UpdateStatistics() {
                 d += Planes[c].ptAnzBegleiter;
             }
         }
-        Statistiken[STAT_MITARBEITER].SetAtPastDay(0, d);
+        Statistiken[STAT_MITARBEITER].SetAtPastDay(d);
     }
     // Owner==2 über Network
 
@@ -6861,16 +6852,16 @@ void PLAYER::UpdateStatistics() {
 
         // if (Anz>0) Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay (0, d/Anz);
         if (Anz > 0) {
-            Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(0, d / 100);
+            Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(d / 100);
         } else {
-            Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(0, 0);
+            Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(0);
         }
     } else if (Owner == 1) {
         c = long(Statistiken[STAT_MITARBEITER].GetAtPastDay(0));
 
         c = c * (min(500, Image) + 2500) / 3000;
 
-        Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(0, c);
+        Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(c);
     }
     // Owner==2 über Network
 
@@ -6881,59 +6872,59 @@ void PLAYER::UpdateStatistics() {
     // STAT_MISSIONSZIEL:
     switch (Sim.Difficulty) {
     case DIFF_TUTORIAL:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, NumAuftraege * 100 / 5);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumAuftraege * 100 / 5);
         break;
 
     case DIFF_FIRST:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, NumPassengers * 100 / TARGET_PASSENGERS);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumPassengers * 100 / TARGET_PASSENGERS);
         break;
 
     case DIFF_EASY:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, NumPassengers * 100 / TARGET_GEWINN);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumPassengers * 100 / TARGET_GEWINN);
         break;
 
     case DIFF_NORMAL:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, ConnectFlags * 100 / TARGET_FLAGS);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(ConnectFlags * 100 / TARGET_FLAGS);
         break;
 
     case DIFF_HARD:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, Image * 100 / TARGET_IMAGE);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(Image * 100 / TARGET_IMAGE);
         break;
 
     case DIFF_FINAL:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, GetAnzBits(RocketFlags) * 10);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetAnzBits(RocketFlags) * 10);
         break;
 
     case DIFF_ADDON01:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, Credit);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(Credit);
         break;
 
     case DIFF_ADDON02:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, NumFracht);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumFracht);
         break;
 
     case DIFF_ADDON03:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, NumFrachtFree);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumFrachtFree);
         break;
 
     case DIFF_ADDON04:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, NumMiles);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumMiles);
         break;
 
     case DIFF_ADDON05:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, NumServicePoints);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumServicePoints);
         break;
 
     case DIFF_ADDON06:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, GetMissionRating());
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating());
         break;
 
     case DIFF_ADDON07:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, GetMissionRating());
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating());
         break;
 
     case DIFF_ADDON08:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(0, GetMissionRating());
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating());
         break;
 
     case DIFF_ADDON09:
@@ -6954,7 +6945,7 @@ void PLAYER::UpdateStatistics() {
             d++;
         }
     }
-    Statistiken[STAT_NIEDERLASSUNGEN].SetAtPastDay(0, d);
+    Statistiken[STAT_NIEDERLASSUNGEN].SetAtPastDay(d);
 
     // STAT_ROUTEN:
     for (c = d = 0; c < RentRouten.RentRouten.AnzEntries(); c++) {
@@ -6962,7 +6953,7 @@ void PLAYER::UpdateStatistics() {
             d++;
         }
     }
-    Statistiken[STAT_ROUTEN].SetAtPastDay(0, d);
+    Statistiken[STAT_ROUTEN].SetAtPastDay(d);
 
     // STAT_GEHALT:
     if (Owner == 0) {
@@ -6972,7 +6963,7 @@ void PLAYER::UpdateStatistics() {
                 d += Workers.Workers[c].Gehalt;
             }
         }
-        Statistiken[STAT_GEHALT].SetAtPastDay(0, -d);
+        Statistiken[STAT_GEHALT].SetAtPastDay(-d);
         */
     } else if (Owner == 1 && RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
         e = 0;
@@ -7019,16 +7010,16 @@ void PLAYER::UpdateStatistics() {
             }
         }
 
-        Statistiken[STAT_GEHALT].SetAtPastDay(0, -(e + e / 4));
+        Statistiken[STAT_GEHALT].SetAtPastDay(-(e + e / 4));
     }
 
     // STAT_BEKANNTHEIT:
-    Statistiken[STAT_BEKANNTHEIT].SetAtPastDay(0, Image / 10);
+    Statistiken[STAT_BEKANNTHEIT].SetAtPastDay(Image / 10);
 
     // STAT_AKTIEN_ANZAHL bis STAT_AKTIEN_HA
-    Statistiken[STAT_AKTIEN_ANZAHL].SetAtPastDay(0, AnzAktien);
+    Statistiken[STAT_AKTIEN_ANZAHL].SetAtPastDay(AnzAktien);
     for (c = 0; c < 4; c++) {
-        Statistiken[STAT_AKTIEN_SA + c].SetAtPastDay(0, OwnsAktien[c]);
+        Statistiken[STAT_AKTIEN_SA + c].SetAtPastDay(OwnsAktien[c]);
     }
 }
 

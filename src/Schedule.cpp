@@ -623,13 +623,13 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
     // Für den Statistik-Screen:
     if (ObjectType == 1 || ObjectType == 2) {
-        qPlayer.Statistiken[STAT_PASSAGIERE].AddAtPastDay(0, Passagiere);
-        qPlayer.Statistiken[STAT_PASSAGIERE].AddAtPastDay(0, PassagiereFC);
-        qPlayer.Statistiken[STAT_FLUEGE].AddAtPastDay(0, 1);
+        qPlayer.Statistiken[STAT_PASSAGIERE].AddAtPastDay(Passagiere);
+        qPlayer.Statistiken[STAT_PASSAGIERE].AddAtPastDay(PassagiereFC);
+        qPlayer.Statistiken[STAT_FLUEGE].AddAtPastDay(1);
 
         if (SLONG(VonCity) == Sim.HomeAirportId || SLONG(NachCity) == Sim.HomeAirportId) {
-            qPlayer.Statistiken[STAT_PASSAGIERE_HOME].AddAtPastDay(0, Passagiere);
-            qPlayer.Statistiken[STAT_PASSAGIERE_HOME].AddAtPastDay(0, PassagiereFC);
+            qPlayer.Statistiken[STAT_PASSAGIERE_HOME].AddAtPastDay(Passagiere);
+            qPlayer.Statistiken[STAT_PASSAGIERE_HOME].AddAtPastDay(PassagiereFC);
         }
     }
 

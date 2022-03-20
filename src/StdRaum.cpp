@@ -2590,7 +2590,7 @@ void CStdRaum::PostPaint() {
             qPlayer.History.AddCallCost(1);
             qPlayer.Money -= 1;
 
-            qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -1);
+            qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(-1);
             if (PlayerNum == Sim.localPlayer) {
                 SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -1, STAT_A_SONSTIGES);
             }
@@ -6293,7 +6293,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                         qPlayer.History.AddNewCall(UsingHandy + Ferngespraech * 2);
                         qPlayer.Money -= 1;
 
-                        qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -1);
+                        qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(-1);
                         if (PlayerNum == Sim.localPlayer) {
                             SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -1, STAT_A_SONSTIGES);
                         }
@@ -6395,7 +6395,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
             qPlayer.History.AddNewCall(UsingHandy + Ferngespraech * 2);
             qPlayer.Money -= 1;
 
-            qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -1);
+            qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(-1);
             if (PlayerNum == Sim.localPlayer) {
                 SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -1, STAT_A_SONSTIGES);
             }
@@ -6501,7 +6501,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                         qPlayer.History.AddNewCall(UsingHandy + Ferngespraech * 2);
                         qPlayer.Money -= 1;
 
-                        qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(0, -1);
+                        qPlayer.Statistiken[STAT_A_SONSTIGES].AddAtPastDay(-1);
                         if (PlayerNum == Sim.localPlayer) {
                             SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, -1, STAT_A_SONSTIGES);
                         }
@@ -6554,7 +6554,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
 
                 qPlayer.Auftraege += qAuftrag;
                 qPlayer.NetUpdateOrder(qAuftrag);
-                qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
+                qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
 
                 // Blöcke refeshen:
                 if (qPlayer.GetRoom() == ROOM_LAPTOP) {
@@ -6590,7 +6590,7 @@ void CStdRaum::MenuLeftClick(XY Pos) {
 
                 qPlayer.Frachten += qFracht;
                 qPlayer.NetUpdateFreightOrder(qFracht);
-                qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(0, 1);
+                qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
 
                 // Blöcke refeshen:
                 if (qPlayer.GetRoom() == ROOM_LAPTOP) {

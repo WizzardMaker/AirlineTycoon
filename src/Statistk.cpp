@@ -756,77 +756,38 @@ void CStatistik::CalcGraph() {
     __int64 max = 0;
 
     // Max-Min Werte
-    if (_days <= 30) {
-        for (short i = 0; i < STAT_MAX_ITEMS; i++) {
-            auto item = _iArray[_group][i];
-            if (item.typOfItem < TYP_VALUE || !item.visible) {
-                continue;
-            }
-            for (int p = 0; p < 4; p++) {
-                if (Sim.Players.Players[p].IsOut != 0) {
-                    continue;
-                }
-                if (!_playerMask[p]) {
-                    continue;
-                }
-                auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
-                if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
-                    continue;
-                }
-                if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
-                    continue;
-                }
-
-                for (long d = 0; d <= _days; d++) {
-                    __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
-                    if (item.typOfItem == TYP_PERCENT) {
-                        auto prevItem = _iArray[_group][i - 1];
-                        auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(d);
-                        if (prevVal != 0) {
-                            min = Min(val * __int64(100) / prevVal, min);
-                            max = Max(val * __int64(100) / prevVal, max);
-                        }
-                    } else {
-                        min = Min(val, min);
-                        max = Max(val, max);
-                    }
-                }
-            }
+    for (short i = 0; i < STAT_MAX_ITEMS; i++) {
+        auto item = _iArray[_group][i];
+        if (item.typOfItem < TYP_VALUE || !item.visible) {
+            continue;
         }
-    } else {
-        for (short i = 0; i < STAT_MAX_ITEMS; i++) {
-            auto item = _iArray[_group][i];
-            if (item.typOfItem < TYP_VALUE || !item.visible) {
+        for (int p = 0; p < 4; p++) {
+            if (Sim.Players.Players[p].IsOut != 0) {
                 continue;
             }
-            for (int p = 0; p < 4; p++) {
-                if (Sim.Players.Players[p].IsOut != 0) {
-                    continue;
-                }
-                if (!_playerMask[p]) {
-                    continue;
-                }
-                auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
-                if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
-                    continue;
-                }
-                if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
-                    continue;
-                }
+            if (!_playerMask[p]) {
+                continue;
+            }
+            auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
+            if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
+                continue;
+            }
+            if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
+                continue;
+            }
 
-                for (long d = 0; d <= Min(11L, ((_days + 29) / 30)); d++) {
-                    __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
-                    if (item.typOfItem == TYP_PERCENT) {
-                        auto prevItem = _iArray[_group][i - 1];
-                        auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(d);
-                        if (prevVal != 0) {
-                            min = Min(val * __int64(100) / prevVal, min);
-                            max = Max(val * __int64(100) / prevVal, max);
-                        }
-                    } else {
-                        min = Min(val, min);
-                        max = Max(val, max);
+            for (long d = 0; d <= _days; d++) {
+                __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
+                if (item.typOfItem == TYP_PERCENT) {
+                    auto prevItem = _iArray[_group][i - 1];
+                    auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(d);
+                    if (prevVal != 0) {
+                        min = Min(val * __int64(100) / prevVal, min);
+                        max = Max(val * __int64(100) / prevVal, max);
                     }
+                } else {
+                    min = Min(val, min);
+                    max = Max(val, max);
                 }
             }
         }
@@ -880,128 +841,61 @@ void CStatistik::RepaintGraphWindow() {
 
     DropDownBm.pBitmap->SetClipRect(CRect(G_LEFT, G_TOP, G_RIGHT, G_BOTTOM + 1));
 
-    // Max-Min Werte
-    if (_days <= 30) {
-        for (short i = 0; i < STAT_MAX_ITEMS; i++) {
-            auto item = _iArray[_group][i];
-            if (item.typOfItem < TYP_VALUE || !item.visible) {
-                continue;
-            }
-            for (int p = 0; p < 4; p++) {
-                if (Sim.Players.Players[p].IsOut != 0) {
-                    continue;
-                }
-                if (!_playerMask[p]) {
-                    continue;
-                }
-                auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
-                if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
-                    continue;
-                }
-                if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
-                    continue;
-                }
-
-                for (long d = 0; d <= days; d++) {
-                    double val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
-                    if (item.typOfItem == TYP_PERCENT) {
-                        auto prevItem = _iArray[_group][i - 1];
-                        auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(d);
-                        if (prevVal != 0) {
-                            value = static_cast<long>(val * __int64(100) / prevVal * _yGraph);
-                        } else {
-                            value = 0;
-                        }
-                    } else {
-                        value = static_cast<long>(val * _yGraph);
-                    }
-
-                    if (d == 0) {
-                        x2 = G_RIGHT;
-                        y2 = G_BOTTOM - yAxis - value;
-                        continue;
-                    }
-
-                    x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
-                    y1 = G_BOTTOM - yAxis - value;
-
-                    if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
-                        DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(DarkColors[p]));
-                    } else {
-                        DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(AktienKursLineColor[p]));
-                    }
-
-                    DropDownBm.BlitFrom(PobelBms[p], x2 - 2, y2 - 2);
-                    DropDownBm.BlitFrom(PobelBms[p], x1 - 2, y1 - 2);
-
-                    x2 = x1;
-                    y2 = y1;
-                    fDrawAxis = true;
-                }
-            }
+    for (short i = 0; i < STAT_MAX_ITEMS; i++) {
+        auto item = _iArray[_group][i];
+        if (item.typOfItem < TYP_VALUE || !item.visible) {
+            continue;
         }
-    } else if ((days / 30) != 0) {
-        long month = min(11, (days + 29 / 30));
-        _xGraph = static_cast<double> G_WIDTH / ((static_cast<double>(_days)) / 30);
-
-        for (short i = 0; i < STAT_MAX_ITEMS; i++) {
-            auto item = _iArray[_group][i];
-            if (item.typOfItem < TYP_VALUE || !item.visible) {
+        for (int p = 0; p < 4; p++) {
+            if (Sim.Players.Players[p].IsOut != 0) {
                 continue;
             }
-            for (int p = 0; p < 4; p++) {
-                if (Sim.Players.Players[p].IsOut != 0) {
-                    continue;
-                }
-                if (!_playerMask[p]) {
-                    continue;
-                }
-                auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
-                if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
-                    continue;
-                }
-                if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
-                    continue;
-                }
+            if (!_playerMask[p]) {
+                continue;
+            }
+            auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
+            if (Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkill) {
+                continue;
+            }
+            if (p != PlayerNum && Sim.Players.Players[PlayerNum].HasBerater(berater) < item.beraterSkillInfo) {
+                continue;
+            }
 
-                for (long d = 0; d <= month; d++) {
-                    double val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
-                    if (item.typOfItem == TYP_PERCENT) {
-                        auto prevItem = _iArray[_group][i - 1];
-                        auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(d);
-                        if (prevVal != 0) {
-                            value = static_cast<long>(val * __int64(100) / prevVal * _yGraph);
-                        } else {
-                            value = 0;
-                        }
+            for (long d = 0; d <= days; d++) {
+                double val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
+                if (item.typOfItem == TYP_PERCENT) {
+                    auto prevItem = _iArray[_group][i - 1];
+                    auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(d);
+                    if (prevVal != 0) {
+                        value = static_cast<long>(val * __int64(100) / prevVal * _yGraph);
                     } else {
-                        value = static_cast<long>(val * _yGraph);
+                        value = 0;
                     }
-
-                    if (d == 0) {
-                        x2 = G_RIGHT;
-                        y2 = G_BOTTOM - yAxis - value;
-                        continue;
-                    }
-
-                    x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
-                    y1 = G_BOTTOM - yAxis - value;
-
-                    if (x1 > G_LEFT || x2 > G_LEFT) {
-                        if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
-                            DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(DarkColors[p]));
-                        } else {
-                            DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(AktienKursLineColor[p]));
-                        }
-                    }
-
-                    DropDownBm.BlitFrom(PobelBms[p], x2 - 2, y2 - 2);
-                    DropDownBm.BlitFrom(PobelBms[p], x1 - 2, y1 - 2);
-
-                    x2 = x1;
-                    y2 = y1;
-                    fDrawAxis = true;
+                } else {
+                    value = static_cast<long>(val * _yGraph);
                 }
+
+                if (d == 0) {
+                    x2 = G_RIGHT;
+                    y2 = G_BOTTOM - yAxis - value;
+                    continue;
+                }
+
+                x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
+                y1 = G_BOTTOM - yAxis - value;
+
+                if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
+                    DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(DarkColors[p]));
+                } else {
+                    DropDownBm.pBitmap->Line(x1, y1, x2, y2, DropDownBm.pBitmap->GetHardwarecolor(AktienKursLineColor[p]));
+                }
+
+                DropDownBm.BlitFrom(PobelBms[p], x2 - 2, y2 - 2);
+                DropDownBm.BlitFrom(PobelBms[p], x1 - 2, y1 - 2);
+
+                x2 = x1;
+                y2 = y1;
+                fDrawAxis = true;
             }
         }
     }
