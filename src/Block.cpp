@@ -999,13 +999,11 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                     break;
 
                     // Gesamtbilanz:
-                case 4:
-                    {
-                        auto bilanz = Sim.Players.Players[PlayerNum].BilanzGesamt;
-                        bilanz += Sim.Players.Players[PlayerNum].Bilanz;
-                        ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], bilanz, false, Page);
-                    }
-                    break;
+                case 4: {
+                    auto bilanz = Sim.Players.Players[PlayerNum].BilanzGesamt;
+                    bilanz += Sim.Players.Players[PlayerNum].Bilanz;
+                    ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], bilanz, false, Page);
+                } break;
 
                     // Wocheneinnamen der Flugzeuge:
                 case 5:
@@ -1721,7 +1719,7 @@ SLONG BLOCK::PrintLine(XY ClientArea, SLONG rowID, SLONG textID) const {
 
     int count = 0;
     for (int i = 0; str[i] != 0; i++) {
-        if(str[i] == '\n') {
+        if (str[i] == '\n') {
             ++count;
         }
     }
@@ -1737,22 +1735,19 @@ void BLOCK::PrintLineHeading(XY ClientArea, SLONG rowID, SLONG textID) const {
 SLONG BLOCK::PrintLineWithValueT(XY ClientArea, SLONG rowID, SLONG textID, __int64 value) {
     SLONG ret = PrintLine(ClientArea, rowID, textID);
     SLONG center = 5 * ret;
-    Bitmap.PrintAt(bitoa(AufTausenderRunden(value)), FontSmallBlack, TEC_FONT_RIGHT,
-            ClientArea + XY(2, rowID * 13 + center), ClientArea + XY(172, 170));
+    Bitmap.PrintAt(bitoa(AufTausenderRunden(value)), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, rowID * 13 + center), ClientArea + XY(172, 170));
     return ret;
 }
 SLONG BLOCK::PrintLineWithValueMio(XY ClientArea, SLONG rowID, SLONG textID, __int64 value) {
     SLONG ret = PrintLine(ClientArea, rowID, textID);
     SLONG center = 5 * ret;
-    Bitmap.PrintAt(CalcMillionen(value), FontSmallBlack, TEC_FONT_RIGHT,
-            ClientArea + XY(2, rowID * 13 + center), ClientArea + XY(172, 170));
+    Bitmap.PrintAt(CalcMillionen(value), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, rowID * 13 + center), ClientArea + XY(172, 170));
     return ret;
 }
 SLONG BLOCK::PrintLineWithPercentage(XY ClientArea, SLONG rowID, SLONG textID, __int64 value, __int64 div) {
     SLONG ret = PrintLine(ClientArea, rowID, textID);
     SLONG center = 5 * ret;
-    Bitmap.PrintAt(CalcPercentage(value, div), FontSmallBlack, TEC_FONT_RIGHT,
-            ClientArea + XY(2, rowID * 13 + center), ClientArea + XY(172, 170));
+    Bitmap.PrintAt(CalcPercentage(value, div), FontSmallBlack, TEC_FONT_RIGHT, ClientArea + XY(2, rowID * 13 + center), ClientArea + XY(172, 170));
     return ret;
 }
 SLONG BLOCK::PrintList(XY ClientArea, const std::vector<std::pair<SLONG, __int64>> &list, SLONG idx) {
@@ -1792,10 +1787,7 @@ void BLOCK::ZeigeFinanzBericht(XY ClientArea, const PLAYER &player, const CBilan
         return;
     }
     if (page == 0) {
-        std::vector< std::tuple<SLONG, __int64, __int64> > tmp =
-                                                {{3601, ref.GetHaben(), 0},
-                                                {3602, ref.GetSoll(), 0},
-                                                {3604, ref.GetSumme(), 0}};
+        std::vector<std::tuple<SLONG, __int64, __int64>> tmp = {{3601, ref.GetHaben(), 0}, {3602, ref.GetSoll(), 0}, {3604, ref.GetSumme(), 0}};
         if (!info) {
             PrintLineHeading(ClientArea, 0, 10151);
         }
@@ -1809,13 +1801,9 @@ void BLOCK::ZeigeFinanzBericht(XY ClientArea, const PLAYER &player, const CBilan
             return;
         }
 
-        std::vector< std::tuple<SLONG, __int64, __int64> > tmp2 =
-                                                {{10100, ref.GetOpGewinn(), 0},
-                                                {-1, ref.GetOpGewinn(), ref.GetHaben()},
-                                                {10101, ref.GetOpVerlust(), 0},
-                                                {-1, ref.GetOpVerlust(), ref.GetSoll()},
-                                                {10102, ref.GetOpSaldo(), 0},
-                                                {-1, ref.GetOpSaldo(), ref.GetSumme()}};
+        std::vector<std::tuple<SLONG, __int64, __int64>> tmp2 = {{10100, ref.GetOpGewinn(), 0},  {-1, ref.GetOpGewinn(), ref.GetHaben()},
+                                                                 {10101, ref.GetOpVerlust(), 0}, {-1, ref.GetOpVerlust(), ref.GetSoll()},
+                                                                 {10102, ref.GetOpSaldo(), 0},   {-1, ref.GetOpSaldo(), ref.GetSumme()}};
         PrintLineHeading(ClientArea, idx++, 10150);
         idx = PrintList(ClientArea, tmp2, idx);
     } else if (page == 1) {
@@ -1833,12 +1821,8 @@ void BLOCK::ZeigeFinanzBericht(XY ClientArea, const PLAYER &player, const CBilan
             return;
         }
 
-        std::vector< std::tuple<SLONG, __int64, __int64> > tmp =
-                                                {{3401, ref.HabenZinsen, 0},
-                                                {3402, ref.HabenRendite, 0},
-                                                {3501, ref.SollZinsen, 0},
-                                                {3502, ref.SollRendite, 0},
-                                                {10006, ref.Steuer, 0}};
+        std::vector<std::tuple<SLONG, __int64, __int64>> tmp = {
+            {3401, ref.HabenZinsen, 0}, {3402, ref.HabenRendite, 0}, {3501, ref.SollZinsen, 0}, {3502, ref.SollRendite, 0}, {10006, ref.Steuer, 0}};
         PrintLineHeading(ClientArea, idx++, 10153);
         idx = PrintList(ClientArea, tmp, idx);
 
@@ -1868,19 +1852,11 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
         PrintLineHeading(ClientArea, 0, 10050 + page);
     }
     if (page == 0) {
-        std::vector< std::pair<SLONG, __int64> > tmp =
-                                                {{3601, ref.GetHaben()},
-                                                {3602, ref.GetSoll()}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {{3601, ref.GetHaben()}, {3602, ref.GetSoll()}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 1) {
-        std::vector< std::pair<SLONG, __int64> > tmp = {{3403, ref.Tickets},
-                                            {3404, ref.Auftraege},
-                                            {10000, ref.KerosinFlug},
-                                            {10001, ref.KerosinVorrat},
-                                            {10002, ref.Essen},
-                                            {3505, ref.Vertragsstrafen},
-                                            {3506, ref.Wartung},
-                                            {10003, ref.FlugzeugUmbau}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {{3403, ref.Tickets}, {3404, ref.Auftraege},       {10000, ref.KerosinFlug}, {10001, ref.KerosinVorrat},
+                                                      {10002, ref.Essen},  {3505, ref.Vertragsstrafen}, {3506, ref.Wartung},      {10003, ref.FlugzeugUmbau}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 2) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 30) {
@@ -1888,10 +1864,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                            ClientArea + XY(172, 170));
             return;
         }
-        std::vector< std::pair<SLONG, __int64> > tmp = {{3504, ref.Personal},
-                                            {3507, ref.Gatemiete},
-                                            {3508, ref.Citymiete},
-                                            {3509, ref.Routenmiete}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {{3504, ref.Personal}, {3507, ref.Gatemiete}, {3508, ref.Citymiete}, {3509, ref.Routenmiete}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 3) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 40) {
@@ -1899,13 +1872,8 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                            ClientArea + XY(172, 170));
             return;
         }
-        std::vector< std::pair<SLONG, __int64> > tmp = {{3401, ref.HabenZinsen},
-                                            {3402, ref.HabenRendite},
-                                            {10004, ref.KreditNeu},
-                                            {3501, ref.SollZinsen},
-                                            {3502, ref.SollRendite},
-                                            {10005, ref.KreditTilgung},
-                                            {10006, ref.Steuer}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {{3401, ref.HabenZinsen}, {3402, ref.HabenRendite},   {10004, ref.KreditNeu}, {3501, ref.SollZinsen},
+                                                      {3502, ref.SollRendite}, {10005, ref.KreditTilgung}, {10006, ref.Steuer}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 4) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 50) {
@@ -1913,12 +1881,8 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                            ClientArea + XY(172, 170));
             return;
         }
-        std::vector< std::pair<SLONG, __int64> > tmp = {{10020, ref.Aktienverkauf},
-                                            {10021, ref.AktienEmission},
-                                            {10022, ref.AktienEmissionKompErh},
-                                            {10023, ref.Aktienkauf},
-                                            {10024, ref.AktienEmissionFee},
-                                            {10025, ref.AktienEmissionKompGez}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {{10020, ref.Aktienverkauf}, {10021, ref.AktienEmission},    {10022, ref.AktienEmissionKompErh},
+                                                      {10023, ref.Aktienkauf},    {10024, ref.AktienEmissionFee}, {10025, ref.AktienEmissionKompGez}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 5) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 60) {
@@ -1926,14 +1890,9 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                            ClientArea + XY(172, 170));
             return;
         }
-        std::vector< std::pair<SLONG, __int64> > tmp = {{10026, ref.FlugzeugVerkauf},
-                                            {10027, ref.Takeovers},
-                                            {10028, ref.FlugzeugKauf},
-                                            {10029, ref.FlugzeugUpgrades},
-                                            {10030, ref.ExpansionCity},
-                                            {10031, ref.ExpansionRouten},
-                                            {10032, ref.ExpansionGates},
-                                            {10033, ref.ExpansionTanks}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {{10026, ref.FlugzeugVerkauf},  {10027, ref.Takeovers},     {10028, ref.FlugzeugKauf},
+                                                      {10029, ref.FlugzeugUpgrades}, {10030, ref.ExpansionCity}, {10031, ref.ExpansionRouten},
+                                                      {10032, ref.ExpansionGates},   {10033, ref.ExpansionTanks}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 6) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 70) {
@@ -1941,11 +1900,8 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                            ClientArea + XY(172, 170));
             return;
         }
-        std::vector< std::pair<SLONG, __int64> > tmp = {{10007, ref.SabotageGeklaut},
-                                            {10008, ref.SabotageKomp},
-                                            {10009, ref.Sabotage},
-                                            {10010, ref.SabotageStrafe},
-                                            {10011, ref.SabotageSchaden}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {
+            {10007, ref.SabotageGeklaut}, {10008, ref.SabotageKomp}, {10009, ref.Sabotage}, {10010, ref.SabotageStrafe}, {10011, ref.SabotageSchaden}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 7) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 70) {
@@ -1953,14 +1909,9 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                            ClientArea + XY(172, 170));
             return;
         }
-        std::vector< std::pair<SLONG, __int64> > tmp = {{10012, ref.BodyguardRabatt},
-                                            {10013, ref.GeldErhalten},
-                                            {10014, ref.SonstigeEinnahmen},
-                                            {10015, ref.PanneSchaden},
-                                            {10016, ref.SecurityKosten},
-                                            {10017, ref.WerbeKosten},
-                                            {10018, ref.GeldGeschickt},
-                                            {10019, ref.SonstigeAusgaben}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {{10012, ref.BodyguardRabatt}, {10013, ref.GeldErhalten},    {10014, ref.SonstigeEinnahmen},
+                                                      {10015, ref.PanneSchaden},    {10016, ref.SecurityKosten},  {10017, ref.WerbeKosten},
+                                                      {10018, ref.GeldGeschickt},   {10019, ref.SonstigeAusgaben}};
         PrintList(ClientArea, tmp, 1);
     }
 }
@@ -2041,11 +1992,10 @@ void BLOCK::KerosinQualiOptimierung(XY ClientArea, SLONG idx, double qualiZiel, 
     menge = std::min(menge, ref.Tank - ref.TankInhalt);
     if (menge > 0) {
         if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_KEROSIN) < beraterSchwelle) {
-            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, txtId), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                    ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, txtId), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
         } else {
             Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, txtId2), menge), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, idx * 13),
-                    ClientArea + XY(172, 170));
+                           ClientArea + XY(172, 170));
         }
     }
 }
@@ -2099,18 +2049,18 @@ void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG page) {
         }
 
         ++idx;
-        if (ref.KerosinQuali > 5.0/3.0) {
+        if (ref.KerosinQuali > 5.0 / 3.0) {
             // Kaufe x Barrel teuer, um Qualität zu erhöhen
-            KerosinQualiOptimierung(ClientArea, idx, 5.0/3.0, 10317, 10318, 70);
-        } else if (ref.KerosinQuali > 4.0/3.0) {
+            KerosinQualiOptimierung(ClientArea, idx, 5.0 / 3.0, 10317, 10318, 70);
+        } else if (ref.KerosinQuali > 4.0 / 3.0) {
             // Kaufe x Barrel teuer, um Qualität zu erhöhen
-            KerosinQualiOptimierung(ClientArea, idx, 4.0/3.0, 10319, 10320, 80);
+            KerosinQualiOptimierung(ClientArea, idx, 4.0 / 3.0, 10319, 10320, 80);
         } else if (ref.KerosinQuali < 1.0) {
             // Kaufe x Barrel billig, um Qualität auf reduzieren
             KerosinQualiOptimierung(ClientArea, idx, 1.0, 10321, 10322, 90);
-        } else if (ref.KerosinQuali < 4.0/3.0) {
+        } else if (ref.KerosinQuali < 4.0 / 3.0) {
             // Kaufe x Barrel billig, um Qualität auf reduzieren
-            KerosinQualiOptimierung(ClientArea, idx, 4.0/3.0, 10323, 10324, 100);
+            KerosinQualiOptimierung(ClientArea, idx, 4.0 / 3.0, 10323, 10324, 100);
         }
     }
 }

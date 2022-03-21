@@ -2054,42 +2054,71 @@ void DebugBreak() { assert(0); }
 SHORT GetAsyncKeyState(int vKey) { return (SDL_GetModState() & vKey) != 0 ? 0x8000 : 0; }
 #endif
 
-const char* getRobotActionName(SLONG a) {
+const char *getRobotActionName(SLONG a) {
     switch (a) {
-        case ACTION_NONE: return "ACTION_NONE";
-        case ACTION_WAIT: return "ACTION_WAIT";
-        case ACTION_RAISEMONEY: return "ACTION_RAISEMONEY";
-        case ACTION_DROPMONEY: return "ACTION_DROPMONEY";
-        case ACTION_VISITBANK: return "ACTION_VISITBANK";
-        case ACTION_EMITSHARES: return "ACTION_EMITSHARES";
-        case ACTION_CHECKAGENT1: return "ACTION_CHECKAGENT1";
-        case ACTION_CHECKAGENT2: return "ACTION_CHECKAGENT2";
-        case ACTION_CHECKAGENT3: return "ACTION_CHECKAGENT3";
-        case ACTION_MEETING: return "ACTION_MEETING";
-        case ACTION_STARTDAY: return "ACTION_STARTDAY / ACTION_BUERO";
-        case ACTION_PERSONAL: return "ACTION_PERSONAL";
-        case ACTION_VISITARAB: return "ACTION_VISITARAB";
-        case ACTION_VISITKIOSK: return "ACTION_VISITKIOSK";
-        case ACTION_VISITMECH: return "ACTION_VISITMECH";
-        case ACTION_VISITMUSEUM: return "ACTION_VISITMUSEUM";
-        case ACTION_VISITDUTYFREE: return "ACTION_VISITDUTYFREE";
-        case ACTION_VISITAUFSICHT: return "ACTION_VISITAUFSICHT";
-        case ACTION_VISITNASA: return "ACTION_VISITNASA";
-        case ACTION_VISITTELESCOPE: return "ACTION_VISITTELESCOPE";
-        case ACTION_VISITMAKLER: return "ACTION_VISITMAKLER";
-        case ACTION_VISITRICK: return "ACTION_VISITRICK";
-        case ACTION_VISITROUTEBOX: return "ACTION_VISITROUTEBOX";
-        case ACTION_VISITSECURITY: return "ACTION_VISITSECURITY";
-        case ACTION_VISITDESIGNER: return "ACTION_VISITDESIGNER";
-        case ACTION_VISITSECURITY2: return "ACTION_VISITSECURITY2";
-        case ACTION_SABOTAGE: return "ACTION_SABOTAGE";
-        case ACTION_BUYUSEDPLANE: return "ACTION_BUYUSEDPLANE";
-        case ACTION_BUYNEWPLANE: return "ACTION_BUYNEWPLANE";
-        case ACTION_WERBUNG: return "ACTION_WERBUNG";
-        default:
-            hprintf("Misc.cpp: Default case should not be reached.");
-            DebugBreak();
-            return "ERROR";
+    case ACTION_NONE:
+        return "ACTION_NONE";
+    case ACTION_WAIT:
+        return "ACTION_WAIT";
+    case ACTION_RAISEMONEY:
+        return "ACTION_RAISEMONEY";
+    case ACTION_DROPMONEY:
+        return "ACTION_DROPMONEY";
+    case ACTION_VISITBANK:
+        return "ACTION_VISITBANK";
+    case ACTION_EMITSHARES:
+        return "ACTION_EMITSHARES";
+    case ACTION_CHECKAGENT1:
+        return "ACTION_CHECKAGENT1";
+    case ACTION_CHECKAGENT2:
+        return "ACTION_CHECKAGENT2";
+    case ACTION_CHECKAGENT3:
+        return "ACTION_CHECKAGENT3";
+    case ACTION_MEETING:
+        return "ACTION_MEETING";
+    case ACTION_STARTDAY:
+        return "ACTION_STARTDAY / ACTION_BUERO";
+    case ACTION_PERSONAL:
+        return "ACTION_PERSONAL";
+    case ACTION_VISITARAB:
+        return "ACTION_VISITARAB";
+    case ACTION_VISITKIOSK:
+        return "ACTION_VISITKIOSK";
+    case ACTION_VISITMECH:
+        return "ACTION_VISITMECH";
+    case ACTION_VISITMUSEUM:
+        return "ACTION_VISITMUSEUM";
+    case ACTION_VISITDUTYFREE:
+        return "ACTION_VISITDUTYFREE";
+    case ACTION_VISITAUFSICHT:
+        return "ACTION_VISITAUFSICHT";
+    case ACTION_VISITNASA:
+        return "ACTION_VISITNASA";
+    case ACTION_VISITTELESCOPE:
+        return "ACTION_VISITTELESCOPE";
+    case ACTION_VISITMAKLER:
+        return "ACTION_VISITMAKLER";
+    case ACTION_VISITRICK:
+        return "ACTION_VISITRICK";
+    case ACTION_VISITROUTEBOX:
+        return "ACTION_VISITROUTEBOX";
+    case ACTION_VISITSECURITY:
+        return "ACTION_VISITSECURITY";
+    case ACTION_VISITDESIGNER:
+        return "ACTION_VISITDESIGNER";
+    case ACTION_VISITSECURITY2:
+        return "ACTION_VISITSECURITY2";
+    case ACTION_SABOTAGE:
+        return "ACTION_SABOTAGE";
+    case ACTION_BUYUSEDPLANE:
+        return "ACTION_BUYUSEDPLANE";
+    case ACTION_BUYNEWPLANE:
+        return "ACTION_BUYNEWPLANE";
+    case ACTION_WERBUNG:
+        return "ACTION_WERBUNG";
+    default:
+        hprintf("Misc.cpp: Default case should not be reached.");
+        DebugBreak();
+        return "ERROR";
     }
 }
-

@@ -450,7 +450,7 @@ void CWorkers::NewDay() {
         Workers[c].WarnedToday = FALSE;
         if (Workers[c].Employer >= 0 && Workers[c].Employer <= 3) {
             SLONG Anz = 0;
-            auto& qPlayer = Sim.Players.Players[Workers[c].Employer];
+            auto &qPlayer = Sim.Players.Players[Workers[c].Employer];
 
             if (qPlayer.Owner == 0 || (qPlayer.Owner == 1 && !qPlayer.RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
                 if (qPlayer.Image < 500) {
@@ -720,8 +720,10 @@ void CWorkers::CheckShortageAndSort() {
     hprintf("Still %li expired Workers in pool", nExpired);
     if (nExpired > 100) {
         int i = Workers.AnzEntries() - 1;
-        while (Workers[i].Employer == WORKER_EXPIRED) { --i; }
-        hprintf("Shrinking pool from %li to %li", Workers.AnzEntries(), i+1);
+        while (Workers[i].Employer == WORKER_EXPIRED) {
+            --i;
+        }
+        hprintf("Shrinking pool from %li to %li", Workers.AnzEntries(), i + 1);
         Workers.ReSize(i + 1);
     }
 }

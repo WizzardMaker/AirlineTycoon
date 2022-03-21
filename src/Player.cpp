@@ -1350,7 +1350,7 @@ void PLAYER::NewDay() {
     }
 
     if (Owner == 1 && RobotUse(ROBOT_USE_BONUS)) {
-        if(Bonus == 0) {
+        if (Bonus == 0) {
             SLONG neg = 1; // Vorzeichen verdrehen, weil: wenig ist gut
             if (Sim.Difficulty == DIFF_ADDON01) {
                 neg = -1;
@@ -2334,7 +2334,7 @@ void PLAYER::UpdateFrachtauftragsUsage() {
 // 14:59 belegt
 //--------------------------------------------------------------------------------------------
 struct flug_info_t {
-    flug_info_t(CFlugplanEintrag *p, int i, bool f) : flug(p), zeit(i), istAbflug(f) { }
+    flug_info_t(CFlugplanEintrag *p, int i, bool f) : flug(p), zeit(i), istAbflug(f) {}
     CFlugplanEintrag *flug{nullptr};
     int zeit{};
     bool istAbflug{};
@@ -2386,22 +2386,22 @@ void PLAYER::PlanGates() {
 
             // Abflug oder Ankunft?
             if (Plan->Flug[d].VonCity == ULONG(Sim.HomeAirportId)) {
-                list.emplace_back(&Plan->Flug[d], tmp-1, true);
+                list.emplace_back(&Plan->Flug[d], tmp - 1, true);
             } else // Ankunft!
             {
                 list.emplace_back(&Plan->Flug[d], tmp, false);
             }
         }
     }
-    std::sort(list.begin(), list.end(), [](const flug_info_t& a, const flug_info_t& b) { return a.zeit < b.zeit; });
+    std::sort(list.begin(), list.end(), [](const flug_info_t &a, const flug_info_t &b) { return a.zeit < b.zeit; });
 
-    std::vector< std::vector<bool> > auslastungProGate;
+    std::vector<std::vector<bool>> auslastungProGate;
     auslastungProGate.resize(Gates.NumRented);
-    for (auto& i : auslastungProGate) {
+    for (auto &i : auslastungProGate) {
         i.resize(24 * 7, false);
     }
 
-    for (auto& i : list) {
+    for (auto &i : list) {
         bool found = false;
         for (SLONG n = 0; n < Gates.NumRented && !found; n++) {
             if (auslastungProGate[n][i.zeit] || (auslastungProGate[n][i.zeit + 1] && i.istAbflug)) {
@@ -2449,21 +2449,17 @@ void PLAYER::PlanGates() {
                     }
                     SLONG tmp = i.zeit;
                     if (i.istAbflug) {
-                        if (qEintrag.VonCity == ULONG(Sim.HomeAirportId) &&
-                                abs(qEintrag.Startzeit + (qEintrag.Startdate - Sim.Date) * 24 - tmp) < 2) {
+                        if (qEintrag.VonCity == ULONG(Sim.HomeAirportId) && abs(qEintrag.Startzeit + (qEintrag.Startdate - Sim.Date) * 24 - tmp) < 2) {
                             qEintrag.GateWarning = TRUE;
-                        } else if (qEintrag.NachCity == ULONG(Sim.HomeAirportId) &&
-                                (qEintrag.Landezeit + (qEintrag.Landedate - Sim.Date) * 24 == tmp ||
-                                 qEintrag.Landezeit + (qEintrag.Landedate - Sim.Date) * 24 == tmp + 1)) {
+                        } else if (qEintrag.NachCity == ULONG(Sim.HomeAirportId) && (qEintrag.Landezeit + (qEintrag.Landedate - Sim.Date) * 24 == tmp ||
+                                                                                     qEintrag.Landezeit + (qEintrag.Landedate - Sim.Date) * 24 == tmp + 1)) {
                             qEintrag.GateWarning = TRUE;
                         }
                     } else {
-                        if (qEintrag.VonCity == ULONG(Sim.HomeAirportId) &&
-                                (qEintrag.Startzeit + (qEintrag.Startdate - Sim.Date) * 24 == tmp ||
-                                 qEintrag.Startzeit + (qEintrag.Startdate - Sim.Date) * 24 == tmp + 1)) {
+                        if (qEintrag.VonCity == ULONG(Sim.HomeAirportId) && (qEintrag.Startzeit + (qEintrag.Startdate - Sim.Date) * 24 == tmp ||
+                                                                             qEintrag.Startzeit + (qEintrag.Startdate - Sim.Date) * 24 == tmp + 1)) {
                             qEintrag.GateWarning = TRUE;
-                        } else if (qEintrag.NachCity == ULONG(Sim.HomeAirportId) &&
-                                qEintrag.Landezeit - 1 + (qEintrag.Landedate - Sim.Date) * 24 == tmp) {
+                        } else if (qEintrag.NachCity == ULONG(Sim.HomeAirportId) && qEintrag.Landezeit - 1 + (qEintrag.Landedate - Sim.Date) * 24 == tmp) {
                             qEintrag.GateWarning = TRUE;
                         }
                     }
@@ -3457,7 +3453,7 @@ void PLAYER::RobotPlan() {
                 RobotActions[2].ActionId = ACTION_SABOTAGE;
             }
             if (RobotUse(ROBOT_USE_EXTRA_BANK) && (RobotActions[1].ActionId == ACTION_VISITKIOSK || RobotActions[1].ActionId == ACTION_VISITDUTYFREE ||
-                                   RobotActions[1].ActionId == ACTION_SABOTAGE)) {
+                                                   RobotActions[1].ActionId == ACTION_SABOTAGE)) {
                 RobotActions[2].ActionId = ACTION_VISITBANK;
             }
         }
@@ -4004,8 +4000,8 @@ void PLAYER::RobotExecuteAction() {
     // Die exakte Zeit des Ausführens auf dem Server simulieren
     SLONG RealLocalTime = Sim.Time;
 
-    Hdu.HercPrintf("Player %li: %s, %s at %li/%li\n",
-            PlayerNum, getRobotActionName(RobotActions[0].ActionId), getRobotActionName(RobotActions[1].ActionId), WaitWorkTill, WaitWorkTill2);
+    Hdu.HercPrintf("Player %li: %s, %s at %li/%li\n", PlayerNum, getRobotActionName(RobotActions[0].ActionId), getRobotActionName(RobotActions[1].ActionId),
+                   WaitWorkTill, WaitWorkTill2);
     NetGenericSync(770 + PlayerNum, RobotActions[0].ActionId);
     NetGenericSync(740 + PlayerNum, RobotActions[1].ActionId);
 
@@ -4024,8 +4020,8 @@ void PLAYER::RobotExecuteAction() {
         // MP: Logik sieht kaputt aus. DoRoutes ist niemals > 20
         if (DoRoutes == 0) {
             if (RobotUse(ROBOT_USE_SUGGESTROUTES) || (PlayerNum + 30 < Sim.Date && Planes.GetNumUsed() > 6) ||
-                    (PlayerNum + 15 < Sim.Date &&
-                     (Sim.Players.Players[(PlayerNum + 3) % 4].DoRoutes == 1 || Sim.Players.Players[(PlayerNum + 3) % 4].DoRoutes > 20))) {
+                (PlayerNum + 15 < Sim.Date &&
+                 (Sim.Players.Players[(PlayerNum + 3) % 4].DoRoutes == 1 || Sim.Players.Players[(PlayerNum + 3) % 4].DoRoutes > 20))) {
                 SLONG c = 0;
                 SLONG Anz = 0;
 
@@ -4470,49 +4466,49 @@ void PLAYER::RobotExecuteAction() {
                         for (SLONG pass = 0; pass < 4; pass++) {
                             switch (LocalRandom.Rand(7)) {
                             case 0:
-                                if (qPlane.SitzeTarget == 2 || SeatCosts[qPlane.SitzeTarget+1] > moneyAvailable) {
+                                if (qPlane.SitzeTarget == 2 || SeatCosts[qPlane.SitzeTarget + 1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.SitzeTarget++;
                                 moneyAvailable -= SeatCosts[qPlane.SitzeTarget];
                                 break;
                             case 1:
-                                if (qPlane.TablettsTarget == 2 || TrayCosts[qPlane.TablettsTarget+1] > moneyAvailable) {
+                                if (qPlane.TablettsTarget == 2 || TrayCosts[qPlane.TablettsTarget + 1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.TablettsTarget++;
                                 moneyAvailable -= TrayCosts[qPlane.TablettsTarget];
                                 break;
                             case 2:
-                                if (qPlane.DecoTarget == 2 || DecoCosts[qPlane.DecoTarget+1] > moneyAvailable) {
+                                if (qPlane.DecoTarget == 2 || DecoCosts[qPlane.DecoTarget + 1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.DecoTarget++;
                                 moneyAvailable -= DecoCosts[qPlane.DecoTarget];
                                 break;
                             case 3:
-                                if (qPlane.TriebwerkTarget == 2 || TriebwerkCosts[qPlane.TriebwerkTarget+1] > moneyAvailable) {
+                                if (qPlane.TriebwerkTarget == 2 || TriebwerkCosts[qPlane.TriebwerkTarget + 1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.TriebwerkTarget++;
                                 moneyAvailable -= TriebwerkCosts[qPlane.TriebwerkTarget];
                                 break;
                             case 4:
-                                if (qPlane.ReifenTarget == 2 || ReifenCosts[qPlane.ReifenTarget+1] > moneyAvailable) {
+                                if (qPlane.ReifenTarget == 2 || ReifenCosts[qPlane.ReifenTarget + 1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.ReifenTarget++;
                                 moneyAvailable -= ReifenCosts[qPlane.ReifenTarget];
                                 break;
                             case 5:
-                                if (qPlane.ElektronikTarget == 2 || ElektronikCosts[qPlane.ElektronikTarget+1] > moneyAvailable) {
+                                if (qPlane.ElektronikTarget == 2 || ElektronikCosts[qPlane.ElektronikTarget + 1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.ElektronikTarget++;
                                 moneyAvailable -= ElektronikCosts[qPlane.ElektronikTarget];
                                 break;
                             case 6:
-                                if (qPlane.SicherheitTarget == 2 || SicherheitCosts[qPlane.SicherheitTarget+1] > moneyAvailable) {
+                                if (qPlane.SicherheitTarget == 2 || SicherheitCosts[qPlane.SicherheitTarget + 1] > moneyAvailable) {
                                     continue;
                                 }
                                 qPlane.SicherheitTarget++;
@@ -5766,12 +5762,13 @@ void PLAYER::RobotExecuteAction() {
         }
 
         // Niederlassung erwerben:
-        if (((SavesForPlane == 0) && (SavesForRocket == 0)) || Sim.Date < 5 || LocalRandom.Rand(25) == 0 || (RobotUse(ROBOT_USE_BUY_MORE_ABROAD) && LocalRandom.Rand(3) == 0)) {
+        if (((SavesForPlane == 0) && (SavesForRocket == 0)) || Sim.Date < 5 || LocalRandom.Rand(25) == 0 ||
+            (RobotUse(ROBOT_USE_BUY_MORE_ABROAD) && LocalRandom.Rand(3) == 0)) {
             for (c = 0; c < 7; c++) {
                 if (TafelData.City[c].Player != PlayerNum && TafelData.City[c].ZettelId > -1 &&
                     RentCities.RentCities[Cities(TafelData.City[c].ZettelId)].Rang == 0) {
-                    if (((TafelData.City[c].Player != -1 && (Sympathie[TafelData.City[c].Player] < 40 || RobotUse(ROBOT_USE_BUY_MORE_ABROAD) || LocalRandom.Rand(10) == 0 ||
-                                                             (Sim.Date > 10 && LocalRandom.Rand(5) == 0))) ||
+                    if (((TafelData.City[c].Player != -1 && (Sympathie[TafelData.City[c].Player] < 40 || RobotUse(ROBOT_USE_BUY_MORE_ABROAD) ||
+                                                             LocalRandom.Rand(10) == 0 || (Sim.Date > 10 && LocalRandom.Rand(5) == 0))) ||
                          (TafelData.City[c].Player == -1 && LocalRandom.Rand(3) == 0)) &&
                         BilanzGestern.GetSumme() > TafelData.City[c].Preis * 10 && Credit * 2 < Money * 3 && Money > 0 &&
                         ((TafelData.Route[c].Player == dislike || RobotUse(ROBOT_USE_BUY_MORE_ABROAD) || RobotUse(ROBOT_USE_ABROAD)))) {

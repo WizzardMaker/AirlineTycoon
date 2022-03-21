@@ -973,21 +973,19 @@ void CStatistik::RepaintTextWindow() {
                         }
                         break;
 
-                    case TYP_PERCENT:
-                        {
-                            auto prevItem = _iArray[_group][i - 1];
-                            auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(0);
-                            if (prevVal != 0) {
-                                output = Einheiten[EINH_P].bString64(val * 100 / prevVal);
-                            } else {
-                                output = "0%";
-                            }
-
-                            if (item.visible) {
-                                summe += val;
-                            }
+                    case TYP_PERCENT: {
+                        auto prevItem = _iArray[_group][i - 1];
+                        auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(0);
+                        if (prevVal != 0) {
+                            output = Einheiten[EINH_P].bString64(val * 100 / prevVal);
+                        } else {
+                            output = "0%";
                         }
-                        break;
+
+                        if (item.visible) {
+                            summe += val;
+                        }
+                    } break;
 
                     case TYP_SUM_CURR:
                         output = Einheiten[EINH_DM].bString64(summe);

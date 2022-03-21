@@ -354,39 +354,31 @@ void CBilanz::Clear() {
 // Gibt den Saldo der Habens-Seite zurück:
 //--------------------------------------------------------------------------------------------
 __int64 CBilanz::GetHaben() const {
-    return Tickets + Auftraege + HabenZinsen + HabenRendite + KreditNeu + \
-        Aktienverkauf + AktienEmission + AktienEmissionKompErh + FlugzeugVerkauf + Takeovers + \
-        SabotageGeklaut + SabotageKomp + BodyguardRabatt + GeldErhalten + SonstigeEinnahmen;
+    return Tickets + Auftraege + HabenZinsen + HabenRendite + KreditNeu + Aktienverkauf + AktienEmission + AktienEmissionKompErh + FlugzeugVerkauf + Takeovers +
+           SabotageGeklaut + SabotageKomp + BodyguardRabatt + GeldErhalten + SonstigeEinnahmen;
 }
 
 //--------------------------------------------------------------------------------------------
 // Gibt den Saldo der Soll-Seite zurück:
 //--------------------------------------------------------------------------------------------
 __int64 CBilanz::GetSoll() const {
-    return KerosinVorrat + KerosinFlug + Essen + Vertragsstrafen + Wartung + \
-        FlugzeugUmbau + Personal + Gatemiete + Citymiete + Routenmiete + \
-        SollZinsen + SollRendite + KreditTilgung + Steuer + Aktienkauf + \
-        AktienEmissionFee + FlugzeugKauf + FlugzeugUpgrades + ExpansionCity + ExpansionRouten + \
-        ExpansionGates + ExpansionTanks + Sabotage + SabotageStrafe + SabotageSchaden + \
-        PanneSchaden + SecurityKosten + WerbeKosten + GeldGeschickt + SonstigeAusgaben + \
-        AktienEmissionKompGez;
+    return KerosinVorrat + KerosinFlug + Essen + Vertragsstrafen + Wartung + FlugzeugUmbau + Personal + Gatemiete + Citymiete + Routenmiete + SollZinsen +
+           SollRendite + KreditTilgung + Steuer + Aktienkauf + AktienEmissionFee + FlugzeugKauf + FlugzeugUpgrades + ExpansionCity + ExpansionRouten +
+           ExpansionGates + ExpansionTanks + Sabotage + SabotageStrafe + SabotageSchaden + PanneSchaden + SecurityKosten + WerbeKosten + GeldGeschickt +
+           SonstigeAusgaben + AktienEmissionKompGez;
 }
 
 //--------------------------------------------------------------------------------------------
 // Gibt den operativen Gewinn zurück
 //--------------------------------------------------------------------------------------------
-__int64 CBilanz::GetOpGewinn() const {
-    return Tickets + Auftraege;
-}
+__int64 CBilanz::GetOpGewinn() const { return Tickets + Auftraege; }
 __int64 CBilanz::GetOpVerlust() const {
     auto summe = KerosinVorrat + KerosinFlug + Essen + Vertragsstrafen + Wartung;
     summe += FlugzeugUmbau + Personal + Gatemiete + Citymiete + Routenmiete;
     summe += PanneSchaden + SecurityKosten;
     return summe;
 }
-__int64 CBilanz::GetOpSaldo() const {
-    return GetOpGewinn() + GetOpVerlust();
-}
+__int64 CBilanz::GetOpSaldo() const { return GetOpGewinn() + GetOpVerlust(); }
 
 //--------------------------------------------------------------------------------------------
 // Gibt den Saldo zurück:

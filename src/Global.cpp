@@ -201,8 +201,8 @@ CString SmackerPath;  // Die Smacker-Filmchen
 CString IntroPath;    // Der Intro-Film
 CString AppPath;      // Der Ganze Pfad, z.B. "f:\project\takeoff\"
 CString AppPrefPath;
-CString VoicePath;    // die Sprache
-CString MyPlanePath;  // die eigenen Flugzeuge
+CString VoicePath;   // die Sprache
+CString MyPlanePath; // die eigenen Flugzeuge
 
 //--------------------------------------------------------------------------------------------
 // Die Simulationswelt mit ihren Parameter (Zeit, Spieler, Schwierigkeit, ..)

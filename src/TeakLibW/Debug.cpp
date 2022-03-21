@@ -18,7 +18,7 @@ HDU::HDU() : Log(nullptr) {
     BUFFER_V<char> path(strlen(base) + strlen(file) + 1);
     strcpy(path.data(), base);
     strcat(path.data(), file);
-    //Log = fopen(path.data(), "w");
+    // Log = fopen(path.data(), "w");
     Log = stdout;
     SDL_free(base);
 }

@@ -822,7 +822,7 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
             qPlane.ElektronikTarget = Sim.RFElektronik;
             qPlane.SicherheitTarget = Sim.RFSicherheit;
             // qPlane.AnzPutzcrew      = long(Sim.RFPutzFaktor*qPlane.ptAnzBegleiter);
-            qPlane.MaxBegleiter = SLONG(std::round(Sim.RFBegleiterFaktor*qPlane.ptAnzBegleiter));
+            qPlane.MaxBegleiter = SLONG(std::round(Sim.RFBegleiterFaktor * qPlane.ptAnzBegleiter));
 
             if (qPlayer.CalcPlanePropSum() > qPlayer.Money) {
                 qPlane.SitzeTarget = back0;

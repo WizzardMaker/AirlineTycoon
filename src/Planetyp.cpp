@@ -1170,56 +1170,56 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
                 // hprintf ("Zustand=%li", Zustand);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonRepair));
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonRepair));
                 }
             } else if (LocalRand.Rand(65) > Saldo) {
                 // schlechte Crew:
                 // hprintf ("Saldo=%li", Saldo);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSick));
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonSick));
                 }
             } else if ((TooExpensive != 0) && LocalRand.Rand(130) < TooExpensive) {
                 // zu teuer:
                 // hprintf ("TooExpensive=%li", TooExpensive);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonExpensive));
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonExpensive));
                 }
             } else if (quali > 8) {
                 // sehr gut:
                 // hprintf ("3 star, quali=%li", quali);
                 Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson3Stars));
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPerson3Stars));
                 }
             } else if (quali > 4) {
                 // recht gut:
                 // hprintf ("2 star, quali=%li", quali);
                 Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson2Stars));
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPerson2Stars));
                 }
             } else if (quali >= 0) {
                 // okay:
                 // hprintf ("okay, quali=%li", quali);
                 Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSmile));
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonSmile));
                 }
             } else {
                 // schlecht
                 // hprintf ("schlecht, quali=%li", quali);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSick));
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonSick));
                 }
             }
         }
@@ -1244,56 +1244,56 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
                 // hprintf ("FC Zustand=%li", Zustand);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonRepairFC), 1U);
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonRepairFC), 1U);
                 }
             } else if (LocalRand.Rand(100) > Saldo) {
                 // schlechte Crew:
                 // hprintf ("FC Saldo=%li", Saldo);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSickFC), 1U);
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonSickFC), 1U);
                 }
             } else if ((TooExpensiveFC != 0) && LocalRand.Rand(130) < TooExpensiveFC) {
                 // zu teuer:
                 // hprintf ("FC TooExpensiveFC=%li", TooExpensiveFC);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonExpensiveFC), 1U);
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonExpensiveFC), 1U);
                 }
             } else if (quali > 10) {
                 // sehr gut:
                 // hprintf ("FC 3 star, quali=%li", quali);
                 Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson3StarsFC), 1U);
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPerson3StarsFC), 1U);
                 }
             } else if (quali > 8) {
                 // recht gut:
                 // hprintf ("FC 2 star, quali=%li", quali);
                 Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPerson2StarsFC), 1U);
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPerson2StarsFC), 1U);
                 }
             } else if (quali >= 4) {
                 // okay:
                 // hprintf ("FC okay, quali=%li", quali);
                 Sim.Players.Players[pn].Statistiken[STAT_ZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSmileFC), 1U);
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonSmileFC), 1U);
                 }
             } else {
                 // schlecht
                 // hprintf ("FC schlecht, quali=%li", quali);
                 Sim.Players.Players[pn].Statistiken[STAT_UNZUFR_PASSAGIERE].AddAtPastDay(Anz);
                 if (addToQueue) {
-                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING,
-                            static_cast<UBYTE>(pn), 0, 0, static_cast<UBYTE>(MoodPersonSickFC), 1U);
+                    Sim.PersonQueue.AddPerson(Clans.GetCustomerId(1, LocalRand.Rand(2) - 1, &LocalRand), pos, REASON_LEAVING, static_cast<UBYTE>(pn), 0, 0,
+                                              static_cast<UBYTE>(MoodPersonSickFC), 1U);
                 }
             }
         }
