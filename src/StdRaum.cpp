@@ -7654,7 +7654,8 @@ void CStdRaum::MenuLeftClick(XY Pos) {
         if (MouseClickArea == -102 && MouseClickId == MENU_SETRENDITE && MouseClickPar1 == 10) {
             if (MenuPar2 == 0) // kaufen
             {
-                auto Preis = __int64(MenuInfo * Sim.Players.Players[MenuPar1].Kurse[0]);
+                auto Preis = __int64(Sim.Players.Players[MenuPar1].Kurse[0] * MenuInfo);
+                Preis += Preis / 10 + 100;
 
                 if (Sim.Options.OptionAmbiente != 0) {
                     BackgroundFX[1].Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);

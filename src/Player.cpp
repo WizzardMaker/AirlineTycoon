@@ -382,13 +382,12 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 2110:
         /* D::Flugzeugumrüstung der %s */
+        Bilanz.FlugzeugUpgrades += Money;
         if (Money < 0) {
-            Statistiken[STAT_E_FLUGZEUGE].AddAtPastDay(-Money);
-            Bilanz.FlugzeugUpgrades += Money;
+            Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(Money);
         }
         if (Money > 0) {
-            Statistiken[STAT_A_FLUGZEUGE].AddAtPastDay(Money);
-            Bilanz.FlugzeugUpgrades += Money;
+            Statistiken[STAT_E_FLUGZEUGE].AddAtPastDay(Money);
         }
         break;
     case 2111:
@@ -533,10 +532,11 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 3502:
         /* D::Obskuras Services GmbH, Novosibirsk (Gewinn/Verlust durch Sabotage (Hacking eines Bankkontos)) */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
         if (Money > 0) {
+            Statistiken[STAT_E_SONSTIGES].AddAtPastDay(Money);
             Bilanz.SabotageGeklaut += Money;
         } else {
+            Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
             Bilanz.SabotageSchaden += Money;
         }
         break;
@@ -552,7 +552,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 3700:
         /* D::Überweisung von %s */
-        Statistiken[STAT_A_SONSTIGES].AddAtPastDay(Money);
+        Statistiken[STAT_E_SONSTIGES].AddAtPastDay(Money);
         Bilanz.GeldErhalten += Money;
         break;
     case 3701:
@@ -7072,7 +7072,6 @@ int PLAYER::TradeStock(SLONG airlineNum, SLONG amount) {
         aktienWert = __int64(Sim.Players.Players[airlineNum].Kurse[0] * amount);
         auto gesamtPreis = aktienWert + aktienWert / 10 + 100;
         if (Money - gesamtPreis < DEBT_LIMIT) {
-            TeakLibW_Exception(FNL, ExcNever);
             return 0;
         }
         ChangeMoney(-gesamtPreis, 3150, "");
