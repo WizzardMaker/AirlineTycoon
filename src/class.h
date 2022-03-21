@@ -1177,8 +1177,8 @@ class /**/ BLOCK {
     friend TEAKFILE &operator>>(TEAKFILE &File, BLOCK &b);
 
   private:
-    SLONG PrintLine(XY ClientArea, SLONG rowID, SLONG textID);
-    void PrintLineHeading(XY ClientArea, SLONG rowID, SLONG textID);
+    SLONG PrintLine(XY ClientArea, SLONG rowID, SLONG textID) const;
+    void PrintLineHeading(XY ClientArea, SLONG rowID, SLONG textID) const;
     SLONG PrintLineWithValueT(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
     SLONG PrintLineWithValueMio(XY ClientArea, SLONG rowID, SLONG textID, __int64 value);
     SLONG PrintLineWithPercentage(XY ClientArea, SLONG rowID, SLONG textID, __int64 value, __int64 div);
@@ -1188,8 +1188,8 @@ class /**/ BLOCK {
     void ZeigeTagesBilanz(XY ClientArea, const PLAYER &player, const CBilanz &ref, bool info, SLONG page);
     void ZeigeInformantenFinanzBericht(XY ClientArea, SLONG page);
     void ZeigeInformantenBilanz(XY ClientArea, SLONG playerId, SLONG page);
-    void ZeigeInformantenInfos(XY ClientArea, SLONG page);
-    void KerosinQualiOptimierung(XY ClientArea, SLONG idx, double qualiZiel, SLONG txtId, SLONG txtId2, SLONG beraterSchwelle);
+    void ZeigeInformantenInfos(XY ClientArea, SLONG page) const;
+    void KerosinQualiOptimierung(XY ClientArea, SLONG idx, double qualiZiel, SLONG txtId, SLONG txtId2, SLONG beraterSchwelle) const;
     void ZeigeKerosinberater(XY ClientArea, SLONG page);
 };
 
@@ -1704,9 +1704,9 @@ class /**/ CWorkers {
     friend TEAKFILE &operator>>(TEAKFILE &File, CWorkers &Workers);
 
   private:
-    CWorker createBerater(TEAKRAND &LocalRand, SLONG typ);
-    CWorker createPilot(TEAKRAND &LocalRand);
-    CWorker createStewardess(TEAKRAND &LocalRand);
+    CWorker createBerater(TEAKRAND &LocalRand, SLONG typ) const;
+    CWorker createPilot(TEAKRAND &LocalRand) const;
+    CWorker createStewardess(TEAKRAND &LocalRand) const;
     SLONG AddToPool(SLONG typ, TEAKRAND &LocalRand, SLONG zielAnzahlKompetent);
 };
 
@@ -2197,7 +2197,7 @@ class PLAYER {
     void WalkToPlate(XY Plate);
     void WalkStop(void);
     void WalkStopEx(void);
-    bool RobotUse(SLONG FeatureId);
+    bool RobotUse(SLONG FeatureId) const;
 
   public: // Network-Sachen:
     static SLONG NetSynchronizeGetNum(void);

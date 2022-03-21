@@ -502,7 +502,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CBilanz &Bilanz) {
 // Speichert einen Wochenbilanz-Datensatz:
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator<<(TEAKFILE &File, const CBilanzWoche &Bilanz) {
-    for (auto &b : Bilanz.LetzteSieben) {
+    for (const auto &b : Bilanz.LetzteSieben) {
         File << b;
     }
     return (File);

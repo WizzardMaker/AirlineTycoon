@@ -4447,7 +4447,7 @@ void PLAYER::RobotExecuteAction() {
             Sim.Players.Players[PlayerNum].StrikeHours = 0;
         }
 
-        if (RobotUse(ROBOT_USE_LUXERY) && Planes.GetNumUsed() > 0 && Money > 200000 && !bHasPlanesUpgradedToday) {
+        if (RobotUse(ROBOT_USE_LUXERY) && Planes.GetNumUsed() > 0 && Money > 200000 && (bHasPlanesUpgradedToday == 0)) {
             long prob = 5;
 
             if (Money > 2500000) {
@@ -7873,7 +7873,7 @@ bool GlobalUse(SLONG FeatureId) {
     return false;
 }
 
-bool PLAYER::RobotUse(SLONG FeatureId) {
+bool PLAYER::RobotUse(SLONG FeatureId) const {
     SLONG Level = 0;
 
     // Die verschiedenen Levelstrukturen in eine Reihe bringen:

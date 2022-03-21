@@ -525,7 +525,8 @@ void CWorkers::NewDay() {
                 Workers[idx].Employer = WORKER_JOBLESS;
                 Workers[idx].Gehalt = Workers[idx].OriginalGehalt;
                 break;
-            } else if (AnzahlBerater > 0) {
+            }
+            if (AnzahlBerater > 0) {
                 AnzahlBerater--;
                 Workers[idx].Employer = WORKER_JOBLESS;
                 Workers[idx].Gehalt = Workers[idx].OriginalGehalt;
@@ -594,7 +595,7 @@ CString CWorkers::GetRandomName(BOOL Geschlecht) const {
 //--------------------------------------------------------------------------------------------
 // Verhindert, dass es zu wenig Piloten oder Stewardessen gibt:
 //--------------------------------------------------------------------------------------------
-CWorker CWorkers::createBerater(TEAKRAND &LocalRand, SLONG typ) {
+CWorker CWorkers::createBerater(TEAKRAND &LocalRand, SLONG typ) const {
     CWorker worker;
     worker.Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
     worker.Name = GetRandomName(worker.Geschlecht);
@@ -610,7 +611,7 @@ CWorker CWorkers::createBerater(TEAKRAND &LocalRand, SLONG typ) {
     worker.OriginalGehalt = worker.Gehalt;
     return worker;
 }
-CWorker CWorkers::createPilot(TEAKRAND &LocalRand) {
+CWorker CWorkers::createPilot(TEAKRAND &LocalRand) const {
     CWorker worker;
     worker.Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
     worker.Name = GetRandomName(worker.Geschlecht);
@@ -626,7 +627,7 @@ CWorker CWorkers::createPilot(TEAKRAND &LocalRand) {
     worker.OriginalGehalt = worker.Gehalt;
     return worker;
 }
-CWorker CWorkers::createStewardess(TEAKRAND &LocalRand) {
+CWorker CWorkers::createStewardess(TEAKRAND &LocalRand) const {
     CWorker worker;
     worker.Geschlecht = static_cast<BOOL>((rand() % 100) > 80);
     worker.Name = GetRandomName(worker.Geschlecht);

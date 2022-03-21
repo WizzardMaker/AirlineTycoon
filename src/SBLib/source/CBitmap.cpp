@@ -253,11 +253,11 @@ ULONG SB_CBitmapCore::SetPixel(SLONG x, SLONG y, SB_Hardwarecolor hwcolor) {
     Uint8 *p = static_cast<Uint8 *>(lpDDSurface->pixels) + y * lpDDSurface->pitch + x * bpp;
 
     if (lpDDSurface->format->format == SDL_PIXELFORMAT_INDEX8) {
-        *(uint8_t *)(p) = (uint8_t)hwcolor;
+        *static_cast<uint8_t *>(p) = (uint8_t)hwcolor;
     } else if (lpDDSurface->format->format == SDL_PIXELFORMAT_RGBA8888) {
-        *(uint32_t *)(p) = (uint32_t)hwcolor;
+        *reinterpret_cast<uint32_t *>(p) = (uint32_t)hwcolor;
     } else if (lpDDSurface->format->format == SDL_PIXELFORMAT_RGB565) {
-        *(uint16_t *)(p) = (uint16_t)hwcolor;
+        *reinterpret_cast<uint16_t *>(p) = (uint16_t)hwcolor;
     }
 
     if (SDL_MUSTLOCK(lpDDSurface)) {
@@ -538,7 +538,7 @@ ULONG SB_CPrimaryBitmap::Release() {
 }
 
 SB_CBitmapKey::SB_CBitmapKey(class SB_CBitmapCore &core) : Surface(core.lpDDSurface) {
-    if (!Surface) {
+    if (Surface == nullptr) {
         return;
     }
     if (SDL_MUSTLOCK(Surface)) {
@@ -549,7 +549,7 @@ SB_CBitmapKey::SB_CBitmapKey(class SB_CBitmapCore &core) : Surface(core.lpDDSurf
 }
 
 SB_CBitmapKey::~SB_CBitmapKey() {
-    if (!Surface) {
+    if (Surface == nullptr) {
         return;
     }
     if (SDL_MUSTLOCK(Surface)) {
