@@ -452,6 +452,7 @@ void CWorkers::NewDay() {
             SLONG Anz = 0;
             auto &qPlayer = Sim.Players.Players[Workers[c].Employer];
 
+            // Worker u.U. mehrfach um 1%-Punkt unglücklicher machen
             if (qPlayer.Owner == 0 || (qPlayer.Owner == 1 && !qPlayer.RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
                 if (qPlayer.Image < 500) {
                     Anz = 1;
@@ -463,32 +464,33 @@ void CWorkers::NewDay() {
             if ((Anz != 0) && qPlayer.Image < -500) {
                 Anz++;
             }
-
-            // Worker u.U. mehrfach um 1%-Punkt unglücklicher machen
             for (; Anz > 0; Anz--) {
                 Workers[c].Happyness--;
+            }
 
-                if (Workers[c].Gehalt < Workers[c].OriginalGehalt) {
-                    Workers[c].Happyness -= 20;
+            // Happyness verändert sich nach Gehalt
+            if (Workers[c].Gehalt > Workers[c].OriginalGehalt + LocalRand.Rand(2000)) {
+                Workers[c].Happyness++;
+            } else if (Workers[c].Gehalt < Workers[c].OriginalGehalt - LocalRand.Rand(2000)) {
+                Workers[c].Happyness--;
+            }
+
+            if (Workers[c].Happyness < -100) {
+                // Ihm reicht's! Er kündigt:
+                if (qPlayer.Owner == 0) {
+                    qPlayer.Messages.AddMessage(
+                        BERATERTYP_GIRL,
+                        bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2000 + Workers[c].Typ + Workers[c].Geschlecht * 100), Workers[c].Name.c_str()));
                 }
 
-                if (Workers[c].Happyness < -100) {
-                    // Ihm reicht's! Er kündigt:
-                    if (qPlayer.Owner == 0) {
-                        qPlayer.Messages.AddMessage(
-                            BERATERTYP_GIRL,
-                            bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2000 + Workers[c].Typ + Workers[c].Geschlecht * 100), Workers[c].Name.c_str()));
-                    }
-
-                    SLONG ExEmployer = Workers[c].Employer;
-                    Workers[c].Employer = WORKER_RESERVE;
-                    if (Workers[c].TimeInPool > 0) {
-                        Workers[c].TimeInPool = 0;
-                    }
-
-                    Sim.Players.Players[ExEmployer].MapWorkers(FALSE);
-                    break;
+                SLONG ExEmployer = Workers[c].Employer;
+                Workers[c].Employer = WORKER_RESERVE;
+                if (Workers[c].TimeInPool > 0) {
+                    Workers[c].TimeInPool = 0;
                 }
+
+                Sim.Players.Players[ExEmployer].MapWorkers(FALSE);
+                break;
             }
         }
     }
@@ -548,7 +550,7 @@ void CWorker::Gehaltsaenderung(BOOL Art) {
         // Gehaltserhöhung:
         SLONG OldGehalt = Gehalt;
 
-        Gehalt += (Gehalt / 100 * 10);
+        Gehalt += (OriginalGehalt / 100 * 10);
         if (Gehalt > 1000000) {
             Gehalt = 1000000;
         }
@@ -558,7 +560,7 @@ void CWorker::Gehaltsaenderung(BOOL Art) {
         }
     } else {
         // Gehaltskürzung:
-        Gehalt -= (Gehalt / 100 * 10);
+        Gehalt -= (OriginalGehalt / 100 * 10);
         Happyness -= 25;
 
         if (Happyness < -100) {

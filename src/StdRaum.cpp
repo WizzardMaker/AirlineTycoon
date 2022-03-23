@@ -4740,8 +4740,17 @@ void CStdRaum::MenuRepaint() {
             OnscreenBitmap.PrintAt(StandardTexte.GetS(TOKEN_JOBS, 2000 + Workers.Workers[MenuRemapper[MenuPage - 1]].Typ +
                                                                       Workers.Workers[MenuRemapper[MenuPage - 1]].Geschlecht * 1000),
                                    FontSmallBlack, TEC_FONT_LEFT, 40, 80, 250, 319);
-            OnscreenBitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_JOBS, 5050), Workers.Workers[MenuRemapper[MenuPage - 1]].Gehalt), FontSmallBlack,
-                                   TEC_FONT_LEFT, 40, 93, 250, 319);
+
+            auto gehalt = Workers.Workers[MenuRemapper[MenuPage - 1]].Gehalt;
+            auto origGehalt = Workers.Workers[MenuRemapper[MenuPage - 1]].OriginalGehalt;
+            if (gehalt > origGehalt) {
+                OnscreenBitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_JOBS, 5050), gehalt), FontNormalGreen, TEC_FONT_LEFT, 40, 93, 250, 319);
+            } else if (gehalt < origGehalt) {
+                OnscreenBitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_JOBS, 5050), gehalt), FontSmallRed, TEC_FONT_LEFT, 40, 93, 250, 319);
+            } else {
+                OnscreenBitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_JOBS, 5050), gehalt), FontSmallBlack, TEC_FONT_LEFT, 40, 93, 250, 319);
+            }
+
             OnscreenBitmap.PrintAt(StandardTexte.GetS(TOKEN_JOBS, 5020 + Workers.Workers[MenuRemapper[MenuPage - 1]].Talent / 10), FontSmallBlack,
                                    TEC_FONT_LEFT, 40, 106, 250, 319);
 
@@ -7916,7 +7925,10 @@ void CStdRaum::MenuStop() {
     }
 
     if (CurrentMenu == MENU_LETTERS || (CurrentMenu == MENU_FILOFAX && MenuPar1 != 1 && qPlayer.GetRoom() == ROOM_BURO_A + PlayerNum * 10)) {
-        (dynamic_cast<CBuero *>(this))->SP_Player.SetDesiredMood(SPM_IDLE);
+        auto *buero = dynamic_cast<CBuero *>(this);
+        if (buero) {
+            buero->SP_Player.SetDesiredMood(SPM_IDLE);
+        }
     }
 
     CurrentMenu = MENU_NONE;
