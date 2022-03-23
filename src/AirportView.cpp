@@ -28,7 +28,7 @@ BOOL IgnoreNextLButtonUp = FALSE;
 //Öfnungszeiten:
 SLONG timeDutyOpen = 10 * 60000;
 SLONG timeDutyClose = 16 * 60000; // Nur Sa, So
-SLONG timeArabOpen = 11 * 60000;
+SLONG timeArabOpen = 10 * 60000;
 SLONG timeLastClose = 16 * 60000;
 SLONG timeMuseOpen = 11 * 60000;
 SLONG timeReisClose = 17 * 60000;
