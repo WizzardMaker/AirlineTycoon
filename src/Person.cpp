@@ -3,7 +3,6 @@
 //============================================================================================
 #include "StdAfx.h"
 #include "AtNet.h"
-#include <climits>
 
 extern SB_CColorFX ColorFX;
 
@@ -734,7 +733,6 @@ PERSON::PERSON() {
 
     PersonalRand.SRand(Sim.GetHour() + Sim.GetMinute() / 5);
     PersonalRandWalk.SRand(Sim.GetHour() + Sim.GetMinute() / 5);
-    SortIndex = PersonalRand.Rand(0, INT_MAX);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -770,7 +768,6 @@ PERSON::PERSON(UBYTE ClanId, XY Position, UBYTE Reason, UBYTE FlightAirline, SLO
 
     PERSON::PersonalRand.SRand(Sim.GetHour() + Sim.GetMinute() / 5 + ClanId);
     PERSON::PersonalRandWalk.SRand(Sim.GetHour() + Sim.GetMinute() / 5 + ClanId);
-    PERSON::SortIndex = PersonalRand.Rand(0, INT_MAX);
 
     ScreenPos.x = Position.x - Position.y / 2 + 90;
     ScreenPos.y = Position.y + 220;
@@ -3666,7 +3663,6 @@ TEAKFILE &operator<<(TEAKFILE &File, const PERSON &Person) {
             File << Person.FlightPlaneId << Person.FlightPlaneIndex;
             File << Person.Target << Person.Position << Person.ScreenPos;
             File << Person.LookDir << Person.Mood << Person.MoodCountdown;
-            File << Person.SortIndex;
         }
     } else {
         DebugBreak();
@@ -3698,7 +3694,6 @@ TEAKFILE &operator>>(TEAKFILE &File, PERSON &Person) {
             File >> Person.FlightPlaneId >> Person.FlightPlaneIndex;
             File >> Person.Target >> Person.Position >> Person.ScreenPos;
             File >> Person.LookDir >> Person.Mood >> Person.MoodCountdown;
-            File >> Person.SortIndex;
         }
     } else {
         DebugBreak();
