@@ -86,6 +86,15 @@ template <typename T> class BUFFER_V : public std::vector<T> {
     const T &operator[](size_t pos) const { return std::vector<T>::at(pos); };
 #endif
 
+    // keep using function names of old BUFFER class for compatibility, but
+    // make sure that std::vector<> is not directly accessed
+    void clear() { Clear(); }
+    void resize(std::size_t count) { ReSize(count); }
+    void resize(std::size_t count, const T &value) {
+        ReSize(count);
+        FillWith(value);
+    }
+
   private:
     SLONG Offset{0};
 };
@@ -985,6 +994,7 @@ extern bool run_regression();
 
 template <typename T> class ALBUM_V {
   public:
+    using element_type = std::pair<T, ULONG>;
     class Iter {
       public:
         using difference_type = int;
@@ -993,33 +1003,29 @@ template <typename T> class ALBUM_V {
         using reference = T &;
         using iterator_category = std::random_access_iterator_tag;
 
-        Iter(typename std::vector<T>::iterator it, std::vector<int>::iterator it2, std::unordered_map<ULONG, int> *h) : It(it), It2(it2), Hash(h) {}
+        Iter(typename std::vector<element_type>::iterator it, std::unordered_map<ULONG, SLONG> *h) : It(it), Hash(h) {}
         inline Iter &operator++() {
             It++;
-            It2++;
             return (*this);
         }
         inline Iter &operator--() {
             It--;
-            It2--;
             return (*this);
         }
         inline Iter &operator+=(int i) {
             It += i;
-            It2 += i;
             return (*this);
         }
         inline Iter &operator-=(int i) {
             It -= i;
-            It2 -= i;
             return (*this);
         }
-        friend Iter operator+(Iter it, int i) { return Iter(it.It + i, it.It2 + i, it.Hash); }
-        friend Iter operator-(Iter it, int i) { return Iter(it.It - i, it.It2 - i, it.Hash); }
-        friend Iter operator+(int i, Iter it) { return Iter(it.It + i, it.It2 + i, it.Hash); }
-        friend Iter operator-(int i, Iter it) { return Iter(it.It - i, it.It2 - i, it.Hash); }
-        inline difference_type operator-(Iter it) { return It - it.It; }
-        inline reference operator*() const { return *It; }
+        friend Iter operator+(Iter it, int i) { return Iter(it.It + i, it.Hash); }
+        friend Iter operator-(Iter it, int i) { return Iter(it.It - i, it.Hash); }
+        friend Iter operator+(int i, Iter it) { return Iter(it.It + i, it.Hash); }
+        friend Iter operator-(int i, Iter it) { return Iter(it.It - i, it.Hash); }
+        inline difference_type operator-(Iter it) const { return It - it.It; }
+        inline reference operator*() const { return It->first; }
         inline bool operator==(const Iter &i) const { return It == i.It; }
         inline bool operator!=(const Iter &i) const { return It != i.It; }
 
@@ -1033,61 +1039,61 @@ template <typename T> class ALBUM_V {
                 return;
             }
             auto *h = a.Hash;
-            if (h->end() != h->find(*a.It2)) {
-                h->at(*a.It2) += (b.It2 - a.It2);
+            if (h->end() != h->find(a.It->second)) {
+                h->at(a.It->second) += (b.It - a.It);
             }
-            if (h->end() != h->find(*b.It2)) {
-                h->at(*b.It2) -= (b.It2 - a.It2);
+            if (h->end() != h->find(b.It->second)) {
+                h->at(b.It->second) -= (b.It - a.It);
             }
             std::iter_swap(a.It, b.It);
-            std::iter_swap(a.It2, b.It2);
         }
 
-        bool IsInAlbum() const { return (*It2) != 0; }
+        bool IsInAlbum() const { return It->second != 0; }
 
       private:
-        typename std::vector<T>::iterator It;
-        std::vector<int>::iterator It2;
-        std::unordered_map<ULONG, int> *Hash;
+        typename std::vector<element_type>::iterator It;
+        std::unordered_map<ULONG, SLONG> *Hash;
     };
-    Iter begin() { return Iter(List.begin(), ListInit.begin(), &Hash); }
-    Iter end() { return Iter(List.end(), ListInit.end(), &Hash); }
+    Iter begin() { return Iter(List.begin(), &Hash); }
+    Iter end() { return Iter(List.end(), &Hash); }
 
     ALBUM_V(CString str) : Name(str) {}
 
     /* query capacity and resize */
 
-    SLONG AnzEntries() const {
-#ifdef DEBUG_ALBUM
-        assert(List.size() == ListInit.size());
-#endif
-        return List.size();
+    SLONG AnzEntries() const { return List.size(); }
+    SLONG GetNumFree() const {
+        return std::count_if(List.begin(), List.end(), [](const element_type &i) { return 0 == i.second; });
     }
-    SLONG GetNumFree() const { return std::count(ListInit.begin(), ListInit.end(), 0); }
     SLONG GetNumUsed() const { return AnzEntries() - GetNumFree(); }
 
     void ReSize(SLONG anz) {
-        for (int i = anz; i < AnzEntries(); i++) {
-            Hash.erase(ListInit[i]);
-            ListInit[i] = 0;
+        for (auto i = anz; i < AnzEntries(); i++) {
+            Hash.erase(List[i].second);
+            List[i].second = 0;
         }
         List.resize(anz);
-        ListInit.resize(anz);
+        IdxBack = AnzEntries() - 1;
     }
 
     void ClearAlbum() {
-        ListInit = std::vector<int>(AnzEntries(), 0);
+        for (auto &i : List) {
+            i.second = 0;
+        }
         Hash = {};
+        IdxFront = 0;
+        IdxBack = AnzEntries() - 1;
     }
 
     /* accessing elements */
 
-    ULONG GetIdFromIndex(SLONG i) const { return ListInit[i]; }
+    ULONG GetIdFromIndex(SLONG i) const { return List[i].second; }
 
-    int IsInAlbum(ULONG id) const {
+    SLONG IsInAlbum(ULONG id) const {
         if (id >= 0x1000000) {
             return (Hash.end() != Hash.find(id));
-        } else if (id < AnzEntries() && (ListInit[id] != 0)) {
+        }
+        if (id < AnzEntries() && (List[id].second != 0)) {
             return 1;
         }
         return 0;
@@ -1108,24 +1114,27 @@ template <typename T> class ALBUM_V {
     }
 
 #ifdef DEBUG_ALBUM
-    T &operator[](ULONG id) { return List.at(find(id)); }
+    T &operator[](ULONG id) { return List.at(find(id)).first; }
 #else
-    T &operator[](ULONG id) { return List[find(id)]; }
+    T &operator[](ULONG id) { return List[find(id)].first; }
 #endif
-    T &at(ULONG id) { return List.at(find(id)); }
+    T &at(ULONG id) { return List.at(find(id)).first; }
 
     /* comparison */
 
-    bool operator==(const ALBUM_V<T> &l) const {
-        return (LastId == l.LastId) && (Name == l.Name) && (List == l.List) && (ListInit == l.ListInit) && (Hash == l.Hash);
-    }
+    bool operator==(const ALBUM_V<T> &l) const { return (LastId == l.LastId) && (Name == l.Name) && (List == l.List) && (Hash == l.Hash); }
     bool operator!=(const ALBUM_V<T> &l) const { return !operator==(l); }
 
     bool operator==(const std::vector<T> &l) const {
         if (AnzEntries() != l.size()) {
             return false;
         }
-        return std::equal(List.begin(), List.end(), l.begin());
+        for (SLONG i = 0; i < AnzEntries(); ++i) {
+            if (List[i].first != l[i]) {
+                return false;
+            }
+        }
+        return true;
     }
     bool operator!=(const std::vector<T> &l) const { return !operator==(l); }
 
@@ -1135,11 +1144,12 @@ template <typename T> class ALBUM_V {
 
     ULONG push_front(ULONG id, T rhs) {
         if (id >= 0x1000000 && (Hash.end() == Hash.find(id))) {
-            for (int i = 0; i < AnzEntries(); ++i) {
-                if (ListInit[i] == 0) {
-                    std::swap(List[i], rhs);
-                    ListInit[i] = id;
+            for (SLONG i = IdxFront; i < AnzEntries(); ++i) {
+                if (List[i].second == 0) {
+                    std::swap(List[i].first, rhs);
+                    List[i].second = id;
                     Hash[id] = i;
+                    IdxFront = i + 1;
                     return id;
                 }
             }
@@ -1150,11 +1160,12 @@ template <typename T> class ALBUM_V {
 
     ULONG push_back(ULONG id, T rhs) {
         if (id >= 0x1000000 && (Hash.end() == Hash.find(id))) {
-            for (int i = AnzEntries() - 1; i >= 0; --i) {
-                if (ListInit[i] == 0) {
-                    std::swap(List[i], rhs);
-                    ListInit[i] = id;
+            for (SLONG i = IdxBack; i >= 0; --i) {
+                if (List[i].second == 0) {
+                    std::swap(List[i].first, rhs);
+                    List[i].second = id;
                     Hash[id] = i;
+                    IdxBack = i - 1;
                     return id;
                 }
             }
@@ -1177,13 +1188,19 @@ template <typename T> class ALBUM_V {
         if (id >= 0x1000000) {
             auto it = Hash.find(id);
             if (it != Hash.end()) {
-                ListInit[it->second] = 0;
+                List[it->second].second = 0;
+                IdxFront = std::min(IdxFront, it->second);
+                IdxBack = std::max(IdxBack, it->second);
             }
             Hash.erase(id);
             return;
-        } else if (id < AnzEntries() && (ListInit[id] != 0)) {
-            Hash.erase(ListInit[id]);
-            ListInit[id] = 0;
+        }
+        SLONG idx = id;
+        if (idx < AnzEntries() && (List[idx].second != 0)) {
+            Hash.erase(List[idx].second);
+            List[idx].second = 0;
+            IdxFront = std::min(IdxFront, idx);
+            IdxBack = std::max(IdxBack, idx);
             return;
         }
         TeakLibW_Exception(nullptr, 0, ExcAlbumDelete, Name.c_str());
@@ -1200,23 +1217,16 @@ template <typename T> class ALBUM_V {
         File << buffer.List.size();
         File << filler;
         for (auto &i : buffer.List) {
-            File << i;
+            File << i.first;
         }
 
         File << buffer.LastId;
 
-        File << buffer.ListInit.size();
+        File << buffer.List.size();
         File << filler;
-        for (auto &i : buffer.ListInit) {
-            File << i;
+        for (auto &i : buffer.List) {
+            File << i.second;
         }
-
-        /*
-        File << buffer.Hash.size();
-        for (auto &i : buffer.Hash) {
-            File << i.first << i.second;
-        }
-        */
 
         return File;
     }
@@ -1227,7 +1237,7 @@ template <typename T> class ALBUM_V {
         File >> filler;
         buffer.ReSize(size);
         for (SLONG i = 0; i < size; i++) {
-            File >> buffer.List[i];
+            File >> buffer.List[i].first;
         }
 
         File >> buffer.LastId;
@@ -1238,26 +1248,10 @@ template <typename T> class ALBUM_V {
         assert(buffer.AnzEntries() == size);
 #endif
         for (SLONG i = 0; i < size; i++) {
-            File >> buffer.ListInit[i];
+            File >> buffer.List[i].second;
         }
 
-        buffer.Hash.clear();
-        /*
-        for (SLONG i = 0; i < size; i++) {
-            ULONG key;
-            int value;
-            File >> key;
-            File >> value;
-            buffer.Hash[key] = value;
-        }
-        */
-        for (SLONG i = 0; i < size; i++) {
-            auto id = buffer.ListInit[i];
-            if (id >= 0x1000000) {
-                buffer.Hash[id] = i;
-            }
-        }
-
+        buffer.rebuild_hash_table();
         return File;
     }
 
@@ -1270,11 +1264,11 @@ template <typename T> class ALBUM_V {
         SLONG target = (random != nullptr) ? random->Rand(used) : rand() % 5;
         SLONG index = 0;
         for (int i = AnzEntries() - 1; i >= 0; --i) {
-            if (ListInit[i] == 0) {
+            if (List[i].second == 0) {
                 continue;
             }
             if (++index > target) {
-                return ListInit[i];
+                return List[i].second;
             }
         }
         TeakLibW_Exception(nullptr, 0, ExcAlbumFind, Name.c_str());
@@ -1282,41 +1276,50 @@ template <typename T> class ALBUM_V {
     }
 
     void Sort() {
-        auto a = begin();
-        auto b = end() - 1;
+        IdxFront = 0;
+        IdxBack = AnzEntries() - 1;
+
+        auto a = List.begin();
+        auto b = List.end() - 1;
         while (true) {
-            while (a.IsInAlbum() && a < b) {
+            while ((a->second != 0) && a < b) {
                 ++a;
             }
-            while (!b.IsInAlbum() && a < b) {
+            while ((b->second == 0) && a < b) {
                 --b;
             }
             if (a >= b) {
                 break;
             }
-            Iter::swap(a, b);
+            std::iter_swap(a, b);
         }
 #ifdef DEBUG_ALBUM
         assert(a == b);
 #endif
-        qSort(begin(), a - 1);
+        if (a->second != 0) {
+            ++a;
+        }
+        std::stable_sort(List.begin(), a);
+        rebuild_hash_table();
     }
 
     void Swap(int a, int b) {
         if (a == b) {
             return;
         }
+        IdxFront = 0;
+        IdxBack = AnzEntries() - 1;
         if (a >= 0x1000000 && b >= 0x1000000) {
             auto idxA = find(a);
             auto idxB = find(b);
             Hash.at(a) = idxB;
             Hash.at(b) = idxA;
             std::swap(List[idxA], List[idxB]);
-            std::swap(ListInit[idxA], ListInit[idxB]);
             return;
-        } else if (a < 0x1000000 && b < 0x1000000) {
-            auto idA = ListInit[a];
-            auto idB = ListInit[b];
+        }
+        if (a < 0x1000000 && b < 0x1000000) {
+            auto idA = List[a].second;
+            auto idB = List[b].second;
             if (Hash.end() != Hash.find(idA)) {
                 Hash.at(idA) = b;
             }
@@ -1324,14 +1327,13 @@ template <typename T> class ALBUM_V {
                 Hash.at(idB) = a;
             }
             std::swap(List[a], List[b]);
-            std::swap(ListInit[a], ListInit[b]);
             return;
         }
         TeakLibW_Exception(nullptr, 0, ExcAlbumInvalidArg, Name.c_str());
     }
 
     void check_consistent_index() {
-        for (int i = 0; i < AnzEntries(); i++) {
+        for (auto i = 0; i < AnzEntries(); i++) {
             auto id = GetIdFromIndex(i);
             if ((id != 0) && find(id) != i) {
                 TeakLibW_Exception(nullptr, 0, ExcAlbumNotConsistent, Name.c_str());
@@ -1340,36 +1342,23 @@ template <typename T> class ALBUM_V {
     }
 
   private:
-    void qSort(Iter start, Iter end) {
-        if (start >= end)
-            return;
-        Iter pivotIter = (end - start) / 2 + start;
-        Iter i = start;
-        Iter j = end;
-        while (i < j) {
-            while (*i < *pivotIter) {
-                ++i;
+    void rebuild_hash_table() {
+        Hash.clear();
+        for (SLONG i = 0; i < AnzEntries(); ++i) {
+            auto id = List[i].second;
+            if (id >= 0x1000000) {
+                Hash[id] = i;
             }
-            while (*pivotIter < *j) {
-                --j;
-            }
-            if (i >= j) {
-                break;
-            }
-            Iter::swap(i, j);
-            ++i;
-            --j;
         }
-        qSort(start, j);
-        qSort(j + 1, end);
     }
 
   private:
     SLONG GetUniqueId() { return ++LastId; }
 
     ULONG LastId{0xFFFFFF};
-    std::vector<T> List;
-    std::vector<int> ListInit;
-    std::unordered_map<ULONG, int> Hash;
+    SLONG IdxFront{};
+    SLONG IdxBack{};
+    std::vector<element_type> List;
+    std::unordered_map<ULONG, SLONG> Hash;
     CString Name;
 };
