@@ -73,6 +73,7 @@ class CLaptop : public CPlaner {
     virtual ~CLaptop();
 
     void UpdateWarningLightModes(void);
+    void QuickJump(SLONG par);
 
     // Generated message map functions
   protected:

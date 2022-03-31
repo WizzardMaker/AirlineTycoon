@@ -1167,7 +1167,6 @@ class /**/ BLOCK {
     void UpdatePageSize(void);
     void Refresh(SLONG PlayerNum = -1, BOOL StyleType = -1);
     void RefreshData(SLONG PlayerNum = -1);
-    void GotoIndex(void);
     void GotoNext(void);
     void GotoPrevious(void);
     void SetTip(SLONG TipTypeA, SLONG TipTypeB, SLONG TipId, SLONG TipPar1 = 0, SLONG TipPar2 = 0, SLONG TipPar3 = 0, SLONG TipPar4 = 0, SLONG TipPar5 = 0,
@@ -1199,7 +1198,6 @@ class BLOCKS : public ALBUM_V<BLOCK> {
 
   public:
     BLOCKS() : ALBUM_V<BLOCK>("Blocks") {}
-    void RefreshAuftragsBloecke(SLONG PlayerNum, SLONG Background);
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const BLOCKS &b);
     friend TEAKFILE &operator>>(TEAKFILE &File, BLOCKS &b);

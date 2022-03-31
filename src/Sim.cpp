@@ -890,13 +890,8 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
             }
         }
 
-        if (qPlayer.Owner == 0) // 20 Blocks für Spieler
-        {
+        if (qPlayer.Owner == 0) {
             localPlayer = c;
-            qPlayer.Blocks.ReSize(0);
-            qPlayer.Blocks.IsInAlbum(0x11000000); // Trick, um refresh zu erzwingen...
-            qPlayer.Blocks.ReSize(20);
-            qPlayer.Blocks.IsInAlbum(0x11000000); // Trick, um refresh zu erzwingen...
             qPlayer.GameSpeed = 0;
         } else if (qPlayer.Owner == 2) {
             qPlayer.GameSpeed = 0;

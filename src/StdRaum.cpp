@@ -7425,7 +7425,6 @@ void CStdRaum::MenuLeftClick(XY Pos) {
 
                 Sim.Players.Players[Sim.localPlayer].UpdateAuftragsUsage();
                 Sim.Players.Players[Sim.localPlayer].UpdateFrachtauftragsUsage();
-                Sim.Players.Players[Sim.localPlayer].Blocks.RefreshAuftragsBloecke(PlayerNum, (dynamic_cast<CPlaner *>(this))->IsLaptop);
                 Sim.Players.Players[Sim.localPlayer].Planes[MenuPar2].CheckFlugplaene(PlayerNum, FALSE);
                 Sim.Players.Players[Sim.localPlayer].Blocks.RepaintAll = TRUE;
             }

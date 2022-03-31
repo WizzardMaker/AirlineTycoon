@@ -58,160 +58,162 @@ static bool GetColor(SLONG SelectedId, SLONG PlayerNum) {
 void BLOCK::BlitAt(SBBM &RoomBm) {
     if (StyleType == 0) {
         RoomBm.BlitFromT(Bitmap, ScreenPos);
-    } else {
-        SLONG Phase = (Sim.TimeSlice - AnimationStart) * 2 - 7;
-        auto *pLaptop = dynamic_cast<CLaptop *>(Base);
+        return;
+    }
 
-        if (Destructing == 1) {
-            Phase = 38 - Phase;
-            if (Phase <= -7) {
-                Destructing = 2;
-                return;
-            }
-        }
+    SLONG Phase = (Sim.TimeSlice - AnimationStart) * 2 - 7;
+    auto *pLaptop = dynamic_cast<CLaptop *>(Base);
 
-        if (Destructing == 2) {
+    if (Destructing == 1) {
+        Phase = 38 - Phase;
+        if (Phase <= -7) {
+            Destructing = 2;
             return;
         }
+    }
 
-        if (Phase < 0) {
-            RoomBm.BlitFromT(pLaptop->EckBms[0], ScreenPos.x + 178 / (2 - DoubleBlock), ScreenPos.y);
-            RoomBm.BlitFromT(pLaptop->EckBms[1], ScreenPos.x + 178 / (2 - DoubleBlock) + 5, ScreenPos.y);
-        } else {
-            if (Bitmap.pBitmap == nullptr) { // safety net to prevent crashes
-                return;
+    if (Destructing == 2) {
+        return;
+    }
+
+    if (Phase < 0) {
+        RoomBm.BlitFromT(pLaptop->EckBms[0], ScreenPos.x + 178 / (2 - DoubleBlock), ScreenPos.y);
+        RoomBm.BlitFromT(pLaptop->EckBms[1], ScreenPos.x + 178 / (2 - DoubleBlock) + 5, ScreenPos.y);
+        return;
+    }
+
+    if (Bitmap.pBitmap == nullptr) { // safety net to prevent crashes
+        return;
+    }
+
+    if (DoubleBlock != 0) {
+        if (Phase < 38) {
+            SLONG p = min(Phase, 9);
+
+            // 0..10
+            CRect SrcRect(198 - p * 198 / 9, 0, 198 + p * 198 / 9, 15);
+            CRect DestRect = SrcRect + CPoint(ScreenPos);
+
+            RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                 SrcRect.bottom);
+
+            if (Phase >= 10) {
+                SLONG p = min(Phase, 19) - 10;
+
+                SrcRect = CRect(0, 0, 13, p * (Bitmap.Size.y - 19) / 9);
+                DestRect = SrcRect + CPoint(ScreenPos);
+
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                     SrcRect.bottom);
+
+                SrcRect = CRect(383, 0, 396, p * (Bitmap.Size.y - 19) / 9);
+                DestRect = SrcRect + CPoint(ScreenPos);
+
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                     SrcRect.bottom);
             }
 
-            if (DoubleBlock != 0) {
-                if (Phase < 38) {
-                    SLONG p = min(Phase, 9);
+            if (Phase >= 20) {
+                SLONG p = min(Phase, 29) - 20;
 
-                    // 0..10
-                    CRect SrcRect(198 - p * 198 / 9, 0, 198 + p * 198 / 9, 15);
-                    CRect DestRect = SrcRect + CPoint(ScreenPos);
+                SrcRect = CRect(0, 197, p * 198 / 18, 210);
+                DestRect = SrcRect + CPoint(ScreenPos);
 
-                    RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                         SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                     SrcRect.bottom);
 
-                    if (Phase >= 10) {
-                        SLONG p = min(Phase, 19) - 10;
+                SrcRect = CRect(198 - p * 198 / 18, 197, 178, 210);
+                DestRect = SrcRect + CPoint(ScreenPos);
 
-                        SrcRect = CRect(0, 0, 13, p * (Bitmap.Size.y - 19) / 9);
-                        DestRect = SrcRect + CPoint(ScreenPos);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                     SrcRect.bottom);
 
-                        RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                             SrcRect.bottom);
+                SrcRect = CRect(198 - p * 198 / 18, 197, 198 + p * 198 / 18, 210);
+                DestRect = SrcRect + CPoint(ScreenPos);
 
-                        SrcRect = CRect(383, 0, 396, p * (Bitmap.Size.y - 19) / 9);
-                        DestRect = SrcRect + CPoint(ScreenPos);
-
-                        RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                             SrcRect.bottom);
-                    }
-
-                    if (Phase >= 20) {
-                        SLONG p = min(Phase, 29) - 20;
-
-                        SrcRect = CRect(0, 197, p * 198 / 18, 210);
-                        DestRect = SrcRect + CPoint(ScreenPos);
-
-                        RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                             SrcRect.bottom);
-
-                        SrcRect = CRect(198 - p * 198 / 18, 197, 178, 210);
-                        DestRect = SrcRect + CPoint(ScreenPos);
-
-                        RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                             SrcRect.bottom);
-
-                        SrcRect = CRect(198 - p * 198 / 18, 197, 198 + p * 198 / 18, 210);
-                        DestRect = SrcRect + CPoint(ScreenPos);
-
-                        RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                             SrcRect.bottom);
-                    }
-                }
-
-                if (Phase < 10) {
-                    RoomBm.BlitFromT(pLaptop->EckBms[0], 178 - Phase * 178 / 9 + ScreenPos.x, ScreenPos.y);
-                    RoomBm.BlitFromT(pLaptop->EckBms[1], 188 + Phase * 188 / 9 + ScreenPos.x, ScreenPos.y);
-                } else if (Phase < 20) {
-                    RoomBm.BlitFromT(pLaptop->EckBms[2], ScreenPos.x, ScreenPos.y + (Phase - 10) * (Bitmap.Size.y - 16) / 9);
-                    RoomBm.BlitFromT(pLaptop->EckBms[3], Bitmap.Size.x - 18 + ScreenPos.x, ScreenPos.y + (Phase - 10) * (Bitmap.Size.y - 16) / 9);
-                } else if (Phase < 30) {
-                    RoomBm.BlitFromT(pLaptop->EckBms[2], ScreenPos.x + (Phase - 20) * 82 / 18, ScreenPos.y + Bitmap.Size.y - gNotepadButtonL.Size.y - 2);
-                    RoomBm.BlitFromT(pLaptop->EckBms[3], 377 + ScreenPos.x - (Phase - 20) * 83 / 18, ScreenPos.y + Bitmap.Size.y - gNotepadButtonL.Size.y - 2);
-                    RoomBm.BlitFromT(pLaptop->EckBms[3], 178 - (Phase - 20) * 73 / 18 + ScreenPos.x, ScreenPos.y + Bitmap.Size.y - gNotepadButtonL.Size.y - 2);
-                    RoomBm.BlitFromT(pLaptop->EckBms[2], 188 + (Phase - 20) * 81 / 18 + ScreenPos.x, ScreenPos.y + Bitmap.Size.y - gNotepadButtonL.Size.y - 2);
-                }
-                if (Phase >= 22 && Phase < 38) {
-                    ColorFX.BlitTrans(Bitmap.pBitmap, RoomBm.pBitmap, ScreenPos, nullptr, (38 - Phase) / 2);
-                }
-                if (Phase >= 38) {
-                    RoomBm.BlitFromT(Bitmap, ScreenPos);
-                }
-            } else // Single-Block:
-            {
-                if (Phase < 38) {
-                    SLONG p = min(Phase, 9);
-
-                    // 0..10
-                    CRect SrcRect(100 - p * 100 / 9, 0, 100 + p * 99 / 9, 15);
-                    CRect DestRect = SrcRect + CPoint(ScreenPos);
-
-                    RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                         SrcRect.bottom);
-
-                    if (Phase >= 10) {
-                        SLONG p = min(Phase, 19) - 10;
-
-                        SrcRect = CRect(0, 0, 13, p * (Bitmap.Size.y - 13) / 9);
-                        DestRect = SrcRect + CPoint(ScreenPos);
-
-                        RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                             SrcRect.bottom);
-
-                        SrcRect = CRect(196, 0, 199, p * (Bitmap.Size.y - 13) / 9);
-                        DestRect = SrcRect + CPoint(ScreenPos);
-
-                        RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                             SrcRect.bottom);
-                    }
-
-                    if (Phase >= 20) {
-                        SLONG p = min(Phase, 29) - 20;
-
-                        SrcRect = CRect(0, 197, p * 99 / 9, 210);
-                        DestRect = SrcRect + CPoint(ScreenPos);
-
-                        RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                             SrcRect.bottom);
-
-                        SrcRect = CRect(199 - p * 100 / 9, 197, 199, 210);
-                        DestRect = SrcRect + CPoint(ScreenPos);
-
-                        RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                             SrcRect.bottom);
-                    }
-                }
-
-                if (Phase < 10) {
-                    RoomBm.BlitFromT(pLaptop->EckBms[0], 80 - Phase * 80 / 9 + ScreenPos.x, ScreenPos.y);
-                    RoomBm.BlitFromT(pLaptop->EckBms[1], 90 + Phase * 89 / 9 + ScreenPos.x, ScreenPos.y);
-                } else if (Phase < 20) {
-                    RoomBm.BlitFromT(pLaptop->EckBms[2], ScreenPos.x, ScreenPos.y + (Phase - 10) * (Bitmap.Size.y - 19) / 9);
-                    RoomBm.BlitFromT(pLaptop->EckBms[3], Bitmap.Size.x - 20 + ScreenPos.x, ScreenPos.y + (Phase - 10) * (Bitmap.Size.y - 19) / 9);
-                } else if (Phase < 30) {
-                    RoomBm.BlitFromT(pLaptop->EckBms[2], ScreenPos.x + (Phase - 20) * 90 / 9, ScreenPos.y + Bitmap.Size.y - pLaptop->EckBms[2].Size.y);
-                    RoomBm.BlitFromT(pLaptop->EckBms[3], 179 + ScreenPos.x - (Phase - 20) * 89 / 9, ScreenPos.y + Bitmap.Size.y - pLaptop->EckBms[2].Size.y);
-                }
-                if (Phase >= 22 && Phase < 38) {
-                    ColorFX.BlitTrans(Bitmap.pBitmap, RoomBm.pBitmap, ScreenPos, nullptr, (38 - Phase) / 2);
-                }
-                if (Phase >= 38) {
-                    RoomBm.BlitFromT(Bitmap, ScreenPos);
-                }
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                     SrcRect.bottom);
             }
+        }
+
+        if (Phase < 10) {
+            RoomBm.BlitFromT(pLaptop->EckBms[0], 178 - Phase * 178 / 9 + ScreenPos.x, ScreenPos.y);
+            RoomBm.BlitFromT(pLaptop->EckBms[1], 188 + Phase * 188 / 9 + ScreenPos.x, ScreenPos.y);
+        } else if (Phase < 20) {
+            RoomBm.BlitFromT(pLaptop->EckBms[2], ScreenPos.x, ScreenPos.y + (Phase - 10) * (Bitmap.Size.y - 16) / 9);
+            RoomBm.BlitFromT(pLaptop->EckBms[3], Bitmap.Size.x - 18 + ScreenPos.x, ScreenPos.y + (Phase - 10) * (Bitmap.Size.y - 16) / 9);
+        } else if (Phase < 30) {
+            RoomBm.BlitFromT(pLaptop->EckBms[2], ScreenPos.x + (Phase - 20) * 82 / 18, ScreenPos.y + Bitmap.Size.y - gNotepadButtonL.Size.y - 2);
+            RoomBm.BlitFromT(pLaptop->EckBms[3], 377 + ScreenPos.x - (Phase - 20) * 83 / 18, ScreenPos.y + Bitmap.Size.y - gNotepadButtonL.Size.y - 2);
+            RoomBm.BlitFromT(pLaptop->EckBms[3], 178 - (Phase - 20) * 73 / 18 + ScreenPos.x, ScreenPos.y + Bitmap.Size.y - gNotepadButtonL.Size.y - 2);
+            RoomBm.BlitFromT(pLaptop->EckBms[2], 188 + (Phase - 20) * 81 / 18 + ScreenPos.x, ScreenPos.y + Bitmap.Size.y - gNotepadButtonL.Size.y - 2);
+        }
+        if (Phase >= 22 && Phase < 38) {
+            ColorFX.BlitTrans(Bitmap.pBitmap, RoomBm.pBitmap, ScreenPos, nullptr, (38 - Phase) / 2);
+        }
+        if (Phase >= 38) {
+            RoomBm.BlitFromT(Bitmap, ScreenPos);
+        }
+    } else // Single-Block:
+    {
+        if (Phase < 38) {
+            SLONG p = min(Phase, 9);
+
+            // 0..10
+            CRect SrcRect(100 - p * 100 / 9, 0, 100 + p * 99 / 9, 15);
+            CRect DestRect = SrcRect + CPoint(ScreenPos);
+
+            RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                 SrcRect.bottom);
+
+            if (Phase >= 10) {
+                SLONG p = min(Phase, 19) - 10;
+
+                SrcRect = CRect(0, 0, 13, p * (Bitmap.Size.y - 13) / 9);
+                DestRect = SrcRect + CPoint(ScreenPos);
+
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                     SrcRect.bottom);
+
+                SrcRect = CRect(196, 0, 199, p * (Bitmap.Size.y - 13) / 9);
+                DestRect = SrcRect + CPoint(ScreenPos);
+
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                     SrcRect.bottom);
+            }
+
+            if (Phase >= 20) {
+                SLONG p = min(Phase, 29) - 20;
+
+                SrcRect = CRect(0, 197, p * 99 / 9, 210);
+                DestRect = SrcRect + CPoint(ScreenPos);
+
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                     SrcRect.bottom);
+
+                SrcRect = CRect(199 - p * 100 / 9, 197, 199, 210);
+                DestRect = SrcRect + CPoint(ScreenPos);
+
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
+                                     SrcRect.bottom);
+            }
+        }
+
+        if (Phase < 10) {
+            RoomBm.BlitFromT(pLaptop->EckBms[0], 80 - Phase * 80 / 9 + ScreenPos.x, ScreenPos.y);
+            RoomBm.BlitFromT(pLaptop->EckBms[1], 90 + Phase * 89 / 9 + ScreenPos.x, ScreenPos.y);
+        } else if (Phase < 20) {
+            RoomBm.BlitFromT(pLaptop->EckBms[2], ScreenPos.x, ScreenPos.y + (Phase - 10) * (Bitmap.Size.y - 19) / 9);
+            RoomBm.BlitFromT(pLaptop->EckBms[3], Bitmap.Size.x - 20 + ScreenPos.x, ScreenPos.y + (Phase - 10) * (Bitmap.Size.y - 19) / 9);
+        } else if (Phase < 30) {
+            RoomBm.BlitFromT(pLaptop->EckBms[2], ScreenPos.x + (Phase - 20) * 90 / 9, ScreenPos.y + Bitmap.Size.y - pLaptop->EckBms[2].Size.y);
+            RoomBm.BlitFromT(pLaptop->EckBms[3], 179 + ScreenPos.x - (Phase - 20) * 89 / 9, ScreenPos.y + Bitmap.Size.y - pLaptop->EckBms[2].Size.y);
+        }
+        if (Phase >= 22 && Phase < 38) {
+            ColorFX.BlitTrans(Bitmap.pBitmap, RoomBm.pBitmap, ScreenPos, nullptr, (38 - Phase) / 2);
+        }
+        if (Phase >= 38) {
+            RoomBm.BlitFromT(Bitmap, ScreenPos);
         }
     }
 }
@@ -486,7 +488,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
             case 1:
                 Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1400), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
 
-                for (c = Page; c < Page + 13 && c < Table.AnzRows; c++) {
+                for (c = Page; c < Page + PageSize && c < Table.AnzRows; c++) {
                     if (Table.ValueFlags[0 + c * Table.AnzColums] != 0U) {
                         Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
                     } else {
@@ -500,7 +502,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
             case 2:
                 Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1000), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
 
-                for (c = Page; c < Page + 6 && c < Table.AnzRows; c++) {
+                for (c = Page; c < Page + PageSize && c < Table.AnzRows; c++) {
                     SB_CFont *f = nullptr;
 
                     if (Table.ValueFlags[0 + c * Table.AnzColums] != 0U) {
@@ -520,7 +522,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
             case 5:
                 Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1500), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
 
-                for (c = Page; c < Page + 13 && c < Table.AnzRows; c++) {
+                for (c = Page; c < Page + PageSize && c < Table.AnzRows; c++) {
                     Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], GetColor(c, PlayerNum) ? FontSmallGrey : FontSmallBlack, TEC_FONT_LEFT,
                                    ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
                 }
@@ -712,8 +714,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                                             }
 
                                             if ((Plan.Flug[c].Landezeit + Plan.Flug[c].Landedate * 24) -
-                                                    (Plan.Flug[c].Startzeit + Plan.Flug[c].Startdate * 24) <=
-                                                6) {
+                                                    (Plan.Flug[c].Startzeit + Plan.Flug[c].Startdate * 24) <= 6) {
                                                 if ((d > 2 && d + 24 * e == Plan.Flug[c].Startzeit + (3 - static_cast<int>(OffsetB.x != 0)) +
                                                                                 24 * Plan.Flug[c].Startdate) ||
                                                     ((OffsetB.x != 0) && Plan.Flug[c].Landezeit == d && Plan.Flug[c].Landedate <= e && px >= 12)) {
@@ -1011,44 +1012,48 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
                         Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3000), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                                        ClientArea + XY(172, 170));
                     } else {
-                        if (Page == 0) {
+                        if (Page < PageSize) {
                             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3009), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
                                            ClientArea + XY(172, 170));
                         } else {
                             // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 1000), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
 
-                            for (c = (Page - 1) * 13; c < (Page - 1) * 13 + 13 && c < Table.AnzRows; c++) {
+                            for (c = 0; c < PageSize; c++) {
+                                auto idx = c + Page - PageSize;
+                                if (idx >= Table.AnzRows) {
+                                    break;
+                                }
                                 SB_CFont *pFont = nullptr;
 
-                                if (Table.ValueFlags[0 + c * Table.AnzColums] != 0U) {
+                                if (Table.ValueFlags[0 + idx * Table.AnzColums] != 0U) {
                                     pFont = &FontSmallRed;
                                 } else {
                                     pFont = &FontSmallBlack;
                                 }
 
                                 for (SLONG x = 170; x >= 0; x -= 4) {
-                                    if (Bitmap.TryPrintAt(Table.Values[1 + c * Table.AnzColums], *pFont, TEC_FONT_RIGHT,
-                                                          ClientArea + XY(x, (c - (Page - 1) * 13) * 13),
-                                                          ClientArea + XY(170, (c - (Page - 1) * 13) * 13 + 13)) < 13) {
-                                        Bitmap.PrintAt(Table.Values[1 + c * Table.AnzColums], *pFont, TEC_FONT_RIGHT,
-                                                       ClientArea + XY(x, (c - (Page - 1) * 13) * 13), ClientArea + XY(170, (c - (Page - 1) * 13) * 13 + 13));
-                                        if (Bitmap.TryPrintAt(Table.Values[0 + c * Table.AnzColums], *pFont, TEC_FONT_LEFT,
-                                                              ClientArea + XY(0, (c - (Page - 1) * 13) * 13),
-                                                              ClientArea + XY(x, (c - (Page - 1) * 13) * 13 + 13)) < 13) {
-                                            Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], *pFont, TEC_FONT_LEFT,
-                                                           ClientArea + XY(0, (c - (Page - 1) * 13) * 13), ClientArea + XY(x, (c - (Page - 1) * 13) * 13 + 13));
+                                    if (Bitmap.TryPrintAt(Table.Values[1 + idx * Table.AnzColums], *pFont, TEC_FONT_RIGHT,
+                                                          ClientArea + XY(x, c * 13),
+                                                          ClientArea + XY(170, c * 13 + 13)) < 13) {
+                                        Bitmap.PrintAt(Table.Values[1 + idx * Table.AnzColums], *pFont, TEC_FONT_RIGHT,
+                                                       ClientArea + XY(x, c * 13), ClientArea + XY(170, c * 13 + 13));
+                                        if (Bitmap.TryPrintAt(Table.Values[0 + idx * Table.AnzColums], *pFont, TEC_FONT_LEFT,
+                                                              ClientArea + XY(0, c * 13),
+                                                              ClientArea + XY(x, c * 13 + 13)) < 13) {
+                                            Bitmap.PrintAt(Table.Values[0 + idx * Table.AnzColums], *pFont, TEC_FONT_LEFT,
+                                                           ClientArea + XY(0, c * 13), ClientArea + XY(x, c * 13 + 13));
                                         } else {
                                             x -= 10;
-                                            CString str = Table.Values[0 + c * Table.AnzColums] + "...";
+                                            CString str = Table.Values[0 + idx * Table.AnzColums] + "...";
 
                                             while (str.GetLength() > 3) {
                                                 str.SetAt(str.GetLength() - 3, '.');
                                                 str = str.Left(str.GetLength() - 1);
 
-                                                if (Bitmap.TryPrintAt(str, *pFont, TEC_FONT_LEFT, ClientArea + XY(0, (c - (Page - 1) * 13) * 13),
-                                                                      ClientArea + XY(x, (c - (Page - 1) * 13) * 13 + 13)) < 13) {
-                                                    Bitmap.PrintAt(str, *pFont, TEC_FONT_LEFT, ClientArea + XY(0, (c - (Page - 1) * 13) * 13),
-                                                                   ClientArea + XY(x, (c - (Page - 1) * 13) * 13 + 13));
+                                                if (Bitmap.TryPrintAt(str, *pFont, TEC_FONT_LEFT, ClientArea + XY(0, c * 13),
+                                                                      ClientArea + XY(x, c * 13 + 13)) < 13) {
+                                                    Bitmap.PrintAt(str, *pFont, TEC_FONT_LEFT, ClientArea + XY(0, c * 13),
+                                                                   ClientArea + XY(x, c * 13 + 13));
                                                     break;
                                                 }
                                             }
@@ -1118,7 +1123,7 @@ switch_again:
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1200), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
                 }
 
-                for (c = PageB; c < PageB + 6 && c < TableB.AnzRows; c++) {
+                for (c = PageB; c < PageB + PageSizeB && c < TableB.AnzRows; c++) {
                     SB_CFont *s = nullptr;
 
                     // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
@@ -1191,7 +1196,7 @@ switch_again:
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1100), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
                 }
 
-                for (c = PageB; c < PageB + 6 && c < TableB.AnzRows; c++) {
+                for (c = PageB; c < PageB + PageSizeB && c < TableB.AnzRows; c++) {
                     SB_CFont *s = nullptr;
 
                     Bitmap.BlitFromT(gPostItBms[0], ClientAreaB + XY(1, (c - PageB) * 26));
@@ -1258,7 +1263,7 @@ switch_again:
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1300), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
                 }
 
-                for (c = PageB; c < PageB + 6 && c < TableB.AnzRows; c++) {
+                for (c = PageB; c < PageB + PageSizeB && c < TableB.AnzRows; c++) {
                     SB_CFont *s = nullptr;
 
                     // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
@@ -1628,8 +1633,6 @@ switch_again:
 // Bringt die Daten (die später durch Refresh angezeigt werden) auf den neusten Stand:
 //--------------------------------------------------------------------------------------------
 void BLOCK::RefreshData(SLONG PlayerNum) {
-    UpdatePageSize();
-
     switch (BlockType) {
     // Städte:
     case 1:
@@ -1662,7 +1665,6 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
         Table.FillWithExperts(PlayerNum);
         if (Index == 0 && SelectedId == 5) {
             Table.FillWithPlanes(&Sim.Players.Players[PlayerNum].Planes, TRUE);
-            AnzPages = max(0, (Table.AnzRows - 1) / 13) + 2;
         }
         break;
     default:
@@ -1674,37 +1676,23 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
     // Aufträge:
     case 3:
         TableB.FillWithAuftraege(&Sim.Players.Players[PlayerNum].Auftraege);
-        if (IndexB != 0U) {
-            AnzPagesB = max(0, (TableB.AnzRows - 1) / 6) + 1;
-        } else {
-            AnzPagesB = 2;
-        }
         break;
 
         // Routen:
     case 4:
         TableB.FillWithRouten(&::Routen, &Sim.Players.Players[PlayerNum].RentRouten /*, &Sim.Players.Players[(SLONG)PlayerNum].RentCities*/);
-
-        if (IndexB != 0U) {
-            AnzPagesB = max(0, (TableB.AnzRows - 1) / 6) + 1;
-        } else {
-            AnzPagesB = 3;
-        }
         break;
 
         // Frachtaufträge:
     case 6:
         TableB.FillWithFracht(&Sim.Players.Players[PlayerNum].Frachten);
-        if (IndexB != 0U) {
-            AnzPagesB = max(0, (TableB.AnzRows - 1) / 6) + 1;
-        } else {
-            AnzPagesB = 2;
-        }
         break;
     default:
         hprintf("Block.cpp: Default case should not be reached.");
         DebugBreak();
     }
+
+    UpdatePageSize();
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2066,15 +2054,6 @@ void BLOCK::ZeigeKerosinberater(XY ClientArea, SLONG page) {
 }
 
 //--------------------------------------------------------------------------------------------
-// Springt zum Index:
-//--------------------------------------------------------------------------------------------
-void BLOCK::GotoIndex() {
-    Index = TRUE;
-
-    UpdatePageSize();
-}
-
-//--------------------------------------------------------------------------------------------
 // Geht eine Seite weiter:
 //--------------------------------------------------------------------------------------------
 void BLOCK::GotoNext() {}
@@ -2088,28 +2067,83 @@ void BLOCK::GotoPrevious() {}
 // Erneuert den PageSize Eintrag:
 //--------------------------------------------------------------------------------------------
 void BLOCK::UpdatePageSize() {
-    PageSize = 6;
-    PageSizeB = 6;
-    if (BlockType == 1) {
-        PageSize = 13; // City
+    PageSize = 1;
+    PageSizeB = 1;
+    AnzPages = 1;
+    AnzPagesB = 1;
+
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+    if (Index == 1) {
+        if (BlockType != 2) {
+            PageSize = 13;
+        } else {
+            PageSize = 6;
+        }
+        AnzPages = max(0, (Table.AnzRows - 1) / PageSize) + 1;
+    } else {
+        switch (BlockType) {
+            case 1:
+                // Städte
+                AnzPages = 1 + Cities[SelectedId].AnzTexts + Cities[SelectedId].AnzPhotos;
+                break;
+            case 2:
+                // Aufträge
+                AnzPages = 4;
+                if (qPlayer.Planes[SelectedId].TypeId != -1) {
+                    AnzPages += PlaneTypes[qPlayer.Planes[SelectedId].TypeId].AnzPhotos;
+                }
+                break;
+            case 5:
+                // Berater
+                switch (SelectedId) {
+                    case 1:
+                        // Geschäftsbericht
+                        AnzPages = 2;
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                        // Einnahmen Tag / Woche / Gesamt
+                        AnzPages = 8;
+                        break;
+                    case 5:
+                        // Flugzeugeinnahmen
+                        PageSize = 13;
+                        AnzPages = max(0, (Table.AnzRows - 1) / PageSize) + 2;
+                        break;
+                    case 7:
+                        // Informant, Übersicht
+                        AnzPages = 2 * 3;
+                        break;
+                    case 8:
+                    case 9:
+                    case 10:
+                        // Informant, Einnahmen Tag / Woche / Gesamt
+                        AnzPages = 8;
+                        break;
+                    case 11:
+                        // Kerosinberater
+                        AnzPages = 2;
+                        break;
+                    default:
+                        AnzPages = 1;
+                }
+
+                break;
+            default:
+                hprintf("Block.cpp: Default case should not be reached.");
+                DebugBreak();
+        }
     }
 
-    if (Index != 1) {
-        PageSize = 1;
-    }
-    if (IndexB != 1) {
-        PageSizeB = 1;
-    }
-}
-
-//--------------------------------------------------------------------------------------------
-// Erneuert alle Blöcke mit Listen von Aufträgen:
-//--------------------------------------------------------------------------------------------
-void BLOCKS::RefreshAuftragsBloecke(SLONG PlayerNum, SLONG Background) {
-    for (SLONG c = 0; c < AnzEntries(); c++) {
-        if ((IsInAlbum(c) != 0) && (*this)[c].Index == 1 && (*this)[c].BlockType == 3) {
-            (*this)[c].RefreshData(PlayerNum);
-            (*this)[c].Refresh(PlayerNum, Background);
+    if (BlockTypeB == 3 || BlockTypeB == 4 || BlockTypeB == 6) {
+        if (IndexB == 1) {
+            PageSizeB = 6;
+            AnzPagesB = max(0, (TableB.AnzRows - 1) / PageSizeB) + 1;
+        } else if (BlockTypeB == 4) {
+            AnzPagesB = 3;
+        } else {
+            AnzPagesB = 2;
         }
     }
 }
