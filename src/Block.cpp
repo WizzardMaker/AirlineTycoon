@@ -94,8 +94,7 @@ void BLOCK::BlitAt(SBBM &RoomBm) {
             CRect SrcRect(198 - p * 198 / 9, 0, 198 + p * 198 / 9, 15);
             CRect DestRect = SrcRect + CPoint(ScreenPos);
 
-            RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                 SrcRect.bottom);
+            RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
 
             if (Phase >= 10) {
                 SLONG p = min(Phase, 19) - 10;
@@ -103,14 +102,12 @@ void BLOCK::BlitAt(SBBM &RoomBm) {
                 SrcRect = CRect(0, 0, 13, p * (Bitmap.Size.y - 19) / 9);
                 DestRect = SrcRect + CPoint(ScreenPos);
 
-                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                     SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
 
                 SrcRect = CRect(383, 0, 396, p * (Bitmap.Size.y - 19) / 9);
                 DestRect = SrcRect + CPoint(ScreenPos);
 
-                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                     SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
             }
 
             if (Phase >= 20) {
@@ -119,20 +116,17 @@ void BLOCK::BlitAt(SBBM &RoomBm) {
                 SrcRect = CRect(0, 197, p * 198 / 18, 210);
                 DestRect = SrcRect + CPoint(ScreenPos);
 
-                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                     SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
 
                 SrcRect = CRect(198 - p * 198 / 18, 197, 178, 210);
                 DestRect = SrcRect + CPoint(ScreenPos);
 
-                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                     SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
 
                 SrcRect = CRect(198 - p * 198 / 18, 197, 198 + p * 198 / 18, 210);
                 DestRect = SrcRect + CPoint(ScreenPos);
 
-                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                     SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
             }
         }
 
@@ -163,8 +157,7 @@ void BLOCK::BlitAt(SBBM &RoomBm) {
             CRect SrcRect(100 - p * 100 / 9, 0, 100 + p * 99 / 9, 15);
             CRect DestRect = SrcRect + CPoint(ScreenPos);
 
-            RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                 SrcRect.bottom);
+            RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
 
             if (Phase >= 10) {
                 SLONG p = min(Phase, 19) - 10;
@@ -172,14 +165,12 @@ void BLOCK::BlitAt(SBBM &RoomBm) {
                 SrcRect = CRect(0, 0, 13, p * (Bitmap.Size.y - 13) / 9);
                 DestRect = SrcRect + CPoint(ScreenPos);
 
-                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                     SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
 
                 SrcRect = CRect(196, 0, 199, p * (Bitmap.Size.y - 13) / 9);
                 DestRect = SrcRect + CPoint(ScreenPos);
 
-                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                     SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
             }
 
             if (Phase >= 20) {
@@ -188,14 +179,12 @@ void BLOCK::BlitAt(SBBM &RoomBm) {
                 SrcRect = CRect(0, 197, p * 99 / 9, 210);
                 DestRect = SrcRect + CPoint(ScreenPos);
 
-                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                     SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
 
                 SrcRect = CRect(199 - p * 100 / 9, 197, 199, 210);
                 DestRect = SrcRect + CPoint(ScreenPos);
 
-                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right,
-                                     SrcRect.bottom);
+                RoomBm.BlitPartFromT(Bitmap, SrcRect.left + ScreenPos.x, SrcRect.top + ScreenPos.y, SrcRect.left, SrcRect.top, SrcRect.right, SrcRect.bottom);
             }
         }
 
@@ -283,10 +272,6 @@ void BLOCK::UpdateTip(SLONG PlayerNum, BOOL StyleType) {
 // Den Block neu malen:
 //--------------------------------------------------------------------------------------------
 void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
-    SLONG c = 0;
-    SLONG d = 0;
-    SLONG e = 0;
-    SLONG i = 0;
     XY TitleArea;   // Hier beginnt der Platz für den Fenstertitel
     XY ClientArea;  // Hier beginnt das Papier
     XY PageArea;    // Hier steht die aktuelle Seite Papier
@@ -482,625 +467,9 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
 
         // Die Linke Seite:
         if (Index == 1) {
-            // Inhaltsverzechnis
-            switch (BlockType) {
-            // Cities:
-            case 1:
-                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1400), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
-
-                for (c = Page; c < Page + PageSize && c < Table.AnzRows; c++) {
-                    if (Table.ValueFlags[0 + c * Table.AnzColums] != 0U) {
-                        Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
-                    } else {
-                        Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], FontSmallGrey, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
-                    }
-                }
-
-                break;
-
-                // Planes:
-            case 2:
-                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1000), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
-
-                for (c = Page; c < Page + PageSize && c < Table.AnzRows; c++) {
-                    SB_CFont *f = nullptr;
-
-                    if (Table.ValueFlags[0 + c * Table.AnzColums] != 0U) {
-                        f = &FontSmallRed;
-                    } else {
-                        f = &FontSmallBlack;
-                    }
-
-                    Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], *f, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 26), Bitmap.Size);
-                    Bitmap.PrintAt(Table.Values[1 + c * Table.AnzColums], *f, TEC_FONT_LEFT, ClientArea + XY(123, (c - Page) * 26), Bitmap.Size);
-
-                    Bitmap.PrintAt(Table.Values[3 + c * Table.AnzColums], *f, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 26 + 10), Bitmap.Size);
-                }
-                break;
-
-                // Infos:
-            case 5:
-                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1500), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
-
-                for (c = Page; c < Page + PageSize && c < Table.AnzRows; c++) {
-                    Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], GetColor(c, PlayerNum) ? FontSmallGrey : FontSmallBlack, TEC_FONT_LEFT,
-                                   ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
-                }
-                break;
-            default:
-                hprintf("Block.cpp: Default case should not be reached.");
-                DebugBreak();
-            }
+            LinkeSeiteIndex(TitleArea, ClientArea);
         } else if (Index == 0) {
-            // Inhalt eines speziellen Entities:
-            switch (BlockType) {
-            // Cities:
-            case 1:
-                Bitmap.PrintAt(Cities[SelectedId].Name, TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
-
-                if (Page == 0) {
-                    CRentCity &qRentCity = qPlayer.RentCities.RentCities[Cities(SelectedId)];
-
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1000), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 1), Bitmap.Size);
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 14), Bitmap.Size);
-                    Bitmap.PrintAt((LPCTSTR)Insert1000erDots(Cities[SelectedId].Einwohner), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 1), Bitmap.Size);
-
-                    if (qRentCity.Rang == 0) {
-                        Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cities[SelectedId].BuroRent), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 14),
-                                       Bitmap.Size);
-                    } else {
-                        Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRentCity.Miete), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 14), Bitmap.Size);
-                        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 27), Bitmap.Size);
-                        Bitmap.PrintAt(bprintf("%li", qRentCity.Rang), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 27), Bitmap.Size);
-                        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1003), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 40), Bitmap.Size);
-                        Bitmap.PrintAt(bprintf("%li%%", static_cast<long>(qRentCity.Image)), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 40),
-                                       Bitmap.Size);
-
-                        if (Cities.GetIdFromIndex(Cities(SelectedId)) != static_cast<ULONG>(Sim.HomeAirportId)) {
-                            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1010), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 66), Bitmap.Size);
-                        }
-                    }
-                } else if (Page - 1 < Cities[SelectedId].AnzTexts) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, Cities[SelectedId].TextRes + Page - 1), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 1),
-                                   ClientArea + XY(172, 168));
-                } else {
-                    CString tmp = Cities[SelectedId].PhotoName;
-                    tmp.SetAt(tmp.GetLength() - 1, char(tmp[tmp.GetLength() - 1] + (Page - Cities[SelectedId].AnzTexts - 1)));
-
-                    SBBM Photo(pGLibPicture, StringToInt64(tmp));
-
-                    CRect rect(0, 0, 9999, 9999);
-                    if (Photo.Size.x != 0) {
-                        RemapColor(Photo.pBitmap, rect, 0x0000, 0x0001);
-                    }
-                    Bitmap.BlitFrom(Photo, ClientArea - XY(0, 3) + XY(85, 85) - Photo.Size / SLONG(2));
-                }
-                break;
-
-                // Paint Planes Details:
-            case 2: {
-                SB_CFont *f = nullptr;
-                CPlanes &qPlanes = qPlayer.Planes;
-
-                // if (qPlanes[SelectedId].AnzBegleiter<PlaneTypes[qPlanes[SelectedId].TypeId].AnzBegleiter ||
-                if (qPlanes[SelectedId].AnzBegleiter < qPlanes[SelectedId].ptAnzBegleiter ||
-                    qPlanes[SelectedId].AnzPiloten < qPlanes[SelectedId].ptAnzPiloten) {
-                    // qPlanes[SelectedId].AnzPiloten<PlaneTypes[qPlanes[SelectedId].TypeId].AnzPiloten)
-                    f = &FontSmallRed;
-                } else {
-                    f = &TitleFont;
-                }
-
-                Bitmap.PrintAt(qPlanes[SelectedId].Name, *f, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
-            }
-
-                if (Page == 0) // Flugplan
-                {
-                    CPlane &qPlane = qPlayer.Planes[SelectedId];
-                    CFlugplan &Plan = qPlane.Flugplan;
-
-                    if (Base->IsLaptop == FALSE) {
-                        Bitmap.BlitFromT((dynamic_cast<CGlobe *>(Base))->TimeTables[0], ClientArea + XY(21, -2));
-                    } else {
-                        Bitmap.BlitFromT(FlugplanBms[0], ClientArea + XY(21, -2));
-                    }
-
-                    if (Base->IsLaptop != 0) {
-                        Bitmap.BlitFromT(FlugplanBms[40], ClientArea + XY(24, 150));
-                    } else {
-                        Bitmap.BlitFromT(FlugplanBms[54], ClientArea + XY(22, 150));
-                    }
-
-                    for (c = 0; c < 7; c++) {
-                        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 3000 + (c + Sim.Date + Sim.StartWeekday) % 7), FontSmallBlack, TEC_FONT_LEFT,
-                                       ClientArea + XY(2, 19 + 19 * c), ClientArea + XY(172, 170));
-                    }
-
-                    if (((GetAsyncKeyState(VK_SHIFT) / 256) != 0) && ((GetAsyncKeyState(VK_CONTROL) / 256) != 0)) {
-                        Plan.Dump();
-                    }
-
-                    // Flugplan blitten
-                    for (c = Plan.Flug.AnzEntries() - 1; c >= 0; c--) {
-                        if (Plan.Flug[c].ObjectType != 0) {
-                            SLONG n = 0;
-
-                            for (d = Plan.Flug[c].Startzeit, e = Plan.Flug[c].Startdate;;) {
-                                SLONG px = d * 6;
-                                SLONG py = 15 + (e - Sim.Date) * 19;
-
-                                if (py >= 15) {
-                                    if (Plan.Flug[c].ObjectType == 1 || Plan.Flug[c].ObjectType == 2 || Plan.Flug[c].ObjectType == 4) {
-                                        if (d + 24 * e == Plan.Flug[c].Startzeit + 24 * Plan.Flug[c].Startdate) {
-                                            i = 1;
-                                        } else if (d + 24 * e == Plan.Flug[c].Startzeit + 1 + 24 * Plan.Flug[c].Startdate) {
-                                            i = 2;
-                                        } else if (d + 24 * e == Plan.Flug[c].Landezeit + 24 * Plan.Flug[c].Landedate) {
-                                            i = 5;
-                                        } else if (d + 24 * e == Plan.Flug[c].Landezeit - 1 + 24 * Plan.Flug[c].Landedate) {
-                                            i = 4;
-                                        } else {
-                                            i = 3;
-                                        }
-
-                                        if (Plan.Flug[c].ObjectType == 2) {
-                                            i += 5;
-                                        }
-                                        if (Plan.Flug[c].ObjectType == 4) {
-                                            i += 19;
-                                        }
-                                    } else {
-                                        if (d + 24 * e == Plan.Flug[c].Startzeit + 24 * Plan.Flug[c].Startdate) {
-                                            i = 11;
-                                        } else if (d + 24 * e == Plan.Flug[c].Landezeit + 24 * Plan.Flug[c].Landedate) {
-                                            i = 15;
-                                        } else {
-                                            i = 13;
-                                        }
-
-                                        if ((d & 1) != 0) {
-                                            i++;
-                                        }
-                                    }
-
-                                    if (e >= Sim.Date && e <= Sim.Date + 6) {
-                                        Bitmap.BlitFromT(FlugplanBms[i], ClientArea + XY(24 + px, 2 + py));
-                                        if ((Plan.Flug[c].ObjectType == 2 || Plan.Flug[c].ObjectType == 4) && Plan.Flug[c].Okay > 0) {
-                                            if (d == Plan.Flug[c].Startzeit) {
-                                                i = 41;
-                                            } else if (d == Plan.Flug[c].Landezeit) {
-                                                i = 45;
-                                            } else {
-                                                i = 44;
-                                            }
-                                            Bitmap.BlitFromT(FlugplanBms[i], ClientArea + XY(24 + px, 2 + py));
-                                        }
-
-                                        if (d > 0 && d == (Plan.Flug[c].Startzeit + 1) % 24 &&
-                                            !(Plan.Flug[c].Startdate > Sim.Date || Plan.Flug[c].Startzeit > Sim.GetHour() + 1)) {
-                                            Bitmap.BlitFromT(FlugplanBms[17], ClientArea + XY(24 - 8 + px, py + 4));
-                                        }
-                                        if (Plan.Flug[c].VonCity == static_cast<ULONG>(Sim.HomeAirportId) && d == Plan.Flug[c].Startzeit &&
-                                            (Plan.Flug[c].ObjectType == 1 || Plan.Flug[c].ObjectType == 2) && (Plan.Flug[c].GateWarning != 0U)) {
-                                            Bitmap.BlitFromT(FlugplanBms[18], ClientArea + XY(24 + px, py + 4));
-                                        }
-                                        if (Plan.Flug[c].VonCity == static_cast<ULONG>(Sim.HomeAirportId) && d > 0 && d == (Plan.Flug[c].Startzeit + 1) % 24 &&
-                                            (Plan.Flug[c].ObjectType == 1 || Plan.Flug[c].ObjectType == 2) && (Plan.Flug[c].GateWarning != 0U)) {
-                                            Bitmap.BlitFromT(FlugplanBms[18], ClientArea + XY(24 - 6 + px, py + 4));
-                                        }
-                                        if (d == Plan.Flug[c].Landezeit && Plan.Flug[c].NachCity == static_cast<ULONG>(Sim.HomeAirportId) &&
-                                            (Plan.Flug[c].ObjectType == 1 || Plan.Flug[c].ObjectType == 2) && (Plan.Flug[c].GateWarning != 0U)) {
-                                            Bitmap.BlitFromT(FlugplanBms[18], ClientArea + XY(24 + px, py + 4));
-                                        }
-                                        if (d == Plan.Flug[c].Landezeit && Plan.Flug[c].ObjectType == 4 && (Plan.Flug[c].GateWarning != 0U)) {
-                                            Bitmap.BlitFromT(FlugplanBms[18], ClientArea + XY(24 + px, py + 4));
-                                        }
-
-                                        /*if (d>0 && d==(Plan.Flug[c].Startzeit+1)%24 && Plan.Flug[c].ObjectType==2 && Plan.Flug[c].Okay>0)
-                                          Bitmap.BlitFromT (FlugplanBms[19], ClientArea+XY(24-6+px,py+4));*/
-
-                                        if (d < 24 && Plan.Flug[c].ObjectType != 0) {
-                                            SB_CFont *pFont = nullptr;
-                                            XY OffsetA(0, 0);
-                                            XY OffsetB(0, 0);
-
-                                            if (Plan.Flug[c].Landezeit + Plan.Flug[c].Landedate * 24 - (Plan.Flug[c].Startzeit + Plan.Flug[c].Startdate * 24) <
-                                                4) {
-                                                pFont = &FontVerySmall;
-                                                OffsetA = XY(0, 2);
-                                                OffsetB = XY(2, 0);
-                                            } else {
-                                                pFont = &FontSmallBlack;
-                                            }
-
-                                            if ((Plan.Flug[c].Landezeit + Plan.Flug[c].Landedate * 24) -
-                                                    (Plan.Flug[c].Startzeit + Plan.Flug[c].Startdate * 24) <= 6) {
-                                                if ((d > 2 && d + 24 * e == Plan.Flug[c].Startzeit + (3 - static_cast<int>(OffsetB.x != 0)) +
-                                                                                24 * Plan.Flug[c].Startdate) ||
-                                                    ((OffsetB.x != 0) && Plan.Flug[c].Landezeit == d && Plan.Flug[c].Landedate <= e && px >= 12)) {
-                                                    Bitmap.PrintAt(Cities[Plan.Flug[c].VonCity].Kuerzel, *pFont, TEC_FONT_LEFT,
-                                                                   ClientArea + OffsetA + XY(max(26, 24 - 18 + 2 + px + static_cast<int>(n == 2) * 6), 3 + py),
-                                                                   ClientArea + OffsetA + XY(24 + px + static_cast<int>(n == 2) * 6 + 16 + 14, 2 + py + 18));
-                                                }
-
-                                                if ((d > 2 && d + 24 * e == Plan.Flug[c].Landezeit + 24 * Plan.Flug[c].Landedate) ||
-                                                    (px == 12 && (OffsetB.x != 0) && d + 24 * e == Plan.Flug[c].Landezeit + 24 * Plan.Flug[c].Landedate)) {
-                                                    Bitmap.PrintAt(Cities[Plan.Flug[c].NachCity].Kuerzel, *pFont, TEC_FONT_RIGHT,
-                                                                   ClientArea + XY(24 - 18 - 14 + px, 4 + py + 8) + OffsetB,
-                                                                   ClientArea + XY(px + 24 + 8 - 1, py + 8 + 15) + OffsetB);
-                                                }
-                                            } else {
-                                                if ((d > 2 && d + 24 * e == Plan.Flug[c].Startzeit + 4 + 24 * Plan.Flug[c].Startdate) ||
-                                                    ((OffsetB.x != 0) && Plan.Flug[c].Landezeit == d && Plan.Flug[c].Landedate <= e)) {
-                                                    Bitmap.PrintAt(Cities[Plan.Flug[c].VonCity].Kuerzel, *pFont, TEC_FONT_LEFT,
-                                                                   ClientArea + OffsetA + XY(24 - 18 + px + static_cast<int>(n == 2) * 6, 3 + py),
-                                                                   ClientArea + OffsetA + XY(24 + px + static_cast<int>(n == 2) * 6 + 16 + 14, 2 + py + 18));
-                                                }
-
-                                                if ((d > 2 && d + 24 * e == Plan.Flug[c].Landezeit - 1 + 24 * Plan.Flug[c].Landedate) ||
-                                                    (px == 18 && (OffsetB.x != 0))) {
-                                                    Bitmap.PrintAt(Cities[Plan.Flug[c].NachCity].Kuerzel, *pFont, TEC_FONT_RIGHT,
-                                                                   ClientArea + XY(24 - 18 - 14 + px, 4 + py + 8) + OffsetB,
-                                                                   ClientArea + XY(px + 24 + 8, py + 8 + 15) + OffsetB);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                n++;
-                                if (Plan.Flug[c].Landezeit == d && Plan.Flug[c].Landedate <= e) {
-                                    break;
-                                }
-                                d++;
-                                if (d >= 24) {
-                                    d -= 24;
-                                    e++;
-                                }
-                            }
-                        }
-                    }
-
-                    // Dunklen Bereich markieren:
-                    if (Bitmap.Size.x > 0) {
-                        Bitmap.pBitmap->SetClipRect(CRect(ClientArea.x + 24, ClientArea.y + 17, ClientArea.x + 24 + Sim.Time / 10000, ClientArea.y + 17 + 19));
-                        ColorFX.Apply(4, Bitmap.pBitmap);
-                        Bitmap.pBitmap->SetClipRect(CRect(0, 0, Bitmap.Size.x, Bitmap.Size.y));
-                    }
-
-                    // Problem markieren:
-                    if (qPlane.Problem != 0) {
-                        SLONG Problem = qPlane.Problem;
-                        SLONG offset = Sim.Time / 10000;
-                        SLONG day = 0;
-
-                        while ((Problem != 0) && (min(Problem * 6, 24 * 6 - offset) - 1) > 0) {
-                            SBBM RedBm(min(Problem * 6, 24 * 6 - offset) - 1, 19);
-                            RedBm.FillWith((UWORD)RedBm.pBitmap->GetHardwarecolor(0xff0000));
-
-                            CRect rect(0, 0, min(Problem * 6, 24 * 6 - offset) - 1, 19 - 1);
-                            ColorFX.BlitTrans(RedBm.pBitmap, Bitmap.pBitmap, XY(ClientArea.x + 24 + offset, ClientArea.y + 17 + day * 19), &rect);
-
-                            Problem -= min(Problem, 24 - offset / 6);
-                            offset = 0;
-                            day++;
-                        }
-                    }
-                } else if (Page == 1) // Flugzeug-Details
-                {
-                    CPlane &qPlane = qPlayer.Planes[SelectedId];
-                    // CPlaneType &qPlaneType = PlaneTypes[qPlane.TypeId];
-
-                    // Typ/Hersteller:
-                    if (!qPlane.ptHersteller.empty()) {
-                        Bitmap.PrintAt(bprintf("%s %s", (LPCTSTR)qPlane.ptHersteller, (LPCTSTR)qPlane.ptName), FontSmallBlack, TEC_FONT_LEFT,
-                                       ClientArea + XY(2, 4), ClientArea + XY(172, 170));
-                    } else {
-                        Bitmap.PrintAt(qPlane.ptName, FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 4), ClientArea + XY(172, 170));
-                    }
-
-                    // Passagiere und Reichweite:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1000), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 25), ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1017), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 37), ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 37 + 11),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(bprintf("%li (%li)", qPlane.MaxPassagiere, qPlane.MaxPassagiereFC), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 25),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_T].bString(qPlane.ptPassagiere / 10), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 25 + 11),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_KM].bString(qPlane.ptReichweite), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 37 + 11),
-                                   ClientArea + XY(172, 170));
-
-                    // Technische Daten:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 56 - 7 + 11),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1008), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 82 - 9), ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1009), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 95 - 10),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_KMH].bString(qPlane.ptGeschwindigkeit), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 56 - 7 + 11),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_L].bString(qPlane.ptTankgroesse), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 82 - 9),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_LH].bString(qPlane.ptVerbrauch), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 95 - 10),
-                                   ClientArea + XY(172, 170));
-
-                    // Besatzung:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1041), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 69 + 52 - 14),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1011), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 82 + 52 - 15),
-                                   ClientArea + XY(172, 170));
-                    // Bitmap.PrintAt (bprintf (StandardTexte.GetS (TOKEN_PLANE, 1014), qPlane.AnzPiloten, qPlaneType.AnzPiloten),   FontSmallBlack,
-                    // TEC_FONT_LEFT, ClientArea+XY(75,69+52-14), ClientArea+XY(172,170));
-                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_PLANE, 1014), qPlane.AnzPiloten, qPlane.ptAnzPiloten), FontSmallBlack, TEC_FONT_LEFT,
-                                   ClientArea + XY(75, 69 + 52 - 14), ClientArea + XY(172, 170));
-                    // Bitmap.PrintAt (bprintf (StandardTexte.GetS (TOKEN_PLANE, 1014), qPlane.AnzBegleiter, qPlaneType.AnzBegleiter), FontSmallBlack,
-                    // TEC_FONT_LEFT, ClientArea+XY(75,82+52-15), ClientArea+XY(172,170));
-                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_PLANE, 1014), qPlane.AnzBegleiter, qPlane.ptAnzBegleiter), FontSmallBlack, TEC_FONT_LEFT,
-                                   ClientArea + XY(75, 82 + 52 - 15), ClientArea + XY(172, 170));
-
-                    // Baujahr
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1013), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 82 + 52 - 13 + 15),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(bitoa(qPlane.Baujahr), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 82 + 52 - 13 + 15), ClientArea + XY(172, 170));
-
-                    // Flugzeug umbenennen:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1030), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 103 + 52),
-                                   ClientArea + XY(172, 170));
-                } else if (Page == 2) // Besatzung:
-                {
-                    SLONG c = 0;
-                    SLONG n = 0;
-                    CPlane &qPlane = qPlayer.Planes[SelectedId];
-                    // CPlaneType &qPlaneType = PlaneTypes[qPlane.TypeId];
-
-                    //"Besatzung":
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1040), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 4), ClientArea + XY(172, 170));
-
-                    //"Piloten":
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1041), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(10, 4 + 13),
-                                   ClientArea + XY(172, 170));
-
-                    n = 4 + 13 + 13;
-                    for (c = 0; c < Workers.Workers.AnzEntries(); c++) {
-                        if (Workers.Workers[c].Employer == PlayerNum && Workers.Workers[c].Typ == WORKER_PILOT && Workers.Workers[c].PlaneId != -1 &&
-                            qPlayer.Planes(Workers.Workers[c].PlaneId) == qPlayer.Planes(SelectedId)) {
-                            Bitmap.PrintAt(Workers.Workers[c].Name, FontNormalGrey, TEC_FONT_LEFT, ClientArea + XY(18, n), ClientArea + XY(172, 170));
-                            n += 13;
-                        }
-                    }
-                    // for (c=qPlaneType.AnzPiloten-qPlane.AnzPiloten; c>0; c--)
-                    for (c = qPlane.ptAnzPiloten - qPlane.AnzPiloten; c > 0; c--) {
-                        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1045), FontNormalGrey, TEC_FONT_LEFT, ClientArea + XY(18, n), ClientArea + XY(172, 170));
-                        n += 13;
-                    }
-
-                    //"Flugbegleiter":
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1042), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(10, n), ClientArea + XY(172, 170));
-
-                    n += 13;
-                    for (c = 0; c < Workers.Workers.AnzEntries(); c++) {
-                        if (Workers.Workers[c].Employer == PlayerNum && Workers.Workers[c].Typ == WORKER_STEWARDESS && Workers.Workers[c].PlaneId != -1 &&
-                            qPlayer.Planes(Workers.Workers[c].PlaneId) == qPlayer.Planes(SelectedId)) {
-                            Bitmap.PrintAt(Workers.Workers[c].Name, FontNormalGrey, TEC_FONT_LEFT, ClientArea + XY(18, n), ClientArea + XY(172, 170));
-                            n += 13;
-                        }
-                    }
-                    // for (c=qPlaneType.AnzBegleiter-qPlane.AnzBegleiter; c>0; c--)
-                    for (c = qPlane.ptAnzBegleiter - qPlane.AnzBegleiter; c > 0; c--) {
-                        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1045), FontNormalGrey, TEC_FONT_LEFT, ClientArea + XY(18, n), ClientArea + XY(172, 170));
-                        n += 13;
-                    }
-                } else if (Page == 3) // Statistik:
-                {
-                    CPlane &qPlane = qPlayer.Planes[SelectedId];
-
-                    // Headline
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1050), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 4), ClientArea + XY(172, 170));
-
-                    // Passagiere und Reichweite:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1051), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 25), ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1052), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 37), ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1053), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 49), ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(bitoa(qPlane.SummePassagiere), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75 + 20, 25), ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_KM].bString(qPlane.Kilometer), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75 + 20, 37),
-                                   ClientArea + XY(172, 170));
-                    Bitmap.PrintAt(CString(Einheiten[EINH_P].bString(qPlane.Auslastung)) + " / " + CString(Einheiten[EINH_P].bString(qPlane.AuslastungFC)),
-                                   FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75 + 20, 49), ClientArea + XY(172, 170));
-                } else // Kommentar
-                {
-                    // CPlaneType &qPlaneType = PlaneTypes[qPlayer.Planes[SelectedId].TypeId];
-                    CPlane &qPlane = qPlayer.Planes[SelectedId];
-
-                    // Typ/Hersteller:
-                    // Bitmap.PrintAt (bprintf ("%s %s", (LPCTSTR)qPlaneType.Hersteller, (LPCTSTR)qPlaneType.Name), FontSmallBlack, TEC_FONT_LEFT,
-                    // ClientArea+XY(2, 4), ClientArea+XY(172,170));
-                    Bitmap.PrintAt(bprintf("%s %s", (LPCTSTR)qPlane.ptHersteller, (LPCTSTR)qPlane.ptName), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 4),
-                                   ClientArea + XY(172, 170));
-
-                    // Kommentar:
-                    // Bitmap.PrintAt (qPlaneType.Kommentar, FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2, 30), ClientArea+XY(172,170));
-                    Bitmap.PrintAt(qPlane.ptKommentar, FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 30), ClientArea + XY(172, 170));
-                }
-                break;
-
-                // Experten:
-            case 5:
-                if (SelectedId == 2) {
-                    Bitmap.PrintAt(CString(StandardTexte.GetS(TOKEN_EXPERT, 2100)) + " " +
-                                       CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (Sim.Date + Sim.StartWeekday - 1) % 7)),
-                                   TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
-                } else if (SelectedId >= 8 && SelectedId <= 10) {
-                    SLONG i = SelectedId - 8;
-                    i += static_cast<int>(PlayerNum <= i);
-                    auto &qPlayer = Sim.Players.Players[i];
-                    Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), (LPCSTR)qPlayer.Abk), TitleFont, TEC_FONT_LEFT, TitleArea,
-                                   Bitmap.Size);
-                } else {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
-                }
-
-                switch (SelectedId) {
-                // Gateauslastung:
-                case 0:
-                    if (Bitmap.pBitmap != nullptr) {
-                        SLONG x = 0;
-                        SLONG y = 0;
-                        SLONG c = 0;
-                        SB_Hardwarecolor red = Bitmap.pBitmap->GetHardwarecolor(0xff0000);
-
-                        CGates &qGates = qPlayer.Gates;
-
-                        if (Base->IsLaptop == FALSE) {
-                            Bitmap.BlitFromT((dynamic_cast<CGlobe *>(Base))->TimeTables[0], ClientArea + XY(21, -2));
-                        } else {
-                            Bitmap.BlitFromT(FlugplanBms[0], ClientArea + XY(21, -2));
-                        }
-
-                        for (y = 0; y < 7; y++) {
-                            for (x = 0; x < 24; x++) {
-                                SLONG h = qGates.Auslastung[x + y * 24] * 16 / (qGates.NumRented + 1);
-
-                                if (h != 0) {
-                                    Bitmap.pBitmap->Line(ClientArea.x + 24 + x * 6, ClientArea.y + 35 + 19 * y, ClientArea.x + 30 + x * 6,
-                                                         ClientArea.y + 35 + 19 * y, red);
-                                    Bitmap.pBitmap->Line(ClientArea.x + 24 + x * 6, ClientArea.y + 35 + 19 * y - h, ClientArea.x + 30 + x * 6,
-                                                         ClientArea.y + 35 + 19 * y - h, red);
-                                    Bitmap.pBitmap->Line(ClientArea.x + 24 + x * 6, ClientArea.y + 35 + 19 * y, ClientArea.x + 24 + x * 6,
-                                                         ClientArea.y + 35 + 19 * y - h, red);
-                                    Bitmap.pBitmap->Line(ClientArea.x + 30 + x * 6, ClientArea.y + 35 + 19 * y, ClientArea.x + 30 + x * 6,
-                                                         ClientArea.y + 35 + 19 * y - h, red);
-
-                                    if (qGates.Auslastung[x + y * 24] > qGates.NumRented) {
-                                        for (c = 0; c <= 4; c++) {
-                                            Bitmap.Line(ClientArea + XY(25 + c + x * 6, 35 + 19 * y), ClientArea + XY(25 + c + x * 6, 35 + 19 * y - h), red);
-                                        }
-                                    }
-                                }
-                            }
-
-                            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 3000 + (y + Sim.Date + Sim.StartWeekday) % 7), FontSmallBlack, TEC_FONT_LEFT,
-                                           ClientArea + XY(2, 19 + 19 * y), ClientArea + XY(172, 170));
-                        }
-                    }
-                    break;
-
-                    // Geschäftsbericht
-                case 1:
-                    ZeigeFinanzBericht(ClientArea, Sim.Players.Players[PlayerNum], Sim.Players.Players[PlayerNum].BilanzWoche.Hole(), false, Page);
-                    break;
-
-                    // Tagesbilanz:
-                case 2:
-                    ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], Sim.Players.Players[PlayerNum].BilanzGestern, false, Page);
-                    break;
-
-                    // Wochenbilanz:
-                case 3:
-                    ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], Sim.Players.Players[PlayerNum].BilanzWoche.Hole(), false, Page);
-                    break;
-
-                    // Gesamtbilanz:
-                case 4: {
-                    auto bilanz = Sim.Players.Players[PlayerNum].BilanzGesamt;
-                    bilanz += Sim.Players.Players[PlayerNum].Bilanz;
-                    ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], bilanz, false, Page);
-                } break;
-
-                    // Wocheneinnamen der Flugzeuge:
-                case 5:
-                    if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_GELD) == 0) {
-                        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3000), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
-                                       ClientArea + XY(172, 170));
-                    } else {
-                        if (Page < PageSize) {
-                            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3009), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27),
-                                           ClientArea + XY(172, 170));
-                        } else {
-                            // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 1000), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
-
-                            for (c = 0; c < PageSize; c++) {
-                                auto idx = c + Page - PageSize;
-                                if (idx >= Table.AnzRows) {
-                                    break;
-                                }
-                                SB_CFont *pFont = nullptr;
-
-                                if (Table.ValueFlags[0 + idx * Table.AnzColums] != 0U) {
-                                    pFont = &FontSmallRed;
-                                } else {
-                                    pFont = &FontSmallBlack;
-                                }
-
-                                for (SLONG x = 170; x >= 0; x -= 4) {
-                                    if (Bitmap.TryPrintAt(Table.Values[1 + idx * Table.AnzColums], *pFont, TEC_FONT_RIGHT,
-                                                          ClientArea + XY(x, c * 13),
-                                                          ClientArea + XY(170, c * 13 + 13)) < 13) {
-                                        Bitmap.PrintAt(Table.Values[1 + idx * Table.AnzColums], *pFont, TEC_FONT_RIGHT,
-                                                       ClientArea + XY(x, c * 13), ClientArea + XY(170, c * 13 + 13));
-                                        if (Bitmap.TryPrintAt(Table.Values[0 + idx * Table.AnzColums], *pFont, TEC_FONT_LEFT,
-                                                              ClientArea + XY(0, c * 13),
-                                                              ClientArea + XY(x, c * 13 + 13)) < 13) {
-                                            Bitmap.PrintAt(Table.Values[0 + idx * Table.AnzColums], *pFont, TEC_FONT_LEFT,
-                                                           ClientArea + XY(0, c * 13), ClientArea + XY(x, c * 13 + 13));
-                                        } else {
-                                            x -= 10;
-                                            CString str = Table.Values[0 + idx * Table.AnzColums] + "...";
-
-                                            while (str.GetLength() > 3) {
-                                                str.SetAt(str.GetLength() - 3, '.');
-                                                str = str.Left(str.GetLength() - 1);
-
-                                                if (Bitmap.TryPrintAt(str, *pFont, TEC_FONT_LEFT, ClientArea + XY(0, c * 13),
-                                                                      ClientArea + XY(x, c * 13 + 13)) < 13) {
-                                                    Bitmap.PrintAt(str, *pFont, TEC_FONT_LEFT, ClientArea + XY(0, c * 13),
-                                                                   ClientArea + XY(x, c * 13 + 13));
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-
-                    // Konkurrenz:
-                case 6:
-                    ZeigeInformantenInfos(ClientArea, Page);
-                    break;
-
-                case 7:
-                    ZeigeInformantenFinanzBericht(ClientArea, Page);
-                    break;
-
-                case 8:
-                    ZeigeInformantenBilanz(ClientArea, 0 + static_cast<int>(PlayerNum <= 0), Page);
-                    break;
-
-                case 9:
-                    ZeigeInformantenBilanz(ClientArea, 1 + static_cast<int>(PlayerNum <= 1), Page);
-                    break;
-
-                case 10:
-                    ZeigeInformantenBilanz(ClientArea, 2 + static_cast<int>(PlayerNum <= 2), Page);
-                    break;
-
-                case 11:
-                    ZeigeKerosinberater(ClientArea, Page);
-                    break;
-
-                default:
-                    hprintf("Block.cpp: Default case should not be reached.");
-                    DebugBreak();
-                }
-                break;
-            default:
-                hprintf("Block.cpp: Default case should not be reached.");
-                DebugBreak();
-            }
+            LinkeSeiteInhalt(TitleArea, ClientArea);
         }
     }
 
@@ -1113,482 +482,10 @@ switch_again:
 
         // Die rechte Seite:
         if (IndexB == 1 && (DoubleBlock != 0) && BlockType == 2) {
-            // Inhaltsverzechnis
-            switch (BlockTypeB) {
-            // Auftragsliste:
-            case 3:
-                if (StyleType != 0) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1200), TitleFont, TEC_FONT_LEFT, TitleAreaB + XY(60, 0), Bitmap.Size);
-                } else {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1200), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
-                }
-
-                for (c = PageB; c < PageB + PageSizeB && c < TableB.AnzRows; c++) {
-                    SB_CFont *s = nullptr;
-
-                    // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
-                    if (Index != 1 && TableB.ValueFlags[0 + c * TableB.AnzColums] == 0 && (qPlayer.Auftraege.IsInAlbum(TableB.LineIndex[c]) != 0)) {
-                        // if (!qPlayer.Auftraege[TableB.LineIndex[c]].FitsInPlane
-                        // (PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId]))
-                        if (qPlayer.Auftraege[TableB.LineIndex[c]].FitsInPlane(Sim.Players.Players[PlayerNum].Planes[SelectedId]) == 0) {
-                            TableB.ValueFlags[0 + c * TableB.AnzColums] = 2;
-                        }
-
-                        // if
-                        // (SLONG(qPlayer.Auftraege[TableB.LineIndex[c]].Personen)>PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId].Passagiere)
-                        if (SLONG(qPlayer.Auftraege[TableB.LineIndex[c]].Personen) > Sim.Players.Players[PlayerNum].Planes[SelectedId].ptPassagiere) {
-                            TableB.ValueFlags[0 + c * TableB.AnzColums] = 4;
-                        }
-                    }
-                    // ex:!=0 ex:==1
-                    if (TableB.ValueFlags[0 + c * TableB.AnzColums] != 0) {
-                        s = &FontSmallGrey;
-                    } else {
-                        s = &FontSmallBlack;
-                    }
-
-                    if (TableB.ValueFlags[0 + c * TableB.AnzColums] == 1 && TableB.ValueFlags[1 + c * TableB.AnzColums] == 0) {
-                        Bitmap.BlitFromT(gPostItBms[1 + 2],
-                                         ClientAreaB + XY(1, (c - PageB) * 26)); // Okay==0 ==> roter Rahmen ==> Etwas mit dem Flug stimmt nicht...
-                    } else {
-                        Bitmap.BlitFromT(gPostItBms[1], ClientAreaB + XY(1, (c - PageB) * 26));
-                    }
-
-                    Bitmap.BlitFromT(gInfoBms[0], ClientAreaB + XY(3, (c - PageB) * 26 + 9));
-
-                    if (Bitmap.TryPrintAt(
-                            bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]), *s,
-                            TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                            ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14)) < 12) {
-                        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]),
-                                       *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                       ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
-                    } else if (Bitmap.TryPrintAt(
-                                   bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]), *s,
-                                   TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                   ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14)) < 12) {
-                        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]),
-                                       *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                       ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
-                    } else {
-                        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[2 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]),
-                                       *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                       ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
-                    }
-
-                    Bitmap.PrintAt(TableB.Values[6 + c * TableB.AnzColums], *s, TEC_FONT_RIGHT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                   ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
-
-                    Bitmap.PrintAt(TableB.Values[4 + c * TableB.AnzColums], *s, TEC_FONT_LEFT,
-                                   ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
-                                   ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
-                    Bitmap.PrintAt(TableB.Values[5 + c * TableB.AnzColums], *s, TEC_FONT_RIGHT,
-                                   ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
-                                   ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
-                }
-                break;
-
-                // Routenliste:
-            case 4:
-                if (StyleType != 0) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1100), TitleFont, TEC_FONT_LEFT, TitleAreaB + XY(60, 0), Bitmap.Size);
-                } else {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1100), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
-                }
-
-                for (c = PageB; c < PageB + PageSizeB && c < TableB.AnzRows; c++) {
-                    SB_CFont *s = nullptr;
-
-                    Bitmap.BlitFromT(gPostItBms[0], ClientAreaB + XY(1, (c - PageB) * 26));
-                    Bitmap.BlitFromT(gInfoBms[0], ClientAreaB + XY(3, (c - PageB) * 26 + 9));
-
-                    s = &FontSmallBlack;
-
-                    // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
-                    if (Index != 1) {
-                        SLONG VonCityId = Routen[TableB.LineIndex[c]].VonCity;
-                        SLONG NachCityId = Routen[TableB.LineIndex[c]].NachCity;
-
-                        // if (Cities.CalcDistance (VonCityId,
-                        // NachCityId)>PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId].Reichweite*1000)
-                        if (Cities.CalcDistance(VonCityId, NachCityId) > Sim.Players.Players[PlayerNum].Planes[SelectedId].ptReichweite * 1000) {
-                            TableB.ValueFlags[0 + c * TableB.AnzColums] = 2;
-                        } else {
-                            // SLONG Speed = PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId].Geschwindigkeit;
-                            SLONG Speed = Sim.Players.Players[PlayerNum].Planes[SelectedId].ptGeschwindigkeit;
-                            SLONG Dauer = Cities.CalcFlugdauer(VonCityId, NachCityId, Speed);
-                            // SLONG Dauer = (Cities.CalcDistance (VonCityId, NachCityId)/Speed+999)/1000+1+2;
-
-                            if (Dauer >= 24) {
-                                TableB.ValueFlags[0 + c * TableB.AnzColums] = 2;
-                            }
-                        }
-                    }
-
-                    if (TableB.ValueFlags[0 + c * TableB.AnzColums] != 0U) {
-                        s = &FontSmallGrey;
-                    }
-
-                    if (Bitmap.TryPrintAt(
-                            bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]), *s,
-                            TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                            ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14)) < 12) {
-                        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]),
-                                       *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                       ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
-                    } else if (Bitmap.TryPrintAt(
-                                   bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]), *s,
-                                   TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                   ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14)) < 12) {
-                        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]),
-                                       *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                       ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
-                    } else {
-                        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[2 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]),
-                                       *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                       ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
-                    }
-
-                    Bitmap.PrintAt(TableB.Values[4 + c * TableB.AnzColums], *s, TEC_FONT_LEFT,
-                                   ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
-                                   ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
-                }
-                break;
-
-                // Frachtliste:
-            case 6:
-                if (StyleType != 0) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1300), TitleFont, TEC_FONT_LEFT, TitleAreaB + XY(60, 0), Bitmap.Size);
-                } else {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1300), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
-                }
-
-                for (c = PageB; c < PageB + PageSizeB && c < TableB.AnzRows; c++) {
-                    SB_CFont *s = nullptr;
-
-                    // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
-                    if (Index != 1 && TableB.ValueFlags[0 + c * TableB.AnzColums] == 0 && (qPlayer.Frachten.IsInAlbum(TableB.LineIndex[c]) != 0)) {
-                        // if (!qPlayer.Frachten[TableB.LineIndex[c]].FitsInPlane (PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId]))
-                        if (qPlayer.Frachten[TableB.LineIndex[c]].FitsInPlane(Sim.Players.Players[PlayerNum].Planes[SelectedId]) == 0) {
-                            TableB.ValueFlags[0 + c * TableB.AnzColums] = 2;
-                        }
-                    }
-                    // ex: ==1
-                    if (TableB.ValueFlags[0 + c * TableB.AnzColums] != 0) {
-                        s = &FontSmallGrey;
-                    } else {
-                        s = &FontSmallBlack;
-                    }
-
-                    if (TableB.ValueFlags[1 + c * TableB.AnzColums] == 0U) {
-                        Bitmap.BlitFromT(gPostItBms[5],
-                                         ClientAreaB + XY(1, (c - PageB) * 26)); // Okay==0 ==> roter Rahmen ==> Etwas mit dem Flug stimmt nicht...
-                    } else {
-                        Bitmap.BlitFromT(gPostItBms[4], ClientAreaB + XY(1, (c - PageB) * 26));
-                    }
-
-                    Bitmap.BlitFromT(gInfoBms[0], ClientAreaB + XY(3, (c - PageB) * 26 + 9));
-
-                    if (Bitmap.TryPrintAt(
-                            bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]), *s,
-                            TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                            ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14)) < 12) {
-                        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]),
-                                       *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                       ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
-                    } else if (Bitmap.TryPrintAt(
-                                   bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]), *s,
-                                   TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                   ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14)) < 12) {
-                        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]),
-                                       *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                       ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
-                    } else {
-                        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[2 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]),
-                                       *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                       ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
-                    }
-
-                    Bitmap.PrintAt(TableB.Values[6 + c * TableB.AnzColums], *s, TEC_FONT_RIGHT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
-                                   ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
-
-                    Bitmap.PrintAt(TableB.Values[4 + c * TableB.AnzColums], *s, TEC_FONT_LEFT,
-                                   ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
-                                   ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
-                    Bitmap.PrintAt(TableB.Values[5 + c * TableB.AnzColums], *s, TEC_FONT_RIGHT,
-                                   ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
-                                   ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
-                }
-                break;
-            default:
-                hprintf("Block.cpp: Default case should not be reached.");
-                DebugBreak();
-            }
+            RechteSeiteIndex(TitleAreaB, ClientAreaB);
         } else if (IndexB == 0 && (DoubleBlock != 0) && BlockType == 2) {
-            // Details
-            switch (BlockTypeB) {
-            // Aufträge:
-            case 3: {
-                if (qPlayer.Auftraege.IsInAlbum(SelectedIdB) == 0) {
-                    qPlayer.Blocks.RepaintAll = 1;
-                    IndexB = 1;
-                    SelectedIdB = PageB = 0;
-                    UpdatePageSize();
-                    goto switch_again;
-                }
-
-                CAuftrag &qAuftrag = qPlayer.Auftraege[SelectedIdB];
-
-                // Headline: LAX - DUS
-                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qAuftrag.VonCity].Kuerzel, (LPCTSTR)Cities[qAuftrag.NachCity].Kuerzel), TitleFont,
-                               TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
-
-                // Ausführlich von A nach B
-                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qAuftrag.VonCity].Name, (LPCTSTR)Cities[qAuftrag.NachCity].Name), FontSmallBlack,
-                               TEC_FONT_LEFT, ClientAreaB + XY(0, 1), ClientAreaB + XY(172, 168));
-
-                if (PageB == 0) {
-                    // Personenzahl:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1000), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(bprintf("%li", qAuftrag.Personen), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 28), ClientAreaB + XY(172, 170));
-
-                    // Datum:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1003), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 40), ClientAreaB + XY(172, 170));
-
-                    if (qAuftrag.Date == qAuftrag.BisDate) {
-                        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 3010 + (qAuftrag.Date + Sim.StartWeekday) % 7), FontSmallBlack, TEC_FONT_LEFT,
-                                       ClientAreaB + XY(75, 40), ClientAreaB + XY(172, 170));
-                    } else {
-                        Bitmap.PrintAt(CString(StandardTexte.GetS(TOKEN_SCHED, 3009)) + " " +
-                                           CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (qAuftrag.BisDate + Sim.StartWeekday) % 7)),
-                                       FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 40), ClientAreaB + XY(172, 170));
-                    }
-
-                    // Prämie und Strafe
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 66), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 53), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(bprintf("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString(qAuftrag.Strafe))), FontSmallBlack, TEC_FONT_LEFT,
-                                   ClientAreaB + XY(75, 66), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(bprintf("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString(qAuftrag.Praemie))), FontSmallBlack, TEC_FONT_LEFT,
-                                   ClientAreaB + XY(75, 53), ClientAreaB + XY(172, 170));
-
-                    // Entfernung:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 92), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(CString(Einheiten[EINH_KM].bString(Cities.CalcDistance(qAuftrag.VonCity, qAuftrag.NachCity) / 1000)), FontSmallBlack,
-                                   TEC_FONT_LEFT, ClientAreaB + XY(75, 92), ClientAreaB + XY(172, 170));
-
-                    // Wegwerfen:
-                    if (qAuftrag.InPlan == 0) {
-                        Bitmap.BlitFrom(FlugplanBms[57], ClientAreaB + XY(0, 118));
-                        if (qAuftrag.Strafe != 0) {
-                            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2401), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(20, 119),
-                                           ClientAreaB + XY(172, 170));
-                        } else {
-                            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2400), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(20, 119),
-                                           ClientAreaB + XY(172, 170));
-                        }
-                    }
-                } else if (PageB == 1) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2500), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
-                }
-            } break;
-
-                // Routen:
-            case 4: {
-                if (Routen.IsInAlbum(SelectedIdB) == 0) {
-                    qPlayer.Blocks.RepaintAll = 1;
-                    IndexB = 1;
-                    SelectedIdB = PageB = 0;
-                    UpdatePageSize();
-                    goto switch_again;
-                }
-
-                CRoute &qRoute = Routen[SelectedIdB];
-                CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(SelectedIdB)];
-
-                // Headline: LAX - DUS
-                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qRoute.VonCity].Kuerzel, (LPCTSTR)Cities[qRoute.NachCity].Kuerzel), TitleFont, TEC_FONT_LEFT,
-                               TitleAreaB, Bitmap.Size);
-
-                // Ausführlich von A nach B
-                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qRoute.VonCity].Name, (LPCTSTR)Cities[qRoute.NachCity].Name), FontSmallBlack, TEC_FONT_LEFT,
-                               ClientAreaB + XY(0, 1), ClientAreaB + XY(172, 168));
-
-                if (PageB == 0) {
-                    // Ticketpreis:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 27), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRRoute.Ticketpreis), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 27),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt("+-", FontSmallBlack, TEC_FONT_RIGHT, ClientAreaB + XY(2, 27), ClientAreaB + XY(172, 170));
-
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 40), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRRoute.TicketpreisFC), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 40),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt("+-", FontSmallBlack, TEC_FONT_RIGHT, ClientAreaB + XY(2, 40), ClientAreaB + XY(172, 170));
-
-                    // erhöhen oder verringern:
-                    // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1100), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,40), ClientAreaB+XY(172,170));
-                    // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1101), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,53), ClientAreaB+XY(172,170));
-
-                    // Ticketpreis von Dumping bis Luxus:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1102), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 66), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1103), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 79), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1104), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 92), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1105), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 105), ClientAreaB + XY(172, 170));
-
-                    SLONG Cost = CalculateFlightCost(qRoute.VonCity, qRoute.NachCity, 800, 800, -1) * 3 / 180 * 2;
-
-                    Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost / 2 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 66),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 79),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost * 2 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 92),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost * 4 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 105),
-                                   ClientAreaB + XY(172, 170));
-
-                    if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0) {
-                        for (SLONG c = 0; c < 3; c++) {
-                            if (Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].IsOut == 0) {
-                                Bitmap.PrintAt(Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].AirlineX, FontSmallBlack, TEC_FONT_LEFT,
-                                               ClientAreaB + XY(2, 128 + c * 13), ClientAreaB + XY(172, 170));
-
-                                if (Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].RentRouten.RentRouten[Routen(SelectedIdB)].Rang != 0U) {
-                                    Bitmap.PrintAt(
-                                        Einheiten[EINH_DM].bString(
-                                            Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].RentRouten.RentRouten[Routen(SelectedIdB)].Ticketpreis),
-                                        FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 128 + c * 13), ClientAreaB + XY(172, 170));
-                                } else {
-                                    Bitmap.PrintAt("-", FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 128 + c * 13), ClientAreaB + XY(172, 170));
-                                }
-                            }
-                        }
-                    }
-                } else if (PageB == 1) {
-                    // Entfernung:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 23), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(CString(Einheiten[EINH_KM].bString(Cities.CalcDistance(qRoute.VonCity, qRoute.NachCity) / 1000)), FontSmallBlack,
-                                   TEC_FONT_LEFT, ClientAreaB + XY(100, 23), ClientAreaB + XY(172, 170));
-
-                    // Image:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1004), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 43), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_P].bString(qRRoute.Image), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 43),
-                                   ClientAreaB + XY(172, 170));
-                    // Rang:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1011), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 55), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(bitoa(qRRoute.Rang), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 55), ClientAreaB + XY(172, 170));
-
-                    // Bedarf:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1013), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 76 - 2),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(bitoa(qRoute.Bedarf), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 76 - 2), ClientAreaB + XY(172, 170));
-                    // Auslastung:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1017), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 86 + 3 + 2),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1018), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 84 + 12 + 3 + 2),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(CString(Einheiten[EINH_P].bString(qRRoute.Auslastung)) + " / " + CString(Einheiten[EINH_P].bString(qRRoute.AuslastungFC)),
-                                   FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 92 + 4 + 3 + 2), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1019), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 105 - 1 + 4 + 2 + 2),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_P].bString(qRRoute.RoutenAuslastung), FontSmallBlack, TEC_FONT_LEFT,
-                                   ClientAreaB + XY(100, 105 - 1 + 4 + 2 + 2), ClientAreaB + XY(172, 170));
-
-                    // Miete:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1006), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 131 - 2),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRRoute.Miete), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 131 - 2),
-                                   ClientAreaB + XY(172, 170));
-                    // Kündigen:
-                    Bitmap.BlitFrom(FlugplanBms[57], ClientAreaB + XY(2, 144 - 2));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1200), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(22, 148), Bitmap.Size);
-                } else if (PageB == 2) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2502), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
-                }
-            } break;
-
-                // Frachtaufträge:
-            case 6: {
-                if (qPlayer.Frachten.IsInAlbum(SelectedIdB) == 0) {
-                    qPlayer.Blocks.RepaintAll = 1;
-                    IndexB = 1;
-                    SelectedIdB = PageB = 0;
-                    UpdatePageSize();
-                    goto switch_again;
-                }
-
-                CFracht &qFracht = qPlayer.Frachten[SelectedIdB];
-
-                // Headline: LAX - DUS
-                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qFracht.VonCity].Kuerzel, (LPCTSTR)Cities[qFracht.NachCity].Kuerzel), TitleFont,
-                               TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
-
-                // Ausführlich von A nach B
-                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qFracht.VonCity].Name, (LPCTSTR)Cities[qFracht.NachCity].Name), FontSmallBlack, TEC_FONT_LEFT,
-                               ClientAreaB + XY(0, 1), ClientAreaB + XY(172, 168));
-
-                if (PageB == 0) {
-                    // Frachtinfos:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1008), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_T].bString(qFracht.Tons), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(95, 28),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1010), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28 + 9),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_T].bString(qFracht.TonsLeft > 0 ? qFracht.TonsLeft : 0), FontSmallBlack, TEC_FONT_LEFT,
-                                   ClientAreaB + XY(95, 28 + 9), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1009), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28 + 18),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(Einheiten[EINH_T].bString(qFracht.TonsOpen > 0 ? qFracht.TonsOpen : 0), FontSmallBlack, TEC_FONT_LEFT,
-                                   ClientAreaB + XY(95, 28 + 18), ClientAreaB + XY(172, 170));
-
-                    // Datum:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1003), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 40 + 23),
-                                   ClientAreaB + XY(172, 170));
-
-                    if (qFracht.Date == qFracht.BisDate) {
-                        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 3010 + (qFracht.Date + Sim.StartWeekday) % 7), FontSmallBlack, TEC_FONT_LEFT,
-                                       ClientAreaB + XY(75, 40 + 23), ClientAreaB + XY(172, 170));
-                    } else {
-                        Bitmap.PrintAt(CString(StandardTexte.GetS(TOKEN_SCHED, 3009)) + " " +
-                                           CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (qFracht.BisDate + Sim.StartWeekday) % 7)),
-                                       FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 40 + 23), ClientAreaB + XY(172, 170));
-                    }
-
-                    // Prämie und Strafe
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 66 + 19),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 53 + 21),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(bprintf("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString(qFracht.Strafe))), FontSmallBlack, TEC_FONT_LEFT,
-                                   ClientAreaB + XY(75, 66 + 19), ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(bprintf("%s", (LPCTSTR)CString((qFracht.Praemie == 0) ? StandardTexte.GetS(TOKEN_AUFTRAG, 1011)
-                                                                                         : Einheiten[EINH_DM].bString(qFracht.Praemie))),
-                                   FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 53 + 21), ClientAreaB + XY(172, 170));
-
-                    // Entfernung:
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 92 + 17),
-                                   ClientAreaB + XY(172, 170));
-                    Bitmap.PrintAt(CString(Einheiten[EINH_KM].bString(Cities.CalcDistance(qFracht.VonCity, qFracht.NachCity) / 1000)), FontSmallBlack,
-                                   TEC_FONT_LEFT, ClientAreaB + XY(75, 92 + 17), ClientAreaB + XY(172, 170));
-
-                    // Wegwerfen:
-                    if (qPlayer.Frachten[SelectedIdB].InPlan == 0 && qPlayer.Frachten[SelectedIdB].TonsLeft == qPlayer.Frachten[SelectedIdB].TonsOpen) {
-                        Bitmap.BlitFrom(FlugplanBms[57], ClientAreaB + XY(0, 118 + 17));
-                        if (qFracht.Strafe != 0) {
-                            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2401), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(20, 119 + 17),
-                                           ClientAreaB + XY(172, 170));
-                        } else {
-                            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2400), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(20, 119 + 17),
-                                           ClientAreaB + XY(172, 170));
-                        }
-                    }
-                } else if (PageB == 1) {
-                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2501), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
-                }
-            } break;
-            default:
-                hprintf("Block.cpp: Default case should not be reached.");
-                DebugBreak();
+            if (RechteSeiteInhalt(TitleAreaB, ClientAreaB)) {
+                goto switch_again;
             }
         }
     } else if (TipInUseB == TIP_CITY) {
@@ -1627,6 +524,1085 @@ switch_again:
         DrawAutoflugTipContents(Bitmap, CurrentTipId, CurrentTipIdPar1, CurrentTipIdPar2, CurrentTipIdPar3, TitleAreaB, ClientAreaB, &TitleFont,
                                 &FontSmallBlack, CurrentTipIdPar4);
     }
+}
+
+void BLOCK::LinkeSeiteIndex(XY TitleArea, XY ClientArea) {
+    SB_CFont &TitleFont = StyleType != 0 ? FontNormalGreen : FontSmallBlack;
+    SLONG c = 0;
+
+    // Inhaltsverzechnis
+    switch (BlockType) {
+    // Cities:
+    case 1:
+        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1400), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+
+        for (c = Page; c < Page + PageSize && c < Table.AnzRows; c++) {
+            if (Table.ValueFlags[0 + c * Table.AnzColums] != 0U) {
+                Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
+            } else {
+                Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], FontSmallGrey, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
+            }
+        }
+
+        break;
+
+        // Planes:
+    case 2:
+        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1000), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+
+        for (c = Page; c < Page + PageSize && c < Table.AnzRows; c++) {
+            SB_CFont *f = nullptr;
+
+            if (Table.ValueFlags[0 + c * Table.AnzColums] != 0U) {
+                f = &FontSmallRed;
+            } else {
+                f = &FontSmallBlack;
+            }
+
+            Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], *f, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 26), Bitmap.Size);
+            Bitmap.PrintAt(Table.Values[1 + c * Table.AnzColums], *f, TEC_FONT_LEFT, ClientArea + XY(123, (c - Page) * 26), Bitmap.Size);
+
+            Bitmap.PrintAt(Table.Values[3 + c * Table.AnzColums], *f, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 26 + 10), Bitmap.Size);
+        }
+        break;
+
+        // Infos:
+    case 5:
+        Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1500), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+
+        for (c = Page; c < Page + PageSize && c < Table.AnzRows; c++) {
+            Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], GetColor(c, PlayerNum) ? FontSmallGrey : FontSmallBlack, TEC_FONT_LEFT,
+                           ClientArea + XY(0, (c - Page) * 13), Bitmap.Size);
+        }
+        break;
+    default:
+        hprintf("Block.cpp: Default case should not be reached.");
+        DebugBreak();
+    }
+}
+
+void BLOCK::LinkeSeiteInhalt(XY TitleArea, XY ClientArea) {
+    SB_CFont &TitleFont = StyleType != 0 ? FontNormalGreen : FontSmallBlack;
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+    SLONG c = 0;
+    SLONG d = 0;
+    SLONG e = 0;
+    SLONG i = 0;
+
+    // Inhalt eines speziellen Entities:
+    switch (BlockType) {
+    // Cities:
+    case 1:
+        Bitmap.PrintAt(Cities[SelectedId].Name, TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+
+        if (Page == 0) {
+            CRentCity &qRentCity = qPlayer.RentCities.RentCities[Cities(SelectedId)];
+
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1000), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 1), Bitmap.Size);
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 14), Bitmap.Size);
+            Bitmap.PrintAt((LPCTSTR)Insert1000erDots(Cities[SelectedId].Einwohner), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 1), Bitmap.Size);
+
+            if (qRentCity.Rang == 0) {
+                Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cities[SelectedId].BuroRent), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 14), Bitmap.Size);
+            } else {
+                Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRentCity.Miete), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 14), Bitmap.Size);
+                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 27), Bitmap.Size);
+                Bitmap.PrintAt(bprintf("%li", qRentCity.Rang), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 27), Bitmap.Size);
+                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1003), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 40), Bitmap.Size);
+                Bitmap.PrintAt(bprintf("%li%%", static_cast<long>(qRentCity.Image)), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 40), Bitmap.Size);
+
+                if (Cities.GetIdFromIndex(Cities(SelectedId)) != static_cast<ULONG>(Sim.HomeAirportId)) {
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1010), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 66), Bitmap.Size);
+                }
+            }
+        } else if (Page - 1 < Cities[SelectedId].AnzTexts) {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, Cities[SelectedId].TextRes + Page - 1), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 1),
+                           ClientArea + XY(172, 168));
+        } else {
+            CString tmp = Cities[SelectedId].PhotoName;
+            tmp.SetAt(tmp.GetLength() - 1, char(tmp[tmp.GetLength() - 1] + (Page - Cities[SelectedId].AnzTexts - 1)));
+
+            SBBM Photo(pGLibPicture, StringToInt64(tmp));
+
+            CRect rect(0, 0, 9999, 9999);
+            if (Photo.Size.x != 0) {
+                RemapColor(Photo.pBitmap, rect, 0x0000, 0x0001);
+            }
+            Bitmap.BlitFrom(Photo, ClientArea - XY(0, 3) + XY(85, 85) - Photo.Size / SLONG(2));
+        }
+        break;
+
+        // Paint Planes Details:
+    case 2: {
+        SB_CFont *f = nullptr;
+        CPlanes &qPlanes = qPlayer.Planes;
+
+        // if (qPlanes[SelectedId].AnzBegleiter<PlaneTypes[qPlanes[SelectedId].TypeId].AnzBegleiter ||
+        if (qPlanes[SelectedId].AnzBegleiter < qPlanes[SelectedId].ptAnzBegleiter || qPlanes[SelectedId].AnzPiloten < qPlanes[SelectedId].ptAnzPiloten) {
+            // qPlanes[SelectedId].AnzPiloten<PlaneTypes[qPlanes[SelectedId].TypeId].AnzPiloten)
+            f = &FontSmallRed;
+        } else {
+            f = &TitleFont;
+        }
+
+        Bitmap.PrintAt(qPlanes[SelectedId].Name, *f, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+    }
+
+        if (Page == 0) // Flugplan
+        {
+            CPlane &qPlane = qPlayer.Planes[SelectedId];
+            CFlugplan &Plan = qPlane.Flugplan;
+
+            if (Base->IsLaptop == FALSE) {
+                Bitmap.BlitFromT((dynamic_cast<CGlobe *>(Base))->TimeTables[0], ClientArea + XY(21, -2));
+            } else {
+                Bitmap.BlitFromT(FlugplanBms[0], ClientArea + XY(21, -2));
+            }
+
+            if (Base->IsLaptop != 0) {
+                Bitmap.BlitFromT(FlugplanBms[40], ClientArea + XY(24, 150));
+            } else {
+                Bitmap.BlitFromT(FlugplanBms[54], ClientArea + XY(22, 150));
+            }
+
+            for (c = 0; c < 7; c++) {
+                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 3000 + (c + Sim.Date + Sim.StartWeekday) % 7), FontSmallBlack, TEC_FONT_LEFT,
+                               ClientArea + XY(2, 19 + 19 * c), ClientArea + XY(172, 170));
+            }
+
+            if (((GetAsyncKeyState(VK_SHIFT) / 256) != 0) && ((GetAsyncKeyState(VK_CONTROL) / 256) != 0)) {
+                Plan.Dump();
+            }
+
+            // Flugplan blitten
+            for (c = Plan.Flug.AnzEntries() - 1; c >= 0; c--) {
+                if (Plan.Flug[c].ObjectType != 0) {
+                    SLONG n = 0;
+
+                    for (d = Plan.Flug[c].Startzeit, e = Plan.Flug[c].Startdate;;) {
+                        SLONG px = d * 6;
+                        SLONG py = 15 + (e - Sim.Date) * 19;
+
+                        if (py >= 15) {
+                            if (Plan.Flug[c].ObjectType == 1 || Plan.Flug[c].ObjectType == 2 || Plan.Flug[c].ObjectType == 4) {
+                                if (d + 24 * e == Plan.Flug[c].Startzeit + 24 * Plan.Flug[c].Startdate) {
+                                    i = 1;
+                                } else if (d + 24 * e == Plan.Flug[c].Startzeit + 1 + 24 * Plan.Flug[c].Startdate) {
+                                    i = 2;
+                                } else if (d + 24 * e == Plan.Flug[c].Landezeit + 24 * Plan.Flug[c].Landedate) {
+                                    i = 5;
+                                } else if (d + 24 * e == Plan.Flug[c].Landezeit - 1 + 24 * Plan.Flug[c].Landedate) {
+                                    i = 4;
+                                } else {
+                                    i = 3;
+                                }
+
+                                if (Plan.Flug[c].ObjectType == 2) {
+                                    i += 5;
+                                }
+                                if (Plan.Flug[c].ObjectType == 4) {
+                                    i += 19;
+                                }
+                            } else {
+                                if (d + 24 * e == Plan.Flug[c].Startzeit + 24 * Plan.Flug[c].Startdate) {
+                                    i = 11;
+                                } else if (d + 24 * e == Plan.Flug[c].Landezeit + 24 * Plan.Flug[c].Landedate) {
+                                    i = 15;
+                                } else {
+                                    i = 13;
+                                }
+
+                                if ((d & 1) != 0) {
+                                    i++;
+                                }
+                            }
+
+                            if (e >= Sim.Date && e <= Sim.Date + 6) {
+                                Bitmap.BlitFromT(FlugplanBms[i], ClientArea + XY(24 + px, 2 + py));
+                                if ((Plan.Flug[c].ObjectType == 2 || Plan.Flug[c].ObjectType == 4) && Plan.Flug[c].Okay > 0) {
+                                    if (d == Plan.Flug[c].Startzeit) {
+                                        i = 41;
+                                    } else if (d == Plan.Flug[c].Landezeit) {
+                                        i = 45;
+                                    } else {
+                                        i = 44;
+                                    }
+                                    Bitmap.BlitFromT(FlugplanBms[i], ClientArea + XY(24 + px, 2 + py));
+                                }
+
+                                if (d > 0 && d == (Plan.Flug[c].Startzeit + 1) % 24 &&
+                                    !(Plan.Flug[c].Startdate > Sim.Date || Plan.Flug[c].Startzeit > Sim.GetHour() + 1)) {
+                                    Bitmap.BlitFromT(FlugplanBms[17], ClientArea + XY(24 - 8 + px, py + 4));
+                                }
+                                if (Plan.Flug[c].VonCity == static_cast<ULONG>(Sim.HomeAirportId) && d == Plan.Flug[c].Startzeit &&
+                                    (Plan.Flug[c].ObjectType == 1 || Plan.Flug[c].ObjectType == 2) && (Plan.Flug[c].GateWarning != 0U)) {
+                                    Bitmap.BlitFromT(FlugplanBms[18], ClientArea + XY(24 + px, py + 4));
+                                }
+                                if (Plan.Flug[c].VonCity == static_cast<ULONG>(Sim.HomeAirportId) && d > 0 && d == (Plan.Flug[c].Startzeit + 1) % 24 &&
+                                    (Plan.Flug[c].ObjectType == 1 || Plan.Flug[c].ObjectType == 2) && (Plan.Flug[c].GateWarning != 0U)) {
+                                    Bitmap.BlitFromT(FlugplanBms[18], ClientArea + XY(24 - 6 + px, py + 4));
+                                }
+                                if (d == Plan.Flug[c].Landezeit && Plan.Flug[c].NachCity == static_cast<ULONG>(Sim.HomeAirportId) &&
+                                    (Plan.Flug[c].ObjectType == 1 || Plan.Flug[c].ObjectType == 2) && (Plan.Flug[c].GateWarning != 0U)) {
+                                    Bitmap.BlitFromT(FlugplanBms[18], ClientArea + XY(24 + px, py + 4));
+                                }
+                                if (d == Plan.Flug[c].Landezeit && Plan.Flug[c].ObjectType == 4 && (Plan.Flug[c].GateWarning != 0U)) {
+                                    Bitmap.BlitFromT(FlugplanBms[18], ClientArea + XY(24 + px, py + 4));
+                                }
+
+                                /*if (d>0 && d==(Plan.Flug[c].Startzeit+1)%24 && Plan.Flug[c].ObjectType==2 && Plan.Flug[c].Okay>0)
+                                  Bitmap.BlitFromT (FlugplanBms[19], ClientArea+XY(24-6+px,py+4));*/
+
+                                if (d < 24 && Plan.Flug[c].ObjectType != 0) {
+                                    SB_CFont *pFont = nullptr;
+                                    XY OffsetA(0, 0);
+                                    XY OffsetB(0, 0);
+
+                                    if (Plan.Flug[c].Landezeit + Plan.Flug[c].Landedate * 24 - (Plan.Flug[c].Startzeit + Plan.Flug[c].Startdate * 24) < 4) {
+                                        pFont = &FontVerySmall;
+                                        OffsetA = XY(0, 2);
+                                        OffsetB = XY(2, 0);
+                                    } else {
+                                        pFont = &FontSmallBlack;
+                                    }
+
+                                    if ((Plan.Flug[c].Landezeit + Plan.Flug[c].Landedate * 24) - (Plan.Flug[c].Startzeit + Plan.Flug[c].Startdate * 24) <= 6) {
+                                        if ((d > 2 &&
+                                             d + 24 * e == Plan.Flug[c].Startzeit + (3 - static_cast<int>(OffsetB.x != 0)) + 24 * Plan.Flug[c].Startdate) ||
+                                            ((OffsetB.x != 0) && Plan.Flug[c].Landezeit == d && Plan.Flug[c].Landedate <= e && px >= 12)) {
+                                            Bitmap.PrintAt(Cities[Plan.Flug[c].VonCity].Kuerzel, *pFont, TEC_FONT_LEFT,
+                                                           ClientArea + OffsetA + XY(max(26, 24 - 18 + 2 + px + static_cast<int>(n == 2) * 6), 3 + py),
+                                                           ClientArea + OffsetA + XY(24 + px + static_cast<int>(n == 2) * 6 + 16 + 14, 2 + py + 18));
+                                        }
+
+                                        if ((d > 2 && d + 24 * e == Plan.Flug[c].Landezeit + 24 * Plan.Flug[c].Landedate) ||
+                                            (px == 12 && (OffsetB.x != 0) && d + 24 * e == Plan.Flug[c].Landezeit + 24 * Plan.Flug[c].Landedate)) {
+                                            Bitmap.PrintAt(Cities[Plan.Flug[c].NachCity].Kuerzel, *pFont, TEC_FONT_RIGHT,
+                                                           ClientArea + XY(24 - 18 - 14 + px, 4 + py + 8) + OffsetB,
+                                                           ClientArea + XY(px + 24 + 8 - 1, py + 8 + 15) + OffsetB);
+                                        }
+                                    } else {
+                                        if ((d > 2 && d + 24 * e == Plan.Flug[c].Startzeit + 4 + 24 * Plan.Flug[c].Startdate) ||
+                                            ((OffsetB.x != 0) && Plan.Flug[c].Landezeit == d && Plan.Flug[c].Landedate <= e)) {
+                                            Bitmap.PrintAt(Cities[Plan.Flug[c].VonCity].Kuerzel, *pFont, TEC_FONT_LEFT,
+                                                           ClientArea + OffsetA + XY(24 - 18 + px + static_cast<int>(n == 2) * 6, 3 + py),
+                                                           ClientArea + OffsetA + XY(24 + px + static_cast<int>(n == 2) * 6 + 16 + 14, 2 + py + 18));
+                                        }
+
+                                        if ((d > 2 && d + 24 * e == Plan.Flug[c].Landezeit - 1 + 24 * Plan.Flug[c].Landedate) ||
+                                            (px == 18 && (OffsetB.x != 0))) {
+                                            Bitmap.PrintAt(Cities[Plan.Flug[c].NachCity].Kuerzel, *pFont, TEC_FONT_RIGHT,
+                                                           ClientArea + XY(24 - 18 - 14 + px, 4 + py + 8) + OffsetB,
+                                                           ClientArea + XY(px + 24 + 8, py + 8 + 15) + OffsetB);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        n++;
+                        if (Plan.Flug[c].Landezeit == d && Plan.Flug[c].Landedate <= e) {
+                            break;
+                        }
+                        d++;
+                        if (d >= 24) {
+                            d -= 24;
+                            e++;
+                        }
+                    }
+                }
+            }
+
+            // Dunklen Bereich markieren:
+            if (Bitmap.Size.x > 0) {
+                Bitmap.pBitmap->SetClipRect(CRect(ClientArea.x + 24, ClientArea.y + 17, ClientArea.x + 24 + Sim.Time / 10000, ClientArea.y + 17 + 19));
+                ColorFX.Apply(4, Bitmap.pBitmap);
+                Bitmap.pBitmap->SetClipRect(CRect(0, 0, Bitmap.Size.x, Bitmap.Size.y));
+            }
+
+            // Problem markieren:
+            if (qPlane.Problem != 0) {
+                SLONG Problem = qPlane.Problem;
+                SLONG offset = Sim.Time / 10000;
+                SLONG day = 0;
+
+                while ((Problem != 0) && (min(Problem * 6, 24 * 6 - offset) - 1) > 0) {
+                    SBBM RedBm(min(Problem * 6, 24 * 6 - offset) - 1, 19);
+                    RedBm.FillWith((UWORD)RedBm.pBitmap->GetHardwarecolor(0xff0000));
+
+                    CRect rect(0, 0, min(Problem * 6, 24 * 6 - offset) - 1, 19 - 1);
+                    ColorFX.BlitTrans(RedBm.pBitmap, Bitmap.pBitmap, XY(ClientArea.x + 24 + offset, ClientArea.y + 17 + day * 19), &rect);
+
+                    Problem -= min(Problem, 24 - offset / 6);
+                    offset = 0;
+                    day++;
+                }
+            }
+        } else if (Page == 1) // Flugzeug-Details
+        {
+            CPlane &qPlane = qPlayer.Planes[SelectedId];
+            // CPlaneType &qPlaneType = PlaneTypes[qPlane.TypeId];
+
+            // Typ/Hersteller:
+            if (!qPlane.ptHersteller.empty()) {
+                Bitmap.PrintAt(bprintf("%s %s", (LPCTSTR)qPlane.ptHersteller, (LPCTSTR)qPlane.ptName), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 4),
+                               ClientArea + XY(172, 170));
+            } else {
+                Bitmap.PrintAt(qPlane.ptName, FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 4), ClientArea + XY(172, 170));
+            }
+
+            // Passagiere und Reichweite:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1000), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 25), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1017), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 37), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 37 + 11), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(bprintf("%li (%li)", qPlane.MaxPassagiere, qPlane.MaxPassagiereFC), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 25),
+                           ClientArea + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_T].bString(qPlane.ptPassagiere / 10), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 25 + 11),
+                           ClientArea + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_KM].bString(qPlane.ptReichweite), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 37 + 11),
+                           ClientArea + XY(172, 170));
+
+            // Technische Daten:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 56 - 7 + 11), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1008), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 82 - 9), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1009), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 95 - 10), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_KMH].bString(qPlane.ptGeschwindigkeit), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 56 - 7 + 11),
+                           ClientArea + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_L].bString(qPlane.ptTankgroesse), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 82 - 9),
+                           ClientArea + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_LH].bString(qPlane.ptVerbrauch), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 95 - 10),
+                           ClientArea + XY(172, 170));
+
+            // Besatzung:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1041), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 69 + 52 - 14), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1011), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 82 + 52 - 15), ClientArea + XY(172, 170));
+            // Bitmap.PrintAt (bprintf (StandardTexte.GetS (TOKEN_PLANE, 1014), qPlane.AnzPiloten, qPlaneType.AnzPiloten),   FontSmallBlack,
+            // TEC_FONT_LEFT, ClientArea+XY(75,69+52-14), ClientArea+XY(172,170));
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_PLANE, 1014), qPlane.AnzPiloten, qPlane.ptAnzPiloten), FontSmallBlack, TEC_FONT_LEFT,
+                           ClientArea + XY(75, 69 + 52 - 14), ClientArea + XY(172, 170));
+            // Bitmap.PrintAt (bprintf (StandardTexte.GetS (TOKEN_PLANE, 1014), qPlane.AnzBegleiter, qPlaneType.AnzBegleiter), FontSmallBlack,
+            // TEC_FONT_LEFT, ClientArea+XY(75,82+52-15), ClientArea+XY(172,170));
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_PLANE, 1014), qPlane.AnzBegleiter, qPlane.ptAnzBegleiter), FontSmallBlack, TEC_FONT_LEFT,
+                           ClientArea + XY(75, 82 + 52 - 15), ClientArea + XY(172, 170));
+
+            // Baujahr
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1013), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 82 + 52 - 13 + 15),
+                           ClientArea + XY(172, 170));
+            Bitmap.PrintAt(bitoa(qPlane.Baujahr), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75, 82 + 52 - 13 + 15), ClientArea + XY(172, 170));
+
+            // Flugzeug umbenennen:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1030), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 103 + 52), ClientArea + XY(172, 170));
+        } else if (Page == 2) // Besatzung:
+        {
+            SLONG c = 0;
+            SLONG n = 0;
+            CPlane &qPlane = qPlayer.Planes[SelectedId];
+            // CPlaneType &qPlaneType = PlaneTypes[qPlane.TypeId];
+
+            //"Besatzung":
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1040), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 4), ClientArea + XY(172, 170));
+
+            //"Piloten":
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1041), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(10, 4 + 13), ClientArea + XY(172, 170));
+
+            n = 4 + 13 + 13;
+            for (c = 0; c < Workers.Workers.AnzEntries(); c++) {
+                if (Workers.Workers[c].Employer == PlayerNum && Workers.Workers[c].Typ == WORKER_PILOT && Workers.Workers[c].PlaneId != -1 &&
+                    qPlayer.Planes(Workers.Workers[c].PlaneId) == qPlayer.Planes(SelectedId)) {
+                    Bitmap.PrintAt(Workers.Workers[c].Name, FontNormalGrey, TEC_FONT_LEFT, ClientArea + XY(18, n), ClientArea + XY(172, 170));
+                    n += 13;
+                }
+            }
+            // for (c=qPlaneType.AnzPiloten-qPlane.AnzPiloten; c>0; c--)
+            for (c = qPlane.ptAnzPiloten - qPlane.AnzPiloten; c > 0; c--) {
+                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1045), FontNormalGrey, TEC_FONT_LEFT, ClientArea + XY(18, n), ClientArea + XY(172, 170));
+                n += 13;
+            }
+
+            //"Flugbegleiter":
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1042), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(10, n), ClientArea + XY(172, 170));
+
+            n += 13;
+            for (c = 0; c < Workers.Workers.AnzEntries(); c++) {
+                if (Workers.Workers[c].Employer == PlayerNum && Workers.Workers[c].Typ == WORKER_STEWARDESS && Workers.Workers[c].PlaneId != -1 &&
+                    qPlayer.Planes(Workers.Workers[c].PlaneId) == qPlayer.Planes(SelectedId)) {
+                    Bitmap.PrintAt(Workers.Workers[c].Name, FontNormalGrey, TEC_FONT_LEFT, ClientArea + XY(18, n), ClientArea + XY(172, 170));
+                    n += 13;
+                }
+            }
+            // for (c=qPlaneType.AnzBegleiter-qPlane.AnzBegleiter; c>0; c--)
+            for (c = qPlane.ptAnzBegleiter - qPlane.AnzBegleiter; c > 0; c--) {
+                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1045), FontNormalGrey, TEC_FONT_LEFT, ClientArea + XY(18, n), ClientArea + XY(172, 170));
+                n += 13;
+            }
+        } else if (Page == 3) // Statistik:
+        {
+            CPlane &qPlane = qPlayer.Planes[SelectedId];
+
+            // Headline
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1050), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 4), ClientArea + XY(172, 170));
+
+            // Passagiere und Reichweite:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1051), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 25), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1052), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 37), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_PLANE, 1053), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 49), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(bitoa(qPlane.SummePassagiere), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75 + 20, 25), ClientArea + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_KM].bString(qPlane.Kilometer), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75 + 20, 37),
+                           ClientArea + XY(172, 170));
+            Bitmap.PrintAt(CString(Einheiten[EINH_P].bString(qPlane.Auslastung)) + " / " + CString(Einheiten[EINH_P].bString(qPlane.AuslastungFC)),
+                           FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(75 + 20, 49), ClientArea + XY(172, 170));
+        } else // Kommentar
+        {
+            // CPlaneType &qPlaneType = PlaneTypes[qPlayer.Planes[SelectedId].TypeId];
+            CPlane &qPlane = qPlayer.Planes[SelectedId];
+
+            // Typ/Hersteller:
+            // Bitmap.PrintAt (bprintf ("%s %s", (LPCTSTR)qPlaneType.Hersteller, (LPCTSTR)qPlaneType.Name), FontSmallBlack, TEC_FONT_LEFT,
+            // ClientArea+XY(2, 4), ClientArea+XY(172,170));
+            Bitmap.PrintAt(bprintf("%s %s", (LPCTSTR)qPlane.ptHersteller, (LPCTSTR)qPlane.ptName), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 4),
+                           ClientArea + XY(172, 170));
+
+            // Kommentar:
+            // Bitmap.PrintAt (qPlaneType.Kommentar, FontSmallBlack, TEC_FONT_LEFT, ClientArea+XY(2, 30), ClientArea+XY(172,170));
+            Bitmap.PrintAt(qPlane.ptKommentar, FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 30), ClientArea + XY(172, 170));
+        }
+        break;
+
+        // Experten:
+    case 5:
+        if (SelectedId == 2) {
+            Bitmap.PrintAt(CString(StandardTexte.GetS(TOKEN_EXPERT, 2100)) + " " +
+                               CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (Sim.Date + Sim.StartWeekday - 1) % 7)),
+                           TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+        } else if (SelectedId >= 8 && SelectedId <= 10) {
+            SLONG i = SelectedId - 8;
+            i += static_cast<int>(PlayerNum <= i);
+            auto &qPlayer = Sim.Players.Players[i];
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), (LPCSTR)qPlayer.Abk), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+        } else {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+        }
+
+        switch (SelectedId) {
+        // Gateauslastung:
+        case 0:
+            if (Bitmap.pBitmap != nullptr) {
+                SLONG x = 0;
+                SLONG y = 0;
+                SLONG c = 0;
+                SB_Hardwarecolor red = Bitmap.pBitmap->GetHardwarecolor(0xff0000);
+
+                CGates &qGates = qPlayer.Gates;
+
+                if (Base->IsLaptop == FALSE) {
+                    Bitmap.BlitFromT((dynamic_cast<CGlobe *>(Base))->TimeTables[0], ClientArea + XY(21, -2));
+                } else {
+                    Bitmap.BlitFromT(FlugplanBms[0], ClientArea + XY(21, -2));
+                }
+
+                for (y = 0; y < 7; y++) {
+                    for (x = 0; x < 24; x++) {
+                        SLONG h = qGates.Auslastung[x + y * 24] * 16 / (qGates.NumRented + 1);
+
+                        if (h != 0) {
+                            Bitmap.pBitmap->Line(ClientArea.x + 24 + x * 6, ClientArea.y + 35 + 19 * y, ClientArea.x + 30 + x * 6, ClientArea.y + 35 + 19 * y,
+                                                 red);
+                            Bitmap.pBitmap->Line(ClientArea.x + 24 + x * 6, ClientArea.y + 35 + 19 * y - h, ClientArea.x + 30 + x * 6,
+                                                 ClientArea.y + 35 + 19 * y - h, red);
+                            Bitmap.pBitmap->Line(ClientArea.x + 24 + x * 6, ClientArea.y + 35 + 19 * y, ClientArea.x + 24 + x * 6,
+                                                 ClientArea.y + 35 + 19 * y - h, red);
+                            Bitmap.pBitmap->Line(ClientArea.x + 30 + x * 6, ClientArea.y + 35 + 19 * y, ClientArea.x + 30 + x * 6,
+                                                 ClientArea.y + 35 + 19 * y - h, red);
+
+                            if (qGates.Auslastung[x + y * 24] > qGates.NumRented) {
+                                for (c = 0; c <= 4; c++) {
+                                    Bitmap.Line(ClientArea + XY(25 + c + x * 6, 35 + 19 * y), ClientArea + XY(25 + c + x * 6, 35 + 19 * y - h), red);
+                                }
+                            }
+                        }
+                    }
+
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 3000 + (y + Sim.Date + Sim.StartWeekday) % 7), FontSmallBlack, TEC_FONT_LEFT,
+                                   ClientArea + XY(2, 19 + 19 * y), ClientArea + XY(172, 170));
+                }
+            }
+            break;
+
+            // Geschäftsbericht
+        case 1:
+            ZeigeFinanzBericht(ClientArea, Sim.Players.Players[PlayerNum], Sim.Players.Players[PlayerNum].BilanzWoche.Hole(), false, Page);
+            break;
+
+            // Tagesbilanz:
+        case 2:
+            ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], Sim.Players.Players[PlayerNum].BilanzGestern, false, Page);
+            break;
+
+            // Wochenbilanz:
+        case 3:
+            ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], Sim.Players.Players[PlayerNum].BilanzWoche.Hole(), false, Page);
+            break;
+
+            // Gesamtbilanz:
+        case 4: {
+            auto bilanz = Sim.Players.Players[PlayerNum].BilanzGesamt;
+            bilanz += Sim.Players.Players[PlayerNum].Bilanz;
+            ZeigeTagesBilanz(ClientArea, Sim.Players.Players[PlayerNum], bilanz, false, Page);
+        } break;
+
+            // Wocheneinnamen der Flugzeuge:
+        case 5:
+            if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_GELD) == 0) {
+                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3000), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
+            } else {
+                if (Page < PageSize) {
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 3009), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
+                } else {
+                    // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_SCHED, 1000), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+
+                    for (c = 0; c < PageSize; c++) {
+                        auto idx = c + Page - PageSize;
+                        if (idx >= Table.AnzRows) {
+                            break;
+                        }
+                        SB_CFont *pFont = nullptr;
+
+                        if (Table.ValueFlags[0 + idx * Table.AnzColums] != 0U) {
+                            pFont = &FontSmallRed;
+                        } else {
+                            pFont = &FontSmallBlack;
+                        }
+
+                        for (SLONG x = 170; x >= 0; x -= 4) {
+                            if (Bitmap.TryPrintAt(Table.Values[1 + idx * Table.AnzColums], *pFont, TEC_FONT_RIGHT, ClientArea + XY(x, c * 13),
+                                                  ClientArea + XY(170, c * 13 + 13)) < 13) {
+                                Bitmap.PrintAt(Table.Values[1 + idx * Table.AnzColums], *pFont, TEC_FONT_RIGHT, ClientArea + XY(x, c * 13),
+                                               ClientArea + XY(170, c * 13 + 13));
+                                if (Bitmap.TryPrintAt(Table.Values[0 + idx * Table.AnzColums], *pFont, TEC_FONT_LEFT, ClientArea + XY(0, c * 13),
+                                                      ClientArea + XY(x, c * 13 + 13)) < 13) {
+                                    Bitmap.PrintAt(Table.Values[0 + idx * Table.AnzColums], *pFont, TEC_FONT_LEFT, ClientArea + XY(0, c * 13),
+                                                   ClientArea + XY(x, c * 13 + 13));
+                                } else {
+                                    x -= 10;
+                                    CString str = Table.Values[0 + idx * Table.AnzColums] + "...";
+
+                                    while (str.GetLength() > 3) {
+                                        str.SetAt(str.GetLength() - 3, '.');
+                                        str = str.Left(str.GetLength() - 1);
+
+                                        if (Bitmap.TryPrintAt(str, *pFont, TEC_FONT_LEFT, ClientArea + XY(0, c * 13), ClientArea + XY(x, c * 13 + 13)) < 13) {
+                                            Bitmap.PrintAt(str, *pFont, TEC_FONT_LEFT, ClientArea + XY(0, c * 13), ClientArea + XY(x, c * 13 + 13));
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            break;
+
+            // Konkurrenz:
+        case 6:
+            ZeigeInformantenInfos(ClientArea, Page);
+            break;
+
+        case 7:
+            ZeigeInformantenFinanzBericht(ClientArea, Page);
+            break;
+
+        case 8:
+            ZeigeInformantenBilanz(ClientArea, 0 + static_cast<int>(PlayerNum <= 0), Page);
+            break;
+
+        case 9:
+            ZeigeInformantenBilanz(ClientArea, 1 + static_cast<int>(PlayerNum <= 1), Page);
+            break;
+
+        case 10:
+            ZeigeInformantenBilanz(ClientArea, 2 + static_cast<int>(PlayerNum <= 2), Page);
+            break;
+
+        case 11:
+            ZeigeKerosinberater(ClientArea, Page);
+            break;
+
+        default:
+            hprintf("Block.cpp: Default case should not be reached.");
+            DebugBreak();
+        }
+        break;
+    default:
+        hprintf("Block.cpp: Default case should not be reached.");
+        DebugBreak();
+    }
+}
+
+void BLOCK::RechteSeiteIndex(XY TitleAreaB, XY ClientAreaB) {
+    SB_CFont &TitleFont = StyleType != 0 ? FontNormalGreen : FontSmallBlack;
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+    SLONG c = 0;
+
+    // Inhaltsverzechnis
+    switch (BlockTypeB) {
+    // Auftragsliste:
+    case 3:
+        if (StyleType != 0) {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1200), TitleFont, TEC_FONT_LEFT, TitleAreaB + XY(60, 0), Bitmap.Size);
+        } else {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1200), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
+        }
+
+        for (c = PageB; c < PageB + PageSizeB && c < TableB.AnzRows; c++) {
+            SB_CFont *s = nullptr;
+
+            // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
+            if (Index != 1 && TableB.ValueFlags[0 + c * TableB.AnzColums] == 0 && (qPlayer.Auftraege.IsInAlbum(TableB.LineIndex[c]) != 0)) {
+                // if (!qPlayer.Auftraege[TableB.LineIndex[c]].FitsInPlane
+                // (PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId]))
+                if (qPlayer.Auftraege[TableB.LineIndex[c]].FitsInPlane(Sim.Players.Players[PlayerNum].Planes[SelectedId]) == 0) {
+                    TableB.ValueFlags[0 + c * TableB.AnzColums] = 2;
+                }
+
+                // if
+                // (SLONG(qPlayer.Auftraege[TableB.LineIndex[c]].Personen)>PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId].Passagiere)
+                if (SLONG(qPlayer.Auftraege[TableB.LineIndex[c]].Personen) > Sim.Players.Players[PlayerNum].Planes[SelectedId].ptPassagiere) {
+                    TableB.ValueFlags[0 + c * TableB.AnzColums] = 4;
+                }
+            }
+            // ex:!=0 ex:==1
+            if (TableB.ValueFlags[0 + c * TableB.AnzColums] != 0) {
+                s = &FontSmallGrey;
+            } else {
+                s = &FontSmallBlack;
+            }
+
+            if (TableB.ValueFlags[0 + c * TableB.AnzColums] == 1 && TableB.ValueFlags[1 + c * TableB.AnzColums] == 0) {
+                Bitmap.BlitFromT(gPostItBms[1 + 2], ClientAreaB + XY(1, (c - PageB) * 26)); // Okay==0 ==> roter Rahmen ==> Etwas mit dem Flug stimmt nicht...
+            } else {
+                Bitmap.BlitFromT(gPostItBms[1], ClientAreaB + XY(1, (c - PageB) * 26));
+            }
+
+            Bitmap.BlitFromT(gInfoBms[0], ClientAreaB + XY(3, (c - PageB) * 26 + 9));
+
+            if (Bitmap.TryPrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]), *s,
+                                  TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                                  ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14)) < 12) {
+                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]), *s,
+                               TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                               ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
+            } else if (Bitmap.TryPrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]),
+                                         *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                                         ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14)) < 12) {
+                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]), *s,
+                               TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                               ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
+            } else {
+                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[2 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]), *s,
+                               TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                               ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
+            }
+
+            Bitmap.PrintAt(TableB.Values[6 + c * TableB.AnzColums], *s, TEC_FONT_RIGHT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                           ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
+
+            Bitmap.PrintAt(TableB.Values[4 + c * TableB.AnzColums], *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
+                           ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
+            Bitmap.PrintAt(TableB.Values[5 + c * TableB.AnzColums], *s, TEC_FONT_RIGHT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
+                           ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
+        }
+        break;
+
+        // Routenliste:
+    case 4:
+        if (StyleType != 0) {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1100), TitleFont, TEC_FONT_LEFT, TitleAreaB + XY(60, 0), Bitmap.Size);
+        } else {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1100), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
+        }
+
+        for (c = PageB; c < PageB + PageSizeB && c < TableB.AnzRows; c++) {
+            SB_CFont *s = nullptr;
+
+            Bitmap.BlitFromT(gPostItBms[0], ClientAreaB + XY(1, (c - PageB) * 26));
+            Bitmap.BlitFromT(gInfoBms[0], ClientAreaB + XY(3, (c - PageB) * 26 + 9));
+
+            s = &FontSmallBlack;
+
+            // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
+            if (Index != 1) {
+                SLONG VonCityId = Routen[TableB.LineIndex[c]].VonCity;
+                SLONG NachCityId = Routen[TableB.LineIndex[c]].NachCity;
+
+                // if (Cities.CalcDistance (VonCityId,
+                // NachCityId)>PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId].Reichweite*1000)
+                if (Cities.CalcDistance(VonCityId, NachCityId) > Sim.Players.Players[PlayerNum].Planes[SelectedId].ptReichweite * 1000) {
+                    TableB.ValueFlags[0 + c * TableB.AnzColums] = 2;
+                } else {
+                    // SLONG Speed = PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId].Geschwindigkeit;
+                    SLONG Speed = Sim.Players.Players[PlayerNum].Planes[SelectedId].ptGeschwindigkeit;
+                    SLONG Dauer = Cities.CalcFlugdauer(VonCityId, NachCityId, Speed);
+                    // SLONG Dauer = (Cities.CalcDistance (VonCityId, NachCityId)/Speed+999)/1000+1+2;
+
+                    if (Dauer >= 24) {
+                        TableB.ValueFlags[0 + c * TableB.AnzColums] = 2;
+                    }
+                }
+            }
+
+            if (TableB.ValueFlags[0 + c * TableB.AnzColums] != 0U) {
+                s = &FontSmallGrey;
+            }
+
+            if (Bitmap.TryPrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]), *s,
+                                  TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                                  ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14)) < 12) {
+                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]), *s,
+                               TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                               ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
+            } else if (Bitmap.TryPrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]),
+                                         *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                                         ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14)) < 12) {
+                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]), *s,
+                               TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                               ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
+            } else {
+                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[2 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]), *s,
+                               TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                               ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
+            }
+
+            Bitmap.PrintAt(TableB.Values[4 + c * TableB.AnzColums], *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
+                           ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
+        }
+        break;
+
+        // Frachtliste:
+    case 6:
+        if (StyleType != 0) {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1300), TitleFont, TEC_FONT_LEFT, TitleAreaB + XY(60, 0), Bitmap.Size);
+        } else {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 1300), TitleFont, TEC_FONT_LEFT, TitleAreaB, Bitmap.Size);
+        }
+
+        for (c = PageB; c < PageB + PageSizeB && c < TableB.AnzRows; c++) {
+            SB_CFont *s = nullptr;
+
+            // Nachschauen, ob der Flug zu lang ist für das Flugzeug:
+            if (Index != 1 && TableB.ValueFlags[0 + c * TableB.AnzColums] == 0 && (qPlayer.Frachten.IsInAlbum(TableB.LineIndex[c]) != 0)) {
+                // if (!qPlayer.Frachten[TableB.LineIndex[c]].FitsInPlane (PlaneTypes[Sim.Players.Players[(SLONG)PlayerNum].Planes[SelectedId].TypeId]))
+                if (qPlayer.Frachten[TableB.LineIndex[c]].FitsInPlane(Sim.Players.Players[PlayerNum].Planes[SelectedId]) == 0) {
+                    TableB.ValueFlags[0 + c * TableB.AnzColums] = 2;
+                }
+            }
+            // ex: ==1
+            if (TableB.ValueFlags[0 + c * TableB.AnzColums] != 0) {
+                s = &FontSmallGrey;
+            } else {
+                s = &FontSmallBlack;
+            }
+
+            if (TableB.ValueFlags[1 + c * TableB.AnzColums] == 0U) {
+                Bitmap.BlitFromT(gPostItBms[5], ClientAreaB + XY(1, (c - PageB) * 26)); // Okay==0 ==> roter Rahmen ==> Etwas mit dem Flug stimmt nicht...
+            } else {
+                Bitmap.BlitFromT(gPostItBms[4], ClientAreaB + XY(1, (c - PageB) * 26));
+            }
+
+            Bitmap.BlitFromT(gInfoBms[0], ClientAreaB + XY(3, (c - PageB) * 26 + 9));
+
+            if (Bitmap.TryPrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]), *s,
+                                  TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                                  ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14)) < 12) {
+                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[1 + c * TableB.AnzColums]), *s,
+                               TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                               ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
+            } else if (Bitmap.TryPrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]),
+                                         *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                                         ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14)) < 12) {
+                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[0 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]), *s,
+                               TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                               ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
+            } else {
+                Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)TableB.Values[2 + c * TableB.AnzColums], (LPCTSTR)TableB.Values[3 + c * TableB.AnzColums]), *s,
+                               TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                               ClientAreaB + XY(XY(142, 170).x, (c - PageB) * 26 + 14));
+            }
+
+            Bitmap.PrintAt(TableB.Values[6 + c * TableB.AnzColums], *s, TEC_FONT_RIGHT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26),
+                           ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 14));
+
+            Bitmap.PrintAt(TableB.Values[4 + c * TableB.AnzColums], *s, TEC_FONT_LEFT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
+                           ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
+            Bitmap.PrintAt(TableB.Values[5 + c * TableB.AnzColums], *s, TEC_FONT_RIGHT, ClientAreaB + XY(gPostItBms[0].Size.x + 2, (c - PageB) * 26 + 10),
+                           ClientAreaB + XY(XY(172, 170).x, (c - PageB) * 26 + 13 + 10));
+        }
+        break;
+    default:
+        hprintf("Block.cpp: Default case should not be reached.");
+        DebugBreak();
+    }
+}
+
+bool BLOCK::RechteSeiteInhalt(XY TitleAreaB, XY ClientAreaB) {
+    SB_CFont &TitleFont = StyleType != 0 ? FontNormalGreen : FontSmallBlack;
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+    SLONG c = 0;
+
+    // Details
+    switch (BlockTypeB) {
+    // Aufträge:
+    case 3: {
+        if (qPlayer.Auftraege.IsInAlbum(SelectedIdB) == 0) {
+            qPlayer.Blocks.RepaintAll = 1;
+            IndexB = 1;
+            SelectedIdB = PageB = 0;
+            UpdatePageSize();
+            return true;
+        }
+
+        CAuftrag &qAuftrag = qPlayer.Auftraege[SelectedIdB];
+
+        // Headline: LAX - DUS
+        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qAuftrag.VonCity].Kuerzel, (LPCTSTR)Cities[qAuftrag.NachCity].Kuerzel), TitleFont, TEC_FONT_LEFT,
+                       TitleAreaB, Bitmap.Size);
+
+        // Ausführlich von A nach B
+        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qAuftrag.VonCity].Name, (LPCTSTR)Cities[qAuftrag.NachCity].Name), FontSmallBlack, TEC_FONT_LEFT,
+                       ClientAreaB + XY(0, 1), ClientAreaB + XY(172, 168));
+
+        if (PageB == 0) {
+            // Personenzahl:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1000), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(bprintf("%li", qAuftrag.Personen), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 28), ClientAreaB + XY(172, 170));
+
+            // Datum:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1003), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 40), ClientAreaB + XY(172, 170));
+
+            if (qAuftrag.Date == qAuftrag.BisDate) {
+                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 3010 + (qAuftrag.Date + Sim.StartWeekday) % 7), FontSmallBlack, TEC_FONT_LEFT,
+                               ClientAreaB + XY(75, 40), ClientAreaB + XY(172, 170));
+            } else {
+                Bitmap.PrintAt(CString(StandardTexte.GetS(TOKEN_SCHED, 3009)) + " " +
+                                   CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (qAuftrag.BisDate + Sim.StartWeekday) % 7)),
+                               FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 40), ClientAreaB + XY(172, 170));
+            }
+
+            // Prämie und Strafe
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 66), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 53), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(bprintf("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString(qAuftrag.Strafe))), FontSmallBlack, TEC_FONT_LEFT,
+                           ClientAreaB + XY(75, 66), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(bprintf("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString(qAuftrag.Praemie))), FontSmallBlack, TEC_FONT_LEFT,
+                           ClientAreaB + XY(75, 53), ClientAreaB + XY(172, 170));
+
+            // Entfernung:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 92), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(CString(Einheiten[EINH_KM].bString(Cities.CalcDistance(qAuftrag.VonCity, qAuftrag.NachCity) / 1000)), FontSmallBlack, TEC_FONT_LEFT,
+                           ClientAreaB + XY(75, 92), ClientAreaB + XY(172, 170));
+
+            // Wegwerfen:
+            if (qAuftrag.InPlan == 0) {
+                Bitmap.BlitFrom(FlugplanBms[57], ClientAreaB + XY(0, 118));
+                if (qAuftrag.Strafe != 0) {
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2401), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(20, 119),
+                                   ClientAreaB + XY(172, 170));
+                } else {
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2400), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(20, 119),
+                                   ClientAreaB + XY(172, 170));
+                }
+            }
+        } else if (PageB == 1) {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2500), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
+        }
+    } break;
+
+        // Routen:
+    case 4: {
+        if (Routen.IsInAlbum(SelectedIdB) == 0) {
+            qPlayer.Blocks.RepaintAll = 1;
+            IndexB = 1;
+            SelectedIdB = PageB = 0;
+            UpdatePageSize();
+            return true;
+        }
+
+        CRoute &qRoute = Routen[SelectedIdB];
+        CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(SelectedIdB)];
+
+        // Headline: LAX - DUS
+        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qRoute.VonCity].Kuerzel, (LPCTSTR)Cities[qRoute.NachCity].Kuerzel), TitleFont, TEC_FONT_LEFT,
+                       TitleAreaB, Bitmap.Size);
+
+        // Ausführlich von A nach B
+        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qRoute.VonCity].Name, (LPCTSTR)Cities[qRoute.NachCity].Name), FontSmallBlack, TEC_FONT_LEFT,
+                       ClientAreaB + XY(0, 1), ClientAreaB + XY(172, 168));
+
+        if (PageB == 0) {
+            // Ticketpreis:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 27), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRRoute.Ticketpreis), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 27),
+                           ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt("+-", FontSmallBlack, TEC_FONT_RIGHT, ClientAreaB + XY(2, 27), ClientAreaB + XY(172, 170));
+
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 40), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRRoute.TicketpreisFC), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 40),
+                           ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt("+-", FontSmallBlack, TEC_FONT_RIGHT, ClientAreaB + XY(2, 40), ClientAreaB + XY(172, 170));
+
+            // erhöhen oder verringern:
+            // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1100), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,40), ClientAreaB+XY(172,170));
+            // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1101), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,53), ClientAreaB+XY(172,170));
+
+            // Ticketpreis von Dumping bis Luxus:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1102), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 66), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1103), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 79), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1104), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 92), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1105), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 105), ClientAreaB + XY(172, 170));
+
+            SLONG Cost = CalculateFlightCost(qRoute.VonCity, qRoute.NachCity, 800, 800, -1) * 3 / 180 * 2;
+
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost / 2 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 66), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 79), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost * 2 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 92), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost * 4 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 105),
+                           ClientAreaB + XY(172, 170));
+
+            if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0) {
+                for (SLONG c = 0; c < 3; c++) {
+                    if (Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].IsOut == 0) {
+                        Bitmap.PrintAt(Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].AirlineX, FontSmallBlack, TEC_FONT_LEFT,
+                                       ClientAreaB + XY(2, 128 + c * 13), ClientAreaB + XY(172, 170));
+
+                        if (Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].RentRouten.RentRouten[Routen(SelectedIdB)].Rang != 0U) {
+                            Bitmap.PrintAt(
+                                Einheiten[EINH_DM].bString(
+                                    Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].RentRouten.RentRouten[Routen(SelectedIdB)].Ticketpreis),
+                                FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 128 + c * 13), ClientAreaB + XY(172, 170));
+                        } else {
+                            Bitmap.PrintAt("-", FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 128 + c * 13), ClientAreaB + XY(172, 170));
+                        }
+                    }
+                }
+            }
+        } else if (PageB == 1) {
+            // Entfernung:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 23), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(CString(Einheiten[EINH_KM].bString(Cities.CalcDistance(qRoute.VonCity, qRoute.NachCity) / 1000)), FontSmallBlack, TEC_FONT_LEFT,
+                           ClientAreaB + XY(100, 23), ClientAreaB + XY(172, 170));
+
+            // Image:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1004), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 43), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_P].bString(qRRoute.Image), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 43), ClientAreaB + XY(172, 170));
+            // Rang:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1011), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 55), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(bitoa(qRRoute.Rang), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 55), ClientAreaB + XY(172, 170));
+
+            // Bedarf:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1013), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 76 - 2), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(bitoa(qRoute.Bedarf), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 76 - 2), ClientAreaB + XY(172, 170));
+            // Auslastung:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1017), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 86 + 3 + 2), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1018), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 84 + 12 + 3 + 2),
+                           ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(CString(Einheiten[EINH_P].bString(qRRoute.Auslastung)) + " / " + CString(Einheiten[EINH_P].bString(qRRoute.AuslastungFC)),
+                           FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 92 + 4 + 3 + 2), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1019), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 105 - 1 + 4 + 2 + 2),
+                           ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_P].bString(qRRoute.RoutenAuslastung), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 105 - 1 + 4 + 2 + 2),
+                           ClientAreaB + XY(172, 170));
+
+            // Miete:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1006), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 131 - 2), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRRoute.Miete), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 131 - 2),
+                           ClientAreaB + XY(172, 170));
+            // Kündigen:
+            Bitmap.BlitFrom(FlugplanBms[57], ClientAreaB + XY(2, 144 - 2));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1200), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(22, 148), Bitmap.Size);
+        } else if (PageB == 2) {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2502), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
+        }
+    } break;
+
+        // Frachtaufträge:
+    case 6: {
+        if (qPlayer.Frachten.IsInAlbum(SelectedIdB) == 0) {
+            qPlayer.Blocks.RepaintAll = 1;
+            IndexB = 1;
+            SelectedIdB = PageB = 0;
+            UpdatePageSize();
+            return true;
+        }
+
+        CFracht &qFracht = qPlayer.Frachten[SelectedIdB];
+
+        // Headline: LAX - DUS
+        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qFracht.VonCity].Kuerzel, (LPCTSTR)Cities[qFracht.NachCity].Kuerzel), TitleFont, TEC_FONT_LEFT,
+                       TitleAreaB, Bitmap.Size);
+
+        // Ausführlich von A nach B
+        Bitmap.PrintAt(bprintf("%s - %s", (LPCTSTR)Cities[qFracht.VonCity].Name, (LPCTSTR)Cities[qFracht.NachCity].Name), FontSmallBlack, TEC_FONT_LEFT,
+                       ClientAreaB + XY(0, 1), ClientAreaB + XY(172, 168));
+
+        if (PageB == 0) {
+            // Frachtinfos:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1008), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_T].bString(qFracht.Tons), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(95, 28), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1010), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28 + 9), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_T].bString(qFracht.TonsLeft > 0 ? qFracht.TonsLeft : 0), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(95, 28 + 9),
+                           ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1009), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28 + 18), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_T].bString(qFracht.TonsOpen > 0 ? qFracht.TonsOpen : 0), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(95, 28 + 18),
+                           ClientAreaB + XY(172, 170));
+
+            // Datum:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1003), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 40 + 23), ClientAreaB + XY(172, 170));
+
+            if (qFracht.Date == qFracht.BisDate) {
+                Bitmap.PrintAt(StandardTexte.GetS(TOKEN_SCHED, 3010 + (qFracht.Date + Sim.StartWeekday) % 7), FontSmallBlack, TEC_FONT_LEFT,
+                               ClientAreaB + XY(75, 40 + 23), ClientAreaB + XY(172, 170));
+            } else {
+                Bitmap.PrintAt(CString(StandardTexte.GetS(TOKEN_SCHED, 3009)) + " " +
+                                   CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (qFracht.BisDate + Sim.StartWeekday) % 7)),
+                               FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 40 + 23), ClientAreaB + XY(172, 170));
+            }
+
+            // Prämie und Strafe
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 66 + 19), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1001), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 53 + 21), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(bprintf("%s", (LPCTSTR)CString(Einheiten[EINH_DM].bString(qFracht.Strafe))), FontSmallBlack, TEC_FONT_LEFT,
+                           ClientAreaB + XY(75, 66 + 19), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(
+                bprintf("%s", (LPCTSTR)CString((qFracht.Praemie == 0) ? StandardTexte.GetS(TOKEN_AUFTRAG, 1011) : Einheiten[EINH_DM].bString(qFracht.Praemie))),
+                FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(75, 53 + 21), ClientAreaB + XY(172, 170));
+
+            // Entfernung:
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 92 + 17), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(CString(Einheiten[EINH_KM].bString(Cities.CalcDistance(qFracht.VonCity, qFracht.NachCity) / 1000)), FontSmallBlack, TEC_FONT_LEFT,
+                           ClientAreaB + XY(75, 92 + 17), ClientAreaB + XY(172, 170));
+
+            // Wegwerfen:
+            if (qPlayer.Frachten[SelectedIdB].InPlan == 0 && qPlayer.Frachten[SelectedIdB].TonsLeft == qPlayer.Frachten[SelectedIdB].TonsOpen) {
+                Bitmap.BlitFrom(FlugplanBms[57], ClientAreaB + XY(0, 118 + 17));
+                if (qFracht.Strafe != 0) {
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2401), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(20, 119 + 17),
+                                   ClientAreaB + XY(172, 170));
+                } else {
+                    Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2400), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(20, 119 + 17),
+                                   ClientAreaB + XY(172, 170));
+                }
+            }
+        } else if (PageB == 1) {
+            Bitmap.PrintAt(StandardTexte.GetS(TOKEN_AUFTRAG, 2501), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(0, 28), ClientAreaB + XY(172, 170));
+        }
+    } break;
+    default:
+        hprintf("Block.cpp: Default case should not be reached.");
+        DebugBreak();
+    }
+    return false;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2082,57 +2058,57 @@ void BLOCK::UpdatePageSize() {
         AnzPages = max(0, (Table.AnzRows - 1) / PageSize) + 1;
     } else {
         switch (BlockType) {
+        case 1:
+            // Städte
+            AnzPages = 1 + Cities[SelectedId].AnzTexts + Cities[SelectedId].AnzPhotos;
+            break;
+        case 2:
+            // Aufträge
+            AnzPages = 4;
+            if (qPlayer.Planes[SelectedId].TypeId != -1) {
+                AnzPages += PlaneTypes[qPlayer.Planes[SelectedId].TypeId].AnzPhotos;
+            }
+            break;
+        case 5:
+            // Berater
+            switch (SelectedId) {
             case 1:
-                // Städte
-                AnzPages = 1 + Cities[SelectedId].AnzTexts + Cities[SelectedId].AnzPhotos;
+                // Geschäftsbericht
+                AnzPages = 2;
                 break;
             case 2:
-                // Aufträge
-                AnzPages = 4;
-                if (qPlayer.Planes[SelectedId].TypeId != -1) {
-                    AnzPages += PlaneTypes[qPlayer.Planes[SelectedId].TypeId].AnzPhotos;
-                }
+            case 3:
+            case 4:
+                // Einnahmen Tag / Woche / Gesamt
+                AnzPages = 8;
                 break;
             case 5:
-                // Berater
-                switch (SelectedId) {
-                    case 1:
-                        // Geschäftsbericht
-                        AnzPages = 2;
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                        // Einnahmen Tag / Woche / Gesamt
-                        AnzPages = 8;
-                        break;
-                    case 5:
-                        // Flugzeugeinnahmen
-                        PageSize = 13;
-                        AnzPages = max(0, (Table.AnzRows - 1) / PageSize) + 2;
-                        break;
-                    case 7:
-                        // Informant, Übersicht
-                        AnzPages = 2 * 3;
-                        break;
-                    case 8:
-                    case 9:
-                    case 10:
-                        // Informant, Einnahmen Tag / Woche / Gesamt
-                        AnzPages = 8;
-                        break;
-                    case 11:
-                        // Kerosinberater
-                        AnzPages = 2;
-                        break;
-                    default:
-                        AnzPages = 1;
-                }
-
+                // Flugzeugeinnahmen
+                PageSize = 13;
+                AnzPages = max(0, (Table.AnzRows - 1) / PageSize) + 2;
+                break;
+            case 7:
+                // Informant, Übersicht
+                AnzPages = 2 * 3;
+                break;
+            case 8:
+            case 9:
+            case 10:
+                // Informant, Einnahmen Tag / Woche / Gesamt
+                AnzPages = 8;
+                break;
+            case 11:
+                // Kerosinberater
+                AnzPages = 2;
                 break;
             default:
-                hprintf("Block.cpp: Default case should not be reached.");
-                DebugBreak();
+                AnzPages = 1;
+            }
+
+            break;
+        default:
+            hprintf("Block.cpp: Default case should not be reached.");
+            DebugBreak();
         }
     }
 

@@ -185,8 +185,7 @@ CGlobe::CGlobe(BOOL bHandy, SLONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
         qBlock.RefreshData(PlayerNum);
         qBlock.Refresh(PlayerNum, FALSE);
 
-        Limit(SLONG(-qPlayer.Blocks[Id].Bitmap.Size.x / 2), qPlayer.Blocks[Id].ScreenPos.x,
-              static_cast<SLONG>(640 - qPlayer.Blocks[Id].Bitmap.Size.x / 2));
+        Limit(SLONG(-qPlayer.Blocks[Id].Bitmap.Size.x / 2), qPlayer.Blocks[Id].ScreenPos.x, static_cast<SLONG>(640 - qPlayer.Blocks[Id].Bitmap.Size.x / 2));
         Limit(static_cast<SLONG>(-20), qPlayer.Blocks[Id].ScreenPos.y, static_cast<SLONG>(400));
     }
 
@@ -820,28 +819,26 @@ void CGlobe::OnRButtonDown(UINT /*nFlags*/, CPoint /*point*/) { CPlaner::HandleR
 //--------------------------------------------------------------------------------------------
 // void CGlobe::OnRButtonUp(UINT nFlags, CPoint point)
 //--------------------------------------------------------------------------------------------
-void CGlobe::OnRButtonUp(UINT /*nFlags*/, CPoint /*point*/) {
-    CPlaner::HandleRButtonUp();
-}
+void CGlobe::OnRButtonUp(UINT /*nFlags*/, CPoint /*point*/) { CPlaner::HandleRButtonUp(); }
 
 //--------------------------------------------------------------------------------------------
 // Nachrichten weiterreichen:
 //--------------------------------------------------------------------------------------------
 void CGlobe::OnChar(UINT nChar, UINT a, UINT b) { CStdRaum::OnChar(nChar, a, b); }
 void CGlobe::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-    switch(nChar) {
-        case VK_UP:
-        case VK_LEFT:
-            CPlaner::ButtonPrev();
-            return;
-        case VK_DOWN:
-        case VK_RIGHT:
-            CPlaner::ButtonNext();
-            return;
-        case VK_BACK:
-            CPlaner::ButtonIndex();
-            return;
-        default:
-            CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
+    switch (nChar) {
+    case VK_UP:
+    case VK_LEFT:
+        CPlaner::ButtonPrev();
+        return;
+    case VK_DOWN:
+    case VK_RIGHT:
+        CPlaner::ButtonNext();
+        return;
+    case VK_BACK:
+        CPlaner::ButtonIndex();
+        return;
+    default:
+        CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
     }
 }

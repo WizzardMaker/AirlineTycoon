@@ -1166,6 +1166,10 @@ class /**/ BLOCK {
     void UpdateTip(SLONG PlayerNum = -1, BOOL StyleType = -1);
     void UpdatePageSize(void);
     void Refresh(SLONG PlayerNum = -1, BOOL StyleType = -1);
+    void LinkeSeiteIndex(XY, XY);
+    void LinkeSeiteInhalt(XY, XY);
+    void RechteSeiteIndex(XY, XY);
+    bool RechteSeiteInhalt(XY, XY);
     void RefreshData(SLONG PlayerNum = -1);
     void GotoNext(void);
     void GotoPrevious(void);

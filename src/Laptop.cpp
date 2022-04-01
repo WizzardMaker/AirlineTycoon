@@ -519,8 +519,8 @@ void CLaptop::OnPaint() {
                 qPlayer.Blocks[c].IsTopWindow = FALSE;
 
                 if (gMousePosition.IfIsWithin(qPlayer.Blocks[c].ScreenPos, qPlayer.Blocks[c].ScreenPos + qPlayer.Blocks[c].Bitmap.Size - XY(1, 1))) {
-                    if (qPlayer.Blocks[c].Bitmap.GetPixel((gMousePosition - qPlayer.Blocks[c].ScreenPos).x,
-                                                          (gMousePosition - qPlayer.Blocks[c].ScreenPos).y) != 0) {
+                    if (qPlayer.Blocks[c].Bitmap.GetPixel((gMousePosition - qPlayer.Blocks[c].ScreenPos).x, (gMousePosition - qPlayer.Blocks[c].ScreenPos).y) !=
+                        0) {
                         CurrentBlock = c;
                         pBlock = &qPlayer.Blocks[c];
 
@@ -557,8 +557,8 @@ void CLaptop::OnPaint() {
         if (gMouseLButton != 0) {
             if (ScrollBlock != -1 && (qPlayer.Blocks.IsInAlbum(ScrollBlock) != 0)) {
                 if (ScrollSide == 0) {
-                    SLONG NewPos = (gMousePosition.y - qPlayer.Blocks[ScrollBlock].ScreenPos.y - ScrollOffset.y - 43) *
-                                   qPlayer.Blocks[ScrollBlock].PageSize * (qPlayer.Blocks[ScrollBlock].AnzPages - 1) / (138 - 43);
+                    SLONG NewPos = (gMousePosition.y - qPlayer.Blocks[ScrollBlock].ScreenPos.y - ScrollOffset.y - 43) * qPlayer.Blocks[ScrollBlock].PageSize *
+                                   (qPlayer.Blocks[ScrollBlock].AnzPages - 1) / (138 - 43);
 
                     if (NewPos < 0) {
                         NewPos = 0;
@@ -573,8 +573,8 @@ void CLaptop::OnPaint() {
                         qPlayer.Blocks[ScrollBlock].Refresh(PlayerNum, IsLaptop);
                     }
                 } else if (ScrollSide == 1) {
-                    SLONG NewPos = (gMousePosition.y - qPlayer.Blocks[ScrollBlock].ScreenPos.y - ScrollOffset.y - 43) *
-                                   qPlayer.Blocks[ScrollBlock].PageSizeB * (qPlayer.Blocks[ScrollBlock].AnzPagesB - 1) / (138 - 43);
+                    SLONG NewPos = (gMousePosition.y - qPlayer.Blocks[ScrollBlock].ScreenPos.y - ScrollOffset.y - 43) * qPlayer.Blocks[ScrollBlock].PageSizeB *
+                                   (qPlayer.Blocks[ScrollBlock].AnzPagesB - 1) / (138 - 43);
 
                     if (NewPos < 0) {
                         NewPos = 0;
@@ -670,36 +670,28 @@ void CLaptop::OnPaint() {
         } else {
             // Planes/Routen Buttons
             if (gMousePosition.IfIsWithin(66, 277, 66 + 23, 277 + 23) && (Sim.Players.Players[0].IsOut == 0)) {
-                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100,
-                             70);
+                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 70);
             }
             if (gMousePosition.IfIsWithin(66, 277 + 23, 66 + 23, 277 + 46) && (Sim.Players.Players[1].IsOut == 0)) {
-                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100,
-                             71);
+                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 71);
             }
             if (gMousePosition.IfIsWithin(66 + 23, 277, 66 + 46, 277 + 23) && (Sim.Players.Players[2].IsOut == 0)) {
-                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100,
-                             72);
+                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 72);
             }
             if (gMousePosition.IfIsWithin(66 + 23, 277 + 23, 66 + 46, 277 + 46) && (Sim.Players.Players[3].IsOut == 0)) {
-                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100,
-                             73);
+                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3006), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 73);
             }
             if (gMousePosition.IfIsWithin(91 + 1, 346 + 2, 91 + 1 + 23, 346 + 2 + 23) && (Sim.Players.Players[0].IsOut == 0)) {
-                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100,
-                             80);
+                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[0].AirlineX), ROOM_LAPTOP, 100, 80);
             }
             if (gMousePosition.IfIsWithin(91 + 1, 346 + 2 + 23, 91 + 1 + 23, 346 + 2 + 46) && (Sim.Players.Players[1].IsOut == 0)) {
-                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100,
-                             81);
+                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[1].AirlineX), ROOM_LAPTOP, 100, 81);
             }
             if (gMousePosition.IfIsWithin(91 + 1 + 23, 346 + 2, 91 + 1 + 46, 346 + 2 + 23) && (Sim.Players.Players[2].IsOut == 0)) {
-                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100,
-                             82);
+                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[2].AirlineX), ROOM_LAPTOP, 100, 82);
             }
             if (gMousePosition.IfIsWithin(91 + 1 + 23, 346 + 2 + 23, 91 + 1 + 46, 346 + 2 + 46) && (Sim.Players.Players[3].IsOut == 0)) {
-                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100,
-                             83);
+                SetMouseLook(CURSOR_HOT, 1, bprintf(StandardTexte.GetS(TOKEN_TOOLTIP, 3007), (LPCTSTR)Sim.Players.Players[3].AirlineX), ROOM_LAPTOP, 100, 83);
             }
 
             // Kein Planes/Routes Button, wenn man den entsprechenden Informaten nicht hat:
@@ -1403,24 +1395,24 @@ void CLaptop::OnRButtonUp(UINT /*nFlags*/, CPoint /*point*/) {
 //--------------------------------------------------------------------------------------------
 void CLaptop::OnChar(UINT nChar, UINT a, UINT b) { CStdRaum::OnChar(nChar, a, b); }
 void CLaptop::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-    switch(nChar) {
-        case VK_UP:
-            CPlaner::ButtonPrev();
-            return;
-        case VK_DOWN:
-            CPlaner::ButtonNext();
-            return;
-        case VK_BACK:
-            CPlaner::ButtonIndex();
-            return;
-        case VK_LEFT:
-            QuickJump(170);
-            return;
-        case VK_RIGHT:
-            QuickJump(171);
-            return;
-        default:
-            CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
+    switch (nChar) {
+    case VK_UP:
+        CPlaner::ButtonPrev();
+        return;
+    case VK_DOWN:
+        CPlaner::ButtonNext();
+        return;
+    case VK_BACK:
+        CPlaner::ButtonIndex();
+        return;
+    case VK_LEFT:
+        QuickJump(170);
+        return;
+    case VK_RIGHT:
+        QuickJump(171);
+        return;
+    default:
+        CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
     }
 }
 
