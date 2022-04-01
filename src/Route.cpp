@@ -249,6 +249,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CRentRoute &r) {
     File << r.Auslastung << r.Image << r.Miete;
     File << r.Ticketpreis << r.TicketpreisFC << r.TageMitVerlust << r.TageMitGering;
     File << r.RoutenAuslastung << r.HeuteBefoerdert << r.AuslastungFC;
+    File << r.WocheBefoerdert;
 
     return (File);
 }
@@ -261,6 +262,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CRentRoute &r) {
     File >> r.Auslastung >> r.Image >> r.Miete;
     File >> r.Ticketpreis >> r.TicketpreisFC >> r.TageMitVerlust >> r.TageMitGering;
     File >> r.RoutenAuslastung >> r.HeuteBefoerdert >> r.AuslastungFC;
+    File >> r.WocheBefoerdert;
 
     return (File);
 }

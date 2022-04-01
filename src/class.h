@@ -591,22 +591,38 @@ class CRouten : public ALBUM_V<CRoute> {
 //--------------------------------------------------------------------------------------------
 class CRentRoute {
   public:
-    UBYTE Rang{};             // 0=nicht gemietet; sonst 1..3
-    SLONG LastFlown{99};      // Wieviele Tage ist der letzte Flug her?
-    SLONG AvgFlown{};         // Alle soviele Tage fliegt man im Schnitt
-    SLONG Auslastung{};       // Zu soviel % ist der Flieger i.d.R. ausgelastet
-    SLONG AuslastungFC{};     // Zu soviel % ist der Flieger i.d.R. ausgelastet
-    SLONG RoutenAuslastung{}; // Soviel % des Routenbedarfes deckt man im Schnitt
-    SLONG HeuteBefoerdert{};  // Soviele Passagiere haben wir heute hier befördert
-    UBYTE Image{};            // Die Bekanntheit; beginnt bei 0, kann durch Werbung oder Geduld auf 100 gesteigert werden
-    SLONG Miete{};            // Soviel zahlt der Spieler wegen der Versteigerung
-    SLONG Ticketpreis{};      // Soviel kostet ein Ticket
-    SLONG TicketpreisFC{};    // Soviel kostet ein Ticket in der ersten Klasse
-    SLONG TageMitVerlust{};   // Solange fliegen wir hier schon mit Verlust
+    UBYTE Rang{};                           // 0=nicht gemietet; sonst 1..3
+    SLONG LastFlown{99};                    // Wieviele Tage ist der letzte Flug her?
+    SLONG AvgFlown{};                       // Alle soviele Tage fliegt man im Schnitt
+    SLONG Auslastung{};                     // Zu soviel % ist der Flieger i.d.R. ausgelastet
+    SLONG AuslastungFC{};                   // Zu soviel % ist der Flieger i.d.R. ausgelastet
+    SLONG RoutenAuslastung{};               // Soviel % des Routenbedarfes deckt man im Schnitt
+    SLONG HeuteBefoerdert{};                // Soviele Passagiere haben wir heute hier befördert
+    std::array<SLONG, 7> WocheBefoerdert{}; // Soviele Passagiere haben wir in den letzten 7 Tagen befördert
+    UBYTE Image{};                          // Die Bekanntheit; beginnt bei 0, kann durch Werbung oder Geduld auf 100 gesteigert werden
+    SLONG Miete{};                          // Soviel zahlt der Spieler wegen der Versteigerung
+    SLONG Ticketpreis{};                    // Soviel kostet ein Ticket
+    SLONG TicketpreisFC{};                  // Soviel kostet ein Ticket in der ersten Klasse
+    SLONG TageMitVerlust{};                 // Solange fliegen wir hier schon mit Verlust
     SLONG TageMitGering{
         99}; // Tage mit geringer Auslastung (<10%); wenn man die Route nicht gemietet hat, dann die Tage, seitdem sie einem aberkannt wurde oder 99
 
     CRentRoute() = default;
+
+    void NeuerTag() {
+        for (SLONG d = 6; d >= 1; d--) {
+            WocheBefoerdert[d] = WocheBefoerdert[d - 1];
+        }
+        WocheBefoerdert[0] = HeuteBefoerdert;
+        HeuteBefoerdert = 0;
+    }
+    SLONG SummeWocheBefoerdert() {
+        SLONG summe = 0;
+        for (auto& i : WocheBefoerdert) {
+            summe += i;
+        }
+        return summe;
+    }
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CRentRoute &r);
     friend TEAKFILE &operator>>(TEAKFILE &File, CRentRoute &r);

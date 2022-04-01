@@ -1437,41 +1437,42 @@ void PLAYER::NewDay() {
 
     // LastFlown-Feld bei den Routen aktualisieren:
     for (c = 0; c < Routen.AnzEntries(); c++) {
-        if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U)) {
-            if (RentRouten.RentRouten[c].LastFlown < 99) {
-                RentRouten.RentRouten[c].LastFlown++;
+        auto &qRentRoute = RentRouten.RentRouten[c];
+        if ((Routen.IsInAlbum(c) != 0) && (qRentRoute.Rang != 0U)) {
+            if (qRentRoute.LastFlown < 99) {
+                qRentRoute.LastFlown++;
             }
 
-            RentRouten.RentRouten[c].RoutenAuslastung =
-                (RentRouten.RentRouten[c].RoutenAuslastung * 4 + RentRouten.RentRouten[c].HeuteBefoerdert * 100 / Routen[c].AnzPassagiere()) / 5;
-            if (RentRouten.RentRouten[c].RoutenAuslastung > 100) {
-                RentRouten.RentRouten[c].RoutenAuslastung = 100;
+            qRentRoute.NeuerTag();
+            qRentRoute.RoutenAuslastung = qRentRoute.SummeWocheBefoerdert() * 100 / (Routen[c].AnzPassagiere() * 7);
+            if (qRentRoute.RoutenAuslastung > 100) {
+                qRentRoute.RoutenAuslastung = 100;
             }
 
-            RentRouten.RentRouten[c].HeuteBefoerdert = 0;
+            qRentRoute.HeuteBefoerdert = 0;
 
-            if (RentRouten.RentRouten[c].RoutenAuslastung < 10) {
-                RentRouten.RentRouten[c].TageMitGering++;
+            if (qRentRoute.RoutenAuslastung < 10) {
+                qRentRoute.TageMitGering++;
 
                 if (Owner == 0 && (IsOut == 0)) {
                     if (Routen[c].VonCity < Routen[c].NachCity) {
-                        if (RentRouten.RentRouten[c].TageMitGering == 10) {
+                        if (qRentRoute.TageMitGering == 10) {
                             Letters.AddLetter(TRUE, // Brief: Warnung
                                               CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 3000), (LPCTSTR)Cities[Routen[c].VonCity].Name,
                                                               (LPCTSTR)Cities[Routen[c].NachCity].Name)),
-                                              CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 3001), RentRouten.RentRouten[c].RoutenAuslastung, 10)),
+                                              CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 3001), qRentRoute.RoutenAuslastung, 10)),
                                               StandardTexte.GetS(TOKEN_LETTER, 3002), -1);
                         }
 
-                        if (RentRouten.RentRouten[c].TageMitGering == 15) {
+                        if (qRentRoute.TageMitGering == 15) {
                             Letters.AddLetter(TRUE, // Brief: Warnung
                                               CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 3000), (LPCTSTR)Cities[Routen[c].VonCity].Name,
                                                               (LPCTSTR)Cities[Routen[c].NachCity].Name)),
-                                              CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 3001), RentRouten.RentRouten[c].RoutenAuslastung, 5)),
+                                              CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 3001), qRentRoute.RoutenAuslastung, 5)),
                                               StandardTexte.GetS(TOKEN_LETTER, 3002), -1);
                         }
 
-                        if (RentRouten.RentRouten[c].TageMitGering == 20) {
+                        if (qRentRoute.TageMitGering == 20) {
                             Letters.AddLetter(TRUE, // Brief: Route weg
                                               CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 3100), (LPCTSTR)Cities[Routen[c].VonCity].Name,
                                                               (LPCTSTR)Cities[Routen[c].NachCity].Name)),
@@ -1481,14 +1482,14 @@ void PLAYER::NewDay() {
                 }
 
                 // Route ggf. wegnehmen
-                if (RentRouten.RentRouten[c].TageMitGering == 20) {
+                if (qRentRoute.TageMitGering == 20) {
                     RouteWegnehmen(c);
                 }
             } else {
-                RentRouten.RentRouten[c].TageMitGering = 0;
+                qRentRoute.TageMitGering = 0;
             }
-        } else if (RentRouten.RentRouten[c].TageMitGering < 99) {
-            RentRouten.RentRouten[c].TageMitGering++;
+        } else if (qRentRoute.TageMitGering < 99) {
+            qRentRoute.TageMitGering++;
         }
     }
 
