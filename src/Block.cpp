@@ -61,8 +61,13 @@ void BLOCK::BlitAt(SBBM &RoomBm) {
         return;
     }
 
-    SLONG Phase = (Sim.TimeSlice - AnimationStart) * 2 - 7;
     auto *pLaptop = dynamic_cast<CLaptop *>(Base);
+
+    if (Sim.TimeSlice < AnimationStart) {
+        // Fix frozen windows that occasionally got stuck in closing animation
+        AnimationStart = Sim.TimeSlice;
+    }
+    SLONG Phase = (Sim.TimeSlice - AnimationStart) * 2 - 7;
 
     if (Destructing == 1) {
         Phase = 38 - Phase;
@@ -1349,7 +1354,6 @@ void BLOCK::RechteSeiteIndex(XY TitleAreaB, XY ClientAreaB) {
 bool BLOCK::RechteSeiteInhalt(XY TitleAreaB, XY ClientAreaB) {
     SB_CFont &TitleFont = StyleType != 0 ? FontNormalGreen : FontSmallBlack;
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
-    SLONG c = 0;
 
     // Details
     switch (BlockTypeB) {

@@ -836,7 +836,11 @@ void CGlobe::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         CPlaner::ButtonNext();
         return;
     case VK_BACK:
-        CPlaner::ButtonIndex();
+        if (!MenuIsOpen()) {
+            CPlaner::ButtonIndex();
+        } else {
+            CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
+        }
         return;
     default:
         CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);

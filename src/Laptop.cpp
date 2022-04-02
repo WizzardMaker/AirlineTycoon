@@ -1403,7 +1403,11 @@ void CLaptop::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         CPlaner::ButtonNext();
         return;
     case VK_BACK:
-        CPlaner::ButtonIndex();
+        if (!MenuIsOpen()) {
+            CPlaner::ButtonIndex();
+        } else {
+            CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
+        }
         return;
     case VK_LEFT:
         QuickJump(170);
