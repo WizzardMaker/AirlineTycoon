@@ -2022,7 +2022,7 @@ void CStdRaum::InitToolTips() {
                     SetMouseLook(CURSOR_LEFT, 0, -100, 1);
                 }
 
-                if (CursorPos.IfIsWithin(220, 292, 260, 330) && MenuPage < MenuPageMax) {
+                if (CursorPos.IfIsWithin(230, 292, 260, 330) && MenuPage < MenuPageMax) {
                     SetMouseLook(CURSOR_RIGHT, 0, -100, 2);
                 }
                 break;
@@ -2374,7 +2374,7 @@ void CStdRaum::InitToolTips() {
             case MENU_PERSONAL:
                 if (CursorPos.IfIsWithin(0, 5, 35, 330) && MenuPage > 0) {
                     SetMouseLook(CURSOR_LEFT, 0, -103, MENU_PERSONAL, -1);
-                } else if (CursorPos.IfIsWithin(230, 302, 260, 330) && MenuPage < MenuPageMax) {
+                } else if (CursorPos.IfIsWithin(230, 292, 260, 330) && MenuPage < MenuPageMax) {
                     SetMouseLook(CURSOR_RIGHT, 0, -103, MENU_PERSONAL, -2);
                 } else if (MenuPage > 0) {
                     if (Workers.Workers[MenuRemapper[MenuPage - 1]].Employer == WORKER_JOBLESS) {
