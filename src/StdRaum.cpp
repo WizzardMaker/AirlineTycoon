@@ -3244,85 +3244,6 @@ void CStdRaum::OnLButtonDblClk(UINT /*unused*/, CPoint point) {
                 CalcClick();
                 return;
             }
-            switch (CurrentMenu) {
-            case MENU_PERSONAL:
-                if (MouseClickId == MENU_PERSONAL) {
-                    if (MouseClickPar1 == -1 && MenuPage > 0) {
-                        MenuPage--;
-                        gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-                    } else if (MouseClickPar1 == -2 && MenuPage < MenuPageMax) {
-                        MenuPage++;
-                        gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-                    }
-
-                    if (MenuPar2 == 1 && (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_PERSONAL) != 0) && MenuPage > 0 &&
-                        (MouseClickPar1 == -1 || MouseClickPar1 == -2)) {
-                        if (Workers.Workers[MenuRemapper[MenuPage - 1]].Employer == WORKER_RESERVE) {
-                            // rausgeekelt:
-                            Sim.Players.Players[PlayerNum].Messages.AddMessage(
-                                BERATERTYP_PERSONAL,
-                                bprintf(StandardTexte.GetS(TOKEN_ADVICE, 1004 + Workers.Workers[MenuRemapper[MenuPage - 1]].Geschlecht),
-                                        Workers.Workers[MenuRemapper[MenuPage - 1]].Name.c_str()),
-                                MESSAGE_COMMENT);
-                        } else if (Workers.Workers[MenuRemapper[MenuPage - 1]].Employer == WORKER_JOBLESS) {
-                            if (Workers.Workers[MenuRemapper[MenuPage - 1]].Typ <= BERATERTYP_SICHERHEIT &&
-                                (Sim.Players.Players[PlayerNum].HasBerater(Workers.Workers[MenuRemapper[MenuPage - 1]].Typ) != 0)) {
-                                if (Workers.Workers[MenuRemapper[MenuPage - 1]].Typ == BERATERTYP_PERSONAL) {
-                                    Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_PERSONAL, StandardTexte.GetS(TOKEN_ADVICE, 1272),
-                                                                                       MESSAGE_COMMENT);
-                                } else if (Workers.Workers[MenuRemapper[MenuPage - 1]].Talent <=
-                                           Sim.Players.Players[PlayerNum].HasBerater(Workers.Workers[MenuRemapper[MenuPage - 1]].Typ)) {
-                                    Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_PERSONAL, StandardTexte.GetS(TOKEN_ADVICE, 1270),
-                                                                                       MESSAGE_COMMENT, SMILEY_BAD);
-                                } else {
-                                    Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_PERSONAL, StandardTexte.GetS(TOKEN_ADVICE, 1271),
-                                                                                       MESSAGE_COMMENT, SMILEY_GOOD);
-                                }
-                            } else if ((MenuRemapper[MenuPage - 1] * 7777 % 100) > Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_PERSONAL)) {
-                                Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_PERSONAL, StandardTexte.GetS(TOKEN_ADVICE, 1000), MESSAGE_COMMENT,
-                                                                                   SMILEY_NEUTRAL);
-                            } else {
-                                SLONG n = Workers.GetQualityRatio(MenuRemapper[MenuPage - 1]);
-                                SLONG Smiley = 0;
-
-                                if (Workers.Workers[MenuRemapper[MenuPage - 1]].Talent <= 25) {
-                                    n = 1006;
-                                    Smiley = SMILEY_BAD;
-                                } else if (Workers.Workers[MenuRemapper[MenuPage - 1]].Talent <= 45) {
-                                    n = 1007;
-                                    Smiley = SMILEY_BAD;
-                                } else if (n < -5) {
-                                    n = 1001;
-                                    Smiley = SMILEY_BAD;
-                                } else if (n > 5) {
-                                    if (Workers.Workers[MenuRemapper[MenuPage - 1]].Talent >= 90) {
-                                        n = 1008;
-                                        Smiley = SMILEY_GREAT;
-                                    } else {
-                                        n = 1003;
-                                        Smiley = SMILEY_GOOD;
-                                    }
-
-                                } else {
-                                    n = 1002;
-                                    Smiley = SMILEY_NEUTRAL;
-                                }
-
-                                Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_PERSONAL, StandardTexte.GetS(TOKEN_ADVICE, n), MESSAGE_COMMENT,
-                                                                                   Smiley);
-                            }
-                        } else {
-                            // kein text:
-                            Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_PERSONAL, "", MESSAGE_COMMENT);
-                        }
-                    }
-
-                    MenuRepaint();
-                }
-                break;
-            default:
-                break;
-            }
         } else if (IsDialogOpen() != 0) {
             PreLButtonDown(point);
         }
@@ -5924,22 +5845,6 @@ void CStdRaum::MenuPostPaint() {
 
     // Special functions:
     switch (CurrentMenu) {
-    case MENU_PERSONAL:
-        if (MouseClickId == MENU_PERSONAL && timeGetTime() - gMouseLButtonDownTimer > 900 && (gMouseLButton != 0)) {
-            if (MouseClickPar1 == -1) {
-                MenuPage--;
-                gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-                MenuRepaint();
-            } else if (MouseClickPar1 == -2) {
-                MenuPage++;
-                gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-                MenuRepaint();
-            }
-
-            gMouseLButtonDownTimer = timeGetTime() - 600;
-        }
-        break;
-
     case MENU_ADROUTE:
         if (Pos.IfIsWithin(216, 6, 387, 212)) {
             SLONG n = (Pos.y - 25) / 13 + MenuPage;
@@ -6631,10 +6536,22 @@ void CStdRaum::MenuLeftClick(XY Pos) {
     case MENU_PERSONAL:
         if (MouseClickId == MENU_PERSONAL) {
             if (MouseClickPar1 == -1 && MenuPage > 0) {
-                MenuPage--;
+                if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+                    MenuPage = std::max(0, MenuPage - 100);
+                } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+                    MenuPage = std::max(0, MenuPage - 10);
+                } else {
+                    MenuPage--;
+                }
                 gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
             } else if (MouseClickPar1 == -2 && MenuPage < MenuPageMax) {
-                MenuPage++;
+                if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+                    MenuPage = std::min(MenuPageMax, MenuPage + 100);
+                } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+                    MenuPage = std::min(MenuPageMax, MenuPage + 10);
+                } else {
+                    MenuPage++;
+                }
                 gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
             } else if (MouseClickPar1 == -3) {
                 Workers.Workers[MenuRemapper[MenuPage - 1]].Employer = PlayerNum;
