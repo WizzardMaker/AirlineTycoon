@@ -618,7 +618,7 @@ CWorker CWorkers::createPilot(TEAKRAND &LocalRand) const {
     worker.Geschlecht = static_cast<BOOL>((LocalRand.Rand(100)) > 20);
     worker.Name = GetRandomName(worker.Geschlecht);
     worker.Typ = WORKER_PILOT;
-    worker.Gehalt = (30 + LocalRand.Rand(80)) * 100;
+    worker.Gehalt = (30 + LocalRand.Rand(83)) * 100;
     worker.Talent = std::min(SLONG(100), worker.Gehalt / 200 + LocalRand.Rand(30) + 20);
     worker.Alter = (19 + LocalRand.Rand(50));
     worker.Kommentar = "";
