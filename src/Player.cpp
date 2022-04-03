@@ -5131,7 +5131,7 @@ void PLAYER::RobotExecuteAction() {
     case ACTION_EMITSHARES: {
         SLONG NeueAktien = (MaxAktien - AnzAktien) / 100 * 100;
         SLONG MarktAktien = NeueAktien * 8 / 10;
-        auto AlterKurs = SLONG(Kurse[0]);
+        auto AlterKurs = Kurse[0];
         auto EmissionsKurs = SLONG(Kurse[0] - 3);
 
         __int64 EmissionsWert = __int64(MarktAktien) * EmissionsKurs;

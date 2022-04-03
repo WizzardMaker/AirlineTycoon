@@ -1054,7 +1054,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             {
                 SLONG MarktAktien = 0;
                 SLONG NeueAktien = DialogPar1;
-                auto AlterKurs = SLONG(qPlayer.Kurse[0]);
+                auto AlterKurs = qPlayer.Kurse[0];
                 SLONG EmissionsKurs = DialogPar2;
 
                 if (DialogPar3 == 5) {
@@ -1082,7 +1082,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 }
 
                 // Entschädigung +/-
-                SLONG kursDiff = (AlterKurs - qPlayer.Kurse[0]);
+                auto kursDiff = (AlterKurs - qPlayer.Kurse[0]);
                 qPlayer.ChangeMoney(-SLONG((qPlayer.AnzAktien - qPlayer.OwnsAktien[PlayerNum]) * kursDiff), 3161, "");
                 for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
                     if (c != PlayerNum) {
