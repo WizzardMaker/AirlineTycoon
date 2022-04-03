@@ -218,6 +218,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
     if (ObjectType == 1) // Route
     {
         CRoute &qRoute = Routen[ObjectId];
+        // if (PlayerNum == 0) hprintf ("CalcPassengers for player %li for %s-%s", PlayerNum, (LPCTSTR)Cities[qRoute.VonCity].Name, (LPCTSTR)Cities[qRoute.NachCity].Name);
 
         // Normale Passagiere: Aber nicht mehr kurz vor dem Start ändern:
         if (Startdate > Sim.Date || (Startdate == Sim.Date && Sim.GetHour() + 1 < Startzeit)) {
@@ -283,12 +284,12 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                     }
                 }
 
-                // log: hprintf ("Gewichte[c]=%Li",Gewichte[c]);
+                // if (PlayerNum == 0) hprintf ("Gewichte[%li]=%li", c, Gewichte[c]);
 
                 Gesamtgewicht += Gewichte[c];
             }
 
-            // log: hprintf ("qRoute.Bedarf=%Li",qRoute.Bedarf);
+            // if (PlayerNum == 0) hprintf ("qRoute.Bedarf=%li", qRoute.Bedarf);
 
             // Wie viele wollen mitfliegen?
 #ifdef _DEBUG
@@ -302,6 +303,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
 #endif
             // Wie viele können mitfliegen (plus Toleranz)?
             tmp = min(tmp, qPlane.MaxPassagiere + qPlane.MaxPassagiere / 2);
+            // if (PlayerNum == 0) hprintf ("tmp=%li (passagiere+toleranz)", tmp);
 
             // NetGenericAsync (24004+ObjectId+Sim.Date*100, tmp);
 
@@ -312,6 +314,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (HoursBefore < 48) {
                 tmp = tmp * (HoursBefore + 48) / (48 + 48);
             }
+            // if (PlayerNum == 0) hprintf ("tmp=%li (nach tag)", tmp);
 
             // NetGenericAsync (30000+ObjectId+Sim.Date*100, HoursBefore);
             // NetGenericAsync (23003+ObjectId+Sim.Date*100, tmp);
@@ -326,6 +329,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (Ticketpreis > Cost && Cost > 10 && Ticketpreis > 0) {
                 tmp = tmp * (Cost - 10) / Ticketpreis;
             }
+            // if (PlayerNum == 0) hprintf ("tmp=%li (nach kosten)", tmp);
 
             // NetGenericAsync (19009+ObjectId+Sim.Date*100, tmp);
 
@@ -339,6 +343,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (Landezeit < 5 || Landezeit > 22) {
                 tmp = tmp * 5 / 6;
             }
+            // if (PlayerNum == 0) hprintf ("tmp=%li (nach zeit)", tmp);
 
             // NetGenericAsync (22002+ObjectId+Sim.Date*100, tmp);
 
@@ -364,6 +369,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                 // NetGenericAsync (30004+ObjectId+Sim.Date*100, qPlayer.Image);
             }
             tmp = UWORD(tmp * (400 + ImageTotal) / 1100);
+            // if (PlayerNum == 0) hprintf ("tmp=%li (nach image)", tmp);
 
             if (qPlane.ptLaerm > 60) {
                 tmp = UWORD(tmp * 1000 / 1100);
@@ -377,6 +383,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (qPlane.ptLaerm > 110) {
                 tmp = UWORD(tmp * 1000 / 1100);
             }
+            // if (PlayerNum == 0) hprintf ("tmp=%li (nach lärm)", tmp);
 
             // NetGenericAsync (21001+ObjectId+Sim.Date*100, tmp);
 
@@ -384,7 +391,10 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (Gesamtgewicht > 0) {
                 tmp = min(tmp, qRoute.Bedarf * Gewichte[PlayerNum] / Gesamtgewicht);
             }
+            // if (PlayerNum == 0) hprintf ("tmp=%li (begrenzung nach gewicht)", tmp);
+
             tmp = min(tmp, qPlane.MaxPassagiere);
+            // if (PlayerNum == 0) hprintf ("tmp=%li (begrenzung nach Flugzeugkapazität)\n\n", tmp);
 
             Passagiere = static_cast<UWORD>(tmp);
 
