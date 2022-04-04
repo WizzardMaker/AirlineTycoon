@@ -140,6 +140,11 @@ CLaptop::CLaptop(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.
 #else
         EarthBm.ReSize(const_cast<char *>((LPCTSTR)FullFilename("earthlap.tga", GliPath)), SYSRAMBM);
 #endif
+        for (c = qPlayer.Blocks.AnzEntries() - 1; c >= 1; c--) {
+            if (qPlayer.Blocks.IsInAlbum(c) != 0 && qPlayer.Blocks[c].Destructing != 0) {
+                qPlayer.Blocks -= c;
+            }
+        }
     }
 
     MessagePump();
