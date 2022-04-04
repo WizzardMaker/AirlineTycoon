@@ -1770,6 +1770,22 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
             }
         }
 
+        // NOTFAIR
+        if (TypeBuffer[19] == 'N' && TypeBuffer[20] == 'O' && TypeBuffer[21] == 'T' && TypeBuffer[22] == 'F' && TypeBuffer[23] == 'A' &&
+            TypeBuffer[24] == 'I' && TypeBuffer[25] == 'R') {
+            if ((Sim.bAllowCheating != 0) || (Sim.bNetwork == 0)) {
+                Sim.bCheatedSession = 1;
+
+                for (long c = 0; c < 4; c++) {
+                    if (Sim.localPlayer != c) {
+                        Sim.Players.Players[c].History.HistoricMoney += 1000000000;
+                        Sim.Players.Players[c].Money += 1000000000;
+                    }
+                }
+                CheatSound();
+            }
+        }
+
         // MOREGLUE
         if (TypeBuffer[22] == 'M' && TypeBuffer[23] == 'O' && TypeBuffer[24] == 'R' && TypeBuffer[25] == 'E' && TypeBuffer[26] == 'G' &&
             TypeBuffer[27] == 'L' && TypeBuffer[28] == 'U' && TypeBuffer[29] == 'E') {
