@@ -1861,6 +1861,23 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
             }
         }
 
+        // ODDONEOUT
+        if (TypeBuffer[21] == 'O' && TypeBuffer[22] == 'D' && TypeBuffer[23] == 'D' && TypeBuffer[24] == 'O' && TypeBuffer[25] == 'N' &&
+            TypeBuffer[26] == 'E' && TypeBuffer[27] == 'O' && TypeBuffer[28] == 'U' && TypeBuffer[29] == 'T') {
+            if ((Sim.bAllowCheating != 0) || (Sim.bNetwork == 0)) {
+                Sim.bCheatedSession = 1;
+                for (long c = 0; c < 4; c++) {
+                    if (Sim.localPlayer != c) {
+                        Sim.Players.Players[c].Image = 1000;
+                    }
+                }
+                CheatSound();
+
+                SIM::SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7014), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX));
+                SIM::SendSimpleMessage(ATNET_CHEAT, 0, Sim.localPlayer, 2);
+            }
+        }
+
         // BUBBLEGUM
         if (TypeBuffer[21] == 'B' && TypeBuffer[22] == 'U' && TypeBuffer[23] == 'B' && TypeBuffer[24] == 'B' && TypeBuffer[25] == 'L' &&
             TypeBuffer[26] == 'E' && TypeBuffer[27] == 'G' && TypeBuffer[28] == 'U' && TypeBuffer[29] == 'M') {
