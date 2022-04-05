@@ -546,6 +546,10 @@ void CWorkers::NewDay() {
 // Erhöht oder erniedrigt einer Personen das Gehalt
 //--------------------------------------------------------------------------------------------
 void CWorker::Gehaltsaenderung(BOOL Art) {
+    if (Employer == WORKER_RESERVE || Employer == WORKER_JOBLESS || Employer == WORKER_EXPIRED) {
+        return;
+    }
+
     if (Art != 0) {
         // Gehaltserhöhung:
         SLONG OldGehalt = Gehalt;

@@ -8137,6 +8137,8 @@ void CStdRaum::MenuSetZoomStuff(const XY &MenuStartPos, double MinimumZoom, BOOL
 // NewGamePopup::OnChar
 //--------------------------------------------------------------------------------------------
 void CStdRaum::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/) {
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+
     if (CalculatorIsOpen != 0) {
         CalcKey(nChar);
     } else if ((MenuIsOpen() != 0) && (CurrentMenu == MENU_RENAMEPLANE || CurrentMenu == MENU_RENAMEEDITPLANE || CurrentMenu == MENU_ENTERTCPIP ||
@@ -8176,6 +8178,21 @@ void CStdRaum::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/) {
                 MenuRepaint();
             }
         }
+    } else if (CurrentMenu == MENU_PERSONAL) {
+        bool change = false;
+        if (nChar == '+') {
+            Workers.Workers[MenuRemapper[MenuPage - 1]].Gehaltsaenderung(1);
+            change = true;
+        } else if (nChar == '-') {
+            Workers.Workers[MenuRemapper[MenuPage - 1]].Gehaltsaenderung(0);
+            change = true;
+        }
+        if (change) {
+            MenuRepaint();
+            if (Sim.bNetwork != 0) {
+                qPlayer.NetUpdateWorkers();
+            }
+        }
     }
 }
 
@@ -8183,6 +8200,8 @@ void CStdRaum::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/) {
 // Hotkeys:
 //--------------------------------------------------------------------------------------------
 void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+
     if ((CalculatorIsOpen != 0) && (nChar == VK_DELETE || nChar == VK_RETURN || nChar == VK_RETURN2 || nChar == VK_BACK || nChar == VK_ESCAPE)) {
         CalcKey(nChar);
     } else if (nChar == VK_F2 && !static_cast<bool>(Editor)) {
@@ -8205,7 +8224,6 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
                 gHostIP = Optionen[0];
                 MenuStop();
             } else if (Optionen[0].GetLength() > 0) {
-                PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
                 if (CurrentMenu == MENU_CHAT) {
                     TEAKFILE Message;
@@ -8237,6 +8255,61 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
                 }
             }
         }
+    }
+
+    bool change = false;
+    switch (CurrentMenu) {
+    case MENU_PERSONAL:
+        switch (nChar) {
+        case VK_LEFT:
+            if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+                MenuPage = std::max(0, MenuPage - 100);
+            } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+                MenuPage = std::max(0, MenuPage - 10);
+            } else {
+                MenuPage = std::max(0, MenuPage - 1);
+            }
+            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
+            change = true;
+            break;
+        case VK_RIGHT:
+            if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+                MenuPage = std::min(MenuPageMax, MenuPage + 100);
+            } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+                MenuPage = std::min(MenuPageMax, MenuPage + 10);
+            } else {
+                MenuPage = std::min(MenuPageMax, MenuPage + 1);
+            }
+            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
+            change = true;
+            break;
+        case VK_RETURN:
+            Workers.Workers[MenuRemapper[MenuPage - 1]].Employer = PlayerNum;
+            Workers.Workers[MenuRemapper[MenuPage - 1]].PlaneId = -1;
+            qPlayer.MapWorkers(TRUE);
+            qPlayer.UpdateWalkSpeed();
+            change = true;
+            break;
+        case VK_BACK:
+            Workers.Workers[MenuRemapper[MenuPage - 1]].Employer = WORKER_JOBLESS;
+            if (Workers.Workers[MenuRemapper[MenuPage - 1]].TimeInPool > 0) {
+                Workers.Workers[MenuRemapper[MenuPage - 1]].TimeInPool = 0;
+            }
+            qPlayer.MapWorkers(TRUE);
+            qPlayer.UpdateWalkSpeed();
+            change = true;
+            break;
+        default:
+            break;
+        }
+        if (change) {
+            MenuRepaint();
+            if (Sim.bNetwork != 0) {
+                qPlayer.NetUpdateWorkers();
+            }
+        }
+    default:
+        break;
     }
 }
 
