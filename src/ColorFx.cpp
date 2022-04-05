@@ -662,7 +662,7 @@ void SB_CColorFX::BlitOutline(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitm
     XY t = TargetPos;
     CRect Rect = CRect(0, 0, SrcBitmap->GetXSize() - 1, SrcBitmap->GetYSize() - 1);
 
-    WORD pen = (WORD)TgtBitmap->GetHardwarecolor(LineColor);
+    auto pen = (UWORD)TgtBitmap->GetHardwarecolor(LineColor);
 
     if (t.x < 0) {
         Rect.left -= t.x;

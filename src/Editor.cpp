@@ -1821,7 +1821,7 @@ bool CPlaneParts::IsSlotFree(const CString &Slotname) {
             CString SlotsUsed = gPlanePartRelations[(*this)[c].ParentRelationId].RulesOutSlots;
 
             for (d = 0; d < SlotsUsed.GetLength(); d += 2) {
-                if (*(const WORD *)(((LPCTSTR)SlotsUsed) + d) == *(const WORD *)(LPCTSTR)Slotname) {
+                if (*(const UWORD *)(((LPCTSTR)SlotsUsed) + d) == *(const UWORD *)(LPCTSTR)Slotname) {
                     return (false);
                 }
             }

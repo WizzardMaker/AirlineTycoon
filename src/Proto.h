@@ -94,7 +94,7 @@ CString GetFilenameFromFullFilename(CString FullFilename);
 DWORD timeGetTime(void);
 BOOL OffsetRect(RECT *pRect, int dx, int dy);
 void DebugBreak(void);
-SHORT GetAsyncKeyState(int vKey);
+SLONG GetAsyncKeyState(int vKey);
 DWORD GetTickCount(void);
 #endif
 const char* getRobotActionName(SLONG a);

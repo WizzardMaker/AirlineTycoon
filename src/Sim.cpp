@@ -3479,7 +3479,7 @@ void SIM::SaveGame(SLONG Number, const CString &Name) const {
     SaveVersion = 1;
     SaveVersionSub = 107; // Version 1.104
 
-    std::filesystem::create_directory(LPCSTR(AppPath + SavegamePath.Left(SavegamePath.GetLength() - 3)));
+    std::filesystem::create_directory(LPCTSTR(AppPath + SavegamePath.Left(SavegamePath.GetLength() - 3)));
 
     TEAKFILE OutputFile(Filename, TEAKFILE_WRITE);
 

@@ -672,7 +672,7 @@ void CStatistik::OnPaint() {
         output += StandardTexte.GetS(TOKEN_STAT, 9000);
     }
 
-    long length = FontDialogPartner.GetWidth(const_cast<LPSTR>((LPCSTR)output), output.GetLength());
+    long length = FontDialogPartner.GetWidth((LPCTSTR)output, output.GetLength());
     long xPos = 35 + ((160 - 35) >> 1) - (length >> 1);
     RoomBm.PrintAt(output, FontDialogPartner, TEC_FONT_LEFT, xPos, 15, xPos + length + 5, 45);
 

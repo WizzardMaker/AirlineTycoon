@@ -2051,7 +2051,7 @@ BOOL OffsetRect(RECT *pRect, int dx, int dy) {
 
 void DebugBreak() { assert(0); }
 
-SHORT GetAsyncKeyState(int vKey) { return (SDL_GetModState() & vKey) != 0 ? 0x8000 : 0; }
+SLONG GetAsyncKeyState(int vKey) { return (SDL_GetModState() & vKey) != 0 ? 0x8000 : 0; }
 #endif
 
 const char *getRobotActionName(SLONG a) {

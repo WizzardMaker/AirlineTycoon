@@ -17,39 +17,26 @@
 //#define VOICES_OPTIONAL //Voices werden verwendet, wenn sie da sind; ansonsten auch nicht schlimm
 
 // Meine (konsequenten) Variablentypen
-typedef unsigned short UWORD;
-typedef signed short SWORD;
+typedef uint16_t UWORD;
+typedef int16_t SWORD;
 
 typedef unsigned char UBYTE;
 typedef signed char SBYTE;
 
 #ifdef WIN32
-typedef signed long SLONG;
+typedef int32_t SLONG;
 #else
-typedef signed int SLONG;
-typedef unsigned int ULONG;
-typedef int LONG;
-typedef int LPARAM;
-typedef unsigned int DWORD;
-typedef unsigned int COLORREF;
-
-typedef short SHORT;
-typedef unsigned short USHORT;
-typedef unsigned short WORD;
+typedef int32_t SLONG;
+typedef uint32_t ULONG;
+typedef uint32_t DWORD;
+typedef uint32_t COLORREF;
 
 typedef float FLOAT;
 
 typedef int BOOL;
-typedef int INT;
-typedef unsigned int UINT;
-typedef unsigned int WPARAM;
+typedef uint32_t UINT;
 
-typedef char CHAR;
-typedef unsigned char UCHAR;
 typedef unsigned char BYTE;
-
-typedef const char *LPCSTR;
-typedef char *LPSTR;
 
 typedef const wchar_t *LPCWSTR;
 typedef wchar_t *LPWSTR;
@@ -60,15 +47,15 @@ typedef char *LPTSTR;
 typedef long long __int64;
 
 typedef struct tagPOINT {
-    LONG x;
-    LONG y;
+    SLONG x;
+    SLONG y;
 } POINT;
 
 typedef struct tagRECT {
-    LONG left;
-    LONG top;
-    LONG right;
-    LONG bottom;
+    SLONG left;
+    SLONG top;
+    SLONG right;
+    SLONG bottom;
 } RECT;
 #endif
 
@@ -81,12 +68,12 @@ class CPoint : public tagPOINT {
         y = initPoint.y;
     }
 
-    CPoint(LONG initX, LONG initY) {
+    CPoint(SLONG initX, SLONG initY) {
         x = initX;
         y = initY;
     }
 
-    CPoint(LPARAM dwPoint) {
+    CPoint(SLONG dwPoint) {
         x = dwPoint & 0xFFFF;
         y = (dwPoint >> 16) & 0xFFFF;
     }
@@ -103,15 +90,15 @@ class CRect : public tagRECT {
         bottom = srcRect.bottom;
     }
 
-    CRect(LONG l, LONG t, LONG r, LONG b) {
+    CRect(SLONG l, SLONG t, SLONG r, SLONG b) {
         left = l;
         top = t;
         right = r;
         bottom = b;
     }
 
-    LONG Width() const { return right - left; }
-    LONG Height() const { return bottom - top; }
+    SLONG Width() const { return right - left; }
+    SLONG Height() const { return bottom - top; }
 };
 
 inline CRect operator+(CRect r, const CPoint &p) { return CRect(r.left + p.x, r.top + p.y, r.right + p.x, r.bottom + p.y); }

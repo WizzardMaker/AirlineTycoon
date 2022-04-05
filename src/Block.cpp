@@ -983,7 +983,7 @@ void BLOCK::LinkeSeiteInhalt(XY TitleArea, XY ClientArea) {
             SLONG i = SelectedId - 8;
             i += static_cast<int>(PlayerNum <= i);
             auto &qPlayer = Sim.Players.Players[i];
-            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), (LPCSTR)qPlayer.Abk), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), (LPCTSTR)qPlayer.Abk), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
         } else {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
         }
@@ -1931,16 +1931,16 @@ void BLOCK::ZeigeInformantenInfos(XY ClientArea, SLONG /*page*/) const {
         }
 
         if ((qPlayer.TargetedPlayer != 0) && rnd.Rand(2) == 0) {
-            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10201), (LPCSTR)qPlayer.AirlineX), FontSmallBlack, TEC_FONT_LEFT,
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10201), (LPCTSTR)qPlayer.AirlineX), FontSmallBlack, TEC_FONT_LEFT,
                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
         } else if ((qPlayer.WantToDoRoutes != 0) && (qPlayer.DoRoutes == 0)) {
-            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10204), (LPCSTR)qPlayer.AirlineX), FontSmallBlack, TEC_FONT_LEFT,
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10204), (LPCTSTR)qPlayer.AirlineX), FontSmallBlack, TEC_FONT_LEFT,
                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
         } else if ((qPlayer.SavesForPlane != 0) && rnd.Rand(2) == 0) {
-            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10203), (LPCSTR)qPlayer.AirlineX), FontSmallBlack, TEC_FONT_LEFT,
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10203), (LPCTSTR)qPlayer.AirlineX), FontSmallBlack, TEC_FONT_LEFT,
                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
         } else if ((qPlayer.OutOfGates != 0) && rnd.Rand(2) == 0) {
-            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10202), (LPCSTR)qPlayer.AirlineX), FontSmallBlack, TEC_FONT_LEFT,
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 10202), (LPCTSTR)qPlayer.AirlineX), FontSmallBlack, TEC_FONT_LEFT,
                            ClientArea + XY(2, idx * 13), ClientArea + XY(172, 170));
         }
         idx += 3;

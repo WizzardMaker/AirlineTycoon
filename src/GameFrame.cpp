@@ -418,8 +418,8 @@ void GameFrame::TranslatePointToGameSpace(CPoint *p) const {
     y /= screenH;
     y *= 480;
 
-    p->x = static_cast<LONG>(x);
-    p->y = static_cast<LONG>(y);
+    p->x = static_cast<SLONG>(x);
+    p->y = static_cast<SLONG>(y);
 }
 void GameFrame::TranslatePointToScreenSpace(int &x, int &y) const {
     if (Sim.Options.OptionKeepAspectRatio != 0) {
@@ -436,8 +436,8 @@ void GameFrame::TranslatePointToScreenSpace(int &x, int &y) const {
     _y /= 480;
     _y *= screenH;
 
-    x = static_cast<LONG>(_x);
-    y = static_cast<LONG>(_y);
+    x = static_cast<SLONG>(_x);
+    y = static_cast<SLONG>(_y);
 }
 
 void GameFrame::ProcessEvent(const SDL_Event &event) const {
@@ -551,14 +551,6 @@ void GameFrame::RePostMessage(const CPoint &Pos) const {
             }
         }
     }
-}
-
-//--------------------------------------------------------------------------------------------
-// Die Nachricht an ein spezielles Sub-Fenster weiterleiten:
-//--------------------------------------------------------------------------------------------
-void GameFrame::RePostClick(SLONG /*PlayerNum*/, UINT /*message*/, WPARAM /*wParam*/, LPARAM /*lParam*/) {
-    // if (Sim.Players.Players[PlayerNum].LocationWin)
-    //   Sim.Players.Players[PlayerNum].LocationWin->SendMessage (message, wParam, lParam);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -2299,11 +2291,6 @@ void GameFrame::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/) {
         }
     }
 }
-
-//--------------------------------------------------------------------------------------------
-// BOOL GameFrame::OnCommand(WPARAM wParam, LPARAM lParam):
-//--------------------------------------------------------------------------------------------
-BOOL GameFrame::OnCommand(WPARAM /*wParam*/, LPARAM /*lParam*/) { return FALSE; }
 
 //--------------------------------------------------------------------------------------------
 // Aktiviert einen Tool-Tip

@@ -1861,10 +1861,10 @@ void CStdRaum::StartDialog(SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, S
             DialogPar2 = 0;
         }
         if (DialogPar2 == 0) {
-            MakeSayWindow(0, TOKEN_PLAYER, 1000 + static_cast<int>(DialogMedium == MEDIUM_AIR), pFontPartner, (LPCSTR)Sim.Players.Players[DialogPar1].AirlineX);
+            MakeSayWindow(0, TOKEN_PLAYER, 1000 + static_cast<int>(DialogMedium == MEDIUM_AIR), pFontPartner, (LPCTSTR)Sim.Players.Players[DialogPar1].AirlineX);
         } else {
             MakeSayWindow(1, TOKEN_PLAYER, 1000 + static_cast<int>(DialogMedium == MEDIUM_AIR), 1000 + static_cast<int>(DialogMedium == MEDIUM_AIR), FALSE,
-                          &FontDialog, &FontDialogLight, (LPCSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
+                          &FontDialog, &FontDialogLight, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
         }
         break;
     default:
@@ -7831,7 +7831,7 @@ void CStdRaum::MenuStop() {
     if (CurrentMenu == MENU_CALLITADAY && Sim.CallItADay == FALSE) {
         if (Sim.CallItADayAt == 0) {
             SIM::SendSimpleMessage(ATNET_DAYBACK, 0, PlayerNum);
-            SIM::SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7021), (LPCSTR)Sim.Players.Players[Sim.localPlayer].NameX));
+            SIM::SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7021), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX));
             qPlayer.CallItADay = FALSE;
         }
     }

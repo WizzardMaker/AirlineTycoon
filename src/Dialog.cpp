@@ -3664,7 +3664,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 }
 
                 //"Beginnen wir mit ..." / "Und weiter mit ..."
-                TmpStr += bprintf(DialogTexte.GetS(TOKEN_BOSS, 2010 + DialogPar3), (LPCSTR)Sim.Players.Players[DialogPar1].AirlineX) + Space;
+                TmpStr += bprintf(DialogTexte.GetS(TOKEN_BOSS, 2010 + DialogPar3), (LPCTSTR)Sim.Players.Players[DialogPar1].AirlineX) + Space;
 
                 if (Sim.Players.Players[DialogPar1].ImageGotWorse != 0) {
                     Sim.Players.Players[DialogPar1].ImageGotWorse = FALSE;

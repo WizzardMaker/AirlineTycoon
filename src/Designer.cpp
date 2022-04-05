@@ -34,7 +34,7 @@ CDesigner::CDesigner(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
 
     // The game expects in dialogue options, that this path exists
     // Path will be "%AppPath%/myplanes/"
-    fs::create_directory(LPCSTR(AppPath + MyPlanePath.Left(MyPlanePath.GetLength() - 3)));
+    fs::create_directory(LPCTSTR(AppPath + MyPlanePath.Left(MyPlanePath.GetLength() - 3)));
 
     if (bHandy == 0) {
         AmbientManager.SetGlobalVolume(60);

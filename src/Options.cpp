@@ -882,7 +882,7 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
         case 8: // Leave Game:
             if (Line == 4) {
                 if (Sim.bNetwork != 0) {
-                    SIM::SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7022), (LPCSTR)Sim.Players.Players[Sim.localPlayer].NameX));
+                    SIM::SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7022), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX));
                     gNetwork.DisConnect();
                     Sim.bNetwork = 0;
                 }

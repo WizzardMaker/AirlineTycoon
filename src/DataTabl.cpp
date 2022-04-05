@@ -682,7 +682,7 @@ void CDataTable::FillWithExperts(SLONG PlayerNum) {
             SLONG i = c - 8;
             i += static_cast<int>(PlayerNum <= i);
             auto &qPlayer = Sim.Players.Players[i];
-            Values[c * AnzColums + 0] = bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + c), (LPCSTR)qPlayer.Abk);
+            Values[c * AnzColums + 0] = bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + c), (LPCTSTR)qPlayer.Abk);
         } else {
             Values[c * AnzColums + 0] = StandardTexte.GetS(TOKEN_EXPERT, 2000 + c);
         }

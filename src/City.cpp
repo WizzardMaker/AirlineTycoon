@@ -260,8 +260,8 @@ ULONG CITIES::GetIdFromNames(const char *Name, ...) {
     SLONG c = 0;
 
     va_list va_marker;
-    LPCSTR tmp = Name;
-    for (va_start(va_marker, Name); tmp != (nullptr); tmp = va_arg(va_marker, LPCSTR)) {
+    LPCTSTR tmp = Name;
+    for (va_start(va_marker, Name); tmp != (nullptr); tmp = va_arg(va_marker, LPCTSTR)) {
         for (c = 0; c < AnzEntries(); c++) {
             if ((IsInAlbum(c) != 0) && stricmp(tmp, (LPCTSTR)at(c).Name) == 0) {
                 return (GetIdFromIndex(c));

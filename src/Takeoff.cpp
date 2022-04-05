@@ -1317,7 +1317,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                 qPlayer.Locations[d] = 0;
 
                                                 if (d > 0 && qPlayer.Locations[d - 1] != 0) {
-                                                    qPlayer.Locations[d - 1] = USHORT((qPlayer.Locations[d - 1] & (~ROOM_LEAVING)) | ROOM_ENTERING);
+                                                    qPlayer.Locations[d - 1] = UWORD((qPlayer.Locations[d - 1] & (~ROOM_LEAVING)) | ROOM_ENTERING);
                                                 }
 
                                                 qPlayer.CalcRoom();
@@ -1648,7 +1648,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                                                 }
 
                                                 qPlayer.Locations[d] = 0;
-                                                qPlayer.Locations[d - 1] = USHORT((qPlayer.Locations[d - 1] & (~ROOM_LEAVING)) | ROOM_ENTERING);
+                                                qPlayer.Locations[d - 1] = UWORD((qPlayer.Locations[d - 1] & (~ROOM_LEAVING)) | ROOM_ENTERING);
                                                 qPlayer.CalcRoom();
 
                                                 if ((Sim.bNetwork != 0) && (Sim.bIsHost != 0)) {
