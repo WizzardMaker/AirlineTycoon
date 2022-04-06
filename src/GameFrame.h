@@ -26,7 +26,7 @@ class GameFrame {
     static void PrepareFade(void);
     static bool Pause(bool fPause); // AG
     void TranslatePointToGameSpace(CPoint *p) const;
-    void TranslatePointToScreenSpace(int &x, int &y) const;
+    void TranslatePointToScreenSpace(SLONG &x, SLONG &y) const;
 
     // Overrides
     // ClassWizard generated virtual function overrides

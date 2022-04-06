@@ -25,7 +25,7 @@ SLONG IconsPos[] = {
 
 static XY GlobeOffset[] = {XY(141, 16), XY(177, 29)};
 
-extern double a;
+extern DOUBLE a;
 
 class CWaitCursorNow {
   public:

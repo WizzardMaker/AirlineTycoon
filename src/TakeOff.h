@@ -26,7 +26,7 @@ class CTakeOffApp {
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CTakeOffApp)
   public:
-    virtual BOOL InitInstance(int argc, char *argv[]);
+    virtual BOOL InitInstance(SLONG argc, char *argv[]);
     virtual void WinHelp(DWORD dwData, UINT nCmd);
     //}}AFX_VIRTUAL
 

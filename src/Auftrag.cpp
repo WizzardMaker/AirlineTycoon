@@ -32,7 +32,7 @@ void CalcPlayerMaximums(bool bForce) {
     PlayerMinPassagiere = 2147483647;
     PlayerMinLength = 2147483647;
 
-    for (long c = 0; c < Sim.Players.AnzPlayers; c++) {
+    for (SLONG c = 0; c < Sim.Players.AnzPlayers; c++) {
         if ((Sim.Players.Players[c].IsOut == 0) && (Sim.Players.Players[c].Owner == 0 || Sim.Players.Players[c].Owner == 2)) {
             PLAYER &qPlayer = Sim.Players.Players[c];
 
@@ -105,7 +105,7 @@ void PLAYER::CheckAuftragsBerater(const CAuftrag &Auftrag) {
         } else {
             for (d = 0, Okay = FALSE; d < Planes.AnzEntries(); d++) {
                 if (Planes.IsInAlbum(d) != 0) {
-                    Okay |= static_cast<int>(SLONG(Auftrag.Personen) <= Planes[d].MaxPassagiere + Planes[d].MaxPassagiereFC);
+                    Okay |= static_cast<SLONG>(SLONG(Auftrag.Personen) <= Planes[d].MaxPassagiere + Planes[d].MaxPassagiereFC);
                 }
             }
 
@@ -115,7 +115,7 @@ void PLAYER::CheckAuftragsBerater(const CAuftrag &Auftrag) {
             } else {
                 for (d = 0, Okay = FALSE; d < Planes.AnzEntries(); d++) {
                     if (Planes.IsInAlbum(d) != 0) {
-                        Okay |= static_cast<int>((SLONG(Auftrag.Personen) <= Planes[d].MaxPassagiere + Planes[d].MaxPassagiereFC) &&
+                        Okay |= static_cast<SLONG>((SLONG(Auftrag.Personen) <= Planes[d].MaxPassagiere + Planes[d].MaxPassagiereFC) &&
                                                  (Auftrag.FitsInPlane(Planes[d]) != 0));
                         // Auftrag.FitsInPlane (PlaneTypes[(SLONG)Planes[d].TypeId]) );
                     }

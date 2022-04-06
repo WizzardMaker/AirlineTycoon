@@ -61,7 +61,7 @@ BOOL CSmack16::Next(SBBM *pTargetBm) {
         // Take the next frame:
         State = smk_next(pSmack);
 
-        double usf = NAN;
+        DOUBLE usf = NAN;
         smk_info_all(pSmack, nullptr, nullptr, &usf);
         FrameNext = timeGetTime() + (usf / 1000.0);
 
@@ -395,7 +395,7 @@ void CSmackerPerson::Pump() {
                 Clips[ActiveClip].PlaySyllable();
             }
 
-            double usf = NAN;
+            DOUBLE usf = NAN;
             smk_next(Clips[ActiveClip].pSmack);
             smk_info_all(Clips[ActiveClip].pSmack, &Clips[ActiveClip].FrameNum, &Clips[ActiveClip].Frames, &usf);
             Clips[ActiveClip].FrameNext = timeGetTime() + (usf / 1000.0);
@@ -433,7 +433,7 @@ void CSmackerPerson::Pump() {
             Clips[ActiveClip].PlaySyllable();
         }
 
-        double usf = NAN;
+        DOUBLE usf = NAN;
         smk_next(Clips[ActiveClip].pSmack);
         smk_info_all(Clips[ActiveClip].pSmack, &Clips[ActiveClip].FrameNum, &Clips[ActiveClip].Frames, &usf);
         Clips[ActiveClip].FrameNext = timeGetTime() + (usf / 1000.0);
@@ -522,7 +522,7 @@ void CSmackerPerson::Pump() {
                     Clips[ActiveClip].PlaySyllable();
                 }
 
-                double usf = NAN;
+                DOUBLE usf = NAN;
                 if (Clips[ActiveClip].FrameNum >= Clips[ActiveClip].Frames - 1) {
                     smk_first(Clips[ActiveClip].pSmack);
                 } else {

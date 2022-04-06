@@ -53,7 +53,7 @@ bool SB_CFont::Load(SDL_Renderer * /*renderer*/, const char *path, struct HPALET
 
     word chars = Header.HiChar - Header.LoChar + 1;
     SDL_Surface *surf = SDL_CreateRGBSurfaceWithFormatFrom(pixels, Header.Width, Header.Height * chars, 8, Header.Width, SDL_PIXELFORMAT_INDEX8);
-    for (int i = 0; i < Header.NumColors; i++) {
+    for (SLONG i = 0; i < Header.NumColors; i++) {
         Swap(colors[i].r, colors[i].b); // Convert BGR to RGB
     }
     SDL_SetPaletteColors(surf->format->palette, colors, 0, Header.NumColors + 1);
@@ -129,7 +129,7 @@ SLONG SB_CFont::DrawTextBlock(class SB_CBitmapCore *bmp, RECT *block, const char
 }
 
 void SB_CFont::DrawTextWithTabs(class SB_CBitmapCore *bmp, SLONG x, SLONG y, const char *str, SLONG length, bool hidden) {
-    int i = 0;
+    SLONG i = 0;
     this->Bitmap = bmp;
     this->Hidden = hidden;
     this->Pos.x = x;
@@ -207,7 +207,7 @@ SLONG SB_CFont::PreviewTextBlock(class SB_CBitmapCore *bmp, RECT *block, const c
         this->Start.x = this->Pos.x;
         this->Pos.y = block->top;
         while (length != 0) {
-            int i = GetWordLength(str, length);
+            SLONG i = GetWordLength(str, length);
             if (0 < i) {
                 SLONG width = GetWidth(str, i);
                 if (block->right < this->Pos.x + width) {
@@ -264,7 +264,7 @@ SLONG SB_CFont::PreviewTextBlock(class SB_CBitmapCore *bmp, SLONG l, SLONG t, SL
 }
 
 SLONG SB_CFont::GetWidthAt(const char *str, SLONG /*offset*/, char ch) {
-    int i = 0;
+    SLONG i = 0;
     while (true) {
         switch (*str) {
         case -0x4b:

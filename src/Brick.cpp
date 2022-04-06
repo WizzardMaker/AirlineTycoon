@@ -179,7 +179,7 @@ BOOL BRICK::IsGlasAt(SLONG x, SLONG y) { return static_cast<BOOL>(Bitmap[0L].Get
 // Ggf. die Bricks an das neue Zeitalter anpassen:
 //--------------------------------------------------------------------------------------------
 void BRICK::UpdateBrick() {
-    long c = 0;
+    SLONG c = 0;
 
     // Falls Bitmap noch nicht vorhanden ==> laden!
     if (Bitmap.AnzEntries() > 0) {
@@ -257,8 +257,8 @@ void BRICKS::ReInit(const CString &TabFilename) {
     // CStdioFile    Tab;
     BUFFER_V<char> Line(300);
     char *TimePointer[150];
-    long Id = 0;
-    long AnzTimePointer = 0;
+    SLONG Id = 0;
+    SLONG AnzTimePointer = 0;
 
     // Load Table header:
     auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
@@ -460,7 +460,7 @@ void BRICKS::RestoreBricks() {
 //--------------------------------------------------------------------------------------------
 // Primitiver Konstruktor:
 //--------------------------------------------------------------------------------------------
-BUILD::BUILD(long BrickId, const XY &ScreenPos, BOOL Ansatz) {
+BUILD::BUILD(SLONG BrickId, const XY &ScreenPos, BOOL Ansatz) {
     BUILD::BrickId = BrickId;
     BUILD::ScreenPos = ScreenPos;
     BUILD::Par = 0;

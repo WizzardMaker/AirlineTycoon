@@ -510,11 +510,11 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             }
 
             // Luxus ist ganz wichtig für die: (Summe e [0..16])
-            long LuxusSumme =
+            SLONG LuxusSumme =
                 qPlane.Sitze + qPlane.Essen + qPlane.Tabletts + qPlane.Deco + qPlane.Triebwerk + qPlane.Reifen + qPlane.Elektronik + qPlane.Sicherheit;
 
             // Sicherheit ist auch wichtig: (Summe e [0..18])
-            LuxusSumme += static_cast<int>((qPlayer.SecurityFlags & (1 << 10)) != 0) + static_cast<int>((qPlayer.SecurityFlags & (1 << 11)) != 0);
+            LuxusSumme += static_cast<SLONG>((qPlayer.SecurityFlags & (1 << 10)) != 0) + static_cast<SLONG>((qPlayer.SecurityFlags & (1 << 11)) != 0);
 
             if (LuxusSumme < 6) {
                 tmp = 0;
@@ -569,7 +569,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
         }
     } else if (ObjectType == 2) {
         // Auftrag:
-        Passagiere = static_cast<UWORD>(min(qPlane.MaxPassagiere, long(qPlayer.Auftraege[ObjectId].Personen)));
+        Passagiere = static_cast<UWORD>(min(qPlane.MaxPassagiere, SLONG(qPlayer.Auftraege[ObjectId].Personen)));
 
         PassagiereFC = static_cast<UWORD>(qPlayer.Auftraege[ObjectId].Personen - Passagiere);
     }
@@ -584,7 +584,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     SLONG Kerosin = 0;
     SLONG KerosinGekauft = 0;
     SLONG KerosinAusTank = 0;
-    double KerosinGesamtQuali = 2;
+    DOUBLE KerosinGesamtQuali = 2;
     SLONG AusgabenKerosin = 0;
     SLONG AusgabenKerosinOhneTank = 0;
     SLONG AusgabenEssen = 0;
@@ -740,7 +740,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
     // Müssen wir das Flugzeug umrüsten (Sitze raus/rein wegen Fracht)?
     if (ObjectType != 3) {
-        if (Plane->OhneSitze != static_cast<int>(ObjectType == 4)) {
+        if (Plane->OhneSitze != static_cast<SLONG>(ObjectType == 4)) {
             Plane->OhneSitze = static_cast<BOOL>(ObjectType == 4);
             qPlayer.ChangeMoney(-15000, 2111, Plane->Name);
         }
@@ -814,9 +814,9 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
         // Add-On Mission 9
         if (Sim.Difficulty == DIFF_ADDON09) {
             if ((qPlayer.Owner != 1 && (qPlayer.Auftraege[ObjectId].bUhrigFlight != 0)) ||
-                (qPlayer.NumOrderFlightsToday < 5 - static_cast<int>(((Sim.Date + qPlayer.PlayerNum) % 5) == 1) -
-                                                    static_cast<int>(((Sim.Date + qPlayer.PlayerNum) % 11) == 2) -
-                                                    static_cast<int>(((Sim.Date + qPlayer.PlayerNum) % 7) == 0) - ((Sim.Date + qPlayer.PlayerNum) % 2))) {
+                (qPlayer.NumOrderFlightsToday < 5 - static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 5) == 1) -
+                                                    static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 11) == 2) -
+                                                    static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 7) == 0) - ((Sim.Date + qPlayer.PlayerNum) % 2))) {
                 qPlayer.NumOrderFlights++;
                 qPlayer.NumOrderFlightsToday++;
             }
@@ -825,7 +825,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
     // Auswirkungen auf's Image verbuchen
     if (ObjectType == 1 || ObjectType == 2) {
-        long pn = qPlayer.PlayerNum;
+        SLONG pn = qPlayer.PlayerNum;
         if (Sim.Players.Players[qPlayer.PlayerNum].WerbeBroschuere != -1) {
             pn = Sim.Players.Players[qPlayer.PlayerNum].WerbeBroschuere;
             if (Sim.Players.Players[qPlayer.PlayerNum].Owner == 0) {

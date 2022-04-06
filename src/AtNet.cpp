@@ -28,9 +28,9 @@ ULONG rChkLMA = 0, rChkRBA = 0, rChkAA[MAX_CITIES], rChkFrachen = 0;
 SLONG rChkGeneric, CheckGeneric = 0;
 SLONG rChkActionId[5 * 4];
 
-long GenericSyncIds[4] = {0, 0, 0, 0};
-long GenericSyncIdPars[4] = {0, 0, 0, 0};
-long GenericAsyncIds[4 * 100] = {
+SLONG GenericSyncIds[4] = {0, 0, 0, 0};
+SLONG GenericSyncIdPars[4] = {0, 0, 0, 0};
+SLONG GenericAsyncIds[4 * 100] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -39,7 +39,7 @@ long GenericAsyncIds[4 * 100] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-long GenericAsyncIdPars[4 * 100] = {
+SLONG GenericAsyncIdPars[4 * 100] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -356,7 +356,7 @@ void PumpNetwork() {
                 Message >> Par1 >> Par2;
                 nOptionsOpen += Par1;
                 nPlayerOptionsOpen[static_cast<SLONG>(Par2)] += Par1;
-                SetNetworkBitmap(static_cast<int>(nOptionsOpen > 0) * 1);
+                SetNetworkBitmap(static_cast<SLONG>(nOptionsOpen > 0) * 1);
                 break;
 
             case ATNET_ACTIVATEAPP:
@@ -365,7 +365,7 @@ void PumpNetwork() {
                 nOptionsOpen += Par1;
                 nPlayerOptionsOpen[static_cast<SLONG>(Par2)] += Par1;
                 nPlayerAppsDisabled[static_cast<SLONG>(Par2)] += Par1;
-                SetNetworkBitmap(static_cast<int>(nOptionsOpen > 0) * 2);
+                SetNetworkBitmap(static_cast<SLONG>(nOptionsOpen > 0) * 2);
                 break;
 
             case ATNET_TIMEPING:
@@ -1618,7 +1618,7 @@ void PumpNetwork() {
                 if (nPlayerWaiting[static_cast<SLONG>(Par2)] < 0) {
                     nPlayerWaiting[static_cast<SLONG>(Par2)] = 0;
                 }
-                SetNetworkBitmap(static_cast<int>(nWaitingForPlayer > 0) * 3);
+                SetNetworkBitmap(static_cast<SLONG>(nWaitingForPlayer > 0) * 3);
                 break;
 
             case ATNET_TAKETHING: {
@@ -1840,7 +1840,7 @@ void PumpNetwork() {
             } break;
 
             case ATNET_GENERICSYNC: {
-                long localPlayer = 0;
+                SLONG localPlayer = 0;
 
                 Message >> localPlayer;
                 Message >> GenericSyncIds[localPlayer];
@@ -1849,7 +1849,7 @@ void PumpNetwork() {
             } break;
 
             case ATNET_GENERICSYNCX: {
-                long localPlayer = 0;
+                SLONG localPlayer = 0;
 
                 Message >> localPlayer;
                 Message >> GenericSyncIds[localPlayer] >> GenericSyncIdPars[localPlayer];
@@ -1858,9 +1858,9 @@ void PumpNetwork() {
             } break;
 
             case ATNET_GENERICASYNC: {
-                long SyncId = 0;
-                long Par = 0;
-                long player = 0;
+                SLONG SyncId = 0;
+                SLONG Par = 0;
+                SLONG player = 0;
 
                 Message >> player;
                 Message >> SyncId >> Par;
@@ -1874,8 +1874,8 @@ void PumpNetwork() {
                 // Weitere Synchronisierungen:
                 //--------------------------------------------------------------------------------------------
             case ATNET_BODYGUARD: {
-                long localPlayer = 0;
-                long delta = 0;
+                SLONG localPlayer = 0;
+                SLONG delta = 0;
 
                 Message >> localPlayer >> delta;
 
@@ -1885,9 +1885,9 @@ void PumpNetwork() {
             } break;
 
             case ATNET_CHANGEMONEY: {
-                long localPlayer = 0;
-                long delta = 0;
-                long statistikid = 0;
+                SLONG localPlayer = 0;
+                SLONG delta = 0;
+                SLONG statistikid = 0;
 
                 Message >> localPlayer >> delta >> statistikid;
 
@@ -1901,10 +1901,10 @@ void PumpNetwork() {
                 SLONG localPlayer = 0;
                 SLONG TankOpen = 0;
                 SLONG TankInhalt = 0;
-                double KerosinQuali = 0;
+                DOUBLE KerosinQuali = 0;
                 SLONG KerosinKind = 0;
                 BOOL Tank = 0;
-                double TankPreis = NAN;
+                DOUBLE TankPreis = NAN;
 
                 Message >> localPlayer >> Tank >> TankOpen >> TankInhalt >> KerosinQuali >> KerosinKind >> TankPreis;
 
@@ -1979,7 +1979,7 @@ CString GetMediumName(SLONG Medium) { return (StandardTexte.GetS(TOKEN_MISC, 710
 //--------------------------------------------------------------------------------------------
 // Kehrt erst zurück, wenn die anderen Spieler hier auch waren:
 //--------------------------------------------------------------------------------------------
-void NetGenericSync(long SyncId) {
+void NetGenericSync(SLONG SyncId) {
     if (Sim.bNetwork == 0) {
         return;
     }
@@ -1992,7 +1992,7 @@ void NetGenericSync(long SyncId) {
     GenericSyncIds[Sim.localPlayer] = SyncId;
 
     while (true) {
-        long c = 0;
+        SLONG c = 0;
         for (c = 0; c < 4; c++) {
             if (Sim.Players.Players[c].Owner != 1 && GenericSyncIds[c] != SyncId && (Sim.Players.Players[c].IsOut == 0)) {
                 break;
@@ -2012,7 +2012,7 @@ void NetGenericSync(long SyncId) {
 // Gibt Warnung aus, falls die Parameter unterschiedlich waren.
 //--------------------------------------------------------------------------------------------
 #ifdef _DEBUG
-void NetGenericSync(long SyncId, long Par) {
+void NetGenericSync(SLONG SyncId, SLONG Par) {
     static bool bReentrant = false;
 
     if (bReentrant)
@@ -2034,7 +2034,7 @@ void NetGenericSync(long SyncId, long Par) {
     GenericSyncIdPars[Sim.localPlayer] = Par;
 
     while (1) {
-        long c = 0;
+        SLONG c = 0;
         for (; c < 4; c++)
             if (Sim.Players.Players[c].Owner != 1 && GenericSyncIds[c] != SyncId && !Sim.Players.Players[c].IsOut)
                 break;
@@ -2057,7 +2057,7 @@ void NetGenericSync(long SyncId, long Par) {
     }
 }
 #else
-void NetGenericSync(long /*SyncId*/, long /*Par*/) {}
+void NetGenericSync(SLONG /*SyncId*/, SLONG /*Par*/) {}
 #endif
 
 //--------------------------------------------------------------------------------------------
@@ -2065,7 +2065,7 @@ void NetGenericSync(long /*SyncId*/, long /*Par*/) {}
 // Gibt Warnung aus, falls die Parameter unterschiedlich waren.
 //--------------------------------------------------------------------------------------------
 #ifdef _DEBUG
-void NetGenericAsync(long SyncId, long Par, long player) {
+void NetGenericAsync(SLONG SyncId, SLONG Par, SLONG player) {
     if (!Sim.bNetwork)
         return;
     if (Sim.localPlayer < 0 || Sim.localPlayer > 3)
@@ -2080,7 +2080,7 @@ void NetGenericAsync(long SyncId, long Par, long player) {
         player = Sim.localPlayer;
     }
 
-    long d;
+    SLONG d;
 
     // Gibt es den Eintrag schon?
     for (d = 0; d < 400; d++)
@@ -2103,7 +2103,7 @@ void NetGenericAsync(long SyncId, long Par, long player) {
     GenericAsyncIds[d + player] = SyncId;
     GenericAsyncIdPars[d + player] = Par;
 
-    long c = 0;
+    SLONG c = 0;
     for (; c < 4; c++)
         if (Sim.Players.Players[c].Owner != 1 && GenericAsyncIds[d + c] != SyncId && !Sim.Players.Players[c].IsOut)
             break;
@@ -2120,5 +2120,5 @@ void NetGenericAsync(long SyncId, long Par, long player) {
     }
 }
 #else
-void NetGenericAsync(long /*SyncId*/, long /*Par*/, long /*player*/) {}
+void NetGenericAsync(SLONG /*SyncId*/, SLONG /*Par*/, SLONG /*player*/) {}
 #endif

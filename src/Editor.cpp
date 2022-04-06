@@ -28,7 +28,7 @@ extern SB_CColorFX ColorFX;
 #define DSBVOLUME_MIN (-10000)
 #define DSBVOLUME_MAX 0
 
-void ParseTokens(char *String, char *tokens[], long nTokens);
+void ParseTokens(char *String, char *tokens[], SLONG nTokens);
 
 CPlaneParts gPlaneParts;
 
@@ -63,43 +63,43 @@ CPlaneBuild gPlaneBuilds[37] = {
 
 #undef _C2
 
-static long B1 = GetPlaneBuildIndex("B1");
-static long B2 = GetPlaneBuildIndex("B2");
-static long B3 = GetPlaneBuildIndex("B3");
-static long B4 = GetPlaneBuildIndex("B4");
-static long B5 = GetPlaneBuildIndex("B5");
-static long C1 = GetPlaneBuildIndex("C1");
-static long C2 = GetPlaneBuildIndex("C2");
-static long C3 = GetPlaneBuildIndex("C3");
-static long C4 = GetPlaneBuildIndex("C4");
-static long C5 = GetPlaneBuildIndex("C5");
-static long H1 = GetPlaneBuildIndex("H1");
-static long H2 = GetPlaneBuildIndex("H2");
-static long H3 = GetPlaneBuildIndex("H3");
-static long H4 = GetPlaneBuildIndex("H4");
-static long H5 = GetPlaneBuildIndex("H5");
-static long H6 = GetPlaneBuildIndex("H6");
-static long H7 = GetPlaneBuildIndex("H7");
-static long L1 = GetPlaneBuildIndex("L1");
-static long L2 = GetPlaneBuildIndex("L2");
-static long L3 = GetPlaneBuildIndex("L3");
-static long L4 = GetPlaneBuildIndex("L4");
-static long L5 = GetPlaneBuildIndex("L5");
-static long L6 = GetPlaneBuildIndex("L6");
-static long M1 = GetPlaneBuildIndex("M1");
-static long M2 = GetPlaneBuildIndex("M2");
-static long M3 = GetPlaneBuildIndex("M3");
-static long M4 = GetPlaneBuildIndex("M4");
-static long M5 = GetPlaneBuildIndex("M5");
-static long M6 = GetPlaneBuildIndex("M6");
-static long M7 = GetPlaneBuildIndex("M7");
-static long M8 = GetPlaneBuildIndex("M8");
-static long R1 = GetPlaneBuildIndex("R1");
-static long R2 = GetPlaneBuildIndex("R2");
-static long R3 = GetPlaneBuildIndex("R3");
-static long R4 = GetPlaneBuildIndex("R4");
-static long R5 = GetPlaneBuildIndex("R5");
-static long R6 = GetPlaneBuildIndex("R6");
+static SLONG B1 = GetPlaneBuildIndex("B1");
+static SLONG B2 = GetPlaneBuildIndex("B2");
+static SLONG B3 = GetPlaneBuildIndex("B3");
+static SLONG B4 = GetPlaneBuildIndex("B4");
+static SLONG B5 = GetPlaneBuildIndex("B5");
+static SLONG C1 = GetPlaneBuildIndex("C1");
+static SLONG C2 = GetPlaneBuildIndex("C2");
+static SLONG C3 = GetPlaneBuildIndex("C3");
+static SLONG C4 = GetPlaneBuildIndex("C4");
+static SLONG C5 = GetPlaneBuildIndex("C5");
+static SLONG H1 = GetPlaneBuildIndex("H1");
+static SLONG H2 = GetPlaneBuildIndex("H2");
+static SLONG H3 = GetPlaneBuildIndex("H3");
+static SLONG H4 = GetPlaneBuildIndex("H4");
+static SLONG H5 = GetPlaneBuildIndex("H5");
+static SLONG H6 = GetPlaneBuildIndex("H6");
+static SLONG H7 = GetPlaneBuildIndex("H7");
+static SLONG L1 = GetPlaneBuildIndex("L1");
+static SLONG L2 = GetPlaneBuildIndex("L2");
+static SLONG L3 = GetPlaneBuildIndex("L3");
+static SLONG L4 = GetPlaneBuildIndex("L4");
+static SLONG L5 = GetPlaneBuildIndex("L5");
+static SLONG L6 = GetPlaneBuildIndex("L6");
+static SLONG M1 = GetPlaneBuildIndex("M1");
+static SLONG M2 = GetPlaneBuildIndex("M2");
+static SLONG M3 = GetPlaneBuildIndex("M3");
+static SLONG M4 = GetPlaneBuildIndex("M4");
+static SLONG M5 = GetPlaneBuildIndex("M5");
+static SLONG M6 = GetPlaneBuildIndex("M6");
+static SLONG M7 = GetPlaneBuildIndex("M7");
+static SLONG M8 = GetPlaneBuildIndex("M8");
+static SLONG R1 = GetPlaneBuildIndex("R1");
+static SLONG R2 = GetPlaneBuildIndex("R2");
+static SLONG R3 = GetPlaneBuildIndex("R3");
+static SLONG R4 = GetPlaneBuildIndex("R4");
+static SLONG R5 = GetPlaneBuildIndex("R5");
+static SLONG R6 = GetPlaneBuildIndex("R6");
 
 // Für das Anhängen der Tragflächen:
 static XY rbody2a(66, 79);
@@ -676,7 +676,7 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ed
 
             for (auto &gPlanePartRelation : gPlanePartRelations) {
                 file >> str;
-                long id = atol(str.c_str());
+                SLONG id = atol(str.c_str());
 
                 if (gPlanePartRelation.Id != id) {
                     hprintf(0, "Id mismatch: %li vs %li!", gPlanePartRelation.Id, id);
@@ -693,7 +693,7 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ed
 
             for (auto &gPlaneBuild : gPlaneBuilds) {
                 file >> str;
-                long id = atol(str.c_str());
+                SLONG id = atol(str.c_str());
 
                 if (gPlaneBuild.Id != id) {
                     hprintf(0, "Id mismatch: %li vs %li!", gPlaneBuild.Id, id);
@@ -771,12 +771,12 @@ CEditor::~CEditor() {
 //
 //--------------------------------------------------------------------------------------------
 void CEditor::UpdateButtonState() {
-    long d = 0;
+    SLONG d = 0;
 
     bAllowB = true;
     bAllowC = bAllowH = bAllowW = bAllowM = false;
 
-    for (d = 0; d < static_cast<long>(Plane.Parts.AnzEntries()); d++) {
+    for (d = 0; d < Plane.Parts.AnzEntries(); d++) {
         if (Plane.Parts.IsInAlbum(d) != 0) {
             if (Plane.Parts[d].Shortname[0] == 'B') {
                 bAllowC = bAllowH = bAllowW = true;
@@ -787,7 +787,7 @@ void CEditor::UpdateButtonState() {
         }
     }
 
-    for (d = 0; d < static_cast<long>(Plane.Parts.AnzEntries()); d++) {
+    for (d = 0; d < Plane.Parts.AnzEntries(); d++) {
         if (Plane.Parts.IsInAlbum(d) != 0) {
             if (Plane.Parts[d].Shortname[0] == 'B') {
                 bAllowB = false;
@@ -813,8 +813,8 @@ void CEditor::UpdateButtonState() {
 // void CEditor::OnPaint()
 //--------------------------------------------------------------------------------------------
 void CEditor::OnPaint() {
-    long c = 0;
-    long d = 0;
+    SLONG c = 0;
+    SLONG d = 0;
 
     if (bHandy == 0) {
         SetMouseLook(CURSOR_NORMAL, 0, ROOM_EDITOR, 0);
@@ -826,7 +826,7 @@ void CEditor::OnPaint() {
     GripRelation = -1;
     bool bAlsoOutline = false;
     if (!PartUnderCursor.empty()) {
-        double BestDist = 100;
+        DOUBLE BestDist = 100;
 
         GripRelation = -1;
         GripRelationB = -1;
@@ -860,14 +860,14 @@ void CEditor::OnPaint() {
                             bAlsoOutline = true;
                         }
                     } else {
-                        // long OtherParent = gPlanePartRelations[c].FromBuildIndex;
+                        // SLONG OtherParent = gPlanePartRelations[c].FromBuildIndex;
 
                         //     if (gPlaneBuilds[OtherParent].Shortname[0]=='L') OtherParent-=(5+8);
                         // else if (gPlaneBuilds[OtherParent].Shortname[0]=='R') OtherParent+=(5+8);
 
                         // Für alle eingebauten Planeparts:
 
-                        for (d = 0; d < static_cast<long>(Plane.Parts.AnzEntries()); d++) {
+                        for (d = 0; d < Plane.Parts.AnzEntries(); d++) {
                             if (Plane.Parts.IsInAlbum(d) != 0) {
                                 if (gPlanePartRelations[c].FromBuildIndex == GetPlaneBuildIndex(Plane.Parts[d].Shortname)) {
                                     GripToSpot = Plane.Parts[d].Pos3d + gPlanePartRelations[c].Offset3d;
@@ -881,9 +881,9 @@ void CEditor::OnPaint() {
                                         GripRelationPart = d;
 
                                         if (!PartUnderCursorB.empty()) {
-                                            long e = d;
+                                            SLONG e = d;
                                             if (Plane.Parts[e].Shortname[0] == 'L' || Plane.Parts[e].Shortname[0] == 'R') {
-                                                for (e = 0; e < static_cast<long>(Plane.Parts.AnzEntries()); e++) {
+                                                for (e = 0; e < Plane.Parts.AnzEntries(); e++) {
                                                     if (Plane.Parts.IsInAlbum(e) != 0) {
                                                         if (d != e && (Plane.Parts[e].Shortname[0] == 'L' || Plane.Parts[e].Shortname[0] == 'R')) {
                                                             break;
@@ -892,7 +892,7 @@ void CEditor::OnPaint() {
                                                 }
                                             }
 
-                                            long add = 1;
+                                            SLONG add = 1;
                                             if (Plane.Parts[d].Shortname[0] == 'L' ||
                                                 (Plane.Parts[d].Shortname[0] == 'H' && gPlanePartRelations[c].Slot[1] == 'L')) {
                                                 add = -1;
@@ -915,29 +915,29 @@ void CEditor::OnPaint() {
     }
 
     // Die Online-Statistik:
-    long weight = Plane.CalcWeight();
-    long passa = Plane.CalcPassagiere();
-    long verbrauch = Plane.CalcVerbrauch();
-    long noise = Plane.CalcNoise();
-    long wartung = Plane.CalcWartung();
-    long cost = Plane.CalcCost();
-    long speed = Plane.CalcSpeed();
-    long tank = Plane.CalcTank(true);
-    long reichw = Plane.CalcReichweite();
+    SLONG weight = Plane.CalcWeight();
+    SLONG passa = Plane.CalcPassagiere();
+    SLONG verbrauch = Plane.CalcVerbrauch();
+    SLONG noise = Plane.CalcNoise();
+    SLONG wartung = Plane.CalcWartung();
+    SLONG cost = Plane.CalcCost();
+    SLONG speed = Plane.CalcSpeed();
+    SLONG tank = Plane.CalcTank(true);
+    SLONG reichw = Plane.CalcReichweite();
 
     /* NUR TEMPORÄR:
-    long verbrauch2 = 0;
+    SLONG verbrauch2 = 0;
     if ((verbrauch != 0) && (speed != 0) && (passa != 0)) {
         verbrauch2 = verbrauch * 100 / speed * 100 / passa;
     } else {
         verbrauch2 = 0;
     }*/
 
-    long index_b = GetPlaneBuild(bprintf("B%li", 1 + sel_b)).BitmapIndex;
-    long index_c = GetPlaneBuild(bprintf("C%li", 1 + sel_c)).BitmapIndex;
-    long index_h = GetPlaneBuild(bprintf("H%li", 1 + sel_h)).BitmapIndex;
-    long index_w = GetPlaneBuild(bprintf("R%li", 1 + sel_w)).BitmapIndex;
-    long index_m = GetPlaneBuild(bprintf("M%li", 1 + sel_m)).BitmapIndex;
+    SLONG index_b = GetPlaneBuild(bprintf("B%li", 1 + sel_b)).BitmapIndex;
+    SLONG index_c = GetPlaneBuild(bprintf("C%li", 1 + sel_c)).BitmapIndex;
+    SLONG index_h = GetPlaneBuild(bprintf("H%li", 1 + sel_h)).BitmapIndex;
+    SLONG index_w = GetPlaneBuild(bprintf("R%li", 1 + sel_w)).BitmapIndex;
+    SLONG index_m = GetPlaneBuild(bprintf("M%li", 1 + sel_m)).BitmapIndex;
 
     // Ggf. Onscreen-Texte einbauen:
     CStdRaum::InitToolTips();
@@ -1048,7 +1048,7 @@ void CEditor::OnPaint() {
     // Das Flugzeug blitten:
     bool bCursorBlitted = false;
     // bool bCursorBlittedB = false;
-    for (d = 0; d < static_cast<long>(Plane.Parts.AnzEntries()); d++) {
+    for (d = 0; d < Plane.Parts.AnzEntries(); d++) {
         if (Plane.Parts.IsInAlbum(d) != 0) {
             BOOL bShift = 0; //(GetAsyncKeyState (VK_SHIFT)/256)!=0;
 
@@ -1074,8 +1074,8 @@ void CEditor::OnPaint() {
     }
 
     if (Plane.Parts.GetNumUsed() > 0) {
-        for (long cx = -1; cx <= 1; cx++) {
-            for (long cy = -1; cy <= 1; cy++) {
+        for (SLONG cx = -1; cx <= 1; cx++) {
+            for (SLONG cy = -1; cy <= 1; cy++) {
                 // Die Online-Statistik:
                 RoomBm.PrintAt(bprintf(StandardTexte.GetS(TOKEN_MISC, 8200), weight), FontSmallBlack, TEC_FONT_LEFT, 480 + cx, 20 + cy, 640 + cx, 200 + cy);
                 if (passa > 0) {
@@ -1284,27 +1284,27 @@ void CEditor::OnPaint() {
         }
 
         RoomBm.BlitFromT(
-            ButtonPartLRBms[0 + static_cast<int>(MouseClickId == c * 100 + 100) + static_cast<int>(MouseClickId == c * 100 + 100 && (gMouseLButton != 0))],
+            ButtonPartLRBms[0 + static_cast<SLONG>(MouseClickId == c * 100 + 100) + static_cast<SLONG>(MouseClickId == c * 100 + 100 && (gMouseLButton != 0))],
             4 + c * 127, 370);
         RoomBm.BlitFromT(
-            ButtonPartLRBms[3 + static_cast<int>(MouseClickId == c * 100 + 101) + static_cast<int>(MouseClickId == c * 100 + 101 && (gMouseLButton != 0))],
+            ButtonPartLRBms[3 + static_cast<SLONG>(MouseClickId == c * 100 + 101) + static_cast<SLONG>(MouseClickId == c * 100 + 101 && (gMouseLButton != 0))],
             101 + c * 127, 370);
     }
 
     // Cancel, Delete, New, Ok:
-    RoomBm.BlitFromT(OtherButtonBms[0 + static_cast<int>(MouseClickId == 998) + static_cast<int>(MouseClickId == 998 && (gMouseLButton != 0))], 602, 192);
-    RoomBm.BlitFromT(OtherButtonBms[3 + static_cast<int>(MouseClickId == 900) + static_cast<int>(MouseClickId == 900 && (gMouseLButton != 0))], 0, 192);
-    RoomBm.BlitFromT(OtherButtonBms[6 + static_cast<int>(MouseClickId == 901) + static_cast<int>(MouseClickId == 901 && (gMouseLButton != 0))], 0, 158);
-    RoomBm.BlitFromT(OtherButtonBms[9 + static_cast<int>(MouseClickId == 999) + static_cast<int>(MouseClickId == 999 && (gMouseLButton != 0))], 602, 158);
+    RoomBm.BlitFromT(OtherButtonBms[0 + static_cast<SLONG>(MouseClickId == 998) + static_cast<SLONG>(MouseClickId == 998 && (gMouseLButton != 0))], 602, 192);
+    RoomBm.BlitFromT(OtherButtonBms[3 + static_cast<SLONG>(MouseClickId == 900) + static_cast<SLONG>(MouseClickId == 900 && (gMouseLButton != 0))], 0, 192);
+    RoomBm.BlitFromT(OtherButtonBms[6 + static_cast<SLONG>(MouseClickId == 901) + static_cast<SLONG>(MouseClickId == 901 && (gMouseLButton != 0))], 0, 158);
+    RoomBm.BlitFromT(OtherButtonBms[9 + static_cast<SLONG>(MouseClickId == 999) + static_cast<SLONG>(MouseClickId == 999 && (gMouseLButton != 0))], 602, 158);
 
     // Prev, Next:
-    RoomBm.BlitFromT(ButtonPlaneLRBms[0 + static_cast<int>(MouseClickId == 800) + static_cast<int>(MouseClickId == 800 && (gMouseLButton != 0))], 185, 0);
-    RoomBm.BlitFromT(ButtonPlaneLRBms[3 + static_cast<int>(MouseClickId == 801) + static_cast<int>(MouseClickId == 801 && (gMouseLButton != 0))], 438, 0);
+    RoomBm.BlitFromT(ButtonPlaneLRBms[0 + static_cast<SLONG>(MouseClickId == 800) + static_cast<SLONG>(MouseClickId == 800 && (gMouseLButton != 0))], 185, 0);
+    RoomBm.BlitFromT(ButtonPlaneLRBms[3 + static_cast<SLONG>(MouseClickId == 801) + static_cast<SLONG>(MouseClickId == 801 && (gMouseLButton != 0))], 438, 0);
 
     if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0)) {
         bool bHotPartFound = false;
-        for (long pass = 1; pass <= 2; pass++) {
-            for (d = static_cast<long>(Plane.Parts.AnzEntries()) - 1; d >= 0; d--) {
+        for (SLONG pass = 1; pass <= 2; pass++) {
+            for (d = Plane.Parts.AnzEntries() - 1; d >= 0; d--) {
                 if ((Plane.Parts.IsInAlbum(d) != 0) && (Plane.Parts[d].Shortname[0] == 'M') == (pass == 1)) {
                     SBBM &qBm = PartBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex];
                     XY p = Plane.Parts[d].Pos3d;
@@ -1503,9 +1503,9 @@ void CEditor::DoLButtonWork(UINT /*nFlags*/, const CPoint & /*point*/) {
     }
 
     if (MouseClickId >= 10000) {
-        long relnr = Plane.Parts[long(MouseClickId - 10000)].ParentRelationId;
-        long rel = gPlanePartRelations[relnr].Id;
-        PartUnderCursor = Plane.Parts[long(MouseClickId - 10000)].Shortname;
+        SLONG relnr = Plane.Parts[SLONG(MouseClickId - 10000)].ParentRelationId;
+        SLONG rel = gPlanePartRelations[relnr].Id;
+        PartUnderCursor = Plane.Parts[SLONG(MouseClickId - 10000)].Shortname;
         if (PartUnderCursor[0] == 'L') {
             PartUnderCursor.SetAt(0, 'R');
         }
@@ -1520,8 +1520,8 @@ void CEditor::DoLButtonWork(UINT /*nFlags*/, const CPoint & /*point*/) {
             Plane.Parts -= (MouseClickId - 10000);
 
             while (true) {
-                long c = 0;
-                for (c = 0; c < static_cast<long>(Plane.Parts.AnzEntries()); c++) {
+                SLONG c = 0;
+                for (c = 0; c < Plane.Parts.AnzEntries(); c++) {
                     if (Plane.Parts.IsInAlbum(c) != 0) {
                         // if ((Plane.Parts[c].ParentShortname!="" && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) ||
                         // (Plane.Parts[c].ParentShortname!="" && PartUnderCursor[0]=='R' && ((gPlanePartRelations[Plane.Parts[c].ParentRelationId].Id==rel+200
@@ -1538,7 +1538,7 @@ void CEditor::DoLButtonWork(UINT /*nFlags*/, const CPoint & /*point*/) {
                     }
                 }
 
-                if (c >= static_cast<long>(Plane.Parts.AnzEntries())) {
+                if (c >= Plane.Parts.AnzEntries()) {
                     break;
                 }
             }
@@ -1618,7 +1618,7 @@ void CEditor::OnLButtonUp(UINT /*nFlags*/, CPoint /*point*/) {
 //--------------------------------------------------------------------------------------------
 // Testet ob ein aktuell gewähltes Teil da gar nicht dran paßt:
 //--------------------------------------------------------------------------------------------
-void CEditor::CheckUnusablePart(long iDirection) {
+void CEditor::CheckUnusablePart(SLONG iDirection) {
     if (bAllowW) {
     again_w:
         bool bad = false;
@@ -1686,9 +1686,9 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point) {
             return;
         }
         if (MouseClickId >= 10000) {
-            long relnr = Plane.Parts[long(MouseClickId - 10000)].ParentRelationId;
-            long rel = gPlanePartRelations[relnr].Id;
-            PartUnderCursor = Plane.Parts[long(MouseClickId - 10000)].Shortname;
+            SLONG relnr = Plane.Parts[SLONG(MouseClickId - 10000)].ParentRelationId;
+            SLONG rel = gPlanePartRelations[relnr].Id;
+            PartUnderCursor = Plane.Parts[SLONG(MouseClickId - 10000)].Shortname;
             if (PartUnderCursor[0] == 'L') {
                 PartUnderCursor.SetAt(0, 'R');
             }
@@ -1703,8 +1703,8 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point) {
             Plane.Parts -= (MouseClickId - 10000);
 
             while (true) {
-                long c = 0;
-                for (c = 0; c < static_cast<long>(Plane.Parts.AnzEntries()); c++) {
+                SLONG c = 0;
+                for (c = 0; c < Plane.Parts.AnzEntries(); c++) {
                     if (Plane.Parts.IsInAlbum(c) != 0) {
                         if ((!Plane.Parts[c].ParentShortname.empty() && !Plane.Parts.IsShortnameInAlbum(Plane.Parts[c].ParentShortname)) ||
                             ((!Plane.Parts[c].ParentShortname.empty() && PartUnderCursor[0] == 'R' &&
@@ -1718,7 +1718,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point) {
                     }
                 }
 
-                if (c >= static_cast<long>(Plane.Parts.AnzEntries())) {
+                if (c >= Plane.Parts.AnzEntries()) {
                     break;
                 }
             }
@@ -1726,8 +1726,8 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point) {
             PartUnderCursor = "";
             UpdateButtonState();
         } else {
-            long c = 0;
-            long MouseClickId = 0;
+            SLONG c = 0;
+            SLONG MouseClickId = 0;
 
             for (c = 0; c < 5; c++) {
                 if (gMousePosition.IfIsWithin(27 + c * 127, 363, 101 + c * 127, 436)) {
@@ -1742,8 +1742,8 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point) {
             }
 
             while (true) {
-                long c = 0;
-                for (c = 0; c < static_cast<long>(Plane.Parts.AnzEntries()); c++) {
+                SLONG c = 0;
+                for (c = 0; c < Plane.Parts.AnzEntries(); c++) {
                     if (Plane.Parts.IsInAlbum(c) != 0) {
                         if (!Plane.Parts[c].Shortname.empty()) {
                             char typ = Plane.Parts[c].Shortname[0];
@@ -1761,7 +1761,7 @@ void CEditor::OnRButtonDown(UINT nFlags, CPoint point) {
                     }
                 }
 
-                if (c >= static_cast<long>(Plane.Parts.AnzEntries())) {
+                if (c >= Plane.Parts.AnzEntries()) {
                     break;
                 }
             }
@@ -1907,10 +1907,10 @@ void CXPlane::Clear() { Parts.ReSize(100); }
 //--------------------------------------------------------------------------------------------
 // Berechnet die Kosten für ein Flugzeug:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcCost() {
-    long cost = 0;
+SLONG CXPlane::CalcCost() {
+    SLONG cost = 0;
 
-    for (long c = 0; c < Parts.AnzEntries(); c++) {
+    for (SLONG c = 0; c < Parts.AnzEntries(); c++) {
         if ((Parts.IsInAlbum(c) != 0) && !Parts[c].Shortname.empty()) {
             cost += GetPlaneBuild(Parts[c].Shortname).Cost;
         }
@@ -1922,10 +1922,10 @@ long CXPlane::CalcCost() {
 //--------------------------------------------------------------------------------------------
 // Berechnet die Anzahl der Passagiere die reinpassen:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcPassagiere() {
-    long passagiere = 0;
+SLONG CXPlane::CalcPassagiere() {
+    SLONG passagiere = 0;
 
-    for (long c = 0; c < Parts.AnzEntries(); c++) {
+    for (SLONG c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             passagiere += GetPlaneBuild(Parts[c].Shortname).Passagiere;
         }
@@ -1937,8 +1937,8 @@ long CXPlane::CalcPassagiere() {
 //--------------------------------------------------------------------------------------------
 // Berechnet die Reichweite des Flugzeuges:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcReichweite() {
-    long Reichweite = 0;
+SLONG CXPlane::CalcReichweite() {
+    SLONG Reichweite = 0;
 
     if (CalcVerbrauch() > 0) {
         Reichweite = CalcTank() / CalcVerbrauch() * CalcSpeed();
@@ -1950,14 +1950,14 @@ long CXPlane::CalcReichweite() {
 //--------------------------------------------------------------------------------------------
 // Berechnet das benötigte Flugpersonal:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcPiloten() {
-    long c = 0;
-    long piloten = 0;
+SLONG CXPlane::CalcPiloten() {
+    SLONG c = 0;
+    SLONG piloten = 0;
 
     for (c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
-            for (long pass = 1; pass <= 3; pass++) {
-                long note = 0;
+            for (SLONG pass = 1; pass <= 3; pass++) {
+                SLONG note = 0;
                 if (pass == 1) {
                     note = gPlanePartRelations[Parts[c].ParentRelationId].Note1;
                 }
@@ -1988,20 +1988,20 @@ long CXPlane::CalcPiloten() {
         }
     }
 
-    return (std::max(1L, piloten));
+    return (std::max((SLONG)1, piloten));
 }
 
 //--------------------------------------------------------------------------------------------
 // Berechnet das benötigte Flugpersonal:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcBegleiter() {
-    long c = 0;
-    long begleiter = 0;
+SLONG CXPlane::CalcBegleiter() {
+    SLONG c = 0;
+    SLONG begleiter = 0;
 
     for (c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
-            for (long pass = 1; pass <= 3; pass++) {
-                long note = 0;
+            for (SLONG pass = 1; pass <= 3; pass++) {
+                SLONG note = 0;
                 if (pass == 1) {
                     note = gPlanePartRelations[Parts[c].ParentRelationId].Note1;
                 }
@@ -2032,16 +2032,16 @@ long CXPlane::CalcBegleiter() {
         }
     }
 
-    return (std::max(1L, begleiter));
+    return (std::max((SLONG)1, begleiter));
 }
 
 //--------------------------------------------------------------------------------------------
 // Berechnet die Tankgröße des Flugzeuges:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcTank(bool bFaked) {
-    long tank = 0;
+SLONG CXPlane::CalcTank(bool bFaked) {
+    SLONG tank = 0;
 
-    for (long c = 0; c < Parts.AnzEntries(); c++) {
+    for (SLONG c = 0; c < Parts.AnzEntries(); c++) {
         if ((Parts.IsInAlbum(c) != 0) && (Parts[c].Shortname[0] == 'L' || Parts[c].Shortname[0] == 'R')) {
             tank += GetPlaneBuild(Parts[c].Shortname).Weight;
         }
@@ -2053,7 +2053,7 @@ long CXPlane::CalcTank(bool bFaked) {
     }
 
     // Länger als 22 Stunden unterwegs?
-    long Verbrauch = CalcVerbrauch();
+    SLONG Verbrauch = CalcVerbrauch();
     if (Verbrauch > 0 && tank > 0 && tank / Verbrauch > 22) {
         tank = 22 * Verbrauch;
     }
@@ -2064,9 +2064,9 @@ long CXPlane::CalcTank(bool bFaked) {
 //--------------------------------------------------------------------------------------------
 // Berechnet den Verbrauch des Flugzeugs:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcVerbrauch() {
-    long c = 0;
-    long verbrauch = 0;
+SLONG CXPlane::CalcVerbrauch() {
+    SLONG c = 0;
+    SLONG verbrauch = 0;
 
     for (c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
@@ -2076,8 +2076,8 @@ long CXPlane::CalcVerbrauch() {
 
     for (c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
-            for (long pass = 1; pass <= 3; pass++) {
-                long note = 0;
+            for (SLONG pass = 1; pass <= 3; pass++) {
+                SLONG note = 0;
                 if (pass == 1) {
                     note = gPlanePartRelations[Parts[c].ParentRelationId].Note1;
                 }
@@ -2115,10 +2115,10 @@ long CXPlane::CalcVerbrauch() {
 //--------------------------------------------------------------------------------------------
 // Berechnet das Gewicht für ein Flugzeug:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcWeight() {
-    long weight = 0;
+SLONG CXPlane::CalcWeight() {
+    SLONG weight = 0;
 
-    for (long c = 0; c < Parts.AnzEntries(); c++) {
+    for (SLONG c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             weight += GetPlaneBuild(Parts[c].Shortname).Weight;
         }
@@ -2130,10 +2130,10 @@ long CXPlane::CalcWeight() {
 //--------------------------------------------------------------------------------------------
 // Berechnet die Kraft der Triebwerke für ein Flugzeug:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcPower() {
-    long power = 0;
+SLONG CXPlane::CalcPower() {
+    SLONG power = 0;
 
-    for (long c = 0; c < Parts.AnzEntries(); c++) {
+    for (SLONG c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
             power += GetPlaneBuild(Parts[c].Shortname).Power;
         }
@@ -2145,9 +2145,9 @@ long CXPlane::CalcPower() {
 //--------------------------------------------------------------------------------------------
 // Berechnet die Kraft der Triebwerke für ein Flugzeug:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcNoise() {
-    long c = 0;
-    long noise = 0;
+SLONG CXPlane::CalcNoise() {
+    SLONG c = 0;
+    SLONG noise = 0;
 
     for (c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
@@ -2167,9 +2167,9 @@ long CXPlane::CalcNoise() {
 //--------------------------------------------------------------------------------------------
 // Berechnet die Wartungsintensität:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcWartung() {
-    long c = 0;
-    long wartung = 0;
+SLONG CXPlane::CalcWartung() {
+    SLONG c = 0;
+    SLONG wartung = 0;
 
     for (c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
@@ -2179,8 +2179,8 @@ long CXPlane::CalcWartung() {
 
     for (c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
-            for (long pass = 1; pass <= 3; pass++) {
-                long note = 0;
+            for (SLONG pass = 1; pass <= 3; pass++) {
+                SLONG note = 0;
                 if (pass == 1) {
                     note = gPlanePartRelations[Parts[c].ParentRelationId].Note1;
                 }
@@ -2211,9 +2211,9 @@ long CXPlane::CalcWartung() {
 //--------------------------------------------------------------------------------------------
 // Berechnet die Wartungsintensität:
 //--------------------------------------------------------------------------------------------
-long CXPlane::CalcSpeed() {
-    long c = 0;
-    long speed = 0;
+SLONG CXPlane::CalcSpeed() {
+    SLONG c = 0;
+    SLONG speed = 0;
 
     // Power 6000...50000 wird zu kmh 270..1000
     speed = (CalcPower() - 6000) * (1000 - 270) / (50000 - 6000) + 270;
@@ -2223,8 +2223,8 @@ long CXPlane::CalcSpeed() {
 
     for (c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
-            for (long pass = 1; pass <= 3; pass++) {
-                long note = 0;
+            for (SLONG pass = 1; pass <= 3; pass++) {
+                SLONG note = 0;
                 if (pass == 1) {
                     note = gPlanePartRelations[Parts[c].ParentRelationId].Note1;
                 }
@@ -2280,7 +2280,7 @@ long CXPlane::CalcSpeed() {
 // Gibtr ggf. true zurück
 //--------------------------------------------------------------------------------------------
 bool CXPlane::IstPartVorhanden(CString Shortname, bool bOnlyThisType) {
-    long c = 0;
+    SLONG c = 0;
 
     if (!bOnlyThisType) {
         for (c = 0; c < Parts.AnzEntries(); c++) {
@@ -2332,8 +2332,8 @@ bool CXPlane::IsBuildable() {
 // Gibt eine Fehlerbeschreibung zurück:
 //--------------------------------------------------------------------------------------------
 CString CXPlane::GetError() {
-    long c = 0;
-    long d = 0;
+    SLONG c = 0;
+    SLONG d = 0;
 
     if (!IstPartVorhanden("B*")) {
         return ("");
@@ -2433,14 +2433,14 @@ void CXPlane::Save(const CString &Filename) {
 TEAKFILE &operator<<(TEAKFILE &File, const CXPlane &p) {
     auto *pp = const_cast<CXPlane *>(&p);
 
-    DWORD dwSize = sizeof(DWORD) + sizeof(long) * 6 + strlen(p.Name);
-    long lCost = pp->CalcCost();
-    long lWeight = pp->CalcWeight();
-    long lConsumption = pp->CalcVerbrauch();
-    long lNoise = pp->CalcNoise();
-    long lReliability = pp->CalcVerbrauch();
-    long lSpeed = pp->CalcSpeed();
-    long lReichweite = pp->CalcReichweite();
+    DWORD dwSize = sizeof(DWORD) + sizeof(SLONG) * 6 + strlen(p.Name);
+    SLONG lCost = pp->CalcCost();
+    SLONG lWeight = pp->CalcWeight();
+    SLONG lConsumption = pp->CalcVerbrauch();
+    SLONG lNoise = pp->CalcNoise();
+    SLONG lReliability = pp->CalcVerbrauch();
+    SLONG lSpeed = pp->CalcSpeed();
+    SLONG lReichweite = pp->CalcReichweite();
 
     File << dwSize << lCost << lWeight << lConsumption << lNoise << lReliability << lSpeed << lReichweite;
     File.Write((const UBYTE *)(LPCTSTR)(p.Name), strlen(p.Name) + 1);
@@ -2455,17 +2455,17 @@ TEAKFILE &operator<<(TEAKFILE &File, const CXPlane &p) {
 //--------------------------------------------------------------------------------------------
 TEAKFILE &operator>>(TEAKFILE &File, CXPlane &p) {
     DWORD dwSize = 0;
-    long lCost = 0;
-    long lWeight = 0;
-    long lConsumption = 0;
-    long lNoise = 0;
-    long lReliability = 0;
-    long lSpeed = 0;
+    SLONG lCost = 0;
+    SLONG lWeight = 0;
+    SLONG lConsumption = 0;
+    SLONG lNoise = 0;
+    SLONG lReliability = 0;
+    SLONG lSpeed = 0;
 
     char Dummy[8192];
 
     File >> dwSize >> lCost >> lWeight >> lConsumption >> lNoise >> lReliability >> lSpeed;
-    dwSize -= sizeof(DWORD) + sizeof(long) * 5;
+    dwSize -= sizeof(DWORD) + sizeof(SLONG) * 5;
     File.Read(reinterpret_cast<UBYTE *>(Dummy), dwSize + 1);
 
     File >> p.Name;
@@ -2480,8 +2480,8 @@ TEAKFILE &operator>>(TEAKFILE &File, CXPlane &p) {
 //--------------------------------------------------------------------------------------------
 // Gibt das passende Build zum Shortname zurück:
 //--------------------------------------------------------------------------------------------
-long GetPlaneBuildIndex(const CString &Shortname) {
-    for (long c = 0; c < (sizeof(gPlaneBuilds) / sizeof(gPlaneBuilds[0])); c++) {
+SLONG GetPlaneBuildIndex(const CString &Shortname) {
+    for (SLONG c = 0; c < (sizeof(gPlaneBuilds) / sizeof(gPlaneBuilds[0])); c++) {
         if (gPlaneBuilds[c].Shortname == Shortname) {
             return (c);
         }
@@ -2520,7 +2520,7 @@ void CXPlane::BlitPlaneAt(SBPRIMARYBM &TargetBm, SLONG Size, XY Pos, SLONG Ownin
         // Hinter Glas:
     case 2: {
         Parts.IsInAlbum(SLONG(0x01000000));
-        for (long d = 0; d < static_cast<long>(Parts.AnzEntries()); d++) {
+        for (SLONG d = 0; d < Parts.AnzEntries(); d++) {
             if (Parts.IsInAlbum(d) != 0) {
                 SBBM &qBm = gEditorPlane2dBms[GetPlaneBuild(Parts[d].Shortname).BitmapIndex];
                 XY p = Parts[d].Pos2d;
@@ -2559,9 +2559,9 @@ void CXPlane::operator=(const CXPlane &plane) {
 //--------------------------------------------------------------------------------------------
 // Zerlegt das Ganze anhand von Semikolons:
 //--------------------------------------------------------------------------------------------
-void ParseTokens(char *String, char *tokens[], long nTokens) {
-    long c = 0;
-    long n = 0;
+void ParseTokens(char *String, char *tokens[], SLONG nTokens) {
+    SLONG c = 0;
+    SLONG n = 0;
 
     for (c = 0; c < nTokens; c++) {
         tokens[c] = nullptr;

@@ -61,15 +61,15 @@ class NewGamePopup : public CStdRaum {
     SBList<SBStr> *pNetworkConnections{};
     SBList<SBNetworkPlayer *> *pNetworkPlayers{};
 
-    int SessionMissionID{};
+    SLONG SessionMissionID{};
 
     bool bThisIsSessionMaster{};
 
     SBStr NetworkConnection;
     static SBStr NetworkSession;
 
-    long NetMediumCount{};
-    long NetMediumMapper[32]{};
+    SLONG NetMediumCount{};
+    SLONG NetMediumMapper[32]{};
 
     // Operations
   public:

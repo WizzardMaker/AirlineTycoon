@@ -28,15 +28,15 @@ typedef int32_t SLONG;
 #else
 typedef int32_t SLONG;
 typedef uint32_t ULONG;
-typedef uint32_t DWORD;
-typedef uint32_t COLORREF;
+
+typedef ULONG DWORD;
+typedef ULONG COLORREF;
+typedef SLONG BOOL;
+typedef ULONG UINT;
+typedef UBYTE BYTE;
 
 typedef float FLOAT;
-
-typedef int BOOL;
-typedef uint32_t UINT;
-
-typedef unsigned char BYTE;
+typedef double DOUBLE;
 
 typedef const wchar_t *LPCWSTR;
 typedef wchar_t *LPWSTR;

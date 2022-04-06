@@ -28,7 +28,7 @@ static __int64 AufTausenderRunden(__int64 val) {
 
 static char *CalcMillionen(__int64 val) {
     static char buffer[20];
-    snprintf(buffer, sizeof(buffer), "%.1f", double(val) / 1e6);
+    snprintf(buffer, sizeof(buffer), "%.1f", DOUBLE(val) / 1e6);
     return buffer;
 }
 
@@ -37,7 +37,7 @@ static char *CalcPercentage(__int64 val, __int64 div) {
     if (div == 0) {
         strncpy(buffer, "---", sizeof(buffer));
     } else {
-        snprintf(buffer, sizeof(buffer), "%.1f %%", double(val) * 100.0 / double(div));
+        snprintf(buffer, sizeof(buffer), "%.1f %%", DOUBLE(val) * 100.0 / DOUBLE(div));
     }
     return buffer;
 }
@@ -614,7 +614,7 @@ void BLOCK::LinkeSeiteInhalt(XY TitleArea, XY ClientArea) {
                 Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1002), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 27), Bitmap.Size);
                 Bitmap.PrintAt(bprintf("%li", qRentCity.Rang), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 27), Bitmap.Size);
                 Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1003), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 40), Bitmap.Size);
-                Bitmap.PrintAt(bprintf("%li%%", static_cast<long>(qRentCity.Image)), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 40), Bitmap.Size);
+                Bitmap.PrintAt(bprintf("%li%%", static_cast<SLONG>(qRentCity.Image)), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(85, 40), Bitmap.Size);
 
                 if (Cities.GetIdFromIndex(Cities(SelectedId)) != static_cast<ULONG>(Sim.HomeAirportId)) {
                     Bitmap.PrintAt(StandardTexte.GetS(TOKEN_CITY, 1010), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(0, 66), Bitmap.Size);
@@ -773,11 +773,11 @@ void BLOCK::LinkeSeiteInhalt(XY TitleArea, XY ClientArea) {
 
                                     if ((Plan.Flug[c].Landezeit + Plan.Flug[c].Landedate * 24) - (Plan.Flug[c].Startzeit + Plan.Flug[c].Startdate * 24) <= 6) {
                                         if ((d > 2 &&
-                                             d + 24 * e == Plan.Flug[c].Startzeit + (3 - static_cast<int>(OffsetB.x != 0)) + 24 * Plan.Flug[c].Startdate) ||
+                                             d + 24 * e == Plan.Flug[c].Startzeit + (3 - static_cast<SLONG>(OffsetB.x != 0)) + 24 * Plan.Flug[c].Startdate) ||
                                             ((OffsetB.x != 0) && Plan.Flug[c].Landezeit == d && Plan.Flug[c].Landedate <= e && px >= 12)) {
                                             Bitmap.PrintAt(Cities[Plan.Flug[c].VonCity].Kuerzel, *pFont, TEC_FONT_LEFT,
-                                                           ClientArea + OffsetA + XY(max(26, 24 - 18 + 2 + px + static_cast<int>(n == 2) * 6), 3 + py),
-                                                           ClientArea + OffsetA + XY(24 + px + static_cast<int>(n == 2) * 6 + 16 + 14, 2 + py + 18));
+                                                           ClientArea + OffsetA + XY(max(26, 24 - 18 + 2 + px + static_cast<SLONG>(n == 2) * 6), 3 + py),
+                                                           ClientArea + OffsetA + XY(24 + px + static_cast<SLONG>(n == 2) * 6 + 16 + 14, 2 + py + 18));
                                         }
 
                                         if ((d > 2 && d + 24 * e == Plan.Flug[c].Landezeit + 24 * Plan.Flug[c].Landedate) ||
@@ -790,8 +790,8 @@ void BLOCK::LinkeSeiteInhalt(XY TitleArea, XY ClientArea) {
                                         if ((d > 2 && d + 24 * e == Plan.Flug[c].Startzeit + 4 + 24 * Plan.Flug[c].Startdate) ||
                                             ((OffsetB.x != 0) && Plan.Flug[c].Landezeit == d && Plan.Flug[c].Landedate <= e)) {
                                             Bitmap.PrintAt(Cities[Plan.Flug[c].VonCity].Kuerzel, *pFont, TEC_FONT_LEFT,
-                                                           ClientArea + OffsetA + XY(24 - 18 + px + static_cast<int>(n == 2) * 6, 3 + py),
-                                                           ClientArea + OffsetA + XY(24 + px + static_cast<int>(n == 2) * 6 + 16 + 14, 2 + py + 18));
+                                                           ClientArea + OffsetA + XY(24 - 18 + px + static_cast<SLONG>(n == 2) * 6, 3 + py),
+                                                           ClientArea + OffsetA + XY(24 + px + static_cast<SLONG>(n == 2) * 6 + 16 + 14, 2 + py + 18));
                                         }
 
                                         if ((d > 2 && d + 24 * e == Plan.Flug[c].Landezeit - 1 + 24 * Plan.Flug[c].Landedate) ||
@@ -981,7 +981,7 @@ void BLOCK::LinkeSeiteInhalt(XY TitleArea, XY ClientArea) {
                            TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
         } else if (SelectedId >= 8 && SelectedId <= 10) {
             SLONG i = SelectedId - 8;
-            i += static_cast<int>(PlayerNum <= i);
+            i += static_cast<SLONG>(PlayerNum <= i);
             auto &qPlayer = Sim.Players.Players[i];
             Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), (LPCTSTR)qPlayer.Abk), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
         } else {
@@ -1120,15 +1120,15 @@ void BLOCK::LinkeSeiteInhalt(XY TitleArea, XY ClientArea) {
             break;
 
         case 8:
-            ZeigeInformantenBilanz(ClientArea, 0 + static_cast<int>(PlayerNum <= 0), Page);
+            ZeigeInformantenBilanz(ClientArea, 0 + static_cast<SLONG>(PlayerNum <= 0), Page);
             break;
 
         case 9:
-            ZeigeInformantenBilanz(ClientArea, 1 + static_cast<int>(PlayerNum <= 1), Page);
+            ZeigeInformantenBilanz(ClientArea, 1 + static_cast<SLONG>(PlayerNum <= 1), Page);
             break;
 
         case 10:
-            ZeigeInformantenBilanz(ClientArea, 2 + static_cast<int>(PlayerNum <= 2), Page);
+            ZeigeInformantenBilanz(ClientArea, 2 + static_cast<SLONG>(PlayerNum <= 2), Page);
             break;
 
         case 11:
@@ -1476,14 +1476,14 @@ bool BLOCK::RechteSeiteInhalt(XY TitleAreaB, XY ClientAreaB) {
 
             if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0) {
                 for (SLONG c = 0; c < 3; c++) {
-                    if (Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].IsOut == 0) {
-                        Bitmap.PrintAt(Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].AirlineX, FontSmallBlack, TEC_FONT_LEFT,
+                    if (Sim.Players.Players[c + static_cast<SLONG>(PlayerNum <= c)].IsOut == 0) {
+                        Bitmap.PrintAt(Sim.Players.Players[c + static_cast<SLONG>(PlayerNum <= c)].AirlineX, FontSmallBlack, TEC_FONT_LEFT,
                                        ClientAreaB + XY(2, 128 + c * 13), ClientAreaB + XY(172, 170));
 
-                        if (Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].RentRouten.RentRouten[Routen(SelectedIdB)].Rang != 0U) {
+                        if (Sim.Players.Players[c + static_cast<SLONG>(PlayerNum <= c)].RentRouten.RentRouten[Routen(SelectedIdB)].Rang != 0U) {
                             Bitmap.PrintAt(
                                 Einheiten[EINH_DM].bString(
-                                    Sim.Players.Players[c + static_cast<int>(PlayerNum <= c)].RentRouten.RentRouten[Routen(SelectedIdB)].Ticketpreis),
+                                    Sim.Players.Players[c + static_cast<SLONG>(PlayerNum <= c)].RentRouten.RentRouten[Routen(SelectedIdB)].Ticketpreis),
                                 FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 128 + c * 13), ClientAreaB + XY(172, 170));
                         } else {
                             Bitmap.PrintAt("-", FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 128 + c * 13), ClientAreaB + XY(172, 170));
@@ -1685,8 +1685,8 @@ SLONG BLOCK::PrintLine(XY ClientArea, SLONG rowID, SLONG textID) const {
     const char *str = StandardTexte.GetS(TOKEN_EXPERT, textID);
     Bitmap.PrintAt(str, FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, rowID * 13), ClientArea + XY(172, 170));
 
-    int count = 0;
-    for (int i = 0; str[i] != 0; i++) {
+    SLONG count = 0;
+    for (SLONG i = 0; str[i] != 0; i++) {
         if (str[i] == '\n') {
             ++count;
         }
@@ -1892,7 +1892,7 @@ void BLOCK::ZeigeInformantenFinanzBericht(XY ClientArea, SLONG page) {
     }
 
     SLONG c = page / 2;
-    c += static_cast<int>(c >= PlayerNum);
+    c += static_cast<SLONG>(c >= PlayerNum);
     if (Sim.Players.Players[c].IsOut != 0) {
         Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 10200), FontSmallBlack, TEC_FONT_LEFT, ClientArea + XY(2, 27), ClientArea + XY(172, 170));
         return;
@@ -1947,7 +1947,7 @@ void BLOCK::ZeigeInformantenInfos(XY ClientArea, SLONG /*page*/) const {
     }
 }
 
-void BLOCK::KerosinQualiOptimierung(XY ClientArea, SLONG idx, double qualiZiel, SLONG txtId, SLONG txtId2, SLONG beraterSchwelle) const {
+void BLOCK::KerosinQualiOptimierung(XY ClientArea, SLONG idx, DOUBLE qualiZiel, SLONG txtId, SLONG txtId2, SLONG beraterSchwelle) const {
     const auto &ref = Sim.Players.Players[PlayerNum];
     SLONG menge = 0;
     if (ref.KerosinQuali > qualiZiel) {

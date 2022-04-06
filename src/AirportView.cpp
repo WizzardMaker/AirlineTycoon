@@ -550,7 +550,7 @@ void AirportView::OnPaint() {
 
     SLONG AnzElements = 0;
 
-    long cnt = 0;
+    SLONG cnt = 0;
     for (c = 0; c < static_cast<ULONG>(Sim.AirportSmacks.AnzEntries()); c++) {
         if (Sim.AirportSmacks[static_cast<SLONG>(c)].pSmack != nullptr) {
             if (Sim.AirportSmacks[static_cast<SLONG>(c)].Next(&Sim.AirportSmacks[static_cast<SLONG>(c)].Bitmap) == 0) {
@@ -883,7 +883,7 @@ void AirportView::OnPaint() {
             }
 
             if (c < pBuilds->AnzEntries()) {
-                t1 = (long(Bricks[(*pBuilds)[c].BrickId].Layer) << 16) + (*pBuilds)[c].ScreenPos.y + Bricks[(*pBuilds)[c].BrickId].GetBitmapDimension().y +
+                t1 = (SLONG(Bricks[(*pBuilds)[c].BrickId].Layer) << 16) + (*pBuilds)[c].ScreenPos.y + Bricks[(*pBuilds)[c].BrickId].GetBitmapDimension().y +
                      Bricks[(*pBuilds)[c].BrickId].FloorOffset;
             } else {
                 t1 = 0x7fffffff;
@@ -1101,7 +1101,7 @@ void AirportView::OnPaint() {
                                             ULONG(qBrick.Bitmap.AnzEntries())) {
                                         Airport.Triggers[static_cast<SLONG>(qBuild.Par)].Winkel = 0;
 
-                                        if (Sim.DontDisplayPlayer != -1 && qBuild.BrickId == long(Bricks(static_cast<SLONG>(0x10000000) + BRICK_ELECTRO))) {
+                                        if (Sim.DontDisplayPlayer != -1 && qBuild.BrickId == SLONG(Bricks(static_cast<SLONG>(0x10000000) + BRICK_ELECTRO))) {
                                             PLAYER &qPlayer = Sim.Players.Players[Sim.DontDisplayPlayer];
 
                                             Sim.DontDisplayPlayer = -1;
@@ -1165,7 +1165,7 @@ void AirportView::OnPaint() {
                                 }
                             } else {
                                 if (BrickId == AbflugIndex || BrickId == AbflugIndex2) {
-                                    long phase = 0;
+                                    SLONG phase = 0;
 
                                     if ((Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags & (1 << 8)) != 0U) {
                                         phase = 1;
@@ -1237,7 +1237,7 @@ void AirportView::OnPaint() {
                                     if (Font != nullptr) {
                                         SDL_Color bg = {0, 0, 255, 255};
                                         SDL_Color fg = {255, 255, 0, 255};
-                                        SDL_Surface *Text = TTF_RenderText_Shaded(Font, bprintf("%3li", static_cast<long>(qBuild.Par)), fg, bg);
+                                        SDL_Surface *Text = TTF_RenderText_Shaded(Font, bprintf("%3li", static_cast<SLONG>(qBuild.Par)), fg, bg);
                                         SDL_Rect Dst = {qBuild.ScreenPos.x - ViewPos.x + WinP1.x + 3, qBuild.ScreenPos.y - ViewPos.y + WinP1.y + 1, Text->w,
                                                         Text->h};
                                         SDL_BlitSurface(Text, nullptr, Surf, &Dst);
@@ -1256,7 +1256,7 @@ void AirportView::OnPaint() {
                                                                                             (*pBuilds)[c].BrickId >= 0x10000000 + 2000)));
 
                     if (c < pBuilds->AnzEntries()) {
-                        t1 = (long(Bricks[(*pBuilds)[c].BrickId].Layer) << 16) + (*pBuilds)[c].ScreenPos.y +
+                        t1 = (SLONG(Bricks[(*pBuilds)[c].BrickId].Layer) << 16) + (*pBuilds)[c].ScreenPos.y +
                              Bricks[(*pBuilds)[c].BrickId].GetBitmapDimension().y + Bricks[(*pBuilds)[c].BrickId].FloorOffset;
                     } else {
                         t1 = 0x7fffffff;
@@ -1496,7 +1496,7 @@ void AirportView::OnLButtonDown(UINT nFlags, CPoint point) {
     }
 
     // Ist das Fenster hier zuständig? Ist der Klick in diesem Fenster?
-    if (point.x >= WinP1.x && point.x <= WinP2.x && point.y >= WinP1.y && point.y <= WinP2.y - StatusLineSizeY * static_cast<int>(Editor == 0)) {
+    if (point.x >= WinP1.x && point.x <= WinP2.x && point.y >= WinP1.y && point.y <= WinP2.y - StatusLineSizeY * static_cast<SLONG>(Editor == 0)) {
         LButtonState = TRUE;
 
         point.x -= WinP1.x;
@@ -1765,7 +1765,7 @@ void AirportView::OnLButtonDown(UINT nFlags, CPoint point) {
         }
     } else {
         if (PreLButtonDown(point) == 0) {
-            if (point.x >= WinP1.x && point.x <= WinP2.x && point.y >= WinP2.y - StatusLineSizeY * static_cast<int>(Editor == 0) && point.y <= WinP2.y) {
+            if (point.x >= WinP1.x && point.x <= WinP2.x && point.y >= WinP2.y - StatusLineSizeY * static_cast<SLONG>(Editor == 0) && point.y <= WinP2.y) {
                 // Klick in Statuszeile:
                 CStdRaum::OnLButtonDown(nFlags, point);
                 return;
@@ -2166,7 +2166,7 @@ void AirportView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
         // Builds-Editor: Parametereingabe
         if (Editor == EDITOR_BUILDS) {
             if (nChar >= '0' && nChar <= '9' && UnderCursor != 0xffffffff && Airport.Builds.IsInAlbum(UnderCursor)) {
-                long brickid = Airport.Builds[UnderCursor].BrickId - 0x10000000;
+                SLONG brickid = Airport.Builds[UnderCursor].BrickId - 0x10000000;
 
                 if ((brickid >= 2030 && brickid <= 2039) || brickid <= 2001 || brickid <= 2045 || brickid == 2003 || brickid == RUNE_AREALO ||
                     brickid == RUNE_AREARU || brickid == 500 || brickid == 522 || brickid == 520 || brickid == 492 || brickid == RUNE_WAITPLANE ||
@@ -2533,7 +2533,7 @@ XY AIRPORT::GetRandomTypedRune(ULONG BrickId, UBYTE Par, bool AcceptError, TEAKR
     SLONG c = 0;
     SLONG Anz = 0; // Zahl der Elementer in "Buffer"
 
-    for (c = SLONG(Runes.AnzEntries()) - 1; c >= 0; c--) {
+    for (c = Runes.AnzEntries() - 1; c >= 0; c--) {
         if (Runes[c].BrickId == static_cast<SLONG>(BrickId | 0x10000000) && Runes[c].Par == Par) {
             Buffer[Anz++] = c;
             if (Anz == 20) {
@@ -2570,7 +2570,7 @@ SLONG AIRPORT::GetNumberOfShops(ULONG BrickId) {
 
     Anz = 0;
 
-    for (c = 0; c < SLONG(Runes.AnzEntries()); c++) {
+    for (c = 0; c < Runes.AnzEntries(); c++) {
         if (Runes[c].BrickId == static_cast<SLONG>(BrickId | 0x10000000)) {
             Anz++;
         }
@@ -2618,7 +2618,7 @@ XY AIRPORT::GetBestStairs(UBYTE Par, SLONG x1, SLONG x2) {
     bestdist = 9999999;
     bestc = -1;
 
-    for (c = 0; c < SLONG(Runes.AnzEntries()); c++) {
+    for (c = 0; c < Runes.AnzEntries(); c++) {
         if (Runes[c].BrickId == SLONG(RUNE_2SHOP | 0x10000000) && (Runes[c].Par == Par || Runes[c].Par == Par + 2 || Runes[c].Par == Par + 4)) {
             if (abs(Runes[c].ScreenPos.x - x1) + abs(Runes[c].ScreenPos.x - x2) < bestdist) {
                 bestc = c;
@@ -2641,7 +2641,7 @@ UBYTE AIRPORT::GetRuneParNear(const XY &Pos, const XY &MaxDist, ULONG RuneType) 
     SLONG c = 0;
 
     // Alle durchsuchen:
-    for (c = SLONG(Runes.AnzEntries()) - 1; c >= 0; c--) {
+    for (c = Runes.AnzEntries() - 1; c >= 0; c--) {
         if (Runes[c].BrickId == static_cast<SLONG>(0x10000000 | RuneType) && abs(Runes[c].ScreenPos.x - Pos.x) <= MaxDist.x &&
             abs(Runes[c].ScreenPos.y - Pos.y) <= MaxDist.y) {
             // gefunden!
@@ -2660,7 +2660,7 @@ BUILD *AIRPORT::GetBuildNear(const XY &Pos, const XY &MaxDist, ULONG BrickId) {
     SLONG c = 0;
 
     // Alle durchsuchen:
-    for (c = SLONG(Builds.AnzEntries()) - 1; c >= 0; c--) {
+    for (c = Builds.AnzEntries() - 1; c >= 0; c--) {
         if (Builds.IsInAlbum(c) != 0) {
             if (Builds[c].BrickId == SLONG(BrickId) && abs(Builds[c].ScreenPos.x - Pos.x) <= MaxDist.x && abs(Builds[c].ScreenPos.y - Pos.y) <= MaxDist.y) {
                 // gefunden!
@@ -2688,7 +2688,7 @@ void AIRPORT::Load(SLONG Hall, SLONG Level) {
     Builds.Load(Hall, Level);
 
     // Und dafür sorgen, daß nichts im negativen Bereich liegt:
-    for (e = 0, BestE = -1; e < SLONG(Builds.AnzEntries()); e++) {
+    for (e = 0, BestE = -1; e < Builds.AnzEntries(); e++) {
         if ((Builds.IsInAlbum(e) != 0) && Builds[e].BrickId == 100 + 0x10000000) {
             if (BestE == -1 || Builds[e].ScreenPos.x < Builds[BestE].ScreenPos.x) {
                 BestE = e;
@@ -2704,7 +2704,7 @@ void AIRPORT::Load(SLONG Hall, SLONG Level) {
         Diletation = (44 * 5 - Builds[BestE].ScreenPos.x) / 176 * 176 + 176;
 
         // Die Bauteile verschieben:
-        for (d = 0; d < SLONG(Builds.AnzEntries()); d++) {
+        for (d = 0; d < Builds.AnzEntries(); d++) {
             if (Builds.IsInAlbum(d) != 0) {
                 Builds[d].ScreenPos.x += Diletation;
             }
@@ -2775,7 +2775,7 @@ void AIRPORT::LoadAirport(SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Entr
 
         if (c > 0) {
             // Vom alten Bereich die rechteste Bodenplatte raussuchen:
-            for (d = 0, BestD = -1; d < SLONG(localBuilds[c - 1].AnzEntries()); d++) {
+            for (d = 0, BestD = -1; d < localBuilds[c - 1].AnzEntries(); d++) {
                 if ((localBuilds[c - 1].IsInAlbum(d) != 0) && localBuilds[c - 1][d].BrickId == 100 + 0x10000000) {
                     if (BestD == -1 || localBuilds[c - 1][d].ScreenPos.x > localBuilds[c - 1][BestD].ScreenPos.x) {
                         BestD = d;
@@ -2784,7 +2784,7 @@ void AIRPORT::LoadAirport(SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Entr
             }
 
             // Vom neuen Bereich die linkeste Bodenplatte raussuchen:
-            for (e = 0, BestE = -1; e < SLONG(localBuilds[c].AnzEntries()); e++) {
+            for (e = 0, BestE = -1; e < localBuilds[c].AnzEntries(); e++) {
                 if ((localBuilds[c].IsInAlbum(e) != 0) && localBuilds[c][e].BrickId == 100 + 0x10000000) {
                     if (BestE == -1 || localBuilds[c][e].ScreenPos.x < localBuilds[c][BestE].ScreenPos.x) {
                         BestE = e;
@@ -2811,7 +2811,7 @@ void AIRPORT::LoadAirport(SLONG LeftEnd, SLONG CheckIn, SLONG Office, SLONG Entr
             Count[c]++;
         }
 
-        for (d = 0; d < SLONG(localBuilds[c].AnzEntries()); d++) {
+        for (d = 0; d < localBuilds[c].AnzEntries(); d++) {
             if (localBuilds[c].IsInAlbum(d) != 0) {
                 localBuilds[c][d].ScreenPos.x += Diletation[c];
             }
@@ -3026,7 +3026,7 @@ void AIRPORT::CalcPlates() {
     const SLONG FO = 33;
 
     // Die Grenzen des ganzen Flughafens ausloten:
-    for (d = e = 0, BestD = BestE = -1; d < SLONG(Builds.AnzEntries()); d++) {
+    for (d = e = 0, BestD = BestE = -1; d < Builds.AnzEntries(); d++) {
         if (Builds.IsInAlbum(d) != 0 /*&& Builds[d].BrickId >= 100+0x10000000 && Builds[d].BrickId <= 109+0x10000000*/) {
             if (BestD == -1 || Builds[d].ScreenPos.x > Builds[BestD].ScreenPos.x) {
                 BestD = d;
@@ -3073,14 +3073,14 @@ void AIRPORT::CalcPlates() {
     ClipMarkers.ReSize(40);
 
     // Primitive Hindernisse eintragen:
-    for (c = 0; c < SLONG(Builds.AnzEntries()); c++) {
+    for (c = 0; c < Builds.AnzEntries(); c++) {
         if (Builds.IsInAlbum(c) != 0) {
             switch (Bricks[Builds[c].BrickId].ObstacleType) {
             // Kein Hindernis
             case OBST_NONE:
                 if (Builds[c].BrickId >= 0x10000000 + 718 && Builds[c].BrickId <= 0x10000000 + 729) {
                     x = CalcPlateXPosition(c, 0, 0);
-                    y = CalcPlateYPosition(c, Bricks[Builds[c].BrickId].FloorOffset + static_cast<int>(Builds[c].BrickId == 0x10000000 + 729) * 30);
+                    y = CalcPlateYPosition(c, Bricks[Builds[c].BrickId].FloorOffset + static_cast<SLONG>(Builds[c].BrickId == 0x10000000 + 729) * 30);
                     Builds[c].Par = UBYTE(AnzDoors);
                     Doors[AnzDoors].ArrayPos = XY(x, y);
                     Doors[AnzDoors].State = 0;
@@ -3771,7 +3771,7 @@ void AIRPORT::TryDoor(XY ArrayPos, BOOL Player, SLONG PlayerNum) {
                    (Doors[c].ArrayPos.x == ArrayPos.x - 1 && Doors[c].ArrayPos.y == ArrayPos.y)) {
             // Ist die Tür vermint?
             if ((Player != 0) && ArrayPos.y < 5 && ArrayPos.y > 0) {
-                for (SLONG c = 0; c < SLONG(Runes.AnzEntries()); c++) {
+                for (SLONG c = 0; c < Runes.AnzEntries(); c++) {
                     if (Runes[c].BrickId == 0x10000000 + RUNE_2SHOP &&
                         (Runes[c].Par == ROOM_BURO_A || Runes[c].Par == ROOM_BURO_B || Runes[c].Par == ROOM_BURO_C || Runes[c].Par == ROOM_BURO_D)) {
                         if (abs(Runes[c].ScreenPos.x - ArrayPos.x * 44) <= 88) {
@@ -3867,7 +3867,7 @@ void AIRPORT::UpdateStaticDoorImage() {
     SLONG c = 0;
 
     for (c = 0; c < 4; c++) {
-        long door = 0;
+        SLONG door = 0;
         if (c == 0) {
             door = 700;
         } else if (c == 1) {
@@ -3905,10 +3905,10 @@ void AIRPORT::CalcCoordinates() {
     AnzRunes = 0;
 
     // Die Area-Runen automatisch ergänzen:
-    for (c = 0; c < SLONG(Builds.AnzEntries()); c++) {
+    for (c = 0; c < Builds.AnzEntries(); c++) {
         if (Builds.IsInAlbum(c) != 0) {
             if (Builds[c].BrickId == 0x10000000 + RUNE_AREALO && Builds[c].Par == 0) {
-                for (d = 0; d < SLONG(Builds.AnzEntries()); d++) {
+                for (d = 0; d < Builds.AnzEntries(); d++) {
                     if ((Builds.IsInAlbum(d) != 0) && Builds[d].BrickId == 0x10000000 + RUNE_2SHOP && Builds[d].ScreenPos.x >= Builds[c].ScreenPos.x &&
                         Builds[d].ScreenPos.y >= Builds[c].ScreenPos.y && Builds[d].ScreenPos.x - Builds[c].ScreenPos.x <= 176 &&
                         Builds[d].ScreenPos.y - Builds[c].ScreenPos.y <= 88 + 44) {
@@ -3916,7 +3916,7 @@ void AIRPORT::CalcCoordinates() {
                     }
                 }
                 if (Builds[c].Par == 0) {
-                    for (d = 0; d < SLONG(Builds.AnzEntries()); d++) {
+                    for (d = 0; d < Builds.AnzEntries(); d++) {
                         if ((Builds.IsInAlbum(d) != 0) && Builds[d].BrickId == 0x10000000 + RUNE_SHOP && Builds[d].ScreenPos.x >= Builds[c].ScreenPos.x &&
                             Builds[d].ScreenPos.y >= Builds[c].ScreenPos.y && Builds[d].ScreenPos.x - Builds[c].ScreenPos.x <= 176 &&
                             Builds[d].ScreenPos.y - Builds[c].ScreenPos.y <= 88 + 44) {
@@ -3929,7 +3929,7 @@ void AIRPORT::CalcCoordinates() {
                     DebugBreak();
                 }
             } else if (Builds[c].BrickId == 0x10000000 + RUNE_AREARU && Builds[c].Par == 0) {
-                for (d = 0; d < SLONG(Builds.AnzEntries()); d++) {
+                for (d = 0; d < Builds.AnzEntries(); d++) {
                     if ((Builds.IsInAlbum(d) != 0) && Builds[d].BrickId == 0x10000000 + RUNE_2SHOP && Builds[c].ScreenPos.x >= Builds[d].ScreenPos.x &&
                         Builds[c].ScreenPos.y >= Builds[d].ScreenPos.y && Builds[c].ScreenPos.x - Builds[d].ScreenPos.x < 176 &&
                         Builds[c].ScreenPos.y - Builds[d].ScreenPos.y < 88) {
@@ -3937,7 +3937,7 @@ void AIRPORT::CalcCoordinates() {
                     }
                 }
                 if (Builds[c].Par == 0) {
-                    for (d = 0; d < SLONG(Builds.AnzEntries()); d++) {
+                    for (d = 0; d < Builds.AnzEntries(); d++) {
                         if ((Builds.IsInAlbum(d) != 0) && Builds[d].BrickId == 0x10000000 + RUNE_SHOP && Builds[c].ScreenPos.x >= Builds[d].ScreenPos.x &&
                             Builds[c].ScreenPos.y >= Builds[d].ScreenPos.y && Builds[c].ScreenPos.x - Builds[d].ScreenPos.x < 176 &&
                             Builds[c].ScreenPos.y - Builds[d].ScreenPos.y < 88) {
@@ -3952,7 +3952,7 @@ void AIRPORT::CalcCoordinates() {
         }
     }
 
-    for (c = d = 0; c < SLONG(Builds.AnzEntries()); c++) {
+    for (c = d = 0; c < Builds.AnzEntries(); c++) {
         if ((Builds.IsInAlbum(c) != 0) && Builds[c].BrickId - 0x10000000 == RUNE_AREALO) {
             AnzAreaMarkers++;
         }
@@ -3961,14 +3961,14 @@ void AIRPORT::CalcCoordinates() {
     // Area-Markierungen aufzeichnen:
     AreaMarkers.ReSize(0);
     AreaMarkers.ReSize(AnzAreaMarkers);
-    for (c = d = 0; c < SLONG(Builds.AnzEntries()); c++) {
+    for (c = d = 0; c < Builds.AnzEntries(); c++) {
         if ((Builds.IsInAlbum(c) != 0) && Builds[c].BrickId - 0x10000000 == RUNE_AREALO) {
             AreaMarkers[d].Par = Builds[c].Par;
             AreaMarkers[d].p1 = Builds[c].ScreenPos;
 
             BestE = 0;
             best = 999999;
-            for (e = 0; e < SLONG(Builds.AnzEntries()); e++) {
+            for (e = 0; e < Builds.AnzEntries(); e++) {
                 if ((Builds.IsInAlbum(e) != 0) && Builds[e].Par == Builds[c].Par && Builds[e].BrickId - 0x10000000 == RUNE_AREARU) {
                     if (abs(Builds[e].ScreenPos.x - Builds[c].ScreenPos.x) < best && Builds[e].ScreenPos.x > Builds[c].ScreenPos.x &&
                         Builds[e].ScreenPos.y > Builds[c].ScreenPos.y) {
@@ -3984,7 +3984,7 @@ void AIRPORT::CalcCoordinates() {
     }
 
     // Die Zahl der für uns wichtigen Runen bestimmen:
-    for (c = 0; c < SLONG(Builds.AnzEntries()); c++) {
+    for (c = 0; c < Builds.AnzEntries(); c++) {
         if ((Builds.IsInAlbum(c) != 0) && Bricks[Builds[c].BrickId].ObstacleType == OBST_RUNE) {
             if ((Builds[c].BrickId >= 0x10000000 + RUNE_CREATION && Builds[c].BrickId <= 0x10000000 + RUNE_PCREATION2) ||
                 (Builds[c].BrickId >= 0x10000000 + RUNE_CHECKIN && Builds[c].BrickId <= 0x10000000 + RUNE_2WAIT) ||
@@ -4007,7 +4007,7 @@ void AIRPORT::CalcCoordinates() {
     NumBeltSpots = 0;
 
     // Die Belt-Spots zählen:
-    for (c = 0; c < SLONG(Builds.AnzEntries()); c++) {
+    for (c = 0; c < Builds.AnzEntries(); c++) {
         if ((Builds.IsInAlbum(c) != 0) && Bricks[Builds[c].BrickId].ObstacleType == OBST_RUNE) {
             if (Builds[c].BrickId == 0x10000000 + RUNE_SHOP && Builds[c].Par >= ROOM_BELT_X1 && Builds[c].Par <= ROOM_BELT_X10) {
                 NumBeltSpots = max(NumBeltSpots, Builds[c].Par - ROOM_BELT_X1);
@@ -4016,7 +4016,7 @@ void AIRPORT::CalcCoordinates() {
     }
 
     // Die Zahl der für uns wichtigen Runen bestimmen:
-    for (c = 0; c < SLONG(Builds.AnzEntries()); c++) {
+    for (c = 0; c < Builds.AnzEntries(); c++) {
         if ((Builds.IsInAlbum(c) != 0) && Bricks[Builds[c].BrickId].ObstacleType == OBST_RUNE) {
             if ((Builds[c].BrickId >= 0x10000000 + RUNE_CREATION && Builds[c].BrickId <= 0x10000000 + RUNE_PCREATION2) ||
                 (Builds[c].BrickId >= 0x10000000 + RUNE_CHECKIN && Builds[c].BrickId <= 0x10000000 + RUNE_2WAIT) ||

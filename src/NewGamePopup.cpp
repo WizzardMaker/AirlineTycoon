@@ -40,7 +40,7 @@ SLONG bNetworkUnderway = 0;
 
 static bool bNewGamePopupIsOpen = false;
 
-const int MissionValues[] = {
+const SLONG MissionValues[] = {
     DIFF_FREEGAME, DIFF_FIRST, DIFF_EASY, DIFF_NORMAL, DIFF_HARD, DIFF_FINAL,
 };
 const CString MissionTypes[] = {
@@ -58,7 +58,7 @@ extern SLONG nPlayerWaiting[4];      // Hinkt jemand hinterher?
 #define READYTIME_JOIN 5000  // ms, till server may start after event
 #define READYTIME_CLICK 2000 // ms, till server may start after event
 
-void DumpAASeedSum(long CallerId);
+void DumpAASeedSum(SLONG CallerId);
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // NewGamePopup
@@ -218,7 +218,7 @@ void NewGamePopup::Konstruktor(BOOL /*bHandy*/, SLONG /*PlayerNum*/) {
         Sim.Players.Players[c].Airline.ToUpper();
         Sim.Players.Players[c].Abk.ToUpper();
 
-        for (int d = 0; d < Sim.Players.Players[c].Name.GetLength(); d++) {
+        for (SLONG d = 0; d < Sim.Players.Players[c].Name.GetLength(); d++) {
             if (Sim.Players.Players[c].Name[d] == '\xE4') {
                 Sim.Players.Players[c].Name.SetAt(d, '\xC4');
             }
@@ -608,7 +608,7 @@ void NewGamePopup::RefreshKlackerField() {
         //   if (id) Buffer=GetMediumName (id);
 
         //   for (SLONG d=0; d<Buffer.GetLength(); d++)
-        //      Buffer.SetAt (d, GerToUpper(Buffer[(int)d]));
+        //      Buffer.SetAt (d, GerToUpper(Buffer[(SLONG)d]));
 
         //   KlackerTafel.PrintAt (3, 2+c, Buffer);
         //   if (c==Selection) KlackerTafel.PrintAt (0, 2+c, "==>");
@@ -650,7 +650,7 @@ void NewGamePopup::RefreshKlackerField() {
             CString Buffer = pNetworkSessions->GetLastAccessed();
 
             for (SLONG d = 0; d < Buffer.GetLength(); d++) {
-                Buffer.SetAt(d, GerToUpper(Buffer[static_cast<int>(d)]));
+                Buffer.SetAt(d, GerToUpper(Buffer[static_cast<SLONG>(d)]));
             }
 
             KlackerTafel.PrintAt(3, 2 + c, Buffer);
@@ -781,7 +781,7 @@ void NewGamePopup::OnPaint() {
         for (py = 63, y = 0; y < 16; y++, py += 22) {
             for (x = 0; x < 24; x++) {
                 if (y >= 13) {
-                    RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
+                    RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
                 } else if (PageNum == 1) {
                     if (KlackerTafel.Haben[x + y * 24] != 0) {
 #ifndef DEMO
@@ -789,9 +789,9 @@ void NewGamePopup::OnPaint() {
 #else
                         if (y - 2 > 1 || y - 2 > Sim.MaxDifficulty)
 #endif
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
                         } else {
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
                         }
                     }
                 } else if (PageNum == 12) {
@@ -801,9 +801,9 @@ void NewGamePopup::OnPaint() {
 #else
                     if (y - 2 > 1 || (y - 2 > Sim.MaxDifficulty2 - 11 && Sim.MaxDifficulty2 != DIFF_ADDON10))
 #endif
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
                         } else {
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
                         }
                     }
                 } else if (PageNum == 122) {
@@ -813,25 +813,25 @@ void NewGamePopup::OnPaint() {
 #else
                 if (y - 2 > 1 || (y - 2 > Sim.MaxDifficulty3 - 41 && Sim.MaxDifficulty3 != DIFF_ATFS10))
 #endif
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
                         } else {
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
                         }
                     }
                 } else if (PageNum != 2 && PageNum != 14 && PageNum != 18) {
                     if (KlackerTafel.Haben[x + y * 24] > 0) {
                         if (KlackerTafel.LineDisabled[y]) {
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
                         } else {
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
                         }
                     }
                 } else if (x > 5 || y < 2 || ((y - 2) % 2) != 0) {
                     if (KlackerTafel.Haben[x + y * 24] != 0) {
                         if (y < 2 || (y >= 2 && (y - 2) / 2 <= 3 && (Sim.Players.Players[(y - 2) / 2].Owner == 0U))) {
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24])], x * 16 + 128, py);
                         } else {
-                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
+                            RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24]) + (73 + 8 + 3 + 3)], x * 16 + 128, py);
                         }
                     }
                 }
@@ -855,7 +855,7 @@ void NewGamePopup::OnPaint() {
         if (PageNum == 2 || PageNum == 14 || PageNum == 18) {
             for (x = 0; x < 24; x++) {
                 if (KlackerTafel.Haben[x + 15 * 24] != 0) {
-                    RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + 15 * 24])], x * 16 + 128, 63 + 15 * 22);
+                    RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + 15 * 24])], x * 16 + 128, 63 + 15 * 22);
                 }
             }
         }
@@ -864,10 +864,10 @@ void NewGamePopup::OnPaint() {
             // Logo-Felder drüber blitten:
             for (y = 0; y < 4; y++) {
                 if (KlackerTafel.Haben[3 + (y * 2 + 2) * 24] < SmallLogoBms.AnzEntries()) {
-                    RoomBm.BlitFrom(SmallLogoBms[static_cast<long>(KlackerTafel.Haben[3 + (y * 2 + 2) * 24])], 215 - 80 + 48, y * 22 * 3 + 199 - 66 - 1);
+                    RoomBm.BlitFrom(SmallLogoBms[static_cast<SLONG>(KlackerTafel.Haben[3 + (y * 2 + 2) * 24])], 215 - 80 + 48, y * 22 * 3 + 199 - 66 - 1);
                 }
 
-                // RoomBm.BlitFrom (KlackerTafel.KlackerBms[(long)(KlackerTafel.KlackerBms.AnzEntries()-2+Sim.Players.Players[y].Owner)], 160+48,
+                // RoomBm.BlitFrom (KlackerTafel.KlackerBms[(SLONG)(KlackerTafel.KlackerBms.AnzEntries()-2+Sim.Players.Players[y].Owner)], 160+48,
                 // y*22*3+235-18-66);
                 RoomBm.BlitFrom(KlackerTafel.KlackerBms[0], 160 + 48, y * 22 * 3 + 235 - 18 - 66);
 
@@ -893,10 +893,10 @@ void NewGamePopup::OnPaint() {
 
             // Text-Cursor blitten:
             if (CursorY != -1) {
-                RoomBm.BlitFromT(KlackerTafel.Cursors[long(BlinkState % 8)], (CursorX + 6) * 16 + 128, (CursorY + 2) * 22 + (CursorY / 2 + 1) * 22 + 63);
+                RoomBm.BlitFromT(KlackerTafel.Cursors[SLONG(BlinkState % 8)], (CursorX + 6) * 16 + 128, (CursorY + 2) * 22 + (CursorY / 2 + 1) * 22 + 63);
             }
         } else if (PageNum == 17) {
-            RoomBm.BlitFromT(KlackerTafel.Cursors[long(BlinkState % 8)], (CursorX)*16 + 128, 2 * 22 + 63);
+            RoomBm.BlitFromT(KlackerTafel.Cursors[SLONG(BlinkState % 8)], (CursorX)*16 + 128, 2 * 22 + 63);
         }
 
         // Cursorposition auswerten:
@@ -1615,7 +1615,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
             }
         } else if (PageNum == MULTIPLAYER_SELECT_NETWORK) // Netzwerk: Provider-Medium wählen
         {
-            long c = 0;
+            SLONG c = 0;
 
             for (c = 0; c < 4; c++) {
                 Sim.Players.Players[c].Planes.ResetNextId();
@@ -2221,7 +2221,7 @@ void NewGamePopup::CheckNetEvents() {
                     if (nPlayerWaiting[static_cast<SLONG>(Par2)] < 0) {
                         nPlayerWaiting[static_cast<SLONG>(Par2)] = 0;
                     }
-                    SetNetworkBitmap(static_cast<int>(nWaitingForPlayer > 0) * 3);
+                    SetNetworkBitmap(static_cast<SLONG>(nWaitingForPlayer > 0) * 3);
                     break;
 
                 case ATNET_SORRYFULL:
@@ -2294,7 +2294,7 @@ void NewGamePopup::CheckNetEvents() {
 void NewGamePopup::OnTimer(UINT nIDEvent) {
     SLONG c = 0;
     SLONG l = 0;
-    static int counter = 0;
+    static SLONG counter = 0;
 
     if (!bNewGamePopupIsOpen) {
         return;

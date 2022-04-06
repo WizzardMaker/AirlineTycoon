@@ -1100,15 +1100,15 @@ void PERSON::DoOneCustomerStep() {
             NewPossibleDirs = 128 + 32;
         }
 
-        auto AnzPossibleDirs = UBYTE(static_cast<int>((NewPossibleDirs & 16) != 0) + static_cast<int>((NewPossibleDirs & 32) != 0) +
-                                     static_cast<int>((NewPossibleDirs & 64) != 0) + static_cast<int>((NewPossibleDirs & 128) != 0));
+        auto AnzPossibleDirs = UBYTE(static_cast<SLONG>((NewPossibleDirs & 16) != 0) + static_cast<SLONG>((NewPossibleDirs & 32) != 0) +
+                                     static_cast<SLONG>((NewPossibleDirs & 64) != 0) + static_cast<SLONG>((NewPossibleDirs & 128) != 0));
 
         // Im Warteraum einen Sitz suchen:
         if ((State & (~PERSON_WAITFLAG) & (~PERSON_BROWSEFLAG)) == PERSON_WAITING) {
             if (ArrayPos.y == 0) {
                 NewPossibleDirs &= (~128);
-                AnzPossibleDirs = UBYTE(static_cast<int>((NewPossibleDirs & 16) != 0) + static_cast<int>((NewPossibleDirs & 32) != 0) +
-                                        static_cast<int>((NewPossibleDirs & 64) != 0) + static_cast<int>((NewPossibleDirs & 128) != 0));
+                AnzPossibleDirs = UBYTE(static_cast<SLONG>((NewPossibleDirs & 16) != 0) + static_cast<SLONG>((NewPossibleDirs & 32) != 0) +
+                                        static_cast<SLONG>((NewPossibleDirs & 64) != 0) + static_cast<SLONG>((NewPossibleDirs & 128) != 0));
             }
 
             if (ArrayPos.y > 0 && ArrayPos.y < 7) {
@@ -1579,7 +1579,7 @@ void PERSON::DoOneCustomerStep() {
                             // Max 2 Personen an die gleiche Stelle lassen:
                             if (Sim.RoomBusy[ROOM_BELT_X1 + n] == 0 || Sim.RoomBusy[ROOM_BELT_X1 + n] == 1) {
                                 // log: hprintf ("Add Suitcase at n=%li..", n);
-                                for (c = 0; c < SLONG(Airport.Runes.AnzEntries()); c++) {
+                                for (c = 0; c < Airport.Runes.AnzEntries(); c++) {
                                     if (Airport.Runes[c].BrickId == (RUNE_2SHOP | 0x10000000) && Airport.Runes[c].Par == ROOM_BELT_X1 + n) {
                                         State = PERSON_2SHOP;
                                         StatePar = ROOM_BELT_X1 + n;
@@ -1595,7 +1595,7 @@ void PERSON::DoOneCustomerStep() {
                                     }
                                 }
 
-                                if (c == SLONG(Airport.Runes.AnzEntries())) {
+                                if (c == Airport.Runes.AnzEntries()) {
                                     DebugBreak();
                                 }
                             }
@@ -1907,7 +1907,7 @@ void PERSON::DoOnePlayerStep() {
     }
 
     if (qPlayer.PlayerStinking > 0 && Position.y < 4000) {
-        for (long x = -2; x <= 2; x++) {
+        for (SLONG x = -2; x <= 2; x++) {
             if (ArrayPos.y >= 6) {
                 Airport.iPlate[ArrayPos.y + ((ArrayPos.x + x) << 4)] &= ~1;
             }
@@ -2805,7 +2805,7 @@ void PERSON::DoOnePlayerStep() {
     }
 
     if (qPlayer.PlayerStinking > 16 && Position.y < 4000) {
-        for (long x = -1; x <= 1; x++) {
+        for (SLONG x = -1; x <= 1; x++) {
             if (ArrayPos.y >= 6) {
                 Airport.iPlate[ArrayPos.y + ((ArrayPos.x + x) << 4)] |= 1;
             }
@@ -3034,7 +3034,7 @@ void PERSON::PersonReachedTarget() {
             Sim.PersonQueue.AddPerson(Clans.GetSuitcaseId(Clans[static_cast<SLONG>(ClanId)].HasSuitcase), Position - XY(0, 22), REASON_SUITCASE_EXIT, 0, 0, 0);
 
             if (Clans[static_cast<SLONG>(ClanId)].HasSuitcase != 0) {
-                for (SLONG c = 0; c < SLONG(Clans.AnzEntries()); c++) {
+                for (SLONG c = 0; c < Clans.AnzEntries(); c++) {
                     if ((Clans.IsInAlbum(c) != 0) && Clans[c].HasSuitcase == -Clans[static_cast<SLONG>(ClanId)].HasSuitcase) {
                         ClanId = static_cast<UBYTE>(c);
                         break;

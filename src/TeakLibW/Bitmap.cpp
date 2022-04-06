@@ -30,7 +30,7 @@ TECBM::~TECBM() {
     }
 }
 
-int TECBM::Refresh() {
+SLONG TECBM::Refresh() {
     TeakLibW_Exception(nullptr, 0, ExcNotImplemented);
     return 0;
 }
@@ -144,7 +144,7 @@ void PALETTE::RefreshPalFromLbm(CString const &path) {
 
     SDL_Palette *palette = surface->format->palette;
     Pal.ReSize(palette->ncolors);
-    for (int i = 0; i < palette->ncolors; ++i) {
+    for (SLONG i = 0; i < palette->ncolors; ++i) {
         Pal[i] = (palette->colors)[i];
     }
     SDL_FreeSurface(surface);
@@ -169,7 +169,7 @@ void PALETTE::RefreshPalFromPcx(CString const &path) {
 
     SDL_Palette *palette = surface->format->palette;
     Pal.ReSize(palette->ncolors);
-    for (int i = 0; i < palette->ncolors; ++i) {
+    for (SLONG i = 0; i < palette->ncolors; ++i) {
         Pal[i] = (palette->colors)[i];
     }
     SDL_FreeSurface(surface);
@@ -190,7 +190,7 @@ void PALETTE::RefreshPalFromTga(CString const &path) {
 
     SDL_Palette *palette = surface->format->palette;
     Pal.ReSize(palette->ncolors);
-    for (int i = 0; i < palette->ncolors; ++i) {
+    for (SLONG i = 0; i < palette->ncolors; ++i) {
         Pal[i] = (palette->colors)[i];
     }
     SDL_FreeSurface(surface);

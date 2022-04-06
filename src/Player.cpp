@@ -177,7 +177,7 @@ void PLAYER::BuyPlane(CXPlane &plane, TEAKRAND *pRnd) {
     p.ptVerbrauch = plane.CalcVerbrauch();
     p.ptPreis = plane.CalcCost();
     p.ptLaerm = plane.CalcNoise();
-    p.ptWartungsfaktor = float((plane.CalcWartung() + 100.0) / 100.0);
+    p.ptWartungsfaktor = FLOAT((plane.CalcWartung() + 100.0) / 100.0);
     p.ptKommentar = "";
 
     p.GlobeAngle = 0;
@@ -785,9 +785,9 @@ SLONG PLAYER::CalcPlanePropSum() {
 //--------------------------------------------------------------------------------------------
 // Berechnet was den Spieler die Sicherheit kostet:
 //--------------------------------------------------------------------------------------------
-long PLAYER::CalcSecurityCosts(bool bFixOnly, bool bPlaneOnly) {
-    long costfix = 0;
-    long costplane = 0;
+SLONG PLAYER::CalcSecurityCosts(bool bFixOnly, bool bPlaneOnly) {
+    SLONG costfix = 0;
+    SLONG costplane = 0;
 
     if ((SecurityFlags & 0x0001) != 0U) {
         costfix += 25000; // Büro
@@ -1006,7 +1006,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
     } break;
 
     case DIFF_ADDON06:
-        return (long(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay(0))));
+        return (SLONG(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay(0))));
         break;
 
     case DIFF_ADDON07: {
@@ -1040,7 +1040,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     case DIFF_ATFS01:
-        return (long(Money));
+        return (SLONG(Money));
         break;
 
     case DIFF_ATFS02: {
@@ -1060,7 +1060,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
     } break;
 
     case DIFF_ATFS03: {
-        long c = 0;
+        SLONG c = 0;
         __int64 p = 0;
         __int64 f = 0;
 
@@ -1080,7 +1080,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     case DIFF_ATFS05: {
-        long n = 0;
+        SLONG n = 0;
         for (SLONG d = 0; d < Planes.AnzEntries(); d++) {
             if (Planes.IsInAlbum(d) != 0) {
                 if (Planes[d].ptPassagiere >= BTARGET_PLANESIZE && Planes[d].TypeId == -1) {
@@ -1097,11 +1097,11 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     case DIFF_ATFS07: {
-        long sum = 0;
+        SLONG sum = 0;
 
-        if (static_cast<int>(bAnderer) == 0) {
-            long anz = 0;
-            for (long c = 1; c <= min(29, Sim.Date); c++) {
+        if (static_cast<SLONG>(bAnderer) == 0) {
+            SLONG anz = 0;
+            for (SLONG c = 1; c <= min(29, Sim.Date); c++) {
                 sum += SLONG(Statistiken[STAT_AKTIENKURS].GetAtPastDay(c));
                 anz++;
             }
@@ -1112,7 +1112,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
             return (0);
         }
 
-        for (long c = 0; c <= 29; c++) {
+        for (SLONG c = 0; c <= 29; c++) {
             if (SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c)) > 0) {
                 if (SLONG(Statistiken[STAT_AKTIEN_SA + PlayerNum].GetAtPastDay(c)) * 100 / SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c)) <=
                     BTARGET_MEINANTEIL) {
@@ -1126,16 +1126,16 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
     } break;
 
     case DIFF_ATFS08: {
-        long n = 0;
+        SLONG n = 0;
         for (SLONG d = 0; d < Planes.AnzEntries(); d++) {
             if (Planes.IsInAlbum(d) != 0) {
                 if (Planes[d].TypeId == -1 && Planes[d].ptPassagiere > 0 && Planes[d].ptGeschwindigkeit > 0) {
-                    // long Verbrauch = Planes[d].ptVerbrauch/Planes[d].ptPassagiere;
+                    // SLONG Verbrauch = Planes[d].ptVerbrauch/Planes[d].ptPassagiere;
 
                     // Neue Formel:
                     // Verbrauch = Planes[d].ptVerbrauch*100/Planes[d].ptGeschwindigkeit*100/Planes[d].ptPassagiere;
 
-                    long Verbrauch = Planes[d].ptVerbrauch * 100 / Planes[d].ptGeschwindigkeit;
+                    SLONG Verbrauch = Planes[d].ptVerbrauch * 100 / Planes[d].ptGeschwindigkeit;
 
                     if (Verbrauch <= BTARGET_VERBRAUCH) {
                         n++;
@@ -1148,11 +1148,11 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
     } break;
 
     case DIFF_ATFS09:
-        return (long(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay(0))));
+        return (SLONG(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay(0))));
         break;
 
     case DIFF_ATFS10:
-        return (long(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay(0))));
+        return (SLONG(min(0x7fffffff, Statistiken[STAT_FIRMENWERT].GetAtPastDay(0))));
         break;
 
     default:
@@ -1266,7 +1266,7 @@ BOOL PLAYER::HasWon() {
         return (TRUE);
     }
     if (Sim.Difficulty == DIFF_ATFS07 && GetMissionRating() >= BTARGET_KURS) {
-        for (long c = 0; c <= 29; c++) {
+        for (SLONG c = 0; c <= 29; c++) {
             if (Statistiken[STAT_AKTIEN_SA + PlayerNum].GetAtPastDay(c) * 100 / Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c) > BTARGET_MEINANTEIL) {
                 return static_cast<BOOL>(false);
             }
@@ -1703,7 +1703,7 @@ void PLAYER::NewDay() {
         }
 
         if (Sim.Date == 40 && Planes.GetNumUsed() > 0) {
-            long i = Planes.GetRandomUsedIndex();
+            SLONG i = Planes.GetRandomUsedIndex();
 
             Planes -= i;
             UpdateAuftragsUsage();
@@ -1774,7 +1774,7 @@ void PLAYER::NewDay() {
 //--------------------------------------------------------------------------------------------
 // Nimmt dem Spieler eine Route weg (wg. Sabotage oder geringer Auslastung
 //--------------------------------------------------------------------------------------------
-void PLAYER::RouteWegnehmen(long Routenindex, long NeuerBesitzer) {
+void PLAYER::RouteWegnehmen(SLONG Routenindex, SLONG NeuerBesitzer) {
     // MP: Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang != -1
     // geändert zu
     // Sim.Players.Players[NeuerBesitzer].RentRouten.RentRouten[Routenindex].Rang != 0
@@ -2060,14 +2060,14 @@ void PLAYER::RentGate(SLONG Nummer, SLONG Miete) {
 //--------------------------------------------------------------------------------------------
 // Berechnet, wieviel Kredit der Spieler noch aufnehmen kann.
 //--------------------------------------------------------------------------------------------
-long PLAYER::CalcCreditLimit() const {
+SLONG PLAYER::CalcCreditLimit() const {
     __int64 cr = (Money - Credit) / 2 - Credit;
 
     if (Credit < 200000) {
         cr = max(cr, 200000 - Credit);
     }
 
-    return (long(min(0x7fffffff, max(0, cr))));
+    return (SLONG(min(0x7fffffff, max(0, cr))));
 }
 
 //--------------------------------------------------------------------------------------------
@@ -2335,9 +2335,9 @@ void PLAYER::UpdateFrachtauftragsUsage() {
 // 14:59 belegt
 //--------------------------------------------------------------------------------------------
 struct flug_info_t {
-    flug_info_t(CFlugplanEintrag *p, int i, bool f) : flug(p), zeit(i), istAbflug(f) {}
+    flug_info_t(CFlugplanEintrag *p, SLONG i, bool f) : flug(p), zeit(i), istAbflug(f) {}
     CFlugplanEintrag *flug{nullptr};
-    int zeit{};
+    SLONG zeit{};
     bool istAbflug{};
 };
 
@@ -4445,7 +4445,7 @@ void PLAYER::RobotExecuteAction() {
         }
 
         if (RobotUse(ROBOT_USE_LUXERY) && Planes.GetNumUsed() > 0 && Money > 200000 && (bHasPlanesUpgradedToday == 0)) {
-            long prob = 5;
+            SLONG prob = 5;
 
             if (Money > 2500000) {
                 prob = 3;
@@ -4586,7 +4586,7 @@ void PLAYER::RobotExecuteAction() {
 
             if (Menge > 0) {
                 Menge = min(Menge, Tank - TankInhalt);
-                TankInhalt += long(Menge);
+                TankInhalt += SLONG(Menge);
                 ChangeMoney(-Menge * Sim.Kerosin, 2020, "");
             }
         }
@@ -4596,8 +4596,8 @@ void PLAYER::RobotExecuteAction() {
         if (dislike == -1 && (RobotUse(ROBOT_USE_EXTREME_SABOTAGE) || RobotUse(ROBOT_USE_EXTRA_SABOTAGE) || LocalRandom.Rand(3) == 0)) {
             dislike = LocalRandom.Rand(4);
             if (RobotUse(ROBOT_USE_EXTREME_SABOTAGE) && (dislike == PlayerNum || (Sim.Players.Players[dislike].IsOut != 0))) {
-                long r = -9999; // Besten Spieler als Sabotageziel wählen:
-                for (long c = 0; c < 4; c++) {
+                SLONG r = -9999; // Besten Spieler als Sabotageziel wählen:
+                for (SLONG c = 0; c < 4; c++) {
                     if ((Sim.Players.Players[c].IsOut == 0) && Sim.Players.Players[c].GetMissionRating() > r) {
                         dislike = c;
                         r = Sim.Players.Players[c].GetMissionRating();
@@ -4619,9 +4619,9 @@ void PLAYER::RobotExecuteAction() {
                 dislike != -1 && dislike != PlayerNum &&
                 (ArabHints < 80 || (ArabHints < 90 && Credit < 1000000 && Money > 3000000 && RobotUse(ROBOT_USE_SABO_AFFORD_FINE) && (Sim.Date & 3) == 0)) &&
                 (Sim.Players.Players[dislike].Owner == 1 || RobotUse(ROBOT_USE_MUCH_SABOTAGE))) {
-                long SecurityAnnoiance = 0;
+                SLONG SecurityAnnoiance = 0;
 
-                for (long pass = 1; pass <= 2 + 3 * static_cast<int>(RobotUse(ROBOT_USE_EXTREME_SABOTAGE)); pass++) {
+                for (SLONG pass = 1; pass <= 2 + 3 * static_cast<SLONG>(RobotUse(ROBOT_USE_EXTREME_SABOTAGE)); pass++) {
                     switch (Sim.GetHour() % 3) {
                     case 0:
                         if (Sim.Players.Players[dislike].Planes.GetNumUsed() > 0) {
@@ -4876,23 +4876,23 @@ void PLAYER::RobotExecuteAction() {
         {
             if (RobotUse(ROBOT_USE_PAYBACK_CREDIT)) {
                 if (Money > 750000 && Sim.Date > 1 && !RobotUse(ROBOT_USE_MAXKREDIT)) {
-                    SLONG m = long(min(0x7fffffff, min(Credit, Money - 250000)));
+                    SLONG m = min(0x7fffffff, min(Credit, Money - 250000));
                     ChangeMoney(-m, 2004, "");
                     Credit -= m;
                 }
             } else {
-                long limit = CalcCreditLimit() / 1000 * 1000;
+                SLONG limit = CalcCreditLimit() / 1000 * 1000;
                 SLONG limitNPC = 1000000 + Sim.Date * 50000;
                 if ((RobotUse(ROBOT_USE_ALT_KREDIT) || RobotUse(ROBOT_USE_MAXKREDIT)) && Credit < limitNPC) {
-                    SLONG m = long(min(limit, limitNPC - Credit));
+                    SLONG m = min(limit, limitNPC - Credit);
                     ChangeMoney(m, 2003, "");
                     Credit += m;
                 } else if (Money > 1500000 && Credit > 0 && !RobotUse(ROBOT_USE_ALT_KREDIT) && !RobotUse(ROBOT_USE_MAXKREDIT)) {
-                    SLONG m = long(min(limit, min(Credit, Money - 1500000)));
+                    SLONG m = min(limit, min(Credit, Money - 1500000));
                     ChangeMoney(-m, 2004, "");
                     Credit -= m;
                 } else if (Money < 1000000 && !RobotUse(ROBOT_USE_ALT_KREDIT)) {
-                    SLONG m = long(min(limit, 1400000 - Money));
+                    SLONG m = min(limit, 1400000 - Money);
                     ChangeMoney(m, 2003, "");
                     Credit += m;
                 }
@@ -4974,7 +4974,7 @@ void PLAYER::RobotExecuteAction() {
     case ACTION_VISITMECH:
         if (RobotUse(ROBOT_USE_REPAIRPLANES)) {
             SLONG c = 0;
-            SLONG FreeMoney = long(min(0x7fffffff, Money));
+            SLONG FreeMoney = min(0x7fffffff, Money);
 
             for (c = 0; c < Planes.AnzEntries(); c++) {
                 if (Planes.IsInAlbum(c) != 0) {
@@ -5085,14 +5085,14 @@ void PLAYER::RobotExecuteAction() {
                         // Sim.UsedPlanes[0x1000000+c].MaxBegleiter = SLONG(PlaneTypes
                         // [Sim.UsedPlanes[0x1000000+c].TypeId].AnzBegleiter*Planes.GetAvgBegleiter());
                         Sim.UsedPlanes[0x1000000 + c].MaxBegleiter = SLONG(Sim.UsedPlanes[0x1000000 + c].ptAnzBegleiter * Planes.GetAvgBegleiter());
-                        Sim.UsedPlanes[0x1000000 + c].SitzeTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
+                        Sim.UsedPlanes[0x1000000 + c].SitzeTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
                         Sim.UsedPlanes[0x1000000 + c].EssenTarget = 0;
-                        Sim.UsedPlanes[0x1000000 + c].TablettsTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
-                        Sim.UsedPlanes[0x1000000 + c].DecoTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
-                        Sim.UsedPlanes[0x1000000 + c].TriebwerkTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_TECH));
-                        Sim.UsedPlanes[0x1000000 + c].ReifenTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_TECH));
-                        Sim.UsedPlanes[0x1000000 + c].ElektronikTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_TECH));
-                        Sim.UsedPlanes[0x1000000 + c].SicherheitTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_TECH));
+                        Sim.UsedPlanes[0x1000000 + c].TablettsTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
+                        Sim.UsedPlanes[0x1000000 + c].DecoTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
+                        Sim.UsedPlanes[0x1000000 + c].TriebwerkTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_TECH));
+                        Sim.UsedPlanes[0x1000000 + c].ReifenTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_TECH));
+                        Sim.UsedPlanes[0x1000000 + c].ElektronikTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_TECH));
+                        Sim.UsedPlanes[0x1000000 + c].SicherheitTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_TECH));
 
                         Planes += Sim.UsedPlanes[0x1000000 + c];
                         ChangeMoney(-Sim.UsedPlanes[0x1000000 + c].CalculatePrice(),
@@ -5704,14 +5704,14 @@ void PLAYER::RobotExecuteAction() {
                     Sim.UsedPlanes[0x1000000 + c].WorstZustand = Sim.UsedPlanes[0x1000000 + c].Zustand - 20;
                     // Sim.UsedPlanes[0x1000000+c].MaxBegleiter = SLONG(PlaneTypes [Sim.UsedPlanes[0x1000000+c].TypeId].AnzBegleiter*Planes.GetAvgBegleiter());
                     Sim.UsedPlanes[0x1000000 + c].MaxBegleiter = SLONG(Sim.UsedPlanes[0x1000000 + c].ptAnzBegleiter * Planes.GetAvgBegleiter());
-                    Sim.UsedPlanes[0x1000000 + c].SitzeTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
+                    Sim.UsedPlanes[0x1000000 + c].SitzeTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
                     Sim.UsedPlanes[0x1000000 + c].EssenTarget = 0;
-                    Sim.UsedPlanes[0x1000000 + c].TablettsTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
-                    Sim.UsedPlanes[0x1000000 + c].DecoTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
-                    Sim.UsedPlanes[0x1000000 + c].TriebwerkTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_TECH));
-                    Sim.UsedPlanes[0x1000000 + c].ReifenTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_TECH));
-                    Sim.UsedPlanes[0x1000000 + c].ElektronikTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_TECH));
-                    Sim.UsedPlanes[0x1000000 + c].SicherheitTarget = 1 + static_cast<int>(RobotUse(ROBOT_USE_UPGRADE_TECH));
+                    Sim.UsedPlanes[0x1000000 + c].TablettsTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
+                    Sim.UsedPlanes[0x1000000 + c].DecoTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_KOMFORT));
+                    Sim.UsedPlanes[0x1000000 + c].TriebwerkTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_TECH));
+                    Sim.UsedPlanes[0x1000000 + c].ReifenTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_TECH));
+                    Sim.UsedPlanes[0x1000000 + c].ElektronikTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_TECH));
+                    Sim.UsedPlanes[0x1000000 + c].SicherheitTarget = 1 + static_cast<SLONG>(RobotUse(ROBOT_USE_UPGRADE_TECH));
 
                     Planes += Sim.UsedPlanes[0x1000000 + c];
                     ChangeMoney(-Sim.UsedPlanes[0x1000000 + c].CalculatePrice(),
@@ -5906,7 +5906,7 @@ void PLAYER::RobotExecuteAction() {
         break;
 
     case ACTION_VISITSECURITY: {
-        for (long pass = 1; pass <= 2; pass++) {
+        for (SLONG pass = 1; pass <= 2; pass++) {
             if (Money > 1000000) {
                 ULONG newflag = (1 << LocalRandom.Rand(9));
 
@@ -6499,13 +6499,13 @@ again: // Zweiter Pass, wenn Stewardessen aus Luxusstellen umgebucht werden, dam
                     {
                         // if ((PlaneTypes[Planes[d].TypeId].AnzPiloten-Planes[d].AnzPiloten)*(Workers.Workers[c].Typ==WORKER_PILOT) +
                         // (PlaneTypes[Planes[d].TypeId].AnzBegleiter-Planes[d].AnzBegleiter)*(Workers.Workers[c].Typ==WORKER_STEWARDESS) < MinNeeded)
-                        if ((Planes[d].ptAnzPiloten - Planes[d].AnzPiloten) * static_cast<int>(Workers.Workers[c].Typ == WORKER_PILOT) +
-                                (Planes[d].ptAnzBegleiter - Planes[d].AnzBegleiter) * static_cast<int>(Workers.Workers[c].Typ == WORKER_STEWARDESS) <
+                        if ((Planes[d].ptAnzPiloten - Planes[d].AnzPiloten) * static_cast<SLONG>(Workers.Workers[c].Typ == WORKER_PILOT) +
+                                (Planes[d].ptAnzBegleiter - Planes[d].AnzBegleiter) * static_cast<SLONG>(Workers.Workers[c].Typ == WORKER_STEWARDESS) <
                             MinNeeded) {
                             // MinNeeded      = (PlaneTypes[Planes[d].TypeId].AnzPiloten-Planes[d].AnzPiloten)*(Workers.Workers[c].Typ==WORKER_PILOT) +
                             // (PlaneTypes[Planes[d].TypeId].AnzBegleiter-Planes[d].AnzBegleiter)*(Workers.Workers[c].Typ==WORKER_STEWARDESS);
-                            MinNeeded = (Planes[d].ptAnzPiloten - Planes[d].AnzPiloten) * static_cast<int>(Workers.Workers[c].Typ == WORKER_PILOT) +
-                                        (Planes[d].ptAnzBegleiter - Planes[d].AnzBegleiter) * static_cast<int>(Workers.Workers[c].Typ == WORKER_STEWARDESS);
+                            MinNeeded = (Planes[d].ptAnzPiloten - Planes[d].AnzPiloten) * static_cast<SLONG>(Workers.Workers[c].Typ == WORKER_PILOT) +
+                                        (Planes[d].ptAnzBegleiter - Planes[d].AnzBegleiter) * static_cast<SLONG>(Workers.Workers[c].Typ == WORKER_STEWARDESS);
                             MinNeededIndex = d;
                         }
                     }
@@ -6738,7 +6738,7 @@ void PLAYER::DoBodyguardRabatt(SLONG Money) {
                                 MESSAGE_URGENT);
         }
 
-        long delta = Money / 100 * (quality / 10);
+        SLONG delta = Money / 100 * (quality / 10);
         ChangeMoney(delta, 3130, "");
         SIM::SendSimpleMessage(ATNET_BODYGUARD, 0, Sim.localPlayer, delta);
     }
@@ -6786,7 +6786,7 @@ void PLAYER::UpdateStatistics() {
     // STAT_PASSAGIERE_HOME: in CFlugplanEintrag::BookFlight (...
 
     // STAT_AKTIENKURS:
-    Statistiken[STAT_AKTIENKURS].SetAtPastDay(long(Kurse[0]));
+    Statistiken[STAT_AKTIENKURS].SetAtPastDay(SLONG(Kurse[0]));
 
     // STAT_FLUEGE: in CFlugplanEintrag::BookFlight (...
     // STAT_AUFTRAEGE: in CReisebuero::OnLButtonDown (... und CLastMinute::OnLButtonDown(...
@@ -6861,7 +6861,7 @@ void PLAYER::UpdateStatistics() {
             Statistiken[STAT_ZUFR_PERSONAL].SetAtPastDay(0);
         }
     } else if (Owner == 1) {
-        c = long(Statistiken[STAT_MITARBEITER].GetAtPastDay(0));
+        c = SLONG(Statistiken[STAT_MITARBEITER].GetAtPastDay(0));
 
         c = c * (min(500, Image) + 2500) / 3000;
 
@@ -7060,7 +7060,7 @@ void PLAYER::UpdateTicketpreise(SLONG RouteId, SLONG Ticketpreis, SLONG Ticketpr
 //--------------------------------------------------------------------------------------------
 // Aktienhandel durchführen
 //--------------------------------------------------------------------------------------------
-int PLAYER::TradeStock(SLONG airlineNum, SLONG amount) {
+SLONG PLAYER::TradeStock(SLONG airlineNum, SLONG amount) {
     if (amount == 0) {
         return 0;
     }
@@ -7082,7 +7082,7 @@ int PLAYER::TradeStock(SLONG airlineNum, SLONG amount) {
         AktienWert[airlineNum] += aktienWert;
 
         /* aktualisiere Aktienkurs */
-        auto anzAktien = static_cast<double>(Sim.Players.Players[airlineNum].AnzAktien);
+        auto anzAktien = static_cast<DOUBLE>(Sim.Players.Players[airlineNum].AnzAktien);
         Sim.Players.Players[airlineNum].Kurse[0] *= anzAktien / (anzAktien - amount / 2);
         if (Sim.Players.Players[airlineNum].Kurse[0] < 0) {
             Sim.Players.Players[airlineNum].Kurse[0] = 0;
@@ -7098,7 +7098,7 @@ int PLAYER::TradeStock(SLONG airlineNum, SLONG amount) {
 
         /* aktualisiere Aktienwert */
         {
-            auto num = static_cast<double>(OwnsAktien[airlineNum]);
+            auto num = static_cast<DOUBLE>(OwnsAktien[airlineNum]);
             AktienWert[airlineNum] *= (num - _amount) / num;
         }
 
@@ -7110,7 +7110,7 @@ int PLAYER::TradeStock(SLONG airlineNum, SLONG amount) {
 
         /* aktualisiere Aktienkurs */
         {
-            auto anzAktien = static_cast<double>(Sim.Players.Players[airlineNum].AnzAktien);
+            auto anzAktien = static_cast<DOUBLE>(Sim.Players.Players[airlineNum].AnzAktien);
             Sim.Players.Players[airlineNum].Kurse[0] *= (anzAktien - _amount / 2) / anzAktien;
             if (Sim.Players.Players[airlineNum].Kurse[0] < 0) {
                 Sim.Players.Players[airlineNum].Kurse[0] = 0;
@@ -7445,7 +7445,7 @@ void HISTORY::AddNewCall(SLONG Type) {
 //--------------------------------------------------------------------------------------------
 // Aktualisiert die Kosten für Gespräche
 //--------------------------------------------------------------------------------------------
-void HISTORY::AddCallCost(long Money) {
+void HISTORY::AddCallCost(SLONG Money) {
     for (SLONG c = 99; c >= 0; c--) {
         if (HistoryLine[c].ByPhone != 0) {
             HistoryLine[c].Money -= Money;

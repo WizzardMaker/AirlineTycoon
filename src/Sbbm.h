@@ -219,7 +219,7 @@ class SBBM {
         return (SetPixel(XY(x, y), Color));
         return (TRUE);
     }
-    dword GetPixel(long x, long y) { return (pBitmap->GetPixel(x, y)); }
+    dword GetPixel(SLONG x, SLONG y) { return (pBitmap->GetPixel(x, y)); }
     dword Clear(dword color = 0) {
         Bench.ClearTime.Start();
         pBitmap->Clear((SB_Hardwarecolor)color);

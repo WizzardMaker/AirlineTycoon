@@ -37,7 +37,7 @@ CPlaneTypes::CPlaneTypes(const CString &TabFilename) : ALBUM_V<CPlaneType>("Plan
 void CPlaneTypes::ReInit(const CString &TabFilename) {
     // CStdioFile    Tab;
     BUFFER_V<char> Line(800);
-    long Id = 0;
+    SLONG Id = 0;
 
     // Load Table header:
     auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
@@ -87,7 +87,7 @@ void CPlaneTypes::ReInit(const CString &TabFilename) {
         planeType.Tankgroesse = atoi(strtok(nullptr, TabSeparator));
         planeType.Verbrauch = atoi(strtok(nullptr, TabSeparator));
         planeType.Preis = atoi(strtok(nullptr, TabSeparator));
-        planeType.Wartungsfaktor = float(atof(strtok(nullptr, TabSeparator)));
+        planeType.Wartungsfaktor = FLOAT(atof(strtok(nullptr, TabSeparator)));
         planeType.Kommentar = strtok(nullptr, TabSeparator);
 
         push_back(Id, std::move(planeType));
@@ -774,7 +774,7 @@ void CPlane::CheckFlugplaene(SLONG PlayerNum, BOOL Sort, BOOL PlanGates) {
         if (Flugplan.Flug[c].ObjectType == 3 &&
             (Flugplan.Flug[c].Startdate > Sim.Date || (Flugplan.Flug[c].Startdate == Sim.Date && Flugplan.Flug[c].Startzeit > Sim.GetHour() + 1))) {
             SLONG tTime = (Flugplan.Flug[c + 1].Startzeit - 1 + 24) % 24;
-            SLONG tDate = Flugplan.Flug[c + 1].Startdate - static_cast<int>(Flugplan.Flug[c + 1].Startzeit == 0);
+            SLONG tDate = Flugplan.Flug[c + 1].Startdate - static_cast<SLONG>(Flugplan.Flug[c + 1].Startzeit == 0);
 
             if (Flugplan.Flug[c].Landedate < tDate) {
                 Flugplan.Flug[c].Landedate = tDate;
@@ -1146,7 +1146,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
 
     Saldo = PersonalQuality;
 
-    long pn = PlayerNum;
+    SLONG pn = PlayerNum;
     if (Sim.Players.Players[PlayerNum].WerbeBroschuere != -1) {
         pn = Sim.Players.Players[PlayerNum].WerbeBroschuere;
     }
@@ -1519,7 +1519,7 @@ void CPlanes::DoOneStep(SLONG PlayerNum) {
 //--------------------------------------------------------------------------------------------
 // Wieviel mehr Begleiter als normal haben wir im Durchschnitt?:
 //--------------------------------------------------------------------------------------------
-double CPlanes::GetAvgBegleiter() {
+DOUBLE CPlanes::GetAvgBegleiter() {
     SLONG Anz = 0;
     SLONG Max = 0;
 
@@ -1532,7 +1532,7 @@ double CPlanes::GetAvgBegleiter() {
     }
 
     if (Anz != 0) {
-        return (double(Max) / double(Anz));
+        return (DOUBLE(Max) / DOUBLE(Anz));
     }
     return (1);
 }

@@ -149,7 +149,7 @@ void CKiosk::RepaintTip() {
         p = HeadlineStart[c];
 
         for (d = 0; d < 10; d++) {
-            HasPictures |= static_cast<int>(Sim.Headlines.GetHeadline(c, d).PictureId != 0);
+            HasPictures |= static_cast<SLONG>(Sim.Headlines.GetHeadline(c, d).PictureId != 0);
         }
 
         if (c == 0 && (HasPictures == 0)) {
@@ -320,10 +320,10 @@ void CKiosk::OnPaint() {
                     p = XY(140, 185);
                 }
 
-                DestRect.x = long(p.x - Newspapers[c].Size.x / 2 * NewspaperZoom[c] / 100);
-                DestRect.y = long(p.y - Newspapers[c].Size.x / 2 * NewspaperZoom[c] / 100);
-                DestRect.w = long(Newspapers[c].Size.x * NewspaperZoom[c] / 100);
-                DestRect.h = long(Newspapers[c].Size.y * NewspaperZoom[c] / 100);
+                DestRect.x = SLONG(p.x - Newspapers[c].Size.x / 2 * NewspaperZoom[c] / 100);
+                DestRect.y = SLONG(p.y - Newspapers[c].Size.x / 2 * NewspaperZoom[c] / 100);
+                DestRect.w = SLONG(Newspapers[c].Size.x * NewspaperZoom[c] / 100);
+                DestRect.h = SLONG(Newspapers[c].Size.y * NewspaperZoom[c] / 100);
 
                 SDL_BlitScaled(Newspapers[c].pBitmap->GetSurface(), &SrcRect, RoomBm.pBitmap->GetSurface(), &DestRect);
             }
@@ -352,7 +352,7 @@ void CKiosk::OnPaint() {
 
     for (c = 0; c < 3; c++) {
         NewspaperZoom[c] -= 10;
-        Limit(float(0), NewspaperZoom[c], float(100));
+        Limit(FLOAT(0), NewspaperZoom[c], FLOAT(100));
     }
 
     /*{

@@ -2,7 +2,7 @@
 
 extern void memswap(void *, void *, ULONG);
 extern char *bprintf(char const *, ...);
-extern char *bitoa(int);
+extern char *bitoa(SLONG);
 extern char *bitoa(long);
 extern char *bitoa(long long);
 extern void here(char *, SLONG);
@@ -60,7 +60,7 @@ inline void MB() {}
 template <typename T> class BUFFER_V : public std::vector<T> {
   public:
     BUFFER_V() = default;
-    BUFFER_V(int size) : std::vector<T>(size) {}
+    BUFFER_V(SLONG size) : std::vector<T>(size) {}
     void ReSize(SLONG anz) {
         Offset = 0;
         std::vector<T>::resize(anz);
@@ -71,7 +71,7 @@ template <typename T> class BUFFER_V : public std::vector<T> {
         std::vector<T>::clear();
     }
     void FillWith(T value) {
-        for (int i = 0; i < std::vector<T>::size(); i++)
+        for (SLONG i = 0; i < std::vector<T>::size(); i++)
             std::vector<T>::at(i) = value;
     }
 
@@ -79,8 +79,8 @@ template <typename T> class BUFFER_V : public std::vector<T> {
     const T *getData() const { return std::vector<T>::data() + Offset; }
     T *getData() { return std::vector<T>::data() + Offset; }
 
-    // void operator+=(int rhs) { DelPointer += rhs; }
-    void incIter(int i) { Offset += i; }
+    // void operator+=(SLONG rhs) { DelPointer += rhs; }
+    void incIter(SLONG i) { Offset += i; }
     SLONG getIter() const { return Offset; }
 
 #ifdef DEBUG_ALBUM
@@ -195,13 +195,13 @@ template <typename T> class BUFFER {
     }
 
     void FillWith(T value) {
-        for (int i = 0; i < Size; i++)
+        for (SLONG i = 0; i < Size; i++)
             MemPointer[i] = value;
     }
 
     operator T *() const { return DelPointer; }
 
-    void operator+=(int rhs) { DelPointer += rhs; }
+    void operator+=(SLONG rhs) { DelPointer += rhs; }
 
     void operator=(BUFFER<T> &rhs) {
         ::Swap(MemPointer, rhs.MemPointer);
@@ -229,12 +229,12 @@ class TEAKFILE {
     ~TEAKFILE(void);
 
     void ReadLine(char *, SLONG) const;
-    int IsEof(void) const;
+    SLONG IsEof(void) const;
     void Close(void);
     SLONG GetFileLength(void) const;
     SLONG GetPosition(void) const;
     void Open(char const *, SLONG);
-    int IsOpen(void) const;
+    SLONG IsOpen(void) const;
     unsigned char *Read(SLONG);
     void Read(unsigned char *, SLONG);
     char *ReadLine(void);
@@ -262,74 +262,56 @@ class TEAKFILE {
         return File;
     }
 
-    friend TEAKFILE &operator<<(TEAKFILE &File, const signed char &b) {
+    friend TEAKFILE &operator<<(TEAKFILE &File, const UBYTE &b) {
         File.Write((const UBYTE *)&b, sizeof(b));
         return File;
     }
-    friend TEAKFILE &operator>>(TEAKFILE &File, signed char &b) {
+    friend TEAKFILE &operator>>(TEAKFILE &File, UBYTE &b) {
         File.Read((UBYTE *)&b, sizeof(b));
         return File;
     }
 
-    friend TEAKFILE &operator<<(TEAKFILE &File, const unsigned char &b) {
+    friend TEAKFILE &operator<<(TEAKFILE &File, const SBYTE &b) {
         File.Write((const UBYTE *)&b, sizeof(b));
         return File;
     }
-    friend TEAKFILE &operator>>(TEAKFILE &File, unsigned char &b) {
+    friend TEAKFILE &operator>>(TEAKFILE &File, SBYTE &b) {
         File.Read((UBYTE *)&b, sizeof(b));
         return File;
     }
 
-    friend TEAKFILE &operator<<(TEAKFILE &File, const unsigned short &b) {
+    friend TEAKFILE &operator<<(TEAKFILE &File, const UWORD &b) {
         File.Write((const UBYTE *)&b, sizeof(b));
         return File;
     }
-    friend TEAKFILE &operator>>(TEAKFILE &File, unsigned short &b) {
+    friend TEAKFILE &operator>>(TEAKFILE &File, UWORD &b) {
         File.Read((UBYTE *)&b, sizeof(b));
         return File;
     }
 
-    friend TEAKFILE &operator<<(TEAKFILE &File, const signed short &b) {
+    friend TEAKFILE &operator<<(TEAKFILE &File, const SWORD &b) {
         File.Write((const UBYTE *)&b, sizeof(b));
         return File;
     }
-    friend TEAKFILE &operator>>(TEAKFILE &File, signed short &b) {
+    friend TEAKFILE &operator>>(TEAKFILE &File, SWORD &b) {
         File.Read((UBYTE *)&b, sizeof(b));
         return File;
     }
 
-    friend TEAKFILE &operator<<(TEAKFILE &File, const unsigned int &b) {
+    friend TEAKFILE &operator<<(TEAKFILE &File, const ULONG &b) {
         File.Write((const UBYTE *)&b, sizeof(b));
         return File;
     }
-    friend TEAKFILE &operator>>(TEAKFILE &File, unsigned int &b) {
+    friend TEAKFILE &operator>>(TEAKFILE &File, ULONG &b) {
         File.Read((UBYTE *)&b, sizeof(b));
         return File;
     }
 
-    friend TEAKFILE &operator<<(TEAKFILE &File, const signed int &b) {
+    friend TEAKFILE &operator<<(TEAKFILE &File, const SLONG &b) {
         File.Write((const UBYTE *)&b, sizeof(b));
         return File;
     }
-    friend TEAKFILE &operator>>(TEAKFILE &File, signed int &b) {
-        File.Read((UBYTE *)&b, sizeof(b));
-        return File;
-    }
-
-    friend TEAKFILE &operator<<(TEAKFILE &File, const unsigned long &b) {
-        File.Write((const UBYTE *)&b, sizeof(b));
-        return File;
-    }
-    friend TEAKFILE &operator>>(TEAKFILE &File, unsigned long &b) {
-        File.Read((UBYTE *)&b, sizeof(b));
-        return File;
-    }
-
-    friend TEAKFILE &operator<<(TEAKFILE &File, const signed long &b) {
-        File.Write((const UBYTE *)&b, sizeof(b));
-        return File;
-    }
-    friend TEAKFILE &operator>>(TEAKFILE &File, signed long &b) {
+    friend TEAKFILE &operator>>(TEAKFILE &File, SLONG &b) {
         File.Read((UBYTE *)&b, sizeof(b));
         return File;
     }
@@ -343,20 +325,20 @@ class TEAKFILE {
         return File;
     }
 
-    friend TEAKFILE &operator<<(TEAKFILE &File, const double &b) {
+    friend TEAKFILE &operator<<(TEAKFILE &File, const DOUBLE &b) {
         File.Write((const UBYTE *)&b, sizeof(b));
         return File;
     }
-    friend TEAKFILE &operator>>(TEAKFILE &File, double &b) {
+    friend TEAKFILE &operator>>(TEAKFILE &File, DOUBLE &b) {
         File.Read((UBYTE *)&b, sizeof(b));
         return File;
     }
 
-    friend TEAKFILE &operator<<(TEAKFILE &File, const float &b) {
+    friend TEAKFILE &operator<<(TEAKFILE &File, const FLOAT &b) {
         File.Write((const UBYTE *)&b, sizeof(b));
         return File;
     }
-    friend TEAKFILE &operator>>(TEAKFILE &File, float &b) {
+    friend TEAKFILE &operator>>(TEAKFILE &File, FLOAT &b) {
         File.Read((UBYTE *)&b, sizeof(b));
         return File;
     }
@@ -384,14 +366,14 @@ class TEAKFILE {
         return File;
     }
 
-    template <typename T, unsigned int N> friend TEAKFILE &operator<<(TEAKFILE &File, const std::array<T, N> &buffer) {
+    template <typename T, std::size_t N> friend TEAKFILE &operator<<(TEAKFILE &File, const std::array<T, N> &buffer) {
         for (SLONG i = 0; i < buffer.size(); i++) {
             File << buffer[i];
         }
         return File;
     }
 
-    template <typename T, unsigned int N> friend TEAKFILE &operator>>(TEAKFILE &File, std::array<T, N> &buffer) {
+    template <typename T, std::size_t N> friend TEAKFILE &operator>>(TEAKFILE &File, std::array<T, N> &buffer) {
         for (SLONG i = 0; i < buffer.size(); i++) {
             File >> buffer[i];
         }
@@ -468,7 +450,7 @@ class CRLEReader {
 
     bool IsRLE;
     SLONG Size;
-    int Key;
+    SLONG Key;
 
     const char *Path;
 };
@@ -552,11 +534,11 @@ template <typename T> class TXY {
 
     operator CPoint &() { return reinterpret_cast<CPoint &>(*this); }
 
-    double abs() const { return sqrt(x * x + y * y); }
+    DOUBLE abs() const { return sqrt(x * x + y * y); }
 
-    double operator*(const double &b) const { return (x + y) * b; }
+    DOUBLE operator*(const DOUBLE &b) const { return (x + y) * b; }
 
-    double operator/(const double &b) const { return (x + y) / b; }
+    DOUBLE operator/(const DOUBLE &b) const { return (x + y) / b; }
 
     bool IfIsWithin(T _x1, T _y1, T _x2, T _y2) const { return x >= _x1 && y >= _y1 && x <= _x2 && y <= _y2; }
 
@@ -630,11 +612,11 @@ template <typename T> class TXYZ {
         return *this;
     }
 
-    double abs() const { return sqrt(x * x + y * y + z * z); }
+    DOUBLE abs() const { return sqrt(x * x + y * y + z * z); }
 
-    double operator*(const double &b) const { return (x + y + z) * b; }
+    DOUBLE operator*(const DOUBLE &b) const { return (x + y + z) * b; }
 
-    double operator/(const double &b) const { return (x + y + z) / b; }
+    DOUBLE operator/(const DOUBLE &b) const { return (x + y + z) / b; }
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const TXYZ<T> &b) {
         File.Write((const UBYTE *)&b, sizeof(T) * 3);
@@ -659,8 +641,8 @@ class PALETTE {
     void Blend(SLONG, SLONG) const;
     void BlendIn(void) const;
     void BlendOut(void) const;
-    void RefreshDD(int) const;
-    void RefreshDD(SLONG, int) const;
+    void RefreshDD(SLONG) const;
+    void RefreshDD(SLONG, SLONG) const;
     void RefreshPalFromLbm(CString const &);
     void RefreshPalFromPcx(CString const &);
     void RefreshPalFromTga(CString const &);
@@ -717,7 +699,7 @@ class CRegistration {
     SLONG GetMode(void);
     CString GetSomeString(char *);
     ULONG CalcChecksum(CString);
-    int IsMaster(void);
+    SLONG IsMaster(void);
     void CheckIfIsMaster(void);
 };
 
@@ -735,12 +717,12 @@ class TECBM {
 
     void Destroy(void);
     TECBM &operator=(TECBM &);
-    virtual int Refresh(void);
-    int TextOutA(SLONG, SLONG, ULONG, ULONG, CString const &);
-    int IsOk(void) const;
-    static int IsMemCritical(void);
-    static int IsHardwareCritical(void);
-    static int IsEitherCritical(void);
+    virtual SLONG Refresh(void);
+    SLONG TextOutA(SLONG, SLONG, ULONG, ULONG, CString const &);
+    SLONG IsOk(void) const;
+    static SLONG IsMemCritical(void);
+    static SLONG IsHardwareCritical(void);
+    static SLONG IsEitherCritical(void);
     static void SetCriticalMem(SLONG);
     void ReSize(CString const &, void *);
     void ReSize(CString const &, SLONG, void *);
@@ -750,35 +732,35 @@ class TECBM {
     void ReSizePcx(CString const &, SLONG, void *);
     void ReSizePcx(CString const &, void *);
     void ReSizeTga(CString const &, void *);
-    int SavePCX(CString const &, PALETTE const &) const;
+    SLONG SavePCX(CString const &, PALETTE const &) const;
     void ShiftColors(SLONG);
     void RemapColor(unsigned char, unsigned char);
-    int BlitFrom(TECBM const &, TXY<SLONG>, TXY<SLONG>);
-    int BlitFromT(TECBM const &, TXY<SLONG>, TXY<SLONG>, unsigned char);
+    SLONG BlitFrom(TECBM const &, TXY<SLONG>, TXY<SLONG>);
+    SLONG BlitFromT(TECBM const &, TXY<SLONG>, TXY<SLONG>, unsigned char);
     void InterleaveBitmaps(TECBM const &, TECBM const &, SLONG);
-    int UniversalClip(TXY<SLONG> *, CRect *);
+    SLONG UniversalClip(TXY<SLONG> *, CRect *);
     void GetClipRegion(TXY<SLONG> *, TXY<SLONG> *);
     void SetClipRegion(void);
     void SetClipRegion(TXY<SLONG>, TXY<SLONG>);
-    int IsLost(void) const;
-    int SetPixel(TXY<SLONG>, unsigned char);
+    SLONG IsLost(void) const;
+    SLONG SetPixel(TXY<SLONG>, unsigned char);
     unsigned char GetPixel(TXY<SLONG>) const;
-    int FillWith(unsigned char);
-    int FillWith(TECBM const &);
-    int FillWith(TECBM const &, TXY<SLONG>);
-    int Line(TXY<SLONG> const &, TXY<SLONG> const &, unsigned char);
-    int HLine(SLONG, SLONG, SLONG, unsigned char);
-    int VLine(SLONG, SLONG, SLONG, unsigned char);
-    int DotLine(TXY<SLONG> const &, TXY<SLONG> const &, unsigned char);
-    int Rectangle(TXY<SLONG> const &, TXY<SLONG> const &, unsigned char);
-    int Box(TXY<SLONG>, TXY<SLONG>, unsigned char);
-    int Box(TXY<SLONG> const &, TXY<SLONG> const &, TECBM const &);
-    int Box(TXY<SLONG> const &, TXY<SLONG> const &, TECBM const &, TXY<SLONG>);
-    int Circle(TXY<SLONG> const &, SLONG, unsigned char);
-    int BlitFrom(TECBM &, TXY<SLONG>);
-    int BlitFromT(TECBM &, TXY<SLONG>);
-    int BlitPartFrom(TECBM &, TXY<SLONG>, TXY<SLONG> const &, TXY<SLONG> const &);
-    int BlitPartFromT(TECBM &, TXY<SLONG>, TXY<SLONG> const &, TXY<SLONG> const &);
+    SLONG FillWith(unsigned char);
+    SLONG FillWith(TECBM const &);
+    SLONG FillWith(TECBM const &, TXY<SLONG>);
+    SLONG Line(TXY<SLONG> const &, TXY<SLONG> const &, unsigned char);
+    SLONG HLine(SLONG, SLONG, SLONG, unsigned char);
+    SLONG VLine(SLONG, SLONG, SLONG, unsigned char);
+    SLONG DotLine(TXY<SLONG> const &, TXY<SLONG> const &, unsigned char);
+    SLONG Rectangle(TXY<SLONG> const &, TXY<SLONG> const &, unsigned char);
+    SLONG Box(TXY<SLONG>, TXY<SLONG>, unsigned char);
+    SLONG Box(TXY<SLONG> const &, TXY<SLONG> const &, TECBM const &);
+    SLONG Box(TXY<SLONG> const &, TXY<SLONG> const &, TECBM const &, TXY<SLONG>);
+    SLONG Circle(TXY<SLONG> const &, SLONG, unsigned char);
+    SLONG BlitFrom(TECBM &, TXY<SLONG>);
+    SLONG BlitFromT(TECBM &, TXY<SLONG>);
+    SLONG BlitPartFrom(TECBM &, TXY<SLONG>, TXY<SLONG> const &, TXY<SLONG> const &);
+    SLONG BlitPartFromT(TECBM &, TXY<SLONG>, TXY<SLONG> const &, TXY<SLONG> const &);
     SLONG GetAnzSubBitmaps(void) const;
     TECBM *ParseNextVertikalSubBitmap(void);
     TECBM *ParseNextHorizontalSubBitmap(void);
@@ -787,8 +769,8 @@ class TECBM {
     BUFFER_V<TECBM> *ParseHorizontalSubBitmaps(void);
     TECBM *ParseVertikalSubBitmapNumberX(SLONG);
     TECBM *ParseHorizontalSubBitmapNumberX(SLONG);
-    int ParseVertikalSubBitmapNumberXInto(SLONG, TECBM &);
-    int ParseHorizontalSubBitmapNumberXInto(SLONG, TECBM &);
+    SLONG ParseVertikalSubBitmapNumberXInto(SLONG, TECBM &);
+    SLONG ParseHorizontalSubBitmapNumberXInto(SLONG, TECBM &);
 
     SDL_Surface *Surface;
 
@@ -834,9 +816,9 @@ class HDU {
     void Close();
     void Disable();
     void ClearScreen();
-    void HercPrintf(int, const char *Format, ...);
+    void HercPrintf(SLONG, const char *Format, ...);
     void HercPrintf(const char *Format, ...);
-    void LogPosition(const char *, int);
+    void LogPosition(const char *, SLONG);
 
   private:
     FILE *Log;
@@ -863,7 +845,7 @@ extern void TeakAlbumRemoveT(BUFFER<ULONG> &, ULONG, CString const &, ULONG);
 extern void TeakAlbumRefresh(BUFFER<ULONG> &, ULONG);
 extern SLONG TeakAlbumSearchT(BUFFER<ULONG> &, ULONG, CString const &, ULONG);
 extern SLONG TeakAlbumXIdSearchT(BUFFER<ULONG> &, ULONG, CString const &, XID &);
-extern int TeakAlbumIsInAlbum(BUFFER<ULONG> &, ULONG, ULONG);
+extern BOOL TeakAlbumIsInAlbum(BUFFER<ULONG> &, ULONG, ULONG);
 extern ULONG TeakAlbumAddT(BUFFER<ULONG> &, ULONG, CString const &, ULONG);
 extern ULONG TeakAlbumFrontAddT(BUFFER<ULONG> &, ULONG, CString const &, ULONG);
 extern ULONG TeakAlbumGetNumFree(BUFFER<ULONG> &, ULONG);
@@ -876,7 +858,7 @@ template <typename T> class ALBUM {
 
     void Repair(BUFFER<T> &buffer) { Values = (BUFFER<T> *)&buffer; }
 
-    int IsInAlbum(ULONG id) { return TeakAlbumIsInAlbum(Ids, Values->AnzEntries(), id); }
+    BOOL IsInAlbum(ULONG id) { return TeakAlbumIsInAlbum(Ids, Values->AnzEntries(), id); }
 
     SLONG AnzEntries() { return Values->AnzEntries(); }
 
@@ -989,7 +971,7 @@ template <typename T> class ALBUM {
     CString Name;
 };
 
-extern int DoesFileExist(char const *);
+extern BOOL DoesFileExist(char const *);
 extern BUFFER_V<BYTE> LoadCompleteFile(char const *);
 extern SLONG CalcInertiaVelocity(SLONG, SLONG);
 extern SLONG Calc1nSum(SLONG);
@@ -1001,7 +983,7 @@ template <typename T> class ALBUM_V {
     using element_type = std::pair<T, ULONG>;
     class Iter {
       public:
-        using difference_type = int;
+        using difference_type = SLONG;
         using value_type = T;
         using pointer = T *;
         using reference = T &;
@@ -1016,18 +998,18 @@ template <typename T> class ALBUM_V {
             It--;
             return (*this);
         }
-        inline Iter &operator+=(int i) {
+        inline Iter &operator+=(SLONG i) {
             It += i;
             return (*this);
         }
-        inline Iter &operator-=(int i) {
+        inline Iter &operator-=(SLONG i) {
             It -= i;
             return (*this);
         }
-        friend Iter operator+(Iter it, int i) { return Iter(it.It + i, it.Hash); }
-        friend Iter operator-(Iter it, int i) { return Iter(it.It - i, it.Hash); }
-        friend Iter operator+(int i, Iter it) { return Iter(it.It + i, it.Hash); }
-        friend Iter operator-(int i, Iter it) { return Iter(it.It - i, it.Hash); }
+        friend Iter operator+(Iter it, SLONG i) { return Iter(it.It + i, it.Hash); }
+        friend Iter operator-(Iter it, SLONG i) { return Iter(it.It - i, it.Hash); }
+        friend Iter operator+(SLONG i, Iter it) { return Iter(it.It + i, it.Hash); }
+        friend Iter operator-(SLONG i, Iter it) { return Iter(it.It - i, it.Hash); }
         inline difference_type operator-(Iter it) const { return It - it.It; }
         inline reference operator*() const { return It->first; }
         inline bool operator==(const Iter &i) const { return It == i.It; }
@@ -1218,7 +1200,7 @@ template <typename T> class ALBUM_V {
 
         SLONG filler = 0;
 
-        File << buffer.List.size();
+        File << buffer.AnzEntries();
         File << filler;
         for (auto &i : buffer.List) {
             File << i.first;
@@ -1226,7 +1208,7 @@ template <typename T> class ALBUM_V {
 
         File << buffer.LastId;
 
-        File << buffer.List.size();
+        File << buffer.AnzEntries();
         File << filler;
         for (auto &i : buffer.List) {
             File << i.second;
@@ -1267,7 +1249,7 @@ template <typename T> class ALBUM_V {
 
         SLONG target = (random != nullptr) ? random->Rand(used) : rand() % 5;
         SLONG index = 0;
-        for (int i = AnzEntries() - 1; i >= 0; --i) {
+        for (SLONG i = AnzEntries() - 1; i >= 0; --i) {
             if (List[i].second == 0) {
                 continue;
             }
@@ -1307,7 +1289,7 @@ template <typename T> class ALBUM_V {
         rebuild_hash_table();
     }
 
-    void Swap(int a, int b) {
+    void Swap(SLONG a, SLONG b) {
         if (a == b) {
             return;
         }

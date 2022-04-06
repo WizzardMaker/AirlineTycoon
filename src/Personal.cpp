@@ -228,8 +228,8 @@ void CPersonal::OnPaint() {
 
             DestRect.x = Pos.x - (KugelBm.Size.x / 2 * Size) / 100;
             DestRect.y = Pos.y - (KugelBm.Size.y / 2 * Size) / 100;
-            DestRect.w = long(KugelBm.Size.x * Size / 100);
-            DestRect.h = long(KugelBm.Size.y * Size / 100);
+            DestRect.w = SLONG(KugelBm.Size.x * Size / 100);
+            DestRect.h = SLONG(KugelBm.Size.y * Size / 100);
 
             SDL_BlitScaled(KugelBm.pBitmap->GetSurface(), &SrcRect, RoomBm.pBitmap->GetSurface(), &DestRect);
         }
@@ -725,7 +725,7 @@ void CWorkers::CheckShortageAndSort() {
 
     hprintf("Still %li expired Workers in pool", nExpired);
     if (nExpired > 100) {
-        int i = Workers.AnzEntries() - 1;
+        SLONG i = Workers.AnzEntries() - 1;
         while (Workers[i].Employer == WORKER_EXPIRED) {
             --i;
         }

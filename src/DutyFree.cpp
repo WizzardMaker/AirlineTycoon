@@ -305,7 +305,7 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point) {
 
                         SIM::SendSimpleMessage(ATNET_TAKETHING, 0, ITEM_LAPTOP, PlayerNum);
 
-                        long delta = -atoi(StandardTexte.GetS(TOKEN_ITEM, 2000 + qPlayer.LaptopQuality));
+                        SLONG delta = -atoi(StandardTexte.GetS(TOKEN_ITEM, 2000 + qPlayer.LaptopQuality));
                         qPlayer.ChangeMoney(delta, 9999, StandardTexte.GetS(TOKEN_ITEM, 1000 + qPlayer.LaptopQuality));
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
 
@@ -359,7 +359,7 @@ void CDutyFree::OnLButtonDown(UINT nFlags, CPoint point) {
                         PayFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
                     }
 
-                    long delta = -atoi(StandardTexte.GetS(TOKEN_ITEM, 2000 + MouseClickId));
+                    SLONG delta = -atoi(StandardTexte.GetS(TOKEN_ITEM, 2000 + MouseClickId));
                     qPlayer.ChangeMoney(delta, 9999, StandardTexte.GetS(TOKEN_ITEM, 1000 + MouseClickId));
                     SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, delta, STAT_A_SONSTIGES);
 

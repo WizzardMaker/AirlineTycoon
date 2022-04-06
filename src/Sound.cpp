@@ -12,7 +12,7 @@ static char THIS_FILE[] = __FILE__;
 
 // static ULONG LastMidiPosition = 0;
 static CString LastMidiFilename;
-static int AudioMode = 0;
+static SLONG AudioMode = 0;
 
 extern FILE *pSoundLogFile;
 extern SLONG SoundLogFileStartTime;
@@ -242,8 +242,8 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
                 if (TextFollows[0] == '-' || (TextFollows[0] >= '0' && TextFollows[0] <= '9') || strnicmp(TextFollows, "DM", 2) == 0) {
                     UndoWait = TRUE;
                     pCursor->SetImage(gCursorSandBm.pBitmap);
-                    int _x = gMousePosition.x;
-                    int _y = gMousePosition.y;
+                    SLONG _x = gMousePosition.x;
+                    SLONG _y = gMousePosition.y;
                     FrameWnd->TranslatePointToScreenSpace(_x, _y);
                     pCursor->MoveImage(_x - 16, _y - 16);
                     FrameWnd->Invalidate();
@@ -327,8 +327,8 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
 
     if ((UndoWait != 0) && MouseWait == 0) {
         pCursor->SetImage(gCursorBm.pBitmap);
-        int _x = gMousePosition.x;
-        int _y = gMousePosition.y;
+        SLONG _x = gMousePosition.x;
+        SLONG _y = gMousePosition.y;
         FrameWnd->TranslatePointToScreenSpace(_x, _y);
         pCursor->MoveImage(_x, _y);
     }
@@ -419,7 +419,7 @@ void PlayFanfare() { PlayUniversalFx("taeterae.raw", Sim.Options.OptionEffekte);
 // Konvertiert einen Prozentwert in Dezibel
 //--------------------------------------------------------------------------------------------
 SLONG Prozent2Dezibel(SLONG Prozent) {
-    float rc = 0;
+    FLOAT rc = 0;
 
     if (Prozent < 0) {
         Prozent = 0;
@@ -429,7 +429,7 @@ SLONG Prozent2Dezibel(SLONG Prozent) {
     }
 
     // Quadratische Gleichung 2. Grades:
-    // rc = float(-(Prozent-100)*(Prozent-100)*(Prozent-100)*(Prozent-100)/10000*(Prozent-100)*(Prozent-100)/10000);
+    // rc = FLOAT(-(Prozent-100)*(Prozent-100)*(Prozent-100)*(Prozent-100)/10000*(Prozent-100)*(Prozent-100)/10000);
     rc = (Prozent * 128) / 100;
 
     return (SLONG(rc));
@@ -451,7 +451,7 @@ void SetMidiVolume(SLONG volume) {
     gpSSE->GetMixerVolume("MIDI", &midiVolume, &mbMusic);
     if (mbMusic.dwSteps<1) mbMusic.dwSteps=1;
 
-    long StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
+    SLONG StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
     if (StepSize<1) StepSize=1;
 
     midiVolume=mbMusic.lMinimum+volume*(mbMusic.lMaximum-mbMusic.lMinimum)/7/StepSize*StepSize;
@@ -465,7 +465,7 @@ void SetMidiVolume(SLONG volume) {
 //--------------------------------------------------------------------------------------------
 // Skala von 0-8
 //--------------------------------------------------------------------------------------------
-void SetWaveVolume(long volume) {
+void SetWaveVolume(SLONG volume) {
     SSE::SetSoundVolume(volume);
     /*SLONG       waveVolume;
 
@@ -477,7 +477,7 @@ void SetWaveVolume(long volume) {
     gpSSE->GetMixerVolume("WAVE", &waveVolume, &mbMusic);
     if (mbMusic.dwSteps<1) mbMusic.dwSteps=1;
 
-    long StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
+    SLONG StepSize=(mbMusic.lMaximum-mbMusic.lMinimum+1)/mbMusic.dwSteps;
     if (StepSize<1) StepSize=1;
 
     waveVolume=mbMusic.lMinimum+volume*(mbMusic.lMaximum-mbMusic.lMinimum)/7/StepSize*StepSize;
@@ -658,12 +658,12 @@ void SBFX::Destroy() {
     }
 }
 
-void SBFX::Fusion(const SBFX **Fx, long NumFx) {
+void SBFX::Fusion(const SBFX **Fx, SLONG NumFx) {
     FX *Elements[100];
 
     Destroy();
 
-    for (long c = 0; c < min(100, NumFx); c++) {
+    for (SLONG c = 0; c < min(100, NumFx); c++) {
         Elements[c] = Fx[c]->pFX;
     }
 
@@ -673,7 +673,7 @@ void SBFX::Fusion(const SBFX **Fx, long NumFx) {
     }
 }
 
-void SBFX::Fusion(const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumFx) {
+void SBFX::Fusion(const SBFX *Fx, const SLONG *Von, const SLONG *Bis, SLONG NumFx) {
     Destroy();
 
     if (gpSSE != nullptr) {
@@ -737,7 +737,7 @@ void SBFX::Play(dword dwFlags) const {
     }
 }
 
-void SBFX::Play(dword dwFlags, long PercentVolume) const {
+void SBFX::Play(dword dwFlags, SLONG PercentVolume) const {
     if ((pFX != nullptr) && (Sim.Options.OptionDigiSound != 0)) {
         pFX->Play(dwFlags);
         pFX->SetVolume(Prozent2Dezibel(PercentVolume));
@@ -755,7 +755,7 @@ void SBFX::Stop() const {
     }
 }
 
-void SBFX::SetVolume(long volume) const {
+void SBFX::SetVolume(SLONG volume) const {
     if (pFX != nullptr) {
         pFX->SetVolume(volume);
     }

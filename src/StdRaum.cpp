@@ -432,9 +432,9 @@ CStdRaum::~CStdRaum() {
     }
 }
 
-int UTF8Toisolat1(unsigned char *out, int outlen, const unsigned char *in, int inlen);
+SLONG UTF8Toisolat1(unsigned char *out, SLONG outlen, const unsigned char *in, SLONG inlen);
 
-int UTF8Toisolat1(unsigned char *out, int outlen, const unsigned char *in, int inlen) {
+SLONG UTF8Toisolat1(unsigned char *out, SLONG outlen, const unsigned char *in, SLONG inlen) {
     unsigned char *outstart = out;
     unsigned char *outend = out + outlen;
     const unsigned char *inend = in + inlen;
@@ -895,9 +895,9 @@ void CStdRaum::MakeNumberWindow(const char *GroupId, ULONG SubId, ...) {
 // Frischt den gemalten Text wieder auf:
 //--------------------------------------------------------------------------------------------
 void CStdRaum::RepaintText(BOOL RefreshAll) {
-    static long LastCurrentHighlight = 0;
+    static SLONG LastCurrentHighlight = 0;
 
-    if (LastCurrentHighlight != long(CurrentHighlight)) {
+    if (LastCurrentHighlight != SLONG(CurrentHighlight)) {
         LastCurrentHighlight = CurrentHighlight;
         RefreshAll = 1;
     }
@@ -1861,9 +1861,9 @@ void CStdRaum::StartDialog(SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, S
             DialogPar2 = 0;
         }
         if (DialogPar2 == 0) {
-            MakeSayWindow(0, TOKEN_PLAYER, 1000 + static_cast<int>(DialogMedium == MEDIUM_AIR), pFontPartner, (LPCTSTR)Sim.Players.Players[DialogPar1].AirlineX);
+            MakeSayWindow(0, TOKEN_PLAYER, 1000 + static_cast<SLONG>(DialogMedium == MEDIUM_AIR), pFontPartner, (LPCTSTR)Sim.Players.Players[DialogPar1].AirlineX);
         } else {
-            MakeSayWindow(1, TOKEN_PLAYER, 1000 + static_cast<int>(DialogMedium == MEDIUM_AIR), 1000 + static_cast<int>(DialogMedium == MEDIUM_AIR), FALSE,
+            MakeSayWindow(1, TOKEN_PLAYER, 1000 + static_cast<SLONG>(DialogMedium == MEDIUM_AIR), 1000 + static_cast<SLONG>(DialogMedium == MEDIUM_AIR), FALSE,
                           &FontDialog, &FontDialogLight, (LPCTSTR)Sim.Players.Players[Sim.localPlayer].AirlineX);
         }
         break;
@@ -2134,17 +2134,17 @@ void CStdRaum::InitToolTips() {
                 if (CursorPos.IfIsWithin(32, 4, 204, 4 + 15 * 13)) {
                     c = (CursorPos.y - 4) / 13;
 
-                    if (c >= 1 && c <= 3 && (Sim.Players.Players[c - 1 + static_cast<int>((c - 1) >= PlayerNum)].IsOut == 0)) {
+                    if (c >= 1 && c <= 3 && (Sim.Players.Players[c - 1 + static_cast<SLONG>((c - 1) >= PlayerNum)].IsOut == 0)) {
                         CheckCursorHighlight(CursorPos, CRect(32, (CursorPos.y - 4) / 13 * 13 + 4, 204, (CursorPos.y - 4) / 13 * 13 + 4 + 15),
                                              ColorOfFontBlack);
-                        SetMouseLook(CURSOR_HOT, 0, -101, MENU_PLAYERLIST, CursorPos.x, c - 1 + static_cast<int>((c - 1) >= PlayerNum));
+                        SetMouseLook(CURSOR_HOT, 0, -101, MENU_PLAYERLIST, CursorPos.x, c - 1 + static_cast<SLONG>((c - 1) >= PlayerNum));
                     }
 
-                    if (c >= 6 && c <= 8 && (Sim.Players.Players[c - 6 + static_cast<int>((c - 6) >= PlayerNum)].IsOut == 0) &&
-                        (Sim.Players.Players[c - 6 + static_cast<int>((c - 6) >= PlayerNum)].HasItem(ITEM_HANDY) != 0)) {
+                    if (c >= 6 && c <= 8 && (Sim.Players.Players[c - 6 + static_cast<SLONG>((c - 6) >= PlayerNum)].IsOut == 0) &&
+                        (Sim.Players.Players[c - 6 + static_cast<SLONG>((c - 6) >= PlayerNum)].HasItem(ITEM_HANDY) != 0)) {
                         CheckCursorHighlight(CursorPos, CRect(32, (CursorPos.y - 4) / 13 * 13 + 4, 204, (CursorPos.y - 4) / 13 * 13 + 4 + 15),
                                              ColorOfFontBlack);
-                        SetMouseLook(CURSOR_HOT, 0, -101, MENU_PLAYERLIST, CursorPos.x, c - 6 + static_cast<int>((c - 6) >= PlayerNum) + 4);
+                        SetMouseLook(CURSOR_HOT, 0, -101, MENU_PLAYERLIST, CursorPos.x, c - 6 + static_cast<SLONG>((c - 6) >= PlayerNum) + 4);
                     }
                 }
                 if (CursorPos.IfIsWithin(12, 187, 36, 208)) {
@@ -2453,8 +2453,8 @@ void CStdRaum::InitToolTips() {
 
                 for (c = 0; c < 4; c++) {
                     if (Sim.Players.Players[c].Owner == 2) {
-                        if (CursorPos.IfIsWithin(60 + (c - static_cast<int>(c > Sim.localPlayer)) * 60, 80,
-                                                 60 + (c - static_cast<int>(c > Sim.localPlayer)) * 60 + 60, 80 + 60)) {
+                        if (CursorPos.IfIsWithin(60 + (c - static_cast<SLONG>(c > Sim.localPlayer)) * 60, 80,
+                                                 60 + (c - static_cast<SLONG>(c > Sim.localPlayer)) * 60 + 60, 80 + 60)) {
                             SetMouseLook(CURSOR_HOT, 1000 + c,
                                          bprintf("%s (%s)", (LPCTSTR)Sim.Players.Players[c].NameX, (LPCTSTR)Sim.Players.Players[c].AirlineX), -101,
                                          MENU_RENAMEPLANE, 10 + c);
@@ -2468,22 +2468,22 @@ void CStdRaum::InitToolTips() {
 
             case MENU_BANK:
                 if (CursorPos.IfIsWithin(111, 159, 198, 190)) {
-                    SetMouseLook(CURSOR_HOT, 4101 + static_cast<int>(MenuPar2 == 1) * 10, -102, MENU_BANK, 11);
+                    SetMouseLook(CURSOR_HOT, 4101 + static_cast<SLONG>(MenuPar2 == 1) * 10, -102, MENU_BANK, 11);
                 } else if (CursorPos.IfIsWithin(204, 156, 271, 187)) {
-                    SetMouseLook(CURSOR_HOT, 4100 + static_cast<int>(MenuPar2 == 1) * 10, -102, MENU_BANK, 10);
+                    SetMouseLook(CURSOR_HOT, 4100 + static_cast<SLONG>(MenuPar2 == 1) * 10, -102, MENU_BANK, 10);
                 }
 
-                CheckCursorHighlight(CursorPos, CRect(56, 81, 318, 96), ColorOfFontBlack, CURSOR_HOT, 4102 + static_cast<int>(MenuPar2 == 1), -102, MENU_BANK,
+                CheckCursorHighlight(CursorPos, CRect(56, 81, 318, 96), ColorOfFontBlack, CURSOR_HOT, 4102 + static_cast<SLONG>(MenuPar2 == 1), -102, MENU_BANK,
                                      12);
                 break;
 
             case MENU_AKTIE:
             case MENU_SETRENDITE:
                 if (CursorPos.IfIsWithin(237, 125, 304, 156)) {
-                    SetMouseLook(CURSOR_HOT, 4200 + static_cast<int>(MenuPar2 == 1) * 10 + static_cast<int>(CurrentMenu == MENU_SETRENDITE) * 100, -102,
+                    SetMouseLook(CURSOR_HOT, 4200 + static_cast<SLONG>(MenuPar2 == 1) * 10 + static_cast<SLONG>(CurrentMenu == MENU_SETRENDITE) * 100, -102,
                                  MENU_SETRENDITE, 10);
                 } else if (CursorPos.IfIsWithin(153, 133, 208, 159)) {
-                    SetMouseLook(CURSOR_HOT, 4201 + static_cast<int>(MenuPar2 == 1) * 10 + static_cast<int>(CurrentMenu == MENU_SETRENDITE) * 100, -102,
+                    SetMouseLook(CURSOR_HOT, 4201 + static_cast<SLONG>(MenuPar2 == 1) * 10 + static_cast<SLONG>(CurrentMenu == MENU_SETRENDITE) * 100, -102,
                                  MENU_SETRENDITE, 11);
                 }
 
@@ -2879,13 +2879,13 @@ void CStdRaum::PostPaint() {
         if (DialogPartner == TALKER_COMPETITOR) {
             if (timeGetTime() > DWORD(SmackerTimeToTalk) || TextAlign != 0 || ((TalkingSpeechFx > 0 && !SpeechFx.pFX->IsMouthOpen(200)))) {
                 PrimaryBm.FlipBlitFromT(
-                    BeraterBms[12 + DialogPar1][static_cast<int>(DialogMedium == MEDIUM_HANDY) * 4],
-                    XY(640 - BeraterBms[12 + DialogPar1][0].Size.x, 440 - BeraterSlideY[12 + DialogPar1 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 4]));
+                    BeraterBms[12 + DialogPar1][static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4],
+                    XY(640 - BeraterBms[12 + DialogPar1][0].Size.x, 440 - BeraterSlideY[12 + DialogPar1 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4]));
             } else {
                 PrimaryBm.FlipBlitFromT(
                     BeraterBms[12 + DialogPar1]
-                              ["\x0\x2\x1\x3\x2\x3\x0\x1\x2"[(timeGetTime() / 50 / 3) & 7] + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 4],
-                    XY(640 - BeraterBms[12 + DialogPar1][0].Size.x, 440 - BeraterSlideY[12 + DialogPar1 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 4]));
+                              ["\x0\x2\x1\x3\x2\x3\x0\x1\x2"[(timeGetTime() / 50 / 3) & 7] + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4],
+                    XY(640 - BeraterBms[12 + DialogPar1][0].Size.x, 440 - BeraterSlideY[12 + DialogPar1 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4]));
             }
 
             // Gedankenblase für nachdenkende Netzwerkspieler:
@@ -2895,7 +2895,7 @@ void CStdRaum::PostPaint() {
                     if (DisplayThisBubble != 0) {
                         ColorFX.BlitTrans(MoodBms[MoodPersonEmpty].pBitmap, &PrimaryBm.PrimaryBm,
                                           XY(640 - BeraterBms[12 + DialogPar1][0].Size.x,
-                                             440 - BeraterSlideY[12 + DialogPar1 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 4]) -
+                                             440 - BeraterSlideY[12 + DialogPar1 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4]) -
                                               XY(-5, MoodBms[MoodPersonEmpty].Size.y),
                                           nullptr, 4);
                     }
@@ -2939,8 +2939,8 @@ void CStdRaum::PostPaint() {
                     } else {
                         DestRect.x = (p.x * (100 - ZoomCounter) + MenuPos.x * ZoomCounter) / 100;
                         DestRect.y = (p.y * (100 - ZoomCounter) + MenuPos.y * ZoomCounter) / 100;
-                        DestRect.w = long(OnscreenBitmap.Size.x * (MinimumZoom * 100 + ((ZoomCounter * (1.0 - MinimumZoom)))) / 100);
-                        DestRect.h = long(OnscreenBitmap.Size.y * (MinimumZoom * 100 + ((ZoomCounter * (1.0 - MinimumZoom)))) / 100);
+                        DestRect.w = SLONG(OnscreenBitmap.Size.x * (MinimumZoom * 100 + ((ZoomCounter * (1.0 - MinimumZoom)))) / 100);
+                        DestRect.h = SLONG(OnscreenBitmap.Size.y * (MinimumZoom * 100 + ((ZoomCounter * (1.0 - MinimumZoom)))) / 100);
                     }
 
                     SDL_BlitScaled(OnscreenBitmap.pBitmap->GetSurface(), &SrcRect, PrimaryBm.PrimaryBm.GetSurface(), &DestRect);
@@ -2989,8 +2989,8 @@ void CStdRaum::PostPaint() {
 
                 DestRect.x = (p.x * (100 - ZoomCounter) + MenuPos.x * ZoomCounter) / 100;
                 DestRect.y = (p.y * (100 - ZoomCounter) + MenuPos.y * ZoomCounter) / 100;
-                DestRect.w = long(OnscreenBitmap.Size.x * (MinimumZoom * 100 + ((ZoomCounter * (1.0 - MinimumZoom)))) / 100);
-                DestRect.h = long(OnscreenBitmap.Size.y * (MinimumZoom * 100 + ((ZoomCounter * (1.0 - MinimumZoom)))) / 100);
+                DestRect.w = SLONG(OnscreenBitmap.Size.x * (MinimumZoom * 100 + ((ZoomCounter * (1.0 - MinimumZoom)))) / 100);
+                DestRect.h = SLONG(OnscreenBitmap.Size.y * (MinimumZoom * 100 + ((ZoomCounter * (1.0 - MinimumZoom)))) / 100);
 
                 SDL_BlitScaled(OnscreenBitmap.pBitmap->GetSurface(), &SrcRect, PrimaryBm.PrimaryBm.GetSurface(), &DestRect);
             }
@@ -3006,13 +3006,13 @@ void CStdRaum::PostPaint() {
             if (qMessages.AktuellerBeraterTyp < 100) { // Berater rechts, andere links
                 PrimaryBm.BlitFromT(
                     BeraterBms[qMessages.AktuelleBeraterBitmap]["\0\0\x1\0\x1\x1"[(qMessages.TalkPhase / 3) % 6] +
-                                                                (static_cast<int>(qMessages.BlinkCountdown > 0) * BeraterBms[0].AnzEntries() / 2)],
+                                                                (static_cast<SLONG>(qMessages.BlinkCountdown > 0) * BeraterBms[0].AnzEntries() / 2)],
                     640 - BeraterBms[qMessages.AktuelleBeraterBitmap][0].Size.x, qMessages.BeraterPosY);
             } else if (DontDisplayPlayer == -1 && (IsInBuro == 0)) {
                 PrimaryBm.BlitFromT(BeraterBms[qMessages.AktuelleBeraterBitmap]
-                                              ["\x0\x2\x1\x3\x2\x3\x0\x1\x2"[static_cast<int>(TalkingSpeechFx == 0 || SpeechFx.pFX->IsMouthOpen(200)) *
+                                              ["\x0\x2\x1\x3\x2\x3\x0\x1\x2"[static_cast<SLONG>(TalkingSpeechFx == 0 || SpeechFx.pFX->IsMouthOpen(200)) *
                                                                              ((qMessages.TalkPhase / 3) & 7)] +
-                                               static_cast<int>(DialogMedium == MEDIUM_HANDY) * 4],
+                                               static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4],
                                     0, qMessages.BeraterPosY);
             } else if ((qPlayer.Messages.IsDialogTalking <= 0 || ((TalkingSpeechFx != 0) && !SpeechFx.pFX->IsMouthOpen(200))) && (IsInBuro != 0) &&
                        (IsDialogOpen() != 0)) {
@@ -3100,7 +3100,7 @@ void CStdRaum::PostPaint() {
             LastTime = Sim.Time;
 
             if (rand() % 10 == 1) {
-                TXY<int> rcWindow;
+                TXY<SLONG> rcWindow;
 
                 gMousePosition = XY(rand() % 640, rand() % 480);
 
@@ -3633,8 +3633,8 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
 
             case ITEM_GLKOHLE:
                 if (qPlayer.GetRoom() == ROOM_LAST_MINUTE) {
-                    long cnt = 0;
-                    for (long c = LastMinuteAuftraege.AnzEntries() - 1; c >= 0; c--) {
+                    SLONG cnt = 0;
+                    for (SLONG c = LastMinuteAuftraege.AnzEntries() - 1; c >= 0; c--) {
                         if (LastMinuteAuftraege[c].Praemie > 0) {
                             LastMinuteAuftraege[c].Praemie = 0;
                             qPlayer.NetUpdateTook(2, c);
@@ -3648,8 +3648,8 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
                         gUniversalFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
                     }
                 } else if (qPlayer.GetRoom() == ROOM_REISEBUERO) {
-                    long cnt = 0;
-                    for (long c = ReisebueroAuftraege.AnzEntries() - 1; c >= 0; c--) {
+                    SLONG cnt = 0;
+                    for (SLONG c = ReisebueroAuftraege.AnzEntries() - 1; c >= 0; c--) {
                         if (ReisebueroAuftraege[c].Praemie > 0) {
                             ReisebueroAuftraege[c].Praemie = 0;
                             qPlayer.NetUpdateTook(1, c);
@@ -3699,7 +3699,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
 
             case ITEM_PARFUEM:
                 if (qPlayer.GetRoom() == ROOM_WERKSTATT && Sim.Slimed != -1) {
-                    for (long d = 0; d < 6; d++) {
+                    for (SLONG d = 0; d < 6; d++) {
                         if (qPlayer.Items[d] == ITEM_PARFUEM) {
                             qPlayer.Items[d] = ITEM_XPARFUEM;
                         }
@@ -4631,7 +4631,7 @@ void CStdRaum::MenuRepaint() {
         OnscreenBitmap.PrintAt(StandardTexte.GetS(TOKEN_MISC, 1130), FontSmallBlack, TEC_FONT_LEFT, 34, 7 + 0 * 13, 204, 210);
         OnscreenBitmap.PrintAt(StandardTexte.GetS(TOKEN_MISC, 1131), FontSmallBlack, TEC_FONT_LEFT, 34, 7 + 5 * 13, 204, 210);
         for (c = 0; c < 3; c++) {
-            PLAYER &qPlayer = Sim.Players.Players[c + static_cast<int>(c >= PlayerNum)];
+            PLAYER &qPlayer = Sim.Players.Players[c + static_cast<SLONG>(c >= PlayerNum)];
 
             if (qPlayer.IsOut != 0) {
                 OnscreenBitmap.PrintAt(qPlayer.NameX, FontSmallGrey, TEC_FONT_LEFT, 40, 7 + (c + 1) * 13, 204, 210);
@@ -5041,9 +5041,9 @@ void CStdRaum::MenuRepaint() {
         for (c = 0; c < 4; c++) {
             if (c != Sim.localPlayer) {
                 if (((MenuPar1 & (1 << c)) != 0) && Sim.Players.Players[c].Owner == 2) {
-                    OnscreenBitmap.BlitFromT(MenuBms[c + 1], 60 + (c - static_cast<int>(c > Sim.localPlayer)) * 60, 80);
+                    OnscreenBitmap.BlitFromT(MenuBms[c + 1], 60 + (c - static_cast<SLONG>(c > Sim.localPlayer)) * 60, 80);
                 } else {
-                    OnscreenBitmap.BlitFromT(MenuBms[c + 5], 60 + (c - static_cast<int>(c > Sim.localPlayer)) * 60, 80);
+                    OnscreenBitmap.BlitFromT(MenuBms[c + 5], 60 + (c - static_cast<SLONG>(c > Sim.localPlayer)) * 60, 80);
                 }
             }
         }
@@ -5051,8 +5051,8 @@ void CStdRaum::MenuRepaint() {
     } break;
 
     case MENU_GAMEOVER:
-        OnscreenBitmap.BlitFromT(MenuBms[static_cast<int>(static_cast<int>(MenuPar1) == 0)],
-                                 320 - MenuBms[static_cast<int>(static_cast<int>(MenuPar1) == 0)].Size.x / 2, 330);
+        OnscreenBitmap.BlitFromT(MenuBms[static_cast<SLONG>(MenuPar1 == 0)],
+                                 320 - MenuBms[static_cast<SLONG>(MenuPar1 == 0)].Size.x / 2, 330);
         break;
 
     case MENU_SABOTAGEFAX:
@@ -5278,7 +5278,7 @@ void CStdRaum::MenuRepaint() {
 
             // Markt:
             OnscreenBitmap.PrintAt(StandardTexte.GetS(TOKEN_AKTIE, 1000), qFontBankBlack, TEC_FONT_LEFT, 30, 40, 325, 139);
-            OnscreenBitmap.PrintAt(Einheiten[EINH_DM].bString(long(Sim.Players.Players[MenuPar1].Kurse[0])), qFontBankBlack, TEC_FONT_LEFT, 90, 40, 260, 139);
+            OnscreenBitmap.PrintAt(Einheiten[EINH_DM].bString(SLONG(Sim.Players.Players[MenuPar1].Kurse[0])), qFontBankBlack, TEC_FONT_LEFT, 90, 40, 260, 139);
             OnscreenBitmap.PrintAt(bitoa(Max), qFontBankBlack, TEC_FONT_LEFT, 140, 40, 260, 139);
             OnscreenBitmap.PrintAt(Einheiten[EINH_P].bString(SLONG(__int64(Max) * 100 / Sim.Players.Players[MenuPar1].AnzAktien)), qFontBankBlack,
                                    TEC_FONT_LEFT, 200, 40, 325, 139);
@@ -5905,9 +5905,9 @@ void CStdRaum::MenuPostPaint() {
         break;
 
     case MENU_BRIEFING:
-        OnscreenBitmap.BlitFrom(MenuBms[11 + static_cast<int>(MouseClickPar1 == 1)], 136, 385);
+        OnscreenBitmap.BlitFrom(MenuBms[11 + static_cast<SLONG>(MouseClickPar1 == 1)], 136, 385);
         if (MenuPar1 == 0) {
-            OnscreenBitmap.BlitFrom(MenuBms[13 + static_cast<int>(MouseClickPar1 == 2)], 325, 385);
+            OnscreenBitmap.BlitFrom(MenuBms[13 + static_cast<SLONG>(MouseClickPar1 == 2)], 325, 385);
         }
         break;
     default:
@@ -8125,7 +8125,7 @@ void CStdRaum::CalcKey(SLONG Key) {
 //--------------------------------------------------------------------------------------------
 //Übergibt die Daten für das Zoommenü:
 //--------------------------------------------------------------------------------------------
-void CStdRaum::MenuSetZoomStuff(const XY &MenuStartPos, double MinimumZoom, BOOL ZoomFromAirport, SLONG ZoomSpeed) {
+void CStdRaum::MenuSetZoomStuff(const XY &MenuStartPos, DOUBLE MinimumZoom, BOOL ZoomFromAirport, SLONG ZoomSpeed) {
     CStdRaum::ZoomCounter = 0;
     CStdRaum::MenuStartPos = MenuStartPos;
     CStdRaum::MinimumZoom = MinimumZoom;

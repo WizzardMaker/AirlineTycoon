@@ -118,8 +118,8 @@ void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &Reflexi
 
     if (pTargetBm->Size.x - 1 >= 0) {
         for (y = 0; y < ReflexionSourceBm.Size.y; y++) {
-            long tx = SLONG(sin((timeGetTime() + sin((y + AnimOffset) / 10.0) * 2400) / 500.0) * 7);
-            // long tx = SLONG(sin((timeGetTime()+y*240)/1000.0)*7);
+            SLONG tx = SLONG(sin((timeGetTime() + sin((y + AnimOffset) / 10.0) * 2400) / 500.0) * 7);
+            // SLONG tx = SLONG(sin((timeGetTime()+y*240)/1000.0)*7);
 
             for (x = 0; x < 16; x++) {
                 MoveOffset[x] = tx * x / 15;

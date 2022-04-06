@@ -50,13 +50,13 @@ class GfxLib {
   private:
     SLONG CountGfxChunks(struct _uniChunk *, SLONG);
     static struct _GfxLibHeader *LoadHeader(SDL_RWops *);
-    void ReadPaletteChunk(int, struct _PaletteInfo);
-    void ReadNameChunk(int, struct _LongNameChunk);
+    void ReadPaletteChunk(SLONG, struct _PaletteInfo);
+    void ReadNameChunk(SLONG, struct _LongNameChunk);
     void *DeCompData(void *, struct _GfxChunkInfo, SLONG);
     void *ConvertData(void *, SLONG, char *, SLONG, SLONG, SLONG, SLONG, SLONG);
-    struct IDirectDrawSurface *FillSurface(int, struct _GfxChunkInfo, char *, struct IDirectDrawSurface *);
-    struct IDirectDrawSurface *ReadPixelData(int, struct _GfxChunkInfo, char *, SLONG);
-    struct IDirectDrawPalette *ReadPalette(int, struct _GfxChunkInfo);
+    struct IDirectDrawSurface *FillSurface(SLONG, struct _GfxChunkInfo, char *, struct IDirectDrawSurface *);
+    struct IDirectDrawSurface *ReadPixelData(SLONG, struct _GfxChunkInfo, char *, SLONG);
+    struct IDirectDrawPalette *ReadPalette(SLONG, struct _GfxChunkInfo);
     void *ReadZBuffer(SDL_RWops *, struct _GfxChunkInfo);
     void *ReadAlphaBuffer(SDL_RWops *, struct _GfxChunkInfo);
     SLONG ReadGfxChunk(SDL_RWops *, struct _GfxChunkHeader, SLONG, SLONG);
@@ -162,8 +162,6 @@ class SB_CBitmapCore {
     SLONG RefCounter{0};
 };
 
-// static_assert(sizeof(SB_CBitmapCore) == 0x5Cu, "SB_CBitmapCore size check");
-
 class SB_CCursor {
   public:
     SB_CCursor(class SB_CPrimaryBitmap *, class SB_CBitmapCore * = NULL);
@@ -190,10 +188,7 @@ class SB_CCursor {
     SB_CBitmapCore *Cursor;
     SDL_Surface *Background;
     XY Position;
-    dword Unknown[22]{};
 };
-
-// static_assert(sizeof(SB_CCursor) == 0x6Cu, "SB_CCursor size check");
 
 class SB_CPrimaryBitmap : public SB_CBitmapCore {
   public:
@@ -214,11 +209,8 @@ class SB_CPrimaryBitmap : public SB_CBitmapCore {
     void Delete(void);
 
     SDL_Window *Window{};
-    dword Unknown[9]{};
     SB_CCursor *Cursor{};
 };
-
-// static_assert(sizeof(SB_CPrimaryBitmap) == 0x88u, "SB_CPrimaryBitmap size check");
 
 class SB_CBitmapMain {
   public:
@@ -237,10 +229,7 @@ class SB_CBitmapMain {
     SDL_Renderer *Renderer;
     std::unordered_map<SLONG, SB_CBitmapCore> Bitmaps;
     SLONG UniqueId{0};
-    dword Unknown[3]{};
 };
-
-// static_assert(sizeof(SB_CBitmapMain) == 0x1Cu, "SB_CBitmapMain size check");
 
 class SB_CBitmapKey {
   public:
@@ -261,12 +250,9 @@ class SB_CBitmapKey {
     }
 
     SDL_Surface *Surface;
-    dword Unknown[27]{};
     void *Bitmap;
-    int lPitch;
+    SLONG lPitch;
 };
-
-// static_assert(sizeof(SB_CBitmapKey) == 0x78u, "SB_CBitmapKey size check");
 
 typedef struct {
     SB_CPrimaryBitmap *pBitmap{nullptr};
@@ -286,14 +272,6 @@ typedef struct tagTabs {
     dword Style{};
     dword Width{};
 } TABS;
-
-// static_assert(sizeof(TABS) == 8, "TABS size check");
-
-typedef struct tagTextStyle {
-    dword Unknown[3]{};
-} TEXT_STYLE;
-
-// static_assert(sizeof(TEXT_STYLE) == 12, "TEXT_STYLE size check");
 
 class SB_CFont {
   public:
@@ -338,7 +316,7 @@ class SB_CFont {
     bool CopyMemToSurface(struct HPALETTE__ *);
     void SetTabulator(struct tagTabs *, ULONG);
 
-    void SetLineSpace(float LineSpace) { this->LineSpace = LineSpace; }
+    void SetLineSpace(FLOAT LineSpace) { this->LineSpace = LineSpace; }
 
   protected:
     void Init(void);
@@ -353,7 +331,6 @@ class SB_CFont {
 
   private:
     FontHeader Header{};
-    dword Unknown0[4]{};
     SDL_Surface *Surface;
     SDL_Texture *Texture;
     BYTE *VarWidth;
@@ -363,9 +340,7 @@ class SB_CFont {
     word NumTabs{};
     XY Pos;
     XY Start;
-    float LineSpace;
+    FLOAT LineSpace;
     SB_CBitmapCore *Bitmap;
 };
-
-// static_assert(sizeof(SB_CFont) == 0x70u, "SB_CFont size check");
 

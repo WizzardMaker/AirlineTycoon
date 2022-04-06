@@ -26,9 +26,6 @@ class Bank : public CStdRaum {
 
     // Attributes
   public:
-    TEXT_STYLE StyleAktie{};  // Angestellter für Aktie
-    TEXT_STYLE StyleKredit{}; // Angestellter für Kredit
-    TEXT_STYLE StyleAuszug{}; // Style für den Kontoauszug
     SLONG CurrentText{};      // Nummer des aktuellen Dialogs
     SLONG CurrentValue{};     // Betrag über den gerade geredet wird..
     SBBM TipBm;               // Fenster für Flugzeug-Tips

@@ -26,14 +26,14 @@ extern SLONG timeReisClose;
 //--------------------------------------------------------------------------------------------
 // Zählt wie oft das Zeichen vorkommt:
 //--------------------------------------------------------------------------------------------
-long strchrcount(CString Text, char chr);
+SLONG strchrcount(CString Text, char chr);
 
-long strchrcount(CString Text, char chr) {
-    long c = 0;
-    long n = 0;
+SLONG strchrcount(CString Text, char chr) {
+    SLONG c = 0;
+    SLONG n = 0;
 
     for (c = n = 0; c < Text.GetLength(); c++) {
-        if (Text[int(c)] == chr) {
+        if (Text[SLONG(c)] == chr) {
             n++;
         }
     }
@@ -51,7 +51,7 @@ CString ShortenLongCities(CString City) {
     City.TrimRight();
 
     if (strchrcount(City, ' ') == 2) {
-        for (int c = 0; c < City.GetLength(); c++) {
+        for (SLONG c = 0; c < City.GetLength(); c++) {
             if (City[c] == ' ') {
                 return City.Left(c);
             }
@@ -293,8 +293,8 @@ void CReisebuero::OnPaint() {
 
                 DestRect.x = Pos.x;
                 DestRect.y = Pos.y;
-                DestRect.w = long(ZettelBms[c].Size.x * (p + 400) / 1400);
-                DestRect.h = long(ZettelBms[c].Size.y * (p + 400) / 1400);
+                DestRect.w = SLONG(ZettelBms[c].Size.x * (p + 400) / 1400);
+                DestRect.h = SLONG(ZettelBms[c].Size.y * (p + 400) / 1400);
 
                 SDL_BlitScaled(ZettelBms[c].pBitmap->GetSurface(), &SrcRect, RoomBm.pBitmap->GetSurface(), &DestRect);
             }
@@ -386,8 +386,8 @@ void CReisebuero::OnLButtonDown(UINT nFlags, CPoint point) {
                     // Für den Statistikscreen:
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(1);
 
-                    SIM::SendSimpleMessage(ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, static_cast<long>(qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0)),
-                                           static_cast<long>(qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay(0)));
+                    SIM::SendSimpleMessage(ATNET_SYNCNUMFLUEGE, 0, Sim.localPlayer, static_cast<SLONG>(qPlayer.Statistiken[STAT_AUFTRAEGE].GetAtPastDay(0)),
+                                           static_cast<SLONG>(qPlayer.Statistiken[STAT_LMAUFTRAEGE].GetAtPastDay(0)));
 
                     ReisebueroAuftraege[c].Praemie = -1000;
                     qPlayer.NetUpdateTook(2, c);

@@ -66,7 +66,7 @@ SLONG GetAnzBits(ULONG Flags) {
 //--------------------------------------------------------------------------------------------
 // Berechnet den Winkel eines Vektors; 0 liegt bei 12 Uhr
 //--------------------------------------------------------------------------------------------
-double GetAlphaFromXY(XY Delta) {
+DOUBLE GetAlphaFromXY(XY Delta) {
     if (Delta.x == 0) {
         if (Delta.y > 0) {
             return (180);
@@ -74,7 +74,7 @@ double GetAlphaFromXY(XY Delta) {
         return (0);
     }
 
-    double rc = NAN;
+    DOUBLE rc = NAN;
 
     if (Delta.x > 0) {
         rc = atan2(Delta.y, Delta.x) * 180 / 3.14159275 + 90;
@@ -104,7 +104,7 @@ void CheckCString(CString *String) {
 //--------------------------------------------------------------------------------------------
 CString KorrigiereUmlaute(CString &OriginalText) {
     CString rc;
-    int c = 0;
+    SLONG c = 0;
 
     // Keine Korrektur für Tschechien:
     if (gLanguage == LANGUAGE_1) {
@@ -235,8 +235,8 @@ SLONG ReadTimeStampCounter (void)
 __int64 StringToInt64(const CString &String) {
     __int64 rc = 0;
 
-    for (long d = 0; d < String.GetLength(); d++) {
-        rc += __int64(String[int(d)]) << (8 * d);
+    for (SLONG d = 0; d < String.GetLength(); d++) {
+        rc += __int64(String[SLONG(d)]) << (8 * d);
     }
 
     return (rc);
@@ -272,7 +272,7 @@ BOOL IsRoomBusy(UWORD RoomId, SLONG ExceptPlayer) {
 // Projeziert die Länge/Breite in Pixel; Gibt TRUE zurück wenn auf Erdvorderseite
 //--------------------------------------------------------------------------------------------
 BOOL EarthProjectize(const XY &NaturalPos, UWORD EarthAlpha, XY *PixelPos) {
-    double _a = 2.65;
+    DOUBLE _a = 2.65;
     auto xx = UWORD(UWORD((NaturalPos.x + 180) * 65536 / 360) - EarthAlpha + 16384 - 1250);
 
     auto py = SLONG(sin((NaturalPos.y * _a) / 240.0 * (3.14159 / 2)) * 185 + 190);
@@ -290,7 +290,7 @@ BOOL EarthProjectize(const XY &NaturalPos, UWORD EarthAlpha, XY *PixelPos) {
 // Projeziert die Länge/Breite in Pixel; Gibt TRUE zurück wenn auf Erdvorderseite
 //--------------------------------------------------------------------------------------------
 BOOL EarthProjectize(const FXY &NaturalPos, UWORD EarthAlpha, XY *PixelPos) {
-    double _a = 2.65;
+    DOUBLE _a = 2.65;
     auto xx = UWORD(UWORD((NaturalPos.x + 180) * 65536 / 360) - EarthAlpha + 16384 - 1250);
 
     auto py = SLONG(sin((NaturalPos.y * _a) / 240.0 * (3.14159 / 2)) * 185 + 190);
@@ -322,10 +322,10 @@ SLONG AddToNthDigit(SLONG Value, SLONG Digit, SLONG Add) {
 
     for (c = 0; c < 20; c++, n = n * 10) {
         if (n <= betrag && betrag < n * 10) {
-            while (long(pow(10, Digit - 1)) > n && Digit > 0) {
+            while (SLONG(pow(10, Digit - 1)) > n && Digit > 0) {
                 Digit--;
             }
-            return (Value + Add * n / long(pow(10, Digit - 1)));
+            return (Value + Add * n / SLONG(pow(10, Digit - 1)));
         }
     }
 
@@ -580,12 +580,12 @@ HEADLINES::HEADLINES(const CString &TabFilename) { ReInit(TabFilename); }
 //--------------------------------------------------------------------------------------------
 // Sucht die Schlagzeile raus:
 //--------------------------------------------------------------------------------------------
-CHeadline HEADLINES::GetHeadline(long Newspaper, SLONG Index) { return (Headline[Newspaper * 10 + Index]); }
+CHeadline HEADLINES::GetHeadline(SLONG Newspaper, SLONG Index) { return (Headline[Newspaper * 10 + Index]); }
 
 //--------------------------------------------------------------------------------------------
 // Schreibt die Headline auf den Schirm:
 //--------------------------------------------------------------------------------------------
-void HEADLINES::BlitHeadline(long /*Newspaper*/, SBBM & /*Offscreen*/, const CPoint & /*p1*/, const CPoint & /*p2*/, BYTE /*Color*/) {}
+void HEADLINES::BlitHeadline(SLONG /*Newspaper*/, SBBM & /*Offscreen*/, const CPoint & /*p1*/, const CPoint & /*p2*/, BYTE /*Color*/) {}
 
 //--------------------------------------------------------------------------------------------
 // Initializes the data:
@@ -726,14 +726,14 @@ void HEADLINES::InterpolateHeadline() {
 
             // Extract info string, match "{" and "}":
             for (d = Headline[c * 10].Headline.GetLength() - 1; d >= 0; d--) {
-                if (Headline[c * 10].Headline[static_cast<int>(d)] == '}') {
+                if (Headline[c * 10].Headline[static_cast<SLONG>(d)] == '}') {
                     if (count == 0) {
                         bis = d;
                     }
                     count++;
                 }
 
-                if (Headline[c * 10].Headline[static_cast<int>(d)] == '{') {
+                if (Headline[c * 10].Headline[static_cast<SLONG>(d)] == '{') {
                     count--;
                     if (count == 0) {
                         von = d;
@@ -811,7 +811,7 @@ void HEADLINES::InterpolateHeadline() {
 //--------------------------------------------------------------------------------------------
 // Speichert eine neue Schlagzeile für morgen
 //--------------------------------------------------------------------------------------------
-void HEADLINES::AddOverride(long Newspaper, const CString &HeadlineText, __int64 PictureId, SLONG PicturePriority) {
+void HEADLINES::AddOverride(SLONG Newspaper, const CString &HeadlineText, __int64 PictureId, SLONG PicturePriority) {
     SLONG c = 0;
 
     for (c = Newspaper * 10; c < Newspaper * 10 + 10; c++) {
@@ -850,7 +850,7 @@ void HEADLINES::ComparisonHeadlines() {
 
             if (Sim.Players.Players[best].Planes.GetNumUsed() > 10) {
                 AddOverride(1, bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 2050)), (LPCTSTR)Sim.Players.Players[best].AirlineX),
-                            GetIdFromString("PLANES") + best * 100, 10 + static_cast<int>(best == Sim.localPlayer) * 10);
+                            GetIdFromString("PLANES") + best * 100, 10 + static_cast<SLONG>(best == Sim.localPlayer) * 10);
             }
             break;
 
@@ -877,7 +877,7 @@ void HEADLINES::ComparisonHeadlines() {
                 AddOverride(1,
                             bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 2051)), (LPCTSTR)Sim.Players.Players[best].AirlineX,
                                     (LPCTSTR)Sim.Players.Players[best2].AirlineX),
-                            GetIdFromString("LIEBSTE") + best * 100, 10 + static_cast<int>(best == Sim.localPlayer) * 10);
+                            GetIdFromString("LIEBSTE") + best * 100, 10 + static_cast<SLONG>(best == Sim.localPlayer) * 10);
             }
             break;
 
@@ -896,7 +896,7 @@ void HEADLINES::ComparisonHeadlines() {
                 AddOverride(1,
                             bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 2052)), (LPCTSTR)Sim.Players.Players[best].AirlineX,
                                     Sim.Players.Players[best].RentRouten.GetNumUsed()),
-                            GetIdFromString("ROUTEN") + best * 100, 10 + static_cast<int>(best == Sim.localPlayer) * 10);
+                            GetIdFromString("ROUTEN") + best * 100, 10 + static_cast<SLONG>(best == Sim.localPlayer) * 10);
             }
             break;
 
@@ -913,7 +913,7 @@ void HEADLINES::ComparisonHeadlines() {
 
             if (Sim.Players.Players[best].Money > 25000000) {
                 AddOverride(1, bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 2053)), (LPCTSTR)Sim.Players.Players[best].AirlineX),
-                            GetIdFromString("GELD") + best * 100, 10 + static_cast<int>(best == Sim.localPlayer) * 10);
+                            GetIdFromString("GELD") + best * 100, 10 + static_cast<SLONG>(best == Sim.localPlayer) * 10);
             }
             break;
 
@@ -1038,7 +1038,7 @@ void HEADLINES::ComparisonHeadlines() {
             for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
                 if ((Sim.Players.Players[c].RocketFlags & ROCKET_PART_ONE) == ROCKET_PART_ONE) {
                     AddOverride(1, bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 2060)), (LPCTSTR)Sim.Players.Players[c].AirlineX),
-                                GetIdFromString("INTRVIEW"), 15 + static_cast<int>(c == Sim.localPlayer) * 10);
+                                GetIdFromString("INTRVIEW"), 15 + static_cast<SLONG>(c == Sim.localPlayer) * 10);
                     break;
                 }
             }
@@ -1054,7 +1054,7 @@ void HEADLINES::ComparisonHeadlines() {
             for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
                 if ((Sim.Players.Players[c].RocketFlags & ROCKET_PART_TWO_A) == ROCKET_PART_TWO_A) {
                     AddOverride(1, bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 2061)), (LPCTSTR)Sim.Players.Players[c].AirlineX), 0,
-                                20 + static_cast<int>(c == Sim.localPlayer) * 10);
+                                20 + static_cast<SLONG>(c == Sim.localPlayer) * 10);
                     break;
                 }
             }
@@ -1617,7 +1617,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CMessages &Messages) {
 //------------------------------------------------------------------------------
 // Hierdurch wird aus 10000 das schönere 10.000
 //------------------------------------------------------------------------------
-CString Insert1000erDots(long Value) {
+CString Insert1000erDots(SLONG Value) {
     short c = 0;
     short d = 0; // Position in neuen bzw. alten String
     short l = 0; // Stringlänge
@@ -1634,7 +1634,7 @@ CString Insert1000erDots(long Value) {
         }
     }
 
-    sprintf(Tmp, "%li", Value);
+    sprintf(Tmp, "%i", Value);
 
     l = short(strlen(Tmp));
 
@@ -1887,12 +1887,12 @@ TEAKFILE &operator>>(TEAKFILE &File, TEAKRAND &r) {
 //--------------------------------------------------------------------------------------------
 // Zählt mit Verzeichnisundwildcard String die Dateinamen:
 //--------------------------------------------------------------------------------------------
-long CountMatchingFilelist(const CString &DirAndWildcards) {
-    int Pos = DirAndWildcards.Find('*');
+SLONG CountMatchingFilelist(const CString &DirAndWildcards) {
+    SLONG Pos = DirAndWildcards.Find('*');
     CString Dir = DirAndWildcards.Left(Pos);
     CString Ext = DirAndWildcards.Right(Pos);
 
-    long n = 0;
+    SLONG n = 0;
 
     // Liste holen:
     for (const auto &file : std::filesystem::directory_iterator(std::string(Dir))) {
@@ -1909,7 +1909,7 @@ long CountMatchingFilelist(const CString &DirAndWildcards) {
 // Erzeugt aus Verzeichnisundwildcard String ein Array mit Dateinamen:
 //--------------------------------------------------------------------------------------------
 void GetMatchingFilelist(const CString &DirAndWildcards, BUFFER_V<CString> &Array) {
-    int Pos = DirAndWildcards.Find("*");
+    SLONG Pos = DirAndWildcards.Find("*");
     CString Dir = DirAndWildcards.Left(Pos);
     CString Ext = DirAndWildcards.Right(DirAndWildcards.GetLength() - Pos - 1);
 
@@ -1925,7 +1925,7 @@ void GetMatchingFilelist(const CString &DirAndWildcards, BUFFER_V<CString> &Arra
     }
 
     // Liste sortieren:
-    for (long c = 0; c < Array.AnzEntries() - 1; c++) {
+    for (SLONG c = 0; c < Array.AnzEntries() - 1; c++) {
         if (Array[c] > Array[c + 1]) {
             CString tmp = Array[c];
             Array[c] = Array[c + 1];
@@ -1941,7 +1941,7 @@ void GetMatchingFilelist(const CString &DirAndWildcards, BUFFER_V<CString> &Arra
 //--------------------------------------------------------------------------------------------
 // Erzeugt aus Verzeichnisundwildcard String ein Array mit Dateinamen:
 //--------------------------------------------------------------------------------------------
-CString GetMatchingNext(const CString &DirAndWildcards, const CString &CurrentFilename, long Add) {
+CString GetMatchingNext(const CString &DirAndWildcards, const CString &CurrentFilename, SLONG Add) {
     BUFFER_V<CString> Array;
 
     GetMatchingFilelist(DirAndWildcards, Array);
@@ -1951,7 +1951,7 @@ CString GetMatchingNext(const CString &DirAndWildcards, const CString &CurrentFi
     }
 
     // Nach aktuellem Eintrag suchen:
-    for (long c = 0; c < Array.AnzEntries(); c++) {
+    for (SLONG c = 0; c < Array.AnzEntries(); c++) {
         if (Array[c] == CurrentFilename) {
             return (Array[(c + Add + Array.AnzEntries() * 100) % Array.AnzEntries()]);
         }
@@ -1964,7 +1964,7 @@ CString GetMatchingNext(const CString &DirAndWildcards, const CString &CurrentFi
 // Gibt den nächstbesten, notfalls numerierten freien Dateinamen zurück (Input mit %s)
 //--------------------------------------------------------------------------------------------
 CString CreateNumeratedFreeFilename(const CString &DirAndFilename) {
-    long c = 0;
+    SLONG c = 0;
 
     for (c = 0; c < 100000; c++) {
         const char *fn = bprintf(DirAndFilename, c == 0 ? "" : bitoa(c));
@@ -1980,7 +1980,7 @@ CString CreateNumeratedFreeFilename(const CString &DirAndFilename) {
 // Gibt nur den Dateinamen zurück:
 //--------------------------------------------------------------------------------------------
 CString GetFilenameFromFullFilename(CString FullFilename) {
-    for (int c = FullFilename.GetLength() - 1; c >= 0; c--) {
+    for (SLONG c = FullFilename.GetLength() - 1; c >= 0; c--) {
         if (FullFilename[c] == '/' || FullFilename[c] == '\\') {
             return (FullFilename.Mid(c + 1));
         }
@@ -1993,7 +1993,7 @@ CString GetFilenameFromFullFilename(CString FullFilename) {
 // Entfernt französische Akzente:
 //--------------------------------------------------------------------------------------------
 CString RemoveAccents(CString str) {
-    for (int c = str.GetLength() - 1; c >= 0; c--) {
+    for (SLONG c = str.GetLength() - 1; c >= 0; c--) {
         if (str[c] == '\xE1' || str[c] == '\xE0' || str[c] == '\xE2') {
             str.SetAt(c, 'a');
         }
@@ -2041,7 +2041,7 @@ DWORD timeGetTime() {
 
 DWORD GetTickCount() { return SDL_GetTicks(); }
 
-BOOL OffsetRect(RECT *pRect, int dx, int dy) {
+BOOL OffsetRect(RECT *pRect, SLONG dx, SLONG dy) {
     pRect->left += dx;
     pRect->top += dy;
     pRect->right += dx;
@@ -2051,7 +2051,7 @@ BOOL OffsetRect(RECT *pRect, int dx, int dy) {
 
 void DebugBreak() { assert(0); }
 
-SLONG GetAsyncKeyState(int vKey) { return (SDL_GetModState() & vKey) != 0 ? 0x8000 : 0; }
+SLONG GetAsyncKeyState(SLONG vKey) { return (SDL_GetModState() & vKey) != 0 ? 0x8000 : 0; }
 #endif
 
 const char *getRobotActionName(SLONG a) {

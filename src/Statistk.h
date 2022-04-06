@@ -39,12 +39,11 @@ class CStatButton {
 
 typedef struct tagItem {
     bool visible{};
-    short textId{};
-    short define{};
-    short typOfItem{};
-    short beraterSkill{};
-    short beraterSkillInfo{};
-
+    SWORD textId{};
+    SWORD define{};
+    SWORD typOfItem{};
+    SWORD beraterSkill{};
+    SWORD beraterSkillInfo{};
 } ITEM;
 
 class CStatistik : public CStdRaum {
@@ -84,16 +83,16 @@ class CStatistik : public CStdRaum {
     bool _fGraphVisible;                  // true -> Der Graph ist sichtbar, ansonsten die schnöden Zahlen
     std::array<bool, 4> _playerMask{};    // Diese Spieler wurden zur Ansicht ausgewählt
     BYTE _group;                          // Die angewählte Gruppe (*0=Finanzen, 1=?, 2=?)
-    long _days;                           // Anzahl der darzustellenden Tage
-    long _newDays;                        // Für eine Animation
+    SLONG _days;                          // Anzahl der darzustellenden Tage
+    SLONG _newDays;                       // Für eine Animation
     std::array<std::array<ITEM, STAT_MAX_ITEMS>, STAT_MAX_GROUPS> _iArray{};
 
     // Temporäre Werte
     short _selectedItem;
     short _oldSelectedItem;
-    double _yAxis{};
-    double _xGraph{};
-    double _yGraph{};
+    DOUBLE _yAxis{};
+    DOUBLE _xGraph{};
+    DOUBLE _yGraph{};
 
     bool _fRepaint;
 

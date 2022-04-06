@@ -24,7 +24,7 @@ CITIES::CITIES(const CString &TabFilename) : ALBUM_V<CITY>("Cities") { ReInit(Ta
 void CITIES::ReInit(const CString &TabFilename) {
     // CStdioFile    Tab;
     BUFFER_V<char> Line(300);
-    long Id = 0;
+    SLONG Id = 0;
     SLONG Anz = 0;
 
     // Load Table header:
@@ -108,7 +108,7 @@ void CITIES::UseRealKuerzel(BOOL Real) {
 //--------------------------------------------------------------------------------------------
 // Berechnet die Entfernung zweier beliebiger Städte: (in Meter)
 //--------------------------------------------------------------------------------------------
-SLONG CITIES::CalcDistance(long CityId1, long CityId2) {
+SLONG CITIES::CalcDistance(SLONG CityId1, SLONG CityId2) {
     if (HashTable.AnzEntries() == 0) {
         HashTable.ReSize(AnzEntries() * AnzEntries());
         HashTable.FillWith(0);
@@ -129,28 +129,28 @@ SLONG CITIES::CalcDistance(long CityId1, long CityId2) {
 
     FXYZ Vector1;      // Vektor vom Erdmittelpunkt zu City1
     FXYZ Vector2;      // Vektor vom Erdmittelpunkt zu City2
-    float Alpha = NAN; // Winkel in Grad zwischen den Vektoren (für Kreissegment)
+    FLOAT Alpha = NAN; // Winkel in Grad zwischen den Vektoren (für Kreissegment)
 
     // Berechnung des ersten Vektors:
-    Vector1.x = static_cast<float>(cos((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0));
-    Vector1.z = static_cast<float>(sin((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0));
+    Vector1.x = static_cast<FLOAT>(cos((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0));
+    Vector1.z = static_cast<FLOAT>(sin((*this)[CityId1].GlobusPosition.x * 3.14159 / 180.0));
 
-    Vector1.y = static_cast<float>(sin((*this)[CityId1].GlobusPosition.y * 3.14159 / 180.0));
+    Vector1.y = static_cast<FLOAT>(sin((*this)[CityId1].GlobusPosition.y * 3.14159 / 180.0));
 
     Vector1.x *= sqrt(1 - Vector1.y * Vector1.y);
     Vector1.z *= sqrt(1 - Vector1.y * Vector1.y);
 
     // Berechnung des zweiten Vektors:
-    Vector2.x = static_cast<float>(cos((*this)[CityId2].GlobusPosition.x * 3.14159 / 180.0));
-    Vector2.z = static_cast<float>(sin((*this)[CityId2].GlobusPosition.x * 3.14159 / 180.0));
+    Vector2.x = static_cast<FLOAT>(cos((*this)[CityId2].GlobusPosition.x * 3.14159 / 180.0));
+    Vector2.z = static_cast<FLOAT>(sin((*this)[CityId2].GlobusPosition.x * 3.14159 / 180.0));
 
-    Vector2.y = static_cast<float>(sin((*this)[CityId2].GlobusPosition.y * 3.14159 / 180.0));
+    Vector2.y = static_cast<FLOAT>(sin((*this)[CityId2].GlobusPosition.y * 3.14159 / 180.0));
 
     Vector2.x *= sqrt(1 - Vector2.y * Vector2.y);
     Vector2.z *= sqrt(1 - Vector2.y * Vector2.y);
 
     // Berechnung des Winkels zwischen den Vektoren:
-    Alpha = static_cast<float>(acos((Vector1.x * Vector2.x + Vector1.y * Vector2.y + Vector1.z * Vector2.z) / Vector1.abs() / Vector2.abs()) * 180.0 / 3.14159);
+    Alpha = static_cast<FLOAT>(acos((Vector1.x * Vector2.x + Vector1.y * Vector2.y + Vector1.z * Vector2.z) / Vector1.abs() / Vector2.abs()) * 180.0 / 3.14159);
 
     // Berechnung der Länge des Kreissegments: (40040174 = Äquatorumfang)
     HashTable[SLONG(CityId1 + CityId2 * AnzEntries())] = SLONG(fabs(Alpha) * 40040174.0 / 360.0);
@@ -163,7 +163,7 @@ SLONG CITIES::CalcDistance(long CityId1, long CityId2) {
 //--------------------------------------------------------------------------------------------
 // Berechnet die Dauer eines Fluges:
 //--------------------------------------------------------------------------------------------
-SLONG CITIES::CalcFlugdauer(long CityId1, long CityId2, long Speed) {
+SLONG CITIES::CalcFlugdauer(SLONG CityId1, SLONG CityId2, SLONG Speed) {
     SLONG d = (CalcDistance(CityId1, CityId2) / Speed + 999) / 1000 + 1 + 2 - 2;
 
     if (d < 2) {

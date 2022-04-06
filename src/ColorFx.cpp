@@ -609,7 +609,7 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
             if (Table1 == Table2) {
                 for (cx = sizex; cx > 0; cx--) {
                     if (*pp != 0U) {
-                        if (*pp == static_cast<UWORD>(static_cast<int>(White))) {
+                        if (*pp == static_cast<UWORD>(static_cast<SLONG>(White))) {
                             UWORD vga = *p;
 
                             *p = UWORD(Table1[vga & 255] + Table1[256 + (vga >> 8)] + Table1[(reinterpret_cast<UBYTE *>(pp))[0]] +
@@ -625,7 +625,7 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
             } else {
                 for (cx = sizex; cx > 0; cx--) {
                     if (*pp != 0U) {
-                        if (*pp == static_cast<UWORD>(static_cast<int>(White))) {
+                        if (*pp == static_cast<UWORD>(static_cast<SLONG>(White))) {
                             *p = UWORD(Table1[(reinterpret_cast<UBYTE *>(p))[0]] + Table1[256 + (reinterpret_cast<UBYTE *>(p))[1]] +
                                        Table2[(reinterpret_cast<UBYTE *>(pp))[0]] + Table2[256 + (reinterpret_cast<UBYTE *>(pp))[1]]);
                         } else {
@@ -685,8 +685,8 @@ void SB_CColorFX::BlitOutline(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitm
         return;
     }
 
-    long sizex = Rect.right - Rect.left + 1;
-    long sizey = Rect.bottom - Rect.top + 1;
+    SLONG sizex = Rect.right - Rect.left + 1;
+    SLONG sizey = Rect.bottom - Rect.top + 1;
 
     if (sizex > 0 && sizex <= 640) {
         for (cy = 0; cy < sizey; cy++) {

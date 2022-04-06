@@ -77,7 +77,7 @@ void CheatSound() {
       gUniversalFx.ReInit ("cheat.raw");
 
       SBFX *Elements[100];
-      for (long c=0; c<2; c++)
+      for (SLONG c=0; c<2; c++)
       Elements[c]=&gUniversalFx;
 
       fx->Fusion ((const SBFX**)Elements, 2);
@@ -150,13 +150,13 @@ else Sleep(1000);
 
 void GameFrame::UpdateWindow() const {
     // windowed size:
-    int width = 640;
-    int height = 480;
+    SLONG width = 640;
+    SLONG height = 480;
 
     SDL_DisplayMode DM;
     SDL_GetDesktopDisplayMode(0, &DM);
-    int screenWidth = DM.w;
-    int screenHeight = DM.h;
+    SLONG screenWidth = DM.w;
+    SLONG screenHeight = DM.h;
 
     switch (Sim.Options.OptionFullscreen) {
     case (0): // Fullscreen
@@ -191,8 +191,8 @@ void GameFrame::UpdateFrameSize() const {
     if (Sim.Options.OptionKeepAspectRatio != 0) {
         SDL_RenderSetLogicalSize(lpDD, 640, 480);
     } else {
-        int screenW = 0;
-        int screenH = 0;
+        SLONG screenW = 0;
+        SLONG screenH = 0;
         SDL_GetWindowSize(m_hWnd, &screenW, &screenH);
         SDL_RenderSetLogicalSize(lpDD, screenW, screenH);
     }
@@ -218,8 +218,8 @@ GameFrame::GameFrame() {
     }
 
     // Base backup screen size - only used in windowed mode
-    int width = 640;
-    int height = 480;
+    SLONG width = 640;
+    SLONG height = 480;
 
     if (!static_cast<bool>(bFullscreen) || Sim.Options.OptionFullscreen == 0 || Sim.Options.OptionFullscreen == 2) {
         SDL_DisplayMode DM;
@@ -408,11 +408,11 @@ void GameFrame::TranslatePointToGameSpace(CPoint *p) const {
         return;
     }
 
-    int screenW = 0;
-    int screenH = 0;
+    SLONG screenW = 0;
+    SLONG screenH = 0;
     SDL_GetRendererOutputSize(SDL_GetRenderer(m_hWnd), &screenW, &screenH);
-    float x = p->x;
-    float y = p->y;
+    FLOAT x = p->x;
+    FLOAT y = p->y;
     x /= screenW;
     x *= 640;
     y /= screenH;
@@ -421,16 +421,16 @@ void GameFrame::TranslatePointToGameSpace(CPoint *p) const {
     p->x = static_cast<SLONG>(x);
     p->y = static_cast<SLONG>(y);
 }
-void GameFrame::TranslatePointToScreenSpace(int &x, int &y) const {
+void GameFrame::TranslatePointToScreenSpace(SLONG &x, SLONG &y) const {
     if (Sim.Options.OptionKeepAspectRatio != 0) {
         return;
     }
 
-    int screenW = 0;
-    int screenH = 0;
+    SLONG screenW = 0;
+    SLONG screenH = 0;
     SDL_GetRendererOutputSize(SDL_GetRenderer(m_hWnd), &screenW, &screenH);
-    float _x = x;
-    float _y = y;
+    FLOAT _x = x;
+    FLOAT _y = y;
     _x /= 640;
     _x *= screenW;
     _y /= 480;
@@ -622,7 +622,7 @@ void GameFrame::OnPaint() {
     }
 
     if ((bActive != 0) && ((Sim.bPause == 0) || PauseFade == 0)) {
-        TXY<int> rcWindow;
+        TXY<SLONG> rcWindow;
 
         if (bCursorCaptured != 0) {
             // Administrate ToolTip
@@ -778,8 +778,8 @@ void GameFrame::OnPaint() {
                             pCursor->SetImage(gCursorMoveVBm.pBitmap);
                             MouseCursorOffset = XY(0, 16);
                         }
-                        int _x = gMousePosition.x;
-                        int _y = gMousePosition.y;
+                        SLONG _x = gMousePosition.x;
+                        SLONG _y = gMousePosition.y;
                         TranslatePointToScreenSpace(_x, _y);
                         pCursor->MoveImage(_x - MouseCursorOffset.x, _y - MouseCursorOffset.y);
                     }
@@ -791,7 +791,7 @@ void GameFrame::OnPaint() {
         PrimaryBm.Flip(rcWindow.x, rcWindow.y, TRUE);
     }
     if ((bActive != 0) && (Sim.bPause != 0)) {
-        TXY<int> rcWindow;
+        TXY<SLONG> rcWindow;
 
         if (pGLibPause == nullptr) {
             pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("pause.gli", RoomPath)), &pGLibPause, L_LOCMEM);
@@ -944,8 +944,8 @@ void GameFrame::OnMouseMove(UINT /*nFlags*/, CPoint point) {
 
     if (gUseWindowsMouse == 0) {
         if ((bActive != 0) && (pCursor != nullptr) && bNoQuickMouse == FALSE) {
-            int _x = gMousePosition.x;
-            int _y = gMousePosition.y;
+            SLONG _x = gMousePosition.x;
+            SLONG _y = gMousePosition.y;
             FrameWnd->TranslatePointToScreenSpace(_x, _y);
             pCursor->MoveImage(_x - MouseCursorOffset.x, _y - MouseCursorOffset.y);
         }
@@ -970,7 +970,7 @@ BOOL GameFrame::OnHelpInfo(void * /*unused*/) {
 //--------------------------------------------------------------------------------------------
 void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
     static char TypeBuffer[30]; // Für Cheats
-    long nTargetRoom = 0;
+    SLONG nTargetRoom = 0;
 
     if (nChar == VK_RETURN) {
         if (Sim.localPlayer != -1 && Sim.Players.Players.AnzEntries() == 4 && (Sim.Players.Players[Sim.localPlayer].LocationWin != nullptr)) {
@@ -1226,7 +1226,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
     // if (nChar==VK_SPACE) hprintf ("---------------------<SPACE PRESSED>---------------------");
     /*if (nChar==VK_SPACE)
       {
-      for (long c=0; c<4; c++)
+      for (SLONG c=0; c<4; c++)
       if (c!=1)
       {
       Sim.Players.Players[1].OwnsAktien[0] += Sim.Players.Players[c].OwnsAktien[0];
@@ -1752,7 +1752,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
             if ((Sim.bAllowCheating != 0) || (Sim.bNetwork == 0)) {
                 Sim.bCheatedSession = 1;
 
-                for (long c = 0; c < 4; c++) {
+                for (SLONG c = 0; c < 4; c++) {
                     if (Sim.localPlayer != c) {
                         Sim.Players.Players[c].History.HistoricMoney += 10000000;
                         Sim.Players.Players[c].Money += 10000000;
@@ -1768,7 +1768,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
             if ((Sim.bAllowCheating != 0) || (Sim.bNetwork == 0)) {
                 Sim.bCheatedSession = 1;
 
-                for (long c = 0; c < 4; c++) {
+                for (SLONG c = 0; c < 4; c++) {
                     if (Sim.localPlayer != c) {
                         Sim.Players.Players[c].History.HistoricMoney += 1000000000;
                         Sim.Players.Players[c].Money += 1000000000;
@@ -1858,7 +1858,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
             TypeBuffer[26] == 'E' && TypeBuffer[27] == 'O' && TypeBuffer[28] == 'U' && TypeBuffer[29] == 'T') {
             if ((Sim.bAllowCheating != 0) || (Sim.bNetwork == 0)) {
                 Sim.bCheatedSession = 1;
-                for (long c = 0; c < 4; c++) {
+                for (SLONG c = 0; c < 4; c++) {
                     if (Sim.localPlayer != c) {
                         Sim.Players.Players[c].Image = 1000;
                     }
@@ -1995,7 +1995,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         }
 
         if (nChar == VK_F5) {
-            long x = 0;
+            SLONG x = 0;
             x++;
 
             // SecurityFlags

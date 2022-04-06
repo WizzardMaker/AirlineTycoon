@@ -27,7 +27,7 @@ SLONG CRoute::AnzPassagiere() const {
         DayFaktor = 650;
     }
 
-    return (static_cast<SLONG>(sqrt(Cities[VonCity].Einwohner * double(Cities[NachCity].Einwohner)) * Faktor / DayFaktor / 2 * 3 / 4));
+    return (static_cast<SLONG>(sqrt(Cities[VonCity].Einwohner * DOUBLE(Cities[NachCity].Einwohner)) * Faktor / DayFaktor / 2 * 3 / 4));
 }
 
 BOOL CRoute::operator>(const CRoute &p) const { return static_cast<BOOL>(Cities[VonCity].Name > Cities[p.VonCity].Name); }
@@ -132,7 +132,7 @@ void CRouten::ReInit(const CString &TabFilename, bool bNoDoublettes) {
 void CRouten::ReInitExtend(const CString &TabFilename) {
     // CStdioFile    Tab;
     BUFFER_V<char> Line(300);
-    long linenumber = 0;
+    SLONG linenumber = 0;
 
     // Load Table header:
     auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));

@@ -116,7 +116,7 @@ Options::~Options() {
         nOptionsOpen--;
     }
     if (Sim.bNetwork != 0) {
-        SetNetworkBitmap(static_cast<int>(nOptionsOpen > 0) * 1);
+        SetNetworkBitmap(static_cast<SLONG>(nOptionsOpen > 0) * 1);
     }
 
     Sim.SaveOptions();
@@ -223,7 +223,7 @@ void Options::RefreshKlackerField() {
 
         const bool usesMidi = Sim.Options.OptionMusicType == 1;
         const bool usesOgg = Sim.Options.OptionMusicType == 2;
-        int musicShift = usesMidi ? -1 : 0;
+        SLONG musicShift = usesMidi ? -1 : 0;
 
         KlackerTafel.PrintAt(0, 2, usesMidi ? "Music: Midi" : usesOgg ? "Music: Ogg" : "Music: Off");
 
@@ -395,8 +395,8 @@ void Options::OnPaint() {
 
                 for (x = 0; x < 24; x++) {
                     if (KlackerTafel.Haben[x + y * 24] != 0) {
-                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24]) +
-                                                                static_cast<int>(SavenameValid == 0) * (73 + 8 + 3 + 3)],
+                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24]) +
+                                                                static_cast<SLONG>(SavenameValid == 0) * (73 + 8 + 3 + 3)],
                                         128 + x * 16, py);
                     }
                 }
@@ -405,14 +405,14 @@ void Options::OnPaint() {
             for (py = 63, y = 0; y < 16; y++, py += 22) {
                 for (x = 0; x < 24; x++) {
                     if (KlackerTafel.Haben[x + y * 24] != 0) {
-                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<long>(KlackerTafel.Haben[x + y * 24])], 128 + x * 16, py);
+                        RoomBm.BlitFrom(KlackerTafel.KlackerBms[static_cast<SLONG>(KlackerTafel.Haben[x + y * 24])], 128 + x * 16, py);
                     }
                 }
             }
         }
 
         if (CursorY != -1) {
-            RoomBm.BlitFromT(KlackerTafel.Cursors[long(BlinkState % 8)], (CursorX + 4) * 16 + 129, (CursorY + 1) * 22 + 85);
+            RoomBm.BlitFromT(KlackerTafel.Cursors[SLONG(BlinkState % 8)], (CursorX + 4) * 16 + 129, (CursorY + 1) * 22 + 85);
         }
 
         // Cursor highlighting:
@@ -443,7 +443,7 @@ void Options::OnPaint() {
         {
             const bool usesMusic = Sim.Options.OptionMusicType != 0;
             const bool usesMidi = Sim.Options.OptionMusicType == 1;
-            const int musicShift = usesMidi ? -1 : 0;
+            const SLONG musicShift = usesMidi ? -1 : 0;
 
             if (Column >= 15 && Column < 23 && Line >= 3 && Line <= 15) {
                 if ((Line >= 8 && Line <= 13) || (Line == 3 && !usesMidi && usesMusic)) {
@@ -673,7 +673,7 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
 
             const bool usesMusic = Sim.Options.OptionMusicType != 0;
             const bool usesMidi = Sim.Options.OptionMusicType == 1;
-            const int musicShift = usesMidi ? -1 : 0;
+            const SLONG musicShift = usesMidi ? -1 : 0;
 
             if (Column >= 15 && Column < 23 && Line >= 2 && Line <= 13) {
                 if (Line == 3 && !usesMidi && usesMusic) {

@@ -32,7 +32,7 @@ void HDU::Close() {
     Log = nullptr;
 }
 
-void HDU::HercPrintf(int /*unused*/, const char *format, ...) {
+void HDU::HercPrintf(SLONG /*unused*/, const char *format, ...) {
     if (Log == nullptr) {
         return;
     }

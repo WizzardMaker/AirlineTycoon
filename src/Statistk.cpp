@@ -30,7 +30,7 @@ ULONG DarkColors[4] = {0x00407f, 0x007f20, 0x7f0000, 0x7f7f00};
 #define G_HEIGHT (G_BOTTOM - G_TOP)
 #define G_WIDTH (G_RIGHT - G_LEFT)
 
-long days[] = {7, 14, 21, 30, 90, 180, 270, 360};
+SLONG days[] = {7, 14, 21, 30, 90, 180, 270, 360};
 
 const char TOKEN_STAT[] = "STAT";
 
@@ -538,7 +538,7 @@ void CStatistik::OnPaint() {
 
     // Den Graphen in X animieren
     if (_newDays != _days) {
-        long diff = (_newDays - _days) / 3 * 2;
+        SLONG diff = (_newDays - _days) / 3 * 2;
         if (diff == 0) {
             _days = _newDays;
         } else {
@@ -665,21 +665,21 @@ void CStatistik::OnPaint() {
             break;
         }
 
-        output = bprintf(StandardTexte.GetS(TOKEN_STAT, 9010 + static_cast<int>(n == 1)), n);
+        output = bprintf(StandardTexte.GetS(TOKEN_STAT, 9010 + static_cast<SLONG>(n == 1)), n);
     } else {
         output = bitoa(Sim.Date + 1);
         output += ". ";
         output += StandardTexte.GetS(TOKEN_STAT, 9000);
     }
 
-    long length = FontDialogPartner.GetWidth((LPCTSTR)output, output.GetLength());
-    long xPos = 35 + ((160 - 35) >> 1) - (length >> 1);
+    SLONG length = FontDialogPartner.GetWidth((LPCTSTR)output, output.GetLength());
+    SLONG xPos = 35 + ((160 - 35) >> 1) - (length >> 1);
     RoomBm.PrintAt(output, FontDialogPartner, TEC_FONT_LEFT, xPos, 15, xPos + length + 5, 45);
 
     // Zeichnet die Einträge einer Gruppe. Ist der Mauscursor
     // über einem Eintrag wird dieser focusiert.
-    long xOffset[] = {0, -18, -11, -11, -11, -11};
-    long xOffset2[] = {-11, -18, -11, -11, -11, -11};
+    SLONG xOffset[] = {0, -18, -11, -11, -11, -11};
+    SLONG xOffset2[] = {-11, -18, -11, -11, -11, -11};
     RECT rc = {45, 56, 155, 66};
 
     _selectedItem = -1;
@@ -724,7 +724,7 @@ void CStatistik::OnPaint() {
     }
 
     // Die Werte sollten gelegentlich neu gezeichnet werden
-    static int tickers = 0;
+    static SLONG tickers = 0;
     if (_fRepaint || (GetTickCount() - tickers > 1500 && DropDownSpeed == 0)) {
         tickers = GetTickCount();
         _fRepaint = false;
@@ -761,7 +761,7 @@ void CStatistik::CalcGraph() {
         if (item.typOfItem < TYP_VALUE || !item.visible) {
             continue;
         }
-        for (int p = 0; p < 4; p++) {
+        for (SLONG p = 0; p < 4; p++) {
             if (Sim.Players.Players[p].IsOut != 0) {
                 continue;
             }
@@ -776,11 +776,11 @@ void CStatistik::CalcGraph() {
                 continue;
             }
 
-            for (long d = 0; d <= _days; d++) {
-                __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
+            for (SLONG d = 0; d <= _days; d++) {
+                __int64 val = Sim.Players.Players[p].Statistiken[static_cast<SLONG>(item.define)].GetAtPastDay(d);
                 if (item.typOfItem == TYP_PERCENT) {
                     auto prevItem = _iArray[_group][i - 1];
-                    auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(d);
+                    auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<SLONG>(prevItem.define)].GetAtPastDay(d);
                     if (prevVal != 0) {
                         min = Min(val * __int64(100) / prevVal, min);
                         max = Max(val * __int64(100) / prevVal, max);
@@ -793,20 +793,20 @@ void CStatistik::CalcGraph() {
         }
     }
 
-    double summe = double(max) + double(-min);
-    _yGraph = static_cast<double> G_HEIGHT / summe;
-    _yAxis = static_cast<double>(-min);
+    DOUBLE summe = DOUBLE(max) + DOUBLE(-min);
+    _yGraph = static_cast<DOUBLE> G_HEIGHT / summe;
+    _yAxis = static_cast<DOUBLE>(-min);
 }
 
 //--------------------------------------------------------------------------------------------
 // Zeichnet das Menü mit dem Graphen neu:
 //--------------------------------------------------------------------------------------------
 void CStatistik::RepaintGraphWindow() {
-    long x1 = 0;
-    long y1 = 0;
-    long x2 = 0;
-    long y2 = -1;
-    long value = 0;
+    SLONG x1 = 0;
+    SLONG y1 = 0;
+    SLONG x2 = 0;
+    SLONG y2 = -1;
+    SLONG value = 0;
     bool fDrawAxis = false;
 
     DropDownBm.BlitFrom(DropDownBackgroundBm);
@@ -830,11 +830,11 @@ void CStatistik::RepaintGraphWindow() {
     }
 
     // Y-Axis
-    long yAxis = static_cast<long>(_yAxis * _yGraph);
+    SLONG yAxis = static_cast<SLONG>(_yAxis * _yGraph);
 
-    _xGraph = static_cast<double> G_WIDTH / static_cast<double>(_days);
+    _xGraph = static_cast<DOUBLE> G_WIDTH / static_cast<DOUBLE>(_days);
 
-    long days = _days;
+    SLONG days = _days;
     if (days > (Sim.Date + 1)) {
         days = Sim.Date + 1;
     }
@@ -846,7 +846,7 @@ void CStatistik::RepaintGraphWindow() {
         if (item.typOfItem < TYP_VALUE || !item.visible) {
             continue;
         }
-        for (int p = 0; p < 4; p++) {
+        for (SLONG p = 0; p < 4; p++) {
             if (Sim.Players.Players[p].IsOut != 0) {
                 continue;
             }
@@ -861,18 +861,18 @@ void CStatistik::RepaintGraphWindow() {
                 continue;
             }
 
-            for (long d = 0; d <= days; d++) {
-                double val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(d);
+            for (SLONG d = 0; d <= days; d++) {
+                DOUBLE val = Sim.Players.Players[p].Statistiken[static_cast<SLONG>(item.define)].GetAtPastDay(d);
                 if (item.typOfItem == TYP_PERCENT) {
                     auto prevItem = _iArray[_group][i - 1];
-                    auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(d);
+                    auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<SLONG>(prevItem.define)].GetAtPastDay(d);
                     if (prevVal != 0) {
-                        value = static_cast<long>(val * __int64(100) / prevVal * _yGraph);
+                        value = static_cast<SLONG>(val * __int64(100) / prevVal * _yGraph);
                     } else {
                         value = 0;
                     }
                 } else {
-                    value = static_cast<long>(val * _yGraph);
+                    value = static_cast<SLONG>(val * _yGraph);
                 }
 
                 if (d == 0) {
@@ -881,7 +881,7 @@ void CStatistik::RepaintGraphWindow() {
                     continue;
                 }
 
-                x1 = G_RIGHT - static_cast<long>(static_cast<double>(d) * _xGraph);
+                x1 = G_RIGHT - static_cast<SLONG>(static_cast<DOUBLE>(d) * _xGraph);
                 y1 = G_BOTTOM - yAxis - value;
 
                 if (_selectedItem != -1 && _selectedItem != i && _iArray[_group][_selectedItem].typOfItem != TYP_GROUP) {
@@ -904,7 +904,7 @@ void CStatistik::RepaintGraphWindow() {
 
     // Die Y-Achse zeichnen
     if (fDrawAxis) {
-        long yPos = G_BOTTOM - yAxis;
+        SLONG yPos = G_BOTTOM - yAxis;
         DropDownBm.pBitmap->Line(G_LEFT, yPos, G_RIGHT, yPos, DropDownBm.pBitmap->GetHardwarecolor(0xffffff));
     }
 }
@@ -913,7 +913,7 @@ void CStatistik::RepaintGraphWindow() {
 // Zeichnet das Menü mit dem Text neu:
 //--------------------------------------------------------------------------------------------
 void CStatistik::RepaintTextWindow() {
-    int p = 0;
+    SLONG p = 0;
 
     TextTableBm.BlitFrom(PicBitmap, -191, -40);
 
@@ -934,7 +934,7 @@ void CStatistik::RepaintTextWindow() {
             for (short i = 0; i < STAT_MAX_ITEMS; i++) {
                 auto item = _iArray[_group][i];
                 if (item.typOfItem > TYP_GROUP) {
-                    __int64 val = Sim.Players.Players[p].Statistiken[static_cast<int>(item.define)].GetAtPastDay(0);
+                    __int64 val = Sim.Players.Players[p].Statistiken[static_cast<SLONG>(item.define)].GetAtPastDay(0);
 
                     auto type = item.typOfItem;
                     auto berater = (p == PlayerNum) ? BERATERTYP_GELD : BERATERTYP_INFO;
@@ -975,7 +975,7 @@ void CStatistik::RepaintTextWindow() {
 
                     case TYP_PERCENT: {
                         auto prevItem = _iArray[_group][i - 1];
-                        auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<int>(prevItem.define)].GetAtPastDay(0);
+                        auto prevVal = Sim.Players.Players[p].Statistiken[static_cast<SLONG>(prevItem.define)].GetAtPastDay(0);
                         if (prevVal != 0) {
                             output = Einheiten[EINH_P].bString64(val * 100 / prevVal);
                         } else {

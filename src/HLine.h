@@ -35,7 +35,7 @@ class CHLGene {
         return (File);
     }
 };
-static_assert(sizeof(CHLGene) == 6);
+// static_assert(sizeof(CHLGene) == 6);
 #pragma pack(pop, pragma_gene)
 
 //--------------------------------------------------------------------------------------------
@@ -177,6 +177,6 @@ class CHLBms {
     SLONG AnzEntries() const { return (Bitmaps.AnzEntries()); }
 
     // CHLBm& operator [](const SLONG Index) const { return Bitmaps[Index]; }
-    CHLBm &operator[](const int Index) { return Bitmaps[Index]; }
+    CHLBm &operator[](const SLONG Index) { return Bitmaps[Index]; }
 };
 #endif // hline_h

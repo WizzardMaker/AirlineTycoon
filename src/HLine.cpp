@@ -61,7 +61,7 @@ void CHLObj::BlitAt(SB_CBitmapCore *pBitmap, XY Target) {
 
             UWORD *target = (static_cast<UWORD *>(bm)) + qHLGene.Offset;
             UBYTE *source = qHLGene.pPixel;
-            long anz = qHLGene.Anz;
+            SLONG anz = qHLGene.Anz;
 #ifdef ENABLE_ASM
             UWORD *table = pHLPool->PaletteMapper;
 #endif
@@ -255,7 +255,7 @@ void CHLObj::BlitLargeAt(SB_CBitmapCore *pBitmap, XY Target) {
 
             UWORD *target = (static_cast<UWORD *>(bm)) + qHLGene.Offset * 2;
             UBYTE *source = qHLGene.pPixel;
-            long anz = qHLGene.Anz * 2;
+            SLONG anz = qHLGene.Anz * 2;
 
             if (qHLGene.Anz <= 4) {
                 source = reinterpret_cast<UBYTE *>(&qHLGene.pPixel);
@@ -928,7 +928,7 @@ CHLObj *CHLPool::GetHLObj(const CString &String) {
 
     graphicId = 0;
     for (c = 0; c < static_cast<SLONG>(strlen(String)); c++) {
-        graphicId += __int64(String[static_cast<int>(c)]) << (8 * c);
+        graphicId += __int64(String[static_cast<SLONG>(c)]) << (8 * c);
     }
 
     for (c = HLObjects.AnzEntries() - 1; c >= 0; c--) {

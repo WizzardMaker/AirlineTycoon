@@ -292,14 +292,14 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 1045:
             case 1500:
                 MakeSayWindow(1, TOKEN_SABOTAGE, 1030, 1033, 1, &FontDialog, &FontDialogLight,
-                              CString(bprintf("%s (%s)", (LPCTSTR)Sim.Players.Players[0 + static_cast<int>(PlayerNum <= 0)].AirlineX,
-                                              (LPCTSTR)Sim.Players.Players[0 + static_cast<int>(PlayerNum <= 0)].NameX))
+                              CString(bprintf("%s (%s)", (LPCTSTR)Sim.Players.Players[0 + static_cast<SLONG>(PlayerNum <= 0)].AirlineX,
+                                              (LPCTSTR)Sim.Players.Players[0 + static_cast<SLONG>(PlayerNum <= 0)].NameX))
                                   .c_str(),
-                              CString(bprintf("%s (%s)", (LPCTSTR)Sim.Players.Players[1 + static_cast<int>(PlayerNum <= 1)].AirlineX,
-                                              (LPCTSTR)Sim.Players.Players[1 + static_cast<int>(PlayerNum <= 1)].NameX))
+                              CString(bprintf("%s (%s)", (LPCTSTR)Sim.Players.Players[1 + static_cast<SLONG>(PlayerNum <= 1)].AirlineX,
+                                              (LPCTSTR)Sim.Players.Players[1 + static_cast<SLONG>(PlayerNum <= 1)].NameX))
                                   .c_str(),
-                              CString(bprintf("%s (%s)", (LPCTSTR)Sim.Players.Players[2 + static_cast<int>(PlayerNum <= 2)].AirlineX,
-                                              (LPCTSTR)Sim.Players.Players[2 + static_cast<int>(PlayerNum <= 2)].NameX))
+                              CString(bprintf("%s (%s)", (LPCTSTR)Sim.Players.Players[2 + static_cast<SLONG>(PlayerNum <= 2)].AirlineX,
+                                              (LPCTSTR)Sim.Players.Players[2 + static_cast<SLONG>(PlayerNum <= 2)].NameX))
                                   .c_str(),
                               0);
                 break;
@@ -318,9 +318,9 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 1030:
             case 1031:
             case 1032:
-                qPlayer.ArabOpfer = id - 1030 + static_cast<int>(id - 1030 >= PlayerNum);
-                qPlayer.ArabOpfer2 = id - 1030 + static_cast<int>(id - 1030 >= PlayerNum);
-                qPlayer.ArabOpfer3 = id - 1030 + static_cast<int>(id - 1030 >= PlayerNum);
+                qPlayer.ArabOpfer = id - 1030 + static_cast<SLONG>(id - 1030 >= PlayerNum);
+                qPlayer.ArabOpfer2 = id - 1030 + static_cast<SLONG>(id - 1030 >= PlayerNum);
+                qPlayer.ArabOpfer3 = id - 1030 + static_cast<SLONG>(id - 1030 >= PlayerNum);
 
                 if (Sim.Players.Players[qPlayer.ArabOpfer].IsOut != 0) {
                     MakeSayWindow(0, TOKEN_SABOTAGE, 1045, pFontPartner);
@@ -670,8 +670,8 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
                 Array.ReSize(maybeArray.AnzEntries());
 
-                long c = 0;
-                long d = 0;
+                SLONG c = 0;
+                SLONG d = 0;
                 for (c = 0, d = 0; c < maybeArray.AnzEntries(); c++) {
                     CXPlane plane;
 
@@ -752,7 +752,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
             case 102: // Will Kredit zurückzahlen:
                 MenuDialogReEntryB = -1;
-                tmp = long(min(0x7fffffff, qPlayer.Credit / 2));
+                tmp = SLONG(min(0x7fffffff, qPlayer.Credit / 2));
                 if (qPlayer.Credit == 0) {
                     MakeSayWindow(0, TOKEN_BANK, 140, pFontPartner);
                 } else if (DialogMedium == MEDIUM_HANDY) {
@@ -2871,7 +2871,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             } break;
             case 8601: {
                 bool bAnywon = false;
-                long won = -1;
+                SLONG won = -1;
                 SLONG c = 0;
                 SLONG d = -1;
 
@@ -2961,7 +2961,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             } break;
             case 8701: {
                 bool bAnywon = false;
-                long won = -1;
+                SLONG won = -1;
                 SLONG c = 0;
                 SLONG d = -1;
 
@@ -3051,7 +3051,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             } break;
             case 8801: {
                 bool bAnywon = false;
-                long won = -1;
+                SLONG won = -1;
                 SLONG c = 0;
                 SLONG d = -1;
 
@@ -3311,7 +3311,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             } break;
             case 9101: {
                 bool bAnywon = false;
-                long won = -1;
+                SLONG won = -1;
                 SLONG c = 0;
                 SLONG d = -1;
 
@@ -3984,7 +3984,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 // Spieler spricht den Makker an:
             case 4000:
             case 4001:
-                MakeSayWindow(1, TOKEN_BOSS, 4010 + static_cast<int>(Sim.Difficulty == DIFF_FREEGAME), 4012, FALSE, &FontDialog, &FontDialogLight);
+                MakeSayWindow(1, TOKEN_BOSS, 4010 + static_cast<SLONG>(Sim.Difficulty == DIFF_FREEGAME), 4012, FALSE, &FontDialog, &FontDialogLight);
                 break;
 
                 // Spieler stellt Antrag oder auch nicht:
@@ -4416,7 +4416,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 MakeSayWindow(0, TOKEN_MECH, 3003, pFontPartner);
                 break;
             case 3003:
-                MakeSayWindow(0, TOKEN_MECH, 3004 + static_cast<int>(qPlayer.MechTrust != 2), pFontPartner);
+                MakeSayWindow(0, TOKEN_MECH, 3004 + static_cast<SLONG>(qPlayer.MechTrust != 2), pFontPartner);
                 break;
             case 3004:
                 MakeSayWindow(0, TOKEN_MECH, 3005, pFontPartner);
@@ -4441,7 +4441,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 4003:
             case 4020:
             case 4021:
-                MakeSayWindow(1, TOKEN_MECH, 4010 + static_cast<int>(qPlayer.MechTrust != 2), 4013 + static_cast<int>(qPlayer.MechTrust != 2), FALSE,
+                MakeSayWindow(1, TOKEN_MECH, 4010 + static_cast<SLONG>(qPlayer.MechTrust != 2), 4013 + static_cast<SLONG>(qPlayer.MechTrust != 2), FALSE,
                               &FontDialog, &FontDialogLight);
                 break;
             case 4010:
@@ -4626,12 +4626,12 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             switch (id) {
             case 102:
             case 100: // Begrüssung-Spruch
-                MakeSayWindow(1, TOKEN_MUSEUM, 201 + static_cast<int>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10,
-                              203 + static_cast<int>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10, FALSE, &FontDialog, &FontDialogLight);
+                MakeSayWindow(1, TOKEN_MUSEUM, 201 + static_cast<SLONG>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10,
+                              203 + static_cast<SLONG>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10, FALSE, &FontDialog, &FontDialogLight);
                 break;
             case 101: // Begrüssung-Spruch
-                MakeSayWindow(1, TOKEN_MUSEUM, 201 + static_cast<int>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10,
-                              203 + static_cast<int>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10, FALSE, &FontDialog, &FontDialogLight);
+                MakeSayWindow(1, TOKEN_MUSEUM, 201 + static_cast<SLONG>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10,
+                              203 + static_cast<SLONG>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10, FALSE, &FontDialog, &FontDialogLight);
                 break;
 
             case 200: // Info zu Doppeldecker:
@@ -4678,7 +4678,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                     Sim.UsedPlanes[0x1000000 + DialogPar1].GlobeAngle = 0;
                     qPlayer.Planes += Sim.UsedPlanes[0x1000000 + DialogPar1];
 
-                    long Kosten = -Sim.UsedPlanes[0x1000000 + DialogPar1].CalculatePrice();
+                    SLONG Kosten = -Sim.UsedPlanes[0x1000000 + DialogPar1].CalculatePrice();
                     qPlayer.ChangeMoney(Kosten, 2010, Sim.UsedPlanes[0x1000000 + DialogPar1].Name);
                     SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, Kosten, STAT_A_SONSTIGES);
 
@@ -4702,8 +4702,8 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 700:
             case 701:
                 if (DialogMedium == MEDIUM_HANDY) {
-                    MakeSayWindow(1, TOKEN_MUSEUM, 201 + static_cast<int>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10,
-                                  203 + static_cast<int>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_MUSEUM, 201 + static_cast<SLONG>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10,
+                                  203 + static_cast<SLONG>((Sim.DialogOvertureFlags & DIALOG_MUSEUM2) != 0) * 10, FALSE, &FontDialog, &FontDialogLight);
                 } else {
                     MenuDialogReEntryB = 699;
                     MenuStart(MENU_SELLPLANE);
@@ -4848,8 +4848,8 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 Workers.Gehaltsaenderung(1, PlayerNum);
                 qPlayer.StrikePlanned = FALSE;
 
-                while ((Workers.GetAverageHappyness(Sim.localPlayer) - static_cast<int>(Workers.GetMinHappyness(Sim.localPlayer) < 0) * 10 < 20) ||
-                       (Workers.GetAverageHappyness(Sim.localPlayer) - static_cast<int>(Workers.GetMinHappyness(Sim.localPlayer) < 0) * 10 < 0)) {
+                while ((Workers.GetAverageHappyness(Sim.localPlayer) - static_cast<SLONG>(Workers.GetMinHappyness(Sim.localPlayer) < 0) * 10 < 20) ||
+                       (Workers.GetAverageHappyness(Sim.localPlayer) - static_cast<SLONG>(Workers.GetMinHappyness(Sim.localPlayer) < 0) * 10 < 0)) {
                     Workers.AddHappiness(PlayerNum, 10);
                 }
                 break;
@@ -4920,8 +4920,8 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 Workers.Gehaltsaenderung(1, PlayerNum);
                 MakeSayWindow(0, TOKEN_JOBS, 970, pFontPartner);
 
-                while ((Workers.GetAverageHappyness(Sim.localPlayer) - static_cast<int>(Workers.GetMinHappyness(Sim.localPlayer) < 0) * 10 < 20) ||
-                       (Workers.GetAverageHappyness(Sim.localPlayer) - static_cast<int>(Workers.GetMinHappyness(Sim.localPlayer) < 0) * 10 < 0)) {
+                while ((Workers.GetAverageHappyness(Sim.localPlayer) - static_cast<SLONG>(Workers.GetMinHappyness(Sim.localPlayer) < 0) * 10 < 20) ||
+                       (Workers.GetAverageHappyness(Sim.localPlayer) - static_cast<SLONG>(Workers.GetMinHappyness(Sim.localPlayer) < 0) * 10 < 0)) {
                     Workers.AddHappiness(PlayerNum, 10);
                 }
                 break;
@@ -5116,7 +5116,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         }
                     }
 
-                    long preis = -gWerbePrice[DialogPar1 * 6 + id - 5000];
+                    SLONG preis = -gWerbePrice[DialogPar1 * 6 + id - 5000];
                     qPlayer.ChangeMoney(preis, id - 5000 + 3120, "");
                     if (PlayerNum == Sim.localPlayer) {
                         SIM::SendSimpleMessage(ATNET_CHANGEMONEY, 0, Sim.localPlayer, preis, STAT_A_SONSTIGES);
@@ -5176,7 +5176,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 3001:
                 StopDialog();
                 if (qPlayer.HasSpaceForItem() != 0) {
-                    long preis = -atoi(StandardTexte.GetS(TOKEN_ITEM, 2801));
+                    SLONG preis = -atoi(StandardTexte.GetS(TOKEN_ITEM, 2801));
 
                     qPlayer.BuyItem(ITEM_PRALINEN_A);
 
@@ -5195,7 +5195,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 3002:
                 StopDialog();
                 if (qPlayer.HasSpaceForItem() != 0) {
-                    long preis = -atoi(StandardTexte.GetS(TOKEN_ITEM, 2801));
+                    SLONG preis = -atoi(StandardTexte.GetS(TOKEN_ITEM, 2801));
 
                     qPlayer.BuyItem(ITEM_PRALINEN);
 
@@ -5346,17 +5346,17 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 if (DialogPar2 != 0) {
                     // 4 Dialogvarianten, je nachdem ob wir Pralinen haben und/oder ein Chat erlaubt ist
                     if (DialogMedium == MEDIUM_AIR && (!bIsRobot) && ((qPlayer.HasItem(ITEM_PRALINEN) != 0) || (qPlayer.HasItem(ITEM_PRALINEN_A) != 0))) {
-                        MakeSayWindow(1, TOKEN_PLAYER, 2030 + static_cast<int>(id != 1600), 2034, FALSE, &FontDialog, &FontDialogLight);
+                        MakeSayWindow(1, TOKEN_PLAYER, 2030 + static_cast<SLONG>(id != 1600), 2034, FALSE, &FontDialog, &FontDialogLight);
                     } else if ((!bIsRobot)) {
-                        MakeSayWindow(1, TOKEN_PLAYER, 2020 + static_cast<int>(id != 1600), 2023, FALSE, &FontDialog, &FontDialogLight);
+                        MakeSayWindow(1, TOKEN_PLAYER, 2020 + static_cast<SLONG>(id != 1600), 2023, FALSE, &FontDialog, &FontDialogLight);
                     } else if (DialogMedium == MEDIUM_AIR && ((qPlayer.HasItem(ITEM_PRALINEN) != 0) || (qPlayer.HasItem(ITEM_PRALINEN_A) != 0))) {
-                        MakeSayWindow(1, TOKEN_PLAYER, 2010 + static_cast<int>(id != 1600), 2013, FALSE, &FontDialog, &FontDialogLight);
+                        MakeSayWindow(1, TOKEN_PLAYER, 2010 + static_cast<SLONG>(id != 1600), 2013, FALSE, &FontDialog, &FontDialogLight);
                     } else {
-                        MakeSayWindow(1, TOKEN_PLAYER, 2000 + static_cast<int>(id != 1600), 2002, FALSE, &FontDialog, &FontDialogLight);
+                        MakeSayWindow(1, TOKEN_PLAYER, 2000 + static_cast<SLONG>(id != 1600), 2002, FALSE, &FontDialog, &FontDialogLight);
                     }
                 } else if (bIsRobot) {
                     // Was will der Computerspieler? Erst labern, dann Besprechen.
-                    MakeSayWindow(0, TOKEN_PLAYER, 2000 + static_cast<int>(id != 1600), pFontPartner);
+                    MakeSayWindow(0, TOKEN_PLAYER, 2000 + static_cast<SLONG>(id != 1600), pFontPartner);
                 } else if (point != CPoint(0, 0)) {
                     SIM::SendSimpleMessage(ATNET_DIALOG_NEXT, qOther.NetworkID);
                 }
@@ -5574,13 +5574,13 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             label_maindialog_players_again:
                 // 4 Dialogvarianten, je nachdem ob wir Pralinen haben und/oder ein Chat erlaubt ist
                 if (DialogMedium == MEDIUM_AIR && (!bIsRobot) && ((qPlayer.HasItem(ITEM_PRALINEN) != 0) || (qPlayer.HasItem(ITEM_PRALINEN_A) != 0))) {
-                    MakeSayWindow(1, TOKEN_PLAYER, 2030 + static_cast<int>(id != 1600), 2034, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_PLAYER, 2030 + static_cast<SLONG>(id != 1600), 2034, FALSE, &FontDialog, &FontDialogLight);
                 } else if ((!bIsRobot)) {
-                    MakeSayWindow(1, TOKEN_PLAYER, 2020 + static_cast<int>(id != 1600), 2023, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_PLAYER, 2020 + static_cast<SLONG>(id != 1600), 2023, FALSE, &FontDialog, &FontDialogLight);
                 } else if (DialogMedium == MEDIUM_AIR && ((qPlayer.HasItem(ITEM_PRALINEN) != 0) || (qPlayer.HasItem(ITEM_PRALINEN_A) != 0))) {
-                    MakeSayWindow(1, TOKEN_PLAYER, 2010 + static_cast<int>(id != 1600), 2013, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_PLAYER, 2010 + static_cast<SLONG>(id != 1600), 2013, FALSE, &FontDialog, &FontDialogLight);
                 } else {
-                    MakeSayWindow(1, TOKEN_PLAYER, 2000 + static_cast<int>(id != 1600), 2002, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_PLAYER, 2000 + static_cast<SLONG>(id != 1600), 2002, FALSE, &FontDialog, &FontDialogLight);
                 }
                 break;
 
@@ -5657,11 +5657,11 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 1002:
             case 1003:
                 if (Sim.Difficulty == DIFF_FINAL) {
-                    MakeSayWindow(1, TOKEN_NASA, 2000 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100,
-                                  2003 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_NASA, 2000 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100,
+                                  2003 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
                 } else {
-                    MakeSayWindow(1, TOKEN_NASA, 2200 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100,
-                                  2203 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_NASA, 2200 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100,
+                                  2203 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
                 }
                 break;
 
@@ -5679,11 +5679,11 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 break;
             case 3002:
                 if (Sim.Difficulty == DIFF_FINAL) {
-                    MakeSayWindow(1, TOKEN_NASA, 2001 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100,
-                                  2003 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_NASA, 2001 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100,
+                                  2003 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
                 } else {
-                    MakeSayWindow(1, TOKEN_NASA, 2201 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100,
-                                  2203 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_NASA, 2201 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100,
+                                  2203 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
                 }
                 break;
 
@@ -5703,8 +5703,8 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 4003:
             case 5003:
             case 5107:
-                MakeSayWindow(1, TOKEN_NASA, 2002 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100,
-                              2003 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
+                MakeSayWindow(1, TOKEN_NASA, 2002 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100,
+                              2003 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
                 break;
 
             case 2201:
@@ -5725,11 +5725,11 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 8105:
             case 8202:
                 if (Sim.Difficulty == DIFF_FINAL) {
-                    MakeSayWindow(1, TOKEN_NASA, 2102 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100,
-                                  2103 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_NASA, 2102 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100,
+                                  2103 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
                 } else {
-                    MakeSayWindow(1, TOKEN_NASA, 2202 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100,
-                                  2203 + static_cast<int>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
+                    MakeSayWindow(1, TOKEN_NASA, 2202 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100,
+                                  2203 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 100, FALSE, &FontDialog, &FontDialogLight);
                 }
                 break;
 

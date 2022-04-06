@@ -343,7 +343,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
     // UpdateSavegames ();
 
     bFirstClass |=
-        static_cast<int>((DoesFileExist(FullFilename("builds.csv", ExcelPath)) == 0) && (DoesFileExist(FullFilename("relation.csv", ExcelPath))) == 0);
+        static_cast<SLONG>((DoesFileExist(FullFilename("builds.csv", ExcelPath)) == 0) && (DoesFileExist(FullFilename("relation.csv", ExcelPath))) == 0);
 
     FrameWnd = new GameFrame;
 
@@ -890,7 +890,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                     if (Sim.CallItADay == FALSE && (Sim.bIsHost != 0) && Sim.CallItADayAt == 0) {
                         Sim.CallItADay = TRUE;
                         for (c = 0; c < Sim.Players.AnzPlayers; c++) {
-                            Sim.CallItADay &= (Sim.Players.Players[c].CallItADay | static_cast<int>(Sim.Players.Players[c].Owner == 1));
+                            Sim.CallItADay &= (Sim.Players.Players[c].CallItADay | static_cast<SLONG>(Sim.Players.Players[c].Owner == 1));
 
                             if (Sim.Players.Players[c].IsOut == 0 && Sim.Players.Players[c].Owner == 1 && Sim.Players.Players[c].WaitWorkTill != -1) {
                                 Sim.CallItADay = FALSE;
@@ -1256,8 +1256,8 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
 
                         if (nOptionsOpen == 0 && Sim.Players.Players[Sim.localPlayer].IsDrunk > 0 &&
                             ((SDL_GetWindowFlags(FrameWnd->m_hWnd) & SDL_WINDOW_MOUSE_FOCUS) == SDL_WINDOW_MOUSE_FOCUS)) {
-                            int mouseX = 0;
-                            int mouseY = 0;
+                            SLONG mouseX = 0;
+                            SLONG mouseY = 0;
                             SDL_GetGlobalMouseState(&mouseX, &mouseY);
 
                             SDL_WarpMouseGlobal(SLONG(mouseX + sin(Sim.TimeSlice * 70 / 200.0) * cos(Sim.TimeSlice * 70 / 160.0) *

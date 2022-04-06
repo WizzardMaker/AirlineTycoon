@@ -26,7 +26,7 @@ __int64 GetIdFromString(CString Text) {
 
     id = 0;
     for (SLONG d = 0; d < SLONG(Text.GetLength()); d++) {
-        id += __int64(Text[static_cast<int>(d)]) << (8 * d);
+        id += __int64(Text[static_cast<SLONG>(d)]) << (8 * d);
     }
 
     return (id);
@@ -437,7 +437,7 @@ void SBBM::ReSize(GfxLib *gfxLibrary, CString graphicStr) {
     __int64 graphicId = 0;
     BUFFER_V<char> Str(graphicStr.GetLength() + 1);
 
-    for (int d = 0; d < graphicStr.GetLength(); d++) {
+    for (SLONG d = 0; d < graphicStr.GetLength(); d++) {
         graphicId += __int64(graphicStr[d]) << (8 * d);
     }
 

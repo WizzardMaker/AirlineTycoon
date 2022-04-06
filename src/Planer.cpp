@@ -14,7 +14,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-double a = 2.65;
+DOUBLE a = 2.65;
 static XY GlobeOffset[] = {XY(141, 16), XY(177, 29)};
 
 extern SLONG FoodCosts[];
@@ -312,14 +312,14 @@ void CPlaner::PaintGlobeRoutes() {
                                 lastpxy = pxy;
 
                                 if (abs(nach.x - von.x) < 180) {
-                                    tmp.x = float((von.x * (256 - e) + nach.x * e) / 256.0);
+                                    tmp.x = FLOAT((von.x * (256 - e) + nach.x * e) / 256.0);
                                 } else if (nach.x > von.x) {
-                                    tmp.x = float(von.x + (-(360 - (nach.x - von.x)) * e) / 256.0);
+                                    tmp.x = FLOAT(von.x + (-(360 - (nach.x - von.x)) * e) / 256.0);
                                 } else {
-                                    tmp.x = float(von.x + ((360 - (von.x - nach.x)) * e) / 256.0);
+                                    tmp.x = FLOAT(von.x + ((360 - (von.x - nach.x)) * e) / 256.0);
                                 }
 
-                                tmp.y = float((von.y * (256 - e) + nach.y * e) / 256.0);
+                                tmp.y = FLOAT((von.y * (256 - e) + nach.y * e) / 256.0);
 
                                 if ((EarthProjectize(tmp, EarthAlpha, &pxy) == 0) && e > 0) {
                                     SLONG f = 255 - abs(32768 - (SLONG(((tmp.x + 180) * 65536 / 360) - EarthAlpha + 16384 + 65536) & 65535)) / 64;
@@ -376,14 +376,14 @@ void CPlaner::PaintGlobeRoutes() {
                             lastpxy = pxy;
 
                             if (abs(nach.x - von.x) < 180) {
-                                tmp.x = float((von.x * (256 - e) + nach.x * e) / 256.0);
+                                tmp.x = FLOAT((von.x * (256 - e) + nach.x * e) / 256.0);
                             } else if (nach.x > von.x) {
-                                tmp.x = float(von.x + (-(360 - (nach.x - von.x)) * e) / 256.0);
+                                tmp.x = FLOAT(von.x + (-(360 - (nach.x - von.x)) * e) / 256.0);
                             } else {
-                                tmp.x = float(von.x + ((360 - (von.x - nach.x)) * e) / 256.0);
+                                tmp.x = FLOAT(von.x + ((360 - (von.x - nach.x)) * e) / 256.0);
                             }
 
-                            tmp.y = float((von.y * (255 - e) + nach.y * e) / 256.0);
+                            tmp.y = FLOAT((von.y * (255 - e) + nach.y * e) / 256.0);
 
                             if ((EarthProjectize(tmp, EarthAlpha, &pxy) == 0) && e > 0) {
                                 SLONG f = 255 - abs(32768 - (SLONG(((tmp.x + 180) * 65536 / 360) - EarthAlpha + 16384 + 65536) & 65535)) / 64;
@@ -530,8 +530,8 @@ void CPlaner::PaintPostIt() {
             }
 
             if (c == 3 || (c == 2 && (OffsetB.x != 0))) {
-                PostItBm.PrintAt(VonCityKuerzel, *pFont, TEC_FONT_LEFT, OffsetA + XY(-18 + px + 2 + static_cast<int>(c == 2) * 6, 1 + py),
-                                 OffsetA + XY(px + 16 + 14 + static_cast<int>(c == 2) * 6, py + 18));
+                PostItBm.PrintAt(VonCityKuerzel, *pFont, TEC_FONT_LEFT, OffsetA + XY(-18 + px + 2 + static_cast<SLONG>(c == 2) * 6, 1 + py),
+                                 OffsetA + XY(px + 16 + 14 + static_cast<SLONG>(c == 2) * 6, py + 18));
             }
             if (c == Dauer - 1) {
                 PostItBm.PrintAt(NachCityKuerzel, *pFont, TEC_FONT_RIGHT, XY(-18 - 14 + px, 2 + py + 8) + OffsetB, XY(px + 8 - 2, py + 6 + 15) + OffsetB);
@@ -1340,8 +1340,8 @@ void CPlaner::DoPollingStuff() {
             if ((qPlayer.HasBerater(BERATERTYP_INFO) != 0) && ClientPosB.IfIsWithin(2, 128, 166, 166)) {
                 SLONG Index = (ClientPosB.y - 128) / 13;
 
-                if (Sim.Players.Players[Index + static_cast<int>(PlayerNum <= Index)].IsOut == 0 &&
-                    (Sim.Players.Players[Index + static_cast<int>(PlayerNum <= Index)].RentRouten.RentRouten[Routen(pBlock->SelectedIdB)].Rang != 0U)) {
+                if (Sim.Players.Players[Index + static_cast<SLONG>(PlayerNum <= Index)].IsOut == 0 &&
+                    (Sim.Players.Players[Index + static_cast<SLONG>(PlayerNum <= Index)].RentRouten.RentRouten[Routen(pBlock->SelectedIdB)].Rang != 0U)) {
                     CheckCursorHighlight(ClientPosB, CRect(2, (ClientPosB.y - 128) / 13 * 13 + 128 - 2, 172, (ClientPosB.y - 128) / 13 * 13 + 128 - 2 + 14),
                                          ColorOfFontBlack);
                 }
@@ -1381,7 +1381,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
         if (CurrentPostItType == 2 && pBlock->Index != 1 && (pBlock->Page == 0 || pBlock->Index == 2) && pBlock->BlockType == 2 &&
             (pBlock->IsTopWindow != 0)) // Auftrag
         {
-            qPlayer.Auftraege[CurrentPostItId].BlitGridAt(&RoomBm, XY(FlightPlanPos.x, FlightPlanPos.y - static_cast<int>(IsLaptop == 1)),
+            qPlayer.Auftraege[CurrentPostItId].BlitGridAt(&RoomBm, XY(FlightPlanPos.x, FlightPlanPos.y - static_cast<SLONG>(IsLaptop == 1)),
                                                           static_cast<BOOL>(pBlock->Index == 2), pBlock->Page);
         }
 
@@ -1395,12 +1395,12 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
                     if (pBlock->BlockTypeB == 3 && pBlock->Index != 1 && (pBlock->IsTopWindow != 0)) // Auftrag
                     {
                         qPlayer.Auftraege[pBlock->TableB.LineIndex[TableCursor]].BlitGridAt(
-                            &RoomBm, XY(FlightPlanPos.x, FlightPlanPos.y - static_cast<int>(IsLaptop == 1)), static_cast<BOOL>(pBlock->Index == 2),
+                            &RoomBm, XY(FlightPlanPos.x, FlightPlanPos.y - static_cast<SLONG>(IsLaptop == 1)), static_cast<BOOL>(pBlock->Index == 2),
                             pBlock->Page);
                     }
                 } else if (pBlock->TableB.ValueFlags[TableCursor * pBlock->TableB.AnzColums] != 0 && pBlock->Index == 0 && (pBlock->IsTopWindow != 0)) {
                     for (SLONG c = 0; c < 7; c++) {
-                        RoomBm.BlitFromT(FlugplanBms[51], FlightPlanPos.x, FlightPlanPos.y - static_cast<int>(IsLaptop == 1) + FlugplanBms[51].Size.y * c);
+                        RoomBm.BlitFromT(FlugplanBms[51], FlightPlanPos.x, FlightPlanPos.y - static_cast<SLONG>(IsLaptop == 1) + FlugplanBms[51].Size.y * c);
                     }
                 }
             }
@@ -1410,7 +1410,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
         if (CurrentPostItType == 4 && pBlock->Index != 1 && (pBlock->Page == 0 || pBlock->Index == 2) && pBlock->BlockType == 2 &&
             (pBlock->IsTopWindow != 0)) // Auftrag
         {
-            qPlayer.Frachten[CurrentPostItId].BlitGridAt(&RoomBm, XY(FlightPlanPos.x, FlightPlanPos.y - static_cast<int>(IsLaptop == 1)),
+            qPlayer.Frachten[CurrentPostItId].BlitGridAt(&RoomBm, XY(FlightPlanPos.x, FlightPlanPos.y - static_cast<SLONG>(IsLaptop == 1)),
                                                          static_cast<BOOL>(pBlock->Index == 2), pBlock->Page);
         }
 
@@ -1424,12 +1424,12 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
                     if (pBlock->BlockTypeB == 6 && pBlock->Index != 1 && (pBlock->IsTopWindow != 0)) // Auftrag
                     {
                         qPlayer.Frachten[pBlock->TableB.LineIndex[TableCursor]].BlitGridAt(
-                            &RoomBm, XY(FlightPlanPos.x, FlightPlanPos.y - static_cast<int>(IsLaptop == 1)), static_cast<BOOL>(pBlock->Index == 2),
+                            &RoomBm, XY(FlightPlanPos.x, FlightPlanPos.y - static_cast<SLONG>(IsLaptop == 1)), static_cast<BOOL>(pBlock->Index == 2),
                             pBlock->Page);
                     }
                 } else if (pBlock->TableB.ValueFlags[TableCursor * pBlock->TableB.AnzColums] != 0 && pBlock->Index == 0 && (pBlock->IsTopWindow != 0)) {
                     for (SLONG c = 0; c < 7; c++) {
-                        RoomBm.BlitFromT(FlugplanBms[51], FlightPlanPos.x, FlightPlanPos.y - static_cast<int>(IsLaptop == 1) + FlugplanBms[51].Size.y * c);
+                        RoomBm.BlitFromT(FlugplanBms[51], FlightPlanPos.x, FlightPlanPos.y - static_cast<SLONG>(IsLaptop == 1) + FlugplanBms[51].Size.y * c);
                     }
                 }
             }
@@ -2315,12 +2315,12 @@ void CPlaner::HandleLButtonDown() {
                 CRentRoute &qRRoute = qPlayer.RentRouten.RentRouten[Routen(pBlock->SelectedIdB)];
                 SLONG Index = (ClientPosB.y - 128) / 13;
 
-                if (Sim.Players.Players[Index + static_cast<int>(PlayerNum <= Index)].IsOut == 0 &&
-                    (Sim.Players.Players[Index + static_cast<int>(PlayerNum <= Index)].RentRouten.RentRouten[Routen(pBlock->SelectedIdB)].Rang != 0U)) {
+                if (Sim.Players.Players[Index + static_cast<SLONG>(PlayerNum <= Index)].IsOut == 0 &&
+                    (Sim.Players.Players[Index + static_cast<SLONG>(PlayerNum <= Index)].RentRouten.RentRouten[Routen(pBlock->SelectedIdB)].Rang != 0U)) {
                     qRRoute.Ticketpreis =
-                        Sim.Players.Players[Index + static_cast<int>(PlayerNum <= Index)].RentRouten.RentRouten[Routen(pBlock->SelectedIdB)].Ticketpreis;
+                        Sim.Players.Players[Index + static_cast<SLONG>(PlayerNum <= Index)].RentRouten.RentRouten[Routen(pBlock->SelectedIdB)].Ticketpreis;
                     qRRoute.TicketpreisFC =
-                        Sim.Players.Players[Index + static_cast<int>(PlayerNum <= Index)].RentRouten.RentRouten[Routen(pBlock->SelectedIdB)].TicketpreisFC;
+                        Sim.Players.Players[Index + static_cast<SLONG>(PlayerNum <= Index)].RentRouten.RentRouten[Routen(pBlock->SelectedIdB)].TicketpreisFC;
 
                     qPlayer.UpdateTicketpreise(pBlock->SelectedIdB, qRRoute.Ticketpreis, qRRoute.TicketpreisFC);
                     PLAYER::NetSynchronizeRoutes();
@@ -2913,7 +2913,7 @@ void CPlaner::HandleLButtonDouble() {
                                     qPlan.Flug[c].Okay = 0;
 
                                     if (c > 0) {
-                                        qPlan.Flug[c].Startdate = qPlan.Flug[c - 1].Landedate + static_cast<int>(qPlan.Flug[c - 1].Landezeit == 23);
+                                        qPlan.Flug[c].Startdate = qPlan.Flug[c - 1].Landedate + static_cast<SLONG>(qPlan.Flug[c - 1].Landezeit == 23);
                                         qPlan.Flug[c].Startzeit = (qPlan.Flug[c - 1].Landezeit + 1) % 24;
 
                                         if (qPlan.Flug[c].Startdate < Sim.Date ||

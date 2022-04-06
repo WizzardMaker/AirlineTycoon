@@ -9,7 +9,7 @@ char *bprintf(char const *format, ...) {
     return buffer;
 }
 
-char *bitoa(int val) {
+char *bitoa(SLONG val) {
     static char buffer[20];
     snprintf(buffer, sizeof(buffer), "%d", val);
     return buffer;
@@ -28,7 +28,7 @@ char *bitoa(long long val) {
 }
 
 char *TeakStrRemoveEndingCodes(char *str, char const *codes) {
-    int i = 0;
+    SLONG i = 0;
     for (i = strlen(str) - 1; i >= 0 && (strchr(codes, str[i]) != nullptr); --i) {
         ;
     }
@@ -37,7 +37,7 @@ char *TeakStrRemoveEndingCodes(char *str, char const *codes) {
 }
 
 char *TeakStrRemoveCppComment(char *str) {
-    for (int i = 0; str[i] != 0; ++i) {
+    for (SLONG i = 0; str[i] != 0; ++i) {
         if (str[i] == '/' && str[i + 1] == '/') {
             str[i] = 0;
             return str;
@@ -91,7 +91,7 @@ unsigned char GerToUpper(unsigned char c) {
 }
 
 void RecapizalizeString(CString &str) {
-    for (int i = 0; str[i] != 0U; ++i) {
+    for (SLONG i = 0; str[i] != 0U; ++i) {
         if ((i != 0) && (i <= 0 || (str[i - 1] != ' ' && str[i - 1] != '-'))) {
             str[i] = GerToLower(str[i]);
         } else {
@@ -101,7 +101,7 @@ void RecapizalizeString(CString &str) {
 }
 
 const char *GetSuffix(const char *str) {
-    for (int i = strlen(str); i > 0; --i) {
+    for (SLONG i = strlen(str); i > 0; --i) {
         if (str[i] == '.') {
             return &str[i + 1];
         }

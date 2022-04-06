@@ -21,7 +21,7 @@ extern SLONG IconsPos[];
 
 static XY GlobeOffset[] = {XY(141, 16), XY(177, 29)};
 
-extern double a;
+extern DOUBLE a;
 
 class CWaitCursorNow {
   public:
@@ -794,7 +794,7 @@ void CLaptop::OnPaint() {
             }
 
             for (c = 10; c < 12; c++) {
-                RoomBm.BlitFromT(FlugplanIconBms[c][static_cast<int>(c == CurrentIcon)], IconsPos[c * 2 + 24], IconsPos[c * 2 + 1 + 24]);
+                RoomBm.BlitFromT(FlugplanIconBms[c][static_cast<SLONG>(c == CurrentIcon)], IconsPos[c * 2 + 24], IconsPos[c * 2 + 1 + 24]);
             }
         } else {
             for (c = 0; c < 12; c++) {
@@ -838,7 +838,7 @@ void CLaptop::OnPaint() {
                         RoomBm.BlitFromT(IconsDefaultBms[c], IconsPos[c * 2 + 24], IconsPos[c * 2 + 1 + 24]);
                     }
                 } else if (c > 9) {
-                    RoomBm.BlitFromT(FlugplanIconBms[c][static_cast<int>(c == CurrentIcon)], IconsPos[c * 2 + 24], IconsPos[c * 2 + 1 + 24]);
+                    RoomBm.BlitFromT(FlugplanIconBms[c][static_cast<SLONG>(c == CurrentIcon)], IconsPos[c * 2 + 24], IconsPos[c * 2 + 1 + 24]);
                 }
             }
 
@@ -1217,7 +1217,7 @@ void CLaptop::OnLButtonDown(UINT nFlags, CPoint point) {
         }
 
         // Block ggf. nach vorne bringen:
-        // int b = CurrentBlock;
+        // SLONG b = CurrentBlock;
         //  while (b>1)
         //  {
         //      //pBlock = &Sim.Players.Players[PlayerNum].Blocks[b];

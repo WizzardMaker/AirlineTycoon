@@ -210,7 +210,7 @@ void InitItems() {
 
             for (auto &gPlanePartRelation : gPlanePartRelations) {
                 file >> str;
-                long id = atol(str);
+                SLONG id = atol(str);
 
                 if (gPlanePartRelation.Id != id) {
                     hprintf(0, "Id mismatch: %li vs %li!", gPlanePartRelation.Id, id);
@@ -227,7 +227,7 @@ void InitItems() {
 
             for (auto &gPlaneBuild : gPlaneBuilds) {
                 file >> str;
-                long id = atol(str);
+                SLONG id = atol(str);
 
                 if (gPlaneBuild.Id != id) {
                     hprintf(0, "Id mismatch: %li vs %li!", gPlaneBuild.Id, id);
@@ -300,9 +300,9 @@ void InitTipBms() {
 // Initialisiert die Erdkugel:
 //--------------------------------------------------------------------------------------------
 void InitGlobeMapper() {
-    int x = 0;
-    int y = 0;
-    int xs = 0;
+    SLONG x = 0;
+    SLONG y = 0;
+    SLONG xs = 0;
     dword Color = 0;
 
     // Dafault-Positionen der Laptop-Fenster:
@@ -359,7 +359,7 @@ void InitGlobeMapper() {
             //(GlobeLight[y])[x+xs]=UBYTE(150-sqrt((x+80)*(x+80)+(y-80)*(y-80))/2.8);
 
             if (y <= 184) {
-                (GlobeMapper[y])[x + xs] = UWORD(asin(x / double(xs)) / 3.14159 * 2 * 128 + 128);
+                (GlobeMapper[y])[x + xs] = UWORD(asin(x / DOUBLE(xs)) / 3.14159 * 2 * 128 + 128);
             }
         }
 

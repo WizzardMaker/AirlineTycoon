@@ -14,22 +14,22 @@
 //--------------------------------------------------------------------------------------------
 class CPlanePartRelation {
   public:
-    long Id;             // [csv] Id der Relation
-    long FromBuildIndex; // [csv] An dieses Teil wird etwas geklebt
-    long ToBuildIndex;   // [csv] ..und zwar dieses Teil hier
+    SLONG Id;             // [csv] Id der Relation
+    SLONG FromBuildIndex; // [csv] An dieses Teil wird etwas geklebt
+    SLONG ToBuildIndex;   // [csv] ..und zwar dieses Teil hier
     XY Offset2d;         // Offset für die 2d-Ansicht am Flughafen
     XY Offset3d;         // Offset für die 2d-Ansicht im Editor
-    long Note1;          // [CSV] Spezielle Anmerkung, z.B. zu auf/Aberwertung
-    long Note2;          // [CSV] dito
-    long Note3;          // [CSV] dito
-    long zAdd;
-    long Noise;                // [CSV] Zusätzlicher Lärm
+    SLONG Note1;          // [CSV] Spezielle Anmerkung, z.B. zu auf/Aberwertung
+    SLONG Note2;          // [CSV] dito
+    SLONG Note3;          // [CSV] dito
+    SLONG zAdd;
+    SLONG Noise;                // [CSV] Zusätzlicher Lärm
     const char *Slot;          // Dieser Slot wird benötigt (BCHLMR)
     const char *RulesOutSlots; // Und diese Slots werden blockiert
 
   public:
-    CPlanePartRelation(long _Id, ULONG _FromBuildIndex, ULONG _ToBuildIndex, XY _Offset2d, XY _Offset3d, long _Note1, long _Note2, long _Note3, long _zAdd,
-                       long _Noise, const char *_Slot, const char *_RulesOutSlots) {
+    CPlanePartRelation(SLONG _Id, ULONG _FromBuildIndex, ULONG _ToBuildIndex, XY _Offset2d, XY _Offset3d, SLONG _Note1, SLONG _Note2, SLONG _Note3, SLONG _zAdd,
+                       SLONG _Noise, const char *_Slot, const char *_RulesOutSlots) {
         Id = _Id;
         FromBuildIndex = _FromBuildIndex;
         ToBuildIndex = _ToBuildIndex;
@@ -50,23 +50,23 @@ class CPlanePartRelation {
 // Das theoretische Teil aus dem Katalog:
 class CPlaneBuild {
   public:
-    long Id{};               // [csv]
+    SLONG Id{};               // [csv]
     const char *Shortname{}; // [csv] z.B. B1
-    long Cost{};             // [CSV] Soviel kostet das hier
-    long Weight{};           // [CSV] Soviel wiegt dieses Teil (Beispiel 149pass=62t 170pass=68t 272pass=148t 440pass=135t 550pass=160t)
-    long Power{};            // [CSV] Soviel Power hat es, falls es ein Triebwerk ist
-    long Noise{};            // [CSV] Soviel Krach verursacht es
-    long Wartung{};          // [CSV] So Wartungsintensiv ist dieses Teil
-    long Passagiere{};       // [CSV] Soviele Leute passen in diesen Part
-    long Verbrauch{};        // [CSV] Verbrauch in l/h
-    long BitmapIndex{};      // Index in das Array mit Bitmaps
-    long zPos{};
+    SLONG Cost{};             // [CSV] Soviel kostet das hier
+    SLONG Weight{};           // [CSV] Soviel wiegt dieses Teil (Beispiel 149pass=62t 170pass=68t 272pass=148t 440pass=135t 550pass=160t)
+    SLONG Power{};            // [CSV] Soviel Power hat es, falls es ein Triebwerk ist
+    SLONG Noise{};            // [CSV] Soviel Krach verursacht es
+    SLONG Wartung{};          // [CSV] So Wartungsintensiv ist dieses Teil
+    SLONG Passagiere{};       // [CSV] Soviele Leute passen in diesen Part
+    SLONG Verbrauch{};        // [CSV] Verbrauch in l/h
+    SLONG BitmapIndex{};      // Index in das Array mit Bitmaps
+    SLONG zPos{};
 
   public:
     CPlaneBuild() { Shortname = NULL; }
 
-    CPlaneBuild(long _Id, const char *_Shortname, long _Cost, long _Weight, long _Power, long _Noise, long _Wartung, long _Passagiere, long _Verbrauch,
-                long _BitmapIndex, long _zPos) {
+    CPlaneBuild(SLONG _Id, const char *_Shortname, SLONG _Cost, SLONG _Weight, SLONG _Power, SLONG _Noise, SLONG _Wartung, SLONG _Passagiere, SLONG _Verbrauch,
+                SLONG _BitmapIndex, SLONG _zPos) {
         Id = _Id;
         Shortname = _Shortname;
         Cost = _Cost;
@@ -130,9 +130,9 @@ class CEditor : public CStdRaum {
     XY GripAtPosB;
     XY GripAtPos2d;
     XY GripAtPosB2d;
-    long GripRelation;
-    long GripRelationB{};
-    long GripRelationPart{};
+    SLONG GripRelation;
+    SLONG GripRelationB{};
+    SLONG GripRelationPart{};
 
     SB_CFont FontBankBlack;
     SB_CFont FontBankRed;
@@ -146,7 +146,7 @@ class CEditor : public CStdRaum {
     BOOL DragDropMode;
     CString PartUnderCursor;      // Das Part was dranklebt oder Leerstring
     CString PartUnderCursorB;     // Der andere Flügel, der ggf. mit dranklebt
-    long RelationIdUnderCursor{}; // Für das Snap-In die passende Relation
+    SLONG RelationIdUnderCursor{}; // Für das Snap-In die passende Relation
 
     bool bBodyOutlined{};    // Ist Body markiert?
     bool bCockpitOutlined{}; // Ist Cockpit markiert?
@@ -160,11 +160,11 @@ class CEditor : public CStdRaum {
     bool bAllowW;
     bool bAllowM;
 
-    long sel_b; // Index von 0.. für die aktuelle Wahl des Bodies
-    long sel_c; // Index von 0.. für die aktuelle Wahl des Cockpits
-    long sel_h; // Index von 0.. für die aktuelle Wahl des Hecks
-    long sel_w; // Index von 0.. für die aktuelle Wahl des Flügels
-    long sel_m; // Index von 0.. für die aktuelle Wahl des Motors
+    SLONG sel_b; // Index von 0.. für die aktuelle Wahl des Bodies
+    SLONG sel_c; // Index von 0.. für die aktuelle Wahl des Cockpits
+    SLONG sel_h; // Index von 0.. für die aktuelle Wahl des Hecks
+    SLONG sel_w; // Index von 0.. für die aktuelle Wahl des Flügels
+    SLONG sel_m; // Index von 0.. für die aktuelle Wahl des Motors
 
     SB_CFont FontNormalRed;
 
@@ -175,7 +175,7 @@ class CEditor : public CStdRaum {
 
     // Implementation
   public:
-    void CheckUnusablePart(long iDirection);
+    void CheckUnusablePart(SLONG iDirection);
     void DeleteCurrent(void);
     void UpdateButtonState(void);
     void DoLButtonWork(UINT nFlags, const CPoint &point);
@@ -194,6 +194,6 @@ class CEditor : public CStdRaum {
 };
 
 CPlaneBuild &GetPlaneBuild(const CString &Shortname);
-long GetPlaneBuildIndex(const CString &Shortname);
+SLONG GetPlaneBuildIndex(const CString &Shortname);
 
 /////////////////////////////////////////////////////////////////////////////

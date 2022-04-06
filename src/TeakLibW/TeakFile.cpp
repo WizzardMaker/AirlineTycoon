@@ -15,7 +15,7 @@ TEAKFILE::TEAKFILE(char const *path, SLONG mode) : Ctx(nullptr), Path(nullptr), 
 TEAKFILE::~TEAKFILE() { Close(); }
 
 void TEAKFILE::ReadLine(char *buffer, SLONG size) const {
-    int i = 0;
+    SLONG i = 0;
     for (i = 0; i < size && (IsEof() == 0); i++) {
         char c = SDL_ReadU8(Ctx);
 
@@ -35,7 +35,7 @@ void TEAKFILE::ReadLine(char *buffer, SLONG size) const {
     }
 }
 
-int TEAKFILE::IsEof() const { return static_cast<int>(SDL_RWtell(Ctx) >= SDL_RWsize(Ctx)); }
+SLONG TEAKFILE::IsEof() const { return static_cast<SLONG>(SDL_RWtell(Ctx) >= SDL_RWsize(Ctx)); }
 
 void TEAKFILE::Close() {
     if (Ctx != nullptr) {
@@ -61,7 +61,7 @@ void TEAKFILE::Open(char const *path, SLONG mode) {
     Path = SDL_strdup(path);
 }
 
-int TEAKFILE::IsOpen() const { return static_cast<int>(Ctx != nullptr); }
+SLONG TEAKFILE::IsOpen() const { return static_cast<SLONG>(Ctx != nullptr); }
 
 void TEAKFILE::Read(unsigned char *buffer, SLONG size) {
     if (MemBuffer.AnzEntries() > 0) {
@@ -119,7 +119,7 @@ CRLEReader::CRLEReader(const char *path) : Ctx(nullptr), SeqLength(0), SeqUsed(0
         SDL_RWread(Ctx, str, sizeof(str), 1);
         if (strcmp(str, "xtRLE") == 0) {
             IsRLE = true;
-            int version = SDL_ReadLE32(Ctx);
+            SLONG version = SDL_ReadLE32(Ctx);
             if (version >= 0x102) {
                 Key = 0xA5;
             }
@@ -155,7 +155,7 @@ void CRLEReader::SaveAsPlainText() {
 
         // TEAKFILE file(fn, TEAKFILE_WRITE);
         FILE *fp = fopen(fn, "w");
-        for (int i = 0; i < buffer.AnzEntries(); ++i) {
+        for (SLONG i = 0; i < buffer.AnzEntries(); ++i) {
             fputc(buffer[i], fp);
         }
         fclose(fp);
@@ -178,7 +178,7 @@ bool CRLEReader::NextSeq() {
         if (!Buffer(Sequence, SeqLength)) {
             return false;
         }
-        for (int i = 0; i < SeqLength; i++) {
+        for (SLONG i = 0; i < SeqLength; i++) {
             Sequence[i] ^= Key;
         }
     } else {
@@ -213,7 +213,7 @@ bool CRLEReader::Read(BYTE *buffer, SLONG size, bool decode) {
     return true;
 }
 
-int DoesFileExist(char const *path) {
+BOOL DoesFileExist(char const *path) {
     SDL_RWops *ctx = SDL_RWFromFile(path, "rb");
     if (ctx != nullptr) {
         SDL_RWclose(ctx);

@@ -1,8 +1,8 @@
 #include "StdAfx.h"
 
-Uint16 get_pixel16(SDL_Surface *surface, int x, int y);
+Uint16 get_pixel16(SDL_Surface *surface, SLONG x, SLONG y);
 
-void put_pixel16(SDL_Surface *surface, int x, int y, Uint16 pixel);
+void put_pixel16(SDL_Surface *surface, SLONG x, SLONG y, Uint16 pixel);
 
 SB_CBitmapMain::SB_CBitmapMain(SDL_Renderer *render) : Renderer(render) {}
 
@@ -280,7 +280,7 @@ ULONG SB_CBitmapCore::GetPixel(SLONG x, SLONG y) {
     return result & ((1 << bits) - 1);
 }
 
-Uint16 get_pixel16(SDL_Surface *surface, int x, int y) {
+Uint16 get_pixel16(SDL_Surface *surface, SLONG x, SLONG y) {
     // Convert the pixels to 32 bit
     auto *pixels = static_cast<Uint16 *>(surface->pixels);
 
@@ -288,7 +288,7 @@ Uint16 get_pixel16(SDL_Surface *surface, int x, int y) {
     return pixels[(y * surface->pitch / 2) + x];
 }
 
-void put_pixel16(SDL_Surface *surface, int x, int y, Uint16 pixel) {
+void put_pixel16(SDL_Surface *surface, SLONG x, SLONG y, Uint16 pixel) {
     // Convert the pixels to 32 bit
     auto *pixels = static_cast<Uint16 *>(surface->pixels);
 
@@ -310,9 +310,9 @@ SDL_Surface *SB_CBitmapCore::GetFlippedSurface() {
         SDL_LockSurface(flippedBufferSurface);
     }
 
-    for (int x = 0, rx = lpDDSurface->w - 1; x < lpDDSurface->w; x++, rx--) {
+    for (SLONG x = 0, rx = lpDDSurface->w - 1; x < lpDDSurface->w; x++, rx--) {
         // Go through rows
-        for (int y = 0, ry = lpDDSurface->h - 1; y < lpDDSurface->h; y++, ry--) {
+        for (SLONG y = 0, ry = lpDDSurface->h - 1; y < lpDDSurface->h; y++, ry--) {
             Uint16 pixel = get_pixel16(lpDDSurface, x, y);
             put_pixel16(flippedBufferSurface, rx, y, pixel);
         }

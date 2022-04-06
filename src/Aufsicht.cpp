@@ -575,11 +575,11 @@ CAufsicht::~CAufsicht() {
 
                         {
                             // Für alle Flugzeuge die er besitzt, die Passagierzahl aktualisieren:
-                            for (long d = 0; d < qOpfer.Planes.AnzEntries(); d++) {
+                            for (SLONG d = 0; d < qOpfer.Planes.AnzEntries(); d++) {
                                 if (qOpfer.Planes.IsInAlbum(d) != 0) {
                                     CPlane &qPlane = qOpfer.Planes[d];
 
-                                    for (long e = 0; e < qPlane.Flugplan.Flug.AnzEntries(); e++) {
+                                    for (SLONG e = 0; e < qPlane.Flugplan.Flug.AnzEntries(); e++) {
                                         if (qPlane.Flugplan.Flug[e].ObjectType == 1) {
                                             qPlane.Flugplan.Flug[e].CalcPassengers(qOpfer.PlayerNum, qPlane);
                                         }
@@ -613,7 +613,7 @@ CAufsicht::~CAufsicht() {
                         qPlayer.ArabHints += 70;
                         qOpfer.RouteWegnehmen(Routen(qPlayer.ArabPlane), qPlayer.PlayerNum);
                         {
-                            for (long d = 0; d < Routen.AnzEntries(); d++) {
+                            for (SLONG d = 0; d < Routen.AnzEntries(); d++) {
                                 if ((Routen.IsInAlbum(d) != 0) && Routen[d].VonCity == Routen[qPlayer.ArabPlane].NachCity &&
                                     Routen[d].NachCity == Routen[qPlayer.ArabPlane].VonCity) {
                                     qOpfer.RouteWegnehmen(d, qPlayer.PlayerNum);

@@ -170,10 +170,10 @@ class SSE {
     DllExport SSE(void *hWnd, dword samplesPerSec = 22050, word channels = 2, word bitsPerSample = 16, word maxFX = 8);
     DllExport ~SSE();
 
-    DllExport int EnableDS() const;
-    DllExport static int DisableDS();
-    DllExport int CreateFX(FX **ppFX, char *file = 0, dword samplesPerSec = 0, word channels = 0, word bitsPerSample = 0);
-    DllExport int CreateMidi(MIDI **ppMidi, char *file = 0);
+    DllExport SLONG EnableDS() const;
+    DllExport static SLONG DisableDS();
+    DllExport SLONG CreateFX(FX **ppFX, char *file = 0, dword samplesPerSec = 0, word channels = 0, word bitsPerSample = 0);
+    DllExport SLONG CreateMidi(MIDI **ppMidi, char *file = 0);
     // DllExport int	CreateDigimusic (DIGIMUSIC** ppDigimusic, char* file = 0, dword bufferSecs = 4, dword samplesPerSec = 0, word channels = 0, word
     // bitsPerSample = 0);
 
@@ -186,24 +186,24 @@ class SSE {
 
     // DllExport int GetCaps(DSCAPS* pDSCaps);
 
-    DllExport int EnableSound(bool fSoundEnabled);
+    DllExport SLONG EnableSound(bool fSoundEnabled);
     DllExport bool IsSoundEnabled() { return _fSoundEnabled; }
     DllExport void SetMaxSound(word fx) { _maxSound = Mix_AllocateChannels(fx - _maxSound); }
     DllExport word GetMaxSound() { return _maxSound; }
     DllExport static word GetSoundPlaying();
     DllExport void StopSound();
 
-    DllExport int EnableMusic(bool fMusicEnabled);
+    DllExport SLONG EnableMusic(bool fMusicEnabled);
     DllExport bool IsMusicEnabled() { return _fMusicEnabled; }
     DllExport void StopMusic();
 
     // Lautstärkefunktionen
 
-    DllExport static int SetMusicVolume(SLONG volume);
-    DllExport static int GetMusicVolume(SLONG *pVolume);
+    DllExport static SLONG SetMusicVolume(SLONG volume);
+    DllExport static SLONG GetMusicVolume(SLONG *pVolume);
 
-    DllExport static int SetSoundVolume(SLONG volume);
-    DllExport static int GetSoundVolume(SLONG *pVolume);
+    DllExport static SLONG SetSoundVolume(SLONG volume);
+    DllExport static SLONG GetSoundVolume(SLONG *pVolume);
 
     // DllExport int	SetMixerVolume (char * device, SLONG volume);
     // DllExport int	GetMixerVolume(char * device, SLONG* pVolume, MIXERBOUNDS* pMB = NULL);
@@ -264,18 +264,18 @@ class DIGITAL {
   public:
     virtual ~DIGITAL(){};
     virtual SLONG Release() = 0;
-    virtual int Play(dword dwFlags = 0, SLONG pan = 0) = 0;
-    virtual int Stop() = 0;
-    virtual int Pause() { return Stop(); }
-    virtual int Resume() = 0;
-    virtual int GetVolume(SLONG *pVolume) = 0;
-    virtual int SetVolume(SLONG volume) = 0;
-    virtual int GetPan(SLONG *pPan) = 0;
-    virtual int SetPan(SLONG pan) = 0;
-    virtual int Load(const char *file = NULL) = 0;
-    virtual int Free() = 0;
+    virtual SLONG Play(dword dwFlags = 0, SLONG pan = 0) = 0;
+    virtual SLONG Stop() = 0;
+    virtual SLONG Pause() { return Stop(); }
+    virtual SLONG Resume() = 0;
+    virtual SLONG GetVolume(SLONG *pVolume) = 0;
+    virtual SLONG SetVolume(SLONG volume) = 0;
+    virtual SLONG GetPan(SLONG *pPan) = 0;
+    virtual SLONG SetPan(SLONG pan) = 0;
+    virtual SLONG Load(const char *file = NULL) = 0;
+    virtual SLONG Free() = 0;
 
-    virtual int GetStatus(dword *pStatus) = 0;
+    virtual SLONG GetStatus(dword *pStatus) = 0;
     virtual word CountPlaying() = 0;
     virtual void SetFormat(dword samplesPerSec, word channels, word bitsPerSample) = 0;
 
@@ -293,28 +293,28 @@ class FX : public DIGITAL {
 
   protected:
     FX() = default;
-    int Create(SSE *pSSE, char *file, dword samplesPerSec, word channels, word bitsPerSample);
+    SLONG Create(SSE *pSSE, char *file, dword samplesPerSec, word channels, word bitsPerSample);
     virtual bool StopPriority(dword flags);
 
   public:
     virtual ~FX() { Free(); }
     virtual SLONG Release();
-    virtual int Play(dword dwFlags = 0, SLONG pan = 0);
-    virtual int Stop();
-    virtual int Pause();
-    virtual int Resume();
-    virtual int GetVolume(SLONG *pVolume);
-    virtual int SetVolume(SLONG volume);
-    virtual int GetPan(SLONG *pPan);
-    virtual int SetPan(SLONG pan);
-    virtual int Load(const char *file = NULL);
-    virtual int Fusion(const FX **Fx, SLONG NumFx);
-    virtual int Fusion(const FX *Fx, SLONG *Von, SLONG *Bis, SLONG NumFx);
-    virtual int Tokenize(__int64 Token, SLONG *Von, SLONG *Bis, SLONG &rcAnzahl);
+    virtual SLONG Play(dword dwFlags = 0, SLONG pan = 0);
+    virtual SLONG Stop();
+    virtual SLONG Pause();
+    virtual SLONG Resume();
+    virtual SLONG GetVolume(SLONG *pVolume);
+    virtual SLONG SetVolume(SLONG volume);
+    virtual SLONG GetPan(SLONG *pPan);
+    virtual SLONG SetPan(SLONG pan);
+    virtual SLONG Load(const char *file = NULL);
+    virtual SLONG Fusion(const FX **Fx, SLONG NumFx);
+    virtual SLONG Fusion(const FX *Fx, SLONG *Von, SLONG *Bis, SLONG NumFx);
+    virtual SLONG Tokenize(__int64 Token, SLONG *Von, SLONG *Bis, SLONG &rcAnzahl);
     virtual FX **Tokenize(__int64 Token, SLONG &rcAnzahl);
-    virtual int Free();
+    virtual SLONG Free();
 
-    virtual int GetStatus(dword *pStatus);
+    virtual SLONG GetStatus(dword *pStatus);
     virtual bool IsMouthOpen(SLONG PreTime);
     virtual word CountPlaying();
     virtual void SetFormat(dword samplesPerSec = 0, word channels = 0, word bitsPerSample = 0);
@@ -342,18 +342,18 @@ class MUSIC {
   public:
     virtual ~MUSIC(){};
     virtual SLONG Release() = 0;
-    DllExport virtual int Play(dword dwFlags = 0, SLONG pan = 0) = 0;
-    virtual int Stop() = 0;
-    virtual int Pause() { return Stop(); }
-    virtual int Resume() = 0;
-    virtual int GetVolume(SLONG *pVolume) = 0;
-    virtual int SetVolume(SLONG volume) = 0;
-    virtual int GetPan(SLONG *pPan) = 0;
-    virtual int SetPan(SLONG pan) = 0;
-    virtual int Load(const char *file = NULL) = 0;
-    virtual int Free() = 0;
+    DllExport virtual SLONG Play(dword dwFlags = 0, SLONG pan = 0) = 0;
+    virtual SLONG Stop() = 0;
+    virtual SLONG Pause() { return Stop(); }
+    virtual SLONG Resume() = 0;
+    virtual SLONG GetVolume(SLONG *pVolume) = 0;
+    virtual SLONG SetVolume(SLONG volume) = 0;
+    virtual SLONG GetPan(SLONG *pPan) = 0;
+    virtual SLONG SetPan(SLONG pan) = 0;
+    virtual SLONG Load(const char *file = NULL) = 0;
+    virtual SLONG Free() = 0;
 
-    virtual int GetStatus(dword *pStatus) = 0;
+    virtual SLONG GetStatus(dword *pStatus) = 0;
     virtual word CountPlaying() = 0;
 
   protected:
@@ -370,30 +370,30 @@ class MIDI : public MUSIC {
 
   protected:
     MIDI() = default;
-    int Create(SSE *pSSE, char *file);
+    SLONG Create(SSE *pSSE, char *file);
     virtual bool StopPriority(dword flags);
 
   public:
     virtual ~MIDI() { Free(); }
     virtual SLONG Release();
-    DllExport virtual int Play(dword dwFlags = 0, SLONG pan = 0);
-    virtual int Stop();
-    virtual int Pause();
-    virtual int Resume();
-    virtual int GetVolume(SLONG *pVolume);
-    virtual int SetVolume(SLONG volume);
-    virtual int GetPan(SLONG *pPan);
-    virtual int SetPan(SLONG pan);
-    virtual int Load(const char *file = NULL);
-    virtual int Free();
-    virtual void SetMode(int mode);
+    DllExport virtual SLONG Play(dword dwFlags = 0, SLONG pan = 0);
+    virtual SLONG Stop();
+    virtual SLONG Pause();
+    virtual SLONG Resume();
+    virtual SLONG GetVolume(SLONG *pVolume);
+    virtual SLONG SetVolume(SLONG volume);
+    virtual SLONG GetPan(SLONG *pPan);
+    virtual SLONG SetPan(SLONG pan);
+    virtual SLONG Load(const char *file = NULL);
+    virtual SLONG Free();
+    virtual void SetMode(SLONG mode);
 
-    virtual int GetStatus(dword *pStatus);
+    virtual SLONG GetStatus(dword *pStatus);
     virtual word CountPlaying();
 
   protected:
     Mix_Music *_music{nullptr};
-    int _mode{};
+    SLONG _mode{};
 };
 /******************************************************************************\
  *

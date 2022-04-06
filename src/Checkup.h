@@ -89,7 +89,7 @@ class CSystemCheckup {
 
     // CD:
     long KBSec;    // noch nicht unterstützt: CD in Kilobytes pro Sekunde, z.B. 300..
-    double Faktor; // noch nicht unterstützt: ..oder als Faktor, z.B. 2 = Double-Speed
+    DOUBLE Faktor; // noch nicht unterstützt: ..oder als Faktor, z.B. 2 = Double-Speed
 
     // OS:
     long PlatformID;     // CHECK_PLATFORM_WIN31 / _WIN95 / WINNT
@@ -100,7 +100,7 @@ class CSystemCheckup {
     // CPU:
     long bMMX;         // Ist ein MMX vorhanden?
     long bCoprozessor; // Ist eine FPU vorhanden?
-    double Megahertz;  // Die Taktfrequenz des Prozessors in Mhz +/- 10%
+    DOUBLE Megahertz;  // Die Taktfrequenz des Prozessors in Mhz +/- 10%
 
     // RAM:
     long RealMB;    // Soviel echtes RAM (in MB) ist installiert

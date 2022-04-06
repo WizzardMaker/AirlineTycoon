@@ -30,9 +30,9 @@ static const XY PlayerOffsets[] = {XY(241, 267), XY(248, 335), XY(304, 258), XY(
 SLONG CalcDistanceLine2Dot(XY LineP1, XY LineP2, XY p);
 
 SLONG CalcDistanceLine2Dot(XY LineP1, XY LineP2, XY p) {
-    float Abschnitt = NAN;
+    FLOAT Abschnitt = NAN;
 
-    Abschnitt = ((LineP1 - p) * (LineP1 - LineP2)) / static_cast<float>((LineP2 - LineP1).abs()) / static_cast<float>((LineP2 - LineP1).abs());
+    Abschnitt = ((LineP1 - p) * (LineP1 - LineP2)) / static_cast<FLOAT>((LineP2 - LineP1).abs()) / static_cast<FLOAT>((LineP2 - LineP1).abs());
 
     // if ((LineP1.x<LineP2.x && p.x<=LineP1.x) || (LineP1.x>LineP2.x && p.x>=LineP1.x) || (LineP1.y<LineP2.y && p.y<=LineP1.y) || (LineP1.y>LineP2.y &&
     // p.y>=LineP1.y))
@@ -263,7 +263,7 @@ void CRouteBox::OnPaint() {
                             Swap(p1, p2);
                         }
 
-                        long mitte = 0;
+                        SLONG mitte = 0;
                         if (p1.y > p2.y) {
                             mitte = p1.y + (p2.y - p1.y) * (p1.x - 16) / (437 - 16 - (p2.x - p1.x));
                         } else {
@@ -320,7 +320,7 @@ void CRouteBox::OnPaint() {
         if (Sim.ItemClips != 0) {
             for (SLONG c = 0; c < 4; c++) {
                 if (Sim.Players.Players[c].IsOut == 0) {
-                    RoomBm.BlitFromT(PlayerBms[c * 3 + static_cast<int>((DisplayPlayer & (1 << c)) != 0) * 2], PlayerOffsets[c]);
+                    RoomBm.BlitFromT(PlayerBms[c * 3 + static_cast<SLONG>((DisplayPlayer & (1 << c)) != 0) * 2], PlayerOffsets[c]);
 
                     if (c == PlayerNum || (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0)) {
                         if (gMousePosition.IfIsWithin(PlayerOffsets[c].x, PlayerOffsets[c].y, PlayerOffsets[c].x + PlayerBms[c * 3].Size.x,
@@ -374,7 +374,7 @@ void CRouteBox::OnPaint() {
     } else if (Sim.ItemClips != 0) {
         for (SLONG c = 0; c < 4; c++) {
             if (Sim.Players.Players[c].IsOut == 0) {
-                RoomBm.BlitFromT(PlayerBms[c * 3 + static_cast<int>((DisplayPlayer & (1 << c)) != 0) * 2], PlayerOffsets[c]);
+                RoomBm.BlitFromT(PlayerBms[c * 3 + static_cast<SLONG>((DisplayPlayer & (1 << c)) != 0) * 2], PlayerOffsets[c]);
 
                 if (c == PlayerNum || (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0)) {
                     if (gMousePosition.IfIsWithin(PlayerOffsets[c].x, PlayerOffsets[c].y, PlayerOffsets[c].x + PlayerBms[c * 3].Size.x,
@@ -596,7 +596,7 @@ void CRouteBox::RepaintMap() {
                                 Swap(p1, p2);
                             }
 
-                            long mitte = 0;
+                            SLONG mitte = 0;
                             if (p1.y > p2.y) {
                                 mitte = p1.y + (p2.y - p1.y) * (p1.x - 16) / (437 - 16 - (p2.x - p1.x));
                             } else {

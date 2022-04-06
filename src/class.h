@@ -47,11 +47,11 @@ class /**/ SBFX {
     void Destroy(void);
     void ReInit(const CString &Filename, char *Path = NULL);
     void Play(dword dwFlags = 0) const;
-    void Play(dword dwFlags, long PercentVolume) const;
+    void Play(dword dwFlags, SLONG PercentVolume) const;
     void Stop(void) const;
-    void SetVolume(long volume) const;
-    void Fusion(const SBFX **Fx, long NumFx);
-    void Fusion(const SBFX *Fx, const SLONG *Von, const SLONG *Bis, long NumFx);
+    void SetVolume(SLONG volume) const;
+    void Fusion(const SBFX **Fx, SLONG NumFx);
+    void Fusion(const SBFX *Fx, const SLONG *Von, const SLONG *Bis, SLONG NumFx);
     void Tokenize(BUFFER_V<SLONG> &Von, BUFFER_V<SLONG> &Bis) const;
     void Tokenize(BUFFER_V<SBFX> &Effects) const;
 };
@@ -313,7 +313,7 @@ class /**/ CEinheit  // 0 = km
 {                    // 1 = km/h
   public:            // 2 = m
     CString Name;    // 3 = kN
-    double Faktor{}; // 4 = l
+    DOUBLE Faktor{}; // 4 = l
                      // 5 = l/h
   public:            // 6 = DM
     SLONG Umrechnung(SLONG Value) const;
@@ -429,7 +429,7 @@ class /**/ CPlaneType {
     SLONG Tankgroesse{};     // Kerosin in l
     SLONG Verbrauch{};       // Kerosin in l/h
     SLONG Preis{};           // Der Neupreis in DM
-    float Wartungsfaktor{};  // Faktor für die Wartungskosten
+    FLOAT Wartungsfaktor{};  // Faktor für die Wartungskosten
     CString Kommentar;       // Ggf. allgemeines über diese Maschine
 };
 
@@ -561,7 +561,7 @@ class CRoute {
     ULONG VonCity{};     // bezeichnet eine Stadt
     ULONG NachCity{};    // bezeichnet eine Stadt
     SLONG Miete{};
-    double Faktor{}; // Attraktivität der Route
+    DOUBLE Faktor{}; // Attraktivität der Route
     SLONG Bedarf{};  // Soviele Leute wollen heute fliegen
 
   public:
@@ -762,18 +762,18 @@ class /**/ CXPlane {
   public:
     void BlitPlaneAt(SBPRIMARYBM &TargetBm, SLONG Size, XY Pos, SLONG OwningPlayer);
     void Clear(void);
-    long CalcCost(void);
-    long CalcPassagiere(void);
-    long CalcReichweite(void);
-    long CalcVerbrauch(void);
-    long CalcWeight(void);
-    long CalcPower(void);
-    long CalcNoise(void);
-    long CalcWartung(void);
-    long CalcTank(bool bFaked = false);
-    long CalcSpeed(void);
-    long CalcPiloten(void);
-    long CalcBegleiter(void);
+    SLONG CalcCost(void);
+    SLONG CalcPassagiere(void);
+    SLONG CalcReichweite(void);
+    SLONG CalcVerbrauch(void);
+    SLONG CalcWeight(void);
+    SLONG CalcPower(void);
+    SLONG CalcNoise(void);
+    SLONG CalcWartung(void);
+    SLONG CalcTank(bool bFaked = false);
+    SLONG CalcSpeed(void);
+    SLONG CalcPiloten(void);
+    SLONG CalcBegleiter(void);
     void Load(const CString &Filename);
     void Save(const CString &Filename);
     bool IsBuildable(void);
@@ -848,7 +848,7 @@ class /**/ CPlane {
     SLONG ptVerbrauch{};       // Kerosin in l/h
     SLONG ptPreis{};           // Der Neupreis in DM
     SLONG ptLaerm{};           // Der Laerm, den diese Maschine verursacht
-    float ptWartungsfaktor{};  // Faktor für die Wartungskosten
+    FLOAT ptWartungsfaktor{};  // Faktor für die Wartungskosten
     CString ptKommentar;       // Ggf. allgemeines über diese Maschine
 
     CXPlane XPlane; // Selbstgebautes Flugzeug falls TypeId==-1
@@ -890,7 +890,7 @@ class /**/ CPlanes : public ALBUM_V<CPlane> {
     void DoOneStep(SLONG PlayerNum);
     void UpdateGlobePos(UWORD EarthAlpha);
     void RepairReferences(void);
-    double GetAvgBegleiter(void);
+    DOUBLE GetAvgBegleiter(void);
     BOOL HasProblemPlane(void);
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CPlanes &Planes);
@@ -990,15 +990,15 @@ class /**/ HEADLINES {
   public:
     HEADLINES() = default;
     HEADLINES(const CString &TabFilename);
-    CHeadline GetHeadline(long Newspaper, SLONG Index);
+    CHeadline GetHeadline(SLONG Newspaper, SLONG Index);
     void Init(void);
-    void SetHeadline(long Newspaper, const CString &Headlinetext);
-    void BlitHeadline(long Newspaper, SBBM &Offscreen, const CPoint &p1, const CPoint &p2, BYTE Color);
+    void SetHeadline(SLONG Newspaper, const CString &Headlinetext);
+    void BlitHeadline(SLONG Newspaper, SBBM &Offscreen, const CPoint &p1, const CPoint &p2, BYTE Color);
     void ReloadHeadline(void);
     void InterpolateHeadline(void);
     void ComparisonHeadlines(void);
     void ReInit(const CString &TabFilename);
-    void AddOverride(long Newspaper, const CString &Headlinetext, __int64 Pictureid, SLONG PicturePriority);
+    void AddOverride(SLONG Newspaper, const CString &Headlinetext, __int64 Pictureid, SLONG PicturePriority);
     void SortByPriority(void);
 
     friend class SIM;
@@ -1031,7 +1031,7 @@ class /**/ CITY // Eine Stadt
                            // Vorraussetzung für Anflug
 
   public:
-    void Update(long Jahr);
+    void Update(SLONG Jahr);
     SLONG GetBuroRent(void);
 };
 
@@ -1043,9 +1043,9 @@ class /**/ CITIES : public ALBUM_V<CITY> {
     CITIES() : ALBUM_V<CITY>("Cities") {}
     CITIES(const CString &TabFilename);
     void ReInit(const CString &TabFilename);
-    void Update(long Jahr);
-    SLONG CalcDistance(long CityId1, long CityId2);
-    SLONG CalcFlugdauer(long CityId1, long CityId2, long Speed);
+    void Update(SLONG Jahr);
+    SLONG CalcDistance(SLONG CityId1, SLONG CityId2);
+    SLONG CalcFlugdauer(SLONG CityId1, SLONG CityId2, SLONG Speed);
     SLONG GetRandomUsedIndex(TEAKRAND *pRand = NULL);
     SLONG GetRandomUsedIndex(SLONG AreaCode, TEAKRAND *pRand = NULL);
     ULONG GetIdFromName(const char *Name);
@@ -1208,7 +1208,7 @@ class /**/ BLOCK {
     void ZeigeInformantenFinanzBericht(XY ClientArea, SLONG page);
     void ZeigeInformantenBilanz(XY ClientArea, SLONG playerId, SLONG page);
     void ZeigeInformantenInfos(XY ClientArea, SLONG page) const;
-    void KerosinQualiOptimierung(XY ClientArea, SLONG idx, double qualiZiel, SLONG txtId, SLONG txtId2, SLONG beraterSchwelle) const;
+    void KerosinQualiOptimierung(XY ClientArea, SLONG idx, DOUBLE qualiZiel, SLONG txtId, SLONG txtId2, SLONG beraterSchwelle) const;
     void ZeigeKerosinberater(XY ClientArea, SLONG page);
 };
 
@@ -1298,7 +1298,7 @@ class /**/ BUILD // Die Verwendung eines Bodenteils
 
   public:
     BUILD() = default;
-    BUILD(long BrickId, const XY &ScreenPos, BOOL Ansatz);
+    BUILD(SLONG BrickId, const XY &ScreenPos, BOOL Ansatz);
 
     inline bool operator<(const BUILD &i) const {
         auto s1 = SortIndex1();
@@ -1584,7 +1584,7 @@ class /**/ HISTORY {
     void ReInit();
     void AddEntry(__int64 Money, const CString &Description);
     void AddNewCall(SLONG Type); // Bit 0: Handy, Bit 1+2: Ortgespräch, Ferngespräch, Auslandsgespräch
-    void AddCallCost(long Money);
+    void AddCallCost(SLONG Money);
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const HISTORY &h);
     friend TEAKFILE &operator>>(TEAKFILE &File, HISTORY &h);
@@ -1954,12 +1954,12 @@ class PLAYER {
     BUFFER_V<__int64> MoneyPast; // Vergangenheitslinie des Geldes
     __int64 Credit{};            // Seine Schulden
     SLONG Image{};               // Firmenimage generell [-1000..1000]
-    double KerosinQuali{};       // Qualität des Kerosins
+    DOUBLE KerosinQuali{};       // Qualität des Kerosins
     SLONG KerosinKind{};         // Diese Art wird getankt
     SLONG Tank{};                // Soviel kann man auf Reserve Bunkern
     BOOL TankOpen{};             // Tanks sind zur Verwendung freigegeben
     SLONG TankInhalt{};          // Soviel ist im Tank drin
-    double TankPreis{};          // Korekt berechneter Preis; auch bei mix
+    DOUBLE TankPreis{};          // Korekt berechneter Preis; auch bei mix
     SLONG GameSpeed{};           // 0..3
     SLONG ArabTrust{};           // Sabotage möglich?
     SLONG ArabMode{};            // Anschlag unterwegs?
@@ -2064,7 +2064,7 @@ class PLAYER {
     SLONG MaxAktien{};                   // Zahl der emmitierbaren Aktien
     std::array<SLONG, 4> OwnsAktien{};   // Soviele Aktien besitzt der Spieler jeweils von der Sorte
     std::array<__int64, 4> AktienWert{}; // Soviele waren die Aktien beim Kauf jeweils Wert
-    std::array<double, 10> Kurse{};      // Die letzten 10 Kurse
+    std::array<DOUBLE, 10> Kurse{};      // Die letzten 10 Kurse
     SLONG Dividende{};                   // Die zuletzt ausgezahlte Dividende
     SLONG TrustedDividende{};            // Das Vertrauen der Anleger
 
@@ -2158,10 +2158,10 @@ class PLAYER {
     void BuyPlane(CXPlane &plane, TEAKRAND *pRnd);
     void BuyPlane(ULONG PlaneTypeId, TEAKRAND *pRnd);
     void BuyItem(UBYTE Item);
-    long CalcSecurityCosts(bool bFixOnly = false, bool bPlaneOnly = false);
+    SLONG CalcSecurityCosts(bool bFixOnly = false, bool bPlaneOnly = false);
     void DisplayAsTelefoning(void) const;
     bool DropItem(UBYTE Item);
-    long CalcCreditLimit(void) const;
+    SLONG CalcCreditLimit(void) const;
     void CalcRoom(void);                                                                   // Speed-up für GetRoom
     SLONG CalcPlanePropSum(void);                                                          // Berechnet, was die anstehenden Umrüstungen zusammen kosten werden
     void ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char *Par2 = NULL); //Ändert Barschaft und Profit
@@ -2198,7 +2198,7 @@ class PLAYER {
     void RobotPlan(void);
     void RobotInit(void);
     void RobotExecuteAction(void);
-    void RouteWegnehmen(long Routenindex, long NeuerBesitzer = -1);
+    void RouteWegnehmen(SLONG Routenindex, SLONG NeuerBesitzer = -1);
     void SackWorkers(void) const;
     void UpdateAuftragsUsage(void);
     void UpdateFrachtauftragsUsage(void);
@@ -2209,7 +2209,7 @@ class PLAYER {
     void UpdatePersonalberater(SLONG Toleranz);
     void UpdateStatistics(void);
     void UpdateTicketpreise(SLONG RouteId, SLONG Ticketpreis, SLONG TicketpreisFC);
-    int TradeStock(SLONG airlineNum, SLONG amount);
+    SLONG TradeStock(SLONG airlineNum, SLONG amount);
     BOOL WalkToRoom(UBYTE RoomId);
     void WalkToMouseClick(XY AirportClickPos);
     void WalkToPlate(XY Plate);
@@ -2237,7 +2237,7 @@ class PLAYER {
     void NetUpdateKerosin(void) const;
     static void NetSynchronizePlanes(void);
     static void NetSynchronizeMeeting(void);
-    void NetBuyXPlane(long Anzahl, CXPlane &plane) const;
+    void NetBuyXPlane(SLONG Anzahl, CXPlane &plane) const;
     static void NetSave(DWORD UniqueGameId, SLONG CursorY, const CString &Name);
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player);
@@ -2489,7 +2489,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     SLONG nSecOutDays{}; // 0 oder n=So viele Tage fällt das Security Office noch aus
 
     BOOL b18Uhr{};            // ab 18 Uhr wird im Netzwerk nicht mehr synchronisiert
-    BOOL bCompatibleRoutes{}; // True if this game uses (old) compatible Routes (some may be double)
+    BOOL bCompatibleRoutes{}; // True if this game uses (old) compatible Routes (some may be DOUBLE)
 
     std::array<ULONG, 3> KeyHints{}; // Hilfe-texte für die Tasten: [0]=einmal [1]=heute [2]=zum zweiten Mal
     bool bThisIsSessionMaster{};     // Ist dies der Server?
@@ -2501,8 +2501,8 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
   public:
     SLONG PlanePropId{};
     SLONG RFActivePage{};
-    float RFBegleiterFaktor{}; // Zahl der Stewardessen relativ zum normalen
-    // float       RFPutzFaktor;             //Zahl der Putzen relativ zum normalen
+    FLOAT RFBegleiterFaktor{}; // Zahl der Stewardessen relativ zum normalen
+    // FLOAT       RFPutzFaktor;             //Zahl der Putzen relativ zum normalen
 
     UBYTE RFSitzeRF{};
     UBYTE RFEssen{};
@@ -2562,7 +2562,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
   public:
     SIM();
     ~SIM();
-    void AddSmacker(const CString &Filename, long BrickId, XY Offset);
+    void AddSmacker(const CString &Filename, SLONG BrickId, XY Offset);
     void AddNewPassengers(void);
     void AddNewShoppers(void);
     void AddStenchSabotage(XY Position);

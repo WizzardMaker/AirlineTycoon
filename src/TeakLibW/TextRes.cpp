@@ -10,8 +10,8 @@ SLONG gLanguage;
 void LanguageSpecifyString(char *Dst);
 
 void LanguageSpecifyString(char *Dst) {
-    int i = 0;
-    int j = 0;
+    SLONG i = 0;
+    SLONG j = 0;
     char langs[24];
 
     strcpy(langs, "DEFTPNISOBJKLMNQRTUV");
@@ -30,14 +30,14 @@ void LanguageSpecifyString(char *Dst) {
             }
         }
 
-        for (int lang = 1; lang >= 0; --lang) {
+        for (SLONG lang = 1; lang >= 0; --lang) {
             for (i = 0; Dst[i] != 0; ++i) {
                 if (Dst[i] == langs[lang] && (Dst[i + 1] != 0) && Dst[i + 1] == ':' && (Dst[i + 2] != 0) && Dst[i + 2] == ':') {
                     break;
                 }
             }
             if (Dst[i] != 0) {
-                for (int j = i + 2; (Dst[j] != 0) && ((Dst[j + 1] == 0) || Dst[j + 1] != ':' || (Dst[j + 2] == 0) || Dst[j + 2] != ':'); ++j) {
+                for (SLONG j = i + 2; (Dst[j] != 0) && ((Dst[j + 1] == 0) || Dst[j + 1] != ':' || (Dst[j + 2] == 0) || Dst[j + 2] != ':'); ++j) {
                     ;
                 }
                 memmove(Dst, &Dst[i + 3], j - i - 3);

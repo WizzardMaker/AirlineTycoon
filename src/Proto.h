@@ -56,7 +56,7 @@ void UpdateSavegames(void);
 //--------------------------------------------------------------------------------------------
 CString RemoveAccents(CString str);
 SLONG GetAnzBits(ULONG Flags);
-double GetAlphaFromXY(XY Delta);
+DOUBLE GetAlphaFromXY(XY Delta);
 void DrawChart(SBBM &TipBm, ULONG Color, const BUFFER_V<SLONG> &Values, SLONG MinValue, SLONG MaxValue, const XY &TopLeft, const XY &TopRight,
                const XY &BottomLeft, const XY &BottomRight);
 CString KorrigiereUmlaute(CString &Originaltext);
@@ -67,7 +67,7 @@ BOOL EarthProjectize(const XY &NaturalPos, UWORD EarthAlpha, XY *PixelPos);
 BOOL EarthProjectize(const FXY &NaturalPos, UWORD EarthAlpha, XY *PixelPos);
 SLONG AddToNthDigit(SLONG Value, SLONG Digit, SLONG Add);
 void MyMessageBox(LPCTSTR Title, LPCTSTR String, ...);
-double GetFrameRate(void);
+DOUBLE GetFrameRate(void);
 CString ConvertDate2String(UWORD Date);
 UWORD ConvertString2Date(char *String);
 void DoAppPath(void);
@@ -77,7 +77,7 @@ SLONG CalculateFlightKerosin(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLO
 SLONG CalculateFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG Player);
 SLONG CalculateFlightCostRechnerisch(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum);
 void InitEinheiten(const CString &Filename);
-CString Insert1000erDots(long Value);
+CString Insert1000erDots(SLONG Value);
 CString Insert1000erDots64(__int64 Value);
 CRect PaintTextBubble(SBBM &OffscreenBm, const XY &p1, const XY &p2, const XY &Entry);
 BOOL CheckCursorHighlight(const CRect &rect, UWORD FontColor, SLONG Look = CURSOR_HOT, SLONG TipId = 0, SLONG ClickArea = 0, SLONG ClickId = 0,
@@ -86,15 +86,15 @@ BOOL CheckCursorHighlight(const XY &CursorPos, const CRect &rect, UWORD FontColo
                           SLONG ClickId = 0, SLONG ClickPar1 = 0, SLONG ClickPar2 = 0);
 void CheckCString(CString *String);
 void GetMatchingFilelist(const CString &DirAndWildcards, BUFFER_V<CString> &Array);
-CString GetMatchingNext(const CString &DirAndWildcards, const CString &CurrentFilename, long Add = 1);
-long CountMatchingFilelist(const CString &DirAndWildcards);
+CString GetMatchingNext(const CString &DirAndWildcards, const CString &CurrentFilename, SLONG Add = 1);
+SLONG CountMatchingFilelist(const CString &DirAndWildcards);
 CString CreateNumeratedFreeFilename(const CString &DirAndFilename);
 CString GetFilenameFromFullFilename(CString FullFilename);
 #ifndef WIN32
 DWORD timeGetTime(void);
-BOOL OffsetRect(RECT *pRect, int dx, int dy);
+BOOL OffsetRect(RECT *pRect, SLONG dx, SLONG dy);
 void DebugBreak(void);
-SLONG GetAsyncKeyState(int vKey);
+SLONG GetAsyncKeyState(SLONG vKey);
 DWORD GetTickCount(void);
 #endif
 const char* getRobotActionName(SLONG a);
@@ -145,7 +145,7 @@ void PlayMidi(const CString &Filename);
 void PlayMidiFrom(const CString &Filename, SLONG StartPosition);
 void StopMidi(void);
 void SetMidiVolume(SLONG Volume);
-void SetWaveVolume(long volume);
+void SetWaveVolume(SLONG volume);
 void PauseMidi(void);
 void ResumeMidi(void);
 

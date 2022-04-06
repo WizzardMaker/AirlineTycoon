@@ -22,7 +22,7 @@ class CBuero : public CStdRaum {
     SLONG KommVarTelefon;
     SLONG KommVarCloseLetter;
 
-    long OfficeState;
+    SLONG OfficeState;
     CAnimation UhrZeigerAnim;
 
     SBBM LetterBm;

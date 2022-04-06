@@ -94,7 +94,7 @@ void HallDiskMenu::OnPaint() {
             difflevel = DIFF_FREEGAMEMAP;
         }
 
-        SLONG xOffset = static_cast<int>(difflevel > 10) * 75;
+        SLONG xOffset = static_cast<SLONG>(difflevel > 10) * 75;
         difflevel %= 11;
 
         PrimaryBm.PrimaryBm.Line(10 + 459 + xOffset, 10 + 162 + difflevel * 9, 10 + 459 + xOffset, 10 + 166 + difflevel * 9, static_cast<DWORD>(0));

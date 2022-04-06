@@ -461,7 +461,7 @@ void CDataTable::FillWithAuftraege(CAuftraege *Auftraege) {
 
             ValueFlags[d * AnzColums + 0] = (*Auftraege)[c].InPlan;
             ValueFlags[d * AnzColums + 1] = (*Auftraege)[c].Okay;
-            ValueFlags[d * AnzColums + 2] = static_cast<int>((*Auftraege)[c].Okay == 0) * 2 + static_cast<int>((*Auftraege)[c].InPlan == 0);
+            ValueFlags[d * AnzColums + 2] = static_cast<SLONG>((*Auftraege)[c].Okay == 0) * 2 + static_cast<SLONG>((*Auftraege)[c].InPlan == 0);
             d++;
         }
     }
@@ -561,7 +561,7 @@ void CDataTable::FillWithFracht(CFrachten *Frachten) {
 
             ValueFlags[d * AnzColums + 0] = (*Frachten)[c].InPlan;
             ValueFlags[d * AnzColums + 1] = (*Frachten)[c].Okay;
-            ValueFlags[d * AnzColums + 2] = static_cast<int>((*Frachten)[c].Okay == 0) * 2 + static_cast<int>((*Frachten)[c].InPlan == 0);
+            ValueFlags[d * AnzColums + 2] = static_cast<SLONG>((*Frachten)[c].Okay == 0) * 2 + static_cast<SLONG>((*Frachten)[c].InPlan == 0);
             d++;
         }
     }
@@ -680,7 +680,7 @@ void CDataTable::FillWithExperts(SLONG PlayerNum) {
         LineIndex[c] = c;
         if (c >= 8 && c <= 10) {
             SLONG i = c - 8;
-            i += static_cast<int>(PlayerNum <= i);
+            i += static_cast<SLONG>(PlayerNum <= i);
             auto &qPlayer = Sim.Players.Players[i];
             Values[c * AnzColums + 0] = bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + c), (LPCTSTR)qPlayer.Abk);
         } else {

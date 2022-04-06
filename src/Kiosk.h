@@ -12,12 +12,11 @@ class CKiosk : public CStdRaum {
 
     // Attributes
   public:
-    TEXT_STYLE StyleHeadline{};
     SLONG CurrentTip;
     SBBM Newspapers[3];          // Die drei Zeitungen
     SBBMS NewspaperTemplates[3]; // Die drei Zeitungen (Vorlagen)
     SBBMS NewspaperDefs[3];      // Die Default-Bilder und Artikel
-    float NewspaperZoom[3]{};    // Die aktuellen Zoom-Zustände
+    FLOAT NewspaperZoom[3]{};    // Die aktuellen Zoom-Zustände
     SBBM SleeperBm;
     SBBM StinkBm;
 

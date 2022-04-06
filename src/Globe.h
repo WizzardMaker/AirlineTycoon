@@ -22,7 +22,7 @@ class CGlobe : public CPlaner {
     GfxLib *pGLibDark;
     SBBM DarkBm;
     SBBM LockBm;
-    long OfficeState;
+    SLONG OfficeState;
 
     // Bitmaps:
     SBBM GlasLeer;

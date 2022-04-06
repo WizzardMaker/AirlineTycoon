@@ -585,8 +585,8 @@ void CPlaneProps::OnPaint() {
 
             // Erster-Klasse Anzahl blitten:
             {
-                long total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
-                long prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
+                SLONG total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
+                SLONG prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
 
                 prozent = (prozent + 5) / 10 * 10 / 10; // Runden
 
@@ -797,9 +797,9 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
             Sim.RFElektronik = qPlane.ElektronikTarget;
             Sim.RFSicherheit = qPlane.SicherheitTarget;
 
-            // Sim.RFPutzFaktor      = float(qPlane.AnzPutzcrew*1.0/qPlane.ptAnzBegleiter);
-            // Sim.RFBegleiterFaktor = float(qPlane.MaxBegleiter*1.0/PlaneTypes[qPlane.TypeId].AnzBegleiter);
-            Sim.RFBegleiterFaktor = float(qPlane.MaxBegleiter * 1.0 / qPlane.ptAnzBegleiter);
+            // Sim.RFPutzFaktor      = FLOAT(qPlane.AnzPutzcrew*1.0/qPlane.ptAnzBegleiter);
+            // Sim.RFBegleiterFaktor = FLOAT(qPlane.MaxBegleiter*1.0/PlaneTypes[qPlane.TypeId].AnzBegleiter);
+            Sim.RFBegleiterFaktor = FLOAT(qPlane.MaxBegleiter * 1.0 / qPlane.ptAnzBegleiter);
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 12) {
             qPlayer.LeaveRoom();
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 13) {
@@ -821,7 +821,7 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
             qPlane.ReifenTarget = Sim.RFReifen;
             qPlane.ElektronikTarget = Sim.RFElektronik;
             qPlane.SicherheitTarget = Sim.RFSicherheit;
-            // qPlane.AnzPutzcrew      = long(Sim.RFPutzFaktor*qPlane.ptAnzBegleiter);
+            // qPlane.AnzPutzcrew      = SLONG(Sim.RFPutzFaktor*qPlane.ptAnzBegleiter);
             qPlane.MaxBegleiter = SLONG(std::round(Sim.RFBegleiterFaktor * qPlane.ptAnzBegleiter));
 
             if (qPlayer.CalcPlanePropSum() > qPlayer.Money) {
@@ -938,14 +938,14 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
                 qPlayer.NetUpdatePlaneProps(PlaneId);
             }
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 115) {
-            long total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
-            long prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
+            SLONG total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
+            SLONG prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
 
             prozent = (prozent + 5) / 10 * 10; // Runden
 
             prozent -= 10;
-            long newMaxPassagiereFC = total * (prozent) / 2 / 100;
-            long newMaxPassagiere = total - newMaxPassagiereFC * 2;
+            SLONG newMaxPassagiereFC = total * (prozent) / 2 / 100;
+            SLONG newMaxPassagiere = total - newMaxPassagiereFC * 2;
 
             if (newMaxPassagiere == qPlane.MaxPassagiere) {
                 newMaxPassagiereFC--;
@@ -959,14 +959,14 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
 
             // if (qPlane.AnzPutzcrew>0) qPlane.AnzPutzcrew--;
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 116) {
-            long total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
-            long prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
+            SLONG total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
+            SLONG prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
 
             prozent = (prozent + 5) / 10 * 10; // Runden
 
             prozent += 10;
-            long newMaxPassagiereFC = total * (prozent) / 2 / 100;
-            long newMaxPassagiere = total - newMaxPassagiereFC * 2;
+            SLONG newMaxPassagiereFC = total * (prozent) / 2 / 100;
+            SLONG newMaxPassagiere = total - newMaxPassagiereFC * 2;
 
             if (newMaxPassagiere == qPlane.MaxPassagiere) {
                 newMaxPassagiereFC++;
@@ -1039,14 +1039,14 @@ void CPlaneProps::OnLButtonDblClk(UINT /*nFlags*/, CPoint point) {
             }
             Sim.Players.Players[PlayerNum].MapWorkers(FALSE);
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 115) {
-            long total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
-            long prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
+            SLONG total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
+            SLONG prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
 
             prozent = (prozent + 5) / 10 * 10; // Runden
 
             prozent -= 10;
-            long newMaxPassagiereFC = total * (prozent) / 2 / 100;
-            long newMaxPassagiere = total - newMaxPassagiereFC * 2;
+            SLONG newMaxPassagiereFC = total * (prozent) / 2 / 100;
+            SLONG newMaxPassagiere = total - newMaxPassagiereFC * 2;
 
             if (newMaxPassagiere == qPlane.MaxPassagiere) {
                 newMaxPassagiereFC--;
@@ -1060,14 +1060,14 @@ void CPlaneProps::OnLButtonDblClk(UINT /*nFlags*/, CPoint point) {
 
             // if (qPlane.AnzPutzcrew>0) qPlane.AnzPutzcrew--;
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 116) {
-            long total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
-            long prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
+            SLONG total = qPlane.MaxPassagiere + qPlane.MaxPassagiereFC * 2;
+            SLONG prozent = qPlane.MaxPassagiereFC * 2 * 100 / total;
 
             prozent = (prozent + 5) / 10 * 10; // Runden
 
             prozent += 10;
-            long newMaxPassagiereFC = total * (prozent) / 2 / 100;
-            long newMaxPassagiere = total - newMaxPassagiereFC * 2;
+            SLONG newMaxPassagiereFC = total * (prozent) / 2 / 100;
+            SLONG newMaxPassagiere = total - newMaxPassagiereFC * 2;
 
             if (newMaxPassagiere == qPlane.MaxPassagiere) {
                 newMaxPassagiereFC++;

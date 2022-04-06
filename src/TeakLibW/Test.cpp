@@ -2,12 +2,12 @@
 
 #include <iostream>
 
-static int errors = 0;
+static SLONG errors = 0;
 
 class TestElement {
   public:
     TestElement() = default;
-    TestElement(int i) {
+    TestElement(SLONG i) {
         NumberA = i;
         Name = bprintf("SomeID %d END", i);
     }
@@ -23,11 +23,11 @@ class TestElement {
 
   private:
     CString Name;
-    int NumberA{};
-    int Sinn{42};
+    SLONG NumberA{};
+    SLONG Sinn{42};
 };
 
-template <typename T> void expect_func(ALBUM_V<T> &list, const std::vector<T> &target, int size, int free, int txt) {
+template <typename T> void expect_func(ALBUM_V<T> &list, const std::vector<T> &target, SLONG size, SLONG free, SLONG txt) {
     list.check_consistent_index();
     if (list != target) {
         ++errors;
@@ -48,7 +48,7 @@ template <typename T> void expect_func(ALBUM_V<T> &list, const std::vector<T> &t
 }
 #define expect_list(l, t, s, f) expect_func(l, t, s, f, __LINE__)
 
-template <typename T> void expect_val_func(ALBUM_V<T> &list, int id, int target, int txt) {
+template <typename T> void expect_val_func(ALBUM_V<T> &list, SLONG id, SLONG target, SLONG txt) {
     list.check_consistent_index();
     auto val = list[id];
     auto t = T(target);
@@ -59,7 +59,7 @@ template <typename T> void expect_val_func(ALBUM_V<T> &list, int id, int target,
 }
 #define expect_val(l, i, e) expect_val_func(l, i, e, __LINE__)
 
-template <typename T> void expect_nonexist_func(ALBUM_V<T> &list, int id, int txt) {
+template <typename T> void expect_nonexist_func(ALBUM_V<T> &list, SLONG id, SLONG txt) {
     list.check_consistent_index();
     if (list.IsInAlbum(id)) {
         std::cout << "Test on line " << txt << " FAILED. Element with ID = " << id << " should not exist, but IsInAlbum() returned true" << std::endl;
@@ -185,7 +185,7 @@ template <typename T> bool run_test() {
 }
 
 bool run_regression() {
-    run_test<int>();
+    run_test<SLONG>();
     run_test<TestElement>();
     return (errors == 0);
 }

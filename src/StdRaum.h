@@ -112,7 +112,7 @@ class CStdRaum {
     SLONG LastMenu{};       //-1=kein Menü
     XY MenuStartPos;        // Von hier wird's gezoomt
     BOOL ZoomFromAirport{}; // MenuStartPos ist relativ zum Flughafen
-    double MinimumZoom;     // Minimaler Zoomfaktor
+    DOUBLE MinimumZoom;     // Minimaler Zoomfaktor
     SLONG ZoomCounter;      // Von 0%(=MinimumZoom) bis 100%
     SLONG ZoomSpeed{};      // Von 0%(=MinimumZoom) bis 100%
     XY MenuPos;
@@ -192,7 +192,7 @@ class CStdRaum {
     void MenuRightClick(XY Pos);
     void MenuRepaint(void);
     BOOL MenuIsOpen(void) const;
-    void MenuSetZoomStuff(const XY &MenuStartPos, double MinimumZoom, BOOL ZoomFromAirport, SLONG ZoomSpeed = 25);
+    void MenuSetZoomStuff(const XY &MenuStartPos, DOUBLE MinimumZoom, BOOL ZoomFromAirport, SLONG ZoomSpeed = 25);
     void MenuPostPaint(void);
     void CalcOpen(XY Position, SLONG Value = 0);
     void CalcRepaint(void);

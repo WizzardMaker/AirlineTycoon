@@ -75,8 +75,8 @@ CIntro::CIntro(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0
             // Copy video frame with line-doubling if needed
             SB_CBitmapKey Key(*Bitmap.pBitmap);
             const unsigned char *pVideo = smk_get_video(pSmack);
-            int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
-            for (unsigned long y = 0; y < Height; y++) {
+            SLONG scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
+            for (SLONG y = 0; y < Height; y++) {
                 memcpy(static_cast<BYTE *>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
             }
         }
@@ -155,8 +155,8 @@ void CIntro::OnPaint() {
                 // Copy video frame with line-doubling if needed
                 SB_CBitmapKey Key(*Bitmap.pBitmap);
                 const unsigned char *pVideo = smk_get_video(pSmack);
-                int scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
-                for (unsigned long y = 0; y < Height; y++) {
+                SLONG scale_mode = Scale == SMK_FLAG_Y_NONE ? 1 : 2;
+                for (SLONG y = 0; y < Height; y++) {
                     memcpy(static_cast<BYTE *>(Key.Bitmap) + (y * Key.lPitch), pVideo + ((y / scale_mode) * Key.lPitch), Key.lPitch);
                 }
             }
@@ -164,7 +164,7 @@ void CIntro::OnPaint() {
             SDL_QueueAudio(audioDevice, smk_get_audio(pSmack, 0), smk_get_audio_size(pSmack, 0));
             State = smk_next(pSmack);
 
-            double usf = NAN;
+            DOUBLE usf = NAN;
             smk_info_all(pSmack, nullptr, nullptr, &usf);
             FrameNext = timeGetTime() + (usf / 1000.0);
         }

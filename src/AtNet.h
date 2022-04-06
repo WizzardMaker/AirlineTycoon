@@ -2,9 +2,9 @@
 // AtNet.h - Network messages in Airline Tycoon:
 //============================================================================================
 
-void NetGenericSync(long SyncId);
-void NetGenericSync(long SyncId, long Par);
-void NetGenericAsync(long SyncId, long Par, long player = -1);
+void NetGenericSync(SLONG SyncId);
+void NetGenericSync(SLONG SyncId, SLONG Par);
+void NetGenericAsync(SLONG SyncId, SLONG Par, SLONG player = -1);
 
 // Messages for creating a new game
 static const ULONG ATNET_WANNAJOIN = 0xadaa0000;        // Server, I want to join, Please send list of players and their names

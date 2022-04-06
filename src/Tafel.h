@@ -11,7 +11,6 @@ class CTafel : public CStdRaum {
 
     // Attributes
   public:
-    TEXT_STYLE StyleTafel{};
     SBBM ZettelBms[21];
     SBBM PostcardBm;
     SBBMS LeereZettelBms;
