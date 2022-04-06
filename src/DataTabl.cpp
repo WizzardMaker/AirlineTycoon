@@ -29,7 +29,7 @@ void CDataTable::Sort() {}
 //--------------------------------------------------------------------------------------------
 // Füllt die Tabelle mit den Angaben zu den Flugzeugen, die als Parameter beiliegen:
 //--------------------------------------------------------------------------------------------
-void CDataTable::FillWithPlanes(CPlanes *Planes, BOOL Expert, SLONG FilterType, SLONG Filter1, SLONG Filter2) {
+void CDataTable::FillWithPlanes(CPlanes *Planes, SLONG Expert, SLONG FilterType, SLONG Filter1, SLONG Filter2) {
     SLONG c = 0;
     SLONG d = 0;
 

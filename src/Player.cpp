@@ -7811,7 +7811,8 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
     if (SaveVersion == 1 && SaveVersionSub >= 100) {
         File >> Player.TalkedToNasa >> Player.ExRoom;
     } else {
-        Player.TalkedToNasa = Player.ExRoom = 0;
+        Player.TalkedToNasa = 0;
+        Player.ExRoom = 0;
     }
 
     // Laufen:

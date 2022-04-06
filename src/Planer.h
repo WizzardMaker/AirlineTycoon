@@ -41,7 +41,7 @@ class CPlaner : public CStdRaum {
 
     XY CurrentBlockPos;     //...und zwar an dieser Stelle (innerhalb der WorkingArea gesehen)
     SLONG CurrentIcon{};    // Hier ist gerade der Highlight
-    BOOL DragFlightMode{};  // Wird gerade ein Flug verschoben?
+    SLONG DragFlightMode{}; // Wird gerade ein Flug verschoben?
     SLONG DragFlightPar0{}; // Wird gerade ein Flug verschoben?
     SLONG DragFlightPar1{}; // Wird gerade ein Flug verschoben?
     SLONG DragFlightPar2{}; // Wird gerade ein Flug verschoben?

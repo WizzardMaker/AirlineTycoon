@@ -3088,13 +3088,13 @@ void AIRPORT::CalcPlates() {
                     Doors[AnzDoors].Winkel = 0;
                     // Doors[AnzDoors].BuildIndex=c;
                     if (Builds[c].BrickId == 0x10000000 + 727) {
-                        Doors[AnzDoors].ArabDoor = TRUE;
+                        Doors[AnzDoors].ArabDoor = 1;
                     } else if (Builds[c].BrickId == 0x10000000 + 719 || Builds[c].BrickId == 0x10000000 + 718) {
                         Doors[AnzDoors].ArabDoor = 3;
                     } else if (Builds[c].BrickId == 0x10000000 + 729) {
                         Doors[AnzDoors].ArabDoor = 2;
                     } else {
-                        Doors[AnzDoors].ArabDoor = FALSE;
+                        Doors[AnzDoors].ArabDoor = 0;
                     }
                     AnzDoors++;
                     if (AnzDoors >= Doors.AnzEntries()) {
@@ -3643,7 +3643,7 @@ void AIRPORT::PumpDoors() {
     SLONG c = 0;
 
     for (c = Doors.AnzEntries() - 1; c >= 0; c--) {
-        if (Doors[c].ArabDoor == TRUE) {
+        if (Doors[c].ArabDoor == 1) {
             if (Doors[c].Dir == 1) // Feuerlöscher nach innen drehen ("öffnen")
             {
                 if (Doors[c].State >= 40) {
@@ -3745,7 +3745,7 @@ void AIRPORT::TryDoor(XY ArrayPos, BOOL Player, SLONG PlayerNum) {
             }
         }
 
-        if (Doors[c].ArabDoor == TRUE) {
+        if (Doors[c].ArabDoor == 1) {
             // if (Doors[c].ArrayPos.x==ArrayPos.x && (Doors[c].ArrayPos.y==ArrayPos.y-1 || Doors[c].ArrayPos.y==ArrayPos.y ||
             // Doors[c].ArrayPos.y==ArrayPos.y+1))
             if (Doors[c].ArrayPos.x == ArrayPos.x &&

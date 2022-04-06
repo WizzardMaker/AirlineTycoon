@@ -412,7 +412,7 @@ void Options::OnPaint() {
         }
 
         if (CursorY != -1) {
-            RoomBm.BlitFromT(KlackerTafel.Cursors[SLONG(BlinkState % 8)], (CursorX + 4) * 16 + 129, (CursorY + 1) * 22 + 85);
+            RoomBm.BlitFromT(KlackerTafel.Cursors[BlinkState % 8], (CursorX + 4) * 16 + 129, (CursorY + 1) * 22 + 85);
         }
 
         // Cursor highlighting:

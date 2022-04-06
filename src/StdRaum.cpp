@@ -184,7 +184,7 @@ class CWaitCursorNow {
     };
 };
 
-static BOOL IgnoreNextPostPaintPump;
+static SLONG IgnoreNextPostPaintPump;
 static bool bDestructorCalledInMeantime = false;
 
 //--------------------------------------------------------------------------------------------
@@ -293,7 +293,7 @@ CStdRaum::CStdRaum(BOOL handy, ULONG playerNum, const CString &GfxLibName, __int
     CStdRaum::TipPos = XY(0, 0);
     CStdRaum::AirportRoomPos = XY(0, 0);
     CStdRaum::TalkingSpeechFx = FALSE;
-    CStdRaum::ReadyToStartSpeechFx = FALSE;
+    CStdRaum::ReadyToStartSpeechFx = 0;
 
     CStdRaum::LastMoney = -1;
     CStdRaum::CurrentMenu = MENU_NONE;

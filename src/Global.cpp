@@ -21,14 +21,14 @@ SLONG gFramesToDrawBeforeFirstBlend = 0; // Paint 2 frames, before reading from 
 // Flags für Cheats:
 //--------------------------------------------------------------------------------------------
 BOOL CheatRunningman = FALSE;
-BOOL CheatMoreNuns = FALSE;
+SLONG CheatMoreNuns = 0;
 BOOL CheatMoreGimmicks = FALSE;
 BOOL CheatBubbles = FALSE;
 BOOL CheatShowAll = FALSE;
 BOOL CheatMissions = FALSE;
 SLONG CheatBerater = 0;
 BOOL CheatAnimNow = FALSE;
-BOOL CheatTestGame = FALSE;
+SLONG CheatTestGame = 0;
 
 //--------------------------------------------------------------------------------------------
 // Die Zufallsgeneratoren:

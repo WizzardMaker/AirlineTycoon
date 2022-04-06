@@ -56,7 +56,7 @@ CLaptop::CLaptop(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.
     KonstruktorFinished = 0;
 
     CPlaner::IsLaptop = TRUE;
-    DragFlightMode = FALSE;
+    DragFlightMode = 0;
 
     CurrentDragId = -1;
     pBlock = nullptr;

@@ -720,7 +720,7 @@ void CPlaner::DoPollingStuff() {
         BLOCK &qBlock = qPlayer.Blocks[DragFlightPar0];
 
         if ((qPlayer.Buttons & 1) == 0) {
-            DragFlightMode = FALSE;
+            DragFlightMode = 0;
             qPlayer.Planes[DragFlightPar1].CheckFlugplaene(PlayerNum, FALSE);
             qPlayer.UpdateAuftragsUsage();
             qPlayer.UpdateFrachtauftragsUsage();
@@ -736,7 +736,7 @@ void CPlaner::DoPollingStuff() {
 
             // Bricht die Zeit alles ab?
             if (qPlan.Flug[DragFlightPar2].Startdate == Sim.Date && Sim.GetHour() >= qPlan.Flug[DragFlightPar2].Startzeit) {
-                DragFlightMode = FALSE;
+                DragFlightMode = 0;
             } else {
                 if (qBlock.Index == 0) {
                     SLONG Date = Sim.Date + (ClientPos.y - 17) / 19;
@@ -1074,7 +1074,7 @@ void CPlaner::DoPollingStuff() {
                                 DragFlightPar2 = d;
                                 SetMouseLook(CURSOR_MOVE_H, 0, IsLaptop != 0 ? ROOM_LAPTOP : ROOM_GLOBE, 105);
                                 if ((qPlayer.Buttons & 1) != 0) {
-                                    DragFlightMode = TRUE;
+                                    DragFlightMode = 1;
                                 }
                                 break;
                             }
@@ -1221,7 +1221,7 @@ void CPlaner::DoPollingStuff() {
                                 DragFlightPar2 = d;
                                 SetMouseLook(CURSOR_MOVE_V, 0, IsLaptop != 0 ? ROOM_LAPTOP : ROOM_GLOBE, 105);
                                 if ((qPlayer.Buttons & 1) != 0) {
-                                    DragFlightMode = TRUE;
+                                    DragFlightMode = 1;
                                 }
                                 break;
                             }

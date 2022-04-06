@@ -294,7 +294,7 @@ class /**/ CDoor {
     SLONG Winkel{};
     UBYTE State{};
     SLONG Dir{};
-    BOOL ArabDoor{};
+    SLONG ArabDoor{};
 
     friend TEAKFILE &operator<<(TEAKFILE &File, const CDoor &d) {
         File << d.ArrayPos << d.Winkel << d.State << d.Dir << d.ArabDoor;
@@ -662,7 +662,7 @@ class CFlugplanEintrag {
     SLONG Landezeit{};        // Zu diesem Zeitpunkt (0-24h) landet das Flugzeug
     SLONG Startdate{};        // Referenz auf Sim.Date
     SLONG Landedate{};        // Referenz auf Sim.Date
-    BOOL ObjectType{};        // 0=Nix 1=Route 2=Auftrag 3=Automatik 4=Fracht
+    SLONG ObjectType{};       // 0=Nix 1=Route 2=Auftrag 3=Automatik 4=Fracht
     SLONG ObjectId{-1};       // Bezeichnet Auftrag oder -1
     SLONG Ticketpreis{};      // Ticketpreis für Routen
     SLONG TicketpreisFC{};    // Ticketpreis für Routen (Erste Klasse)
@@ -1027,7 +1027,7 @@ class /**/ CITY // Eine Stadt
     CPoint GlobusPosition; // Die Position auf dem Globus
     CPoint MapPosition;    // Die Position auf der flachen Karte
     SLONG BuroRent{};      // Die Monatsmiete für eine Niederlassung
-    BOOL bNewInAddOn{};    // Ist im Add-On neu hinzugekommen?
+    SLONG bNewInAddOn{};   // Ist im Add-On neu hinzugekommen?
                            // Vorraussetzung für Anflug
 
   public:
@@ -1101,7 +1101,7 @@ class /**/ CDataTable {
   public:
     void Destroy(void);
     void Sort(void);
-    void FillWithPlanes(CPlanes *Planes, BOOL Expert = FALSE, SLONG FilterType = 0, SLONG Filter1 = 0, SLONG Filter2 = 0);
+    void FillWithPlanes(CPlanes *Planes, SLONG Expert = 0, SLONG FilterType = 0, SLONG Filter1 = 0, SLONG Filter2 = 0);
     void FillWithPlaneTypes(void);
     void FillWithXPlaneTypes(void);
     void FillWithRouten(CRouten *Routen, CRentRouten *RentRouten, BOOL UniqueOnly = FALSE);
@@ -1127,7 +1127,7 @@ class /**/ BLOCK {
     GfxLib *pGLibPicture{nullptr};
     XY ScreenPos; // Position auf dem Bildschirm
 
-    BOOL Destructing{};     // Block wird gerade zerstört
+    SLONG Destructing{};    // Block wird gerade zerstört
     SLONG AnimationStart{}; // Startzeit für die Animation
     SLONG PlayerNum{};
     SLONG StyleType{}; // Block oder Window
@@ -1231,8 +1231,8 @@ class /**/ BRICK // Ein einzelnes Bodenteil eines bestimmten Zeitalters
   private:
     CString Filename;             // Name der lbm-Files
     SLONG RamPriority{};          // Priotität fürs VGA-RAM
-    BOOL NonTrans{};              // Flag falls ohne Glass
-    BOOL Triggered{};             // Läuft die Animation nicht ständig, sondern getriggert ab?
+    SLONG NonTrans{};             // Flag falls ohne Glass
+    SLONG Triggered{};            // Läuft die Animation nicht ständig, sondern getriggert ab?
     BYTE Layer{};                 // Die Sortierungsschicht (y übergeordnet)
     BYTE AnimSpeed{};             // Divisor für Ticker als Bitmap-Index
     SLONG FloorOffset{};          // Y-Offset für die Sortierung
@@ -1342,7 +1342,7 @@ class /**/ BUILDS : public ALBUM_V<BUILD> {
 class /**/ CLAN {
   private:
     UBYTE Type{};                  // Guest, Player, Worker, FX-Charakter
-    BOOL TodayInGame{};            // Heute im Spiel?
+    SLONG TodayInGame{};           // Heute im Spiel?
     SLONG Group{};                 // Gruppe, die dieser Clan angehört
     UBYTE Wkeit{};                 // Wkeit, daß nicht neu gewürfelt wird
     UBYTE UpdateNow{};             // Ist ein Pool-Update erwünscht?
@@ -2097,17 +2097,17 @@ class PLAYER {
     // Laufen:
   public:
     BOOL iWalkActive{};
-    BOOL WalkToGlobe{};       // Spieler geht zum Globus
-    XY PrimaryTarget;         // Hierhin wollen wir
-    XY SecondaryTarget;       // für Raumeingänge
-    XY TertiaryTarget;        // für Treppen
-    BUFFER_V<BOOL> WasInRoom; // War der Spieler schon im Raum?
-    SLONG WalkSpeed;          // So schnell sind wir
-    UWORD WaitForRoom;        // 0=kein
-    UWORD ThrownOutOfRoom;    // 0=kein
-    SLONG DirectToRoom{};     // Wird auf einen Raum gezielt?
-    SLONG ExRoom{};           // Aus dem Raum kommen wir gerade
-    SLONG IsStuck{};          // 0 oder Zahl der Sekunden
+    BOOL WalkToGlobe{};        // Spieler geht zum Globus
+    XY PrimaryTarget;          // Hierhin wollen wir
+    XY SecondaryTarget;        // für Raumeingänge
+    XY TertiaryTarget;         // für Treppen
+    BUFFER_V<SLONG> WasInRoom; // War der Spieler schon im Raum?
+    SLONG WalkSpeed;           // So schnell sind wir
+    UWORD WaitForRoom;         // 0=kein
+    UWORD ThrownOutOfRoom;     // 0=kein
+    SLONG DirectToRoom{};      // Wird auf einen Raum gezielt?
+    SLONG ExRoom{};            // Aus dem Raum kommen wir gerade
+    SLONG IsStuck{};           // 0 oder Zahl der Sekunden
 
     // Computerspieler
   public:
@@ -2466,7 +2466,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     ULONG GameSpeed;             // Time+=Gamespeed
     BOOL bPause;                 // Spiel im Pause-Modus
     BOOL bNoTime;                // Zeit wird nicht weitergezählt (Briefing)
-    BOOL DayState{};             // 1=Tag wird gestartet; 2=Spieler spielt; 3=Tag wird beendet; 4=Tag wurde beendet
+    SLONG DayState{};            // 1=Tag wird gestartet; 2=Spieler spielt; 3=Tag wird beendet; 4=Tag wurde beendet
     BOOL CallItADay;
     SLONG CallItADayAt{};       // Netzwerk: Feierabend bei dieser TimeSlice einläuten
     BOOL AnyPersonsInAirport{}; // Speedup: Ist jemand da?
@@ -2476,7 +2476,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     SLONG Slimed{};             // Werkstatt verschleimt?
     BOOL UsedTelescope{};
     BOOL UsedPlaneProp2{};
-    BOOL DontDisplayPlayer{};
+    SLONG DontDisplayPlayer{};
     BOOL bAllowCheating; // Ist cheaten im Netzwerk erlaubt?
     SLONG ShowExtrablatt{};
     BOOL ItemGlove{};    // Hat heute schon jemand die Handschuhe genommen?

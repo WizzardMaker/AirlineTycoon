@@ -253,6 +253,23 @@ class TEAKFILE {
     SLONG MemPointer;
     ULONG MemBufferUsed;
 
+#if 0
+    friend TEAKFILE &operator<<(TEAKFILE &File, const BOOL &b) {
+        SLONG t = b ? 1 : 0;
+        File << t;
+        return File;
+    }
+    friend TEAKFILE &operator>>(TEAKFILE &File, BOOL &b) {
+        SLONG t;
+        File >> t;
+        if (t > 0) {
+            b = TRUE;
+        } else {
+            b = FALSE;
+        }
+        return File;
+    }
+#endif
     friend TEAKFILE &operator<<(TEAKFILE &File, const bool &b) {
         File.Write((const UBYTE *)&b, sizeof(b));
         return File;

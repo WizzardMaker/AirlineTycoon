@@ -71,7 +71,7 @@ CGlobe::CGlobe(BOOL bHandy, SLONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
     KonstruktorFinished = 0;
 
     CPlaner::IsLaptop = FALSE;
-    DragFlightMode = FALSE;
+    DragFlightMode = 0;
 
     CurrentDragId = -1;
     pBlock = nullptr;

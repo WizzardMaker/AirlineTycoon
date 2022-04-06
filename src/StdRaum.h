@@ -81,8 +81,8 @@ class CStdRaum {
 
     BOOL PayingForCall{}; // Bezahlt der Spieler dieses Gespräch?
 
-    BOOL DontDisplayPlayer{}; // Wenn TRUE, wird der Spieler beim Dialog nicht in der Ecke gezeigt
-    XY PlayerBubblePos;       // Dort erscheint die Sprechblase (nur wenn DontDisplayPlayer==TRUE)
+    SLONG DontDisplayPlayer{}; // Wenn TRUE, wird der Spieler beim Dialog nicht in der Ecke gezeigt
+    XY PlayerBubblePos;        // Dort erscheint die Sprechblase (nur wenn DontDisplayPlayer==TRUE)
 
     CSmackerPerson *pSmackerPartner; // Der Dialogpartner per Smacker
     CSmackerPerson *pSmackerPlayer;  // Der Spieler per Smacker
@@ -140,7 +140,7 @@ class CStdRaum {
     SBFX CalculatorFX;
     SBFX SpeechFx;
     BOOL TalkingSpeechFx;
-    BOOL ReadyToStartSpeechFx;
+    SLONG ReadyToStartSpeechFx;
 
   public:
     SLONG StatusCount; // DrawCounter für den StatusBar Speedup

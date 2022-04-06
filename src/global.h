@@ -24,14 +24,14 @@ extern SLONG gFramesToDrawBeforeFirstBlend;
 // Flags für Cheats:
 //--------------------------------------------------------------------------------------------
 extern BOOL CheatRunningman;
-extern BOOL CheatMoreNuns;
+extern SLONG CheatMoreNuns;
 extern BOOL CheatMoreGimmicks;
 extern BOOL CheatBubbles;
 extern BOOL CheatShowAll;
 extern BOOL CheatMissions;
 extern SLONG CheatBerater;
 extern BOOL CheatAnimNow;
-extern BOOL CheatTestGame;
+extern SLONG CheatTestGame;
 
 //--------------------------------------------------------------------------------------------
 // Die Zufallsgeneratoren:

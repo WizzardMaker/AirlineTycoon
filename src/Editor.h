@@ -143,7 +143,7 @@ class CEditor : public CStdRaum {
     SBBMS OtherButtonBms;
     SBBMS MaskenBms;
 
-    BOOL DragDropMode;
+    SLONG DragDropMode;
     CString PartUnderCursor;      // Das Part was dranklebt oder Leerstring
     CString PartUnderCursorB;     // Der andere Flügel, der ggf. mit dranklebt
     SLONG RelationIdUnderCursor{}; // Für das Snap-In die passende Relation

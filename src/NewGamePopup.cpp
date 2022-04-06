@@ -893,10 +893,10 @@ void NewGamePopup::OnPaint() {
 
             // Text-Cursor blitten:
             if (CursorY != -1) {
-                RoomBm.BlitFromT(KlackerTafel.Cursors[SLONG(BlinkState % 8)], (CursorX + 6) * 16 + 128, (CursorY + 2) * 22 + (CursorY / 2 + 1) * 22 + 63);
+                RoomBm.BlitFromT(KlackerTafel.Cursors[BlinkState % 8], (CursorX + 6) * 16 + 128, (CursorY + 2) * 22 + (CursorY / 2 + 1) * 22 + 63);
             }
         } else if (PageNum == 17) {
-            RoomBm.BlitFromT(KlackerTafel.Cursors[SLONG(BlinkState % 8)], (CursorX)*16 + 128, 2 * 22 + 63);
+            RoomBm.BlitFromT(KlackerTafel.Cursors[BlinkState % 8], (CursorX)*16 + 128, 2 * 22 + 63);
         }
 
         // Cursorposition auswerten:

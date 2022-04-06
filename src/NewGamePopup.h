@@ -48,7 +48,7 @@ class NewGamePopup : public CStdRaum {
     SB_CFont VersionFont;
 
     SLONG CursorX{}, CursorY{}; // Der blinkende Eingabecursor; -1 = kein Cursor sichtbar
-    UBYTE BlinkState{};
+    SLONG BlinkState{};
     SBBMS PlayerBms;
     SBBM HakenBm;
     SLONG Selection{};

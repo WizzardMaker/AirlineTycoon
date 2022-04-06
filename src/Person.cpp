@@ -90,9 +90,9 @@ void CLANS::ReInit(const CString &TabFilename) {
                 clan.PalFilename = strtok(nullptr, TabSeparator);
 
                 if (clan.Type > 11 || clan.Group > 0 || (gShowAllPools != 0)) {
-                    clan.TodayInGame = TRUE;
+                    clan.TodayInGame = 1;
                 } else {
-                    clan.TodayInGame = FALSE;
+                    clan.TodayInGame = 0;
                 }
 
                 // Alte Frau weiter nach hinten sortieren:
@@ -641,7 +641,7 @@ void CLANS::UpdateClansInGame(BOOL FirstDay) {
                     }
 
                     if (FirstDay == 0) {
-                        if ((((*this)[c].TodayInGame != 0) && AnzRemoved >= 5) || ((*this)[c].TodayInGame == FALSE && AnzAdded >= 5)) {
+                        if ((((*this)[c].TodayInGame != 0) && AnzRemoved >= 5) || ((*this)[c].TodayInGame == 0 && AnzAdded >= 5)) {
                             n--; // Wir haben schon genug Personen gelöscht/hinzugefügt
                             break;
                         }
