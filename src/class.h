@@ -50,7 +50,7 @@ class /**/ SBFX {
     void Play(dword dwFlags, SLONG PercentVolume) const;
     void Stop(void) const;
     void SetVolume(SLONG volume) const;
-    void Fusion(const SBFX **Fx, SLONG NumFx);
+    void Fusion(BUFFER_V<SBFX *>& Fx, SLONG NumFx);
     void Fusion(const SBFX *Fx, const SLONG *Von, const SLONG *Bis, SLONG NumFx);
     void Tokenize(BUFFER_V<SLONG> &Von, BUFFER_V<SLONG> &Bis) const;
     void Tokenize(BUFFER_V<SBFX> &Effects) const;

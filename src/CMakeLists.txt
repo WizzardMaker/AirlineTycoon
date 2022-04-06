@@ -8,7 +8,7 @@ if(MSVC)
 else()
     target_compile_options(common INTERFACE "-Wall")
     target_compile_options(common INTERFACE "-Wextra")
-    #target_compile_options(common INTERFACE "-Wno-invalid-source-encoding")
+    target_compile_options(common INTERFACE "-Wno-format-nonliteral")
     target_compile_options(common INTERFACE "-Wno-sign-compare")
     target_compile_options(common INTERFACE "-Wno-type-limits")
 

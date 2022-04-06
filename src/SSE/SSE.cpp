@@ -348,8 +348,8 @@ SLONG FX::Load(const char *file) {
     return SSE_OK;
 }
 
-SLONG FX::Fusion(const FX **Fx, SLONG NumFx) {
-    for (SLONG i = 0; i < NumFx; i++) {
+SLONG FX::Fusion(const std::vector<FX*>& Fx) {
+    for (SLONG i = 0; i < Fx.size(); i++) {
         if ((Fx[i] == nullptr) || (Fx[i]->_fxData.pBuffer == nullptr)) {
             return SSE_INVALIDPARAM;
         }
@@ -357,12 +357,12 @@ SLONG FX::Fusion(const FX **Fx, SLONG NumFx) {
 
     Free();
 
-    for (SLONG i = 0; i < NumFx; i++) {
+    for (SLONG i = 0; i < Fx.size(); i++) {
         _fxData.bufferSize += Fx[i]->_fxData.bufferSize;
     }
     auto *buf = static_cast<Uint8 *>(SDL_malloc(_fxData.bufferSize));
     size_t pos = 0;
-    for (SLONG i = 0; i < NumFx; i++) {
+    for (SLONG i = 0; i < Fx.size(); i++) {
         memcpy(buf + pos, Fx[i]->_fxData.pBuffer->abuf, Fx[i]->_fxData.bufferSize);
         pos += Fx[i]->_fxData.bufferSize;
     }

@@ -308,7 +308,7 @@ class FX : public DIGITAL {
     virtual SLONG GetPan(SLONG *pPan);
     virtual SLONG SetPan(SLONG pan);
     virtual SLONG Load(const char *file = NULL);
-    virtual SLONG Fusion(const FX **Fx, SLONG NumFx);
+    virtual SLONG Fusion(const std::vector<FX*>& Fx);
     virtual SLONG Fusion(const FX *Fx, SLONG *Von, SLONG *Bis, SLONG NumFx);
     virtual SLONG Tokenize(__int64 Token, SLONG *Von, SLONG *Bis, SLONG &rcAnzahl);
     virtual FX **Tokenize(__int64 Token, SLONG &rcAnzahl);

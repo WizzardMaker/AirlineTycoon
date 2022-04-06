@@ -323,7 +323,7 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
         }
     }
 
-    pFx->Fusion((const class SBFX **)&Effects[0], m);
+    pFx->Fusion(Effects, m);
 
     if ((UndoWait != 0) && MouseWait == 0) {
         pCursor->SetImage(gCursorBm.pBitmap);
@@ -658,18 +658,19 @@ void SBFX::Destroy() {
     }
 }
 
-void SBFX::Fusion(const SBFX **Fx, SLONG NumFx) {
-    FX *Elements[100];
+void SBFX::Fusion(BUFFER_V<SBFX *>& Fx, SLONG NumFx) {
+    std::vector<FX *> Elements;
+    Elements.resize(NumFx);
 
     Destroy();
 
-    for (SLONG c = 0; c < min(100, NumFx); c++) {
+    for (SLONG c = 0; c < NumFx; c++) {
         Elements[c] = Fx[c]->pFX;
     }
 
     if (gpSSE != nullptr) {
         gpSSE->CreateFX(&pFX);
-        pFX->Fusion((const FX **)Elements, NumFx);
+        pFX->Fusion(Elements);
     }
 }
 
