@@ -53,8 +53,13 @@ class CPlaneProps : public CStdRaum {
     virtual void OnPaint();
     virtual void OnRButtonDown(UINT nFlags, CPoint point);
     virtual void OnLButtonDblClk(UINT nFlags, CPoint point);
+    virtual void OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/);
     //}}AFX_MSG
     // DECLARE_MESSAGE_MAP()
+
+  private:
+    void PrevPlane();
+    void NextPlane();
 };
 
 /////////////////////////////////////////////////////////////////////////////

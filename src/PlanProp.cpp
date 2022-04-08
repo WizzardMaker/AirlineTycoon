@@ -699,7 +699,7 @@ void CPlaneProps::OnPaint() {
 
             // Wiederholfunktion für blättern links:
             if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 800) {
-                PlaneIndex--;
+                PrevPlane();
                 gMouseLButtonDownTimer = timeGetTime() - 400;
             }
         } else if (gMousePosition.IfIsWithin(164, 26, 190, 50)) {
@@ -739,7 +739,7 @@ void CPlaneProps::OnPaint() {
 
             // Wiederholfunktion für blättern rechts:
             if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 800 && PlaneIndex < PlaneDataTable.AnzRows - 1) {
-                PlaneIndex++;
+                NextPlane();
                 gMouseLButtonDownTimer = timeGetTime() - 400;
             }
         }
@@ -785,7 +785,7 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
             qPlayer.LeaveRoom();
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 10) {
             if (PlaneIndex > 0) {
-                PlaneIndex--;
+                PrevPlane();
             }
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 11) {
             Sim.RFSitzeRF = qPlane.SitzeTarget;
@@ -841,7 +841,7 @@ void CPlaneProps::OnLButtonDown(UINT nFlags, CPoint point) {
             }
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 14) {
             if (PlaneIndex < PlaneDataTable.AnzRows - 1) {
-                PlaneIndex++;
+                NextPlane();
             }
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 15) {
             // if (qPlane.MaxBegleiter>PlaneTypes[qPlane.TypeId].AnzBegleiter) qPlane.MaxBegleiter--;
@@ -1020,11 +1020,11 @@ void CPlaneProps::OnLButtonDblClk(UINT /*nFlags*/, CPoint point) {
 
         if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 10) {
             if (PlaneIndex > 0) {
-                PlaneIndex--;
+                PrevPlane();
             }
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 14) {
             if (PlaneIndex < PlaneDataTable.AnzRows - 1) {
-                PlaneIndex++;
+                NextPlane();
             }
         } else if (MouseClickArea == ROOM_PLANEPROPS && MouseClickId == 15) {
             // if (qPlane.MaxBegleiter>PlaneTypes[qPlane.TypeId].AnzBegleiter) qPlane.MaxBegleiter--;
@@ -1103,5 +1103,41 @@ void CPlaneProps::OnRButtonDown(UINT nFlags, CPoint point) {
         }
 
         CStdRaum::OnRButtonDown(nFlags, point);
+    }
+}
+
+//--------------------------------------------------------------------------------------------
+// Hotkeys:
+//--------------------------------------------------------------------------------------------
+void CPlaneProps::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
+    switch (nChar) {
+    case VK_LEFT:
+        PrevPlane();
+        break;
+    case VK_RIGHT:
+        NextPlane();
+        break;
+    default:
+        break;
+    }
+}
+
+void CPlaneProps::PrevPlane() {
+    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+        PlaneIndex = std::max(0, PlaneIndex - 100);
+    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+        PlaneIndex = std::max(0, PlaneIndex - 10);
+    } else {
+        PlaneIndex = std::max(0, PlaneIndex - 1);
+    }
+}
+
+void CPlaneProps::NextPlane() {
+    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+        PlaneIndex = std::min(PlaneDataTable.AnzRows - 1, PlaneIndex + 100);
+    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+        PlaneIndex = std::min(PlaneDataTable.AnzRows - 1, PlaneIndex + 10);
+    } else {
+        PlaneIndex = std::min(PlaneDataTable.AnzRows - 1, PlaneIndex + 1);
     }
 }
