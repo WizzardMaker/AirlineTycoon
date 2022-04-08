@@ -6647,23 +6647,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
         if (MouseClickArea == -102 && MouseClickId == MENU_PLANECOSTS && MouseClickPar1 == -3) {
             MenuStop();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_PLANECOSTS && MouseClickPar1 == -1) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage - 13;
-            if (MenuPage < 0) {
-                MenuPage = max(0, MenuDataTable.AnzRows - 1) / 13;
-            }
-
-            MenuRepaint();
+            MenuPrevPage();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_PLANECOSTS && MouseClickPar1 == -2) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage + 13;
-            if (MenuPage >= MenuDataTable.AnzRows) {
-                MenuPage = 0;
-            }
-
-            MenuRepaint();
+            MenuNextPage();
         }
         break;
 
@@ -6687,23 +6673,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
                 CalcOpen(MenuPos + XY(510 - 130 - 30, (n - MenuPage) * 12 + 30), 0);
             }
         } else if (MouseClickArea == -102 && MouseClickId == MENU_PLANEREPAIRS && MouseClickPar1 == -1) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage - 13;
-            if (MenuPage < 0) {
-                MenuPage = max(0, MenuDataTable.AnzRows - 1) / 13;
-            }
-
-            MenuRepaint();
+            MenuPrevPage();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_PLANEREPAIRS && MouseClickPar1 == -2) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage + 13;
-            if (MenuPage >= MenuDataTable.AnzRows) {
-                MenuPage = 0;
-            }
-
-            MenuRepaint();
+            MenuNextPage();
         }
         break;
 
@@ -6799,23 +6771,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
         if (MouseClickArea == -102 && MouseClickId == MENU_SABOTAGEPLANE && MouseClickPar1 == -3) {
             MenuStop();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_SABOTAGEPLANE && MouseClickPar1 == -1) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage - 13;
-            if (MenuPage < 0) {
-                MenuPage = max(0, MenuDataTable.AnzRows - 1) / 13;
-            }
-
-            MenuRepaint();
+            MenuPrevPage();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_SABOTAGEPLANE && MouseClickPar1 == -2) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage + 13;
-            if (MenuPage >= MenuDataTable.AnzRows) {
-                MenuPage = 0;
-            }
-
-            MenuRepaint();
+            MenuNextPage();
         } else if (Pos.IfIsWithin(216, 6, 387, 212)) {
             SLONG n = ((Pos.y - 25)) / 13 + MenuPage;
 
@@ -6838,23 +6796,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
         if (MouseClickArea == -102 && MouseClickId == MENU_SABOTAGEROUTE && MouseClickPar1 == -3) {
             MenuStop();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_SABOTAGEROUTE && MouseClickPar1 == -1) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage - 13;
-            if (MenuPage < 0) {
-                MenuPage = max(0, MenuDataTable.AnzRows - 1) / 13;
-            }
-
-            MenuRepaint();
+            MenuPrevPage();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_SABOTAGEROUTE && MouseClickPar1 == -2) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage + 13;
-            if (MenuPage >= MenuDataTable.AnzRows) {
-                MenuPage = 0;
-            }
-
-            MenuRepaint();
+            MenuNextPage();
         } else if (Pos.IfIsWithin(216, 6, 387, 212)) {
             SLONG n = ((Pos.y - 25)) / 13 + MenuPage;
 
@@ -6877,23 +6821,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
         if (MouseClickArea == -102 && MouseClickId == MENU_SELLPLANE && MouseClickPar1 == -3) {
             MenuStop();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_SELLPLANE && MouseClickPar1 == -1) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage - 13;
-            if (MenuPage < 0) {
-                MenuPage = max(0, MenuDataTable.AnzRows - 1) / 13;
-            }
-
-            MenuRepaint();
+            MenuPrevPage();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_SELLPLANE && MouseClickPar1 == -2) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage + 13;
-            if (MenuPage >= MenuDataTable.AnzRows) {
-                MenuPage = 0;
-            }
-
-            MenuRepaint();
+            MenuNextPage();
         } else if (Pos.IfIsWithin(216, 6, 387, 212)) {
             SLONG n = ((Pos.y - 25)) / 13 + MenuPage;
 
@@ -6916,23 +6846,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
         if (MouseClickArea == -102 && MouseClickId == MENU_BUYPLANE && MouseClickPar1 == -3) {
             MenuStop();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_BUYPLANE && MouseClickPar1 == -1) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage - 13;
-            if (MenuPage < 0) {
-                MenuPage = max(0, MenuDataTable.AnzRows - 1) / 13;
-            }
-
-            MenuRepaint();
+            MenuPrevPage();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_BUYPLANE && MouseClickPar1 == -2) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage + 13;
-            if (MenuPage >= MenuDataTable.AnzRows) {
-                MenuPage = 0;
-            }
-
-            MenuRepaint();
+            MenuNextPage();
         } else if (Pos.IfIsWithin(216, 6, 387, 212)) {
             SLONG n = (Pos.y - 21) / 13 + MenuPage;
 
@@ -6948,23 +6864,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
         if (MouseClickArea == -102 && MouseClickId == MENU_BUYXPLANE && MouseClickPar1 == -3) {
             MenuStop();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_BUYXPLANE && MouseClickPar1 == -1) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage - 13;
-            if (MenuPage < 0) {
-                MenuPage = max(0, MenuDataTable.AnzRows - 1) / 13;
-            }
-
-            MenuRepaint();
+            MenuPrevPage();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_BUYXPLANE && MouseClickPar1 == -2) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage + 13;
-            if (MenuPage >= MenuDataTable.AnzRows) {
-                MenuPage = 0;
-            }
-
-            MenuRepaint();
+            MenuNextPage();
         } else if (Pos.IfIsWithin(216, 6, 387, 212)) {
             SLONG n = (Pos.y - 21) / 13 + MenuPage;
 
@@ -7416,23 +7318,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
         if (MouseClickArea == -102 && MouseClickId == MENU_ADROUTE && MouseClickPar1 == -3) {
             MenuStop();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_ADROUTE && MouseClickPar1 == -1) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage - 13;
-            if (MenuPage < 0) {
-                MenuPage = max(0, MenuDataTable.AnzRows - 1) / 13;
-            }
-
-            MenuRepaint();
+            MenuPrevPage();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_ADROUTE && MouseClickPar1 == -2) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-
-            MenuPage = MenuPage + 13;
-            if (MenuPage >= MenuDataTable.AnzRows) {
-                MenuPage = 0;
-            }
-
-            MenuRepaint();
+            MenuNextPage();
         } else if (Pos.IfIsWithin(216, 6, 387, 212)) {
             SLONG n = (Pos.y - 25) / 13 + MenuPage;
 
@@ -7448,19 +7336,9 @@ void CStdRaum::MenuLeftClick(XY Pos) {
 
     case MENU_PLANEJOB:
         if (MouseClickArea == -102 && MouseClickId == MENU_PLANEJOB && MouseClickPar1 == -1) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-            MenuPage = MenuPage - 13;
-            if (MenuPage < 0) {
-                MenuPage = max(0, MenuDataTable.AnzRows - 1) / 13;
-            }
-            MenuRepaint();
+            MenuPrevPage();
         } else if (MouseClickArea == -102 && MouseClickId == MENU_PLANEJOB && MouseClickPar1 == -2) {
-            gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-            MenuPage = MenuPage + 13;
-            if (MenuPage >= MenuDataTable.AnzRows) {
-                MenuPage = 0;
-            }
-            MenuRepaint();
+            MenuNextPage();
         } else if (Pos.IfIsWithin(216, 6, 387, 212)) {
             SLONG n = (Pos.y - 25) / 13 + MenuPage;
 
@@ -8259,6 +8137,27 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
 
     bool change = false;
     switch (CurrentMenu) {
+        case MENU_PLANECOSTS:
+        case MENU_PLANEREPAIRS:
+        case MENU_SABOTAGEPLANE:
+        case MENU_SABOTAGEROUTE:
+        case MENU_SELLPLANE:
+        case MENU_BUYPLANE:
+        case MENU_BUYXPLANE:
+        case MENU_ADROUTE:
+        case MENU_PLANEJOB:
+            switch (nChar) {
+            case VK_LEFT:
+                MenuPrevPage();
+                break;
+            case VK_RIGHT:
+                MenuNextPage();
+                break;
+            default:
+                break;
+            }
+            break;
+
     case MENU_PERSONAL:
         switch (nChar) {
         case VK_LEFT:
@@ -8333,4 +8232,41 @@ void CStdRaum::OnTimer(UINT /*nIDEvent*/) {}
 Uint32 CStdRaum::TimerFunc(Uint32 interval, void *param) {
     (static_cast<CStdRaum *>(param))->OnTimer(1);
     return interval;
+}
+
+void CStdRaum::MenuPrevPage() {
+    if (MenuPage <= 0) {
+        return;
+    }
+
+    gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
+
+    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+        MenuPage = std::max(0, MenuPage - 13 * 10);
+    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+        MenuPage = std::max(0, MenuPage - 13 * 3);
+    } else {
+        MenuPage = std::max(0, MenuPage - 13);
+    }
+
+    MenuRepaint();
+}
+
+void CStdRaum::MenuNextPage() {
+    if (MenuPage >= MenuDataTable.AnzRows - 13) {
+        return;
+    }
+
+    gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
+
+    auto MenuPageMax = MenuDataTable.AnzRows - 13;
+    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+        MenuPage = std::min(MenuPageMax, MenuPage + 13 * 10);
+    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+        MenuPage = std::min(MenuPageMax, MenuPage + 13 * 3);
+    } else {
+        MenuPage = std::min(MenuPageMax, MenuPage + 13);
+    }
+
+    MenuRepaint();
 }
