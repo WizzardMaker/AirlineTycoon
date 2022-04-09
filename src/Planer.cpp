@@ -249,152 +249,177 @@ void CPlaner::PaintGlobeRoutes() {
     SLONG e = 0;
 
     for (c = 0; c < Sim.Players.AnzPlayers; c++) {
-        if (Sim.Players.Players[c].IsOut == 0) {
-            if (Sim.Players.Players[PlayerNum].DisplayRoutes[c] != 0U) {
-                // Die gemieteten Niederlassungen anzeigen:
-                for (d = 0; d < Cities.AnzEntries(); d++) {
-                    if ((IsLaptop != 0) && Sim.Players.Players[c].RentCities.RentCities[d].Rang != 0) {
-                        XY pxy;
-                        XY tmp = Cities[d].GlobusPosition;
+        if (Sim.Players.Players[c].IsOut != 0) {
+            continue;
+        }
+        if (Sim.Players.Players[PlayerNum].DisplayRoutes[c] == 0U) {
+            continue;
+        }
+        // Die gemieteten Niederlassungen anzeigen:
+        for (d = 0; d < Cities.AnzEntries(); d++) {
+            if ((IsLaptop == 0) || Sim.Players.Players[c].RentCities.RentCities[d].Rang == 0) {
+                continue;
+            }
 
-                        if ((EarthProjectize(tmp, EarthAlpha, &pxy) == 0) && e > 0) {
-                            SLONG f = 255 - abs(32768 - (SLONG(((tmp.x + 180) * 65536 / 360) - EarthAlpha + 16384 + 65536) & 65535)) / 64;
-                            if (f <= 0) {
-                                f = 0;
-                            }
+            XY pxy;
+            XY tmp = Cities[d].GlobusPosition;
 
-                            SB_Hardwarecolor color = GlobeBm.pBitmap->GetHardwarecolor(f * 65536 + f * 256); // 0xffff00);
-
-                            GlobeBm.pBitmap->SetPixel(pxy.x - 6, pxy.y, color);
-                            GlobeBm.pBitmap->SetPixel(pxy.x - 6 - 1, pxy.y, color);
-                            GlobeBm.pBitmap->SetPixel(pxy.x - 6 + 1, pxy.y, color);
-                            GlobeBm.pBitmap->SetPixel(pxy.x - 6, pxy.y - 1, color);
-                            GlobeBm.pBitmap->SetPixel(pxy.x - 6, pxy.y + 1, color);
-                            GlobeBm.pBitmap->SetPixel(pxy.x - 6 - 1, pxy.y - 1, color);
-                            GlobeBm.pBitmap->SetPixel(pxy.x - 6 + 1, pxy.y + 1, color);
-                            GlobeBm.pBitmap->SetPixel(pxy.x - 6 + 1, pxy.y - 1, color);
-                            GlobeBm.pBitmap->SetPixel(pxy.x - 6 - 1, pxy.y + 1, color);
-                        }
-                    }
+            if (EarthProjectize(tmp, EarthAlpha, &pxy) == 0) {
+                SLONG f = 255 - abs(32768 - (SLONG(((tmp.x + 180) * 65536 / 360) - EarthAlpha + 16384 + 65536) & 65535)) / 64;
+                if (f <= 0) {
+                    f = 0;
                 }
 
-                // Die gemieteten Routen anzeigen:
-                for (d = 0; d < Sim.Players.Players[c].RentRouten.RentRouten.AnzEntries(); d++) {
-                    if ((IsLaptop != 0) && Sim.Players.Players[c].RentRouten.RentRouten[d].Rang != 0 &&
-                        Routen[d].Ebene == Sim.Players.Players[PlayerNum].DisplayRoutes[c]) {
-                        if (Routen[d].VonCity < Routen[d].NachCity) {
-                            XY von;
-                            XY nach;
-                            XY pxy;
-                            XY lastpxy;
-                            FXY tmp;
-                            // SB_Hardwarecolor red = GlobeBm.pBitmap->GetHardwarecolor (0xff0000);
+                SB_Hardwarecolor color = GlobeBm.pBitmap->GetHardwarecolor((c >= 2) ? f : 0,
+                                                                           (c == 1 || c == 3) ? f : 0,
+                                                                           (c == 0) ? f : 0);
 
-                            SLONG n = 0;
-                            SLONG dist = Cities.CalcDistance(Routen[d].VonCity, Routen[d].NachCity);
 
-                            if (dist < 500000) {
-                                n = 256;
-                            } else if (dist < 1000000) {
-                                n = 128;
-                            } else if (dist < 2000000) {
-                                n = 64;
-                            } else if (dist < 5000000) {
-                                n = 32;
-                            } else {
-                                n = 16;
-                            }
+                GlobeBm.pBitmap->SetPixel(pxy.x - 6, pxy.y, color);
+                GlobeBm.pBitmap->SetPixel(pxy.x - 6 - 1, pxy.y, color);
+                GlobeBm.pBitmap->SetPixel(pxy.x - 6 + 1, pxy.y, color);
+                GlobeBm.pBitmap->SetPixel(pxy.x - 6, pxy.y - 1, color);
+                GlobeBm.pBitmap->SetPixel(pxy.x - 6, pxy.y + 1, color);
+                GlobeBm.pBitmap->SetPixel(pxy.x - 6 - 1, pxy.y - 1, color);
+                GlobeBm.pBitmap->SetPixel(pxy.x - 6 + 1, pxy.y + 1, color);
+                GlobeBm.pBitmap->SetPixel(pxy.x - 6 + 1, pxy.y - 1, color);
+                GlobeBm.pBitmap->SetPixel(pxy.x - 6 - 1, pxy.y + 1, color);
+            }
+        }
 
-                            von = Cities[Routen[d].VonCity].GlobusPosition;
-                            nach = Cities[Routen[d].NachCity].GlobusPosition;
+        // Die gemieteten Routen anzeigen:
+        if (2U != Sim.Players.Players[PlayerNum].DisplayRoutes[c]) {
+            continue;
+        }
+        for (d = 0; d < Sim.Players.Players[c].RentRouten.RentRouten.AnzEntries(); d++) {
+            if ((IsLaptop == 0) || Sim.Players.Players[c].RentRouten.RentRouten[d].Rang == 0) {
+                continue;
+            }
+            if (Routen[d].VonCity >= Routen[d].NachCity) {
+                continue;
+            }
+            XY von;
+            XY nach;
+            XY pxy;
+            XY lastpxy;
+            FXY tmp;
 
-                            for (e = 0; e <= 256; e += n) {
-                                lastpxy = pxy;
+            SLONG n = 0;
+            SLONG dist = Cities.CalcDistance(Routen[d].VonCity, Routen[d].NachCity);
 
-                                if (abs(nach.x - von.x) < 180) {
-                                    tmp.x = FLOAT((von.x * (256 - e) + nach.x * e) / 256.0);
-                                } else if (nach.x > von.x) {
-                                    tmp.x = FLOAT(von.x + (-(360 - (nach.x - von.x)) * e) / 256.0);
-                                } else {
-                                    tmp.x = FLOAT(von.x + ((360 - (von.x - nach.x)) * e) / 256.0);
-                                }
+            if (dist < 500000) {
+                n = 256;
+            } else if (dist < 1000000) {
+                n = 128;
+            } else if (dist < 2000000) {
+                n = 64;
+            } else if (dist < 5000000) {
+                n = 32;
+            } else {
+                n = 16;
+            }
 
-                                tmp.y = FLOAT((von.y * (256 - e) + nach.y * e) / 256.0);
+            von = Cities[Routen[d].VonCity].GlobusPosition;
+            nach = Cities[Routen[d].NachCity].GlobusPosition;
 
-                                if ((EarthProjectize(tmp, EarthAlpha, &pxy) == 0) && e > 0) {
-                                    SLONG f = 255 - abs(32768 - (SLONG(((tmp.x + 180) * 65536 / 360) - EarthAlpha + 16384 + 65536) & 65535)) / 64;
-                                    if (f <= 0) {
-                                        f = 0;
-                                    }
+            for (e = 0; e <= 256; e += n) {
+                lastpxy = pxy;
 
-                                    SB_Hardwarecolor red = GlobeBm.pBitmap->GetHardwarecolor(f * 65536); // 0xffff00);
+                if (abs(nach.x - von.x) < 180) {
+                    tmp.x = FLOAT((von.x * (256 - e) + nach.x * e) / 256.0);
+                } else if (nach.x > von.x) {
+                    tmp.x = FLOAT(von.x + (-(360 - (nach.x - von.x)) * e) / 256.0);
+                } else {
+                    tmp.x = FLOAT(von.x + ((360 - (von.x - nach.x)) * e) / 256.0);
+                }
 
-                                    GlobeBm.pBitmap->Line(pxy.x - 6, pxy.y, lastpxy.x - 6, lastpxy.y, red);
-                                }
-                            }
-                        }
+                tmp.y = FLOAT((von.y * (256 - e) + nach.y * e) / 256.0);
+
+                if ((EarthProjectize(tmp, EarthAlpha, &pxy) == 0) && e > 0) {
+                    SLONG f = 255 - abs(32768 - (SLONG(((tmp.x + 180) * 65536 / 360) - EarthAlpha + 16384 + 65536) & 65535)) / 64;
+                    if (f <= 0) {
+                        f = 0;
                     }
+
+                    SB_Hardwarecolor color = GlobeBm.pBitmap->GetHardwarecolor((c >= 2) ? f : 0,
+                                                                               (c == 1 || c == 3) ? f : 0,
+                                                                               (c == 0) ? f : 0);
+
+                    GlobeBm.pBitmap->Line(pxy.x - 6, pxy.y, lastpxy.x - 6, lastpxy.y, color);
                 }
             }
         }
     }
 
     for (c = 0; c < Sim.Players.Players[PlayerNum].Blocks.AnzEntries(); c++) {
-        if (IsLaptop != 0 || (FensterVisible != 0)) {
-            if ((Sim.Players.Players[PlayerNum].Blocks.IsInAlbum(c) != 0) && (c == 0) == (IsLaptop == 0) &&
-                Sim.Players.Players[PlayerNum].Blocks[c].Index != 1 && Sim.Players.Players[PlayerNum].Blocks[c].BlockType == 2) {
-                CFlugplan &qPlan = Sim.Players.Players[PlayerNum].Planes[Sim.Players.Players[PlayerNum].Blocks[c].SelectedId].Flugplan;
+        if (IsLaptop == 0 && (FensterVisible == 0)) {
+            continue;
+        }
+        if ((Sim.Players.Players[PlayerNum].Blocks.IsInAlbum(c) == 0)) {
+            continue;
+        }
+        if ((c == 0) != (IsLaptop == 0)) {
+            continue;
+        }
+        if (Sim.Players.Players[PlayerNum].Blocks[c].Index == 1 || Sim.Players.Players[PlayerNum].Blocks[c].BlockType != 2) {
+            continue;
+        }
 
-                for (d = 0; d < qPlan.Flug.AnzEntries(); d++) {
-                    if (qPlan.Flug[d].ObjectType != 0) {
-                        XY von;
-                        XY nach;
-                        XY pxy;
-                        XY lastpxy;
-                        FXY tmp;
-                        // SB_Hardwarecolor red = GlobeBm.pBitmap->GetHardwarecolor (0xff0000);
+        CFlugplan &qPlan = Sim.Players.Players[PlayerNum].Planes[Sim.Players.Players[PlayerNum].Blocks[c].SelectedId].Flugplan;
 
-                        SLONG n = 0;
-                        SLONG dist = Cities.CalcDistance(qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity);
+        for (d = 0; d < qPlan.Flug.AnzEntries(); d++) {
+            if (qPlan.Flug[d].ObjectType == 0) {
+                continue;
+            }
 
-                        if (dist < 500000) {
-                            n = 256;
-                        } else if (dist < 1000000) {
-                            n = 128;
-                        } else if (dist < 2000000) {
-                            n = 64;
-                        } else if (dist < 5000000) {
-                            n = 32;
-                        } else {
-                            n = 16;
-                        }
+            XY von;
+            XY nach;
+            XY pxy;
+            XY lastpxy;
+            FXY tmp;
 
-                        von = Cities[qPlan.Flug[d].VonCity].GlobusPosition;
-                        nach = Cities[qPlan.Flug[d].NachCity].GlobusPosition;
+            SLONG n = 0;
+            SLONG dist = Cities.CalcDistance(qPlan.Flug[d].VonCity, qPlan.Flug[d].NachCity);
 
-                        for (e = 0; e <= 256; e += n) {
-                            lastpxy = pxy;
+            if (dist < 500000) {
+                n = 256;
+            } else if (dist < 1000000) {
+                n = 128;
+            } else if (dist < 2000000) {
+                n = 64;
+            } else if (dist < 5000000) {
+                n = 32;
+            } else {
+                n = 16;
+            }
 
-                            if (abs(nach.x - von.x) < 180) {
-                                tmp.x = FLOAT((von.x * (256 - e) + nach.x * e) / 256.0);
-                            } else if (nach.x > von.x) {
-                                tmp.x = FLOAT(von.x + (-(360 - (nach.x - von.x)) * e) / 256.0);
-                            } else {
-                                tmp.x = FLOAT(von.x + ((360 - (von.x - nach.x)) * e) / 256.0);
-                            }
+            von = Cities[qPlan.Flug[d].VonCity].GlobusPosition;
+            nach = Cities[qPlan.Flug[d].NachCity].GlobusPosition;
 
-                            tmp.y = FLOAT((von.y * (255 - e) + nach.y * e) / 256.0);
+            for (e = 0; e <= 256; e += n) {
+                lastpxy = pxy;
 
-                            if ((EarthProjectize(tmp, EarthAlpha, &pxy) == 0) && e > 0) {
-                                SLONG f = 255 - abs(32768 - (SLONG(((tmp.x + 180) * 65536 / 360) - EarthAlpha + 16384 + 65536) & 65535)) / 64;
-                                if (f <= 0) {
-                                    f = 0;
-                                }
+                if (abs(nach.x - von.x) < 180) {
+                    tmp.x = FLOAT((von.x * (256 - e) + nach.x * e) / 256.0);
+                } else if (nach.x > von.x) {
+                    tmp.x = FLOAT(von.x + (-(360 - (nach.x - von.x)) * e) / 256.0);
+                } else {
+                    tmp.x = FLOAT(von.x + ((360 - (von.x - nach.x)) * e) / 256.0);
+                }
 
-                                GlobeBm.pBitmap->Line(pxy.x - 6, pxy.y, lastpxy.x - 6, lastpxy.y, f * 65536);
-                            }
-                        }
+                tmp.y = FLOAT((von.y * (255 - e) + nach.y * e) / 256.0);
+
+                if ((EarthProjectize(tmp, EarthAlpha, &pxy) == 0) && e > 0) {
+                    SLONG f = 255 - abs(32768 - (SLONG(((tmp.x + 180) * 65536 / 360) - EarthAlpha + 16384 + 65536) & 65535)) / 64;
+                    if (f <= 0) {
+                        f = 0;
                     }
+
+                    SB_Hardwarecolor color = GlobeBm.pBitmap->GetHardwarecolor((c >= 2) ? f : 0,
+                                                                               (c == 1 || c == 3) ? f : 0,
+                                                                               (c == 0) ? f : 0);
+
+                    GlobeBm.pBitmap->Line(pxy.x - 6, pxy.y, lastpxy.x - 6, lastpxy.y, color);
                 }
             }
         }

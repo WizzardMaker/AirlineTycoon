@@ -217,6 +217,10 @@ SB_Hardwarecolor SB_CBitmapCore::GetHardwarecolor(ULONG color) {
 #endif
 }
 
+SB_Hardwarecolor SB_CBitmapCore::GetHardwarecolor(char r, char g, char b) {
+    return SB_Hardwarecolor(SDL_MapRGB(lpDDSurface->format, r, g, b));
+}
+
 ULONG SB_CBitmapCore::Clear(SB_Hardwarecolor hwcolor, const RECT *pRect) {
     auto color = (dword)hwcolor;
 

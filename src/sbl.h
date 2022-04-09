@@ -107,6 +107,7 @@ class SB_CBitmapCore {
     ULONG AddAlphaMsk(void);
     ULONG AddZBuffer(ULONG, ULONG);
     SB_Hardwarecolor GetHardwarecolor(ULONG);
+    SB_Hardwarecolor GetHardwarecolor(char r, char g, char b);
     ULONG SetPixel(SLONG, SLONG, SB_Hardwarecolor);
     ULONG GetPixel(SLONG, SLONG);
     ULONG Clear(SB_Hardwarecolor, struct tagRECT const * = NULL);
