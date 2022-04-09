@@ -134,6 +134,11 @@ CLaptop::CLaptop(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.
                 qPlayer.Blocks -= c;
             }
         }
+
+        for (SLONG c = 0; c < Sim.Players.AnzPlayers; c++) {
+            qPlayer.DisplayRoutes[c] = FALSE;
+            qPlayer.DisplayPlanes[c] = FALSE;
+        }
     } else {
 #ifdef WIN32
         EarthBm.ReSize(const_cast<char *>((LPCTSTR)FullFilename("earthlap.lbm", GliPath)), SYSRAMBM);
@@ -1469,6 +1474,10 @@ void CLaptop::QuickJump(SLONG par) {
 
         if (par == 170 || par == 171) // Left Block
         {
+            if (pBlock->BlockType != 1 && pBlock->BlockType != 2) {
+                return;
+            }
+
             for (c = 0; c < pBlock->Table.AnzRows; c++) {
                 if (pBlock->SelectedId == pBlock->Table.LineIndex[c]) {
                     break;
@@ -1521,6 +1530,10 @@ void CLaptop::QuickJump(SLONG par) {
             pBlock->Refresh(PlayerNum, IsLaptop);
         } else if (par == 172 || par == 173) // Right Block
         {
+            if (pBlock->BlockTypeB != 3 && pBlock->BlockTypeB != 4 && pBlock->BlockTypeB != 6) {
+                return;
+            }
+
             for (c = 0; c < pBlock->TableB.AnzRows; c++) {
                 if (pBlock->SelectedIdB == pBlock->TableB.LineIndex[c]) {
                     break;
