@@ -132,7 +132,7 @@ void CArabAir::OnPaint() {
         } else if (gMousePosition.IfIsWithin(437, 89, 600, 323)) {
             SetMouseLook(CURSOR_HOT, 0, ROOM_ARAB_AIR, 10);
         } else if (gMousePosition.IfIsWithin(313, 136, 371, 176)) {
-            SetMouseLook(CURSOR_NORMAL, 5000, bprintf(LPCTSTR(CString(StandardTexte.GetS(TOKEN_TOOLTIP, 4500))), Sim.Kerosin), ROOM_ARAB_AIR, 0);
+            SetMouseLook(CURSOR_HOT, 5000, bprintf(LPCTSTR(CString(StandardTexte.GetS(TOKEN_TOOLTIP, 4500))), Sim.Kerosin), ROOM_ARAB_AIR, 11);
 
             if (ToolTipState == FALSE) {
                 ToolTipTimer = timeGetTime() - 601;
@@ -173,6 +173,8 @@ void CArabAir::OnLButtonDown(UINT nFlags, CPoint point) {
                 Sim.ItemGlove = 0;
                 SIM::SendSimpleMessage(ATNET_TAKETHING, 0, ITEM_GLOVE);
             }
+        } else if (MouseClickArea == ROOM_ARAB_AIR && MouseClickId == 11) {
+            StartDialog(TALKER_ARAB, MEDIUM_AIR, 100);
         } else {
             CStdRaum::OnLButtonDown(nFlags, point);
         }

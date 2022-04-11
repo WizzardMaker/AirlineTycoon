@@ -1229,7 +1229,11 @@ void CStdRaum::StartDialog(SLONG DialogPartner, BOOL Medium, SLONG DialogPar1, S
             } else {
                 MakeSayWindow(0, TOKEN_ARAB, 1020, pFontPartner);
             }
+        } else if (DialogPar1 == 100) {
+            MakeSayWindow(1, TOKEN_ARAB, 400, 403, 3, &FontDialog, &FontDialogLight, Sim.HoleKerosinPreis(0), Sim.HoleKerosinPreis(1),
+                          Sim.HoleKerosinPreis(2));
         }
+
         break;
 
     case TALKER_SABOTAGE:
