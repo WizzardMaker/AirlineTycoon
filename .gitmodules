@@ -1,0 +1,3 @@
+[submodule "libs/enet"]
+	path = libs/enet
+	url = https://github.com/lsalzman/enet
