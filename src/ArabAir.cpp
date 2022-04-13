@@ -135,7 +135,7 @@ void CArabAir::OnPaint() {
             SetMouseLook(CURSOR_HOT, 5000, bprintf(LPCTSTR(CString(StandardTexte.GetS(TOKEN_TOOLTIP, 4500))), Sim.Kerosin), ROOM_ARAB_AIR, 11);
 
             if (ToolTipState == FALSE) {
-                ToolTipTimer = timeGetTime() - 601;
+                ToolTipTimer = AtGetTime() - 601;
             }
         }
     }

@@ -182,7 +182,7 @@ CAufsicht::CAufsicht(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
         AmbientManager.SetGlobalVolume(30);
     }
 
-    TimeClick = timeGetTime();
+    TimeClick = AtGetTime();
 
     SP_Boss.ReSize(17);
 
@@ -883,8 +883,8 @@ void CAufsicht::OnPaint() {
             SetMouseLook(CURSOR_HOT, 0, ROOM_AUFSICHT, 11);
         }
     } else if (Sim.GetHour() == 9 && Sim.GetMinute() == 0) {
-        if ((timeGetTime() - TimeClick > 40000 && Sim.Options.OptionTalking * Sim.Options.OptionDigiSound == 0) ||
-            (((bTest != 0) || (CheatTestGame != 0)) && timeGetTime() - TimeClick > 5000)) {
+        if ((AtGetTime() - TimeClick > 40000 && Sim.Options.OptionTalking * Sim.Options.OptionDigiSound == 0) ||
+            (((bTest != 0) || (CheatTestGame != 0)) && AtGetTime() - TimeClick > 5000)) {
             if ((bTest != 0) || (CheatTestGame != 0)) {
                 OnRButtonDown(0, CPoint(160, 100));
             } else {
@@ -892,15 +892,15 @@ void CAufsicht::OnPaint() {
             }
 
             if (bTest != 0) {
-                TimeClick = timeGetTime() - 39000;
+                TimeClick = AtGetTime() - 39000;
             } else {
-                TimeClick = timeGetTime() - 30000;
+                TimeClick = AtGetTime() - 30000;
             }
         }
     }
 
     if (Sim.bPause != 0) {
-        TimeClick = timeGetTime();
+        TimeClick = AtGetTime();
     }
 
     CStdRaum::PostPaint();
@@ -925,9 +925,9 @@ void CAufsicht::OnLButtonDown(UINT nFlags, CPoint point) {
 
     DefaultOnLButtonDown();
 
-    TimeClick = timeGetTime();
+    TimeClick = AtGetTime();
 
-    if (CurrentMenu == MENU_GAMEOVER && timeGetTime() - TimeAtStart < 3000) {
+    if (CurrentMenu == MENU_GAMEOVER && AtGetTime() - TimeAtStart < 3000) {
         return;
     }
 

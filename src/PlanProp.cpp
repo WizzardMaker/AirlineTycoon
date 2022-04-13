@@ -134,7 +134,7 @@ CPlaneProps::~CPlaneProps() {
 //--------------------------------------------------------------------------------------------
 void CPlaneProps::OnPaint() {
     static SLONG LastTimer;
-    SLONG Timer = timeGetTime();
+    SLONG Timer = AtGetTime();
 
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
@@ -151,7 +151,7 @@ void CPlaneProps::OnPaint() {
     LastTimer = Timer;
 
     if (Sim.UsedPlaneProp2 == 0) {
-        BlinkArrowsTimer = timeGetTime();
+        BlinkArrowsTimer = AtGetTime();
         Sim.UsedPlaneProp2 = TRUE;
     }
 
@@ -174,7 +174,7 @@ void CPlaneProps::OnPaint() {
 
         if (PlaneIndex != -1) {
             CPlane &qPlane = Sim.Players.Players[PlayerNum].Planes[PlaneDataTable.LineIndex[PlaneIndex]];
-            SBBM &qCursor = CursorBms[static_cast<SLONG>((timeGetTime() / 150) % 8)];
+            SBBM &qCursor = CursorBms[static_cast<SLONG>((AtGetTime() / 150) % 8)];
 
             // Großes Fenster (links):
             if (qPlane.DecoTarget < 2) {
@@ -309,10 +309,10 @@ void CPlaneProps::OnPaint() {
                   RoomBm.BlitFromT (MenuBms[0], 135, 27);
 
                 //Wiederholfunktion für blättern links:
-                if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>800)
+                if (gMouseLButton && AtGetTime()-gMouseLButtonDownTimer>800)
                 {
                 PlaneIndex--;
-                gMouseLButtonDownTimer=timeGetTime()-400;
+                gMouseLButtonDownTimer=AtGetTime()-400;
                 }
                 }
                 else if (gMousePosition.IfIsWithin (164,26,190,50))
@@ -348,10 +348,10 @@ void CPlaneProps::OnPaint() {
                 RoomBm.BlitFromT (MenuBms[4], 248, 27);
 
                 //Wiederholfunktion für blättern rechts:
-                if (gMouseLButton && timeGetTime()-gMouseLButtonDownTimer>800 && PlaneIndex<PlaneDataTable.AnzRows-1)
+                if (gMouseLButton && AtGetTime()-gMouseLButtonDownTimer>800 && PlaneIndex<PlaneDataTable.AnzRows-1)
                 {
                 PlaneIndex++;
-                gMouseLButtonDownTimer=timeGetTime()-400;
+                gMouseLButtonDownTimer=AtGetTime()-400;
                 }
                 }*/
 
@@ -473,7 +473,7 @@ void CPlaneProps::OnPaint() {
 
         if (PlaneIndex != -1) {
             CPlane &qPlane = Sim.Players.Players[PlayerNum].Planes[PlaneDataTable.LineIndex[PlaneIndex]];
-            SBBM &qCursor = CursorBms[static_cast<SLONG>((timeGetTime() / 150) % 8)];
+            SBBM &qCursor = CursorBms[static_cast<SLONG>((AtGetTime() / 150) % 8)];
 
             // Großes Fenster (rechts):
             if (qPlane.ReifenTarget != 0U) {
@@ -698,9 +698,9 @@ void CPlaneProps::OnPaint() {
             RoomBm.BlitFromT(MenuBms[0], 135 + HeadlineOffset, 27);
 
             // Wiederholfunktion für blättern links:
-            if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 800) {
+            if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 800) {
                 PrevPlane();
-                gMouseLButtonDownTimer = timeGetTime() - 400;
+                gMouseLButtonDownTimer = AtGetTime() - 400;
             }
         } else if (gMousePosition.IfIsWithin(164, 26, 190, 50)) {
             SetMouseLook(CURSOR_HOT, 3101, ROOM_PLANEPROPS, 11);
@@ -738,16 +738,16 @@ void CPlaneProps::OnPaint() {
             RoomBm.BlitFromT(MenuBms[4], 248 + HeadlineOffset, 27);
 
             // Wiederholfunktion für blättern rechts:
-            if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 800 && PlaneIndex < PlaneDataTable.AnzRows - 1) {
+            if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 800 && PlaneIndex < PlaneDataTable.AnzRows - 1) {
                 NextPlane();
-                gMouseLButtonDownTimer = timeGetTime() - 400;
+                gMouseLButtonDownTimer = AtGetTime() - 400;
             }
         }
         gMousePosition.x += HeadlineOffset;
     }
 
-    if ((BlinkArrowsTimer != 0) && timeGetTime() - BlinkArrowsTimer < 5000) {
-        if ((timeGetTime() - BlinkArrowsTimer) % 1000 < 500) {
+    if ((BlinkArrowsTimer != 0) && AtGetTime() - BlinkArrowsTimer < 5000) {
+        if ((AtGetTime() - BlinkArrowsTimer) % 1000 < 500) {
             RoomBm.BlitFromT(MenuBms[7], 172 + HeadlineOffset, 50);
         }
     }
@@ -1111,10 +1111,10 @@ void CPlaneProps::OnRButtonDown(UINT nFlags, CPoint point) {
 //--------------------------------------------------------------------------------------------
 void CPlaneProps::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     switch (nChar) {
-    case VK_LEFT:
+    case ATKEY_LEFT:
         PrevPlane();
         break;
-    case VK_RIGHT:
+    case ATKEY_RIGHT:
         NextPlane();
         break;
     default:
@@ -1123,9 +1123,9 @@ void CPlaneProps::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
 }
 
 void CPlaneProps::PrevPlane() {
-    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+    if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
         PlaneIndex = std::max(0, PlaneIndex - 100);
-    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+    } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
         PlaneIndex = std::max(0, PlaneIndex - 10);
     } else {
         PlaneIndex = std::max(0, PlaneIndex - 1);
@@ -1133,9 +1133,9 @@ void CPlaneProps::PrevPlane() {
 }
 
 void CPlaneProps::NextPlane() {
-    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+    if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
         PlaneIndex = std::min(PlaneDataTable.AnzRows - 1, PlaneIndex + 100);
-    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+    } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
         PlaneIndex = std::min(PlaneDataTable.AnzRows - 1, PlaneIndex + 10);
     } else {
         PlaneIndex = std::min(PlaneDataTable.AnzRows - 1, PlaneIndex + 1);

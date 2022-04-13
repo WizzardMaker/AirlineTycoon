@@ -361,7 +361,7 @@ void CKiosk::OnPaint() {
 
       SLONG x, y, t, xx, yy;
 
-      t=timeGetTime()/10;
+      t=AtGetTime()/10;
 
       for (x=0; x<256; x++)
       for (y=0; y<256; y++)
@@ -376,10 +376,10 @@ void CKiosk::OnPaint() {
       RoomBm.BlitFrom (WaterMovingBm, 320-WaterMovingBm.Size.x, 220-WaterMovingBm.Size.y/2);
       RoomBm.BlitFrom (WaterMovingBm, 320, 220-WaterMovingBm.Size.y/2);*/
 
-    /*if ((GetAsyncKeyState (VK_SHIFT)/256) && GetAsyncKeyState (VK_CONTROL)/256) Alpha++;
-      if (!(GetAsyncKeyState (VK_SHIFT)/256) && GetAsyncKeyState (VK_CONTROL)/256) Alpha--;
-      if ((GetAsyncKeyState (VK_SHIFT)/256) && GetAsyncKeyState (VK_MENU)/256) Beta++;
-      if (!(GetAsyncKeyState (VK_SHIFT)/256) && GetAsyncKeyState (VK_MENU)/256) Beta--;
+    /*if ((AtGetAsyncKeyState (ATKEY_SHIFT)/256) && AtGetAsyncKeyState (ATKEY_CONTROL)/256) Alpha++;
+      if (!(AtGetAsyncKeyState (ATKEY_SHIFT)/256) && AtGetAsyncKeyState (ATKEY_CONTROL)/256) Alpha--;
+      if ((AtGetAsyncKeyState (ATKEY_SHIFT)/256) && AtGetAsyncKeyState (ATKEY_MENU)/256) Beta++;
+      if (!(AtGetAsyncKeyState (ATKEY_SHIFT)/256) && AtGetAsyncKeyState (ATKEY_MENU)/256) Beta--;
 
       RoomBm.BlitFrom (HausBm);
       XY Mouse=gMousePosition-XY(0,40);

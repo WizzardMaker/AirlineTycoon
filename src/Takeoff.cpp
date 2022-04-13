@@ -1726,8 +1726,8 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
 
                             // Flugzeuge, die vorbeifliegen:
                             if (Sim.Options.OptionEffekte != 0) {
-                                if (gUniversalPlaneFxCountdown == 0 || timeGetTime() > DWORD(gUniversalPlaneFxCountdown)) {
-                                    gUniversalPlaneFxCountdown = timeGetTime() + 15000 + rand() % 40 * 1000;
+                                if (gUniversalPlaneFxCountdown == 0 || AtGetTime() > DWORD(gUniversalPlaneFxCountdown)) {
+                                    gUniversalPlaneFxCountdown = AtGetTime() + 15000 + rand() % 40 * 1000;
 
                                     if (gUniversalPlaneFxCountdown != 0) {
                                         gUniversalPlaneFx.ReInit(PlaneSounds[rand() % 6]);
@@ -1927,7 +1927,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                 Sim.TickerTime = Time >> 5;
             } else {
                 RefreshNeccessary = TRUE;
-                Sim.TickerTime = timeGetTime() >> 5;
+                Sim.TickerTime = AtGetTime() >> 5;
             } // Not In Game ==> Always refresh
 
             // Bildschirm neu zeichnen:
@@ -2065,7 +2065,7 @@ void CTakeOffApp::CheckSystem(void) {
 void CTakeOffApp::WinHelp(DWORD /*unused*/, UINT /*unused*/) {
     ToolTipState = FALSE;
 
-    ToolTipTimer = timeGetTime() - 1001;
+    ToolTipTimer = AtGetTime() - 1001;
 }
 
 /*!

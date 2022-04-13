@@ -198,7 +198,7 @@ SLONG FX::Play(dword dwFlags, SLONG pan) {
         Stop();
     }
 
-    _digitalData.time = timeGetTime();
+    _digitalData.time = AtGetTime();
     return Mix_PlayChannel(-1, _fxData.pBuffer, dwFlags & DSBPLAY_LOOPING ? -1 : 0) < 0 ? SSE_CANNOTPLAY : SSE_OK;
 }
 
@@ -226,7 +226,7 @@ SLONG FX::Pause() {
             Mix_Pause(i);
         }
     }
-    _digitalData.time = timeGetTime() - _digitalData.time;
+    _digitalData.time = AtGetTime() - _digitalData.time;
     return SSE_OK;
 }
 
@@ -240,7 +240,7 @@ SLONG FX::Resume() {
             Mix_Resume(i);
         }
     }
-    _digitalData.time = timeGetTime() - _digitalData.time;
+    _digitalData.time = AtGetTime() - _digitalData.time;
     return SSE_OK;
 }
 
@@ -479,7 +479,7 @@ bool FX::IsMouthOpen(SLONG PreTime) {
         return false;
     }
 
-    dword pos = 22050 * (timeGetTime() - _digitalData.time + PreTime) / 1000;
+    dword pos = 22050 * (AtGetTime() - _digitalData.time + PreTime) / 1000;
     if (pos * sizeof(Uint16) + 2000 >= _fxData.bufferSize) {
         return false;
     }

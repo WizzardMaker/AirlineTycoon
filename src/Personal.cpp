@@ -174,7 +174,7 @@ void CPersonal::OnPaint() {
             FlugbahnType = 2;
         }
 
-        FlugbahnCounter = timeGetTime();
+        FlugbahnCounter = AtGetTime();
     }
 
     if ((Sim.Players.Players[PlayerNum].SecurityFlags & 4) != 0U) {
@@ -205,17 +205,17 @@ void CPersonal::OnPaint() {
 
         if (FlugbahnType == 1) {
             Size = 5;
-            Pos = XY(491 + (timeGetTime() - FlugbahnCounter) / 2, 143 - (timeGetTime() - FlugbahnCounter) / 10);
+            Pos = XY(491 + (AtGetTime() - FlugbahnCounter) / 2, 143 - (AtGetTime() - FlugbahnCounter) / 10);
             if (Pos.x > 640) {
                 FlugbahnType = -1;
             }
         } else if (FlugbahnType == 2) {
-            if (timeGetTime() - FlugbahnCounter <= 400) {
-                Size = 5 + (timeGetTime() - FlugbahnCounter) * 95 / 400;
-                Pos = XY(491 - 166 * (timeGetTime() - FlugbahnCounter) / 400, 143 + 20 * (timeGetTime() - FlugbahnCounter) / 400);
+            if (AtGetTime() - FlugbahnCounter <= 400) {
+                Size = 5 + (AtGetTime() - FlugbahnCounter) * 95 / 400;
+                Pos = XY(491 - 166 * (AtGetTime() - FlugbahnCounter) / 400, 143 + 20 * (AtGetTime() - FlugbahnCounter) / 400);
             } else {
-                Size = 100 - (timeGetTime() - FlugbahnCounter - 400) * 95 / 400;
-                Pos = XY(325 - 166 * (timeGetTime() - FlugbahnCounter - 400) / 400, 163 + 225 * (timeGetTime() - FlugbahnCounter - 400) / 400);
+                Size = 100 - (AtGetTime() - FlugbahnCounter - 400) * 95 / 400;
+                Pos = XY(325 - 166 * (AtGetTime() - FlugbahnCounter - 400) / 400, 163 + 225 * (AtGetTime() - FlugbahnCounter - 400) / 400);
             }
             if (Pos.x < 159) {
                 FlugbahnType = -1;

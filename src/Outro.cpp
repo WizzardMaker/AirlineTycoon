@@ -115,7 +115,7 @@ void COutro::OnPaint() {
         PrimaryBm.BlitFrom(RoomBm);
     }
 
-    if (timeGetTime() >= FrameNext && State == SMK_MORE) {
+    if (AtGetTime() >= FrameNext && State == SMK_MORE) {
         // Take the next frame:
         Bitmap.ReSize(XY(Width, Height), CREATE_SYSMEM | CREATE_INDEXED);
         {
@@ -133,7 +133,7 @@ void COutro::OnPaint() {
 
         DOUBLE usf = NAN;
         smk_info_all(pSmack, nullptr, nullptr, &usf);
-        FrameNext = timeGetTime() + (usf / 1000.0);
+        FrameNext = AtGetTime() + (usf / 1000.0);
     }
 
     PrimaryBm.BlitFrom(Bitmap, 320 - Width / 2, 240 - Height / 2);
@@ -170,7 +170,7 @@ void COutro::OnMouseMove(UINT nFlags, CPoint point) { FrameWnd->OnMouseMove(nFla
 // void COutro::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
 void COutro::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
-    if (nChar == VK_ESCAPE) {
+    if (nChar == ATKEY_ESCAPE) {
         Sim.Gamestate = GAMESTATE_BOOT;
     }
 }

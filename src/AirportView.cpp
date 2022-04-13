@@ -299,7 +299,7 @@ void AirportView::FocusCameraOnPos(XY Pos, BOOL Speed) {
             }
 
             // Horizontales Scrolling berechnen:
-            if (abs(UncorrectedPosX - ViewPos.x) > SizeX * 2 / 3 || CameraSpeed.x != 0 || timeGetTime() - LastScrollTime < 500) {
+            if (abs(UncorrectedPosX - ViewPos.x) > SizeX * 2 / 3 || CameraSpeed.x != 0 || AtGetTime() - LastScrollTime < 500) {
                 Tmp = CalcInertiaVelocity(Pos.x, Pos.x + (ViewPos.x - Pos.x) * 2) + AvgLastPlayerDelta;
                 if (Tmp > CameraSpeed.x) {
                     CameraSpeed.x++;
@@ -328,7 +328,7 @@ void AirportView::FocusCameraOnPos(XY Pos, BOOL Speed) {
                     }
                 }
 
-                // if (CameraSpeed.x) LastScrollTime=timeGetTime();
+                // if (CameraSpeed.x) LastScrollTime=AtGetTime();
 
                 // LastX = Pos.x;
             } else if (PlayerDidntMove > 5 * 20) {
@@ -368,7 +368,7 @@ void AirportView::FocusCameraOnPos(XY Pos, BOOL Speed) {
 
             // Scrolling sich auswirken lassen:
             if (CameraSpeed.x != 0) {
-                LastScrollTime = timeGetTime();
+                LastScrollTime = AtGetTime();
             }
             ViewPos += CameraSpeed;
             if (ViewPos.x < Airport.LeftEnd) {
@@ -1529,7 +1529,7 @@ void AirportView::OnLButtonDown(UINT nFlags, CPoint point) {
                     return;
                 }
             } else {
-                if ((GetAsyncKeyState(VK_SHIFT) / 256) != 0) {
+                if ((AtGetAsyncKeyState(ATKEY_SHIFT) / 256) != 0) {
                     // Hat der Spieler auf eine Figur geklickt?
                     for (SLONG d = SLONG(Sim.Persons.AnzEntries()) - 1; d >= 0; d--) {
                         if ((Sim.Persons.IsInAlbum(d) != 0) && (Clans.IsInAlbum(Sim.Persons[d].ClanId) != 0)) {
@@ -1572,7 +1572,7 @@ void AirportView::OnLButtonDown(UINT nFlags, CPoint point) {
                         qPlayerPerson.StatePar == ROOM_STAIRS3DOWN) {
                         IgnoreNextLButtonUp = TRUE;
                         MenuLeftClick(point);
-                        gMouseLButtonDownTimer = timeGetTime() - 10000;
+                        gMouseLButtonDownTimer = AtGetTime() - 10000;
                     } else {
                         if (Sim.bNoTime == FALSE && gMousePosition.y < 440 && (MouseWait == 0) && Sim.Players.Players[PlayerNum].IsWalking2Player == -1 &&
                             qPlayerPerson.StatePar == 0) {
@@ -1798,14 +1798,14 @@ void AirportView::OnLButtonUp(UINT /*nFlags*/, CPoint point) {
     }
 
     if (MouseClickArea == ROOM_AIRPORT && (MouseClickId == 6010 || MouseClickId == 6011)) {
-        if (timeGetTime() - gMouseLButtonDownTimer > 250) {
+        if (AtGetTime() - gMouseLButtonDownTimer > 250) {
             return;
         }
     }
 
     // Ist das Fenster hier zuständig? Ist der Klick in diesem Fenster?
     if (point.x >= WinP1.x && point.x <= WinP2.x && point.y >= WinP1.y && point.y <= WinP2.y && (MenuIsOpen() == 0)) {
-        if (timeGetTime() - gMouseLButtonDownTimer < 500 && (gMouseScroll != 0) && (Editor == 0) && gMousePosition.y < 440 && (MouseWait == 0)) {
+        if (AtGetTime() - gMouseLButtonDownTimer < 500 && (gMouseScroll != 0) && (Editor == 0) && gMousePosition.y < 440 && (MouseWait == 0)) {
             if (Sim.Players.Players[PlayerNum].IsWalking2Player == -1 && (IsDialogOpen() == 0)) {
                 // gMouseScroll=0;
                 Sim.Players.Players[PlayerNum].WalkToMouseClick(gMousePosition + Sim.Players.Players[PlayerNum].ViewPos);
@@ -1937,64 +1937,64 @@ void AirportView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
     // Sowas darf nur das Hauptfenster, was immer links oben ist und nicht verdeckt wird:
     if (WinP1.x == 0 && WinP1.y == 0 && TopWin == nullptr) {
         // Editor F-Keys
-        if ((GetAsyncKeyState(VK_SHIFT) != 0) && (GetAsyncKeyState(VK_CONTROL) == 0)) {
+        if ((AtGetAsyncKeyState(ATKEY_SHIFT) != 0) && (AtGetAsyncKeyState(ATKEY_CONTROL) == 0)) {
             switch (nChar) {
             // Neues, autonomes & selbstzerstörendes Fenster erzeuges:
-            case VK_F2:
+            case ATKEY_F2:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 550 + 0x10000000, &EditObject);
                 } else {
                     CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
                 }
                 break;
-            case VK_F3:
+            case ATKEY_F3:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 618 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F4:
+            case ATKEY_F4:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 664 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F5:
+            case ATKEY_F5:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 700 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F6:
+            case ATKEY_F6:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 740 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F7:
+            case ATKEY_F7:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 800 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F8:
+            case ATKEY_F8:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 00 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F9:
+            case ATKEY_F9:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 00 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F11:
+            case ATKEY_F11:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 2030 + 0x10000000, &EditObject);
                 }
                 break;
 
-            case VK_LEFT:
+            case ATKEY_LEFT:
                 if (Editor != 0) {
                     ViewPos.x -= 50;
                 }
                 break;
 
-            case VK_RIGHT:
+            case ATKEY_RIGHT:
                 if (Editor != 0) {
                     ViewPos.x += 50;
                 }
@@ -2006,58 +2006,58 @@ void AirportView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         } else {
             switch (nChar) {
             // Neues, autonomes & selbstzerstörendes Fenster erzeuges:
-            case VK_F2:
+            case ATKEY_F2:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 100 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F3:
+            case ATKEY_F3:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 140 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F4:
+            case ATKEY_F4:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 250 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F5:
+            case ATKEY_F5:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 300 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F6:
+            case ATKEY_F6:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 330 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F7:
+            case ATKEY_F7:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 400 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F8:
+            case ATKEY_F8:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 450 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F9:
+            case ATKEY_F9:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 500 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F11:
+            case ATKEY_F11:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 2000 + 0x10000000, &EditObject);
                 }
                 break;
-            case VK_F12:
+            case ATKEY_F12:
                 if (Editor == EDITOR_BUILDS) {
                     TopWin = new AskBrick(bHandy, PlayerNum, 2050 + 0x10000000, &EditObject);
                 }
                 break;
 
-            case VK_INSERT:
+            case ATKEY_INSERT:
                 if (Editor == EDITOR_BUILDS) {
                     for (c = Airport.Builds.AnzEntries() - 1; c >= 0; c--) {
                         if ((Airport.Builds.IsInAlbum(c) != 0) && Airport.Builds[c].ScreenPos.x >= gMousePosition.x + ViewPos.x) {
@@ -2067,7 +2067,7 @@ void AirportView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                 }
                 break;
 
-            case VK_DELETE: // Remove Objekt under Cursor
+            case ATKEY_DELETE: // Remove Objekt under Cursor
                 if (Editor == EDITOR_BUILDS) {
                     if (EditObject == 0xffffffff && UnderCursor != 0xffffffff && (Airport.Builds.IsInAlbum(UnderCursor) != 0)) {
                         Airport.Builds -= UnderCursor;
@@ -2075,7 +2075,7 @@ void AirportView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                 }
                 break;
 
-            case VK_BACK: // Kacheln verschieben
+            case ATKEY_BACK: // Kacheln verschieben
                 if (Editor == EDITOR_BUILDS) {
                     for (c = Airport.Builds.AnzEntries() - 1; c >= 0; c--) {
                         if ((Airport.Builds.IsInAlbum(c) != 0) && Airport.Builds[c].ScreenPos.x >= gMousePosition.x + ViewPos.x) {
@@ -2092,37 +2092,37 @@ void AirportView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
             // Cursor-Tasten verschieben Ausschnitt:
             if (Editor != 0) {
-                if ((GetAsyncKeyState(VK_SHIFT) != 0) && (GetAsyncKeyState(VK_CONTROL) != 0) && UnderCursor != 0xffffffff) {
+                if ((AtGetAsyncKeyState(ATKEY_SHIFT) != 0) && (AtGetAsyncKeyState(ATKEY_CONTROL) != 0) && UnderCursor != 0xffffffff) {
                     switch (nChar) {
-                    case VK_LEFT:
+                    case ATKEY_LEFT:
                         Airport.Builds[UnderCursor].ScreenPos.x -= 44;
                         break;
-                    case VK_RIGHT:
+                    case ATKEY_RIGHT:
                         Airport.Builds[UnderCursor].ScreenPos.x += 44;
                         break;
-                    case VK_UP:
+                    case ATKEY_UP:
                         Airport.Builds[UnderCursor].ScreenPos.y -= 22;
                         Airport.Builds[UnderCursor].ScreenPos.x += 11;
                         break;
-                    case VK_DOWN:
+                    case ATKEY_DOWN:
                         Airport.Builds[UnderCursor].ScreenPos.y += 22;
                         Airport.Builds[UnderCursor].ScreenPos.x -= 11;
                         break;
                     default:
                         break;
                     }
-                } else if ((GetAsyncKeyState(VK_CONTROL) != 0) && UnderCursor != 0xffffffff) {
+                } else if ((AtGetAsyncKeyState(ATKEY_CONTROL) != 0) && UnderCursor != 0xffffffff) {
                     switch (nChar) {
-                    case VK_LEFT:
+                    case ATKEY_LEFT:
                         Airport.Builds[UnderCursor].ScreenPos.x--;
                         break;
-                    case VK_RIGHT:
+                    case ATKEY_RIGHT:
                         Airport.Builds[UnderCursor].ScreenPos.x++;
                         break;
-                    case VK_UP:
+                    case ATKEY_UP:
                         Airport.Builds[UnderCursor].ScreenPos.y--;
                         break;
-                    case VK_DOWN:
+                    case ATKEY_DOWN:
                         Airport.Builds[UnderCursor].ScreenPos.y++;
                         break;
                     default:
@@ -2130,16 +2130,16 @@ void AirportView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                     }
                 } else {
                     switch (nChar) {
-                    case VK_LEFT:
+                    case ATKEY_LEFT:
                         ViewPos.x -= 10;
                         break;
-                    case VK_RIGHT:
+                    case ATKEY_RIGHT:
                         ViewPos.x += 10;
                         break;
-                    case VK_UP:
+                    case ATKEY_UP:
                         ViewPos.y -= 10;
                         break;
-                    case VK_DOWN:
+                    case ATKEY_DOWN:
                         ViewPos.y += 10;
                         break;
                     default:
@@ -2182,7 +2182,7 @@ void AirportView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
             }
         }
 
-        switch (toupper(nChar)) {
+        switch (KeycodeToUpper(nChar)) {
         case 'E':
             // if (Registration.GetMode()==1)
             if (!Sim.bNetwork) {

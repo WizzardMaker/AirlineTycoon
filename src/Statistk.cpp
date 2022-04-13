@@ -498,7 +498,7 @@ void CStatistik::OnPaint() {
     SLONG c = 0;
     SBBM *ExitBm = nullptr;
     XY ExitBmPos;
-    DWORD CurrentTime = timeGetTime();
+    DWORD CurrentTime = AtGetTime();
     static SLONG RefreshStatistics = 0;
 
     if (((++RefreshStatistics) & 7) == 0) {
@@ -648,7 +648,7 @@ void CStatistik::OnPaint() {
 
     // Den wievielte Tag spielen wir gerade?
     CString output;
-    if (timeGetTime() % 6000 > 3000 && (Sim.Difficulty == DIFF_ADDON03 || Sim.Difficulty == DIFF_ADDON04 || Sim.Difficulty == DIFF_ADDON06)) {
+    if (AtGetTime() % 6000 > 3000 && (Sim.Difficulty == DIFF_ADDON03 || Sim.Difficulty == DIFF_ADDON04 || Sim.Difficulty == DIFF_ADDON06)) {
         SLONG n = 0;
 
         switch (Sim.Difficulty) {
@@ -725,8 +725,8 @@ void CStatistik::OnPaint() {
 
     // Die Werte sollten gelegentlich neu gezeichnet werden
     static SLONG tickers = 0;
-    if (_fRepaint || (GetTickCount() - tickers > 1500 && DropDownSpeed == 0)) {
-        tickers = GetTickCount();
+    if (_fRepaint || (AtGetTickCount() - tickers > 1500 && DropDownSpeed == 0)) {
+        tickers = AtGetTickCount();
         _fRepaint = false;
 
         if (DropDownPos.y == 0) { // Ganz oben...
@@ -1063,7 +1063,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point) {
                     if (StatButtons[c].IsToggle != 0) {
                         StatButtons[c].LastClicked ^= 1;
                     } else {
-                        StatButtons[c].LastClicked = timeGetTime();
+                        StatButtons[c].LastClicked = AtGetTime();
                     }
                 }
             }
@@ -1193,7 +1193,7 @@ void CStatistik::OnLButtonDown(UINT nFlags, CPoint point) {
                     _iArray[_group][_selectedItem].visible = !_iArray[_group][_selectedItem].visible;
                 }
             } else {
-                if ((GetAsyncKeyState(VK_SHIFT) & 0xff00) != 0) {
+                if ((AtGetAsyncKeyState(ATKEY_SHIFT) & 0xff00) != 0) {
                     SLONG c = _selectedItem;
 
                     while (c >= 0 && _iArray[_group][c].typOfItem != TYP_GROUP) {

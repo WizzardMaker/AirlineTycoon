@@ -374,7 +374,7 @@ CLaptop::~CLaptop() {
 //--------------------------------------------------------------------------------------------
 void CLaptop::OnPaint() {
     SLONG c = 0;
-    DWORD Time = timeGetTime();
+    DWORD Time = AtGetTime();
     static DWORD LastTime;
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
     XY RoomPos = qPlayer.CursorPos;
@@ -610,15 +610,15 @@ void CLaptop::OnPaint() {
             if (pBlock->IsTopWindow != 0) {
                 if (pBlock->Page / pBlock->PageSize < pBlock->AnzPages - 1 && CurrentBlockPos.IfIsWithin(0, 165, 19, 186)) {
                     SetMouseLook(CURSOR_HOT, 0, ROOM_LAPTOP, 100, 31); // Next
-                    if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 1000) {
+                    if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 1000) {
                         HandleLButtonDown();
-                        gMouseLButtonDownTimer = timeGetTime() - 870;
+                        gMouseLButtonDownTimer = AtGetTime() - 870;
                     }
                 } else if (pBlock->Page > 0 && CurrentBlockPos.IfIsWithin(0, 23, 19, 44)) {
                     SetMouseLook(CURSOR_HOT, 0, ROOM_LAPTOP, 100, 30); // Prev
-                    if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 1000) {
+                    if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 1000) {
                         HandleLButtonDown();
-                        gMouseLButtonDownTimer = timeGetTime() - 870;
+                        gMouseLButtonDownTimer = AtGetTime() - 870;
                     }
                 } else if (pBlock->Index != 1 && CurrentBlockPos.IfIsWithin(16, 0, 33, 19)) { // Klick auf "Index"...
                     SetMouseLook(CURSOR_HOT, 0, ROOM_LAPTOP, 100, 35);
@@ -632,16 +632,16 @@ void CLaptop::OnPaint() {
                     if (pBlock->PageB / pBlock->PageSizeB < pBlock->AnzPagesB - 1 && CurrentBlockPos.IfIsWithin(375, 165, 395, 186)) //"Next" B...
                     {
                         SetMouseLook(CURSOR_HOT, 0, ROOM_LAPTOP, 100, 41);
-                        if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 1000) {
+                        if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 1000) {
                             OnLButtonDown(0, CPoint(0, 0));
-                            gMouseLButtonDownTimer = timeGetTime() - 870;
+                            gMouseLButtonDownTimer = AtGetTime() - 870;
                         }
                     } else if (pBlock->PageB > 0 && CurrentBlockPos.IfIsWithin(375, 23, 395, 44)) //"Prev" B...
                     {
                         SetMouseLook(CURSOR_HOT, 0, ROOM_LAPTOP, 100, 40);
-                        if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 1000) {
+                        if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 1000) {
                             OnLButtonDown(0, CPoint(0, 0));
-                            gMouseLButtonDownTimer = timeGetTime() - 870;
+                            gMouseLButtonDownTimer = AtGetTime() - 870;
                         }
                     } else if (pBlock->IndexB != 1 && CurrentBlockPos.IfIsWithin(202, 0, 219, 19)) { // Klick auf "Index" B...
                         SetMouseLook(CURSOR_HOT, 0, ROOM_LAPTOP, 100, 45);
@@ -1406,23 +1406,23 @@ void CLaptop::OnRButtonUp(UINT /*nFlags*/, CPoint /*point*/) {
 void CLaptop::OnChar(UINT nChar, UINT a, UINT b) { CStdRaum::OnChar(nChar, a, b); }
 void CLaptop::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
     switch (nChar) {
-    case VK_UP:
+    case ATKEY_UP:
         CPlaner::ButtonPrev();
         return;
-    case VK_DOWN:
+    case ATKEY_DOWN:
         CPlaner::ButtonNext();
         return;
-    case VK_BACK:
+    case ATKEY_BACK:
         if (!MenuIsOpen()) {
             CPlaner::ButtonIndex();
         } else {
             CStdRaum::OnKeyDown(nChar, nRepCnt, nFlags);
         }
         return;
-    case VK_LEFT:
+    case ATKEY_LEFT:
         QuickJump(170);
         return;
-    case VK_RIGHT:
+    case ATKEY_RIGHT:
         QuickJump(171);
         return;
     default:

@@ -225,12 +225,12 @@ XY BRICK::GetIntelligentPosition(SLONG x, SLONG y) {
     LocalOffset = XY(0, 0);
 
     // Die Dinge oben etwas verschieben:
-    if (GetBitmapDimension().y - 2 + y < 210 && (GetAsyncKeyState(VK_MENU) == 0)) {
+    if (GetBitmapDimension().y - 2 + y < 210 && (AtGetAsyncKeyState(ATKEY_MENU) == 0)) {
         LocalOffset.x = 22;
         LocalOffset.y = 5;
     }
 
-    if (GetAsyncKeyState(VK_CONTROL) != 0) {
+    if (AtGetAsyncKeyState(ATKEY_CONTROL) != 0) {
         return (XY(x, y));
     }
 

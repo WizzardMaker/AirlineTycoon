@@ -91,12 +91,12 @@ SLONG CountMatchingFilelist(const CString &DirAndWildcards);
 CString CreateNumeratedFreeFilename(const CString &DirAndFilename);
 CString GetFilenameFromFullFilename(CString FullFilename);
 #ifndef WIN32
-DWORD timeGetTime(void);
 BOOL OffsetRect(RECT *pRect, SLONG dx, SLONG dy);
 void DebugBreak(void);
-SLONG GetAsyncKeyState(SLONG vKey);
-DWORD GetTickCount(void);
 #endif
+DWORD AtGetTime(void);
+SLONG AtGetAsyncKeyState(SLONG vKey);
+DWORD AtGetTickCount(void);
 const char* getRobotActionName(SLONG a);
 
 //--------------------------------------------------------------------------------------------

@@ -638,14 +638,14 @@ void SBPRIMARYBM::Flip(XY WindowPos, BOOL /*ShowFPS*/) {
 
         // Vollbild Delta Video:
         const Uint8 *States = SDL_GetKeyboardState(nullptr);
-        if ((States[VK_SCROLL] & 0x0001) != 0) {
+        if ((States[ATKEY_SCROLL] & 0x0001) != 0) {
             if (pFile == nullptr) {
                 pFile = fopen(bprintf(MakeVideoPath, FileIndex), "wb");
                 pSoundLogFile = fopen(CString(bprintf(MakeVideoPath, FileIndex)) + ".txt", "wb");
 
-                SoundLogFileStartTime = timeGetTime();
+                SoundLogFileStartTime = AtGetTime();
 
-                CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " Video recording begins\xd\xa";
+                CString tmp = CString(":") + bprintf("%06i", AtGetTime() - SoundLogFileStartTime) + " Video recording begins\xd\xa";
                 fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
 
                 OldFrame.ReSize(640, 480);
@@ -663,7 +663,7 @@ void SBPRIMARYBM::Flip(XY WindowPos, BOOL /*ShowFPS*/) {
             gScrollOffsetB = XY(0, 0);
         } else {
             if (pFile != nullptr) {
-                CString tmp = CString(":") + bprintf("%06i", timeGetTime() - SoundLogFileStartTime) + " Video recording ends\xd\xa";
+                CString tmp = CString(":") + bprintf("%06i", AtGetTime() - SoundLogFileStartTime) + " Video recording ends\xd\xa";
                 fwrite(tmp, 1, strlen(tmp), pSoundLogFile);
 
                 fclose(pFile);

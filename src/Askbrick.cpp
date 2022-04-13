@@ -139,27 +139,27 @@ void AskBrick::OnClose() {
 
 void AskBrick::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     switch (nChar) {
-    case VK_UP:
+    case ATKEY_UP:
         Group -= 5;
         break;
 
-    case VK_DOWN:
+    case ATKEY_DOWN:
         Group += 5;
         break;
 
-    case VK_LEFT:
+    case ATKEY_LEFT:
         Group--;
         break;
 
-    case VK_RIGHT:
+    case ATKEY_RIGHT:
         Group++;
         break;
 
-    case VK_PRIOR:
+    case ATKEY_PRIOR:
         Group -= 20;
         break;
 
-    case VK_NEXT:
+    case ATKEY_NEXT:
         Group += 20;
         break;
     default:

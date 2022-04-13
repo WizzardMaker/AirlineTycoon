@@ -42,7 +42,7 @@ CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "
     Sim.Players.Players[static_cast<SLONG>(PlayerNum)].ChangeMoney(-1, 3300, "");
     Sim.FocusPerson = -1;
 
-    LastTime = timeGetTime();
+    LastTime = AtGetTime();
 
     if (bHandy == 0) {
         AmbientManager.SetGlobalVolume(60);
@@ -81,7 +81,7 @@ CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "
     UfoPosition = XY(640, 800);
     UfoVelocity = XY(0, -12);
     UfoNumSteps = 50;
-    UfoWaitTill = timeGetTime() + 3000 + rand() % 2000;
+    UfoWaitTill = AtGetTime() + 3000 + rand() % 2000;
 
     SDL_ShowWindow(FrameWnd->m_hWnd);
     SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
@@ -120,7 +120,7 @@ CWeltAll::~CWeltAll() {
 void CWeltAll::OnPaint() {
     SLONG c = 0;
 
-    SLONG Time = timeGetTime();
+    SLONG Time = AtGetTime();
 
     if (KonstruktorFinished == 0) {
         return;
@@ -136,7 +136,7 @@ void CWeltAll::OnPaint() {
     }
 
     if (Sim.UsedTelescope == 0) {
-        BlinkArrowsTimer = timeGetTime();
+        BlinkArrowsTimer = AtGetTime();
         Sim.UsedTelescope = TRUE;
     }
 
@@ -197,7 +197,7 @@ void CWeltAll::OnPaint() {
             UfoPosition = XY(640, 800);
             UfoVelocity = XY(0, -4);
             UfoNumSteps = 140;
-            UfoWaitTill = timeGetTime() + 13000 + rand() % 2000;
+            UfoWaitTill = AtGetTime() + 13000 + rand() % 2000;
         }
 
         UfoNumSteps--;
@@ -214,7 +214,7 @@ void CWeltAll::OnPaint() {
             } while (UfoNumSteps < 2);
 
             UfoVelocity = Way / UfoNumSteps;
-            UfoWaitTill = timeGetTime() + 1000 + rand() % 1000;
+            UfoWaitTill = AtGetTime() + 1000 + rand() % 1000;
         }
     }
 
@@ -321,8 +321,8 @@ void CWeltAll::OnPaint() {
     RoomBm.BlitFrom(FernglasBms[1], 0, 30);
     RoomBm.BlitFrom(FernglasBms[1], 0, 346);
 
-    if ((BlinkArrowsTimer != 0) && timeGetTime() - BlinkArrowsTimer < 5000) {
-        if ((timeGetTime() - BlinkArrowsTimer) % 1000 < 500) {
+    if ((BlinkArrowsTimer != 0) && AtGetTime() - BlinkArrowsTimer < 5000) {
+        if ((AtGetTime() - BlinkArrowsTimer) % 1000 < 500) {
             RoomBm.BlitFromT(gCursorLBm, 0, 220);
             RoomBm.BlitFromT(gCursorRBm, 640 - gCursorRBm.Size.x, 220);
         }

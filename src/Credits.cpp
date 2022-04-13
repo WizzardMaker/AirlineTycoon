@@ -21,7 +21,7 @@ CCredits::CCredits(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "
     CRect rect(0, 0, 640, 480);
 
     gMouseStartup = TRUE;
-    LastTime = timeGetTime();
+    LastTime = AtGetTime();
 
     pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("credits.gli", RoomPath)), &pGLibCredits, L_LOCMEM);
     Background.ReSize(pGLibCredits, GFX_BACK);
@@ -82,10 +82,10 @@ void CCredits::ReloadBitmap() {}
 //--------------------------------------------------------------------------------------------
 void CCredits::OnPaint() {
     SLONG c = 0;
-    SLONG Time = timeGetTime();
+    SLONG Time = AtGetTime();
 
     while (Time - LastTime > 0) {
-        if ((GetAsyncKeyState(VK_CONTROL) / 256) != 0) {
+        if ((AtGetAsyncKeyState(ATKEY_CONTROL) / 256) != 0) {
             LastTime += 10;
         } else {
             LastTime += 60;
@@ -145,7 +145,7 @@ void CCredits::OnTimer(UINT /*nIDEvent*/) {
 //--------------------------------------------------------------------------------------------
 void CCredits::OnChar(UINT key, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     //"Abbrechen"
-    if (key != VK_CONTROL) {
+    if (key != ATKEY_CONTROL) {
         Sim.Gamestate = GAMESTATE_BOOT;
     }
 }
@@ -155,7 +155,7 @@ void CCredits::OnChar(UINT key, UINT /*nRepCnt*/, UINT /*nFlags*/) {
 //--------------------------------------------------------------------------------------------
 void CCredits::OnKeyDown(UINT key, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     //"Abbrechen"
-    if (key != VK_CONTROL) {
+    if (key != ATKEY_CONTROL) {
         Sim.Gamestate = GAMESTATE_BOOT;
     }
 }

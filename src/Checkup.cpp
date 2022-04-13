@@ -436,9 +436,9 @@ void CSystemCheckup::CheckupCD(const CString &CDFile) {
 
     ReadFile(hFile, buffer, BytesPerSector, &Dummy, NULL);
 
-    DWORD Time = GetTickCount();
+    DWORD Time = AtGetTickCount();
     ReadFile(hFile, buffer, BufferSize, &Dummy, NULL);
-    Time = GetTickCount() - Time;
+    Time = AtGetTickCount() - Time;
 
     CloseHandle(hFile);
 

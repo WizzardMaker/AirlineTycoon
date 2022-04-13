@@ -90,6 +90,22 @@ unsigned char GerToUpper(unsigned char c) {
     return c;
 }
 
+UINT KeycodeToUpper(UINT nChar) {
+    if (nChar >= 'a' && nChar <= 'z') {
+        nChar = toupper(nChar);
+    }
+    if (nChar == '\xE4') {
+        nChar = static_cast<UINT>('\xC4');
+    }
+    if (nChar == '\xF6') {
+        nChar = static_cast<UINT>('\xD6');
+    }
+    if (nChar == '\xFC') {
+        nChar = static_cast<UINT>('\xDC');
+    }
+    return nChar;
+}
+
 void RecapizalizeString(CString &str) {
     for (SLONG i = 0; str[i] != 0U; ++i) {
         if ((i != 0) && (i <= 0 || (str[i - 1] != ' ' && str[i - 1] != '-'))) {

@@ -118,8 +118,8 @@ void WaterBlur(SBBM *pTargetBm, SLONG AnimOffset, XY TargetOffset, SBBM &Reflexi
 
     if (pTargetBm->Size.x - 1 >= 0) {
         for (y = 0; y < ReflexionSourceBm.Size.y; y++) {
-            SLONG tx = SLONG(sin((timeGetTime() + sin((y + AnimOffset) / 10.0) * 2400) / 500.0) * 7);
-            // SLONG tx = SLONG(sin((timeGetTime()+y*240)/1000.0)*7);
+            SLONG tx = SLONG(sin((AtGetTime() + sin((y + AnimOffset) / 10.0) * 2400) / 500.0) * 7);
+            // SLONG tx = SLONG(sin((AtGetTime()+y*240)/1000.0)*7);
 
             for (x = 0; x < 16; x++) {
                 MoveOffset[x] = tx * x / 15;
@@ -290,8 +290,8 @@ CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0
         VogelBms.ReSize(pRoomLib, "VOGEL01", 8);
         VogelSail = 0;
         VogelY = 22 * 1000;
-        VogelOffset = timeGetTime() + rand() % 5000 + 2000;
-        LastVogelTime = timeGetTime();
+        VogelOffset = AtGetTime() + rand() % 5000 + 2000;
+        LastVogelTime = AtGetTime();
 
         ShipBm.ReSize(pRoomLib, "BOAT");
         ShipReflexBm.ReSize(pRoomLib, "BOATM");
@@ -302,7 +302,7 @@ CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0
 
         RoomBm.ReSize(640, 440);
 
-        ShipOffset = timeGetTime();
+        ShipOffset = AtGetTime();
 
         RocketPartBms.ReSize(pRoomLib, "ROCK00 ROCK01 ROCK02 ROCK03 ROCK05 ROCK07 ROCK06 ROCK09 ROCK08 ROCK04 "
                                        "ROCK00 ROCK01 ROCK12 ROCK03 ROCK15 ROCK17 ROCK16 ROCK09 ROCK18 ROCK14 "
@@ -375,17 +375,17 @@ void CInsel::OnPaint() {
     static SLONG gMouseScrollSpeed = 0;
     XY &ViewPos = Sim.Players.Players[PlayerNum].IslandViewPos;
 
-    XY BoatPos = XY(1300 - ((timeGetTime() - ShipOffset) / 80) - ViewPos.x, 264);
+    XY BoatPos = XY(1300 - ((AtGetTime() - ShipOffset) / 80) - ViewPos.x, 264);
     SBBM TempBm;
 
-    BoatPos.y += ((1300 - (SLONG(timeGetTime() - ShipOffset) / 80)) - 1280) / 60;
+    BoatPos.y += ((1300 - (SLONG(AtGetTime() - ShipOffset) / 80)) - 1280) / 60;
 
     if (bHandy == 0) {
         SetMouseLook(CURSOR_NORMAL, 0, ROOM_INSEL, 0);
     }
 
     if (Sim.UsedTelescope == 0) {
-        BlinkArrowsTimer = timeGetTime();
+        BlinkArrowsTimer = AtGetTime();
         Sim.UsedTelescope = TRUE;
     }
 
@@ -436,30 +436,30 @@ void CInsel::OnPaint() {
 
         // Ship+Gischt:
         RoomBm.BlitFromT(ShipBm, BoatPos);
-        ColorFX.BlitTrans(ShipWaveBms[SLONG(timeGetTime() / 100 % ShipWaveBms.AnzEntries())].pBitmap, RoomBm.pBitmap, BoatPos + XY(0, 57), nullptr, 4);
+        ColorFX.BlitTrans(ShipWaveBms[SLONG(AtGetTime() / 100 % ShipWaveBms.AnzEntries())].pBitmap, RoomBm.pBitmap, BoatPos + XY(0, 57), nullptr, 4);
 
         // Front-Layer (Berge)
         RoomBm.BlitFromT(FrontBm, -ViewPos.x, 440 - FrontBm.Size.y);
 
         // Vogel...
         if (VogelSail != 0) {
-            RoomBm.BlitFromT(VogelBms[SLONG(4)], (timeGetTime() - VogelOffset) / 25 - ViewPos.x, VogelY / 1000);
+            RoomBm.BlitFromT(VogelBms[SLONG(4)], (AtGetTime() - VogelOffset) / 25 - ViewPos.x, VogelY / 1000);
         } else {
-            RoomBm.BlitFromT(VogelBms[SLONG((timeGetTime() - VogelOffset) / 100 % VogelBms.AnzEntries())], (timeGetTime() - VogelOffset) / 25 - ViewPos.x,
+            RoomBm.BlitFromT(VogelBms[SLONG((AtGetTime() - VogelOffset) / 100 % VogelBms.AnzEntries())], (AtGetTime() - VogelOffset) / 25 - ViewPos.x,
                              VogelY / 1000);
         }
 
-        if ((VogelSail == 0) && ((timeGetTime() - VogelOffset) / 100 % VogelBms.AnzEntries()) == 4 && rand() % 10 == 0) {
+        if ((VogelSail == 0) && ((AtGetTime() - VogelOffset) / 100 % VogelBms.AnzEntries()) == 4 && rand() % 10 == 0) {
             VogelSail = 1;
         }
-        if ((VogelSail != 0) && ((timeGetTime() - VogelOffset) / 100 % VogelBms.AnzEntries()) == 4 && rand() % 7 == 0) {
+        if ((VogelSail != 0) && ((AtGetTime() - VogelOffset) / 100 % VogelBms.AnzEntries()) == 4 && rand() % 7 == 0) {
             VogelSail = 0;
         }
 
         if (VogelSail != 0) {
-            VogelY += (timeGetTime() - LastVogelTime) * 4;
+            VogelY += (AtGetTime() - LastVogelTime) * 4;
         }
-        LastVogelTime = timeGetTime();
+        LastVogelTime = AtGetTime();
 
         // Fernglas (Alpha):
         ColorFX.BlitAlpha(FernglasBms[2].pBitmap, RoomBm.pBitmap, XY(108, 0));
@@ -482,17 +482,17 @@ void CInsel::OnPaint() {
         RoomBm.BlitFrom(FernglasBms[1], 0, 346);
 
         // Wiederholung für Vogel und Schiff
-        if (timeGetTime() > DWORD(VogelOffset) && (timeGetTime() - VogelOffset) / 100 > 1400) {
-            VogelOffset = timeGetTime() + rand() % 5000 + 2000;
+        if (AtGetTime() > DWORD(VogelOffset) && (AtGetTime() - VogelOffset) / 100 > 1400) {
+            VogelOffset = AtGetTime() + rand() % 5000 + 2000;
             VogelY = 22 * 1000;
         }
 
-        if (timeGetTime() > DWORD(ShipOffset) && (timeGetTime() - ShipOffset) / 100 > 1400) {
-            ShipOffset = timeGetTime() + rand() % 5000 + 2000;
+        if (AtGetTime() > DWORD(ShipOffset) && (AtGetTime() - ShipOffset) / 100 > 1400) {
+            ShipOffset = AtGetTime() + rand() % 5000 + 2000;
         }
 
-        if ((BlinkArrowsTimer != 0) && timeGetTime() - BlinkArrowsTimer < 5000) {
-            if ((timeGetTime() - BlinkArrowsTimer) % 1000 < 500) {
+        if ((BlinkArrowsTimer != 0) && AtGetTime() - BlinkArrowsTimer < 5000) {
+            if ((AtGetTime() - BlinkArrowsTimer) % 1000 < 500) {
                 RoomBm.BlitFromT(gCursorLBm, 0, 220);
                 RoomBm.BlitFromT(gCursorRBm, 640 - gCursorRBm.Size.x, 220);
             }

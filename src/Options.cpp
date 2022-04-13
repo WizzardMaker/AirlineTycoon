@@ -469,7 +469,7 @@ void Options::OnPaint() {
                 if (SavegameInfos[Line - 2].GetLength() > 0 && (MenuIsOpen() == 0)) {
                     SetMouseLook(CURSOR_HOT, 5000 + Line, SavegameInfos[Line - 2], ROOM_OPTIONS, 0);
                     if (ToolTipState == FALSE) {
-                        ToolTipTimer = timeGetTime() - 601;
+                        ToolTipTimer = AtGetTime() - 601;
                     }
 
                     if (Line != LastLine) {
@@ -487,7 +487,7 @@ void Options::OnPaint() {
                 if (SavegameInfos[Line - 2].GetLength() > 0) {
                     SetMouseLook(CURSOR_HOT, 5000 + Line, SavegameInfos[Line - 2], ROOM_OPTIONS, 0);
                     if (ToolTipState == FALSE) {
-                        ToolTipTimer = timeGetTime() - 601;
+                        ToolTipTimer = AtGetTime() - 601;
                     }
                 }
             }
@@ -850,7 +850,7 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
                 gDisablePauseKey = FALSE;
 
                 if (Sim.bNetwork != 0) {
-                    Sim.UniqueGameId = ((timeGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
+                    Sim.UniqueGameId = ((AtGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
                     Sim.Players.Players[static_cast<SLONG>(PlayerNum)].NetSave(Sim.UniqueGameId, CursorY, (LPCTSTR)SavegameNames[CursorY]);
                 }
                 Sim.SaveGame(CursorY, (LPCTSTR)SavegameNames[CursorY]);
@@ -980,18 +980,9 @@ void Options::OnTimer(UINT nIDEvent) {
 //--------------------------------------------------------------------------------------------
 void Options::OnChar(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     if (CursorY != -1) {
-        if (nChar >= 'a' && nChar <= 'z') {
-            nChar = toupper(nChar);
-        }
-        if (nChar == '\xE4') {
-            nChar = static_cast<UINT>('\xC4');
-        }
-        if (nChar == '\xF6') {
-            nChar = static_cast<UINT>('\xD6');
-        }
-        if (nChar == '\xFC') {
-            nChar = static_cast<UINT>('\xDC');
-        }
+
+        nChar = KeycodeToUpper(nChar);
+
         if (nChar == ' ' || nChar == '-' || nChar == '+' || nChar == '.' || (nChar >= 'A' && nChar <= 'Z') || nChar == '\xC4' || nChar == '\xD6' ||
             nChar == '\xDC' || (nChar >= '0' && nChar <= '9')) {
             if ((SavenamesValid[CursorY] == 0) && strncmp(SavegameNames[CursorY], StandardTexte.GetS(TOKEN_MISC, 4073), 6) == 0) {
@@ -1009,12 +1000,12 @@ void Options::OnChar(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
             }
         }
 
-        if (nChar == VK_RETURN) {
+        if (nChar == ATKEY_RETURN) {
             CursorX = 0;
             gDisablePauseKey = FALSE;
 
             if (Sim.bNetwork != 0) {
-                Sim.UniqueGameId = ((timeGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
+                Sim.UniqueGameId = ((AtGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
                 Sim.Players.Players[static_cast<SLONG>(PlayerNum)].NetSave(Sim.UniqueGameId, CursorY, (LPCTSTR)SavegameNames[CursorY]);
             }
             Sim.SaveGame(CursorY, (LPCTSTR)SavegameNames[CursorY]);
@@ -1037,14 +1028,14 @@ void Options::OnChar(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
 //--------------------------------------------------------------------------------------------
 void Options::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     if (CursorY != -1) {
-        if (nChar == VK_LEFT && CursorX > 0) {
+        if (nChar == ATKEY_LEFT && CursorX > 0) {
             CursorX--;
         }
-        if (nChar == VK_RIGHT && CursorX < 19) {
+        if (nChar == ATKEY_RIGHT && CursorX < 19) {
             CursorX++;
         }
 
-        if (nChar == VK_BACK) {
+        if (nChar == ATKEY_BACK) {
             while (SavegameNames[CursorY].GetLength() < CursorX + 1) {
                 SavegameNames[CursorY] += " ";
             }
@@ -1056,7 +1047,7 @@ void Options::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
             }
         }
 
-        if (nChar == VK_ESCAPE) {
+        if (nChar == ATKEY_ESCAPE) {
             gDisablePauseKey = FALSE;
             UpdateSavegameNames();
             RefreshKlackerField();
@@ -1064,18 +1055,18 @@ void Options::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
         }
 
     } else {
-        if (nChar == VK_F3) {
+        if (nChar == ATKEY_F3) {
             UpdateSavegameNames();
             PageNum = 5;
             RefreshKlackerField();
         }
-        if (nChar == VK_F4) {
+        if (nChar == ATKEY_F4) {
             UpdateSavegameNames();
             PageNum = 6;
             RefreshKlackerField();
         }
 
-        if (nChar == VK_ESCAPE) {
+        if (nChar == ATKEY_ESCAPE) {
             Sim.Players.Players[Sim.localPlayer].LeaveRoom();
         }
     }

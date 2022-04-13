@@ -77,7 +77,7 @@ class CStdRaum {
     BOOL DisplayThisBubble{};    // TRUE, wenn Sprechblase des Dialoges angezeigt werden soll (FALSE, um sie wegen der Sprachausgabe auszublenden.)
 
   public:
-    SLONG TimeAtStart{}; // timeGetTime() als Menü oder Dialogblase geöffnet wurde
+    SLONG TimeAtStart{}; // AtGetTime() als Menü oder Dialogblase geöffnet wurde
 
     BOOL PayingForCall{}; // Bezahlt der Spieler dieses Gespräch?
 

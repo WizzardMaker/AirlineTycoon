@@ -1132,7 +1132,7 @@ void SB_CColorFX::BlitGlow(SB_CBitmapCore *SrcBitmap, SB_CBitmapCore *TgtBitmap,
     SLONG *pMap1 = Map1.getData();
     SLONG *pMap2 = Map2.getData();
 
-    auto Strength = SLONG(sin(timeGetTime() / 150.0) * 4 + 4);
+    auto Strength = SLONG(sin(AtGetTime() / 150.0) * 4 + 4);
 
     for (cy = 0; cy < BlendTables.AnzEntries() / 512; cy++) {
         pMap1[cy] = BlendTables.AnzEntries() / 512 - 1 - (8 - cy) * (8 - Strength) / 16;

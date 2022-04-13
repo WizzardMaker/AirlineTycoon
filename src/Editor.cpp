@@ -1050,7 +1050,7 @@ void CEditor::OnPaint() {
     // bool bCursorBlittedB = false;
     for (d = 0; d < Plane.Parts.AnzEntries(); d++) {
         if (Plane.Parts.IsInAlbum(d) != 0) {
-            BOOL bShift = 0; //(GetAsyncKeyState (VK_SHIFT)/256)!=0;
+            BOOL bShift = 0; //(AtGetAsyncKeyState (ATKEY_SHIFT)/256)!=0;
 
             SBBM &qBm = bShift != 0 ? (gEditorPlane2dBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex])
                                     : (PartBms[GetPlaneBuild(Plane.Parts[d].Shortname).BitmapIndex]);

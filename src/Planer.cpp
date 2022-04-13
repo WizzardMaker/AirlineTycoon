@@ -831,14 +831,14 @@ void CPlaner::DoPollingStuff() {
                                 }
                             }
 
-                            if ((GetAsyncKeyState(VK_SHIFT) & 0xff00) == 0) {
+                            if ((AtGetAsyncKeyState(ATKEY_SHIFT) & 0xff00) == 0) {
                                 break;
                             }
                         }
 
                         qPlayer.Planes[DragFlightPar1].CheckFlugplaene(PlayerNum, FALSE);
 
-                        if ((GetAsyncKeyState(VK_SHIFT) & 0xff00) != 0) {
+                        if ((AtGetAsyncKeyState(ATKEY_SHIFT) & 0xff00) != 0) {
                             for (c = DragFlightPar2; c < qPlan.Flug.AnzEntries(); c++) {
                                 if (qPlan.Flug[c].ObjectType != 0) {
                                     if (c + 1 < qPlan.Flug.AnzEntries() && qPlan.Flug[c + 1].ObjectType != 0) {
@@ -1531,7 +1531,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
 
         // Wiederholfunktion für Kerosinpreis erhöhen / verringern
         if ((gMouseLButton != 0) && (IsInClientAreaB != 0) && pBlock->BlockType == 2 && pBlock->IndexB == 0 && pBlock->BlockTypeB == 4 && pBlock->PageB == 0) {
-            if (ClientPosB.IfIsWithin(2, 40, 169, 118) && timeGetTime() - gMouseLButtonDownTimer > 800) {
+            if (ClientPosB.IfIsWithin(2, 40, 169, 118) && AtGetTime() - gMouseLButtonDownTimer > 800) {
                 /*
                 CRentRoute *pRRoute = nullptr;
                 SLONG SelectedIdB2 = 0;
@@ -1575,7 +1575,7 @@ void CPlaner::DoPostPaintPollingStuff(XY FlightPlanPos) {
                 pBlock->RefreshData(PlayerNum);
                 pBlock->Refresh(PlayerNum, IsLaptop);
 
-                gMouseLButtonDownTimer = timeGetTime() - 400;
+                gMouseLButtonDownTimer = AtGetTime() - 400;
             }
         }
 
@@ -1621,7 +1621,7 @@ void CPlaner::HandleLButtonDown() {
         return;
     }
 
-    gMouseLButtonDownTimer = timeGetTime();
+    gMouseLButtonDownTimer = AtGetTime();
 
     // in einen Flugzeugblock ==> Wechsel zur Tagesansicht:
     if ((MouseClickArea == ROOM_GLOBE || MouseClickArea == ROOM_LAPTOP) && MouseClickId == 104) {
@@ -1857,7 +1857,7 @@ void CPlaner::HandleLButtonDown() {
                         qPlayer.UpdateFrachtauftragsUsage();
 
                         // Auftrag vom Cursor ersetzen:
-                        if ((CurrentPostItType != 1 || ((GetAsyncKeyState(VK_SHIFT) & 0xff00) == 0)) &&
+                        if ((CurrentPostItType != 1 || ((AtGetAsyncKeyState(ATKEY_SHIFT) & 0xff00) == 0)) &&
                             (CurrentPostItType != 4 || qPlayer.Frachten[CurrentPostItId].TonsOpen <= 0)) {
                             CurrentPostItType = tmpObjectType;
                             CurrentPostItId = tmpObjectId;
@@ -1907,7 +1907,7 @@ void CPlaner::HandleLButtonDown() {
                                 TookUnderCursorWithThisClick = TRUE;
                             }
 
-                            if (qPlan.Flug[c].ObjectType != 1 || ((GetAsyncKeyState(VK_SHIFT) & 0xff00) == 0)) {
+                            if (qPlan.Flug[c].ObjectType != 1 || ((AtGetAsyncKeyState(ATKEY_SHIFT) & 0xff00) == 0)) {
                                 qPlan.Flug[c].ObjectType = 0;
                             }
 
@@ -2615,7 +2615,7 @@ void CPlaner::HandleLButtonUp() {
                             qPlayer.NetUpdateFlightplan(pBlock->SelectedId);
 
                             // Auftrag vom Cursor ersetzen:
-                            if (CurrentPostItType != 1 || ((GetAsyncKeyState(VK_SHIFT) & 0xff00) == 0)) {
+                            if (CurrentPostItType != 1 || ((AtGetAsyncKeyState(ATKEY_SHIFT) & 0xff00) == 0)) {
                                 CurrentPostItType = tmpObjectType;
                                 CurrentPostItId = tmpObjectId;
                             }

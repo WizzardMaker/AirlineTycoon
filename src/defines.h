@@ -948,12 +948,40 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define NET_MEDIUM_IPX 4
 #define NET_MEDIUM_SIMTCPIP 5
 
-#ifdef WIN32
-#define VK_RETURN2 SDLK_KP_ENTER
-#else
+#define ATKEY_CONTROL KMOD_CTRL
+#define ATKEY_SHIFT KMOD_SHIFT
+#define ATKEY_ALT KMOD_ALT
+#define ATKEY_MENU KMOD_GUI
+#define ATKEY_RETURN SDLK_RETURN
+#define ATKEY_RETURN2 SDLK_KP_ENTER
+#define ATKEY_ESCAPE SDLK_ESCAPE
+#define ATKEY_BACK SDLK_BACKSPACE
+#define ATKEY_TAB SDLK_TAB
+#define ATKEY_PAUSE SDLK_PAUSE
+#define ATKEY_SCROLL SDLK_SCROLLLOCK
+#define ATKEY_SPACE SDLK_SPACE
+#define ATKEY_UP SDLK_UP
+#define ATKEY_DOWN SDLK_DOWN
+#define ATKEY_LEFT SDLK_LEFT
+#define ATKEY_RIGHT SDLK_RIGHT
+#define ATKEY_PRIOR SDLK_PAGEUP
+#define ATKEY_NEXT SDLK_PAGEDOWN
+#define ATKEY_INSERT SDLK_INSERT
+#define ATKEY_DELETE SDLK_DELETE
+#define ATKEY_F1 SDLK_F1
+#define ATKEY_F2 SDLK_F2
+#define ATKEY_F3 SDLK_F3
+#define ATKEY_F4 SDLK_F4
+#define ATKEY_F5 SDLK_F5
+#define ATKEY_F6 SDLK_F6
+#define ATKEY_F7 SDLK_F7
+#define ATKEY_F8 SDLK_F8
+#define ATKEY_F9 SDLK_F9
+#define ATKEY_F10 SDLK_F10
+#define ATKEY_F11 SDLK_F11
+#define ATKEY_F12 SDLK_F12
 
-#define MAX_PATH 256
-
+#ifndef WIN32
 #define WM_MOUSEMOVE 0x0200
 #define WM_LBUTTONDOWN 0x0201
 #define WM_LBUTTONUP 0x0202
@@ -965,44 +993,10 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 #define WM_MBUTTONUP 0x0208
 #define WM_MBUTTONDBLCLK 0x0209
 
-#define VK_CONTROL KMOD_CTRL
-#define VK_SHIFT KMOD_SHIFT
-#define VK_ALT KMOD_ALT
-#define VK_MENU KMOD_GUI
-#define VK_RETURN SDLK_RETURN
-#define VK_RETURN2 SDLK_KP_ENTER
-#define VK_ESCAPE SDLK_ESCAPE
-#define VK_BACK SDLK_BACKSPACE
-#define VK_TAB SDLK_TAB
-#define VK_PAUSE SDLK_PAUSE
-#define VK_SCROLL SDLK_SCROLLLOCK
-#define VK_SPACE SDLK_SPACE
-#define VK_UP SDLK_UP
-#define VK_DOWN SDLK_DOWN
-#define VK_LEFT SDLK_LEFT
-#define VK_RIGHT SDLK_RIGHT
-#define VK_PRIOR SDLK_PAGEUP
-#define VK_NEXT SDLK_PAGEDOWN
-#define VK_INSERT SDLK_INSERT
-#define VK_DELETE SDLK_DELETE
-#define VK_F1 SDLK_F1
-#define VK_F2 SDLK_F2
-#define VK_F3 SDLK_F3
-#define VK_F4 SDLK_F4
-#define VK_F5 SDLK_F5
-#define VK_F6 SDLK_F6
-#define VK_F7 SDLK_F7
-#define VK_F8 SDLK_F8
-#define VK_F9 SDLK_F9
-#define VK_F10 SDLK_F10
-#define VK_F11 SDLK_F11
-#define VK_F12 SDLK_F12
-
 #define RGB(r, g, b) ((COLORREF)(((BYTE)(r) | ((WORD)((BYTE)(g)) << 8)) | (((DWORD)(BYTE)(b)) << 16)))
 #define GetRValue(rgb) ((unsigned char)((rgb)&0xFF))
 #define GetGValue(rgb) ((unsigned char)(((rgb) >> 8) & 0xFF))
 #define GetBValue(rgb) ((unsigned char)(((rgb) >> 16) & 0xFF))
-//#define ZeroMemory(ptr, size) memset(ptr, 0, size)
 #define stricmp strcasecmp
 #define strnicmp strncasecmp
 
@@ -1011,7 +1005,5 @@ inline bool operator!=(const CPoint &lhs, const CPoint &rhs) { return !(lhs == r
 
 #define HTNOWHERE 0
 #define HTCLIENT 1
-
-#define __forceinline inline
 
 #endif

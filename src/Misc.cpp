@@ -1799,7 +1799,7 @@ void TEAKRAND::SRand(ULONG Seed) { Seed = Value = Seed; }
 //--------------------------------------------------------------------------------------------
 // nachträglicher Kondtruktor mit Seed aus Uhrzeit
 //--------------------------------------------------------------------------------------------
-void TEAKRAND::SRandTime() { Seed = Value = timeGetTime(); }
+void TEAKRAND::SRandTime() { Seed = Value = AtGetTime(); }
 
 //--------------------------------------------------------------------------------------------
 // Setzt den Zufallsgenerator auf dem exakten Zustand nach dem Konstruktor zurück:
@@ -2034,12 +2034,6 @@ CString RemoveAccents(CString str) {
 //--------------------------------------------------------------------------------------------
 // Win32 replacement:
 //--------------------------------------------------------------------------------------------
-DWORD timeGetTime() {
-    std::chrono::nanoseconds now = std::chrono::steady_clock::now().time_since_epoch();
-    return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
-}
-
-DWORD GetTickCount() { return SDL_GetTicks(); }
 
 BOOL OffsetRect(RECT *pRect, SLONG dx, SLONG dy) {
     pRect->left += dx;
@@ -2050,9 +2044,16 @@ BOOL OffsetRect(RECT *pRect, SLONG dx, SLONG dy) {
 }
 
 void DebugBreak() { assert(0); }
-
-SLONG GetAsyncKeyState(SLONG vKey) { return (SDL_GetModState() & vKey) != 0 ? 0x8000 : 0; }
 #endif
+
+DWORD AtGetTime() {
+    std::chrono::nanoseconds now = std::chrono::steady_clock::now().time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+}
+
+DWORD AtGetTickCount() { return SDL_GetTicks(); }
+
+SLONG AtGetAsyncKeyState(SLONG vKey) { return (SDL_GetModState() & vKey) != 0 ? 0x8000 : 0; }
 
 const char *getRobotActionName(SLONG a) {
     switch (a) {

@@ -80,7 +80,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
     if (DialogPartner != TALKER_NONE) {
         // Klick ignorieren, wenn er erst anfängt zu reden:
         if (pSmackerPartner != nullptr && TextAlign == 0 && pSmackerPartner->GetMood() != SPM_TALKING &&
-            timeGetTime() <= static_cast<DWORD>(SmackerTimeToTalk)) {
+            AtGetTime() <= static_cast<DWORD>(SmackerTimeToTalk)) {
             // Hack, damit leerer Sprach-Text weggeklickt werden kann:
             if (CanCancelEmpty != TRUE) {
                 return (TRUE);
@@ -90,13 +90,13 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
         // Verhindern, daß ein Doppelklick ein Thema zweimal aufbringt:
         static SLONG LastClickTime;
         static SLONG LastClickId = -1;
-        if (LastClickId == MouseClickPar1 && timeGetTime() - LastClickTime < 1000) {
+        if (LastClickId == MouseClickPar1 && AtGetTime() - LastClickTime < 1000) {
             return (TRUE);
         }
         LastClickId = MouseClickPar1;
-        LastClickTime = timeGetTime();
+        LastClickTime = AtGetTime();
 
-        if (CurrentMenu == MENU_GAMEOVER && timeGetTime() - TimeAtStart < 500) {
+        if (CurrentMenu == MENU_GAMEOVER && AtGetTime() - TimeAtStart < 500) {
             return (TRUE);
         }
 

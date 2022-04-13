@@ -675,7 +675,7 @@ void BLOCK::LinkeSeiteInhalt(XY TitleArea, XY ClientArea) {
                                ClientArea + XY(2, 19 + 19 * c), ClientArea + XY(172, 170));
             }
 
-            if (((GetAsyncKeyState(VK_SHIFT) / 256) != 0) && ((GetAsyncKeyState(VK_CONTROL) / 256) != 0)) {
+            if (((AtGetAsyncKeyState(ATKEY_SHIFT) / 256) != 0) && ((AtGetAsyncKeyState(ATKEY_CONTROL) / 256) != 0)) {
                 Plan.Dump();
             }
 

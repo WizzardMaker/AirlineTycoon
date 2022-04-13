@@ -151,9 +151,9 @@ void CLastMinute::OnPaint() {
     static XY LastMouse;
 
     static SLONG LastTime;
-    SLONG DeltaTime = timeGetTime() - LastTime;
+    SLONG DeltaTime = AtGetTime() - LastTime;
 
-    LastTime = timeGetTime();
+    LastTime = AtGetTime();
 
     // Koordinaten für kleine Fenster konvertieren:
     ConvertMousePosition(point, &RoomPos);

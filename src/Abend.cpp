@@ -301,12 +301,12 @@ void CAbend::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
 // void CAbend::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
 void CAbend::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-    if (nChar == VK_ESCAPE) {
+    if (nChar == ATKEY_ESCAPE) {
         Sim.bNoTime = FALSE;
         Sim.DayState = 4; // Sequenz beenden
     }
 
-    if (nChar == VK_SPACE && Room == 1) {
+    if (nChar == ATKEY_SPACE && Room == 1) {
         Ticker = 59;
     }
 

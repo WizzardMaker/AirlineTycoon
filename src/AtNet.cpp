@@ -104,11 +104,11 @@ void DisplayBroadcastMessage(CString str, SLONG FromPlayer) {
     if (FromPlayer != Sim.localPlayer) {
         static SLONG LastTime = 0;
 
-        if (timeGetTime() - LastTime > 500) {
+        if (AtGetTime() - LastTime > 500) {
             PlayUniversalFx("netmsg.raw", Sim.Options.OptionEffekte);
         }
 
-        LastTime = timeGetTime();
+        LastTime = AtGetTime();
     }
 
     if (FromPlayer >= 0 && FromPlayer < 4) {
@@ -166,11 +166,11 @@ void PumpBroadcastBitmap(bool bJustForEmergency) {
     static SLONG LastTimeCalled = 0;
 
     if (bJustForEmergency) {
-        if (timeGetTime() - LastTimeCalled < 500) {
+        if (AtGetTime() - LastTimeCalled < 500) {
             return;
         }
     } else {
-        LastTimeCalled = timeGetTime();
+        LastTimeCalled = AtGetTime();
     }
 
     if (gBroadcastTimeout > 0 && gBroadcastBm.Size.y < 200) {
@@ -210,9 +210,9 @@ void PumpNetwork() {
     if (Sim.bThisIsSessionMaster && Sim.Time > 9 * 60000 && Sim.Time < 18 * 60000 && (Sim.CallItADay == 0) && (Sim.CallItADayAt == 0)) {
         static DWORD LastTime = 0;
 
-        if (timeGetTime() - LastTime > 1000) {
+        if (AtGetTime() - LastTime > 1000) {
             SIM::SendSimpleMessage(ATNET_TIMEPING, 0, Sim.TimeSlice);
-            LastTime = timeGetTime();
+            LastTime = AtGetTime();
         }
     }
 

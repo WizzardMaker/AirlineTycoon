@@ -148,7 +148,7 @@ void CIntro::OnPaint() {
     SDL_PauseAudioDevice(audioDevice, 0);
 
     if (pSmack != nullptr) {
-        if (timeGetTime() >= FrameNext && State == SMK_MORE) {
+        if (AtGetTime() >= FrameNext && State == SMK_MORE) {
             // Take the next frame:
             Bitmap.ReSize(XY(Width, Height), CREATE_SYSMEM | CREATE_INDEXED);
             {
@@ -166,7 +166,7 @@ void CIntro::OnPaint() {
 
             DOUBLE usf = NAN;
             smk_info_all(pSmack, nullptr, nullptr, &usf);
-            FrameNext = timeGetTime() + (usf / 1000.0);
+            FrameNext = AtGetTime() + (usf / 1000.0);
         }
 
         PrimaryBm.BlitFrom(Bitmap, 320 - Width / 2, 240 - Height / 2);
@@ -175,7 +175,7 @@ void CIntro::OnPaint() {
             if (Sim.Options.OptionViewedIntro == 0) {
                 FadeFrom.BlitFrom(Bitmap, 320 - Width / 2, 240 - Height / 2);
 
-                FadeCount = timeGetTime();
+                FadeCount = AtGetTime();
 
                 smk_close(pSmack);
                 pSmack = nullptr;
@@ -184,13 +184,13 @@ void CIntro::OnPaint() {
             }
         }
     } else {
-        if (timeGetTime() - FadeCount < 1000) {
-            SLONG Level = min(1000, timeGetTime() - FadeCount) * 8 / 1000;
+        if (AtGetTime() - FadeCount < 1000) {
+            SLONG Level = min(1000, AtGetTime() - FadeCount) * 8 / 1000;
             ColorFX.ApplyOn2(Level, FadeTo.pBitmap, 8 - Level, FadeFrom.pBitmap, &PrimaryBm.PrimaryBm);
         } else {
             PrimaryBm.BlitFrom(FadeTo);
 
-            if (timeGetTime() - FadeCount > 3000) {
+            if (AtGetTime() - FadeCount > 3000) {
                 Sim.Gamestate = GAMESTATE_BOOT;
             }
         }
@@ -204,7 +204,7 @@ void CIntro::OnLButtonDown(UINT /*nFlags*/, CPoint /*point*/) {
     if ((pSmack != nullptr) && Sim.Options.OptionViewedIntro == 0) {
         FadeFrom.BlitFrom(Bitmap, 320 - Width / 2, 240 - Height / 2);
 
-        FadeCount = timeGetTime();
+        FadeCount = AtGetTime();
 
         smk_close(pSmack);
         pSmack = nullptr;
@@ -222,7 +222,7 @@ void CIntro::OnRButtonDown(UINT /*nFlags*/, CPoint /*point*/) {
     if ((pSmack != nullptr) && Sim.Options.OptionViewedIntro == 0) {
         FadeFrom.BlitFrom(Bitmap, 320 - Width / 2, 240 - Height / 2);
 
-        FadeCount = timeGetTime();
+        FadeCount = AtGetTime();
 
         smk_close(pSmack);
         pSmack = nullptr;
@@ -245,11 +245,11 @@ void CIntro::OnMouseMove(UINT nFlags, CPoint point) { FrameWnd->OnMouseMove(nFla
 // void CIntro::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 //--------------------------------------------------------------------------------------------
 void CIntro::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
-    if (nChar == VK_ESCAPE) {
+    if (nChar == ATKEY_ESCAPE) {
         if ((pSmack != nullptr) && Sim.Options.OptionViewedIntro == 0) {
             FadeFrom.BlitFrom(Bitmap, 320 - Width / 2, 240 - Height / 2);
 
-            FadeCount = timeGetTime();
+            FadeCount = AtGetTime();
 
             smk_close(pSmack);
             pSmack = nullptr;

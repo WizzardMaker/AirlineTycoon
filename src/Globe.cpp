@@ -416,15 +416,15 @@ void CGlobe::OnPaint() {
 
             if (pBlock->Page / pBlock->PageSize < pBlock->AnzPages - 1 && CurrentBlockPos.IfIsWithin(208, 233, 231, 255)) {
                 SetMouseLook(CURSOR_RIGHT, 0, ROOM_GLOBE, 100, 30); // Next
-                if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 1000) {
+                if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 1000) {
                     OnLButtonDown(0, CPoint(0, 0));
-                    gMouseLButtonDownTimer = timeGetTime() - 870;
+                    gMouseLButtonDownTimer = AtGetTime() - 870;
                 }
             } else if (pBlock->Page > 0 && CurrentBlockPos.IfIsWithin(40, 237, 60, 256)) {
                 SetMouseLook(CURSOR_LEFT, 0, ROOM_GLOBE, 100, 31); // Prev
-                if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 1000) {
+                if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 1000) {
                     OnLButtonDown(0, CPoint(0, 0));
-                    gMouseLButtonDownTimer = timeGetTime() - 870;
+                    gMouseLButtonDownTimer = AtGetTime() - 870;
                 }
             } else if (pBlock->BlockType > 0 && pBlock->Index != 1 && CurrentBlockPos.IfIsWithin(0, 178 - 100, 36, 281 - 100)) { // Klick auf "Index"...
                 SetMouseLook(CURSOR_HOT, 0, ROOM_GLOBE, 100, 35);
@@ -434,16 +434,16 @@ void CGlobe::OnPaint() {
                 if (pBlock->PageB / pBlock->PageSizeB < pBlock->AnzPagesB - 1 && CurrentBlockPos.IfIsWithin(208 + 232, 233, 231 + 232, 255)) //"Next" B...
                 {
                     SetMouseLook(CURSOR_RIGHT, 0, ROOM_GLOBE, 100, 40);
-                    if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 1000) {
+                    if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 1000) {
                         OnLButtonDown(0, CPoint(0, 0));
-                        gMouseLButtonDownTimer = timeGetTime() - 870;
+                        gMouseLButtonDownTimer = AtGetTime() - 870;
                     }
                 } else if (pBlock->PageB > 0 && CurrentBlockPos.IfIsWithin(40 + 232, 237, 60 + 232, 256)) //"Prev" B...
                 {
                     SetMouseLook(CURSOR_LEFT, 0, ROOM_GLOBE, 100, 41);
-                    if ((gMouseLButton != 0) && timeGetTime() - gMouseLButtonDownTimer > 1000) {
+                    if ((gMouseLButton != 0) && AtGetTime() - gMouseLButtonDownTimer > 1000) {
                         OnLButtonDown(0, CPoint(0, 0));
-                        gMouseLButtonDownTimer = timeGetTime() - 870;
+                        gMouseLButtonDownTimer = AtGetTime() - 870;
                     }
                 } else if (pBlock->IndexB != 1 && CurrentBlockPos.IfIsWithin(0 + 232, 178 - 100, 36 + 232, 281 - 100)) { // Klick auf "Index" B...
                     SetMouseLook(CURSOR_HOT, 0, ROOM_GLOBE, 100, 45);
@@ -827,15 +827,15 @@ void CGlobe::OnRButtonUp(UINT /*nFlags*/, CPoint /*point*/) { CPlaner::HandleRBu
 void CGlobe::OnChar(UINT nChar, UINT a, UINT b) { CStdRaum::OnChar(nChar, a, b); }
 void CGlobe::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
     switch (nChar) {
-    case VK_UP:
-    case VK_LEFT:
+    case ATKEY_UP:
+    case ATKEY_LEFT:
         CPlaner::ButtonPrev();
         return;
-    case VK_DOWN:
-    case VK_RIGHT:
+    case ATKEY_DOWN:
+    case ATKEY_RIGHT:
         CPlaner::ButtonNext();
         return;
-    case VK_BACK:
+    case ATKEY_BACK:
         if (!MenuIsOpen()) {
             CPlaner::ButtonIndex();
         } else {

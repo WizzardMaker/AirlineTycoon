@@ -57,13 +57,13 @@ void CSmack16::Open(const CString &Filename) {
 // Nächster Frame:
 //--------------------------------------------------------------------------------------------
 BOOL CSmack16::Next(SBBM *pTargetBm) {
-    if (timeGetTime() >= FrameNext && State == SMK_MORE) {
+    if (AtGetTime() >= FrameNext && State == SMK_MORE) {
         // Take the next frame:
         State = smk_next(pSmack);
 
         DOUBLE usf = NAN;
         smk_info_all(pSmack, nullptr, nullptr, &usf);
-        FrameNext = timeGetTime() + (usf / 1000.0);
+        FrameNext = AtGetTime() + (usf / 1000.0);
 
         if (pTargetBm != nullptr) {
             if (SLONG(Width) != pTargetBm->Size.x || SLONG(Height) != pTargetBm->Size.y) {
@@ -284,7 +284,7 @@ void CSmackerClip::NextSyllable() {
 void CSmackerClip::PlaySyllable() {
     if (SoundFx.pFX != nullptr) {
         SoundFx.Play(0, Sim.Options.OptionEffekte * 100 / 7);
-        TickerNext = timeGetTime() + SoundFx.pFX->GetByteLength() * 1000 / 22000;
+        TickerNext = AtGetTime() + SoundFx.pFX->GetByteLength() * 1000 / 22000;
         IsFXPlaying = TRUE;
     } else {
         TickerNext = 0;
@@ -370,7 +370,7 @@ void CSmackerPerson::Pump() {
         return;
     }
 
-    if (ActiveClip != -1 && (Clips[ActiveClip].IsFXPlaying != 0) && Clips[ActiveClip].NumSoundFx > 1 && timeGetTime() > Clips[ActiveClip].TickerNext) {
+    if (ActiveClip != -1 && (Clips[ActiveClip].IsFXPlaying != 0) && Clips[ActiveClip].NumSoundFx > 1 && AtGetTime() > Clips[ActiveClip].TickerNext) {
         Clips[ActiveClip].NextSyllable();
         Clips[ActiveClip].PlaySyllable();
     }
@@ -398,7 +398,7 @@ void CSmackerPerson::Pump() {
             DOUBLE usf = NAN;
             smk_next(Clips[ActiveClip].pSmack);
             smk_info_all(Clips[ActiveClip].pSmack, &Clips[ActiveClip].FrameNum, &Clips[ActiveClip].Frames, &usf);
-            Clips[ActiveClip].FrameNext = timeGetTime() + (usf / 1000.0);
+            Clips[ActiveClip].FrameNext = AtGetTime() + (usf / 1000.0);
         }
 
         return;
@@ -436,7 +436,7 @@ void CSmackerPerson::Pump() {
         DOUBLE usf = NAN;
         smk_next(Clips[ActiveClip].pSmack);
         smk_info_all(Clips[ActiveClip].pSmack, &Clips[ActiveClip].FrameNum, &Clips[ActiveClip].Frames, &usf);
-        Clips[ActiveClip].FrameNext = timeGetTime() + (usf / 1000.0);
+        Clips[ActiveClip].FrameNext = AtGetTime() + (usf / 1000.0);
     }
 
     if ((Clips[ActiveClip].CanCancelClip != 0) &&
@@ -449,7 +449,7 @@ void CSmackerPerson::Pump() {
     }
 
     if (Clips[ActiveClip].State == SMACKER_CLIP_PLAYING) {
-        if (timeGetTime() >= Clips[ActiveClip].FrameNext) {
+        if (AtGetTime() >= Clips[ActiveClip].FrameNext) {
             // Take the next frame:
             CalculatePalettemapper(smk_get_palette(Clips[ActiveClip].pSmack), Clips[ActiveClip].PaletteMapper);
             Bitmap.ReSize(XY(Clips[ActiveClip].Width, Clips[ActiveClip].Height), CREATE_INDEXED);
@@ -505,7 +505,7 @@ void CSmackerPerson::Pump() {
                 // End of Animation...
                 if (Clips[ActiveClip].PostWait.y > 0) {
                     Clips[ActiveClip].WaitCount =
-                        (Clips[ActiveClip].PostWait.x + rand() % (Clips[ActiveClip].PostWait.y - Clips[ActiveClip].PostWait.x + 1)) * 50 + timeGetTime();
+                        (Clips[ActiveClip].PostWait.x + rand() % (Clips[ActiveClip].PostWait.y - Clips[ActiveClip].PostWait.x + 1)) * 50 + AtGetTime();
                     Clips[ActiveClip].State = SMACKER_CLIP_WAITING;
                 } else {
                     if (CurrentMood != DesiredMood || (CurrentMood != SPM_TALKING && CurrentMood != SPM_ANGRY_TALKING)) {
@@ -529,11 +529,11 @@ void CSmackerPerson::Pump() {
                     smk_next(Clips[ActiveClip].pSmack);
                 }
                 smk_info_all(Clips[ActiveClip].pSmack, &Clips[ActiveClip].FrameNum, &Clips[ActiveClip].Frames, &usf);
-                Clips[ActiveClip].FrameNext = timeGetTime() + (usf / 1000.0);
+                Clips[ActiveClip].FrameNext = AtGetTime() + (usf / 1000.0);
             }
         }
     } else if (Clips[ActiveClip].State == SMACKER_CLIP_WAITING) {
-        if (SLONG(timeGetTime()) > Clips[ActiveClip].WaitCount) {
+        if (SLONG(AtGetTime()) > Clips[ActiveClip].WaitCount) {
             Clips[ActiveClip].Stop();
             NextClip();
         }

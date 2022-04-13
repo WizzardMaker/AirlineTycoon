@@ -28,6 +28,7 @@ extern char *TeakStrRemoveCppComment(char *);
 extern char *TeakStrRemoveEndingCodes(char *, char const *);
 extern unsigned char GerToLower(unsigned char);
 extern unsigned char GerToUpper(unsigned char);
+extern UINT KeycodeToUpper(UINT nChar);
 extern void RecapizalizeString(CString &str);
 extern const char *GetSuffix(const char *);
 

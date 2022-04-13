@@ -139,7 +139,7 @@ void NewGamePopup::Konstruktor(BOOL /*bHandy*/, SLONG /*PlayerNum*/) {
             if (gNetwork.CreateSession(SBStr("somesession"), &cr)) {
                 Sim.bIsHost = TRUE;
                 Sim.SessionName = NetworkSession;
-                Sim.UniqueGameId = ((timeGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
+                Sim.UniqueGameId = ((AtGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
                 bThisIsSessionMaster = true;
                 PlayerReadyAt = 0;
 
@@ -540,7 +540,7 @@ void NewGamePopup::RefreshKlackerField() {
                 }
             }
 
-            if (PageNum == 18 && PlayerReadyAt > timeGetTime()) {
+            if (PageNum == 18 && PlayerReadyAt > AtGetTime()) {
                 c = -1;
             }
             if (PageNum == 18 &&
@@ -650,7 +650,7 @@ void NewGamePopup::RefreshKlackerField() {
             CString Buffer = pNetworkSessions->GetLastAccessed();
 
             for (SLONG d = 0; d < Buffer.GetLength(); d++) {
-                Buffer.SetAt(d, GerToUpper(Buffer[static_cast<SLONG>(d)]));
+                Buffer.SetAt(d, KeycodeToUpper(Buffer[static_cast<SLONG>(d)]));
             }
 
             KlackerTafel.PrintAt(3, 2 + c, Buffer);
@@ -876,7 +876,7 @@ void NewGamePopup::OnPaint() {
                     o = 0;
                 }
                 if (o == 3) {
-                    if ((timeGetTime() % 1700) > 600) {
+                    if ((AtGetTime() % 1700) > 600) {
                         o = 0;
                     } else {
                         o = 1;
@@ -1107,7 +1107,7 @@ void NewGamePopup::OnPaint() {
                         }
                     }
 
-                    if (PageNum == 18 && PlayerReadyAt > timeGetTime()) {
+                    if (PageNum == 18 && PlayerReadyAt > AtGetTime()) {
                         c = -1;
                     }
                     if (PageNum == 18 && ((UnselectedNetworkIDs[0] != 0U) || (UnselectedNetworkIDs[1] != 0U) || (UnselectedNetworkIDs[2] != 0U) ||
@@ -1394,7 +1394,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                             return;
                         }
 
-                        if (PlayerReadyAt > timeGetTime()) {
+                        if (PlayerReadyAt > AtGetTime()) {
                             return;
                         }
 
@@ -1798,7 +1798,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                 if (gNetwork.CreateSession(SBStr("somesession"), &cr)) {
                     Sim.bIsHost = TRUE;
                     Sim.SessionName = NetworkSession;
-                    Sim.UniqueGameId = ((timeGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
+                    Sim.UniqueGameId = ((AtGetTime() ^ DWORD(rand() % 30000) ^ gMousePosition.x ^ gMousePosition.y) & 0x7fffffff);
                     bThisIsSessionMaster = true;
                     PlayerReadyAt = 0;
 
@@ -1948,7 +1948,7 @@ void NewGamePopup::CheckNetEvents() {
                 case ATNET_ENTERNAME:
                     Message >> Par1;
                     Message >> Sim.Players.Players[static_cast<SLONG>(Par1)].Name;
-                    PlayerReadyAt = max(PlayerReadyAt, timeGetTime() + READYTIME_CLICK);
+                    PlayerReadyAt = max(PlayerReadyAt, AtGetTime() + READYTIME_CLICK);
                     RefreshKlackerField();
                     break;
 
@@ -2033,7 +2033,7 @@ void NewGamePopup::CheckNetEvents() {
                                 }
                             }
 
-                            PlayerReadyAt = max(PlayerReadyAt, timeGetTime() + READYTIME_JOIN);
+                            PlayerReadyAt = max(PlayerReadyAt, AtGetTime() + READYTIME_JOIN);
                             RefreshKlackerField();
                             PushNames();
                         }
@@ -2089,7 +2089,7 @@ void NewGamePopup::CheckNetEvents() {
                         memswap(&Sim.Players.Players[OldIndex].NetworkID, &Sim.Players.Players[NewIndex].NetworkID, sizeof(ULONG));
                     }
 
-                    PlayerReadyAt = max(PlayerReadyAt, timeGetTime() + READYTIME_CLICK);
+                    PlayerReadyAt = max(PlayerReadyAt, AtGetTime() + READYTIME_CLICK);
                     Sim.Players.Players[NewIndex].Owner = 2;
                     Sim.Players.Players[NewIndex].NetworkID = PlayerNetworkID;
                     RefreshKlackerField();
@@ -2412,18 +2412,7 @@ void NewGamePopup::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
         CStdRaum::OnChar(nChar, nRepCnt, nFlags);
     }
 
-    if (nChar >= 'a' && nChar <= 'z') {
-        nChar = toupper(nChar);
-    }
-    if (nChar == '\xE4') {
-        nChar = static_cast<UINT>('\xC4');
-    }
-    if (nChar == '\xF6') {
-        nChar = static_cast<UINT>('\xD6');
-    }
-    if (nChar == '\xFC') {
-        nChar = static_cast<UINT>('\xDC');
-    }
+    nChar = KeycodeToUpper(nChar);
 
     if (CursorY != -1 && (PageNum == 2 || PageNum == 14 || PageNum == 18)) {
         if (nChar == '-' || nChar == ' ' || (nChar >= 'A' && nChar <= 'Z') || nChar == '\xC4' || nChar == '\xD6' || nChar == '\xDC' || nChar == '.') {
@@ -2448,7 +2437,7 @@ void NewGamePopup::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
             }
         }
 
-        if (nChar == VK_RETURN) {
+        if (nChar == ATKEY_RETURN) {
             CursorX = 0;
             if (CursorY < 6) {
                 CursorY += 2;
@@ -2475,7 +2464,7 @@ void NewGamePopup::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
     }
 
     if (CursorY != -1 && (PageNum == 2 || PageNum == 14 || PageNum == 18)) {
-        if (nChar == VK_LEFT) {
+        if (nChar == ATKEY_LEFT) {
             if (CursorX > 0) {
                 CursorX--;
             } else if (CursorX == 0 && (CursorY & 1) == 1) {
@@ -2483,7 +2472,7 @@ void NewGamePopup::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
             } else if (CursorX < -1 && CursorX > -3) {
                 CursorX--;
             }
-        } else if (nChar == VK_BACK) {
+        } else if (nChar == ATKEY_BACK) {
             if (CursorX > 0) {
                 CursorX--;
 
@@ -2497,7 +2486,7 @@ void NewGamePopup::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                 RefreshKlackerField();
                 KlackerTafel.Warp();
             }
-        } else if (nChar == VK_DELETE) {
+        } else if (nChar == ATKEY_DELETE) {
             /*if (CursorX>=0)
               {*/
             CString &str = Sim.Players.Players[SLONG(CursorY / 2)].Name;
@@ -2512,28 +2501,28 @@ void NewGamePopup::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
             /*}*/
         }
 
-        if (nChar == VK_RIGHT && CursorX < 17) {
+        if (nChar == ATKEY_RIGHT && CursorX < 17) {
             CursorX++;
             if (CursorX == -1) {
                 CursorX++;
             }
         }
 
-        if (nChar == VK_UP && (CursorY > 1 || CursorX >= 0) && !gNetwork.IsInSession()) {
+        if (nChar == ATKEY_UP && (CursorY > 1 || CursorX >= 0) && !gNetwork.IsInSession()) {
             if (CursorY > 0) {
                 CursorY -= 2;
             }
         }
 
-        if (nChar == VK_DOWN && CursorY < 6 && !gNetwork.IsInSession()) {
+        if (nChar == ATKEY_DOWN && CursorY < 6 && !gNetwork.IsInSession()) {
             CursorY += 2;
         }
     } else if (PageNum == 17) {
-        if (nChar == VK_LEFT) {
+        if (nChar == ATKEY_LEFT) {
             if (CursorX > 0) {
                 CursorX--;
             }
-        } else if (nChar == VK_BACK) {
+        } else if (nChar == ATKEY_BACK) {
             if (CursorX > 0) // CursorX--;
             {
                 CursorX--;
@@ -2543,14 +2532,14 @@ void NewGamePopup::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 
             RefreshKlackerField();
             KlackerTafel.Warp();
-        } else if (nChar == VK_DELETE) {
+        } else if (nChar == ATKEY_DELETE) {
             // NetworkSession.SetAt (CursorX, 32);
             // if (CursorX<17) CursorX++;
             NetworkSession = NetworkSession.Left(CursorX) + NetworkSession.Mid(CursorX + 1) + " ";
 
             RefreshKlackerField();
             KlackerTafel.Warp();
-        } else if (nChar == VK_RIGHT && CursorX < 23) {
+        } else if (nChar == ATKEY_RIGHT && CursorX < 23) {
             CursorX++;
         }
     }

@@ -33,7 +33,7 @@ CMakler::CMakler(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ma
     KommVarLicht = 0;
     KommVarWasser = 0;
 
-    LastWaterTime = timeGetTime();
+    LastWaterTime = AtGetTime();
 
     WaterFrame = 0;
 
@@ -187,7 +187,7 @@ void CMakler::OnPaint() {
     SP_Makler.Pump();
     SP_Makler.BlitAtT(RoomBm);
 
-    SLONG Frames = (timeGetTime() - LastWaterTime) / 100;
+    SLONG Frames = (AtGetTime() - LastWaterTime) / 100;
     if (Frames > 20) {
         Frames = 20;
     }
@@ -220,7 +220,7 @@ void CMakler::OnPaint() {
             }
         }
 
-        LastWaterTime = timeGetTime();
+        LastWaterTime = AtGetTime();
         Frames--;
     }
     RoomBm.BlitFrom(WaterBms[WaterFrame], 226, 253);

@@ -473,7 +473,7 @@ void CStdRaum::ProcessEvent(const SDL_Event &event, const CPoint &position) {
     } break;
     case SDL_KEYDOWN: {
         UINT nFlags = event.key.keysym.scancode | ((SDL_GetModState() & KMOD_LALT) << 5);
-        OnKeyDown(toupper(event.key.keysym.sym), event.key.repeat, nFlags);
+        OnKeyDown(KeycodeToUpper(event.key.keysym.sym), event.key.repeat, nFlags);
 
         // bool upper = SDL_GetModState() & KMOD_SHIFT || SDL_GetModState() & KMOD_CAPS;
         // OnChar(upper ? toupper(test) : event.key.keysym.sym,
@@ -547,7 +547,7 @@ void CStdRaum::ReSize(__int64 graficId) {
 void CStdRaum::SetBackgroundFx(SLONG Number, const CString &Filename, SLONG AvgWait, SLONG StartWait, SLONG Lautstaerke) {
     BackgroundFX[Number].ReInit(Filename);
     BackgroundWait[Number] = AvgWait;
-    BackgroundCount[Number] = timeGetTime() + AvgWait * (rand() % 100 + 50) / 100 - StartWait;
+    BackgroundCount[Number] = AtGetTime() + AvgWait * (rand() % 100 + 50) / 100 - StartWait;
     BackgroundLautstaerke[Number] = Lautstaerke;
 }
 
@@ -561,7 +561,7 @@ BOOL CStdRaum::IsDialogOpen() const { return static_cast<BOOL>(CurrentTextGroupI
 //--------------------------------------------------------------------------------------------
 void CStdRaum::MakeSayWindow(BOOL TextAlign, ULONG SubId, const CString &String, SB_CFont *Normal) {
     CanCancelEmpty = FALSE;
-    TimeAtStart = timeGetTime();
+    TimeAtStart = AtGetTime();
 
     CurrentHighlight = 0;
     if (CurrentTextGroupId == 0) {
@@ -571,7 +571,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, ULONG SubId, const CString &String,
     CurrentTextSubIdBis = 0;
     CStdRaum::TextAlign = TextAlign;
 
-    TimeBubbleDisplayed = timeGetTime();
+    TimeBubbleDisplayed = AtGetTime();
     DisplayThisBubble =
         static_cast<BOOL>((static_cast<BOOL>(Sim.Options.OptionSpeechBubble != 0) != 0) || Sim.Options.OptionTalking * Sim.Options.OptionMasterVolume == 0 ||
                           Sim.Options.OptionDigiSound == 0 || Sim.Options.OptionEnableDigi == 0);
@@ -645,7 +645,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubId, S
     char TmpString[4096];
 
     CanCancelEmpty = FALSE;
-    TimeAtStart = timeGetTime();
+    TimeAtStart = AtGetTime();
 
     DisplayThisBubble = static_cast<BOOL>((static_cast<BOOL>(Sim.Options.OptionSpeechBubble != 0) != 0) ||
                                           (Sim.Options.OptionTalking * Sim.Options.OptionMasterVolume == 0 || Sim.Options.OptionDigiSound == 0));
@@ -655,7 +655,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubId, S
         TalkingSpeechFx = FALSE;
     }
 
-    TimeBubbleDisplayed = timeGetTime();
+    TimeBubbleDisplayed = AtGetTime();
 
     // Hilfskonstruktion für beliebige viele Argumente deklarieren:
     va_list Vars;
@@ -683,7 +683,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubIdVon
     SLONG c = 0;
 
     CanCancelEmpty = FALSE;
-    TimeAtStart = timeGetTime();
+    TimeAtStart = AtGetTime();
 
     DisplayThisBubble = static_cast<BOOL>((static_cast<BOOL>(Sim.Options.OptionSpeechBubble != 0) != 0) || (SubIdVon != SubIdBis && SubIdBis != 0) ||
                                           (Sim.Options.OptionTalking * Sim.Options.OptionMasterVolume == 0 || Sim.Options.OptionDigiSound == 0));
@@ -693,7 +693,7 @@ void CStdRaum::MakeSayWindow(BOOL TextAlign, const char *GroupId, ULONG SubIdVon
         TalkingSpeechFx = FALSE;
     }
 
-    TimeBubbleDisplayed = timeGetTime();
+    TimeBubbleDisplayed = AtGetTime();
 
     CurrentHighlight = 0;
     CurrentTextGroupId = *(reinterpret_cast<const ULONG *>(GroupId));
@@ -912,7 +912,7 @@ void CStdRaum::RepaintText(BOOL RefreshAll) {
         }
 
         if (CurrentTextSubIdBis == 0) {
-            SmackerTimeToTalk = timeGetTime() + Optionen[0].GetLength() * 2 * 50;
+            SmackerTimeToTalk = AtGetTime() + Optionen[0].GetLength() * 2 * 50;
             if (pSmackerPartner != nullptr) {
                 pSmackerPartner->SetDesiredMood(SPM_TALKING);
                 pSmackerPartner->Pump();
@@ -1064,7 +1064,7 @@ void CStdRaum::RepaintText(BOOL RefreshAll) {
                 }
                 OnscreenBitmap.PrintAt(Optionen[0], *pFontNormal, TEC_FONT_LEFT, 85, Summe, 555, 440);
 
-                SmackerTimeToTalk = timeGetTime() + Optionen[0].GetLength() * 2 * 50;
+                SmackerTimeToTalk = AtGetTime() + Optionen[0].GetLength() * 2 * 50;
                 if (pSmackerPartner != nullptr) {
                     pSmackerPartner->SetDesiredMood(SPM_TALKING);
                 }
@@ -2646,10 +2646,10 @@ void CStdRaum::PostPaint() {
             }
 
             // Nicht anzeigen, wenn der Kerl sich erst zum Sprechen bereit macht:
-            if (pSmackerPartner == nullptr || TextAlign != 0 || pSmackerPartner->GetMood() == SPM_TALKING || timeGetTime() > DWORD(SmackerTimeToTalk)) {
+            if (pSmackerPartner == nullptr || TextAlign != 0 || pSmackerPartner->GetMood() == SPM_TALKING || AtGetTime() > DWORD(SmackerTimeToTalk)) {
                 // hprintvar (SpeechFx.pFX->IsMouthOpen(400));
                 if ((pSmackerPartner != nullptr) && ReadyToStartSpeechFx == 0 && pSmackerPartner->GetMood() == SPM_TALKING &&
-                    ((timeGetTime() > DWORD(SmackerTimeToTalk) && TalkingSpeechFx == 0) || ((TalkingSpeechFx != 0) && !SpeechFx.pFX->IsMouthOpen(400)) ||
+                    ((AtGetTime() > DWORD(SmackerTimeToTalk) && TalkingSpeechFx == 0) || ((TalkingSpeechFx != 0) && !SpeechFx.pFX->IsMouthOpen(400)) ||
                      TextAlign != 0)) {
                     pSmackerPartner->SetDesiredMood(SPM_LISTENING);
                 }
@@ -2661,13 +2661,13 @@ void CStdRaum::PostPaint() {
                 pSmackerPartner->SetDesiredMood(SPM_TALKING);
             } else {
                 // Zeit neu berechnen, weil er ja noch nicht spricht:
-                SmackerTimeToTalk = timeGetTime() + Optionen[0].GetLength() * 2 * 50;
+                SmackerTimeToTalk = AtGetTime() + Optionen[0].GetLength() * 2 * 50;
             }
 
             if (pSmackerPartner == nullptr || TextAlign != 0 ||
                 (pSmackerPartner->GetMood() == SPM_TALKING ||
                  (pSmackerPartner->GetMood() == SPM_LISTENING && TextAlign == 0 && ((status & DSBSTATUS_PLAYING) != 0U) && (TalkingSpeechFx != 0))) ||
-                timeGetTime() > DWORD(SmackerTimeToTalk)) {
+                AtGetTime() > DWORD(SmackerTimeToTalk)) {
                 if ((NumberBitmap.Size.x != 0) && (RoomBm.pBitmap != nullptr)) {
                     RoomBm.BlitFrom(NumberBitmap, NumberBitmapPos);
                 }
@@ -2692,9 +2692,9 @@ void CStdRaum::PostPaint() {
                 dword status = 0;
                 SpeechFx.pFX->GetStatus(&status);
                 if ((status & DSBSTATUS_PLAYING) != 0U) {
-                    SmackerTimeToTalk = timeGetTime() + Optionen[0].GetLength() * 2 * 50;
+                    SmackerTimeToTalk = AtGetTime() + Optionen[0].GetLength() * 2 * 50;
                 } else {
-                    SmackerTimeToTalk = timeGetTime() - 1;
+                    SmackerTimeToTalk = AtGetTime() - 1;
                 }
             }
         }
@@ -2794,13 +2794,13 @@ void CStdRaum::PostPaint() {
                     SetMouseLook(CURSOR_HOT, 2100, -100, 0);
                 }
 
-                if ((gStatButton != 0) && timeGetTime() - gStatButtonTimer < 400) {
+                if ((gStatButton != 0) && AtGetTime() - gStatButtonTimer < 400) {
                     if (gStatButton == 2) {
                         PrimaryBm.BlitFromT(gRepeatMessageBms[2], WinP2.x - StatusLineBms[6].Size.x + 1, WinP2.y - StatusLineSizeY + 1);
                     } else if (gStatButton == 3) {
                         PrimaryBm.BlitFromT(gStatisticBms[2], WinP2.x - StatusLineBms[6].Size.x + 1, WinP2.y - StatusLineSizeY + 21);
                     }
-                } else if ((gStatButton != 0) && timeGetTime() - gStatButtonTimer > 400) {
+                } else if ((gStatButton != 0) && AtGetTime() - gStatButtonTimer > 400) {
                     gStatButton = 0;
                 }
             } else if (((Sim.IsTutorial != 0) || gStatButton == 1) && gMousePosition.IfIsWithin(640 - 32 - 39, 440, 607, 479) && (IsDialogOpen() == 0) &&
@@ -2808,12 +2808,12 @@ void CStdRaum::PostPaint() {
                 PrimaryBm.BlitFromT(gTutoriumBms[1], WinP2.x - StatusLineBms[6].Size.x + 1 - gTutoriumBms[0].Size.x + 8, 440 + 11);
                 SetMouseLook(CURSOR_HOT, 2101, -100, 0);
 
-                if ((gStatButton != 0) && timeGetTime() - gStatButtonTimer < 400) {
+                if ((gStatButton != 0) && AtGetTime() - gStatButtonTimer < 400) {
                     if (gStatButton == 1) {
                         PrimaryBm.BlitFromT(gTutoriumBms[0], WinP2.x - StatusLineBms[6].Size.x + 1 - gTutoriumBms[0].Size.x, 440);
                         PrimaryBm.BlitFromT(gTutoriumBms[2], WinP2.x - StatusLineBms[6].Size.x + 1 - gTutoriumBms[0].Size.x + 8, 440 + 11);
                     }
-                } else if ((gStatButton != 0) && timeGetTime() - gStatButtonTimer > 400) {
+                } else if ((gStatButton != 0) && AtGetTime() - gStatButtonTimer > 400) {
                     gStatButton = 0;
                 }
             }
@@ -2881,14 +2881,14 @@ void CStdRaum::PostPaint() {
 
         // Einen anderen Spieler als Dialogpartner anzeigen:
         if (DialogPartner == TALKER_COMPETITOR) {
-            if (timeGetTime() > DWORD(SmackerTimeToTalk) || TextAlign != 0 || ((TalkingSpeechFx > 0 && !SpeechFx.pFX->IsMouthOpen(200)))) {
+            if (AtGetTime() > DWORD(SmackerTimeToTalk) || TextAlign != 0 || ((TalkingSpeechFx > 0 && !SpeechFx.pFX->IsMouthOpen(200)))) {
                 PrimaryBm.FlipBlitFromT(
                     BeraterBms[12 + DialogPar1][static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4],
                     XY(640 - BeraterBms[12 + DialogPar1][0].Size.x, 440 - BeraterSlideY[12 + DialogPar1 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4]));
             } else {
                 PrimaryBm.FlipBlitFromT(
                     BeraterBms[12 + DialogPar1]
-                              ["\x0\x2\x1\x3\x2\x3\x0\x1\x2"[(timeGetTime() / 50 / 3) & 7] + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4],
+                              ["\x0\x2\x1\x3\x2\x3\x0\x1\x2"[(AtGetTime() / 50 / 3) & 7] + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4],
                     XY(640 - BeraterBms[12 + DialogPar1][0].Size.x, 440 - BeraterSlideY[12 + DialogPar1 + static_cast<SLONG>(DialogMedium == MEDIUM_HANDY) * 4]));
             }
 
@@ -2910,7 +2910,7 @@ void CStdRaum::PostPaint() {
         // Onscreen-Menüs:
         if (CurrentMenu != MENU_NONE) {
             // Menu zooming:
-            if (CurrentMenu == MENU_GAMEOVER && timeGetTime() - MenuInfo < 270) {
+            if (CurrentMenu == MENU_GAMEOVER && AtGetTime() - MenuInfo < 270) {
                 PlayUniversalFx("cam.raw", Sim.Options.OptionEffekte);
                 PrimaryBm.PrimaryBm.Clear(SB_Hardwarecolor(0xffff)); // Flash-Effekt
             } else {
@@ -3143,7 +3143,7 @@ void CStdRaum::PostPaint() {
     }
 
     // Der Computergegner hat es ggf eilig und bricht den Dialog ab:
-    if (DialogPartner == TALKER_COMPETITOR && Sim.Players.Players[DialogPar1].Owner == 1 && timeGetTime() - TimeBubbleDisplayed > 15 * 1000) {
+    if (DialogPartner == TALKER_COMPETITOR && Sim.Players.Players[DialogPar1].Owner == 1 && AtGetTime() - TimeBubbleDisplayed > 15 * 1000) {
         if (CurrentTextSubIdBis == 0 || CurrentTextSubIdVon == CurrentTextSubIdBis) {
             PreLButtonDown(XY(160, 100));
         } else {
@@ -3280,7 +3280,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
     }
     // Klick auf das Geld?
     else if ((Editor == 0) && gMousePosition.IfIsWithin(103 - 23, 460, 242, 479)) {
-        // MoneyTipWait=timeGetTime()-1001;
+        // MoneyTipWait=AtGetTime()-1001;
         MenuStart(MENU_KONTOAUSZUG);
         MenuSetZoomStuff(XY(100, 470), 0.17, FALSE);
     }
@@ -3289,7 +3289,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
         PLAYER &qPlayer = Sim.Players.Players[Sim.localPlayer];
 
         gStatButton = 1;
-        gStatButtonTimer = timeGetTime();
+        gStatButtonTimer = AtGetTime();
 
         qPlayer.Messages.IsMonolog = FALSE;
         qPlayer.Messages.NextMessage();
@@ -3325,7 +3325,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
         {
             if (qPlayer.Messages.LastMessage.BeraterTyp != -1) {
                 gStatButton = 2;
-                gStatButtonTimer = timeGetTime();
+                gStatButtonTimer = AtGetTime();
 
                 if (qPlayer.Messages.LastMessage.Urgent != MESSAGE_COMMENT) {
                     qPlayer.Messages.LastMessage.Urgent = MESSAGE_URGENT;
@@ -3730,7 +3730,7 @@ void CStdRaum::OnLButtonDown(UINT /*unused*/, CPoint point) {
     else if (point.x < 78 && point.y >= WinP2.y - StatusLineSizeY && point.y < WinP2.y && (CheatTestGame == 0)) {
         if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && (MouseWait == 0) && Sim.Time > 9 * 60000) {
             gStatButton = 3;
-            gStatButtonTimer = timeGetTime();
+            gStatButtonTimer = AtGetTime();
 
             if (qPlayer.IsLocationInQueue(ROOM_STATISTICS) == 0) {
                 qPlayer.EnterRoom(ROOM_STATISTICS);
@@ -3875,7 +3875,7 @@ void CStdRaum::OnPaint(BOOL /*bHandyDialog*/) {
 
         if (bHandy != 0) // Handy einblendung?
         {
-            DWORD Time = timeGetTime();
+            DWORD Time = AtGetTime();
 
             if (LastScrollTime == -1) {
                 LastScrollTime = Time;
@@ -3908,7 +3908,7 @@ void CStdRaum::OnPaint(BOOL /*bHandyDialog*/) {
             }
         }
 
-        DWORD Time = timeGetTime();
+        DWORD Time = AtGetTime();
 
         for (c = 0; c < 5; c++) {
             if (Time > BackgroundCount[c]) {
@@ -4032,7 +4032,7 @@ void CStdRaum::MenuStart(SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG M
     SLONG c = 0;
 
     CWaitCursorNow wc; // CD-Cursor anzeigen
-    TimeAtStart = timeGetTime();
+    TimeAtStart = AtGetTime();
 
     gMouseScroll = 0;
 
@@ -4249,7 +4249,7 @@ void CStdRaum::MenuStart(SLONG MenuType, SLONG MenuPar1, SLONG MenuPar2, SLONG M
 
             GreyFX.Apply(0, OnscreenBitmap.pBitmap);
         }
-        MenuInfo = timeGetTime();
+        MenuInfo = AtGetTime();
         break;
 
     case MENU_LETTERS:
@@ -4906,8 +4906,8 @@ void CStdRaum::MenuRepaint() {
 
     case MENU_EXTRABLATT:
         if (ZoomCounter < 200 && (ZoomSpeed != 0)) {
-            OnscreenBitmap.ReSize(MenuBms[SLONG((timeGetTime() / 50) % 8)].Size);
-            OnscreenBitmap.BlitFrom(MenuBms[SLONG((timeGetTime() / 50) % 8)]);
+            OnscreenBitmap.ReSize(MenuBms[SLONG((AtGetTime() / 50) % 8)].Size);
+            OnscreenBitmap.BlitFrom(MenuBms[SLONG((AtGetTime() / 50) % 8)]);
         } else {
             if (OnscreenBitmap.Size != MenuBms[8].Size) {
                 OnscreenBitmap.ReSize(MenuBms[8].Size);
@@ -6540,18 +6540,18 @@ void CStdRaum::MenuLeftClick(XY Pos) {
     case MENU_PERSONAL:
         if (MouseClickId == MENU_PERSONAL) {
             if (MouseClickPar1 == -1 && MenuPage > 0) {
-                if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+                if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
                     MenuPage = std::max(0, MenuPage - 100);
-                } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+                } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
                     MenuPage = std::max(0, MenuPage - 10);
                 } else {
                     MenuPage--;
                 }
                 gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
             } else if (MouseClickPar1 == -2 && MenuPage < MenuPageMax) {
-                if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+                if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
                     MenuPage = std::min(MenuPageMax, MenuPage + 100);
-                } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+                } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
                     MenuPage = std::min(MenuPageMax, MenuPage + 10);
                 } else {
                     MenuPage++;
@@ -7799,7 +7799,7 @@ void CStdRaum::CalcOpen(XY Position, SLONG Value) {
 
     CalculatorFX.ReInit("calc.raw");
 
-    CalculatorKeyTimer = timeGetTime() - 1000;
+    CalculatorKeyTimer = AtGetTime() - 1000;
 
     pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("rechner.gli", GliPath)), &pCalculatorLib, L_LOCMEM);
 
@@ -7827,7 +7827,7 @@ void CStdRaum::CalcRepaint() {
             }
         }
 
-        if (timeGetTime() - CalculatorKeyTimer < 300) {
+        if (AtGetTime() - CalculatorKeyTimer < 300) {
             PrimaryBm.BlitFrom(CalculatorBms[CalculatorKey], CalculatorPos + CalcOffsets[CalculatorKey]);
         }
     }
@@ -7948,7 +7948,7 @@ void CStdRaum::CalcClick() {
                            CalcOffsets[c].y + CalculatorBms[c].Size.y - 4)) {
             CalculatorFX.Play(0, Sim.Options.OptionEffekte * 100 / 7);
 
-            CalculatorKeyTimer = timeGetTime();
+            CalculatorKeyTimer = AtGetTime();
             CalculatorKey = c;
 
             if (c >= 11 && c < 21 && CalculatorValue < 10000000) {
@@ -7972,7 +7972,7 @@ void CStdRaum::CalcClick() {
 //--------------------------------------------------------------------------------------------
 void CStdRaum::CalcKey(SLONG Key) {
     if (Key >= '0' && Key <= '9') {
-        CalculatorKeyTimer = timeGetTime();
+        CalculatorKeyTimer = AtGetTime();
         CalculatorKey = 11 + Key - '0';
 
         CalculatorFX.Play(0, Sim.Options.OptionEffekte * 100 / 7);
@@ -7980,24 +7980,24 @@ void CStdRaum::CalcKey(SLONG Key) {
         if (CalculatorValue < 10000000) {
             CalculatorValue = CalculatorValue * 10 + Key - '0';
         }
-    } else if (Key == VK_RETURN || Key == VK_RETURN2) {
+    } else if (Key == ATKEY_RETURN || Key == ATKEY_RETURN2) {
         CalculatorFX.Play(0, Sim.Options.OptionEffekte * 100 / 7);
 
-        CalculatorKeyTimer = timeGetTime();
+        CalculatorKeyTimer = AtGetTime();
         CalculatorKey = 21;
 
         CalcStop(FALSE);
-    } else if (Key == VK_DELETE || Key == VK_BACK) {
+    } else if (Key == ATKEY_DELETE || Key == ATKEY_BACK) {
         CalculatorFX.Play(0, Sim.Options.OptionEffekte * 100 / 7);
 
-        CalculatorKeyTimer = timeGetTime();
+        CalculatorKeyTimer = AtGetTime();
         CalculatorKey = 22;
 
         CalculatorValue = 0;
-    } else if (Key == VK_ESCAPE) {
+    } else if (Key == ATKEY_ESCAPE) {
         CalculatorFX.Play(0, Sim.Options.OptionEffekte * 100 / 7);
 
-        CalculatorKeyTimer = timeGetTime();
+        CalculatorKeyTimer = AtGetTime();
         CalculatorKey = 23;
 
         CalcStop(TRUE);
@@ -8084,11 +8084,11 @@ void CStdRaum::OnChar(UINT nChar, UINT /*unused*/, UINT /*unused*/) {
 void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
-    if ((CalculatorIsOpen != 0) && (nChar == VK_DELETE || nChar == VK_RETURN || nChar == VK_RETURN2 || nChar == VK_BACK || nChar == VK_ESCAPE)) {
+    if ((CalculatorIsOpen != 0) && (nChar == ATKEY_DELETE || nChar == ATKEY_RETURN || nChar == ATKEY_RETURN2 || nChar == ATKEY_BACK || nChar == ATKEY_ESCAPE)) {
         CalcKey(nChar);
         return;
     }
-    if (nChar == VK_F2 && Editor == 0) {
+    if (nChar == ATKEY_F2 && Editor == 0) {
         if ((IsDialogOpen() == 0) && (MenuIsOpen() == 0) && (MouseWait == 0) && (Sim.Time > 9 * 60000)) {
             if (Sim.Players.Players[PlayerNum].IsLocationInQueue(ROOM_OPTIONS) == 0) {
                 Sim.Players.Players[PlayerNum].EnterRoom(ROOM_OPTIONS);
@@ -8105,15 +8105,15 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
         case MENU_BROADCAST:
         case MENU_CHAT:
             switch (nChar) {
-                case VK_BACK:
+                case ATKEY_BACK:
                     if (Optionen[0].GetLength() > 0) {
                         Optionen[0] = Optionen[0].Left(Optionen[0].GetLength() - 1);
                         MenuRepaint();
                     }
                     break;
 
-                case VK_RETURN:
-                case VK_RETURN2:
+                case ATKEY_RETURN:
+                case ATKEY_RETURN2:
                     if (CurrentMenu == MENU_ENTERTCPIP) {
                         gHostIP = Optionen[0];
                         MenuStop();
@@ -8163,10 +8163,10 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
         case MENU_ADROUTE:
         case MENU_PLANEJOB:
             switch (nChar) {
-                case VK_LEFT:
+                case ATKEY_LEFT:
                     MenuPrevPage();
                     break;
-                case VK_RIGHT:
+                case ATKEY_RIGHT:
                     MenuNextPage();
                     break;
                 default:
@@ -8176,10 +8176,10 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
 
         case MENU_PERSONAL:
             switch (nChar) {
-                case VK_LEFT:
-                    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+                case ATKEY_LEFT:
+                    if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
                         MenuPage = std::max(0, MenuPage - 100);
-                    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+                    } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
                         MenuPage = std::max(0, MenuPage - 10);
                     } else {
                         MenuPage = std::max(0, MenuPage - 1);
@@ -8187,10 +8187,10 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
                     gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
                     change = true;
                     break;
-                case VK_RIGHT:
-                    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+                case ATKEY_RIGHT:
+                    if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
                         MenuPage = std::min(MenuPageMax, MenuPage + 100);
-                    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+                    } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
                         MenuPage = std::min(MenuPageMax, MenuPage + 10);
                     } else {
                         MenuPage = std::min(MenuPageMax, MenuPage + 1);
@@ -8198,14 +8198,14 @@ void CStdRaum::OnKeyDown(UINT nChar, UINT /*nRepCnt*/, UINT /*nFlags*/) {
                     gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
                     change = true;
                     break;
-                case VK_RETURN:
+                case ATKEY_RETURN:
                     Workers.Workers[MenuRemapper[MenuPage - 1]].Employer = PlayerNum;
                     Workers.Workers[MenuRemapper[MenuPage - 1]].PlaneId = -1;
                     qPlayer.MapWorkers(TRUE);
                     qPlayer.UpdateWalkSpeed();
                     change = true;
                     break;
-                case VK_BACK:
+                case ATKEY_BACK:
                     Workers.Workers[MenuRemapper[MenuPage - 1]].Employer = WORKER_JOBLESS;
                     if (Workers.Workers[MenuRemapper[MenuPage - 1]].TimeInPool > 0) {
                         Workers.Workers[MenuRemapper[MenuPage - 1]].TimeInPool = 0;
@@ -8258,9 +8258,9 @@ void CStdRaum::MenuPrevPage() {
 
     gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
 
-    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+    if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
         MenuPage = std::max(0, MenuPage - 13 * 10);
-    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+    } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
         MenuPage = std::max(0, MenuPage - 13 * 3);
     } else {
         MenuPage = std::max(0, MenuPage - 13);
@@ -8277,9 +8277,9 @@ void CStdRaum::MenuNextPage() {
     gMovePaper.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
 
     auto MenuPageMax = MenuDataTable.AnzRows - 13;
-    if (GetAsyncKeyState(VK_CONTROL) / 256 != 0) {
+    if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
         MenuPage = std::min(MenuPageMax, MenuPage + 13 * 10);
-    } else if (GetAsyncKeyState(VK_SHIFT) / 256 != 0) {
+    } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
         MenuPage = std::min(MenuPageMax, MenuPage + 13 * 3);
     } else {
         MenuPage = std::min(MenuPageMax, MenuPage + 13);
