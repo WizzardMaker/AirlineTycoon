@@ -647,30 +647,7 @@ void CStatistik::OnPaint() {
     RoomBm.BlitFrom(TopSaver, 374, 0);
 
     // Den wievielte Tag spielen wir gerade?
-    CString output;
-    if (AtGetTime() % 6000 > 3000 && (Sim.Difficulty == DIFF_ADDON03 || Sim.Difficulty == DIFF_ADDON04 || Sim.Difficulty == DIFF_ADDON06)) {
-        SLONG n = 0;
-
-        switch (Sim.Difficulty) {
-        case DIFF_ADDON03:
-            n = TARGET_DAYS - Sim.Date;
-            break;
-        case DIFF_ADDON04:
-            n = TARGET_MILESDAYS - Sim.Date;
-            break;
-        case DIFF_ADDON06:
-            n = TARGET_DAYS - Sim.Date;
-            break;
-        default:
-            break;
-        }
-
-        output = bprintf(StandardTexte.GetS(TOKEN_STAT, 9010 + static_cast<SLONG>(n == 1)), n);
-    } else {
-        output = bitoa(Sim.Date + 1);
-        output += ". ";
-        output += StandardTexte.GetS(TOKEN_STAT, 9000);
-    }
+    CString output = getCurrentDayString();
 
     SLONG length = FontDialogPartner.GetWidth((LPCTSTR)output, output.GetLength());
     SLONG xPos = 35 + ((160 - 35) >> 1) - (length >> 1);

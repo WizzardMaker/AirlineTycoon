@@ -2297,4 +2297,7 @@ void CTakeOffApp::LadeWeitereStandardTexte() {
     StandardTexte.AddText(TOKEN_JOBS, 2003, "Routenberaterin");
 
     StandardTexte.UpdateText(TOKEN_MISC, 3201, "\xD6""ffnungszeiten.\xB5 \xB5Mo-Sa:10-19 Uhr\xB5So:geschlossen");
+
+    StandardTexte.AddText(TOKEN_MISC, 1152, "Mission %li: %s (%s)");
+    StandardTexte.AddText(TOKEN_MISC, 1153, "Freies Spiel: %s (%s)");
 }

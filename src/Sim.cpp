@@ -3496,26 +3496,19 @@ void SIM::SaveGame(SLONG Number, const CString &Name) const {
     OutputFile << SaveVersion << SaveVersionSub;
 
     {
-        time_t Time = StartTime + Date * 60 * 60 * 24;
-        struct tm *pTimeStruct = localtime(&Time);
-
-        CString DateString;
-
+        CString DateString = getCurrentDayString();
         if (Difficulty >= DIFF_ATFS) {
             DateString =
-                bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1150)), Difficulty + 1 - DIFF_ATFS + 20,
-                        (LPCTSTR)CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (pTimeStruct->tm_wday + 6) % 7)), static_cast<SLONG>(pTimeStruct->tm_mday),
-                        static_cast<SLONG>(pTimeStruct->tm_mon) + 1, (LPCTSTR)Players.Players[localPlayer].AirlineX);
+                bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1152)), Difficulty + 1 - DIFF_ATFS + 20,
+                        (LPCTSTR)DateString, (LPCTSTR)Players.Players[localPlayer].AirlineX);
         } else if (Difficulty != DIFF_FREEGAME) {
             DateString =
-                bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1150)), Difficulty + 1,
-                        (LPCTSTR)CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (pTimeStruct->tm_wday + 6) % 7)), static_cast<SLONG>(pTimeStruct->tm_mday),
-                        static_cast<SLONG>(pTimeStruct->tm_mon) + 1, (LPCTSTR)Players.Players[localPlayer].AirlineX);
+                bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1152)), Difficulty + 1,
+                        (LPCTSTR)DateString, (LPCTSTR)Players.Players[localPlayer].AirlineX);
         } else {
             DateString =
-                bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1151)),
-                        (LPCTSTR)CString(StandardTexte.GetS(TOKEN_SCHED, 3010 + (pTimeStruct->tm_wday + 6) % 7)), static_cast<SLONG>(pTimeStruct->tm_mday),
-                        static_cast<SLONG>(pTimeStruct->tm_mon) + 1, (LPCTSTR)Players.Players[localPlayer].AirlineX);
+                bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1153)),
+                        (LPCTSTR)DateString, (LPCTSTR)Players.Players[localPlayer].AirlineX);
         }
 
         OutputFile << DateString;

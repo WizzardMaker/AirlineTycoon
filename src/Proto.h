@@ -98,6 +98,7 @@ DWORD AtGetTime(void);
 SLONG AtGetAsyncKeyState(SLONG vKey);
 DWORD AtGetTickCount(void);
 const char* getRobotActionName(SLONG a);
+CString getCurrentDayString();
 
 //--------------------------------------------------------------------------------------------
 // Planer.Cpp:
