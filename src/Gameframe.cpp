@@ -282,7 +282,9 @@ GameFrame::GameFrame()
     gCursorMoveHBm.ReSize(pGLibBasis, GFX_CURSORV, CREATE_VIDMEM);
     gCursorMoveVBm.ReSize(pGLibBasis, GFX_CURSORW, CREATE_VIDMEM);
     gCursorSandBm.ReSize(pGLibBasis, GFX_CURSORS, CREATE_VIDMEM);
-    gCursorNoBm.ReSize (10,10);
+    // MP: wizzardmaker:
+    // gCursorNoBm.ReSize (10,10);
+    gCursorNoBm.ReSize (XY(10,10), CREATE_VIDMEM);
     gCursorNoBm.FillWith (0);
 
     CRect cliprect (2,2,638, 478);
@@ -875,7 +877,7 @@ void GameFrame::OnActivateApp(BOOL bActive, DWORD hTask)
 
         if (bActive)
         {
-#ifdef _DEBUG
+#if 0
 #ifndef CD_PROTECTION
             if (gpSSE && Sim.Options.OptionEnableDigi) gpSSE->EnableDS ();
 #endif
@@ -915,7 +917,7 @@ void GameFrame::OnActivateApp(BOOL bActive, DWORD hTask)
         else
         {
             FlushTalkers ();
-#ifdef _DEBUG
+#if 0
 #ifndef CD_PROTECTION
             if (gpSSE) gpSSE->DisableDS ();
 #endif

@@ -237,7 +237,7 @@ void CSmackerClip::ReSize (SLONG          ClipId,
 
     CSmackerClip::SuccessorIds[0] = SuccessorIds;
 
-    //Hilfskonstruktion fï¿½r beliebige viele Argumente deklarieren:
+    //Hilfskonstruktion für beliebige viele Argumente deklarieren:
     {
         va_list  Vars;
 
@@ -597,7 +597,7 @@ void CSmackerPerson::NextClip (void)
     {
         if (CurrentMood==DesiredMood)
         {
-            //1. Schauen, wie's weitergeht ohen die Stimmung zu ï¿½ndern:
+            //1. Schauen, wie's weitergeht ohen die Stimmung zu ändern:
             //---------------------------------------------------------------------------
             PropSum=0; //Wahrscheinlichkeiten aufsummieren:
             for (c=0; c<Clips[ActiveClip].SuccessorIds.AnzEntries(); c++)
@@ -608,7 +608,7 @@ void CSmackerPerson::NextClip (void)
             {
                 PropSum=rand()%PropSum;
 
-                //Alternative auswï¿½hlten:
+                //Alternative auswählten:
                 for (c=0; c<Clips[ActiveClip].SuccessorIds.AnzEntries(); c++)
                     if (Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId==DesiredMood && Clips[ActiveClip].SuccessorTokens[c*2]!='E')
                     {
@@ -621,7 +621,7 @@ void CSmackerPerson::NextClip (void)
                     }
             }
 
-            //2. Unmï¿½glich, rettet bei Bugs vor dem Absturz:
+            //2. Unmöglich, rettet bei Bugs vor dem Absturz:
             //---------------------------------------------------------------------------
             PropSum=0; //Wahrscheinlichkeiten aufsummieren:
             for (c=0; c<Clips[ActiveClip].SuccessorIds.AnzEntries(); c++)
@@ -653,7 +653,7 @@ void CSmackerPerson::NextClip (void)
             {
                 PropSum=rand()%PropSum;
 
-                //Alternative auswï¿½hlten:
+                //Alternative auswählten:
                 for (c=0; c<Clips[ActiveClip].SuccessorIds.AnzEntries(); c++)
                     if (Clips[Clips[ActiveClip].SuccessorIds[c]].MoodId==DesiredMood && Clips[ActiveClip].SuccessorTokens[c*2]=='E')
                     {
