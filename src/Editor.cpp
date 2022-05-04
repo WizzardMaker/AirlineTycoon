@@ -670,7 +670,9 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ed
 
         // Relations:
         {
-            std::ifstream file(FullFilename("relation.csv", ExcelPath), std::ios_base::in);
+            BUFFER_V<BYTE> tempBuf = LoadCompleteFile(FullFilename("relation.csv", ExcelPath));
+            std::string tempStr((const char*)(tempBuf.getData()), tempBuf.AnzEntries());
+            std::istringstream file(tempStr, std::ios_base::in);
 
             file >> str;
 
@@ -687,7 +689,9 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ed
 
         // Planebuilds:
         {
-            std::ifstream file(FullFilename("builds.csv", ExcelPath), std::ios_base::in);
+            BUFFER_V<BYTE> tempBuf = LoadCompleteFile(FullFilename("builds.csv", ExcelPath));
+            std::string tempStr((const char*)(tempBuf.getData()), tempBuf.AnzEntries());
+            std::istringstream file(tempStr, std::ios_base::in);
 
             file >> str;
 
