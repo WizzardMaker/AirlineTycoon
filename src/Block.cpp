@@ -1832,7 +1832,7 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                            ClientArea + XY(172, 170));
             return;
         }
-        std::vector<std::pair<SLONG, __int64>> tmp = {{3504, ref.Personal}, {3507, ref.Gatemiete}, {3508, ref.Citymiete}, {3509, ref.Routenmiete}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {{3504, ref.Personal}, {3507, ref.Gatemiete}, {10034, ref.Citymiete}, {10035, ref.Routenmiete}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 3) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 40) {
@@ -1840,8 +1840,8 @@ void BLOCK::ZeigeTagesBilanz(XY ClientArea, const PLAYER & /*player*/, const CBi
                            ClientArea + XY(172, 170));
             return;
         }
-        std::vector<std::pair<SLONG, __int64>> tmp = {{3401, ref.HabenZinsen}, {3402, ref.HabenRendite},   {10004, ref.KreditNeu}, {3501, ref.SollZinsen},
-                                                      {3502, ref.SollRendite}, {10005, ref.KreditTilgung}, {10006, ref.Steuer}};
+        std::vector<std::pair<SLONG, __int64>> tmp = {{10036, ref.HabenZinsen}, {10038, ref.HabenRendite},   {10004, ref.KreditNeu}, {10037, ref.SollZinsen},
+                                                      {10039, ref.SollRendite}, {10005, ref.KreditTilgung}, {10006, ref.Steuer}};
         PrintList(ClientArea, tmp, 1);
     } else if (page == 4) {
         if (Sim.Players.Players[PlayerNum].HasBerater(berater) < 50) {
