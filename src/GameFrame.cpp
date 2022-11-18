@@ -188,15 +188,72 @@ void GameFrame::UpdateWindow() const {
     UpdateFrameSize();
 }
 
+constexpr SLONG getAspectWidth(SLONG height) { return static_cast<SLONG>(static_cast<float>(height) * (640.0f / 480.0f)); }
+
 void GameFrame::UpdateFrameSize() const {
-    if (Sim.Options.OptionKeepAspectRatio != 0) {
-        SDL_RenderSetLogicalSize(lpDD, 640, 480);
+    SLONG screenW = 0, screenH = 0;
+    SDL_GetWindowSize(m_hWnd, &screenW, &screenH);
+    SDL_RenderSetLogicalSize(lpDD, screenW, screenH);
+
+    if (Sim.Options.OptionKeepAspectRatio == 0) {
+        PrimaryBm.PrimaryBm.SetTarget(XY{0, 0}, XY{screenW, screenH});
     } else {
-        SLONG screenW = 0;
-        SLONG screenH = 0;
-        SDL_GetWindowSize(m_hWnd, &screenW, &screenH);
-        SDL_RenderSetLogicalSize(lpDD, screenW, screenH);
+        const SLONG aspectWidth = getAspectWidth(screenH);
+
+        const SLONG x = (screenW - aspectWidth) / 2;
+        PrimaryBm.PrimaryBm.SetTarget(XY{x, 0}, XY{aspectWidth, screenH});
     }
+}
+
+void GameFrame::TranslatePointToGameSpace(CPoint *p) const {
+    SLONG screenW = 0;
+    SLONG screenH = 0;
+    SDL_GetRendererOutputSize(SDL_GetRenderer(m_hWnd), &screenW, &screenH);
+
+    FLOAT x = static_cast<FLOAT>(p->x);
+    FLOAT y = static_cast<FLOAT>(p->y);
+
+    if (Sim.Options.OptionKeepAspectRatio == 1) {
+        const SLONG aspectWidth = getAspectWidth(screenH);
+        x -= static_cast<FLOAT>(screenW - aspectWidth) / 2.0f;
+
+        screenW = aspectWidth;
+    }
+
+    x /= static_cast<FLOAT>(screenW);
+    x *= 640;
+    y /= static_cast<FLOAT>(screenH);
+    y *= 480;
+
+    p->x = static_cast<SLONG>(x);
+    p->y = static_cast<SLONG>(y);
+}
+
+void GameFrame::TranslatePointToScreenSpace(SLONG &x, SLONG &y) const {
+    SLONG screenW = 0;
+    SLONG screenH = 0;
+    SDL_GetRendererOutputSize(SDL_GetRenderer(m_hWnd), &screenW, &screenH);
+
+    const SLONG aspectWidth = getAspectWidth(screenH);
+    const SLONG origScreenW = screenW;
+    if (Sim.Options.OptionKeepAspectRatio == 1) {
+        screenW = aspectWidth;
+    }
+
+    FLOAT _x = static_cast<FLOAT>(x);
+    FLOAT _y = static_cast<FLOAT>(y);
+    _x /= 640;
+    _x *= static_cast<FLOAT>(screenW);
+    _y /= 480;
+    _y *= static_cast<FLOAT>(screenH);
+
+    
+    if (Sim.Options.OptionKeepAspectRatio == 1) {
+        _x += static_cast<FLOAT>(origScreenW - aspectWidth) / 2.0f;
+    }
+
+    x = static_cast<SLONG>(_x);
+    y = static_cast<SLONG>(_y);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -405,43 +462,6 @@ GameFrame::~GameFrame() {
     Hdu.HercPrintf(0, "logging ends..");
 }
 
-void GameFrame::TranslatePointToGameSpace(CPoint *p) const {
-    if (Sim.Options.OptionKeepAspectRatio != 0) {
-        return;
-    }
-
-    SLONG screenW = 0;
-    SLONG screenH = 0;
-    SDL_GetRendererOutputSize(SDL_GetRenderer(m_hWnd), &screenW, &screenH);
-    FLOAT x = p->x;
-    FLOAT y = p->y;
-    x /= screenW;
-    x *= 640;
-    y /= screenH;
-    y *= 480;
-
-    p->x = static_cast<SLONG>(x);
-    p->y = static_cast<SLONG>(y);
-}
-void GameFrame::TranslatePointToScreenSpace(SLONG &x, SLONG &y) const {
-    if (Sim.Options.OptionKeepAspectRatio != 0) {
-        return;
-    }
-
-    SLONG screenW = 0;
-    SLONG screenH = 0;
-    SDL_GetRendererOutputSize(SDL_GetRenderer(m_hWnd), &screenW, &screenH);
-    FLOAT _x = x;
-    FLOAT _y = y;
-    _x /= 640;
-    _x *= screenW;
-    _y /= 480;
-    _y *= screenH;
-
-    x = static_cast<SLONG>(_x);
-    y = static_cast<SLONG>(_y);
-}
-
 void GameFrame::ProcessEvent(const SDL_Event &event) const {
     switch (event.type) {
     case SDL_WINDOWEVENT: {
@@ -451,11 +471,7 @@ void GameFrame::ProcessEvent(const SDL_Event &event) const {
                 Sim.Gamestate = GAMESTATE_QUIT;
                 bLeaveGameLoop = TRUE;
             } else if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
-                if (Sim.Options.OptionKeepAspectRatio != 0) {
-                    SDL_RenderSetLogicalSize(lpDD, 640, 480);
-                } else {
-                    SDL_RenderSetLogicalSize(lpDD, event.window.data1, event.window.data2);
-                }
+                UpdateFrameSize();
             } else if (event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED) {
                 FrameWnd->OnActivateApp(TRUE, 0);
                 FrameWnd->OnSetCursor(nullptr, HTCLIENT, 0);

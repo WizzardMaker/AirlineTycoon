@@ -596,7 +596,6 @@ void SBPRIMARYBM::Flip(XY WindowPos, BOOL /*ShowFPS*/) {
 
     // TextOut (0, 20, RGB(0,0,255), RGB(255,255,0), bprintf ("%f FPS", GetFrameRate()));
     // TextOut (0, 32, RGB(0,0,255), RGB(255,255,0), bprintf ("%li Personen", Sim.Persons.GetNumUsed()));
-    PrimaryBm.SetPos(CPoint(WindowPos.x, WindowPos.y));
     Bench.FlipTime.Start();
     PrimaryBm.Flip();
     Bench.FlipTime.Stop();

@@ -202,8 +202,8 @@ class SB_CPrimaryBitmap : public SB_CBitmapCore {
     virtual ULONG Release(void);
     SLONG Flip(void);
     SLONG Present(void);
+    void SetTarget(XY offset, XY size);
     void SetVSync(BOOL toggle) { SDL_RenderSetVSync(lpDD, toggle); }
-    void SetPos(POINT);
 
     void AssignCursor(SB_CCursor *c) { Cursor = c; }
     SDL_Window *GetPrimarySurface() { return Window; }
@@ -211,6 +211,10 @@ class SB_CPrimaryBitmap : public SB_CBitmapCore {
 
   private:
     void Delete(void);
+
+    
+    XY TargetSize{640,480};
+    XY TargetOffset{0,0};
 
     SDL_Window *Window{};
     SB_CCursor *Cursor{};

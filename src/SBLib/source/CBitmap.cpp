@@ -463,8 +463,8 @@ SLONG SB_CPrimaryBitmap::Flip() {
             Cursor->FlipBegin();
         }
 
-        SDL_Rect dst = {0, 0, Size.x, Size.y};
-        if (SDL_BlitScaled(lpDDSurface, nullptr, SDL_GetWindowSurface(Window), &dst) < 0) {
+        SDL_Rect target = SDL_Rect{TargetOffset.x, TargetOffset.y, TargetSize.x, TargetSize.y};
+        if (SDL_BlitScaled(lpDDSurface, nullptr, SDL_GetWindowSurface(Window), &target) < 0) {
             return -2;
         }
 
@@ -486,8 +486,9 @@ SLONG SB_CPrimaryBitmap::Present() {
             return -1;
         }
 
+        const SDL_Rect target = SDL_Rect{TargetOffset.x, TargetOffset.y, TargetSize.x, TargetSize.y};
         // Copy our primary texture to the backbuffer
-        if (SDL_RenderCopy(lpDD, lpTexture, nullptr, nullptr) < 0) {
+        if (SDL_RenderCopy(lpDD, lpTexture, nullptr, &target) < 0) {
             return -2;
         }
 
@@ -506,7 +507,10 @@ SLONG SB_CPrimaryBitmap::Present() {
     return 0;
 }
 
-void SB_CPrimaryBitmap::SetPos(POINT /*unused*/) {}
+void SB_CPrimaryBitmap::SetTarget(XY offset, XY size) {
+    this->TargetOffset = offset;
+    this->TargetSize = size;
+}
 
 SLONG SB_CPrimaryBitmap::Create(SDL_Renderer **out, SDL_Window *Wnd, unsigned short /*flags*/, SLONG w, SLONG h, unsigned char /*unused*/,
                                 unsigned short /*unused*/) {
@@ -516,10 +520,13 @@ SLONG SB_CPrimaryBitmap::Create(SDL_Renderer **out, SDL_Window *Wnd, unsigned sh
     if (lpDD != nullptr) {
         Hdu.HercPrintf("Using hardware accelerated presentation");
         lpTexture = SDL_CreateTexture(lpDD, SDL_PIXELFORMAT_RGB565, SDL_TEXTUREACCESS_STREAMING, w, h);
+
         if (SDL_LockTextureToSurface(lpTexture, nullptr, &lpDDSurface) < 0) {
             Hdu.HercPrintf("Unable to lock backbuffer to surface");
             return -1;
         }
+
+        SDL_SetTextureScaleMode(lpTexture, SDL_ScaleModeBest);
     } else {
         Hdu.HercPrintf("Falling back to software presentation");
         lpTexture = nullptr;
