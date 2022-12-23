@@ -791,10 +791,9 @@ void CAuftraege::FillForLastMinute() {
     CalcPlayerMaximums();
 
     ReSize(6); // ex:10
-
-    SLONG c = 0;
+    
     for (auto &a : *this) {
-        a.RefillForLastMinute(c++ / 2, &Random);
+        a.RefillForLastMinute(1, &Random);
     }
 
     if (Sim.Difficulty == DIFF_ATFS10 && Sim.Date >= 20 && Sim.Date <= 30) {
@@ -817,14 +816,13 @@ void CAuftraege::RefillForLastMinute(SLONG Minimum) {
     CalcPlayerMaximums();
 
     ReSize(6); // ex:10
-
-    SLONG c = 0;
+    
     for (auto &a : *this) {
         if (Anz <= 0) {
             break;
         }
         if (a.Praemie == 0) {
-            a.RefillForLastMinute(c++ / 2, &Random);
+            a.RefillForLastMinute(1, &Random);
             Anz--;
         }
     }
@@ -837,14 +835,12 @@ void CAuftraege::RefillForLastMinute(SLONG Minimum) {
             Minimum--;
         }
     }
-
-    c = 0;
     for (auto &a : *this) {
         if (Anz <= 0) {
             break;
         }
         if (a.Praemie == 0 && Minimum > 0) {
-            a.RefillForLastMinute(c++ / 2, &Random);
+            a.RefillForLastMinute(1, &Random);
             Minimum--;
         }
     }
@@ -874,7 +870,7 @@ void CAuftraege::FillForReisebuero() {
         } else if (Sim.Date < 10 && c < 3) {
             a.RefillForAusland(4, Sim.HomeAirportId, &Random);
         } else {
-            a.RefillForAusland(c / 2, Sim.HomeAirportId, &Random);
+            a.RefillForAusland(1, Sim.HomeAirportId, &Random);
         }
 
         c++;
@@ -911,7 +907,7 @@ void CAuftraege::RefillForReisebuero(SLONG Minimum) {
             } else if (Sim.Date < 10 && c < 3) {
                 a.RefillForAusland(4, Sim.HomeAirportId, &Random);
             } else {
-                a.RefillForAusland(c / 2, Sim.HomeAirportId, &Random);
+                a.RefillForAusland(1, Sim.HomeAirportId, &Random);
             }
 
             Anz--;
@@ -940,7 +936,7 @@ void CAuftraege::RefillForReisebuero(SLONG Minimum) {
             } else if (Sim.Date < 10 && c < 3) {
                 a.RefillForAusland(4, Sim.HomeAirportId, &Random);
             } else {
-                a.RefillForAusland(c / 2, Sim.HomeAirportId, &Random);
+                a.RefillForAusland(1, Sim.HomeAirportId, &Random);
             }
 
             Minimum--;
@@ -974,7 +970,7 @@ void CAuftraege::FillForAusland(SLONG CityNum) {
         } else if (Sim.Date < 10 && c < 3) {
             a.RefillForAusland(4, CityNum, &Random);
         } else {
-            a.RefillForAusland(c / 2, CityNum, &Random);
+            a.RefillForAusland(1, CityNum, &Random);
         }
 
         c++;
@@ -1002,7 +998,7 @@ void CAuftraege::RefillForAusland(SLONG CityNum, SLONG Minimum) {
             } else if (Sim.Date < 10 && c < 3) {
                 a.RefillForAusland(4, CityNum, &Random);
             } else {
-                a.RefillForAusland(c / 2, CityNum, &Random);
+                a.RefillForAusland(1, CityNum, &Random);
             }
 
             Anz--;
@@ -1031,7 +1027,7 @@ void CAuftraege::RefillForAusland(SLONG CityNum, SLONG Minimum) {
             } else if (Sim.Date < 10 && c < 3) {
                 a.RefillForAusland(4, CityNum, &Random);
             } else {
-                a.RefillForAusland(c / 2, CityNum, &Random);
+                a.RefillForAusland(1, CityNum, &Random);
             }
 
             Minimum--;
