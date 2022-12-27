@@ -12,7 +12,6 @@ class CIntro : public CVideo {
 
     // Attributes
   private:
-    bool mWasIntroPlayed;
     GfxLib *mRoomLib{}; // Library für den Raum
 
     SBBM mFadeFrom;

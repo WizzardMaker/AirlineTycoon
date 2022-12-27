@@ -11,15 +11,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-extern SB_CColorFX ColorFX;
-
-DWORD calculateAudioOffset(const smk &smack, SLONG size) {
-    unsigned long rate[7];
-    smk_info_audio(smack, nullptr, nullptr, nullptr, rate);
-
-    return static_cast<DWORD>((static_cast<FLOAT>(size) / 2.0f / static_cast<FLOAT>(rate[0])) * 1000.0f);
-}
-
 //--------------------------------------------------------------------------------------------
 // ULONG PlayerNum
 //--------------------------------------------------------------------------------------------
