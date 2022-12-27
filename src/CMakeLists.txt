@@ -88,6 +88,7 @@ add_executable (AT
     Nasa.cpp
     NewGamePopup.cpp
     Options.cpp
+    CVideo.cpp
     Outro.cpp
     Person.cpp
     Personal.cpp
