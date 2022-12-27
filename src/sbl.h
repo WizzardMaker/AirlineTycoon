@@ -202,6 +202,7 @@ class SB_CPrimaryBitmap : public SB_CBitmapCore {
     virtual ULONG Release(void);
     SLONG Flip(void);
     SLONG Present(void);
+    void SetVSync(BOOL toggle) { SDL_RenderSetVSync(lpDD, toggle); }
     void SetPos(POINT);
 
     void AssignCursor(SB_CCursor *c) { Cursor = c; }

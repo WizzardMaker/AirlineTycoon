@@ -335,6 +335,7 @@ class SBPRIMARYBM {
     void Flip(SLONG WindowX, SLONG WindowsY, BOOL ShowFPS = FALSE) { Flip(XY(WindowX, WindowsY), ShowFPS); }
     void Flip(XY WindowPos, BOOL ShowFPS = FALSE);
     BOOL IsFullscreen(void) { return (Fullscreen); }
+    void SetVSync(BOOL toggle) { PrimaryBm.SetVSync(toggle); }
     dword Clear(dword color = 0);
 
     // Blit Services:
