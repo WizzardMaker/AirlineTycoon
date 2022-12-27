@@ -7,3 +7,4 @@ CMakeSettings.json
 /cmake/sdl2-image
 /cmake/sdl2-mixer
 /cmake/sdl2-ttf
+*.vcxproj.user
