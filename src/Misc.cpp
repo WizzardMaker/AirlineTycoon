@@ -2101,8 +2101,10 @@ void DebugBreak() { assert(0); }
 #endif
 
 DWORD AtGetTime() {
-    std::chrono::nanoseconds now = std::chrono::steady_clock::now().time_since_epoch();
-    return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+    static std::chrono::nanoseconds now = std::chrono::steady_clock::now().time_since_epoch();
+    static DWORD epoch = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+
+    return epoch + SDL_GetTicks64();
 }
 
 DWORD AtGetTickCount() { return SDL_GetTicks(); }

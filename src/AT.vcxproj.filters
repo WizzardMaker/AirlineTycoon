@@ -100,9 +100,6 @@
     <ClCompile Include="Global.cpp">
       <Filter>Source Files\Defines</Filter>
     </ClCompile>
-    <ClCompile Include="Intro.cpp">
-      <Filter>Source Files\Screens</Filter>
-    </ClCompile>
     <ClCompile Include="Globe.cpp">
       <Filter>Source Files\Rooms\Office</Filter>
     </ClCompile>
@@ -120,9 +117,6 @@
     </ClCompile>
     <ClCompile Include="Mainfrm.cpp">
       <Filter>Source Files\Old</Filter>
-    </ClCompile>
-    <ClCompile Include="Outro.cpp">
-      <Filter>Source Files\Screens</Filter>
     </ClCompile>
     <ClCompile Include="Planer.cpp">
       <Filter>Source Files\Screens\Ingame</Filter>
@@ -223,6 +217,15 @@
     <ClCompile Include="Klacker.cpp">
       <Filter>Source Files\Screens\MainMenu</Filter>
     </ClCompile>
+    <ClCompile Include="Outro.cpp">
+      <Filter>Source Files\Screens\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>Source Files\Screens\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="CVideo.cpp">
+      <Filter>Source Files\Screens\Video</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precompile Header File">
@@ -284,6 +287,9 @@
     </Filter>
     <Filter Include="Source Files\Screens\MainMenu">
       <UniqueIdentifier>{ae69ac08-fb2e-4230-a094-6fc8dd8ba91e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Screens\Video">
+      <UniqueIdentifier>{7e63dc9b-6ee6-4099-b428-bef65d9f1743}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -682,6 +688,9 @@
     </ClInclude>
     <ClInclude Include="helper.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CVideo.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -17,12 +17,13 @@
 #include "Fracht.h"
 #include "HLine.h"
 #include "Insel.h"
-#include "Intro.h"
 #include "Kiosk.h"
 #include "Makler.h"
 #include "Museum.h"
 #include "Nasa.h"
 #include "NewGamePopup.h" //Fenster zum Wahl der Gegner und der Spielstärke
+#include "CVideo.h"
+#include "Intro.h"
 #include "Outro.h"
 #include "PlanProp.h"
 #include "Reise.h"
@@ -429,7 +430,7 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
 
         if (Sim.Options.OptionViewedIntro == 0 && IntroPath.GetLength() != 0) {
             Sim.Gamestate = GAMESTATE_INTRO | GAMESTATE_WORKING;
-            TopWin = new CIntro(FALSE, 0);
+            TopWin = new CIntro();
             TitleBitmap.ReSize(pRoomLib, GFX_TITEL);
 
             while (Sim.Gamestate != GAMESTATE_BOOT) {
@@ -775,6 +776,8 @@ BOOL CTakeOffApp::InitInstance(int argc, char *argv[]) {
     pCursor->SetImage(gCursorBm.pBitmap);
     pCursor->Show(TRUE);
 
+    PrimaryBm.SetVSync(TRUE);
+
     GameLoop(nullptr);
 
     if (FrameWnd != nullptr) {
@@ -842,7 +845,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                     TopWin = new TitlePopup(FALSE, 0);
                 } else {
                     Sim.Gamestate = GAMESTATE_INTRO | GAMESTATE_WORKING;
-                    TopWin = new CIntro(FALSE, 0);
+                    TopWin = new CIntro();
                 }
             }
 
@@ -871,7 +874,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                 TopWin = nullptr;
                 delete TmpWin;
                 Sim.Gamestate = GAMESTATE_INTRO | GAMESTATE_WORKING;
-                TopWin = new CIntro(FALSE, 0);
+                TopWin = new CIntro();
             } else if (Sim.Gamestate == GAMESTATE_OUTRO || Sim.Gamestate == GAMESTATE_OUTRO2) {
                 for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
                     if (Sim.Players.Players[c].LocationWin != nullptr) {
@@ -890,9 +893,9 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                 Sim.Gamestate |= GAMESTATE_WORKING;
 
                 if ((Sim.Gamestate & (~GAMESTATE_WORKING)) == GAMESTATE_OUTRO) {
-                    TopWin = new COutro(FALSE, 0, "outro.smk");
+                    TopWin = new COutro("outro.smk");
                 } else {
-                    TopWin = new COutro(FALSE, 0, "outro2.smk");
+                    TopWin = new COutro("outro2.smk");
                 }
             } else if (Sim.Gamestate == (GAMESTATE_INIT | GAMESTATE_DONE)) {
                 // Das Spielfenster mit Flughafensicht
@@ -2056,7 +2059,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
           }
           }
           }*/
-
+        
         MessagePump();
     }
 

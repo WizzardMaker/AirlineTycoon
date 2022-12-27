@@ -164,6 +164,7 @@
     </ClCompile>
     <ClCompile Include="city.cpp">
     </ClCompile>
+    <ClCompile Include="CVideo.cpp" />
     <ClCompile Include="DataTabl.cpp">
     </ClCompile>
     <ClCompile Include="Route.cpp">
@@ -355,6 +356,7 @@
     <ClInclude Include="class.h" />
     <ClInclude Include="Colorfx.h" />
     <ClInclude Include="Credits.h" />
+    <ClInclude Include="CVideo.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="Designer.h" />
     <ClInclude Include="DutyFree.h" />
