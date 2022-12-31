@@ -525,8 +525,6 @@ SLONG SB_CPrimaryBitmap::Create(SDL_Renderer **out, SDL_Window *Wnd, unsigned sh
             Hdu.HercPrintf("Unable to lock backbuffer to surface");
             return -1;
         }
-
-        SDL_SetTextureScaleMode(lpTexture, SDL_ScaleModeBest);
     } else {
         Hdu.HercPrintf("Falling back to software presentation");
         lpTexture = nullptr;
