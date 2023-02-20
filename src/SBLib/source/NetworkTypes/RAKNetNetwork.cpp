@@ -68,7 +68,8 @@ bool HandleNetMessages(RakPeerInterface *net, int secondTimeout,
             break;
         }
 
-        net->DeallocatePacket(p);
+        if (isPacketConsumed)
+            net->DeallocatePacket(p);
 
         if (shouldExit)
             break;
@@ -257,7 +258,7 @@ bool RAKNetNetwork::Connect(const char *host) {
                 return true;
             }
 
-            return true;
+            return false;
         });
 
         return failed;
