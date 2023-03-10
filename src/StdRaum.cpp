@@ -6450,8 +6450,8 @@ void CStdRaum::MenuLeftClick(XY Pos) {
     case MENU_AUSLANDSAUFTRAG:
         if (MouseClickArea == -101 && MouseClickPar2 == 7 + 7) {
             if (qPlayer.CalledCities[MenuPar1] == 0) {
-                MenuStop();
                 MenuDialogReEntryB = 5000;
+                MenuStop();
             } else {
                 if (IsDialogOpen() != 0) {
                     StopDialog();
