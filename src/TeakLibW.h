@@ -26,6 +26,8 @@ extern const char *ExcAlbumNotConsistent;
 extern const char *ExcAlbumInvalidArg;
 
 extern SLONG TeakLibW_Exception(const char *, SLONG, const char *, ...);
+class TeakLibException;
+extern TeakLibException *GetLastException();
 extern char *TeakStrRemoveCppComment(char *);
 extern char *TeakStrRemoveEndingCodes(char *, char const *);
 extern unsigned char GerToLower(unsigned char);

@@ -11,6 +11,8 @@ const char *ExcNotImplemented = "Function not implemented!";
 const char *ExcImpossible = "Impossible Event %s occured";
 
 HDU Hdu;
+TeakLibException *lastError;
+
 
 HDU::HDU() : Log(nullptr) {
     char *base = SDL_GetBasePath();
@@ -104,5 +106,9 @@ SLONG TeakLibW_Exception(const char *file, SLONG line, const char *format, ...) 
     Hdu.HercPrintf(1, "====================================================================");
     Hdu.HercPrintf(0, "C++ Exception thrown. Program will probably be terminated.");
 
-    throw TeakLibException(buffer);
+    delete lastError;
+    
+    throw *(lastError = new TeakLibException(buffer));
 }
+
+TeakLibException *GetLastException() { return lastError; }
