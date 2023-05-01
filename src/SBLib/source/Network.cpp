@@ -426,4 +426,9 @@ bool SBNetwork::StartGetSessionListAsync() {
 
 SBList<SBStr> *SBNetwork::GetConnectionList() { return &mConnections; }
 
+void SBNetwork::SetMasterServer(const SBStr &masterServer) {
+    if (mNetwork->IsServerSearchable()) {
+        mNetwork->GetServerSearcher()->SetMasterServer(masterServer, 61013);
+    }
+}
 #endif

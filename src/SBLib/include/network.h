@@ -120,6 +120,7 @@ class SBNetwork {
     SBList<SBStr> *GetConnectionList();
     SBList<std::shared_ptr<SBStr>> *GetSessionListAsync();
     bool StartGetSessionListAsync();
+    void SetMasterServer(const SBStr &masterServer);
     static SBProviderEnum GetProviderID(char *);
     SBProviderEnum GetSelectedProviderID() const;
     SBCapabilitiesFlags GetSelectedProviderCapabilities() const;

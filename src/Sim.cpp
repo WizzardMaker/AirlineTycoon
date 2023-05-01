@@ -4122,7 +4122,7 @@ void COptions::ReadOptions() {
     SLONG tmp2 = Sim.MaxDifficulty2;
     SLONG tmp3 = Sim.MaxDifficulty3;
     SLONG c = 0;
-    char Buffer[80];
+    char Buffer[100];
 
     CRegistryAccess reg(chRegKey);
 
@@ -4232,6 +4232,14 @@ void COptions::ReadOptions() {
             OptionSpeechBubble = TRUE;
         }
     }
+
+    std::strcpy(Buffer, "master.open-airlinetycoon.com");
+    if (!reg.ReadRegistryKeyEx(Buffer, "OptionMasterServer")) {
+        OptionMasterServer = "master.open-airlinetycoon.com"; // default server
+    } else {
+        OptionMasterServer = Buffer;
+    }
+    std::strcpy(Buffer, "\0");
 
     if (OptionMasterVolume == 0) {
         OptionMasterVolume = 7;
@@ -4445,6 +4453,7 @@ dont_save_talking:
     reg.WriteRegistryKey_l(OptionLastMission3);
     reg.WriteRegistryKey_l(OptionLastMission2);
     reg.WriteRegistryKey_l(OptionLastProvider);
+    reg.WriteRegistryKeyEx(OptionMasterServer.c_str(), "OptionMasterServer");
 
     // Namen der Spieler
     for (c = 0; c < 4; c++) {

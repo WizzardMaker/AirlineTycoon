@@ -2385,6 +2385,7 @@ class COptions {
     SLONG OptionLastMission2{};
     SLONG OptionLastMission3{};
     SLONG OptionLastProvider{};
+    CString OptionMasterServer{};
 
   public:
     void ReadOptions(void);

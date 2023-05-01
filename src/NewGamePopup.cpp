@@ -1680,6 +1680,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
 
                 SBProviderEnum id = SBNetwork::GetProviderID(const_cast<char*>((LPCTSTR)pNetworkConnections->Get(NetMediumMapper[Selection] + 1)));
                 gNetwork.SetProvider(static_cast<SBProviderEnum>(id));
+                gNetwork.SetMasterServer(Sim.Options.OptionMasterServer);
                 if (id == SBProviderEnum::SBNETWORK_RAKNET_DIRECT_JOIN)
                 {
                     bThisIsSessionMaster = false;
