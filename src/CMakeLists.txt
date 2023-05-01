@@ -151,6 +151,7 @@ target_link_libraries(AT PRIVATE
     SBLib
     libsmacker
     enet
+    jansson
     SDL2::SDL2_ttf
     SDL2::SDL2_image
     SDL2::SDL2_mixer
@@ -160,8 +161,6 @@ target_link_libraries(AT PRIVATE
 
 if (WIN32)
     target_link_libraries(AT PRIVATE ws2_32 Winmm)
-else()
-    target_link_libraries(AT PRIVATE jansson)
 endif()
 
 add_custom_command(TARGET AT POST_BUILD 

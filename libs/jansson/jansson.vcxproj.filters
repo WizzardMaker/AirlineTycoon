@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\dump.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\error.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\hashtable.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\hashtable_seed.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\load.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\memory.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\pack_unpack.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\strbuffer.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\strconv.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\utf.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\value.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\version.c">
+      <Filter>Library Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\hashtable.h">
+      <Filter>Library Private Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\jansson_private.h">
+      <Filter>Library Private Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\strbuffer.h">
+      <Filter>Library Private Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\utf.h">
+      <Filter>Library Private Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\private_include\jansson_private_config.h">
+      <Filter>Library Private Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\include\jansson_config.h">
+      <Filter>Library Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\src\jansson.h">
+      <Filter>Library Public Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="K:\Projekte\Major Games\BASE\AirlineTycoon\libs\jansson\repo\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Library Private Headers">
+      <UniqueIdentifier>{F2FFB67B-7BA7-374E-BF3F-0D252AE8995A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library Public Headers">
+      <UniqueIdentifier>{2FAE6E37-8ED0-3092-968D-5A89BB49E54B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library Sources">
+      <UniqueIdentifier>{4F1D0971-2B58-30B0-B371-B53884ED66D2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
