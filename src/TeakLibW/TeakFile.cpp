@@ -60,7 +60,7 @@ SLONG TEAKFILE::GetPosition() const { return static_cast<SLONG>(SDL_RWtell(Ctx))
 void TEAKFILE::Open(char const *path, SLONG mode) {
     Ctx = SDL_RWFromFile(path, mode == TEAKFILE_WRITE ? "wb" : "rb");
     if (Ctx == nullptr) {
-        TeakLibW_Exception(nullptr, 0, ExcOpen, Path);
+        TeakLibW_Exception(nullptr, 0, ExcOpen, path);
     }
 
     Path = SDL_strdup(path);
