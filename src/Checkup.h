@@ -23,20 +23,17 @@
 #define WriteRegistryKey_u(vp) WriteRegistryKeyEx_u(vp, #vp)
 
 #ifdef WIN32
-#define USE_JSON 0
+#define USE_REG_MIGRATION 1
 #else
-#define USE_JSON 1
+#define USE_REG_MIGRATION 0
 #endif // WIN32
 
 class CRegistryAccess {
   private:
-#if USE_JSON
-    struct json_t *hKey{nullptr};
-#else
+    struct json_t *settingsJSON{nullptr};
     HKEY hKey;
-#endif
 
-  public:
+public:
     CRegistryAccess() = default;
     CRegistryAccess(const CString &RegistryPath);
     ~CRegistryAccess();
