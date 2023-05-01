@@ -40,7 +40,7 @@ CRegistryAccess::CRegistryAccess(const CString &RegistryPath) {
 bool CRegistryAccess::Open(const CString &RegistryPath) {
     Close(); // Alten Zugriff schließen
 
-    settingsJSON = json_load_file(AppPrefPath + "AT.json", 0, nullptr);
+    settingsJSON = json_load_file("AT.json", JSON_INDENT(3), nullptr);
     if (settingsJSON == nullptr) {
         settingsJSON = json_object();
     }
@@ -69,7 +69,7 @@ CRegistryAccess::~CRegistryAccess() { Close(); }
 //--------------------------------------------------------------------------------------------
 void CRegistryAccess::Close() {
     if (settingsJSON != nullptr) {
-        json_dump_file(settingsJSON, AppPrefPath + "AT.json", JSON_INDENT(3));
+        json_dump_file(settingsJSON, "AT.json", JSON_INDENT(3));
         json_decref(settingsJSON);
 #if USE_REG_MIGRATION
         RegCloseKey(hKey);
@@ -194,7 +194,7 @@ bool CRegistryAccess::ReadRegistryKeyEx_u(ULONG &Long, const CString &EntryName)
     }
 
     json_t *Entry = json_object_get(settingsJSON, EntryName);
-    if ((Entry == nullptr)) {
+    if (Entry == nullptr) {
         char *Temp = new char[500];
         bool rc = ReadRegistryKeyEx(Temp, EntryName);
 
