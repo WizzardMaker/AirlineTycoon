@@ -50,6 +50,7 @@ class ENetNetwork : public BaseNetworkType, public IServerSearchable {
     SBCapabilitiesFlags GetCapabilities() override;
     bool IsServerSearchable() override;
     IServerSearchable *GetServerSearcher() override;
+    void SetMasterServer(const SBStr &masterServer, const int port) override { }
 
     // IServerSearchable:
     SBList<std::shared_ptr<SBStr>> *GetSessionListAsync() override;

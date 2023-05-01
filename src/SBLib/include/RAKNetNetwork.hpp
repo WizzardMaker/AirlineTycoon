@@ -10,8 +10,6 @@
 #define RAKNET_TYPE_NAT_JOIN "RAKNet NAT Join"
 
 constexpr auto MASTER_SERVER_GAME_ID = "ATD";
-constexpr auto MASTER_SERVER_PORT = 61013;
-constexpr auto MASTER_SERVER_ADDRESS = "92.205.167.58"; //"62.75.148.96";
 
 #pragma pack(push, 1)
 namespace RakNet {
@@ -63,6 +61,7 @@ class RAKNetNetwork : public BaseNetworkType, public IServerSearchable {
 
     // Server Searchable:
 
+    void SetMasterServer(const SBStr &masterServer, const int port) override;
     void LoginMasterServer();
     void RetrieveRoomList();
     bool JoinRoom(const SBStr *roomName);
@@ -99,6 +98,9 @@ class RAKNetNetwork : public BaseNetworkType, public IServerSearchable {
     RAKSessionInfo *mSessionInfo = nullptr;
     bool mIsConnectingToMaster = false;
     UDPCallbacks *mUdpCallbackHandler = nullptr;
+
+    SBStr *mMasterServerAddress = nullptr;
+    unsigned short mMasterServerPort = 0;
 
     /// <summary>
     /// Starts to retrieve a list of clients that are connected to the specified master server

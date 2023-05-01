@@ -148,6 +148,9 @@ RAKNetNetwork::RAKNetNetwork() {
     TEAKRAND rand;
     rand.SRandTime();
 
+    mMasterServerAddress = new SBStr("master.open-airlinetycoon.com");
+    mMasterServerPort = 61013;
+
     mLocalID = rand.Rand();
 
     isHostMigrating = false;
@@ -175,7 +178,8 @@ SLONG RAKNetNetwork::GetMessageCount() {
 bool RAKNetNetwork::ConnectToUDP(RakNetGUID gameHost) {
     AT_Log("TESTING UDP...");
 
-    return mUdpClient->RequestForwarding(SystemAddress(MASTER_SERVER_ADDRESS, MASTER_SERVER_PORT), UNASSIGNED_SYSTEM_ADDRESS, gameHost, (60000 * 10), nullptr);
+    return mUdpClient->RequestForwarding(SystemAddress(mMasterServerAddress->c_str(), mMasterServerPort), UNASSIGNED_SYSTEM_ADDRESS, gameHost, (60000 * 10),
+                                         nullptr);
 }
 
 bool RAKNetNetwork::Connect(const char *host) {
@@ -189,7 +193,7 @@ bool RAKNetNetwork::Connect(const char *host) {
         this->mState = SBSessionEnum::SBNETWORK_SESSION_CLIENT;
 
         AT_Log("Opening NAT to %s\n", host);
-        mNATPlugin->OpenNAT(gameHost, SystemAddress(MASTER_SERVER_ADDRESS, MASTER_SERVER_PORT));
+        mNATPlugin->OpenNAT(gameHost, SystemAddress(mMasterServerAddress->c_str(), mMasterServerPort));
 
         bool failed = false;
         failed |= !HandleNetMessages(mServerBrowserPeer, MAX_TIMEOUT, [&](const Packet *packet, bool *shouldExit) {
@@ -612,6 +616,13 @@ int RAKNetNetwork::CheckConnectionPacket(Packet *p, RakPeerInterface *peerInterf
     }
 }
 
+void RAKNetNetwork::SetMasterServer(const SBStr &masterServer, const int port) {
+    AT_Log("Setting new master server '%s'", masterServer.c_str());
+
+    this->mMasterServerAddress = new SBStr(masterServer);
+    this->mMasterServerPort = port;
+}
+
 bool RAKNetNetwork::AwaitConnection(RakPeerInterface *peerInterface) {
     while (true) {
         Packet *p = peerInterface->Receive();
@@ -654,7 +665,7 @@ void RAKNetNetwork::LoginMasterServer() {
 }
 
 bool RAKNetNetwork::ConnectToMasterServer() {
-    AT_Log("Connecting to master server...");
+    AT_Log("Connecting to master server \"%s:%d\"...", this->mMasterServerAddress->c_str(), this->mMasterServerPort);
     if (mMaster == nullptr) {
         Initialize();
     }
@@ -688,10 +699,10 @@ bool RAKNetNetwork::ConnectToMasterServer() {
     mServerBrowserPeer->AttachPlugin(mRoomsPluginClient);
 
     mRoomsPluginClient->SetServer(false);
-    mRoomsPluginClient->SetServerAddress(SystemAddress(MASTER_SERVER_ADDRESS, MASTER_SERVER_PORT));
+    mRoomsPluginClient->SetServerAddress(SystemAddress(mMasterServerAddress->c_str(), mMasterServerPort));
     mRoomsPluginClient->SetRoomsCallback(mRoomCallbacks);
 
-    RakNet::ConnectionAttemptResult car = mServerBrowserPeer->Connect(MASTER_SERVER_ADDRESS, MASTER_SERVER_PORT, nullptr, 0);
+    RakNet::ConnectionAttemptResult car = mServerBrowserPeer->Connect(mMasterServerAddress->c_str(), mMasterServerPort, nullptr, 0);
 
     if (car == CONNECTION_ATTEMPT_STARTED) {
         while (true) {

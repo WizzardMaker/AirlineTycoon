@@ -97,6 +97,7 @@ class IServerSearchable {
     virtual SBList<std::shared_ptr<SBStr>> *GetSessionListAsync() = 0;
     virtual bool StartGetSessionListAsync() = 0;
     virtual bool JoinSession(const SBStr &, SBStr) = 0;
+    virtual void SetMasterServer(const SBStr& masterServer, const int port) = 0;
 };
 
 class BaseNetworkType {
