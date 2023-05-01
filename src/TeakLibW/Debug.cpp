@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <stdexcept>
+#include <mutex>
 
 const char *ExcAssert = "Assert (called from %s:%li) failed!";
 const char *ExcGuardian = "Con/Des guardian %lx failed!";
@@ -12,6 +13,8 @@ const char *ExcImpossible = "Impossible Event %s occured";
 
 HDU Hdu;
 TeakLibException *lastError;
+
+std::mutex logMutex;
 
 
 HDU::HDU() : Log(nullptr) {
@@ -32,6 +35,7 @@ HDU::HDU() : Log(nullptr) {
 #endif
 
     auto func = [](void* userdata, int category, SDL_LogPriority priority, const char* message) {
+        logMutex.lock();
         char* finalMessage = const_cast<char*>(message);
 
         bool modified = false;
@@ -46,12 +50,15 @@ HDU::HDU() : Log(nullptr) {
         func(userdata, category, priority, finalMessage);
 
         if(Hdu.Log){
+            
             fprintf(Hdu.Log, "%s\n", finalMessage);
             fflush(Hdu.Log);
         }
 
         if(modified)
             delete[] finalMessage;
+
+        logMutex.unlock();
     };
 
     SDL_LogSetOutputFunction(func, reinterpret_cast<void*>(defaultOut));
