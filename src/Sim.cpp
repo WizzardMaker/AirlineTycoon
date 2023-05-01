@@ -4345,28 +4345,6 @@ void COptions::ReadOptions() {
     Sim.MaxDifficulty2 = max(tmp2, Sim.MaxDifficulty2);
     Sim.MaxDifficulty3 = max(tmp3, Sim.MaxDifficulty3);
 
-    // Alter Schwierigkeitsgrad:
-    /*HKEY k;
-      if (ERROR_SUCCESS==RegOpenKeyEx (HKEY_CURRENT_USER, chRegKeyOld, 0, KEY_ALL_ACCESS, &k))
-      {
-      RegCloseKey (k);
-
-      SLONG tmp  = Sim.MaxDifficulty;
-      CRegistryAccess regOld (chRegKeyOld);
-
-      if (!regOld.ReadRegistryKey (&Sim.MaxDifficulty)) Sim.MaxDifficulty = 0;
-
-      for (c=0; c<6; c++)
-      if (MissionKeys[c]==Sim.MaxDifficulty)
-      {
-      Sim.MaxDifficulty=c;
-      break;
-      }
-      if (c==6) Sim.MaxDifficulty=0;
-
-      Sim.MaxDifficulty  = max (tmp,  Sim.MaxDifficulty);
-      }*/
-
     OptionLastMission = min(OptionLastMission, Sim.MaxDifficulty);
     OptionLastMission2 = min(OptionLastMission2, Sim.MaxDifficulty2);
     OptionLastMission3 = min(OptionLastMission3, Sim.MaxDifficulty3);
