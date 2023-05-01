@@ -4017,43 +4017,48 @@ void SIM::SaveHighscores() {
 #endif
     CString str;
     auto path = FullFilename("xmlmap.fla", MiscPath);
-    TEAKFILE OutputFile(path, TEAKFILE_WRITE);
+    try {
+        TEAKFILE OutputFile(path, TEAKFILE_WRITE);
 
-    for (auto &Highscore : Highscores) {
-        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)Highscore.Name), Highscore.Name.GetLength());
-        OutputFile.Write(reinterpret_cast<const UBYTE *>(";"), 1);
+        for (auto &Highscore : Highscores) {
+            OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)Highscore.Name), Highscore.Name.GetLength());
+            OutputFile.Write(reinterpret_cast<const UBYTE *>(";"), 1);
 
-        str = bprintf("%lu;", Highscore.UniqueGameId2);
-        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
+            str = bprintf("%lu;", Highscore.UniqueGameId2);
+            OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
 
-        __int64 k1 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
-        __int64 k2 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
-        __int64 k3 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
-        __int64 k4 = 0;
-        __int64 k5 = 0;
+            __int64 k1 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
+            __int64 k2 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
+            __int64 k3 = rand() % 256 + rand() % 256 * 256 + rand() % 256 * 65536 + rand() % 256 * 65536 * 256;
+            __int64 k4 = 0;
+            __int64 k5 = 0;
 
-        k4 = k5 = Highscore.Score;
-        k4 ^= (k1 ^ k3);
-        k5 ^= k2;
+            k4 = k5 = Highscore.Score;
+            k4 ^= (k1 ^ k3);
+            k5 ^= k2;
 
-        if (Highscore.Score == 0) {
-            k1 = k2 = k3 = k4 = k5 = 0;
+            if (Highscore.Score == 0) {
+                k1 = k2 = k3 = k4 = k5 = 0;
+            }
+
+            str = bprintf("%I64i;", k1);
+            OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
+
+            str = bprintf("%I64i;", k2);
+            OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
+
+            str = bprintf("%I64i;", k3);
+            OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
+
+            str = bprintf("%I64i;", k4);
+            OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
+
+            str = bprintf("%I64i\xd\xa", k5);
+            OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
         }
-
-        str = bprintf("%I64i;", k1);
-        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
-
-        str = bprintf("%I64i;", k2);
-        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
-
-        str = bprintf("%I64i;", k3);
-        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
-
-        str = bprintf("%I64i;", k4);
-        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
-
-        str = bprintf("%I64i\xd\xa", k5);
-        OutputFile.Write(reinterpret_cast<const UBYTE *>((LPCTSTR)str), str.GetLength());
+    } catch (TeakLibException &e) {
+        AT_Log("Failed to save highscores to file - reason: %s", e.what());
+        TeakLibW_Exception(FNL, "Failed to save highscores to file '%s'", path.c_str());
     }
 }
 
