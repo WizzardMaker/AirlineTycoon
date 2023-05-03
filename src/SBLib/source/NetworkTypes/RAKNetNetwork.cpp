@@ -237,8 +237,10 @@ bool RAKNetNetwork::Connect(const char *host) {
 
                 mNATPlugin->Clear();
 
-                AT_Log("Now trying UDP Client connection...");
-                ConnectToUDP(gameHost);
+                if (packet->data[0] == ID_NAT_PUNCHTHROUGH_FAILED) {
+                    AT_Log("Now trying UDP Client connection...");
+                    ConnectToUDP(gameHost);
+                }
 
                 *shouldExit = false;
                 return true;
