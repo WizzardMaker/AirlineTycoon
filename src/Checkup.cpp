@@ -128,11 +128,13 @@ bool CRegistryAccess::ReadRegistryKeyEx(char *Text, const CString &EntryName) {
 
     json_t *Entry = json_object_get(settingsJSON, EntryName);
     if (Entry == nullptr) {
+#if USE_REG_MIGRATION
         unsigned long TempSize = 500;
         HRESULT res = RegQueryValueEx(hKey, EntryName, NULL, NULL, (UBYTE *)Text, &TempSize);
         if (res != S_OK) {
             return false;
         }
+#endif
 
         this->WriteRegistryKeyEx(Text, EntryName);
         return true;

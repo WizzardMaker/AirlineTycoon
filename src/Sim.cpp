@@ -4233,13 +4233,13 @@ void COptions::ReadOptions() {
         }
     }
 
-    std::strcpy(Buffer, "master.open-airlinetycoon.com");
+    strcpy(Buffer, "master.open-airlinetycoon.com");
     if (!reg.ReadRegistryKeyEx(Buffer, "OptionMasterServer")) {
         OptionMasterServer = "master.open-airlinetycoon.com"; // default server
     } else {
         OptionMasterServer = Buffer;
     }
-    std::strcpy(Buffer, "\0");
+    strcpy(Buffer, "\0");
 
     if (OptionMasterVolume == 0) {
         OptionMasterVolume = 7;
