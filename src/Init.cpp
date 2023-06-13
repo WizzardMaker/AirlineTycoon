@@ -68,12 +68,9 @@ void InitPathVars() {
 //--------------------------------------------------------------------------------------------
 void InitSoundSystem(SDL_Window *AppWnd) {
     gpSSE = new SSE(AppWnd, 44100, 1, 16);
+    gpSSE->EnableDS();
 
     if (Sim.Options.OptionDigiSound != 0) {
-        if (Sim.Options.OptionEnableDigi != 0) {
-            gpSSE->EnableDS();
-        }
-
         gpSSE->CreateFX(&gpClickFx);
         gpClickFx->Load(const_cast<char *>((LPCTSTR)FullFilename("click.raw", SoundPath)));
         gDoorOpen.ReInit("tuerauf.raw");
