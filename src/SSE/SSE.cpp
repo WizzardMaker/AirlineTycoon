@@ -330,6 +330,8 @@ SLONG FX::Load(const char *file) {
         Free();
     }
 
+    SDL_ClearError();
+
     if (!DoesFileExist(file)) {
         AT_Log_I("Sound", "File %s not found", file);
     }
@@ -348,6 +350,13 @@ SLONG FX::Load(const char *file) {
     } else {
         _fxData.pBuffer = Mix_LoadWAV(file);
     }
+
+    auto error = SDL_GetError();
+    if (error && strlen(error) != 0) {
+        AT_Log_I("Sound", "Error during audio load of file \"%s\": %s", file, error);
+        return SSE_CANNOTLOAD;
+    }
+
     _fxData.bufferSize = _fxData.pBuffer->alen;
     return SSE_OK;
 }
