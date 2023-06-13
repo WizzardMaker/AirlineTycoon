@@ -108,7 +108,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
         }
 
         SLONG c = 0;
-        SLONG tmp = 0;
+        signed long long tmp = 0;
         SLONG tmp2 = 0;
         SLONG id = 0;
         bool bJustDeletedTextWindow = false;
@@ -4574,9 +4574,9 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
                 for (c = 4; c >= 0; c--) {
                     if (qPlayer.Money - tmp * "\x1\x2\x3\x5\xa"[c] >= DEBT_LIMIT) {
-                        MakeSayWindow(1, TOKEN_MAKLER, 140, 141 + c, 1, &FontDialog, &FontDialogLight, "", (LPCTSTR)Insert1000erDots(tmp),
-                                      (LPCTSTR)Insert1000erDots(tmp * 2), (LPCTSTR)Insert1000erDots(tmp * 3), (LPCTSTR)Insert1000erDots(tmp * 5),
-                                      (LPCTSTR)Insert1000erDots(tmp * 10));
+                        MakeSayWindow(1, TOKEN_MAKLER, 140, 141 + c, 1, &FontDialog, &FontDialogLight, "", (LPCTSTR)Insert1000erDots64(tmp),
+                                      (LPCTSTR)Insert1000erDots64(tmp * 2), (LPCTSTR)Insert1000erDots64(tmp * 3), (LPCTSTR)Insert1000erDots64(tmp * 5),
+                                      (LPCTSTR)Insert1000erDots64(tmp * 10));
                         break;
                     }
                 }
