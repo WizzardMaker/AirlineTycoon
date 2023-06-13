@@ -53,7 +53,7 @@ SLONG ReadLine(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart, char *Line, SLONG Lin
 // Zählt alle Zeilen in einem Buffer
 //--------------------------------------------------------------------------------------------
 SLONG CountLines(BUFFER_V<UBYTE> &Buffer, SLONG BufferStart) {
-    SLONG count = 0;
+    SLONG count = 1;
 
     for (SLONG c = BufferStart; c < Buffer.AnzEntries(); c++) {
         if (Buffer[c] == 13 || Buffer[c] == 10 || Buffer[c] == 26) {
