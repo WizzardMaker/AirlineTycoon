@@ -8,3 +8,11 @@ CMakeSettings.json
 /cmake/sdl2-mixer
 /cmake/sdl2-ttf
 *.vcxproj.user
+CMakeFiles/
+Makefile
+cmake_install.cmake
+CMakeCache.txt
+*.a
+cmake_install.cmake
+/libs/libsmacker/smk2avi
+/libs/libsmacker/driver
