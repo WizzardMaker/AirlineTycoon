@@ -4124,238 +4124,242 @@ void COptions::ReadOptions() {
     SLONG c = 0;
     char Buffer[100];
 
-    CRegistryAccess reg(chRegKey);
+    {
+        CRegistryAccess reg(chRegKey);
 
-    // New Settings:
-    if (!reg.ReadRegistryKey_l(OptionFullscreen)) {
-        OptionFullscreen = 0;
-    }
-    if (!reg.ReadRegistryKey_b(OptionKeepAspectRatio)) {
-        OptionKeepAspectRatio = 1;
-    }
-
-    // Falls Setup nicht geladen wurde dann Standard-Parameter initialisieren
-    if (!reg.ReadRegistryKey_b(OptionPlanes)) {
-        OptionPlanes = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionPassengers)) {
-        OptionPassengers = TRUE;
-    }
-    if (!reg.ReadRegistryKey_l(OptionMusicType)) {
-        OptionMusicType = 2;
-    }
-    if (!reg.ReadRegistryKey_b(OptionEnableDigi)) {
-        OptionEnableDigi = TRUE;
-    }
-    if (!reg.ReadRegistryKey_l(OptionMusik)) {
-        OptionMusik = 3;
-    }
-    if (!reg.ReadRegistryKey_l(OptionMasterVolume)) {
-        OptionMasterVolume = 7;
-    }
-    if (!reg.ReadRegistryKey_l(OptionLoopMusik)) {
-        OptionLoopMusik = 0;
-    }
-    if (!reg.ReadRegistryKey_l(OptionAmbiente)) {
-        OptionAmbiente = 3;
-    }
-    if (!reg.ReadRegistryKey_b(OptionRealKuerzel)) {
-        OptionRealKuerzel = TRUE;
-    }
-    if (!reg.ReadRegistryKey_l(OptionDurchsagen)) {
-        OptionDurchsagen = 3;
-    }
-    if (!reg.ReadRegistryKey_l(OptionTalking)) {
-        OptionTalking = 7;
-    }
-    if (!reg.ReadRegistryKey_l(OptionPlaneVolume)) {
-        OptionPlaneVolume = 3;
-    }
-    if (!reg.ReadRegistryKey_l(OptionEffekte)) {
-        OptionEffekte = 3;
-    }
-    if (!reg.ReadRegistryKey_b(OptionGirl)) {
-        OptionGirl = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionBerater)) {
-        OptionBerater = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionBriefBriefing)) {
-        OptionBriefBriefing = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionBlenden)) {
-        OptionBlenden = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionTransparenz)) {
-        OptionTransparenz = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionSchatten)) {
-        OptionSchatten = TRUE;
-    }
-    if (!reg.ReadRegistryKey_l(OptionAirport)) {
-        OptionAirport = -1;
-    }
-    if (!reg.ReadRegistryKey_b(OptionThinkBubbles)) {
-        OptionThinkBubbles = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionFlipping)) {
-        OptionFlipping = FALSE;
-    }
-    if (!reg.ReadRegistryKey_l(Sim.MaxDifficulty)) {
-        Sim.MaxDifficulty = 0;
-    }
-    if (!reg.ReadRegistryKey_l(Sim.MaxDifficulty2)) {
-        Sim.MaxDifficulty2 = 11;
-    }
-    if (!reg.ReadRegistryKey_l(Sim.MaxDifficulty3)) {
-        Sim.MaxDifficulty3 = 41;
-    }
-    if (!reg.ReadRegistryKey_b(OptionAutosave)) {
-        OptionAutosave = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionFax)) {
-        OptionFax = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionRoundNumber)) {
-        OptionRoundNumber = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionRandomStartday)) {
-        OptionRandomStartday = TRUE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionViewedIntro)) {
-        OptionViewedIntro = FALSE;
-    }
-    if (!reg.ReadRegistryKey_b(OptionSpeechBubble)) {
-        if (gLanguage == LANGUAGE_O) {
-            OptionSpeechBubble = TRUE;
-        } else {
-            OptionSpeechBubble = TRUE;
+        // New Settings:
+        if (!reg.ReadRegistryKey_l(OptionFullscreen)) {
+            OptionFullscreen = 0;
         }
-    }
+        if (!reg.ReadRegistryKey_b(OptionKeepAspectRatio)) {
+            OptionKeepAspectRatio = 1;
+        }
 
-    strcpy(Buffer, "master.open-airlinetycoon.com");
-    if (!reg.ReadRegistryKeyEx(Buffer, "OptionMasterServer")) {
-        OptionMasterServer = "master.open-airlinetycoon.com"; // default server
-    } else {
-        OptionMasterServer = Buffer;
-    }
-    strcpy(Buffer, "\0");
+        // Falls Setup nicht geladen wurde dann Standard-Parameter initialisieren
+        if (!reg.ReadRegistryKey_b(OptionPlanes)) {
+            OptionPlanes = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionPassengers)) {
+            OptionPassengers = TRUE;
+        }
+        if (!reg.ReadRegistryKey_l(OptionMusicType)) {
+            OptionMusicType = 2;
+        }
+        if (!reg.ReadRegistryKey_b(OptionEnableDigi)) {
+            OptionEnableDigi = TRUE;
+        }
+        if (!reg.ReadRegistryKey_l(OptionMusik)) {
+            OptionMusik = 3;
+        }
+        if (!reg.ReadRegistryKey_l(OptionMasterVolume)) {
+            OptionMasterVolume = 7;
+        }
+        if (!reg.ReadRegistryKey_l(OptionLoopMusik)) {
+            OptionLoopMusik = 0;
+        }
+        if (!reg.ReadRegistryKey_l(OptionAmbiente)) {
+            OptionAmbiente = 3;
+        }
+        if (!reg.ReadRegistryKey_b(OptionRealKuerzel)) {
+            OptionRealKuerzel = TRUE;
+        }
+        if (!reg.ReadRegistryKey_l(OptionDurchsagen)) {
+            OptionDurchsagen = 3;
+        }
+        if (!reg.ReadRegistryKey_l(OptionTalking)) {
+            OptionTalking = 7;
+        }
+        if (!reg.ReadRegistryKey_l(OptionPlaneVolume)) {
+            OptionPlaneVolume = 3;
+        }
+        if (!reg.ReadRegistryKey_l(OptionEffekte)) {
+            OptionEffekte = 3;
+        }
+        if (!reg.ReadRegistryKey_b(OptionGirl)) {
+            OptionGirl = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionBerater)) {
+            OptionBerater = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionBriefBriefing)) {
+            OptionBriefBriefing = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionBlenden)) {
+            OptionBlenden = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionTransparenz)) {
+            OptionTransparenz = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionSchatten)) {
+            OptionSchatten = TRUE;
+        }
+        if (!reg.ReadRegistryKey_l(OptionAirport)) {
+            OptionAirport = -1;
+        }
+        if (!reg.ReadRegistryKey_b(OptionThinkBubbles)) {
+            OptionThinkBubbles = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionFlipping)) {
+            OptionFlipping = FALSE;
+        }
+        if (!reg.ReadRegistryKey_l(Sim.MaxDifficulty)) {
+            Sim.MaxDifficulty = 0;
+        }
+        if (!reg.ReadRegistryKey_l(Sim.MaxDifficulty2)) {
+            Sim.MaxDifficulty2 = 11;
+        }
+        if (!reg.ReadRegistryKey_l(Sim.MaxDifficulty3)) {
+            Sim.MaxDifficulty3 = 41;
+        }
+        if (!reg.ReadRegistryKey_b(OptionAutosave)) {
+            OptionAutosave = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionFax)) {
+            OptionFax = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionRoundNumber)) {
+            OptionRoundNumber = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionRandomStartday)) {
+            OptionRandomStartday = TRUE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionViewedIntro)) {
+            OptionViewedIntro = FALSE;
+        }
+        if (!reg.ReadRegistryKey_b(OptionSpeechBubble)) {
+            if (gLanguage == LANGUAGE_O) {
+                OptionSpeechBubble = TRUE;
+            } else {
+                OptionSpeechBubble = TRUE;
+            }
+        }
 
-    if (OptionMasterVolume == 0) {
-        OptionMasterVolume = 7;
-    }
+        strcpy(Buffer, "master.open-airlinetycoon.com");
+        if (!reg.ReadRegistryKeyEx(Buffer, "OptionMasterServer")) {
+            OptionMasterServer = "master.open-airlinetycoon.com"; // default server
+        } else {
+            OptionMasterServer = Buffer;
+        }
+        strcpy(Buffer, "\0");
+
+        if (OptionMasterVolume == 0) {
+            OptionMasterVolume = 7;
+        }
 
 #ifdef NO_D_VOICES
-    if (gLanguage == LANGUAGE_D) {
-        OptionSpeechBubble = TRUE;
-        OptionTalking = FALSE;
-    }
+        if (gLanguage == LANGUAGE_D) {
+            OptionSpeechBubble = TRUE;
+            OptionTalking = FALSE;
+        }
 #endif
 #ifdef NO_E_VOICES
-    if (gLanguage == LANGUAGE_E &&) {
-        OptionSpeechBubble = TRUE;
-        OptionTalking = FALSE;
-    }
+        if (gLanguage == LANGUAGE_E &&) {
+            OptionSpeechBubble = TRUE;
+            OptionTalking = FALSE;
+        }
 #endif
 #ifdef NO_N_VOICES
-    if (gLanguage == LANGUAGE_N) {
-        OptionSpeechBubble = TRUE;
-        OptionTalking = FALSE;
-    }
+        if (gLanguage == LANGUAGE_N) {
+            OptionSpeechBubble = TRUE;
+            OptionTalking = FALSE;
+        }
 #endif
 
-    if (bVoicesNotFound) {
-        OptionSpeechBubble = TRUE;
-        OptionTalking = FALSE;
-    }
+        if (bVoicesNotFound) {
+            OptionSpeechBubble = TRUE;
+            OptionTalking = FALSE;
+        }
 
 #ifdef NO_INTRO
-    OptionViewedIntro = TRUE;
+        OptionViewedIntro = TRUE;
 #endif
 
-    if (!reg.ReadRegistryKey_l(OptionRoomDescription)) {
-        OptionRoomDescription = 0;
-    }
-    if (!reg.ReadRegistryKey_l(OptionLastPlayer)) {
-        OptionLastPlayer = 0;
-    }
-    if (!reg.ReadRegistryKey_l(OptionLastMission)) {
-        OptionLastMission = 0;
-    }
-    if (!reg.ReadRegistryKey_l(OptionLastMission2)) {
-        OptionLastMission2 = 11;
-    }
-    if (!reg.ReadRegistryKey_l(OptionLastMission3)) {
-        OptionLastMission3 = 41;
-    }
-    if (!reg.ReadRegistryKey_l(OptionLastProvider)) {
-        OptionLastProvider = 0;
-    }
-
-    if (!reg.ReadRegistryKeyEx_u(Sim.KeyHints[0], "KeyHints1")) {
-        Sim.KeyHints[0] = 0;
-    }
-    if (!reg.ReadRegistryKeyEx_u(Sim.KeyHints[2], "KeyHints2")) {
-        Sim.KeyHints[2] = 0;
-    }
-    Sim.KeyHints[1] = 0;
-
-    // Namen der Spieler
-    for (c = 0; c < 4; c++) {
-        if (!reg.ReadRegistryKeyEx(Buffer, bprintf("Player%li", c))) {
-            OptionPlayerNames[c] = "";
-        } else {
-            OptionPlayerNames[c] = Buffer;
+        if (!reg.ReadRegistryKey_l(OptionRoomDescription)) {
+            OptionRoomDescription = 0;
+        }
+        if (!reg.ReadRegistryKey_l(OptionLastPlayer)) {
+            OptionLastPlayer = 0;
+        }
+        if (!reg.ReadRegistryKey_l(OptionLastMission)) {
+            OptionLastMission = 0;
+        }
+        if (!reg.ReadRegistryKey_l(OptionLastMission2)) {
+            OptionLastMission2 = 11;
+        }
+        if (!reg.ReadRegistryKey_l(OptionLastMission3)) {
+            OptionLastMission3 = 41;
+        }
+        if (!reg.ReadRegistryKey_l(OptionLastProvider)) {
+            OptionLastProvider = 0;
         }
 
-        OptionAirlineNames[c] = "";
-        OptionAirlineAbk[c] = "";
-    }
-
-    // Schwierigkeitsgrad decodieren:
-    for (c = 0; c < 6; c++) {
-        if (MissionKeys[c] == Sim.MaxDifficulty) {
-            Sim.MaxDifficulty = c;
-            break;
+        if (!reg.ReadRegistryKeyEx_u(Sim.KeyHints[0], "KeyHints1")) {
+            Sim.KeyHints[0] = 0;
         }
-    }
-    if (c == 6) {
-        Sim.MaxDifficulty = 0;
-    }
+        if (!reg.ReadRegistryKeyEx_u(Sim.KeyHints[2], "KeyHints2")) {
+            Sim.KeyHints[2] = 0;
+        }
+        Sim.KeyHints[1] = 0;
 
-    // Schwierigkeitsgrad für AddOn decodieren:
-    {
-        for (c = 0; c < 10; c++) {
-            if (MissionKeys2[c] == Sim.MaxDifficulty2) {
-                Sim.MaxDifficulty2 = c + DIFF_ADDON01;
+        // Namen der Spieler
+        for (c = 0; c < 4; c++) {
+            if (!reg.ReadRegistryKeyEx(Buffer, bprintf("Player%li", c))) {
+                OptionPlayerNames[c] = "";
+            } else {
+                OptionPlayerNames[c] = Buffer;
+            }
+
+            OptionAirlineNames[c] = "";
+            OptionAirlineAbk[c] = "";
+        }
+
+        // Schwierigkeitsgrad decodieren:
+        for (c = 0; c < 6; c++) {
+            if (MissionKeys[c] == Sim.MaxDifficulty) {
+                Sim.MaxDifficulty = c;
                 break;
             }
         }
-        if (c == 10) {
-            Sim.MaxDifficulty2 = DIFF_ADDON01;
+        if (c == 6) {
+            Sim.MaxDifficulty = 0;
         }
-    }
 
-    // Schwierigkeitsgrad für AddOn Flight Security decodieren:
-    {
-        for (c = 0; c < 10; c++) {
-            if (MissionKeys3[c] == Sim.MaxDifficulty3) {
-                Sim.MaxDifficulty3 = c + DIFF_ATFS01;
-                break;
+        // Schwierigkeitsgrad für AddOn decodieren:
+        {
+            for (c = 0; c < 10; c++) {
+                if (MissionKeys2[c] == Sim.MaxDifficulty2) {
+                    Sim.MaxDifficulty2 = c + DIFF_ADDON01;
+                    break;
+                }
+            }
+            if (c == 10) {
+                Sim.MaxDifficulty2 = DIFF_ADDON01;
             }
         }
-        if (c == 10) {
-            Sim.MaxDifficulty3 = DIFF_ATFS01;
+
+        // Schwierigkeitsgrad für AddOn Flight Security decodieren:
+        {
+            for (c = 0; c < 10; c++) {
+                if (MissionKeys3[c] == Sim.MaxDifficulty3) {
+                    Sim.MaxDifficulty3 = c + DIFF_ATFS01;
+                    break;
+                }
+            }
+            if (c == 10) {
+                Sim.MaxDifficulty3 = DIFF_ATFS01;
+            }
         }
+
+        Sim.MaxDifficulty = max(tmp, Sim.MaxDifficulty);
+        Sim.MaxDifficulty2 = max(tmp2, Sim.MaxDifficulty2);
+        Sim.MaxDifficulty3 = max(tmp3, Sim.MaxDifficulty3);
+
+        OptionLastMission = min(OptionLastMission, Sim.MaxDifficulty);
+        OptionLastMission2 = min(OptionLastMission2, Sim.MaxDifficulty2);
+        OptionLastMission3 = min(OptionLastMission3, Sim.MaxDifficulty3);
     }
 
-    Sim.MaxDifficulty = max(tmp, Sim.MaxDifficulty);
-    Sim.MaxDifficulty2 = max(tmp2, Sim.MaxDifficulty2);
-    Sim.MaxDifficulty3 = max(tmp3, Sim.MaxDifficulty3);
-
-    OptionLastMission = min(OptionLastMission, Sim.MaxDifficulty);
-    OptionLastMission2 = min(OptionLastMission2, Sim.MaxDifficulty2);
-    OptionLastMission3 = min(OptionLastMission3, Sim.MaxDifficulty3);
+    WriteOptions();
 }
 
 //--------------------------------------------------------------------------------------------

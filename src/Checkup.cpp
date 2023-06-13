@@ -40,8 +40,11 @@ CRegistryAccess::CRegistryAccess(const CString &RegistryPath) {
 bool CRegistryAccess::Open(const CString &RegistryPath) {
     Close(); // Alten Zugriff schließen
 
-    settingsJSON = json_load_file("AT.json", JSON_INDENT(3), nullptr);
+    json_error_t error;
+
+    settingsJSON = json_load_file("AT.json", JSON_INDENT(3), &error);
     if (settingsJSON == nullptr) {
+        AT_Log_Generic("encountered error during settings load: %s", error.text);
         settingsJSON = json_object();
     }
     if (!IsOpen()) {
@@ -137,7 +140,11 @@ bool CRegistryAccess::ReadRegistryKeyEx(char *Text, const CString &EntryName) {
 #endif
 
         this->WriteRegistryKeyEx(Text, EntryName);
+#if USE_REG_MIGRATION
         return true;
+#else
+        return false;
+#endif
     } else if (!json_is_string(Entry)) {
         return false;
     }
@@ -163,7 +170,7 @@ bool CRegistryAccess::ReadRegistryKeyEx_b(BOOL &Bool, const CString &EntryName) 
 
         this->WriteRegistryKeyEx_b(Bool, EntryName);
 
-        return (rc);
+        return (false);
     } else if (!json_is_boolean(Entry)) {
         return false;
     }
