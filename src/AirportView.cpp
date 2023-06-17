@@ -1233,7 +1233,10 @@ void AirportView::OnPaint() {
                                  BrickId == 0x10000000 + RUNE_WAYPOINT_WAIT || BrickId == 0x10000000 + RUNE_WAYPOINT_START ||
                                  BrickId == 0x10000000 + RUNE_WAYPOINT_G || BrickId == 0x10000000 + RUNE_CONDBLOCK || BrickId == 0x10000000 + 337 ||
                                  BrickId == 0x10000000 + 338)) {
-                                if (qBuild.ScreenPos.x - ViewPos.x + WinP1.x > -10 && qBuild.ScreenPos.x - ViewPos.x + WinP1.x < 650) {
+
+                                static bool enableEditor = true;
+
+                                if (enableEditor && qBuild.ScreenPos.x - ViewPos.x + WinP1.x > -10 && qBuild.ScreenPos.x - ViewPos.x + WinP1.x < 650) {
                                     SDL_Surface *Surf = PrimaryBm.PrimaryBm.GetSurface();
 
                                     TTF_Font *Font = TTF_OpenFont("arial.ttf", 9); // Arial
@@ -1246,6 +1249,8 @@ void AirportView::OnPaint() {
                                         SDL_BlitSurface(Text, nullptr, Surf, &Dst);
                                         SDL_FreeSurface(Text);
                                         TTF_CloseFont(Font);
+                                    }else {
+                                        enableEditor = false;
                                     }
                                 }
                             }
