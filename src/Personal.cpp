@@ -323,6 +323,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
     BUFFER_V<char> Line(300);
     SLONG Num = 0;
     CString TmpStr;
+    ULONG line = 0;
 
     // Load Table header:
     auto FileData = LoadCompleteFile(FullFilename(TabFilename, ExcelPath));
@@ -330,16 +331,18 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
 
     // Die erste Zeile einlesen
     FileP = ReadLine(FileData, FileP, Line.getData(), 300);
+    line++;
 
     Workers.ReSize(0);
     Workers.ReSize(MAX_WORKERS);
     Num = 0;
-
+     
     while (true) {
         if (FileP >= FileData.AnzEntries()) {
             break;
         }
         FileP = ReadLine(FileData, FileP, Line.getData(), 300);
+        line++;
 
         TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
@@ -347,31 +350,41 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
             TeakLibW_Exception(FNL, ExcNever);
             return;
         }
-
-        Workers[Num].Name = strtok(Line.getData(), TabSeparator);
-        Workers[Num].Geschlecht = atoi(strtok(nullptr, TabSeparator));
-        Workers[Num].Typ = atoi(strtok(nullptr, TabSeparator));
-        Workers[Num].Gehalt = atoi(strtok(nullptr, TabSeparator));
-        Workers[Num].Talent = atoi(strtok(nullptr, TabSeparator));
-        Workers[Num].Alter = atoi(strtok(nullptr, TabSeparator));
-        CString Kommentar(strtok(nullptr, ""));
-        Workers[Num].Kommentar = KorrigiereUmlaute(Kommentar);
-        Workers[Num].Employer = WORKER_RESERVE;
-        Workers[Num].Happyness = 100;
-
-        Workers[Num].WarnedToday = 0;
-        Workers[Num].TimeInPool = -1;
-        Workers[Num].OriginalGehalt = Workers[Num].Gehalt;
-
-        if (Workers[Num].Kommentar.GetLength() > 0) {
-            if (Workers[Num].Kommentar[0] == '"') {
-                Workers[Num].Kommentar = Workers[Num].Kommentar.Right(Workers[Num].Kommentar.GetLength() - 1);
+        try {
+            CString name = strtok(Line.getData(), TabSeparator);
+            if (name.length() == 0) {
+                AT_Log_I("Loading", "Empty worker found in file \"%s\" at line: %d - skipping...", FullFilename(TabFilename, ExcelPath).c_str(), line);
+                continue;
             }
-            if (Workers[Num].Kommentar[Workers[Num].Kommentar.GetLength() - 1] == '"') {
-                Workers[Num].Kommentar = Workers[Num].Kommentar.Left(Workers[Num].Kommentar.GetLength() - 1);
+
+            Workers[Num].Name = name;
+            Workers[Num].Geschlecht = atoi(strtok(nullptr, TabSeparator));
+            Workers[Num].Typ = atoi(strtok(nullptr, TabSeparator));
+            Workers[Num].Gehalt = atoi(strtok(nullptr, TabSeparator));
+            Workers[Num].Talent = atoi(strtok(nullptr, TabSeparator));
+            Workers[Num].Alter = atoi(strtok(nullptr, TabSeparator));
+            CString Kommentar(strtok(nullptr, ""));
+            Workers[Num].Kommentar = KorrigiereUmlaute(Kommentar);
+            Workers[Num].Employer = WORKER_RESERVE;
+            Workers[Num].Happyness = 100;
+
+            Workers[Num].WarnedToday = 0;
+            Workers[Num].TimeInPool = -1;
+            Workers[Num].OriginalGehalt = Workers[Num].Gehalt;
+
+            if (Workers[Num].Kommentar.GetLength() > 0) {
+                if (Workers[Num].Kommentar[0] == '"') {
+                    Workers[Num].Kommentar = Workers[Num].Kommentar.Right(Workers[Num].Kommentar.GetLength() - 1);
+                }
+                if (Workers[Num].Kommentar[Workers[Num].Kommentar.GetLength() - 1] == '"') {
+                    Workers[Num].Kommentar = Workers[Num].Kommentar.Left(Workers[Num].Kommentar.GetLength() - 1);
+                }
+            }
+        } catch (...) {
+            if (Num >= Workers.AnzEntries()) {
+                AT_Log_I("Loading", "Failed to load new worker in file \"%s\" at line: %d", FullFilename(TabFilename, ExcelPath).c_str(), Num + 1);
             }
         }
-
         Num++;
     }
 
@@ -379,6 +392,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
 
     // Load Table header:
     auto FileData2 = LoadCompleteFile(FullFilename(TabFilename2, ExcelPath));
+    line = 0;
 
     FNames.ReSize(0);
     MNames.ReSize(0);
@@ -390,6 +404,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
     // Die erste Zeile einlesen
     FileP = 0;
     FileP = ReadLine(FileData2, FileP, Line.getData(), 300);
+    line++;
 
     SLONG i1 = 0;
     SLONG i2 = 0;
@@ -400,6 +415,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
             break;
         }
         FileP = ReadLine(FileData2, FileP, Line.getData(), 300);
+        line++;
 
         TeakStrRemoveEndingCodes(Line.getData(), "\xd\xa\x1a\r");
 
