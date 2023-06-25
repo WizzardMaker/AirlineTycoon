@@ -48,6 +48,19 @@ jobs:
         Get-ChildItem -Path ./cmake/ -Include *.dll -Recurse | Where-Object {$_.FullName -match "x64"} | Copy-Item -Destination .\dependencies\
         Compress-Archive -Path .\dependencies\* -DestinationPath dependencies.zip
 
+    - name: Upload sentry debug files
+      shell: bash
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+        SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
+        # SENTRY_URL: https://sentry.io/
+      run: |
+        curl -sL https://sentry.io/get-cli/ | bash
+        sentry-cli login
+        sentry-cli debug-files upload ./BUILD/AT/Release/AT.pdb
+        sentry-cli debug-files upload ./BUILD/AT/Release/AT.exe
+
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
@@ -55,3 +68,4 @@ jobs:
           dependencies.zip
           BUILD/AT/Release/AT.exe
           BUILD/AT/Release/AT.pdb
+
