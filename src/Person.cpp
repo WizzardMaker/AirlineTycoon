@@ -528,7 +528,7 @@ UBYTE CLANS::GetCustomerId(SLONG Browned, SLONG Koffer, TEAKRAND *pRand) {
             ((((*this)[c].Type == CLAN_FEMALE || (*this)[c].Type == CLAN_MALE) && Browned < 2) ||
              (((*this)[c].Type == CLAN_BROWNFEMALE || (*this)[c].Type == CLAN_BROWNMALE) && Browned > 0))) {
             Num += (*this)[c].Wkeit;
-            if (Num > Rnd) {
+            if (Num >= Rnd) {
                 return (static_cast<UBYTE>(c));
             }
         }
