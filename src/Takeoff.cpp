@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
                 SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "AT - Exception", e->what(), nullptr);
             }
 
-            const std::string id = std::to_string(*(int*)closure);
+            const std::string id = std::to_string(*static_cast<int *>(closure));
             const std::string msg = std::string("Airline Tycoon experienced an unexpected exception\nPress OK to send crash information to sentry\nPress Abort to not send the crash to sentry\n\nCustom Crash ID is: ") + id;
             AT_Log_I("CRASH", msg);
             std::filesystem::copy_file("debug.txt", "crash-" + id + ".txt");
@@ -136,11 +136,7 @@ int main(int argc, char *argv[]) {
         }, &crashId);
         sentry_init(options);
 
-        const sentry_value_t crumbId = sentry_value_new_breadcrumb("default", "");
-        sentry_value_set_by_key(crumbId, "category", sentry_value_new_string("Custom Crash ID"));
-        sentry_value_set_by_key(crumbId, "level", sentry_value_new_string("info"));
-        sentry_value_set_by_key(crumbId, "message", sentry_value_new_string(std::to_string(crashId).c_str()));
-        sentry_add_breadcrumb(crumbId);
+        sentry_set_tag("Crash ID", std::to_string(crashId).c_str());
     }
 #endif
 
