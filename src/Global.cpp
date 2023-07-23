@@ -200,7 +200,6 @@ CString GliPath;      // diverse GLI-Dateien
 CString SmackerPath;  // Die Smacker-Filmchen
 CString IntroPath;    // Der Intro-Film
 CString AppPath;      // Der Ganze Pfad, z.B. "f:\project\takeoff\"
-CString AppPrefPath;
 CString VoicePath;   // die Sprache
 CString MyPlanePath; // die eigenen Flugzeuge
 

@@ -193,7 +193,6 @@ extern CString GliPath;      // diverse GLI-Dateien
 extern CString SmackerPath;  // Die Smacker-Filmchen
 extern CString IntroPath;    // Der Intro-Film
 extern CString AppPath;      // Der Ganze Pfad, z.B. "f:\project\takeoff\"
-extern CString AppPrefPath;
 extern CString VoicePath;    // die Sprache
 extern CString MyPlanePath;  // die eigenen Flugzeuge
 
