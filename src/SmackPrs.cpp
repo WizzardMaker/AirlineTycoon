@@ -33,7 +33,8 @@ void CalculatePalettemapper(const UBYTE *pPalette, SDL_Palette *pPaletteMapper) 
 // Destruktor:
 //--------------------------------------------------------------------------------------------
 CSmack16::~CSmack16() {
-    SDL_FreePalette(PaletteMapper);
+    if (PaletteMapper != nullptr)
+        SDL_FreePalette(PaletteMapper);
     if (pSmack != nullptr) {
         smk_close(pSmack);
     }
