@@ -1157,10 +1157,12 @@ void AirportView::OnPaint() {
                                               6 - ((((qBuild.ScreenPos.x + qBuild.ScreenPos.y / 2) / 44 + qBuild.ScreenPos.y / 22) * 2) % 7) + 100);
                             } else if (Editor != EDITOR_BUILDS && BrickId == LogoBarIndex) {
                                 qBrick.BlitAt(PrimaryBm, 0, qBuild.ScreenPos - ViewPos + WinP1, Airport.GateMapper[static_cast<SLONG>(qBuild.Par)] + 1);
-                            } else if (Editor != EDITOR_BUILDS && (BrickId == Kamera1Index || BrickId == Kamera2Index)) {
+                            } else if (Editor != EDITOR_BUILDS && (BrickId == Kamera1Index || BrickId == Kamera2Index) &&
+                                       Airport.GateMapper[static_cast<SLONG>(qBuild.Par)] >= 0) {
                                 qBrick.BlitAt(PrimaryBm, 0, qBuild.ScreenPos - ViewPos + WinP1,
                                               Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags & (1 << 0));
-                            } else if (Editor != EDITOR_BUILDS && BrickId >= GateSmackMin && BrickId <= GateSmackMax) {
+                            } else if (Editor != EDITOR_BUILDS && BrickId >= GateSmackMin && BrickId <= GateSmackMax &&
+                                       Airport.GateMapper[static_cast<SLONG>(qBuild.Par)] >= 0) {
                                 if ((Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags & (1 << 8)) != 0U) {
                                     qBrick.BlitAt(PrimaryBm, 0, qBuild.ScreenPos - ViewPos + WinP1, 0); // Ggf erweitertes Gate
                                 }
@@ -1168,7 +1170,7 @@ void AirportView::OnPaint() {
                                 if (BrickId == AbflugIndex || BrickId == AbflugIndex2) {
                                     SLONG phase = 0;
 
-                                    if (static_cast<SLONG>(qBuild.Par) >= 0) { // ignore unclaimed gates
+                                    if (Airport.GateMapper[static_cast<SLONG>(qBuild.Par)] >= 0) { // ignore unclaimed gates
                                         if ((Sim.Players.Players[Airport.GateMapper[static_cast<SLONG>(qBuild.Par)]].SecurityFlags & (1 << 8)) != 0U) {
                                             phase = 1;
                                         }
