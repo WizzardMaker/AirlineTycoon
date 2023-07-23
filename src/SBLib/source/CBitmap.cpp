@@ -228,7 +228,9 @@ SB_Hardwarecolor SB_CBitmapCore::GetHardwarecolor(char r, char g, char b) {
 
 ULONG SB_CBitmapCore::Clear(SB_Hardwarecolor hwcolor, const RECT *pRect) {
     auto color = (dword)hwcolor;
-
+    if (SDL_MUSTLOCK(lpDDSurface) && SDL_LockSurface(lpDDSurface) < 0) {
+        return 1;
+    }
     if (lpTexture != nullptr) {
         if (SDL_SetRenderTarget(lpDD, lpTexture) < 0) {
             return 1;
@@ -245,13 +247,26 @@ ULONG SB_CBitmapCore::Clear(SB_Hardwarecolor hwcolor, const RECT *pRect) {
         if (lpTexture != nullptr) {
             SDL_RenderFillRect(lpDD, &dst);
         }
-        return SDL_FillRect(lpDDSurface, &dst, color);
+
+        const int result = SDL_FillRect(lpDDSurface, &dst, color);
+
+        if (SDL_MUSTLOCK(lpDDSurface)) {
+            SDL_UnlockSurface(lpDDSurface);
+        }
+
+        return result;
     }
 
     if (lpTexture != nullptr) {
         SDL_RenderFillRect(lpDD, nullptr);
     }
-    return SDL_FillRect(lpDDSurface, nullptr, color);
+
+    const int result = SDL_FillRect(lpDDSurface, nullptr, color);
+
+    if (SDL_MUSTLOCK(lpDDSurface)) {
+        SDL_UnlockSurface(lpDDSurface);
+    }
+    return result;
 }
 
 ULONG SB_CBitmapCore::SetPixel(SLONG x, SLONG y, SB_Hardwarecolor hwcolor) {
