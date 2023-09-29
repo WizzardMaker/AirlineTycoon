@@ -69,10 +69,6 @@ AirportView::AirportView(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
         CenterCameraOnPlayer();
     }
 
-   SDL_ShowWindow(FrameWnd->m_hWnd);
-   SDL_GetWindowSurface(FrameWnd->m_hWnd);
-   SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
-
     if (Sim.ShowExtrablatt != -1) {
         MenuStart(MENU_EXTRABLATT, Sim.ShowExtrablatt);
         MenuSetZoomStuff(XY(320, 240), 0.17, FALSE, 10);

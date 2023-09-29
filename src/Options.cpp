@@ -73,10 +73,6 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
 
     RefreshKlackerField();
 
-	SDL_ShowWindow(FrameWnd->m_hWnd);
-	SDL_GetWindowSurface(FrameWnd->m_hWnd);
-	SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
-
     // Create a timer to 'klacker'
     TimerId = SDL_AddTimer(50, TimerFunc, this);
     if (TimerId == 0) {

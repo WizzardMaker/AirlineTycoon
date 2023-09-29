@@ -250,10 +250,6 @@ void NewGamePopup::Konstruktor(BOOL /*bHandy*/, SLONG /*PlayerNum*/) {
     RefreshKlackerField();
 
     VersionFont.Load(lpDD, const_cast<char *>((LPCTSTR)FullFilename("stat_1.mcf", MiscPath)));
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_GetWindowSurface(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
     
     SetMouseLook(CURSOR_NORMAL, 0, ROOM_TITLE, 0);
 

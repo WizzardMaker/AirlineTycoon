@@ -269,7 +269,8 @@ GameFrame::GameFrame() {
         MB();
     }
 
-    if (DetectCurrentDisplayResolution().x <= 640 || DetectCurrentDisplayResolution().y <= 480) {
+    const XYZ resolution = DetectCurrentDisplayResolution();
+    if (resolution.x <= 640 || resolution.y <= 480) {
         bFullscreen = TRUE;
     }
 
@@ -309,25 +310,11 @@ GameFrame::GameFrame() {
         SimpleMessageBox(MESSAGEBOX_ERROR, "ERROR", "CreateWindow failed");
         return;
     }
-    SDL_ShowWindow(h);
-    SDL_GetWindowSurface(h);
-    SDL_UpdateWindowSurface(h);
+
     m_hWnd = h;
 
     pGfxMain = new GfxMain(lpDD);
 
-    /*DDCAPS Caps, Caps2;
-
-      memset (&Caps, 0, sizeof (Caps));
-      memset (&Caps2, 0, sizeof (Caps2));
-
-      Caps.dwSize = sizeof (Caps);
-      Caps2.dwSize = sizeof (Caps2);
-
-      lpDD->GetCaps (&Caps, &Caps2);
-
-      SLONG x= DDCAPS_BLT ;
-      SLONG y= DDCAPS_COLORKEY;*/
     PrimaryBm.ReSize(h, bFullscreen, XY(640, 480));
     PrimaryBm.ReSizePartB(h, bFullscreen, XY(640, 480));
     pCursor = new SB_CCursor(&PrimaryBm.PrimaryBm);
