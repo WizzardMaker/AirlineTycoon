@@ -4001,7 +4001,8 @@ void PLAYER::RobotExecuteAction() {
     // Die exakte Zeit des Ausführens auf dem Server simulieren
     SLONG RealLocalTime = Sim.Time;
 
-   AT_Log_I("AI", "Player %li: Action: %s, %li at %li/%li\n", PlayerNum, Translate_ACTION(RobotActions[0].ActionId), RobotActions[1].ActionId, WaitWorkTill, WaitWorkTill2);
+   AT_Log_I("AI", "Player %li: Action: %s, %s at %li/%li\n", PlayerNum, Translate_ACTION(RobotActions[0].ActionId), Translate_ACTION(RobotActions[1].ActionId),
+             WaitWorkTill, WaitWorkTill2);
    NetGenericSync (770 + PlayerNum, RobotActions[0].ActionId);
    NetGenericSync (740 + PlayerNum, RobotActions[1].ActionId);
 
