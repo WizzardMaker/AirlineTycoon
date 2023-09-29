@@ -261,14 +261,6 @@ GameFrame::GameFrame() {
     pGLibPause = nullptr;
     PauseFade = 0;
 
-    if (lpDD == nullptr) {
-        MB();
-        SDL_Delay(100);
-        MB();
-        SDL_Delay(100);
-        MB();
-    }
-
     const XYZ resolution = DetectCurrentDisplayResolution();
     if (resolution.x <= 640 || resolution.y <= 480) {
         bFullscreen = TRUE;
@@ -331,9 +323,7 @@ GameFrame::GameFrame() {
     gCursorMoveHBm.ReSize(pGLibBasis, GFX_CURSORV, CREATE_VIDMEM);
     gCursorMoveVBm.ReSize(pGLibBasis, GFX_CURSORW, CREATE_VIDMEM);
     gCursorSandBm.ReSize(pGLibBasis, GFX_CURSORS, CREATE_VIDMEM);
-    // MP: wizzardmaker:
-    // gCursorNoBm.ReSize (10,10);
-    gCursorNoBm.ReSize(XY(10, 10), CREATE_VIDMEM);
+    gCursorNoBm.ReSize(XY(10, 10),  0);
     gCursorNoBm.FillWith(0);
 
     CRect cliprect(2, 2, 638, 478);
