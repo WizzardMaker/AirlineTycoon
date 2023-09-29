@@ -55,9 +55,6 @@ CWorld::CWorld(BOOL bHandy, ULONG PlayerNum, SLONG CityId) : CStdRaum(bHandy, Pl
             Sim.Players.Players[static_cast<SLONG>(PlayerNum)].Planes[c].UpdateGlobePos(0);
         }
     }
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

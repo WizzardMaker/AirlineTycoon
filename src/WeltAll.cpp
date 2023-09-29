@@ -82,9 +82,6 @@ CWeltAll::CWeltAll(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "
     UfoVelocity = XY(0, -12);
     UfoNumSteps = 50;
     UfoWaitTill = AtGetTime() + 3000 + rand() % 2000;
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

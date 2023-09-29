@@ -38,9 +38,6 @@ AskBrick::AskBrick(BOOL bHandy, SLONG PlayerNum, ULONG Group, ULONG *rc1) : CStd
 
     pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("askbrick.gli", GliPath)), &pMenuLib, L_LOCMEM);
     AskBrickBm.ReSize(pMenuLib, "ASKBRICK");
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

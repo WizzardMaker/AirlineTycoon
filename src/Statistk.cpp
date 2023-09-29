@@ -437,9 +437,6 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
     if (DropDownPos.y > 0) {
         RepaintGraphWindow();
     }
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

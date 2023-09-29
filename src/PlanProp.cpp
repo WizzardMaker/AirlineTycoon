@@ -85,9 +85,6 @@ CPlaneProps::CPlaneProps(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
     if (bHandy == 0) {
         AmbientManager.SetGlobalVolume(40);
     }
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

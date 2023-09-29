@@ -114,9 +114,6 @@ CRouteBox::CRouteBox(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
     UpdateDataTable();
     RepaintList();
     RepaintMap();
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

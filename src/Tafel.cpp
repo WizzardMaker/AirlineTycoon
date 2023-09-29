@@ -52,9 +52,6 @@ CTafel::CTafel(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "tafe
                               SMACKER_CLIP_SET, 0, nullptr, "A9", 4);
     SP_Fliege.Clips[4].ReSize(4, "flyb.smk", "flyb.raw", XY(554, 253), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, &KommVar,
                               SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, nullptr, "A9", 0);
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

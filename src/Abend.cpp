@@ -84,9 +84,6 @@ CAbend::CAbend(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, CStri
     }
 
     StartSeason = Sim.GetSeason();
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

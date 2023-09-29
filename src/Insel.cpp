@@ -330,9 +330,6 @@ CInsel::CInsel(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "", 0
     }
 
     KonstruktorFinished = TRUE;
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 #endif
 }
 

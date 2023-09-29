@@ -48,9 +48,6 @@ CCredits::CCredits(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "
             break;
         }
     }
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

@@ -133,9 +133,6 @@ CPersonal::CPersonal(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
     DefaultDialogPartner = TALKER_PERSONAL1a + PlayerNum * 2;
 
     Sim.Players.Players[static_cast<SLONG>(PlayerNum)].UpdatePersonalberater(3);
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

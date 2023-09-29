@@ -109,9 +109,6 @@ CKiosk::CKiosk(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "kios
     RepaintTip();
 
     SetRoomVisited(PlayerNum, ROOM_KIOSK);
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

@@ -111,9 +111,6 @@ CBuero::CBuero(BOOL handy, ULONG playerNum) : CStdRaum(handy, playerNum, "", 0) 
                               SMACKER_CLIP_CANCANCEL, nullptr, SMACKER_CLIP_SET, 0, nullptr, "E1A1E1", 8, 9, 10);
     SP_Player.Clips[10].ReSize(10, bprintf("pl%litelez.smk", PlayerNum + 1), bprintf("pl%litelez.raw", PlayerNum + 1), PlOffset[PlayerNum], SPM_IDLE,
                                CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_DONTCANCEL, nullptr, SMACKER_CLIP_SET, 0, nullptr, "A1", 0);
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

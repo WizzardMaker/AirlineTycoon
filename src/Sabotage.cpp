@@ -85,9 +85,6 @@ CSabotage::CSabotage(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
     Talkers.Talkers[TALKER_SABOTAGE].IncreaseReference();
     DefaultDialogPartner = TALKER_SABOTAGE;
 
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
-
 #ifdef DEMO
     MenuStart(MENU_REQUEST, MENU_REQUEST_NO_SABOTAGE);
     MenuSetZoomStuff(XY(320, 220), 0.17, FALSE);

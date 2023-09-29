@@ -95,9 +95,6 @@ CRicks::CRicks(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "rick
         SetBackgroundFx(0, "kaffee.raw", 40000, 27000);
         SetBackgroundFx(2, "toilet.raw", 120000, 80000, 40);
     }
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

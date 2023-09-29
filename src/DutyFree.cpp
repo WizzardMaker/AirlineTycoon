@@ -73,9 +73,6 @@ CDutyFree::CDutyFree(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
         StartupFX.ReInit("windchim.raw");
         StartupFX.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
     }
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

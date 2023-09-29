@@ -29,11 +29,6 @@ CRushmore::CRushmore(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
     if (bHandy == 0) {
         AmbientManager.SetGlobalVolume(60);
     }
-
-    // LogoBms initialisieren
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

@@ -129,7 +129,7 @@ CGlobe::CGlobe(BOOL bHandy, SLONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
     }
 
     KonstruktorFinished = 1;
-    SDL_ShowWindow(FrameWnd->m_hWnd);
+
     FrameWnd->Invalidate();
     MessagePump();
     FrameWnd->Invalidate();
@@ -221,8 +221,6 @@ CGlobe::CGlobe(BOOL bHandy, SLONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.Pl
 
     PaintGlobe();
     PaintGlobeRoutes();
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

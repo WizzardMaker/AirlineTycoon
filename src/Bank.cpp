@@ -140,9 +140,6 @@ Bank::Bank(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "bank.gli
                                                                                    bprintf(StandardTexte.GetS(TOKEN_ADVICE, 5000), OldZins, NewZins));
         }
     }
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

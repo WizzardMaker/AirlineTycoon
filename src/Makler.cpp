@@ -101,9 +101,6 @@ CMakler::CMakler(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ma
     MenuStart(MENU_REQUEST, MENU_REQUEST_NO_MAKLER);
     MenuSetZoomStuff(XY(320, 220), 0.17, FALSE);
 #endif
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

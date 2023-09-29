@@ -140,8 +140,6 @@ CFrachtRaum::CFrachtRaum(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
     pZettelLib = nullptr;
 
     bCanPaint = true;
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

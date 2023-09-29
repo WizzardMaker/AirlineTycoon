@@ -154,9 +154,6 @@ CReisebuero::CReisebuero(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
     for (c = ReisebueroAuftraege.AnzEntries() - 1; c >= 0; c--) {
         RepaintZettel(c);
     }
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

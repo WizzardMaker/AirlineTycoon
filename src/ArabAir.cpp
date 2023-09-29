@@ -58,9 +58,6 @@ CArabAir::CArabAir(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "
 
     GloveBm.ReSize(pRoomLib, "GLOVE");
 
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
-
     if (Sim.Options.OptionEffekte != 0) {
         RadioFX.ReInit("radio.raw");
 

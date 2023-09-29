@@ -85,9 +85,6 @@ CNasa::CNasa(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "nasa.g
     SP_Alien.Clips[1].ReSize(1, "alien_.smk", "", XY(445, 175), SPM_IDLE, CRepeat(1, 1), CPostWait(0, 0), SMACKER_CLIP_CANCANCEL, &KommAlien,
                              SMACKER_CLIP_SET | SMACKER_CLIP_PRE, -1, nullptr, "A9", 0);
 
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
-
     StartDialog(TALKER_NASA, MEDIUM_AIR, 0);
 #endif
 }

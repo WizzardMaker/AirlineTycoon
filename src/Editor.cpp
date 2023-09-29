@@ -750,8 +750,6 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ed
     MaskenBms.ReSize(pRoomLib, "MASKE_O MASKE_U");
 
     CheckUnusablePart(1);
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 
     Hdu.HercPrintf(0, "stat_3.mcf");
     FontNormalRed.Load(lpDD, const_cast<char *>((LPCTSTR)FullFilename("stat_3.mcf", MiscPath)));

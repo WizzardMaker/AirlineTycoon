@@ -277,9 +277,6 @@ CSecurity::CSecurity(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
       NULL, SMACKER_CLIP_SET, 0, NULL,  //Warten
       "A9", 0);*/
 
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
-
     // Hintergrundsounds:
     if (Sim.Options.OptionEffekte != 0) {
         BackFx.ReInit("secure.raw");

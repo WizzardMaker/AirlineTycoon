@@ -102,9 +102,6 @@ CLastMinute::CLastMinute(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, Player
     MenuStart(MENU_REQUEST, MENU_REQUEST_NO_LM);
     MenuSetZoomStuff(XY(320, 220), 0.17, FALSE);
 #endif
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

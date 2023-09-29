@@ -226,7 +226,6 @@ CLaptop::CLaptop(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.
     }
 
     KonstruktorFinished = 1;
-    SDL_ShowWindow(FrameWnd->m_hWnd);
     FrameWnd->Invalidate();
     MessagePump();
     FrameWnd->Invalidate();
@@ -315,8 +314,6 @@ CLaptop::CLaptop(BOOL bHandy, ULONG PlayerNum) : CPlaner(bHandy, PlayerNum, Sim.
 
     PaintGlobe();
     PaintGlobeRoutes();
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

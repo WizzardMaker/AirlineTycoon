@@ -80,9 +80,6 @@ CWerbung::CWerbung(BOOL qHandy, ULONG PlayerNum) : CStdRaum(qHandy, PlayerNum, "
     MenuStart(MENU_REQUEST, MENU_REQUEST_NO_WERBUNG);
     MenuSetZoomStuff(XY(320, 220), 0.17, FALSE);
 #endif
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

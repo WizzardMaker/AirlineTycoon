@@ -110,9 +110,6 @@ CMuseum::CMuseum(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "mu
     DefaultDialogPartner = TALKER_MUSEUM;
 
     ReloadBitmaps();
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

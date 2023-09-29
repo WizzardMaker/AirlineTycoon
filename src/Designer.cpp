@@ -95,9 +95,6 @@ CDesigner::CDesigner(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
                             nullptr, // Warten
                             "A9A2", 1, 0);
 
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
-
     // Hintergrundsounds:
     if (Sim.Options.OptionEffekte != 0) {
         BackFx.ReInit("design.raw");

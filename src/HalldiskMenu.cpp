@@ -48,9 +48,6 @@ HallDiskMenu::HallDiskMenu(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, Play
             }
         }
     }
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------

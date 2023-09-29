@@ -341,9 +341,6 @@ CWerkstatt::CWerkstatt(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
     MenuStart(MENU_REQUEST, MENU_REQUEST_NO_WERKSTATT);
     MenuSetZoomStuff(XY(320, 220), 0.17, FALSE);
 #endif
-
-    SDL_ShowWindow(FrameWnd->m_hWnd);
-    SDL_UpdateWindowSurface(FrameWnd->m_hWnd);
 }
 
 //--------------------------------------------------------------------------------------------
