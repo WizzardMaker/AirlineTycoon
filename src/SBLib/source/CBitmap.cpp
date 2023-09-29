@@ -1,5 +1,7 @@
 #include "StdAfx.h"
 
+#define AT_Log(...) AT_Log_I("Rendering", __VA_ARGS__)
+
 Uint16 get_pixel16(SDL_Surface *surface, SLONG x, SLONG y);
 
 void put_pixel16(SDL_Surface *surface, SLONG x, SLONG y, Uint16 pixel);
@@ -58,22 +60,35 @@ ULONG SB_CBitmapMain::CreateBitmap(SB_CBitmapCore **out, SLONG w, SLONG h, ULONG
     SB_CBitmapCore *core = &(it->second);
     core->IncRef();
     core->lpDD = Renderer;
+
+    int depth, format;
     if ((flags & CREATE_INDEXED) != 0U) {
-        core->lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 8, SDL_PIXELFORMAT_INDEX8);
+        depth = 8;
+        format = SDL_PIXELFORMAT_INDEX8;
     } else if ((flags & CREATE_USEALPHA) != 0U) {
-        core->lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_RGBA8888);
+        depth = 32;
+        format = SDL_PIXELFORMAT_RGBA8888;
     } else {
-        core->lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 16, SDL_PIXELFORMAT_RGB565);
+        depth = 16;
+        format = SDL_PIXELFORMAT_RGB565;
     }
+
+    core->lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, depth, format);
+
     if ((flags & CREATE_USECOLORKEY) != 0U) {
         core->SetColorKey(0);
     }
-    core->lpTexture = (Renderer != nullptr) && ((flags & CREATE_VIDMEM) != 0U)
-                          ? SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h)
-                          : nullptr;
-    if ((core->lpTexture != nullptr) && ((flags & (CREATE_USEALPHA | CREATE_USECOLORKEY)) != 0U)) {
-        SDL_SetTextureBlendMode(core->lpTexture, SDL_BLENDMODE_BLEND);
+
+    if (Renderer != nullptr && (flags & CREATE_VIDMEM) != 0U) {
+        core->lpTexture = SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
+
+        if ((flags & (CREATE_USEALPHA | CREATE_USECOLORKEY)) != 0U) {
+            SDL_SetTextureBlendMode(core->lpTexture, SDL_BLENDMODE_BLEND);
+        }
+    } else {
+        core->lpTexture = nullptr;
     }
+
     core->Size.x = w;
     core->Size.y = h;
     core->InitClipRect();
@@ -529,22 +544,28 @@ void SB_CPrimaryBitmap::SetTarget(XY offset, XY size) {
 
 SLONG SB_CPrimaryBitmap::Create(SDL_Renderer **out, SDL_Window *Wnd, unsigned short /*flags*/, SLONG w, SLONG h, unsigned char /*unused*/,
                                 unsigned short /*unused*/) {
+    SDL_ClearError();
+
     Window = Wnd;
-    lpDD = SDL_CreateRenderer(Window, -1, 0);
+    lpDD = SDL_CreateRenderer(Window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
     if (lpDD != nullptr) {
-        Hdu.HercPrintf("Using hardware accelerated presentation");
+        AT_Log("Using hardware accelerated presentation");
         lpTexture = SDL_CreateTexture(lpDD, SDL_PIXELFORMAT_RGB565, SDL_TEXTUREACCESS_STREAMING, w, h);
 
         if (SDL_LockTextureToSurface(lpTexture, nullptr, &lpDDSurface) < 0) {
-            Hdu.HercPrintf("Unable to lock backbuffer to surface");
+            AT_Log("Unable to lock backbuffer to surface");
             return -1;
         }
     } else {
-        Hdu.HercPrintf("Falling back to software presentation");
+        AT_Log("Falling back to software presentation");
+        AT_Log("Reason for fallback: %s", SDL_GetError());
+        SDL_ClearError();
+
         lpTexture = nullptr;
         lpDDSurface = SDL_CreateRGBSurfaceWithFormat(0, w, h, 16, SDL_PIXELFORMAT_RGB565);
     }
+
     Size.x = w;
     Size.y = h;
     Cursor = nullptr;
