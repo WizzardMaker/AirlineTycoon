@@ -1,54 +1,45 @@
+#include <regex>
+
 #include "StdAfx.h"
 
 const char *ExcTextResNotOpened = "TextRes not opened!";
-const char *ExcTextResStaticOverflow = "TextRes is too SLONG: %lx:%lx";
+const char *ExcTextResStaticOverflow = "TextRes is too long: %lx:%lx";
 const char *ExcTextResFormat = "Bad TextRes format: %s (%li)";
 const char *ExcTextResNotFound = "TextRes not found: %lx:%lx";
 
 SLONG gLanguage;
 
-void LanguageSpecifyString(char *Dst);
+std::string FindLanguageInString(const char* Dst, const SLONG wantedLanguageIndex) {
+    const std::string allLanguageTokens = "DEFTPNISOBJKLMNQRTUV";
+
+    const std::string targetLanguageToken(1, allLanguageTokens[wantedLanguageIndex]);
+    std::regex languageTextPattern("^.*" + targetLanguageToken + "::(.*?)(?:[" + allLanguageTokens + "]::.*)?$");
+
+    std::smatch match;
+    std::string s(Dst);
+    if (std::regex_search(s, match, languageTextPattern)) {
+        return match[1];
+    } else {
+        return "";
+    }
+}
 
 void LanguageSpecifyString(char *Dst) {
-    SLONG i = 0;
-    SLONG j = 0;
-    char langs[24];
+    const SLONG wantedLanguageIndex = 2;//gLanguage;
 
-    strcpy(langs, "DEFTPNISOBJKLMNQRTUV");
-    if ((Dst[0] != 0) && (Dst[1] != 0) && Dst[1] == ':' && (Dst[2] != 0) && Dst[2] == ':') {
-        for (i = 0; Dst[i] != 0; ++i) {
-            if (Dst[i] == langs[gLanguage] && (Dst[i + 1] != 0) && Dst[i + 1] == ':' && (Dst[i + 2] != 0) && Dst[i + 2] == ':') {
-                for (j = i + 2; (Dst[j] != 0) && ((Dst[j + 1] == 0) || Dst[j + 1] != ':' || (Dst[j + 2] == 0) || Dst[j + 2] != ':'); ++j) {
-                    ;
-                }
-                memmove(Dst, &Dst[i + 3], j - i - 3);
-                Dst[j - i - 3] = 0;
-                if (j - i - 3 > 0 && Dst[j - i - 4] == 32) {
-                    Dst[j - i - 4] = 0;
-                }
-                return;
-            }
-        }
-
-        for (SLONG lang = 1; lang >= 0; --lang) {
-            for (i = 0; Dst[i] != 0; ++i) {
-                if (Dst[i] == langs[lang] && (Dst[i + 1] != 0) && Dst[i + 1] == ':' && (Dst[i + 2] != 0) && Dst[i + 2] == ':') {
-                    break;
-                }
-            }
-            if (Dst[i] != 0) {
-                for (SLONG j = i + 2; (Dst[j] != 0) && ((Dst[j + 1] == 0) || Dst[j + 1] != ':' || (Dst[j + 2] == 0) || Dst[j + 2] != ':'); ++j) {
-                    ;
-                }
-                memmove(Dst, &Dst[i + 3], j - i - 3);
-                Dst[j - i - 3] = 0;
-                if (j - i - 3 > 0 && Dst[j - i - 4] == 32) {
-                    Dst[j - i - 4] = 0;
-                }
-                return;
-            }
-        }
+    std::string foundText = FindLanguageInString(Dst, wantedLanguageIndex);
+    if (foundText.empty()) {
+        // If we haven't found the language we want, try English
+        foundText = FindLanguageInString(Dst, 1/*E - English*/);
     }
+
+    // If we still haven't found anything, just return
+    if (foundText.empty()) {
+        return;
+    }
+
+    memmove(Dst, foundText.c_str(), foundText.length());
+    Dst[foundText.length()] = 0;
 }
 
 TEXTRES::TEXTRES() = default;
@@ -185,7 +176,7 @@ char *TEXTRES::GetP(ULONG group, ULONG id) {
 
 char *TEXTRES::GetS(ULONG group, ULONG id) {
     char *str = TEXTRES::GetP(group, id);
-    LanguageSpecifyString(str);
+
     if (strlen(str) > 0x3FF) {
         delete[] str;
         TeakLibW_Exception(FNL, ExcTextResStaticOverflow, group, id);
