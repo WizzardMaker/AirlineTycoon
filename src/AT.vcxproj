@@ -26,12 +26,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -59,7 +59,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)src;$(SolutionDir)src\SBLib\include;$(SolutionDir)libs\raknet\Include;$(SolutionDir)libs\enet\include;$(SolutionDir)libs\libsmacker;$(SolutionDir)libs\jansson\include;$(SolutionDir)libs\CrashRpt\install\include;$(SolutionDir)cmake\sdl2-ttf\include;$(SolutionDir)cmake\sdl2\include;$(SolutionDir)cmake\sdl2-image\include;$(SolutionDir)cmake\sdl2-mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) -m /Zc:__cplusplus</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) -m /Zc:__cplusplus /bigobj</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -167,6 +167,7 @@
     <ClCompile Include="CVideo.cpp" />
     <ClCompile Include="DataTabl.cpp">
     </ClCompile>
+    <ClCompile Include="FormulaParser.cpp" />
     <ClCompile Include="Route.cpp">
     </ClCompile>
     <ClCompile Include="Tips.cpp">
@@ -361,7 +362,9 @@
     <ClInclude Include="Designer.h" />
     <ClInclude Include="DutyFree.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="exprtk.hpp" />
     <ClInclude Include="fillfile.h" />
+    <ClInclude Include="FormulaParser.h" />
     <ClInclude Include="Fracht.h" />
     <ClInclude Include="Gameframe.h" />
     <ClInclude Include="glabend.h" />

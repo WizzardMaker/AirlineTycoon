@@ -8,6 +8,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include "FormulaParser.h"
 
 #if __cplusplus < 201703L // If the version of C++ is less than 17
 #include <experimental/filesystem>
@@ -18,6 +19,7 @@ namespace fs = std::experimental::filesystem;
 #endif
 
 #include <algorithm>
+
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -1943,9 +1945,8 @@ SLONG CXPlane::CalcPassagiere() {
 SLONG CXPlane::CalcReichweite() {
     SLONG Reichweite = 0;
 
-    if (CalcVerbrauch() > 0) {
-        Reichweite = CalcTank() / CalcVerbrauch() * CalcSpeed();
-    }
+    FormulaParser &parser = FormulaParser::getInstance();
+    Reichweite = parser.evaluate("CalcReichweite", this->CalcPower(), this->CalcWeight(), this->CalcSpeed(), this->CalcVerbrauch(), this->CalcTank());
 
     return (Reichweite);
 }
@@ -2218,11 +2219,8 @@ SLONG CXPlane::CalcSpeed() {
     SLONG c = 0;
     SLONG speed = 0;
 
-    // Power 6000...50000 wird zu kmh 270..1000
-    speed = (CalcPower() - 6000) * (1000 - 270) / (50000 - 6000) + 270;
-    if (CalcPower() == 0) {
-        speed = 0;
-    }
+    FormulaParser &parser = FormulaParser::getInstance();
+    speed = parser.evaluate("CalcSpeed", this->CalcPower(), this->CalcWeight(), 0.0, this->CalcVerbrauch(), this->CalcTank());
 
     for (c = 0; c < Parts.AnzEntries(); c++) {
         if (Parts.IsInAlbum(c) != 0) {
@@ -2393,7 +2391,9 @@ CString CXPlane::GetError() {
     }
 
     // Triebwerke kräftig genug?
-    if (CalcPower() * 4 < CalcWeight()) {
+    FormulaParser &parser = FormulaParser::getInstance();
+    bool HasEnoughPower = static_cast<bool>(parser.evaluate("EnoughPower", this->CalcPower(), this->CalcWeight(), this->CalcSpeed(), this->CalcVerbrauch(), this->CalcTank()));
+    if (!HasEnoughPower) {
         return (StandardTexte.GetS(TOKEN_MISC, 8301));
     }
 

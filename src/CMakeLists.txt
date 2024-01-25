@@ -68,6 +68,7 @@ add_executable (AT
     Dialog.cpp
     DutyFree.cpp
     Editor.cpp
+    FormulaParser.cpp
     Fracht.cpp
     GameFrame.cpp
     Global.cpp

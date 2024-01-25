@@ -226,6 +226,9 @@
     <ClCompile Include="CVideo.cpp">
       <Filter>Source Files\Screens\Video</Filter>
     </ClCompile>
+    <ClCompile Include="FormulaParser.cpp">
+      <Filter>Source Files\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precompile Header File">
@@ -290,6 +293,9 @@
     </Filter>
     <Filter Include="Source Files\Screens\Video">
       <UniqueIdentifier>{7e63dc9b-6ee6-4099-b428-bef65d9f1743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logic">
+      <UniqueIdentifier>{85913faa-95cb-475f-82ea-b6abc4e1d49a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -691,6 +697,12 @@
     </ClInclude>
     <ClInclude Include="CVideo.h">
       <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="FormulaParser.h">
+      <Filter>Header Files\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="exprtk.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
