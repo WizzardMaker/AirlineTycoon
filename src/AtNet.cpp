@@ -1147,7 +1147,6 @@ void PumpNetwork() {
 
                 if (qFromPlayer.Planes.GetNumFree() < 2) {
                     qFromPlayer.Planes.ReSize(qFromPlayer.Planes.AnzEntries() + 10);
-                    qFromPlayer.Planes.RepairReferences();
                 }
 
                 qFromPlayer.Planes += Sim.UsedPlanes[0x1000000 + PlaneIndex];

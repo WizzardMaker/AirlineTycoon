@@ -4153,7 +4153,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
                             if (Overtaker.Planes.GetNumFree() <= 0) {
                                 Overtaker.Planes.ReSize(Overtaker.Planes.AnzEntries() + 5);
-                                Overtaker.Planes.RepairReferences();
                             }
 
                             d = (Overtaker.Planes += CPlane());
@@ -4161,7 +4160,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         }
                     }
                     Overtaken.Planes.ReSize(0);
-                    Overtaken.Planes.RepairReferences();
 
                     // Ggf. virtuelle Arbeiter erzeugen:
                     if (Overtaken.Owner != 0) {
@@ -4273,7 +4271,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                         }
                     }
                     Overtaken.Planes.ReSize(0);
-                    Overtaken.Planes.RepairReferences();
 
                     // Gates freigeben:
                     for (c = 0; c < Overtaken.Gates.Gates.AnzEntries(); c++) {
@@ -4672,7 +4669,6 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 } else {
                     if (qPlayer.Planes.GetNumFree() == 0) {
                         qPlayer.Planes.ReSize(qPlayer.Planes.AnzEntries() + 10);
-                        qPlayer.Planes.RepairReferences();
                     }
                     Sim.UsedPlanes[0x1000000 + DialogPar1].WorstZustand = UBYTE(Sim.UsedPlanes[0x1000000 + DialogPar1].Zustand - 20);
                     Sim.UsedPlanes[0x1000000 + DialogPar1].GlobeAngle = 0;

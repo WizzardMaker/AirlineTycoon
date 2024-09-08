@@ -269,13 +269,6 @@ CPlane::CPlane(const CString &Name, ULONG TypeId, UBYTE Zustand, SLONG Baujahr) 
 }
 
 //--------------------------------------------------------------------------------------------
-// Repairiert die Referenzen in dem CXPlane Objekt. Dort zeigt das Album auf den Buffer und
-// wenn die CPlanes resizet wurden liegt der Buffer woanders und das Album fragt sich warum
-// es davon nichts weiß.
-//--------------------------------------------------------------------------------------------
-void CPlane::RepairReferences() {}
-
-//--------------------------------------------------------------------------------------------
 // Berechnet den Marktwert des Flugzeuges:
 //--------------------------------------------------------------------------------------------
 SLONG CPlane::CalculatePrice() const {
@@ -1510,21 +1503,6 @@ BOOL CPlanes::IsPlaneNameInUse(const CString &PlaneName) {
     }
 
     return (FALSE);
-}
-
-//--------------------------------------------------------------------------------------------
-// Repairiert die Referenzen in dem CXPlane Objekt. Dort zeigt das Album auf den Buffer und
-// wenn die CPlanes resizet wurden liegt der Buffer woanders und das Album fragt sich warum
-// es davon nichts weiß.
-//--------------------------------------------------------------------------------------------
-void CPlanes::RepairReferences() {
-    SLONG c = 0;
-
-    for (c = 0; c < AnzEntries(); c++) {
-        if (IsInAlbum(c) != 0) {
-            at(c).RepairReferences();
-        }
-    }
 }
 
 //--------------------------------------------------------------------------------------------

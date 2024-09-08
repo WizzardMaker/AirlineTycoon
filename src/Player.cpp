@@ -125,7 +125,6 @@ void PLAYER::BuyPlane(ULONG PlaneTypeId, TEAKRAND *pRnd) {
 
     if (Planes.GetNumFree() == 0) {
         Planes.ReSize(Planes.AnzEntries() + 10);
-        Planes.RepairReferences();
     }
     Id = (Planes += CPlane(PlaneNames.GetUnused(pRnd), PlaneTypeId + 0x10000000, 100, GetCurrentYear() + (Sim.Date / 365)));
 
@@ -155,7 +154,6 @@ void PLAYER::BuyPlane(CXPlane &plane, TEAKRAND *pRnd) {
 
     if (Planes.GetNumFree() == 0) {
         Planes.ReSize(Planes.AnzEntries() + 10);
-        Planes.RepairReferences();
     }
     Id = (Planes += CPlane(PlaneNames.GetUnused(pRnd), -1, 100, GetCurrentYear() + (Sim.Date / 365)));
 
@@ -5090,7 +5088,6 @@ void PLAYER::RobotExecuteAction() {
 
                         if (Planes.GetNumFree() == 0) {
                             Planes.ReSize(Planes.AnzEntries() + 10);
-                            Planes.RepairReferences();
                         }
                         Sim.UsedPlanes[0x1000000 + c].WorstZustand = Sim.UsedPlanes[0x1000000 + c].Zustand - 20;
                         // Sim.UsedPlanes[0x1000000+c].MaxBegleiter = SLONG(PlaneTypes
@@ -5710,7 +5707,6 @@ void PLAYER::RobotExecuteAction() {
 
                     if (Planes.GetNumFree() == 0) {
                         Planes.ReSize(Planes.AnzEntries() + 10);
-                        Planes.RepairReferences();
                     }
                     Sim.UsedPlanes[0x1000000 + c].WorstZustand = Sim.UsedPlanes[0x1000000 + c].Zustand - 20;
                     // Sim.UsedPlanes[0x1000000+c].MaxBegleiter = SLONG(PlaneTypes [Sim.UsedPlanes[0x1000000+c].TypeId].AnzBegleiter*Planes.GetAvgBegleiter());
