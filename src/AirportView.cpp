@@ -25,7 +25,7 @@ BUFFER_V<CBencher> BrickWait(MAX_BRICKS);
 
 BOOL IgnoreNextLButtonUp = FALSE;
 
-//Öfnungszeiten:
+// Öfnungszeiten:
 SLONG timeDutyOpen = 10 * 60000;
 SLONG timeDutyClose = 16 * 60000; // Nur Sa, So
 SLONG timeArabOpen = 10 * 60000;
@@ -126,7 +126,9 @@ void AirportView::FocusCameraOnPos(XY Pos, BOOL Speed) {
         LastCameraSpeedX = AcceptedCameraSpeedX = CameraSpeed.x = CameraSpeed.y = 0;
     }
 
-    memmove(LastPlayerDeltas, LastPlayerDeltas + 1, 4 * 5);
+    for (SLONG i = 0; i < (sizeof(LastPlayerDeltas) / sizeof(LastPlayerDeltas[0])) - 1; i++) {
+        LastPlayerDeltas[i] = LastPlayerDeltas[i + 1];
+    }
     LastPlayerDeltas[4] = Pos.x - LastPlayerPos;
 
     AvgLastPlayerDelta = LastPlayerDeltas[0];
@@ -315,7 +317,7 @@ void AirportView::FocusCameraOnPos(XY Pos, BOOL Speed) {
                     }
                 }
 
-                //Änderungen in der Kamera-Geschwindigkeit nur akzeptieren, wenn sie auch von Dauer sind
+                // Änderungen in der Kamera-Geschwindigkeit nur akzeptieren, wenn sie auch von Dauer sind
                 if (AcceptedCameraSpeedX != CameraSpeed.x) {
                     if (LastCameraSpeedX == CameraSpeed.x || CameraSpeed.x == 0) {
                         AcceptedCameraSpeedX = CameraSpeed.x;
@@ -416,7 +418,7 @@ void AirportView::MoveCamera() {
 
                 XY &ViewPos = Sim.Players.Players[PlayerNum].ViewPos;
 
-                //Über große Strecken lieber faden als scrollen
+                // Über große Strecken lieber faden als scrollen
                 if (abs((Sim.Persons[PlayerIndex].ScreenPos.x - ViewPos.x)) > 640 && (Sim.Options.OptionBlenden != 0)) {
                     ViewPos.x = Sim.Persons[PlayerIndex].ScreenPos.x - 320;
                     if (FrameWnd != nullptr) {
@@ -1247,7 +1249,7 @@ void AirportView::OnPaint() {
                                         SDL_BlitSurface(Text, nullptr, Surf, &Dst);
                                         SDL_FreeSurface(Text);
                                         TTF_CloseFont(Font);
-                                    }else {
+                                    } else {
                                         enableEditor = false;
                                     }
                                 }
@@ -1889,7 +1891,7 @@ void AirportView::OnRButtonDown(UINT nFlags, CPoint point) {
             Pos.x = Airport.RightEnd - SizeX;
         }
 
-        //Über große Strecken lieber faden als scrollen
+        // Über große Strecken lieber faden als scrollen
         if (abs(Pos.x - ViewPos.x) > 640) {
             ViewPos.x = Pos.x;
 
@@ -3300,13 +3302,17 @@ void AIRPORT::CalcPlates() {
                 }
                 for (y--; y >= 0 && y <= 14 && y != 4; y--) {
                     if (Bricks[Builds[c].BrickId].ObstacleType == OBST_SHOPFRONT && x >= 0) {
-                        { FUCK(y + (x << 4)); }
+                        {
+                            FUCK(y + (x << 4));
+                        }
                         { FUCK(y + ((x - 1) << 4)); }
                         iPlate[y + ((x - 1) << 4)] &= (~64); // linke Wand (außen)
                         iPlate[y + (x << 4)] &= (~16);       // linke Wand (innen)
                     }
                     if (x2 >= 0) {
-                        { FUCK(y + (x2 << 4)); }
+                        {
+                            FUCK(y + (x2 << 4));
+                        }
                         { FUCK(y + ((x2 + 1) << 4)); }
                         iPlate[y + ((x2 + 1) << 4)] &= (~16); // rechte Wand (außen)
                         iPlate[y + (x2 << 4)] &= (~64);       // rechte Wand (innen)
@@ -3339,13 +3345,17 @@ void AIRPORT::CalcPlates() {
                 }
                 for (; y >= 0 && y <= 15 && y != 4; y--) {
                     if (x >= 0) {
-                        { FUCK(y + ((x - 1) << 4)); }
+                        {
+                            FUCK(y + ((x - 1) << 4));
+                        }
                         { FUCK(y + (x << 4)); }
                         iPlate[y + ((x - 1) << 4)] &= (~64); // linke Wand (außen)
                         iPlate[y + (x << 4)] &= (~16);       // linke Wand (innen)
                     }
                     if (x2 >= 0) {
-                        { FUCK(y + ((x2 + 1) << 4)); }
+                        {
+                            FUCK(y + ((x2 + 1) << 4));
+                        }
                         { FUCK(y + (x2 << 4)); }
                         iPlate[y + ((x2 + 1) << 4)] &= (~16); // rechte Wand (außen)
                         iPlate[y + (x2 << 4)] &= (~64);       // rechte Wand (innen)
@@ -3360,7 +3370,9 @@ void AIRPORT::CalcPlates() {
                 if (y >= 0 && y <= 14 && x >= 0) { // ex:15
                     for (d = x; d <= x2; d++) {
                         if (d != x + 1) {
-                            { FUCK(y + (d << 4)); }
+                            {
+                                FUCK(y + (d << 4));
+                            }
                             { FUCK(y + 1 + (d << 4)); }
                             iPlate[y + (d << 4)] &= (~32);
                             iPlate[y + 1 + (d << 4)] &= (~128);
@@ -3370,13 +3382,17 @@ void AIRPORT::CalcPlates() {
 
                 for (; y >= 0 && y <= 15 && y != 4; y--) {
                     if (x >= 0) {
-                        { FUCK(y + ((x - 1) << 4)); }
+                        {
+                            FUCK(y + ((x - 1) << 4));
+                        }
                         { FUCK(y + (x << 4)); }
                         iPlate[y + ((x - 1) << 4)] &= (~64); // linke Wand (außen)
                         iPlate[y + (x << 4)] &= (~16);       // linke Wand (innen)
                     }
                     if (x2 >= 0) {
-                        { FUCK(y + ((x2 + 1) << 4)); }
+                        {
+                            FUCK(y + ((x2 + 1) << 4));
+                        }
                         { FUCK(y + (x2 << 4)); }
                         iPlate[y + ((x2 + 1) << 4)] &= (~16); // rechte Wand (außen)
                         iPlate[y + (x2 << 4)] &= (~64);       // rechte Wand (innen)
@@ -3391,7 +3407,9 @@ void AIRPORT::CalcPlates() {
                 if (y >= 0 && y <= 14 && x >= 0) { // ex:15
                     for (d = x; d <= x2; d++) {
                         if (d != x2 - 1) {
-                            { FUCK(y + (d << 4)); }
+                            {
+                                FUCK(y + (d << 4));
+                            }
                             { FUCK(y + 1 + (d << 4)); }
                             iPlate[y + (d << 4)] &= (~32);
                             iPlate[y + 1 + (d << 4)] &= (~128);
@@ -3401,13 +3419,17 @@ void AIRPORT::CalcPlates() {
 
                 for (; y >= 0 && y <= 15 && y != 4; y--) {
                     if (x >= 0) {
-                        { FUCK(y + ((x - 1) << 4)); }
+                        {
+                            FUCK(y + ((x - 1) << 4));
+                        }
                         { FUCK(y + (x << 4)); }
                         iPlate[y + ((x - 1) << 4)] &= (~64); // linke Wand (außen)
                         iPlate[y + (x << 4)] &= (~16);       // linke Wand (innen)
                     }
                     if (x2 >= 0) {
-                        { FUCK(y + ((x2 + 1) << 4)); }
+                        {
+                            FUCK(y + ((x2 + 1) << 4));
+                        }
                         { FUCK(y + (x2 << 4)); }
                         iPlate[y + ((x2 + 1) << 4)] &= (~16); // rechte Wand (außen)
                         iPlate[y + (x2 << 4)] &= (~64);       // rechte Wand (innen)
@@ -3422,7 +3444,9 @@ void AIRPORT::CalcPlates() {
                 y = CalcPlateYPosition(c, -8);
                 if (y >= 0 && y <= 15 && x >= 0) {
                     for (d = x; d <= x2; d++) {
-                        { FUCK(y + (d << 4)); }
+                        {
+                            FUCK(y + (d << 4));
+                        }
                         { FUCK(y + 1 + (d << 4)); }
                         iPlate[y + (d << 4)] &= (~32);
                         iPlate[y + 1 + (d << 4)] &= (~128);
@@ -3431,13 +3455,17 @@ void AIRPORT::CalcPlates() {
 
                 for (; y >= 0 && y <= 15 && y != 4; y--) {
                     if (x >= 0) {
-                        { FUCK(y + ((x - 1) << 4)); }
+                        {
+                            FUCK(y + ((x - 1) << 4));
+                        }
                         { FUCK(y + (x << 4)); }
                         iPlate[y + ((x - 1) << 4)] &= (~64); // linke Wand (außen)
                         iPlate[y + (x << 4)] &= (~16);       // linke Wand (innen)
                     }
                     if (x2 >= 0) {
-                        { FUCK(y + ((x2 + 1) << 4)); }
+                        {
+                            FUCK(y + ((x2 + 1) << 4));
+                        }
                         { FUCK(y + (x2 << 4)); }
                         iPlate[y + ((x2 + 1) << 4)] &= (~16); // rechte Wand (außen)
                         iPlate[y + (x2 << 4)] &= (~64);       // rechte Wand (innen)
@@ -3452,7 +3480,9 @@ void AIRPORT::CalcPlates() {
                 y = CalcPlateYPosition(c, -8);
                 if (y >= 0 && y <= 14 && x >= 0) { // ex: 15
                     for (d = x; d <= x2; d++) {
-                        { FUCK(y + (d << 4)); }
+                        {
+                            FUCK(y + (d << 4));
+                        }
                         { FUCK(y + 1 + (d << 4)); }
                         iPlate[y + (d << 4)] &= (~32);
                         iPlate[y + 1 + (d << 4)] &= (~128);
@@ -3461,13 +3491,17 @@ void AIRPORT::CalcPlates() {
 
                 for (; y >= 0 && y <= 15 && y != 4; y--) {
                     if (x >= 0) {
-                        { FUCK(y + ((x - 1) << 4)); }
+                        {
+                            FUCK(y + ((x - 1) << 4));
+                        }
                         { FUCK(y + (x << 4)); }
                         iPlate[y + ((x - 1) << 4)] &= (~64); // linke Wand (außen)
                         iPlate[y + (x << 4)] &= (~16);       // linke Wand (innen)
                     }
                     if (x2 >= 0) {
-                        { FUCK(y + ((x2 + 1) << 4)); }
+                        {
+                            FUCK(y + ((x2 + 1) << 4));
+                        }
                         { FUCK(y + (x2 << 4)); }
                         iPlate[y + ((x2 + 1) << 4)] &= (~16); // rechte Wand (außen)
                         iPlate[y + (x2 << 4)] &= (~64);       // rechte Wand (innen)
