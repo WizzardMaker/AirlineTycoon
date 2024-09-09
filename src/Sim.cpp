@@ -8,7 +8,7 @@
 #include <filesystem>
 #include <numeric>
 
-#define AT_Log(a,...) AT_Log_I("Sim", a, __VA_ARGS__)
+#define AT_Log(...) AT_Log_I("Sim", __VA_ARGS__)
                         // Für Menschen       Für Computer
                         // Money    Credit    Money    Credit
 static long InitMoney[] = {1500000, 0,        2000000, 0,                                                        // DIFF_FREEGAME
@@ -57,7 +57,7 @@ void CalcPlayerMaximums(bool bForce);
 SLONG SaveVersion = 1;
 SLONG SaveVersionSub = 202;
 
-//Öffnungszeiten:
+// Öffnungszeiten:
 extern SLONG timeDutyOpen;
 extern SLONG timeDutyClose;
 extern SLONG timeArabOpen;
@@ -132,9 +132,7 @@ SIM::SIM() {
 
     gDisablePauseKey = FALSE;
 
-    DoAppPath();
     Options.OptionDigiSound = TRUE;
-    LoadOptions();
 
     TafelData.Clear();
 }
@@ -2360,7 +2358,7 @@ SLONG SIM::GetSeason() const {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft, ob wir die richtigen Bricks geladen haben:
+// Überprüft, ob wir die richtigen Bricks geladen haben:
 //--------------------------------------------------------------------------------------------
 void SIM::UpdateSeason() {
     if (GetSeason() != Jahreszeit) {
@@ -3128,7 +3126,7 @@ TEAKFILE &operator>>(TEAKFILE &File, SIM &Sim) {
     if (SaveVersionSub >= 200) {
         File >> Sim.StatiArray;
     } else {
-        File.Skip(3 * 16 * sizeof(bool));  
+        File.Skip(3 * 16 * sizeof(bool));
     }
 
     // Der maximale Schwierigkeitsgrad;
@@ -4124,6 +4122,8 @@ SLONG SIM::HoleKerosinPreis(SLONG typ) const {
 // Liest die Optionen aus der Registry:
 //--------------------------------------------------------------------------------------------
 void COptions::ReadOptions() {
+    AT_Log("Reading game options");
+
     SLONG tmp = Sim.MaxDifficulty;
     SLONG tmp2 = Sim.MaxDifficulty2;
     SLONG tmp3 = Sim.MaxDifficulty3;
@@ -4392,6 +4392,8 @@ void COptions::ReadOptions() {
 // Schreibt die Optionen in die Registry:
 //--------------------------------------------------------------------------------------------
 void COptions::WriteOptions() {
+    AT_Log("Writing game options");
+
     SLONG tmp = Sim.MaxDifficulty;
     SLONG tmp2 = Sim.MaxDifficulty2;
     SLONG tmp3 = Sim.MaxDifficulty3;

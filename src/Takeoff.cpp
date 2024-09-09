@@ -55,6 +55,8 @@ extern SBNetwork gNetwork;
 #include "sentry.h"
 #endif
 
+#define AT_Log(...) AT_Log_I("Takeoff", __VA_ARGS__)
+
 CHLPool HLPool;
 
 #ifdef _DEBUG
@@ -66,8 +68,6 @@ void Unvideo(const CString &Filename, const CString &TargetFilename);
 
 extern SLONG bCAbendOpen;
 extern SLONG SkipPlaneCalculation;
-extern SLONG TankSize[];
-extern SLONG TankPrice[];
 
 static CString PlaneSounds[] = {"prop.raw", "flyby.raw", "flyby2.raw", "flyby3.raw", "flyby4.raw", "flyby5.raw"};
 
@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
             if (AbortMessageBox(MESSAGEBOX_ERROR, "Airline Tycoon Deluxe Crash Handler", msg.c_str(), nullptr)) {
                 return sentry_value_new_null(); // Skip
             }
-            
+
             return event;
         }, &crashId);
         sentry_init(options);
@@ -164,7 +164,7 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
-        return 0;
+    return 0;
 }
 
 #define LOADING_TEXT(text)                                                                                                                                     \
@@ -210,7 +210,6 @@ CTakeOffApp::~CTakeOffApp() {
 // CTakeOffApp CLI
 //--------------------------------------------------------------------------------------------
 void CTakeOffApp::CLI(int argc, char *argv[]) {
-    // Schneller Mode zum Debuggen?
     for (int i = 0; i < argc; i++) {
         char *Argument = argv[i];
 
@@ -228,9 +227,11 @@ void CTakeOffApp::CLI(int argc, char *argv[]) {
         // if (stricmp (Argument, "/d")==0) gLanguage = LANGUAGE_D;
         // if (stricmp (Argument, "/f")==0) gLanguage = LANGUAGE_F;
         // if (stricmp (Argument, "/test")==0) bTest = TRUE;
+
         if (stricmp(Argument, "/window") == 0) {
             bFullscreen = FALSE;
         }
+
         if (stricmp(Argument, "/savedata") == 0) {
             CRLEReader::TogglePlainTextSaving(true);
         }
@@ -238,8 +239,6 @@ void CTakeOffApp::CLI(int argc, char *argv[]) {
         if (stricmp(Argument, "/updatedata") == 0) {
             CRLEReader::ToggleUpdateDataBeforeOpening(true);
         }
-
-        // if (stricmp (Argument, "/windowed")==0) bFullscreen = FALSE;
 
         if (stricmp(Argument, "/novgaram") == 0) {
             bNoVgaRam = TRUE;
@@ -316,6 +315,8 @@ void CTakeOffApp::CLI(int argc, char *argv[]) {
 // CTakeOffApp Read Options from various places (file, registry, cli)
 //--------------------------------------------------------------------------------------------
 void CTakeOffApp::ReadOptions(int argc, char *argv[]) {
+    AT_Log("Reading video options");
+
     // Die Standardsprachen:
     //#define LANGUAGE_D       0             //D-Deutsch, inklusive
     //#define LANGUAGE_E       1             //E-Englisch, bezahlt
@@ -346,41 +347,37 @@ void CTakeOffApp::ReadOptions(int argc, char *argv[]) {
     }
 
     // gUpdatingPools = TRUE; //Zum testen; für Release auskommentieren
-    {
-        CRegistryAccess reg(chRegKey);
 
-        SLONG bConfigNoVgaRam = 0;
-        SLONG bConfigNoSpeedyMouse = 0;
-        SLONG bConfigWinMouse = 0;
-        SLONG bConfigNoDigiSound = 0;
+    CRegistryAccess reg(chRegKey);
 
-        reg.ReadRegistryKey_l(bConfigNoVgaRam);
-        reg.ReadRegistryKey_l(bConfigNoSpeedyMouse);
-        reg.ReadRegistryKey_l(bConfigWinMouse);
-        reg.ReadRegistryKey_l(bConfigNoDigiSound);
+    SLONG bConfigNoVgaRam = 0;
+    SLONG bConfigNoSpeedyMouse = 0;
+    SLONG bConfigWinMouse = 0;
+    SLONG bConfigNoDigiSound = 0;
 
-        if (bConfigNoVgaRam != 0) {
-            bNoVgaRam = TRUE;
-        }
-        if (bConfigNoSpeedyMouse != 0) {
-            bNoQuickMouse = TRUE;
-        }
-        if (bConfigWinMouse != 0) {
-            gUseWindowsMouse = TRUE;
-        }
-        if (bConfigNoDigiSound != 0) {
-            Sim.Options.OptionDigiSound = FALSE;
-        }
+    reg.ReadRegistryKey_l(bConfigNoVgaRam);
+    reg.ReadRegistryKey_l(bConfigNoSpeedyMouse);
+    reg.ReadRegistryKey_l(bConfigWinMouse);
+    reg.ReadRegistryKey_l(bConfigNoDigiSound);
 
-        // Options from CLI
-        CLI(argc, argv);
-
-        // Write registry and move on
-        reg.WriteFile();
-    
-        bFirstClass |=
-            static_cast<SLONG>((DoesFileExist(FullFilename("builds.csv", ExcelPath)) == 0) && (DoesFileExist(FullFilename("relation.csv", ExcelPath))) == 0);
+    if (bConfigNoVgaRam != 0) {
+        bNoVgaRam = TRUE;
     }
+    if (bConfigNoSpeedyMouse != 0) {
+        bNoQuickMouse = TRUE;
+    }
+    if (bConfigWinMouse != 0) {
+        gUseWindowsMouse = TRUE;
+    }
+    if (bConfigNoDigiSound != 0) {
+        Sim.Options.OptionDigiSound = FALSE;
+    }
+
+    // Options from CLI
+    CLI(argc, argv);
+
+    // Write registry and move on
+    reg.WriteFile();
 }
 
 void CTakeOffApp::CreateVideo() {
@@ -407,13 +404,13 @@ void CTakeOffApp::CreateVideo() {
 void CTakeOffApp::InitInstance(int argc, char *argv[]) {
     // Header
     time_t start_time = time(nullptr);
-    Hdu.HercPrintf(0, "Airline Tycoon Deluxe logfile");
-    Hdu.HercPrintf(0, VersionString);
-    Hdu.HercPrintf(0, "===============================================================================");
-    Hdu.HercPrintf(0, "Copyright (C) 2002 Spellbound Software");
-    Hdu.HercPrintf(0, "Application was compiled at %s at %s", __DATE__, __TIME__);
-    Hdu.HercPrintf(0, "===============================================================================");
-    Hdu.HercPrintf(0, "logging starts %s", asctime(localtime(&start_time)));
+    AT_Log("Airline Tycoon Deluxe logfile");
+    AT_Log(VersionString);
+    AT_Log("===============================================================================");
+    AT_Log("Copyright (C) 2002 Spellbound Software");
+    AT_Log("Application was compiled at %s at %s", __DATE__, __TIME__);
+    AT_Log("===============================================================================");
+    AT_Log("logging starts %s", asctime(localtime(&start_time)));
 
     pTakeOffApp = this;
 
@@ -423,12 +420,18 @@ void CTakeOffApp::InitInstance(int argc, char *argv[]) {
     bCursorCaptured = FALSE;
     gMouseStartup = TRUE;
 
-    InitPathVars();
-    ReadOptions(argc, argv);
-    CreateVideo();
-    Sim.SaveOptions();
-    // UpdateSavegames();
+    DoAppPath();                /* get installation directory */
+    ReadOptions(argc, argv);    /* read options and language settings in some versions (sabbel.dat). Needs installation directory! */
+    InitPathVars();             /* sets path for all game files needs both installation directory AND language settings */
 
+    bFirstClass |=
+        static_cast<SLONG>((DoesFileExist(FullFilename("builds.csv", ExcelPath)) == 0) && (DoesFileExist(FullFilename("relation.csv", ExcelPath))) == 0);
+
+    Sim.LoadOptions();
+    Sim.SaveOptions();
+
+    CreateVideo();
+    
     FrameWnd = new GameFrame;
 
     if ((MakeVideoPath.GetLength() != 0) && MakeVideoPath[0] == ':') {

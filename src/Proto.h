@@ -49,7 +49,6 @@ void InitStatusLines(void);
 void InitItems(void);
 void InitTipBms(void);
 void InitGlobeMapper(void);
-void UpdateSavegames(void);
 
 //--------------------------------------------------------------------------------------------
 // Misc.Cpp:

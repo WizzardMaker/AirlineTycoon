@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 #define AT_Log(...) AT_Log_I("TeakFile", __VA_ARGS__)
 #define GET_RAW_TEXT_PATH(path, buffer, max_size) snprintf(buffer, max_size, "%s.txt", path)
@@ -230,28 +230,28 @@ bool CRLEReader::Read(BYTE *buffer, SLONG size, bool decode) {
 }
 
 BOOL DoesFileExist(char const *path) {
-    SDL_RWops *ctx = SDL_RWFromFile(path, "rb");
-    if (ctx != nullptr) {
-        SDL_RWclose(ctx);
-        return 1;
+    if (fs::exists(path)) {
+        return true;
     }
 #ifdef _DEBUG
     AT_Log("File not found: %s", path);
 #endif
-    return 0;
+    return false;
 }
 
 BOOL DoesDirectoryExist(char const *path) {
-    struct stat info{};
-
-    if (stat(path, &info) == 0 && (info.st_mode & S_IFMT) == S_IFDIR) {
-        return 1;
+    std::string str(path);
+    while(!str.empty() && str[str.length() - 1] == '\\') {
+        str.resize(str.length() - 1);
+    }
+    if (fs::is_directory(str)) {
+        return true;
     }
 
 #ifdef _DEBUG
     AT_Log("Directory not found: %s", path);
 #endif
-    return 0;
+    return false;
 }
 
 BOOL isCRLE(char const *path) {
