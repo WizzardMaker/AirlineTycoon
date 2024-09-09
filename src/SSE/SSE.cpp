@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <vector>
 
+#define AT_Log(...) AT_Log_I("Sound", __VA_ARGS__)
+
 SLONG ChangeFrequency(Mix_Chunk *chunk, SLONG freq);
 
 SSE::SSE(void *hWnd, dword samplesPerSec, word channels, word bitsPerSample, word maxFX)
@@ -333,7 +335,7 @@ SLONG FX::Load(const char *file) {
     SDL_ClearError();
 
     if (!DoesFileExist(file)) {
-        AT_Log_I("Sound", "File %s not found", file);
+        AT_Log("File %s not found", file);
     }
 
     _digitalData.file = file;
@@ -353,15 +355,15 @@ SLONG FX::Load(const char *file) {
 
     auto error = SDL_GetError();
     if (error && strlen(error) != 0) {
-        AT_Log_I("Sound", "Error during audio load of file \"%s\": %s", file, error);
+        AT_Log("Error during audio load of file \"%s\": %s", file, error);
         return SSE_CANNOTLOAD;
     }
 
-    _fxData.bufferSize = _fxData.pBuffer->alen;
+    _fxData.bufferSize = _fxData.pBuffer ? _fxData.pBuffer->alen : 0;
     return SSE_OK;
 }
 
-SLONG FX::Fusion(const std::vector<FX*>& Fx) {
+SLONG FX::Fusion(const std::vector<FX *> &Fx) {
     for (SLONG i = 0; i < Fx.size(); i++) {
         if ((Fx[i] == nullptr) || (Fx[i]->_fxData.pBuffer == nullptr)) {
             return SSE_INVALIDPARAM;

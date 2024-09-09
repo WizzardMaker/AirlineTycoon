@@ -138,7 +138,7 @@ BOOL CreateSpeechSBFX(const CString &String, SBFX *pFx, SLONG PlayerNum, BOOL *b
     if (!checked) {
         checked = true;
 
-        useOgg = DoesFileExist("voice/aa/100.ogg"); //test dummy file to check for ogg files
+        useOgg = DoesFileExist(FullFilename("aa/100.ogg", VoicePath)); // test dummy file to check for ogg files
         AT_Log("Decided to use %s for voice files", useOgg ? ".ogg" : ".raw");
     }
 
