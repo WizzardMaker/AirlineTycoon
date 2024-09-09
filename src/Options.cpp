@@ -50,7 +50,7 @@ Options::Options(BOOL bHandy, SLONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "st
     ClickFx.ReInit("change.raw");
 
     AT_Log_Generic("Loaded font: stat_1.mcf");
-    VersionFont.Load(lpDD, const_cast<char*>((LPCTSTR)FullFilename("stat_1.mcf", MiscPath)));
+    VersionFont.Load(lpDD, const_cast<char *>((LPCTSTR)FullFilename("stat_1.mcf", MiscPath)));
 
     Options::PageNum = 1;
     Options::PlayerNum = PlayerNum;
@@ -640,7 +640,7 @@ void Options::OnLButtonDown(UINT /*nFlags*/, CPoint point) {
             } // Fullscreen Option
 
             if (Line == 11) {
-                Sim.Options.OptionKeepAspectRatio = static_cast<BOOL>(static_cast<BOOL>(Sim.Options.OptionKeepAspectRatio) == 0);
+                Sim.Options.OptionKeepAspectRatio = !Sim.Options.OptionKeepAspectRatio;
                 FrameWnd->UpdateFrameSize();
             } // Aspect Ratio Option
 

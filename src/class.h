@@ -2176,7 +2176,7 @@ class PLAYER {
     SLONG CalcCreditLimit(void) const;
     void CalcRoom(void);                                                                   // Speed-up für GetRoom
     SLONG CalcPlanePropSum(void);                                                          // Berechnet, was die anstehenden Umrüstungen zusammen kosten werden
-    void ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char *Par2 = NULL); //Ändert Barschaft und Profit
+    void ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char *Par2 = NULL); // Ändert Barschaft und Profit
     void CheckAuftragsBerater(const CAuftrag &Auftrag);                                    // in Auftrag.cpp
     void CheckAuftragsBerater(const CFracht &Fracht);                                      // in Fracht.cpp
     void DelayFlightsIfNecessary(void);
