@@ -6,6 +6,8 @@
 
 #define forall(c, object) for ((c) = 0; (c) < SLONG((object).AnzEntries()); (c)++)
 
+#define AT_Log(...) AT_Log_I("Player", __VA_ARGS__)
+
 extern SLONG SabotagePrice[];
 extern SLONG SabotagePrice2[];
 extern SLONG SabotagePrice3[];
@@ -25,7 +27,7 @@ extern SLONG ReifenCosts[];
 extern SLONG ElektronikCosts[];
 extern SLONG SicherheitCosts[];
 
-//Öffnungszeiten:
+// Öffnungszeiten:
 extern SLONG timeDutyOpen;
 extern SLONG timeDutyClose;
 extern SLONG timeArabOpen;
@@ -108,6 +110,10 @@ PLAYER::~PLAYER() {
 // Fügt 5 Flüge vom Uhrig hinzu:
 //--------------------------------------------------------------------------------------------
 void PLAYER::Add5UhrigFlights() {
+    if (Auftraege.GetNumFree() < 5) {
+        Auftraege.ReSize(Auftraege.AnzEntries() + 5);
+    }
+
     for (SLONG c = 0; c < 5; c++) {
         CAuftrag a;
 
@@ -339,8 +345,8 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         break;
     case 2066:
         /* D::Prämie für Frachtauftrag %s */
-        Statistiken[STAT_E_AUFTRAEGE].AddAtPastDay(Money);
-        Bilanz.Auftraege += Money;
+        Statistiken[STAT_E_FRACHT].AddAtPastDay(Money);
+        Bilanz.FrachtAuftraege += Money;
         break;
     case 2070:
         /* D::Löhne & Gehälter */
@@ -564,7 +570,7 @@ void PLAYER::ChangeMoney(__int64 Money, SLONG Reason, const CString &Par1, char 
         Bilanz.SonstigeAusgaben += Money;
         break;
     default:
-        hprintf("ChangeMoney: Keine Kategorie für %d", Reason);
+        AT_Log("ChangeMoney: No category for %d", Reason);
     }
 
     if (LocationWin != nullptr) {
@@ -927,7 +933,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     case DIFF_NORMAL:
-        return (ConnectFlags);
+        return (NumMissionRoutes);
         break;
 
     case DIFF_HARD:
@@ -1019,7 +1025,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     case DIFF_ADDON07: {
-        //Äußerung zu den Flugzeugen:
+        // Äußerung zu den Flugzeugen:
         SLONG d = 0;
         SLONG tmp = 0;
         SLONG anz = 0;
@@ -1053,7 +1059,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     case DIFF_ATFS02: {
-        //Äußerung zu den Flugzeugen:
+        // Äußerung zu den Flugzeugen:
         SLONG d = 0;
         SLONG anz = 0;
         for (d = anz = 0; d < Planes.AnzEntries(); d++) {
@@ -1122,11 +1128,10 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         }
 
         for (SLONG c = 0; c <= 29; c++) {
-            if (SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c)) > 0) {
-                if (SLONG(Statistiken[STAT_AKTIEN_SA + PlayerNum].GetAtPastDay(c)) * 100 / SLONG(Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c)) <=
-                    BTARGET_MEINANTEIL) {
-                    sum++;
-                }
+            auto anz = Statistiken[STAT_AKTIEN_SA + PlayerNum].GetAtPastDay(c);
+            auto gesamt = Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c);
+            if ((gesamt > 0) && anz * 100 / gesamt <= BTARGET_MEINANTEIL) {
+                sum++;
             }
         }
 
@@ -1165,7 +1170,7 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
         break;
 
     default:
-        hprintf("Player.cpp: Default case should not be reached.");
+        AT_Log("Player.cpp: Default case should not be reached.");
         DebugBreak();
     }
 
@@ -1176,6 +1181,8 @@ SLONG PLAYER::GetMissionRating(bool bAnderer) {
 // Did this player win the mission?
 //------------------------------------------------------------------------------
 BOOL PLAYER::HasWon() {
+    auto MissionRating = GetMissionRating();
+
     if (Sim.Difficulty == DIFF_TUTORIAL && NumAuftraege >= 10) {
         return (TRUE);
     }
@@ -1185,7 +1192,7 @@ BOOL PLAYER::HasWon() {
     if (Sim.Difficulty == DIFF_EASY && Gewinn >= TARGET_GEWINN) {
         return (TRUE);
     }
-    if (Sim.Difficulty == DIFF_NORMAL && ConnectFlags >= TARGET_FLAGS) {
+    if (Sim.Difficulty == DIFF_NORMAL && NumMissionRoutes >= TARGET_FLAGS) {
         return (TRUE);
     }
     if (Sim.Difficulty == DIFF_HARD && Image >= TARGET_IMAGE) {
@@ -1194,7 +1201,7 @@ BOOL PLAYER::HasWon() {
     if (Sim.Difficulty == DIFF_FINAL && GetAnzBits(RocketFlags) >= 10) {
         return (TRUE);
     }
-    if (Sim.Difficulty == DIFF_ADDON01 && GetMissionRating() == 0) {
+    if (Sim.Difficulty == DIFF_ADDON01 && MissionRating == 0) {
         return (TRUE);
     }
     if (Sim.Difficulty == DIFF_ADDON02 && NumFracht >= TARGET_FRACHT) {
@@ -1232,19 +1239,16 @@ BOOL PLAYER::HasWon() {
         return (TRUE);
     }
     if (Sim.Difficulty == DIFF_ADDON07) {
-        if (Planes.GetNumUsed() < 2) {
-            return (FALSE);
-        }
-
+        SLONG anz = 0;
         for (SLONG d = 0; d < Planes.AnzEntries(); d++) {
             if (Planes.IsInAlbum(d) != 0) {
-                if (Planes[d].Zustand < 90) {
-                    return (FALSE);
+                if (Planes[d].Zustand >= 90) {
+                    anz++;
                 }
             }
         }
 
-        return (TRUE);
+        return (anz >= 2);
     }
     if (Sim.Difficulty == DIFF_ADDON08 && Kurse[0] >= TARGET_SHARES) {
         return (TRUE);
@@ -1259,32 +1263,34 @@ BOOL PLAYER::HasWon() {
     if (Sim.Difficulty == DIFF_ATFS01 && Money >= BTARGET_KONTO) {
         return (TRUE);
     }
-    if (Sim.Difficulty == DIFF_ATFS02 && Planes.GetNumUsed() >= 5 && GetMissionRating() >= Planes.GetNumUsed()) {
+    if (Sim.Difficulty == DIFF_ATFS02 && MissionRating >= 5) {
         return (TRUE);
     }
-    if (Sim.Difficulty == DIFF_ATFS03 && Planes.GetNumUsed() >= 4 && GetMissionRating() >= BTARGET_PASSAVG) {
+    if (Sim.Difficulty == DIFF_ATFS03 && Planes.GetNumUsed() >= 4 && MissionRating >= BTARGET_PASSAVG) {
         return (TRUE);
     }
     if (Sim.Difficulty == DIFF_ATFS04 && Planes.GetNumUsed() >= 5 && DaysWithoutSabotage >= BTARGET_DAYSSABO) {
         return (TRUE);
     }
     if (Sim.Difficulty == DIFF_ATFS05) {
-        return static_cast<BOOL>(GetMissionRating() >= 3);
+        return static_cast<BOOL>(MissionRating >= 3);
     }
     if (Sim.Difficulty == DIFF_ATFS06 && Planes.GetNumUsed() >= 5 && DaysWithoutSabotage >= BTARGET_DAYSSABO) {
         return (TRUE);
     }
-    if (Sim.Difficulty == DIFF_ATFS07 && GetMissionRating() >= BTARGET_KURS) {
+    if (Sim.Difficulty == DIFF_ATFS07 && MissionRating >= BTARGET_KURS) {
         for (SLONG c = 0; c <= 29; c++) {
-            if (Statistiken[STAT_AKTIEN_SA + PlayerNum].GetAtPastDay(c) * 100 / Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c) > BTARGET_MEINANTEIL) {
-                return static_cast<BOOL>(false);
+            auto anz = Statistiken[STAT_AKTIEN_SA + PlayerNum].GetAtPastDay(c);
+            auto gesamt = Statistiken[STAT_AKTIEN_ANZAHL].GetAtPastDay(c);
+            if (anz * 100 / gesamt > BTARGET_MEINANTEIL) {
+                return (FALSE);
             }
         }
 
         return (TRUE);
     }
     if (Sim.Difficulty == DIFF_ATFS08) {
-        return static_cast<BOOL>(GetMissionRating() >= 5);
+        return static_cast<BOOL>(MissionRating >= 5);
     }
     if (Sim.Difficulty == DIFF_ATFS09) {
         for (SLONG c = 0; c < 4; c++) {
@@ -1440,7 +1446,7 @@ void PLAYER::NewDay() {
         LaptopBattery = 1440;
         break;
     default:
-        hprintf("Player.cpp: Default case should not be reached.");
+        AT_Log("Player.cpp: Default case should not be reached.");
         DebugBreak();
     }
 
@@ -1611,11 +1617,12 @@ void PLAYER::NewDay() {
 
                 // Reparaturkosten auch in die Salden (aber nur wenn etwas repariert werden soll)
                 if (Planes[c].Zustand < Planes[c].TargetZustand + 2) {
-                    SLONG OldZustand = Planes[c].Zustand;
+                    UBYTE OldZustand = Planes[c].Zustand;
 
                     if (Planes[c].Zustand < Planes[c].WorstZustand) {
                         Planes[c].WorstZustand = Planes[c].Zustand;
                     }
+                    UBYTE OldWorst = Planes[c].WorstZustand;
 
                     switch (MechMode) {
                     // Putzfrau:
@@ -1658,7 +1665,7 @@ void PLAYER::NewDay() {
                         }
                         break;
                     default:
-                        hprintf("Player.cpp: Default case should not be reached.");
+                        AT_Log("Player.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 
@@ -1678,15 +1685,25 @@ void PLAYER::NewDay() {
                     }
 
                     // Wartungskosten berechnen:
-                    SLONG delta = gRepairPrice[MechMode] / 30;
+                    SLONG salary = gRepairPrice[MechMode] / 30;
+                    SLONG costImprovement = 0;
+                    SLONG costRepairs = 0;
 
                     if (Planes[c].Zustand > OldZustand) {
                         Planes[c].WorstZustand = max(Planes[c].WorstZustand, Planes[c].Zustand - 20);
 
-                        delta += Improvement * Planes[c].ptPreis / 110;
+                        costImprovement = Improvement * Planes[c].ptPreis / 110;
 
-                        delta += SLONG((Planes[c].Zustand - OldZustand) * 10 * Planes[c].ptWartungsfaktor * (2100 - Planes[c].Baujahr) / 100 *
-                                       (200 - Planes[c].Zustand) / 100);
+                        costRepairs = SLONG((Planes[c].Zustand - OldZustand) * 10 * Planes[c].ptWartungsfaktor * (2100 - Planes[c].Baujahr) / 100 *
+                                            (200 - Planes[c].Zustand) / 100);
+                    }
+
+                    SLONG delta = salary + costImprovement + costRepairs;
+                    AT_Log("Player.cpp: %s: Repair of plane %s (%u => %u; worst %u => %u) costs: %ld+%ld+%ld=%ld", (LPCTSTR)AirlineX, (LPCTSTR)Planes[c].Name,
+                            OldZustand, Planes[c].Zustand, OldWorst, Planes[c].WorstZustand, salary, costImprovement, costRepairs, delta);
+                    if (delta < 0) {
+                        delta = 0;
+                        AT_Log("Player.cpp: Repair cost for Player %li negative!", PlayerNum);
                     }
 
                     Summe += delta;
@@ -1716,6 +1733,7 @@ void PLAYER::NewDay() {
 
             Planes -= i;
             UpdateAuftragsUsage();
+            UpdateFrachtauftragsUsage();
             MapWorkers(0);
         }
 
@@ -1806,6 +1824,7 @@ void PLAYER::RouteWegnehmen(SLONG Routenindex, SLONG NeuerBesitzer) {
         qPlayer.RentRouten.RentRouten[Routenindex].LastFlown = 30;
         qPlayer.RentRouten.RentRouten[Routenindex].AvgFlown = 30;
         qPlayer.RentRouten.RentRouten[Routenindex].Auslastung = 0;
+        qPlayer.RentRouten.RentRouten[Routenindex].AuslastungFC = 0;
 
         qPlayer.RentRouten.RentRouten[Routenindex].TageMitVerlust = 0;
 
@@ -1850,138 +1869,135 @@ void PLAYER::UpdateAuftraege() {
 
     // Aufträge anschauen
     for (c = 0; c < Auftraege.AnzEntries(); c++) {
-        if (Auftraege.IsInAlbum(c) != 0) {
-            if (Auftraege[c].BisDate == Sim.Date - 1) {
-                if (Auftraege[c].InPlan != -1 && (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_FINE))) { // ex: nur Owner==0
-                    if (!(Auftraege[c].InPlan == 1 && Auftraege[c].Okay == 1)) {
-                        if (Auftraege[c].Strafe > 0) {
-                            ChangeMoney(-Auftraege[c].Strafe, 2060,
-                                        (LPCTSTR)CString(
-                                            bprintf("%s-%s", (LPCTSTR)Cities[Auftraege[c].VonCity].Kuerzel, (LPCTSTR)Cities[Auftraege[c].NachCity].Kuerzel)));
+        if (Auftraege.IsInAlbum(c) == 0) {
+            continue;
+        }
+        if (Auftraege[c].BisDate == Sim.Date - 1) {
+            if (Auftraege[c].InPlan != -1 && (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_FINE))) { // ex: nur Owner==0
+                if (!(Auftraege[c].InPlan == 1 && Auftraege[c].Okay == 1)) {
+                    if (Auftraege[c].Strafe > 0) {
+                        ChangeMoney(
+                            -Auftraege[c].Strafe, 2060,
+                            (LPCTSTR)CString(bprintf("%s-%s", (LPCTSTR)Cities[Auftraege[c].VonCity].Kuerzel, (LPCTSTR)Cities[Auftraege[c].NachCity].Kuerzel)));
 
-                            if (Owner == 0 && (IsOut == 0)) {
-                                Letters.AddLetter(TRUE, StandardTexte.GetS(TOKEN_LETTER, 1000),
-                                                  (LPCTSTR)CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 1001), (LPCTSTR)Cities[Auftraege[c].VonCity].Name,
-                                                                           (LPCTSTR)Cities[Auftraege[c].NachCity].Name, Auftraege[c].Strafe)),
-                                                  StandardTexte.GetS(TOKEN_LETTER, 1002), -1);
+                        if (Owner == 0 && (IsOut == 0)) {
+                            Letters.AddLetter(TRUE, StandardTexte.GetS(TOKEN_LETTER, 1000),
+                                              (LPCTSTR)CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 1001), (LPCTSTR)Cities[Auftraege[c].VonCity].Name,
+                                                                       (LPCTSTR)Cities[Auftraege[c].NachCity].Name, Auftraege[c].Strafe)),
+                                              StandardTexte.GetS(TOKEN_LETTER, 1002), -1);
+                        }
+                    } else {
+                        if (Owner == 0 && (IsOut == 0)) {
+                            Letters.AddLetter(TRUE, StandardTexte.GetS(TOKEN_LETTER, 1010),
+                                              (LPCTSTR)CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 1011), (LPCTSTR)Cities[Auftraege[c].VonCity].Name,
+                                                                       (LPCTSTR)Cities[Auftraege[c].NachCity].Name)),
+                                              StandardTexte.GetS(TOKEN_LETTER, 1012), -1);
+                        }
+                    }
+                }
+            }
+        } else if (Auftraege[c].BisDate == Sim.Date - 2) {
+            SLONG d = 0;
+            SLONG e = 0;
+            BOOL CantDelete = FALSE;
+
+            // Veralteten Auftrag aus Flugplan entfernen:
+            for (d = 0; d < Planes.AnzEntries(); d++) {
+                if (Planes.IsInAlbum(d) == 0) {
+                    continue;
+                }
+
+                CFlugplan &qPlan = Planes[d].Flugplan;
+                for (e = Planes[d].Flugplan.Flug.AnzEntries() - 1; e >= 0; e--) {
+                    auto &qFPE = qPlan.Flug[e];
+                    if (qFPE.ObjectType == 2 && Auftraege(qFPE.ObjectId) == ULONG(c)) {
+                        if (qFPE.Startdate > Sim.Date || (qFPE.Startdate == Sim.Date && qFPE.Startzeit > Sim.GetHour() + 2)) {
+                            // Löschen:
+                            qFPE = {};
+                            qPlan.UpdateNextFlight();
+                            qPlan.UpdateNextStart();
+                            Planes[d].CheckFlugplaene(PlayerNum);
+                            UpdateAuftragsUsage();
+                            if (DoRoutes == 0) {
+                                DelayFlightsIfNecessary();
                             }
                         } else {
-                            if (Owner == 0 && (IsOut == 0)) {
-                                Letters.AddLetter(TRUE, StandardTexte.GetS(TOKEN_LETTER, 1010),
-                                                  (LPCTSTR)CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 1011), (LPCTSTR)Cities[Auftraege[c].VonCity].Name,
-                                                                           (LPCTSTR)Cities[Auftraege[c].NachCity].Name)),
-                                                  StandardTexte.GetS(TOKEN_LETTER, 1012), -1);
-                            }
+                            CantDelete = TRUE;
                         }
                     }
                 }
-            } else if (Auftraege[c].BisDate == Sim.Date - 2) {
-                SLONG d = 0;
-                SLONG e = 0;
-                BOOL CantDelete = FALSE;
+            }
 
-                // Veralteten Auftrag aus Flugplan entfernen:
-                for (d = 0; d < Planes.AnzEntries(); d++) {
-                    if (Planes.IsInAlbum(d) != 0) {
-                        CFlugplan &qPlan = Planes[d].Flugplan;
-
-                        for (e = Planes[d].Flugplan.Flug.AnzEntries() - 1; e >= 0; e--) {
-                            if (qPlan.Flug[e].ObjectType == 2 && Auftraege(qPlan.Flug[e].ObjectId) == ULONG(c)) {
-                                if (qPlan.Flug[e].Startdate > Sim.Date || qPlan.Flug[e].Startzeit > 2) {
-                                    // Löschen:
-                                    if (e == 0) {
-                                        qPlan.StartCity = qPlan.Flug[e].NachCity;
-                                    }
-
-                                    qPlan.Flug[e].ObjectType = 0;
-                                    qPlan.UpdateNextFlight();
-                                    qPlan.UpdateNextStart();
-                                    Planes[d].CheckFlugplaene(PlayerNum);
-                                    UpdateAuftragsUsage();
-                                    if (DoRoutes == 0) {
-                                        DelayFlightsIfNecessary();
-                                    }
-                                } else {
-                                    CantDelete = TRUE;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (CantDelete == 0) {
-                    Auftraege -= c;
-                }
+            if (CantDelete == 0) {
+                Auftraege -= c;
             }
         }
     }
 
     // Das gleiche für Frachtaufträge:
     for (c = 0; c < Frachten.AnzEntries(); c++) {
-        if (Frachten.IsInAlbum(c) != 0) {
-            if (Frachten[c].BisDate == Sim.Date - 1) {
-                if (Frachten[c].InPlan != -1 && (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_FINE))) { // ex: nur Owner==0
-                    if (!(Frachten[c].InPlan == 1 && Frachten[c].Okay == 1)) {
-                        if (Frachten[c].Strafe > 0) {
-                            ChangeMoney(-Frachten[c].Strafe, 2065,
-                                        (LPCTSTR)CString(
-                                            bprintf("%s-%s", (LPCTSTR)Cities[Frachten[c].VonCity].Kuerzel, (LPCTSTR)Cities[Frachten[c].NachCity].Kuerzel)));
+        if (Frachten.IsInAlbum(c) == 0) {
+            continue;
+        }
+        if (Frachten[c].BisDate == Sim.Date - 1) {
+            if (Frachten[c].InPlan != -1 && (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_FINE))) { // ex: nur Owner==0
+                if (!(Frachten[c].InPlan == 1 && Frachten[c].Okay == 1)) {
+                    if (Frachten[c].Strafe > 0) {
+                        ChangeMoney(
+                            -Frachten[c].Strafe, 2065,
+                            (LPCTSTR)CString(bprintf("%s-%s", (LPCTSTR)Cities[Frachten[c].VonCity].Kuerzel, (LPCTSTR)Cities[Frachten[c].NachCity].Kuerzel)));
 
-                            if (Owner == 0 && (IsOut == 0)) {
-                                Letters.AddLetter(TRUE, StandardTexte.GetS(TOKEN_LETTER, 1005),
-                                                  (LPCTSTR)CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 1006), (LPCTSTR)Cities[Frachten[c].VonCity].Name,
-                                                                           (LPCTSTR)Cities[Frachten[c].NachCity].Name, Frachten[c].Strafe)),
-                                                  StandardTexte.GetS(TOKEN_LETTER, 1007), -1);
+                        if (Owner == 0 && (IsOut == 0)) {
+                            Letters.AddLetter(TRUE, StandardTexte.GetS(TOKEN_LETTER, 1005),
+                                              (LPCTSTR)CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 1006), (LPCTSTR)Cities[Frachten[c].VonCity].Name,
+                                                                       (LPCTSTR)Cities[Frachten[c].NachCity].Name, Frachten[c].Strafe)),
+                                              StandardTexte.GetS(TOKEN_LETTER, 1007), -1);
+                        }
+                    } else {
+                        if (Owner == 0 && (IsOut == 0)) {
+                            Letters.AddLetter(TRUE, StandardTexte.GetS(TOKEN_LETTER, 1015),
+                                              (LPCTSTR)CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 1016), (LPCTSTR)Cities[Frachten[c].VonCity].Name,
+                                                                       (LPCTSTR)Cities[Frachten[c].NachCity].Name)),
+                                              StandardTexte.GetS(TOKEN_LETTER, 1017), -1);
+                        }
+                    }
+                }
+            }
+        } else if (Frachten[c].BisDate <= Sim.Date - 2) {
+            SLONG d = 0;
+            SLONG e = 0;
+            BOOL CantDelete = FALSE;
+
+            // Veralteten Frachtauftrag aus Flugplan entfernen:
+            for (d = 0; d < Planes.AnzEntries(); d++) {
+                if (Planes.IsInAlbum(d) == 0) {
+                    continue;
+                }
+                CFlugplan &qPlan = Planes[d].Flugplan;
+
+            start_loop_again:
+                for (e = Planes[d].Flugplan.Flug.AnzEntries() - 1; e >= 0; e--) {
+                    auto &qFPE = qPlan.Flug[e];
+                    if (qFPE.ObjectType == 4 && Frachten(qFPE.ObjectId) == ULONG(c)) {
+                        if (qFPE.Startdate > Sim.Date || (qFPE.Startdate == Sim.Date && qFPE.Startzeit > Sim.GetHour() + 2)) {
+                            qFPE = {};
+                            qPlan.UpdateNextFlight();
+                            qPlan.UpdateNextStart();
+                            Planes[d].CheckFlugplaene(PlayerNum);
+                            UpdateFrachtauftragsUsage();
+                            if (DoRoutes == 0) {
+                                DelayFlightsIfNecessary();
                             }
+                            goto start_loop_again;
                         } else {
-                            if (Owner == 0 && (IsOut == 0)) {
-                                Letters.AddLetter(TRUE, StandardTexte.GetS(TOKEN_LETTER, 1015),
-                                                  (LPCTSTR)CString(bprintf(StandardTexte.GetS(TOKEN_LETTER, 1016), (LPCTSTR)Cities[Frachten[c].VonCity].Name,
-                                                                           (LPCTSTR)Cities[Frachten[c].NachCity].Name)),
-                                                  StandardTexte.GetS(TOKEN_LETTER, 1017), -1);
-                            }
+                            CantDelete = TRUE;
                         }
                     }
                 }
-            } else if (Frachten[c].BisDate <= Sim.Date - 2) {
-                SLONG d = 0;
-                SLONG e = 0;
-                BOOL CantDelete = FALSE;
+            }
 
-                // Veralteten Frachtauftrag aus Flugplan entfernen:
-                for (d = 0; d < Planes.AnzEntries(); d++) {
-                    if (Planes.IsInAlbum(d) != 0) {
-                        CFlugplan &qPlan = Planes[d].Flugplan;
-
-                    start_loop_again:
-                        for (e = Planes[d].Flugplan.Flug.AnzEntries() - 1; e >= 0; e--) {
-                            if (qPlan.Flug[e].ObjectType == 4 && Frachten(qPlan.Flug[e].ObjectId) == ULONG(c)) {
-                                if (qPlan.Flug[e].Startdate > Sim.Date || qPlan.Flug[e].Startzeit > 2) {
-                                    // Löschen:
-                                    if (e == 0) {
-                                        qPlan.StartCity = qPlan.Flug[e].NachCity;
-                                    }
-
-                                    qPlan.Flug[e].ObjectType = 0;
-                                    qPlan.UpdateNextFlight();
-                                    qPlan.UpdateNextStart();
-                                    Planes[d].CheckFlugplaene(PlayerNum);
-                                    UpdateFrachtauftragsUsage();
-                                    if (DoRoutes == 0) {
-                                        DelayFlightsIfNecessary();
-                                    }
-                                    goto start_loop_again;
-                                } else {
-                                    CantDelete = TRUE;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (CantDelete == 0) {
-                    Frachten -= c;
-                }
+            if (CantDelete == 0) {
+                Frachten -= c;
             }
         }
     }
@@ -2149,7 +2165,7 @@ SLONG PLAYER::HasBerater(SLONG Berater) const {
     SLONG c = 0;
     SLONG Max = 0;
 
-    if (CheatBerater != 0) {
+    if (CheatBerater != 0 && PlayerNum == Sim.localPlayer) {
         Max = CheatBerater;
     }
 
@@ -2214,39 +2230,35 @@ void PLAYER::UpdateAuftragsUsage() {
     }
 
     for (c = 0; c < Planes.AnzEntries(); c++) {
-        if (Planes.IsInAlbum(c) != 0) {
-            CFlugplan *Plan = &Planes[c].Flugplan;
+        if (Planes.IsInAlbum(c) == 0) {
+            continue;
+        }
 
-            for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
-                // Nur bei Aufträgen von menschlichen Spielern
-                if (Plan->Flug[d].ObjectType == 2 && (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_CHECK_FLIGHT))) // ex: Nur Owner==0
-                {
-                    // if ((PlaneTypes[Planes[c].TypeId].Passagiere>=SLONG(Auftraege[Plan->Flug[d].ObjectId].Personen) &&
-                    // Plan->Flug[d].Startdate<=Auftraege[Plan->Flug[d].ObjectId].BisDate) ||
-                    if ((Planes[c].ptPassagiere >= SLONG(Auftraege[Plan->Flug[d].ObjectId].Personen) &&
-                         Plan->Flug[d].Startdate <= Auftraege[Plan->Flug[d].ObjectId].BisDate) ||
-                        Plan->Flug[d].Startdate > Sim.Date || (Plan->Flug[d].Startdate == Sim.Date && Plan->Flug[d].Startzeit > Sim.GetHour())) {
-                        if (Auftraege[Plan->Flug[d].ObjectId].InPlan == 0) {
-                            Auftraege[Plan->Flug[d].ObjectId].InPlan = 1;
-                            Plan->Flug[d].Okay = 0; // Alles klar
-                        }
-                    }
+        CFlugplan *Plan = &Planes[c].Flugplan;
+        for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
+            CFlugplanEintrag &qFPE = Plan->Flug[d];
+            if (qFPE.ObjectType != 2) {
+                continue;
+            }
 
-                    // if (PlaneTypes[Planes[c].TypeId].Passagiere<SLONG(Auftraege[Plan->Flug[d].ObjectId].Personen))
-                    if (Planes[c].ptPassagiere < SLONG(Auftraege[Plan->Flug[d].ObjectId].Personen)) {
-                        Auftraege[Plan->Flug[d].ObjectId].Okay = 0;
-                        Plan->Flug[d].Okay = 3; // Passagierzahl!
-                    }
+            auto &job = Auftraege[qFPE.ObjectId];
+            if (job.InPlan != 0) {
+                continue;
+            }
 
-                    if (Plan->Flug[d].Startdate < Auftraege[Plan->Flug[d].ObjectId].Date ||
-                        Plan->Flug[d].Startdate > Auftraege[Plan->Flug[d].ObjectId].BisDate) {
-                        Auftraege[Plan->Flug[d].ObjectId].Okay = 0;
-                        Plan->Flug[d].Okay = 1; // Falscher Tag!
-                    }
+            qFPE.Okay = 0; // Alles klar
+            job.InPlan = 1;
+
+            // Nur bei Aufträgen von menschlichen Spielern
+            if (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_CHECK_FLIGHT)) { // ex: Nur Owner==0
+                if (Planes[c].ptPassagiere < SLONG(job.Personen)) {
+                    job.Okay = 0;
+                    qFPE.Okay = 3; // Passagierzahl!
                 }
-                // Frachtaufträge werden hier nicht behandelt
-                else if (Plan->Flug[d].ObjectType != 4) {
-                    Plan->Flug[d].Okay = 0; // Alles klar
+
+                if (qFPE.Startdate < job.Date || qFPE.Startdate > job.BisDate) {
+                    job.Okay = 0;
+                    qFPE.Okay = 1; // Falscher Tag!
                 }
             }
         }
@@ -2279,57 +2291,63 @@ void PLAYER::UpdateFrachtauftragsUsage() {
 
     // TonsOpen bei allen Frachtaufträge neu berechnen:
     for (c = 0; c < Planes.AnzEntries(); c++) {
-        if (Planes.IsInAlbum(c) != 0) {
-            CFlugplan *Plan = &Planes[c].Flugplan;
+        if (Planes.IsInAlbum(c) == 0) {
+            continue;
+        }
 
-            for (d = 0; d < Planes[c].Flugplan.Flug.AnzEntries(); d++) {
-                CFlugplanEintrag &qFPE = Plan->Flug[d];
+        CFlugplan *Plan = &Planes[c].Flugplan;
+        for (d = Planes[c].Flugplan.Flug.AnzEntries() - 1; d >= 0; d--) {
+            CFlugplanEintrag &qFPE = Plan->Flug[d];
+            if (qFPE.ObjectType != 4) {
+                continue;
+            }
 
-                if (qFPE.ObjectType == 4) {
-                    if (qFPE.Startdate < Frachten[qFPE.ObjectId].Date || qFPE.Startdate > Frachten[qFPE.ObjectId].BisDate) {
-                        Frachten[qFPE.ObjectId].Okay = 0;
-                        Frachten[qFPE.ObjectId].InPlan = 1; // New
-                        qFPE.Okay = 1;                      // Falscher Tag!
-                    } else if (qFPE.Startdate <= Frachten[qFPE.ObjectId].BisDate || qFPE.Startdate > Sim.Date ||
-                               (qFPE.Startdate == Sim.Date && qFPE.Startzeit > Sim.GetHour())) {
-                        CFracht &qFracht = Frachten[qFPE.ObjectId];
+            auto &job = Frachten[qFPE.ObjectId];
+            if (job.InPlan != 0) {
+                continue;
+            }
 
-                        // Ist dieser Frachtflug überhaupt noch zu erledigen?
-                        if (qFracht.TonsLeft != 0) {
-                            // Wir misbrauchen bei Frachtflügen das Passagierfeld um zu speichern, wieviel Fracht hier mitfliegt
-                            qFPE.Passagiere = Planes[c].ptPassagiere / 10;
+            // Nur bei Aufträgen von menschlichen Spielern
+            if (Owner == 0 || Owner == 2 || !RobotUse(ROBOT_USE_NO_CHECK_FFLIGHT)) { // ex: Nur Owner==0
+                if (qFPE.Startdate < job.Date || qFPE.Startdate > job.BisDate) {
+                    job.Okay = 0;
+                    qFPE.Okay = 1; // Falscher Tag!
+                    continue;
+                }
+            }
 
-                            // Flug nur beachten, wenn er noch nicht gestartet ist:
-                            // Heute ist Tag 5 15:00
-                            // Flug ging an Tag 4 16:00 los. Tag < 5
-                            // Flug 2 geht an Tag 5 18:00 los
+            // Ist dieser Frachtflug überhaupt noch zu erledigen?
+            if (job.TonsLeft != 0) {
+                // Wir misbrauchen bei Frachtflügen das Passagierfeld um zu speichern, wieviel Fracht hier mitfliegt
+                qFPE.Passagiere = Planes[c].ptPassagiere / 10;
 
-                            BOOL ignoreFlight = 0;
-                            if (qFPE.Startdate < Sim.Date) {
-                                ignoreFlight = 1;
-                            } // (qFPE.Startzeit==Sim.GetHour() && (Sim.GetHour()<30 || Planes[c].Ort!=-5)))
-                            if (qFPE.Startdate == Sim.Date && qFPE.Startzeit < Sim.GetHour()) {
-                                ignoreFlight = 1;
-                            }
+                // Flug nur beachten, wenn er noch nicht gestartet ist:
+                // Heute ist Tag 5 15:00
+                // Flug ging an Tag 4 16:00 los. Tag < 5
+                // Flug 2 geht an Tag 5 18:00 los
 
-                            if (!static_cast<bool>(ignoreFlight)) {
-                                qFracht.TonsOpen -= Planes[c].ptPassagiere / 10;
-                            }
+                BOOL ignoreFlight = 0;
+                if (qFPE.Startdate < Sim.Date) {
+                    ignoreFlight = 1;
+                } // (qFPE.Startzeit==Sim.GetHour() && (Sim.GetHour()<30 || Planes[c].Ort!=-5)))
+                if (qFPE.Startdate == Sim.Date && qFPE.Startzeit < Sim.GetHour()) {
+                    ignoreFlight = 1;
+                }
 
-                            if (qFracht.TonsOpen <= 0) {
-                                qFPE.Passagiere -= UWORD(-qFracht.TonsOpen);
+                if (!ignoreFlight) {
+                    job.TonsOpen -= Planes[c].ptPassagiere / 10;
+                }
 
-                                qFracht.TonsOpen = 0;
-                                qFracht.InPlan = 1;
-                                qFPE.Okay = 0; // Alles klar
-                            }
+                if (job.TonsOpen <= 0) {
+                    qFPE.Passagiere -= UWORD(-job.TonsOpen);
+                    job.TonsOpen = 0;
+                    job.InPlan = 1; // New
+                    qFPE.Okay = 0;  // Alles klar
+                }
 
-                            // Bei Frachten warnen, wenn die Frachtmenge auf 0 schrumpft:
-                            if (qFPE.Passagiere == 0) {
-                                qFPE.GateWarning = TRUE;
-                            }
-                        }
-                    }
+                // Bei Frachten warnen, wenn die Frachtmenge auf 0 schrumpft:
+                if (qFPE.Passagiere == 0) {
+                    qFPE.GateWarning = TRUE;
                 }
             }
         }
@@ -4010,10 +4028,10 @@ void PLAYER::RobotExecuteAction() {
     // Die exakte Zeit des Ausführens auf dem Server simulieren
     SLONG RealLocalTime = Sim.Time;
 
-   AT_Log_I("AI", "Player %li: Action: %s, %s at %li/%li\n", PlayerNum, Translate_ACTION(RobotActions[0].ActionId), Translate_ACTION(RobotActions[1].ActionId),
-             WaitWorkTill, WaitWorkTill2);
-   NetGenericSync (770 + PlayerNum, RobotActions[0].ActionId);
-   NetGenericSync (740 + PlayerNum, RobotActions[1].ActionId);
+    AT_Log("AI", "Player %li: Action: %s, %s at %li/%li\n", PlayerNum, Translate_ACTION(RobotActions[0].ActionId), Translate_ACTION(RobotActions[1].ActionId),
+           WaitWorkTill, WaitWorkTill2);
+    NetGenericSync (770 + PlayerNum, RobotActions[0].ActionId);
+    NetGenericSync (740 + PlayerNum, RobotActions[1].ActionId);
 
     if (Sim.bNetwork != 0) {
         Sim.Time = WaitWorkTill2;
@@ -4044,7 +4062,7 @@ void PLAYER::RobotExecuteAction() {
                 if (Image < 150) {
                     WantToDoRoutes = TRUE;
 
-                    if (GetAnzBits(Sim.Players.Players[Sim.localPlayer].ConnectFlags) > PlayerNum) {
+                    if (Sim.Players.Players[Sim.localPlayer].NumMissionRoutes > PlayerNum) {
                         DoRoutes = TRUE;
                     }
                 } else if (Anz > 2) {
@@ -6760,6 +6778,7 @@ void PLAYER::SackWorkers() const {
     for (c = 0; c < Workers.Workers.AnzEntries(); c++) {
         if (Workers.Workers[c].Employer == PlayerNum) {
             Workers.Workers[c].Employer = WORKER_RESERVE;
+            Workers.Workers[c].Gehalt = Workers.Workers[c].OriginalGehalt;
             if (Workers.Workers[c].TimeInPool > 0) {
                 Workers.Workers[c].TimeInPool = 0;
             }
@@ -6883,7 +6902,7 @@ void PLAYER::UpdateStatistics() {
     // STAT_MISSIONSZIEL:
     switch (Sim.Difficulty) {
     case DIFF_TUTORIAL:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumAuftraege * 100 / 5);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumAuftraege * 100 / 10);
         break;
 
     case DIFF_FIRST:
@@ -6891,11 +6910,11 @@ void PLAYER::UpdateStatistics() {
         break;
 
     case DIFF_EASY:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumPassengers * 100 / TARGET_GEWINN);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(Gewinn * 100 / TARGET_GEWINN);
         break;
 
     case DIFF_NORMAL:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(ConnectFlags * 100 / TARGET_FLAGS);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumMissionRoutes * 100 / TARGET_FLAGS);
         break;
 
     case DIFF_HARD:
@@ -6906,45 +6925,56 @@ void PLAYER::UpdateStatistics() {
         Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetAnzBits(RocketFlags) * 10);
         break;
 
-    case DIFF_ADDON01:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(Credit);
-        break;
-
     case DIFF_ADDON02:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumFracht);
-        break;
-
-    case DIFF_ADDON03:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumFrachtFree);
-        break;
-
-    case DIFF_ADDON04:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumMiles);
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumFracht * 100 / TARGET_FRACHT);
         break;
 
     case DIFF_ADDON05:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumServicePoints);
-        break;
-
-    case DIFF_ADDON06:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating());
-        break;
-
-    case DIFF_ADDON07:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating());
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumServicePoints * 100 / TARGET_SERVICE);
         break;
 
     case DIFF_ADDON08:
-        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating());
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(Kurse[0] * 100 / TARGET_SHARES);
         break;
 
     case DIFF_ADDON09:
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(NumOrderFlights * 100 / TARGET_NUM_UHRIG);
         break;
 
     case DIFF_ADDON10:
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetAnzBits(RocketFlags) * 10);
         break;
+
+    case DIFF_ATFS01:
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(Money * 100 / BTARGET_KONTO);
+        break;
+
+    case DIFF_ATFS02:
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating() * 20);
+        break;
+
+    case DIFF_ATFS03:
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating() * 100 / BTARGET_PASSAVG);
+        break;
+
+    case DIFF_ATFS04:
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(DaysWithoutSabotage * 100 / BTARGET_DAYSSABO);
+        break;
+
+    case DIFF_ATFS05:
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating() * 100 / 3);
+        break;
+
+    case DIFF_ATFS06:
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(DaysWithoutSabotage * 100 / BTARGET_DAYSSABO);
+        break;
+
+    case DIFF_ATFS08:
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating() * 20);
+        break;
+
     default:
-        // Freegame und ATFS-Missionen
+        Statistiken[STAT_MISSIONSZIEL].SetAtPastDay(GetMissionRating());
         break;
     }
 
@@ -7184,7 +7214,7 @@ PLAYERS::PLAYERS() {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft alle Flugpläne auf tote Einträge: (crasht bei toten Einträgen; nur zum testen)
+// Überprüft alle Flugpläne auf tote Einträge: (crasht bei toten Einträgen; nur zum testen)
 //--------------------------------------------------------------------------------------------
 void PLAYERS::CheckFlighplans() {
     for (SLONG c = 0; c < AnzPlayers; c++) {
@@ -7218,7 +7248,7 @@ void PLAYERS::CheckFlighplans() {
                             break;
 
                         default:
-                            hprintf("Player.cpp: Default case should not be reached.");
+                            AT_Log("Player.cpp: Default case should not be reached.");
                             DebugBreak();
                         }
                     }
@@ -7614,7 +7644,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const PLAYER &Player) {
     }
 
     File << Player.HasFlownRoutes << Player.NumPassengers << Player.NumAuftraege;
-    File << Player.Gewinn << Player.ConnectFlags;
+    File << Player.Gewinn << Player.NumMissionRoutes;
     File << Player.RocketFlags << Player.LastRocketFlags;
     File << Player.Statistiken;
 
@@ -7718,7 +7748,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
                     File >> Player.bWasInMuseumToday;
                     if (SaveVersionSub >= 200) {
                         File >> Player.bHasPlanesUpgradedToday;
-                    }else {
+                    } else {
                         Player.bHasPlanesUpgradedToday = FALSE;
                     }
                     File >> Player.NumOrderFlights >> Player.NumOrderFlightsToday;
@@ -7822,7 +7852,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
     }
 
     File >> Player.HasFlownRoutes >> Player.NumPassengers >> Player.NumAuftraege;
-    File >> Player.Gewinn >> Player.ConnectFlags;
+    File >> Player.Gewinn >> Player.NumMissionRoutes;
     File >> Player.RocketFlags >> Player.LastRocketFlags;
     File >> Player.Statistiken;
 

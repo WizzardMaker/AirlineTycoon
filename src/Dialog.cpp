@@ -1636,9 +1636,9 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                             }
 
                             TmpStr += Sim.Players.Players[c].AirlineX + ": ";
-                            TmpStr += bitoa(Sim.Players.Players[c].ConnectFlags);
+                            TmpStr += bitoa(Sim.Players.Players[c].NumMissionRoutes);
                             TmpStr2 += Sim.Players.Players[c].AirlineX + ": ";
-                            TmpStr2 += bitoa(Sim.Players.Players[c].ConnectFlags);
+                            TmpStr2 += bitoa(Sim.Players.Players[c].NumMissionRoutes);
                         }
                     }
 
@@ -1656,7 +1656,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
 
                 for (c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
                     if (Sim.Players.Players[c].IsOut == 0) {
-                        if (d == -1 || Sim.Players.Players[c].ConnectFlags > Sim.Players.Players[d].ConnectFlags) {
+                        if (d == -1 || Sim.Players.Players[c].NumMissionRoutes > Sim.Players.Players[d].NumMissionRoutes) {
                             d = c;
                         }
                     }
@@ -1665,7 +1665,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 // Missionsziel erreicht?
                 if (Sim.Players.Players[d].HasWon() == 0) {
                     // Nein:
-                    if (Sim.Players.Players[d].ConnectFlags == 0) {
+                    if (Sim.Players.Players[d].NumMissionRoutes == 0) {
                         goto _und_jetzt_weiter_mit_etc;
                     }
 

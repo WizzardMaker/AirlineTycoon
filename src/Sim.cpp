@@ -735,7 +735,7 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
         qPlayer.NumPassengers = 0;
         qPlayer.NumAuftraege = 0;
         qPlayer.Gewinn = 0;
-        qPlayer.ConnectFlags = 0;
+        qPlayer.NumMissionRoutes = 0;
         qPlayer.RocketFlags = 0;
         qPlayer.LastRocketFlags = 0;
         qPlayer.SpeedCount = 0;
@@ -1506,7 +1506,7 @@ void SIM::DoTimeStep() {
                 if (Players.Players[c].IsOut == 0) {
                     PLAYER &qPlayer = Players.Players[c];
 
-                    if ((qPlayer.StrikePlanned != 0) && GetHour() > 6 && GetHour() < 18 && CallItADay == FALSE) {
+                    if ((qPlayer.StrikePlanned != 0) && GetHour() > 9 && GetHour() < 18 && CallItADay == FALSE) {
                         SLONG c = 0;
                         SLONG AnyPlanes = FALSE;
 
@@ -1554,6 +1554,8 @@ void SIM::DoTimeStep() {
 
                             Headlines.AddOverride(1, bprintf(StandardTexte.GetS(TOKEN_MISC, 2090), qPlayer.AirlineX.c_str()), GetIdFromString("STREIK"),
                                                   25 + static_cast<SLONG>(c == localPlayer) * 10);
+                            hprintf("Sim.cpp: %s: Strike started @%02ld:%02ld (for %ld hours)", (LPCTSTR)qPlayer.AirlineX, Sim.GetHour(), Sim.GetMinute(),
+                                    qPlayer.StrikeHours);
                         }
                     } else if (qPlayer.StrikeHours != 0) {
                         qPlayer.StrikeHours--;
@@ -2161,6 +2163,7 @@ void SIM::DoTimeStep() {
                                 qPlane.Flugplan.UpdateNextStart();
                                 qPlane.CheckFlugplaene(c);
                                 Players.Players[c].UpdateAuftragsUsage();
+                                Players.Players[c].UpdateFrachtauftragsUsage();
                             }
                         }
                     }

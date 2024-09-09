@@ -185,15 +185,15 @@ constexpr char VersionString[] = FILE_VERSION_STRING;
 #define DIFF_FREEGAMEMAP 7
 
 #define DIFF_ADDON 10   // Keine Mission, sondern nur ein Vergleichsmarker
-#define DIFF_ADDON01 11 // Fracht: x Tonnen
-#define DIFF_ADDON02 12 // Sanierung einer bankrotten Fluglinie
+#define DIFF_ADDON01 11 // Sanierung einer bankrotten Fluglinie
+#define DIFF_ADDON02 12 // Fracht: x Tonnen
 #define DIFF_ADDON03 13 // Fracht: Hilfsflüge x Tonnen
 #define DIFF_ADDON04 14 // Flugkilometer
-#define DIFF_ADDON05 15 // Kein Reisebüro
-#define DIFF_ADDON06 16 // Alles modernisieren
-#define DIFF_ADDON07 17 // Aktienkurs
-#define DIFF_ADDON08 18 // Viele Aufträge
-#define DIFF_ADDON09 19 // Service & Luxus
+#define DIFF_ADDON05 15 // Service & Luxus
+#define DIFF_ADDON06 16 // Kein Reisebüro
+#define DIFF_ADDON07 17 // Alles reparieren
+#define DIFF_ADDON08 18 // Aktienkurs
+#define DIFF_ADDON09 19 // Viele Aufträge von Uhrig
 #define DIFF_ADDON10 20 // Weltraumstation
 
 #define DIFF_ATFS 40   // Keine Mission, sondern nur ein Vergleichsmarker
@@ -223,7 +223,7 @@ constexpr char VersionString[] = FILE_VERSION_STRING;
 #define ITEM_MG 3          // Für ArabAir
 #define ITEM_BIER 4        // Für Mechaniker
 #define ITEM_ZIGARRE 5     //
-#define ITEM_OEL 6         //Öl für den Globus
+#define ITEM_OEL 6         // Öl für den Globus
 #define ITEM_POSTKARTE 7   //
 #define ITEM_TABLETTEN 8   //
 #define ITEM_SPINNE 9      //
@@ -388,10 +388,10 @@ constexpr char VersionString[] = FILE_VERSION_STRING;
 #define ROOM_MONITOR7 236      // Fluglisten-Monitor #7 (für Spieler)
 #define ROOM_MONITOR8 237      // Fluglisten-Monitor #8 (für Spieler)
 #define ROOM_MONITOR9 238      // Fluglisten-Monitor #9 (für Spieler)
-#define ROOM_PHONE1 240        //Öffentliches Telefon #1
-#define ROOM_PHONE2 241        //Öffentliches Telefon #2
-#define ROOM_PHONE3 242        //Öffentliches Telefon #3
-#define ROOM_PHONE4 243        //Öffentliches Telefon #4
+#define ROOM_PHONE1 240        // Öffentliches Telefon #1
+#define ROOM_PHONE2 241        // Öffentliches Telefon #2
+#define ROOM_PHONE3 242        // Öffentliches Telefon #3
+#define ROOM_PHONE4 243        // Öffentliches Telefon #4
 #define ROOM_ELECTRO 244       // Der Colaautomat
 #define ROOM_AIRPORT_EXIT 250  // Flughafenausgang
 #define ROOM_WALL 254          // Mauer, Spieler muß davor stehen
@@ -814,7 +814,7 @@ END_NAME_MAP
 #define STATION_ALL 1023  // Die gesammte Rakete
 
 // Die Statistik-Daten:
-#define STAT_ANZ 51 // Die Anzahl der überwachten Eigenschaften
+#define STAT_ANZ 53 // Die Anzahl der überwachten Eigenschaften
 #define STAT_KONTO 0
 #define STAT_KREDIT 1
 #define STAT_FLUGZEUGE 2
@@ -871,9 +871,11 @@ END_NAME_MAP
 #define STAT_A_SONSTIGES 49 // Essen, Zinsen, Dividenden, Telefon ** +STRAFEN **
 
 #define STAT_FRACHTEN 50 // Gesammtanzahl der angenommen (nicht geflogenen!) Frachtaufträge
+#define STAT_TONS 51     // Gesammtanzahl der transportieren Tonnen
+#define STAT_E_FRACHT 52 // Einnahmen durch Frachtaufträge
 
-#define STAT_MAX_GROUPS 3      // Anzahl der Gruppen
-#define STAT_MAX_ITEMS 30     // Anzahl der Einträge je Gruppe
+#define STAT_MAX_GROUPS 3 // Anzahl der Gruppen
+#define STAT_MAX_ITEMS 31 // Anzahl der Einträge je Gruppe
 
 // Eröffnungen für die Dialoge:
 #define DIALOG_WERBUNG 1
@@ -1048,7 +1050,7 @@ END_NAME_MAP
 #define WM_MBUTTONDBLCLK 0x0209
 
 #define RGB(r, g, b) ((COLORREF)(((BYTE)(r) | ((WORD)((BYTE)(g)) << 8)) | (((DWORD)(BYTE)(b)) << 16)))
-#define GetRValue(rgb) ((unsigned char)((rgb)&0xFF))
+#define GetRValue(rgb) ((unsigned char)((rgb) & 0xFF))
 #define GetGValue(rgb) ((unsigned char)(((rgb) >> 8) & 0xFF))
 #define GetBValue(rgb) ((unsigned char)(((rgb) >> 16) & 0xFF))
 #define stricmp strcasecmp

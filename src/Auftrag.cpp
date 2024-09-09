@@ -537,6 +537,7 @@ too_large:
     Date = UWORD(Sim.Date + 1 + pRandom->Rand(3));
     BisDate = Date;
     InPlan = 0;
+    bUhrigFlight = TRUE;
 
     // Kopie dieser Formel auch bei Last-Minute
     Praemie = ((CalculateFlightCost(VonCity, NachCity, 8000, 700, -1)) + 99) / 100 * 115;

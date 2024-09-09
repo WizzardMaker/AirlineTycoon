@@ -75,6 +75,11 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         _iArray[g][c++].define = STAT_E_AUFTRAEGE;
 
         _iArray[g][c].typOfItem = TYP_CURRENCY;
+        _iArray[g][c].textId = 10020;
+        _iArray[g][c].beraterSkillInfo = 1;
+        _iArray[g][c++].define = STAT_E_FRACHT;
+
+        _iArray[g][c].typOfItem = TYP_CURRENCY;
         _iArray[g][c].textId = 10001;
         _iArray[g][c].beraterSkill = 40;
         _iArray[g][c++].define = STAT_E_ZINS;
@@ -263,7 +268,16 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         _iArray[g][c].typOfItem = TYP_SINGLE_PERCENT;
         _iArray[g][c].textId = 8113;
         _iArray[g][c].beraterSkill = 50;
-        _iArray[g][c].define = STAT_BEKANNTHEIT;
+        _iArray[g][c++].define = STAT_BEKANNTHEIT;
+
+        _iArray[g][c].typOfItem = TYP_SINGLE_PERCENT;
+        if (Sim.Difficulty == DIFF_FREEGAME || Sim.Difficulty == DIFF_ADDON01 || Sim.Difficulty == DIFF_ADDON03 || Sim.Difficulty == DIFF_ADDON04 ||
+            Sim.Difficulty == DIFF_ADDON06 || Sim.Difficulty == DIFF_ATFS07 || Sim.Difficulty == DIFF_ATFS09 || Sim.Difficulty == DIFF_ATFS10) {
+            _iArray[g][c].typOfItem = TYP_VALUE;
+        }
+        _iArray[g][c].textId = 10018;
+        _iArray[g][c].beraterSkill = 0;
+        _iArray[g][c].define = STAT_MISSIONSZIEL;
 
         // Dritte Seite
         assert(c < STAT_MAX_ITEMS);
@@ -287,6 +301,11 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         _iArray[g][c].textId = 8205;
         _iArray[g][c].beraterSkillInfo = 1;
         _iArray[g][c++].define = STAT_LMAUFTRAEGE;
+
+        _iArray[g][c].typOfItem = TYP_VALUE;
+        _iArray[g][c].textId = 10020;
+        _iArray[g][c].beraterSkillInfo = 1;
+        _iArray[g][c++].define = STAT_FRACHTEN;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8201;
@@ -335,6 +354,11 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
         _iArray[g][c++].define = STAT_ZUFR_PASSAGIERE;
 
         _iArray[g][c].typOfItem = TYP_VALUE;
+        _iArray[g][c].textId = 10019;
+        _iArray[g][c].beraterSkillInfo = 70;
+        _iArray[g][c++].define = STAT_TONS;
+
+        _iArray[g][c].typOfItem = TYP_VALUE;
         _iArray[g][c].textId = 8111;
         _iArray[g][c].beraterSkillInfo = 20;
         _iArray[g][c++].define = STAT_MITARBEITER;
@@ -359,7 +383,7 @@ CStatistik::CStatistik(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNu
     Sim.Players.UpdateStatistics();
 
     for (c = 1; c < 5; c++) {
-        Hdu.HercPrintf(0, "stat_%li.mcf", c);
+        hprintf("stat_%li.mcf", c);
         StatFonts[c - 1].Load(lpDD, const_cast<char *>((LPCTSTR)FullFilename("stat_%li.mcf", MiscPath, c)));
     }
 

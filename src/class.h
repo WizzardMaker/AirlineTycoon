@@ -1,3 +1,6 @@
+#ifndef CLASS_H_
+#define CLASS_H_
+
 //============================================================================================
 // Class.h - Prototypen von Klassen, die nicht vom ClassWizard stammen:
 //============================================================================================
@@ -5,6 +8,7 @@
 //============================================================================================
 #include "defines.h"
 #include "HLine.h"
+
 #include <array>
 
 typedef BUFFER_V<UBYTE> BUFFER_UBYTE;
@@ -445,7 +449,6 @@ class /**/ CPlaneType {
 
 class /**/ CPlaneTypes : public ALBUM_V<CPlaneType> {
   public:
-  public:
     CPlaneTypes() : ALBUM_V<CPlaneType>("PlaneTypes") {}
     CPlaneTypes(const CString &TabFilename);
     void ReInit(const CString &TabFilename);
@@ -628,7 +631,7 @@ class CRentRoute {
     }
     SLONG SummeWocheBefoerdert() {
         SLONG summe = 0;
-        for (auto& i : WocheBefoerdert) {
+        for (auto &i : WocheBefoerdert) {
             summe += i;
         }
         return summe;
@@ -1101,7 +1104,7 @@ class /**/ CDataTable {
     CString Title;              // Die Überschrift der Tabelle
     SLONG AnzRows{};            // Zahl der Zeilen
     SLONG AnzColums{};          // Zahl der Spalten
-    BUFFER_V<CString> ColTitle; //Überschriften der Spalten
+    BUFFER_V<CString> ColTitle; // Überschriften der Spalten
     BUFFER_V<CString> Values;   // Die Werte der Tabellenfelder
     BUFFER_V<UBYTE> ValueFlags; // Zusatzangaben für Tabellenfelder
     BUFFER_V<SLONG> LineIndex;  // Verbindung zwischen Tabellenzeile und Tabellenquelle
@@ -1737,7 +1740,7 @@ class /**/ CWorkers {
 };
 
 //--------------------------------------------------------------------------------------------
-// Stdraum.cpp: Jemand mit dem sich der Spieler unterhalten kann:
+// StdRaum.cpp: Jemand mit dem sich der Spieler unterhalten kann:
 //--------------------------------------------------------------------------------------------
 class CTalker {
   public:
@@ -1790,6 +1793,7 @@ class CBilanz {
     // Seite 1 Hauptgeschäft, Einnahmen
     __int64 Tickets{};
     __int64 Auftraege{};
+    __int64 FrachtAuftraege{};
     // Ausgaben
     __int64 KerosinVorrat{};
     __int64 KerosinFlug{};
@@ -2029,7 +2033,7 @@ class PLAYER {
     SLONG NumAuftraege{};  // Zahl der geflogenen Aufträge
     SLONG NumPassengers{}; // Zahl der Passagieren, die man befördert hat
     __int64 Gewinn{};
-    SLONG ConnectFlags{};          // Flags für Städte, die verbunden wurden
+    SLONG NumMissionRoutes{};      // Flags für Städte, die verbunden wurden
     SLONG RocketFlags{};           // Flags für die Raketenbauteile
     SLONG LastRocketFlags{};       // Vom Tag davor
     SLONG NumFracht{};             // Soviele tonnnen wurden bisher transportiert
@@ -2622,7 +2626,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     void NetRefill(SLONG Type, SLONG City = 0) const;
     void NetSynchronizeOvertake(void) const;
 
-    // In NewgamePopup.cpp
+    // In NewGamePopup.cpp
     static bool SendMemFile(TEAKFILE &file, ULONG target = 0, bool useCompression = true);
     static bool ReceiveMemFile(TEAKFILE &file);
     static bool SendSimpleMessage(ULONG Message, ULONG target = 0);
@@ -2643,3 +2647,5 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     friend TEAKFILE &operator<<(TEAKFILE &File, const SIM &Sim);
     friend TEAKFILE &operator>>(TEAKFILE &File, SIM &Sim);
 };
+
+#endif // CLASS_H_

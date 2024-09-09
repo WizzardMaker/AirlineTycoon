@@ -35,17 +35,20 @@ General:
 
 Statistics screen:
 * Showing far more categories where money was spent
-* Information visible depends on skill of financial advisor (own data) or skill of spy (competitors)
-* Unlimited statistics: Store statistics data for each day without limit
+   * For example income from freight jobs, total tons transported, money spent on planes, sabotage or stocks and money gained from interest, credit or stocks
+* Accurate summation of money spent
+   * Fixed many bugs where especially money earned / spent by competitor would not show up in balance
+* Whether or not values are shown depends on skill of financial advisor (for your airline) or skill of spy (regarding competitors)
+* Unlimited statistics: Store statistics data for each day since beginning of the game
 * Fix rendering of graph when zooming out
+* Fix display of mission target
 
 Information menu:
-* Much more information on balance sheet
-* New financial summary
-* Showing multiple balance sheets for day / week / overall
-* Showing business operations and operating balance
+* Much more information on balance sheet depending on skill of your financial advisor
+* New financial summary for quick assessment of the financial health of your airline (e.g. operating profit)
+* Multiple balance sheets (for previous day / week / overall)
 * More information from spy (e.g. weekly balance and financial summary for each competitor)
-* Showing information from kerosene advisor (quality/value of kerosene, money saved through tanks)
+* Detailed information from kerosene advisor (quality / value of kerosene, money saved by using tanks)
 
 Option menu:
 * Game Speed is adjustable in options menu. Available values: 1, 5, 10, 15, 20, 25, 30 (default value). The hosts game speed is synced to clients in a network game.
@@ -54,7 +57,7 @@ Keyboard navigation:
 * Allow Enter/Backspace in calculator
 * Enable keyboard navigation in Laptop / Globe (arrow keys)
 * Enable keyboard navigation in HR folder
-    * Flip using arrow keys
+    * Flip pages using arrow keys
     * Jump 10/100 pages in HR files using Shift/Ctrl
     * Change salary using +/-
     * Hire/fire using Enter/Backspace
@@ -66,26 +69,29 @@ Employees:
 * More pilots/attendants available for hire
 * Slightly increase competence of randomly generated employees
 * Generate randomized advisors as well
-* Replace employees if not hired within 7 days
-* Sort list by skill
+* Regenerate unemployed employees if not hired within 7 days (prevents buildup of low-skill candidates in long games)
+* List automatically sorted by skill
 * Update worker happiness based on salary
     * Chance to increase/decrease happiness each day based on how much salary is higher/lower than original salary
-* The 10% change when increasing/decreasing salary now always refers to 10% of original salary
+* The 10% change when increasing/decreasing salary now always refers to the original salary
+* Regularly increase worker happiness if company image is great
 
 Kerosene:
-* Impact of bad kerosene depends on ratio of bad kerosene in tank
-* Do not remember selected kerosene quality for auto purchase
-* Adjust impact of bad kerosene: Quadratic function now
-* Offer much larger kerosene tanks
-* Kerosene advisor gives hints to save money
+* Adjust impact of bad kerosene:
+    * Now depends on ratio of bad kerosene in tank (quadratic function now instead of yes/no)
+    * Amount of plane damage due to bad kerosene increased
+    * Reasoning: Before, it was very easy to save enormous amounts of money by buying 'bad' kerosene. Now, it is still possible to save money, but you will need to carefully consider how much 'bad' kerosene you put in your tanks (between 10% and 20% can work).
+* Kerosene advisor gives hints on how to save money in new kerosene advisor report
+* ArabAir offers much larger kerosene tanks
+* Do not remember selected kerosene quality for auto purchase (was an undocumented and convoluted 'feature')
 
 Bug fixes:
-* Frozen windows on laptop fixed
+* Fixed frozen windows on laptop
 * Integer overflow fixed when emitting lots of stock (resulted in loosing money when emitting)
 * Fixed formula for credit limit
 * Stock trading: Show correct new account balance in form (including fee)
 * Fix saving/reloading of plane equipment configuration
-* Fix bug in gate planning ('no gate' warning depite plenty of free gates available)
+* Fix bug in gate planning ('no gate' warning despite plenty of free gates available)
 * Fix distant rendering of sticky notes in the boss office
 * Use correct security measure to protect against route stealing
 * Fix calculation of passenger happiness
@@ -97,18 +103,24 @@ Bug fixes:
 * Fix calculation of plane repair cost
     * All cost will show up in plane saldo
     * All cost will show up in plane repair cost total
-    * Always rotate list of plane saldo for past 7 days
+    * Correctly calculate plane saldo over past 7 days
 * Consider also number of first class passengers for statistics
-* Do not show route utilization by defeated players
+* Do not show route utilization for defeated players
 * New sound options (OGG/MIDI) + patched stuttering glich when switching music on Windows 11
 * Patched Space station mission prices and texts in stats
 * Patched various text scrambling on UI
+* Classic mission 04 now uses correct route utilization
+    * Previously, even though boss said that routes must be 20% utilized, game would check for 20% plane utilization
+* Addon mission 09: Fixed counting of Uhrig flights
+    * Note that computer players always have and still are cheating in this mission
+* First class mission 07: Only need to have two repaired planes, not all of them in case more than two were bought
+* Evolution mission 02: Only need to have five planes with full safety upgrades, not all of them in case more than five were bought
 
 AI:
 * Uses now same credit limit
 * Uses now same rules for trading stock
-    * Trading fee (100 + 10% of volume) now also for NPCs (fee existed only for player)
-    * Do not trade in steps of 1000 (worsened price for player only!)
+    * Trading fee (100 + 10% of volume) now also for computer players (fee existed only for player)
+    * Do not execute trades in steps of 1000 (this previously made stock prices worse for the human player only)
     * Align function to re-calculate stock price after trade
 * Uses now same rules for emitting stock
 * Remove sabotage advantages
@@ -116,11 +128,11 @@ AI:
     * Consider all security measures (e.g. plane crash not possible anymore if plane is protected)
     * Align calculation of arab trust for player and computer
 * Remove strange reduction of flight cost in calculation of image change (was a disadvantage for computer player)
-* Computer player pays real cost for plane upgrades
-* Reduce (~ half) cost of plane security upgrades
+* Computer player pays real price for plane upgrades
 * Fix random crash (during checking of flight plans)
 
 Misc:
+* Reduce (~ half) cost of plane security upgrades
 * Spy reports enemy activity based on skill
 * ArabAir opens one hour earlier
 * Calculate route utilization as average of previous 7 days

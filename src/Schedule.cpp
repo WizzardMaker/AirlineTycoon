@@ -4,7 +4,7 @@
 #include "StdAfx.h"
 #include "AtNet.h"
 
-#define AT_Log(a,...) AT_Log_I("Schedule", a, __VA_ARGS__)
+#define AT_Log(...) AT_Log_I("Schedule", __VA_ARGS__)
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -581,6 +581,8 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
 // Flug wird gestartet, die Kosten und Einnahmen werden verbucht:
 //--------------------------------------------------------------------------------------------
 void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
+    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+
     __int64 Saldo = 0;
     SLONG Einnahmen = 0;
     SLONG Kerosin = 0;
@@ -591,7 +593,6 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     SLONG AusgabenKerosinOhneTank = 0;
     SLONG AusgabenEssen = 0;
     CString CityString;
-    PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
     // Hat angebliche Asynchronitäten berichtet, obwohl der Flugplan gleich war!
     // NetGenericAsync (90000+ObjectId+Sim.Date*100+PlayerNum*1000, Startzeit);
@@ -632,7 +633,8 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     Plane->SummePassagiere += PassagiereFC;
 
     // Insgesamt geflogene Meilen:
-    qPlayer.NumMiles += Cities.CalcDistance(VonCity, NachCity) / 1609;
+    SLONG miles = Cities.CalcDistance(VonCity, NachCity) / 1609;
+    qPlayer.NumMiles += miles;
 
     // Für den Statistik-Screen:
     if (ObjectType == 1 || ObjectType == 2) {
@@ -644,6 +646,8 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
             qPlayer.Statistiken[STAT_PASSAGIERE_HOME].AddAtPastDay(Passagiere);
             qPlayer.Statistiken[STAT_PASSAGIERE_HOME].AddAtPastDay(PassagiereFC);
         }
+    } else if (ObjectType == 4) {
+        qPlayer.Statistiken[STAT_FLUEGE].AddAtPastDay(1);
     }
 
     if (ObjectType == 1 || ObjectType == 2) {
@@ -664,10 +668,12 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
     if (ObjectType == 4) {
         if (qPlayer.Frachten[ObjectId].TonsLeft > 0) {
-            qPlayer.NumFracht += min(qPlayer.Frachten[ObjectId].TonsLeft, Plane->ptPassagiere / 10);
+            SLONG tons = min(qPlayer.Frachten[ObjectId].TonsLeft, Plane->ptPassagiere / 10);
+            qPlayer.Statistiken[STAT_TONS].AddAtPastDay(tons);
+            qPlayer.NumFracht += tons;
 
             if (qPlayer.Frachten[ObjectId].Praemie == 0) {
-                qPlayer.NumFrachtFree += min(qPlayer.Frachten[ObjectId].TonsLeft, Plane->ptPassagiere / 10);
+                qPlayer.NumFrachtFree += tons;
             }
 
             qPlayer.Frachten[ObjectId].TonsLeft -= Plane->ptPassagiere / 10;
@@ -732,7 +738,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     } else if (ObjectType == 2) {
         qPlayer.ChangeMoney(Einnahmen, 2061, CityString);
     } else if (ObjectType == 3) {
-        qPlayer.ChangeMoney(Einnahmen, 2061, CityString); /* TODO: Gewinn für Leerflug */
+        qPlayer.ChangeMoney(Einnahmen, 2061, CityString);
     } else if (ObjectType == 4) {
         qPlayer.ChangeMoney(Einnahmen, 2066, CityString);
     }
@@ -803,9 +809,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
         }
     }
     // Bei Aufträgen, die Prämie verbuchen; Aufträge als erledigt markieren
-    else if (ObjectType==2) {
-        AT_Log("Player %li flies %li Passengers from %s to %s\n", PlayerNum, qPlayer.Auftraege[ObjectId].Personen, (LPCTSTR)Cities[qPlayer.Auftraege[ObjectId].VonCity].Name, (LPCTSTR)Cities[qPlayer.Auftraege[ObjectId].NachCity].Name);
-
+    else if (ObjectType == 2) {
         if (Okay == 0 || Okay == 1) {
             qPlayer.Auftraege[ObjectId].InPlan = -1; // Auftrag erledigt
         } else {
@@ -814,10 +818,14 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
         // Add-On Mission 9
         if (Sim.Difficulty == DIFF_ADDON09) {
-            if ((qPlayer.Owner != 1 && (qPlayer.Auftraege[ObjectId].bUhrigFlight != 0)) ||
-                (qPlayer.NumOrderFlightsToday < 5 - static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 5) == 1) -
-                                                    static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 11) == 2) -
-                                                    static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 7) == 0) - ((Sim.Date + qPlayer.PlayerNum) % 2))) {
+            if (qPlayer.Owner == 1) {
+                if (qPlayer.NumOrderFlightsToday < 5 - static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 5) == 1) -
+                                                       static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 11) == 2) -
+                                                       static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 7) == 0) - ((Sim.Date + qPlayer.PlayerNum) % 2)) {
+                    qPlayer.NumOrderFlights++;
+                    qPlayer.NumOrderFlightsToday++;
+                }
+            } else if (qPlayer.Auftraege[ObjectId].bUhrigFlight != 0) {
                 qPlayer.NumOrderFlights++;
                 qPlayer.NumOrderFlightsToday++;
             }
@@ -839,14 +847,14 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
         if (qPlayer.Owner != 1 || !qPlayer.RobotUse(ROBOT_USE_FAKE_PERSONAL)) {
             // ObjectId wirkt als deterministisches Random
-            // log: hprintf ("Player[%li].Image now (deter) = %li", PlayerNum, qPlayer.Image);
+            // log: AT_Log ("Player[%li].Image now (deter) = %li", PlayerNum, qPlayer.Image);
             if (Plane->PersonalQuality < 50 && (ObjectId) % 10 == 0) {
                 qPlayerX.Image--;
             }
             if (Plane->PersonalQuality > 90 && (ObjectId) % 10 == 0) {
                 qPlayerX.Image++;
             }
-            // log: hprintf ("Player[%li].Image now (deter) = %li", PlayerNum, qPlayer.Image);
+            // log: AT_Log ("Player[%li].Image now (deter) = %li", PlayerNum, qPlayer.Image);
 
             if (ObjectType == 1) { // Auswirkung auf Routenimage
                 if (qPlayer.RentRouten.RentRouten[Routen(ObjectId)].Image > 0) {
@@ -935,6 +943,15 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
             Limit(static_cast<UBYTE>(0), qPlayer.RentRouten.RentRouten[Routen(ObjectId)].Image, static_cast<UBYTE>(100));
         }
         Limit(SLONG(-1000), qPlayerX.Image, SLONG(1000));
+    }
+
+    if (ObjectType == 1) {
+        AT_Log("Schedule.cpp: %s: %s $ (+%s $)  (%ld miles, %u * %s $ + %u * %s $ from tickets)", (LPCTSTR)qPlayer.AirlineX,
+                (LPCTSTR)Insert1000erDots64(Saldo), (LPCTSTR)Insert1000erDots64(delta), miles, Passagiere, (LPCTSTR)Insert1000erDots(Ticketpreis), PassagiereFC,
+                (LPCTSTR)Insert1000erDots(TicketpreisFC));
+    } else {
+        AT_Log("Schedule.cpp: %s: %s $ (+%s $)  (%ld miles, %u + %u passengers)", (LPCTSTR)qPlayer.AirlineX, (LPCTSTR)Insert1000erDots64(Saldo),
+                (LPCTSTR)Insert1000erDots64(delta), miles, Passagiere, PassagiereFC);
     }
 
     // Flugzeugabnutzung verbuchen:
