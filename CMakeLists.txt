@@ -62,4 +62,3 @@ add_subdirectory (libs)
 # Include sub-projects.
 add_subdirectory (src)
 
-install(TARGETS AT DESTINATION "${PROJECT_INSTALL_DIR}")

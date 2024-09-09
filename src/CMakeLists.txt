@@ -192,24 +192,21 @@ endif()
 
 # Copy patched assets into target
 add_custom_command(
-    TARGET AT PRE_LINK
-    COMMAND ${CMAKE_COMMAND} -P "${CMAKE_MODULE_PATH}/copy_if_different.cmake" "${PATCH_FOLDER}" "$<TARGET_FILE_DIR:AT>/patch"
-    COMMENT "Copying patches to ${CMAKE_BUILD_TYPE} directory"
-)
-
-# Compile patched assets with the freshly build executable
-add_custom_command(
     TARGET AT POST_BUILD
-    COMMAND $<TARGET_FILE:AT> /update-patched-files-only
     COMMENT "Compiling patched assets"
+    COMMAND ${CMAKE_COMMAND} -P "${CMAKE_MODULE_PATH}/copy_if_different.cmake" "${PATCH_FOLDER}" "$<TARGET_FILE_DIR:AT>/patch"
+    COMMAND $<TARGET_FILE:AT> /update-patched-files-only
+    COMMAND ${CMAKE_COMMAND} -E rm -f $<TARGET_FILE_DIR:AT>/debug.txt
+    COMMAND ${CMAKE_COMMAND} -E rm -rf $<TARGET_FILE_DIR:AT>/.sentry-native
+    COMMAND ${CMAKE_COMMAND} -P "${CMAKE_MODULE_PATH}/cleanup_folder.cmake" "$<TARGET_FILE_DIR:AT>/patch" ".txt"
+    #BYPRODUCTS "$<TARGET_FILE_DIR:AT>/patch/dlg_ger.patched.res"
+    #DEPENDS "${PATCH_FOLDER}/dlg_ger.patched.res.txt"
     WORKING_DIRECTORY "$<TARGET_FILE_DIR:AT>"
 )
 
-# Clean up patched assets from folder
-add_custom_command(
-    TARGET AT POST_BUILD
-    COMMENT "Cleaning up"
-    COMMAND ${CMAKE_COMMAND} -E remove $<TARGET_FILE_DIR:AT>/debug.txt
-    COMMAND ${CMAKE_COMMAND} -E remove_directory $<TARGET_FILE_DIR:AT>/.sentry-native
-    COMMAND ${CMAKE_COMMAND} -P "${CMAKE_MODULE_PATH}/cleanup_folder.cmake" "$<TARGET_FILE_DIR:AT>/patch" ".txt"
-)
+install(TARGETS AT DESTINATION "${PROJECT_INSTALL_DIR}")
+install(FILES "$<TARGET_FILE_DIR:AT>/patch/dlg_ger.patched.res" DESTINATION "${PROJECT_INSTALL_DIR}/patch/")
+install(FILES "$<TARGET_FILE_DIR:AT>/patch/ein_ger.patched.res" DESTINATION "${PROJECT_INSTALL_DIR}/patch/")
+install(FILES "$<TARGET_FILE_DIR:AT>/patch/modded_ger.res" DESTINATION "${PROJECT_INSTALL_DIR}/patch/")
+install(FILES "$<TARGET_FILE_DIR:AT>/patch/std_ger.patched.res" DESTINATION "${PROJECT_INSTALL_DIR}/patch/")
+
