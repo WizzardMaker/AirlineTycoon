@@ -3,32 +3,32 @@
 //==============================================================================
 >Misc
 >>0000001
-  B::# Display     : Fullscreen
-  E::# Display     : Fullscreen
-  F::# Affichage   : Grand
-  I::# Display     : Fullscreen
-  N::# Display     : Fullscreen
-  O::# Display     : Fullscreen
-  S::# Display     : Fullscreen
-  D::# Display     : Fullscreen
+  B::# Display: Fullscreen
+  E::# Display: Fullscreen
+  F::# Affichage: Grand
+  I::# Display: Fullscreen
+  N::# Display: Fullscreen
+  O::# Display: Fullscreen
+  S::# Display: Fullscreen
+  D::# Display: Vollbild
 >>0000002
-  B::# Display     : Windowed
-  E::# Display     : Windowed
-  F::# Affichage   : Flottant
-  I::# Display     : Windowed
-  N::# Display     : Windowed
-  O::# Display     : Windowed
-  S::# Display     : Windowed
-  D::# Display     : Windowed
+  B::# Display: Windowed
+  E::# Display: Windowed
+  F::# Affichage: Flottant
+  I::# Display: Windowed
+  N::# Display: Windowed
+  O::# Display: Windowed
+  S::# Display: Windowed
+  D::# Display: Fenster
 >>0000003
-  B::# Display     : Borderless
-  E::# Display     : Borderless
-  F::# Affichage   : Borderless
-  I::# Display     : Borderless
-  N::# Display     : Borderless
-  O::# Display     : Borderless
-  S::# Display     : Borderless
-  D::# Display     : Borderless
+  B::# Display: Borderless
+  E::# Display: Borderless
+  F::# Affichage: Borderless
+  I::# Display: Borderless
+  N::# Display: Borderless
+  O::# Display: Borderless
+  S::# Display: Borderless
+  D::# Display: Rahmenlos
 >>0000010
   B::# Aspect Ratio: Stretch
   E::# Aspect Ratio: Stretch
@@ -37,7 +37,7 @@
   N::# Aspect Ratio: Stretch
   O::# Aspect Ratio: Stretch
   S::# Aspect Ratio: Stretch
-  D::# Aspect Ratio: Stretch
+  D::# Verhältnis: Ausdehnen
 >>0000011
   B::# Aspect Ratio: Keep
   E::# Aspect Ratio: Keep
@@ -46,7 +46,7 @@
   N::# Aspect Ratio: Keep
   O::# Aspect Ratio: Keep
   S::# Aspect Ratio: Keep
-  D::# Aspect Ratio: Keep
+  D::# Verhältnis: Beibehalten
 >>0000020
   B::# Music: Off
   E::# Music: Off
@@ -55,7 +55,7 @@
   N::# Music: Off
   O::# Music: Off
   S::# Music: Off
-  D::# Music: Off
+  D::# Musik: Off
 >>0000021
   B::# Music: MIDI
   E::# Music: MIDI
@@ -64,7 +64,7 @@
   N::# Music: MIDI
   O::# Music: MIDI
   S::# Music: MIDI
-  D::# Music: MIDI
+  D::# Musik: MIDI
 >>0000022
   B::# Music: Ogg
   E::# Music: Ogg
@@ -73,7 +73,7 @@
   N::# Music: Ogg
   O::# Music: Ogg
   S::# Music: Ogg
-  D::# Music: Ogg
+  D::# Musik: Ogg
 >>0000030
   B::# Sound:
   E::# Sound:

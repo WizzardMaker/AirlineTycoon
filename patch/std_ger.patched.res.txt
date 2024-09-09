@@ -80,14 +80,14 @@
   S::Préstamos
   D::Darlehen
 >>0010013
-  B::Refeições para passageiros
-  E::Meals for passengers
-  F::Repas pour les passagers
-  I::Pasti per i passeggeri
-  N::Maaltijden voor passagiers
-  O::Refeições para passageiros
-  S::Comidas para pasajeros
-  D::Mahlzeiten für Passagiere
+  B::Refeições passageiros
+  E::Meals passengers
+  F::Repas passagers
+  I::Pasti passeggeri
+  N::Maaltijden passagiers
+  O::Refeições passageiros
+  S::Comidas pasajeros
+  D::Mahlzeiten Passagiere
 >>0010014
   B::Expansão
   E::Expansion
@@ -123,7 +123,34 @@
   N::Bureaukosten
   O::Taxas da agência
   S::Honorarios de la agencia
-  D::Agenturgebühren
+  D::Agenturhonorare
+>>0010018
+  B::Mission rating
+  E::Mission rating
+  F::Mission rating
+  I::Mission rating
+  N::Mission rating
+  O::Mission rating
+  S::Mission rating
+  D::Missionsziel
+>>0010019
+  B::Freight tons
+  E::Freight tons
+  F::Freight tons
+  I::Freight tons
+  N::Freight tons
+  O::Freight tons
+  S::Freight tons
+  D::Tonnen Fracht
+>>0010020
+  B::Freight orders
+  E::Freight orders
+  F::Freight orders
+  I::Freight orders
+  N::Freight orders
+  O::Freight orders
+  S::Freight orders
+  D::Frachtaufträge
 
 //
 // Money
@@ -137,7 +164,7 @@
   N::Kerosine voor vlucht %s
   O::Querosene para o voo %s
   S::Keroseno para el vuelo %s
-  D::Kerosin für den Flug %s
+  D::Kerosin für Flug %s
 >>0002022
   B::Refeições para passageiros do voo %s
   E::Meals for passengers for flight %s
@@ -148,23 +175,23 @@
   S::Comidas para pasajeros del vuelo %s
   D::Mahlzeiten für Passagiere des Fluges %s
 >>0002040
-  B::Leilão de filial
-  E::Auctioning of branch office
-  F::Adjudication de succursale
-  I::Asta di filiale
-  N::Veiling van filiaal
+  B::Leilão de filial %s
+  E::Auctioning of branch office %s
+  F::Adjudication de succursale %s
+  I::Asta di filiale %s
+  N::Veiling van filiaal %s
   O::Leilão de filial
-  S::Subasta de sucursal
-  D::Versteigerung der Zweigstelle
+  S::Subasta de sucursal %s
+  D::Versteigerung der Niederlassung %s
 >>0002041
-  B::Leilão de rota
-  E::Auctioning of route
-  F::Adjudication de l'itinéraire
-  I::Asta della rotta
-  N::Veiling van route
-  O::Leilão de rota
-  S::Subasta de ruta
-  D::Versteigerung der Route
+  B::Leilão de rota %s
+  E::Auctioning of route %s
+  F::Adjudication de l'itinéraire %s
+  I::Asta della rotta %s
+  N::Veiling van route %s
+  O::Leilão de rota %s
+  S::Subasta de ruta %s
+  D::Versteigerung der Route %s
 >>0002042
   B::Leilão de portão
   E::Auctioning of gate
@@ -182,7 +209,7 @@
   N::(Saldo van de route %s)
   O::(Saldo da rota %s)
   S::(Saldo de la ruta %s)
-  D::(Saldo der Route %s)
+  D::(Saldo des Routenflugs %s)
 >>0002101
   B::(Saldo do pedido %s)
   E::(Balance of order %s)
@@ -191,7 +218,7 @@
   N::(Saldo van de bestelling %s)
   O::(Saldo do pedido %s)
   S::(Saldo del pedido %s)
-  D::(Saldo der Bestellung %s)
+  D::(Saldo des Auftragsflugs %s)
 >>0002102
   B::(Saldo do voo vazio %s)
   E::(Balance of empty flight %s)
@@ -218,7 +245,7 @@
   N::Emissiecompensaties (betaald)
   O::Indenizações de emissão (pagas)
   S::Indemnizaciones por emisión (pagadas)
-  D::Emissionsentschädigungen (bezahlt)
+  D::Emissions-Entschädigungen (gezahlt)
 >>0003163
   B::Indenizações de emissão (recebidas)
   E::Emission indemnifications (received)
@@ -227,7 +254,7 @@
   N::Emissiecompensaties (ontvangen)
   O::Indenizações de emissão (recebidas)
   S::Indemnizaciones por emisión (recibidas)
-  D::Emissionsentschädigungen (erhalten)
+  D::Emissions-Entschädigungen (erhalten)
 >>0008000
   B::Anel de suprimento
   E::Supply ring
@@ -331,7 +358,7 @@
   N::Nieuw saldo (incl. kosten)
   O::Novo saldo (incl. taxa)
   S::Nuevo saldo (incl. tarifa)
-  D::Neuer Saldo (inkl. Gebühr)
+  D::Neuer Kontostand (inkl. Gebühr)
 
 //
 // Expert
@@ -354,7 +381,7 @@
   N::Dagelijkse balans
   O::Balanço diário
   S::Balance diario
-  D::Tagesguthaben
+  D::Tagesbilanz
 >>0002003
   B::Balanço semanal
   E::Weekly balance
@@ -363,7 +390,7 @@
   N::Wekelijkse balans
   O::Balanço semanal
   S::Balance semanal
-  D::Wöchentlicher Saldo
+  D::Wochenbilanz
 >>0002004
   B::Balanço geral
   E::Overall balance
@@ -372,7 +399,7 @@
   N::Algeheel saldo
   O::Balanço geral
   S::Balance general
-  D::Gesamtsaldo
+  D::Gesamtbilanz
 >>0002005
   B::Renda através de aviões
   E::Income through planes
@@ -392,13 +419,13 @@
   S::Competidores (visión general)
   D::Wettbewerber (Überblick)
 >>0002007
-  B:: Resumos
-  E:: Summaries
-  F:: Résumés
-  I:: Sommari
-  N:: Samenvattingen
-  O:: Resumos
-  S:: Resúmenes
+  B::Resumos
+  E::Summaries
+  F::Résumés
+  I::Sommari
+  N::Samenvattingen
+  O::Resumos
+  S::Resúmenes
   D::Zusammenfassungen
 >>0002008
   B:: Balanço semanal de %s
@@ -408,7 +435,7 @@
   N:: Wekelijkse balans van %s
   O:: Balanço semanal de %s
   S:: Balance semanal de %s
-  D:: Wöchentlicher Saldo von %s
+  D:: Wochenbilanz von %s
 >>0002009
   B:: Balanço semanal de %s
   E:: Weekly balance of %s
@@ -417,7 +444,7 @@
   N:: Wekelijkse balans van %s
   O:: Balanço semanal de %s
   S:: Balance semanal de %s
-  D:: Wöchentlicher Saldo von %s
+  D:: Wochenbilanz von %s
 >>0002010
   B:: Balanço semanal de %s
   E:: Weekly balance of %s
@@ -426,7 +453,7 @@
   N:: Wekelijkse balans van %s
   O:: Balanço semanal de %s
   S:: Balance semanal de %s
-  D:: Wöchentlicher Saldo von %s
+  D:: Wochenbilanz von %s
 >>0002011
   B::Consultor de Querosene
   E::Kerosene Advisor
@@ -462,7 +489,7 @@
   N::Bestellingen
   O::Encomendas
   S::Órdenes
-  D::Bestellungen
+  D::Aufträge
 >>0010000
   B::Querosene para avião
   E::Kerosene for plane
@@ -480,7 +507,7 @@
   N::Kerosine voor voorraad
   O::Querosene para estoque
   S::Queroseno para stock
-  D::Kerosin für Lagerbestand
+  D::Kerosin für Vorrat
 >>0010002
   B::Refeições para passageiros
   E::Meals for passengers
@@ -491,14 +518,14 @@
   S::Comidas para pasajeros
   D::Mahlzeiten für Passagiere
 >>0010003
-  B::Reforma de aeronave\r\nCarga/Passageiros
-  E::Plane rework\r\nCargo/Passengers
-  F::Rénovation d'avion\r\nCargo/Passagers
-  I::Ristrutturazione aereo\r\nCarico/Passeggeri
-  N::Vliegtuigrenovatie\r\nVracht/Passagiers
-  O::Reforma de avião\r\nCarga/Passageiros
-  S::Reacondicionamiento de avión\r\nCarga/Pasajeros
-  D::Flugzeugrenovierung\r\nFracht/Passagiere
+  B::Reforma de aeronave Carga/Passageiros
+  E::Plane rework Cargo/Passengers
+  F::Rénovation d'avion Cargo/Passagers
+  I::Ristrutturazione aereo Carico/Passeggeri
+  N::Vliegtuigrenovatie Vracht/Passagiers
+  O::Reforma de avião Carga/Passageiros
+  S::Reacondicionamiento de avión Carga/Pasajeros
+  D::Flugzeugumrüstung Fracht/Passagiere
 >>0010004
   B::Empréstimos atuais
   E::Current loans
@@ -516,7 +543,7 @@
   N::Aflossing van lening
   O::Reembolso do empréstimo
   S::Reembolso del préstamo
-  D::Kreditrückzahlung
+  D::Kredittilgung
 >>0003501
   B::Juros do empréstimo
   E::Loan interest
@@ -581,22 +608,23 @@
   S::Daños por sabotaje
   D::Sabotageschaden
 >>0010012
-  B::Desconto para guarda-costas
+  B::Desconto de guarda-costas
   E::Bodyguard discount
-  F::Réduction pour les gardes du corps
+  F::Remise pour les gardes du corps
   I::Sconto per bodyguard
   N::Korting voor bodyguards
-  O::Desconto para guarda-costas
+  O::Desconto de guarda-costas
   S::Descuento para guardaespaldas
+  D::Bodyguard-Rabatt
 >>0010013
-  B::Received from\r\nplayers
-  E::Received from\r\nplayers
-  F::Reçu de\r\njoueurs
-  I::Ricevuto da\r\ngiocatori
-  N::Ontvangen van\r\nspelers
-  O::Recebido de\r\njogadores
-  S::Recibido de\r\njugadores
-  D::Erhalten von\r\nSpielern
+  B::Received from players
+  E::Received from players
+  F::Reçu de joueurs
+  I::Ricevuto da giocatori
+  N::Ontvangen van spelers
+  O::Recebido de jogadores
+  S::Recibido de jugadores
+  D::Erhalten von Mitspielern
 >>0010014
   B::Outras receitas
   E::Other income
@@ -605,7 +633,7 @@
   N::Overige inkomsten
   O::Outros rendimentos
   S::Otros ingresos
-  D::Andere Einkünfte
+  D::Sonstige Einkünfte
 >>0010015
   B::Custo de reparo da avaria
   E::Breakdown repair cost
@@ -614,7 +642,7 @@
   N::Reparatiekosten bij pech
   O::Custo de reparação da avaria
   S::Costo de reparación de la avería
-  D::Reparaturkosten bei Panne
+  D::Pannenreparatur
 >>0010016
   B::Custo de segurança
   E::Security cost
@@ -634,14 +662,14 @@
   S::Costo de publicidad
   D::Werbekosten
 >>0010018
-  B::enviado para outros\r\njogadores
-  E::sent to other\r\nplayers
-  F::envoyé aux autres\r\njoueurs
-  I::inviato agli altri\r\ngiocatori
-  N::verzonden naar andere\r\nspelers
-  O::enviado para outros\r\njogadores
-  S::enviado a otros\r\njugadores
-  D::an andere\r\nSpieler gesendet
+  B::enviado para outros jogadores
+  E::sent to other players
+  F::envoyé aux autres joueurs
+  I::inviato agli altri giocatori
+  N::verzonden naar andere spelers
+  O::enviado para outros jogadores
+  S::enviado a otros jugadores
+  D::an Mitspieler gesendet
 >>0010019
   B::Outras despesas
   E::Other expenses
@@ -650,7 +678,7 @@
   N::Andere uitgaven
   O::Outras despesas
   S::Otros gastos
-  D::Andere Ausgaben
+  D::Sonstige Ausgaben
 >>0010020
   B::Venda de ações
   E::Stock sale
@@ -670,14 +698,14 @@
   S::Emisiones de acciones
   D::Aktienemissionen
 >>0010022
-  B::Indenizações por emissões\r\n(recebidas)
-  E::Emission indemnifications\r\n(received)
-  F::Indemnisations d'émission\r\n(reçues)
-  I::Indennizzi per emissioni\r\n(ricevuti)
-  N::Emissie vergoedingen\r\n(ontvangen)
-  O::Indemnizações de emissão\r\n(recebidas)
-  S::Indemnizaciones de emisión\r\n(recibidas)
-  D::Emissionsentschädigungen\r\n(erhalten)
+  B::Indenizações por emissões (recebidas)
+  E::Emission indemnifications (received)
+  F::Indemnisations d'émission (reçues)
+  I::Indennizzi per emissioni (ricevuti)
+  N::Emissie vergoedingen (ontvangen)
+  O::Indemnizações de emissão (recebidas)
+  S::Indemnizaciones de emisión (recibidas)
+  D::Emissions-Entschädigungen (erhalten)
 >>0010023
   B::Compra de ações
   E::Stock purchase
@@ -697,14 +725,14 @@
   S::Tarifas de emisión
   D::Emissionsgebühren
 >>0010025
-  B::Indenizações de emissão\r\n(recebidas)
-  E::Emission indemnifications\r\n(received)
-  F::Indemnisations d'émission\r\n(reçues)
-  I::Indennizzi per emissioni\r\n(ricevuti)
-  N::Emissie vergoedingen\r\n(ontvangen)
-  O::Indemnizações de emissão\r\n(recebidas)
-  S::Indemnizaciones de emisión\r\n(recibidas)
-  D::Emissionsentschädigungen\r\n(erhalten)
+  B::Indenizações de emissão (pagas)
+  E::Emission indemnifications (paid)
+  F::Indemnités d'émission (payées)
+  I::Indennizzi per emissioni (pagati)
+  N::Emissiecompensaties (betaald)
+  O::Indenizações de emissão (pagas)
+  S::Indemnizaciones por emisión (pagadas)
+  D::Emissions-Entschädigungen (gezahlt)
 >>0010026
   B::Aviões vendidos
   E::Planes sold
@@ -742,14 +770,14 @@
   S::Equipo de avión
   D::Flugzeugausrüstung
 >>0010030
-  B::Aquisição de\r\nfiliais
-  E::Buying of\r\nbranch offices
-  F::Achat de\r\nsuccursales
-  I::Acquisto di\r\nsedi secondarie
-  N::Aankoop van\r\nfilialen
-  O::Aquisição de\r\nfiliais
-  S::Compra de\r\nsucursales
-  D::Kauf von\r\nFilialen
+  B::Aquisição de filiais
+  E::Buying of branch offices
+  F::Achat de succursales
+  I::Acquisto di sedi secondarie
+  N::Aankoop van filialen
+  O::Aquisição de filiais
+  S::Compra de sucursales
+  D::Kauf von Niederlassungen
 >>0010031
   B::Compra de rotas
   E::Buying of routes
@@ -758,7 +786,7 @@
   N::Aankoop van routes
   O::Compra de rotas
   S::Compra de rutas
-  D::Kauf von Strecken
+  D::Kauf von Routen
 >>0010032
   B::Compra de portões
   E::Buying of gates
@@ -767,7 +795,7 @@
   N::Aankoop van gates
   O::Compra de portões
   S::Compra de puertas
-  D::Kauf von Toren
+  D::Kauf von Gates
 >>0010033
   B::Tanques de querosene
   E::Kerosene tanks
@@ -778,14 +806,14 @@
   S::Tanques de queroseno
   D::Kerosintanks
 >>0010034
-  B::Escritório filial\r\ntaxas de aluguel
-  E::Branch office\r\nrental fees
-  F::Bureau de succursale\r\nfrais de location
-  I::Ufficio filiale\r\ncanone di locazione
-  N::Filialkantoor\r\nhuurkosten
-  O::Escritório de filial\r\ntaxas de arrendamento
-  S::Oficina sucursal\r\ntarifas de alquiler
-  D::Zweigstelle\r\nMietgebühren
+  B::Escritório filial taxas de aluguel
+  E::Branch office rental fees
+  F::Bureau de succursale frais de location
+  I::Ufficio filiale canone di locazione
+  N::Filialkantoor huurkosten
+  O::Escritório de filial taxas de arrendamento
+  S::Oficina sucursal tarifas de alquiler
+  D::Mieten für Niederlassungen
 >>0010035
   B::Taxas de aluguel de rota
   E::Route rental fees
@@ -794,7 +822,7 @@
   N::Route huurkosten
   O::Taxas de aluguer de rota
   S::Tarifas de alquiler de ruta
-  D::Streckenmietgebühren
+  D::Mieten für Routen
 >>0010036
   B::Juros de crédito
   E::Credit interest
@@ -803,7 +831,7 @@
   N::Kredietrente
   O::Juros de crédito
   S::Intereses de crédito
-  D::Kreditzinsen
+  D::Habenzinsen
 >>0010037
   B::Juros de débito
   E::Debit interest
@@ -812,7 +840,7 @@
   N::Debetrente
   O::Juros de débito
   S::Intereses de débito
-  D::Debetzinsen
+  D::Sollzinsen
 >>0010038
   B::Dividendo recebido
   E::Dividend received
@@ -849,7 +877,7 @@
   N::Bedrijfsactiviteiten (1000 $)
   O::Operações empresariais (1000 $)
   S::Operaciones comerciales (Pts 1000)
-  D::Geschäftsbetrieb (1000 €)
+  D::Operatives Geschäft (1000 €)
 >>0010052
   B::Pessoal e aluguel ($ 1000)
   E::Personal and rent ($ 1000)
@@ -903,7 +931,7 @@
   N::Andere (1000 $)
   O::Outro (1000 $)
   S::Otro (Pts 1000)
-  D::Andere (1000 €)
+  D::Sonstiges (1000 €)
 >>0010100
   B::Lucro operacional
   E::Operating profit
@@ -912,7 +940,7 @@
   N::Operationele winst
   O::Lucro operacional
   S::Beneficio operativo
-  D::Betrieblicher Gewinn
+  D::Operativer Gewinn
 >>0010101
   B::Perda operacional
   E::Operational loss
@@ -921,7 +949,7 @@
   N::Operationeel verlies
   O::Perda operacional
   S::Pérdida operativa
-  D::Betriebsverlust
+  D::Operativer Verlust
 >>0010102
   B::Balanço operacional
   E::Operating balance
@@ -930,7 +958,7 @@
   N::Operationeel saldo
   O::Balanço operacional
   S::Saldo operativo
-  D::Betrieblicher Saldo
+  D::Operatives Saldo
 >>0010103
   B::Proporção Lucro Operacional
   E::Proportion of Op. Profit
@@ -939,7 +967,7 @@
   N::Percentage Op. Winst
   O::Proporção Lucro Operacional
   S::Proporción Beneficio Operativo
-  D::Anteil Betr. Gewinn
+  D::Anteil an op. Gewinn
 >>0010150
   B::destas operações comerciais
   E::thereof business operations
@@ -948,7 +976,7 @@
   N::daarvan bedrijfsactiviteiten
   O::das operações empresariais
   S::de las operaciones comerciales
-  D::davon Geschäftsbetrieb
+  D::davon operatives Geschäft
 >>0010151
   B::Saldo semanal ($ 1000)
   E::Weekly balance ($ 1000)
@@ -957,7 +985,7 @@
   N::Wekelijks saldo (1000 $)
   O::Saldo semanal (1000 $)
   S::Saldo semanal (Pts 1000)
-  D::Wöchentlicher Saldo (1000 €)
+  D::Wochenbilanz (1000 €)
 >>0010152
   B::Obrigações ($ 1000)
   E::Obligations ($ 1000)
@@ -975,7 +1003,7 @@
   N::elke week (1000 $)
   O::cada semana (1000 $)
   S::cada semana (Pts 1000)
-  D::jede Woche (1000 $)
+  D::je Woche (1000 $)
 
 >>0010200
   B::O concorrente não existe mais
@@ -1003,7 +1031,7 @@
   N::%s heeft niet genoeg gates!
   O::%s não tem portões suficientes!
   S::¡%s no tiene suficientes puertas de embarque!
-  D::%s hat nicht genug Gates!
+  D::%s hat nicht genügend Gates!
 >>0010203
   B::%s poupa para um avião.
   E::%s saves for a plane.
@@ -1021,7 +1049,7 @@
   N::%s wil beginnen met het vliegen van routes.
   O::%s quer começar a voar rotas.
   S::%s quiere empezar a volar rutas.
-  D::%s möchte damit beginnen, Strecken zu fliegen.
+  D::%s möchte damit beginnen, Routen zu fliegen.
 
 >>0010300
   B::Tanque
@@ -1040,7 +1068,7 @@
   N::Prijs/per vat (markt)
   O::Preço/barril (mercado)
   S::Precio/barril (mercado)
-  D::Preis/pro Barrel (Markt)
+  D::Preis/Barrel (Markt)
 >>0010302
   B::Preço/barril (tanque)
   E::Price/barrel (tank)
@@ -1049,7 +1077,7 @@
   N::Prijs/per vat (tank)
   O::Preço/barril (tanque)
   S::Precio/barril (tanque)
-  D::Preis/pro Barrel (Tank)
+  D::Preis/Barrel (Tank)
 >>0010303
   B::Valor do tanque (milhões)
   E::Value of tank (millions)
@@ -1058,7 +1086,7 @@
   N::Waarde van tank (miljoenen)
   O::Valor do tanque (milhões)
   S::Valor del tanque (millones)
-  D::Wert des Tanks (Millionen)
+  D::Tankwert (Mio.)
 >>0010304
   B::Qualidade do querosene
   E::Kerosene quality
@@ -1076,7 +1104,7 @@
   N::topklasse
   O::top de gama
   S::tope de gama
-  D::topmodell
+  D::Mega-Ultra
 >>0010306
   B::muito bom
   E::very good
@@ -1112,7 +1140,7 @@
   N::gemiddeld
   O::média
   S::promedio
-  D::durchschnittlich
+  D::mäßig
 >>0010310
   B::ruim
   E::bad
@@ -1139,7 +1167,7 @@
   N::Kwaliteit
   O::Qualidade
   S::Calidad
-  D::Qualität
+  D::Einkaufsqualität
 >>0010313
   B::barato
   E::cheap
@@ -1148,7 +1176,7 @@
   N::goedkoop
   O::barato
   S::barato
-  D::günstig
+  D::billig
 >>0010314
   B::Dinheiro economizado (ontem)
   E::Money saved (yesterday)
@@ -1211,7 +1239,7 @@
   N::De kerosinekwaliteit is slecht. We zouden %li vat hoogwaardige kerosine moeten kopen.
   O::A qualidade do querosene é má. Devemos comprar %li barril de querosene de topo de gama.
   S::La calidad del queroseno es mala. Deberíamos comprar %li barril de queroseno de gama alta.
-  D::Die 
+  D::Die Qualität des Kerosins ist schlecht! Wir sollten %li Barrel Kerosin der Spitzenklasse kaufen.
 >>0010321
   B::A qualidade do querosene é muito boa demais. Devemos economizar dinheiro e comprar querosene barato.
   E::Kerosene quality is way too good. We should save money and buy cheap kerosene.
@@ -1238,7 +1266,7 @@
   N::De kerosinekwaliteit is prima. We zouden geld kunnen besparen en goedkope kerosine kunnen kopen als onze vliegtuigen dit kunnen ondersteunen.
   O::A qualidade do querosene está bem. Poderíamos economizar dinheiro e comprar querosene barato se nossos aviões puderem suportar isso.
   S::La calidad del queroseno está bien. Podríamos ahorrar dinero y comprar queroseno barato si nuestros aviones lo permiten.
-  D::Die Qualität des Kerosins ist in Ordnung. Wir könnten Geld sparen und billiges Kerosin kaufen, wenn unsere Flugzeuge dies unterstützen können.
+  D::Die Qualität des Kerosins ist in Ordnung. Wir könnten Geld sparen und billiges Kerosin kaufen, wenn unsere Flugzeuge das noch vertragen.
 >>0010324
   B::A qualidade do querosene está bem. Poderíamos economizar dinheiro e comprar %li barril de querosene barato se nossos aviões puderem suportar isso.
   E::Kerosene quality is fine. We could save money and buy %li barrel of cheap kerosene if our planes can support this.
@@ -1247,7 +1275,7 @@
   N::De kerosinekwaliteit is prima. We zouden geld kunnen besparen en %li vat goedkope kerosine kunnen kopen als onze vliegtuigen dit kunnen ondersteunen.
   O::A qualidade do querosene está bem. Poderíamos economizar dinheiro e comprar %li barril de querosene barato se nossos aviões puderem suportar isso.
   S::La calidad del queroseno está bien. Podríamos ahorrar dinero y comprar %li barril de queroseno barato si nuestros aviones lo permiten.
-  D::Die Qualität des Kerosins ist in Ordnung. Wir könnten Geld sparen und %li Barrel billiges Kerosin kaufen, wenn unsere Flugzeuge dies unterstützen können.
+  D::Die Qualität des Kerosins ist in Ordnung. Wir könnten Geld sparen und %li Barrel billiges Kerosin kaufen, wenn unsere Flugzeuge das noch vertragen.
 >>0010350
   B::Relatório do querosene
   E::Kerosene report
@@ -1372,3 +1400,4 @@
   O::Deixar rota
   S::Abandonar la ruta
   D::Route kündigen
+
