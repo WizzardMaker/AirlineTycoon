@@ -2588,7 +2588,7 @@ class SIM // Die Simulationswelt; alles was zur aktuellen Partie gehört
     void AddNewShoppers(void);
     void AddStenchSabotage(XY Position);
     bool AddGlueSabotage(XY Position, SLONG Dir, SLONG NewDir, SLONG Phase);
-    void ChooseStartup(BOOL GameModeQuick);
+    void ChooseStartup();
     void DoTimeStep(void);
     SLONG GetWeek(void) const;
     SLONG GetHour(void) const;

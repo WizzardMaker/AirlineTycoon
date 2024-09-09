@@ -17,8 +17,6 @@ static char THIS_FILE[] = __FILE__;
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
-const char TOKEN_NEWGAME[] = "NewG";
-
 SLONG NewgameWantsToLoad = FALSE;
 SLONG NewgameToOptions = FALSE;
 SLONG gNetworkSavegameLoading = -1; // Komm-Variable, über die der Options-Screen mitteilt, welcher Spielstand für's Netzwerk geladen werden soll
@@ -230,15 +228,29 @@ void NewGamePopup::Konstruktor(BOOL /*bHandy*/, SLONG /*PlayerNum*/) {
     }
 
     // Nur auf die Schnelle?
-    if ((bQuick != 0) || gLoadGameNumber > -1) {
-        for (SLONG c = 0; c < Sim.Players.Players.AnzEntries(); c++) {
-            Sim.Players.Players[c].IsOut = 0;
+    if ((gQuickTestRun > 0) || gLoadGameNumber > -1) {
+        /* airline names */
+        for (c = 0; c < Sim.Players.AnzPlayers; c++) {
+            RecapizalizeString(Sim.Players.Players[c].Name);
+            RecapizalizeString(Sim.Players.Players[c].Airline);
+        }
+        for (c = 0; c < Sim.Players.AnzPlayers; c++) {
+            Sim.Players.Players[c].AirlineX = Sim.Players.Players[c].Airline;
+            while (Sim.Players.Players[c].AirlineX.GetLength() > 0 && Sim.Players.Players[c].AirlineX[Sim.Players.Players[c].AirlineX.GetLength() - 1] == 32) {
+                Sim.Players.Players[c].AirlineX = Sim.Players.Players[c].AirlineX.Left(Sim.Players.Players[c].AirlineX.GetLength() - 1);
+            }
+
+            Sim.Players.Players[c].NameX = Sim.Players.Players[c].Name;
+            while (Sim.Players.Players[c].NameX.GetLength() > 0 && Sim.Players.Players[c].NameX[Sim.Players.Players[c].NameX.GetLength() - 1] == 32) {
+                Sim.Players.Players[c].NameX = Sim.Players.Players[c].NameX.Left(Sim.Players.Players[c].NameX.GetLength() - 1);
+            }
         }
 
+        Sim.Difficulty = (gQuickTestRun - 2);
         Sim.Gamestate = UBYTE((Sim.Gamestate & (~GAMESTATE_WORKING)) | GAMESTATE_DONE);
 
         Routen.ReInit("routen.csv", true);
-        Sim.ChooseStartup(bQuick);
+        Sim.ChooseStartup();
 
         Airport.LoadAirport(1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
         AIRPORT::UpdateStaticDoorImage();
@@ -1064,7 +1076,7 @@ void NewGamePopup::OnPaint() {
                         // We load the routes and Sim when recieving the net event to prevent race conditions
                         if (!static_cast<bool>(Sim.bNetwork)) {
                             Routen.ReInit("routen.csv", true);
-                            Sim.ChooseStartup(bQuick);
+                            Sim.ChooseStartup();
                         }
 
                         Airport.LoadAirport(1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -1454,7 +1466,7 @@ void NewGamePopup::OnLButtonDown(UINT nFlags, CPoint point) {
                             return;
                         }
                         Routen.ReInit("routen.csv", true);
-                        Sim.ChooseStartup(bQuick);
+                        Sim.ChooseStartup();
                     }
 
                     Sim.bThisIsSessionMaster = bThisIsSessionMaster;
@@ -2197,7 +2209,7 @@ void NewGamePopup::CheckNetEvents() {
 
                         Sim.bThisIsSessionMaster = bThisIsSessionMaster;
                         Routen.ReInit("routen.csv", true);
-                        Sim.ChooseStartup(bQuick);
+                        Sim.ChooseStartup();
                         RefreshKlackerField();
                     }
                     break;

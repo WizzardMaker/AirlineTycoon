@@ -312,11 +312,16 @@ CAufsicht::CAufsicht(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
 #ifdef DEMO
         if (Sim.Date >= 100)
             StartDialog(TALKER_BOSS, MEDIUM_AIR, 30);
-        else
 #endif
 
-            // Uhrig's Aufträge:
-            if (Sim.Difficulty == DIFF_ADDON09) {
+        auto &qPlayer = Sim.Players.Players[Sim.localPlayer];
+        if ((CheatTestGame != 0 || CheatAutoSkip != 0) && qPlayer.Money < 500000) {
+            qPlayer.Money = 1000000;
+            // log: hprintf ("Event: localPlayer gets Money-Boost for testing reasons");
+        }
+
+        // Uhrig's Aufträge:
+        if (Sim.Difficulty == DIFF_ADDON09) {
             for (SLONG c = 0; c < 4; c++) {
                 PLAYER &qPlayer = Sim.Players.Players[c];
 
@@ -853,6 +858,14 @@ void CAufsicht::OnPaint() {
     }
 
     CStdRaum::PumpToolTips();
+
+    if (Sim.Date == gAutoQuitOnDay) {
+        exit(0);
+    }
+    if (CheatAutoSkip != 0 && (gQuickTestRun > 0 || (Sim.Date % 100) != 99)) {
+        OnRButtonDown(0, CPoint());
+        qPlayer.CallItADay = TRUE;
+    }
 }
 
 //--------------------------------------------------------------------------------------------

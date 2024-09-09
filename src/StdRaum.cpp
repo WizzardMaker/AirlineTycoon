@@ -163,7 +163,7 @@ SLONG WasLButtonDownMouseClickPar2;
 
 extern CString gHostIP;
 
-//Öfnungszeiten:
+// Öfnungszeiten:
 extern SLONG timeArabOpen;
 extern SLONG timeMuseOpen;
 extern SLONG timeMaklClose;
@@ -3843,7 +3843,7 @@ void CStdRaum::OnPaint() { OnPaint(FALSE); }
 void CStdRaum::OnPaint(BOOL /*bHandyDialog*/) {
     ReferenceCursorPos = gMousePosition;
 
-    if ((PleaseCancelTextBubble != 0) && (bHandy == 0)) {
+    if ((PleaseCancelTextBubble != 0) && (bHandy == 0) || (CheatAutoSkip != 0)) {
         PleaseCancelTextBubble = FALSE;
         if (IsDialogOpen() != 0) {
             PreLButtonDown(WasLButtonDownPoint);

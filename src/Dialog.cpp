@@ -240,11 +240,11 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
                 break;
 
             case 680: {
-                SLONG tmp = TankPrice[(DialogPar1 - 900)];
+                __int64 tmp = TankPrice[(DialogPar1 - 900)];
 
                 MakeSayWindow(1, TOKEN_ARAB, 690, 695, 1, &FontDialog, &FontDialogLight, "", (LPCTSTR)Insert1000erDots64(tmp),
-                              (LPCTSTR)Insert1000erDots(tmp * 2), (LPCTSTR)Insert1000erDots(tmp * 3), (LPCTSTR)Insert1000erDots(tmp * 5),
-                              (LPCTSTR)Insert1000erDots(tmp * 10));
+                              (LPCTSTR)Insert1000erDots64(tmp * 2), (LPCTSTR)Insert1000erDots64(tmp * 3), (LPCTSTR)Insert1000erDots64(tmp * 5),
+                              (LPCTSTR)Insert1000erDots64(tmp * 10));
             } break;
 
             case 690:
@@ -258,7 +258,7 @@ BOOL CStdRaum::PreLButtonDown(CPoint point) {
             case 695: {
                 SLONG tmpList[5] = {1, 2, 3, 5, 10};
                 SLONG Anzahl = tmpList[id - 691];
-                SLONG Preis = TankPrice[(DialogPar1 - 900)];
+                __int64 Preis = TankPrice[(DialogPar1 - 900)];
                 SLONG Size = TankSize[(DialogPar1 - 900)];
 
                 if (qPlayer.Money - Preis * Anzahl < DEBT_LIMIT) {

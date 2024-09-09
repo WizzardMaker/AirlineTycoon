@@ -49,8 +49,6 @@ char chRegKey[] = R"(Software\Spellbound Software\Airline Tycoon Deluxe\1.0)";
 extern SLONG NewgameWantsToLoad;
 extern SLONG gTimerCorrection;
 
-const char TOKEN_NEWGAME[] = "NewG";
-
 void CalcPlayerMaximums(bool bForce);
 
 // Daten des aktuellen Savegames beim laden:
@@ -332,7 +330,7 @@ bool SIM::AddGlueSabotage(XY Position, SLONG Dir, SLONG NewDir, SLONG Phase) {
 //------------------------------------------------------------------------------
 // Läßt den Benutzer Schwierigkeit, Anfangsjahr und Spieler wählen:
 //------------------------------------------------------------------------------
-void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
+void SIM::ChooseStartup() {
     SLONG c = 0;
     SLONG d = 0;
     SLONG e = 0;
@@ -447,6 +445,9 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
     SabotageActs.ReSize(0);
 
     IsTutorial = static_cast<BOOL>(Difficulty == DIFF_TUTORIAL);
+    if (gQuickTestRun > 0) {
+        IsTutorial = FALSE;
+    }
     DialogOvertureFlags = 0;
 
     // Wochentag für die Öffnungszeiten:
@@ -811,8 +812,8 @@ void SIM::ChooseStartup(BOOL /*GameModeQuick*/) {
 
         if (Difficulty >= DIFF_ATFS01 && Difficulty <= DIFF_ATFS10) {
             qPlayer.Money = InitMoney[(Difficulty - DIFF_ATFS01 + 22) * 4 + 0];
-            qPlayer.Bonus =
-                InitMoney[(Difficulty - DIFF_ATFS01 + 22) * 4 + 0 + static_cast<SLONG>(qPlayer.Owner == 1) * 2] - InitMoney[(Difficulty - DIFF_ATFS01 + 22) * 4];
+            qPlayer.Bonus = InitMoney[(Difficulty - DIFF_ATFS01 + 22) * 4 + 0 + static_cast<SLONG>(qPlayer.Owner == 1) * 2] -
+                            InitMoney[(Difficulty - DIFF_ATFS01 + 22) * 4];
             qPlayer.Credit = InitMoney[(Difficulty - DIFF_ATFS01 + 22) * 4 + 1];
         } else {
             qPlayer.Money = InitMoney[(Difficulty + 1) * 4 + 0];
@@ -1451,7 +1452,7 @@ void SIM::DoTimeStep() {
                         }
 
                         bgWarp = FALSE;
-                        if (CheatTestGame == 0) {
+                        if (CheatTestGame == 0 && CheatAutoSkip == 0) {
                             qPlayer.GameSpeed = 0;
                         }
                     }
@@ -1477,7 +1478,7 @@ void SIM::DoTimeStep() {
                             bgWarp = FALSE;
                             qPlayer.StrikeNotified = TRUE;
                             qPlayer.StrikeEndType = 0;
-                            if (CheatTestGame == 0) {
+                            if (CheatTestGame == 0 && CheatAutoSkip == 0) {
                                 qPlayer.GameSpeed = 0;
                             }
                         }
@@ -1632,7 +1633,7 @@ void SIM::DoTimeStep() {
                                                 qPlayer.Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_ADVICE, 2308));
 
                                                 bgWarp = FALSE;
-                                                if (CheatTestGame == 0) {
+                                                if (CheatTestGame == 0 && CheatAutoSkip == 0) {
                                                     qLocalPlayer.GameSpeed = 0;
                                                 }
                                             } else if (CallItADay == 0) {
@@ -1848,7 +1849,7 @@ void SIM::DoTimeStep() {
                                         if (qLocalPlayer.GetRoom() == ROOM_SABOTAGE) {
                                             (qLocalPlayer.LocationWin)->StartDialog(TALKER_SABOTAGE, MEDIUM_AIR, 2000);
                                             bgWarp = FALSE;
-                                            if (CheatTestGame == 0) {
+                                            if (CheatTestGame == 0 && CheatAutoSkip == 0) {
                                                 qLocalPlayer.GameSpeed = 0;
                                             }
                                         } else {
@@ -1857,7 +1858,7 @@ void SIM::DoTimeStep() {
                                             gUniversalFx.Play(DSBPLAY_NOSTOP, Options.OptionEffekte * 100 / 7);
 
                                             bgWarp = FALSE;
-                                            if (CheatTestGame == 0) {
+                                            if (CheatTestGame == 0 && CheatAutoSkip == 0) {
                                                 qLocalPlayer.GameSpeed = 0;
                                             }
 
@@ -1885,7 +1886,7 @@ void SIM::DoTimeStep() {
                                                 qOpfer.Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_ADVICE, 2308));
 
                                                 bgWarp = FALSE;
-                                                if (CheatTestGame == 0) {
+                                                if (CheatTestGame == 0 && CheatAutoSkip == 0) {
                                                     qLocalPlayer.GameSpeed = 0;
                                                 }
                                             } else if (CallItADay == 0) {
@@ -2436,9 +2437,22 @@ void SIM::NewDay() {
 
     KeyHints[1] = 0;
 
-    if ((CheatTestGame != 0) && Players.Players[localPlayer].Money < 0) {
-        Players.Players[localPlayer].Money = 1000000;
-        // log: hprintf ("Event: localPlayer gets Money-Boost for testing reasons");
+    auto &qPlayer = Players.Players[localPlayer];
+    if (CheatAutoSkip == 1) {
+        CheatAutoSkip = 2;
+        if (!qPlayer.HasItem(ITEM_LAPTOP)) {
+            qPlayer.BuyItem(ITEM_LAPTOP);
+            qPlayer.LaptopBattery = 60 * 24;
+            qPlayer.LaptopQuality = 4;
+        }
+        if (!qPlayer.HasItem(ITEM_TABLETTEN)) {
+            qPlayer.BuyItem(ITEM_TABLETTEN);
+        }
+        if (!qPlayer.HasItem(ITEM_DISKETTE)) {
+            qPlayer.BuyItem(ITEM_DISKETTE);
+        }
+        Sim.Players.Players[Sim.localPlayer].ArabTrust = 6;
+        CheatBerater += 100;
     }
 
     IsTutorial = FALSE;
@@ -2489,6 +2503,7 @@ void SIM::NewDay() {
     Date++;
     Time = 0;
     UpdateSeason();
+    AT_Log("Start of new day: %ld", Date);
 
     // In den Reisebüros die Zettel nachfüllen:
     gFrachten.Random.SRand(Date);
@@ -3225,7 +3240,7 @@ BOOL SIM::LoadGame(SLONG Number) {
         for (c = 0; c < 4; c++) {
             bReadyForMornings[c] = Players.Players[c].bReadyForMorning;
         }
-        ChooseStartup(1);
+        ChooseStartup();
         for (c = 0; c < 4; c++) {
             Players.Players[c].bReadyForMorning = bReadyForMornings[c];
         }
@@ -4387,7 +4402,10 @@ void COptions::ReadOptions() {
         if (!reg.ReadRegistryKey_u(Sim.GameSpeed)) {
             Sim.GameSpeed = 30;
         }
+    }
 
+    if (gQuickTestRun > 0) {
+        Sim.Options.OptionFullscreen = 1;
     }
 }
 

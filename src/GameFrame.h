@@ -2,8 +2,8 @@
 //
 
 enum InputFlags {
-	None = 0,
-	FromTextInput = 1,
+    None = 0,
+    FromTextInput = 1,
 };
 
 /////////////////////////////////////////////////////////////////////////////

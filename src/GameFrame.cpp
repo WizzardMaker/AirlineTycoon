@@ -1493,38 +1493,38 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                                         }
 
                                         if (nFlags != InputFlags::FromTextInput) {
-                                    		switch (nChar) {
-	                                        case ATKEY_TAB:
-	                                            (qPlayer.LocationWin)->MenuStart(MENU_REQUEST, MENU_REQUEST_CALLITADAY, 0);
-	                                            (qPlayer.LocationWin)->MenuSetZoomStuff(XY(320, 220), 0.17, FALSE);
-	                                            nChar = 0;
-	                                            break;
+                                            switch (nChar) {
+                                            case ATKEY_TAB:
+                                                (qPlayer.LocationWin)->MenuStart(MENU_REQUEST, MENU_REQUEST_CALLITADAY, 0);
+                                                (qPlayer.LocationWin)->MenuSetZoomStuff(XY(320, 220), 0.17, FALSE);
+                                                nChar = 0;
+                                                break;
 
-	                                        case ATKEY_ESCAPE:
-	                                        case ATKEY_F2:
-	                                            if (qPlayer.IsLocationInQueue(ROOM_OPTIONS) == 0) {
-	                                                qPlayer.EnterRoom(ROOM_OPTIONS);
-	                                            } else {
-	                                                qPlayer.LeaveRoom();
-	                                            }
-	                                            break;
+                                            case ATKEY_ESCAPE:
+                                            case ATKEY_F2:
+                                                if (qPlayer.IsLocationInQueue(ROOM_OPTIONS) == 0) {
+                                                    qPlayer.EnterRoom(ROOM_OPTIONS);
+                                                } else {
+                                                    qPlayer.LeaveRoom();
+                                                }
+                                                break;
 
-	                                        case ATKEY_F3:
-	                                            if (qPlayer.IsLocationInQueue(ROOM_OPTIONS) == 0) {
-	                                                OptionsShortcut = 5;
-	                                                qPlayer.EnterRoom(ROOM_OPTIONS);
-	                                            }
-	                                            break;
+                                            case ATKEY_F3:
+                                                if (qPlayer.IsLocationInQueue(ROOM_OPTIONS) == 0) {
+                                                    OptionsShortcut = 5;
+                                                    qPlayer.EnterRoom(ROOM_OPTIONS);
+                                                }
+                                                break;
 
-	                                        case ATKEY_F4:
-	                                            if (qPlayer.IsLocationInQueue(ROOM_OPTIONS) == 0) {
-	                                                OptionsShortcut = 6;
-	                                                qPlayer.EnterRoom(ROOM_OPTIONS);
-	                                            }
-	                                            break;
-	                                        default:
-	                                            break;
-	                                        }
+                                            case ATKEY_F4:
+                                                if (qPlayer.IsLocationInQueue(ROOM_OPTIONS) == 0) {
+                                                    OptionsShortcut = 6;
+                                                    qPlayer.EnterRoom(ROOM_OPTIONS);
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                            }
                                         }
                                     }
                                 }
@@ -1777,8 +1777,8 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         }
 
         // NOTFAIR
-        if (TypeBuffer[19] == 'N' && TypeBuffer[20] == 'O' && TypeBuffer[21] == 'T' && TypeBuffer[22] == 'F' && TypeBuffer[23] == 'A' &&
-            TypeBuffer[24] == 'I' && TypeBuffer[25] == 'R') {
+        if (TypeBuffer[23] == 'N' && TypeBuffer[24] == 'O' && TypeBuffer[25] == 'T' && TypeBuffer[26] == 'F' && TypeBuffer[27] == 'A' &&
+            TypeBuffer[28] == 'I' && TypeBuffer[29] == 'R') {
             if ((Sim.bAllowCheating != 0) || (Sim.bNetwork == 0)) {
                 Sim.bCheatedSession = 1;
 
@@ -1877,6 +1877,19 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
                         Sim.Players.Players[c].Image = 1000;
                     }
                 }
+                CheatSound();
+
+                SIM::SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7014), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX));
+                SIM::SendSimpleMessage(ATNET_CHEAT, 0, Sim.localPlayer, 2);
+            }
+        }
+
+        // AUTORUN
+        if (TypeBuffer[23] == 'A' && TypeBuffer[24] == 'U' && TypeBuffer[25] == 'T' && TypeBuffer[26] == 'O' && TypeBuffer[27] == 'R' &&
+            TypeBuffer[28] == 'U' && TypeBuffer[29] == 'N') {
+            if ((Sim.bAllowCheating != 0) || (Sim.bNetwork == 0)) {
+                Sim.bCheatedSession = 1;
+                CheatAutoSkip = (CheatAutoSkip == 0) ? 1 : 0;
                 CheatSound();
 
                 SIM::SendChatBroadcast(bprintf(StandardTexte.GetS(TOKEN_MISC, 7014), (LPCTSTR)Sim.Players.Players[Sim.localPlayer].NameX));
@@ -1997,8 +2010,7 @@ void GameFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
         // COFFEECUP
         if (TypeBuffer[21] == 'C' && TypeBuffer[22] == 'O' && TypeBuffer[23] == 'F' && TypeBuffer[24] == 'F' && TypeBuffer[25] == 'E' &&
             TypeBuffer[26] == 'E' && TypeBuffer[27] == 'C' && TypeBuffer[28] == 'U' && TypeBuffer[29] == 'P') {
-            Sim.Players.Players[0].SecurityFlags = (1 << 7);
-            Sim.Players.Players[Sim.localPlayer].ArabTrust = 6; // Für Spieler 2
+            Sim.Players.Players[Sim.localPlayer].ArabTrust = 6;
 
             /*Sim.Players.Players[Sim.localPlayer].ArabMode2  = 1; //Bakterien im Kaffee
               Sim.Players.Players[Sim.localPlayer].ArabOpfer2 = 2; //Für Spieler 2

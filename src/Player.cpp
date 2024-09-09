@@ -3987,7 +3987,7 @@ void PLAYER::RobotExecuteAction() {
 
                         CalledPlayer = 2;
                         bgWarp = FALSE;
-                        if (CheatTestGame == 0) {
+                        if (CheatTestGame == 0 && CheatAutoSkip == 0) {
                             Sim.Players.Players[TargetPlayer].GameSpeed = 0;
                             if (Sim.bNetwork != 0) {
                                 SIM::SendSimpleMessage(ATNET_SETSPEED, 0, Sim.localPlayer, Sim.Players.Players[TargetPlayer].GameSpeed);

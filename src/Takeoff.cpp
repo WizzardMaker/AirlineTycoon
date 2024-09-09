@@ -222,8 +222,6 @@ void CTakeOffApp::CLI(int argc, char *argv[]) {
         }
 
         // if (stricmp (Argument, "/e")==0) gLanguage = LANGUAGE_E;
-        // if (stricmp (Argument, "/quick")==0) bQuick = TRUE;
-        // if (stricmp (Argument, "/fast")==0) bQuick = TRUE;
         // if (stricmp (Argument, "/d")==0) gLanguage = LANGUAGE_D;
         // if (stricmp (Argument, "/f")==0) gLanguage = LANGUAGE_F;
         // if (stricmp (Argument, "/test")==0) bTest = TRUE;
@@ -307,6 +305,21 @@ void CTakeOffApp::CLI(int argc, char *argv[]) {
             LoadCompleteFile(FullFilename("ein_ger.patched.res", PatchPath));
             exit(0);
             return;
+        }
+
+        // Schneller Mode zum Debuggen?
+        if (stricmp(Argument, "/quick") == 0) {
+            CheatAutoSkip = 1;
+            gQuickTestRun = 1;
+
+            i++;
+            if (i < argc) {
+                gQuickTestRun = 2 + atoi(argv[i]);
+            }
+
+            if (gQuickTestRun > 0) {
+                gAutoQuitOnDay = 99; /* auto-quit in freegame */
+            }
         }
     }
 }
@@ -428,10 +441,12 @@ void CTakeOffApp::InitInstance(int argc, char *argv[]) {
         static_cast<SLONG>((DoesFileExist(FullFilename("builds.csv", ExcelPath)) == 0) && (DoesFileExist(FullFilename("relation.csv", ExcelPath))) == 0);
 
     Sim.LoadOptions();
-    Sim.SaveOptions();
+    if (gQuickTestRun == 0) {
+        Sim.SaveOptions();
+    }
 
     CreateVideo();
-    
+
     FrameWnd = new GameFrame;
 
     if ((MakeVideoPath.GetLength() != 0) && MakeVideoPath[0] == ':') {
@@ -458,49 +473,53 @@ void CTakeOffApp::InitInstance(int argc, char *argv[]) {
 
         try {
             pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("titel.gli", RoomPath)), &pRoomLib, L_LOCMEM);
+        } catch (TeakLibException &e) {
+            AT_Log_I("Takeoff", "Did not find titel.gli, trying to continue", e.what());
+            e.caught();
+        }
+
+        try {
             pGfxMain->LoadLib(const_cast<char *>((LPCTSTR)FullFilename("titel2.gli", RoomPath)), &pRoomLib2, L_LOCMEM);
         } catch (TeakLibException &e) {
-            if (pRoomLib == nullptr && pRoomLib2 == nullptr) {
-                throw;
-            }
-
+            AT_Log_I("Takeoff", "Did not find titel2.gli, trying to continue", e.what());
             e.caught();
-            //title2.gli is not present in every installation of ATD
         }
 
         if (Sim.Options.OptionDigiSound == TRUE) {
             InitSoundSystem(FrameWnd->m_hWnd);
         }
 
-        if (Sim.Options.OptionViewedIntro == 0 && IntroPath.GetLength() != 0) {
-            Sim.Gamestate = GAMESTATE_INTRO | GAMESTATE_WORKING;
-            TopWin = new CIntro();
-            TitleBitmap.ReSize(pRoomLib, GFX_TITEL);
+        if(pRoomLib != nullptr) {
+            if (Sim.Options.OptionViewedIntro == 0 && IntroPath.GetLength() != 0) {
+                Sim.Gamestate = GAMESTATE_INTRO | GAMESTATE_WORKING;
+                TopWin = new CIntro();
+                TitleBitmap.ReSize(pRoomLib, GFX_TITEL);
 
-            while (Sim.Gamestate != GAMESTATE_BOOT) {
-                FrameWnd->Invalidate();
-                MessagePump();
-                SDL_Delay(10);
+                while (Sim.Gamestate != GAMESTATE_BOOT) {
+                    FrameWnd->Invalidate();
+                    MessagePump();
+                    SDL_Delay(10);
+                }
+
+                delete TopWin;
+                TopWin = nullptr;
+            } else {
+                TitleBitmap.ReSize(pRoomLib, GFX_SPELLOGO);
             }
 
-            delete TopWin;
-            TopWin = nullptr;
-        } else {
-            TitleBitmap.ReSize(pRoomLib, GFX_SPELLOGO);
+            PrimaryBm.BlitFrom(TitleBitmap);
+            gMousePosition = XY(600, 440);
+            FrameWnd->Invalidate();
+            MessagePump();
+            PrimaryBm.BlitFrom(TitleBitmap);
+            gMousePosition = XY(600, 440);
+            FrameWnd->Invalidate();
+            MessagePump();
+            PrimaryBm.BlitFrom(TitleBitmap);
+            gMousePosition = XY(600, 440);
+            FrameWnd->Invalidate();
+            MessagePump();
         }
-
-        PrimaryBm.BlitFrom(TitleBitmap);
-        gMousePosition = XY(600, 440);
-        FrameWnd->Invalidate();
-        MessagePump();
-        PrimaryBm.BlitFrom(TitleBitmap);
-        gMousePosition = XY(600, 440);
-        FrameWnd->Invalidate();
-        MessagePump();
-        PrimaryBm.BlitFrom(TitleBitmap);
-        gMousePosition = XY(600, 440);
-        FrameWnd->Invalidate();
-        MessagePump();
 
         if (gLanguage == LANGUAGE_N)
             LOADING_TEXT("Karakters worden opgestart...")
@@ -608,19 +627,21 @@ void CTakeOffApp::InitInstance(int argc, char *argv[]) {
         else
             LOADING_TEXT("Initializing screen...");
 
-        TitleBitmap.ReSize(pRoomLib, GFX_TITEL);
-        PrimaryBm.BlitFrom(TitleBitmap);
-        gMousePosition = XY(600, 440);
-        FrameWnd->Invalidate();
-        MessagePump();
-        PrimaryBm.BlitFrom(TitleBitmap);
-        gMousePosition = XY(600, 440);
-        FrameWnd->Invalidate();
-        MessagePump();
-        PrimaryBm.BlitFrom(TitleBitmap);
-        gMousePosition = XY(600, 440);
-        FrameWnd->Invalidate();
-        MessagePump();
+        if(pRoomLib != nullptr) {
+            TitleBitmap.ReSize(pRoomLib, GFX_TITEL);
+            PrimaryBm.BlitFrom(TitleBitmap);
+            gMousePosition = XY(600, 440);
+            FrameWnd->Invalidate();
+            MessagePump();
+            PrimaryBm.BlitFrom(TitleBitmap);
+            gMousePosition = XY(600, 440);
+            FrameWnd->Invalidate();
+            MessagePump();
+            PrimaryBm.BlitFrom(TitleBitmap);
+            gMousePosition = XY(600, 440);
+            FrameWnd->Invalidate();
+            MessagePump();
+        }
 
         if (gLanguage == LANGUAGE_N)
             LOADING_TEXT("Zoekt midi-apparaat...")
@@ -777,6 +798,10 @@ void CTakeOffApp::InitInstance(int argc, char *argv[]) {
         else
             LOADING_TEXT("Initializing cities...");
         Cities.ReInit("city.csv");
+        AuslandsAuftraege.resize(MAX_CITIES);
+        AuslandsRefill.resize(MAX_CITIES);
+        AuslandsFrachten.resize(MAX_CITIES);
+        AuslandsFRefill.resize(MAX_CITIES);
 
         if (gLanguage == LANGUAGE_N)
             LOADING_TEXT("Initialiseert de vliegtuigen...")
@@ -971,11 +996,11 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                     Sim.Gamestate = GAMESTATE_PLAYING | GAMESTATE_WORKING;
                     Sim.DayState = 1;
 
-                    if (1 == 0) {
-                        // Speedup zum testen; für Release beides auskommentieren:
+                    if (CheatAutoSkip == 1) {
                         Sim.IsTutorial = FALSE;
-                        Sim.bNoTime = FALSE;
-                        Sim.DayState = 2;
+                        // Sim.bNoTime = FALSE;
+                        // Sim.DayState = 2;
+                        Sim.Players.Players[Sim.localPlayer].GameSpeed = 5;
                     } else {
                         if (Sim.Difficulty == DIFF_TUTORIAL) {
                             for (c = 0; c < Sim.Players.AnzPlayers; c++) {
@@ -1209,6 +1234,9 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
                         break;
                     case 5:
                         Multiplier = 600;
+                        if (CheatAutoSkip != 0) {
+                            Multiplier *= 100;
+                        }
                         break;
                     default:
                         printf("Takeoff.cpp: Default case should not be reached.");
@@ -2114,7 +2142,7 @@ void CTakeOffApp::GameLoop(void * /*unused*/) {
           }
           }
           }*/
-        
+
         MessagePump();
     }
 
