@@ -1652,7 +1652,7 @@ void CPlaner::HandleLButtonDown() {
                     pBlock->Index = 0;
                     pBlock->Page = 0;
                     pBlock->SelectedId = pBlock->Table.LineIndex[TableCursor];
-                    
+
                     pBlock->LoadCityPhotoLib(Cities[pBlock->SelectedId]);
 
                     EarthTargetAlpha = UWORD((Cities[pBlock->SelectedId].GlobusPosition.x + 170) * (3200 / 18) - 16000 + 1300);
@@ -2280,47 +2280,64 @@ void CPlaner::HandleLButtonDown() {
                     }
                 }
 
+                SLONG ticketPreis = qRRoute.Ticketpreis;
+                SLONG ticketPreisFC = qRRoute.TicketpreisFC;
                 switch ((ClientPosB.y - 40) / 13) {
                 case 2:
-                    qRRoute.Ticketpreis = Cost / 2 / 10 * 10;
-                    qRRoute.TicketpreisFC = qRRoute.Ticketpreis * 2;
+                    ticketPreis = Cost / 2 / 10 * 10;
+                    ticketPreisFC = ticketPreis * 2;
                     break;
                 case 3:
-                    qRRoute.Ticketpreis = Cost / 10 * 10;
-                    qRRoute.TicketpreisFC = qRRoute.Ticketpreis * 2;
+                    ticketPreis = Cost / 10 * 10;
+                    ticketPreisFC = ticketPreis * 2;
                     break;
                 case 4:
-                    qRRoute.Ticketpreis = Cost * 2 / 10 * 10;
-                    qRRoute.TicketpreisFC = qRRoute.Ticketpreis * 2;
+                    ticketPreis = Cost * 2 / 10 * 10;
+                    ticketPreisFC = ticketPreis * 2;
                     break;
                 case 5:
-                    qRRoute.Ticketpreis = Cost * 4 / 10 * 10;
-                    qRRoute.TicketpreisFC = qRRoute.Ticketpreis * 2;
+                    ticketPreis = Cost * 4 / 10 * 10;
+                    ticketPreisFC = ticketPreis * 2;
                     break;
                 default:
                     break;
                 }
 
-                if (ClientPosB.IfIsWithin(148, 40 - 2, 160, 40 - 2 + 14)) {
-                    qRRoute.TicketpreisFC += Sim.Options.OptionTicketPriceIncrement;
-                }
-                if (ClientPosB.IfIsWithin(160, 40 - 2, 172, 40 - 2 + 14)) {
-                    qRRoute.TicketpreisFC -= Sim.Options.OptionTicketPriceIncrement;
-                }
                 if (ClientPosB.IfIsWithin(148, 40 - 2 - 13, 160, 40 - 2 - 13 + 14)) {
-                    qRRoute.Ticketpreis += Sim.Options.OptionTicketPriceIncrement;
+                    if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
+                        ticketPreis += 100 * Sim.Options.OptionTicketPriceIncrement;
+                        ticketPreisFC += 200 * Sim.Options.OptionTicketPriceIncrement;
+                    } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
+                        ticketPreis += 10 * Sim.Options.OptionTicketPriceIncrement;
+                        ticketPreisFC += 20 * Sim.Options.OptionTicketPriceIncrement;
+                    } else {
+                        ticketPreis += Sim.Options.OptionTicketPriceIncrement;
+                        ticketPreisFC += 2 * Sim.Options.OptionTicketPriceIncrement;
+                    }
                 }
                 if (ClientPosB.IfIsWithin(160, 40 - 2 - 13, 172, 40 - 2 - 13 + 14)) {
-                    qRRoute.Ticketpreis -= Sim.Options.OptionTicketPriceIncrement;
+                    if (AtGetAsyncKeyState(ATKEY_CONTROL) / 256 != 0) {
+                        ticketPreis -= 100 * Sim.Options.OptionTicketPriceIncrement;
+                        ticketPreisFC -= 200 * Sim.Options.OptionTicketPriceIncrement;
+                    } else if (AtGetAsyncKeyState(ATKEY_SHIFT) / 256 != 0) {
+                        ticketPreis -= 10 * Sim.Options.OptionTicketPriceIncrement;
+                        ticketPreisFC -= 20 * Sim.Options.OptionTicketPriceIncrement;
+                    } else {
+                        ticketPreis -= Sim.Options.OptionTicketPriceIncrement;
+                        ticketPreisFC -= 2 * Sim.Options.OptionTicketPriceIncrement;
+                    }
                 }
                 /*if ((ClientPosB.y-27)/13==0)
                   {
-                  case  0: qRRoute.Ticketpreis+=10; break;
-                  case  1: qRRoute.Ticketpreis-=10; break;
+                  case  0: ticketPreis+=10; break;
+                  case  1: ticketPreis-=10; break;
                   }
 
-                  case 10: qRRoute.TicketpreisFC+=10; break;
-                  case 11: qRRoute.TicketpreisFC-=10; break;*/
+                  case 10: ticketPreisFC+=10; break;
+                  case 11: ticketPreisFC-=10; break;*/
+
+                qRRoute.Ticketpreis = ticketPreis;
+                qRRoute.TicketpreisFC = ticketPreisFC;
 
                 Limit(SLONG(0), qRRoute.Ticketpreis, SLONG(Cost * 16 / 10 * 10));
                 Limit(SLONG(0), qRRoute.TicketpreisFC, SLONG(Cost * 16 / 10 * 10 * 3));

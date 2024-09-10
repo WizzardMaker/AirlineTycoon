@@ -62,6 +62,7 @@ Keyboard navigation:
     * Change salary using +/-
     * Hire/fire using Enter/Backspace
 * Enable keyboard navigation in plane prop menu (arrow keys, jump using Shift/Ctrl)
+* Adjust route ticket prices in larger steps (using Shift/Ctrl)
 * Arrow key navigation for many different menus
 
 Employees:

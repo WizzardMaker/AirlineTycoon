@@ -9,9 +9,10 @@
 #include <numeric>
 
 #define AT_Log(...) AT_Log_I("Sim", __VA_ARGS__)
+
                         // Für Menschen       Für Computer
                         // Money    Credit    Money    Credit
-static long InitMoney[] = {1500000, 0,        2000000, 0,                                                        // DIFF_FREEGAME
+static SLONG InitMoney[] = {1500000, 0,        2000000, 0,                                                       // DIFF_FREEGAME
                            5000000, 0,        200000,  0,                                                        // DIFF_TUTORIAL
                            5000000, 0,        500000,  0,                                                        // FIRST
                            3000000, 0,        1000000, 0,                                                        // DIFF_EASY
@@ -4434,7 +4435,6 @@ void COptions::WriteOptions() {
     reg.WriteRegistryKey_u(OptionRentOfficeMinAvailable);
     reg.WriteRegistryKey_u(OptionRentOfficeMaxAvailable);
 
-
     // Regular
     reg.WriteRegistryKey_l(OptionScreenWindowedWidth);
     reg.WriteRegistryKey_l(OptionScreenWindowedHeight);
@@ -4557,7 +4557,6 @@ void SValue::NewDay() {
 // Gibt die Summe aus dem letzten Monat aus:
 //--------------------------------------------------------------------------------------------
 __int64 SValue::GetSum() { return std::accumulate(Days.begin(), Days.end(), 0); }
-
 
 TEAKFILE &operator<<(TEAKFILE &File, const SValue &Value) {
     File << Value.Days;

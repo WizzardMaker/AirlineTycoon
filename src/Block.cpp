@@ -286,7 +286,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
     XY TitleArea;   // Hier beginnt der Platz für den Fenstertitel
     XY ClientArea;  // Hier beginnt das Papier
     XY PageArea;    // Hier steht die aktuelle Seite Papier
-    XY TitleAreaB;  // Hier beginnt der Platz f�r den Fenstertitel
+    XY TitleAreaB;  // Hier beginnt der Platz für den Fenstertitel
     XY ClientAreaB; // Hier beginnt das Papier
     XY PageAreaB;   // Hier steht die aktuelle Seite Papier
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
@@ -301,7 +301,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
     SB_CFont &TitleFont = StyleType != 0 ? FontNormalGreen : FontSmallBlack;
 
     if (TipInUse == TIP_NONE) {
-        // Specials f�r die Info-Seiten, wenn man keinen Berater hat:
+        // Specials für die Info-Seiten, wenn man keinen Berater hat:
         if (Index == 0 && BlockType == 5) {
             if (SelectedId == 0) {
                 AnzPages = 1;
@@ -374,7 +374,7 @@ void BLOCK::Refresh(SLONG PlayerNum, BOOL StyleType) {
             }
 
             if (BlockTypeB == 3) {
-                Bitmap.BlitFromT(pGlobe->IndexA[0], 268, 256); // Auftr�ge
+                Bitmap.BlitFromT(pGlobe->IndexA[0], 268, 256); // Aufträge
             }
             if (BlockTypeB == 4) {
                 Bitmap.BlitFromT(pGlobe->IndexA[2], 268, 256); // Routen
@@ -570,7 +570,6 @@ void BLOCK::LinkeSeiteIndex(XY TitleArea, XY ClientArea) {
                 f = &FontSmallBlack;
             }
 
-            PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
             Bitmap.PrintAt(Table.Values[0 + c * Table.AnzColums], *f, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 26), Bitmap.Size);
             Bitmap.PrintAt(Table.Values[1 + c * Table.AnzColums], *f, TEC_FONT_RIGHT, ClientArea + XY(145, (c - Page) * 26),
                            ClientArea + XY(175, (c - Page) * 26 + 10));
@@ -578,6 +577,7 @@ void BLOCK::LinkeSeiteIndex(XY TitleArea, XY ClientArea) {
             Bitmap.PrintAt(Table.Values[3 + c * Table.AnzColums], *f, TEC_FONT_LEFT, ClientArea + XY(0, (c - Page) * 26 + 10), Bitmap.Size);
 
             // Add additional information to plane list
+            PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
             for (SLONG i = 0; i < (SLONG)qPlayer.Planes.AnzEntries(); i++) {
                 if (qPlayer.Planes.IsInAlbum(i)) {
                     CPlane &qPlane = qPlayer.Planes[i];
@@ -1016,7 +1016,8 @@ void BLOCK::LinkeSeiteInhalt(XY TitleArea, XY ClientArea) {
             SLONG i = SelectedId - 8;
             i += static_cast<SLONG>(PlayerNum <= i);
             auto &qPlayer = Sim.Players.Players[i];
-            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), (LPCTSTR)qPlayer.Abk), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
+            Bitmap.PrintAt(bprintf(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), (LPCTSTR)qPlayer.Abk), TitleFont, TEC_FONT_LEFT, TitleArea,
+                           Bitmap.Size);
         } else {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_EXPERT, 2000 + SelectedId), TitleFont, TEC_FONT_LEFT, TitleArea, Bitmap.Size);
         }
@@ -1487,7 +1488,6 @@ bool BLOCK::RechteSeiteInhalt(XY TitleAreaB, XY ClientAreaB) {
             Bitmap.PrintAt(StandardTexte.GetS(TOKEN_ROUTE, 1007), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(2, 40), ClientAreaB + XY(172, 170));
             Bitmap.PrintAt(Einheiten[EINH_DM].bString(qRRoute.TicketpreisFC), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 40),
                            ClientAreaB + XY(172, 170));
-            Bitmap.PrintAt("+-", FontSmallBlack, TEC_FONT_RIGHT, ClientAreaB + XY(2, 40), ClientAreaB + XY(172, 170));
 
             // erhöhen oder verringern:
             // Bitmap.PrintAt (StandardTexte.GetS (TOKEN_ROUTE, 1100), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB+XY(2,40), ClientAreaB+XY(172,170));
@@ -1501,10 +1501,10 @@ bool BLOCK::RechteSeiteInhalt(XY TitleAreaB, XY ClientAreaB) {
 
             SLONG Cost = CalculateFlightCost(qRoute.VonCity, qRoute.NachCity, 800, 800, -1) * 3 / 180 * 2;
 
-            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost / 2 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 66), ClientAreaB + XY(172, 170));
-            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 79), ClientAreaB + XY(172, 170));
-            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost * 2 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 92), ClientAreaB + XY(172, 170));
-            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost * 4 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(100, 105),
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost / 2 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 66), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 79), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost * 2 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 92), ClientAreaB + XY(172, 170));
+            Bitmap.PrintAt(Einheiten[EINH_DM].bString(Cost * 4 / 10 * 10), FontSmallBlack, TEC_FONT_LEFT, ClientAreaB + XY(80, 105),
                            ClientAreaB + XY(172, 170));
 
             if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0) {
@@ -1647,7 +1647,7 @@ bool BLOCK::RechteSeiteInhalt(XY TitleAreaB, XY ClientAreaB) {
 //--------------------------------------------------------------------------------------------
 void BLOCK::RefreshData(SLONG PlayerNum) {
     switch (BlockType) {
-    // St�dte:
+    // Städte:
     case 1:
         Table.FillWithCities(&Sim.Players.Players[PlayerNum].RentCities);
         break;
@@ -1685,7 +1685,7 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
     }
 
     switch (BlockTypeB) {
-    // Auftr�ge:
+    // Aufträge:
     case 3:
         TableB.FillWithAuftraege(&Sim.Players.Players[PlayerNum].Auftraege);
         break;
@@ -1695,7 +1695,7 @@ void BLOCK::RefreshData(SLONG PlayerNum) {
         TableB.FillWithRouten(&::Routen, &Sim.Players.Players[PlayerNum].RentRouten /*, &Sim.Players.Players[(SLONG)PlayerNum].RentCities*/);
         break;
 
-        // Frachtauftr�ge:
+        // Frachtaufträge:
     case 6:
         TableB.FillWithFracht(&Sim.Players.Players[PlayerNum].Frachten);
         break;
