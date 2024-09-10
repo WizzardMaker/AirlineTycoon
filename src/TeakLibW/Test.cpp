@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#define AT_Log(...) AT_Log_I("Error", __VA_ARGS__)
+
 static SLONG errors = 0;
 
 class TestElement {
@@ -180,7 +182,7 @@ template <typename T> bool run_test() {
     expect_val(list, id3, 12);
     expect_list(list, std::vector<T>({11, 4, 2, 1, 12, 3, 5, 22, 23, T(), 21, 20}), 12, 1);
 
-    hprintf("Errors: %d", errors);
+    AT_Log("Errors: %d", errors);
     return (errors == 0);
 }
 

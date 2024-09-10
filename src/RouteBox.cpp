@@ -217,12 +217,12 @@ void CRouteBox::OnPaint() {
                 i = -1;
             }
 
-
             SLONG movedIndex = i + RoutePage * ListSize;
-            if ((i != -1 &&  movedIndex!= CurrentTipIndex) || (i == -1 && i != CurrentTip)) {
+            if ((i != -1 && movedIndex != CurrentTipIndex) || (i == -1 && i != CurrentTip)) {
                 if (movedIndex >= 0)
                     CurrentTip = Table.LineIndex[i + RoutePage * ListSize];
                 if (i != -1) {
+                    CurrentTip = Table.LineIndex[i + RoutePage * ListSize];
                     CurrentTipIndex = i + RoutePage * ListSize;
                 } else {
                     CurrentTipIndex = -1;
@@ -238,7 +238,7 @@ void CRouteBox::OnPaint() {
 
             for (c = Routen.AnzEntries() - 1; c >= 0; c--) {
                 if ((Routen.IsInAlbum(c) != 0) && Routen[c].VonCity < Routen[c].NachCity) {
-                
+
                     XY von = XY(Cities[Routen[c].VonCity].MapPosition);
                     XY nach = XY(Cities[Routen[c].NachCity].MapPosition);
 
@@ -504,21 +504,15 @@ void CRouteBox::RepaintTip() {
             }
             if (qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang != 0U) {
                 if (Sim.Players.Players[PlayerNum].HasBerater(BERATERTYP_INFO) != 0) {
-                    TipBm.PrintAt(CString(bprintf("%li. %s (%li%%)", qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang,
-                                                  (LPCTSTR)qPlayer.AirlineX,
+                    TipBm.PrintAt(CString(bprintf("%li. %s (%li%%)", qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang, (LPCTSTR)qPlayer.AirlineX,
                                                   qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].RoutenAuslastung)),
-                                  FontSmallBlack, TEC_FONT_LEFT,
-                                  XY(4, 114 + qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang * 12), XY(172, 166));
+                                  FontSmallBlack, TEC_FONT_LEFT, XY(4, 114 + qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang * 12), XY(172, 166));
                 } else if (c == PlayerNum) {
-                    TipBm.PrintAt(CString(bprintf("%li. %s", qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang,
-                                                  (LPCTSTR)qPlayer.AirlineX)),
-                                  FontSmallBlack, TEC_FONT_LEFT,
-                                  XY(4, 114 + qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang * 12), XY(172, 166));
+                    TipBm.PrintAt(CString(bprintf("%li. %s", qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang, (LPCTSTR)qPlayer.AirlineX)),
+                                  FontSmallBlack, TEC_FONT_LEFT, XY(4, 114 + qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang * 12), XY(172, 166));
                 } else {
-                    TipBm.PrintAt(CString(bprintf("%li. %s", qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang,
-                                                  StandardTexte.GetS(TOKEN_ROUTE, 997))),
-                                  FontSmallBlack, TEC_FONT_LEFT,
-                                  XY(4, 114 + qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang * 12), XY(172, 166));
+                    TipBm.PrintAt(CString(bprintf("%li. %s", qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang, StandardTexte.GetS(TOKEN_ROUTE, 997))),
+                                  FontSmallBlack, TEC_FONT_LEFT, XY(4, 114 + qPlayer.RentRouten.RentRouten[Routen(CurrentTip)].Rang * 12), XY(172, 166));
                 }
             }
         }

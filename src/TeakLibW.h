@@ -37,8 +37,7 @@ extern void RecapizalizeString(CString &str);
 extern const char *GetSuffix(const char *);
 
 #if defined(__RESHARPER__)
-#define PRINTF_ATTR(StringIndex, FirstToCheck) \
-        [[gnu::format(printf, StringIndex, FirstToCheck)]]
+#define PRINTF_ATTR(StringIndex, FirstToCheck) [[gnu::format(printf, StringIndex, FirstToCheck)]]
 #else
 #define PRINTF_ATTR(StringIndex, FirstToCheck)
 #endif
@@ -60,15 +59,17 @@ PRINTF_ATTR(2, 3) inline void SDL_PRINTF_VARARG_FUNC(2) AT_Log_I(const std::stri
 }
 
 #define AT_Log_Generic(...) AT_Log_I("Generic", __VA_ARGS__)
+// Example implementation AT_Log (should be in each CPP file with appropriate category):
+// #define AT_Log(...) AT_Log_I("EXAMPLE CATEGORY", __VA_ARGS__)
 
-//Example AT_Log implementation:
-//#define AT_Log(...) AT_Log_I("EXAMPLE", __VA_ARGS__)
+// Legacy logging:
+#define hprintf(...) AT_Log_I("Generic", __VA_ARGS__)
 
-	template <typename T>
-inline void Limit(T min, T& value, T max)
-{
-    if (value < min) value = min;
-    if (value > max) value = max;
+template <typename T> inline void Limit(T min, T &value, T max) {
+    if (value < min)
+        value = min;
+    if (value > max)
+        value = max;
 }
 
 template <typename T> inline void Swap(T &a, T &b) {
@@ -192,7 +193,7 @@ template <typename T> class BUFFER {
                     MemPointer[i] = *tmp;
                 }
                 DelPointer = m + ((DelPointer - MemPointer) / sizeof(T));
-                delete[](MemPointer);
+                delete[] (MemPointer);
             } else {
                 DelPointer = m;
             }
@@ -416,6 +417,20 @@ class TEAKFILE {
         return File;
     }
 
+    friend TEAKFILE &operator<<(TEAKFILE &File, const std::string &b) {
+        File << (ULONG)b.length();
+        File.Write((const UBYTE *)b.c_str(), b.length());
+        return File;
+    }
+    friend TEAKFILE &operator>>(TEAKFILE &File, std::string &b) {
+        ULONG size;
+        File >> size;
+        BUFFER_V<BYTE> str(size);
+        File.Read(str.getData(), size);
+        b = (PCSTR)(BYTE *)str.getData();
+        return File;
+    }
+
     template <typename T, std::size_t N> friend TEAKFILE &operator<<(TEAKFILE &File, const std::array<T, N> &buffer) {
         for (SLONG i = 0; i < buffer.size(); i++) {
             File << buffer[i];
@@ -453,8 +468,9 @@ class TEAKFILE {
     template <typename T> friend TEAKFILE &operator<<(TEAKFILE &File, const BUFFER<T> &buffer) {
         File << buffer.Size;
         File << SLONG(buffer.DelPointer - buffer.MemPointer);
-        for (SLONG i = 0; i < buffer.Size; i++)
+        for (SLONG i = 0; i < buffer.Size; i++) {
             File << buffer.MemPointer[i];
+        }
         return File;
     }
 
@@ -464,14 +480,12 @@ class TEAKFILE {
         buffer.ReSize(0);
         buffer.ReSize(size);
         File >> offset;
-        for (SLONG i = 0; i < buffer.Size; i++)
+        for (SLONG i = 0; i < buffer.Size; i++) {
             File >> buffer.MemPointer[i];
+        }
         buffer.DelPointer = buffer.MemPointer + offset;
         return File;
     }
-
-  private:
-    void CodeBlock(unsigned char *, SLONG, SLONG);
 };
 
 // static_assert(sizeof(TEAKFILE) == 68, "TEAKFILE_size_check");
@@ -512,23 +526,23 @@ class CRLEReader {
 
 class CRLEWriter {
   public:
-                        CRLEWriter(const char *path);
-                        ~CRLEWriter(void);
+    CRLEWriter(const char *path);
+    ~CRLEWriter(void);
 
-    bool                Close(void);
-    void                Write(const unsigned char *buffer, SLONG size);
-    SLONG               GetNextSequence(const unsigned char *buffer, SLONG size, SLONG consumed);
-    void                UpdateFromPlainText();
+    bool Close(void);
+    void Write(const unsigned char *buffer, SLONG size);
+    SLONG GetNextSequence(const unsigned char *buffer, SLONG size, SLONG consumed);
+    void UpdateFromPlainText();
 
   private:
-    SDL_RWops           *Ctx;
-    SLONG               Version;      // Will always be 0x102
-    SLONG               Key;          // Will always be 0xA5
-    const char          Magic[6];     // Will always be xtRLE
+    SDL_RWops *Ctx;
+    SLONG Version;       // Will always be 0x102
+    SLONG Key;           // Will always be 0xA5
+    const char Magic[6]; // Will always be xtRLE
 
-    BYTE                Sequence[132];
+    BYTE Sequence[132];
 
-    const char          *Path;
+    const char *Path;
 };
 
 class TEAKRAND {
@@ -763,11 +777,11 @@ class TEXTRES {
   private:
     char *FindOverridenS(ULONG, ULONG);
 
-    BUFFER_V<char>                  Path;
-    BUFFER_V<char>                  Strings;
-    BUFFER_V<TEXTRES_CACHE_ENTRY>   Entries;
-    BOOL                            hasOverride = false;
-    TEXTRES                         *override;
+    BUFFER_V<char> Path;
+    BUFFER_V<char> Strings;
+    BUFFER_V<TEXTRES_CACHE_ENTRY> Entries;
+    BOOL hasOverride = false;
+    TEXTRES *override;
 };
 
 // static_assert(sizeof(TEXTRES) == 36, "TEXTRES size check");
@@ -896,20 +910,15 @@ class HDU {
     ~HDU();
 
     void Close();
-    void Disable();
-    void ClearScreen();
-    void HercPrintf(SLONG, const char *Format, ...);
-    void HercPrintf(const char *Format, ...);
-    void LogPosition(const char *, SLONG);
+    void HercPrintfMsg(SDL_LogPriority lvl, const char *origin, const char *format, ...);
 
   private:
     FILE *Log;
+    SLONG numErrors{};
+    SLONG numWarnings{};
 };
 
 extern HDU Hdu;
-
-#define hprintf Hdu.HercPrintf
-#define hprintvar(x) Hdu.HercPrintf("%d\n", x)
 
 class XID {
   public:
@@ -1063,6 +1072,7 @@ extern bool run_regression();
 
 template <typename T> class ALBUM_V {
   public:
+    /* album iter */
     using element_type = std::pair<T, ULONG>;
     class Iter {
       public:
@@ -1126,6 +1136,8 @@ template <typename T> class ALBUM_V {
     Iter begin() { return Iter(List.begin(), &Hash); }
     Iter end() { return Iter(List.end(), &Hash); }
 
+    /* constructor */
+
     ALBUM_V(CString str) : Name(str) {}
 
     /* query capacity and resize */
@@ -1152,6 +1164,18 @@ template <typename T> class ALBUM_V {
         Hash = {};
         IdxFront = 0;
         IdxBack = AnzEntries() - 1;
+    }
+
+    void FillAlbum() {
+        for (auto i = 0; i < AnzEntries(); i++) {
+            if (List[i].second == 0) {
+                ULONG id = GetUniqueId();
+                List[i].second = id;
+                Hash[id] = i;
+            }
+        }
+        IdxFront = AnzEntries();
+        IdxBack = -1;
     }
 
     /* accessing elements */
@@ -1184,10 +1208,13 @@ template <typename T> class ALBUM_V {
 
 #ifdef DEBUG_ALBUM
     T &operator[](ULONG id) { return List.at(find(id)).first; }
+    const T &operator[](ULONG id) const { return List.at(find(id)).first; }
 #else
     T &operator[](ULONG id) { return List[find(id)].first; }
+    const T &operator[](ULONG id) const { return List[find(id)].first; }
 #endif
     T &at(ULONG id) { return List.at(find(id)).first; }
+    const T &at(ULONG id) const { return List.at(find(id)).first; }
 
     /* comparison */
 
@@ -1331,7 +1358,7 @@ template <typename T> class ALBUM_V {
             TeakLibW_Exception(nullptr, 0, ExcAlbumFind, Name.c_str());
         }
 
-        SLONG target = (random != nullptr) ? random->Rand(used) : rand() % 5;
+        SLONG target = (random != nullptr) ? random->Rand(used) : rand() % used;
         SLONG index = 0;
         for (SLONG i = AnzEntries() - 1; i >= 0; --i) {
             if (List[i].second == 0) {
@@ -1439,7 +1466,5 @@ class TeakLibException final : public std::runtime_error {
 
     explicit TeakLibException(const char *_Message) : runtime_error(_Message) {}
 
-    void caught() {
-        AT_Log_I("Herc", "Exception was correctly handled");
-    }
+    void caught() { AT_Log_I("Excp", "Exception was correctly handled"); }
 };

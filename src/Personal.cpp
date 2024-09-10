@@ -6,7 +6,7 @@
 #include "StdAfx.h"
 #include "glpers.h"
 
-#define AT_Log(...) AT_Log_I("Personal", __VA_ARGS__)
+#define AT_Log(...) // AT_Log_I("Personal", __VA_ARGS__)
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -350,7 +350,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
         try {
             CString name = strtok(Line.getData(), TabSeparator);
             if (name.length() == 0) {
-                AT_Log_I("Loading", "Empty worker found in file \"%s\" at line: %d - skipping...", FullFilename(TabFilename, ExcelPath).c_str(), line);
+                AT_Log("Loading", "Empty worker found in file \"%s\" at line: %d - skipping...", FullFilename(TabFilename, ExcelPath).c_str(), line);
                 continue;
             }
 
@@ -379,7 +379,7 @@ void CWorkers::ReInit(const CString &TabFilename, const CString &TabFilename2) {
             }
         } catch (...) {
             if (Num >= Workers.AnzEntries()) {
-                AT_Log_I("Loading", "Failed to load new worker in file \"%s\" at line: %d", FullFilename(TabFilename, ExcelPath).c_str(), Num + 1);
+                AT_Log("Loading", "Failed to load new worker in file \"%s\" at line: %d", FullFilename(TabFilename, ExcelPath).c_str(), Num + 1);
             }
         }
         Num++;
@@ -467,23 +467,23 @@ void CWorkers::NewDay() {
     for (c = 0; c < Workers.AnzEntries(); c++) {
         Workers[c].WarnedToday = FALSE;
         if (Workers[c].Employer >= 0 && Workers[c].Employer <= 3) {
-            SLONG Anz = 0;
             auto &qPlayer = Sim.Players.Players[Workers[c].Employer];
 
             // Worker u.U. mehrfach um 1%-Punkt unglücklicher machen
-            if (qPlayer.Owner == 0 || (qPlayer.Owner == 1 && !qPlayer.RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
+            if (qPlayer.Owner != 2) {
                 if (qPlayer.Image < 500) {
-                    Anz = 1;
+                    Workers[c].Happyness--;
                 }
-            }
-            if ((Anz != 0) && qPlayer.Image < 0) {
-                Anz++;
-            }
-            if ((Anz != 0) && qPlayer.Image < -500) {
-                Anz++;
-            }
-            for (; Anz > 0; Anz--) {
-                Workers[c].Happyness--;
+                if (qPlayer.Image < 0) {
+                    Workers[c].Happyness--;
+                }
+                if (qPlayer.Image < -500) {
+                    Workers[c].Happyness--;
+                }
+
+                if (qPlayer.Image >= 750) {
+                    Workers[c].Happyness++;
+                }
             }
 
             // Happyness verändert sich nach Gehalt
@@ -493,12 +493,15 @@ void CWorkers::NewDay() {
                 Workers[c].Happyness--;
             }
 
+            if (Workers[c].Happyness > 100) {
+                Workers[c].Happyness = 100;
+            }
+
             if (Workers[c].Happyness < -100) {
                 // Ihm reicht's! Er kündigt:
                 if (qPlayer.Owner == 0) {
-                    qPlayer.Messages.AddMessage(
-                        BERATERTYP_GIRL,
-                        bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2000 + Workers[c].Typ + Workers[c].Geschlecht * 100), Workers[c].Name.c_str()));
+                    qPlayer.Messages.AddMessage(BERATERTYP_GIRL, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 2000 + Workers[c].Typ + Workers[c].Geschlecht * 100),
+                                                                         Workers[c].Name.c_str()));
                 }
 
                 SLONG ExEmployer = Workers[c].Employer;
@@ -506,6 +509,7 @@ void CWorkers::NewDay() {
                 if (Workers[c].TimeInPool > 0) {
                     Workers[c].TimeInPool = 0;
                 }
+                Workers[c].Gehalt = Workers[c].OriginalGehalt;
 
                 Sim.Players.Players[ExEmployer].MapWorkers(FALSE);
                 break;

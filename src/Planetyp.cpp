@@ -49,7 +49,7 @@ void CPlaneTypes::ReInit(const CString &TabFilename) {
 
     SLONG planes = CountLines(FileData, FileP);
     BOOL numberOfColumns = strchrcount(Line.getData(), TabSeparator);
-    
+
     PlaneTypes.ReSize(planes);
 
     while (true) {
@@ -115,8 +115,7 @@ void CPlaneTypes::ReInit(const CString &TabFilename) {
 //--------------------------------------------------------------------------------------------
 // Sucht einen zufälligen (bereits erfundenen) Flugzeugtyp raus:
 //--------------------------------------------------------------------------------------------
-ULONG CPlaneTypes::GetRandomExistingType(
-    TEAKRAND *pRand, CPlaneType::Available in) {
+ULONG CPlaneTypes::GetRandomExistingType(TEAKRAND *pRand, CPlaneType::Available in) {
     SLONG c = 0;
     SLONG Anz = 0;
     SLONG rnd = 0;
@@ -286,6 +285,10 @@ SLONG CPlane::CalculatePrice() const {
 // Bewegt das Flugzeug für Animationen etwas weiter:
 //--------------------------------------------------------------------------------------------
 void CPlane::DoOneStep(SLONG PlayerNum) {
+    auto *fpe = GetFlugplanEintrag();
+    if (!fpe) {
+        return;
+    }
     switch (Ort) {
     //-1=Landend
     case -1:
@@ -297,8 +300,8 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
 
         if (AirportPos.y == 21 + 18) {
             // Durchsage:
-            if (Cities[GetFlugplanEintrag()->VonCity].Name != "-" && (VoiceScheduler.IsVoicePlaying() == 0) && (Sim.CallItADay == 0) && Sim.Time >= 9 * 60000 &&
-                Sim.Time <= 18 * 60000 && GetFlugplanEintrag()->ObjectType != 3 && GetFlugplanEintrag()->ObjectType != 4) {
+            if (Cities[fpe->VonCity].Name != "-" && (VoiceScheduler.IsVoicePlaying() == 0) && (Sim.CallItADay == 0) && Sim.Time >= 9 * 60000 &&
+                Sim.Time <= 18 * 60000 && fpe->ObjectType != 3 && fpe->ObjectType != 4) {
                 BOOL Ignore = FALSE;
 
                 if (PlayerNum != Sim.localPlayer) {
@@ -311,9 +314,9 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
                     }
                 }
 
-                if ((Ignore == 0) && Cities[GetFlugplanEintrag()->VonCity].Wave != "-" && !Cities[GetFlugplanEintrag()->VonCity].Wave.empty()) {
+                if ((Ignore == 0) && Cities[fpe->VonCity].Wave != "-" && !Cities[fpe->VonCity].Wave.empty()) {
                     VoiceScheduler.AddVoice(CString(bprintf("der%liflug", PlayerNum)));
-                    VoiceScheduler.AddVoice(Cities[GetFlugplanEintrag()->VonCity].Wave);
+                    VoiceScheduler.AddVoice(Cities[fpe->VonCity].Wave);
 
                     VoiceScheduler.AddVoice("gelande2");
                 }
@@ -322,14 +325,14 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
 
         // Fertig gelandet? Dann dich hinter die Fenster
         if (AirportPos.x > Airport.RightEnd / 2 + 600) {
-            if (GetFlugplanEintrag()->ObjectType != 3 && GetFlugplanEintrag()->ObjectType != 4 && GetFlugplanEintrag()->Gate != -2) {
-                if (GetFlugplanEintrag()->Gate == -1) {
+            if (fpe->ObjectType != 3 && fpe->ObjectType != 4 && fpe->Gate != -2) {
+                if (fpe->Gate == -1) {
                     // Kein Gate frei:
                     CRentRoute *pRoute = nullptr;
                     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
 
-                    if (GetFlugplanEintrag()->ObjectType == 1) {
-                        pRoute = &qPlayer.RentRouten.RentRouten[Routen(GetFlugplanEintrag()->ObjectId)];
+                    if (fpe->ObjectType == 1) {
+                        pRoute = &qPlayer.RentRouten.RentRouten[Routen(fpe->ObjectId)];
                     }
 
                     Ort = Sim.HomeAirportId;
@@ -355,11 +358,11 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
                     Ort = -3; // Hinterm Fenstern
                     AirportPos = XY(Airport.RightEnd + 600, 190);
 
-                    TargetX = 200 + Airport.GetRandomTypedRune(RUNE_2WAIT, UBYTE(GetFlugplanEintrag()->Gate)).x;
+                    TargetX = 200 + Airport.GetRandomTypedRune(RUNE_2WAIT, UBYTE(fpe->Gate)).x;
                     Startzeit = 255; // Kein Start
                 }
             } else { // Leerflug ==> nicht mehr anzeigen
-                Ort = GetFlugplanEintrag()->NachCity;
+                Ort = fpe->NachCity;
             }
         }
         break;
@@ -428,7 +431,7 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
                     {
                         // hprintf ("Trying to add incomming passengers..");
 
-                        XY tmp = Airport.GetRandomTypedRune(RUNE_WAITPLANE, UBYTE(GetFlugplanEintrag()->Gate), true);
+                        XY tmp = Airport.GetRandomTypedRune(RUNE_WAITPLANE, UBYTE(fpe->Gate), true);
                         if (tmp != XY(-9999, -9999)) {
                             // hprintf ("Trying (continued) to add incomming passengers..");
 
@@ -438,7 +441,7 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
                             Sim.PersonQueue.SetSpotTime(tmp, (Sim.TimeSlice + 50) / 80 * 80);
 
                             TEAKRAND localRand;
-                            localRand.SRand(GetFlugplanEintrag()->Gate + GetFlugplanEintrag()->Startzeit + Sim.GetHour() + Sim.Date);
+                            localRand.SRand(fpe->Gate + fpe->Startzeit + Sim.GetHour() + Sim.Date);
 
                             CalculateHappyPassengers(PlayerNum, 0, true, tmp);
 
@@ -448,14 +451,14 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
                     } else // nein, abholen
                     {
                         SLONG c = 0;
-                        SLONG Gate = GetFlugplanEintrag()->Gate;
+                        SLONG Gate = fpe->Gate;
 
                         // Personen brauchen nicht mehr warten, sondern können das Flugzeug stürmen:
                         for (c = Sim.Persons.AnzEntries() - 1; c >= 0; c--) {
                             if ((Sim.Persons.IsInAlbum(c) != 0) &&
                                 ((Sim.Persons[c].State & (~PERSON_WAITFLAG) & (~PERSON_BROWSEFLAG)) == PERSON_WAITING ||
                                  (Sim.Persons[c].State & (~PERSON_WAITFLAG) & (~PERSON_BROWSEFLAG)) == PERSON_SITWAITING) &&
-                                Sim.Persons[c].GetFlugplanEintrag()->Gate == Gate) {
+                                (Sim.Persons[c].GetFlugplanEintrag() != nullptr) && Sim.Persons[c].GetFlugplanEintrag()->Gate == Gate) {
                                 // Aufstehen, Sitze freigeben:
                                 if ((Sim.Persons[c].State & (~PERSON_WAITFLAG) & (~PERSON_BROWSEFLAG)) == PERSON_SITWAITING) {
                                     XY ArrayPos;
@@ -581,7 +584,7 @@ void CPlane::DoOneStep(SLONG PlayerNum) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft, die Flugpläne für ein Flugzeug und streicht ggf. Flüge
+// Überprüft, die Flugpläne für ein Flugzeug und streicht ggf. Flüge
 //--------------------------------------------------------------------------------------------
 void CPlane::CheckFlugplaene(SLONG PlayerNum, BOOL Sort, BOOL PlanGates) {
     SLONG c = 0;
@@ -615,37 +618,39 @@ void CPlane::CheckFlugplaene(SLONG PlayerNum, BOOL Sort, BOOL PlanGates) {
 
     // Automatikflüge löschen, andere ergänzen:
     for (c = Flugplan.Flug.AnzEntries() - 1; c >= 0; c--) {
-        if (Flugplan.Flug[c].Startdate > Sim.Date || (Flugplan.Flug[c].Startdate == Sim.Date && Flugplan.Flug[c].Startzeit > Sim.GetHour() + 1)) {
-            if (Flugplan.Flug[c].ObjectType == 3) {
+        if (Flugplan.Flug[c].Startdate < Sim.Date || (Flugplan.Flug[c].Startdate == Sim.Date && Flugplan.Flug[c].Startzeit <= Sim.GetHour() + 1)) {
+            continue;
+        }
+
+        if (Flugplan.Flug[c].ObjectType == 3) {
+            Flugplan.Flug[c].ObjectType = 0;
+        } else if (Flugplan.Flug[c].ObjectType != 0) {
+            if (Flugplan.Flug[c].ObjectType == 1) // Typ: Route
+            {
+                Flugplan.Flug[c].VonCity = Routen[Flugplan.Flug[c].ObjectId].VonCity;
+                Flugplan.Flug[c].NachCity = Routen[Flugplan.Flug[c].ObjectId].NachCity;
+            } else if (Flugplan.Flug[c].ObjectType == 2) // Typ: Auftrag
+            {
+                Flugplan.Flug[c].VonCity = Sim.Players.Players[PlayerNum].Auftraege[Flugplan.Flug[c].ObjectId].VonCity;
+                Flugplan.Flug[c].NachCity = Sim.Players.Players[PlayerNum].Auftraege[Flugplan.Flug[c].ObjectId].NachCity;
+            } else if (Flugplan.Flug[c].ObjectType == 4) // Typ: Fracht
+            {
+                Flugplan.Flug[c].VonCity = Sim.Players.Players[PlayerNum].Frachten[Flugplan.Flug[c].ObjectId].VonCity;
+                Flugplan.Flug[c].NachCity = Sim.Players.Players[PlayerNum].Frachten[Flugplan.Flug[c].ObjectId].NachCity;
+            }
+
+            // SLONG Dauer = Cities.CalcFlugdauer (Flugplan.Flug[c].VonCity, Flugplan.Flug[c].NachCity, PlaneTypes[TypeId].Geschwindigkeit);
+            SLONG Dauer = Cities.CalcFlugdauer(Flugplan.Flug[c].VonCity, Flugplan.Flug[c].NachCity, ptGeschwindigkeit);
+            Flugplan.Flug[c].Landezeit = (Flugplan.Flug[c].Startzeit + Dauer) % 24;
+
+            Flugplan.Flug[c].Landedate = Flugplan.Flug[c].Startdate;
+            if (Flugplan.Flug[c].Landezeit < Flugplan.Flug[c].Startzeit) {
+                Flugplan.Flug[c].Landedate++;
+            }
+
+            if (Dauer >= 24) {
                 Flugplan.Flug[c].ObjectType = 0;
-            } else if (Flugplan.Flug[c].ObjectType != 0) {
-                if (Flugplan.Flug[c].ObjectType == 1) // Typ: Route
-                {
-                    Flugplan.Flug[c].VonCity = Routen[Flugplan.Flug[c].ObjectId].VonCity;
-                    Flugplan.Flug[c].NachCity = Routen[Flugplan.Flug[c].ObjectId].NachCity;
-                } else if (Flugplan.Flug[c].ObjectType == 2) // Typ: Auftrag
-                {
-                    Flugplan.Flug[c].VonCity = Sim.Players.Players[PlayerNum].Auftraege[Flugplan.Flug[c].ObjectId].VonCity;
-                    Flugplan.Flug[c].NachCity = Sim.Players.Players[PlayerNum].Auftraege[Flugplan.Flug[c].ObjectId].NachCity;
-                } else if (Flugplan.Flug[c].ObjectType == 4) // Typ: Fracht
-                {
-                    Flugplan.Flug[c].VonCity = Sim.Players.Players[PlayerNum].Frachten[Flugplan.Flug[c].ObjectId].VonCity;
-                    Flugplan.Flug[c].NachCity = Sim.Players.Players[PlayerNum].Frachten[Flugplan.Flug[c].ObjectId].NachCity;
-                }
-
-                // SLONG Dauer = Cities.CalcFlugdauer (Flugplan.Flug[c].VonCity, Flugplan.Flug[c].NachCity, PlaneTypes[TypeId].Geschwindigkeit);
-                SLONG Dauer = Cities.CalcFlugdauer(Flugplan.Flug[c].VonCity, Flugplan.Flug[c].NachCity, ptGeschwindigkeit);
-                Flugplan.Flug[c].Landezeit = (Flugplan.Flug[c].Startzeit + Dauer) % 24;
-
-                Flugplan.Flug[c].Landedate = Flugplan.Flug[c].Startdate;
-                if (Flugplan.Flug[c].Landezeit < Flugplan.Flug[c].Startzeit) {
-                    Flugplan.Flug[c].Landedate++;
-                }
-
-                if (Dauer >= 24) {
-                    Flugplan.Flug[c].ObjectType = 0;
-                    Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_ADVICE, 2310));
-                }
+                Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_ADVICE, 2310));
             }
         }
     }
@@ -678,25 +683,32 @@ void CPlane::CheckFlugplaene(SLONG PlayerNum, BOOL Sort, BOOL PlanGates) {
 
     // Nötigenfalls am Anfang automatische Flüge einbauen:
     if (Flugplan.Flug[0].ObjectType != 0 && Cities(Flugplan.Flug[0].VonCity) != static_cast<ULONG>(Cities(Flugplan.StartCity))) {
-        // Automatik-Flug einfügen:
-        for (d = Flugplan.Flug.AnzEntries() - 1; d > 0; d--) {
-            Flugplan.Flug[d] = Flugplan.Flug[d - 1];
+        if (Flugplan.Flug[c].Startdate > Sim.Date || (Flugplan.Flug[c].Startdate == Sim.Date && Flugplan.Flug[c].Startzeit > Sim.GetHour() + 1)) {
+            // Automatik-Flug einfügen:
+            for (d = Flugplan.Flug.AnzEntries() - 1; d > 0; d--) {
+                Flugplan.Flug[d] = Flugplan.Flug[d - 1];
+            }
+
+            Flugplan.Flug[0] = {};
+            Flugplan.Flug[0].ObjectType = 3;
+            Flugplan.Flug[0].VonCity = Flugplan.StartCity;
+            Flugplan.Flug[0].NachCity = Flugplan.Flug[1].VonCity;
+            Flugplan.Flug[0].Startdate = Sim.Date;
+            Flugplan.Flug[0].Startzeit = Sim.GetHour() + 2;
+
+            // SLONG Dauer = Cities.CalcFlugdauer (Flugplan.Flug[0].VonCity, Flugplan.Flug[0].NachCity, PlaneTypes[TypeId].Geschwindigkeit);
+            SLONG Dauer = Cities.CalcFlugdauer(Flugplan.Flug[0].VonCity, Flugplan.Flug[0].NachCity, ptGeschwindigkeit);
+            Flugplan.Flug[0].Landezeit = (Flugplan.Flug[0].Startzeit + Dauer) % 24;
+            Flugplan.Flug[0].Landedate = Flugplan.Flug[0].Startdate + (Flugplan.Flug[0].Startzeit + Dauer) / 24;
         }
-
-        Flugplan.Flug[0].ObjectType = 3;
-        Flugplan.Flug[0].VonCity = Flugplan.StartCity;
-        Flugplan.Flug[0].NachCity = Flugplan.Flug[1].VonCity;
-        Flugplan.Flug[0].Startdate = Sim.Date;
-        Flugplan.Flug[0].Startzeit = Sim.GetHour() + 2;
-
-        // SLONG Dauer = Cities.CalcFlugdauer (Flugplan.Flug[0].VonCity, Flugplan.Flug[0].NachCity, PlaneTypes[TypeId].Geschwindigkeit);
-        SLONG Dauer = Cities.CalcFlugdauer(Flugplan.Flug[0].VonCity, Flugplan.Flug[0].NachCity, ptGeschwindigkeit);
-        Flugplan.Flug[0].Landezeit = (Flugplan.Flug[0].Startzeit + Dauer) % 24;
-        Flugplan.Flug[0].Landedate = Flugplan.Flug[0].Startdate + (Flugplan.Flug[0].Startzeit + Dauer) / 24;
     }
 
     // Nötigenfalls zwischendurch automatische Flüge einbauen:
     for (c = 0; c < Flugplan.Flug.AnzEntries() - 1; c++) {
+        if (Flugplan.Flug[c + 1].Startdate < Sim.Date || (Flugplan.Flug[c + 1].Startdate == Sim.Date && Flugplan.Flug[c + 1].Startzeit <= Sim.GetHour() + 1)) {
+            continue;
+        }
+
         if (Flugplan.Flug[c + 1].ObjectType == 0) {
             break;
         }
@@ -717,6 +729,7 @@ void CPlane::CheckFlugplaene(SLONG PlayerNum, BOOL Sort, BOOL PlanGates) {
                 Flugplan.Flug[d] = Flugplan.Flug[d - 1];
             }
 
+            Flugplan.Flug[c + 1] = {};
             Flugplan.Flug[c + 1].ObjectType = 3;
             Flugplan.Flug[c + 1].VonCity = Flugplan.Flug[c + 0].NachCity;
             Flugplan.Flug[c + 1].NachCity = Flugplan.Flug[c + 2].VonCity;
@@ -744,6 +757,10 @@ void CPlane::CheckFlugplaene(SLONG PlayerNum, BOOL Sort, BOOL PlanGates) {
             break;
         }
 
+        if (Flugplan.Flug[c + 1].Startdate < Sim.Date || (Flugplan.Flug[c + 1].Startdate == Sim.Date && Flugplan.Flug[c + 1].Startzeit <= Sim.GetHour() + 1)) {
+            continue;
+        }
+
         SLONG tTime = (Flugplan.Flug[c].Landezeit + 1) % 24;
         SLONG tDate = Flugplan.Flug[c].Landedate + (Flugplan.Flug[c].Landezeit + 1) / 24;
 
@@ -765,7 +782,7 @@ void CPlane::CheckFlugplaene(SLONG PlayerNum, BOOL Sort, BOOL PlanGates) {
         }
     }
 
-    //Überschüssige Flüge abschneiden:
+    // Überschüssige Flüge abschneiden:
     if (gMouseLButton == 0 || Sim.Players.Players[PlayerNum].Owner != 0 || Sim.Players.Players[PlayerNum].LocationWin == nullptr ||
         (Sim.Players.Players[PlayerNum].GetRoom() != ROOM_GLOBE && Sim.Players.Players[PlayerNum].GetRoom() != ROOM_LAPTOP)) {
         for (c = 0; c < Flugplan.Flug.AnzEntries(); c++) {
@@ -787,9 +804,11 @@ void CPlane::CheckFlugplaene(SLONG PlayerNum, BOOL Sort, BOOL PlanGates) {
         if (Flugplan.Flug[c + 1].ObjectType == 0) {
             break;
         }
+        if (Flugplan.Flug[c].Startdate < Sim.Date || (Flugplan.Flug[c].Startdate == Sim.Date && Flugplan.Flug[c].Startzeit <= Sim.GetHour() + 1)) {
+            continue;
+        }
 
-        if (Flugplan.Flug[c].ObjectType == 3 &&
-            (Flugplan.Flug[c].Startdate > Sim.Date || (Flugplan.Flug[c].Startdate == Sim.Date && Flugplan.Flug[c].Startzeit > Sim.GetHour() + 1))) {
+        if (Flugplan.Flug[c].ObjectType == 3) {
             SLONG tTime = (Flugplan.Flug[c + 1].Startzeit - 1 + 24) % 24;
             SLONG tDate = Flugplan.Flug[c + 1].Startdate - static_cast<SLONG>(Flugplan.Flug[c + 1].Startzeit == 0);
 
@@ -859,9 +878,11 @@ void CPlane::ExtendFlugplaene(SLONG PlayerNum) {
                 for (c = 0; c < AnzSource; c++) {
                     if (Flugplan.Flug[AnzOkay + c - AnzSource].ObjectType == 1 &&
                         (Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(Flugplan.Flug[AnzOkay + c - AnzSource].ObjectId)].Rang != 0U)) {
+
                         Flugplan.Flug[AnzOkay + c] = Flugplan.Flug[AnzOkay + c - AnzSource];
                         Flugplan.Flug[AnzOkay + c].Startzeit += RapportL;
                         Flugplan.Flug[AnzOkay + c].Landezeit += RapportL;
+                        Flugplan.Flug[AnzOkay + c].FlightBooked = FALSE;
                         while (Flugplan.Flug[AnzOkay + c].Landezeit > 24) {
                             Flugplan.Flug[AnzOkay + c].Landezeit -= 24;
                             Flugplan.Flug[AnzOkay + c].Landedate++;
@@ -907,7 +928,7 @@ void CPlane::FlugplaeneFortfuehren(SLONG PlayerNum) {
             // Alte Aufträge oder Automatikflüge löschen:
             if (Flugplan.Flug[c].ObjectType == 2 || Flugplan.Flug[c].ObjectType == 3 || Flugplan.Flug[c].ObjectType == 4) {
                 Flugplan.StartCity = Flugplan.Flug[c].NachCity;
-                Flugplan.Flug[c].ObjectType = 0;
+                Flugplan.Flug[c] = {};
             }
 
             // Routen in die Zukunft verschieben:
@@ -918,6 +939,7 @@ void CPlane::FlugplaeneFortfuehren(SLONG PlayerNum) {
                 Flugplan.Flug[c].PArrived = 0;
                 Flugplan.Flug[c].HoursBefore = 48;
                 Flugplan.Flug[c].Ticketpreis = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(Flugplan.Flug[c].ObjectId)].Ticketpreis; // new
+                Flugplan.Flug[c].FlightBooked = FALSE;
 
                 // Zeiten ggf. anpassen (Feintuning)
                 if (Flugplan.Flug[c].Startdate < LastDate || (Flugplan.Flug[c].Startdate == LastDate && Flugplan.Flug[c].Startzeit < LastTime)) {
@@ -1116,6 +1138,11 @@ const CFlugplanEintrag *CPlane::GetFlugplanEintrag() {
 // Berechnet, wie vielen Passagieren der Flug gefallen hat:
 //--------------------------------------------------------------------------------------------
 void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueue, XY pos) {
+    auto *fpe = GetFlugplanEintrag();
+    if (!fpe) {
+        return;
+    }
+
     // SLONG QualitySum=Sitze+Essen+Tabletts+Deco+AnzBegleiter-PlaneTypes[TypeId].AnzBegleiter;
     SLONG QualitySum = Sitze + Essen + Tabletts + Deco + AnzBegleiter - ptAnzBegleiter + mod;
     SLONG c = 0;
@@ -1126,16 +1153,16 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
     // hprintf ("--- enter CalculateHappyPassengers for player %li ", PlayerNum);
     // hprintf ("QualitySum=%li", QualitySum);
 
-    // TEAKRAND LocalRand (PlayerNum+Sim.Date+Sim.GetHour()+TypeId+QualitySum+GetFlugplanEintrag()->VonCity);
-    TEAKRAND LocalRand(PlayerNum + Sim.Date + Sim.GetHour() + QualitySum + GetFlugplanEintrag()->VonCity);
+    // TEAKRAND LocalRand (PlayerNum+Sim.Date+Sim.GetHour()+TypeId+QualitySum+fpe->VonCity);
+    TEAKRAND LocalRand(PlayerNum + Sim.Date + Sim.GetHour() + QualitySum + fpe->VonCity);
 
     // hprintf ("LocalRand=%li", LocalRand.Rand()%1000);
 
-    if (GetFlugplanEintrag()->ObjectType == 1) {
-        CRentRoute *pRoute = &Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(GetFlugplanEintrag()->ObjectId)];
+    if (fpe->ObjectType == 1) {
+        CRentRoute *pRoute = &Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(fpe->ObjectId)];
 
         SLONG Costs1 = pRoute->Ticketpreis;
-        SLONG Costs2 = CalculateFlightCost(GetFlugplanEintrag()->VonCity, GetFlugplanEintrag()->NachCity, 800, 800, -1) * 3 / 180 * 2 * 3;
+        SLONG Costs2 = CalculateFlightCost(fpe->VonCity, fpe->NachCity, 800, 800, -1) * 3 / 180 * 2 * 3;
 
         if (Costs1 > Costs2) {
             TooExpensive = Costs1 * 100 / Costs2;
@@ -1168,7 +1195,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
         pn = Sim.Players.Players[PlayerNum].WerbeBroschuere;
     }
 
-    SLONG passtotal = GetFlugplanEintrag()->Passagiere;
+    SLONG passtotal = fpe->Passagiere;
     if (passtotal > 0) {
         for (c = passtotal / CUSTOMERS_PER_PERSON; c >= 0; c--) {
             SLONG Anz = CUSTOMERS_PER_PERSON;
@@ -1242,7 +1269,7 @@ void CPlane::CalculateHappyPassengers(SLONG PlayerNum, SLONG mod, bool addToQueu
         }
     }
 
-    passtotal = GetFlugplanEintrag()->PassagiereFC;
+    passtotal = fpe->PassagiereFC;
     if (passtotal > 0) {
         for (c = passtotal / CUSTOMERS_PER_PERSON; c >= 0; c--) {
             SLONG Anz = CUSTOMERS_PER_PERSON;

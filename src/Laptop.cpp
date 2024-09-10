@@ -401,15 +401,10 @@ void CLaptop::OnPaint() {
 
     if (LastMinute != Sim.GetMinute()) {
         LastMinute = Sim.GetMinute();
-        qPlayer.LaptopBattery--;
 
-        if (qPlayer.LaptopBattery == 2) {
-            gUniversalFx.Stop();
-            gUniversalFx.ReInit("lapwarn.raw");
-            gUniversalFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
-        }
-
-        if (qPlayer.LaptopBattery == 0) {
+        if (qPlayer.LaptopBattery > 0) {
+            qPlayer.LaptopBattery--;
+        } else {
             PicBitmap.Destroy();
             HighlightBm.Destroy();
             IconsDefaultBms.Destroy();
@@ -447,6 +442,12 @@ void CLaptop::OnPaint() {
             ReSize("globe_c.gli", GFX_VR2);
             // PicBitmap.ReSize (pRoomLib, GFX_VR2);
         }
+
+        if (qPlayer.LaptopBattery == 2) {
+            gUniversalFx.Stop();
+            gUniversalFx.ReInit("lapwarn.raw");
+            gUniversalFx.Play(DSBPLAY_NOSTOP, Sim.Options.OptionEffekte * 100 / 7);
+        }
     }
 
     if (Sim.GetHour() != LastHour) {
@@ -476,7 +477,7 @@ void CLaptop::OnPaint() {
     // CPlaner::DoPollingStuff ();
 
     // Laptop-Inhalt nur zeichnen, wenn die Batterie voll ist:
-    if (qPlayer.LaptopBattery == 0 || Copyprotection != 0) {
+    if (qPlayer.LaptopBattery <= 0 || Copyprotection != 0) {
         CPlaner::DoPollingStuff();
         CurrentBlock = -1;
 

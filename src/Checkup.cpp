@@ -23,6 +23,9 @@
 
 #include <jansson.h>
 
+#define AT_Error(...) Hdu.HercPrintfMsg(SDL_LOG_PRIORITY_ERROR, "Reg", __VA_ARGS__)
+#define AT_Log(...) AT_Log_I("Reg", __VA_ARGS__)
+
 CString settingsPath;
 
 void PrepareSettingsPath() { settingsPath = AppPath + CString("AT.json"); }
@@ -55,7 +58,7 @@ bool CRegistryAccess::Open(const CString &RegistryPath) {
 
     settingsJSON = json_load_file(settingsPath, JSON_INDENT(3), &error);
     if (settingsJSON == nullptr) {
-        AT_Log_Generic("encountered error during settings load: %s", error.text);
+        AT_Error("Encountered error during settings load: %s", error.text);
         settingsJSON = json_object();
     }
     if (!IsOpen()) {

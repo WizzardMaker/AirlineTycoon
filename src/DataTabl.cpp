@@ -109,7 +109,7 @@ void CDataTable::FillWithPlanes(CPlanes *Planes, SLONG Expert, SLONG FilterType,
 
                 if (qPlane.Ort >= 0) {
                     Values[d * 4 + 3] = bprintf("%s %s", StandardTexte.GetS(TOKEN_SCHED, 1105), (LPCTSTR)Cities[qPlane.Ort].Name);
-                } else {
+                } else if (qPlane.Flugplan.NextFlight >= 0) {
                     Values[d * 4 + 3] = bprintf("%s %s", StandardTexte.GetS(TOKEN_SCHED, 1102),
                                                 (LPCTSTR)Cities[qPlane.Flugplan.Flug[qPlane.Flugplan.NextFlight].NachCity].Name);
                 }

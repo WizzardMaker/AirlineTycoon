@@ -751,7 +751,7 @@ CEditor::CEditor(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum, "ed
 
     CheckUnusablePart(1);
 
-    Hdu.HercPrintf(0, "stat_3.mcf");
+    hprintf("stat_3.mcf");
     FontNormalRed.Load(lpDD, const_cast<char *>((LPCTSTR)FullFilename("stat_3.mcf", MiscPath)));
     FontYellow.Load(lpDD, const_cast<char *>((LPCTSTR)FullFilename("stat_4.mcf", MiscPath)));
 

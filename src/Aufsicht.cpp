@@ -335,7 +335,7 @@ CAufsicht::CAufsicht(BOOL bHandy, ULONG PlayerNum) : CStdRaum(bHandy, PlayerNum,
                     qPlayer.NumOrderFlightsToday2 = qPlayer.NumOrderFlightsToday;
                     qPlayer.Statistiken[STAT_AUFTRAEGE].AddAtPastDay(5);
 
-                    if (qPlayer.Owner != 1) {
+                    if (qPlayer.Owner != 1 || !qPlayer.RobotUse(ROBOT_UHRIG_FLIGHTS_AUTO)) {
                         qPlayer.Add5UhrigFlights();
                     }
                 }

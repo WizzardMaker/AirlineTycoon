@@ -3,9 +3,11 @@
 //============================================================================================
 #include "StdAfx.h"
 #include "AtNet.h"
-
 #define forall(c, object) for ((c) = 0; (c) < SLONG((object).AnzEntries()); (c)++)
 
+#define AT_Error(...) Hdu.HercPrintfMsg(SDL_LOG_PRIORITY_ERROR, "Player", __VA_ARGS__)
+#define AT_Warn(...) Hdu.HercPrintfMsg(SDL_LOG_PRIORITY_WARN, "Player", __VA_ARGS__)
+#define AT_Info(...) Hdu.HercPrintfMsg(SDL_LOG_PRIORITY_INFO, "Player", __VA_ARGS__)
 #define AT_Log(...) AT_Log_I("Player", __VA_ARGS__)
 
 extern SLONG SabotagePrice[];
@@ -892,7 +894,7 @@ void PLAYER::BookSalary() {
     SLONG c = 0;
     SLONG Money = 0;
 
-    if (Owner == 0 || (Owner == 1 && !RobotUse(ROBOT_USE_FAKE_PERSONAL))) {
+    if (Owner != 2) {
         for (c = 0; c < Workers.Workers.AnzEntries(); c++) {
             if (Workers.Workers[c].Employer == PlayerNum) {
                 // Gehaltssumme berechnen:
@@ -1399,7 +1401,7 @@ void PLAYER::NewDay() {
     if (LaptopVirus == 2) {
         LaptopVirus = 3;
     }
-    if ((LaptopVirus != 0) && Owner == 1) {
+    if ((LaptopVirus != 0) && Owner == 1 && RobotUse(ROBOT_USE_MISC_CHEATS)) {
         LaptopVirus = 0;
     }
 
@@ -1532,7 +1534,8 @@ void PLAYER::NewDay() {
     }
 
     // Mit der Zeit kann man mehr Aktien emittieren
-    MaxAktien = min((MaxAktien * 105 / 100), 250000000);
+    __int64 maxAktien = MaxAktien;
+    MaxAktien = min((maxAktien * 105 / 100), 2500000);
 
     for (c = 0; c < 10; c++) {
         Locations[c] = 0;
@@ -1700,10 +1703,10 @@ void PLAYER::NewDay() {
 
                     SLONG delta = salary + costImprovement + costRepairs;
                     AT_Log("Player.cpp: %s: Repair of plane %s (%u => %u; worst %u => %u) costs: %ld+%ld+%ld=%ld", (LPCTSTR)AirlineX, (LPCTSTR)Planes[c].Name,
-                            OldZustand, Planes[c].Zustand, OldWorst, Planes[c].WorstZustand, salary, costImprovement, costRepairs, delta);
+                           OldZustand, Planes[c].Zustand, OldWorst, Planes[c].WorstZustand, salary, costImprovement, costRepairs, delta);
                     if (delta < 0) {
                         delta = 0;
-                        AT_Log("Player.cpp: Repair cost for Player %li negative!", PlayerNum);
+                        AT_Error("Player.cpp: Repair cost for Player %li negative!", PlayerNum);
                     }
 
                     Summe += delta;
@@ -1746,7 +1749,7 @@ void PLAYER::NewDay() {
             }
         }
 
-        if (Owner != 1 && (Sim.Date == 20 || Sim.Date == 45)) {
+        if ((Owner != 1 || !RobotUse(ROBOT_USE_FAKE_PERSONAL)) && (Sim.Date == 20 || Sim.Date == 45)) {
             Workers.AddHappiness(PlayerNum, -45);
         }
     }
@@ -2272,11 +2275,6 @@ void PLAYER::UpdateFrachtauftragsUsage() {
     SLONG c = 0;
     SLONG d = 0;
 
-    // Nur bei Aufträgen von menschlichen Spielern
-    if (Owner == 1 && RobotUse(ROBOT_USE_NO_CHECK_FFLIGHT)) {
-        return;
-    }
-
     // TonsOpen bei allen Frachtaufträge resetten:
     for (c = Frachten.AnzEntries() - 1; c >= 0; c--) {
         if (Frachten.IsInAlbum(c) != 0) {
@@ -2560,7 +2558,8 @@ BOOL PLAYER::WalkToRoom(UBYTE RoomId) {
 
     PrimaryTarget = Airport.GetRandomTypedRune(RUNE_2SHOP, RoomId);
 
-    if (Sim.CallItADay != 0) {
+    /* always calculate SpeedCount, because Sim.CallItADay might be set any moment */
+    {
         PERSON &qPerson = Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)];
 
         SpeedCount = abs(qPerson.Position.x - PrimaryTarget.x);
@@ -2569,6 +2568,7 @@ BOOL PLAYER::WalkToRoom(UBYTE RoomId) {
         if (abs(qPerson.Position.y - PrimaryTarget.y) > 4600) {
             SpeedCount -= 4600;
         }
+        SpeedCount = max(1, SpeedCount);
     }
 
     PrimaryTarget.x /= 44;
@@ -2584,6 +2584,17 @@ BOOL PLAYER::WalkToRoom(UBYTE RoomId) {
 
     UpdateWaypoints();
     BroadcastPosition();
+
+    /* if we already are in the destination room */
+    for (SLONG c = 0; c < 10; c++) {
+        if ((Locations[c] & (~(ROOM_ENTERING | ROOM_LEAVING))) == RoomId) {
+            Locations[c] |= (ROOM_ENTERING);
+            Locations[c] &= (~ROOM_LEAVING);
+
+            SpeedCount = 1;
+            return (TRUE);
+        }
+    }
 
     return (TRUE);
 }
@@ -3214,9 +3225,10 @@ void PLAYER::RobotPump() {
             DebugBreak();
         }
 
-        if ((PlayerNum == 2 && Sim.GetMinute() > 0 && RobotActions[0].ActionId != ACTION_VISITROUTEBOX && ((Sim.GetMinute() / 5) % 2) == 0) ||
-            (RobotUse(ROBOT_USE_ALLRUN) && Sim.GetMinute() > 0 && RobotActions[0].ActionId != ACTION_VISITROUTEBOX)) {
+        SpeedCount = std::max(1, SpeedCount / WalkSpeed);
+        if (RobotUse(ROBOT_USE_ALLRUN) && Sim.GetMinute() > 0) {
             Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)].Running = TRUE;
+            SpeedCount = std::max(1, SpeedCount / 2);
             BroadcastPosition();
         } else {
             Sim.Persons[Sim.Persons.GetPlayerIndex(PlayerNum)].Running = FALSE;
@@ -4028,10 +4040,10 @@ void PLAYER::RobotExecuteAction() {
     // Die exakte Zeit des Ausführens auf dem Server simulieren
     SLONG RealLocalTime = Sim.Time;
 
-    AT_Log("AI", "Player %li: Action: %s, %s at %li/%li\n", PlayerNum, Translate_ACTION(RobotActions[0].ActionId), Translate_ACTION(RobotActions[1].ActionId),
-           WaitWorkTill, WaitWorkTill2);
-    NetGenericSync (770 + PlayerNum, RobotActions[0].ActionId);
-    NetGenericSync (740 + PlayerNum, RobotActions[1].ActionId);
+    /*AT_Log("Player %li: Action: %s, %s at %li/%li\n", PlayerNum, Translate_ACTION(RobotActions[0].ActionId), Translate_ACTION(RobotActions[1].ActionId),
+           WaitWorkTill, WaitWorkTill2);*/
+    NetGenericSync(770 + PlayerNum, RobotActions[0].ActionId);
+    NetGenericSync(740 + PlayerNum, RobotActions[1].ActionId);
 
     if (Sim.bNetwork != 0) {
         Sim.Time = WaitWorkTill2;
@@ -4045,19 +4057,10 @@ void PLAYER::RobotExecuteAction() {
 
     case ACTION_STARTDAY:
         // Logik für wechsel zu Routen und sparen für Rakete oder Flugzeug:
-        // MP: Logik sieht kaputt aus. DoRoutes ist niemals > 20
         if (DoRoutes == 0) {
             if (RobotUse(ROBOT_USE_SUGGESTROUTES) || (PlayerNum + 30 < Sim.Date && Planes.GetNumUsed() > 6) ||
                 (PlayerNum + 15 < Sim.Date &&
                  (Sim.Players.Players[(PlayerNum + 3) % 4].DoRoutes == 1 || Sim.Players.Players[(PlayerNum + 3) % 4].DoRoutes > 20))) {
-                SLONG c = 0;
-                SLONG Anz = 0;
-
-                for (c = RentRouten.RentRouten.AnzEntries() - 1; c >= 0; c--) {
-                    if ((Routen.IsInAlbum(c) != 0) && (RentRouten.RentRouten[c].Rang != 0U)) {
-                        Anz++;
-                    }
-                }
 
                 if (Image < 150) {
                     WantToDoRoutes = TRUE;
@@ -4065,7 +4068,7 @@ void PLAYER::RobotExecuteAction() {
                     if (Sim.Players.Players[Sim.localPlayer].NumMissionRoutes > PlayerNum) {
                         DoRoutes = TRUE;
                     }
-                } else if (Anz > 2) {
+                } else {
                     DoRoutes = TRUE;
                 }
             }
@@ -4165,7 +4168,7 @@ void PLAYER::RobotExecuteAction() {
                             if (VonZeit >= 0 && VonZeit < 23 + 24) {
                                 if (level == 0 || level == 1) {
                                     for (e = qAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                        if ((qAuftraege[e].Praemie != 0) && qAuftraege[e].VonCity == ULONG(VonCity)) {
+                                        if ((qAuftraege[e].Praemie > 0) && qAuftraege[e].VonCity == ULONG(VonCity)) {
                                             if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
                                                 (Cities.CalcDistance(qAuftraege[e].VonCity, qAuftraege[e].NachCity) > 3000000 ||
                                                  qAuftraege[e].Personen <= 90)) {
@@ -4186,11 +4189,6 @@ void PLAYER::RobotExecuteAction() {
                                                 NumOrderFlightsToday2++;
 
                                                 qAuftraege[e].Praemie = 0;
-
-                                                if (Auftraege.IsInAlbum(ObjectId) == 0) {
-                                                    hprintvar(__LINE__);
-                                                    Auftraege[ObjectId];
-                                                }
 
                                                 CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
@@ -4220,7 +4218,7 @@ void PLAYER::RobotExecuteAction() {
                                     SLONG MinE = -1;
 
                                     for (e = qAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                        if ((qAuftraege[e].Praemie != 0) &&
+                                        if ((qAuftraege[e].Praemie > 0) &&
                                             VonZeit + Cities.CalcFlugdauer(VonCity, qAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
                                             // VonZeit+Cities.CalcFlugdauer (VonCity, qAuftraege[e].VonCity,
                                             // PlaneTypes[Planes[c].TypeId].Geschwindigkeit)<23+24)
@@ -4253,11 +4251,6 @@ void PLAYER::RobotExecuteAction() {
                                             }
 
                                             NumOrderFlightsToday2++;
-
-                                            if (Auftraege.IsInAlbum(ObjectId) == 0) {
-                                                hprintvar(__LINE__);
-                                                Auftraege[ObjectId];
-                                            }
 
                                             CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
@@ -4293,8 +4286,6 @@ void PLAYER::RobotExecuteAction() {
                 }
 
                 // ANFANG FRACHTAUFTRÄGE
-                // ANFANG FRACHTAUFTRÄGE
-                // ANFANG FRACHTAUFTRÄGE
                 if ((DoRoutes == 0) && !(RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4)) {
                     SLONG Bewertungsbonus = 0;
                     if (RobotUse(ROBOT_USE_MUCH_FRACHT) && RobotUse(ROBOT_USE_MUCH_FRACHT_BONUS)) {
@@ -4307,6 +4298,10 @@ void PLAYER::RobotExecuteAction() {
                             SLONG e = 0;
                             SLONG VonCity = 0;
                             SLONG VonZeit = 0;
+
+                            if ((Planes[c].ptPassagiere / 10) <= 0) {
+                                continue;
+                            }
 
                             for (level = 0; level <= 2; level++) {
                                 VonCity = Planes[c].Flugplan.StartCity;
@@ -4338,10 +4333,11 @@ void PLAYER::RobotExecuteAction() {
                                                 SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
                                                 // Multiplikator, weil wir mehrere Flüge durchführen müssen:
-                                                Cost = Cost*2 * (qFracht.Tons / (Planes[c].ptPassagiere/10 + 1) + 1);
+                                                int trips = (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
+                                                Cost = Cost * 2 * trips;
 
-                                                if ((Cost <= qFracht.Praemie * 8 / 10 + Bewertungsbonus) ||
-                                                    (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0)) {
+                                                if ((trips < 4) && ((Cost <= qFracht.Praemie * 8 / 10 + Bewertungsbonus) ||
+                                                                    (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0))) {
                                                     if (Frachten.GetNumFree() < 2) {
                                                         Frachten.ReSize(Frachten.AnzEntries() + 1);
                                                     }
@@ -4350,11 +4346,6 @@ void PLAYER::RobotExecuteAction() {
                                                     qFracht.Praemie = -1;
 
                                                     while (qFracht.TonsOpen > 0) {
-                                                        if (Frachten.IsInAlbum(ObjectId) == 0) {
-                                                            hprintvar(__LINE__);
-                                                            Frachten[ObjectId];
-                                                        }
-
                                                         CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
                                                         fpe.ObjectType = 4;
@@ -4411,12 +4402,14 @@ void PLAYER::RobotExecuteAction() {
                                                 SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
                                                 // Multiplikator, weil wir mehrere Flüge durchführen müssen:
-                                                Cost = Cost * (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
+                                                int trips = (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
+                                                Cost = Cost * trips;
 
                                                 // Anflug:
                                                 Cost += ((CalculateFlightCost(VonCity, qFracht.VonCity, 8000, 700, -1)) + 99) / 100 * 100;
 
-                                                if ((Cost <= qFracht.Praemie + Bewertungsbonus) || (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0)) {
+                                                if ((trips < 4) && ((Cost <= qFracht.Praemie + Bewertungsbonus) ||
+                                                                    (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0))) {
                                                     if (Frachten.GetNumFree() < 2) {
                                                         Frachten.ReSize(Frachten.AnzEntries() + 1);
                                                     }
@@ -4425,11 +4418,6 @@ void PLAYER::RobotExecuteAction() {
                                                     qFracht.Praemie = -1;
 
                                                     while (qFracht.TonsOpen > 0) {
-                                                        if (Frachten.IsInAlbum(ObjectId) == 0) {
-                                                            hprintvar(__LINE__);
-                                                            Frachten[ObjectId];
-                                                        }
-
                                                         CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
                                                         fpe.ObjectType = 4;
@@ -4460,14 +4448,12 @@ void PLAYER::RobotExecuteAction() {
                     }
                 }
                 // ENDE FRACHTAUFTRÄGE
-                // ENDE FRACHTAUFTRÄGE
-                // ENDE FRACHTAUFTRÄGE
 
                 qAuftraege.RefillForAusland(n, 3);
                 qFrachten.RefillForAusland(n, 3);
             }
         }
-        if ((StrikeHours != 0) && LocalRandom.Rand(6) == 0 && RobotUse(ROBOT_USE_END_STRIKE_RAND)) {
+        if ((StrikeHours != 0) && LocalRandom.Rand(6) == 0 && RobotUse(ROBOT_USE_MISC_CHEATS)) {
             Sim.Players.Players[PlayerNum].StrikeHours = 0;
         }
 
@@ -4543,7 +4529,7 @@ void PLAYER::RobotExecuteAction() {
                                 moneyAvailable -= SicherheitCosts[qPlane.SicherheitTarget];
                                 break;
                             default:
-                                hprintf("Player.cpp: Default case should not be reached.");
+                                AT_Log("Player.cpp: Default case should not be reached.");
                                 DebugBreak();
                             }
 
@@ -4587,7 +4573,7 @@ void PLAYER::RobotExecuteAction() {
                     qPlane.SicherheitTarget = min(2, qPlane.SicherheitTarget + 1);
                     break;
                 default:
-                    hprintf("Player.cpp: Default case should not be reached.");
+                    AT_Log("Player.cpp: Default case should not be reached.");
                     DebugBreak();
                 }
             }
@@ -4600,24 +4586,25 @@ void PLAYER::RobotExecuteAction() {
         TimePersonal = Sim.Time;
         break;
 
-    case ACTION_VISITARAB:
+    case ACTION_VISITARAB: {
         WorkCountdown = 20 * 5;
-        if (RobotUse(ROBOT_USE_TANKS) && Sim.Kerosin < 500 && Money > 1000000) {
-            __int64 Menge = (Money - 2500000) / Sim.Kerosin;
-            if (Sim.Kerosin < 400) {
-                Menge = (Money - 2000000) / Sim.Kerosin;
+        auto Preis = Sim.HoleKerosinPreis(1);
+        if (RobotUse(ROBOT_USE_TANKS) && Preis < 500 && Money > 1000000) {
+            __int64 Menge = (Money - 2500000) / Preis;
+            if (Preis < 400) {
+                Menge = (Money - 2000000) / Preis;
             }
-            if (Sim.Kerosin < 350) {
-                Menge = (Money - 1500000) / Sim.Kerosin;
+            if (Preis < 350) {
+                Menge = (Money - 1500000) / Preis;
             }
 
             if (Menge > 0) {
                 Menge = min(Menge, Tank - TankInhalt);
                 TankInhalt += SLONG(Menge);
-                ChangeMoney(-Menge * Sim.Kerosin, 2020, "");
+                ChangeMoney(-Menge * Preis, 2020, "");
             }
         }
-        break;
+    } break;
 
     case ACTION_SABOTAGE:
         if (dislike == -1 && (RobotUse(ROBOT_USE_EXTREME_SABOTAGE) || RobotUse(ROBOT_USE_EXTRA_SABOTAGE) || LocalRandom.Rand(3) == 0)) {
@@ -4708,7 +4695,7 @@ void PLAYER::RobotExecuteAction() {
                         }
                         break;
                     default:
-                        hprintf("Player.cpp: Default case should not be reached.");
+                        AT_Log("Player.cpp: Default case should not be reached.");
                         DebugBreak();
                     }
 
@@ -4912,16 +4899,22 @@ void PLAYER::RobotExecuteAction() {
                 SLONG limitNPC = 1000000 + Sim.Date * 50000;
                 if ((RobotUse(ROBOT_USE_ALT_KREDIT) || RobotUse(ROBOT_USE_MAXKREDIT)) && Credit < limitNPC) {
                     SLONG m = min(limit, limitNPC - Credit);
-                    ChangeMoney(m, 2003, "");
-                    Credit += m;
+                    if (m > 0) {
+                        ChangeMoney(m, 2003, "");
+                        Credit += m;
+                    }
                 } else if (Money > 1500000 && Credit > 0 && !RobotUse(ROBOT_USE_ALT_KREDIT) && !RobotUse(ROBOT_USE_MAXKREDIT)) {
                     SLONG m = min(limit, min(Credit, Money - 1500000));
-                    ChangeMoney(-m, 2004, "");
-                    Credit -= m;
+                    if (m > 0) {
+                        ChangeMoney(-m, 2004, "");
+                        Credit -= m;
+                    }
                 } else if (Money < 1000000 && !RobotUse(ROBOT_USE_ALT_KREDIT)) {
                     SLONG m = min(limit, 1400000 - Money);
-                    ChangeMoney(m, 2003, "");
-                    Credit += m;
+                    if (m > 0) {
+                        ChangeMoney(m, 2003, "");
+                        Credit += m;
+                    }
                 }
             }
         }
@@ -5099,9 +5092,9 @@ void PLAYER::RobotExecuteAction() {
                     // && Sim.UsedPlanes[0x1000000+c].CalculatePrice()<Money+1000000 && PlaneTypes[Sim.UsedPlanes[0x1000000+c].TypeId].Reichweite>=BuyBigPlane)
                     {
                         if (Sim.Players.Players[Sim.localPlayer].HasBerater(BERATERTYP_INFO) >= rnd.Rand(100)) {
-                            Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(BERATERTYP_INFO,
-                                                                                     bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9000), (LPCTSTR)NameX,
-                                                                                             (LPCTSTR)AirlineX, Sim.UsedPlanes[0x1000000 + c].CalculatePrice()));
+                            Sim.Players.Players[Sim.localPlayer].Messages.AddMessage(BERATERTYP_INFO, bprintf(StandardTexte.GetS(TOKEN_ADVICE, 9000),
+                                                                                                              (LPCTSTR)NameX, (LPCTSTR)AirlineX,
+                                                                                                              Sim.UsedPlanes[0x1000000 + c].CalculatePrice()));
                         }
 
                         if (Planes.GetNumFree() == 0) {
@@ -5245,7 +5238,7 @@ void PLAYER::RobotExecuteAction() {
                         if (VonZeit >= 0 && VonZeit < 23 + 24) {
                             if (level == 0 || level == 1) {
                                 for (e = LastMinuteAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                    if ((LastMinuteAuftraege[e].Praemie != 0) && LastMinuteAuftraege[e].VonCity == ULONG(VonCity)) {
+                                    if ((LastMinuteAuftraege[e].Praemie > 0) && LastMinuteAuftraege[e].VonCity == ULONG(VonCity)) {
                                         NetGenericAsync(17003 + Sim.Date * 100, e, PlayerNum);
                                         if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
                                             (Cities.CalcDistance(LastMinuteAuftraege[e].VonCity, LastMinuteAuftraege[e].NachCity) > 3000000 ||
@@ -5298,7 +5291,7 @@ void PLAYER::RobotExecuteAction() {
                                 SLONG MinE = -1;
 
                                 for (e = LastMinuteAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                    if ((LastMinuteAuftraege[e].Praemie != 0) &&
+                                    if ((LastMinuteAuftraege[e].Praemie > 0) &&
                                         VonZeit + Cities.CalcFlugdauer(VonCity, LastMinuteAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
                                         // VonZeit+Cities.CalcFlugdauer (VonCity, LastMinuteAuftraege[e].VonCity,
                                         // PlaneTypes[Planes[c].TypeId].Geschwindigkeit)<23+24)
@@ -5330,11 +5323,6 @@ void PLAYER::RobotExecuteAction() {
                                             Statistiken[STAT_LMAUFTRAEGE].AddAtPastDay(1);
                                             LastMinuteAuftraege[e].Praemie = 0;
 
-                                            if (Auftraege.IsInAlbum(ObjectId) == 0) {
-                                                hprintvar(__LINE__);
-                                                Auftraege[ObjectId];
-                                            }
-
                                             CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
                                             fpe.ObjectType = 2;
@@ -5362,7 +5350,7 @@ void PLAYER::RobotExecuteAction() {
                     }
                 }
             }
-            LastMinuteAuftraege.RefillForLastMinute(3);
+            LastMinuteAuftraege.RefillForLastMinute();
         }
         WorkCountdown = 20 * 7;
         TimeReiseburo = Sim.Time;
@@ -5403,7 +5391,7 @@ void PLAYER::RobotExecuteAction() {
                         if (VonZeit >= 0 && VonZeit < 23 + 24 + 24) {
                             if (level == 0 || level == 1) {
                                 for (e = ReisebueroAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                    if ((ReisebueroAuftraege[e].Praemie != 0) && ReisebueroAuftraege[e].VonCity == ULONG(VonCity)) {
+                                    if ((ReisebueroAuftraege[e].Praemie > 0) && ReisebueroAuftraege[e].VonCity == ULONG(VonCity)) {
                                         if (RobotUse(ROBOT_USE_SHORTFLIGHTS) && Planes.GetNumUsed() == 4 &&
                                             (Cities.CalcDistance(ReisebueroAuftraege[e].VonCity, ReisebueroAuftraege[e].NachCity) > 3000000 ||
                                              ReisebueroAuftraege[e].Personen <= 90)) {
@@ -5425,11 +5413,6 @@ void PLAYER::RobotExecuteAction() {
                                                 }
 
                                                 NumOrderFlightsToday2++;
-
-                                                if (Auftraege.IsInAlbum(ObjectId) == 0) {
-                                                    hprintvar(__LINE__);
-                                                    Auftraege[ObjectId];
-                                                }
 
                                                 CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
@@ -5460,7 +5443,7 @@ void PLAYER::RobotExecuteAction() {
                                 SLONG MinE = -1;
 
                                 for (e = ReisebueroAuftraege.AnzEntries() - 1; e >= 0; e--) {
-                                    if ((ReisebueroAuftraege[e].Praemie != 0) &&
+                                    if ((ReisebueroAuftraege[e].Praemie > 0) &&
                                         VonZeit + Cities.CalcFlugdauer(VonCity, ReisebueroAuftraege[e].VonCity, Planes[c].ptGeschwindigkeit) < 23 + 24) {
                                         // VonZeit+Cities.CalcFlugdauer (VonCity, ReisebueroAuftraege[e].VonCity,
                                         // PlaneTypes[Planes[c].TypeId].Geschwindigkeit)<23+24)
@@ -5496,11 +5479,6 @@ void PLAYER::RobotExecuteAction() {
 
                                             NumOrderFlightsToday2++;
 
-                                            if (Auftraege.IsInAlbum(ObjectId) == 0) {
-                                                hprintvar(__LINE__);
-                                                Auftraege[ObjectId];
-                                            }
-
                                             CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
                                             fpe.ObjectType = 2;
@@ -5528,7 +5506,7 @@ void PLAYER::RobotExecuteAction() {
                     }
                 }
             }
-            ReisebueroAuftraege.RefillForReisebuero(3);
+            ReisebueroAuftraege.RefillForReisebuero();
         }
         WorkCountdown = 20 * 7;
         TimeReiseburo = Sim.Time;
@@ -5553,6 +5531,10 @@ void PLAYER::RobotExecuteAction() {
                     SLONG e = 0;
                     SLONG VonCity = 0;
                     SLONG VonZeit = 0;
+
+                    if ((Planes[c].ptPassagiere / 10) <= 0) {
+                        continue;
+                    }
 
                     for (level = 0; level <= 2; level++) {
                         VonCity = Planes[c].Flugplan.StartCity;
@@ -5584,10 +5566,12 @@ void PLAYER::RobotExecuteAction() {
                                         SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
                                         // Multiplikator, weil wir mehrere Flüge durchführen müssen:
-                                        Cost = Cost * 2 * (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
+                                        int trips = (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
+                                        Cost = Cost * 2 * trips;
                                         // Cost = Cost*2 * (qFracht.Tons / (PlaneTypes[Planes[c].TypeId].Passagiere/10) + 1);
 
-                                        if ((Cost <= qFracht.Praemie * 8 / 10 + Bewertungsbonus) || (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0)) {
+                                        if ((trips < 4) && ((Cost <= qFracht.Praemie * 8 / 10 + Bewertungsbonus) ||
+                                                            (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0))) {
                                             if (Frachten.GetNumFree() < 2) {
                                                 Frachten.ReSize(Frachten.AnzEntries() + 1);
                                             }
@@ -5596,11 +5580,6 @@ void PLAYER::RobotExecuteAction() {
                                             qFracht.Praemie = -1;
 
                                             while (qFracht.TonsOpen > 0) {
-                                                if (Frachten.IsInAlbum(ObjectId) == 0) {
-                                                    hprintvar(__LINE__);
-                                                    Frachten[ObjectId];
-                                                }
-
                                                 CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
                                                 fpe.ObjectType = 4;
@@ -5657,12 +5636,14 @@ void PLAYER::RobotExecuteAction() {
                                         SLONG Cost = ((CalculateFlightCost(qFracht.VonCity, qFracht.NachCity, 8000, 700, -1)) + 99) / 100 * 100;
 
                                         // Multiplikator, weil wir mehrere Flüge durchführen müssen:
-                                        Cost = Cost * (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
+                                        int trips = (qFracht.Tons / (Planes[c].ptPassagiere / 10) + 1);
+                                        Cost = Cost * trips;
 
                                         // Anflug:
                                         Cost += ((CalculateFlightCost(VonCity, qFracht.VonCity, 8000, 700, -1)) + 99) / 100 * 100;
 
-                                        if ((Cost <= qFracht.Praemie + Bewertungsbonus) || (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0)) {
+                                        if ((trips < 4) &&
+                                            ((Cost <= qFracht.Praemie + Bewertungsbonus) || (RobotUse(ROBOT_USE_FREE_FRACHT) && qFracht.Praemie == 0))) {
                                             if (Frachten.GetNumFree() < 2) {
                                                 Frachten.ReSize(Frachten.AnzEntries() + 1);
                                             }
@@ -5671,11 +5652,6 @@ void PLAYER::RobotExecuteAction() {
                                             qFracht.Praemie = -1;
 
                                             while (qFracht.TonsOpen > 0) {
-                                                if (Frachten.IsInAlbum(ObjectId) == 0) {
-                                                    hprintvar(__LINE__);
-                                                    Frachten[ObjectId];
-                                                }
-
                                                 CFlugplanEintrag &fpe = Planes[c].Flugplan.Flug[Planes[c].Flugplan.Flug.AnzEntries() - 1];
 
                                                 fpe.ObjectType = 4;
@@ -5770,7 +5746,7 @@ void PLAYER::RobotExecuteAction() {
                 Cheapest = 99999999;
                 for (c = 0; c < 7; c++) {
                     if ((TafelData.Gate[c].ZettelId > -1) && TafelData.Gate[c].Player != PlayerNum &&
-                        (TafelData.Gate[c].Preis < Cheapest || TafelData.Gate[c].Player == dislike || PlayerNum == 0)) {
+                        (TafelData.Gate[c].Preis < Cheapest || TafelData.Gate[c].Player == dislike || RobotUse(ROBOT_ALWAYS_BUY_GATES))) {
                         Cheapest = TafelData.Gate[c].Preis;
                         n = c;
                     }
@@ -5837,7 +5813,7 @@ void PLAYER::RobotExecuteAction() {
             }
 
             // Neue Route kaufen:
-            if (((DoRoutes != 0) || (WantToDoRoutes != 0)) && SLONG(Planes.GetNumUsed()) > (Anz / 2) * 3 / 2 && Anz < SLONG(Routen.GetNumUsed())) {
+            if ((DoRoutes != 0) && SLONG(Planes.GetNumUsed()) > (Anz / 2) * 3 / 2 && Anz < SLONG(Routen.GetNumUsed())) {
                 IsBuyable.ReSize(Routen.AnzEntries());
                 IsBuyable.FillWith(0);
 
@@ -5988,7 +5964,7 @@ void PLAYER::RobotExecuteAction() {
 
     case ACTION_WERBUNG:
         if (!RobotUse(ROBOT_USE_GROSSESKONTO)) {
-            if (((DoRoutes != 0) || (WantToDoRoutes != 0)) && Money > 500000) {
+            if ((DoRoutes != 0) && Money > 500000) {
                 for (SLONG c = 0; c < RentRouten.RentRouten.AnzEntries(); c++) {
                     if (RentRouten.RentRouten[c].Rang != 0U) {
                         if (RentRouten.RentRouten[c].Image < 70 || (RentRouten.RentRouten[c].Image < 80 && (SavesForPlane == 0) && (SavesForRocket == 0)) ||
@@ -6007,7 +5983,7 @@ void PLAYER::RobotExecuteAction() {
                  (Money > 150000 && RobotUse(ROBOT_USE_MUCHWERBUNG) &&
                   (Image + 10 < Sim.Players.Players[(PlayerNum + 1) % 3].Image || (dislike != -1 && Image + 10 < Sim.Players.Players[dislike].Image)))) ||
                 (Image < 1000 && Money - Credit > 4000000 && (SavesForPlane == 0) && (SavesForRocket == 0))) {
-                if ((DoRoutes != 0) || RobotUse(ROBOT_USE_HARDWERBUNG)) {
+                if (((DoRoutes != 0) || (WantToDoRoutes != 0)) || RobotUse(ROBOT_USE_HARDWERBUNG)) {
                     if (Sim.Date % 4 == 0) {
                         n = 0;
                     } else {
@@ -6138,20 +6114,25 @@ void PLAYER::DelayFlightsIfNecessary() {
 
     PlanGates();
     for (c = 0; c < SLONG(Planes.AnzEntries()); c++) {
-        if (Planes.IsInAlbum(c) != 0) {
-            CFlugplan &qPlan = Planes[c].Flugplan;
-            SLONG NumDelays = 0;
+        if (Planes.IsInAlbum(c) == 0) {
+            continue;
+        }
+        CFlugplan &qPlan = Planes[c].Flugplan;
+        SLONG NumDelays = 0;
 
-        Again:
-            // for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--)
-            for (d = 0; d < qPlan.Flug.AnzEntries(); d++) {
-                if ((qPlan.Flug[d].ObjectType == 1 || qPlan.Flug[d].ObjectType == 2) &&
-                    (qPlan.Flug[d].VonCity == static_cast<ULONG>(Sim.HomeAirportId) || qPlan.Flug[d].NachCity == static_cast<ULONG>(Sim.HomeAirportId)) &&
-                    qPlan.Flug[d].Gate == -1 && NumDelays < 6) {
-                    qPlan.Flug[d].Startzeit++;
-                    while (qPlan.Flug[d].Startzeit >= 24) {
-                        qPlan.Flug[d].Startzeit -= 24;
-                        qPlan.Flug[d].Startdate++;
+    Again:
+        // for (d=qPlan.Flug.AnzEntries()-1; d>=0; d--)
+        for (d = 0; d < qPlan.Flug.AnzEntries(); d++) {
+            auto &qFPE = qPlan.Flug[d];
+            if ((qFPE.ObjectType == 1 || qFPE.ObjectType == 2) &&
+                (qFPE.VonCity == static_cast<ULONG>(Sim.HomeAirportId) || qFPE.NachCity == static_cast<ULONG>(Sim.HomeAirportId)) && qFPE.Gate == -1 &&
+                NumDelays < 6) {
+                if (qFPE.Startdate > Sim.Date || (qFPE.Startdate == Sim.Date && qFPE.Startzeit > Sim.GetHour() + 2)) {
+
+                    qFPE.Startzeit++;
+                    while (qFPE.Startzeit >= 24) {
+                        qFPE.Startzeit -= 24;
+                        qFPE.Startdate++;
                     }
 
                     NumDelays++;
@@ -6823,9 +6804,22 @@ void PLAYER::UpdateStatistics() {
     // STAT_FIRMENWERT:
     value = 0;
     for (c = 0; c < Planes.AnzEntries(); c++) { // Flugzeuge
-        if (Planes.IsInAlbum(c) != 0) {
-            value += Planes[c].CalculatePrice();
+        if (Planes.IsInAlbum(c) == 0) {
+            continue;
         }
+
+        value += Planes[c].CalculatePrice();
+
+        // Add value of plane upgrades
+        CPlane &qPlane = Planes[c];
+        auto ptPassagiere = qPlane.ptPassagiere;
+        value += ptPassagiere * (SeatCosts[qPlane.Sitze] - SeatCosts[0]);
+        value += ptPassagiere * (TrayCosts[qPlane.Tabletts] - TrayCosts[0]);
+        value += ptPassagiere * (DecoCosts[qPlane.Deco] - DecoCosts[0]);
+        value += (ReifenCosts[qPlane.Reifen] - ReifenCosts[0]);
+        value += (TriebwerkCosts[qPlane.Triebwerk] - TriebwerkCosts[0]);
+        value += (SicherheitCosts[qPlane.Sicherheit] - SicherheitCosts[0]);
+        value += (ElektronikCosts[qPlane.Elektronik] - ElektronikCosts[0]);
     }
 
     for (c = 0; c < 4; c++) { // Aktien
@@ -6835,7 +6829,12 @@ void PLAYER::UpdateStatistics() {
     }
 
     value += Money - Credit;
-    // if (value>2147483647) value=2147483647;    //Overflow verhindern
+
+    value += TankInhalt * Sim.HoleKerosinPreis(2);         // Current value of stored kerosene (assuming worst quality)
+    value += static_cast<__int64>(std::round(Tank * 600)); // Value of tank itself (assuming cheapest tank)
+
+    // calculate 'value' of company image by how often best ad campaign you would need to buy (adCampaignSize := 5)
+    value += Image * 10000 * 55 / (5 + 6);
 
     Statistiken[STAT_FIRMENWERT].SetAtPastDay(value);
     // Statistiken[STAT_FIRMENWERT].SetAtPastDay (0, SLONG(value));
@@ -7709,7 +7708,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
     File >> Player.Image;
     if (SaveVersionSub >= 200) {
         File >> Player.KerosinQuali;
-    }else {
+    } else {
         File.Skip(sizeof(SLONG)); // old SLONG BadKerosin
         Player.KerosinQuali = 0;
     }
@@ -7806,7 +7805,7 @@ TEAKFILE &operator>>(TEAKFILE &File, PLAYER &Player) {
         UBYTE gates[24 * 7]{};
 
         File.Read(gates, 24 * 7);
-        for (int i = 0; i < 24*7; i++) {
+        for (int i = 0; i < 24 * 7; i++) {
             Player.Gates.Auslastung[i] = gates[i];
         }
 
@@ -8003,10 +8002,10 @@ bool PLAYER::RobotUse(SLONG FeatureId) const {
                        "----------";
         break;
     case ROBOT_USE_ROUTES:
-        pFeatureDesc = "------"
-                       "."
-                       "----------"
-                       "----------";
+        pFeatureDesc = "---X-X"
+                       "X"
+                       "----XX-X-X"
+                       "XXXXXXXXXX";
         break;
     case ROBOT_USE_SUGGESTROUTES:
         pFeatureDesc = "---X--"
@@ -8135,10 +8134,12 @@ bool PLAYER::RobotUse(SLONG FeatureId) const {
                        "-X--------";
         break;
     case ROBOT_USE_IMAGEBONUS:
-        pFeatureDesc = "------"
+        /* We enable it for normal bots whenever they use routes */
+        return (DoRoutes > 0);
+        /*pFeatureDesc = "------"
                        "."
                        "-----X----"
-                       "----------";
+                       "----------";*/
         break;
     case ROBOT_USE_GOODPLANES:
         pFeatureDesc = "------"
@@ -8288,49 +8289,27 @@ bool PLAYER::RobotUse(SLONG FeatureId) const {
                        "----X--X--";
         break;
     case ROBOT_USE_BONUS:
-        pFeatureDesc = "XXXXXX"
-                       "X"
-                       "XXXXXXXXXX"
-                       "XXXXXXXXXX";
-        break;
+        return true;
     case ROBOT_USE_ROUTE_BONUS:
-        pFeatureDesc = "XXXXXX"
-                       "X"
-                       "XXXXXXXXXX"
-                       "XXXXXXXXXX";
-        break;
+        return true;
     case ROBOT_USE_FAKE_PERSONAL:
-        pFeatureDesc = "XXXXXX"
-                       "X"
-                       "XXXXXXXXXX"
-                       "XXXXXXXXXX";
-        break;
+        return true;
     case ROBOT_USE_NO_FINE:
-        pFeatureDesc = "XXXXXX"
-                       "X"
-                       "XXXXXXXXXX"
-                       "XXXXXXXXXX";
-        break;
+        return true;
     case ROBOT_USE_NO_CHECK_FLIGHT:
-        pFeatureDesc = "XXXXXX"
-                       "X"
-                       "XXXXXXXXXX"
-                       "XXXXXXXXXX";
-        break;
+        return true;
     case ROBOT_USE_NO_CHECK_FFLIGHT:
-        pFeatureDesc = "XXXXXX"
-                       "X"
-                       "XXXXXXXXXX"
-                       "XXXXXXXXXX";
-        break;
-    case ROBOT_USE_END_STRIKE_RAND:
-        pFeatureDesc = "XXXXXX"
-                       "X"
-                       "XXXXXXXXXX"
-                       "XXXXXXXXXX";
+        return true;
+    case ROBOT_USE_MISC_CHEATS:
+        return true;
+    case ROBOT_UHRIG_FLIGHTS_AUTO:
+        pFeatureDesc = "------"
+                       "."
+                       "--------X-"
+                       "----------";
         break;
 
-    // Spezialisierungen der Computerspieler
+    /* specialization of computer players */
     case ROBOT_USE_WORKQUICK_2:
         return (PlayerNum == 2);
     case ROBOT_USE_EXTRA_SABOTAGE:
@@ -8360,6 +8339,8 @@ bool PLAYER::RobotUse(SLONG FeatureId) const {
     case ROBOT_USE_UPGRADE_TECH:
         return (PlayerNum == 1);
     case ROBOT_USE_BUY_MORE_ABROAD:
+        return (PlayerNum == 0);
+    case ROBOT_ALWAYS_BUY_GATES:
         return (PlayerNum == 0);
 
     default:

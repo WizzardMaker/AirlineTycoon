@@ -224,8 +224,8 @@ void PumpNetwork() {
             ULONG Par1 = 0;
             ULONG Par2 = 0;
 
-         Message >> MessageType;
-         AT_Log_I("Net", "Received net event: %s", Translate_ATNET(MessageType));
+            Message >> MessageType;
+            AT_Log_I("Net", "Received net event: %s", Translate_ATNET(MessageType));
 
             switch (MessageType) {
             case ATNET_SETSPEED:
@@ -1946,11 +1946,13 @@ void PumpNetwork() {
                 SLONG localPlayer = 0;
                 SLONG auftrag = 0;
                 SLONG lm = 0;
+                SLONG fracht = 0;
 
-                Message >> localPlayer >> auftrag >> lm;
+                Message >> localPlayer >> auftrag >> lm >> fracht;
 
                 Sim.Players.Players[localPlayer].Statistiken[STAT_AUFTRAEGE].SetAtPastDay(auftrag);
                 Sim.Players.Players[localPlayer].Statistiken[STAT_LMAUFTRAEGE].SetAtPastDay(lm);
+                Sim.Players.Players[localPlayer].Statistiken[STAT_FRACHTEN].SetAtPastDay(fracht);
             } break;
 
                 //--------------------------------------------------------------------------------------------

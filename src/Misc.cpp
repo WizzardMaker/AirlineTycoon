@@ -190,14 +190,14 @@ CString KorrigiereUmlaute(CString &OriginalText) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft, ob der Cursor in einem Bereich ist und erledigt das Highlighting:
+// Überprüft, ob der Cursor in einem Bereich ist und erledigt das Highlighting:
 //--------------------------------------------------------------------------------------------
 BOOL CheckCursorHighlight(const CRect &rect, UWORD FontColor, SLONG Look, SLONG TipId, SLONG ClickArea, SLONG ClickId, SLONG ClickPar1, SLONG ClickPar2) {
     return (CheckCursorHighlight(gMousePosition, rect, FontColor, Look, TipId, ClickArea, ClickId, ClickPar1, ClickPar2));
 }
 
 //--------------------------------------------------------------------------------------------
-//Überprüft, ob der Cursor in einem Bereich ist und erledigt das Highlighting:
+// Überprüft, ob der Cursor in einem Bereich ist und erledigt das Highlighting:
 //--------------------------------------------------------------------------------------------
 BOOL CheckCursorHighlight(const XY &CursorPos, const CRect &rect, UWORD FontColor, SLONG Look, SLONG TipId, SLONG ClickArea, SLONG ClickId, SLONG ClickPar1,
                           SLONG ClickPar2) {
@@ -585,11 +585,10 @@ SLONG CalculateFlightCostRechnerisch(SLONG VonCity, SLONG NachCity, SLONG Verbra
 }
 
 //--------------------------------------------------------------------------------------------
-// Berechnet, wieviel ein Flug kostet (min. 1000)
+// Berechnet, wieviel ein Flug kostet (Kerosin aus Tank ohne Kosten)
 //--------------------------------------------------------------------------------------------
 SLONG CalculateFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit, SLONG PlayerNum) {
     SLONG Kerosin = CalculateFlightKerosin(VonCity, NachCity, Verbrauch, Geschwindigkeit);
-    SLONG Kosten = 0;
 
     // Kerosin aus dem Vorrat:
     if (PlayerNum != -1 && (Sim.Players.Players[PlayerNum].TankOpen != 0)) {
@@ -599,7 +598,21 @@ SLONG CalculateFlightCost(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG 
     }
 
     // Restliches Kerosin kaufen:
-    Kosten += Kerosin * Sim.Kerosin;
+    SLONG Kosten = Kerosin * Sim.Kerosin;
+
+    if (Kosten < 1000) {
+        Kosten = 1000;
+    }
+
+    return (Kosten);
+}
+
+//--------------------------------------------------------------------------------------------
+// Berechnet, wieviel ein Flug kostet (ignoriere Kerosin-Tanks)
+//--------------------------------------------------------------------------------------------
+SLONG CalculateFlightCostNoTank(SLONG VonCity, SLONG NachCity, SLONG Verbrauch, SLONG Geschwindigkeit) {
+    SLONG Kerosin = CalculateFlightKerosin(VonCity, NachCity, Verbrauch, Geschwindigkeit);
+    SLONG Kosten = Kerosin * Sim.Kerosin;
 
     if (Kosten < 1000) {
         Kosten = 1000;

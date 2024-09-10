@@ -728,7 +728,7 @@ void SIM::ChooseStartup() {
             qPlayer.Image = 300;
         }
 
-        if ((Difficulty == DIFF_ATFS09 || Difficulty == DIFF_ATFS10) && qPlayer.Owner == 1) {
+        if ((Difficulty == DIFF_ATFS09 || Difficulty == DIFF_ATFS10) && qPlayer.Owner == 1 && qPlayer.RobotUse(ROBOT_USE_MISC_CHEATS)) {
             qPlayer.Tank = 5000;
             qPlayer.TankOpen = 1;
         }
@@ -823,6 +823,9 @@ void SIM::ChooseStartup() {
             if (qPlayer.Bonus < 0) {
                 qPlayer.Bonus = -qPlayer.Bonus;
             }
+        }
+        if (qPlayer.Owner == 1 && !qPlayer.RobotUse(ROBOT_USE_BONUS)) {
+            qPlayer.Bonus = 0;
         }
 
         qPlayer.MoneyPast.ReSize(20);
@@ -961,7 +964,7 @@ void SIM::ChooseStartup() {
         qPlayer.bDialogStartSent = FALSE;
         qPlayer.PlayerDialogState = -1;
 
-        if (qPlayer.Owner == 1) {
+        if (qPlayer.Owner == 1 && qPlayer.RobotUse(ROBOT_USE_MISC_CHEATS)) {
             qPlayer.Kooperation.FillWith(1);
             for (SLONG c = 0; c < 4; c++) {
                 if (Players.Players[c].Owner != 1) {
@@ -1312,7 +1315,7 @@ void SIM::DoTimeStep() {
 
     OldMinute = GetMinute();
 
-    Time += bNetwork ?  ServerGameSpeed : GameSpeed;
+    Time += bNetwork ? ServerGameSpeed : GameSpeed;
     PlayerDidntMove++; // Wird ggf. bei WalkPersons resettet
 
     if (Time >= 24 * 60000) {
@@ -3525,17 +3528,13 @@ void SIM::SaveGame(SLONG Number, const CString &Name) const {
     {
         CString DateString = getCurrentDayString();
         if (Difficulty >= DIFF_ATFS) {
-            DateString =
-                bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1152)), Difficulty + 1 - DIFF_ATFS + 20,
-                        (LPCTSTR)DateString, (LPCTSTR)Players.Players[localPlayer].AirlineX);
+            DateString = bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1152)), Difficulty + 1 - DIFF_ATFS + 20, (LPCTSTR)DateString,
+                                 (LPCTSTR)Players.Players[localPlayer].AirlineX);
         } else if (Difficulty != DIFF_FREEGAME) {
-            DateString =
-                bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1152)), Difficulty + 1,
-                        (LPCTSTR)DateString, (LPCTSTR)Players.Players[localPlayer].AirlineX);
+            DateString = bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1152)), Difficulty + 1, (LPCTSTR)DateString,
+                                 (LPCTSTR)Players.Players[localPlayer].AirlineX);
         } else {
-            DateString =
-                bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1153)),
-                        (LPCTSTR)DateString, (LPCTSTR)Players.Players[localPlayer].AirlineX);
+            DateString = bprintf((LPCTSTR)CString(StandardTexte.GetS(TOKEN_MISC, 1153)), (LPCTSTR)DateString, (LPCTSTR)Players.Players[localPlayer].AirlineX);
         }
 
         OutputFile << DateString;
@@ -4563,7 +4562,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const SValue &Value) {
     return (File);
 }
 
-TEAKFILE & operator>>(TEAKFILE &File, SValue &Value) {
+TEAKFILE &operator>>(TEAKFILE &File, SValue &Value) {
     File >> Value.Days;
 
     if (SaveVersionSub < 200) {

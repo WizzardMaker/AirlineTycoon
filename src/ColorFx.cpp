@@ -530,8 +530,10 @@ void SB_CColorFX::BlitWhiteTrans(BOOL DoMessagePump, SB_CBitmapCore *SrcBitmap, 
 
     if (SrcRect != nullptr) {
         Rect = *SrcRect;
-    } else {
+    } else if (SrcBitmap != nullptr) {
         Rect = CRect(0, 0, SrcBitmap->GetXSize() - 1, SrcBitmap->GetYSize() - 1);
+    } else {
+        return;
     }
 
     if (t.x < 0) {

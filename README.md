@@ -66,7 +66,6 @@ Keyboard navigation:
 * Arrow key navigation for many different menus
 
 Employees:
-* Fix problem where no competent personal can be found in long running games
 * More pilots/attendants available for hire
 * Slightly increase competence of randomly generated employees
 * Generate randomized advisors as well
@@ -110,12 +109,18 @@ Bug fixes:
 * New sound options (OGG/MIDI) + patched stuttering glich when switching music on Windows 11
 * Patched Space station mission prices and texts in stats
 * Patched various text scrambling on UI
+* Bug fixed in calculation in maximum amount of stock that can be emitted
+    * Bug limited max amount of stock to around 2.1 million
+    * Intger overflow is fixed now, but the originally intended limit of 250 million was changed to 2.5 million
+* Fixed game shifting flights on its own even if they are already locked
+    * Could previously cause double-booking of flights (income and cost booked twice)
 * Classic mission 04 now uses correct route utilization
     * Previously, even though boss said that routes must be 20% utilized, game would check for 20% plane utilization
 * Addon mission 09: Fixed counting of Uhrig flights
     * Note that computer players always have and still are cheating in this mission
 * First class mission 07: Only need to have two repaired planes, not all of them in case more than two were bought
 * Evolution mission 02: Only need to have five planes with full safety upgrades, not all of them in case more than five were bought
+* Fixed many random crashes
 
 AI:
 * Uses now same credit limit
@@ -130,7 +135,9 @@ AI:
     * Align calculation of arab trust for player and computer
 * Remove strange reduction of flight cost in calculation of image change (was a disadvantage for computer player)
 * Computer player pays real price for plane upgrades
-* Fix random crash (during checking of flight plans)
+* Fixed bug that prevented computer players from using routes in most games
+    * Computer players will switch to routes in most games eventually
+    * Computer players however will use a small cheat that regularly improves their image
 
 Misc:
 * Reduce (~ half) cost of plane security upgrades
@@ -139,9 +146,15 @@ Misc:
 * Calculate route utilization as average of previous 7 days
 * Adding NOTFAIR cheat to make competitors much richer
 * Adding ODDONEOUT cheat to improve image of competitors
+* Adding AUTORUN cheat for ultra-fast forward
 * Use player colors when showing routes on laptop
 * Buy kerosene by clicking price chart
 * Change tooltip of savegames (number of days played)
+* Company value includes value of kerosene stored in tanks and tanks themselves
+* Company value includes value of plane upgrades
+* Company value includes value of airline image (money required to reach current image)
+* Strikes will start after 9 am now to give player chance to react
+* Make planes in main menu comically long
 * Decryption of data files with the run argument "/savedata"
 * Option "OptionTicketPriceIncrement" to increase ticket price increment per click
 * Director's board now allow for more post-it

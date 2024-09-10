@@ -1829,6 +1829,7 @@ void CPlaner::HandleLButtonDown() {
                             c = qPlan.Flug.AnzEntries() - 1;
                         }
 
+                        qPlan.Flug[c] = {};
                         qPlan.Flug[c].Okay = 0;
                         qPlan.Flug[c].Startdate = Date;
                         qPlan.Flug[c].Startzeit = Time;
@@ -2012,6 +2013,7 @@ void CPlaner::HandleLButtonDown() {
                                 tmpObjectId = qPlan.Flug[c].ObjectId;
                             };
 
+                            qPlan.Flug[c] = {};
                             qPlan.Flug[c].Okay = 0;
                             qPlan.Flug[c].Startdate = Date;
                             qPlan.Flug[c].Startzeit = Time;
@@ -2542,21 +2544,21 @@ void CPlaner::HandleLButtonUp() {
 
                         if (CurrentPostItType == 2) // Auftrag
                         {
-                            VonCityId = Sim.Players.Players[PlayerNum].Auftraege[CurrentPostItId].VonCity;
-                            NachCityId = Sim.Players.Players[PlayerNum].Auftraege[CurrentPostItId].NachCity;
+                            VonCityId = qPlayer.Auftraege[CurrentPostItId].VonCity;
+                            NachCityId = qPlayer.Auftraege[CurrentPostItId].NachCity;
                         } else if (CurrentPostItType == 1) // Route
                         {
                             VonCityId = Routen[CurrentPostItId].VonCity;
                             NachCityId = Routen[CurrentPostItId].NachCity;
                         } else if (CurrentPostItType == 4) // Frachtauftrag
                         {
-                            VonCityId = Sim.Players.Players[PlayerNum].Frachten[CurrentPostItId].VonCity;
-                            NachCityId = Sim.Players.Players[PlayerNum].Frachten[CurrentPostItId].NachCity;
+                            VonCityId = qPlayer.Frachten[CurrentPostItId].VonCity;
+                            NachCityId = qPlayer.Frachten[CurrentPostItId].NachCity;
                         }
 
                         // if (Cities.CalcDistance (VonCityId, NachCityId)>PlaneTypes[qPlayer.Planes[pBlock->SelectedId].TypeId].Reichweite*1000)
                         if (Cities.CalcDistance(VonCityId, NachCityId) > qPlayer.Planes[pBlock->SelectedId].ptReichweite * 1000) {
-                            Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_ADVICE, 2310));
+                            qPlayer.Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_ADVICE, 2310));
                             return;
                         }
 
@@ -2565,7 +2567,7 @@ void CPlaner::HandleLButtonUp() {
                         SLONG Dauer = Cities.CalcFlugdauer(VonCityId, NachCityId, Speed);
 
                         if (Dauer >= 24) {
-                            Sim.Players.Players[PlayerNum].Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_ADVICE, 2310));
+                            qPlayer.Messages.AddMessage(BERATERTYP_GIRL, StandardTexte.GetS(TOKEN_ADVICE, 2310));
                             return;
                         }
                     }
@@ -2604,6 +2606,7 @@ void CPlaner::HandleLButtonUp() {
                                 c = qPlan.Flug.AnzEntries() - 1;
                             }
 
+                            qPlan.Flug[c] = {};
                             qPlan.Flug[c].Okay = 0;
                             qPlan.Flug[c].Startdate = Date;
                             qPlan.Flug[c].Startzeit = Time;
@@ -2615,8 +2618,8 @@ void CPlaner::HandleLButtonUp() {
                             }
 
                             if (qPlan.Flug[c].ObjectType == 1) {
-                                qPlan.Flug[c].Ticketpreis = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(CurrentPostItId)].Ticketpreis;
-                                qPlan.Flug[c].TicketpreisFC = Sim.Players.Players[PlayerNum].RentRouten.RentRouten[Routen(CurrentPostItId)].TicketpreisFC;
+                                qPlan.Flug[c].Ticketpreis = qPlayer.RentRouten.RentRouten[Routen(CurrentPostItId)].Ticketpreis;
+                                qPlan.Flug[c].TicketpreisFC = qPlayer.RentRouten.RentRouten[Routen(CurrentPostItId)].TicketpreisFC;
                             }
 
                             // Zahl der Passagiere berechnen:
@@ -2642,8 +2645,8 @@ void CPlaner::HandleLButtonUp() {
                                 CurrentPostItType = 0;
                             }
 
-                            Sim.Players.Players[PlayerNum].Blocks[CurrentBlock].RefreshData(PlayerNum);
-                            Sim.Players.Players[PlayerNum].Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
+                            qPlayer.Blocks[CurrentBlock].RefreshData(PlayerNum);
+                            qPlayer.Blocks[CurrentBlock].Refresh(PlayerNum, IsLaptop);
                             if (CurrentPostItType != 0) {
                                 PaintPostIt();
                             }
@@ -2953,6 +2956,7 @@ void CPlaner::HandleLButtonDouble() {
                                 c++;
 
                                 if (c < qPlan.Flug.AnzEntries()) {
+                                    qPlan.Flug[c] = {};
                                     qPlan.Flug[c].Okay = 0;
 
                                     if (c > 0) {

@@ -160,7 +160,7 @@ void CRouten::ReInitExtend(const CString &TabFilename) {
     FileP = ReadLine(FileData, FileP, Line.getData(), 300);
 
     SLONG routes = CountLines(FileData, FileP) * 2;
-    
+
     ReSize(routes);
     auto NumUsed = GetNumUsed();
 

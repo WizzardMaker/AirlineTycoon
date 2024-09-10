@@ -342,7 +342,7 @@ void CKlackerPlanes::Pump(XY AvoidPoint) {
             if (KlackerPlanes[c].Size == -1) {
                 KlackerPlanes[c].Dir = rand() % 2 * 20 - 10;
                 KlackerPlanes[c].Logo = rand() % 4;
-                KlackerPlanes[c].Size = min(7, rand() % (((TimeSinceStart - 580) / 30) + 1));
+                KlackerPlanes[c].Size = min(20, rand() % (((TimeSinceStart - 580) / 300) + 1));
                 KlackerPlanes[c].ScreenPos.y = rand() % 400 + 80;
 
                 if (KlackerPlanes[c].Dir < 0) {

@@ -502,7 +502,6 @@ UBYTE CLANS::GetCustomerId(SLONG Browned, SLONG Koffer, TEAKRAND *pRand) {
         }
     }
 
-    
     SLONG Num = 0;
 
     std::vector<ULONG> possibleClanIds{};
@@ -515,9 +514,8 @@ UBYTE CLANS::GetCustomerId(SLONG Browned, SLONG Koffer, TEAKRAND *pRand) {
         const bool isClanBrowned = clan.Type == CLAN_BROWNFEMALE || clan.Type == CLAN_BROWNMALE;
         const bool isNotClanBrowned = clan.Type == CLAN_FEMALE || clan.Type == CLAN_MALE;
 
-        if (clan.TodayInGame != 0 &&
-            (Koffer == sign(clan.HasSuitcase) || (Koffer == 99 && clan.HasSuitcase <= 0)) &&
-            (isNotClanBrowned && Browned != 2) || (isClanBrowned && Browned != 0)) {
+        if (clan.TodayInGame != 0 && (Koffer == sign(clan.HasSuitcase) || (Koffer == 99 && clan.HasSuitcase <= 0)) && (isNotClanBrowned && Browned != 2) ||
+            (isClanBrowned && Browned != 0)) {
             Num += clan.Wkeit;
 
             possibleClanIds.push_back(c);
@@ -526,7 +524,7 @@ UBYTE CLANS::GetCustomerId(SLONG Browned, SLONG Koffer, TEAKRAND *pRand) {
 
     if (possibleClanIds.empty()) {
         AT_Log_Generic("Failed to find any suitable person clan for: %d %d", Browned, Koffer);
-        TeakLibW_Exception(FNL, ExcNever);
+        return static_cast<UBYTE>(0);
     }
 
     SLONG Rnd;
@@ -3222,7 +3220,10 @@ void PERSON::PersonReachedTarget() {
 //--------------------------------------------------------------------------------------------
 const CFlugplanEintrag *PERSON::GetFlugplanEintrag() const {
     if (FlightAirline >= 0 && FlightAirline <= 3) {
-        return (&Sim.Players.Players[static_cast<SLONG>(FlightAirline)].Planes[FlightPlaneId].Flugplan.Flug[static_cast<SLONG>(FlightPlaneIndex)]);
+        const auto &qPlayer = Sim.Players.Players[static_cast<SLONG>(FlightAirline)];
+        if (qPlayer.IsOut == 0) {
+            return (&qPlayer.Planes[FlightPlaneId].Flugplan.Flug[static_cast<SLONG>(FlightPlaneIndex)]);
+        }
     }
 
     return (nullptr);
@@ -3839,7 +3840,7 @@ void CPersonQueue::SetSpotTime(XY Position, SLONG TimeSlice) {
 }
 
 //--------------------------------------------------------------------------------------------
-//Überwacht die Queue:
+// Überwacht die Queue:
 //--------------------------------------------------------------------------------------------
 void CPersonQueue::Pump() {
     SLONG c = 0;

@@ -26,8 +26,12 @@ CVideo::CVideo(const CString &SmackName) : CStdRaum(FALSE, 0, "", 0) {
     SSE::DisableDS();
 
     gMouseStartup = TRUE;
-    
+
     pSmack = smk_open_file(FullFilename(SmackName, IntroPath), SMK_MODE_MEMORY);
+    if (pSmack == nullptr) {
+        return;
+    }
+
     smk_enable_video(pSmack, 1U);
 
     smk_info_video(pSmack, &Width, &Height, &Scale);
@@ -51,21 +55,21 @@ CVideo::CVideo(const CString &SmackName) : CStdRaum(FALSE, 0, "", 0) {
     desired.userdata = nullptr;
     audioDevice = SDL_OpenAudioDevice(nullptr, 0, &desired, nullptr, 0);
     if (audioDevice == 0U) {
-        Hdu.HercPrintf(SDL_GetError());
+        hprintf(SDL_GetError());
     }
-    
+
     Bitmap.ReSize(XY(Width, Height), CREATE_SYSMEM | CREATE_INDEXED);
 
     State = smk_first(pSmack);
     DoFrame(TRUE);
     DoAudio();
-    
+
     PrimaryBm.SetVSync(FALSE);
     SDL_PauseAudioDevice(audioDevice, 0);
 }
 
 //--------------------------------------------------------------------------------------------
-// CVideo-Fenster zerstören:
+// CVideo-Fenster zerstÃ¶ren:
 //--------------------------------------------------------------------------------------------
 CVideo::~CVideo() {
     if ((pRoomLib != nullptr) && (pGfxMain != nullptr)) {
@@ -119,9 +123,7 @@ void CVideo::DoFrame(BOOL isFirst) {
     FrameNext = now + static_cast<DWORD>(usf / 1000.0);
 }
 
-void CVideo::DoAudio() const {
-    SDL_QueueAudio(audioDevice, smk_get_audio(pSmack, 0), smk_get_audio_size(pSmack, 0));
-}
+void CVideo::DoAudio() const { SDL_QueueAudio(audioDevice, smk_get_audio(pSmack, 0), smk_get_audio_size(pSmack, 0)); }
 
 /////////////////////////////////////////////////////////////////////////////
 // CVideo message handlers
@@ -129,13 +131,17 @@ void CVideo::DoAudio() const {
 // void CVideo::OnPaint():
 //--------------------------------------------------------------------------------------------
 void CVideo::OnPaint() {
+    if (pSmack == nullptr) {
+        return;
+    }
+
     if (FrameNum++ < 2) {
         PrimaryBm.BlitFrom(RoomBm);
     }
 
     // Die Standard Paint-Sachen kann der Basisraum erledigen
     CStdRaum::OnPaint();
-    
+
     if (AtGetTime() >= FrameNext && State == SMK_MORE) {
         DoFrame();
         DoAudio();

@@ -11,7 +11,7 @@ class NewGamePopup : public CStdRaum {
   public:
     NewGamePopup(BOOL bHandy, SLONG PlayerNum);
 
-  // Attributes
+    // Attributes
   private:
     enum class PAGE_TYPE : UBYTE {
         MAIN_MENU = 0,
@@ -57,9 +57,9 @@ class NewGamePopup : public CStdRaum {
 
     SBFX ClickFx;
 
-       SBList<std::shared_ptr<SBStr>>* pNetworkSessions{};
-       SBList<SBStr>           *pNetworkConnections{};
-       SBList<SBNetworkPlayer*> *pNetworkPlayers{};
+    SBList<std::shared_ptr<SBStr>> *pNetworkSessions{};
+    SBList<SBStr> *pNetworkConnections{};
+    SBList<SBNetworkPlayer *> *pNetworkPlayers{};
 
     SLONG SessionMissionID{};
 

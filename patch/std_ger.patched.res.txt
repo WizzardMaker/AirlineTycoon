@@ -525,7 +525,7 @@
   N::Vliegtuigrenovatie Vracht/Passagiers
   O::Reforma de avião Carga/Passageiros
   S::Reacondicionamiento de avión Carga/Pasajeros
-  D::Flugzeugumrüstung Fracht/Passagiere
+  D::Flugzeugumrüstung;;Fracht/Passagiere
 >>0010004
   B::Empréstimos atuais
   E::Current loans
@@ -705,7 +705,7 @@
   N::Emissie vergoedingen (ontvangen)
   O::Indemnizações de emissão (recebidas)
   S::Indemnizaciones de emisión (recibidas)
-  D::Emissions-Entschädigungen (erhalten)
+  D::Emissions-Entschädigungen;;(erhalten)
 >>0010023
   B::Compra de ações
   E::Stock purchase
@@ -732,7 +732,7 @@
   N::Emissiecompensaties (betaald)
   O::Indenizações de emissão (pagas)
   S::Indemnizaciones por emisión (pagadas)
-  D::Emissions-Entschädigungen (gezahlt)
+  D::Emissions-Entschädigungen;;(gezahlt)
 >>0010026
   B::Aviões vendidos
   E::Planes sold
@@ -777,7 +777,7 @@
   N::Aankoop van filialen
   O::Aquisição de filiais
   S::Compra de sucursales
-  D::Kauf von Niederlassungen
+  D::Kauf von;;Niederlassungen
 >>0010031
   B::Compra de rotas
   E::Buying of routes
@@ -813,7 +813,7 @@
   N::Filialkantoor huurkosten
   O::Escritório de filial taxas de arrendamento
   S::Oficina sucursal tarifas de alquiler
-  D::Mieten für Niederlassungen
+  D::Mieten für;;Niederlassungen
 >>0010035
   B::Taxas de aluguel de rota
   E::Route rental fees

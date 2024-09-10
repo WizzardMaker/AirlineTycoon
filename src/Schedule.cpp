@@ -4,6 +4,9 @@
 #include "StdAfx.h"
 #include "AtNet.h"
 
+#define AT_Error(...) Hdu.HercPrintfMsg(SDL_LOG_PRIORITY_ERROR, "Schedule", __VA_ARGS__)
+#define AT_Warn(...) Hdu.HercPrintfMsg(SDL_LOG_PRIORITY_WARN, "Schedule", __VA_ARGS__)
+#define AT_Info(...) Hdu.HercPrintfMsg(SDL_LOG_PRIORITY_INFO, "Schedule", __VA_ARGS__)
 #define AT_Log(...) AT_Log_I("Schedule", __VA_ARGS__)
 
 #ifdef _DEBUG
@@ -46,6 +49,7 @@ CFlugplanEintrag::CFlugplanEintrag(BOOL ObjectType, ULONG ObjectId) {
     CFlugplanEintrag::Landezeit = 0;
     CFlugplanEintrag::ObjectType = ObjectType;
     CFlugplanEintrag::ObjectId = ObjectId;
+    CFlugplanEintrag::FlightBooked = FALSE;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -62,7 +66,7 @@ TEAKFILE &operator<<(TEAKFILE &File, const CFlugplanEintrag &Eintrag) {
         if (Eintrag.ObjectType != 0) {
             File << Eintrag.Okay << Eintrag.HoursBefore << Eintrag.Passagiere << Eintrag.PassagiereFC << Eintrag.PArrived << Eintrag.Gate << Eintrag.VonCity
                  << Eintrag.GateWarning << Eintrag.NachCity << Eintrag.Startzeit << Eintrag.Landezeit << Eintrag.Startdate << Eintrag.Landedate
-                 << Eintrag.ObjectId << Eintrag.Ticketpreis << Eintrag.TicketpreisFC;
+                 << Eintrag.ObjectId << Eintrag.Ticketpreis << Eintrag.TicketpreisFC << Eintrag.FlightBooked;
         }
     }
 
@@ -84,6 +88,12 @@ TEAKFILE &operator>>(TEAKFILE &File, CFlugplanEintrag &Eintrag) {
             File >> Eintrag.Okay >> Eintrag.HoursBefore >> Eintrag.Passagiere >> Eintrag.PassagiereFC >> Eintrag.PArrived >> Eintrag.Gate >> Eintrag.VonCity >>
                 Eintrag.GateWarning >> Eintrag.NachCity >> Eintrag.Startzeit >> Eintrag.Landezeit >> Eintrag.Startdate >> Eintrag.Landedate >>
                 Eintrag.ObjectId >> Eintrag.Ticketpreis >> Eintrag.TicketpreisFC;
+
+            if (SaveVersionSub >= 200) {
+                File >> Eintrag.FlightBooked;
+            } else {
+                Eintrag.FlightBooked = FALSE;
+            }
         } else {
             Eintrag.Okay = 0;
             Eintrag.Gate = -1;
@@ -92,6 +102,7 @@ TEAKFILE &operator>>(TEAKFILE &File, CFlugplanEintrag &Eintrag) {
             Eintrag.Landezeit = 0;
             Eintrag.ObjectType = 0;
             Eintrag.ObjectId = -1;
+            Eintrag.FlightBooked = FALSE;
         }
     }
 
@@ -146,7 +157,7 @@ void CFlugplan::UpdateNextStart() {
 void CFlugplan::Dump(bool bHercules) {
     char Buffer[500];
 
-    hprintf("------------------------------------------------------------");
+    AT_Log("------------------------------------------------------------");
     for (SLONG e = 0; e < Flug.AnzEntries(); e++) {
         switch (Flug[e].ObjectType) {
         case 1:
@@ -174,7 +185,7 @@ void CFlugplan::Dump(bool bHercules) {
         }
 
         if (bHercules) {
-            hprintf(Buffer);
+            AT_Log(Buffer);
         } else {
             DisplayBroadcastMessage(Buffer);
         }
@@ -220,7 +231,8 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
     if (ObjectType == 1) // Route
     {
         CRoute &qRoute = Routen[ObjectId];
-        // if (PlayerNum == 0) hprintf ("CalcPassengers for player %li for %s-%s", PlayerNum, (LPCTSTR)Cities[qRoute.VonCity].Name, (LPCTSTR)Cities[qRoute.NachCity].Name);
+        // if (PlayerNum == 0) AT_Log ("CalcPassengers for player %li for %s-%s", PlayerNum, (LPCTSTR)Cities[qRoute.VonCity].Name,
+        // (LPCTSTR)Cities[qRoute.NachCity].Name);
 
         // Normale Passagiere: Aber nicht mehr kurz vor dem Start ändern:
         if (Startdate > Sim.Date || (Startdate == Sim.Date && Sim.GetHour() + 1 < Startzeit)) {
@@ -286,12 +298,12 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                     }
                 }
 
-                // if (PlayerNum == 0) hprintf ("Gewichte[%li]=%li", c, Gewichte[c]);
+                // if (PlayerNum == 0) AT_Log ("Gewichte[%li]=%li", c, Gewichte[c]);
 
                 Gesamtgewicht += Gewichte[c];
             }
 
-            // if (PlayerNum == 0) hprintf ("qRoute.Bedarf=%li", qRoute.Bedarf);
+            // if (PlayerNum == 0) AT_Log ("qRoute.Bedarf=%li", qRoute.Bedarf);
 
             // Wie viele wollen mitfliegen?
 #ifdef _DEBUG
@@ -305,7 +317,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
 #endif
             // Wie viele können mitfliegen (plus Toleranz)?
             tmp = min(tmp, qPlane.MaxPassagiere + qPlane.MaxPassagiere / 2);
-            // if (PlayerNum == 0) hprintf ("tmp=%li (passagiere+toleranz)", tmp);
+            // if (PlayerNum == 0) AT_Log ("tmp=%li (passagiere+toleranz)", tmp);
 
             // NetGenericAsync (24004+ObjectId+Sim.Date*100, tmp);
 
@@ -316,7 +328,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (HoursBefore < 48) {
                 tmp = tmp * (HoursBefore + 48) / (48 + 48);
             }
-            // if (PlayerNum == 0) hprintf ("tmp=%li (nach tag)", tmp);
+            // if (PlayerNum == 0) AT_Log ("tmp=%li (nach tag)", tmp);
 
             // NetGenericAsync (30000+ObjectId+Sim.Date*100, HoursBefore);
             // NetGenericAsync (23003+ObjectId+Sim.Date*100, tmp);
@@ -331,7 +343,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (Ticketpreis > Cost && Cost > 10 && Ticketpreis > 0) {
                 tmp = tmp * (Cost - 10) / Ticketpreis;
             }
-            // if (PlayerNum == 0) hprintf ("tmp=%li (nach kosten)", tmp);
+            // if (PlayerNum == 0) AT_Log ("tmp=%li (nach kosten)", tmp);
 
             // NetGenericAsync (19009+ObjectId+Sim.Date*100, tmp);
 
@@ -345,7 +357,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (Landezeit < 5 || Landezeit > 22) {
                 tmp = tmp * 5 / 6;
             }
-            // if (PlayerNum == 0) hprintf ("tmp=%li (nach zeit)", tmp);
+            // if (PlayerNum == 0) AT_Log ("tmp=%li (nach zeit)", tmp);
 
             // NetGenericAsync (22002+ObjectId+Sim.Date*100, tmp);
 
@@ -355,7 +367,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             {
                 CRentRoute &qRentRoute = qPlayer.RentRouten.RentRouten[Routen(ObjectId)];
 
-                // log: hprintf ("qRentRoute.Image=%li, qPlayer.Image=%li",qRentRoute.Image, qPlayer.Image);
+                // log: AT_Log ("qRentRoute.Image=%li, qPlayer.Image=%li",qRentRoute.Image, qPlayer.Image);
                 ImageTotal = qRentRoute.Image * 4;
                 ImageTotal += qPlayer.Image;
                 ImageTotal += 200;
@@ -371,7 +383,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
                 // NetGenericAsync (30004+ObjectId+Sim.Date*100, qPlayer.Image);
             }
             tmp = UWORD(tmp * (400 + ImageTotal) / 1100);
-            // if (PlayerNum == 0) hprintf ("tmp=%li (nach image)", tmp);
+            // if (PlayerNum == 0) AT_Log ("tmp=%li (nach image)", tmp);
 
             if (qPlane.ptLaerm > 60) {
                 tmp = UWORD(tmp * 1000 / 1100);
@@ -385,7 +397,7 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (qPlane.ptLaerm > 110) {
                 tmp = UWORD(tmp * 1000 / 1100);
             }
-            // if (PlayerNum == 0) hprintf ("tmp=%li (nach lärm)", tmp);
+            // if (PlayerNum == 0) AT_Log ("tmp=%li (nach lärm)", tmp);
 
             // NetGenericAsync (21001+ObjectId+Sim.Date*100, tmp);
 
@@ -393,10 +405,10 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
             if (Gesamtgewicht > 0) {
                 tmp = min(tmp, qRoute.Bedarf * Gewichte[PlayerNum] / Gesamtgewicht);
             }
-            // if (PlayerNum == 0) hprintf ("tmp=%li (begrenzung nach gewicht)", tmp);
+            // if (PlayerNum == 0) AT_Log ("tmp=%li (begrenzung nach gewicht)", tmp);
 
             tmp = min(tmp, qPlane.MaxPassagiere);
-            // if (PlayerNum == 0) hprintf ("tmp=%li (begrenzung nach Flugzeugkapazität)\n\n", tmp);
+            // if (PlayerNum == 0) AT_Log ("tmp=%li (begrenzung nach Flugzeugkapazität)\n\n", tmp);
 
             Passagiere = static_cast<UWORD>(tmp);
 
@@ -582,6 +594,12 @@ void CFlugplanEintrag::CalcPassengers(SLONG PlayerNum, CPlane &qPlane) {
 //--------------------------------------------------------------------------------------------
 void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     PLAYER &qPlayer = Sim.Players.Players[PlayerNum];
+
+    if (FlightBooked) {
+        AT_Error("Schedule.cpp: %ld/%ld: %s: Tried to book flight twice:", Sim.Date, Sim.GetHour(), (LPCTSTR)qPlayer.AirlineX);
+        return;
+    }
+    FlightBooked = TRUE;
 
     __int64 Saldo = 0;
     SLONG Einnahmen = 0;
@@ -818,7 +836,7 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
 
         // Add-On Mission 9
         if (Sim.Difficulty == DIFF_ADDON09) {
-            if (qPlayer.Owner == 1) {
+            if (qPlayer.Owner == 1 && qPlayer.RobotUse(ROBOT_UHRIG_FLIGHTS_AUTO)) {
                 if (qPlayer.NumOrderFlightsToday < 5 - static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 5) == 1) -
                                                        static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 11) == 2) -
                                                        static_cast<SLONG>(((Sim.Date + qPlayer.PlayerNum) % 7) == 0) - ((Sim.Date + qPlayer.PlayerNum) % 2)) {
@@ -946,12 +964,12 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     }
 
     if (ObjectType == 1) {
-        AT_Log("Schedule.cpp: %s: %s $ (+%s $)  (%ld miles, %u * %s $ + %u * %s $ from tickets)", (LPCTSTR)qPlayer.AirlineX,
-                (LPCTSTR)Insert1000erDots64(Saldo), (LPCTSTR)Insert1000erDots64(delta), miles, Passagiere, (LPCTSTR)Insert1000erDots(Ticketpreis), PassagiereFC,
-                (LPCTSTR)Insert1000erDots(TicketpreisFC));
+        AT_Log("Schedule.cpp: %s: %s $ (+%s $)  (%ld miles, %u * %s $ + %u * %s $ from tickets)", (LPCTSTR)qPlayer.AirlineX, (LPCTSTR)Insert1000erDots64(Saldo),
+               (LPCTSTR)Insert1000erDots64(delta), miles, Passagiere, (LPCTSTR)Insert1000erDots(Ticketpreis), PassagiereFC,
+               (LPCTSTR)Insert1000erDots(TicketpreisFC));
     } else {
         AT_Log("Schedule.cpp: %s: %s $ (+%s $)  (%ld miles, %u + %u passengers)", (LPCTSTR)qPlayer.AirlineX, (LPCTSTR)Insert1000erDots64(Saldo),
-                (LPCTSTR)Insert1000erDots64(delta), miles, Passagiere, PassagiereFC);
+               (LPCTSTR)Insert1000erDots64(delta), miles, Passagiere, PassagiereFC);
     }
 
     // Flugzeugabnutzung verbuchen:
@@ -961,8 +979,11 @@ void CFlugplanEintrag::BookFlight(CPlane *Plane, SLONG PlayerNum) {
     if (KerosinGesamtQuali > 1.0) {
         faktorKerosin = static_cast<int>(3.0 * (KerosinGesamtQuali - 1.0) * (KerosinGesamtQuali - 1.0));
     }
-
+    auto ZustandAlt = Plane->Zustand;
     Plane->Zustand = static_cast<UBYTE>(Plane->Zustand - faktorDistanz * faktorBaujahr * faktorKerosin / 15);
+    AT_Log("Schedule.cpp: %s: Plane %s (%s): Zustand: %u => %u (worst = %u), faktorDistanz = %f, faktorBaujahr = %f, faktorKerosin = %f",
+           (LPCTSTR)qPlayer.AirlineX, (LPCTSTR)Plane->Name, (Plane->TypeId == -1) ? "Designer" : (LPCTSTR)PlaneTypes[Plane->TypeId].Name, ZustandAlt,
+           Plane->Zustand, Plane->WorstZustand, faktorDistanz, faktorBaujahr, faktorKerosin);
     if (Plane->Zustand > 200) {
         Plane->Zustand = 0;
     }
